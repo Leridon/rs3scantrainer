@@ -1,0 +1,12 @@
+.indented {
+    margin-left: 15px;
+    display: block;
+}
+
+#solutiontext {
+    font-family: monospace;
+}
+
+.choicebutton {
+    padding: 0;
+}

@@ -31,11 +31,12 @@ require("!file-loader?name=img/[name].[ext]!./img/slayercaves.data.png");
 require("!file-loader?name=img/[name].[ext]!./img/taverley.data.png");
 require("!file-loader?name=img/[name].[ext]!./img/varrock.data.png");
 require("!file-loader?name=img/[name].[ext]!./img/zanaris.data.png");
+require("!file-loader?name=img/scanassets/zanaris/[name].[ext]!./img/scanassets/zanaris/zanarisA.webm");
 
 //loads all images as raw pixel data async, images have to be saved as *.data.png
 //this also takes care of metadata headers in the image that make browser load the image
 //with slightly wrong colors
-//this function is async, so you cant acccess the images instantly but generally takes <20ms
+//this function is async, so you cant access the images instantly but generally takes <20ms
 //use `await imgs.promise` if you want to use the images as soon as they are loaded
 var imgs = a1lib.ImageDetect.webpackImages({
     ardounge: require("./img/ardounge.data.png"),
@@ -67,44 +68,7 @@ if (window.alt1) {
     alt1.identifyAppUrl("./appconfig.json");
 }
 
-
-export let activePath: [string, ScanTree][] = []
-
-export function activateTree(tree: ScanTree, path: [string, ScanTree][]) {
-    activePath = path
-    let bc = $("#solutionpath").empty()
-
-    for (const p of path) {
-        $("<li>").addClass("breadcrumb-item").text(p[0])
-            .appendTo(bc)
-    }
-
-    bc.children().last().addClass("active")
-
-    $("#solutiontext").empty()
-        .append(tree.toHtml(true, null, 3))
-
-
-
-}
-
 document.addEventListener("DOMContentLoaded", (e) => {
     initializeScantrainer()
-
-    /*
-
-    let mapview = document.querySelector("#mapview")
-    let buttons = document.querySelectorAll(".scanselection")
-
-    for (let i = 0; i < buttons.length; i++) {
-        let el = (<HTMLInputElement>buttons.item(i))
-
-        el.addEventListener("click", (e) => {
-            mapview.setAttribute("src", `./img/${el.dataset.scanid}.data.png`)
-
-            //const tree = solutions[el.dataset.scanid]
-            //activateTree(tree, [[el.value, tree]])
-        })
-    }*/
 })
 

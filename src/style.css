@@ -11,6 +11,16 @@
     padding: 0;
 }
 
-#pathview{
+#pathview {
     font-size: large;
+}
+
+.instruction-top {
+    font-weight: bold;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

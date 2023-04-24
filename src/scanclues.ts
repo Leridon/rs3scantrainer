@@ -1,5 +1,4 @@
 import Dict = NodeJS.Dict;
-import {activateTree, activePath} from "./index";
 import {goto} from "./scantrainer";
 
 export class ScanClue {
@@ -21,6 +20,10 @@ export class ScanTree {
                 public solutionSpots: number[],
                 public children: Dict<ScanTree>
     ) {
+    }
+
+    choiceID(): string {
+        return this.path[this.path.length - 1]
     }
 
     get(path: string[]): ScanTree {
@@ -52,45 +55,40 @@ export class ScanTree {
         return res
     }
 
-    toHtml(isActive: boolean, prefix: JQuery | null, depth: number) {
+    toHtml(depth: number = 0) {
         let outer = $("<div>")
+            .css("font-size", `${20 / (Math.pow(1.2, depth))}px`)
 
-        if (prefix) outer.append(prefix)
-
-        if (this.children instanceof Array<number>) {
-            $("<span>")
-                .text(this.instruction)
-                .appendTo(outer)
-        } else {
-
-            $("<span>")
-                .text(this.instruction)
+        // Add choice ids
+        if (depth == 1) {
+            $("<input type='button'>")
+                .attr("value", this.choiceID()).on("click", (e) => goto(this))
                 .appendTo(outer)
 
-            if (!this.isSolution() && depth <= 0) {
-                $("<div>").addClass("indented")
-                    .text("...")
-                    .appendTo(outer)
-            } else {
-                for (let candidate in this.children) {
-                    let box = $("<div>").addClass("indented")
+        } else if (depth > 1) {
+            $("<span>").text(`${this.choiceID()} -> `).appendTo(outer)
+        }
 
-                    this.children[candidate]
-                        .toHtml(false,
-                            isActive
-                                ? $("<input type='button'>").attr("value", candidate).on("click", (e) => {
-                                    goto(this.children[candidate])
-                                })
-                                : $("<span>").text(`${candidate} -> `),
-                            depth - 1
-                        )
-                        .appendTo(box)
+        // Add top level instruction
+        {
+            let span = $("<span>")
+                .text(this.instruction)
+                .appendTo(outer)
 
+            if (depth == 0) span.addClass("instruction-top")
+        }
 
-                    box.appendTo(outer)
-                }
+        // Recursively add children
+        {
+            let box = $("<div>").addClass("indented")
+
+            for (let candidate in this.children) {
+                this.children[candidate]
+                    .toHtml(depth + 1)
+                    .appendTo(box)
             }
 
+            box.appendTo(outer)
         }
 
         return outer

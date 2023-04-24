@@ -132,7 +132,7 @@ export function goto(scanStep: ScanTree, in_history: boolean = true) {
     uiState.isAtRoot = false
 
     // Update the solution explorer
-    $("#solutiontext").empty().append(tree.toHtml(true, null, 3))
+    $("#solutiontext").empty().append(tree.toHtml())
 
     $("#mapview").attr("src", `${clue.mapImgPath}`)
 

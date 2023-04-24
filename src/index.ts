@@ -131,7 +131,6 @@ let solutions = (function () {
         return new DecisionTree(instruction, candidates)
     }
 
-
     return {
         "falador": tr("Teleport to Falador (A)",
             {
@@ -275,8 +274,6 @@ function activateTree(tree: DecisionTree, path: [string, DecisionTree][]) {
 }
 
 document.addEventListener("DOMContentLoaded", (e) => {
-
-
     let mapview = document.querySelector("#mapview")
     let buttons = document.querySelectorAll(".scanselection")
 

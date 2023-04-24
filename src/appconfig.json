@@ -1,6 +1,6 @@
 {
-	"appName": "example app",
-	"description": "minimal alt1 webpack/ts example test app",
+	"appName": "Scan Trainer",
+	"description": "Explore scan routes and get help along the way.",
 	"appUrl": "./index.html",
 	"configUrl": "./appconfig.json",
 	"iconUrl": "",
@@ -12,5 +12,5 @@
 	"maxHeight": 1000,
 	"requestHandlers": [ ],
 	"activators": [	],
-	"permissions": "pixel"
+	"permissions": ""
 }

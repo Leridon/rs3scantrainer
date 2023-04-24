@@ -18,17 +18,26 @@
 </head>
 <script src="./index.bundle.js"></script>
 <body class="nis body">
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb" id="pathview">
+
+    </ol>
+</nav>
+
 <div role="group" id="scanselectionpane">
-    <div class="row">
+    <div class="row" id="selectbuttons">
         <div class="col">
-            <div class="nisbutton scanselection" type="button" data-scanid="falador">Falador</div>
-            <div class="nisbutton scanselection" type="button" data-scanid="zanaris">Zanaris</div>
-            <div class="nisbutton scanselection" type="button" data-scanid="dorgeshkaan">Dorgesh-Kaan</div>
         </div>
         <div class="col">
-            <div class="nisbutton scanselection" type="button" data-scanid="varrock">Varrock</div>
+        </div>
+        <div class="col">
         </div>
     </div>
+</div>
+
+<div id="selectionpanel">
+
 </div>
 
 <div id="solutionpanel" class="row">
@@ -36,11 +45,7 @@
         <img src="" id="mapview" alt="" style="max-width: 100%; height: auto">
     </div>
     <div class="col" style="width: 50%">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" id="solutionpath">
 
-            </ol>
-        </nav>
         <div id="solutiontext" class="col">
 
         </div>

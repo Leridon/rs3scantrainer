@@ -8,6 +8,7 @@
 		"@types/bootstrap": "^5.2.6",
 		"@types/jquery": "^3.5.16",
 		"bootstrap": "^5.2.3",
+		"copy-webpack-plugin": "^11.0.0",
 		"jquery": "^3.6.4"
 	},
 	"devDependencies": {

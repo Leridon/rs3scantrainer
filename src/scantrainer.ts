@@ -151,8 +151,6 @@ export function goto(scanStep: ScanTree, in_history: boolean = true) {
     uiState.tree = tree
     uiState.isAtRoot = false
 
-    // TODO: Check if preference can be fulfilled
-
     // Update the method tabs
     {
         // Show/Hide tabs depending on availability
@@ -163,7 +161,20 @@ export function goto(scanStep: ScanTree, in_history: boolean = true) {
                 $(`.methodtab[data-methodtype=${methodtype}], .methodtabcontent[data-methodtype=${methodtype}]`).hide()
         }
 
-        if (tree.methods.video) $("#videosource").attr("src", tree.methods.video.ref)
+        if (tree.methods.video) {
+            let video = $("#videoplayer").empty();
+            let vid = video.get()[0] as HTMLVideoElement
+
+            vid.pause()
+            video.empty()
+
+            video.append($("<source>")
+                .attr("src", tree.methods.video.ref)
+                .attr("type", "video/mp4"))
+
+            vid.load()
+            vid.play()
+        }
 
         if (tree.methods.text) $("#textmethodcontent").html(tree.methods.text)
 

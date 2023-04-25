@@ -27,7 +27,6 @@ let solutions = (function () {
                     "B1": solved([13, 14, 15, 16, 17, 18])
                 })
             }),
-        "zanaris":,
         "dorgeshkaan": tr("Upper or lower floor?", {
                 "Lower Floor": tr("Sphere 2 (South, Spot A)", {
                     "A3": solved([1, 2, 3, 4, 5]),
@@ -92,7 +91,12 @@ let solutions = (function () {
 
 let videos = {
     zanaris: {
-        "arrival": {ref: "./img/scanassets/zanaris/zanarisA.webm", contributor: "Leridon"}
+        "arrival": {ref: "./img/scanassets/zanaris/Arrival.mp4", contributor: "Leridon"},
+        "AtoB": {ref: "./img/scanassets/zanaris/AtoB.mp4", contributor: "Leridon"},
+        "BtoC": {ref: "./img/scanassets/zanaris/BtoC.mp4", contributor: "Leridon"},
+        "CtoD": {ref: "./img/scanassets/zanaris/CtoD.mp4", contributor: "Leridon"},
+        "DtoE": {ref: "./img/scanassets/zanaris/DtoE.mp4", contributor: "Leridon"},
+        "AtoF": {ref: "./img/scanassets/zanaris/AtoF.mp4", contributor: "Leridon"},
     }
 }
 
@@ -118,22 +122,26 @@ export let scanclues: ScanClue[] = (() => {
                 .child("A2",
                     step("Go to B")
                         .method({
-                            text: "B is exactly 2 tiles northwest of the center of the fairy ring."
+                            text: "B is exactly 2 tiles northwest of the center of the fairy ring.",
+                            video: videos.zanaris.AtoB
                         })
                         .child("B3", solved([10]))
                         .child("B2", step("Dive to C")
                             .method({
-                                text: "C is the south-eastern tile of the entrance to the wheat field and directly reachable from B with a Dive."
+                                text: "C is the south-eastern tile of the entrance to the wheat field and directly reachable from B with a Dive.",
+                                video: videos.zanaris.BtoC
                             })
                             .child("C3", solved([5, 6, 7]))
                             .child("C2", step("Step and Surge to D")
                                 .method({
-                                    text: "Stepping 1 tile north-west and then surging will land you directly at D"
+                                    text: "Stepping 1 tile north-west and then surging will land you directly at D",
+                                    video: videos.zanaris.CtoD
                                 })
                                 .child("D3", solved([8, 9, 10]))
                                 .child("D2", step("Step and Surge to E")
                                     .method({
-                                        text: "Stepping 1 tile south-west and then surging will land you directly at E."
+                                        text: "Stepping 1 tile south-west and then surging will land you directly at E.",
+                                        video: videos.zanaris.DtoE
                                     })
                                     .child("E3", solved([11])
                                         .child("E2", solved([12]))
@@ -141,19 +149,45 @@ export let scanclues: ScanClue[] = (() => {
                                     )))
                             .child("C1", step("Go to D")
                                 .method({
-                                    text: "Stepping 1 tile north-west and then surging will land you directly at D"
+                                    text: "Stepping 1 tile north-west and then surging will land you directly at D",
+                                    video: videos.zanaris.CtoD
                                 })
                                 .child("D2", solved([13]))
                                 .child("D1", solved([16]))
                             )
                         ).child("B1", solved([17])))
-                .child("A1", step("Slayer Cape to Chaeldar (F)", {
-                    "F3": solved([18]),
-                    "F2": solved([19]),
-                    "F1": solved([20, 21, 22], "Spot is at the cosmic altar (G)."),
-                }))
+                .child("A1", step("Slayer Cape (Chaeldar) to F",)
+                    .method({
+                        text: "Using the slayer cape teleport to Chaeldar (option 7) you will land in spot F.",
+                        video: videos.zanaris.AtoF
+                    })
+                    .child("F3", solved([18]))
+                    .child("F2", solved([19]))
+                    .child("F1", solved([20, 21, 22], "Spot is at the cosmic altar (G)."))
+                )
         )
     )
+
+    res.push(new ScanClue("scanfalador", "Falador", 18, "img/falador.data.png",
+        step("Teleport to Falador (A)")
+            .child("A3", solved([1, 2, 3, 4]))
+            .child("A2", step("Go to B")
+                .child("B3", solved([5, 6]))
+                .child("B2", step("Go to C")
+                    .child("C2", step("Go to D")
+                        .child("D2", step("Go to E")
+                            .child("E2", solved([10]))
+                            .child("E1", solved([9]))
+                        )
+                        .child("D1", solved([8]))
+                    )
+                    .child("C1", solved([7]))
+                )
+            )
+            .child("A1", step("Go to B")
+                .child("B2", solved([10, 11, 12]))
+                .child("B1", solved([13, 14, 15, 16, 17, 18]))
+            )))
 
     return res
 })()

@@ -3,8 +3,9 @@
     display: block;
 }
 
-#solutiontext {
+#treepanel {
     font-family: monospace;
+    overflow: scroll;
 }
 
 .choicebutton {
@@ -20,7 +21,24 @@
 }
 
 video {
+    max-width: 800px;
+    max-height: 800px;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: scale-down;
+}
+
+#methodpanel {
+    padding: 0;
+}
+
+.methodtabcontent {
+    margin-top: 25px;
+    text-align: center;
+    overflow: scroll;
+}
+
+#textmethodcontent {
+    font-weight: bold;
+    font-size: 20px;
 }

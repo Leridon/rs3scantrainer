@@ -1,5 +1,6 @@
 import Dict = NodeJS.Dict;
 import {goto} from "./scantrainer";
+import {METHODS} from "http";
 
 export class ScanClue {
     constructor(public id: string,
@@ -12,14 +13,41 @@ export class ScanClue {
     }
 }
 
+type Video = {
+    ref: string,
+    contributor?: string
+}
+
+type Methods = {
+    video?: Video,
+    text?: string
+}
+
 export class ScanTree {
     path: string[] = []
     clue: ScanClue = null
 
     constructor(public instruction: string,
                 public solutionSpots: number[],
-                public children: Dict<ScanTree>
+                public children: Dict<ScanTree>,
+                public methods: Methods
     ) {
+    }
+
+    method(methods: Methods): ScanTree {
+        this.methods = methods
+        return this
+    }
+
+    solved(spot: number) {
+        this.children = {}
+        this.solutionSpots = [spot]
+        return this
+    }
+
+    child(id: string, child: ScanTree) {
+        this.children[id] = child
+        return this
     }
 
     choiceID(): string {
@@ -61,8 +89,10 @@ export class ScanTree {
 
         // Add choice ids
         if (depth == 1) {
-            $("<input type='button'>")
-                .attr("value", this.choiceID()).on("click", (e) => goto(this))
+            $("<div>")
+                .addClass("menubutton").addClass("nisbutton2")
+                .css("display", "inline")
+                .text(this.choiceID()).on("click", (e) => goto(this))
                 .appendTo(outer)
 
         } else if (depth > 1) {

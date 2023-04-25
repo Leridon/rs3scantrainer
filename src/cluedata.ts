@@ -90,49 +90,70 @@ let solutions = (function () {
     }
 })()*/
 
+let videos = {
+    zanaris: {
+        "arrival": {ref: "./img/scanassets/zanaris/zanarisA.webm", contributor: "Leridon"}
+    }
+}
+
 export let scanclues: ScanClue[] = (() => {
     function solved(spots: number[], instruction: string = "Solved!"): ScanTree {
-        return new ScanTree(`${instruction} (${spots.join(", ")})`, spots, {})
+        return new ScanTree(`Go to spot ${spots.join(", ")}`, spots, {}, {})
     }
 
     function step(instruction: string,
-                  candidates: Dict<ScanTree>) {
-        return new ScanTree(instruction, [], candidates)
+                  candidates: Dict<ScanTree> = {}) {
+        return new ScanTree(instruction, [], candidates, {})
     }
 
     let res: ScanClue[] = []
 
     res.push(new ScanClue("scanzanaris", "Zanaris", 22, "img/zanaris.data.png",
-        step("Teleport to fairy ring (A)", {
-            "A3": solved([1, 2, 3, 4]),
-            "A2": step("Go to B (2 tiles northwest)", {
-                "B3": solved([10]),
-                "B2": step("Dive to C (western entrance to the wheat field)", {
-                    "C3": solved([5, 6, 7]),
-                    "C2": step("Go to D", {
-                        "D3": solved([8, 9, 10]),
-                        "D2": step("Go to E (11 squares southwest)", {
-                            "E3": solved([11]),
-                            "E2": solved([12])
-                        }),
-                        "D1": solved([14, 15])
-                    }),
-                    "C1":
-                        step("Go to D", {
-                            "D2": solved([13]),
-                            "D1": solved([16])
+            step("Fairy Ring to A")
+                .method({
+                    video: videos.zanaris.arrival,
+                    text: "Spot A is the tile you arrive when you teleport to the fairy ring."
+                })
+                .child("A3", solved([1, 2, 3, 4]))
+                .child("A2",
+                    step("Go to B")
+                        .method({
+                            text: "B is exactly 2 tiles northwest of the center of the fairy ring."
                         })
-                }),
-                "B1":
-                    solved([17])
-            }),
-            "A1":
-                step("Slayer Cape to Chaeldar (F)", {
+                        .child("B3", solved([10]))
+                        .child("B2", step("Dive to C")
+                            .method({
+                                text: "C is the south-eastern tile of the entrance to the wheat field and directly reachable from B with a Dive."
+                            })
+                            .child("C3", solved([5, 6, 7]))
+                            .child("C2", step("Step and Surge to D")
+                                .method({
+                                    text: "Stepping 1 tile north-west and then surging will land you directly at D"
+                                })
+                                .child("D3", solved([8, 9, 10]))
+                                .child("D2", step("Step and Surge to E")
+                                    .method({
+                                        text: "Stepping 1 tile south-west and then surging will land you directly at E."
+                                    })
+                                    .child("E3", solved([11])
+                                        .child("E2", solved([12]))
+                                        .child("D1", solved([14, 15]))
+                                    )))
+                            .child("C1", step("Go to D")
+                                .method({
+                                    text: "Stepping 1 tile north-west and then surging will land you directly at D"
+                                })
+                                .child("D2", solved([13]))
+                                .child("D1", solved([16]))
+                            )
+                        ).child("B1", solved([17])))
+                .child("A1", step("Slayer Cape to Chaeldar (F)", {
                     "F3": solved([18]),
                     "F2": solved([19]),
                     "F1": solved([20, 21, 22], "Spot is at the cosmic altar (G)."),
-                })
-        })))
+                }))
+        )
+    )
 
     return res
 })()

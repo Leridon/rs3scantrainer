@@ -17,45 +17,52 @@
     <link rel="stylesheet" type="text/css" href="https://runeapps.org/runeappslib.css">
 </head>
 <script src="./index.bundle.js"></script>
-<body class="nis body">
-
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb" id="pathview">
-
-    </ol>
-</nav>
-
-<div role="group" id="scanselectionpane">
-    <div class="row" id="selectbuttons">
-        <div class="col">
-        </div>
-        <div class="col">
-        </div>
-        <div class="col">
-        </div>
-    </div>
-</div>
+<body class="nis body col" style="height: auto">
 
 <div id="selectionpanel">
 
 </div>
 
-<div id="solutionpanel" class="row">
-    <div id="solutionimg" class="col" style="width: 50%">
-        <img src="" id="mapview" alt="" style="max-width: 100%; height: auto">
-    </div>
-    <div class="col" style="width: 50%">
+<div id="solutionpanel" class="row" style="min-height: 100%">
+    <div id="treepanel" class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" id="pathview">
 
-        <div id="solutiontext" class="col">
+            </ol>
+        </nav>
+
+        <div id="scantreepanel">
 
         </div>
+    </div>
 
+    <div style="padding:0; width: 0; border-left: 1px solid black; border-right: 1px solid #41555F; min-height: 100%; margin-left: 4px; margin-right: 4px"></div>
+
+    <div id="methodpanel" class="col" style="width: 50%">
+        <div id="tabcontainer" style="display: block">
+            <div class="methodtab contenttab lefttab activetab" id="methodtabvideo" data-methodtype="video">Video</div>
+            <div class="methodtab contenttab lefttab" id="methodtabtext" data-methodtype="text">Text</div>
+            <div class="methodtab contenttab lefttab" id="methodtabmap" data-methodtype="map">Full Map</div>
+        </div>
+
+        <div class="methodtabcontent" data-methodtype="video">
+            <video controls autoplay loop>
+                <source id="videosource" src="./img/scanassets/zanaris/zanarisA.webm" type="video/webm">
+            </video>
+        </div>
+        <div class="methodtabcontent" data-methodtype="text">
+            <div id="textmethodcontent">
+
+            </div>
+        </div>
+        <div class="methodtabcontent" data-methodtype="map">
+            <div id="solutionimg" class="col">
+                <img src="" id="mapview" alt="" style="max-height: 100%; max-width: 100%; height: auto; width: auto; display: block">
+            </div>
+        </div>
     </div>
 </div>
 
-<video controls autoplay loop>
-    <source src="./img/scanassets/zanaris/zanarisA.webm" type="video/webm">
-</video>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-import {ChildKey, HowToSection, Method, ScanTree, ScanTreeNode, Video} from "../methods";
+import {ChildKey, HowTo, Method, ScanTree, ScanTreeNode, Video} from "../methods";
 import {cluesById} from "./clues";
 import {ScanStep} from "../clues";
 
@@ -14,34 +14,18 @@ let videos = {
 }
 
 function loadScanMethods() {
-    type CombinedHowTo = {
-        video?: Video,
-        explanation?: string
-    }
-
     class Builder {
         constructor(public node: ScanTreeNode) {
         }
 
-        howto(d: CombinedHowTo) {
-            let howtos = []
-
-            if (d.explanation)
-                howtos.push({
-                    section: HowToSection.explanation
-                })
-            if (d.video)
-                howtos.push({
-                    section: HowToSection.videoclip
-                })
-
-            this.node.howtos = howtos
+        howto(d: HowTo) {
+            this.node.howto = d
 
             return this
         }
 
-        triple(spot: number, howto: CombinedHowTo = null) {
-            let child = new Builder(new ScanTreeNode(`Go to spot ${spot}`, spot, [], []))
+        triple(spot: number, howto: HowTo = {}) {
+            let child = new Builder(new ScanTreeNode(`Go to spot ${spot}`, spot, [], {}))
 
             if (howto) child.howto(howto)
 
@@ -70,11 +54,11 @@ function loadScanMethods() {
     }
 
     function solved(spots: number[], instruction: string = "Solved!"): Builder {
-        return new Builder(new ScanTreeNode(`Go to spot ${spots.join(", ")}`, spots[0]/*TODO*/, [], []))
+        return new Builder(new ScanTreeNode(`Go to spot ${spots.join(", ")}`, spots[0]/*TODO*/, [], {}))
     }
 
     function step(instruction: string): Builder {
-        return new Builder(new ScanTreeNode(instruction, null, [], []))
+        return new Builder(new ScanTreeNode(instruction, null, [], {}))
     }
 
     function tree(map_ref: string,
@@ -94,50 +78,50 @@ function loadScanMethods() {
     associate({
         id: "scanzanaris",
         method: tree(
-            "img/scanssets/zanaris/zanarismap.png",
+            "img/scanassets/zanaris/zanarismap.png",
 
             step("Fairy Ring to A")
                 .howto({
-                    explanation: "Spot A is the tile you arrive when you teleport to the fairy ring.",
+                    text: "Spot A is the tile you arrive when you teleport to the fairy ring.",
                     video: videos.zanaris.arrival,
                 })
                 .child("A2",
                     step("Go to B")
                         .howto({
-                            explanation: "B is exactly 2 tiles northwest of the center of the fairy ring.",
+                            text: "B is exactly 2 tiles northwest of the center of the fairy ring.",
                             video: videos.zanaris.AtoB
                         })
-                        .child("B3", solved([10]))
+                        .triple(10)
                         .child("B2", step("Dive to C")
                             .howto({
-                                explanation: "C is the south-eastern tile of the entrance to the wheat field and directly reachable from B with a Dive.",
+                                text: "C is the south-eastern tile of the entrance to the wheat field and directly reachable from B with a Dive.",
                                 video: videos.zanaris.BtoC
                             })
                             .child("C3", solved([5, 6, 7]))
                             .child("C2", step("Step and Surge to D")
                                 .howto({
-                                    explanation: "Stepping 1 tile north-west and then surging will land you directly at D",
+                                    text: "Stepping 1 tile north-west and then surging will land you directly at D",
                                     video: videos.zanaris.CtoD
                                 })
                                 .child("D3", solved([8, 9, 10]))
                                 .child("D2", step("Step and Surge to E")
                                     .howto({
-                                        explanation: "Stepping 1 tile south-west and then surging will land you directly at E.",
+                                        text: "Stepping 1 tile south-west and then surging will land you directly at E.",
                                         video: videos.zanaris.DtoE
                                     })
-                                    .child("E3", solved([11])
-                                        .child("E2", solved([12]))
-                                        .child("D1", solved([14, 15]))
-                                    )))
+                                    .triple(11)
+                                    .triple(12))
+                                .child("D1", solved([14, 15]))
+                            )
                             .child("C1", step("Go to D")
                                 .howto({
-                                    explanation: "Stepping 1 tile north-west and then surging will land you directly at D",
+                                    text: "Stepping 1 tile north-west and then surging will land you directly at D",
                                     video: videos.zanaris.CtoD
                                 })
-                                .child("D2", solved([13]))
-                                .child("D1", solved([16]))
+                                .triple(13)
+                                .triple(16)
                             )
-                        ).child("B1", solved([17])))
+                        ).triple(17))
                 .triple(1)
                 .triple(2)
                 .triple(3)

@@ -6,14 +6,8 @@ export type Video = {
     contributor?: string
 }
 
-export enum HowToSection {
-    scanmap,
-    videoclip,
-    explanation,
-}
-
 export type HowTo = {
-    section: HowToSection,
+    scanmap?: string,
     image?: string
     text?: string,
     video?: Video,
@@ -24,7 +18,7 @@ export abstract class Method {
 
     abstract interactivePanel(): JQuery<HTMLElement>
 
-    abstract details(): HowTo[]
+    abstract howto(): HowTo
 }
 
 export class ScanTree implements Method {
@@ -40,14 +34,13 @@ export class ScanTree implements Method {
         return this.root.toHtml(0);
     }
 
-    details(): HowTo[] {
-        return [];
+    howto(): HowTo {
+        return this.root.howTo();
     }
 
     mapDetail(): HowTo {
         return {
-            section: HowToSection.scanmap,
-            image: this.map_ref
+            scanmap: this.map_ref
         }
     }
 }
@@ -65,8 +58,12 @@ export class ScanTreeNode {
         public instruction: string,
         public solved: number | null,
         public children: [ChildKey, ScanTreeNode][],
-        public howtos: HowTo[]
+        public howto: HowTo
     ) {
+    }
+
+    howTo(): HowTo {
+        return Object.assign(this.howto, this.root.mapDetail())
     }
 
     setPath(path: ChildKey[], root: ScanTree) {
@@ -83,7 +80,8 @@ export class ScanTreeNode {
     }
 
     sendToUI() {
-        setMethod2(this.toHtml(0), this.howtos.concat(this.root.mapDetail()))
+        console.log(this)
+        setMethod2(this.toHtml(0), this.howTo())
     }
 
     toHtml(depth: number = 0): JQuery {
@@ -95,7 +93,7 @@ export class ScanTreeNode {
             $("<div>")
                 .addClass("menubutton").addClass("nisbutton2")
                 .css("display", "inline-block")
-                .text(this.choiceID().pretty).on("click", this.sendToUI)
+                .text(this.choiceID().pretty).on("click", () => this.sendToUI())
                 .appendTo(outer)
 
         } else if (depth > 1) {

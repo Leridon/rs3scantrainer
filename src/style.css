@@ -1,32 +1,30 @@
-html body {
-    min-height: 100%;
+html, body, #main-content {
     min-width: 100%;
     width: 100vh;
     height: 100vh;
     margin: 0;
     display: inline-flex;
+    font-family: monospace;
 }
 
-#searchresults{
+#searchresults {
     position: absolute;
     background-color: black;
     border: 1px solid white;
 }
 
 .split-screen {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     width: 50%;
     margin-left: 6px;
     margin-right: 6px;
 }
 
 .verticalsep {
-    position: absolute;
-    left: 50%;
     border-left: 1px solid black;
     border-right: 1px solid #41555F;
-
-    min-height: 100%;
+    height: 100%;
 }
 
 .indented {
@@ -45,7 +43,7 @@ html body {
     max-height: 80%;
 }
 
-.filterbutton.inactive {
+.inactive {
     opacity: 0.4;
 }
 
@@ -68,10 +66,39 @@ video {
 .methodtabcontent {
     margin-top: 25px;
     text-align: center;
-    overflow: scroll;
+    max-height: 100%;
 }
 
 #textmethodcontent {
     font-weight: bold;
     font-size: 20px;
+}
+
+.panel {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 5px;
+    border: 1px solid #41555F;
+    /* background: #FFFFFF30;*/
+    background: #00000030;
+}
+
+.paneltitle {
+    font-weight: bold;
+}
+
+#footer {
+    font-size: 8pt;
+    color: #FFFFFF80;
+}
+
+#filters {
+    border: 1px solid #41555F;
+    /* background: #FFFFFF30;*/
+    background: #00000030;
+}
+
+.attribution {
+    font-size: 8pt;
+    color: #FFFFFF80;
 }

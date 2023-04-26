@@ -1,14 +1,13 @@
 import {ClueStep, ClueTier, ClueType} from "./clues";
-import {tsxRegex} from "ts-loader/dist/constants";
 import * as fuzzysort from "fuzzysort";
 import {clues} from "./data/clues";
-import {HowTo, Method, ScanTree} from "./methods";
+import {HowTo, Method} from "./methods";
 
 type UIState = {
     clue: ClueStep,
     method: Method,
     filters_visible: boolean,
-    //preferredMethodType: string,
+    preferredHowToTabs: string[],
     searchFilter: {
         tiers: boolean[],
         types: boolean[],
@@ -18,7 +17,7 @@ type UIState = {
 let uiState: UIState = {
     clue: null,
     method: null,
-    //preferredMethodType: "video",
+    preferredHowToTabs: [],
     filters_visible: true,
     searchFilter: {
         tiers: [true, true, true, true, true],
@@ -55,8 +54,10 @@ export function initializeScantrainer() {
 
             if (uiState.filters_visible) {
                 $("#filters").show()
+                $("#filtertoggle").addClass("inactive")
             } else {
                 $("#filters").hide()
+                $("#filtertoggle").removeClass("inactive")
             }
         })
 
@@ -86,6 +87,8 @@ export function initializeScantrainer() {
             updateSearch((<HTMLInputElement>$("#cluesearchbox").get()[0]).value)
         })
 
+        $("#filters").hide()
+
         {
             let search_box = $("#cluesearchbox")
             let search_results = $("#searchresults")
@@ -110,13 +113,23 @@ export function initializeScantrainer() {
 
     function setupTabControls() {
         $(".methodtab").on("click", (e) => {
-            //TODO uiState.preferredMethodType = e.target.dataset.methodtype
-            openSolutionTab(e.target.dataset.methodtype)
+            let key = e.target.dataset.methodtype
+
+            let index = uiState.preferredHowToTabs.indexOf(key)
+
+            if (index >= 0) uiState.preferredHowToTabs.splice(index, 1)
+
+            uiState.preferredHowToTabs.unshift(key)
+
+            console.log(uiState.preferredHowToTabs)
+
+            activateHowToTab(key)
         })
     }
 
     setupClueSearch()
     setupTabControls()
+    setHowToTabs({})
 
     gotoRoot()
 }
@@ -168,84 +181,74 @@ export function select(clue: ClueStep) {
     }
 
     if (clue.methods.length > 0) {
+        console.log("Method set")
         setMethod(clue.methods[0])
     } else {
         $("#cluemethod").hide()
+        setHowToTabs({})
     }
-}
-
-export function goto(scanStep: ScanTree) {
-    $("#cluesearchpanel").hide()
-    $("#solutionpanel").show()
-
-    /*
-
-    let clue = scanStep.clue
-    let stepPath = scanStep.path
-
-    // Set the path in the breadbrumb menu
-    {
-        let p = []
-
-        p.push(["Home", () => gotoRoot()])
-        p.push([clue.name, () => goto(clue.path)])
-
-        for (let i = 0; i < stepPath.length; i++) {
-            p.push([stepPath[i], () => goto(clue.path.get(stepPath.slice(0, i)))])
-        }
-
-        setBreadcrumb(p)
-    }
-
-    let tree = null//clue.path.get(stepPath)
-
-    uiState.tree = tree
-    uiState.isAtRoot = false
-
-    // Update the method tabs
-    {
-        // Show/Hide tabs depending on availability
-        for (let methodtype of ["video", "text"]) {
-            if (tree.methods[methodtype])
-                $(`.methodtab[data-methodtype=${methodtype}], .methodtabcontent[data-methodtype=${methodtype}]`).show()
-            else
-                $(`.methodtab[data-methodtype=${methodtype}], .methodtabcontent[data-methodtype=${methodtype}]`).hide()
-        }
-
-        if (tree.methods.video) {
-            let video = $("#videoplayer").empty();
-            let vid = video.get()[0] as HTMLVideoElement
-
-            vid.pause()
-            video.empty()
-
-            video.append($("<source>")
-                .attr("src", tree.methods.video.ref)
-                .attr("type", "video/mp4"))
-
-            vid.load()
-            vid.play()
-        }
-
-        if (tree.methods.text) $("#textmethodcontent").html(tree.methods.text)
-
-        //$("#mapview").attr("src", `${tree.mapImgPath}`)
-
-        // Open the best fitting tab
-        if (tree.methods[uiState.preferredMethodType]) openSolutionTab(uiState.preferredMethodType)
-        else if (tree.methods.text) openSolutionTab("text")
-        else openSolutionTab("map")
-    }
-
-    // Update the solution explorer
-    $("#scantreepanel").empty().append(tree.toHtml())*/
 }
 
 export function setMethod(method: Method) {
-    setMethod2(method.interactivePanel(), method.details())
+    setMethod2(method.interactivePanel(), method.howto())
 }
 
-export function setMethod2(interactive_panel: JQuery, details: HowTo[]) {
+export function setMethod2(interactive_panel: JQuery, howto: HowTo) {
     $("#cluemethodcontent").empty().append(interactive_panel)
     $("#cluemethod").show()
+
+    setHowToTabs(howto)
+}
+
+export function setHowToTabs(howto: HowTo) {
+    $(".methodtab").hide()
+    $(".methodtabcontent").hide()
+
+    for (let key of Object.keys(howto)) {
+        $(`.methodtab[data-methodtype=${key}]`).show()
+    }
+
+    if (howto.text) {
+        $("#textmethodcontent").text(howto.text)
+    }
+
+    if (howto.video) {
+        let video = $("#videoplayer").empty();
+        let vid = video.get()[0] as HTMLVideoElement
+
+        vid.pause()
+        video.empty()
+
+        video.append($("<source>")
+            .attr("src", howto.video.ref)
+            .attr("type", "video/mp4"))
+
+        vid.load()
+        vid.play()
+
+        $("#videoclipcontributor").text(howto.video.contributor)
+    }
+
+    if (howto.scanmap) {
+        $("#mapview").attr("src", `${howto.scanmap}`)
+    }
+
+
+    let available_tabs = Object.keys(howto)
+    if (available_tabs.length > 0) {
+        let best = uiState.preferredHowToTabs.find((e) => e in howto)
+
+        console.log("best is " + best)
+
+        if (best) activateHowToTab(best)
+        else activateHowToTab(available_tabs[0])
+    }
+}
+
+function activateHowToTab(key: string) {
+    $(".methodtab").removeClass("activetab")
+    $(`.methodtab[data-methodtype=${key}]`).addClass("activetab")
+
+    $(".methodtabcontent").hide()
+    $(`.methodtabcontent[data-methodtype=${key}]`).show()
 }

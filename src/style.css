@@ -1,15 +1,52 @@
+html body {
+    min-height: 100%;
+    min-width: 100%;
+    width: 100vh;
+    height: 100vh;
+    margin: 0;
+    display: inline-flex;
+}
+
+#searchresults{
+    position: absolute;
+    background-color: black;
+    border: 1px solid white;
+}
+
+.split-screen {
+    display: inline-block;
+    width: 50%;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.verticalsep {
+    position: absolute;
+    left: 50%;
+    border-left: 1px solid black;
+    border-right: 1px solid #41555F;
+
+    min-height: 100%;
+}
+
 .indented {
     margin-left: 15px;
     display: block;
 }
 
-#treepanel {
-    font-family: monospace;
-    overflow: scroll;
+.filterbutton {
+    margin: 1px;
+    text-align: center;
+    padding: 0;
 }
 
-.choicebutton {
-    padding: 0;
+.filterbutton > img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.filterbutton.inactive {
+    opacity: 0.4;
 }
 
 #pathview {
@@ -26,10 +63,6 @@ video {
     width: 100%;
     height: 100%;
     object-fit: scale-down;
-}
-
-#methodpanel {
-    padding: 0;
 }
 
 .methodtabcontent {

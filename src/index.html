@@ -17,52 +17,169 @@
     <link rel="stylesheet" type="text/css" href="https://runeapps.org/runeappslib.css">
 </head>
 <script src="./index.bundle.js"></script>
-<body class="nis body col" style="height: auto">
+<body class="nis" style="display: inline-flex; flex-direction:row">
 
-<div id="selectionpanel">
+<div class="split-screen">
+    <div id="cluesearchpanel">
 
-</div>
+        <div class="flex-fill" style="display: flex; flex-direction: row; margin-top: 6px">
+            <div class="flex-fill" style="margin-right: 6px">
+                <input id="cluesearchbox" type="text" class="nisinput" spellcheck="false" style="width: 100%">
+            </div>
 
-<div id="solutionpanel" class="row" style="min-height: 100%">
-    <div id="treepanel" class="col">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" id="pathview">
+            <div class="flex-grow-0">
+                <div class="nissmallimagebutton" id="filtertoggle" style="text-align: center">
+                    F
+                </div>
+            </div>
+        </div>
 
-            </ol>
-        </nav>
-
-        <div id="scantreepanel">
+        <div id="searchresults" style="display: none">
 
         </div>
+
+        <div id="filters">
+            <div class="row">
+                <div class="col-2 font-monospace">
+                    Tier
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-tier="easy" title="Include easy clues">
+                        <img src="img/icons/sealedeasy.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-tier="medium" title="Include medium clues">
+                        <img src="img/icons/sealedmedium.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-tier="hard" title="Include hard clues">
+                        <img src="img/icons/sealedhard.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-tier="elite" title="Include elite clues">
+                        <img src="img/icons/sealedelite.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-tier="master" title="Include master clues">
+                        <img src="img/icons/sealedmaster.png">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2 font-monospace">
+                    Type
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="anagram">
+                        A
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="compass">
+                        <img src="img/icons/arrow.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="anagram">
+                        <img src="img/icons/sextant.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="cryptic">
+                        A
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="emote">
+                        <img src="img/icons/emotes.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="map">
+                        <img src="img/icons/map.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="scan">
+                        <img src="img/icons/scan.png">
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="simple">
+                        S
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="nissmallimagebutton filterbutton" data-type="skilling">
+                        SK
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
-    <div style="padding:0; width: 0; border-left: 1px solid black; border-right: 1px solid #41555F; min-height: 100%; margin-left: 4px; margin-right: 4px"></div>
+    <nav aria-label="breadcrumb" style="display: none">
+        <ol class="breadcrumb" id="pathview">
 
-    <div id="methodpanel" class="col" style="width: 50%">
-        <div id="tabcontainer" style="display: block">
-            <div class="methodtab contenttab lefttab activetab" id="methodtabvideo" data-methodtype="video">Video</div>
-            <div class="methodtab contenttab lefttab" id="methodtabtext" data-methodtype="text">Text</div>
-            <div class="methodtab contenttab lefttab" id="methodtabmap" data-methodtype="map">Full Map</div>
+        </ol>
+    </nav>
+
+    <div id="solutionpanel">
+
+        <div>
+            Clue:
+            <span id="cluetext"></span>
         </div>
 
-        <div class="methodtabcontent" data-methodtype="video">
-            <video controls autoplay loop id="videoplayer">
-                <source id="videosource" src="./img/scanassets/zanaris/Arrival.mp4" type="video/mp4">
-            </video>
+        <div id="cluesolution">
+            Solution:
+            <span id="cluesolutioncontent"></span>
         </div>
-        <div class="methodtabcontent" data-methodtype="text">
-            <div id="textmethodcontent">
+
+        <div id="cluemethod">
+            Method:
+            <div id="cluemethodcontent">
 
             </div>
         </div>
-        <div class="methodtabcontent" data-methodtype="map">
-            <div id="solutionimg" class="col">
-                <img src="" id="mapview" alt="" style="max-height: 100%; max-width: 100%; height: auto; width: auto; display: block">
-            </div>
-        </div>
+
     </div>
 </div>
 
+<div class="verticalsep"></div>
+
+<div class="split-screen">
+    <div id="tabcontainer" style="display: block">
+        <div class="methodtab contenttab lefttab activetab" id="methodtabvideo" data-methodtype="video">Video
+        </div>
+        <div class="methodtab contenttab lefttab" id="methodtabtext" data-methodtype="text">Text</div>
+        <div class="methodtab contenttab lefttab" id="methodtabmap" data-methodtype="map">Full Map</div>
+    </div>
+
+    <div class="methodtabcontent" data-methodtype="video">
+        <video controls autoplay muted loop id="videoplayer">
+            <source id="videosource" src="" type="video/mp4">
+        </video>
+    </div>
+    <div class="methodtabcontent" data-methodtype="text">
+        <div id="textmethodcontent">
+
+        </div>
+    </div>
+    <div class="methodtabcontent" data-methodtype="map">
+        <div id="solutionimg" class="col">
+            <img src="" id="mapview" alt=""
+                 style="max-height: 100%; max-width: 100%; height: auto; width: auto; display: block">
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

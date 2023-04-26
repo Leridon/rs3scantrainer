@@ -3,6 +3,7 @@
 import * as a1lib from "@alt1/base";
 import "jquery";
 import {initializeScantrainer} from "./scantrainer";
+import {loadMethods} from "./data/methods";
 
 let $ = jQuery
 
@@ -10,6 +11,8 @@ let $ = jQuery
 require("!file-loader?name=[name].[ext]!./index.html");
 require("!file-loader?name=[name].[ext]!./style.css");
 require("!file-loader?name=[name].[ext]!./appconfig.json");
+
+loadMethods()
 
 //check if we are running inside alt1 by checking if the alt1 global exists
 if (window.alt1) {

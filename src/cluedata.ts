@@ -1,10 +1,8 @@
-import {ScanClue, ScanTree} from "./scanclues";
+import {ScanStep} from "./clues";
 import Dict = NodeJS.Dict;
 
 /*
 let solutions = (function () {
-
-
     return {
         "falador": tr("Teleport to Falador (A)",
             {
@@ -88,7 +86,7 @@ let solutions = (function () {
         })
     }
 })()*/
-
+/*
 let videos = {
     zanaris: {
         "arrival": {ref: "./img/scanassets/zanaris/Arrival.mp4", contributor: "Leridon"},
@@ -100,24 +98,26 @@ let videos = {
     }
 }
 
-export let scanclues: ScanClue[] = (() => {
-    function solved(spots: number[], instruction: string = "Solved!"): ScanTree {
-        return new ScanTree(`Go to spot ${spots.join(", ")}`, spots, {}, {})
+let scanclues: ScanStep[] = (() => {
+    function solved(spots: number[], instruction: string = "Solved!"): ScanTreeMethod {
+        return new ScanTreeMethod(`Go to spot ${spots.join(", ")}`, spots, {}, {})
     }
 
     function step(instruction: string,
-                  candidates: Dict<ScanTree> = {}) {
-        return new ScanTree(instruction, [], candidates, {})
+                  candidates: Dict<ScanTreeMethod> = {}) {
+        return new ScanTreeMethod(instruction, [], candidates, {})
     }
 
-    let res: ScanClue[] = []
+    let res: ScanStep[] = []
 
-    res.push(new ScanClue("scanzanaris", "Zanaris", 22, "img/zanaris.data.png",
+
+    res.push(new ScanStep("scanzanaris", "Zanaris", 22,
             step("Fairy Ring to A")
                 .method({
                     video: videos.zanaris.arrival,
                     text: "Spot A is the tile you arrive when you teleport to the fairy ring."
                 })
+                .child("Spot 1", solved([1]))
                 .child("A3", solved([1, 2, 3, 4]))
                 .child("A2",
                     step("Go to B")
@@ -168,7 +168,7 @@ export let scanclues: ScanClue[] = (() => {
         )
     )
 
-    res.push(new ScanClue("scanfalador", "Falador", 18, "img/falador.data.png",
+    res.push(new ScanStep("scanfalador", "Falador", 18,
         step("Teleport to Falador (A)")
             .child("A3", solved([1, 2, 3, 4]))
             .child("A2", step("Go to B")
@@ -192,6 +192,6 @@ export let scanclues: ScanClue[] = (() => {
     return res
 })()
 
-function byId(id: string): ScanClue {
+export function byId(id: string): ScanStep {
     return scanclues.find((e) => e.id == id)
-}
+}*/

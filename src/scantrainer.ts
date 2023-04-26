@@ -1,43 +1,43 @@
-import {scanclues} from "./cluedata";
-import {ScanClue, ScanTree} from "./scanclues";
+import {ClueStep, ClueTier, ClueType} from "./clues";
 import {tsxRegex} from "ts-loader/dist/constants";
+import * as fuzzysort from "fuzzysort";
+import {clues} from "./data/clues";
+import {HowTo, Method, ScanTree} from "./methods";
 
 type UIState = {
-    isAtRoot: boolean,
-    tree: ScanTree
-    preferredMethodType: string
+    clue: ClueStep,
+    method: Method,
+    filters_visible: boolean,
+    //preferredMethodType: string,
+    searchFilter: {
+        tiers: boolean[],
+        types: boolean[],
+    }
 }
 
 let uiState: UIState = {
-    isAtRoot: false,
-    tree: null,
-    preferredMethodType: "video"
+    clue: null,
+    method: null,
+    //preferredMethodType: "video",
+    filters_visible: true,
+    searchFilter: {
+        tiers: [true, true, true, true, true],
+        types: [true, true, true, true, true, true, true, true, true]
+    }
 }
 
+function updateFilter() {
 
-type SavedUIState = {
-    isAtRoot: boolean,
-    clue_id: string,
-    path: string[],
 }
 
-function restoreState(state: SavedUIState) {
+function updateSearch(term: string) {
+    let results = fuzzysort.go(term, clues, {key: "searchText"})
 
-    setUiState({
-        isAtRoot: state.isAtRoot,
-        tree: state.clue_id != null ? scanclues.find((c) => c.id == state.clue_id).path.get(state.path) : null,
-        preferredMethodType: "video"
-    }, false)
-}
+    let box = $("#searchresults").empty()
 
-function pushState() {
-    let s = {
-        isAtRoot: uiState.isAtRoot,
-        clue_id: uiState.tree ? uiState.tree.clue.id : null,
-        path: uiState.tree ? uiState.tree.path : null,
-    } as SavedUIState
-
-    history.pushState(s, "")
+    for (let e of results) {
+        $("<div>").data("clue", e.obj as ClueStep).text(e.target).appendTo(box)
+    }
 }
 
 function openSolutionTab(methodtype: string) {
@@ -49,40 +49,76 @@ function openSolutionTab(methodtype: string) {
 }
 
 export function initializeScantrainer() {
-    let selection = $("#selectionpanel").empty()
+    function setupClueSearch() {
+        $("#filtertoggle").on("click", (e) => {
+            uiState.filters_visible = !uiState.filters_visible
 
-    for (let clue of scanclues) {
-        selection.append(
-            $("<div>")
-                .addClass("nisbutton")
-                .addClass("scanselection")
-                .text(clue.name)
-                .on("click", () => goto(clue.path))
-        )
+            if (uiState.filters_visible) {
+                $("#filters").show()
+            } else {
+                $("#filters").hide()
+            }
+        })
+
+        $(".filterbutton").on("click", (e) => {
+            let target = $(e.currentTarget)
+
+            let type = target.attr("data-type");
+            let tier = target.attr("data-tier");
+
+            if (type) {
+                let id = ClueType[type]
+
+                uiState.searchFilter.types[id] = !uiState.searchFilter.types[id]
+
+                if (uiState.searchFilter.types[id]) target.removeClass("inactive")
+                else target.addClass("inactive")
+            } else {
+                let id = ClueTier[tier]
+
+                uiState.searchFilter.tiers[id] = !uiState.searchFilter.tiers[id]
+
+                if (uiState.searchFilter.tiers[id]) target.removeClass("inactive")
+                else target.addClass("inactive")
+            }
+
+            updateFilter()
+            updateSearch((<HTMLInputElement>$("#cluesearchbox").get()[0]).value)
+        })
+
+        {
+            let search_box = $("#cluesearchbox")
+            let search_results = $("#searchresults")
+
+            search_box.on("input", (e) => {
+                updateSearch((e.target as HTMLInputElement).value)
+            })
+            search_box.on("focus", () => {
+                search_results.show()
+                updateSearch(($("#cluesearchbox").get()[0] as HTMLInputElement).value)
+            })
+            search_box.on("focusout", search_results.hide)
+
+            search_results.on("click", (e) => {
+                if ($(e.target).data("clue")) {
+                    select($(e.target).data("clue"))
+                }
+            })
+        }
+
     }
 
     function setupTabControls() {
         $(".methodtab").on("click", (e) => {
-            uiState.preferredMethodType = e.target.dataset.methodtype
+            //TODO uiState.preferredMethodType = e.target.dataset.methodtype
             openSolutionTab(e.target.dataset.methodtype)
         })
     }
 
+    setupClueSearch()
     setupTabControls()
 
-    addEventListener("popstate", (e) => {
-        console.log(e.state)
-
-        restoreState(e.state)
-    })
-
-    gotoRoot(false)
-
-    history.replaceState({
-        isAtRoot: true,
-        clue_id: null,
-        path: []
-    } as SavedUIState, "")
+    gotoRoot()
 }
 
 function setBreadcrumb(path: [string, () => void][]) {
@@ -106,28 +142,43 @@ function setBreadcrumb(path: [string, () => void][]) {
     }
 }
 
-function setUiState(state: UIState, in_history: boolean = true) {
-    if (state.isAtRoot) gotoRoot(in_history)
-    else goto(state.tree, in_history)
-}
-
-export function gotoRoot(in_history: boolean = true) {
-    $("#selectionpanel").show()
+export function gotoRoot() {
+    $("#cluesearchpanel").show()
     $("#solutionpanel").hide()
 
     setBreadcrumb([
         ["Home", () => gotoRoot()],
     ])
 
-    uiState.tree = null
-    uiState.isAtRoot = true
-
-    if (in_history) pushState()
+    uiState.clue = null
+    uiState.method = null
 }
 
-export function goto(scanStep: ScanTree, in_history: boolean = true) {
-    $("#selectionpanel").hide()
+export function select(clue: ClueStep) {
+    $("#searchresults").hide()
     $("#solutionpanel").show()
+
+    $("#cluetext").text(clue.clue)
+
+    if (clue.solution) {
+        $("#cluesolution").show()
+        $("#cluesolutioncontent").text(clue.solution)
+    } else {
+        $("#cluesolution").hide()
+    }
+
+    if (clue.methods.length > 0) {
+        setMethod(clue.methods[0])
+    } else {
+        $("#cluemethod").hide()
+    }
+}
+
+export function goto(scanStep: ScanTree) {
+    $("#cluesearchpanel").hide()
+    $("#solutionpanel").show()
+
+    /*
 
     let clue = scanStep.clue
     let stepPath = scanStep.path
@@ -146,7 +197,7 @@ export function goto(scanStep: ScanTree, in_history: boolean = true) {
         setBreadcrumb(p)
     }
 
-    let tree = clue.path.get(stepPath)
+    let tree = null//clue.path.get(stepPath)
 
     uiState.tree = tree
     uiState.isAtRoot = false
@@ -178,7 +229,7 @@ export function goto(scanStep: ScanTree, in_history: boolean = true) {
 
         if (tree.methods.text) $("#textmethodcontent").html(tree.methods.text)
 
-        $("#mapview").attr("src", `${clue.mapImgPath}`)
+        //$("#mapview").attr("src", `${tree.mapImgPath}`)
 
         // Open the best fitting tab
         if (tree.methods[uiState.preferredMethodType]) openSolutionTab(uiState.preferredMethodType)
@@ -187,7 +238,14 @@ export function goto(scanStep: ScanTree, in_history: boolean = true) {
     }
 
     // Update the solution explorer
-    $("#scantreepanel").empty().append(tree.toHtml())
+    $("#scantreepanel").empty().append(tree.toHtml())*/
+}
 
-    if (in_history) pushState()
+export function setMethod(method: Method) {
+    setMethod2(method.interactivePanel(), method.details())
+}
+
+export function setMethod2(interactive_panel: JQuery, details: HowTo[]) {
+    $("#cluemethodcontent").empty().append(interactive_panel)
+    $("#cluemethod").show()
 }

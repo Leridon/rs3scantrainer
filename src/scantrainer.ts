@@ -134,34 +134,9 @@ export function initializeScantrainer() {
     gotoRoot()
 }
 
-function setBreadcrumb(path: [string, () => void][]) {
-    let list = $("#pathview").empty()
-
-    for (let i = 0; i < path.length - 1; i++) {
-        let p = path[i]
-
-        $("<li>")
-            .addClass("breadcrumb-item")
-            .append($("<a>").attr("href", "javascript:;").on("click", p[1]).text(p[0]))
-            .appendTo(list)
-    }
-
-    {
-        let p = path[path.length - 1]
-        $("<li>")
-            .addClass("breadcrumb-item").addClass("active")
-            .text(p[0])
-            .appendTo(list)
-    }
-}
-
 export function gotoRoot() {
     $("#cluesearchpanel").show()
     $("#solutionpanel").hide()
-
-    setBreadcrumb([
-        ["Home", () => gotoRoot()],
-    ])
 
     uiState.clue = null
     uiState.method = null
@@ -181,7 +156,6 @@ export function select(clue: ClueStep) {
     }
 
     if (clue.methods.length > 0) {
-        console.log("Method set")
         setMethod(clue.methods[0])
     } else {
         $("#cluemethod").hide()
@@ -190,15 +164,14 @@ export function select(clue: ClueStep) {
 }
 
 export function setMethod(method: Method) {
-    setMethod2(method.interactivePanel(), method.howto())
-}
+    $(".methodtabcontent").hide()
+    method.sendToUi()
+    $(`.methodtabcontent[data-methodtype=${method.type}]`).show()
 
-export function setMethod2(interactive_panel: JQuery, howto: HowTo) {
-    $("#cluemethodcontent").empty().append(interactive_panel)
     $("#cluemethod").show()
-
-    setHowToTabs(howto)
+    setHowToTabs(method.howto())
 }
+
 
 export function setHowToTabs(howto: HowTo) {
     $(".methodtab").hide()
@@ -237,8 +210,6 @@ export function setHowToTabs(howto: HowTo) {
     let available_tabs = Object.keys(howto)
     if (available_tabs.length > 0) {
         let best = uiState.preferredHowToTabs.find((e) => e in howto)
-
-        console.log("best is " + best)
 
         if (best) activateHowToTab(best)
         else activateHowToTab(available_tabs[0])

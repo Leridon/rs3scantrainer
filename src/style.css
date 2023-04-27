@@ -102,3 +102,17 @@ video {
     font-size: 8pt;
     color: #FFFFFF80;
 }
+
+.scantreeline {
+
+}
+
+.scantreeline:hover {
+    background-color: #FFFFFF80;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.nextchoice {
+    border: 1px solid red;
+}

@@ -1,4 +1,4 @@
-import {setMethod2} from "./scantrainer";
+import {setHowToTabs} from "./scantrainer";
 import {ClueStep, ScanStep} from "./clues";
 
 export type Video = {
@@ -16,22 +16,27 @@ export type HowTo = {
 export abstract class Method {
     clue: ClueStep
 
-    abstract interactivePanel(): JQuery<HTMLElement>
+    protected constructor(public type: string) {
+    }
 
     abstract howto(): HowTo
+
+    abstract sendToUi(): void
 }
 
-export class ScanTree implements Method {
+export class ScanTree extends Method {
     clue: ScanStep = null
 
     constructor(public map_ref: string,
                 public root: ScanTreeNode
     ) {
-        root.setPath([], this)
+        super("scantree")
+
+        root.setRoot(this)
     }
 
-    interactivePanel(): JQuery<HTMLElement> {
-        return this.root.toHtml(0);
+    sendToUi(): void {
+        this.root.sendToUI()
     }
 
     howto(): HowTo {
@@ -51,7 +56,10 @@ export type ChildKey = {
 }
 
 export class ScanTreeNode {
-    path: ChildKey[]
+    parent?: {
+        node: ScanTreeNode,
+        key: ChildKey
+    } = null
     root: ScanTree
 
     constructor(
@@ -66,45 +74,98 @@ export class ScanTreeNode {
         return Object.assign(this.howto, this.root.mapDetail())
     }
 
-    setPath(path: ChildKey[], root: ScanTree) {
-        this.path = path
+    setRoot(root: ScanTree) {
         this.root = root
 
         for (let [key, child] of this.children) {
-            child.setPath(path.concat(key), root)
+            child.setParent(this, key)
         }
     }
 
-    choiceID(): ChildKey {
-        return this.path[this.path.length - 1]
+    setParent(parent: ScanTreeNode, key: ChildKey) {
+        this.parent = {
+            node: parent,
+            key: key
+        }
+
+        this.root = parent.root
+
+        for (let [key, child] of this.children) {
+            child.setParent(this, key)
+        }
+    }
+
+    path(): ScanTreeNode[] {
+        if (this.parent)
+            return this.parent.node.path().concat(this)
+        else
+            return [this]
     }
 
     sendToUI() {
-        console.log(this)
-        setMethod2(this.toHtml(0), this.howTo())
+
+        {
+            let path = this.path()
+
+
+            let list = $("#pathview").empty()
+            console.log(path)
+            console.log(list)
+
+            for (let i = 0; i < path.length; i++) {
+                let p = path[i]
+
+                let li = $("<li>").addClass("breadcrumb-item")
+
+                let text = p.parent ? p.parent.key.key : "Root"
+
+                if (i < path.length - 1) {
+                    $("<a>").attr("href", "javascript:;")
+                        .on("click", () => p.sendToUI())
+                        .text(text)
+                        .appendTo(li)
+                } else {
+                    li.addClass("active")
+                        .text(text)
+                }
+
+                li.append(list)
+            }
+        }
+
+        $("#temporaryid").empty().append(this.toHtml(0))
+        setHowToTabs(this.howto)
     }
 
     toHtml(depth: number = 0): JQuery {
         let outer = $("<div>")
             .css("font-size", `${13 / (Math.pow(1.2, depth - 1))}px`)
 
+        let line = $("<div>")
+            .addClass("scantreeline")
+            .appendTo(outer)
+
+        line.on("click", () => this.sendToUI())
+
         // Add choice ids
         if (depth == 1) {
-            $("<div>")
-                .addClass("menubutton").addClass("nisbutton2")
-                .css("display", "inline-block")
-                .text(this.choiceID().pretty).on("click", () => this.sendToUI())
-                .appendTo(outer)
+            $("<span>")
+                //.addClass("menubutton").addClass("nisbutton2")
+                .addClass("nextchoice")
+                .text(`${this.parent.key.pretty} -> `)
+                .appendTo(line)
 
         } else if (depth > 1) {
-            $("<span>").text(`${this.choiceID().pretty} -> `).appendTo(outer)
+            $("<span>")
+                .text(`${this.parent.key.pretty} -> `)
+                .appendTo(line)
         }
 
         // Add top level instruction
         {
             let span = $("<span>")
                 .text(this.instruction)
-                .appendTo(outer)
+                .appendTo(line)
 
             if (depth == 0) span.addClass("instruction-top")
         }

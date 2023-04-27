@@ -24,19 +24,19 @@
         <div id="cluesearchpanel">
 
             <div class="flex-fill" style="display: flex; flex-direction: row; margin-top: 6px">
-                <div class="flex-fill" style="margin-right: 6px">
+                <div class="flex-fill">
                     <input id="cluesearchbox" type="text" class="nisinput" spellcheck="false" style="width: 100%">
+
+                    <div id="searchresults">
+
+                    </div>
                 </div>
 
-                <div class="flex-grow-0">
+                <div class="flex-grow-0" style="display: none; margin-left: 6px">
                     <div class="nissmallimagebutton" id="filtertoggle" style="text-align: center">
                         F
                     </div>
                 </div>
-            </div>
-
-            <div id="searchresults" style="display: none">
-
             </div>
 
             <div id="filters" class="panel">
@@ -149,20 +149,17 @@
                 <div class="paneltitle">Method</div>
 
                 <div class="cluemethodcontent" data-methodtype="scantree">
-                    <nav aria-label="breadcrumb">
+                    <nav style="--bs-breadcrumb-divider: '>'; display: inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb" id="pathview">
-
                         </ol>
-                    </nav>
+                    </nav><br>
 
-                    <div id="temporaryid">
+                    <span id="nextscanstep"></span>
+                    <div id="scantreeview">
 
                     </div>
                 </div>
-
-
             </div>
-
         </div>
     </div>
 
@@ -172,14 +169,14 @@
         <div id="tabcontainer" style="display: block">
             <div class="methodtab contenttab lefttab" data-methodtype="image">Image</div>
             <div class="methodtab contenttab lefttab" data-methodtype="video">Video</div>
-            <div class="methodtab contenttab lefttab" data-methodtype="text">Text</div>
+            <div class="methodtab contenttab lefttab" data-methodtype="text">Explain</div>
             <div class="methodtab contenttab lefttab" data-methodtype="scanmap">Full Map</div>
         </div>
 
         <div style="margin-top: 20px">
             <div class="methodtabcontent panel" data-methodtype="video">
                 <video controls autoplay muted loop id="videoplayer">
-                    <source id="videosource" src="" type="video/mp4">
+                    <source id="videosource" src="" type="video/webm">
                 </video>
                 <div class="attribution">
                     Clip contributed by <span id="videoclipcontributor"></span>

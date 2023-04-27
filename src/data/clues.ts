@@ -11,7 +11,7 @@ export let clues = [
     scan("scanardounge", "within the walls of East or West Ardougne", "East or West Ardougne", 22),
     scan("scankeldagrim", "within the dwarven city of Keldagrim", "Keldagrim", 11),
     scan("scanmenaphos", "in Menaphos", "Menaphos", 30),
-    scan("scanpiscatoris Hunter Area", "in the Piscatoris Hunter Area", "Piscatoris Hunter Area", 14),
+    scan("scanpiscatoris", "in the Piscatoris Hunter Area", "Piscatoris Hunter Area", 14),
     scan("scanbrimhavendungeon", "in Brimhaven Dungeon", "Brimhaven Dungeon", 14),
     scan("scantaverleydungeon", "in Taverley Dungeon", "Taverley Dungeon", 22),
     scan("scanmosleharmless", "on the faraway island of Mos Le'Harmless", "Mos Le'Harmless", 27),

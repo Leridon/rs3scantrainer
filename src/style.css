@@ -8,9 +8,12 @@ html, body, #main-content {
 }
 
 #searchresults {
+    padding-left: 4px;
+    padding-right: 4px;
     position: absolute;
     background-color: black;
-    border: 1px solid white;
+    border: 1px solid #514949;
+    border-top: 0;
 }
 
 .split-screen {
@@ -48,7 +51,8 @@ html, body, #main-content {
 }
 
 #pathview {
-    font-size: large;
+    font-size: small;
+    margin-bottom: unset;
 }
 
 .instruction-top {
@@ -103,16 +107,40 @@ video {
     color: #FFFFFF80;
 }
 
-.scantreeline {
-
+#scantreeview {
+    padding-left: 15px;
 }
 
-.scantreeline:hover {
-    background-color: #FFFFFF80;
-    border-radius: 5px;
-    cursor: pointer;
+.scantreeline {
+    display: block;
 }
 
 .nextchoice {
-    border: 1px solid red;
+    text-align: center;
+    display: inline-block;
+    padding: 2px;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: #FFFFFF19;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.nextchoice:hover {
+    background-color: #FFFFFF33;
+}
+
+.nextchoice.tripleping {
+    height: 2em;
+}
+
+#nextscanstep {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.cluesearchresult {
+    cursor: pointer;
+    text-underline: dash;
 }

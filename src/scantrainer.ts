@@ -30,21 +30,19 @@ function updateFilter() {
 }
 
 function updateSearch(term: string) {
-    let results = fuzzysort.go(term, clues, {key: "searchText"})
+    let results = fuzzysort.go(term, clues, {
+        key: "searchText",
+        all: true
+    })
 
     let box = $("#searchresults").empty()
 
     for (let e of results) {
-        $("<div>").data("clue", e.obj as ClueStep).text(e.target).appendTo(box)
+        $("<div>")
+            .addClass("cluesearchresult")
+            .attr("tabindex", -1)
+            .data("clue", e.obj).text(e.target).appendTo(box)
     }
-}
-
-function openSolutionTab(methodtype: string) {
-    $(".methodtab").removeClass("activetab")
-    $(`.methodtab[data-methodtype=${methodtype}]`).addClass("activetab")
-
-    $(".methodtabcontent").hide()
-    $(`.methodtabcontent[data-methodtype=${methodtype}]`).show()
 }
 
 export function initializeScantrainer() {
@@ -84,31 +82,41 @@ export function initializeScantrainer() {
             }
 
             updateFilter()
-            updateSearch((<HTMLInputElement>$("#cluesearchbox").get()[0]).value)
+            updateSearch($("#cluesearchbox").val() as string)
         })
 
         $("#filters").hide()
 
         {
             let search_box = $("#cluesearchbox")
-            let search_results = $("#searchresults")
+            let search_results = $("#searchresults").hide()
 
             search_box.on("input", (e) => {
                 updateSearch((e.target as HTMLInputElement).value)
             })
-            search_box.on("focus", () => {
+            search_box.on("focusin", () => {
                 search_results.show()
-                updateSearch(($("#cluesearchbox").get()[0] as HTMLInputElement).value)
+                search_box.val("")
+                updateSearch(search_box.val() as string)
             })
-            search_box.on("focusout", search_results.hide)
+            search_box.on("focusout", (e) => {
+                let reltgt = $(e.relatedTarget)
+
+                if (reltgt.hasClass("cluesearchresult") && reltgt.data("clue")) {
+                    select(reltgt.data("clue"))
+                    search_box.val("")
+                }
+
+                search_results.hide()
+            })
 
             search_results.on("click", (e) => {
                 if ($(e.target).data("clue")) {
                     select($(e.target).data("clue"))
+                    search_box.val("")
                 }
             })
         }
-
     }
 
     function setupTabControls() {
@@ -164,9 +172,9 @@ export function select(clue: ClueStep) {
 }
 
 export function setMethod(method: Method) {
-    $(".methodtabcontent").hide()
+    $(".cluemethodcontent").hide()
     method.sendToUi()
-    $(`.methodtabcontent[data-methodtype=${method.type}]`).show()
+    $(`.cluemethodcontent[data-methodtype=${method.type}]`).show()
 
     $("#cluemethod").show()
     setHowToTabs(method.howto())
@@ -206,10 +214,9 @@ export function setHowToTabs(howto: HowTo) {
         $("#mapview").attr("src", `${howto.scanmap}`)
     }
 
-
     let available_tabs = Object.keys(howto)
     if (available_tabs.length > 0) {
-        let best = uiState.preferredHowToTabs.find((e) => e in howto)
+        let best = uiState.preferredHowToTabs.concat(["video", "text", "scanmap", "image"]).find((e) => e in howto)
 
         if (best) activateHowToTab(best)
         else activateHowToTab(available_tabs[0])

@@ -8,9 +8,9 @@ export type Video = {
 
 export type HowTo = {
     scanmap?: string,
-    image?: string
-    text?: string,
     video?: Video,
+    text?: string,
+    image?: string
 }
 
 export abstract class Method {
@@ -50,9 +50,30 @@ export class ScanTree extends Method {
     }
 }
 
+export enum PingType {
+    SINGLE,
+    DOUBLE,
+    TRIPLE
+}
+
 export type ChildKey = {
     key: string,
-    pretty: string
+    kind: PingType | string
+}
+
+function prettykey(key: ChildKey) {
+    if ((typeof key.kind) == "string") {
+        return key.kind
+    } else {
+        switch (key.kind) {
+            case PingType.SINGLE:
+                return "Single"
+            case PingType.DOUBLE:
+                return "Double"
+            case PingType.TRIPLE:
+                return "Triple"
+        }
+    }
 }
 
 export class ScanTreeNode {
@@ -65,7 +86,7 @@ export class ScanTreeNode {
     constructor(
         public instruction: string,
         public solved: number | null,
-        public children: [ChildKey, ScanTreeNode][],
+        public _children: [ChildKey, ScanTreeNode][],
         public howto: HowTo
     ) {
     }
@@ -77,7 +98,7 @@ export class ScanTreeNode {
     setRoot(root: ScanTree) {
         this.root = root
 
-        for (let [key, child] of this.children) {
+        for (let [key, child] of this._children) {
             child.setParent(this, key)
         }
     }
@@ -90,7 +111,7 @@ export class ScanTreeNode {
 
         this.root = parent.root
 
-        for (let [key, child] of this.children) {
+        for (let [key, child] of this._children) {
             child.setParent(this, key)
         }
     }
@@ -102,22 +123,23 @@ export class ScanTreeNode {
             return [this]
     }
 
+    children() {
+        return this._children.map((e) => e[1])
+    }
+
     sendToUI() {
 
         {
             let path = this.path()
 
-
             let list = $("#pathview").empty()
-            console.log(path)
-            console.log(list)
 
             for (let i = 0; i < path.length; i++) {
                 let p = path[i]
 
                 let li = $("<li>").addClass("breadcrumb-item")
 
-                let text = p.parent ? p.parent.key.key : "Root"
+                let text = p.parent ? p.parent.key.key : "Start"
 
                 if (i < path.length - 1) {
                     $("<a>").attr("href", "javascript:;")
@@ -129,60 +151,87 @@ export class ScanTreeNode {
                         .text(text)
                 }
 
-                li.append(list)
+                li.appendTo(list)
             }
         }
 
-        $("#temporaryid").empty().append(this.toHtml(0))
-        setHowToTabs(this.howto)
+        $("#nextscanstep").text(this.instruction)
+
+        this.generateChildren(0, $("#scantreeview").empty())
+
+        setHowToTabs(this.howTo())
     }
 
-    toHtml(depth: number = 0): JQuery {
-        let outer = $("<div>")
-            .css("font-size", `${13 / (Math.pow(1.2, depth - 1))}px`)
-
+    generateList(depth: number, container: JQuery) {
         let line = $("<div>")
             .addClass("scantreeline")
-            .appendTo(outer)
+            .css("margin-left", `${depth * 12}px`)
+            .css("font-size", `${13 / (Math.pow(1.25, depth))}px`)
 
-        line.on("click", () => this.sendToUI())
-
-        // Add choice ids
-        if (depth == 1) {
+        if (depth == 0) {
             $("<span>")
-                //.addClass("menubutton").addClass("nisbutton2")
                 .addClass("nextchoice")
-                .text(`${this.parent.key.pretty} -> `)
+                .text(prettykey(this.parent.key))
+                .on("click", () => this.sendToUI())
                 .appendTo(line)
 
-        } else if (depth > 1) {
+            //line.css("line-height", `30px`)
+        } else if (depth > 0) {
             $("<span>")
-                .text(`${this.parent.key.pretty} -> `)
+                .text(prettykey(this.parent.key) + ": ")
                 .appendTo(line)
         }
 
-        // Add top level instruction
-        {
-            let span = $("<span>")
-                .text(this.instruction)
-                .appendTo(line)
+        $("<span>")
+            .text(this.instruction)
+            .appendTo(line)
 
-            if (depth == 0) span.addClass("instruction-top")
-        }
+        line.appendTo(container)
 
-        // Recursively add children
-        {
-            let box = $("<div>").addClass("indented")
+        this.generateChildren(depth + 1, container)
+    }
 
-            for (let [_, child] of this.children) {
-                child
-                    .toHtml(depth + 1)
-                    .appendTo(box)
+    generateChildren(depth: number, container: JQuery) {
+        if(depth >= 2) return
+
+        let triples = this.children().filter((e) => e.parent.key.kind == PingType.TRIPLE)
+
+        if (triples.length == 1) {
+            triples.forEach((e) => e.generateList(depth, container))
+        } else if (triples.length > 1) {
+            let line = $("<div>")
+                .addClass("scantreeline")
+                .css("margin-left", `${depth * 12}px`)
+                .css("font-size", `${13 / (Math.pow(1.25, depth))}px`)
+
+
+            if (depth == 0) {
+                line.append($("<span>").text("Triple ping at "))
+
+                for (let child of triples) {
+                    $("<span>")
+                        .text(`${child.solved}`)
+                        .addClass("nextchoice")
+                        .addClass("tripleping")
+                        .on("click", () => child.sendToUI())
+                        .appendTo(line)
+                }
+            } else {
+                $("<span>")
+                    .text(`Triple ping at ${triples.map((e) => e.solved).join(", ")}`)
+                    .appendTo(line)
             }
 
-            box.appendTo(outer)
+            container.append(line)
         }
 
-        return outer
+        this.children().filter((e) => e.parent.key.kind == PingType.DOUBLE)
+            .forEach((e) => e.generateList(depth, container))
+
+        this.children().filter((e) => e.parent.key.kind == PingType.SINGLE)
+            .forEach((e) => e.generateList(depth, container))
+
+        this.children().filter((e) => (typeof e.parent.key.kind) == "string")
+            .forEach((e) => e.generateList(depth, container))
     }
 }

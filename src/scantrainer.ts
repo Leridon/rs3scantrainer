@@ -2,61 +2,55 @@ import {ClueStep, ClueTier, ClueType} from "./clues";
 import * as fuzzysort from "fuzzysort";
 import {clues} from "./data/clues";
 import {HowTo, Method} from "./methods";
+import {storage} from "./storage";
 
 type UIState = {
     clue: ClueStep,
     method: Method,
-    filters_visible: boolean,
     preferredHowToTabs: string[],
-    searchFilter: {
-        tiers: boolean[],
-        types: boolean[],
-    }
 }
 
 let uiState: UIState = {
     clue: null,
     method: null,
-    preferredHowToTabs: [],
-    filters_visible: true,
-    searchFilter: {
-        tiers: [true, true, true, true, true],
-        types: [true, true, true, true, true, true, true, true, true]
-    }
+    preferredHowToTabs: []
 }
 
-function updateFilter() {
+class FilterControl {
+    private searchFilter = new storage.Variable("preferences/cluefilters",
+        {
+            tiers: [true, true, true, true, true],
+            types: [true, true, true, true, true, true, true, true, true]
+        }
+    )
 
-}
+    private filters_visible: boolean = false
 
-function updateSearch(term: string) {
-    let results = fuzzysort.go(term, clues, {
-        key: "searchText",
-        all: true
-    })
+    constructor(private search: SearchControl) {
+        $("#filters").hide()
 
-    let box = $("#searchresults").empty()
+        $(".filterbutton").each((i, e) => {
+            let element = $(e)
 
-    for (let e of results) {
-        $("<div>")
-            .addClass("cluesearchresult")
-            .attr("tabindex", -1)
-            .data("clue", e.obj).text(e.target).appendTo(box)
-    }
-}
-
-export function initializeScantrainer() {
-    function setupClueSearch() {
-        $("#filtertoggle").on("click", (e) => {
-            uiState.filters_visible = !uiState.filters_visible
-
-            if (uiState.filters_visible) {
-                $("#filters").show()
-                $("#filtertoggle").addClass("inactive")
-            } else {
-                $("#filters").hide()
-                $("#filtertoggle").removeClass("inactive")
+            if (this.searchFilter.value.types[ClueType[element.attr("data-type")]] ||
+                this.searchFilter.value.tiers[ClueTier[element.attr("data-tier")]]) {
+                element.addClass("active")
             }
+        })
+
+        $(".togglebutton").on("click", (e) => {
+                let target = $(e.currentTarget)
+
+                if (target.hasClass("active")) target.removeClass("active")
+                else target.addClass("active")
+            }
+        )
+
+        $("#filtertoggle").on("click", (e) => {
+            this.filters_visible = !this.filters_visible
+
+            if (this.filters_visible) $("#filters").show()
+            else $("#filters").hide()
         })
 
         $(".filterbutton").on("click", (e) => {
@@ -68,58 +62,93 @@ export function initializeScantrainer() {
             if (type) {
                 let id = ClueType[type]
 
-                uiState.searchFilter.types[id] = !uiState.searchFilter.types[id]
-
-                if (uiState.searchFilter.types[id]) target.removeClass("inactive")
-                else target.addClass("inactive")
+                this.searchFilter.value.types[id] = !this.searchFilter.value.types[id]
             } else {
                 let id = ClueTier[tier]
 
-                uiState.searchFilter.tiers[id] = !uiState.searchFilter.tiers[id]
-
-                if (uiState.searchFilter.tiers[id]) target.removeClass("inactive")
-                else target.addClass("inactive")
+                this.searchFilter.value.tiers[id] = !this.searchFilter.value.tiers[id]
             }
 
-            updateFilter()
-            updateSearch($("#cluesearchbox").val() as string)
+            console.log(this.searchFilter.value)
+
+            this.searchFilter.save()
+
+            this.update()
+            this.search.update()
         })
 
-        $("#filters").hide()
+        this.update()
+    }
 
-        {
-            let search_box = $("#cluesearchbox")
-            let search_results = $("#searchresults").hide()
+    private candidates: ClueStep[] = clues
 
-            search_box.on("input", (e) => {
-                updateSearch((e.target as HTMLInputElement).value)
+    private update() {
+        this.candidates = clues.filter((c) =>
+            this.searchFilter.value.tiers[c.tier] && this.searchFilter.value.types[c.type]
+        )
+    }
+
+    getCandidates() {
+        return this.candidates
+    }
+}
+
+class SearchControl {
+    private filter = new FilterControl(this)
+
+    private search_box =
+        $("#cluesearchbox")
+            .on("input", (e) => {
+                this.update()
             })
-            search_box.on("focusin", () => {
-                search_results.show()
-                search_box.val("")
-                updateSearch(search_box.val() as string)
+            .on("focusin", () => {
+                this.search_results.show()
+                this.search_box.val("")
+                this.update()
             })
-            search_box.on("focusout", (e) => {
+            .on("focusout", (e) => {
                 let reltgt = $(e.relatedTarget)
 
                 if (reltgt.hasClass("cluesearchresult") && reltgt.data("clue")) {
-                    select(reltgt.data("clue"))
-                    search_box.val("")
+                    this.scantrainer.select(reltgt.data("clue"))
+                    this.search_box.val("")
                 }
 
-                search_results.hide()
+                this.search_results.hide()
             })
 
-            search_results.on("click", (e) => {
-                if ($(e.target).data("clue")) {
-                    select($(e.target).data("clue"))
-                    search_box.val("")
-                }
-            })
-        }
+    private search_results = $("#searchresults").hide()
+        .on("click", (e) => {
+            if ($(e.target).data("clue")) {
+                this.scantrainer.select($(e.target).data("clue"))
+                this.search_box.val("")
+            }
+        })
+
+    constructor(private scantrainer: ScanTrainer) {
     }
 
-    function setupTabControls() {
+    update() {
+        let term = this.search_box.val() as string
+
+        let results = fuzzysort.go(term, this.filter.getCandidates(), {
+            key: "searchText",
+            all: true
+        })
+
+        let box = this.search_results.empty()
+
+        for (let e of results) {
+            $("<div>")
+                .addClass("cluesearchresult")
+                .attr("tabindex", -1)
+                .data("clue", e.obj).text(e.target).appendTo(box)
+        }
+    }
+}
+
+class HowToTabControls {
+    constructor() {
         $(".methodtab").on("click", (e) => {
             let key = e.target.dataset.methodtype
 
@@ -131,102 +160,114 @@ export function initializeScantrainer() {
 
             console.log(uiState.preferredHowToTabs)
 
-            activateHowToTab(key)
+            this.activateHowToTab(key)
         })
     }
 
-    setupClueSearch()
-    setupTabControls()
-    setHowToTabs({})
+    setHowToTabs(howto: HowTo) {
+        $(".methodtab").hide()
+        $(".methodtabcontent").hide()
 
-    gotoRoot()
-}
+        for (let key of Object.keys(howto)) {
+            $(`.methodtab[data-methodtype=${key}]`).show()
+        }
 
-export function gotoRoot() {
-    $("#cluesearchpanel").show()
-    $("#solutionpanel").hide()
+        if (howto.text) {
+            $("#textmethodcontent").text(howto.text)
+        }
 
-    uiState.clue = null
-    uiState.method = null
-}
+        if (howto.video) {
+            let video = $("#videoplayer").empty();
+            let vid = video.get()[0] as HTMLVideoElement
 
-export function select(clue: ClueStep) {
-    $("#searchresults").hide()
-    $("#solutionpanel").show()
+            vid.pause()
+            video.empty()
 
-    $("#cluetext").text(clue.clue)
+            video.append($("<source>")
+                .attr("src", howto.video.ref)
+                .attr("type", "video/mp4"))
 
-    if (clue.solution) {
-        $("#cluesolution").show()
-        $("#cluesolutioncontent").text(clue.solution)
-    } else {
-        $("#cluesolution").hide()
+            vid.load()
+            vid.play()
+
+            $("#videoclipcontributor").text(howto.video.contributor)
+        }
+
+        if (howto.scanmap) {
+            $("#mapview").attr("src", `${howto.scanmap}`)
+        }
+
+        let available_tabs = Object.keys(howto)
+        if (available_tabs.length > 0) {
+            let best = uiState.preferredHowToTabs.concat(["video", "text", "scanmap", "image"]).find((e) => e in howto)
+
+            if (best) this.activateHowToTab(best)
+            else this.activateHowToTab(available_tabs[0])
+        }
     }
 
-    if (clue.methods.length > 0) {
-        setMethod(clue.methods[0])
-    } else {
-        $("#cluemethod").hide()
-        setHowToTabs({})
-    }
-}
+    activateHowToTab(key: string) {
+        $(".methodtab").removeClass("activetab")
+        $(`.methodtab[data-methodtype=${key}]`).addClass("activetab")
 
-export function setMethod(method: Method) {
-    $(".cluemethodcontent").hide()
-    method.sendToUi()
-    $(`.cluemethodcontent[data-methodtype=${method.type}]`).show()
-
-    $("#cluemethod").show()
-    setHowToTabs(method.howto())
-}
-
-
-export function setHowToTabs(howto: HowTo) {
-    $(".methodtab").hide()
-    $(".methodtabcontent").hide()
-
-    for (let key of Object.keys(howto)) {
-        $(`.methodtab[data-methodtype=${key}]`).show()
+        $(".methodtabcontent").hide()
+        $(`.methodtabcontent[data-methodtype=${key}]`).show()
     }
 
-    if (howto.text) {
-        $("#textmethodcontent").text(howto.text)
-    }
+    setTas(howto: HowTo) {
 
-    if (howto.video) {
-        let video = $("#videoplayer").empty();
-        let vid = video.get()[0] as HTMLVideoElement
-
-        vid.pause()
-        video.empty()
-
-        video.append($("<source>")
-            .attr("src", howto.video.ref)
-            .attr("type", "video/mp4"))
-
-        vid.load()
-        vid.play()
-
-        $("#videoclipcontributor").text(howto.video.contributor)
-    }
-
-    if (howto.scanmap) {
-        $("#mapview").attr("src", `${howto.scanmap}`)
-    }
-
-    let available_tabs = Object.keys(howto)
-    if (available_tabs.length > 0) {
-        let best = uiState.preferredHowToTabs.concat(["video", "text", "scanmap", "image"]).find((e) => e in howto)
-
-        if (best) activateHowToTab(best)
-        else activateHowToTab(available_tabs[0])
     }
 }
 
-function activateHowToTab(key: string) {
-    $(".methodtab").removeClass("activetab")
-    $(`.methodtab[data-methodtype=${key}]`).addClass("activetab")
+class ScanTrainer {
+    public search = new SearchControl(this)
+    public tabcontrols = new HowToTabControls()
 
-    $(".methodtabcontent").hide()
-    $(`.methodtabcontent[data-methodtype=${key}]`).show()
+    constructor() {
+        this.gotoRoot()
+    }
+
+    gotoRoot() {
+        $("#cluesearchpanel").show()
+        $("#solutionpanel").hide()
+
+        uiState.clue = null
+        uiState.method = null
+    }
+
+    select(clue: ClueStep) {
+        $("#searchresults").hide()
+        $("#solutionpanel").show()
+
+        $("#cluetext").text(clue.clue)
+
+        if (clue.solution) {
+            $("#cluesolution").show()
+            $("#cluesolutioncontent").text(clue.solution)
+        } else {
+            $("#cluesolution").hide()
+        }
+
+        if (clue.methods.length > 0) {
+            this.setMethod(clue.methods[0])
+        } else {
+            $("#cluemethod").hide()
+            this.tabcontrols.setHowToTabs({})
+        }
+    }
+
+    setMethod(method: Method) {
+        $(".cluemethodcontent").hide()
+        method.sendToUi()
+        $(`.cluemethodcontent[data-methodtype=${method.type}]`).show()
+
+        $("#cluemethod").show()
+        this.tabcontrols.setHowToTabs(method.howto())
+    }
+}
+
+export let scantrainer: ScanTrainer = null
+
+export function initialize() {
+    scantrainer = new ScanTrainer()
 }

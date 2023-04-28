@@ -33,11 +33,6 @@ export class ClueStep {
                 public searchText: string,
     ) {
     }
-
-    method(m: Method) {
-        this.methods.push(m)
-        m.clue = this
-    }
 }
 
 export class ScanStep extends ClueStep {

@@ -1,5 +1,5 @@
-import {setHowToTabs} from "./scantrainer";
 import {ClueStep, ScanStep} from "./clues";
+import {scantrainer} from "./scantrainer";
 
 export type Video = {
     ref: string,
@@ -159,7 +159,7 @@ export class ScanTreeNode {
 
         this.generateChildren(0, $("#scantreeview").empty())
 
-        setHowToTabs(this.howTo())
+        scantrainer.tabcontrols.setHowToTabs(this.howTo())
     }
 
     generateList(depth: number, container: JQuery) {
@@ -196,9 +196,7 @@ export class ScanTreeNode {
 
         let triples = this.children().filter((e) => e.parent.key.kind == PingType.TRIPLE)
 
-        if (triples.length == 1) {
-            triples.forEach((e) => e.generateList(depth, container))
-        } else if (triples.length > 1) {
+        if (triples.length >= 1) {
             let line = $("<div>")
                 .addClass("scantreeline")
                 .css("margin-left", `${depth * 12}px`)

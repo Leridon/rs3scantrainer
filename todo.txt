@@ -1,0 +1,8 @@
+- Arrow key/enter control for the search
+- Finish the filter function
+- Fix the sizing of videos/images.
+- Fix sizing of search results.
+- Finish Mapping of scans.
+- Automatically read clues.
+- Integrate the alt 1 map.
+- Save preferences in local storage

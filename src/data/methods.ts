@@ -100,7 +100,7 @@ function loadScanMethods() {
 
     let videos = {
         zanaris: {
-            arrival: {ref: "./img/scanassets/zanaris/Arrival.mp4", contributor: "Leridon"},
+            arrival: {ref: "./img/scanassets/zanaris/Arrival.webm", contributor: "Leridon"},
             AtoB: {ref: "./img/scanassets/zanaris/AtoB.webm", contributor: "Leridon"},
             BtoC: {ref: "./img/scanassets/zanaris/BtoC.webm", contributor: "Leridon"},
             CtoD: {ref: "./img/scanassets/zanaris/CtoD.webm", contributor: "Leridon"},

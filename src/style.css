@@ -35,19 +35,20 @@ html, body, #main-content {
     display: block;
 }
 
-.filterbutton {
+.togglebutton {
     margin: 1px;
     text-align: center;
     padding: 0;
+    opacity: 0.4;
+}
+
+.togglebutton.active {
+    opacity: 1;
 }
 
 .filterbutton > img {
     max-width: 80%;
     max-height: 80%;
-}
-
-.inactive {
-    opacity: 0.4;
 }
 
 #pathview {
@@ -143,4 +144,12 @@ video {
 .cluesearchresult {
     cursor: pointer;
     text-underline: dash;
+}
+
+.cluesearchresult:hover {
+    background-color: #FFFFFF33;
+}
+
+.cluesearchresult.active {
+    background-color: #FFFFFF33;
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>MyClueSolver</title>
+    <title>RS3ScanTrainer</title>
     <script
             src="https://code.jquery.com/jquery-3.6.4.slim.js"
             integrity="sha256-dWvV84T6BhzO4vG6gWhsWVKVoa4lVmLnpBOZh/CAHU4="
@@ -32,8 +32,8 @@
                     </div>
                 </div>
 
-                <div class="flex-grow-0" style="display: none; margin-left: 6px">
-                    <div class="nissmallimagebutton" id="filtertoggle" style="text-align: center">
+                <div class="flex-grow-0" style="margin-left: 6px">
+                    <div class="nissmallimagebutton togglebutton" id="filtertoggle">
                         F
                     </div>
                 </div>
@@ -47,27 +47,27 @@
                         Tier
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-tier="easy" title="Include easy clues">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="easy" title="Include easy clues">
                             <img src="img/icons/sealedeasy.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-tier="medium" title="Include medium clues">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="medium" title="Include medium clues">
                             <img src="img/icons/sealedmedium.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-tier="hard" title="Include hard clues">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="hard" title="Include hard clues">
                             <img src="img/icons/sealedhard.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-tier="elite" title="Include elite clues">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="elite" title="Include elite clues">
                             <img src="img/icons/sealedelite.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-tier="master" title="Include master clues">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="master" title="Include master clues">
                             <img src="img/icons/sealedmaster.png">
                         </div>
                     </div>
@@ -78,27 +78,27 @@
                         Type
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="anagram">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="anagram">
                             A
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="compass">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="compass">
                             <img src="img/icons/arrow.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="anagram">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="anagram">
                             <img src="img/icons/sextant.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="cryptic">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="cryptic">
                             A
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="emote">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="emote">
                             <img src="img/icons/emotes.png">
                         </div>
                     </div>
@@ -108,22 +108,22 @@
 
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="map">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="map">
                             <img src="img/icons/map.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="scan">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="scan">
                             <img src="img/icons/scan.png">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="simple">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="simple">
                             S
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton" data-type="skilling">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="skilling">
                             SK
                         </div>
                     </div>
@@ -152,7 +152,8 @@
                     <nav style="--bs-breadcrumb-divider: '>'; display: inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb" id="pathview">
                         </ol>
-                    </nav><br>
+                    </nav>
+                    <br>
 
                     <span id="nextscanstep"></span>
                     <div id="scantreeview">

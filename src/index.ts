@@ -2,7 +2,7 @@
 //also gives your editor info about the window.alt1 api
 import * as a1lib from "@alt1/base";
 import "jquery";
-import {initializeScantrainer} from "./scantrainer";
+import {initialize} from "./scantrainer";
 import {loadMethods} from "./data/methods";
 
 let $ = jQuery
@@ -23,6 +23,6 @@ if (window.alt1) {
 }
 
 document.addEventListener("DOMContentLoaded", (e) => {
-    initializeScantrainer()
+    initialize()
 })
 

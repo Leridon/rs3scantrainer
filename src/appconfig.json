@@ -1,5 +1,5 @@
 {
-	"appName": "Scan Trainer",
+	"appName": "Clue Trainer",
 	"description": "Explore scan routes and get help along the way.",
 	"appUrl": "./index.html",
 	"configUrl": "./appconfig.json",

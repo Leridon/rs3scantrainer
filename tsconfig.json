@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "Node"
+		"moduleResolution": "Node",
+		"experimentalDecorators": true
 	},
 	"allowTsInNodeModules": true
 }

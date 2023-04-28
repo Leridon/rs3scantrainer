@@ -1,4 +1,4 @@
-import {ScanStep} from "../clues";
+import {ClueTier, ClueType, ScanStep} from "../clues";
 
 function scan(id: string, where: string, scantext: string, range: number) {
     return new ScanStep(id, `This scroll will work ${where}. Orb scan range: ${range} paces.`, scantext, range)
@@ -29,5 +29,10 @@ export let clues = [
     scan("scanturtleislands", "on The Islands That Once Were Turtles", "Islands That Once Were Turtles", 27),
     scan("scanheartofgielinor", "in the the Heart of Gielinor", "Heart of Gielinor", 49),
 ]
+
+export function byType(type: ClueType) {
+    return clues.filter((e) => e.type == type)
+}
+
 
 export let cluesById = Object.assign({}, ...clues.map((c) => ({[c.id]: c})))

@@ -3,6 +3,7 @@ import * as fuzzysort from "fuzzysort";
 import {clues} from "./data/clues";
 import {HowTo, Method} from "./methods";
 import {storage} from "./storage";
+import {ClueReader} from "./skillbertssolver/reader";
 
 type UIState = {
     clue: ClueStep,
@@ -222,9 +223,16 @@ class HowToTabControls {
 class ScanTrainer {
     public search = new SearchControl(this)
     public tabcontrols = new HowToTabControls()
+    private cluereader = new ClueReader()
 
     constructor() {
         this.gotoRoot()
+
+        $("#solvebbutton").on("click", async () => {
+            let clue = await this.cluereader.find()
+
+            if (clue) this.select(clue)
+        })
     }
 
     gotoRoot() {
@@ -236,6 +244,8 @@ class ScanTrainer {
     }
 
     select(clue: ClueStep) {
+        console.log(clue)
+
         $("#searchresults").hide()
         $("#solutionpanel").show()
 

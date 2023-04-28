@@ -1,8 +1,14 @@
-- Arrow key/enter control for the search
-- Finish the filter function
-- Fix the sizing of videos/images.
-- Fix sizing of search results.
-- Finish Mapping of scans.
-- Automatically read clues.
-- Integrate the alt 1 map.
-- Save preferences in local storage
+- Finish data structure for all clue types and import Skillbert's data.
+- Add auto solving on an interval (lock button)
+- Arrow key/enter control for the search.
+- Finish scan mapping and record more clips.
+    - Fix the sizing of videos/images.
+    - Fix sizing of search results.
+    - Fix display of footer in alt1
+- Get release 0.1 ready for May 5th
+- Integrate the alt 1 map and show spots/tiles
+- Integrate a solving method for compasses
+- Add method display like the old clueguider
+- Add methods or remaining clue types.
+- Add puzzle solvers
+- Track Jacket/Backpack Charges via Chat.

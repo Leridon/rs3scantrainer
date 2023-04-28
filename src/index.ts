@@ -4,6 +4,7 @@ import * as a1lib from "@alt1/base";
 import "jquery";
 import {initialize} from "./scantrainer";
 import {loadMethods} from "./data/methods";
+import ClueScrollReader from "./skillbertssolver/cluesolver/cluereader";
 
 let $ = jQuery
 
@@ -23,6 +24,10 @@ if (window.alt1) {
 }
 
 document.addEventListener("DOMContentLoaded", (e) => {
+    $("#main-content").hide()
+
     initialize()
+
+    $("#main-content").show()
 })
 

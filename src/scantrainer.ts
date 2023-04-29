@@ -1,9 +1,10 @@
-import {ClueStep, ClueTier, ClueType} from "./clues";
+import {ClueStep, ClueTier, ClueType, SimpleSolution} from "./clues";
 import * as fuzzysort from "fuzzysort";
 import {clues} from "./data/clues";
 import {HowTo, Method} from "./methods";
 import {storage} from "./storage";
 import {ClueReader} from "./skillbertssolver/reader";
+import {forClue} from "./data/methods";
 
 type UIState = {
     clue: ClueStep,
@@ -20,8 +21,23 @@ let uiState: UIState = {
 class FilterControl {
     private searchFilter = new storage.Variable("preferences/cluefilters",
         {
-            tiers: [true, true, true, true, true],
-            types: [true, true, true, true, true, true, true, true, true]
+            tiers: {
+                easy: true,
+                medium: true,
+                hard: true,
+                elite: true,
+                master: true
+            },
+            types: {
+                compass: true,
+                coordinates: true,
+                cryptic: true,
+                emote: true,
+                image: true,
+                scan: true,
+                simple: true,
+                skilling: true,
+            }
         }
     )
 
@@ -33,8 +49,8 @@ class FilterControl {
         $(".filterbutton").each((i, e) => {
             let element = $(e)
 
-            if (this.searchFilter.value.types[ClueType[element.attr("data-type")]] ||
-                this.searchFilter.value.tiers[ClueTier[element.attr("data-tier")]]) {
+            if (this.searchFilter.value.types[element.attr("data-type")] ||
+                this.searchFilter.value.tiers[element.attr("data-tier")]) {
                 element.addClass("active")
             }
         })
@@ -60,17 +76,8 @@ class FilterControl {
             let type = target.attr("data-type");
             let tier = target.attr("data-tier");
 
-            if (type) {
-                let id = ClueType[type]
-
-                this.searchFilter.value.types[id] = !this.searchFilter.value.types[id]
-            } else {
-                let id = ClueTier[tier]
-
-                this.searchFilter.value.tiers[id] = !this.searchFilter.value.tiers[id]
-            }
-
-            console.log(this.searchFilter.value)
+            if (type) this.searchFilter.value.types[type] = !this.searchFilter.value.types[type]
+            else this.searchFilter.value.tiers[tier] = !this.searchFilter.value.tiers[tier]
 
             this.searchFilter.save()
 
@@ -85,8 +92,10 @@ class FilterControl {
 
     private update() {
         this.candidates = clues.filter((c) =>
-            this.searchFilter.value.tiers[c.tier] && this.searchFilter.value.types[c.type]
+            (c.tier == null || this.searchFilter.value.tiers[c.tier]) && this.searchFilter.value.types[c.type]
         )
+
+        console.log(this.candidates.length)
     }
 
     getCandidates() {
@@ -132,8 +141,10 @@ class SearchControl {
     update() {
         let term = this.search_box.val() as string
 
+        console.log()
+
         let results = fuzzysort.go(term, this.filter.getCandidates(), {
-            key: "searchText",
+            key: "clue",
             all: true
         })
 
@@ -214,10 +225,6 @@ class HowToTabControls {
         $(".methodtabcontent").hide()
         $(`.methodtabcontent[data-methodtype=${key}]`).show()
     }
-
-    setTas(howto: HowTo) {
-
-    }
 }
 
 class ScanTrainer {
@@ -253,15 +260,26 @@ class ScanTrainer {
 
         $("#cluetext").text(clue.clue)
 
-        if (clue.solution) {
+        if (clue.solution && false) {
+            // TODO: Reenable solutions when they are ready.
             $("#cluesolution").show()
-            $("#cluesolutioncontent").text(clue.solution)
+
+            if (clue.solution.type == "simple") {
+                // TODO: Display coordinates with map
+                $("#cluesolutioncontent").text((clue.solution as SimpleSolution).answer)
+            }
+            // TODO: Display other solution types.
         } else {
             $("#cluesolution").hide()
         }
 
-        if (clue.methods.length > 0) {
-            this.setMethod(clue.methods[0])
+        let methods = forClue(clue)
+
+        console.log(methods)
+
+        // TODO: Handle more than 1 method
+        if (methods.length > 0) {
+            this.setMethod(methods[0])
         } else {
             $("#cluemethod").hide()
             this.tabcontrols.setHowToTabs({})

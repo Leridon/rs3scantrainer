@@ -1,0 +1,9 @@
+{
+	"scripts": {
+		"build": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js",
+		"watch": "npm run build -- --watch"
+	},
+	"dependencies": {
+		"@types/node": "^18.16.3"
+	}
+}

@@ -1,17 +1,26 @@
 import {ChildKey, HowTo, Method, PingType, ScanTree, ScanTreeNode} from "../methods";
-import {cluesById} from "./clues";
+import {clues} from "./clues";
+import {ClueStep} from "../clues";
 
+let methods: Method[][] = []
 
-function associate(v: { id: string, method: Method }) {
-    let clue = cluesById[v.id]
+let n = Math.max(...clues.map((e) => e.id))
 
-    console.log(v.id)
-    console.log(clue)
-
-    clue.methods.push(v.method)
-    v.method.clue = clue
+for (let i = 0; i < n; i++) {
+    methods.push([])
 }
 
+console.log(methods)
+
+function associate(v: { id: number, method: Method }) {
+    console.log(v.id)
+    console.log(methods[v.id])
+    methods[v.id].push(v.method)
+}
+
+export function forClue(clue: ClueStep): Method[] {
+    return methods[clue.id]
+}
 
 function loadScanMethods() {
     class Builder {
@@ -159,7 +168,7 @@ function loadScanMethods() {
     }
 
     associate({
-        id: "scanzanaris",
+        id: 361, //zanaris
         method: tree(
             "img/scanassets/zanaris/zanarismap.png",
             step("Fairy Ring to", "A")
@@ -232,7 +241,7 @@ function loadScanMethods() {
     })
 
     associate({
-        id: "scanardounge",
+        id: 352, // ardounge
         method: tree("img/scanassets/ardounge/ardoungemap.png",
             step("Ardounge teleport to", "A")
                 .howto({
@@ -304,7 +313,7 @@ function loadScanMethods() {
     })
 
     associate({
-        id: "scanpiscatoris",
+        id: 355, // piscatoris
         method: tree("img/scanassets/piscatoris/piscatoris.png",
             step("Fairy ring (AKQ) to", "A")
                 .triple(1)
@@ -379,7 +388,7 @@ function loadScanMethods() {
     })
 
     associate({
-        id: "scandorgeshkaan",
+        id: 362, // dorgeshkaan
         method:
             tree("img/scanassets/dorgeshkaan/dorgeshkaan.png",
                 step("Different level?")

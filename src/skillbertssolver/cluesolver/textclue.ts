@@ -69,7 +69,7 @@ export function solveScanClue(text: string): ScanStep {
 	let bestscore = 0;
 	let best: ScanStep | null = null;
 
-	for(let clue of byType(ClueType.scan)){
+	for(let clue of byType("scan")){
 		let score = oldlib.strcomparescore(str, clue.scantext);
 		if (score > bestscore) {
 			best = clue;

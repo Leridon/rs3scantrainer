@@ -16,6 +16,19 @@ export type Coordinate = {
     level?: number
 }
 
+type GieliCoordinates = {
+    latitude: {
+        degrees: number,
+        minutes: number,
+        direction: "north" | "south"
+    },
+    longitude: {
+        degrees: number,
+        minutes: number,
+        direction: "east" | "west"
+    }
+}
+
 export type SolutionType = "simple" | "variants" | "coordset"
 
 type SolutionBase = { type: SolutionType }
@@ -30,23 +43,23 @@ export type Solution = SimpleSolution | SetSolution | VariantSolution
 type ClueBase = { id: number, clue: string, tier: ClueTier, type: ClueType, solution?: Solution }
 
 export type SimpleStep = ClueBase &
-    { type: "simple", solution: SimpleSolution }
+    { type: "simple", solution: SimpleSolution | VariantSolution }
 export type EmoteStep = ClueBase &
-    { type: "emote", solution: SimpleSolution }
+    { type: "emote", solution: SimpleSolution | VariantSolution }
 export type AnagramStep = ClueBase &
-    { type: "anagram", solution: SimpleSolution }
+    { type: "anagram", solution: SimpleSolution | VariantSolution }
 export type ImageStep = ClueBase &
-    { type: "map", image: number[], solution: SimpleSolution }
+    { type: "image", image: number[], solution: SimpleSolution | VariantSolution }
 export type CrypticStep = ClueBase &
-    { type: "cryptic", solution: SimpleSolution }
+    { type: "cryptic", solution: SimpleSolution | VariantSolution }
 export type CoordinateStep = ClueBase &
-    { type: "coordinates", solution: SimpleSolution }
+    { type: "coordinates", solution: null, coordinates: GieliCoordinates }
 export type SkillingStep = ClueBase &
-    { type: "skilling", solution: SimpleSolution }
+    { type: "skilling", solution: SimpleSolution | VariantSolution }
 export type CompassStep = ClueBase &
-    { type: "compass", candidates: Coordinate[] }
+    { type: "compass", solution: SetSolution }
 export type ScanStep = ClueBase &
-    { type: "scan", scantext: string, range: number, candidates: Coordinate[] }
+    { type: "scan", scantext: string, range: number, solution: SetSolution }
 
 export type ClueStep =
     SimpleStep

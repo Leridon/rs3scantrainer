@@ -51,6 +51,11 @@ html, body, #main-content {
     max-height: 80%;
 }
 
+.icon {
+    max-width: 1.3em;
+    max-height: 1.3em;
+}
+
 #pathview {
     font-size: small;
     margin-bottom: unset;

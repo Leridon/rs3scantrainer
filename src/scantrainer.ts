@@ -6,6 +6,28 @@ import {storage} from "./storage";
 import {ClueReader} from "./skillbertssolver/reader";
 import {forClue} from "./data/methods";
 
+let icons = {
+    tiers: {
+        easy: "img/icons/sealedeasy.png",
+        medium: "img/icons/sealedmedium.png",
+        hard: "img/icons/sealedhard.png",
+        elite: "img/icons/sealedelite.png",
+        master: "img/icons/sealedmaster.png",
+    },
+    types: {
+        "anagram": "img/icons/activeclue.png",
+        "compass": "img/icons/arrow.png",
+        "coordinates": "img/icons/sextant.png",
+        "cryptic": "img/icons/activeclue.png",
+        "emote": "img/icons/emotes.png",
+        "image": "img/icons/map.png",
+        "scan": "img/icons/scan.png",
+        "simple": "img/icons/activeclue.png",
+        "skilling": "img/icons/activeclue.png"
+    }
+}
+
+
 type UIState = {
     clue: ClueStep,
     method: Method,
@@ -107,6 +129,7 @@ class SearchControl {
     private filter = new FilterControl(this)
 
     private search_box =
+
         $("#cluesearchbox")
             .on("input", (e) => {
                 this.update()
@@ -136,6 +159,17 @@ class SearchControl {
         })
 
     constructor(private scantrainer: ScanTrainer) {
+        $(".filterbutton").each((i, e) => {
+            let src = ""
+
+            if ($(e).data().type) {
+                src = icons.types[$(e).data().type]
+            } else if ($(e).data().tier) {
+                src = icons.tiers[$(e).data().tier]
+            }
+
+            $(e).children("img").first().attr("src", src)
+        })
     }
 
     update() {
@@ -259,6 +293,12 @@ class ScanTrainer {
         $("#solutionpanel").show()
 
         $("#cluetext").text(clue.clue)
+
+        console.log(icons.tiers[clue.tier])
+        console.log(icons.types[clue.type])
+
+        $("#activecluetier").attr("src", clue.tier ? icons.tiers[clue.tier] : "")
+        $("#activecluetype").attr("src", icons.types[clue.type])
 
         if (clue.solution && false) {
             // TODO: Reenable solutions when they are ready.

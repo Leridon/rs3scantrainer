@@ -1,15 +1,22 @@
-- Finish data structure for all clue types and import Skillbert's data.
 - Add auto solving on an interval (lock button)
+- Integrate the alt 1 map and show spots/tiles
+- Collapsible panels
+
 - Arrow key/enter control for the search.
-- Finish scan mapping and record more clips.
+- Finish styling
     - Fix the sizing of videos/images.
     - Fix sizing of search results.
     - Fix display of footer in alt1
-- Display type and tier for clue
-- Get release 0.1 ready for May 5th
-- Integrate the alt 1 map and show spots/tiles
+    - Fix inactive filters displaying through search results
+
+- Get release 0.1 ready on May 5th
+    - This is a beta release to iron out issues before the general release.
+    - Remaining scan maps are planned for after
+
+- Finish scan mapping and record more clips.
+
 - Integrate a solving method for compasses
 - Add method display like the old clueguider
-- Add methods or remaining clue types.
+- Add methods for remaining clue types.
 - Add puzzle solvers
 - Track Jacket/Backpack Charges via Chat.

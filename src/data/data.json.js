@@ -5,6 +5,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers of Hild and Penda's house in Burthorpe.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2914,
                 "y": 3522
@@ -17,6 +18,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in the shed just north of east Ardougne.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2618,
                 "y": 3347
@@ -29,6 +31,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers found upstairs in the Westernmost Inn of East Ardougne.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2575,
                 "y": 3324
@@ -42,6 +45,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in the upstairs of a house in Catherby.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2808,
                 "y": 3453
@@ -54,6 +58,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers upstairs of houses in eastern part of Falador.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3048,
                 "y": 3354
@@ -67,6 +72,7 @@ module.exports = [
         "tier": null,
         "clue": "What is 57x89+23?",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2386,
                 "y": 3490
@@ -80,6 +86,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Hans.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3221,
                 "y": 3219
@@ -93,6 +100,7 @@ module.exports = [
         "tier": null,
         "id": 7,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3378,
                 "y": 3445
@@ -106,6 +114,7 @@ module.exports = [
         "tier": null,
         "id": 8,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3204,
                 "y": 3168
@@ -119,6 +128,7 @@ module.exports = [
         "tier": null,
         "id": 9,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3240,
                 "y": 3609
@@ -132,6 +142,7 @@ module.exports = [
         "tier": null,
         "id": 10,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3025,
                 "y": 3702
@@ -145,6 +156,7 @@ module.exports = [
         "tier": null,
         "id": 11,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2717,
                 "y": 3303
@@ -158,6 +170,7 @@ module.exports = [
         "tier": null,
         "id": 12,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3014,
                 "y": 3503
@@ -171,6 +184,7 @@ module.exports = [
         "tier": null,
         "id": 13,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2659,
                 "y": 3676
@@ -184,6 +198,7 @@ module.exports = [
         "tier": null,
         "id": 14,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2607,
                 "y": 3274
@@ -197,6 +212,7 @@ module.exports = [
         "tier": null,
         "id": 15,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2607,
                 "y": 3274
@@ -210,6 +226,7 @@ module.exports = [
         "tier": null,
         "id": 16,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2530,
                 "y": 3306
@@ -223,6 +240,7 @@ module.exports = [
         "tier": null,
         "id": 17,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2793,
                 "y": 3065
@@ -236,6 +254,7 @@ module.exports = [
         "tier": null,
         "id": 18,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3103,
                 "y": 3511
@@ -249,6 +268,7 @@ module.exports = [
         "tier": null,
         "id": 19,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3222,
                 "y": 3473
@@ -262,6 +282,7 @@ module.exports = [
         "tier": null,
         "id": 20,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3288,
                 "y": 3238
@@ -275,6 +296,7 @@ module.exports = [
         "tier": null,
         "id": 21,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3209,
                 "y": 3214
@@ -288,6 +310,7 @@ module.exports = [
         "tier": null,
         "id": 22,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3270,
                 "y": 3182
@@ -301,6 +324,7 @@ module.exports = [
         "tier": null,
         "id": 23,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3221,
                 "y": 3218
@@ -314,6 +338,7 @@ module.exports = [
         "tier": null,
         "id": 24,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2859,
                 "y": 3580
@@ -327,6 +352,7 @@ module.exports = [
         "tier": null,
         "id": 25,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3292,
                 "y": 3240
@@ -340,6 +366,7 @@ module.exports = [
         "tier": null,
         "id": 26,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3058,
                 "y": 3492
@@ -353,6 +380,7 @@ module.exports = [
         "tier": null,
         "id": 27,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3087,
                 "y": 3469
@@ -366,6 +394,7 @@ module.exports = [
         "tier": null,
         "id": 28,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3489,
                 "y": 3288
@@ -379,6 +408,7 @@ module.exports = [
         "tier": null,
         "id": 29,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3227,
                 "y": 3395
@@ -392,6 +422,7 @@ module.exports = [
         "tier": null,
         "id": 30,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2957,
                 "y": 3514
@@ -405,6 +436,7 @@ module.exports = [
         "tier": null,
         "id": 31,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3014,
                 "y": 3223
@@ -418,6 +450,7 @@ module.exports = [
         "tier": null,
         "id": 32,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2672,
                 "y": 3417
@@ -431,6 +464,7 @@ module.exports = [
         "tier": null,
         "id": 33,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3166,
                 "y": 3306
@@ -444,6 +478,7 @@ module.exports = [
         "tier": null,
         "id": 34,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2611,
                 "y": 3306
@@ -457,6 +492,7 @@ module.exports = [
         "tier": null,
         "id": 35,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2611,
                 "y": 3305
@@ -470,6 +506,7 @@ module.exports = [
         "tier": null,
         "id": 36,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2958,
@@ -677,6 +714,7 @@ module.exports = [
         "tier": null,
         "id": 37,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3187,
@@ -929,6 +967,7 @@ module.exports = [
         "tier": null,
         "id": 38,
         "solution": {
+            "type": "coordset",
             "candidates": []
         },
         "range": 38,
@@ -940,6 +979,7 @@ module.exports = [
         "tier": null,
         "id": 39,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2185,
                 "y": 3291
@@ -1858,6 +1898,7 @@ module.exports = [
         "tier": null,
         "id": 40,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2458,
                 "y": 3181
@@ -2776,6 +2817,7 @@ module.exports = [
         "tier": null,
         "id": 41,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2617,
                 "y": 3077
@@ -3694,6 +3736,7 @@ module.exports = [
         "tier": null,
         "id": 42,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2725,
                 "y": 3340
@@ -4612,6 +4655,7 @@ module.exports = [
         "tier": null,
         "id": 43,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2488,
                 "y": 3308
@@ -5530,6 +5574,7 @@ module.exports = [
         "tier": null,
         "id": 44,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2565,
                 "y": 3247
@@ -6448,6 +6493,7 @@ module.exports = [
         "tier": null,
         "id": 45,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2658,
                 "y": 3489
@@ -7366,6 +7412,7 @@ module.exports = [
         "tier": null,
         "id": 46,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3026,
                 "y": 3630
@@ -8284,6 +8331,7 @@ module.exports = [
         "tier": null,
         "id": 47,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3312,
                 "y": 3528
@@ -9202,6 +9250,7 @@ module.exports = [
         "tier": null,
         "id": 48,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2455,
                 "y": 3229
@@ -10120,6 +10169,7 @@ module.exports = [
         "tier": null,
         "id": 49,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3102,
                 "y": 3133
@@ -11038,6 +11088,7 @@ module.exports = [
         "tier": null,
         "id": 50,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2613,
                 "y": 3483
@@ -11956,6 +12007,7 @@ module.exports = [
         "tier": null,
         "id": 51,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2923,
                 "y": 3210
@@ -12874,6 +12926,7 @@ module.exports = [
         "tier": null,
         "id": 52,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2537,
                 "y": 3867
@@ -13792,6 +13845,7 @@ module.exports = [
         "tier": null,
         "id": 53,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2649,
                 "y": 3232
@@ -14710,6 +14764,7 @@ module.exports = [
         "tier": null,
         "id": 54,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3044,
                 "y": 3399
@@ -15628,6 +15683,7 @@ module.exports = [
         "tier": null,
         "id": 55,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2971,
                 "y": 3414
@@ -16546,6 +16602,7 @@ module.exports = [
         "tier": null,
         "id": 56,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3290,
                 "y": 3373
@@ -17464,6 +17521,7 @@ module.exports = [
         "tier": null,
         "id": 57,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2665,
                 "y": 3562
@@ -18382,6 +18440,7 @@ module.exports = [
         "tier": null,
         "id": 58,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2906,
                 "y": 3296
@@ -19300,6 +19359,7 @@ module.exports = [
         "tier": null,
         "id": 59,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3021,
                 "y": 3914
@@ -20218,6 +20278,7 @@ module.exports = [
         "tier": null,
         "id": 60,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2579,
                 "y": 3597
@@ -21136,6 +21197,7 @@ module.exports = [
         "tier": null,
         "id": 61,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3432,
                 "y": 3268
@@ -22054,6 +22116,7 @@ module.exports = [
         "tier": null,
         "id": 62,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3093,
                 "y": 3227
@@ -22972,6 +23035,7 @@ module.exports = [
         "tier": null,
         "id": 63,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3166,
                 "y": 3360
@@ -22985,6 +23049,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates outside the bank in the north of east-ardougne",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2619,
                 "y": 3338
@@ -22997,6 +23062,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in a house in Catherby.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2832,
                 "y": 3447
@@ -23009,6 +23075,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in the chicken coop in the farm north of Port Sarim.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3020,
                 "y": 3292
@@ -23021,6 +23088,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Hans to solve the clue.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3222,
                 "y": 3219
@@ -23033,6 +23101,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers above the shops in Varrock.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3203,
                 "y": 3416
@@ -23046,6 +23115,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers found upstairs in the houses of East Ardougne.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2574,
                 "y": 3325
@@ -23058,6 +23128,7 @@ module.exports = [
         "tier": null,
         "clue": "Search chests found in the upstairs of shops in Port Sarim.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3014,
                 "y": 3206
@@ -23070,6 +23141,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers on the first floor of a building overlooking Ardougne market.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2655,
                 "y": 3322
@@ -23083,6 +23155,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in Ivy's house in Taverley.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2916,
                 "y": 3448
@@ -23095,6 +23168,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in Canifis.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3507,
                 "y": 3498
@@ -23107,6 +23181,7 @@ module.exports = [
         "tier": null,
         "clue": "Search for a crate on the ground floor of a house in Seers' Village.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2700,
                 "y": 3471
@@ -23119,6 +23194,7 @@ module.exports = [
         "tier": null,
         "clue": "Search through chests found in the upstairs of houses in eastern Falador.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3035,
                 "y": 3364
@@ -23132,6 +23208,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers of houses in Burthorpe.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2929,
                 "y": 3570
@@ -23144,6 +23221,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the chests in the Dwarven Mine.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3019,
                 "y": 3450
@@ -23157,6 +23235,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in a house in Draynor Village.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3098,
                 "y": 3277
@@ -23169,6 +23248,7 @@ module.exports = [
         "tier": null,
         "clue": "Search for a crate in Varrock Palace.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3223,
                 "y": 3493
@@ -23181,6 +23261,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the boxes in the house in Al Kharid with racks of silk.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3290,
                 "y": 3203
@@ -23193,6 +23274,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the boxes in the house near the south entrance of Varrock.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3203,
                 "y": 3385
@@ -23205,6 +23287,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates near a cart in Varrock.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3225,
                 "y": 3452
@@ -23217,6 +23300,7 @@ module.exports = [
         "tier": null,
         "clue": "Look in the ground floor crates of houses in Falador.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3029,
                 "y": 3355
@@ -23229,6 +23313,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in Draynor Manor.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3108,
                 "y": 3363
@@ -23242,6 +23327,7 @@ module.exports = [
         "tier": null,
         "clue": "Search for a crate in a building in Hemenster.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2637,
                 "y": 3454
@@ -23254,6 +23340,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in yard of Citharede Abbey.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3416,
                 "y": 3158
@@ -23266,6 +23353,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to the staff of Sinclair Mansion.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2734,
                 "y": 3581
@@ -23279,6 +23367,7 @@ module.exports = [
         "tier": null,
         "clue": "Search in the south-east corner of the Artisan Dwarves' workshop in Falador.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3060,
                 "y": 3334
@@ -23292,6 +23381,7 @@ module.exports = [
         "tier": null,
         "clue": "Search through some drawers in the upstairs of a house in Rimmington.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2966,
                 "y": 3216
@@ -23305,6 +23395,7 @@ module.exports = [
         "tier": null,
         "clue": "Search upstairs in the houses of Seers' Village for some drawers.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2714,
                 "y": 3471
@@ -23317,6 +23408,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in a house in Yanille that has a piano.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2597,
                 "y": 3105
@@ -23329,6 +23421,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in the ground floor of a shop in Yanille.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2571,
                 "y": 3084
@@ -23341,6 +23434,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Donovan, the family handyman.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2737,
                 "y": 3581
@@ -23354,6 +23448,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the boxes in one of the tents in Al Kharid.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3307,
                 "y": 3207
@@ -23366,6 +23461,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crate near a cart in Port Khazard.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2661,
                 "y": 3149
@@ -23378,6 +23474,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Brimstail.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2404,
                 "y": 3421
@@ -23391,6 +23488,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Roavar.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3494,
                 "y": 3474
@@ -23403,6 +23501,7 @@ module.exports = [
         "tier": null,
         "clue": "Dig near some giant mushrooms behind the Grand Tree.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2463,
                 "y": 3499
@@ -23415,6 +23514,7 @@ module.exports = [
         "tier": null,
         "clue": "Search a barrel outside the Pick and Lute inn, in Taverley.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2886,
                 "y": 3449
@@ -23427,6 +23527,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in the house at the north end of the East Ardougne Market.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2658,
                 "y": 3324
@@ -23439,6 +23540,7 @@ module.exports = [
         "tier": null,
         "clue": "Search a barrel outside the mill, in Taverley.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2893,
                 "y": 3420
@@ -23451,6 +23553,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Gaius in Burthorpe.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2926,
                 "y": 3548
@@ -23463,6 +23566,7 @@ module.exports = [
         "tier": null,
         "clue": "..s in Burthorpe.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2926,
                 "y": 3548
@@ -23476,6 +23580,7 @@ module.exports = [
         "tier": null,
         "clue": "Search a barrel east of Challenge Mistress Fara, in Burthorpe.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2912,
                 "y": 3530
@@ -23488,6 +23593,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Arhein in Catherby.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2804,
                 "y": 3431
@@ -23500,6 +23606,7 @@ module.exports = [
         "tier": null,
         "clue": "Talk to the bartender of the Rusty Anchor in Port Sarim.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3047,
                 "y": 3258
@@ -23512,6 +23619,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in Horvik's armoury.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3229,
                 "y": 3434
@@ -23524,6 +23632,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Ulizius.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3444,
                 "y": 3460
@@ -23536,6 +23645,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the boxes in the Goblin house near Lumbridge.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3247,
                 "y": 3245
@@ -23548,6 +23658,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in Falador's chainmail shop.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2970,
                 "y": 3311
@@ -23560,6 +23671,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the chests in Al Kharid palace.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3301,
                 "y": 3165
@@ -23572,6 +23684,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates just outside the armour shop in East Ardougne.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2654,
                 "y": 3299
@@ -23584,6 +23697,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Hajedy.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2773,
                 "y": 3215
@@ -23596,6 +23710,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in East Ardougne's general store.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2615,
                 "y": 3292
@@ -23608,6 +23723,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Ellis in Al Kharid.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3275,
                 "y": 3195
@@ -23620,6 +23736,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the chest in the left-hand tower of Camelot Castle.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2749,
                 "y": 3495
@@ -23632,6 +23749,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the chest in the Duke of Lumbridge's bedroom.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3209,
                 "y": 3220
@@ -23645,6 +23763,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates near the Lumbridge Market.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3192,
                 "y": 3258
@@ -23657,6 +23776,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Kangai Mau.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2793,
                 "y": 3183
@@ -23669,6 +23789,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Doric, who lives north of Falador.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2958,
                 "y": 3442
@@ -23681,6 +23802,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to a referee.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2386,
                 "y": 3490
@@ -23694,6 +23816,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers upstairs in the bank to the East of Varrock.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3254,
                 "y": 3421
@@ -23707,6 +23830,7 @@ module.exports = [
         "tier": null,
         "clue": "Talk to Zeke in Al Kharid.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3287,
                 "y": 3188
@@ -23719,6 +23843,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to the bartender of the Blue Moon Inn in Varrock.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3225,
                 "y": 3400
@@ -23731,6 +23856,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crate in the left-hand tower of Lumbridge castle.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3228,
                 "y": 3213
@@ -23743,6 +23869,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in one of Gertrude's bedrooms.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3155,
                 "y": 3406
@@ -23755,6 +23882,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Hazelmere.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2678,
                 "y": 3087
@@ -23768,6 +23896,7 @@ module.exports = [
         "tier": null,
         "clue": "What is 19 to the power of 3?",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2678,
                 "y": 3087
@@ -23781,6 +23910,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers in Catherby's Archery Shop.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2827,
                 "y": 3456
@@ -23793,6 +23923,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the drawers upstairs in Falador's shield shop.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2973,
                 "y": 3386
@@ -23805,6 +23936,7 @@ module.exports = [
         "tier": null,
         "clue": "Talk to the Squire in the White Knights' castle in Falador.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2973,
                 "y": 3342
@@ -23817,6 +23949,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates of Falador's general store.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2959,
                 "y": 3386
@@ -23829,6 +23962,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in the Barbarian Village helmet shop.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3075,
                 "y": 3430
@@ -23841,6 +23975,7 @@ module.exports = [
         "tier": null,
         "clue": "Search the crates in the Port Sarim fishing shop.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3014,
                 "y": 3224
@@ -23853,6 +23988,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Sir Kay in Camelot Castle.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2760,
                 "y": 3499
@@ -23865,6 +24001,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to Ned in Draynor Village.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3100,
                 "y": 3257
@@ -23877,6 +24014,7 @@ module.exports = [
         "tier": null,
         "clue": "Speak to the Challenge Mistress in Burthorpe.",
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2886,
                 "y": 3530
@@ -23889,6 +24027,7 @@ module.exports = [
         "tier": null,
         "id": 139,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3057,
                 "y": 3491
@@ -23902,6 +24041,7 @@ module.exports = [
         "tier": null,
         "id": 140,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3014,
                 "y": 3227
@@ -23915,6 +24055,7 @@ module.exports = [
         "tier": null,
         "id": 141,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3358,
                 "y": 3345
@@ -23928,6 +24069,7 @@ module.exports = [
         "tier": null,
         "id": 142,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2521,
                 "y": 3496
@@ -23941,11 +24083,13 @@ module.exports = [
         "tier": null,
         "id": 143,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "cluespot",
                     "name": "Dig spot",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2133,
                             "y": 5162
@@ -23962,11 +24106,13 @@ module.exports = [
         "tier": null,
         "id": 143,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "entrance",
                     "name": "Boat",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 3678,
                             "y": 3538
@@ -23983,6 +24129,7 @@ module.exports = [
         "tier": null,
         "id": 144,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3134,
                 "y": 2802
@@ -23996,6 +24143,7 @@ module.exports = [
         "tier": null,
         "id": 145,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3396,
                 "y": 2916
@@ -24009,6 +24157,7 @@ module.exports = [
         "tier": null,
         "id": 146,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2474,
                 "y": 3428
@@ -24022,11 +24171,13 @@ module.exports = [
         "tier": null,
         "id": 147,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "cluespot",
                     "name": "Location",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 3041,
                             "y": 9820
@@ -24043,11 +24194,13 @@ module.exports = [
         "tier": null,
         "id": 147,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "entrance",
                     "name": "Entrance",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 3019,
                             "y": 3450
@@ -24064,6 +24217,7 @@ module.exports = [
         "tier": null,
         "id": 148,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2702,
                 "y": 3407
@@ -24077,6 +24231,7 @@ module.exports = [
         "tier": null,
         "id": 149,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3095,
                 "y": 3152
@@ -24090,6 +24245,7 @@ module.exports = [
         "tier": null,
         "id": 150,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2489,
                 "y": 3490
@@ -24103,6 +24259,7 @@ module.exports = [
         "tier": null,
         "id": 151,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2340,
                 "y": 3185
@@ -24116,11 +24273,13 @@ module.exports = [
         "tier": null,
         "id": 152,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "digspot",
                     "name": "Dig spot",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2832,
                             "y": 9586
@@ -24137,11 +24296,13 @@ module.exports = [
         "tier": null,
         "id": 152,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "entrance",
                     "name": "Cave entrance",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2857,
                             "y": 3168
@@ -24158,6 +24319,7 @@ module.exports = [
         "tier": null,
         "id": 153,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3479,
                 "y": 3090
@@ -24171,6 +24333,7 @@ module.exports = [
         "tier": null,
         "id": 154,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3160,
                 "y": 9905
@@ -24184,6 +24347,7 @@ module.exports = [
         "tier": null,
         "id": 155,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2969,
                 "y": 2974
@@ -24197,6 +24361,7 @@ module.exports = [
         "tier": null,
         "id": 156,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2599,
                 "y": 3266
@@ -24210,6 +24375,7 @@ module.exports = [
         "tier": null,
         "id": 157,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2519,
                 "y": 3593
@@ -24223,11 +24389,13 @@ module.exports = [
         "tier": null,
         "id": 158,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "entrance",
                     "name": "Entrance",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2569,
                             "y": 3122
@@ -24244,11 +24412,13 @@ module.exports = [
         "tier": null,
         "id": 158,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "entrance",
                     "name": "Altar",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2571,
                             "y": 9500
@@ -24265,11 +24435,13 @@ module.exports = [
         "tier": null,
         "id": 158,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "entrance",
                     "name": "Location",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2576,
                             "y": 9583
@@ -24286,6 +24458,7 @@ module.exports = [
         "tier": null,
         "id": 159,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2668,
                 "y": 3240
@@ -24299,6 +24472,7 @@ module.exports = [
         "tier": null,
         "id": 160,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2577,
                 "y": 3465
@@ -24312,11 +24486,13 @@ module.exports = [
         "tier": null,
         "id": 161,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "cluespot",
                     "name": "Location",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 3219,
                             "y": 9617
@@ -24333,6 +24509,7 @@ module.exports = [
         "tier": null,
         "id": 162,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3176,
                 "y": 2987
@@ -24346,6 +24523,7 @@ module.exports = [
         "tier": null,
         "id": 163,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2710,
                 "y": 3498
@@ -24359,6 +24537,7 @@ module.exports = [
         "tier": null,
         "id": 164,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2562,
                 "y": 3323
@@ -24372,6 +24551,7 @@ module.exports = [
         "tier": null,
         "id": 165,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3084,
                 "y": 3257
@@ -24385,6 +24565,7 @@ module.exports = [
         "tier": null,
         "id": 166,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3189,
                 "y": 3433
@@ -24398,6 +24579,7 @@ module.exports = [
         "tier": null,
         "id": 167,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2648,
                 "y": 3661
@@ -24411,6 +24593,7 @@ module.exports = [
         "tier": null,
         "id": 168,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2848,
                 "y": 3501
@@ -24424,6 +24607,7 @@ module.exports = [
         "tier": null,
         "id": 169,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3222,
                 "y": 3218
@@ -24437,6 +24621,7 @@ module.exports = [
         "tier": null,
         "id": 170,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3208,
                 "y": 3214
@@ -24450,6 +24635,7 @@ module.exports = [
         "tier": null,
         "id": 171,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3203,
                 "y": 3472
@@ -24463,6 +24649,7 @@ module.exports = [
         "tier": null,
         "id": 172,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3203,
                 "y": 3472
@@ -24476,6 +24663,7 @@ module.exports = [
         "tier": null,
         "id": 173,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3166,
                 "y": 3307
@@ -24489,6 +24677,7 @@ module.exports = [
         "tier": null,
         "id": 174,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3218,
                 "y": 3434
@@ -24502,6 +24691,7 @@ module.exports = [
         "tier": null,
         "id": 175,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3068,
                 "y": 3516
@@ -24515,6 +24705,7 @@ module.exports = [
         "tier": null,
         "id": 176,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3087,
                 "y": 3469
@@ -24528,6 +24719,7 @@ module.exports = [
         "tier": null,
         "id": 177,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3087,
                 "y": 3469
@@ -24541,6 +24733,7 @@ module.exports = [
         "tier": null,
         "id": 178,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2818,
                 "y": 3353
@@ -24554,6 +24747,7 @@ module.exports = [
         "tier": null,
         "id": 179,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2611,
                 "y": 3305
@@ -24567,6 +24761,7 @@ module.exports = [
         "tier": null,
         "id": 180,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3028,
                 "y": 3217
@@ -24580,6 +24775,7 @@ module.exports = [
         "tier": null,
         "id": 181,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3257,
                 "y": 3487
@@ -24593,6 +24789,7 @@ module.exports = [
         "tier": null,
         "id": 182,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3376,
                 "y": 3274
@@ -24606,6 +24803,7 @@ module.exports = [
         "tier": null,
         "id": 183,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3057,
                 "y": 3498
@@ -24619,6 +24817,7 @@ module.exports = [
         "tier": null,
         "id": 184,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3113,
                 "y": 3152
@@ -24632,6 +24831,7 @@ module.exports = [
         "tier": null,
         "id": 185,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2800,
                 "y": 3076
@@ -24645,6 +24845,7 @@ module.exports = [
         "tier": null,
         "id": 186,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2773,
                 "y": 3172
@@ -24658,6 +24859,7 @@ module.exports = [
         "tier": null,
         "id": 187,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2574,
                 "y": 3322
@@ -24671,6 +24873,7 @@ module.exports = [
         "tier": null,
         "id": 188,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2765,
                 "y": 3274
@@ -24684,6 +24887,7 @@ module.exports = [
         "tier": null,
         "id": 189,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2399,
                 "y": 4470
@@ -24697,6 +24901,7 @@ module.exports = [
         "tier": null,
         "id": 190,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3362,
                 "y": 3305
@@ -24710,6 +24915,7 @@ module.exports = [
         "tier": null,
         "id": 191,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3498,
                 "y": 3507
@@ -24723,6 +24929,7 @@ module.exports = [
         "tier": null,
         "id": 192,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2525,
                 "y": 3437
@@ -24736,6 +24943,7 @@ module.exports = [
         "tier": null,
         "id": 193,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2906,
                 "y": 3188
@@ -24749,6 +24957,7 @@ module.exports = [
         "tier": null,
         "id": 194,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2930,
                 "y": 3550
@@ -24762,6 +24971,7 @@ module.exports = [
         "tier": null,
         "id": 195,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2710,
                 "y": 3479
@@ -24775,6 +24985,7 @@ module.exports = [
         "tier": null,
         "id": 196,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2519,
                 "y": 3259
@@ -24788,6 +24999,7 @@ module.exports = [
         "tier": null,
         "id": 197,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2656,
                 "y": 3159
@@ -24801,6 +25013,7 @@ module.exports = [
         "tier": null,
         "id": 198,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3279,
                 "y": 2786
@@ -24814,6 +25027,7 @@ module.exports = [
         "tier": null,
         "id": 199,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3358,
                 "y": 2971
@@ -24827,6 +25041,7 @@ module.exports = [
         "tier": null,
         "id": 200,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3356,
                 "y": 3434
@@ -24840,6 +25055,7 @@ module.exports = [
         "tier": null,
         "id": 201,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2671,
                 "y": 3438
@@ -24853,6 +25069,7 @@ module.exports = [
         "tier": null,
         "id": 202,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2514,
                 "y": 3040
@@ -24866,6 +25083,7 @@ module.exports = [
         "tier": null,
         "id": 203,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2809,
                 "y": 3165
@@ -24879,6 +25097,7 @@ module.exports = [
         "tier": null,
         "id": 204,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2999,
                 "y": 3110
@@ -24892,6 +25111,7 @@ module.exports = [
         "tier": null,
         "id": 205,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3288,
                 "y": 3022
@@ -24905,6 +25125,7 @@ module.exports = [
         "tier": null,
         "id": 206,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3356,
                 "y": 3508
@@ -24918,6 +25139,7 @@ module.exports = [
         "tier": null,
         "id": 207,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3644,
                 "y": 3494
@@ -24931,6 +25153,7 @@ module.exports = [
         "tier": null,
         "id": 208,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2812,
                 "y": 3161
@@ -24944,6 +25167,7 @@ module.exports = [
         "tier": null,
         "id": 209,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3355,
                 "y": 3349
@@ -24957,6 +25181,7 @@ module.exports = [
         "tier": null,
         "id": 210,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2691,
                 "y": 3508
@@ -24970,6 +25195,7 @@ module.exports = [
         "tier": null,
         "id": 211,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2509,
                 "y": 3642
@@ -24983,6 +25209,7 @@ module.exports = [
         "tier": null,
         "id": 212,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2616,
                 "y": 3206
@@ -24996,6 +25223,7 @@ module.exports = [
         "tier": null,
         "id": 213,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2594,
                 "y": 3104
@@ -25009,6 +25237,7 @@ module.exports = [
         "tier": null,
         "id": 214,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2697,
                 "y": 3283
@@ -25022,6 +25251,7 @@ module.exports = [
         "tier": null,
         "id": 215,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2399,
                 "y": 3354
@@ -25035,6 +25265,7 @@ module.exports = [
         "tier": null,
         "id": 216,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3169,
                 "y": 3887
@@ -25048,6 +25279,7 @@ module.exports = [
         "tier": null,
         "id": 217,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3177,
                 "y": 2916
@@ -25061,6 +25293,7 @@ module.exports = [
         "tier": null,
         "id": 218,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2439,
                 "y": 3163
@@ -25074,6 +25307,7 @@ module.exports = [
         "tier": null,
         "id": 219,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3154,
                 "y": 3924
@@ -25087,6 +25321,7 @@ module.exports = [
         "tier": null,
         "id": 220,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2614,
                 "y": 3325
@@ -25100,6 +25335,7 @@ module.exports = [
         "tier": null,
         "id": 221,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3235,
                 "y": 3675
@@ -25113,6 +25349,7 @@ module.exports = [
         "tier": null,
         "id": 222,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2991,
                 "y": 3177
@@ -25126,6 +25363,7 @@ module.exports = [
         "tier": null,
         "id": 223,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2589,
                 "y": 3880
@@ -25139,6 +25377,7 @@ module.exports = [
         "tier": null,
         "id": 224,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2834,
                 "y": 2990
@@ -25152,6 +25391,7 @@ module.exports = [
         "tier": null,
         "id": 225,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3613,
                 "y": 3489
@@ -25165,6 +25405,7 @@ module.exports = [
         "tier": null,
         "id": 226,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2795,
                 "y": 3672
@@ -25178,6 +25419,7 @@ module.exports = [
         "tier": null,
         "id": 227,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2849,
                 "y": 3500
@@ -25191,6 +25433,7 @@ module.exports = [
         "tier": null,
         "id": 228,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2921,
                 "y": 3164
@@ -25204,6 +25447,7 @@ module.exports = [
         "tier": null,
         "id": 229,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3294,
                 "y": 2779
@@ -25217,6 +25461,7 @@ module.exports = [
         "tier": null,
         "id": 230,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2585,
                 "y": 3423
@@ -25230,6 +25475,7 @@ module.exports = [
         "tier": null,
         "id": 231,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2852,
                 "y": 2953
@@ -25243,6 +25489,7 @@ module.exports = [
         "tier": null,
         "id": 232,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2509,
                 "y": 3641
@@ -25256,6 +25503,7 @@ module.exports = [
         "tier": null,
         "id": 233,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2845,
                 "y": 3174
@@ -25269,6 +25517,7 @@ module.exports = [
         "tier": null,
         "id": 234,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3424,
                 "y": 3544
@@ -25282,6 +25531,7 @@ module.exports = [
         "tier": null,
         "id": 235,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3036,
                 "y": 3733
@@ -25295,6 +25545,7 @@ module.exports = [
         "tier": null,
         "id": 236,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3674,
                 "y": 3497
@@ -25308,6 +25559,7 @@ module.exports = [
         "tier": null,
         "id": 237,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3814,
                 "y": 3530
@@ -25321,6 +25573,7 @@ module.exports = [
         "tier": null,
         "id": 238,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3172,
                 "y": 2710
@@ -25334,6 +25587,7 @@ module.exports = [
         "tier": null,
         "id": 239,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3052,
                 "y": 3505
@@ -25347,6 +25601,7 @@ module.exports = [
         "tier": null,
         "id": 240,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2404,
                 "y": 3370
@@ -25360,6 +25615,7 @@ module.exports = [
         "tier": null,
         "id": 241,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2187,
                 "y": 3412
@@ -25373,6 +25629,7 @@ module.exports = [
         "tier": null,
         "id": 242,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3195,
                 "y": 3253
@@ -25386,6 +25643,7 @@ module.exports = [
         "tier": null,
         "id": 243,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3241,
                 "y": 3612
@@ -25399,6 +25657,7 @@ module.exports = [
         "tier": null,
         "id": 244,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2998,
                 "y": 3441
@@ -25412,6 +25671,7 @@ module.exports = [
         "tier": null,
         "id": 245,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3053,
                 "y": 3247
@@ -25425,6 +25685,7 @@ module.exports = [
         "tier": null,
         "id": 246,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2276,
                 "y": 3330
@@ -25438,6 +25699,7 @@ module.exports = [
         "tier": null,
         "id": 247,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3578,
                 "y": 3528
@@ -25451,6 +25713,7 @@ module.exports = [
         "tier": null,
         "id": 248,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3304,
                 "y": 3123
@@ -25464,6 +25727,7 @@ module.exports = [
         "tier": null,
         "id": 249,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2442,
                 "y": 3160
@@ -25477,6 +25741,7 @@ module.exports = [
         "tier": null,
         "id": 250,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3105,
                 "y": 3421
@@ -25490,6 +25755,7 @@ module.exports = [
         "tier": null,
         "id": 251,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2612,
                 "y": 3093
@@ -25503,6 +25769,7 @@ module.exports = [
         "tier": null,
         "id": 252,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3492,
                 "y": 3491
@@ -25516,6 +25783,7 @@ module.exports = [
         "tier": null,
         "id": 253,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2548,
                 "y": 3553
@@ -25529,6 +25797,7 @@ module.exports = [
         "tier": null,
         "id": 254,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2474,
                 "y": 3419
@@ -25542,6 +25811,7 @@ module.exports = [
         "tier": null,
         "id": 255,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2793,
                 "y": 3067
@@ -25555,6 +25825,7 @@ module.exports = [
         "tier": null,
         "id": 256,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2529,
                 "y": 3375
@@ -25568,6 +25839,7 @@ module.exports = [
         "tier": null,
         "id": 257,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2827,
                 "y": 3456
@@ -25581,6 +25853,7 @@ module.exports = [
         "tier": null,
         "id": 258,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2443,
                 "y": 3089
@@ -25594,6 +25867,7 @@ module.exports = [
         "tier": null,
         "id": 259,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3159,
                 "y": 3299
@@ -25607,6 +25881,7 @@ module.exports = [
         "tier": null,
         "id": 260,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2741,
                 "y": 3536
@@ -25620,6 +25895,7 @@ module.exports = [
         "tier": null,
         "id": 261,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3371,
                 "y": 3500
@@ -25633,6 +25909,7 @@ module.exports = [
         "tier": null,
         "id": 262,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2676,
                 "y": 3170
@@ -25646,6 +25923,7 @@ module.exports = [
         "tier": null,
         "id": 263,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2607,
                 "y": 3283
@@ -25659,6 +25937,7 @@ module.exports = [
         "tier": null,
         "id": 264,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3102,
                 "y": 3201
@@ -25672,6 +25951,7 @@ module.exports = [
         "tier": null,
         "id": 265,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2954,
                 "y": 3240
@@ -25685,6 +25965,7 @@ module.exports = [
         "tier": null,
         "id": 266,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2762,
                 "y": 3402
@@ -25698,6 +25979,7 @@ module.exports = [
         "tier": null,
         "id": 267,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3043,
                 "y": 3236
@@ -25711,6 +25993,7 @@ module.exports = [
         "tier": null,
         "id": 268,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2994,
                 "y": 3116
@@ -25724,6 +26007,7 @@ module.exports = [
         "tier": null,
         "id": 269,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2974,
                 "y": 3236
@@ -25737,6 +26021,7 @@ module.exports = [
         "tier": null,
         "id": 270,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3357,
                 "y": 3345
@@ -25750,6 +26035,7 @@ module.exports = [
         "tier": null,
         "id": 271,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3211,
                 "y": 3494
@@ -25763,6 +26049,7 @@ module.exports = [
         "tier": null,
         "id": 272,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3046,
                 "y": 3376
@@ -25776,6 +26063,7 @@ module.exports = [
         "tier": null,
         "id": 273,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3091,
                 "y": 3337
@@ -25789,6 +26077,7 @@ module.exports = [
         "tier": null,
         "id": 274,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2758,
                 "y": 3444
@@ -25802,6 +26091,7 @@ module.exports = [
         "tier": null,
         "id": 275,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3298,
                 "y": 3297
@@ -25815,6 +26105,7 @@ module.exports = [
         "tier": null,
         "id": 276,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2729,
                 "y": 3349
@@ -25828,6 +26119,7 @@ module.exports = [
         "tier": null,
         "id": 277,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2893,
                 "y": 3569
@@ -25841,6 +26133,7 @@ module.exports = [
         "tier": null,
         "id": 278,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3109,
                 "y": 3294
@@ -25854,6 +26147,7 @@ module.exports = [
         "tier": null,
         "id": 279,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2614,
                 "y": 3385
@@ -25867,6 +26161,7 @@ module.exports = [
         "tier": null,
         "id": 280,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3321,
                 "y": 3235
@@ -25880,6 +26175,7 @@ module.exports = [
         "tier": null,
         "id": 281,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3304,
                 "y": 3525
@@ -25893,6 +26189,7 @@ module.exports = [
         "tier": null,
         "id": 282,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2633,
                 "y": 3386
@@ -25906,6 +26203,7 @@ module.exports = [
         "tier": null,
         "id": 283,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3080,
                 "y": 3250
@@ -25919,6 +26217,7 @@ module.exports = [
         "tier": null,
         "id": 284,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2922,
                 "y": 3482
@@ -25932,6 +26231,7 @@ module.exports = [
         "tier": null,
         "id": 285,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2948,
                 "y": 3197
@@ -25945,6 +26245,7 @@ module.exports = [
         "tier": null,
         "id": 286,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2948,
                 "y": 3197
@@ -25958,6 +26259,7 @@ module.exports = [
         "tier": null,
         "id": 287,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3426,
                 "y": 2919
@@ -25971,11 +26273,13 @@ module.exports = [
         "tier": null,
         "id": 288,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "cluespot",
                     "name": "Location",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2866,
                             "y": 9877
@@ -25992,11 +26296,13 @@ module.exports = [
         "tier": null,
         "id": 288,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "entrance",
                     "name": "Entrance",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2879,
                             "y": 3459
@@ -26013,6 +26319,7 @@ module.exports = [
         "tier": null,
         "id": 289,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2341,
                 "y": 3676
@@ -26026,6 +26333,7 @@ module.exports = [
         "tier": null,
         "id": 290,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2396,
                 "y": 3479
@@ -26039,6 +26347,7 @@ module.exports = [
         "tier": null,
         "id": 291,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2905,
                 "y": 10206
@@ -26052,6 +26361,7 @@ module.exports = [
         "tier": null,
         "id": 292,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3102,
                 "y": 3159
@@ -26065,6 +26375,7 @@ module.exports = [
         "tier": null,
         "id": 293,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2809,
                 "y": 3192
@@ -26078,6 +26389,7 @@ module.exports = [
         "tier": null,
         "id": 294,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3291,
                 "y": 3239
@@ -26091,6 +26403,7 @@ module.exports = [
         "tier": null,
         "id": 295,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3038,
                 "y": 3192
@@ -26104,6 +26417,7 @@ module.exports = [
         "tier": null,
         "id": 296,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2594,
                 "y": 3085
@@ -26117,6 +26431,7 @@ module.exports = [
         "tier": null,
         "id": 297,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2526,
                 "y": 3164
@@ -26130,6 +26445,7 @@ module.exports = [
         "tier": null,
         "id": 298,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2500,
                 "y": 3863
@@ -26143,6 +26459,7 @@ module.exports = [
         "tier": null,
         "id": 299,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2658,
                 "y": 3292
@@ -26156,6 +26473,7 @@ module.exports = [
         "tier": null,
         "id": 300,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2444,
                 "y": 3051
@@ -26169,6 +26487,7 @@ module.exports = [
         "tier": null,
         "id": 301,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3361,
                 "y": 3506
@@ -26182,6 +26501,7 @@ module.exports = [
         "tier": null,
         "id": 302,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2387,
                 "y": 4468
@@ -26195,6 +26515,7 @@ module.exports = [
         "tier": null,
         "id": 303,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3410,
                 "y": 3330
@@ -26208,6 +26529,7 @@ module.exports = [
         "tier": null,
         "id": 304,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3679,
                 "y": 2965
@@ -26221,6 +26543,7 @@ module.exports = [
         "tier": null,
         "id": 305,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3679,
                 "y": 2965
@@ -26234,6 +26557,7 @@ module.exports = [
         "tier": null,
         "id": 306,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3679,
                 "y": 2965
@@ -26247,6 +26571,7 @@ module.exports = [
         "tier": null,
         "id": 307,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 1785,
                 "y": 11953
@@ -26260,6 +26585,7 @@ module.exports = [
         "tier": null,
         "id": 308,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3390,
                 "y": 3402
@@ -26273,6 +26599,7 @@ module.exports = [
         "tier": null,
         "id": 309,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3003,
                 "y": 3270
@@ -26286,6 +26613,7 @@ module.exports = [
         "tier": null,
         "id": 310,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2347,
                 "y": 3165
@@ -26299,11 +26627,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "pre",
                     "name": "Pre-quest",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2569,
                             "y": 3272
@@ -26320,11 +26650,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "50",
                     "name": "50qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2518,
                             "y": 3353
@@ -26341,11 +26673,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "100",
                     "name": "100qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2755,
                             "y": 3647
@@ -26362,11 +26696,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "150",
                     "name": "150qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2860,
                             "y": 2996
@@ -26383,11 +26719,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "200",
                     "name": "200qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 3673,
                             "y": 3496
@@ -26404,11 +26742,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "250",
                     "name": "250qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 4641,
                             "y": 5387
@@ -26425,11 +26765,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "300",
                     "name": "300qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2704,
                             "y": 5364
@@ -26446,11 +26788,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "350",
                     "name": "350qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 2340,
                             "y": 3675
@@ -26467,11 +26811,13 @@ module.exports = [
         "tier": null,
         "id": 311,
         "solution": {
+            "type": "variants",
             "variants": [
                 {
                     "id": "400",
                     "name": "400qp",
                     "solution": {
+                        "type": "simple",
                         "coordinates": {
                             "x": 4614,
                             "y": 5125
@@ -26488,6 +26834,7 @@ module.exports = [
         "tier": null,
         "id": 312,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3089,
                 "y": 3254
@@ -26501,6 +26848,7 @@ module.exports = [
         "tier": null,
         "id": 313,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3253,
                 "y": 3355
@@ -26514,6 +26862,7 @@ module.exports = [
         "tier": null,
         "id": 314,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3198,
                 "y": 6960
@@ -26527,6 +26876,7 @@ module.exports = [
         "tier": null,
         "id": 315,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2221,
                 "y": 3300
@@ -26540,6 +26890,7 @@ module.exports = [
         "tier": null,
         "id": 316,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3420,
                 "y": 2938
@@ -26553,6 +26904,7 @@ module.exports = [
         "tier": null,
         "id": 317,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3108,
                 "y": 3311
@@ -26566,6 +26918,7 @@ module.exports = [
         "tier": null,
         "id": 318,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2576,
                 "y": 3333
@@ -26579,6 +26932,7 @@ module.exports = [
         "tier": null,
         "id": 319,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2396,
                 "y": 3479
@@ -26592,6 +26946,7 @@ module.exports = [
         "tier": null,
         "id": 320,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2883,
                 "y": 3446
@@ -26605,6 +26960,7 @@ module.exports = [
         "tier": null,
         "id": 321,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3401,
                 "y": 3149
@@ -26618,6 +26974,7 @@ module.exports = [
         "tier": null,
         "id": 322,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2630,
                 "y": 2997
@@ -26631,6 +26988,7 @@ module.exports = [
         "tier": null,
         "id": 323,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3294,
                 "y": 3218
@@ -26644,6 +27002,7 @@ module.exports = [
         "tier": null,
         "id": 324,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2859,
                 "y": 3581
@@ -26657,6 +27016,7 @@ module.exports = [
         "tier": null,
         "id": 325,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2809,
                 "y": 3192
@@ -26670,6 +27030,7 @@ module.exports = [
         "tier": null,
         "id": 326,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2408,
                 "y": 3424
@@ -26683,6 +27044,7 @@ module.exports = [
         "tier": null,
         "id": 327,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3209,
                 "y": 3214
@@ -26696,6 +27058,7 @@ module.exports = [
         "tier": null,
         "id": 328,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3014,
                 "y": 3503
@@ -26709,6 +27072,7 @@ module.exports = [
         "tier": null,
         "id": 329,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2717,
                 "y": 3303
@@ -26722,6 +27086,7 @@ module.exports = [
         "tier": null,
         "id": 330,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2540,
                 "y": 3168
@@ -26735,6 +27100,7 @@ module.exports = [
         "tier": null,
         "id": 331,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3219,
                 "y": 3177
@@ -26748,6 +27114,7 @@ module.exports = [
         "tier": null,
         "id": 332,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2659,
                 "y": 3676
@@ -26761,6 +27128,7 @@ module.exports = [
         "tier": null,
         "id": 333,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2526,
                 "y": 3164
@@ -26774,6 +27142,7 @@ module.exports = [
         "tier": null,
         "id": 334,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2461,
                 "y": 3381
@@ -26787,6 +27156,7 @@ module.exports = [
         "tier": null,
         "id": 335,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3270,
                 "y": 3182
@@ -26800,6 +27170,7 @@ module.exports = [
         "tier": null,
         "id": 336,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2793,
                 "y": 3065
@@ -26813,6 +27184,7 @@ module.exports = [
         "tier": null,
         "id": 337,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2938,
                 "y": 3148
@@ -26826,6 +27198,7 @@ module.exports = [
         "tier": null,
         "id": 338,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2530,
                 "y": 3306
@@ -26839,6 +27212,7 @@ module.exports = [
         "tier": null,
         "id": 339,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3103,
                 "y": 3511
@@ -26852,6 +27226,7 @@ module.exports = [
         "tier": null,
         "id": 340,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2947,
                 "y": 3196
@@ -26865,6 +27240,7 @@ module.exports = [
         "tier": null,
         "id": 341,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3232,
                 "y": 3423
@@ -26878,6 +27254,7 @@ module.exports = [
         "tier": null,
         "id": 342,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3052,
                 "y": 3375
@@ -26891,6 +27268,7 @@ module.exports = [
         "tier": null,
         "id": 343,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3222,
                 "y": 3473
@@ -26904,6 +27282,7 @@ module.exports = [
         "tier": null,
         "id": 344,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2576,
                 "y": 3333
@@ -26917,6 +27296,7 @@ module.exports = [
         "tier": null,
         "id": 345,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2947,
                 "y": 3196
@@ -26930,6 +27310,7 @@ module.exports = [
         "tier": null,
         "id": 346,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3219,
                 "y": 3177
@@ -26943,6 +27324,7 @@ module.exports = [
         "tier": null,
         "id": 347,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3219,
                 "y": 3177
@@ -26956,6 +27338,7 @@ module.exports = [
         "tier": null,
         "id": 348,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2883,
                 "y": 3446
@@ -26969,6 +27352,7 @@ module.exports = [
         "tier": null,
         "id": 349,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3421,
@@ -27236,6 +27620,7 @@ module.exports = [
         "tier": null,
         "id": 350,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2173,
@@ -27393,6 +27778,7 @@ module.exports = [
         "tier": null,
         "id": 351,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3197,
@@ -27525,6 +27911,7 @@ module.exports = [
         "tier": null,
         "id": 352,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2442,
@@ -27677,6 +28064,7 @@ module.exports = [
         "tier": null,
         "id": 353,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2841,
@@ -27779,6 +28167,7 @@ module.exports = [
         "tier": null,
         "id": 354,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3099,
@@ -27896,6 +28285,7 @@ module.exports = [
         "tier": null,
         "id": 355,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2310,
@@ -28038,6 +28428,7 @@ module.exports = [
         "tier": null,
         "id": 356,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2703,
@@ -28260,6 +28651,7 @@ module.exports = [
         "tier": null,
         "id": 357,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2858,
@@ -28397,6 +28789,7 @@ module.exports = [
         "tier": null,
         "id": 358,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3702,
@@ -28569,6 +28962,7 @@ module.exports = [
         "tier": null,
         "id": 359,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3534,
@@ -28686,6 +29080,7 @@ module.exports = [
         "tier": null,
         "id": 360,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2775,
@@ -28828,6 +29223,7 @@ module.exports = [
         "tier": null,
         "id": 361,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2414,
@@ -28950,6 +29346,7 @@ module.exports = [
         "tier": null,
         "id": 362,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3172,
@@ -29022,6 +29419,7 @@ module.exports = [
         "tier": null,
         "id": 363,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2354,
@@ -29194,6 +29592,7 @@ module.exports = [
         "tier": null,
         "id": 364,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2938,
@@ -29296,6 +29695,7 @@ module.exports = [
         "tier": null,
         "id": 365,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2747,
@@ -29408,6 +29808,7 @@ module.exports = [
         "tier": null,
         "id": 366,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2720,
@@ -29515,6 +29916,7 @@ module.exports = [
         "tier": null,
         "id": 367,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3112,
@@ -29622,6 +30024,7 @@ module.exports = [
         "tier": null,
         "id": 368,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2175,
@@ -29724,6 +30127,7 @@ module.exports = [
         "tier": null,
         "id": 369,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3599,
@@ -29821,6 +30225,7 @@ module.exports = [
         "tier": null,
         "id": 370,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2103,
@@ -29928,6 +30333,7 @@ module.exports = [
         "tier": null,
         "id": 371,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 3119,
@@ -30070,6 +30476,7 @@ module.exports = [
         "tier": "master",
         "id": 372,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3282,
                 "y": 2676
@@ -30083,6 +30490,7 @@ module.exports = [
         "tier": "master",
         "id": 373,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2670,
                 "y": 3301
@@ -30096,6 +30504,7 @@ module.exports = [
         "tier": "master",
         "id": 374,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2178,
                 "y": 3403
@@ -30109,6 +30518,7 @@ module.exports = [
         "tier": "master",
         "id": 375,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2947,
                 "y": 2957
@@ -30122,6 +30532,7 @@ module.exports = [
         "tier": "master",
         "id": 376,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3255,
                 "y": 3375
@@ -30135,6 +30546,7 @@ module.exports = [
         "tier": "master",
         "id": 377,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3165,
                 "y": 3493
@@ -30148,6 +30560,7 @@ module.exports = [
         "tier": "master",
         "id": 378,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2722,
                 "y": 5256
@@ -30161,6 +30574,7 @@ module.exports = [
         "tier": "master",
         "id": 379,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3812,
                 "y": 3557
@@ -30174,6 +30588,7 @@ module.exports = [
         "tier": "master",
         "id": 380,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2207,
                 "y": 3362
@@ -30187,6 +30602,7 @@ module.exports = [
         "tier": "master",
         "id": 381,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3165,
                 "y": 3493
@@ -30200,6 +30616,7 @@ module.exports = [
         "tier": "master",
         "id": 382,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2186,
                 "y": 3310
@@ -30213,6 +30630,7 @@ module.exports = [
         "tier": "master",
         "id": 383,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3102,
                 "y": 3157
@@ -30226,6 +30644,7 @@ module.exports = [
         "tier": "master",
         "id": 384,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3165,
                 "y": 3493
@@ -30239,6 +30658,7 @@ module.exports = [
         "tier": "master",
         "id": 385,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3165,
                 "y": 3493
@@ -30252,6 +30672,7 @@ module.exports = [
         "tier": "master",
         "id": 386,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3165,
                 "y": 3493
@@ -30265,6 +30686,7 @@ module.exports = [
         "tier": "master",
         "id": 387,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2975,
                 "y": 3370
@@ -30278,6 +30700,7 @@ module.exports = [
         "tier": "master",
         "id": 388,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2543,
                 "y": 3326
@@ -30291,6 +30714,7 @@ module.exports = [
         "tier": "master",
         "id": 389,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3643,
                 "y": 3306
@@ -30304,6 +30728,7 @@ module.exports = [
         "tier": "master",
         "id": 390,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2190,
                 "y": 3448
@@ -30317,6 +30742,7 @@ module.exports = [
         "tier": "master",
         "id": 391,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3377,
                 "y": 3742
@@ -30330,6 +30756,7 @@ module.exports = [
         "tier": "master",
         "id": 392,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3165,
                 "y": 3492
@@ -30343,6 +30770,7 @@ module.exports = [
         "tier": "master",
         "id": 393,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3060,
                 "y": 3376
@@ -30356,6 +30784,7 @@ module.exports = [
         "tier": "master",
         "id": 394,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2853,
                 "y": 3426
@@ -30369,6 +30798,7 @@ module.exports = [
         "tier": "master",
         "id": 395,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3165,
                 "y": 3493
@@ -30382,6 +30812,7 @@ module.exports = [
         "tier": "master",
         "id": 396,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3188,
                 "y": 3427
@@ -30395,6 +30826,7 @@ module.exports = [
         "tier": "master",
         "id": 397,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 3164,
                 "y": 3493
@@ -30408,6 +30840,7 @@ module.exports = [
         "tier": "master",
         "id": 398,
         "solution": {
+            "type": "simple",
             "coordinates": {
                 "x": 2855,
                 "y": 3433
@@ -30419,6 +30852,7 @@ module.exports = [
         "clue": "The compass shows where you need to go.",
         "id": 399,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 2413,
@@ -32857,8 +33291,9 @@ module.exports = [
     },
     {
         "clue": "The compass shows where you need to go on the arc.",
-        "id": 399,
+        "id": 400,
         "solution": {
+            "type": "coordset",
             "candidates": [
                 {
                     "x": 1868,
@@ -33019,5 +33454,1316 @@ module.exports = [
         },
         "tier": "master",
         "type": "compass"
+    },
+    {
+        "clue": "00 degrees 00 minutes north, 7 degrees 13 minutes west",
+        "coordinates": {
+            "latitude": {
+                "degrees": 0,
+                "minutes": 0,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 7,
+                "minutes": 13,
+                "direction": "west"
+            }
+        },
+        "id": 401,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "00 degrees 05 minutes south, 1 degrees 13 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 0,
+                "minutes": 5,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 13,
+                "direction": "east"
+            }
+        },
+        "id": 402,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "00 degrees 13 minutes south, 4 degrees 00 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 0,
+                "minutes": 13,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 4,
+                "minutes": 0,
+                "direction": "east"
+            }
+        },
+        "id": 403,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "00 degrees 18 minutes south, 9 degrees 28 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 0,
+                "minutes": 18,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 9,
+                "minutes": 28,
+                "direction": "east"
+            }
+        },
+        "id": 404,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "00 degrees 20 minutes south, 3 degrees 15 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 0,
+                "minutes": 20,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 15,
+                "direction": "east"
+            }
+        },
+        "id": 405,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "00 degrees 31 minutes south, 7 degrees 43 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 0,
+                "minutes": 31,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 7,
+                "minutes": 43,
+                "direction": "east"
+            }
+        },
+        "id": 406,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "00 degrees 50 minutes north, 4 degrees 16 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 0,
+                "minutes": 50,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 4,
+                "minutes": 16,
+                "direction": "east"
+            }
+        },
+        "id": 407,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "01 degrees 18 minutes south, 4 degrees 15 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 1,
+                "minutes": 18,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 4,
+                "minutes": 15,
+                "direction": "east"
+            }
+        },
+        "id": 408,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "01 degrees 24 minutes north, 8 degrees 05 minutes west",
+        "coordinates": {
+            "latitude": {
+                "degrees": 1,
+                "minutes": 24,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 8,
+                "minutes": 5,
+                "direction": "west"
+            }
+        },
+        "id": 409,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "01 degrees 26 minutes north, 8 degrees 01 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 1,
+                "minutes": 26,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 8,
+                "minutes": 1,
+                "direction": "east"
+            }
+        },
+        "id": 410,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "01 degrees 35 minutes south, 7 degrees 28 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 1,
+                "minutes": 35,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 7,
+                "minutes": 28,
+                "direction": "east"
+            }
+        },
+        "id": 411,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "02 degrees 33 minutes north, 8 degrees 45 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 2,
+                "minutes": 33,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 8,
+                "minutes": 45,
+                "direction": "east"
+            }
+        },
+        "id": 412,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "02 degrees 50 minutes north, 6 degrees 20 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 2,
+                "minutes": 50,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 6,
+                "minutes": 20,
+                "direction": "east"
+            }
+        },
+        "id": 413,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "02 degrees 50 minutes north, 1 degrees 46 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 2,
+                "minutes": 50,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 46,
+                "direction": "east"
+            }
+        },
+        "id": 414,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "03 degrees 03 minutes south, 5 degrees 03 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 3,
+                "minutes": 3,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 5,
+                "minutes": 3,
+                "direction": "east"
+            }
+        },
+        "id": 415,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "03 degrees 35 minutes south, 3 degrees 35 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 3,
+                "minutes": 35,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 35,
+                "direction": "east"
+            }
+        },
+        "id": 416,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "03 degrees 39 minutes south, 3 degrees 58 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 3,
+                "minutes": 39,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 58,
+                "direction": "east"
+            }
+        },
+        "id": 417,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "03 degrees 45 minutes south, 2 degrees 45 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 3,
+                "minutes": 45,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 45,
+                "direction": "east"
+            }
+        },
+        "id": 418,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "04 degrees 00 minutes south, 2 degrees 46 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 4,
+                "minutes": 0,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 46,
+                "direction": "east"
+            }
+        },
+        "id": 419,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "04 degrees 03 minutes south, 3 degrees 11 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 4,
+                "minutes": 3,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 11,
+                "direction": "east"
+            }
+        },
+        "id": 420,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "04 degrees 05 minutes south, 4 degrees 24 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 4,
+                "minutes": 5,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 4,
+                "minutes": 24,
+                "direction": "east"
+            }
+        },
+        "id": 421,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "04 degrees 13 minutes north, 2 degrees 45 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 4,
+                "minutes": 13,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 45,
+                "direction": "east"
+            }
+        },
+        "id": 422,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "04 degrees 16 minutes south, 6 degrees 16 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 4,
+                "minutes": 16,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 6,
+                "minutes": 16,
+                "direction": "east"
+            }
+        },
+        "id": 423,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "04 degrees 41 minutes north, 3 degrees 09 minutes west",
+        "coordinates": {
+            "latitude": {
+                "degrees": 4,
+                "minutes": 41,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 9,
+                "direction": "west"
+            }
+        },
+        "id": 424,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "05 degrees 20 minutes south, 4 degrees 28 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 5,
+                "minutes": 20,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 4,
+                "minutes": 28,
+                "direction": "east"
+            }
+        },
+        "id": 425,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "05 degrees 37 minutes north, 1 degrees 15 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 5,
+                "minutes": 37,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 15,
+                "direction": "east"
+            }
+        },
+        "id": 426,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "05 degrees 43 minutes north, 3 degrees 05 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 5,
+                "minutes": 43,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 5,
+                "direction": "east"
+            }
+        },
+        "id": 427,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "05 degrees 50 minutes south, 0 degrees 05 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 5,
+                "minutes": 50,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 0,
+                "minutes": 5,
+                "direction": "east"
+            }
+        },
+        "id": 428,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "06 degrees 00 minutes south, 1 degrees 48 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 6,
+                "minutes": 0,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 48,
+                "direction": "east"
+            }
+        },
+        "id": 429,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "06 degrees 11 minutes south, 5 degrees 07 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 6,
+                "minutes": 11,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 5,
+                "minutes": 7,
+                "direction": "east"
+            }
+        },
+        "id": 430,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "06 degrees 31 minutes north, 1 degrees 46 minutes west",
+        "coordinates": {
+            "latitude": {
+                "degrees": 6,
+                "minutes": 31,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 46,
+                "direction": "west"
+            }
+        },
+        "id": 431,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "07 degrees 05 minutes north, 0 degrees 56 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 7,
+                "minutes": 5,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 0,
+                "minutes": 56,
+                "direction": "east"
+            }
+        },
+        "id": 432,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "07 degrees 22 minutes north, 4 degrees 15 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 7,
+                "minutes": 22,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 4,
+                "minutes": 15,
+                "direction": "east"
+            }
+        },
+        "id": 433,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "07 degrees 33 minutes north, 5 degrees 00 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 7,
+                "minutes": 33,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 5,
+                "minutes": 0,
+                "direction": "east"
+            }
+        },
+        "id": 434,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "07 degrees 41 minutes north, 6 degrees 00 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 7,
+                "minutes": 41,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 6,
+                "minutes": 0,
+                "direction": "east"
+            }
+        },
+        "id": 435,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "07 degrees 43 minutes south, 2 degrees 26 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 7,
+                "minutes": 43,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 26,
+                "direction": "east"
+            }
+        },
+        "id": 436,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "08 degrees 03 minutes north, 1 degrees 16 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 8,
+                "minutes": 3,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 16,
+                "direction": "east"
+            }
+        },
+        "id": 437,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "08 degrees 05 minutes south, 5 degrees 56 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 8,
+                "minutes": 5,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 5,
+                "minutes": 56,
+                "direction": "east"
+            }
+        },
+        "id": 438,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "08 degrees 26 minutes south, 0 degrees 28 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 8,
+                "minutes": 26,
+                "direction": "south"
+            },
+            "longtitude": {
+                "degrees": 0,
+                "minutes": 28,
+                "direction": "east"
+            }
+        },
+        "id": 439,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "08 degrees 33 minutes north, 1 degrees 39 minutes west",
+        "coordinates": {
+            "latitude": {
+                "degrees": 8,
+                "minutes": 33,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 39,
+                "direction": "west"
+            }
+        },
+        "id": 440,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "09 degrees 22 minutes north, 2 degrees 24 minutes west",
+        "coordinates": {
+            "latitude": {
+                "degrees": 9,
+                "minutes": 22,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 24,
+                "direction": "west"
+            }
+        },
+        "id": 441,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "09 degrees 33 minutes north, 2 degrees 15 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 9,
+                "minutes": 33,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 15,
+                "direction": "east"
+            }
+        },
+        "id": 442,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "09 degrees 48 minutes north, 7 degrees 39 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 9,
+                "minutes": 48,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 7,
+                "minutes": 39,
+                "direction": "east"
+            }
+        },
+        "id": 443,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "11 degrees 03 minutes north, 1 degrees 20 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 11,
+                "minutes": 3,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 20,
+                "direction": "east"
+            }
+        },
+        "id": 444,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "11 degrees 05 minutes north, 0 degrees 45 minutes west",
+        "coordinates": {
+            "latitude": {
+                "degrees": 11,
+                "minutes": 5,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 0,
+                "minutes": 45,
+                "direction": "west"
+            }
+        },
+        "id": 445,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "11 degrees 41 minutes north, 4 degrees 58 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 11,
+                "minutes": 41,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 4,
+                "minutes": 58,
+                "direction": "east"
+            }
+        },
+        "id": 446,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "12 degrees 48 minutes north, 0 degrees 20 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 12,
+                "minutes": 48,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 0,
+                "minutes": 20,
+                "direction": "east"
+            }
+        },
+        "id": 447,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "13 degrees 46 minutes north, 1 degrees 01 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 13,
+                "minutes": 46,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 1,
+                "direction": "east"
+            }
+        },
+        "id": 448,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "14 degrees 54 minutes north, 9 degrees 13 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 14,
+                "minutes": 54,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 9,
+                "minutes": 13,
+                "direction": "east"
+            }
+        },
+        "id": 449,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "15 degrees 48 minutes north, 3 degrees 52 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 15,
+                "minutes": 48,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 52,
+                "direction": "east"
+            }
+        },
+        "id": 450,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "16 degrees 20 minutes north, 2 degrees 45 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 16,
+                "minutes": 20,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 45,
+                "direction": "east"
+            }
+        },
+        "id": 451,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "16 degrees 30 minutes north, 6 degrees 28 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 16,
+                "minutes": 30,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 6,
+                "minutes": 28,
+                "direction": "east"
+            }
+        },
+        "id": 452,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "16 degrees 35 minutes north, 7 degrees 01 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 16,
+                "minutes": 35,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 7,
+                "minutes": 1,
+                "direction": "east"
+            }
+        },
+        "id": 453,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "17 degrees 50 minutes north, 8 degrees 30 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 17,
+                "minutes": 50,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 8,
+                "minutes": 30,
+                "direction": "east"
+            }
+        },
+        "id": 454,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "18 degrees 03 minutes north, 5 degrees 16 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 18,
+                "minutes": 3,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 5,
+                "minutes": 16,
+                "direction": "east"
+            }
+        },
+        "id": 455,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "18 degrees 22 minutes north, 6 degrees 33 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 18,
+                "minutes": 22,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 6,
+                "minutes": 33,
+                "direction": "east"
+            }
+        },
+        "id": 456,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "19 degrees 43 minutes north, 5 degrees 07 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 19,
+                "minutes": 43,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 5,
+                "minutes": 7,
+                "direction": "east"
+            }
+        },
+        "id": 457,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "20 degrees 05 minutes north, 1 degrees 52 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 20,
+                "minutes": 5,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 1,
+                "minutes": 52,
+                "direction": "east"
+            }
+        },
+        "id": 458,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "20 degrees 07 minutes north, 8 degrees 33 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 20,
+                "minutes": 7,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 8,
+                "minutes": 33,
+                "direction": "east"
+            }
+        },
+        "id": 459,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "20 degrees 33 minutes north, 5 degrees 48 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 20,
+                "minutes": 33,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 5,
+                "minutes": 48,
+                "direction": "east"
+            }
+        },
+        "id": 460,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "21 degrees 24 minutes north, 7 degrees 54 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 21,
+                "minutes": 24,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 7,
+                "minutes": 54,
+                "direction": "east"
+            }
+        },
+        "id": 461,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "22 degrees 30 minutes north, 3 degrees 01 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 22,
+                "minutes": 30,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 1,
+                "direction": "east"
+            }
+        },
+        "id": 462,
+        "solution": null,
+        "tier": "medium",
+        "type": "coordinates"
+    },
+    {
+        "clue": "22 degrees 35 minutes north, 9 degrees 18 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 22,
+                "minutes": 35,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 9,
+                "minutes": 18,
+                "direction": "east"
+            }
+        },
+        "id": 463,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "22 degrees 45 minutes north, 6 degrees 33 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 22,
+                "minutes": 45,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 6,
+                "minutes": 33,
+                "direction": "east"
+            }
+        },
+        "id": 464,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "24 degrees 26 minutes north, 6 degrees 24 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 24,
+                "minutes": 26,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 6,
+                "minutes": 24,
+                "direction": "east"
+            }
+        },
+        "id": 465,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "24 degrees 56 minutes north, 2 degrees 28 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 24,
+                "minutes": 56,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 2,
+                "minutes": 28,
+                "direction": "east"
+            }
+        },
+        "id": 466,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "24 degrees 58 minutes north, 8 degrees 43 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 24,
+                "minutes": 58,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 8,
+                "minutes": 43,
+                "direction": "east"
+            }
+        },
+        "id": 467,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "25 degrees 03 minutes north, 7 degrees 05 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 25,
+                "minutes": 3,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 7,
+                "minutes": 5,
+                "direction": "east"
+            }
+        },
+        "id": 468,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
+    },
+    {
+        "clue": "25 degrees 03 minutes north, 3 degrees 24 minutes east",
+        "coordinates": {
+            "latitude": {
+                "degrees": 25,
+                "minutes": 3,
+                "direction": "north"
+            },
+            "longtitude": {
+                "degrees": 3,
+                "minutes": 24,
+                "direction": "east"
+            }
+        },
+        "id": 469,
+        "solution": null,
+        "tier": "hard",
+        "type": "coordinates"
     }
 ]

@@ -18,6 +18,20 @@ type Coordinate = {
     level?: number
 }
 
+type GieliCoordinates = {
+    longtitude: {
+        degrees: number,
+        minutes: number,
+        direction: "east" | "west"
+    },
+    latitude: {
+        degrees: number,
+        minutes: number,
+        direction: "north" | "south"
+    }
+}
+
+
 type SolutionType = "simple" | "variants" | "coordset"
 
 type SolutionBase = { type: SolutionType }
@@ -42,7 +56,7 @@ type ImageStep = ClueBase &
 type CrypticStep = ClueBase &
     { type: "cryptic", solution: SimpleSolution | VariantSolution }
 type CoordinateStep = ClueBase &
-    { type: "coordinates", solution: SimpleSolution | VariantSolution }
+    { type: "coordinates", solution: SimpleSolution, coordinates: GieliCoordinates }
 type SkillingStep = ClueBase &
     { type: "skilling", solution: SimpleSolution | VariantSolution }
 type CompassStep = ClueBase &
@@ -240,7 +254,7 @@ let compass_main: CompassStep = {
 
 let compass_arc: CompassStep = {
     clue: "The compass shows where you need to go on the arc.",
-    id: 399,
+    id: 400,
     solution: {
         type: "coordset",
         candidates: spotsFor(50)
@@ -251,5 +265,114 @@ let compass_arc: CompassStep = {
 
 imported.push(compass_main)
 imported.push(compass_arc)
+
+
+// Extract coordinates from wiki:
+// (\d+) degrees (\d+) minutes (north|south).*\n.*(\d+) degrees (\d+) minutes (east|west).*\n.*tier = (Hard)
+// List:
+// { coordinate: {longitude: { degrees: "$1", minutes: "$2", direction: "$3" }, latitude: {degrees: "$4", minutes: "$5", direction: "$6"}}, tier: "$7" },\n
+
+let coordinates = [
+    {clue: "00 degrees 00 minutes north, 7 degrees 13 minutes west", tier: "Hard"},
+    {clue: "00 degrees 05 minutes south, 1 degrees 13 minutes east", tier: "Medium"},
+    {clue: "00 degrees 13 minutes south, 4 degrees 00 minutes east", tier: "Medium"},
+    {clue: "00 degrees 18 minutes south, 9 degrees 28 minutes east", tier: "Medium"},
+    {clue: "00 degrees 20 minutes south, 3 degrees 15 minutes east", tier: "Medium"},
+    {clue: "00 degrees 31 minutes south, 7 degrees 43 minutes east", tier: "Medium"},
+    {clue: "00 degrees 50 minutes north, 4 degrees 16 minutes east", tier: "Medium"},
+    {clue: "01 degrees 18 minutes south, 4 degrees 15 minutes east", tier: "Medium"},
+    {clue: "01 degrees 24 minutes north, 8 degrees 05 minutes west", tier: "Hard"},
+    {clue: "01 degrees 26 minutes north, 8 degrees 01 minutes east", tier: "Medium"},
+    {clue: "01 degrees 35 minutes south, 7 degrees 28 minutes east", tier: "Medium"},
+    {clue: "02 degrees 33 minutes north, 8 degrees 45 minutes east", tier: "Hard"},
+    {clue: "02 degrees 50 minutes north, 6 degrees 20 minutes east", tier: "Medium"},
+    {clue: "02 degrees 50 minutes north, 1 degrees 46 minutes east", tier: "Medium"},
+    {clue: "03 degrees 03 minutes south, 5 degrees 03 minutes east", tier: "Hard"},
+    {clue: "03 degrees 35 minutes south, 3 degrees 35 minutes east", tier: "Medium"},
+    {clue: "03 degrees 39 minutes south, 3 degrees 58 minutes east", tier: "Hard"},
+    {clue: "03 degrees 45 minutes south, 2 degrees 45 minutes east", tier: "Hard"},
+    {clue: "04 degrees 00 minutes south, 2 degrees 46 minutes east", tier: "Medium"},
+    {clue: "04 degrees 03 minutes south, 3 degrees 11 minutes east", tier: "Hard"},
+    {clue: "04 degrees 05 minutes south, 4 degrees 24 minutes east", tier: "Hard"},
+    {clue: "04 degrees 13 minutes north, 2 degrees 45 minutes east", tier: "Medium"},
+    {clue: "04 degrees 16 minutes south, 6 degrees 16 minutes east", tier: "Hard"},
+    {clue: "04 degrees 41 minutes north, 3 degrees 09 minutes west", tier: "Hard"},
+    {clue: "05 degrees 20 minutes south, 4 degrees 28 minutes east", tier: "Medium"},
+    {clue: "05 degrees 37 minutes north, 1 degrees 15 minutes east", tier: "Hard"},
+    {clue: "05 degrees 43 minutes north, 3 degrees 05 minutes east", tier: "Medium"},
+    {clue: "05 degrees 50 minutes south, 0 degrees 05 minutes east", tier: "Hard"},
+    {clue: "06 degrees 00 minutes south, 1 degrees 48 minutes east", tier: "Hard"},
+    {clue: "06 degrees 11 minutes south, 5 degrees 07 minutes east", tier: "Hard"},
+    {clue: "06 degrees 31 minutes north, 1 degrees 46 minutes west", tier: "Medium"},
+    {clue: "07 degrees 05 minutes north, 0 degrees 56 minutes east", tier: "Medium"},
+    {clue: "07 degrees 22 minutes north, 4 degrees 15 minutes east", tier: "Hard"},
+    {clue: "07 degrees 33 minutes north, 5 degrees 00 minutes east", tier: "Medium"},
+    {clue: "07 degrees 41 minutes north, 6 degrees 00 minutes east", tier: "Hard"},
+    {clue: "07 degrees 43 minutes south, 2 degrees 26 minutes east", tier: "Hard"},
+    {clue: "08 degrees 03 minutes north, 1 degrees 16 minutes east", tier: "Hard"},
+    {clue: "08 degrees 05 minutes south, 5 degrees 56 minutes east", tier: "Hard"},
+    {clue: "08 degrees 26 minutes south, 0 degrees 28 minutes east", tier: "Hard"},
+    {clue: "08 degrees 33 minutes north, 1 degrees 39 minutes west", tier: "Medium"},
+    {clue: "09 degrees 22 minutes north, 2 degrees 24 minutes west", tier: "Hard"},
+    {clue: "09 degrees 33 minutes north, 2 degrees 15 minutes east", tier: "Medium"},
+    {clue: "09 degrees 48 minutes north, 7 degrees 39 minutes east", tier: "Medium"},
+    {clue: "11 degrees 03 minutes north, 1 degrees 20 minutes east", tier: "Medium"},
+    {clue: "11 degrees 05 minutes north, 0 degrees 45 minutes west", tier: "Medium"},
+    {clue: "11 degrees 41 minutes north, 4 degrees 58 minutes east", tier: "Medium"},
+    {clue: "12 degrees 48 minutes north, 0 degrees 20 minutes east", tier: "Hard"},
+    {clue: "13 degrees 46 minutes north, 1 degrees 01 minutes east", tier: "Hard"},
+    {clue: "14 degrees 54 minutes north, 9 degrees 13 minutes east", tier: "Medium"},
+    {clue: "15 degrees 48 minutes north, 3 degrees 52 minutes east", tier: "Hard"},
+    {clue: "16 degrees 20 minutes north, 2 degrees 45 minutes east", tier: "Hard"},
+    {clue: "16 degrees 30 minutes north, 6 degrees 28 minutes east", tier: "Hard"},
+    {clue: "16 degrees 35 minutes north, 7 degrees 01 minutes east", tier: "Hard"},
+    {clue: "17 degrees 50 minutes north, 8 degrees 30 minutes east", tier: "Hard"},
+    {clue: "18 degrees 03 minutes north, 5 degrees 16 minutes east", tier: "Hard"},
+    {clue: "18 degrees 22 minutes north, 6 degrees 33 minutes east", tier: "Hard"},
+    {clue: "19 degrees 43 minutes north, 5 degrees 07 minutes east", tier: "Hard"},
+    {clue: "20 degrees 05 minutes north, 1 degrees 52 minutes east", tier: "Hard"},
+    {clue: "20 degrees 07 minutes north, 8 degrees 33 minutes east", tier: "Hard"},
+    {clue: "20 degrees 33 minutes north, 5 degrees 48 minutes east", tier: "Hard"},
+    {clue: "21 degrees 24 minutes north, 7 degrees 54 minutes east", tier: "Hard"},
+    {clue: "22 degrees 30 minutes north, 3 degrees 01 minutes east", tier: "Medium"},
+    {clue: "22 degrees 35 minutes north, 9 degrees 18 minutes east", tier: "Hard"},
+    {clue: "22 degrees 45 minutes north, 6 degrees 33 minutes east", tier: "Hard"},
+    {clue: "24 degrees 26 minutes north, 6 degrees 24 minutes east", tier: "Hard"},
+    {clue: "24 degrees 56 minutes north, 2 degrees 28 minutes east", tier: "Hard"},
+    {clue: "24 degrees 58 minutes north, 8 degrees 43 minutes east", tier: "Hard"},
+    {clue: "25 degrees 03 minutes north, 7 degrees 05 minutes east", tier: "Hard"},
+    {clue: "25 degrees 03 minutes north, 3 degrees 24 minutes east", tier: "Hard"},
+]
+
+let next_id = 401
+for (let coord of coordinates) {
+
+    let match = coord.clue.match("(\\d+) degrees (\\d+) minutes (north|south), (\\d+) degrees (\\d+) minutes (east|west)")
+
+    let clue: CoordinateStep = {
+        clue: coord.clue,
+        coordinates: {
+            latitude: {
+                degrees: Number(match[1]),
+                minutes: Number(match[2]),
+                direction: match[3] as ("north" | "south"),
+            },
+            longtitude: {
+                degrees: Number(match[4]),
+                minutes: Number(match[5]),
+                direction: match[6] as ("east" | "west"),
+            }
+        },
+        id: next_id,
+        solution: null,
+        tier: coord.tier.toLowerCase() as ("hard" | "medium"),
+        type: "coordinates"
+    }
+
+    imported.push(clue)
+
+    next_id++
+}
+
 
 fs.writeFileSync("data.json.js", JSON.stringify(imported, null, 2))

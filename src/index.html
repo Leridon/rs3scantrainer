@@ -53,28 +53,33 @@
                         Tier
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="easy" title="Include easy clues">
-                            <img src="img/icons/sealedeasy.png">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="easy"
+                             title="Include easy clues">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="medium" title="Include medium clues">
-                            <img src="img/icons/sealedmedium.png">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="medium"
+                             title="Include medium clues">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="hard" title="Include hard clues">
-                            <img src="img/icons/sealedhard.png">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="hard"
+                             title="Include hard clues">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="elite" title="Include elite clues">
-                            <img src="img/icons/sealedelite.png">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="elite"
+                             title="Include elite clues">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="master" title="Include master clues">
-                            <img src="img/icons/sealedmaster.png">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-tier="master"
+                             title="Include master clues">
+                            <img src="">
                         </div>
                     </div>
                 </div>
@@ -85,27 +90,27 @@
                     </div>
                     <div class="col-1">
                         <div class="nissmallimagebutton filterbutton togglebutton" data-type="anagram">
-                            A
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
                         <div class="nissmallimagebutton filterbutton togglebutton" data-type="compass">
-                            <img src="img/icons/arrow.png">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="anagram">
-                            <img src="img/icons/sextant.png">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="coordinates">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
                         <div class="nissmallimagebutton filterbutton togglebutton" data-type="cryptic">
-                            A
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
                         <div class="nissmallimagebutton filterbutton togglebutton" data-type="emote">
-                            <img src="img/icons/emotes.png">
+                            <img src="">
                         </div>
                     </div>
                 </div>
@@ -114,35 +119,39 @@
 
                     </div>
                     <div class="col-1">
-                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="map">
-                            <img src="img/icons/map.png">
+                        <div class="nissmallimagebutton filterbutton togglebutton" data-type="image">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
                         <div class="nissmallimagebutton filterbutton togglebutton" data-type="scan">
-                            <img src="img/icons/scan.png">
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
                         <div class="nissmallimagebutton filterbutton togglebutton" data-type="simple">
-                            S
+                            <img src="">
                         </div>
                     </div>
                     <div class="col-1">
                         <div class="nissmallimagebutton filterbutton togglebutton" data-type="skilling">
-                            SK
+                            <img src="">
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
         <div id="solutionpanel" style="overflow-y: scroll">
 
             <div class="panel">
-                <div class="paneltitle">Clue</div>
+                <div style="display: flex">
+                    <span>-</span>
+                    <span class="paneltitle">Clue</span>
+                    <span class="flex-grow-1"></span>
+                    <img id="activecluetier" src="" class="icon">
+                    <img id="activecluetype" src="" class="icon flex-ri">
+                </div>
                 <span id="cluetext"></span>
             </div>
 

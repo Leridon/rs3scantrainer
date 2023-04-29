@@ -5,6 +5,7 @@
     - Fix the sizing of videos/images.
     - Fix sizing of search results.
     - Fix display of footer in alt1
+- Display type and tier for clue
 - Get release 0.1 ready for May 5th
 - Integrate the alt 1 map and show spots/tiles
 - Integrate a solving method for compasses

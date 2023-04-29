@@ -233,6 +233,8 @@ class ScanTrainer {
 
             if (clue) this.select(clue)
         })
+
+        this.tabcontrols.setHowToTabs({})
     }
 
     gotoRoot() {

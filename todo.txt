@@ -1,12 +1,14 @@
-- Add auto solving on an interval (lock button)
+- Integrate auto selection of the map tab
 - Integrate the alt 1 map and show spots/tiles
+    - Add scan spot markers as a separate layer, label them, and make them highlightable (is that a word??)
+    - Map standing tiles on the map and label them
+- Add auto solving on an interval (lock button)
 - Collapsible panels
 
 - Arrow key/enter control for the search.
 - Finish styling
     - Fix the sizing of videos/images.
     - Fix sizing of search results.
-    - Fix display of footer in alt1
     - Fix inactive filters displaying through search results
 
 - Get release 0.1 ready on May 5th

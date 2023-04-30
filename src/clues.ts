@@ -16,7 +16,7 @@ export type Coordinate = {
     level?: number
 }
 
-type GieliCoordinates = {
+export type GieliCoordinates = {
     latitude: {
         degrees: number,
         minutes: number,

@@ -20,7 +20,6 @@ config.entry("index", "./index.ts");
 //where to put all the stuff
 config.output(outdir);
 
-
 let c = config.toConfig()
 
 c.plugins = [

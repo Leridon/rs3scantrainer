@@ -5,6 +5,8 @@ import {HowTo, Method} from "./methods";
 import {storage} from "./storage";
 import {ClueReader} from "./skillbertssolver/reader";
 import {forClue} from "./data/methods";
+import {GameMap} from "./map";
+import * as leaflet from "leaflet";
 
 let icons = {
     tiers: {
@@ -218,6 +220,9 @@ class HowToTabControls {
             $(`.methodtab[data-methodtype=${key}]`).show()
         }
 
+        // Always show map
+        $(`.methodtab[data-methodtype=map]`).show()
+
         if (howto.text) {
             $("#textmethodcontent").text(howto.text)
         }
@@ -262,6 +267,7 @@ class HowToTabControls {
 }
 
 class ScanTrainer {
+    public map = new GameMap("map")
     public search = new SearchControl(this)
     public tabcontrols = new HowToTabControls()
     private cluereader = new ClueReader()
@@ -311,6 +317,15 @@ class ScanTrainer {
             // TODO: Display other solution types.
         } else {
             $("#cluesolution").hide()
+        }
+
+        if (clue.solution && clue.solution.type == "coordset") {
+            // TODO: This is just a prototype and needs to be cleaned up
+            clue.solution.candidates.forEach((c) => {
+                leaflet.marker([c.y, c.x]).addTo(this.map.map)
+            })
+        } else if (clue.solution && clue.solution.type == "simple"){
+            leaflet.marker([clue.solution.coordinates.y, clue.solution.coordinates.x]).addTo(this.map.map)
         }
 
         let methods = forClue(clue)

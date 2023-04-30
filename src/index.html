@@ -15,6 +15,13 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://runeapps.org/nis/nis.css">
     <link rel="stylesheet" type="text/css" href="https://runeapps.org/runeappslib.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
 </head>
 <script src="./index.bundle.js"></script>
 <body class="nis" style="display: flex; flex-direction: column">
@@ -183,13 +190,18 @@
 
     <div class="split-screen">
         <div id="tabcontainer" style="display: block">
+            <div class="methodtab contenttab lefttab" data-methodtype="map">Map</div>
             <div class="methodtab contenttab lefttab" data-methodtype="image">Image</div>
             <div class="methodtab contenttab lefttab" data-methodtype="video">Video</div>
             <div class="methodtab contenttab lefttab" data-methodtype="text">Explain</div>
             <div class="methodtab contenttab lefttab" data-methodtype="scanmap">Full Map</div>
         </div>
 
-        <div style="margin-top: 20px">
+        <div style="flex-grow: 1">
+            <div class="methodtabcontent panel" data-methodtype="map">
+                <div id="map"></div>
+            </div>
+
             <div class="methodtabcontent panel" data-methodtype="video">
                 <video controls autoplay muted loop id="videoplayer">
                     <source id="videosource" src="" type="video/webm">
@@ -203,7 +215,7 @@
 
                 </div>
             </div>
-            <div class="methodtabcontent" data-methodtype="scanmap">
+            <div class="methodtabcontent panel" data-methodtype="scanmap">
                 <div id="solutionimg" class="col">
                     <img src="" id="mapview" alt=""
                          style="max-height: 100%; max-width: 100%; height: auto; width: auto; display: block">
@@ -216,7 +228,8 @@
 <div class="nisseperator" style="position: unset"></div>
 
 <div id="footer" style="flex-grow: 0">
-    Created by Leridon#6812 (RSN Zyklop Marco), Powered by <a href="https://discord.gg/cluechasers"> <img
+    Created by Zyklop Marco, Based on work from Skillbert, Knowledge powered by <a
+        href="https://discord.gg/cluechasers"> <img
         src="img/icons/cluchasers.png" style="height: 1em"></a>
 </div>
 

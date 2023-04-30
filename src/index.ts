@@ -2,7 +2,7 @@
 //also gives your editor info about the window.alt1 api
 import * as a1lib from "@alt1/base";
 import "jquery";
-import {initialize} from "./scantrainer";
+import {initialize, scantrainer} from "./scantrainer";
 import {loadMethods} from "./data/methods";
 import ClueScrollReader from "./skillbertssolver/cluesolver/cluereader";
 
@@ -24,10 +24,10 @@ if (window.alt1) {
 }
 
 document.addEventListener("DOMContentLoaded", (e) => {
-    $("#main-content").hide()
-
+    //using hide and show leads to weird behaviour with leaflet and invalidateSize() doesnt seem to fix it.
+    // This is why the opacity is used isntead
+    //$("#main-content").css("opacity", 0)
     initialize()
-
-    $("#main-content").show()
+    //$("#main-content").css("opacity", 1)
 })
 

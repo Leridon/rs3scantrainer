@@ -1,5 +1,8 @@
-import {ClueStep, ScanStep} from "./clues";
-import {scantrainer} from "./scantrainer";
+import {ClueStep, MapCoordinate, ScanStep} from "./clues";
+import {ScanTrainer, scantrainer} from "./scantrainer";
+import {MarkerLayer} from "./map";
+import * as leaflet from "leaflet";
+import {shapes} from "./map/shapes";
 
 export type Video = {
     ref: string,
@@ -7,7 +10,6 @@ export type Video = {
 }
 
 export type HowTo = {
-    scanmap?: string,
     video?: Video,
     text?: string,
     image?: string
@@ -21,13 +23,14 @@ export abstract class Method {
 
     abstract howto(): HowTo
 
-    abstract sendToUi(): void
+    abstract sendToUi(trainer: ScanTrainer): void
 }
 
 export class ScanTree extends Method {
     clue: ScanStep = null
 
-    constructor(public map_ref: string,
+    constructor(private spot_mapping: MapCoordinate[],
+                private spots: { name: string, coords: MapCoordinate }[],
                 public root: ScanTreeNode
     ) {
         super("scantree")
@@ -35,18 +38,41 @@ export class ScanTree extends Method {
         root.setRoot(this)
     }
 
-    sendToUi(): void {
-        this.root.sendToUI()
+    sendToUi(trainer: ScanTrainer): void {
+
+        let layer = new leaflet.FeatureGroup()
+
+        for (let spot of this.spots) {
+            shapes.tilePolygon(spot.coords).setStyle({
+                color: "#00FF21",
+                fillColor: "#00FF21"
+            }).addTo(layer)
+
+            leaflet.marker([spot.coords.y + 2, spot.coords.x], {
+                icon: leaflet.divIcon({
+                    className: "my-tooltip",
+                    html: spot.name
+                }),
+                interactive: false,
+            }).addTo(layer)
+
+        }
+
+        trainer.map.setMethodLayer(0, layer)
+
+        this.root.sendToUI(trainer)
     }
 
     howto(): HowTo {
         return this.root.howTo();
     }
 
-    mapDetail(): HowTo {
-        return {
-            scanmap: this.map_ref
-        }
+    spotToNumber(spot: MapCoordinate) {
+        return this.spot_mapping.findIndex((e) => e.x == spot.x && e.y == spot.y) + 1
+    }
+
+    spot(number: number) {
+        return this.spot_mapping[number - 1]
     }
 }
 
@@ -91,8 +117,13 @@ export class ScanTreeNode {
     ) {
     }
 
+    candidates(): number[] {
+        if (this.solved) return [this.solved]
+        return this.children().map((e) => e.candidates()).reduce((a, b) => a.concat(b), [])
+    }
+
     howTo(): HowTo {
-        return Object.assign(this.howto, this.root.mapDetail())
+        return this.howto
     }
 
     setRoot(root: ScanTree) {
@@ -127,7 +158,19 @@ export class ScanTreeNode {
         return this._children.map((e) => e[1])
     }
 
-    sendToUI() {
+    sendToUI(app: ScanTrainer) {
+        {
+            let candidates = this.candidates()
+            let layer = app.map.getSolutionLayer() as (MarkerLayer)
+
+            layer.getMarkers().forEach((e) => {
+                let id = this.root.spotToNumber(e.getSpot())
+
+                let active = candidates.findIndex((c) => c == id) >= 0
+
+                e.setActive(active)
+            })
+        }
 
         {
             let path = this.path()
@@ -143,7 +186,7 @@ export class ScanTreeNode {
 
                 if (i < path.length - 1) {
                     $("<a>").attr("href", "javascript:;")
-                        .on("click", () => p.sendToUI())
+                        .on("click", () => p.sendToUI(app))
                         .text(text)
                         .appendTo(li)
                 } else {
@@ -157,12 +200,12 @@ export class ScanTreeNode {
 
         $("#nextscanstep").text(this.instruction)
 
-        this.generateChildren(0, $("#scantreeview").empty())
+        this.generateChildren(0, $("#scantreeview").empty(), app)
 
         scantrainer.tabcontrols.setHowToTabs(this.howTo())
     }
 
-    generateList(depth: number, container: JQuery) {
+    generateList(depth: number, container: JQuery, app: ScanTrainer) {
         let line = $("<div>")
             .addClass("scantreeline")
             .css("margin-left", `${depth * 12}px`)
@@ -172,7 +215,7 @@ export class ScanTreeNode {
             $("<span>")
                 .addClass("nextchoice")
                 .text(prettykey(this.parent.key))
-                .on("click", () => this.sendToUI())
+                .on("click", () => this.sendToUI(app))
                 .appendTo(line)
 
             //line.css("line-height", `30px`)
@@ -188,11 +231,11 @@ export class ScanTreeNode {
 
         line.appendTo(container)
 
-        this.generateChildren(depth + 1, container)
+        this.generateChildren(depth + 1, container, app)
     }
 
-    generateChildren(depth: number, container: JQuery) {
-        if(depth >= 2) return
+    generateChildren(depth: number, container: JQuery, app: ScanTrainer) {
+        if (depth >= 2) return
 
         let triples = this.children().filter((e) => e.parent.key.kind == PingType.TRIPLE)
 
@@ -204,14 +247,42 @@ export class ScanTreeNode {
 
 
             if (depth == 0) {
-                line.append($("<span>").text("Triple ping at "))
+
+                let triple_span = $("<span>")
+                    .addClass("nextchoice")
+                    .text("Triple")
+                    .on("click", () => {
+
+                        if (triples.length == 1) {
+                            triples[0].sendToUI(app)
+                        } else {
+
+                            let synthetic = new ScanTreeNode("Which spot?",
+                                null,
+                                triples.map((e) => {
+                                    return [{
+                                        key: e.solved.toString(),
+                                        kind: PingType.TRIPLE
+                                    }, e]
+                                }),
+                                null
+                            )
+                            synthetic.setParent(this, {key: "Triple", kind: PingType.TRIPLE})
+
+                            synthetic.sendToUI(app)
+                        }
+
+                    })
+                    .appendTo(line)
+
+                line.append($("<span>").text("at"))
 
                 for (let child of triples) {
                     $("<span>")
                         .text(`${child.solved}`)
                         .addClass("nextchoice")
                         .addClass("tripleping")
-                        .on("click", () => child.sendToUI())
+                        .on("click", () => child.sendToUI(app))
                         .appendTo(line)
                 }
             } else {
@@ -224,12 +295,12 @@ export class ScanTreeNode {
         }
 
         this.children().filter((e) => e.parent.key.kind == PingType.DOUBLE)
-            .forEach((e) => e.generateList(depth, container))
+            .forEach((e) => e.generateList(depth, container, app))
 
         this.children().filter((e) => e.parent.key.kind == PingType.SINGLE)
-            .forEach((e) => e.generateList(depth, container))
+            .forEach((e) => e.generateList(depth, container, app))
 
         this.children().filter((e) => (typeof e.parent.key.kind) == "string")
-            .forEach((e) => e.generateList(depth, container))
+            .forEach((e) => e.generateList(depth, container, app))
     }
 }

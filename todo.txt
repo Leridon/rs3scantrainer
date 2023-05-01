@@ -1,9 +1,10 @@
-- Integrate auto selection of the map tab
-- Integrate the alt 1 map and show spots/tiles
-    - Add scan spot markers as a separate layer, label them, and make them highlightable (is that a word??)
-    - Map standing tiles on the map and label them
+- Add teleport layer
 - Add auto solving on an interval (lock button)
-- Collapsible panels
+- Debugging: Place tile marker on the map
+
+- Style decisions:
+    - Style of spot markers
+    - Figure out where to put the label for standing spots
 
 - Arrow key/enter control for the search.
 - Finish styling
@@ -11,14 +12,27 @@
     - Fix sizing of search results.
     - Fix inactive filters displaying through search results
 
-- Get release 0.1 ready on May 5th
+- Map out a total of at least 4 scans.
+
+RELEASE: Get release 0.1 ready on May 5th
     - This is a beta release to iron out issues before the general release.
     - Remaining scan maps are planned for after
 
 - Finish scan mapping and record more clips.
+    - Fix some clue spots being on a different level
+
+RELEASE 0.2
 
 - Integrate a solving method for compasses
+- Track Jacket/Backpack Charges via Chat.
+
+RELEASE 0.3
+
+- Collapsible panels
+
+Debugging: Draw tile grid on the map
+
+
 - Add method display like the old clueguider
 - Add methods for remaining clue types.
 - Add puzzle solvers
-- Track Jacket/Backpack Charges via Chat.

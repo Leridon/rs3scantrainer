@@ -1,4 +1,4 @@
-[
+module.exports = [
   {
     "type": "simple",
     "id": 0,
@@ -33463,14 +33463,21 @@
         "minutes": 0,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 7,
         "minutes": 13,
         "direction": "west"
       }
     },
     "id": 401,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2209,
+        "y": 3161
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33482,14 +33489,21 @@
         "minutes": 5,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 13,
         "direction": "east"
       }
     },
     "id": 402,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2479,
+        "y": 3158
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33501,14 +33515,21 @@
         "minutes": 13,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 4,
         "minutes": 0,
         "direction": "east"
       }
     },
     "id": 403,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2568,
+        "y": 3154
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33520,14 +33541,21 @@
         "minutes": 18,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 9,
         "minutes": 28,
         "direction": "east"
       }
     },
     "id": 404,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2743,
+        "y": 3151
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33539,14 +33567,21 @@
         "minutes": 20,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 15,
         "direction": "east"
       }
     },
     "id": 405,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2544,
+        "y": 3150
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33558,14 +33593,21 @@
         "minutes": 31,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 7,
         "minutes": 43,
         "direction": "east"
       }
     },
     "id": 406,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2687,
+        "y": 3144
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33577,14 +33619,21 @@
         "minutes": 50,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 4,
         "minutes": 16,
         "direction": "east"
       }
     },
     "id": 407,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2577,
+        "y": 3188
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33596,14 +33645,21 @@
         "minutes": 18,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 4,
         "minutes": 15,
         "direction": "east"
       }
     },
     "id": 408,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2576,
+        "y": 3119
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33615,14 +33671,21 @@
         "minutes": 24,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 8,
         "minutes": 5,
         "direction": "west"
       }
     },
     "id": 409,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2181,
+        "y": 3206
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33634,14 +33697,21 @@
         "minutes": 26,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 8,
         "minutes": 1,
         "direction": "east"
       }
     },
     "id": 410,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2697,
+        "y": 3207
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33653,14 +33723,21 @@
         "minutes": 35,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 7,
         "minutes": 28,
         "direction": "east"
       }
     },
     "id": 411,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2679,
+        "y": 3110
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33672,14 +33749,21 @@
         "minutes": 33,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 8,
         "minutes": 45,
         "direction": "east"
       }
     },
     "id": 412,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2720,
+        "y": 3243
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33691,14 +33775,21 @@
         "minutes": 50,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 6,
         "minutes": 20,
         "direction": "east"
       }
     },
     "id": 413,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2643,
+        "y": 3252
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33710,14 +33801,21 @@
         "minutes": 50,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 46,
         "direction": "east"
       }
     },
     "id": 414,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2497,
+        "y": 3252
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33729,14 +33827,21 @@
         "minutes": 3,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 5,
         "minutes": 3,
         "direction": "east"
       }
     },
     "id": 415,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2602,
+        "y": 3063
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33748,14 +33853,21 @@
         "minutes": 35,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 35,
         "direction": "east"
       }
     },
     "id": 416,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2555,
+        "y": 3046
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33767,14 +33879,21 @@
         "minutes": 39,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 58,
         "direction": "east"
       }
     },
     "id": 417,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2567,
+        "y": 3044
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33786,14 +33905,21 @@
         "minutes": 45,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 45,
         "direction": "east"
       }
     },
     "id": 418,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2528,
+        "y": 3041
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33805,14 +33931,21 @@
         "minutes": 0,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 46,
         "direction": "east"
       }
     },
     "id": 419,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2529,
+        "y": 3033
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33824,14 +33957,21 @@
         "minutes": 3,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 11,
         "direction": "east"
       }
     },
     "id": 420,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2542,
+        "y": 3031
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33843,14 +33983,21 @@
         "minutes": 5,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 4,
         "minutes": 24,
         "direction": "east"
       }
     },
     "id": 421,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2581,
+        "y": 3030
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33862,14 +34009,21 @@
         "minutes": 13,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 45,
         "direction": "east"
       }
     },
     "id": 422,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2528,
+        "y": 3296
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33881,14 +34035,21 @@
         "minutes": 16,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 6,
         "minutes": 16,
         "direction": "east"
       }
     },
     "id": 423,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2641,
+        "y": 3024
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33900,14 +34061,21 @@
         "minutes": 41,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 9,
         "direction": "west"
       }
     },
     "id": 424,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2339,
+        "y": 3311
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33919,14 +34087,21 @@
         "minutes": 20,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 4,
         "minutes": 28,
         "direction": "east"
       }
     },
     "id": 425,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2583,
+        "y": 2990
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33938,14 +34113,21 @@
         "minutes": 37,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 15,
         "direction": "east"
       }
     },
     "id": 426,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2480,
+        "y": 3341
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33957,14 +34139,21 @@
         "minutes": 43,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 5,
         "direction": "east"
       }
     },
     "id": 427,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2539,
+        "y": 3344
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -33976,14 +34165,21 @@
         "minutes": 50,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 0,
         "minutes": 5,
         "direction": "east"
       }
     },
     "id": 428,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2443,
+        "y": 2974
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -33995,14 +34191,21 @@
         "minutes": 0,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 48,
         "direction": "east"
       }
     },
     "id": 429,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2498,
+        "y": 2969
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34014,14 +34217,21 @@
         "minutes": 11,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 5,
         "minutes": 7,
         "direction": "east"
       }
     },
     "id": 430,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2604,
+        "y": 2963
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34033,14 +34243,21 @@
         "minutes": 31,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 46,
         "direction": "west"
       }
     },
     "id": 431,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2383,
+        "y": 3370
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34052,14 +34269,21 @@
         "minutes": 5,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 0,
         "minutes": 56,
         "direction": "east"
       }
     },
     "id": 432,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2470,
+        "y": 3388
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34071,14 +34295,21 @@
         "minutes": 22,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 4,
         "minutes": 15,
         "direction": "east"
       }
     },
     "id": 433,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2576,
+        "y": 3397
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34090,14 +34321,21 @@
         "minutes": 33,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 5,
         "minutes": 0,
         "direction": "east"
       }
     },
     "id": 434,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2600,
+        "y": 3403
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34109,14 +34347,21 @@
         "minutes": 41,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 6,
         "minutes": 0,
         "direction": "east"
       }
     },
     "id": 435,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2632,
+        "y": 3407
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34128,14 +34373,21 @@
         "minutes": 43,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 26,
         "direction": "east"
       }
     },
     "id": 436,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2518,
+        "y": 2914
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34147,14 +34399,21 @@
         "minutes": 3,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 16,
         "direction": "east"
       }
     },
     "id": 437,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2481,
+        "y": 3419
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34166,14 +34425,21 @@
         "minutes": 5,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 5,
         "minutes": 56,
         "direction": "east"
       }
     },
     "id": 438,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2630,
+        "y": 2902
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34185,14 +34451,21 @@
         "minutes": 26,
         "direction": "south"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 0,
         "minutes": 28,
         "direction": "east"
       }
     },
     "id": 439,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2455,
+        "y": 2891
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34204,14 +34477,21 @@
         "minutes": 33,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 39,
         "direction": "west"
       }
     },
     "id": 440,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2387,
+        "y": 3435
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34223,14 +34503,21 @@
         "minutes": 22,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 24,
         "direction": "west"
       }
     },
     "id": 441,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2363,
+        "y": 3461
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34242,14 +34529,21 @@
         "minutes": 33,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 15,
         "direction": "east"
       }
     },
     "id": 442,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2512,
+        "y": 3467
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34261,14 +34555,21 @@
         "minutes": 48,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 7,
         "minutes": 39,
         "direction": "east"
       }
     },
     "id": 443,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2685,
+        "y": 3475
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34280,14 +34581,21 @@
         "minutes": 3,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 20,
         "direction": "east"
       }
     },
     "id": 444,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2483,
+        "y": 3515
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34299,14 +34607,21 @@
         "minutes": 5,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 0,
         "minutes": 45,
         "direction": "west"
       }
     },
     "id": 445,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2416,
+        "y": 3516
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34318,14 +34633,21 @@
         "minutes": 41,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 4,
         "minutes": 58,
         "direction": "east"
       }
     },
     "id": 446,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2599,
+        "y": 3535
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34337,14 +34659,21 @@
         "minutes": 48,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 0,
         "minutes": 20,
         "direction": "east"
       }
     },
     "id": 447,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2451,
+        "y": 3571
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34356,14 +34685,21 @@
         "minutes": 46,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 1,
         "direction": "east"
       }
     },
     "id": 448,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2473,
+        "y": 3602
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34375,14 +34711,21 @@
         "minutes": 54,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 9,
         "minutes": 13,
         "direction": "east"
       }
     },
     "id": 449,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2735,
+        "y": 3638
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34394,14 +34737,21 @@
         "minutes": 48,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 52,
         "direction": "east"
       }
     },
     "id": 450,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2564,
+        "y": 3667
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34413,14 +34763,21 @@
         "minutes": 20,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 45,
         "direction": "east"
       }
     },
     "id": 451,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2528,
+        "y": 3684
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34432,14 +34789,21 @@
         "minutes": 30,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 6,
         "minutes": 28,
         "direction": "east"
       }
     },
     "id": 452,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2647,
+        "y": 3689
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34451,14 +34815,21 @@
         "minutes": 35,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 7,
         "minutes": 1,
         "direction": "east"
       }
     },
     "id": 453,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2665,
+        "y": 3692
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34470,14 +34841,21 @@
         "minutes": 50,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 8,
         "minutes": 30,
         "direction": "east"
       }
     },
     "id": 454,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2712,
+        "y": 3732
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34489,14 +34867,21 @@
         "minutes": 3,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 5,
         "minutes": 16,
         "direction": "east"
       }
     },
     "id": 455,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2609,
+        "y": 3739
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34508,14 +34893,21 @@
         "minutes": 22,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 6,
         "minutes": 33,
         "direction": "east"
       }
     },
     "id": 456,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2650,
+        "y": 3749
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34527,14 +34919,21 @@
         "minutes": 43,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 5,
         "minutes": 7,
         "direction": "east"
       }
     },
     "id": 457,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2604,
+        "y": 3792
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34546,14 +34945,21 @@
         "minutes": 5,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 1,
         "minutes": 52,
         "direction": "east"
       }
     },
     "id": 458,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2500,
+        "y": 3804
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34565,14 +34971,21 @@
         "minutes": 7,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 8,
         "minutes": 33,
         "direction": "east"
       }
     },
     "id": 459,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2714,
+        "y": 3805
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34584,14 +34997,21 @@
         "minutes": 33,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 5,
         "minutes": 48,
         "direction": "east"
       }
     },
     "id": 460,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2626,
+        "y": 3819
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34603,14 +35023,21 @@
         "minutes": 24,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 7,
         "minutes": 54,
         "direction": "east"
       }
     },
     "id": 461,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2693,
+        "y": 3846
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34622,14 +35049,21 @@
         "minutes": 30,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 1,
         "direction": "east"
       }
     },
     "id": 462,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2537,
+        "y": 3881
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "medium",
     "type": "coordinates"
   },
@@ -34641,14 +35075,21 @@
         "minutes": 35,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 9,
         "minutes": 18,
         "direction": "east"
       }
     },
     "id": 463,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2738,
+        "y": 3884
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34660,14 +35101,21 @@
         "minutes": 45,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 6,
         "minutes": 33,
         "direction": "east"
       }
     },
     "id": 464,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2650,
+        "y": 3889
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34679,14 +35127,21 @@
         "minutes": 26,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 6,
         "minutes": 24,
         "direction": "east"
       }
     },
     "id": 465,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2645,
+        "y": 3943
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34698,14 +35153,21 @@
         "minutes": 56,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 2,
         "minutes": 28,
         "direction": "east"
       }
     },
     "id": 466,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2519,
+        "y": 3959
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34717,14 +35179,21 @@
         "minutes": 58,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 8,
         "minutes": 43,
         "direction": "east"
       }
     },
     "id": 467,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2719,
+        "y": 3960
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34736,14 +35205,21 @@
         "minutes": 3,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 7,
         "minutes": 5,
         "direction": "east"
       }
     },
     "id": 468,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2667,
+        "y": 3963
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   },
@@ -34755,14 +35231,21 @@
         "minutes": 3,
         "direction": "north"
       },
-      "longtitude": {
+      "longitude": {
         "degrees": 3,
         "minutes": 24,
         "direction": "east"
       }
     },
     "id": 469,
-    "solution": null,
+    "solution": {
+      "type": "simple",
+      "coordinates": {
+        "x": 2549,
+        "y": 3963
+      },
+      "answer": "Dig at the indicated spot."
+    },
     "tier": "hard",
     "type": "coordinates"
   }

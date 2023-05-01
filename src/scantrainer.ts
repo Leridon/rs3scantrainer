@@ -1,12 +1,13 @@
-import {ClueStep, ClueTier, ClueType, SimpleSolution} from "./clues";
+import {ClueStep, ClueTier, ClueType, SetSolution, SimpleSolution, Solution, VariantSolution} from "./clues";
 import * as fuzzysort from "fuzzysort";
 import {clues} from "./data/clues";
 import {HowTo, Method} from "./methods";
 import {storage} from "./storage";
 import {ClueReader} from "./skillbertssolver/reader";
 import {forClue} from "./data/methods";
-import {GameMap} from "./map";
+import {GameMapControl, MarkerLayer, TileMarker} from "./map";
 import * as leaflet from "leaflet";
+import {ClueSolution} from "./skillbertssolver/cluesolver/textclue";
 
 let icons = {
     tiers: {
@@ -32,14 +33,12 @@ let icons = {
 
 type UIState = {
     clue: ClueStep,
-    method: Method,
-    preferredHowToTabs: string[],
+    method: Method
 }
 
 let uiState: UIState = {
     clue: null,
-    method: null,
-    preferredHowToTabs: []
+    method: null
 }
 
 class FilterControl {
@@ -196,17 +195,21 @@ class SearchControl {
 }
 
 class HowToTabControls {
+    preferred = new storage.Variable<string[]>("preferences/preferredtabs", [])
+
     constructor() {
         $(".methodtab").on("click", (e) => {
             let key = e.target.dataset.methodtype
 
-            let index = uiState.preferredHowToTabs.indexOf(key)
+            let preferred = this.preferred.get()
 
-            if (index >= 0) uiState.preferredHowToTabs.splice(index, 1)
+            let index = preferred.indexOf(key)
+            if (index >= 0) preferred.splice(index, 1)
+            preferred.unshift(key)
 
-            uiState.preferredHowToTabs.unshift(key)
+            this.preferred.set(preferred)
 
-            console.log(uiState.preferredHowToTabs)
+            console.log(preferred)
 
             this.activateHowToTab(key)
         })
@@ -244,13 +247,9 @@ class HowToTabControls {
             $("#videoclipcontributor").text(howto.video.contributor)
         }
 
-        if (howto.scanmap) {
-            $("#mapview").attr("src", `${howto.scanmap}`)
-        }
-
-        let available_tabs = Object.keys(howto)
+        let available_tabs = Object.keys(howto).concat(["map"])
         if (available_tabs.length > 0) {
-            let best = uiState.preferredHowToTabs.concat(["video", "text", "scanmap", "image"]).find((e) => e in howto)
+            let best = this.preferred.get().concat(["map", "video", "text", "scanmap", "image"]).find((e) => e in available_tabs)
 
             if (best) this.activateHowToTab(best)
             else this.activateHowToTab(available_tabs[0])
@@ -266,8 +265,8 @@ class HowToTabControls {
     }
 }
 
-class ScanTrainer {
-    public map = new GameMap("map")
+export class ScanTrainer {
+    public map = new GameMapControl("map")
     public search = new SearchControl(this)
     public tabcontrols = new HowToTabControls()
     private cluereader = new ClueReader()
@@ -319,19 +318,30 @@ class ScanTrainer {
             $("#cluesolution").hide()
         }
 
-        if (clue.solution && clue.solution.type == "coordset") {
-            // TODO: This is just a prototype and needs to be cleaned up
-            clue.solution.candidates.forEach((c) => {
-                leaflet.marker([c.y, c.x]).addTo(this.map.map)
-            })
-        } else if (clue.solution && clue.solution.type == "simple"){
-            leaflet.marker([clue.solution.coordinates.y, clue.solution.coordinates.x]).addTo(this.map.map)
+        function getSolutionLayer(solution: Solution) {
+            if (clue.solution) {
+                switch (clue.solution.type) {
+                    case "coordset":
+                        return new MarkerLayer((solution as SetSolution).candidates.map((e) => {
+                            return new TileMarker(e, "red")
+                        }))
+                    case "simple":
+                        return new MarkerLayer([
+                            new TileMarker((solution as SimpleSolution).coordinates, "red")
+                        ])
+                    case "variants":
+                        // TODO: Properly handle variant solutions
+                        return getSolutionLayer((solution as VariantSolution).variants[0].solution)
+
+                }
+            }
         }
+
+        this.map.setSolutionLayer(getSolutionLayer(clue.solution))
 
         let methods = forClue(clue)
 
-        console.log(methods)
-
+        this.map.resetMethodLayers()
         // TODO: Handle more than 1 method
         if (methods.length > 0) {
             this.setMethod(methods[0])
@@ -343,7 +353,7 @@ class ScanTrainer {
 
     setMethod(method: Method) {
         $(".cluemethodcontent").hide()
-        method.sendToUi()
+        method.sendToUi(this)
         $(`.cluemethodcontent[data-methodtype=${method.type}]`).show()
 
         $("#cluemethod").show()

@@ -4,6 +4,17 @@ var fs = require("fs");
 var original_data = require("./clues.js");
 var coordsets = require("./coords.js");
 var imported = [];
+function sextantToCoord(comp) {
+    var sextant = {
+        offsetx: 2440,
+        offsetz: 3161,
+        degreespertile: 1.875
+    };
+    return {
+        x: sextant.offsetx + Math.round((60 * comp.longitude.degrees + comp.longitude.minutes) * (comp.longitude.direction == "west" ? -1 : 1) / sextant.degreespertile),
+        y: sextant.offsetz + Math.round((60 * comp.latitude.degrees + comp.latitude.minutes) * (comp.latitude.direction == "south" ? -1 : 1) / sextant.degreespertile)
+    };
+}
 var seen = new Set();
 function parseSimpleSolution(obj) {
     return {
@@ -241,22 +252,27 @@ var next_id = 401;
 for (var _a = 0, coordinates_1 = coordinates; _a < coordinates_1.length; _a++) {
     var coord = coordinates_1[_a];
     var match = coord.clue.match("(\\d+) degrees (\\d+) minutes (north|south), (\\d+) degrees (\\d+) minutes (east|west)");
+    var gielecoords = {
+        latitude: {
+            degrees: Number(match[1]),
+            minutes: Number(match[2]),
+            direction: match[3]
+        },
+        longitude: {
+            degrees: Number(match[4]),
+            minutes: Number(match[5]),
+            direction: match[6]
+        }
+    };
     var clue = {
         clue: coord.clue,
-        coordinates: {
-            latitude: {
-                degrees: Number(match[1]),
-                minutes: Number(match[2]),
-                direction: match[3]
-            },
-            longtitude: {
-                degrees: Number(match[4]),
-                minutes: Number(match[5]),
-                direction: match[6]
-            }
-        },
+        coordinates: gielecoords,
         id: next_id,
-        solution: null,
+        solution: {
+            type: "simple",
+            coordinates: sextantToCoord(gielecoords),
+            answer: "Dig at the indicated spot."
+        },
         tier: coord.tier.toLowerCase(),
         type: "coordinates"
     };

@@ -10,7 +10,7 @@ export type ClueType = "anagram"
     | "simple"
     | "skilling"
 
-export type Coordinate = {
+export type MapCoordinate = {
     x: number,
     y: number
     level?: number
@@ -34,8 +34,8 @@ export type SolutionType = "simple" | "variants" | "coordset"
 type SolutionBase = { type: SolutionType }
 type SolutionVariant = { id: string, name: string, solution: SimpleSolution }
 
-export type SimpleSolution = SolutionBase & { type: "simple", coordinates: Coordinate, answer?: string }
-export type SetSolution = SolutionBase & { type: "coordset", candidates: Coordinate[] }
+export type SimpleSolution = SolutionBase & { type: "simple", coordinates: MapCoordinate, answer?: string }
+export type SetSolution = SolutionBase & { type: "coordset", candidates: MapCoordinate[] }
 export type VariantSolution = SolutionBase & { type: "variants", variants: SolutionVariant[] }
 
 export type Solution = SimpleSolution | SetSolution | VariantSolution

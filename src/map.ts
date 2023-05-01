@@ -1,6 +1,7 @@
 import * as leaflet from "leaflet";
-import {TileLayer} from "leaflet";
-import {Coordinate, GieliCoordinates} from "./clues";
+import {MapCoordinate, GieliCoordinates} from "./clues";
+import {DivIcon, FeatureGroup, Layer, Marker, PathOptions} from "leaflet";
+import {shapes} from "./map/shapes";
 
 type ElevationConfig = { dxdy: number, dzdy: number }
 type Layersource = { urls: string[], from?: number, to?: number, elevation?: ElevationConfig };
@@ -39,16 +40,68 @@ class RsBaseTileLayer extends leaflet.TileLayer {
     }
 }
 
-function sextantToCoord(comp: GieliCoordinates): { x: number, y: number } {
-    const sextant = {
-        offsetx: 2440,
-        offsetz: 3161,
-        degreespertile: 1.875
+export class TileMarker extends leaflet.FeatureGroup {
+    marker: leaflet.Marker
+    area: leaflet.Polygon
+
+    constructor(private spot: MapCoordinate,
+                private tileColor?: string
+    ) {
+        super()
+
+        this.marker = leaflet.marker([spot.y, spot.x], {
+            /*icon: new DivIcon({
+                html: $("<div>").text(`[${spot.x}, ${spot.y}]`)
+                    .css("color", "gold")
+                    .css("font-size", "18pt")
+                    .get()[0]
+
+            }),*/
+            title: `[${spot.x}, ${spot.y}]`
+        }).addTo(this)
+
+        if (tileColor)
+            this.area = shapes.tilePolygon(spot).addTo(this).setStyle({
+                color: tileColor,
+                fillColor: tileColor
+            })
+
+
+        this.setActive(true)
     }
 
-    return {
-        x: sextant.offsetx + Math.round((60 * comp.longitude.degrees + comp.longitude.minutes) * (comp.longitude.direction == "west" ? -1 : 1) / sextant.degreespertile),
-        y: sextant.offsetz + Math.round((60 * comp.latitude.degrees + comp.latitude.minutes) * (comp.latitude.direction == "south" ? -1 : 1) / sextant.degreespertile)
+    setOpacity(opacity: number) {
+        this.marker.setOpacity(opacity)
+        if (this.area)
+            this.area.setStyle({
+                color: this.tileColor,
+                fillColor: this.tileColor,
+                opacity: opacity,
+                fillOpacity: opacity * 0.4,
+                interactive: false,
+                weight: 3
+            })
+    }
+
+    setActive(isActive: boolean) {
+        if (isActive) this.setOpacity(1)
+        else this.setOpacity(0.2)
+    }
+
+    getSpot(): MapCoordinate {
+        return this.spot
+    }
+}
+
+export class MarkerLayer extends FeatureGroup {
+    constructor(private markers: TileMarker[]) {
+        super()
+
+        this.markers.forEach((e) => e.addTo(this))
+    }
+
+    getMarkers() {
+        return this.markers
     }
 }
 
@@ -56,14 +109,18 @@ function sextantToCoord(comp: GieliCoordinates): { x: number, y: number } {
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.
  */
-export class GameMap {
-    map
+export class GameMapControl {
+    map: leaflet.Map
+    solutionLayer: leaflet.Layer
+    method_layers: leaflet.Layer[]
 
     geturl(filename: string) {
         return `https://runeapps.org/maps/map1/${filename}`;
     }
 
     constructor(map_id: string) {
+        this.method_layers = [null, null]
+
         const chunkoffsetx = 16;
         const chunkoffsetz = 16;
 
@@ -82,6 +139,7 @@ export class GameMap {
 
         this.map = leaflet.map(map_id, {
             crs: crs,
+            zoomSnap: 0.5,
             minZoom: -5,
             maxZoom: 7,
             zoomControl: false,
@@ -89,52 +147,54 @@ export class GameMap {
             attributionControl: true,
         }).setView([3200, 3000], 0);
 
-        /*
-        leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(this.map)
-
-        "https://runeapps.org/maps/map1/topdown-0/{z}/{x}-{y}.webp"*/
-        /*
-    `map-0/{z}/{x}-{y}.webp`
-    `/node/map/getnamed?mapid=1&version=${this.version}&file=${(filename)}`*/
-
         let layer = new RsBaseTileLayer([
-            {to: 2, urls: [this.geturl(`map-0/{z}/{x}-{y}.webp`)]},
-            {from: 3, to: 3, urls: [this.geturl(`map-0/{z}/{x}-{y}.svg`)]}
+            {urls: [this.geturl(`topdown-0/{z}/{x}-{y}.webp`), this.geturl(`topdown-0/{z}/{x}-{y}.webp`)]}
         ], {
             attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
             tileSize: 512,
+            maxNativeZoom: 5,
+            minZoom: -5
+        }).addTo(this.map)
+
+        let wall_layer = new RsBaseTileLayer([
+            {to: 2, urls: [this.geturl(`walls-0/{z}/{x}-{y}.webp`)]},
+            {from: 3, to: 3, urls: [this.geturl(`walls-0/{z}/{x}-{y}.svg`)]}
+        ], {
+            attribution: 'Skillbert',
+            tileSize: 512,
             maxNativeZoom: 3,
             minZoom: -5
-        })
+        }).addTo(this.map)
+    }
 
+    setSolutionLayer(layer: leaflet.FeatureGroup, fit: boolean = true) {
+        if (this.solutionLayer) this.solutionLayer.remove()
+        this.solutionLayer = layer
         layer.addTo(this.map)
 
-        let origin: GieliCoordinates = {
-            latitude: {
-                degrees: 0,
-                minutes: 0,
-                direction: "north"
-            },
-            longitude: {
-                degrees: 0,
-                minutes: 0,
-                direction: "east"
-            }
-        }
+        if (fit) this.map.fitBounds(layer.getBounds(), {
+            maxZoom: 2
+        })
+    }
 
-        let or = sextantToCoord(origin)
+    getSolutionLayer() {
+        return this.solutionLayer
+    }
 
-        leaflet.marker([or.y, or.x]).addTo(this.map)
+    setMethodLayer(i: number, layer: Layer) {
+        if (this.method_layers[i]) this.method_layers[i].remove()
 
-        /*
-                leaflet.tileLayer("https://runeapps.org/maps/map1/topdown-0/{z}/{x}-{y}.webp", {
-                    attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
-                    tileSize: 512,
-                    maxNativeZoom: 5,
-                    minZoom: -5
-                }).addTo(this.map)*/
+        this.method_layers[i] = layer
+        layer.addTo(this.map)
+    }
+
+    resetMethodLayers() {
+        this.method_layers.forEach((e) => {
+            if (e) e.remove()
+        })
+    }
+
+    getMethodLayer(i: number) {
+        return this.method_layers[i]
     }
 }

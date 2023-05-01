@@ -19,7 +19,7 @@ type Coordinate = {
 }
 
 type GieliCoordinates = {
-    longtitude: {
+    longitude: {
         degrees: number,
         minutes: number,
         direction: "east" | "west"
@@ -98,6 +98,19 @@ let coordsets: {
 }[] = require("./coords.js")
 
 let imported: ClueStep[] = []
+
+function sextantToCoord(comp: GieliCoordinates): { x: number, y: number } {
+    const sextant = {
+        offsetx: 2440,
+        offsetz: 3161,
+        degreespertile: 1.875
+    }
+
+    return {
+        x: sextant.offsetx + Math.round((60 * comp.longitude.degrees + comp.longitude.minutes) * (comp.longitude.direction == "west" ? -1 : 1) / sextant.degreespertile),
+        y: sextant.offsetz + Math.round((60 * comp.latitude.degrees + comp.latitude.minutes) * (comp.latitude.direction == "south" ? -1 : 1) / sextant.degreespertile)
+    }
+}
 
 let seen = new Set<number>()
 
@@ -349,22 +362,28 @@ for (let coord of coordinates) {
 
     let match = coord.clue.match("(\\d+) degrees (\\d+) minutes (north|south), (\\d+) degrees (\\d+) minutes (east|west)")
 
+    let gielecoords = {
+        latitude: {
+            degrees: Number(match[1]),
+            minutes: Number(match[2]),
+            direction: match[3] as ("north" | "south"),
+        },
+        longitude: {
+            degrees: Number(match[4]),
+            minutes: Number(match[5]),
+            direction: match[6] as ("east" | "west"),
+        }
+    }
+
     let clue: CoordinateStep = {
         clue: coord.clue,
-        coordinates: {
-            latitude: {
-                degrees: Number(match[1]),
-                minutes: Number(match[2]),
-                direction: match[3] as ("north" | "south"),
-            },
-            longtitude: {
-                degrees: Number(match[4]),
-                minutes: Number(match[5]),
-                direction: match[6] as ("east" | "west"),
-            }
-        },
+        coordinates: gielecoords,
         id: next_id,
-        solution: null,
+        solution: {
+            type: "simple",
+            coordinates: sextantToCoord(gielecoords),
+            answer: "Dig at the indicated spot."
+        },
         tier: coord.tier.toLowerCase() as ("hard" | "medium"),
         type: "coordinates"
     }

@@ -289,6 +289,8 @@ export class ScanTrainer {
         $("#feature_filter").hide() // The filter feature is deactivated for now
 
         this.tabcontrols.setHowToTabs({})
+
+        this.map.map.invalidateSize()
     }
 
     gotoRoot() {

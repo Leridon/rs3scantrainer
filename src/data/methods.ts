@@ -205,8 +205,8 @@ function loadScanMethods() {
                 {name: "C", coords: {x: 2420, y: 4444}},
                 {name: "D", coords: {x: 2409, y: 4455}},
                 {name: "E", coords: {x: 2398, y: 4444}},
-                {name: "F", coords: {x: 0, y: 0}},
-                {name: "G", coords: {x: 0, y: 0}},
+                {name: "F", coords: {x: 2447, y: 4430}},
+                {name: "G", coords: {x: 2405, y: 4381}},
             ],
             goTo("A", "Fairy Ring")
                 .howto({

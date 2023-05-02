@@ -55,7 +55,8 @@ export class ScanTree extends Method {
         for (let spot of this.scan_spots) {
             shapes.tilePolygon(spot.coords).setStyle({
                 color: "#00FF21",
-                fillColor: "#00FF21"
+                fillColor: "#00FF21",
+                interactive: false
             })
                 .bindTooltip(spot.name, {
                     interactive: false,
@@ -134,7 +135,8 @@ export class ScanTreeNode {
         public instruction: string,
         public solved: number | null,
         public _children: [ChildKey, ScanTreeNode][],
-        public howto: HowTo
+        public howto: HowTo,
+        private is_synthetic_triple_node: boolean = false
     ) {
     }
 
@@ -226,7 +228,7 @@ export class ScanTreeNode {
         scantrainer.tabcontrols.setHowToTabs(this.howTo())
     }
 
-    generateList(depth: number, container: JQuery, app: ScanTrainer) {
+    generateList(depth: number, container: JQuery, app: ScanTrainer, key_override: string = null) {
         let line = $("<div>")
             .addClass("scantreeline")
             .css("margin-left", `${depth * 12}px`)
@@ -235,14 +237,14 @@ export class ScanTreeNode {
         if (depth == 0) {
             $("<span>")
                 .addClass("nextchoice")
-                .text(prettykey(this.parent.key))
+                .text(key_override || prettykey(this.parent.key))
                 .on("click", () => this.sendToUI(app))
                 .appendTo(line)
 
             //line.css("line-height", `30px`)
         } else if (depth > 0) {
             $("<span>")
-                .text(prettykey(this.parent.key) + ": ")
+                .text((key_override || prettykey(this.parent.key)) + ": ")
                 .appendTo(line)
         }
 
@@ -258,6 +260,13 @@ export class ScanTreeNode {
     generateChildren(depth: number, container: JQuery, app: ScanTrainer) {
         if (depth >= 2) return
 
+        if (this.is_synthetic_triple_node) {
+            this.children().filter((e) => e.parent.key.kind == PingType.TRIPLE)
+                .forEach((e) => e.generateList(depth, container, app, e.solved.toString()))
+
+            return;
+        }
+
         let triples = this.children().filter((e) => e.parent.key.kind == PingType.TRIPLE)
 
         if (triples.length >= 1) {
@@ -266,18 +275,17 @@ export class ScanTreeNode {
                 .css("margin-left", `${depth * 12}px`)
                 .css("font-size", `${13 / (Math.pow(1.25, depth))}px`)
 
-
             if (depth == 0) {
 
                 let triple_span = $("<span>")
                     .addClass("nextchoice")
                     .text("Triple")
                     .on("click", () => {
-
                         if (triples.length == 1) {
                             triples[0].sendToUI(app)
+                        } else if (this.is_synthetic_triple_node) {
+                            this.sendToUI(app) // This does nothing
                         } else {
-
                             let synthetic = new ScanTreeNode("Which spot?",
                                 null,
                                 triples.map((e) => {
@@ -286,13 +294,14 @@ export class ScanTreeNode {
                                         kind: PingType.TRIPLE
                                     }, e]
                                 }),
-                                null
+                                null,
+                                true
                             )
-                            synthetic.setParent(this, {key: "Triple", kind: PingType.TRIPLE})
+                            synthetic.parent = {node: this, key: {key: "Triple", kind: PingType.TRIPLE}}
+                            synthetic.root = this.root
 
                             synthetic.sendToUI(app)
                         }
-
                     })
                     .appendTo(line)
 

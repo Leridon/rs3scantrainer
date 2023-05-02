@@ -195,16 +195,18 @@
         </div>
 
         <div style="flex-grow: 1">
-            <div class="methodtabcontent panel" data-methodtype="map">
+            <div class="methodtabcontent" data-methodtype="map">
                 <div id="map"></div>
             </div>
 
-            <div class="methodtabcontent panel" data-methodtype="video">
-                <video controls autoplay muted loop id="videoplayer">
-                    <source id="videosource" src="" type="video/webm">
-                </video>
-                <div class="attribution">
-                    Clip contributed by <span id="videoclipcontributor"></span>
+            <div class="methodtabcontent" data-methodtype="video" style="display: flex; flex-direction: column">
+                <div class="videocontainer">
+                    <video controls muted loop id="videoplayer">
+                        <source id="videosource" src="" type="video/webm">
+                    </video>
+
+                </div>
+                <div class="attribution" style="flex-grow: 1; min-height: 20px"> Clip contributed by <span id="videoclipcontributor"></span>
                 </div>
             </div>
             <div class="methodtabcontent panel" data-methodtype="text">

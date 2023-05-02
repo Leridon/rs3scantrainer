@@ -9,6 +9,8 @@ import {GameMapControl, MarkerLayer, TileMarker} from "./map";
 import * as leaflet from "leaflet";
 import {ClueSolution} from "./skillbertssolver/cluesolver/textclue";
 
+export const DEBUG = true;
+
 let icons = {
     tiers: {
         easy: "img/icons/sealedeasy.png",
@@ -42,7 +44,7 @@ let uiState: UIState = {
 }
 
 class FilterControl {
-    private searchFilter = new storage.Variable("preferences/cluefilters",
+    private filter = new storage.Variable("preferences/cluefilters",
         {
             tiers: {
                 easy: true,
@@ -72,8 +74,8 @@ class FilterControl {
         $(".filterbutton").each((i, e) => {
             let element = $(e)
 
-            if (this.searchFilter.value.types[element.attr("data-type")] ||
-                this.searchFilter.value.tiers[element.attr("data-tier")]) {
+            if (this.filter.value.types[element.attr("data-type")] ||
+                this.filter.value.tiers[element.attr("data-tier")]) {
                 element.addClass("active")
             }
         })
@@ -99,10 +101,10 @@ class FilterControl {
             let type = target.attr("data-type");
             let tier = target.attr("data-tier");
 
-            if (type) this.searchFilter.value.types[type] = !this.searchFilter.value.types[type]
-            else this.searchFilter.value.tiers[tier] = !this.searchFilter.value.tiers[tier]
+            if (type) this.filter.value.types[type] = !this.filter.value.types[type]
+            else this.filter.value.tiers[tier] = !this.filter.value.tiers[tier]
 
-            this.searchFilter.save()
+            this.filter.save()
 
             this.update()
             this.search.update()
@@ -115,7 +117,7 @@ class FilterControl {
 
     private update() {
         this.candidates = clues.filter((c) =>
-            (c.tier == null || this.searchFilter.value.tiers[c.tier]) && this.searchFilter.value.types[c.type]
+            (c.tier == null || this.filter.value.tiers[c.tier]) && this.filter.value.types[c.type]
         )
 
         console.log(this.candidates.length)
@@ -180,7 +182,9 @@ class SearchControl {
 
         let results = fuzzysort.go(term, this.filter.getCandidates(), {
             key: "clue",
-            all: true
+            all: true,
+            limit: 20,
+            threshold: -10000
         })
 
         let box = this.search_results.empty()
@@ -216,16 +220,18 @@ class HowToTabControls {
     }
 
     setHowToTabs(howto: HowTo) {
+        if (!howto) howto = {}
+
         $(".methodtab").hide()
         $(".methodtabcontent").hide()
-
-        for (let key of Object.keys(howto)) {
-            $(`.methodtab[data-methodtype=${key}]`).show()
-        }
 
         // Always show map
         $(`.methodtab[data-methodtype=map]`).show()
 
+
+        for (let key of Object.keys(howto)) {
+            $(`.methodtab[data-methodtype=${key}]`).show()
+        }
         if (howto.text) {
             $("#textmethodcontent").text(howto.text)
         }

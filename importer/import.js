@@ -55,6 +55,7 @@ var _loop_1 = function (obj) {
             .variants.push(parseVariant(obj));
         return "continue";
     }
+    seen.add(obj.clueid);
     switch (obj.type) {
         case "simple": {
             var imp = {
@@ -278,5 +279,48 @@ for (var _a = 0, coordinates_1 = coordinates; _a < coordinates_1.length; _a++) {
     };
     imported.push(clue);
     next_id++;
+}
+{
+    var do_not_exist_anymore = [
+        33
+    ];
+    var _loop_2 = function (id) {
+        var i = imported.findIndex(function (e) { return e.id == id; });
+        imported.slice(i, i + 1);
+    };
+    for (var _b = 0, do_not_exist_anymore_1 = do_not_exist_anymore; _b < do_not_exist_anymore_1.length; _b++) {
+        var id = do_not_exist_anymore_1[_b];
+        _loop_2(id);
+    }
+}
+imported.findIndex;
+var ids = new Map([
+    ["easy", []],
+    ["medium", []],
+    ["hard", [
+            287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302,
+            28, 30, 39, 139, 240, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
+            160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178,
+            255, 226, 228, 229, 230, 231, 232, 235, 243, //emotes
+        ]],
+    ["elite", [349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367,]],
+    ["master", [
+            368, 369, 370, 371,
+            233, 234, 236, 237, 238, 239, 240, 241, 242, 244, 245, 246, //emotes
+        ]],
+]);
+ids.forEach(function (ids, tier) {
+    var _loop_3 = function (id) {
+        imported.find(function (c) { return c.id == id; }).tier = tier;
+    };
+    for (var _i = 0, ids_1 = ids; _i < ids_1.length; _i++) {
+        var id = ids_1[_i];
+        _loop_3(id);
+    }
+});
+for (var _c = 0, imported_1 = imported; _c < imported_1.length; _c++) {
+    var clue = imported_1[_c];
+    if (!clue.tier)
+        console.log("Tier missing: " + clue.id + ", " + clue.type + ", " + clue.clue);
 }
 fs.writeFileSync("data.json.js", JSON.stringify(imported, null, 2));

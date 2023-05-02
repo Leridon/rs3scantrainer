@@ -1,32 +1,39 @@
-- Add teleport layer
+RELEASE 0.1, ETA May 5th
+    - This is a beta release to iron out issues before the general release.
+    - Remaining scan maps are planned for after
+
 - Add auto solving on an interval (lock button)
+- Add teleport layer
 - Debugging: Place tile marker on the map
+- Only play videos on demand to save bandwith
+- Display method layer above solution layer
+- Automated method association
 
 - Style decisions:
-    - Style of spot markers
     - Figure out where to put the label for standing spots
 
 - Arrow key/enter control for the search.
 - Finish styling
-    - Fix the sizing of videos/images.
+    - Fix the sizing of videos.
     - Fix sizing of search results.
-    - Fix inactive filters displaying through search results
 
 - Map out a total of at least 4 scans.
+    - Zanaris
+    - Falador
+    - Dorgeshkaan
+    - ardounge
 
-RELEASE: Get release 0.1 ready on May 5th
-    - This is a beta release to iron out issues before the general release.
-    - Remaining scan maps are planned for after
-
-- Finish scan mapping and record more clips.
-    - Fix some clue spots being on a different level
 
 RELEASE 0.2
+- Finish scan mapping and record more clips.
+    - Fix some clue spots being on a different level
+- Fix inactive filters displaying through search results
 
+
+RELEASE 0.3
 - Integrate a solving method for compasses
 - Track Jacket/Backpack Charges via Chat.
 
-RELEASE 0.3
 
 - Collapsible panels
 

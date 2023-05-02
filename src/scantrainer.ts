@@ -280,6 +280,8 @@ export class ScanTrainer {
             if (clue) this.select(clue)
         })
 
+        $("#feature_filter").hide() // The filter feature is deactivated for now
+
         this.tabcontrols.setHowToTabs({})
     }
 
@@ -323,11 +325,11 @@ export class ScanTrainer {
                 switch (clue.solution.type) {
                     case "coordset":
                         return new MarkerLayer((solution as SetSolution).candidates.map((e) => {
-                            return new TileMarker(e, "red")
+                            return new TileMarker(e).withMarker().withX("#B21319")
                         }))
                     case "simple":
                         return new MarkerLayer([
-                            new TileMarker((solution as SimpleSolution).coordinates, "red")
+                            new TileMarker((solution as SimpleSolution).coordinates).withMarker().withX("#B21319")
                         ])
                     case "variants":
                         // TODO: Properly handle variant solutions
@@ -365,4 +367,6 @@ export let scantrainer: ScanTrainer = null
 
 export function initialize() {
     scantrainer = new ScanTrainer()
+    scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
+    scantrainer.select(clues.find((c) => c.id == 399)) // compass
 }

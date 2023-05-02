@@ -29,8 +29,8 @@ export abstract class Method {
 export class ScanTree extends Method {
     clue: ScanStep = null
 
-    constructor(private spot_mapping: MapCoordinate[],
-                private spots: { name: string, coords: MapCoordinate }[],
+    constructor(private dig_spot_mapping: MapCoordinate[],
+                private scan_spots: { name: string, coords: MapCoordinate }[],
                 public root: ScanTreeNode
     ) {
         super("scantree")
@@ -39,22 +39,43 @@ export class ScanTree extends Method {
     }
 
     sendToUi(trainer: ScanTrainer): void {
+        {
+            let layer = (trainer.map.getSolutionLayer() as MarkerLayer)
+            for (let i = 0; i < this.dig_spot_mapping.length; i++) {
+                layer.markerBySpot(this.dig_spot_mapping[i]).withLabel(
+                    (i + 1).toString(),
+                    "spot-number",
+                    [0, 10]
+                )
+            }
+        }
 
         let layer = new leaflet.FeatureGroup()
 
-        for (let spot of this.spots) {
+        for (let spot of this.scan_spots) {
             shapes.tilePolygon(spot.coords).setStyle({
                 color: "#00FF21",
                 fillColor: "#00FF21"
-            }).addTo(layer)
+            })
+                .bindTooltip(spot.name, {
+                    interactive: false,
+                    permanent: true,
+                    className: "area-name",
+                    offset: [0, 10],
+                    direction: "center"
+                })
+                .addTo(layer)
 
+            // TODO: Figure out a good spot for labels
+
+            /*
             leaflet.marker([spot.coords.y + 2, spot.coords.x], {
                 icon: leaflet.divIcon({
-                    className: "my-tooltip",
+                    className: "area-name",
                     html: spot.name
                 }),
                 interactive: false,
-            }).addTo(layer)
+            }).addTo(layer)*/
 
         }
 
@@ -68,11 +89,11 @@ export class ScanTree extends Method {
     }
 
     spotToNumber(spot: MapCoordinate) {
-        return this.spot_mapping.findIndex((e) => e.x == spot.x && e.y == spot.y) + 1
+        return this.dig_spot_mapping.findIndex((e) => e.x == spot.x && e.y == spot.y) + 1
     }
 
     spot(number: number) {
-        return this.spot_mapping[number - 1]
+        return this.dig_spot_mapping[number - 1]
     }
 }
 

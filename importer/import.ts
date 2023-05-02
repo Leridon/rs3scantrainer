@@ -1,5 +1,6 @@
 import * as fs from "fs";
 
+
 type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
 type ClueType = "anagram"
@@ -158,6 +159,8 @@ for (let obj of original_data) {
 
         continue
     }
+
+    seen.add(obj.clueid)
 
 
     switch (obj.type) {
@@ -359,7 +362,6 @@ let coordinates = [
 
 let next_id = 401
 for (let coord of coordinates) {
-
     let match = coord.clue.match("(\\d+) degrees (\\d+) minutes (north|south), (\\d+) degrees (\\d+) minutes (east|west)")
 
     let gielecoords = {
@@ -391,6 +393,48 @@ for (let coord of coordinates) {
     imported.push(clue)
 
     next_id++
+}
+{
+    let do_not_exist_anymore: number[] = [
+        33,
+        36, 37, 38 // Old scans
+    ]
+
+    for (let id of do_not_exist_anymore) {
+        let i = imported.findIndex((e) => e.id == id)
+
+        imported.slice(i, i + 1)
+    }
+}
+
+imported.findIndex
+
+let ids: Map<ClueTier, number[]> = new Map([
+    ["easy", [
+
+    ]],
+    ["medium", []],
+    ["hard", [
+        287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, // anagrams
+        28, 30, 39, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
+        160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, //cryptics
+        255, 226, 228, 229, 230, 231, 232, 235, 243, //emotes
+    ]],
+    ["elite", [349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367,]],
+    ["master", [
+        368, 369, 370, 371, // scans
+        233, 234, 236, 237, 238, 239, 240, 241, 242, 244, 245, 246, //emotes
+    ]],
+])
+
+ids.forEach((ids, tier) => {
+    for (let id of ids) {
+        imported.find((c) => c.id == id).tier = tier
+    }
+})
+
+for (let clue of imported) {
+    if (!clue.tier) console.log("Tier missing: " + clue.id + ", " + clue.type + ", " + clue.clue)
 }
 
 

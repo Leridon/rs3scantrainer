@@ -1,4 +1,4 @@
-module.exports = [
+[
   {
     "type": "simple",
     "id": 0,
@@ -391,7 +391,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Covered in shadows, the centre of the circle is where you will find the answer.",
-    "tier": null,
+    "tier": "hard",
     "id": 28,
     "solution": {
       "type": "simple",
@@ -419,7 +419,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Generally speaking, his nose was very bent",
-    "tier": null,
+    "tier": "hard",
     "id": 30,
     "solution": {
       "type": "simple",
@@ -976,7 +976,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "There is no 'worthier' lord.",
-    "tier": null,
+    "tier": "hard",
     "id": 39,
     "solution": {
       "type": "simple",
@@ -24024,7 +24024,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "I am head of the abbey with a cold breeze from the west.",
-    "tier": null,
+    "tier": "hard",
     "id": 139,
     "solution": {
       "type": "simple",
@@ -24052,7 +24052,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Often sought out by scholars of histories past, find me where words of wisdom speak volumes.",
-    "tier": null,
+    "tier": "hard",
     "id": 141,
     "solution": {
       "type": "simple",
@@ -24066,7 +24066,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "A great view: watch the rapidly drying hides get splashed. Check the box you are sitting on.",
-    "tier": null,
+    "tier": "hard",
     "id": 142,
     "solution": {
       "type": "simple",
@@ -24080,7 +24080,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "You will need to wash the old ash off of your spade when you dig here, but the only water nearby is stagnant.",
-    "tier": null,
+    "tier": "hard",
     "id": 143,
     "solution": {
       "type": "variants",
@@ -24096,18 +24096,7 @@ module.exports = [
             },
             "answer": "Dig by the little pond on top of mountain."
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "cryptic",
-    "clue": "You will need to wash the old ash off of your spade when you dig here, but the only water nearby is stagnant.",
-    "tier": null,
-    "id": 143,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "entrance",
           "name": "Boat",
@@ -24126,7 +24115,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Identify the back of this over-acting brother. (He's a long way from home.)",
-    "tier": null,
+    "tier": "hard",
     "id": 144,
     "solution": {
       "type": "simple",
@@ -24140,7 +24129,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "As you desert this town, keep an eye out for a set of spines that could ruin nearby rugs: dig carefully around the greenery.",
-    "tier": null,
+    "tier": "hard",
     "id": 145,
     "solution": {
       "type": "simple",
@@ -24154,7 +24143,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "'Small Shoe.' Often found with rod on mushroom.",
-    "tier": null,
+    "tier": "hard",
     "id": 146,
     "solution": {
       "type": "simple",
@@ -24168,7 +24157,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "It seems to have reached the end of the line, and it's still empty.",
-    "tier": null,
+    "tier": "hard",
     "id": 147,
     "solution": {
       "type": "variants",
@@ -24184,18 +24173,7 @@ module.exports = [
             },
             "answer": "Search the cart"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "cryptic",
-    "clue": "It seems to have reached the end of the line, and it's still empty.",
-    "tier": null,
-    "id": 147,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "entrance",
           "name": "Entrance",
@@ -24214,7 +24192,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Read 'How to Breed Scorpions' By O.W. Thathurt.",
-    "tier": null,
+    "tier": "hard",
     "id": 148,
     "solution": {
       "type": "simple",
@@ -24228,7 +24206,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Probably filled with books on magic.",
-    "tier": null,
+    "tier": "hard",
     "id": 149,
     "solution": {
       "type": "simple",
@@ -24242,7 +24220,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Citric cellar.",
-    "tier": null,
+    "tier": "hard",
     "id": 150,
     "solution": {
       "type": "simple",
@@ -24256,7 +24234,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "I'm sure they will let ya buy some things here, as long as you are in good 'ealth.",
-    "tier": null,
+    "tier": "hard",
     "id": 151,
     "solution": {
       "type": "simple",
@@ -24270,7 +24248,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Mine was the strangest birth under the sun. I left the crimson sack. Yet life had not begun. Entered the world and yet was seen by none.",
-    "tier": null,
+    "tier": "hard",
     "id": 152,
     "solution": {
       "type": "variants",
@@ -24286,18 +24264,7 @@ module.exports = [
             },
             "answer": "Dig under the red spiders eggs."
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "cryptic",
-    "clue": "Mine was the strangest birth under the sun. I left the crimson sack. Yet life had not begun. Entered the world and yet was seen by none.",
-    "tier": null,
-    "id": 152,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "entrance",
           "name": "Cave entrance",
@@ -24316,7 +24283,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "His head might be hollow, but the crates nearby are filled with surprises.",
-    "tier": null,
+    "tier": "hard",
     "id": 153,
     "solution": {
       "type": "simple",
@@ -24330,7 +24297,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "My giant guardians below the market streets would be fans of rock and roll, if only they could grab hold of it. Dig near my purple smoke!",
-    "tier": null,
+    "tier": "hard",
     "id": 154,
     "solution": {
       "type": "simple",
@@ -24344,7 +24311,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "You can cook food on me, but don't cook any foodles - That would just be wrong.",
-    "tier": null,
+    "tier": "hard",
     "id": 155,
     "solution": {
       "type": "simple",
@@ -24358,7 +24325,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "The beasts to my east snap claws and tails. The rest to my west can slide and eat fish. The force to my north will jump and they'll wail, Come dig by my fire and make a wish.",
-    "tier": null,
+    "tier": "hard",
     "id": 156,
     "solution": {
       "type": "simple",
@@ -24372,7 +24339,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "You don't need to go hopping mad - or take steps - to get to this treasure: just be totally shellfish.",
-    "tier": null,
+    "tier": "hard",
     "id": 157,
     "solution": {
       "type": "simple",
@@ -24386,7 +24353,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "When you get tired of fighting, go deep, deep down until you need an antidote.",
-    "tier": null,
+    "tier": "hard",
     "id": 158,
     "solution": {
       "type": "variants",
@@ -24402,18 +24369,7 @@ module.exports = [
             },
             "answer": "Go into the dungeon, then cross the ledge and pray at the altar to fall down. (Failing to cross the ledge will have the same result.) Now search the crate by the stairs."
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "cryptic",
-    "clue": "When you get tired of fighting, go deep, deep down until you need an antidote.",
-    "tier": null,
-    "id": 158,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "entrance",
           "name": "Altar",
@@ -24425,18 +24381,7 @@ module.exports = [
             },
             "answer": "Go into the dungeon, then cross the ledge and pray at the altar to fall down. (Failing to cross the ledge will have the same result.) Now search the crate by the stairs."
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "cryptic",
-    "clue": "When you get tired of fighting, go deep, deep down until you need an antidote.",
-    "tier": null,
-    "id": 158,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "entrance",
           "name": "Location",
@@ -24455,7 +24400,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "'Throat mage seeks companionship. Seek answers inside my furniture if interested.'",
-    "tier": null,
+    "tier": "hard",
     "id": 159,
     "solution": {
       "type": "simple",
@@ -24469,7 +24414,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Must be full of railings",
-    "tier": null,
+    "tier": "hard",
     "id": 160,
     "solution": {
       "type": "simple",
@@ -24483,7 +24428,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "You will need to under-cook to solve this one.",
-    "tier": null,
+    "tier": "hard",
     "id": 161,
     "solution": {
       "type": "variants",
@@ -24499,6 +24444,18 @@ module.exports = [
             },
             "answer": "Search the crates in the basement."
           }
+        },
+        {
+          "id": "entrance",
+          "name": "Entrance",
+          "solution": {
+            "type": "simple",
+            "coordinates": {
+              "x": 3209,
+              "y": 3216
+            },
+            "answer": "Search the crates in the basement."
+          }
         }
       ]
     }
@@ -24506,7 +24463,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "The cheapest water for miles around, but they react badly to religious icons.",
-    "tier": null,
+    "tier": "hard",
     "id": 162,
     "solution": {
       "type": "simple",
@@ -24520,7 +24477,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "You have all of the elements available to solve this clue. Fortunately you do not have to go as far as to stand in a draft.",
-    "tier": null,
+    "tier": "hard",
     "id": 163,
     "solution": {
       "type": "simple",
@@ -24534,7 +24491,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Try not to let yourself be dazzled when you search these drawers.",
-    "tier": null,
+    "tier": "hard",
     "id": 164,
     "solution": {
       "type": "simple",
@@ -24548,7 +24505,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Aggie I see, Lonely and southern I feel, I am neither inside nor outside the house, yet no house would be complete without me. The treasure lies beneath me!",
-    "tier": null,
+    "tier": "hard",
     "id": 165,
     "solution": {
       "type": "simple",
@@ -24562,7 +24519,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "I am a token of the greatest love. I have no beginning or end. My eye is red, I can fit like a glove. Go to the place where it's money they lend, And dig by the gate to be my friend.",
-    "tier": null,
+    "tier": "hard",
     "id": 166,
     "solution": {
       "type": "simple",
@@ -24576,7 +24533,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Navigating to this crate will be a trial.",
-    "tier": null,
+    "tier": "hard",
     "id": 167,
     "solution": {
       "type": "simple",
@@ -24590,7 +24547,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "This aviator is at the peak of his profession.",
-    "tier": null,
+    "tier": "hard",
     "id": 168,
     "solution": {
       "type": "simple",
@@ -24604,7 +24561,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Snah? I feel all confused, like one of those cakes.",
-    "tier": null,
+    "tier": "hard",
     "id": 169,
     "solution": {
       "type": "simple",
@@ -24618,7 +24575,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "My home is grey, and made of stone, A castle with a search for a meal. Hidden in some drawers I am, across from a wooden wheel.",
-    "tier": null,
+    "tier": "hard",
     "id": 170,
     "solution": {
       "type": "simple",
@@ -24632,7 +24589,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Surprising? I bet he is...",
-    "tier": null,
+    "tier": "hard",
     "id": 171,
     "solution": {
       "type": "simple",
@@ -24646,7 +24603,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "I bet he is...",
-    "tier": null,
+    "tier": "hard",
     "id": 172,
     "solution": {
       "type": "simple",
@@ -24660,7 +24617,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Four blades I have, yet draw no blood, Still I turn my prey to powder. If you are brave, come search my roof, It is there my blades are louder.",
-    "tier": null,
+    "tier": "hard",
     "id": 173,
     "solution": {
       "type": "simple",
@@ -24674,7 +24631,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "My name is like a tree, yet it is spelt with a 'g'. Come see the fur which is right near me.",
-    "tier": null,
+    "tier": "hard",
     "id": 174,
     "solution": {
       "type": "simple",
@@ -24688,7 +24645,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "A strange little man who sells armour only to those who've proven themselves to be unafraid of dragons.",
-    "tier": null,
+    "tier": "hard",
     "id": 175,
     "solution": {
       "type": "simple",
@@ -24702,7 +24659,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Come to the evil ledge, Yew know yew want to. Try not to get stung.",
-    "tier": null,
+    "tier": "hard",
     "id": 176,
     "solution": {
       "type": "simple",
@@ -24716,7 +24673,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "Come to the Try not to get stung.",
-    "tier": null,
+    "tier": "hard",
     "id": 177,
     "solution": {
       "type": "simple",
@@ -24730,7 +24687,7 @@ module.exports = [
   {
     "type": "cryptic",
     "clue": "When no weapons are at hand, then is the time to reflect. In Saradomin's name, redemption draws closer.",
-    "tier": null,
+    "tier": "hard",
     "id": 178,
     "solution": {
       "type": "simple",
@@ -25402,7 +25359,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Laugh in the Jokul's tent in the Mountain Camp. Beware of double agents! Equip a rune full helmet, blue dragonhide chaps and a fire battlestaff.",
-    "tier": null,
+    "tier": "hard",
     "id": 226,
     "solution": {
       "type": "simple",
@@ -25430,7 +25387,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Salute in the banana plantation. Beware of double agents! Equip a diamond ring, amulet of power and nothing on your chest and legs.",
-    "tier": null,
+    "tier": "hard",
     "id": 228,
     "solution": {
       "type": "simple",
@@ -25444,7 +25401,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Dance at the cat-doored pyramid in Sophanem. Beware of double agents! Equip a ring of life, an amulet of glory and an adamant two-handed sword.",
-    "tier": null,
+    "tier": "hard",
     "id": 229,
     "solution": {
       "type": "simple",
@@ -25458,7 +25415,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Blow a raspberry in the Fishing Guild bank. Beware of double agents! Equip an elemental shield, blue dragonhide chaps and a rune warhammer.",
-    "tier": null,
+    "tier": "hard",
     "id": 230,
     "solution": {
       "type": "simple",
@@ -25472,7 +25429,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Blow a kiss between the tables in Shilo Village bank. Beware of double agents! Equip a splitbark helm, mud pie and rune platebody.",
-    "tier": null,
+    "tier": "hard",
     "id": 231,
     "solution": {
       "type": "simple",
@@ -25486,7 +25443,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Bow or curtsy at the top of the lighthouse. Beware of double agents! Equip a blue dragonhide body, blue dragonhide vambraces and no jewellery.",
-    "tier": null,
+    "tier": "hard",
     "id": 232,
     "solution": {
       "type": "simple",
@@ -25500,7 +25457,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Cheer by the sulphur pit in the TzHaar City. Beware of double agents! Equip a fire cape, a Toktz-ket-xil and a spork.",
-    "tier": null,
+    "tier": "master",
     "id": 233,
     "solution": {
       "type": "simple",
@@ -25514,7 +25471,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Headbang inside the Slayer Tower. Beware of double agents! Equip an imp-hide hood, a Prifddinian musician's robe top and an amulet of magic.",
-    "tier": null,
+    "tier": "master",
     "id": 234,
     "solution": {
       "type": "simple",
@@ -25528,7 +25485,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Yawn near the Wilderness Bandit camp obelisk. Beware of double agents! Equip an iron square shield, blue dragon vambraces and an iron pickaxe.",
-    "tier": null,
+    "tier": "hard",
     "id": 235,
     "solution": {
       "type": "simple",
@@ -25542,7 +25499,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Dare to laugh in the Green Ghost inn at Port Phasmatys. Beware of double agents! Equip an Iban's staff, a ghostly cloak and a cavalier.",
-    "tier": null,
+    "tier": "master",
     "id": 236,
     "solution": {
       "type": "simple",
@@ -25556,7 +25513,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Blow a Raspberry at the celestial dragons on Dragontooth Isle. Beware of double agents! Equip a dragon mask, a Dragon Rider amulet and a dragon defender.",
-    "tier": null,
+    "tier": "master",
     "id": 237,
     "solution": {
       "type": "simple",
@@ -25570,7 +25527,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Wave in front of the entrance to the Grand Library of Menaphos. Beware of double agents! Equip an asylum surgeon's ring and the Scabaras mask.",
-    "tier": null,
+    "tier": "master",
     "id": 238,
     "solution": {
       "type": "simple",
@@ -25584,7 +25541,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Jig in the Edgeville Monastery garden. Beware of double agents! Equip a holy cithara, Saradomin's murmur and a ring of devotion.",
-    "tier": null,
+    "tier": "master",
     "id": 239,
     "solution": {
       "type": "simple",
@@ -25598,7 +25555,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Bow or curtsy at the charm sprite hunter area. Beware of double agents! Equip an enhanced yaktwee stick, a Dagon-hai hat and an amulet of ranging.",
-    "tier": null,
+    "tier": "master",
     "id": 240,
     "solution": {
       "type": "simple",
@@ -25612,7 +25569,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Think in the Hefin district of Prifddinas. Beware of double agents! Equip an ancient staff, Prifddinian worker's trousers and a berserker ring.",
-    "tier": null,
+    "tier": "master",
     "id": 241,
     "solution": {
       "type": "simple",
@@ -25626,7 +25583,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Shrug in the Lumbridge Fishing Supplies shop. Beware of double agents! Equip demon slayer gloves, a boater and the cape of legends.",
-    "tier": null,
+    "tier": "master",
     "id": 242,
     "solution": {
       "type": "simple",
@@ -25640,7 +25597,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Shrug in the Zamorak temple, found in the eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody and blue dragonhide vambraces.",
-    "tier": null,
+    "tier": "hard",
     "id": 243,
     "solution": {
       "type": "simple",
@@ -25654,7 +25611,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Have an idea inside the Invention Guild. Beware of double agents! Equip a lab coat top, lab coat legs and a staff of light.",
-    "tier": null,
+    "tier": "master",
     "id": 244,
     "solution": {
       "type": "simple",
@@ -25668,7 +25625,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Dance on an Uncharted Isle. Beware of double agents! Equip a dark bow, some infinity boots and culinaromancer gloves 10.",
-    "tier": null,
+    "tier": "master",
     "id": 245,
     "solution": {
       "type": "simple",
@@ -25682,7 +25639,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Salute in the Max Guild Garden. Beware of double agents! Have no items equipped when you do.",
-    "tier": null,
+    "tier": "master",
     "id": 246,
     "solution": {
       "type": "simple",
@@ -25808,7 +25765,7 @@ module.exports = [
   {
     "type": "emote",
     "clue": "Beckon in Tai Bwo Wannai. Clap before you talk to me. Equip green dragonhide chaps, a ring of duelling and a mithril helmet.",
-    "tier": null,
+    "tier": "hard",
     "id": 255,
     "solution": {
       "type": "simple",
@@ -26256,7 +26213,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: I Eat Its Chart Hints Do U",
-    "tier": null,
+    "tier": "hard",
     "id": 287,
     "solution": {
       "type": "simple",
@@ -26270,7 +26227,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: An Paint Tonic",
-    "tier": null,
+    "tier": "hard",
     "id": 288,
     "solution": {
       "type": "variants",
@@ -26286,18 +26243,7 @@ module.exports = [
             },
             "answer": "Captain Ninto"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: An Paint Tonic",
-    "tier": null,
-    "id": 288,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "entrance",
           "name": "Entrance",
@@ -26316,7 +26262,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Arr! So I am a crust, and?",
-    "tier": null,
+    "tier": "hard",
     "id": 289,
     "solution": {
       "type": "simple",
@@ -26330,7 +26276,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: C On Game Hoc",
-    "tier": null,
+    "tier": "hard",
     "id": 290,
     "solution": {
       "type": "simple",
@@ -26344,7 +26290,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: He Do Pose. It Is Cultrrl, Mk?",
-    "tier": null,
+    "tier": "hard",
     "id": 291,
     "solution": {
       "type": "simple",
@@ -26358,7 +26304,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Profs Lose Wrong Pie",
-    "tier": null,
+    "tier": "hard",
     "id": 292,
     "solution": {
       "type": "simple",
@@ -26372,7 +26318,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: O Birdz A Zany En Pc",
-    "tier": null,
+    "tier": "hard",
     "id": 293,
     "solution": {
       "type": "simple",
@@ -26386,7 +26332,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Ace Match Elm",
-    "tier": null,
+    "tier": "hard",
     "id": 294,
     "solution": {
       "type": "simple",
@@ -26400,7 +26346,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Red Art Tans",
-    "tier": null,
+    "tier": "hard",
     "id": 295,
     "solution": {
       "type": "simple",
@@ -26414,7 +26360,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Or Zinc Fumes Ward",
-    "tier": null,
+    "tier": "hard",
     "id": 296,
     "solution": {
       "type": "simple",
@@ -26428,7 +26374,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: By Look",
-    "tier": null,
+    "tier": "hard",
     "id": 297,
     "solution": {
       "type": "simple",
@@ -26442,7 +26388,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Sequin Dirge",
-    "tier": null,
+    "tier": "hard",
     "id": 298,
     "solution": {
       "type": "simple",
@@ -26456,7 +26402,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: A Zen She",
-    "tier": null,
+    "tier": "hard",
     "id": 299,
     "solution": {
       "type": "simple",
@@ -26470,7 +26416,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Gulag Run",
-    "tier": null,
+    "tier": "hard",
     "id": 300,
     "solution": {
       "type": "simple",
@@ -26484,7 +26430,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Land Doomd",
-    "tier": null,
+    "tier": "hard",
     "id": 301,
     "solution": {
       "type": "simple",
@@ -26498,7 +26444,7 @@ module.exports = [
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: I Faffy Run",
-    "tier": null,
+    "tier": "hard",
     "id": 302,
     "solution": {
       "type": "simple",
@@ -26640,18 +26586,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "50",
           "name": "50qp",
@@ -26663,18 +26598,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "100",
           "name": "100qp",
@@ -26686,18 +26610,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "150",
           "name": "150qp",
@@ -26709,18 +26622,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean, top floor of building"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "200",
           "name": "200qp",
@@ -26732,18 +26634,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "250",
           "name": "250qp",
@@ -26755,18 +26646,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "300",
           "name": "300qp",
@@ -26778,18 +26658,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "350",
           "name": "350qp",
@@ -26801,18 +26670,7 @@ module.exports = [
             },
             "answer": "Philippe Carnillean"
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
-    "id": 311,
-    "solution": {
-      "type": "variants",
-      "variants": [
+        },
         {
           "id": "400",
           "name": "400qp",
@@ -27349,7 +27207,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the desert, east of the Elid and north of Nardah. Orb scan range: 27 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 349,
     "solution": {
       "type": "coordset",
@@ -27617,7 +27475,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in Isafdar and Lletya. Orb scan range: 22 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 350,
     "solution": {
       "type": "coordset",
@@ -27775,7 +27633,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work within the walls of Varrock and the Grand Exchange Orb scan range: 16 paces",
-    "tier": null,
+    "tier": "elite",
     "id": 351,
     "solution": {
       "type": "coordset",
@@ -27908,7 +27766,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work within the walls of East or West Ardougne. Orb scan range: 22 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 352,
     "solution": {
       "type": "coordset",
@@ -28061,7 +27919,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work within the dwarven city of Keldagrim. Orb scan range: 11 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 353,
     "solution": {
       "type": "coordset",
@@ -28164,7 +28022,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in Menaphos. Orb scan range: 30 paces",
-    "tier": null,
+    "tier": "elite",
     "id": 354,
     "solution": {
       "type": "coordset",
@@ -28282,7 +28140,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the Piscatoris Hunter Area. Orb scan range: 14 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 355,
     "solution": {
       "type": "coordset",
@@ -28425,7 +28283,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in Brimhaven Dungeon. Orb scan range: 14 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 356,
     "solution": {
       "type": "coordset",
@@ -28648,7 +28506,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in Taverley Dungeon. Orb scan range: 22 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 357,
     "solution": {
       "type": "coordset",
@@ -28786,7 +28644,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work on the faraway island of Mos Le'Harmless. Orb scan range: 27 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 358,
     "solution": {
       "type": "coordset",
@@ -28959,7 +28817,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work within the Haunted Woods. Orb scan range: 11 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 359,
     "solution": {
       "type": "coordset",
@@ -29077,7 +28935,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the Kharazi Jungle. Orb scan range: 14 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 360,
     "solution": {
       "type": "coordset",
@@ -29220,7 +29078,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the city of Zanaris. Orb scan range: 16 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 361,
     "solution": {
       "type": "coordset",
@@ -29343,7 +29201,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the dark and damp caves below Lumbridge Swamp. Orb scan range: 11 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 362,
     "solution": {
       "type": "coordset",
@@ -29416,7 +29274,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work on the Fremennik Isles of Jatizso and Neitiznot. Orb scan range: 16 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 363,
     "solution": {
       "type": "coordset",
@@ -29589,7 +29447,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work within the walls of Falador. Orb scan range: 22 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 364,
     "solution": {
       "type": "coordset",
@@ -29692,7 +29550,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the cave goblin city of Dorgesh-Kaan. Orb scan range: 16 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 365,
     "solution": {
       "type": "coordset",
@@ -29805,7 +29663,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the Fremennik Slayer Dungeons. Orb scan range: 16 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 366,
     "solution": {
       "type": "coordset",
@@ -29913,7 +29771,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the crater of the Wilderness volcano. Orb scan range: 11 paces.",
-    "tier": null,
+    "tier": "elite",
     "id": 367,
     "solution": {
       "type": "coordset",
@@ -30021,7 +29879,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the elven city of Prifddinas. Orb scan range: 30 paces.",
-    "tier": null,
+    "tier": "master",
     "id": 368,
     "solution": {
       "type": "coordset",
@@ -30124,7 +29982,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the vampyre city of Darkmeyer. Orb scan range: 16 paces.",
-    "tier": null,
+    "tier": "master",
     "id": 369,
     "solution": {
       "type": "coordset",
@@ -30222,7 +30080,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work on The Islands That Once Were Turtles. Orb scan range: 27 paces.",
-    "tier": null,
+    "tier": "master",
     "id": 370,
     "solution": {
       "type": "coordset",
@@ -30330,7 +30188,7 @@ module.exports = [
   {
     "type": "scan",
     "clue": "This scroll will work in the the Heart of Gielinor. Orb scan range: 49 paces.",
-    "tier": null,
+    "tier": "master",
     "id": 371,
     "solution": {
       "type": "coordset",

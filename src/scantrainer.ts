@@ -200,6 +200,7 @@ class SearchControl {
 
 class HowToTabControls {
     preferred = new storage.Variable<string[]>("preferences/preferredtabs", [])
+    how_to: HowTo = {}
 
     constructor() {
         $(".methodtab").on("click", (e) => {
@@ -222,6 +223,8 @@ class HowToTabControls {
     setHowToTabs(howto: HowTo) {
         if (!howto) howto = {}
 
+        this.how_to = howto
+
         $(".methodtab").hide()
         $(".methodtabcontent").hide()
 
@@ -236,23 +239,6 @@ class HowToTabControls {
             $("#textmethodcontent").text(howto.text)
         }
 
-        if (howto.video) {
-            let video = $("#videoplayer").empty();
-            let vid = video.get()[0] as HTMLVideoElement
-
-            vid.pause()
-            video.empty()
-
-            video.append($("<source>")
-                .attr("src", howto.video.ref)
-                .attr("type", "video/mp4"))
-
-            vid.load()
-            vid.play()
-
-            $("#videoclipcontributor").text(howto.video.contributor)
-        }
-
         let available_tabs = Object.keys(howto).concat(["map"])
         if (available_tabs.length > 0) {
             let best = this.preferred.get().concat(["map", "video", "text", "scanmap", "image"]).find((e) => e in available_tabs)
@@ -265,6 +251,24 @@ class HowToTabControls {
     activateHowToTab(key: string) {
         $(".methodtab").removeClass("activetab")
         $(`.methodtab[data-methodtype=${key}]`).addClass("activetab")
+
+        if (key == "video" && this.how_to.video) {
+            // Activate video on demand
+            let video = $("#videoplayer").empty();
+            let vid = video.get()[0] as HTMLVideoElement
+
+            vid.pause()
+            video.empty()
+
+            video.append($("<source>")
+                .attr("src", this.how_to.video.ref)
+                .attr("type", "video/webm"))
+
+            vid.load()
+            vid.play()
+
+            $("#videoclipcontributor").text(this.how_to.video.contributor)
+        }
 
         $(".methodtabcontent").hide()
         $(`.methodtabcontent[data-methodtype=${key}]`).show()
@@ -375,6 +379,6 @@ export let scantrainer: ScanTrainer = null
 
 export function initialize() {
     scantrainer = new ScanTrainer()
-    scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
-    scantrainer.select(clues.find((c) => c.id == 399)) // compass
+    //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
+    //scantrainer.select(clues.find((c) => c.id == 399)) // compass
 }

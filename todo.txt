@@ -4,8 +4,6 @@ RELEASE 0.1, ETA May 5th
 
 - Add auto solving on an interval (lock button)
 - Add teleport layer
-- Debugging: Place tile marker on the map
-- Only play videos on demand to save bandwith
 - Display method layer above solution layer
 - Automated method association
 

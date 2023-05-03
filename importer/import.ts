@@ -394,6 +394,7 @@ for (let coord of coordinates) {
 
     next_id++
 }
+
 {
     let do_not_exist_anymore: number[] = [
         33,

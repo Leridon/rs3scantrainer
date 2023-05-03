@@ -3,6 +3,7 @@ import {MapCoordinate, GieliCoordinates} from "./clues";
 import {DivIcon, FeatureGroup, Layer, Marker, PathOptions} from "leaflet";
 import {shapes} from "./map/shapes";
 import {DEBUG} from "./scantrainer";
+import {TeleportLayer} from "./map/teleportlayer";
 
 type ElevationConfig = { dxdy: number, dzdy: number }
 type Layersource = { urls: string[], from?: number, to?: number, elevation?: ElevationConfig };
@@ -173,8 +174,10 @@ export class MarkerLayer extends FeatureGroup {
  */
 export class GameMapControl {
     map: leaflet.Map
-    solutionLayer: leaflet.Layer
-    method_layers: leaflet.Layer[]
+
+    private teleportLayer: TeleportLayer
+    private solutionLayer: leaflet.Layer
+    private method_layers: leaflet.Layer[]
     private custom_marker: TileMarker = null
 
     geturl(filename: string) {
@@ -202,27 +205,30 @@ export class GameMapControl {
 
         this.map = leaflet.map(map_id, {
             crs: crs,
-            zoomSnap: 0.5,
+            zoomSnap: 0.25,
             minZoom: -5,
             maxZoom: 7,
             zoomControl: false,
             doubleClickZoom: false,
-            attributionControl: true,
+            attributionControl: true
         }).setView([3200, 3000], 0);
 
         if (DEBUG) {
             this.map.on("click", (e) => {
                 if (this.custom_marker) this.custom_marker.remove()
 
-                this.custom_marker = new TileMarker({x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)})
+                let c = {x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)}
+
+                this.custom_marker = new TileMarker(c)
                     .withX("white")
                     .withMarker(blue_icon)
+                    .withLabel(`[${c.x}, ${c.y}]`, "spot-number", [0, 10])
                     .on("click", () => this.custom_marker.remove())
                     .addTo(this.map)
             })
         }
 
-        let layer = new RsBaseTileLayer([
+        new RsBaseTileLayer([
             {urls: [this.geturl(`topdown-0/{z}/{x}-{y}.webp`), this.geturl(`topdown-0/{z}/{x}-{y}.webp`)]}
         ], {
             attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
@@ -231,7 +237,7 @@ export class GameMapControl {
             minZoom: -5
         }).addTo(this.map)
 
-        let wall_layer = new RsBaseTileLayer([
+        new RsBaseTileLayer([
             {to: 2, urls: [this.geturl(`walls-0/{z}/{x}-{y}.webp`)]},
             {from: 3, to: 3, urls: [this.geturl(`walls-0/{z}/{x}-{y}.svg`)]}
         ], {
@@ -240,6 +246,8 @@ export class GameMapControl {
             maxNativeZoom: 3,
             minZoom: -5
         }).addTo(this.map)
+
+        this.teleportLayer = new TeleportLayer().addTo(this.map)
     }
 
     setSolutionLayer(layer: leaflet.FeatureGroup, fit: boolean = true) {
@@ -247,7 +255,7 @@ export class GameMapControl {
         this.solutionLayer = layer
         layer.addTo(this.map)
 
-        if (fit) this.map.fitBounds(layer.getBounds(), {
+        if (fit) this.map.fitBounds(layer.getBounds().pad(0.1), {
             maxZoom: 2
         })
     }

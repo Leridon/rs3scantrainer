@@ -222,3 +222,17 @@ video {
 .methodtabcontent[data-methodtype="video"] {
     margin-top: 20px;
 }
+
+.marktele {
+    transform-origin: center;
+    position: absolute;
+    color: #fff;
+    margin: -16px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 1px 1px #000, -1px 1px #000, 1px -1px #000, -1px -1px #000;
+    font-size: 12px;
+}

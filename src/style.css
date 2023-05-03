@@ -102,14 +102,6 @@ html, body {
     font-weight: bold;
 }
 
-.methodtabcontent {
-    text-align: center;
-    max-height: 100%;
-    height: 100%;
-    padding-bottom: 2px;
-    padding-top: 2px;
-}
-
 #textmethodcontent {
     font-weight: bold;
     font-size: 20px;
@@ -261,12 +253,23 @@ html, body {
     max-height: 100%;
     display: inline-block;
     vertical-align: middle;
+    object-fit: contain;
 
     /*max-width: 100% !important;
     max-height: 100% !important;
     width: auto;
     height: auto;
     object-fit: contain;*/
+}
+
+.methodtabcontent[data-methodtype=map] {
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid black;
+}
+
+.methodtabcontent[data-methodtype=text] {
+    padding-top: 20px;
 }
 
 .attribution {

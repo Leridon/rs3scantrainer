@@ -2,6 +2,8 @@ import {ChildKey, HowTo, Method, PingType, ScanTree, ScanTreeNode} from "../meth
 import {clues} from "./clues";
 import {ClueStep, MapCoordinate} from "../clues";
 import {go} from "fuzzysort";
+import {shapes} from "../map/shapes";
+import Box = shapes.Box;
 
 let methods: Method[][] = []
 
@@ -90,8 +92,8 @@ function loadScanMethods() {
         }
     }
 
-    function tree(                  coordinates: MapCoordinate[],
-                  spots: { name: string, coords: MapCoordinate }[],
+    function tree(coordinates: MapCoordinate[],
+                  spots: { name: string, area: Box }[],
                   tree: ScanBuilder): ScanTree {
         return new ScanTree(
             coordinates, spots, tree.node)
@@ -200,13 +202,13 @@ function loadScanMethods() {
                 {x: 2420, y: 4381}, // 21
                 {x: 2423, y: 4372}, // 22
             ], [
-                {name: "A", coords: {x: 2412, y: 4434}},
-                {name: "B", coords: {x: 2410, y: 4436}},
-                {name: "C", coords: {x: 2420, y: 4444}},
-                {name: "D", coords: {x: 2409, y: 4455}},
-                {name: "E", coords: {x: 2398, y: 4444}},
-                {name: "F", coords: {x: 2447, y: 4430}},
-                {name: "G", coords: {x: 2405, y: 4381}},
+                {name: "A", area: {topleft: {x: 2412, y: 4434}, botright: {x: 2412, y: 4434}}},
+                {name: "B", area: {topleft: {x: 2410, y: 4436}, botright: {x: 2410, y: 4436}}},
+                {name: "C", area: {topleft: {x: 2420, y: 4444}, botright: {x: 2420, y: 4444}}},
+                {name: "D", area: {topleft: {x: 2409, y: 4455}, botright: {x: 2409, y: 4455}}},
+                {name: "E", area: {topleft: {x: 2398, y: 4444}, botright: {x: 2398, y: 4444}}},
+                {name: "F", area: {topleft: {x: 2447, y: 4430}, botright: {x: 2447, y: 4430}}},
+                {name: "G", area: {topleft: {x: 2405, y: 4381}, botright: {x: 2405, y: 4381}}},
             ],
             goTo("A", "Fairy Ring")
                 .howto({

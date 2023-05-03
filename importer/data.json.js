@@ -24038,7 +24038,7 @@
   {
     "type": "cryptic",
     "clue": "My name's a tirade, fishing is my trade, by the docks is where my fortune is made.",
-    "tier": null,
+    "tier": "hard",
     "id": 140,
     "solution": {
       "type": "simple",

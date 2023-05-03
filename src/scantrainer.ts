@@ -1,4 +1,4 @@
-import {ClueStep, ClueTier, ClueType, SetSolution, SimpleSolution, Solution, VariantSolution} from "./clues";
+import {ClueStep, ClueTier, ClueType, pretty, SetSolution, SimpleSolution, Solution, VariantSolution} from "./clues";
 import * as fuzzysort from "fuzzysort";
 import {clues} from "./data/clues";
 import {HowTo, Method} from "./methods";
@@ -138,9 +138,7 @@ class SearchControl {
                 this.update()
             })
             .on("focusin", () => {
-                this.search_results.show()
                 this.search_box.val("")
-                this.update()
             })
             .on("focusout", (e) => {
                 let reltgt = $(e.relatedTarget)
@@ -178,14 +176,15 @@ class SearchControl {
     update() {
         let term = this.search_box.val() as string
 
-        console.log()
-
         let results = fuzzysort.go(term, this.filter.getCandidates(), {
             key: "clue",
-            all: true,
             limit: 20,
+            all: true,
             threshold: -10000
         })
+
+        if (results.length > 0) this.search_results.show()
+        else this.search_results.hide()
 
         let box = this.search_results.empty()
 
@@ -193,7 +192,7 @@ class SearchControl {
             $("<div>")
                 .addClass("cluesearchresult")
                 .attr("tabindex", -1)
-                .data("clue", e.obj).text(e.target).appendTo(box)
+                .data("clue", e.obj).html(fuzzysort.highlight(e, `<span class="fuzzyhighlight">`, "</span>")).appendTo(box)
         }
     }
 }
@@ -290,7 +289,7 @@ export class ScanTrainer {
             if (clue) this.select(clue)
         })
 
-        $("#feature_filter").hide() // The filter feature is deactivated for now
+        //$("#feature_filter").hide() // The filter feature is deactivated for now
 
         this.tabcontrols.setHowToTabs({})
 
@@ -306,18 +305,18 @@ export class ScanTrainer {
     }
 
     select(clue: ClueStep) {
-        console.log(clue)
-
         $("#searchresults").hide()
         $("#solutionpanel").show()
 
+        $("#clue-panel-title").attr("title", clue.id)
         $("#cluetext").text(clue.clue)
 
-        console.log(icons.tiers[clue.tier])
-        console.log(icons.types[clue.type])
-
-        $("#activecluetier").attr("src", clue.tier ? icons.tiers[clue.tier] : "")
-        $("#activecluetype").attr("src", icons.types[clue.type])
+        $("#activecluetier")
+            .attr("src", clue.tier ? icons.tiers[clue.tier] : "")
+            .attr("title", pretty(clue.tier))
+        $("#activecluetype")
+            .attr("src", icons.types[clue.type])
+            .attr("title", pretty(clue.type))
 
         if (clue.solution && false) {
             // TODO: Reenable solutions when they are ready.

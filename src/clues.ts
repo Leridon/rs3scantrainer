@@ -1,3 +1,6 @@
+import {shapes} from "./map/shapes";
+import Vector2 = shapes.Vector2;
+
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
 export type ClueType = "anagram"
@@ -10,9 +13,12 @@ export type ClueType = "anagram"
     | "simple"
     | "skilling"
 
-export type MapCoordinate = {
-    x: number,
-    y: number
+export function pretty(x: ClueTier | ClueType) {
+    if (!x) return ""
+    return x.charAt(0).toUpperCase() + x.slice(1);
+}
+
+export type MapCoordinate = Vector2 & {
     level?: number
 }
 

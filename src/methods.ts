@@ -3,6 +3,12 @@ import {ScanTrainer, scantrainer} from "./scantrainer";
 import {MarkerLayer} from "./map";
 import * as leaflet from "leaflet";
 import {shapes} from "./map/shapes";
+import Box = shapes.Box;
+import add = shapes.add;
+import toBounds = shapes.toBounds;
+import Vector2 = shapes.Vector2;
+import {DomEvent} from "leaflet";
+import off = DomEvent.off;
 
 export type Video = {
     ref: string,
@@ -30,7 +36,7 @@ export class ScanTree extends Method {
     clue: ScanStep = null
 
     constructor(private dig_spot_mapping: MapCoordinate[],
-                private scan_spots: { name: string, coords: MapCoordinate }[],
+                private scan_spots: { name: string, area: Box }[],
                 public root: ScanTreeNode
     ) {
         super("scantree")
@@ -53,7 +59,27 @@ export class ScanTree extends Method {
         let layer = new leaflet.FeatureGroup()
 
         for (let spot of this.scan_spots) {
-            shapes.tilePolygon(spot.coords).setStyle({
+
+            let self = this
+
+            let clear = function (bounds: leaflet.Bounds): boolean {
+                for (let spot of self.scan_spots) if (bounds.overlaps(toBounds(spot.area))) return false
+                for (let spot of self.dig_spot_mapping) if (bounds.contains(leaflet.point(spot))) return false
+
+                return true
+            }
+
+            let bounds = toBounds(spot.area)
+            let size = bounds.getSize().x * bounds.getSize().y
+
+            let offset: Vector2
+
+            // TODO: Actually implement something smart
+
+            if (size >= 3) offset = {x: 0, y: 0}
+            else offset = {x: 0, y: 0}
+
+            shapes.boxPolygon(spot.area).setStyle({
                 color: "#00FF21",
                 fillColor: "#00FF21",
                 interactive: false
@@ -62,10 +88,11 @@ export class ScanTree extends Method {
                     interactive: false,
                     permanent: true,
                     className: "area-name",
-                    offset: [0, 10],
+                    offset: [offset.x, offset.y],
                     direction: "center"
                 })
                 .addTo(layer)
+
 
             // TODO: Figure out a good spot for labels
 

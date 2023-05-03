@@ -3,6 +3,28 @@ import * as leaflet from "leaflet";
 
 export namespace shapes {
 
+    export type Vector2 = { x: number, y: number }
+
+    export type Box = { topleft: Vector2, botright: Vector2 }
+
+    export function toBounds(box: Box) {
+        let tl = leaflet.point(box.topleft)
+        let br = leaflet.point(box.botright)
+
+        return leaflet.bounds(tl, br)
+    }
+
+    export function add(tile: Vector2, offset: Vector2): MapCoordinate {
+        return {x: tile.x + offset.x, y: tile.y + offset.y}
+    }
+
+    export function contains(box: Box, tile: Vector2) {
+        return box.topleft.x <= tile.x
+            && box.topleft.y <= tile.y
+            && box.botright.x >= tile.x
+            && box.botright.y >= tile.y
+    }
+
     export type Area = { tiles: MapCoordinate[] }
     type corner = 0 | 1 | 2 | 3
     type TileCorner = { tile: MapCoordinate, corner: corner }
@@ -14,7 +36,7 @@ export namespace shapes {
         }
     }
 
-    export function toLeafletLatLngExpression(point: MapCoordinate): [number, number]{
+    export function toLeafletLatLngExpression(point: MapCoordinate): [number, number] {
         return [point.y, point.x]
     }
 
@@ -85,5 +107,14 @@ export namespace shapes {
             {tile: tile, corner: 3},
             {tile: tile, corner: 2},
         ].map(toCoords).map(toLeafletLatLngExpression))
+    }
+
+    export function boxPolygon(tile: Box) {
+        return leaflet.polygon([
+            {x: tile.topleft.x - 0.5, y: tile.topleft.y + 0.5},
+            {x: tile.botright.x + 0.5, y: tile.topleft.y + 0.5},
+            {x: tile.botright.x + 0.5, y: tile.botright.y - 0.5},
+            {x: tile.topleft.x - 0.5, y: tile.botright.y - 0.5},
+        ].map(toLeafletLatLngExpression))
     }
 }

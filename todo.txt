@@ -3,7 +3,6 @@ RELEASE 0.1, ETA May 5th
     - Remaining scan maps are planned for after
 
 - Add auto solving on an interval (lock button)
-- Add teleport layer
 - Display method layer above solution layer
 - Automated method association
 
@@ -13,7 +12,6 @@ RELEASE 0.1, ETA May 5th
 - Arrow key/enter control for the search.
 - Finish styling
     - Fix the sizing of videos.
-    - Fix sizing of search results.
 
 - Map out a total of at least 4 scans.
     - Zanaris

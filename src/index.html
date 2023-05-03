@@ -26,13 +26,13 @@
 <script src="./index.bundle.js"></script>
 <body class="nis" style="display: flex; flex-direction: column">
 
-<div id="main-content" style="display: inline-flex; flex-direction:row; flex-grow: 1">
+<div id="main-content" style="display: flex; flex-direction:row; flex-grow: 1">
     <div class="split-screen">
         <div id="cluesearchpanel">
 
             <div class="flex-fill" style="display: flex; flex-direction: row; margin-top: 6px">
-                <div class="flex-fill">
-                    <input id="cluesearchbox" type="text" class="nisinput" spellcheck="false" style="width: 100%">
+                <div class="search-container" style="flex-grow: 1">
+                    <input id="cluesearchbox" type="text" class="nisinput" spellcheck="false">
 
                     <div id="searchresults">
 
@@ -149,11 +149,10 @@
             </div>
         </div>
 
-        <div id="solutionpanel" style="overflow-y: scroll">
-
+        <div id="solutionpanel">
             <div class="panel">
                 <div style="display: flex">
-                    <span class="paneltitle">Clue</span>
+                    <span class="paneltitle" id="clue-panel-title">Clue</span>
                     <span class="flex-grow-1"></span>
                     <img id="activecluetier" src="" class="icon">
                     <img id="activecluetype" src="" class="icon flex-ri">
@@ -194,25 +193,24 @@
             <div class="methodtab contenttab lefttab" data-methodtype="text">Explain</div>
         </div>
 
-        <div style="flex-grow: 1">
-            <div class="methodtabcontent" data-methodtype="map">
-                <div id="map"></div>
+        <div class="methodtabcontent" data-methodtype="map">
+            <div id="map"></div>
+        </div>
+
+        <div class="methodtabcontent" data-methodtype="video">
+            <div class="videocontainer">
+                <video controls muted loop id="videoplayer">
+                    <source id="videosource" src="" type="video/webm">
+                </video>
+
+                <div class="attribution" style="flex-grow: 1; min-height: 20px">
+                    Clip contributed by <span id="videoclipcontributor"></span>
+                </div>
             </div>
+        </div>
+        <div class="methodtabcontent panel" data-methodtype="text">
+            <div id="textmethodcontent">
 
-            <div class="methodtabcontent" data-methodtype="video" style="display: flex; flex-direction: column">
-                <div class="videocontainer">
-                    <video controls muted loop id="videoplayer">
-                        <source id="videosource" src="" type="video/webm">
-                    </video>
-
-                </div>
-                <div class="attribution" style="flex-grow: 1; min-height: 20px"> Clip contributed by <span id="videoclipcontributor"></span>
-                </div>
-            </div>
-            <div class="methodtabcontent panel" data-methodtype="text">
-                <div id="textmethodcontent">
-
-                </div>
             </div>
         </div>
     </div>

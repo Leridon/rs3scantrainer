@@ -29,6 +29,7 @@ html, body {
 
     background-color: black;
     border: 1px solid #514949;
+    z-index: 1000;
     /*
     padding-left: 4px;
     padding-right: 4px;
@@ -170,10 +171,6 @@ html, body {
 }
 
 .cluesearchresult:hover {
-    background-color: #FFFFFF33;
-}
-
-.cluesearchresult.active {
     background-color: #FFFFFF33;
 }
 

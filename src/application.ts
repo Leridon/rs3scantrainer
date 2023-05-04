@@ -3,8 +3,6 @@ import CluePanelControl from "./uicontrol/CluePanelControl";
 import HowToTabControls from "./uicontrol/HowToTabControl";
 import MenuBarControl from "./uicontrol/MenuBarControl";
 
-export const DEBUG = true;
-
 
 export class Application {
     in_alt1: boolean = !!window.alt1

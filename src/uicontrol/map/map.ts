@@ -1,8 +1,8 @@
 import * as leaflet from "leaflet";
-import {FeatureGroup, Layer} from "leaflet";
-import {DEBUG} from "../../application";
+import {Layer} from "leaflet";
 import {TeleportLayer} from "./teleportlayer";
 import {MapCoordinate} from "../../model/coordinates";
+import {Solutionlayer} from "./solutionlayer";
 
 type ElevationConfig = { dxdy: number, dzdy: number }
 type Layersource = { urls: string[], from?: number, to?: number, elevation?: ElevationConfig };
@@ -73,7 +73,7 @@ export class TileMarker extends leaflet.FeatureGroup {
     ) {
         super()
 
-        this.setActive(true)
+        this.setOpacity(1)
     }
 
     withMarker(icon: leaflet.Icon = red_icon) {
@@ -126,7 +126,11 @@ export class TileMarker extends leaflet.FeatureGroup {
         return this
     }
 
-    private setOpacity(opacity: number) {
+    getSpot(): MapCoordinate {
+        return this.spot
+    }
+
+    protected setOpacity(opacity: number) {
         if (this.marker) this.marker.setOpacity(opacity)
         if (this.x_marks_the_spot)
             this.x_marks_the_spot.setStyle(
@@ -135,35 +139,6 @@ export class TileMarker extends leaflet.FeatureGroup {
                     fillOpacity: opacity * 0.25,
                 }))
         if (this.label) this.label.setOpacity(opacity)
-    }
-
-    setActive(isActive: boolean) {
-        if (isActive) this.setOpacity(1)
-        else this.setOpacity(0.2)
-    }
-
-    getSpot(): MapCoordinate {
-        return this.spot
-    }
-}
-
-export class MarkerLayer extends FeatureGroup {
-    constructor(private markers: TileMarker[]) {
-        super()
-
-        this.markers.forEach((e) => e.addTo(this))
-    }
-
-    getMarkers() {
-        return this.markers
-    }
-
-    markerBySpot(tile: MapCoordinate) {
-        return this.getMarkers().find((m) => {
-            let spot = m.getSpot()
-
-            return spot.x == tile.x && spot.y == tile.y
-        })
     }
 }
 
@@ -175,8 +150,11 @@ export class GameMapControl {
     map: leaflet.Map
 
     private teleportLayer: TeleportLayer
-    private solutionLayer: leaflet.Layer
-    private method_layers: leaflet.Layer[]
+    private solutionLayer: Solutionlayer = null
+    private methodLayer: Solutionlayer = null
+
+    private activeLayer: Solutionlayer = null
+
     private custom_marker: TileMarker = null
 
     geturl(filename: string) {
@@ -184,8 +162,6 @@ export class GameMapControl {
     }
 
     constructor(map_id: string) {
-        this.method_layers = [null, null]
-
         const chunkoffsetx = 16;
         const chunkoffsetz = 16;
 
@@ -212,20 +188,31 @@ export class GameMapControl {
             attributionControl: true
         }).setView([3200, 3000], 0);
 
-        if (DEBUG) {
-            this.map.on("click", (e) => {
-                if (this.custom_marker) this.custom_marker.remove()
+        this.map.on("click", (e) => {
+            let c = {x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)}
 
-                let c = {x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)}
+            if (this.custom_marker) {
+                let old_c = this.custom_marker.getSpot()
+                this.custom_marker.remove()
+                if(this.activeLayer) this.activeLayer.on_marker_set(null)
+                this.custom_marker = null
 
-                this.custom_marker = new TileMarker(c)
-                    .withX("white")
-                    .withMarker(blue_icon)
-                    .withLabel(`[${c.x}, ${c.y}]`, "spot-number", [0, 10])
-                    .on("click", () => this.custom_marker.remove())
-                    .addTo(this.map)
-            })
-        }
+                // If the same spot is clicked without hitting the marker, remove it without spawning a new one
+                if (old_c.x == c.x && old_c.y == c.y) return
+            }
+
+            this.custom_marker = new TileMarker(c)
+                .withX("white")
+                .withMarker(blue_icon)
+                .withLabel(`[${c.x}, ${c.y}]`, "spot-number", [0, 10])
+                .on("click", () => {
+                    this.custom_marker.remove()
+                    if(this.activeLayer) this.activeLayer.on_marker_set(null)
+                })
+                .addTo(this.map)
+
+            if(this.activeLayer) this.activeLayer.on_marker_set(this.custom_marker)
+        })
 
         new RsBaseTileLayer([
             {urls: [this.geturl(`topdown-0/{z}/{x}-{y}.webp`), this.geturl(`topdown-0/{z}/{x}-{y}.webp`)]}
@@ -240,43 +227,44 @@ export class GameMapControl {
             {to: 2, urls: [this.geturl(`walls-0/{z}/{x}-{y}.webp`)]},
             {from: 3, to: 3, urls: [this.geturl(`walls-0/{z}/{x}-{y}.svg`)]}
         ], {
-            attribution: 'Skillbert',
+            attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
             tileSize: 512,
             maxNativeZoom: 3,
             minZoom: -5
         }).addTo(this.map)
 
-        this.teleportLayer = new TeleportLayer().addTo(this.map)
+        this.teleportLayer = new TeleportLayer().addTo(this.map).setZIndex(100)
     }
 
-    setSolutionLayer(layer: leaflet.FeatureGroup, fit: boolean = true) {
-        if (this.solutionLayer) this.solutionLayer.remove()
-        this.solutionLayer = layer
-        layer.addTo(this.map)
+    updateActiveLayer(fit: boolean) {
+        let preferred = this.methodLayer || this.solutionLayer
 
-        if (fit) this.map.fitBounds(layer.getBounds().pad(0.1), {
-            maxZoom: 2
-        })
+        if (this.activeLayer != preferred) {
+            if (this.activeLayer) this.activeLayer.remove()
+            this.activeLayer = preferred
+            this.activeLayer.addTo(this.map)
+
+            if (fit) this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 2})
+        }
+    }
+
+    setSolutionLayer(layer: Solutionlayer, fit: boolean = true) {
+        this.solutionLayer = layer.setZIndex(200)
+        this.methodLayer = null
+
+        this.updateActiveLayer(fit)
     }
 
     getSolutionLayer() {
         return this.solutionLayer
     }
 
-    setMethodLayer(i: number, layer: Layer) {
-        if (this.method_layers[i]) this.method_layers[i].remove()
-
-        this.method_layers[i] = layer
-        layer.addTo(this.map)
+    setMethodLayer(layer: Solutionlayer, fit: boolean = true) {
+        this.methodLayer = layer.setZIndex(300)
+        this.updateActiveLayer(fit)
     }
 
-    resetMethodLayers() {
-        this.method_layers.forEach((e) => {
-            if (e) e.remove()
-        })
-    }
-
-    getMethodLayer(i: number) {
-        return this.method_layers[i]
+    getMethodLayer() {
+        return this.methodLayer
     }
 }

@@ -1,9 +1,9 @@
 import {ClueStep, pretty, SetSolution, SimpleSolution, Solution, VariantSolution} from "../model/clues";
 import {icons} from "../constants";
-import {MarkerLayer, TileMarker} from "./map/map";
 import {forClue} from "../data/methods";
 import {Method} from "../model/methods";
 import {Application} from "../application";
+import {getSolutionLayer} from "./map/solutionlayer";
 
 export default class CluePanelControl {
 
@@ -40,30 +40,10 @@ export default class CluePanelControl {
             $("#cluesolution").hide()
         }
 
-        function getSolutionLayer(solution: Solution) {
-            if (clue.solution) {
-                switch (clue.solution.type) {
-                    case "coordset":
-                        return new MarkerLayer((solution as SetSolution).candidates.map((e) => {
-                            return new TileMarker(e).withMarker().withX("#B21319")
-                        }))
-                    case "simple":
-                        return new MarkerLayer([
-                            new TileMarker((solution as SimpleSolution).coordinates).withMarker().withX("#B21319")
-                        ])
-                    case "variants":
-                        // TODO: Properly handle variant solutions
-                        return getSolutionLayer((solution as VariantSolution).variants[0].solution)
-
-                }
-            }
-        }
-
-        this.app.howtotabs.map.setSolutionLayer(getSolutionLayer(clue.solution))
+        this.app.howtotabs.map.setSolutionLayer(getSolutionLayer(clue))
 
         let methods = forClue(clue)
 
-        this.app.howtotabs.map.resetMethodLayers()
         // TODO: Handle more than 1 method
         if (methods.length > 0) {
             this.setMethod(methods[0])

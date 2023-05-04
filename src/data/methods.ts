@@ -2,6 +2,8 @@ import {ChildKey, HowTo, Method, PingType, ScanTree, ScanTreeNode} from "../mode
 import {clues} from "./clues";
 import {ClueStep} from "../model/clues";
 import {Box, MapCoordinate} from "../model/coordinates";
+import Dict = NodeJS.Dict;
+import {go} from "fuzzysort";
 
 let methods: Method[][] = []
 
@@ -10,8 +12,11 @@ let n = Math.max(...clues.map((e) => e.id))
 for (let i = 0; i < n; i++) {
     methods.push([])
 }
+
 function associate(v: { id: number, method: Method }) {
     methods[v.id].push(v.method)
+
+    v.method.clue = clues.find((c) => c.id == v.id)
 }
 
 export function forClue(clue: ClueStep): Method[] {
@@ -19,43 +24,45 @@ export function forClue(clue: ClueStep): Method[] {
 }
 
 function loadScanMethods() {
+
     class ScanBuilder {
-        constructor(public node: ScanTreeNode) {
+        constructor(public node: ScanTreeNode,
+                    private spotName: string | null) {
         }
 
-        howto(d: HowTo) {
-            this.node.howto = d
+        children: ScanBuilder[] = []
 
-            return this
+        propagateMethods(methods: Dict<HowTo>, parent: ScanBuilder = null) {
+            if (!parent) {
+                this.node.howto = methods[`-${this.spotName}`] || null
+            } else if (parent.spotName != this.spotName) {
+                this.node.howto = methods[`${parent.spotName}-${this.spotName}`] || null
+            }
+
+            this.children.forEach((c) => {
+                if (!c.spotName) c.spotName = this.spotName
+                c.propagateMethods(methods, this)
+            })
         }
 
-        protected child(key: ChildKey | string, child: ScanBuilder | ScanTreeNode) {
+        protected child(key: ChildKey | string, child: ScanBuilder) {
             if (typeof key == "string") key = {
                 key: key,
                 kind: key
             }
 
-            if (child instanceof ScanBuilder) {
-                child = child.node
-            }
+            this.children.push(child)
 
-            this.node._children.push([key, child])
+            this.node._children.push([key, child.node])
 
             return this
         }
 
-        answer(key: ChildKey | string, child: ScanBuilder | ScanTreeNode) {
+        answer(key: ChildKey | string, child: ScanBuilder) {
             return this.child(key, child)
         }
-    }
 
-    class SpotBuilder extends ScanBuilder {
-        constructor(node: ScanTreeNode,
-                    private spotName: string) {
-            super(node)
-        }
-
-        single(child: ScanBuilder | ScanTreeNode) {
+        single(child: ScanBuilder) {
             return this.child({
                     key: `${this.spotName}1`,
                     kind: PingType.SINGLE
@@ -63,7 +70,7 @@ function loadScanMethods() {
                 child)
         }
 
-        double(child: ScanBuilder | ScanTreeNode) {
+        double(child: ScanBuilder) {
             return this.child({
                     key: `${this.spotName}2`,
                     kind: PingType.DOUBLE
@@ -71,58 +78,51 @@ function loadScanMethods() {
                 child)
         }
 
-        triple(spot: number, howto?: HowTo) {
-            let child = new ScanBuilder(new ScanTreeNode(`Dig at spot ${spot}`, spot, [], {}))
+        triple(...spot: number[]) {
+            spot.forEach((s) => {
+                let child = new ScanBuilder(new ScanTreeNode(`Dig at spot ${s}`, s, [], {}), s.toString())
 
-            if (howto) child.howto(howto)
-
-            this.child({
-                key: `${this.spotName}3/Spot ${spot}`,
-                kind: PingType.TRIPLE
-            }, child)
+                this.child({
+                    key: `${this.spotName}3/Spot ${s}`,
+                    kind: PingType.TRIPLE
+                }, child)
+            })
 
             return this
         }
     }
 
     function tree(coordinates: MapCoordinate[],
-                  spots: { name: string, area: Box }[],
+                  spots: { name: string, area?: Box, spot?: MapCoordinate }[],
+                  methods: Dict<HowTo>,
                   tree: ScanBuilder): ScanTree {
-        return new ScanTree(
-            coordinates, spots, tree.node)
+
+        tree.propagateMethods(methods)
+        return new ScanTree(coordinates, spots, tree.node)
     }
 
-    function ask(question: string) {
-        return new ScanBuilder(new ScanTreeNode(question, null, [], {}))
-    }
+    function goTo(where: string, how: string = "Go to {}.") {
+        let instruction = how.replace("{}", where)
 
-    function goTo(where: string, how: string = "Go", question: string = "") {
-        let instruction = `${how} to ${where}.`
-
-        if (question) instruction += ` ${question}`
-
-        return new SpotBuilder(new ScanTreeNode(instruction, null, [], {}), where)
+        return new ScanBuilder(new ScanTreeNode(instruction, null, [], {}), where)
     }
 
     function digAt(spot: number): ScanBuilder {
-        return new ScanBuilder(new ScanTreeNode(`Dig at spot ${spot}`, spot, [], {}))
+        return new ScanBuilder(new ScanTreeNode(`Dig at spot ${spot}`, spot, [], {}), spot.toString())
+    }
+
+    function decide(text: string) {
+        return new ScanBuilder(new ScanTreeNode(text, null, [], {}), null)
     }
 
     let videos = {
-        zanaris: {
-            arrival: {ref: "./assets/scanassets/zanaris/Arrival.webm", contributor: "Leridon"},
-            AtoB: {ref: "./assets/scanassets/zanaris/AtoB.webm", contributor: "Leridon"},
-            BtoC: {ref: "./assets/scanassets/zanaris/BtoC.webm", contributor: "Leridon"},
-            CtoD: {ref: "./assets/scanassets/zanaris/CtoD.webm", contributor: "Leridon"},
-            DtoE: {ref: "./assets/scanassets/zanaris/DtoE.webm", contributor: "Leridon"},
-            AtoF: {ref: "./assets/scanassets/zanaris/AtoF.webm", contributor: "Leridon"},
-        },
         ardounge: {
             toA: {ref: "./assets/scanassets/ardounge/toA.webm", contributor: "Leridon"},
             AtoC: {ref: "./assets/scanassets/ardounge/AtoC.webm", contributor: "Leridon"},
             CtoD: {ref: "./assets/scanassets/ardounge/CtoD.webm", contributor: "Leridon"},
         }
     }
+
     let howtos = {
         piscatoris: {
             AtoC: {
@@ -169,111 +169,102 @@ function loadScanMethods() {
     }
 
     associate({
-        id: 361, //zanaris
-        method: tree(
-            [
-                {x: 2406, y: 4428}, // 1
-                {x: 2429, y: 4431}, // 2
-                {x: 2417, y: 4444}, // 3
-                {x: 2400, y: 4441}, // 4
-                {x: 2410, y: 4460}, // 5
-                {x: 2439, y: 4460}, // 6
-                {x: 2441, y: 4428}, // 7
-                {x: 2417, y: 4470}, // 8
-                {x: 2402, y: 4466}, // 9
-                {x: 2396, y: 4457}, // 10
-                {x: 2385, y: 4447}, // 11
-                {x: 2380, y: 4421}, // 12
-                {x: 2372, y: 4467}, // 13
-                {x: 2404, y: 4406}, // 14
-                {x: 2389, y: 4405}, // 15
-                {x: 2377, y: 4410}, // 16
-                {x: 2453, y: 4471}, // 17
-                {x: 2457, y: 4443}, // 18
-                {x: 2468, y: 4439}, // 19
-                {x: 2414, y: 4378}, // 20
-                {x: 2420, y: 4381}, // 21
-                {x: 2423, y: 4372}, // 22
-            ], [
-                {name: "A", area: {topleft: {x: 2412, y: 4434}, botright: {x: 2412, y: 4434}}},
-                {name: "B", area: {topleft: {x: 2410, y: 4436}, botright: {x: 2410, y: 4436}}},
-                {name: "C", area: {topleft: {x: 2420, y: 4444}, botright: {x: 2420, y: 4444}}},
-                {name: "D", area: {topleft: {x: 2409, y: 4455}, botright: {x: 2409, y: 4455}}},
-                {name: "E", area: {topleft: {x: 2398, y: 4444}, botright: {x: 2398, y: 4444}}},
-                {name: "F", area: {topleft: {x: 2447, y: 4430}, botright: {x: 2447, y: 4430}}},
-                {name: "G", area: {topleft: {x: 2405, y: 4381}, botright: {x: 2405, y: 4381}}},
-            ],
-            goTo("A", "Fairy Ring")
-                .howto({
-                    text: "Spot A is the tile you arrive in when teleporting to the fairy ring.",
-                    video: videos.zanaris.arrival,
-                })
-                .triple(1)
-                .triple(2)
-                .triple(3)
-                .triple(4)
-                .single(goTo("F", "Slayer Cape (Chaeldar)")
-                    .howto({
+            id: 361, //zanaris
+            method: tree(
+                [
+                    {x: 2406, y: 4428}, // 1
+                    {x: 2429, y: 4431}, // 2
+                    {x: 2417, y: 4444}, // 3
+                    {x: 2400, y: 4441}, // 4
+                    {x: 2410, y: 4460}, // 5
+                    {x: 2439, y: 4460}, // 6
+                    {x: 2441, y: 4428}, // 7
+                    {x: 2417, y: 4470}, // 8
+                    {x: 2402, y: 4466}, // 9
+                    {x: 2396, y: 4457}, // 10
+                    {x: 2385, y: 4447}, // 11
+                    {x: 2380, y: 4421}, // 12
+                    {x: 2372, y: 4467}, // 13
+                    {x: 2404, y: 4406}, // 14
+                    {x: 2389, y: 4405}, // 15
+                    {x: 2377, y: 4410}, // 16
+                    {x: 2453, y: 4471}, // 17
+                    {x: 2457, y: 4443}, // 18
+                    {x: 2468, y: 4439}, // 19
+                    {x: 2414, y: 4378}, // 20
+                    {x: 2420, y: 4381}, // 21
+                    {x: 2423, y: 4372}, // 22
+                ], [
+                    {name: "A", area: {topleft: {x: 2412, y: 4434}, botright: {x: 2412, y: 4434}}},
+                    {name: "B", area: {topleft: {x: 2410, y: 4436}, botright: {x: 2410, y: 4436}}},
+                    {name: "C", area: {topleft: {x: 2420, y: 4444}, botright: {x: 2420, y: 4444}}},
+                    {name: "D", area: {topleft: {x: 2409, y: 4455}, botright: {x: 2409, y: 4455}}},
+                    {name: "E", area: {topleft: {x: 2398, y: 4444}, botright: {x: 2398, y: 4444}}},
+                    {name: "F", area: {topleft: {x: 2447, y: 4430}, botright: {x: 2447, y: 4430}}},
+                    {name: "G", area: {topleft: {x: 2405, y: 4381}, botright: {x: 2405, y: 4381}}},
+                ],
+                {
+                    "-A": {
+                        text: "Spot A is the tile you arrive in when teleporting to the fairy ring.",
+                        video: {ref: "./assets/scanassets/zanaris/Arrival.webm", contributor: "Leridon"},
+                    },
+                    "A-F": {
                         text: "Using the slayer cape teleport to Chaeldar (option 7) you will land in spot F.",
-                        video: videos.zanaris.AtoF
-                    })
-                    .double(digAt(19))
-                    .triple(18)
-                    .triple(19)
-                    .single(goTo("G", "Wicked hood cosmic altar tele")
-                        .triple(20)
-                        .triple(21)
-                        .triple(22)
-                    )
-                )
-                .double(goTo("B")
-                    .howto({
+                        video: {ref: "./assets/scanassets/zanaris/AtoF.webm", contributor: "Leridon"}
+                    },
+                    "A-B": {
                         text: "B is exactly 2 tiles northwest of the center of the fairy ring.",
-                        video: videos.zanaris.AtoB
-                    })
-                    .triple(10)
-                    .double(goTo("C", "Dive")
-                        .howto({
-                            text: "C is the south-eastern tile of the entrance to the wheat field and directly reachable from B with a Dive.",
-                            video: videos.zanaris.BtoC
-                        })
-                        .single(goTo("D", "Surge")
-                            .howto({
-                                text: "Stepping 1 tile north-west and then surging will land you directly at D",
-                                video: videos.zanaris.CtoD
-                            })
-                            .double(digAt(13))
-                            .single(digAt(16))
+                        video: {ref: "./assets/scanassets/zanaris/AtoB.webm", contributor: "Leridon"}
+                    },
+                    "B-C": {
+                        text: "C is the south-eastern tile of the entrance to the wheat field and directly reachable from B with a Dive.",
+                        video: {ref: "./assets/scanassets/zanaris/BtoC.webm", contributor: "Leridon"}
+                    },
+                    "C-D": {
+                        text: "Stepping 1 tile north-west and then surging will land you directly at D",
+                        video: {ref: "./assets/scanassets/zanaris/CtoD.webm", contributor: "Leridon"}
+                    },
+                    "D-E": {
+                        text: "Stepping 1 tile south-west and then surging will land you directly at E.",
+                        video: {ref: "./assets/scanassets/zanaris/DtoE.webm", contributor: "Leridon"}
+                    },
+                    "B-17": {
+                        text: "The spot has been narrowed down to the chicken altar. Use the slayer cape to Chaeldaer to get there fastest."
+                    }
+                },
+                goTo("A", "Fairy Ring to {}.")
+                    .triple(1, 2, 3, 4)
+                    .single(goTo("F", "Slayer Cape 7 to {}.")
+                        .double(digAt(19))
+                        .triple(18, 19)
+                        .single(goTo("G", "Wicked hood cosmic altar tele")
+                            .triple(20, 21, 22)
                         )
-                        .double(goTo("D", "Surge")
-                            .howto({
-                                text: "Stepping 1 tile north-west and then surging will land you directly at D",
-                                video: videos.zanaris.CtoD
-                            })
-                            //.single(, solved([14, 15]))
-                            .double(goTo("E", "Step and Surge")
-                                .howto({
-                                    text: "Stepping 1 tile south-west and then surging will land you directly at E.",
-                                    video: videos.zanaris.DtoE
-                                })
-                                .triple(11)
-                                .triple(12))
-                            .triple(8)
-                            .triple(9)
-                            .single(ask("The spot is in the tunnels to the cosmic altar.")
-                                .answer("14", digAt(14))
-                                .answer("15", digAt(15))
+                    )
+                    .double(goTo("B")
+                        .triple(10)
+                        .double(goTo("C", "Dive to {}.")
+                            .triple(5, 6, 7)
+                            .single(goTo("D", "Surge to {}.")
+                                .double(digAt(13))
+                                .single(digAt(16))
+                            )
+                            .double(goTo("D", "Surge to {}.")
+                                .triple(8, 9)
+                                .double(goTo("E", "Step and Surge to {}.")
+                                    .triple(11)
+                                    .double(digAt(12))
+                                )
+                                .single(decide("The spot is in the tunnels to the cosmic altar.")
+                                    .answer("14", digAt(14))
+                                    .answer("15", digAt(15))
+                                )
                             )
                         )
-                        .triple(5)
-                        .triple(6)
-                        .triple(7)
-                    ).single(digAt(17)
-                        .howto({
-                            text: "The spot has been narrowed down to the chicken altar. Use the slayer cape to Chaeldaer to get there fastest."
-                        })))
-        )
-    })
+                        .single(digAt(17)))
+            )
+        }
+    )
 
     /*
     associate({

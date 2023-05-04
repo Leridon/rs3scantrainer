@@ -1,8 +1,10 @@
 import {ClueStep, ScanStep} from "./clues";
 import {Application, scantrainer} from "../application";
-import {MarkerLayer} from "../uicontrol/map/map";
 import * as leaflet from "leaflet";
 import {Box, boxPolygon, MapCoordinate, toBounds, Vector2} from "./coordinates";
+import {SimpleMarkerLayer, TileMarkerWithActive} from "../uicontrol/map/solutionlayer";
+import {TileMarker} from "../uicontrol/map/map";
+import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
 
 export type Video = {
     ref: string,
@@ -29,8 +31,8 @@ export abstract class Method {
 export class ScanTree extends Method {
     clue: ScanStep = null
 
-    constructor(private dig_spot_mapping: MapCoordinate[],
-                private scan_spots: { name: string, area: Box }[],
+    constructor(public dig_spot_mapping: MapCoordinate[],
+                public scan_spots: { name: string, area?: Box, spot?: MapCoordinate }[],
                 public root: ScanTreeNode
     ) {
         super("scantree")
@@ -39,69 +41,7 @@ export class ScanTree extends Method {
     }
 
     sendToUi(app: Application): void {
-        {
-            let layer = (app.howtotabs.map.getSolutionLayer() as MarkerLayer)
-            for (let i = 0; i < this.dig_spot_mapping.length; i++) {
-                layer.markerBySpot(this.dig_spot_mapping[i]).withLabel(
-                    (i + 1).toString(),
-                    "spot-number",
-                    [0, 10]
-                )
-            }
-        }
-
-        let layer = new leaflet.FeatureGroup()
-
-        for (let spot of this.scan_spots) {
-
-            let self = this
-
-            let clear = function (bounds: leaflet.Bounds): boolean {
-                for (let spot of self.scan_spots) if (bounds.overlaps(toBounds(spot.area))) return false
-                for (let spot of self.dig_spot_mapping) if (bounds.contains(leaflet.point(spot))) return false
-
-                return true
-            }
-
-            let bounds = toBounds(spot.area)
-            let size = bounds.getSize().x * bounds.getSize().y
-
-            let offset: Vector2
-
-            // TODO: Actually implement something smart
-
-            if (size >= 3) offset = {x: 0, y: 0}
-            else offset = {x: 0, y: 0}
-
-            boxPolygon(spot.area).setStyle({
-                color: "#00FF21",
-                fillColor: "#00FF21",
-                interactive: false
-            })
-                .bindTooltip(spot.name, {
-                    interactive: false,
-                    permanent: true,
-                    className: "area-name",
-                    offset: [offset.x, offset.y],
-                    direction: "center"
-                })
-                .addTo(layer)
-
-
-            // TODO: Figure out a good spot for labels
-
-            /*
-            leaflet.marker([spot.coords.y + 2, spot.coords.x], {
-                icon: leaflet.divIcon({
-                    className: "area-name",
-                    html: spot.name
-                }),
-                interactive: false,
-            }).addTo(layer)*/
-
-        }
-
-        app.howtotabs.map.setMethodLayer(0, layer)
+        app.howtotabs.map.setMethodLayer(new ScanTreeMethodLayer(this))
 
         this.root.sendToUI(app)
     }
@@ -203,18 +143,7 @@ export class ScanTreeNode {
     }
 
     sendToUI(app: Application) {
-        {
-            let candidates = this.candidates()
-            let layer = app.howtotabs.map.getSolutionLayer() as (MarkerLayer)
-
-            layer.getMarkers().forEach((e) => {
-                let id = this.root.spotToNumber(e.getSpot())
-
-                let active = candidates.findIndex((c) => c == id) >= 0
-
-                e.setActive(active)
-            })
-        }
+        (app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer).spotsLeft(this.candidates())
 
         {
             let path = this.path()

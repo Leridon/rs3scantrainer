@@ -38,3 +38,6 @@ Debugging: Draw tile grid on the map
 - Add method display like the old clueguider
 - Add methods for remaining clue types.
 - Add puzzle solvers
+
+
+Figure out hosting

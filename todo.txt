@@ -2,12 +2,12 @@ RELEASE 0.1, ETA May 5th
     - This is a beta release to iron out issues before the general release.
     - Remaining scan maps are planned for after
 
-- Add auto solving on an interval (lock button)
 - Display method layer above solution layer
 - Automated method association
 
 - Style decisions:
     - Figure out where to put the label for standing spots
+    - Manually place?
 
 - Arrow key/enter control for the search.
 - Finish styling
@@ -23,7 +23,6 @@ RELEASE 0.1, ETA May 5th
 RELEASE 0.2
 - Finish scan mapping and record more clips.
     - Fix some clue spots being on a different level
-- Fix inactive filters displaying through search results
 
 
 RELEASE 0.3

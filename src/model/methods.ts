@@ -1,14 +1,8 @@
-import {ClueStep, MapCoordinate, ScanStep} from "./clues";
-import {ScanTrainer, scantrainer} from "./scantrainer";
-import {MarkerLayer} from "./map";
+import {ClueStep, ScanStep} from "./clues";
+import {Application, scantrainer} from "../application";
+import {MarkerLayer} from "../uicontrol/map/map";
 import * as leaflet from "leaflet";
-import {shapes} from "./map/shapes";
-import Box = shapes.Box;
-import add = shapes.add;
-import toBounds = shapes.toBounds;
-import Vector2 = shapes.Vector2;
-import {DomEvent} from "leaflet";
-import off = DomEvent.off;
+import {Box, boxPolygon, MapCoordinate, toBounds, Vector2} from "./coordinates";
 
 export type Video = {
     ref: string,
@@ -29,7 +23,7 @@ export abstract class Method {
 
     abstract howto(): HowTo
 
-    abstract sendToUi(trainer: ScanTrainer): void
+    abstract sendToUi(trainer: Application): void
 }
 
 export class ScanTree extends Method {
@@ -44,9 +38,9 @@ export class ScanTree extends Method {
         root.setRoot(this)
     }
 
-    sendToUi(trainer: ScanTrainer): void {
+    sendToUi(app: Application): void {
         {
-            let layer = (trainer.map.getSolutionLayer() as MarkerLayer)
+            let layer = (app.howtotabs.map.getSolutionLayer() as MarkerLayer)
             for (let i = 0; i < this.dig_spot_mapping.length; i++) {
                 layer.markerBySpot(this.dig_spot_mapping[i]).withLabel(
                     (i + 1).toString(),
@@ -79,7 +73,7 @@ export class ScanTree extends Method {
             if (size >= 3) offset = {x: 0, y: 0}
             else offset = {x: 0, y: 0}
 
-            shapes.boxPolygon(spot.area).setStyle({
+            boxPolygon(spot.area).setStyle({
                 color: "#00FF21",
                 fillColor: "#00FF21",
                 interactive: false
@@ -107,9 +101,9 @@ export class ScanTree extends Method {
 
         }
 
-        trainer.map.setMethodLayer(0, layer)
+        app.howtotabs.map.setMethodLayer(0, layer)
 
-        this.root.sendToUI(trainer)
+        this.root.sendToUI(app)
     }
 
     howto(): HowTo {
@@ -208,10 +202,10 @@ export class ScanTreeNode {
         return this._children.map((e) => e[1])
     }
 
-    sendToUI(app: ScanTrainer) {
+    sendToUI(app: Application) {
         {
             let candidates = this.candidates()
-            let layer = app.map.getSolutionLayer() as (MarkerLayer)
+            let layer = app.howtotabs.map.getSolutionLayer() as (MarkerLayer)
 
             layer.getMarkers().forEach((e) => {
                 let id = this.root.spotToNumber(e.getSpot())
@@ -252,10 +246,10 @@ export class ScanTreeNode {
 
         this.generateChildren(0, $("#scantreeview").empty(), app)
 
-        scantrainer.tabcontrols.setHowToTabs(this.howTo())
+        scantrainer.howtotabs.setHowToTabs(this.howTo())
     }
 
-    generateList(depth: number, container: JQuery, app: ScanTrainer, key_override: string = null) {
+    generateList(depth: number, container: JQuery, app: Application, key_override: string = null) {
         let line = $("<div>")
             .addClass("scantreeline")
             .css("margin-left", `${depth * 12}px`)
@@ -284,7 +278,7 @@ export class ScanTreeNode {
         this.generateChildren(depth + 1, container, app)
     }
 
-    generateChildren(depth: number, container: JQuery, app: ScanTrainer) {
+    generateChildren(depth: number, container: JQuery, app: Application) {
         if (depth >= 2) return
 
         if (this.is_synthetic_triple_node) {

@@ -1,14 +1,14 @@
 import ClueScrollReader from "./cluesolver/cluereader";
-import {ClueStep} from "../clues";
-import * as a1lib from "@alt1/base";
+import {ClueStep} from "../model/clues";
+import {ImgRef} from "@alt1/base";
 
 export class ClueReader {
     reader = new ClueScrollReader();
 
-    async find(): Promise<ClueStep> {
-        let img = a1lib.captureHoldFullRs();
-
+    async find(img: ImgRef): Promise<ClueStep> {
         let match = await this.reader.find()
+
+        if (!match) return null
 
         if (match.intf.type == "scan") {
             return this.reader.scantextreader.read(img);

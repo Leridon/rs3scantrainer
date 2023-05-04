@@ -1,4 +1,4 @@
-import {ClueType} from "../clues";
+import {ClueType} from "../model/clues";
 
 export let clues = require("./data.json.js")
 

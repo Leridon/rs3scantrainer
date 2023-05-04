@@ -26,10 +26,14 @@ c.plugins = [
     new CopyWebpackPlugin({
         patterns: [
             {
-                from: "img",
-                to: "img"
+                from: "assets",
+                to: "assets"
             }
         ]
     })]
+
+c.resolve.fallback = {
+    "timers": false
+}
 
 export default c

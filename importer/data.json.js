@@ -2,7 +2,7 @@
   {
     "type": "simple",
     "id": 0,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers of Hild and Penda's house in Burthorpe.",
     "solution": {
       "type": "simple",
@@ -28,7 +28,7 @@
   {
     "type": "simple",
     "id": 2,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers found upstairs in the Westernmost Inn of East Ardougne.",
     "solution": {
       "type": "simple",
@@ -68,20 +68,6 @@
   },
   {
     "type": "simple",
-    "id": 5,
-    "tier": null,
-    "clue": "What is 57x89+23?",
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2386,
-        "y": 3490
-      },
-      "answer": "Speak to the gnome ball referee, the answer to his math question is 5096."
-    }
-  },
-  {
-    "type": "simple",
     "id": 6,
     "tier": null,
     "clue": "Speak to Hans.",
@@ -111,7 +97,7 @@
   {
     "type": "emote",
     "clue": "Dance in the shack in Lumbridge Swamp. Equip a bronze dagger, iron full helm and a gold ring.",
-    "tier": null,
+    "tier": "easy",
     "id": 8,
     "solution": {
       "type": "simple",
@@ -152,48 +138,6 @@
   },
   {
     "type": "anagram",
-    "clue": "How many fishermen on the fishing platform?",
-    "tier": null,
-    "id": 11,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2717,
-        "y": 3303
-      },
-      "answer": "Caroline<br><b>Question solution:</b> 11 (0 after Salt in the wound quest)"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "If x is 15 and y is 3, what is 3x + y?",
-    "tier": null,
-    "id": 12,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 3014,
-        "y": 3503
-      },
-      "answer": "Oracle<br><b>Question solution:</b> 48"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many people are waiting for the next bard to perform?",
-    "tier": null,
-    "id": 13,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2659,
-        "y": 3676
-      },
-      "answer": "Brundt<br><b>Question solution:<b> 4"
-    }
-  },
-  {
-    "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Eek Zero Op",
     "tier": null,
     "id": 14,
@@ -204,34 +148,6 @@
         "y": 3274
       },
       "answer": "Zookeeper<br><b>Question solution:<b> 40 (+1 after Eagles Peak quest, +1 after Hunt for Red Raktuber)"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many animals are in the Ardougne Zoo?",
-    "tier": null,
-    "id": 15,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2607,
-        "y": 3274
-      },
-      "answer": "Zookeeper<br><b>Question solution:<b> 40 (+1 after Eagles Peak quest, +1 after Hunt for Red Raktuber)"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many houses have a cross on the door?",
-    "tier": null,
-    "id": 16,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2530,
-        "y": 3306
-      },
-      "answer": "Recruiter<br><b>Question solution:</b> 20"
     }
   },
   {
@@ -460,20 +376,6 @@
   },
   {
     "type": "cryptic",
-    "clue": "Six blades I have, yet draw no blood; Still I turn my prey to powder. If you are brave, come search my roof; It is there my blades are louder",
-    "tier": null,
-    "id": 33,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 3166,
-        "y": 3306
-      },
-      "answer": "Search the crates on the top floor."
-    }
-  },
-  {
-    "type": "cryptic",
     "clue": "The crate on the ground floor of a church is your next location.",
     "tier": null,
     "id": 34,
@@ -499,479 +401,6 @@
       },
       "answer": "Searchs the crates on the first floor."
     }
-  },
-  {
-    "type": "scan",
-    "clue": "This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces.",
-    "tier": null,
-    "id": 36,
-    "solution": {
-      "type": "coordset",
-      "candidates": [
-        {
-          "x": 2958,
-          "y": 3917,
-          "level": 0
-        },
-        {
-          "x": 2979,
-          "y": 3962,
-          "level": 0
-        },
-        {
-          "x": 2998,
-          "y": 3914,
-          "level": 0
-        },
-        {
-          "x": 2956,
-          "y": 3908,
-          "level": 0
-        },
-        {
-          "x": 2944,
-          "y": 3909,
-          "level": 0
-        },
-        {
-          "x": 2990,
-          "y": 3924,
-          "level": 0
-        },
-        {
-          "x": 3055,
-          "y": 3914,
-          "level": 0
-        },
-        {
-          "x": 3060,
-          "y": 3941,
-          "level": 0
-        },
-        {
-          "x": 3029,
-          "y": 3949,
-          "level": 0
-        },
-        {
-          "x": 3012,
-          "y": 3959,
-          "level": 0
-        },
-        {
-          "x": 3057,
-          "y": 3948,
-          "level": 0
-        },
-        {
-          "x": 3048,
-          "y": 3926,
-          "level": 0
-        },
-        {
-          "x": 3037,
-          "y": 3925,
-          "level": 0
-        },
-        {
-          "x": 3031,
-          "y": 3926,
-          "level": 0
-        },
-        {
-          "x": 3021,
-          "y": 3926,
-          "level": 0
-        },
-        {
-          "x": 3110,
-          "y": 3954,
-          "level": 0
-        },
-        {
-          "x": 3125,
-          "y": 3909,
-          "level": 0
-        },
-        {
-          "x": 3080,
-          "y": 3911,
-          "level": 0
-        },
-        {
-          "x": 3160,
-          "y": 3943,
-          "level": 0
-        },
-        {
-          "x": 3182,
-          "y": 3926,
-          "level": 0
-        },
-        {
-          "x": 3193,
-          "y": 3950,
-          "level": 0
-        },
-        {
-          "x": 3179,
-          "y": 3943,
-          "level": 0
-        },
-        {
-          "x": 3175,
-          "y": 3962,
-          "level": 0
-        },
-        {
-          "x": 3242,
-          "y": 3956,
-          "level": 0
-        },
-        {
-          "x": 3241,
-          "y": 3944,
-          "level": 0
-        },
-        {
-          "x": 3210,
-          "y": 3910,
-          "level": 0
-        },
-        {
-          "x": 3216,
-          "y": 3944,
-          "level": 0
-        },
-        {
-          "x": 3266,
-          "y": 3936,
-          "level": 0
-        },
-        {
-          "x": 3307,
-          "y": 3916,
-          "level": 0
-        },
-        {
-          "x": 3306,
-          "y": 3947,
-          "level": 0
-        },
-        {
-          "x": 3281,
-          "y": 3942,
-          "level": 0
-        },
-        {
-          "x": 3315,
-          "y": 3914,
-          "level": 0
-        },
-        {
-          "x": 3269,
-          "y": 3914,
-          "level": 0
-        },
-        {
-          "x": 3348,
-          "y": 3957,
-          "level": 0
-        },
-        {
-          "x": 3380,
-          "y": 3960,
-          "level": 0
-        },
-        {
-          "x": 3361,
-          "y": 3947,
-          "level": 0
-        },
-        {
-          "x": 3367,
-          "y": 3928,
-          "level": 0
-        },
-        {
-          "x": 3334,
-          "y": 3906,
-          "level": 0
-        },
-        {
-          "x": 3368,
-          "y": 3950,
-          "level": 0
-        }
-      ]
-    },
-    "range": 25,
-    "scantext": "deepest levels of the Wilderness"
-  },
-  {
-    "type": "scan",
-    "clue": "This scroll will work in the dreaded Chaos Tunnels. Orb scan range: 22 paces.",
-    "tier": null,
-    "id": 37,
-    "solution": {
-      "type": "coordset",
-      "candidates": [
-        {
-          "x": 3187,
-          "y": 5457,
-          "level": 0
-        },
-        {
-          "x": 3164,
-          "y": 5449,
-          "level": 0
-        },
-        {
-          "x": 3149,
-          "y": 5454,
-          "level": 0
-        },
-        {
-          "x": 3167,
-          "y": 5465,
-          "level": 0
-        },
-        {
-          "x": 3192,
-          "y": 5470,
-          "level": 0
-        },
-        {
-          "x": 3165,
-          "y": 5478,
-          "level": 0
-        },
-        {
-          "x": 3153,
-          "y": 5490,
-          "level": 0
-        },
-        {
-          "x": 3189,
-          "y": 5495,
-          "level": 0
-        },
-        {
-          "x": 3204,
-          "y": 5490,
-          "level": 0
-        },
-        {
-          "x": 3221,
-          "y": 5484,
-          "level": 0
-        },
-        {
-          "x": 3233,
-          "y": 5497,
-          "level": 0
-        },
-        {
-          "x": 3244,
-          "y": 5484,
-          "level": 0
-        },
-        {
-          "x": 3214,
-          "y": 5458,
-          "level": 0
-        },
-        {
-          "x": 3227,
-          "y": 5456,
-          "level": 0
-        },
-        {
-          "x": 3231,
-          "y": 5444,
-          "level": 0
-        },
-        {
-          "x": 3246,
-          "y": 5445,
-          "level": 0
-        },
-        {
-          "x": 3256,
-          "y": 5472,
-          "level": 0
-        },
-        {
-          "x": 3283,
-          "y": 5458,
-          "level": 0
-        },
-        {
-          "x": 3292,
-          "y": 5451,
-          "level": 0
-        },
-        {
-          "x": 3311,
-          "y": 5458,
-          "level": 0
-        },
-        {
-          "x": 3281,
-          "y": 5474,
-          "level": 0
-        },
-        {
-          "x": 3294,
-          "y": 5477,
-          "level": 0
-        },
-        {
-          "x": 3321,
-          "y": 5472,
-          "level": 0
-        },
-        {
-          "x": 3312,
-          "y": 5483,
-          "level": 0
-        },
-        {
-          "x": 3282,
-          "y": 5499,
-          "level": 0
-        },
-        {
-          "x": 3190,
-          "y": 5556,
-          "level": 0
-        },
-        {
-          "x": 3176,
-          "y": 5543,
-          "level": 0
-        },
-        {
-          "x": 3171,
-          "y": 5559,
-          "level": 0
-        },
-        {
-          "x": 3145,
-          "y": 5545,
-          "level": 0
-        },
-        {
-          "x": 3156,
-          "y": 5538,
-          "level": 0
-        },
-        {
-          "x": 3165,
-          "y": 5531,
-          "level": 0
-        },
-        {
-          "x": 3150,
-          "y": 5520,
-          "level": 0
-        },
-        {
-          "x": 3169,
-          "y": 5514,
-          "level": 0
-        },
-        {
-          "x": 3191,
-          "y": 5521,
-          "level": 0
-        },
-        {
-          "x": 3189,
-          "y": 5512,
-          "level": 0
-        },
-        {
-          "x": 3236,
-          "y": 5527,
-          "level": 0
-        },
-        {
-          "x": 3257,
-          "y": 5531,
-          "level": 0
-        },
-        {
-          "x": 3209,
-          "y": 5516,
-          "level": 0
-        },
-        {
-          "x": 3207,
-          "y": 5533,
-          "level": 0
-        },
-        {
-          "x": 3213,
-          "y": 5554,
-          "level": 0
-        },
-        {
-          "x": 3242,
-          "y": 5556,
-          "level": 0
-        },
-        {
-          "x": 3259,
-          "y": 5553,
-          "level": 0
-        },
-        {
-          "x": 3300,
-          "y": 5509,
-          "level": 0
-        },
-        {
-          "x": 3309,
-          "y": 5543,
-          "level": 0
-        },
-        {
-          "x": 3289,
-          "y": 5527,
-          "level": 0
-        },
-        {
-          "x": 3271,
-          "y": 5530,
-          "level": 0
-        },
-        {
-          "x": 3306,
-          "y": 5563,
-          "level": 0
-        },
-        {
-          "x": 3288,
-          "y": 5544,
-          "level": 0
-        }
-      ]
-    },
-    "range": 22,
-    "scantext": "dreaded Chaos Tunnels"
-  },
-  {
-    "type": "scan",
-    "clue": "This scroll will work on and under White Wolf Mountain. Orb scan range: 38 paces.",
-    "tier": null,
-    "id": 38,
-    "solution": {
-      "type": "coordset",
-      "candidates": []
-    },
-    "range": 38,
-    "scantext": "on and under White Wolf Mountain"
   },
   {
     "type": "cryptic",
@@ -1895,7 +1324,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "hard",
     "id": 40,
     "solution": {
       "type": "simple",
@@ -2814,7 +2243,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "hard",
     "id": 41,
     "solution": {
       "type": "simple",
@@ -3733,7 +3162,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "hard",
     "id": 42,
     "solution": {
       "type": "simple",
@@ -4652,7 +4081,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "hard",
     "id": 43,
     "solution": {
       "type": "simple",
@@ -5571,7 +5000,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 44,
     "solution": {
       "type": "simple",
@@ -6490,7 +5919,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 45,
     "solution": {
       "type": "simple",
@@ -7409,7 +6838,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "hard",
     "id": 46,
     "solution": {
       "type": "simple",
@@ -8328,7 +7757,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "hard",
     "id": 47,
     "solution": {
       "type": "simple",
@@ -9247,7 +8676,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 48,
     "solution": {
       "type": "simple",
@@ -10166,7 +9595,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "easy",
     "id": 49,
     "solution": {
       "type": "simple",
@@ -11085,7 +10514,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "easy",
     "id": 50,
     "solution": {
       "type": "simple",
@@ -12004,7 +11433,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 51,
     "solution": {
       "type": "simple",
@@ -12923,7 +12352,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 52,
     "solution": {
       "type": "simple",
@@ -13842,7 +13271,7 @@
       9,
       12
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 53,
     "solution": {
       "type": "simple",
@@ -14761,7 +14190,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "easy",
     "id": 54,
     "solution": {
       "type": "simple",
@@ -15680,7 +15109,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "easy",
     "id": 55,
     "solution": {
       "type": "simple",
@@ -16599,7 +16028,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "easy",
     "id": 56,
     "solution": {
       "type": "simple",
@@ -17518,7 +16947,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 57,
     "solution": {
       "type": "simple",
@@ -18437,7 +17866,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 58,
     "solution": {
       "type": "simple",
@@ -19356,7 +18785,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "hard",
     "id": 59,
     "solution": {
       "type": "simple",
@@ -20275,7 +19704,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 60,
     "solution": {
       "type": "simple",
@@ -21194,7 +20623,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 61,
     "solution": {
       "type": "simple",
@@ -22113,7 +21542,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "medium",
     "id": 62,
     "solution": {
       "type": "simple",
@@ -23032,7 +22461,7 @@
       6,
       8
     ],
-    "tier": null,
+    "tier": "easy",
     "id": 63,
     "solution": {
       "type": "simple",
@@ -23046,7 +22475,7 @@
   {
     "type": "simple",
     "id": 65,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates outside the bank in the north of east-ardougne",
     "solution": {
       "type": "simple",
@@ -23059,7 +22488,7 @@
   {
     "type": "simple",
     "id": 66,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers in a house in Catherby.",
     "solution": {
       "type": "simple",
@@ -23072,7 +22501,7 @@
   {
     "type": "simple",
     "id": 67,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in the chicken coop in the farm north of Port Sarim.",
     "solution": {
       "type": "simple",
@@ -23085,7 +22514,7 @@
   {
     "type": "simple",
     "id": 68,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to Hans to solve the clue.",
     "solution": {
       "type": "simple",
@@ -23098,7 +22527,7 @@
   {
     "type": "simple",
     "id": 69,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers above the shops in Varrock.",
     "solution": {
       "type": "simple",
@@ -23125,7 +22554,7 @@
   {
     "type": "simple",
     "id": 71,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search chests found in the upstairs of shops in Port Sarim.",
     "solution": {
       "type": "simple",
@@ -23138,7 +22567,7 @@
   {
     "type": "simple",
     "id": 72,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers on the first floor of a building overlooking Ardougne market.",
     "solution": {
       "type": "simple",
@@ -23152,7 +22581,7 @@
   {
     "type": "simple",
     "id": 73,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers in Ivy's house in Taverley.",
     "solution": {
       "type": "simple",
@@ -23165,7 +22594,7 @@
   {
     "type": "simple",
     "id": 74,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in Canifis.",
     "solution": {
       "type": "simple",
@@ -23178,7 +22607,7 @@
   {
     "type": "simple",
     "id": 75,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search for a crate on the ground floor of a house in Seers' Village.",
     "solution": {
       "type": "simple",
@@ -23191,7 +22620,7 @@
   {
     "type": "simple",
     "id": 76,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search through chests found in the upstairs of houses in eastern Falador.",
     "solution": {
       "type": "simple",
@@ -23218,7 +22647,7 @@
   {
     "type": "simple",
     "id": 78,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the chests in the Dwarven Mine.",
     "solution": {
       "type": "simple",
@@ -23232,7 +22661,7 @@
   {
     "type": "simple",
     "id": 79,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers in a house in Draynor Village.",
     "solution": {
       "type": "simple",
@@ -23245,7 +22674,7 @@
   {
     "type": "simple",
     "id": 80,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search for a crate in Varrock Palace.",
     "solution": {
       "type": "simple",
@@ -23258,7 +22687,7 @@
   {
     "type": "simple",
     "id": 81,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the boxes in the house in Al Kharid with racks of silk.",
     "solution": {
       "type": "simple",
@@ -23271,7 +22700,7 @@
   {
     "type": "simple",
     "id": 82,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the boxes in the house near the south entrance of Varrock.",
     "solution": {
       "type": "simple",
@@ -23284,7 +22713,7 @@
   {
     "type": "simple",
     "id": 83,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates near a cart in Varrock.",
     "solution": {
       "type": "simple",
@@ -23297,7 +22726,7 @@
   {
     "type": "simple",
     "id": 84,
-    "tier": null,
+    "tier": "easy",
     "clue": "Look in the ground floor crates of houses in Falador.",
     "solution": {
       "type": "simple",
@@ -23310,7 +22739,7 @@
   {
     "type": "simple",
     "id": 85,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in Draynor Manor.",
     "solution": {
       "type": "simple",
@@ -23324,7 +22753,7 @@
   {
     "type": "simple",
     "id": 86,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search for a crate in a building in Hemenster.",
     "solution": {
       "type": "simple",
@@ -23337,7 +22766,7 @@
   {
     "type": "simple",
     "id": 87,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in yard of Citharede Abbey.",
     "solution": {
       "type": "simple",
@@ -23350,7 +22779,7 @@
   {
     "type": "simple",
     "id": 88,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to the staff of Sinclair Mansion.",
     "solution": {
       "type": "simple",
@@ -23364,7 +22793,7 @@
   {
     "type": "simple",
     "id": 89,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search in the south-east corner of the Artisan Dwarves' workshop in Falador.",
     "solution": {
       "type": "simple",
@@ -23378,7 +22807,7 @@
   {
     "type": "simple",
     "id": 90,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search through some drawers in the upstairs of a house in Rimmington.",
     "solution": {
       "type": "simple",
@@ -23392,7 +22821,7 @@
   {
     "type": "simple",
     "id": 91,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search upstairs in the houses of Seers' Village for some drawers.",
     "solution": {
       "type": "simple",
@@ -23405,7 +22834,7 @@
   {
     "type": "simple",
     "id": 92,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in a house in Yanille that has a piano.",
     "solution": {
       "type": "simple",
@@ -23418,7 +22847,7 @@
   {
     "type": "simple",
     "id": 93,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers in the ground floor of a shop in Yanille.",
     "solution": {
       "type": "simple",
@@ -23445,7 +22874,7 @@
   {
     "type": "simple",
     "id": 95,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the boxes in one of the tents in Al Kharid.",
     "solution": {
       "type": "simple",
@@ -23458,7 +22887,7 @@
   {
     "type": "simple",
     "id": 96,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crate near a cart in Port Khazard.",
     "solution": {
       "type": "simple",
@@ -23498,7 +22927,7 @@
   {
     "type": "simple",
     "id": 99,
-    "tier": null,
+    "tier": "easy",
     "clue": "Dig near some giant mushrooms behind the Grand Tree.",
     "solution": {
       "type": "simple",
@@ -23511,7 +22940,7 @@
   {
     "type": "simple",
     "id": 100,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search a barrel outside the Pick and Lute inn, in Taverley.",
     "solution": {
       "type": "simple",
@@ -23524,7 +22953,7 @@
   {
     "type": "simple",
     "id": 101,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in the house at the north end of the East Ardougne Market.",
     "solution": {
       "type": "simple",
@@ -23537,7 +22966,7 @@
   {
     "type": "simple",
     "id": 102,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search a barrel outside the mill, in Taverley.",
     "solution": {
       "type": "simple",
@@ -23550,7 +22979,7 @@
   {
     "type": "simple",
     "id": 103,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to Gaius in Burthorpe.",
     "solution": {
       "type": "simple",
@@ -23562,22 +22991,8 @@
   },
   {
     "type": "simple",
-    "id": 104,
-    "tier": null,
-    "clue": "..s in Burthorpe.",
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2926,
-        "y": 3548
-      },
-      "answer": "Speak to Gaius in Burthorpe."
-    }
-  },
-  {
-    "type": "simple",
     "id": 105,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search a barrel east of Challenge Mistress Fara, in Burthorpe.",
     "solution": {
       "type": "simple",
@@ -23590,7 +23005,7 @@
   {
     "type": "simple",
     "id": 106,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to Arhein in Catherby.",
     "solution": {
       "type": "simple",
@@ -23603,7 +23018,7 @@
   {
     "type": "simple",
     "id": 107,
-    "tier": null,
+    "tier": "easy",
     "clue": "Talk to the bartender of the Rusty Anchor in Port Sarim.",
     "solution": {
       "type": "simple",
@@ -23616,7 +23031,7 @@
   {
     "type": "simple",
     "id": 108,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in Horvik's armoury.",
     "solution": {
       "type": "simple",
@@ -23642,7 +23057,7 @@
   {
     "type": "simple",
     "id": 110,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the boxes in the Goblin house near Lumbridge.",
     "solution": {
       "type": "simple",
@@ -23655,7 +23070,7 @@
   {
     "type": "simple",
     "id": 111,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers in Falador's chainmail shop.",
     "solution": {
       "type": "simple",
@@ -23668,7 +23083,7 @@
   {
     "type": "simple",
     "id": 112,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the chests in Al Kharid palace.",
     "solution": {
       "type": "simple",
@@ -23681,7 +23096,7 @@
   {
     "type": "simple",
     "id": 113,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates just outside the armour shop in East Ardougne.",
     "solution": {
       "type": "simple",
@@ -23707,7 +23122,7 @@
   {
     "type": "simple",
     "id": 115,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in East Ardougne's general store.",
     "solution": {
       "type": "simple",
@@ -23720,7 +23135,7 @@
   {
     "type": "simple",
     "id": 116,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to Ellis in Al Kharid.",
     "solution": {
       "type": "simple",
@@ -23733,7 +23148,7 @@
   {
     "type": "simple",
     "id": 117,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the chest in the left-hand tower of Camelot Castle.",
     "solution": {
       "type": "simple",
@@ -23746,7 +23161,7 @@
   {
     "type": "simple",
     "id": 118,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the chest in the Duke of Lumbridge's bedroom.",
     "solution": {
       "type": "simple",
@@ -23760,7 +23175,7 @@
   {
     "type": "simple",
     "id": 119,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates near the Lumbridge Market.",
     "solution": {
       "type": "simple",
@@ -23786,7 +23201,7 @@
   {
     "type": "simple",
     "id": 121,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to Doric, who lives north of Falador.",
     "solution": {
       "type": "simple",
@@ -23813,7 +23228,7 @@
   {
     "type": "simple",
     "id": 123,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers upstairs in the bank to the East of Varrock.",
     "solution": {
       "type": "simple",
@@ -23827,7 +23242,7 @@
   {
     "type": "simple",
     "id": 124,
-    "tier": null,
+    "tier": "easy",
     "clue": "Talk to Zeke in Al Kharid.",
     "solution": {
       "type": "simple",
@@ -23840,7 +23255,7 @@
   {
     "type": "simple",
     "id": 125,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to the bartender of the Blue Moon Inn in Varrock.",
     "solution": {
       "type": "simple",
@@ -23853,7 +23268,7 @@
   {
     "type": "simple",
     "id": 126,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crate in the left-hand tower of Lumbridge castle.",
     "solution": {
       "type": "simple",
@@ -23866,7 +23281,7 @@
   {
     "type": "simple",
     "id": 127,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers in one of Gertrude's bedrooms.",
     "solution": {
       "type": "simple",
@@ -23892,22 +23307,8 @@
   },
   {
     "type": "simple",
-    "id": 129,
-    "tier": null,
-    "clue": "What is 19 to the power of 3?",
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2678,
-        "y": 3087
-      },
-      "answer": "Talk to Hazelmere (Brimstail in gnome stronghold after completing While Guthix Sleeps)<br><b>Question solution:</b> 6859"
-    }
-  },
-  {
-    "type": "simple",
     "id": 130,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers in Catherby's Archery Shop.",
     "solution": {
       "type": "simple",
@@ -23920,7 +23321,7 @@
   {
     "type": "simple",
     "id": 131,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the drawers upstairs in Falador's shield shop.",
     "solution": {
       "type": "simple",
@@ -23933,7 +23334,7 @@
   {
     "type": "simple",
     "id": 132,
-    "tier": null,
+    "tier": "easy",
     "clue": "Talk to the Squire in the White Knights' castle in Falador.",
     "solution": {
       "type": "simple",
@@ -23946,7 +23347,7 @@
   {
     "type": "simple",
     "id": 133,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates of Falador's general store.",
     "solution": {
       "type": "simple",
@@ -23959,7 +23360,7 @@
   {
     "type": "simple",
     "id": 134,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in the Barbarian Village helmet shop.",
     "solution": {
       "type": "simple",
@@ -23972,7 +23373,7 @@
   {
     "type": "simple",
     "id": 135,
-    "tier": null,
+    "tier": "easy",
     "clue": "Search the crates in the Port Sarim fishing shop.",
     "solution": {
       "type": "simple",
@@ -23985,7 +23386,7 @@
   {
     "type": "simple",
     "id": 136,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to Sir Kay in Camelot Castle.",
     "solution": {
       "type": "simple",
@@ -23998,7 +23399,7 @@
   {
     "type": "simple",
     "id": 137,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to Ned in Draynor Village.",
     "solution": {
       "type": "simple",
@@ -24011,7 +23412,7 @@
   {
     "type": "simple",
     "id": 138,
-    "tier": null,
+    "tier": "easy",
     "clue": "Speak to the Challenge Mistress in Burthorpe.",
     "solution": {
       "type": "simple",
@@ -24701,7 +24102,7 @@
   {
     "type": "cryptic",
     "clue": "A crate found in the tower of a church is your next location.",
-    "tier": null,
+    "tier": "easy",
     "id": 179,
     "solution": {
       "type": "simple",
@@ -24715,7 +24116,7 @@
   {
     "type": "cryptic",
     "clue": "One of the sailors in Port Sarim is your next destination.",
-    "tier": null,
+    "tier": "easy",
     "id": 180,
     "solution": {
       "type": "simple",
@@ -24743,7 +24144,7 @@
   {
     "type": "cryptic",
     "clue": "Someone watching Het's Oasis is your next destination.",
-    "tier": null,
+    "tier": "easy",
     "id": 182,
     "solution": {
       "type": "simple",
@@ -25345,7 +24746,7 @@
   {
     "type": "emote",
     "clue": "Panic in the heart of the Haunted Woods. Beware of double agents! Have no items equipped when you do.",
-    "tier": null,
+    "tier": "hard",
     "id": 225,
     "solution": {
       "type": "simple",
@@ -25765,7 +25166,7 @@
   {
     "type": "emote",
     "clue": "Beckon in Tai Bwo Wannai. Clap before you talk to me. Equip green dragonhide chaps, a ring of duelling and a mithril helmet.",
-    "tier": "hard",
+    "tier": null,
     "id": 255,
     "solution": {
       "type": "simple",
@@ -25821,7 +25222,7 @@
   {
     "type": "emote",
     "clue": "Think in the middle of the wheat field by the Lumbridge mill. Equip a sapphire necklace, polar camo legs and an oak shortbow.",
-    "tier": null,
+    "tier": "easy",
     "id": 259,
     "solution": {
       "type": "simple",
@@ -25835,7 +25236,7 @@
   {
     "type": "emote",
     "clue": "Laugh at the crossroads south of Sinclair Mansion. Equip a leather cowl, amulet of strength and iron scimitar.",
-    "tier": null,
+    "tier": "easy",
     "id": 260,
     "solution": {
       "type": "simple",
@@ -25849,7 +25250,7 @@
   {
     "type": "emote",
     "clue": "Panic in the limestone mine. Equip bronze platelegs, a steel pickaxe and a steel helmet.",
-    "tier": null,
+    "tier": "easy",
     "id": 261,
     "solution": {
       "type": "simple",
@@ -25863,7 +25264,7 @@
   {
     "type": "emote",
     "clue": "Panic on the pier where you catch the Fishing Trawler. Have nothing equipped at all when you do.",
-    "tier": null,
+    "tier": "easy",
     "id": 262,
     "solution": {
       "type": "simple",
@@ -25877,7 +25278,7 @@
   {
     "type": "emote",
     "clue": "Blow a raspberry at the monkey cage in Ardougne Zoo. Equip a studded leather body, bronze platelegs and a mud pie.",
-    "tier": null,
+    "tier": "easy",
     "id": 263,
     "solution": {
       "type": "simple",
@@ -25891,7 +25292,7 @@
   {
     "type": "emote",
     "clue": "Clap on the causeway to the Wizards' Tower. Equip an iron helmet, emerald ring and leather gloves.",
-    "tier": null,
+    "tier": "easy",
     "id": 264,
     "solution": {
       "type": "simple",
@@ -25905,7 +25306,7 @@
   {
     "type": "emote",
     "clue": "Twirl at the crossroads north of Rimmington. Equip a Sapphire ring, yellow flowers and leather chaps.",
-    "tier": null,
+    "tier": "easy",
     "id": 265,
     "solution": {
       "type": "simple",
@@ -25919,7 +25320,7 @@
   {
     "type": "emote",
     "clue": "Blow raspberries outside the entrance to Keep Le Faye. Equip a studded leather coif, iron platebody and leather gloves.",
-    "tier": null,
+    "tier": "easy",
     "id": 266,
     "solution": {
       "type": "simple",
@@ -25933,7 +25334,7 @@
   {
     "type": "emote",
     "clue": "Cheer for the monks at Port Sarim. Equip a studded leather coif, steel plateskirt and a sapphire necklace.",
-    "tier": null,
+    "tier": "easy",
     "id": 267,
     "solution": {
       "type": "simple",
@@ -25947,7 +25348,7 @@
   {
     "type": "emote",
     "clue": "Wave on Mudskipper Point. Equip a gold ring, leather chaps and a steel mace.",
-    "tier": null,
+    "tier": "easy",
     "id": 268,
     "solution": {
       "type": "simple",
@@ -25961,7 +25362,7 @@
   {
     "type": "emote",
     "clue": "Shrug in the mine near Rimmington. Equip a gold necklace, gold ring and a bronze spear.",
-    "tier": null,
+    "tier": "easy",
     "id": 269,
     "solution": {
       "type": "simple",
@@ -25975,7 +25376,7 @@
   {
     "type": "emote",
     "clue": "Clap in the main exam room of the Exam Centre. Equip a ruby amulet, blue flowers and leather gloves.",
-    "tier": null,
+    "tier": "easy",
     "id": 270,
     "solution": {
       "type": "simple",
@@ -25989,7 +25390,7 @@
   {
     "type": "emote",
     "clue": "Yawn in Varrock Palace library. Equip a holy symbol, leather vambraces and an iron warhammer.",
-    "tier": null,
+    "tier": "easy",
     "id": 271,
     "solution": {
       "type": "simple",
@@ -26003,7 +25404,7 @@
   {
     "type": "emote",
     "clue": "Dance in the Party Room. Equip a steel full helmet, steel platebody and an iron plateskirt.",
-    "tier": null,
+    "tier": "easy",
     "id": 272,
     "solution": {
       "type": "simple",
@@ -26017,7 +25418,7 @@
   {
     "type": "emote",
     "clue": "Twirl in Draynor Manor by the fountain. Equip an iron platebody, studded chaps and a bronze full helm.",
-    "tier": null,
+    "tier": "easy",
     "id": 273,
     "solution": {
       "type": "simple",
@@ -26031,7 +25432,7 @@
   {
     "type": "emote",
     "clue": "Jump for joy at the beehives. Equip iron boots, an unholy symbol and a steel hatchet.",
-    "tier": null,
+    "tier": "easy",
     "id": 274,
     "solution": {
       "type": "simple",
@@ -26045,7 +25446,7 @@
   {
     "type": "emote",
     "clue": "Headbang in the mine north of Al-kharid. Equip a Polar Camo Top, Leather Gloves and Leather Boots.",
-    "tier": null,
+    "tier": "easy",
     "id": 275,
     "solution": {
       "type": "simple",
@@ -26059,7 +25460,7 @@
   {
     "type": "emote",
     "clue": "Bow or curtsy outside the entrance to the Legends' Guild. Equip iron platelegs, an emerald amulet and an oak shieldbow.",
-    "tier": null,
+    "tier": "easy",
     "id": 276,
     "solution": {
       "type": "simple",
@@ -26073,7 +25474,7 @@
   {
     "type": "emote",
     "clue": "Cheer in the centre of the Burthorpe Games Room. Have nothing equipped at all when you do.",
-    "tier": null,
+    "tier": "easy",
     "id": 277,
     "solution": {
       "type": "simple",
@@ -26087,7 +25488,7 @@
   {
     "type": "emote",
     "clue": "Dance at the crossroads north of Draynor. Equip an iron chainbody, sapphire ring and a shieldbow.",
-    "tier": null,
+    "tier": "easy",
     "id": 278,
     "solution": {
       "type": "simple",
@@ -26101,7 +25502,7 @@
   {
     "type": "emote",
     "clue": "Dance a jig by the entrance to the Fishing Guild. Equip an emerald ring, sapphire amulet, and a bronze chainbody.",
-    "tier": null,
+    "tier": "easy",
     "id": 279,
     "solution": {
       "type": "simple",
@@ -26115,7 +25516,7 @@
   {
     "type": "emote",
     "clue": "Bow or curtsy at the entrance to Het's Oasis. Equip an iron chainbody, leather chaps and a studded leather coif.",
-    "tier": null,
+    "tier": "easy",
     "id": 280,
     "solution": {
       "type": "simple",
@@ -26129,7 +25530,7 @@
   {
     "type": "emote",
     "clue": "Cry outside the south gates of Fort Forinthry. Equip a hard leather body, leather chaps and a bronze hatchet.",
-    "tier": null,
+    "tier": "easy",
     "id": 281,
     "solution": {
       "type": "simple",
@@ -26143,7 +25544,7 @@
   {
     "type": "emote",
     "clue": "Clap on the top level of the mill north of East Ardougne. Equip an emerald ring, wood camo top and an unenchanted tiara.",
-    "tier": null,
+    "tier": "easy",
     "id": 282,
     "solution": {
       "type": "simple",
@@ -26157,7 +25558,7 @@
   {
     "type": "emote",
     "clue": "Yawn in Draynor Marketplace. Equip an iron kiteshield, steel longsword and studded leather chaps.",
-    "tier": null,
+    "tier": "easy",
     "id": 283,
     "solution": {
       "type": "simple",
@@ -26171,7 +25572,7 @@
   {
     "type": "emote",
     "clue": "Cheer at the Druids' Circle. Equip an air tiara, bronze two-handed sword and a gold amulet.",
-    "tier": null,
+    "tier": "easy",
     "id": 284,
     "solution": {
       "type": "simple",
@@ -26187,20 +25588,6 @@
     "clue": "This anagram reveals who to speak to next: Im Krom",
     "tier": null,
     "id": 285,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2948,
-        "y": 3197
-      },
-      "answer": "Rommik<br><b>Question solution:</b> 7"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many rocks in the Rimmington mine cannot be used to make bronze?",
-    "tier": null,
-    "id": 286,
     "solution": {
       "type": "simple",
       "coordinates": {
@@ -26458,7 +25845,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: An exile that isn't wholly free WE IRK OVER NA.",
-    "tier": null,
+    "tier": "master",
     "id": 303,
     "solution": {
       "type": "simple",
@@ -26500,7 +25887,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: He often preaches of QUIT THY BRINE RAT ROLL",
-    "tier": null,
+    "tier": "master",
     "id": 306,
     "solution": {
       "type": "simple",
@@ -26514,7 +25901,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: They seek spirits O EASTERN WISHES",
-    "tier": null,
+    "tier": "master",
     "id": 307,
     "solution": {
       "type": "simple",
@@ -26528,7 +25915,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: This lady wants me to find ancient scrolls ERGO I DIG CLAY",
-    "tier": null,
+    "tier": "master",
     "id": 308,
     "solution": {
       "type": "simple",
@@ -26542,7 +25929,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Master of the elements, he may REIGN US IF IMMORTAL",
-    "tier": null,
+    "tier": "master",
     "id": 309,
     "solution": {
       "type": "simple",
@@ -26556,7 +25943,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: If distracted from their work AH; WET ARM",
-    "tier": null,
+    "tier": "master",
     "id": 310,
     "solution": {
       "type": "simple",
@@ -26570,7 +25957,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
-    "tier": null,
+    "tier": "master",
     "id": 311,
     "solution": {
       "type": "variants",
@@ -26689,7 +26076,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: In his youth, this adventurer was a WINSCME LAD",
-    "tier": null,
+    "tier": "master",
     "id": 312,
     "solution": {
       "type": "simple",
@@ -26717,7 +26104,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: Age allows a new perspective in this vital place TABOO RISES SHYLY",
-    "tier": null,
+    "tier": "master",
     "id": 314,
     "solution": {
       "type": "simple",
@@ -26731,7 +26118,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: With her age, it's no surprise to HEAR A LADY RANT",
-    "tier": null,
+    "tier": "master",
     "id": 315,
     "solution": {
       "type": "simple",
@@ -26745,7 +26132,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: He claimed to be a human scholar but I SAW THE LIE",
-    "tier": null,
+    "tier": "master",
     "id": 316,
     "solution": {
       "type": "simple",
@@ -26759,7 +26146,7 @@
   {
     "type": "anagram",
     "clue": "This anagram reveals who to speak to next: His job leaves him kind of HATED",
-    "tier": null,
+    "tier": "master",
     "id": 317,
     "solution": {
       "type": "simple",
@@ -26782,20 +26169,6 @@
         "y": 3333
       },
       "answer": "Edmond<br><b>Question solution:</b> 3"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many gnomes on the gnomeball field have red patches on their uniforms?",
-    "tier": null,
-    "id": 319,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2396,
-        "y": 3479
-      },
-      "answer": "Gnome Coach<br><b>Question solution:<b> 6"
     }
   },
   {
@@ -26866,20 +26239,6 @@
         "y": 3581
       },
       "answer": "Sabbot (Found in the cave marked on the map)"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many banana trees are there in the plantation?",
-    "tier": null,
-    "id": 325,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2809,
-        "y": 3192
-      },
-      "answer": "Cap'n Izzy no Beard<br><b>Question solution:</b> 33"
     }
   },
   {
@@ -26978,20 +26337,6 @@
         "y": 3676
       },
       "answer": "Brundt<br><b>Question solution:<b> 4"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many flowers are there in the clearing below this platform?",
-    "tier": null,
-    "id": 333,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2526,
-        "y": 3164
-      },
-      "answer": "Bolkoy<br><b>Question solution:</b> 13"
     }
   },
   {
@@ -27132,76 +26477,6 @@
         "y": 3473
       },
       "answer": "King Roald<br><b>Question solution:</b> 24"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many pigeon cages are there around the back of Jerico's house?",
-    "tier": null,
-    "id": 344,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2576,
-        "y": 3333
-      },
-      "answer": "Edmond<br><b>Question solution:</b> 3"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many rocks in the Rimmington mine cannot be used to make bronze?",
-    "tier": null,
-    "id": 345,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2947,
-        "y": 3196
-      },
-      "answer": "Rommik<br><b>Question solution:</b> 7"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many ore rocks are there in the nearby copper and tin mine?",
-    "tier": null,
-    "id": 346,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 3219,
-        "y": 3177
-      },
-      "answer": "Ysondria<br><b>Question solution:</b> 8"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many windows look out into the Citharede Abbey courtyard?",
-    "tier": null,
-    "id": 347,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 3219,
-        "y": 3177
-      },
-      "answer": "Valerio<br><b>Question solution:</b> 17"
-    }
-  },
-  {
-    "type": "anagram",
-    "clue": "How many tables are there in The Pick and Lute Inn?",
-    "tier": null,
-    "id": 348,
-    "solution": {
-      "type": "simple",
-      "coordinates": {
-        "x": 2883,
-        "y": 3446
-      },
-      "answer": "Nails Newton<br><b>Question solution:</b> 10"
     }
   },
   {
@@ -33314,7 +32589,7 @@
     "type": "compass"
   },
   {
-    "clue": "00 degrees 00 minutes north, 7 degrees 13 minutes west",
+    "clue": "00 degrees 00 minutes north, 07 degrees 13 minutes west",
     "coordinates": {
       "latitude": {
         "degrees": 0,
@@ -33340,7 +32615,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "00 degrees 05 minutes south, 1 degrees 13 minutes east",
+    "clue": "00 degrees 05 minutes south, 01 degrees 13 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 0,
@@ -33366,7 +32641,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "00 degrees 13 minutes south, 4 degrees 00 minutes east",
+    "clue": "00 degrees 13 minutes south, 14 degrees 00 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 0,
@@ -33374,7 +32649,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 4,
+        "degrees": 14,
         "minutes": 0,
         "direction": "east"
       }
@@ -33383,7 +32658,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2568,
+        "x": 2888,
         "y": 3154
       },
       "answer": "Dig at the indicated spot."
@@ -33392,7 +32667,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "00 degrees 18 minutes south, 9 degrees 28 minutes east",
+    "clue": "00 degrees 18 minutes south, 09 degrees 28 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 0,
@@ -33418,7 +32693,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "00 degrees 20 minutes south, 3 degrees 15 minutes east",
+    "clue": "00 degrees 20 minutes south, 23 degrees 15 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 0,
@@ -33426,7 +32701,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 3,
+        "degrees": 23,
         "minutes": 15,
         "direction": "east"
       }
@@ -33435,7 +32710,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2544,
+        "x": 3184,
         "y": 3150
       },
       "answer": "Dig at the indicated spot."
@@ -33444,7 +32719,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "00 degrees 31 minutes south, 7 degrees 43 minutes east",
+    "clue": "00 degrees 31 minutes south, 17 degrees 43 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 0,
@@ -33452,7 +32727,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 7,
+        "degrees": 17,
         "minutes": 43,
         "direction": "east"
       }
@@ -33461,7 +32736,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2687,
+        "x": 3007,
         "y": 3144
       },
       "answer": "Dig at the indicated spot."
@@ -33470,7 +32745,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "00 degrees 50 minutes north, 4 degrees 16 minutes east",
+    "clue": "00 degrees 50 minutes north, 24 degrees 16 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 0,
@@ -33478,7 +32753,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 4,
+        "degrees": 24,
         "minutes": 16,
         "direction": "east"
       }
@@ -33487,7 +32762,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2577,
+        "x": 3217,
         "y": 3188
       },
       "answer": "Dig at the indicated spot."
@@ -33496,7 +32771,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "01 degrees 18 minutes south, 4 degrees 15 minutes east",
+    "clue": "01 degrees 18 minutes south, 14 degrees 15 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 1,
@@ -33504,7 +32779,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 4,
+        "degrees": 14,
         "minutes": 15,
         "direction": "east"
       }
@@ -33513,7 +32788,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2576,
+        "x": 2896,
         "y": 3119
       },
       "answer": "Dig at the indicated spot."
@@ -33522,7 +32797,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "01 degrees 24 minutes north, 8 degrees 05 minutes west",
+    "clue": "01 degrees 24 minutes north, 08 degrees 05 minutes west",
     "coordinates": {
       "latitude": {
         "degrees": 1,
@@ -33548,7 +32823,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "01 degrees 26 minutes north, 8 degrees 01 minutes east",
+    "clue": "01 degrees 26 minutes north, 08 degrees 01 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 1,
@@ -33574,7 +32849,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "01 degrees 35 minutes south, 7 degrees 28 minutes east",
+    "clue": "01 degrees 35 minutes south, 07 degrees 28 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 1,
@@ -33600,7 +32875,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "02 degrees 33 minutes north, 8 degrees 45 minutes east",
+    "clue": "02 degrees 33 minutes north, 28 degrees 45 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 2,
@@ -33608,7 +32883,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 8,
+        "degrees": 28,
         "minutes": 45,
         "direction": "east"
       }
@@ -33617,7 +32892,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2720,
+        "x": 3360,
         "y": 3243
       },
       "answer": "Dig at the indicated spot."
@@ -33626,7 +32901,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "02 degrees 50 minutes north, 6 degrees 20 minutes east",
+    "clue": "02 degrees 50 minutes north, 06 degrees 20 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 2,
@@ -33652,7 +32927,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "02 degrees 50 minutes north, 1 degrees 46 minutes east",
+    "clue": "02 degrees 50 minutes north, 21 degrees 46 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 2,
@@ -33660,7 +32935,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 1,
+        "degrees": 21,
         "minutes": 46,
         "direction": "east"
       }
@@ -33669,7 +32944,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2497,
+        "x": 3137,
         "y": 3252
       },
       "answer": "Dig at the indicated spot."
@@ -33678,7 +32953,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "03 degrees 03 minutes south, 5 degrees 03 minutes east",
+    "clue": "03 degrees 03 minutes south, 05 degrees 03 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 3,
@@ -33704,7 +32979,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "03 degrees 35 minutes south, 3 degrees 35 minutes east",
+    "clue": "03 degrees 35 minutes south, 13 degrees 35 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 3,
@@ -33712,7 +32987,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 3,
+        "degrees": 13,
         "minutes": 35,
         "direction": "east"
       }
@@ -33721,7 +32996,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2555,
+        "x": 2875,
         "y": 3046
       },
       "answer": "Dig at the indicated spot."
@@ -33730,7 +33005,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "03 degrees 39 minutes south, 3 degrees 58 minutes east",
+    "clue": "03 degrees 39 minutes south, 13 degrees 58 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 3,
@@ -33738,7 +33013,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 3,
+        "degrees": 13,
         "minutes": 58,
         "direction": "east"
       }
@@ -33747,7 +33022,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2567,
+        "x": 2887,
         "y": 3044
       },
       "answer": "Dig at the indicated spot."
@@ -33756,7 +33031,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "03 degrees 45 minutes south, 2 degrees 45 minutes east",
+    "clue": "03 degrees 45 minutes south, 22 degrees 45 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 3,
@@ -33764,7 +33039,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 2,
+        "degrees": 22,
         "minutes": 45,
         "direction": "east"
       }
@@ -33773,7 +33048,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2528,
+        "x": 3168,
         "y": 3041
       },
       "answer": "Dig at the indicated spot."
@@ -33782,7 +33057,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "04 degrees 00 minutes south, 2 degrees 46 minutes east",
+    "clue": "04 degrees 00 minutes south, 12 degrees 46 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 4,
@@ -33790,7 +33065,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 2,
+        "degrees": 12,
         "minutes": 46,
         "direction": "east"
       }
@@ -33799,7 +33074,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2529,
+        "x": 2849,
         "y": 3033
       },
       "answer": "Dig at the indicated spot."
@@ -33808,7 +33083,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "04 degrees 03 minutes south, 3 degrees 11 minutes east",
+    "clue": "04 degrees 03 minutes south, 03 degrees 11 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 4,
@@ -33834,7 +33109,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "04 degrees 05 minutes south, 4 degrees 24 minutes east",
+    "clue": "04 degrees 05 minutes south, 04 degrees 24 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 4,
@@ -33860,7 +33135,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "04 degrees 13 minutes north, 2 degrees 45 minutes east",
+    "clue": "04 degrees 13 minutes north, 12 degrees 45 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 4,
@@ -33868,7 +33143,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 2,
+        "degrees": 12,
         "minutes": 45,
         "direction": "east"
       }
@@ -33877,7 +33152,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2528,
+        "x": 2848,
         "y": 3296
       },
       "answer": "Dig at the indicated spot."
@@ -33886,7 +33161,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "04 degrees 16 minutes south, 6 degrees 16 minutes east",
+    "clue": "04 degrees 16 minutes south, 16 degrees 16 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 4,
@@ -33894,7 +33169,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 6,
+        "degrees": 16,
         "minutes": 16,
         "direction": "east"
       }
@@ -33903,7 +33178,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2641,
+        "x": 2961,
         "y": 3024
       },
       "answer": "Dig at the indicated spot."
@@ -33912,7 +33187,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "04 degrees 41 minutes north, 3 degrees 09 minutes west",
+    "clue": "04 degrees 41 minutes north, 03 degrees 09 minutes west",
     "coordinates": {
       "latitude": {
         "degrees": 4,
@@ -33938,7 +33213,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "05 degrees 20 minutes south, 4 degrees 28 minutes east",
+    "clue": "05 degrees 20 minutes south, 04 degrees 28 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 5,
@@ -33964,7 +33239,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "05 degrees 37 minutes north, 1 degrees 15 minutes east",
+    "clue": "05 degrees 37 minutes north, 31 degrees 15 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 5,
@@ -33972,7 +33247,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 1,
+        "degrees": 31,
         "minutes": 15,
         "direction": "east"
       }
@@ -33981,7 +33256,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2480,
+        "x": 3440,
         "y": 3341
       },
       "answer": "Dig at the indicated spot."
@@ -33990,7 +33265,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "05 degrees 43 minutes north, 3 degrees 05 minutes east",
+    "clue": "05 degrees 43 minutes north, 23 degrees 05 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 5,
@@ -33998,7 +33273,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 3,
+        "degrees": 23,
         "minutes": 5,
         "direction": "east"
       }
@@ -34007,7 +33282,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2539,
+        "x": 3179,
         "y": 3344
       },
       "answer": "Dig at the indicated spot."
@@ -34016,7 +33291,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "05 degrees 50 minutes south, 0 degrees 05 minutes east",
+    "clue": "05 degrees 50 minutes south, 10 degrees 05 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 5,
@@ -34024,7 +33299,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 0,
+        "degrees": 10,
         "minutes": 5,
         "direction": "east"
       }
@@ -34033,7 +33308,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2443,
+        "x": 2763,
         "y": 2974
       },
       "answer": "Dig at the indicated spot."
@@ -34042,7 +33317,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "06 degrees 00 minutes south, 1 degrees 48 minutes east",
+    "clue": "06 degrees 00 minutes south, 21 degrees 48 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 6,
@@ -34050,7 +33325,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 1,
+        "degrees": 21,
         "minutes": 48,
         "direction": "east"
       }
@@ -34059,7 +33334,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2498,
+        "x": 3138,
         "y": 2969
       },
       "answer": "Dig at the indicated spot."
@@ -34068,7 +33343,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "06 degrees 11 minutes south, 5 degrees 07 minutes east",
+    "clue": "06 degrees 11 minutes south, 15 degrees 07 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 6,
@@ -34076,7 +33351,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 5,
+        "degrees": 15,
         "minutes": 7,
         "direction": "east"
       }
@@ -34085,7 +33360,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2604,
+        "x": 2924,
         "y": 2963
       },
       "answer": "Dig at the indicated spot."
@@ -34094,7 +33369,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "06 degrees 31 minutes north, 1 degrees 46 minutes west",
+    "clue": "06 degrees 31 minutes north, 01 degrees 46 minutes west",
     "coordinates": {
       "latitude": {
         "degrees": 6,
@@ -34120,7 +33395,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "07 degrees 05 minutes north, 0 degrees 56 minutes east",
+    "clue": "07 degrees 05 minutes north, 30 degrees 56 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 7,
@@ -34128,7 +33403,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 0,
+        "degrees": 30,
         "minutes": 56,
         "direction": "east"
       }
@@ -34137,7 +33412,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2470,
+        "x": 3430,
         "y": 3388
       },
       "answer": "Dig at the indicated spot."
@@ -34146,7 +33421,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "07 degrees 22 minutes north, 4 degrees 15 minutes east",
+    "clue": "07 degrees 22 minutes north, 14 degrees 15 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 7,
@@ -34154,7 +33429,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 4,
+        "degrees": 14,
         "minutes": 15,
         "direction": "east"
       }
@@ -34163,7 +33438,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2576,
+        "x": 2896,
         "y": 3397
       },
       "answer": "Dig at the indicated spot."
@@ -34172,7 +33447,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "07 degrees 33 minutes north, 5 degrees 00 minutes east",
+    "clue": "07 degrees 33 minutes north, 15 degrees 00 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 7,
@@ -34180,7 +33455,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 5,
+        "degrees": 15,
         "minutes": 0,
         "direction": "east"
       }
@@ -34189,7 +33464,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2600,
+        "x": 2920,
         "y": 3403
       },
       "answer": "Dig at the indicated spot."
@@ -34198,7 +33473,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "07 degrees 41 minutes north, 6 degrees 00 minutes east",
+    "clue": "07 degrees 41 minutes north, 06 degrees 00 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 7,
@@ -34224,7 +33499,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "07 degrees 43 minutes south, 2 degrees 26 minutes east",
+    "clue": "07 degrees 43 minutes south, 12 degrees 26 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 7,
@@ -34232,7 +33507,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 2,
+        "degrees": 12,
         "minutes": 26,
         "direction": "east"
       }
@@ -34241,7 +33516,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2518,
+        "x": 2838,
         "y": 2914
       },
       "answer": "Dig at the indicated spot."
@@ -34250,7 +33525,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "08 degrees 03 minutes north, 1 degrees 16 minutes east",
+    "clue": "08 degrees 03 minutes north, 31 degrees 16 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 8,
@@ -34258,7 +33533,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 1,
+        "degrees": 31,
         "minutes": 16,
         "direction": "east"
       }
@@ -34267,7 +33542,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2481,
+        "x": 3441,
         "y": 3419
       },
       "answer": "Dig at the indicated spot."
@@ -34276,7 +33551,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "08 degrees 05 minutes south, 5 degrees 56 minutes east",
+    "clue": "08 degrees 05 minutes south, 15 degrees 56 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 8,
@@ -34284,7 +33559,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 5,
+        "degrees": 15,
         "minutes": 56,
         "direction": "east"
       }
@@ -34293,7 +33568,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2630,
+        "x": 2950,
         "y": 2902
       },
       "answer": "Dig at the indicated spot."
@@ -34302,7 +33577,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "08 degrees 26 minutes south, 0 degrees 28 minutes east",
+    "clue": "08 degrees 26 minutes south, 10 degrees 28 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 8,
@@ -34310,7 +33585,7 @@
         "direction": "south"
       },
       "longitude": {
-        "degrees": 0,
+        "degrees": 10,
         "minutes": 28,
         "direction": "east"
       }
@@ -34319,7 +33594,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2455,
+        "x": 2775,
         "y": 2891
       },
       "answer": "Dig at the indicated spot."
@@ -34328,7 +33603,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "08 degrees 33 minutes north, 1 degrees 39 minutes west",
+    "clue": "08 degrees 33 minutes north, 01 degrees 39 minutes west",
     "coordinates": {
       "latitude": {
         "degrees": 8,
@@ -34354,7 +33629,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "09 degrees 22 minutes north, 2 degrees 24 minutes west",
+    "clue": "09 degrees 22 minutes north, 02 degrees 24 minutes west",
     "coordinates": {
       "latitude": {
         "degrees": 9,
@@ -34380,7 +33655,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "09 degrees 33 minutes north, 2 degrees 15 minutes east",
+    "clue": "09 degrees 33 minutes north, 02 degrees 15 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 9,
@@ -34406,7 +33681,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "09 degrees 48 minutes north, 7 degrees 39 minutes east",
+    "clue": "09 degrees 48 minutes north, 17 degrees 39 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 9,
@@ -34414,7 +33689,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 7,
+        "degrees": 17,
         "minutes": 39,
         "direction": "east"
       }
@@ -34423,7 +33698,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2685,
+        "x": 3005,
         "y": 3475
       },
       "answer": "Dig at the indicated spot."
@@ -34432,7 +33707,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "11 degrees 03 minutes north, 1 degrees 20 minutes east",
+    "clue": "11 degrees 03 minutes north, 31 degrees 20 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 11,
@@ -34440,7 +33715,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 1,
+        "degrees": 31,
         "minutes": 20,
         "direction": "east"
       }
@@ -34449,7 +33724,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2483,
+        "x": 3443,
         "y": 3515
       },
       "answer": "Dig at the indicated spot."
@@ -34458,7 +33733,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "11 degrees 05 minutes north, 0 degrees 45 minutes west",
+    "clue": "11 degrees 05 minutes north, 00 degrees 45 minutes west",
     "coordinates": {
       "latitude": {
         "degrees": 11,
@@ -34484,7 +33759,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "11 degrees 41 minutes north, 4 degrees 58 minutes east",
+    "clue": "11 degrees 41 minutes north, 14 degrees 58 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 11,
@@ -34492,7 +33767,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 4,
+        "degrees": 14,
         "minutes": 58,
         "direction": "east"
       }
@@ -34501,7 +33776,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2599,
+        "x": 2919,
         "y": 3535
       },
       "answer": "Dig at the indicated spot."
@@ -34510,7 +33785,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "12 degrees 48 minutes north, 0 degrees 20 minutes east",
+    "clue": "12 degrees 48 minutes north, 20 degrees 20 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 12,
@@ -34518,7 +33793,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 0,
+        "degrees": 20,
         "minutes": 20,
         "direction": "east"
       }
@@ -34527,7 +33802,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2451,
+        "x": 3091,
         "y": 3571
       },
       "answer": "Dig at the indicated spot."
@@ -34536,7 +33811,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "13 degrees 46 minutes north, 1 degrees 01 minutes east",
+    "clue": "13 degrees 46 minutes north, 21 degrees 01 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 13,
@@ -34544,7 +33819,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 1,
+        "degrees": 21,
         "minutes": 1,
         "direction": "east"
       }
@@ -34553,7 +33828,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2473,
+        "x": 3113,
         "y": 3602
       },
       "answer": "Dig at the indicated spot."
@@ -34562,7 +33837,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "14 degrees 54 minutes north, 9 degrees 13 minutes east",
+    "clue": "14 degrees 54 minutes north, 09 degrees 13 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 14,
@@ -34588,7 +33863,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "15 degrees 48 minutes north, 3 degrees 52 minutes east",
+    "clue": "15 degrees 48 minutes north, 13 degrees 52 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 15,
@@ -34596,7 +33871,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 3,
+        "degrees": 13,
         "minutes": 52,
         "direction": "east"
       }
@@ -34605,7 +33880,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2564,
+        "x": 2884,
         "y": 3667
       },
       "answer": "Dig at the indicated spot."
@@ -34614,7 +33889,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "16 degrees 20 minutes north, 2 degrees 45 minutes east",
+    "clue": "16 degrees 20 minutes north, 12 degrees 45 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 16,
@@ -34622,7 +33897,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 2,
+        "degrees": 12,
         "minutes": 45,
         "direction": "east"
       }
@@ -34631,7 +33906,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2528,
+        "x": 2848,
         "y": 3684
       },
       "answer": "Dig at the indicated spot."
@@ -34640,7 +33915,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "16 degrees 30 minutes north, 6 degrees 28 minutes east",
+    "clue": "16 degrees 30 minutes north, 16 degrees 28 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 16,
@@ -34648,7 +33923,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 6,
+        "degrees": 16,
         "minutes": 28,
         "direction": "east"
       }
@@ -34657,7 +33932,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2647,
+        "x": 2967,
         "y": 3689
       },
       "answer": "Dig at the indicated spot."
@@ -34666,7 +33941,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "16 degrees 35 minutes north, 7 degrees 01 minutes east",
+    "clue": "16 degrees 35 minutes north, 27 degrees 01 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 16,
@@ -34674,7 +33949,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 7,
+        "degrees": 27,
         "minutes": 1,
         "direction": "east"
       }
@@ -34683,7 +33958,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2665,
+        "x": 3305,
         "y": 3692
       },
       "answer": "Dig at the indicated spot."
@@ -34692,7 +33967,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "17 degrees 50 minutes north, 8 degrees 30 minutes east",
+    "clue": "17 degrees 50 minutes north, 08 degrees 30 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 17,
@@ -34718,7 +33993,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "18 degrees 03 minutes north, 5 degrees 16 minutes east",
+    "clue": "18 degrees 03 minutes north, 25 degrees 16 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 18,
@@ -34726,7 +34001,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 5,
+        "degrees": 25,
         "minutes": 16,
         "direction": "east"
       }
@@ -34735,7 +34010,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2609,
+        "x": 3249,
         "y": 3739
       },
       "answer": "Dig at the indicated spot."
@@ -34744,7 +34019,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "18 degrees 22 minutes north, 6 degrees 33 minutes east",
+    "clue": "18 degrees 22 minutes north, 16 degrees 33 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 18,
@@ -34752,7 +34027,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 6,
+        "degrees": 16,
         "minutes": 33,
         "direction": "east"
       }
@@ -34761,7 +34036,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2650,
+        "x": 2970,
         "y": 3749
       },
       "answer": "Dig at the indicated spot."
@@ -34770,7 +34045,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "19 degrees 43 minutes north, 5 degrees 07 minutes east",
+    "clue": "19 degrees 43 minutes north, 25 degrees 07 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 19,
@@ -34778,7 +34053,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 5,
+        "degrees": 25,
         "minutes": 7,
         "direction": "east"
       }
@@ -34787,7 +34062,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2604,
+        "x": 3244,
         "y": 3792
       },
       "answer": "Dig at the indicated spot."
@@ -34796,7 +34071,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "20 degrees 05 minutes north, 1 degrees 52 minutes east",
+    "clue": "20 degrees 05 minutes north, 21 degrees 52 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 20,
@@ -34804,7 +34079,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 1,
+        "degrees": 21,
         "minutes": 52,
         "direction": "east"
       }
@@ -34813,7 +34088,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2500,
+        "x": 3140,
         "y": 3804
       },
       "answer": "Dig at the indicated spot."
@@ -34822,7 +34097,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "20 degrees 07 minutes north, 8 degrees 33 minutes east",
+    "clue": "20 degrees 07 minutes north, 18 degrees 33 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 20,
@@ -34830,7 +34105,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 8,
+        "degrees": 18,
         "minutes": 33,
         "direction": "east"
       }
@@ -34839,7 +34114,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2714,
+        "x": 3034,
         "y": 3805
       },
       "answer": "Dig at the indicated spot."
@@ -34848,7 +34123,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "20 degrees 33 minutes north, 5 degrees 48 minutes east",
+    "clue": "20 degrees 33 minutes north, 15 degrees 48 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 20,
@@ -34856,7 +34131,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 5,
+        "degrees": 15,
         "minutes": 48,
         "direction": "east"
       }
@@ -34865,7 +34140,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2626,
+        "x": 2946,
         "y": 3819
       },
       "answer": "Dig at the indicated spot."
@@ -34874,7 +34149,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "21 degrees 24 minutes north, 7 degrees 54 minutes east",
+    "clue": "21 degrees 24 minutes north, 17 degrees 54 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 21,
@@ -34882,7 +34157,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 7,
+        "degrees": 17,
         "minutes": 54,
         "direction": "east"
       }
@@ -34891,7 +34166,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2693,
+        "x": 3013,
         "y": 3846
       },
       "answer": "Dig at the indicated spot."
@@ -34900,7 +34175,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "22 degrees 30 minutes north, 3 degrees 01 minutes east",
+    "clue": "22 degrees 30 minutes north, 03 degrees 01 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 22,
@@ -34926,7 +34201,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "22 degrees 35 minutes north, 9 degrees 18 minutes east",
+    "clue": "22 degrees 35 minutes north, 19 degrees 18 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 22,
@@ -34934,7 +34209,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 9,
+        "degrees": 19,
         "minutes": 18,
         "direction": "east"
       }
@@ -34943,7 +34218,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2738,
+        "x": 3058,
         "y": 3884
       },
       "answer": "Dig at the indicated spot."
@@ -34952,7 +34227,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "22 degrees 45 minutes north, 6 degrees 33 minutes east",
+    "clue": "22 degrees 45 minutes north, 26 degrees 33 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 22,
@@ -34960,7 +34235,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 6,
+        "degrees": 26,
         "minutes": 33,
         "direction": "east"
       }
@@ -34969,7 +34244,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2650,
+        "x": 3290,
         "y": 3889
       },
       "answer": "Dig at the indicated spot."
@@ -34978,7 +34253,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "24 degrees 26 minutes north, 6 degrees 24 minutes east",
+    "clue": "24 degrees 26 minutes north, 26 degrees 24 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 24,
@@ -34986,7 +34261,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 6,
+        "degrees": 26,
         "minutes": 24,
         "direction": "east"
       }
@@ -34995,7 +34270,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2645,
+        "x": 3285,
         "y": 3943
       },
       "answer": "Dig at the indicated spot."
@@ -35004,7 +34279,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "24 degrees 56 minutes north, 2 degrees 28 minutes east",
+    "clue": "24 degrees 56 minutes north, 22 degrees 28 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 24,
@@ -35012,7 +34287,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 2,
+        "degrees": 22,
         "minutes": 28,
         "direction": "east"
       }
@@ -35021,7 +34296,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2519,
+        "x": 3159,
         "y": 3959
       },
       "answer": "Dig at the indicated spot."
@@ -35030,7 +34305,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "24 degrees 58 minutes north, 8 degrees 43 minutes east",
+    "clue": "24 degrees 58 minutes north, 18 degrees 43 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 24,
@@ -35038,7 +34313,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 8,
+        "degrees": 18,
         "minutes": 43,
         "direction": "east"
       }
@@ -35047,7 +34322,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2719,
+        "x": 3039,
         "y": 3960
       },
       "answer": "Dig at the indicated spot."
@@ -35056,7 +34331,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "25 degrees 03 minutes north, 7 degrees 05 minutes east",
+    "clue": "25 degrees 03 minutes north, 17 degrees 05 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 25,
@@ -35064,7 +34339,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 7,
+        "degrees": 17,
         "minutes": 5,
         "direction": "east"
       }
@@ -35073,7 +34348,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2667,
+        "x": 2987,
         "y": 3963
       },
       "answer": "Dig at the indicated spot."
@@ -35082,7 +34357,7 @@
     "type": "coordinates"
   },
   {
-    "clue": "25 degrees 03 minutes north, 3 degrees 24 minutes east",
+    "clue": "25 degrees 03 minutes north, 23 degrees 24 minutes east",
     "coordinates": {
       "latitude": {
         "degrees": 25,
@@ -35090,7 +34365,7 @@
         "direction": "north"
       },
       "longitude": {
-        "degrees": 3,
+        "degrees": 23,
         "minutes": 24,
         "direction": "east"
       }
@@ -35099,7 +34374,7 @@
     "solution": {
       "type": "simple",
       "coordinates": {
-        "x": 2549,
+        "x": 3189,
         "y": 3963
       },
       "answer": "Dig at the indicated spot."

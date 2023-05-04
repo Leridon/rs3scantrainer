@@ -1,9 +1,8 @@
 import * as leaflet from "leaflet";
-import {MapCoordinate, GieliCoordinates} from "./clues";
-import {DivIcon, FeatureGroup, Layer, Marker, PathOptions} from "leaflet";
-import {shapes} from "./map/shapes";
-import {DEBUG} from "./scantrainer";
-import {TeleportLayer} from "./map/teleportlayer";
+import {FeatureGroup, Layer} from "leaflet";
+import {DEBUG} from "../../application";
+import {TeleportLayer} from "./teleportlayer";
+import {MapCoordinate} from "../../model/coordinates";
 
 type ElevationConfig = { dxdy: number, dzdy: number }
 type Layersource = { urls: string[], from?: number, to?: number, elevation?: ElevationConfig };

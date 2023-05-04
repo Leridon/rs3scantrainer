@@ -1,9 +1,7 @@
-import {ChildKey, HowTo, Method, PingType, ScanTree, ScanTreeNode} from "../methods";
+import {ChildKey, HowTo, Method, PingType, ScanTree, ScanTreeNode} from "../model/methods";
 import {clues} from "./clues";
-import {ClueStep, MapCoordinate} from "../clues";
-import {go} from "fuzzysort";
-import {shapes} from "../map/shapes";
-import Box = shapes.Box;
+import {ClueStep} from "../model/clues";
+import {Box, MapCoordinate} from "../model/coordinates";
 
 let methods: Method[][] = []
 
@@ -12,12 +10,7 @@ let n = Math.max(...clues.map((e) => e.id))
 for (let i = 0; i < n; i++) {
     methods.push([])
 }
-
-console.log(methods)
-
 function associate(v: { id: number, method: Method }) {
-    console.log(v.id)
-    console.log(methods[v.id])
     methods[v.id].push(v.method)
 }
 
@@ -117,17 +110,17 @@ function loadScanMethods() {
 
     let videos = {
         zanaris: {
-            arrival: {ref: "./img/scanassets/zanaris/Arrival.webm", contributor: "Leridon"},
-            AtoB: {ref: "./img/scanassets/zanaris/AtoB.webm", contributor: "Leridon"},
-            BtoC: {ref: "./img/scanassets/zanaris/BtoC.webm", contributor: "Leridon"},
-            CtoD: {ref: "./img/scanassets/zanaris/CtoD.webm", contributor: "Leridon"},
-            DtoE: {ref: "./img/scanassets/zanaris/DtoE.webm", contributor: "Leridon"},
-            AtoF: {ref: "./img/scanassets/zanaris/AtoF.webm", contributor: "Leridon"},
+            arrival: {ref: "./assets/scanassets/zanaris/Arrival.webm", contributor: "Leridon"},
+            AtoB: {ref: "./assets/scanassets/zanaris/AtoB.webm", contributor: "Leridon"},
+            BtoC: {ref: "./assets/scanassets/zanaris/BtoC.webm", contributor: "Leridon"},
+            CtoD: {ref: "./assets/scanassets/zanaris/CtoD.webm", contributor: "Leridon"},
+            DtoE: {ref: "./assets/scanassets/zanaris/DtoE.webm", contributor: "Leridon"},
+            AtoF: {ref: "./assets/scanassets/zanaris/AtoF.webm", contributor: "Leridon"},
         },
         ardounge: {
-            toA: {ref: "./img/scanassets/ardounge/toA.webm", contributor: "Leridon"},
-            AtoC: {ref: "./img/scanassets/ardounge/AtoC.webm", contributor: "Leridon"},
-            CtoD: {ref: "./img/scanassets/ardounge/CtoD.webm", contributor: "Leridon"},
+            toA: {ref: "./assets/scanassets/ardounge/toA.webm", contributor: "Leridon"},
+            AtoC: {ref: "./assets/scanassets/ardounge/AtoC.webm", contributor: "Leridon"},
+            CtoD: {ref: "./assets/scanassets/ardounge/CtoD.webm", contributor: "Leridon"},
         }
     }
     let howtos = {
@@ -285,7 +278,7 @@ function loadScanMethods() {
     /*
     associate({
         id: 352, // ardounge
-        method: tree("img/scanassets/ardounge/ardoungemap.png",
+        method: tree("assets/scanassets/ardounge/ardoungemap.png",
             step("Ardounge teleport to", "A")
                 .howto({
                     video: videos.ardounge.toA,
@@ -357,7 +350,7 @@ function loadScanMethods() {
 
     associate({
         id: 355, // piscatoris
-        method: tree("img/scanassets/piscatoris/piscatoris.png",
+        method: tree("assets/scanassets/piscatoris/piscatoris.png",
             step("Fairy ring (AKQ) to", "A")
                 .triple(1)
                 .triple(2)
@@ -433,7 +426,7 @@ function loadScanMethods() {
     associate({
         id: 362, // dorgeshkaan
         method:
-            tree("img/scanassets/dorgeshkaan/dorgeshkaan.png",
+            tree("assets/scanassets/dorgeshkaan/dorgeshkaan.png",
                 step("Different level?")
                     .child({
                             key: "Upper",

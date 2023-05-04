@@ -3,7 +3,7 @@ import * as OCR from "@alt1/ocr";
 import * as oldlib from "./oldlib";
 import {coldiff} from "../oldlib";
 import {ModalUI} from "./modeluireader";
-import {ClueType, ScanStep} from "../../clues";
+import {ClueType, ScanStep} from "../../model/clues";
 import {byType} from "../../data/clues";
 
 var cluefont = require("./fonts/cluefont.fontmeta.json.js");
@@ -11,7 +11,7 @@ var cluefont = require("./fonts/cluefont.fontmeta.json.js");
 export const sextant = {
 	offsetx: 2440,
 	offsetz: 3161,
-	degreespertile: 1.875
+	minutespertile: 1.875
 }
 
 export type ClueCache = {
@@ -46,8 +46,8 @@ export type ClueSolution = {
 
 export function sextantToCoord(comp: SextandCoord): MapPoint {
 	return {
-		x: sextant.offsetx + Math.round((60 * comp.longdeg + comp.longmin) * (comp.eastwest == "west" ? -1 : 1) / sextant.degreespertile),
-		z: sextant.offsetz + Math.round((60 * comp.latdeg + comp.latmin) * (comp.northsouth == "south" ? -1 : 1) / sextant.degreespertile),
+		x: sextant.offsetx + Math.round((60 * comp.longdeg + comp.longmin) * (comp.eastwest == "west" ? -1 : 1) / sextant.minutespertile),
+		z: sextant.offsetz + Math.round((60 * comp.latdeg + comp.latmin) * (comp.northsouth == "south" ? -1 : 1) / sextant.minutespertile),
 		mapid: 0,
 		level: 0
 	}

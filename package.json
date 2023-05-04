@@ -16,7 +16,8 @@
 		"fuzzysort": "^2.0.4",
 		"jquery": "^3.6.4",
 		"leaflet": "^1.9.3",
-		"react": "^18.2.0"
+		"react": "^18.2.0",
+		"timers-browserify": "^2.0.12"
 	},
 	"devDependencies": {
 		"@alt1/imagedata-loader": "^1.0.0-alpha.2",

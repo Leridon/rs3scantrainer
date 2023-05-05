@@ -19,6 +19,8 @@ export default class HowToTabControls {
             if (index >= 0) preferred.splice(index, 1)
             preferred.unshift(key)
 
+            console.log("New preferred: " + JSON.stringify(preferred))
+
             this.preferred.set(preferred)
 
             this.activateHowToTab(key)
@@ -48,9 +50,10 @@ export default class HowToTabControls {
             $("#textmethodcontent").text(howto.text)
         }
 
-        let available_tabs = Object.keys(howto).concat(["map"])
+        let available_tabs: string[] = Object.keys(howto).concat(["map"])
+
         if (available_tabs.length > 0) {
-            let best = this.preferred.get().concat(["map", "video", "text", "scanmap", "image"]).find((e) => e in available_tabs)
+            let best = this.preferred.get().concat(["map", "video", "text"]).find((e) => available_tabs.findIndex((l) => e == l) >= 0)
 
             if (best) this.activateHowToTab(best)
             else this.activateHowToTab(available_tabs[0])

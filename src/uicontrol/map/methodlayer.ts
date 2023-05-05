@@ -1,8 +1,7 @@
 import {ScanSpot, ScanTree} from "../../model/methods";
-import {Box, boxPolygon, MapCoordinate, tilePolygon, toCoords} from "../../model/coordinates";
+import {boxPolygon, tilePolygon} from "../../model/coordinates";
 import {ScanSolutionLayer} from "./solutionlayer";
 import * as leaflet from "leaflet"
-import {FeatureGroup, PointExpression} from "leaflet";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -76,7 +75,7 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
             if (relevant && !p.spot.is_far_away) bounds.extend(p.getBounds())
         })
 
-        if (this.scantree.area(areas[0]).is_far_away) {
+        if (areas[0] && this.scantree.area(areas[0]).is_far_away) {
             bounds = this.polygons.find((p) => p.spot.name == areas[0]).getBounds()
         }
 

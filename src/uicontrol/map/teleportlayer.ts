@@ -318,7 +318,7 @@ const teles: teleport_item[] = [{
         {spot: {x: 2912, y: 3840}, code: "5", hover: "Glacor cavern"},
         //6 heroes guild underground
         {spot: {x: 2730, y: 3353}, code: "7", hover: "Legends' Guild"},
-        {spot: {x: 3250, y: 9517}, code: "8", hover: "Tears of Guthix"},
+        {spot: {x: 3250, y: 9518}, code: "8", hover: "Tears of Guthix"},
         {spot: {x: 3255, y: 3449}, code: "9", hover: "Varrock Museum"},
         {spot: {x: 2371, y: 3355}, code: "0", hover: "The World Gate"},
     ]
@@ -384,6 +384,7 @@ const teles: teleport_item[] = [{
         {spot: {x: 2453, y: 2729}, code: "4", hover: "Agoroth"},
         {spot: {x: 3216, y: 3784}, code: "5", hover: "Corpereal Beast"},
         {spot: {x: 3485, y: 3239}, code: "6", hover: "Burgh De Rott"},
+        {spot: {x: 3252, y: 9517}, code: "7", hover: "Tears of Guthix"},
 
     ]
 }, {

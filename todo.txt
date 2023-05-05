@@ -2,9 +2,6 @@ RELEASE 0.1, ETA May 5th
     - This is a beta release to iron out issues before the general release.
     - Remaining scan maps are planned for after
 
-- Display method layer above solution layer
-- Automated method association
-
 - Style decisions:
     - Figure out where to put the label for standing spots
     - Manually place?

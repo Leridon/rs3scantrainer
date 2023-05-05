@@ -22,11 +22,23 @@ export class ScanSolutionLayer extends Solutionlayer {
 
     radius_polygon: leaflet.Polygon[]
 
+    private ms: MapCoordinate[] = []
+
     constructor(private clue: ScanStep) {
         super()
 
         this.markers = (clue.solution as SetSolution).candidates.map((e) => {
             return new TileMarkerWithActive(e).withMarker().withX("#B21319")
+        })
+
+        // DO NOT REMOVE. Development code to easily assign numbers to scans
+        this.markers.forEach((m) => {
+            m.on("click", (e) => {
+                this.ms.push(e.target.getSpot())
+                e.target.withLabel(this.ms.length.toString(), "spot-number", [0, 0])
+
+                console.log(JSON.stringify(this.ms))
+            })
         })
 
         this.markers.forEach((m) => m.addTo(this))

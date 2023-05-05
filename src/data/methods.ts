@@ -167,9 +167,9 @@ function loadScanMethods() {
             },
         }
     }
-
+    //zanaris
     associate({
-            id: 361, //zanaris
+            id: 361,
             method: tree(
                 [
                     {x: 2406, y: 4428}, // 1
@@ -265,6 +265,95 @@ function loadScanMethods() {
             )
         }
     )
+
+    //lumbridge
+    associate({
+        id: 362,
+        method: tree(
+            [
+                {"x": 3233, "y": 9547, "level": 0},
+                {"x": 3210, "y": 9557, "level": 0},
+                {"x": 3210, "y": 9571, "level": 0},
+                {"x": 3227, "y": 9575, "level": 0},
+                {"x": 3246, "y": 9566, "level": 0},
+                {"x": 3252, "y": 9577, "level": 0},
+                {"x": 3209, "y": 9587, "level": 0},
+                {"x": 3191, "y": 9555, "level": 0},
+                {"x": 3179, "y": 9559, "level": 0},
+                {"x": 3170, "y": 9557, "level": 0},
+                {"x": 3167, "y": 9546, "level": 0},
+                {"x": 3172, "y": 9570, "level": 0}
+            ],
+            [
+                {name: "A", spot: {x: 3226, y: 9542}},
+                {name: "B", spot: {x: 3226, y: 9547}},
+                {name: "C", spot: {x: 3221, y: 9552}},
+                {name: "D", spot: {x: 3221, y: 9556}},
+                {name: "E", spot: {x: 3206, y: 9553}},
+                {name: "F", spot: {x: 3204, y: 9553}},
+            ],
+            {
+                "-A": {
+                    text: "Teleport to Tears of Guthix with the quest cape/Games necklace and run through the tunnel. A is the spot you are in after crawling through.",
+                    video: {ref: "assets/scanassets/lumbridge/toA.webm", contributor: "Leridon"}
+                },
+                "A-B": {
+                    text: "B is 6 tiles north of A.",
+                    video: {ref: "assets/scanassets/lumbridge/AtoB.webm", contributor: "Leridon"}
+                },
+                "A-D": {
+                    text: "D is the spot you land in after crossing the stepping stone.",
+                    video: {ref: "assets/scanassets/lumbridge/AtoD.webm", contributor: "Leridon"}
+                },
+                "B-C": {
+                    text: "C is the tile directly south of the stepping stone, where you start the jump.",
+                    video: {ref: "assets/scanassets/lumbridge/BtoC.webm", contributor: "Leridon"}
+                },
+                "C-D": {
+                    text: "D is just across the stepping stone.",
+                    video: {ref: "assets/scanassets/lumbridge/CtoD.webm", contributor: "Leridon"}
+                },
+                "D-E": {
+                    text: "Walk to the tile directly east of the wall beast. From there you can dive directly to E. Use the scorch mark on the floor for orientation.",
+                    video: {ref: "assets/scanassets/lumbridge/DtoE.webm", contributor: "Leridon"}
+                },
+                "E-F": {
+                    text: "F is exactly two tiles west of E and can be used to distinguish 12 from 10 and 11. This step also lines up surges.",
+                    video: {ref: "assets/scanassets/lumbridge/EtoF.webm", contributor: "Leridon"}
+                }
+            },
+            goTo("A")
+                .triple(1, 2)
+                .double(
+                    goTo("D", "Dive and jump to {}.")
+                        .triple(3)
+                        .double(digAt(5))
+                )
+                .single(
+                    goTo("B")
+                        .double(decide("It can only be spot 4 or 6")
+                            .answer("4", digAt(4))
+                            .answer("6", digAt(6))
+                        )
+                        .single(goTo("C")
+                            .double(digAt(8))
+                            .single(goTo("D", "Jump to {}.")
+                                .double(digAt(7))
+                                .single(goTo("E", "Run/Dive to {}.")
+                                    .double(digAt(9))
+                                    .single(goTo("F")
+                                        .double(digAt(12))
+                                        .single(decide("The spot is either 10 or 11")
+                                            .answer("10", digAt(10))
+                                            .answer("11", digAt(11))
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                )
+        )
+    })
 
     /*
     associate({

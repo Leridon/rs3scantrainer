@@ -17,7 +17,7 @@ export default class CluePanelControl {
 
     selectClue(clue: ClueStep) {
         if (this.selected_clue && this.selected_clue.id == clue.id) return
-        
+
         this.selected_clue = clue
 
         this.clue_panel.show()

@@ -81,15 +81,6 @@ export class TileMarker extends leaflet.FeatureGroup {
 
         this.marker = leaflet.marker([this.spot.y, this.spot.x], {
             icon: icon,
-
-            /*icon: new DivIcon({
-                html: $("<div>").text(`[${spot.x}, ${spot.y}]`)
-                    .css("color", "gold")
-                    .css("font-size", "18pt")
-                    .get()[0]
-
-            }),*/
-
             title: `[${this.spot.x}, ${this.spot.y}]`
         }).addTo(this)
 

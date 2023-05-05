@@ -1,25 +1,12 @@
-RELEASE 0.1, ETA May 5th
-    - This is a beta release to iron out issues before the general release.
-    - Remaining scan maps are planned for after
+RELEASE 0.2
+- Finish scan mapping and record more clips.
+    - Fix some clue spots being on a different level
 
-- Style decisions:
-    - Figure out where to put the label for standing spots
-    - Manually place?
+- Display a "how does this work" button for scans.
 
 - Arrow key/enter control for the search.
 - Finish styling
     - Fix the sizing of videos.
-
-- Map out a total of at least 4 scans.
-    - Zanaris
-    - Falador
-    - Dorgeshkaan
-    - ardounge
-
-
-RELEASE 0.2
-- Finish scan mapping and record more clips.
-    - Fix some clue spots being on a different level
 
 
 RELEASE 0.3
@@ -30,6 +17,7 @@ Done:
 - Lumbdridge
 - Zanaris
 - Taverley
+- Varrock
 
 
 Scan maps:
@@ -51,7 +39,6 @@ Scan maps:
 - Mos Le Harless
 - Piscatoris
 - Prifddinias
-- Varrock
 
 - Collapsible panels
 

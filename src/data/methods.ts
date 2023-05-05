@@ -1,4 +1,4 @@
-import {ChildKey, HowTo, Method, PingType, ScanTree, ScanTreeNode} from "../model/methods";
+import {ChildKey, HowTo, Method, PingType, ScanSpot, ScanTree, ScanTreeNode} from "../model/methods";
 import {clues} from "./clues";
 import {ClueStep} from "../model/clues";
 import {Box, MapCoordinate} from "../model/coordinates";
@@ -113,7 +113,7 @@ function loadScanMethods() {
     }
 
     function tree(coordinates: MapCoordinate[],
-                  spots: { name: string, area?: Box, spot?: MapCoordinate }[],
+                  spots: ScanSpot[],
                   methods: Dict<HowTo>,
                   tree: ScanBuilder): ScanTree {
 
@@ -407,7 +407,7 @@ function loadScanMethods() {
                 {"x": 2822, "y": 9826, "level": 0}
             ],
             [
-                //{name: "A", spot: {x: 2910, y: 3421}}, Hidden because it destroys the view for now
+                {name: "A", area: {topleft: {x: 2908, y: 3423}, botright: {x: 2912, y: 3419}}, is_far_away: true},
                 {name: "B", area: {topleft: {x: 2918, y: 9702}, botright: {x: 2924, y: 9700}}},
                 {name: "C", area: {topleft: {x: 2906, y: 9722}, botright: {x: 2909, y: 9719}}},
                 {name: "D", area: {topleft: {x: 2908, y: 9742}, botright: {x: 2912, y: 9742}}},
@@ -603,13 +603,13 @@ function loadScanMethods() {
                         .single(digAt(7))
                         .double(digAt(8))
                     )
-                    .single(goTo("F")
+                    .single(goTo("G", "Archaeology Teleport to {}.")
                         .why("The spot has been narrowed down to just 3 candidates, two of which are at Soran.")
                         .triple(10, 11)
                         .double(digAt(12))
                     )
                 )
-                .single(goTo("B")
+                .single(goTo("B", "Dive to {}.")
                     .double(decide("The spot is along the southern wall")
                         .answer("13", digAt(13))
                         .answer("14", digAt(14))

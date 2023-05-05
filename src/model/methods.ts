@@ -1,9 +1,6 @@
 import {ClueStep, ScanStep} from "./clues";
 import {Application, scantrainer} from "../application";
-import * as leaflet from "leaflet";
-import {Box, boxPolygon, MapCoordinate, toBounds, Vector2} from "./coordinates";
-import {SimpleMarkerLayer, TileMarkerWithActive} from "../uicontrol/map/solutionlayer";
-import {TileMarker} from "../uicontrol/map/map";
+import {Box, MapCoordinate} from "./coordinates";
 import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
 
 export type Video = {
@@ -30,11 +27,13 @@ export abstract class Method {
     public abstract explanation(): JQuery
 }
 
+export type ScanSpot = { name: string, area?: Box, spot?: MapCoordinate, is_far_away?: boolean }
+
 export class ScanTree extends Method {
     clue: ScanStep = null
 
     constructor(public dig_spot_mapping: MapCoordinate[],
-                public scan_spots: { name: string, area?: Box, spot?: MapCoordinate }[],
+                public scan_spots: ScanSpot[],
                 public root: ScanTreeNode
     ) {
         super("scantree")
@@ -58,6 +57,10 @@ export class ScanTree extends Method {
 
     spot(number: number) {
         return this.dig_spot_mapping[number - 1]
+    }
+
+    area(name: string): ScanSpot {
+        return this.scan_spots.find((s) => s.name == name)
     }
 
     explanation(): JQuery {
@@ -150,7 +153,18 @@ export class ScanTreeNode {
     }
 
     sendToUI(app: Application) {
-        (app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer).spotsLeft(this.candidates())
+        {
+            let rel = [this.where]
+            if (this.parent) rel.push(this.parent.node.where);
+
+            let layer = app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer
+
+            layer.setRelevant(
+                this.candidates(),
+                rel,
+                true
+            )
+        }
 
         {
             let path = this.path()

@@ -1,6 +1,49 @@
-import {ScanTree} from "../../model/methods";
-import {Box, boxPolygon, MapCoordinate, tilePolygon} from "../../model/coordinates";
+import {ScanSpot, ScanTree} from "../../model/methods";
+import {Box, boxPolygon, MapCoordinate, tilePolygon, toCoords} from "../../model/coordinates";
 import {ScanSolutionLayer} from "./solutionlayer";
+import * as leaflet from "leaflet"
+import {FeatureGroup, PointExpression} from "leaflet";
+
+class SpotPolygon extends leaflet.FeatureGroup {
+    polygon: leaflet.Polygon
+    label: leaflet.Tooltip
+
+    constructor(public spot: ScanSpot) {
+        super()
+
+        this.polygon = spot.area ? boxPolygon(spot.area) : tilePolygon(spot.spot)
+
+        this.label = leaflet.tooltip({
+            interactive: false,
+            permanent: true,
+            className: "area-name",
+            offset: [0, 0],
+            direction: "center",
+            content: spot.name
+        })
+
+        this.polygon
+            .setStyle({
+                color: "#00FF21",
+                fillColor: "#00FF21",
+                interactive: false,
+            })
+            .bindTooltip(this.label)
+            .addTo(this)
+    }
+
+    setActive(active: boolean) {
+        let opacity = active ? 1 : 0.2
+
+        this.polygon.setStyle(
+            Object.assign(this.polygon.options, {
+                opacity: opacity,
+                fillOpacity: opacity * 0.2,
+            }))
+
+        this.label.setOpacity(opacity)
+    }
+}
 
 export class ScanTreeMethodLayer extends ScanSolutionLayer {
 
@@ -10,16 +53,36 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
         })
     }
 
+    polygons: SpotPolygon[] = []
+
     public setRelevant(spots: number[],
                        areas: string[],
                        fit: boolean,
-
     ) {
+        let bounds = leaflet.latLngBounds([])
 
-    }
+        this.markers.forEach((e, i) => {
+            let relevant = spots.includes(i + 1)
+            e.setActive(relevant)
 
-    public drawAreas(areas: { name: string, area?: Box, spot?: MapCoordinate }[], relevant: string[]) {
+            if (relevant) bounds.extend(e.getBounds())
+        })
 
+        this.polygons.forEach((p) => {
+            let relevant = areas.includes(p.spot.name)
+
+            p.setActive(relevant)
+
+            if (relevant && !p.spot.is_far_away) bounds.extend(p.getBounds())
+        })
+
+        if (this.scantree.area(areas[0]).is_far_away) {
+            bounds = this.polygons.find((p) => p.spot.name == areas[0]).getBounds()
+        }
+
+        this._map.fitBounds(bounds.pad(0.1), {
+            maxZoom: 4
+        })
     }
 
     constructor(private scantree: ScanTree) {
@@ -28,61 +91,13 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
         // sort markers to correlate to the spot mapping
         this.markers.sort((a, b) => scantree.spotToNumber(a.getSpot()) - scantree.spotToNumber(b.getSpot()))
 
+        this.polygons = this.scantree.scan_spots.map((s) => new SpotPolygon(s))
+
+        this.polygons.forEach((p) => p.addTo(this))
+
         // Create labels
         this.markers.forEach((m, i) => {
             m.withLabel((i + 1).toString(), "spot-number", [0, 10])
         })
-
-
-        for (let spot of scantree.scan_spots) {
-            /*
-            let self = this
-
-            let clear = function (bounds: leaflet.Bounds): boolean {
-                for (let spot of self.scantree.scan_spots) if (bounds.overlaps(toBounds(spot.area))) return false
-                for (let spot of self.scantree.dig_spot_mapping) if (bounds.contains(leaflet.point(spot))) return false
-
-                return true
-            }
-
-            let bounds = toBounds(spot.area)
-            let size = bounds.getSize().x * bounds.getSize().y
-
-            let offset: Vector2
-
-            // TODO: Figure out a good spot for labels
-            // TODO: Actually implement something smart
-
-            if (size >= 3) offset = {x: 0, y: 0}
-            else offset = {x: 0, y: 0}*/
-
-            let polygon = spot.area ? boxPolygon(spot.area) : tilePolygon(spot.spot)
-
-            polygon
-                .setStyle({
-                    color: "#00FF21",
-                    fillColor: "#00FF21",
-                    interactive: false
-                })
-                .bindTooltip(spot.name, {
-                    interactive: false,
-                    permanent: true,
-                    className: "area-name",
-                    offset: [0, 0],
-                    direction: "center"
-                })
-                .addTo(this)
-
-
-            /*
-            leaflet.marker([spot.coords.y + 2, spot.coords.x], {
-                icon: leaflet.divIcon({
-                    className: "area-name",
-                    html: spot.name
-                }),
-                interactive: false,
-            }).addTo(layer)*/
-
-        }
     }
 }

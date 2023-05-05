@@ -542,7 +542,7 @@ function loadScanMethods() {
                 {name: "A", area: {topleft: {x: 3213, y: 3434}, botright: {x: 3214, y: 3432}}},
                 {name: "B", area: {topleft: {x: 3223, y: 3424}, botright: {x: 3224, y: 3422}}},
                 {name: "C", area: {topleft: {x: 3233, y: 3414}, botright: {x: 3234, y: 3412}}},
-                {name: "C", area: {topleft: {x: 3242, y: 3418}, botright: {x: 3244, y: 3417}}},
+                {name: "D", area: {topleft: {x: 3242, y: 3418}, botright: {x: 3244, y: 3417}}},
                 {name: "E", spot: {x: 3254, y: 3449}},
                 {name: "F", spot: {x: 3244, y: 3459}},
                 {name: "G", area: {topleft: {x: 3179, y: 3420}, botright: {x: 3183, y: 3416}}},

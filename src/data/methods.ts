@@ -355,6 +355,139 @@ function loadScanMethods() {
         )
     })
 
+    //taverley
+    associate({
+        id: 357,
+        method: tree(
+            [
+                {"x": 2884, "y": 9799, "level": 0},
+                {"x": 2904, "y": 9809, "level": 0},
+                {"x": 2875, "y": 9805, "level": 0},
+                {"x": 2892, "y": 9783, "level": 0},
+                {"x": 2895, "y": 9831, "level": 0},
+                {"x": 2907, "y": 9842, "level": 0},
+                {"x": 2888, "y": 9846, "level": 0},
+                {"x": 2933, "y": 9848, "level": 0},
+                {"x": 2938, "y": 9812, "level": 0},
+                {"x": 2945, "y": 9796, "level": 0},
+                {"x": 2952, "y": 9786, "level": 0},
+                {"x": 2926, "y": 9692, "level": 0},
+                {"x": 2907, "y": 9705, "level": 0},
+                {"x": 2907, "y": 9718, "level": 0},
+                {"x": 2905, "y": 9734, "level": 0},
+                {"x": 2914, "y": 9757, "level": 0},
+                {"x": 2936, "y": 9764, "level": 0},
+                {"x": 2895, "y": 9769, "level": 0},
+                {"x": 2949, "y": 9773, "level": 0},
+                {"x": 2968, "y": 9786, "level": 0},
+                {"x": 2858, "y": 9788, "level": 0},
+                {"x": 2870, "y": 9791, "level": 0},
+                {"x": 2835, "y": 9819, "level": 0},
+                {"x": 2832, "y": 9813, "level": 0},
+                {"x": 2822, "y": 9826, "level": 0}
+            ],
+            [
+                //{name: "A", spot: {x: 2910, y: 3421}}, Hidden because it destroys the view for now
+                {name: "B", area: {topleft: {x: 2918, y: 9702}, botright: {x: 2924, y: 9700}}},
+                {name: "C", area: {topleft: {x: 2906, y: 9722}, botright: {x: 2909, y: 9719}}},
+                {name: "D", area: {topleft: {x: 2908, y: 9742}, botright: {x: 2912, y: 9742}}},
+                {name: "E", spot: {x: 2914, y: 9742}},
+                {name: "F", spot: {x: 2886, y: 9795}},
+                {name: "G", area: {topleft: {x: 2881, y: 9833}, botright: {x: 2887, y: 9828}}},
+            ],
+            {
+                "-A": {
+                    text: "A is directly where the taverley teleport lands. It can be used to gain information about which spots are possible by checking if the scroll tells you to scan a different level."
+                },
+                "A-B": {
+                    text: "If the scroll said \"Too far\" at A, we continue at B, which is where the Archaeology Teleport to Isaura (9-4) lands."
+                },
+                "B-C": {
+                    text: "C is beyond the arch at the entrance to the black knights base. There is some leeway on exact positioning."
+                },
+                "C-D": {
+                    text: "D is a narrow strip directly at the northern wall of the room. Ideally go directly to the easters tile of this area to be close to E."
+                },
+                "D-E": {
+                    text: "E is the tile directly south of a rock in the passage north-east."
+                },
+                "A-F": {
+                    text: "The scroll said to scan a different level when at A, which narrows down the candidates to spots 1 to 11 (rarely 22). Use the surface entrance to the dungeon."
+                },
+                "F-G": {
+                    text: "The area G is at the gates leading east and helps to distinguish the final spots."
+                },
+                "F-1": {},
+                "F-2": {},
+                "F-3": {},
+                "F-4": {},
+                "F-22": {},
+                "F-10": {},
+                "F-11": {},
+                "G-5": {},
+                "G-6": {},
+                "G-7": {},
+                "G-8": {},
+                "G-9": {},
+                "B-12": {},
+                "B-13": {},
+                "B-14": {},
+                "B-15": {},
+                "D-16": {},
+                "D-17": {},
+                "D-18": {},
+                "D-19": {},
+                "E-20": {},
+                "D-21": {},
+                "D-22": {},
+                "E-23": {},
+                "E-24": {},
+                "E-25": {},
+            },
+            goTo("A", "Taverley teleport to {}.")
+                .answer("\"Different level\"",
+                    goTo("F", "Use the dungeon entrance to {}.")
+                        .triple(1, 2, 3, 4, 22)
+                        .double(goTo("G", "Surge/Dive north to {}.")
+                            .triple(5, 6, 7)
+                            .double(decide("The spot is either 8 or 9.")
+                                .answer("8", digAt(8))
+                                .answer("9", digAt(9))
+                            )
+                        )
+                        .single(decide("The spot is to the very east, Go there.")
+                            .answer("10", digAt(10))
+                            .answer("11", digAt(11))
+                        )
+                )
+                .answer("\"Too far\"",
+                    goTo("B", "Archaeology teleport 9,4 to {}.")
+                        .triple(12, 13, 14)
+                        .double(digAt(15))
+                        .single(goTo("C")
+                            .double(goTo("D", "Surge/Run to {}.")
+                                .triple(16, 17, 18)
+                                .double(digAt(19))
+                            )
+                            .single(goTo("D", "Surge/Run to {}.")
+                                .double(decide("The spot is either 21 or 22")
+                                    .answer("21", digAt(21))
+                                    .answer("22", digAt(22))
+                                )
+                                .single(goTo("E", "Step to {}.")
+                                    .double(digAt(20))
+                                    .single(decide("The spot is in the north-western part of the dungeon")
+                                        .answer("23", digAt(23))
+                                        .answer("24", digAt(24))
+                                        .answer("25", digAt(25))
+                                    )
+                                )
+                            )
+                        )
+                )
+        )
+    })
+
     /*
     associate({
         id: 352, // ardounge

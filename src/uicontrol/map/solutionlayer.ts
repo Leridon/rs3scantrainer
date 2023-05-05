@@ -58,14 +58,18 @@ export class ScanSolutionLayer extends Solutionlayer {
         let radius = this.clue.range + 5 // Always assume meerkats
 
         let inner: Box = {
-            topleft: {x: center.x - radius, y: center.y - radius},
-            botright: {x: center.x + radius, y: center.y + radius}
+            topleft: {x: center.x - radius, y: center.y + radius},
+            botright: {x: center.x + radius, y: center.y - radius}
         }
 
         let outer: Box = {
-            topleft: {x: center.x - 2 * radius, y: center.y - 2 * radius},
-            botright: {x: center.x + 2 * radius, y: center.y + 2 * radius}
+            topleft: {x: center.x - 2 * radius, y: center.y + 2 * radius},
+            botright: {x: center.x + 2 * radius, y: center.y - 2 * radius}
         }
+
+        console.log("Center: " + JSON.stringify(center))
+        console.log("Inner: " + JSON.stringify(inner))
+        console.log("Outer: " + JSON.stringify(outer))
 
         this.radius_polygon = [
             boxPolygon(inner).setStyle({color: "green", fillOpacity: 0.1}),

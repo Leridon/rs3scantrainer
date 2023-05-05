@@ -26,6 +26,32 @@ RELEASE 0.3
 - Integrate a solving method for compasses
 - Track Jacket/Backpack Charges via Chat.
 
+Done:
+- Lumbdridge
+- Zanaris
+- Taverley
+
+
+Scan maps:
+- Ardounge
+- Brimhaven
+- Darkmeyer
+- Dorgesh-Kaan
+- Falador
+- Fremennik Isles
+- Fremennik Slayer Dungeon
+- Haunted Woods
+- Heart of Gielinor
+- Elven Lands
+- Turtle Islands
+- Keldagrim
+- Kharazi Jungle
+- Desert
+- Menaphos
+- Mos Le Harless
+- Piscatoris
+- Prifddinias
+- Varrock
 
 - Collapsible panels
 

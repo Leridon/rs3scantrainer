@@ -32,12 +32,32 @@ function loadScanMethods() {
 
         children: ScanBuilder[] = []
 
+        _why = ""
+
+        why(why: string) {
+            this._why = why
+            return this
+        }
+
         propagateMethods(methods: Dict<HowTo>, parent: ScanBuilder = null) {
+
+            let m_key = parent ? `${parent.spotName}-${this.spotName}` : `-${this.spotName}`
+
+            let ht = methods[m_key] || {}
+
+            if (this._why) {
+                if (ht.text) ht.text += "\n\n<b>Why:</b> " + this._why
+                else ht.text = "\n\n<b>Why:</b> " + this._why
+            }
+
+            this.node.howto = ht
+
             if (!parent) {
                 this.node.howto = methods[`-${this.spotName}`] || null
             } else if (parent.spotName != this.spotName) {
                 this.node.howto = methods[`${parent.spotName}-${this.spotName}`] || null
             }
+
 
             this.children.forEach((c) => {
                 if (!c.spotName) c.spotName = this.spotName
@@ -484,6 +504,146 @@ function loadScanMethods() {
                                 )
                             )
                         )
+                )
+        )
+    })
+
+    //Varrock
+    associate({
+        id: 351,
+        method: tree(
+            [
+                {"x": 3231, "y": 3439, "level": 0},
+                {"x": 3197, "y": 3423, "level": 0},
+                {"x": 3196, "y": 3415, "level": 0},
+                {"x": 3204, "y": 3409, "level": 0},
+                {"x": 3220, "y": 3407, "level": 0},
+                {"x": 3228, "y": 3409, "level": 0},
+                {"x": 3213, "y": 3462, "level": 0},
+                {"x": 3248, "y": 3454, "level": 0},
+                {"x": 3253, "y": 3393, "level": 0},
+                {"x": 3175, "y": 3415, "level": 0},
+                {"x": 3175, "y": 3404, "level": 0},
+                {"x": 3185, "y": 3472, "level": 0},
+                {"x": 3197, "y": 3383, "level": 0},
+                {"x": 3211, "y": 3385, "level": 0},
+                {"x": 3228, "y": 3383, "level": 0},
+                {"x": 3240, "y": 3383, "level": 0},
+                {"x": 3273, "y": 3398, "level": 0},
+                {"x": 3284, "y": 3378, "level": 0},
+                {"x": 3141, "y": 3488, "level": 0},
+                {"x": 3188, "y": 3488, "level": 0},
+                {"x": 3180, "y": 3510, "level": 0},
+                {"x": 3230, "y": 3494, "level": 0},
+                {"x": 3213, "y": 3484, "level": 0},
+                {"x": 3241, "y": 3480, "level": 0}
+            ],
+            [
+                {name: "A", area: {topleft: {x: 3213, y: 3434}, botright: {x: 3214, y: 3432}}},
+                {name: "B", area: {topleft: {x: 3223, y: 3424}, botright: {x: 3224, y: 3422}}},
+                {name: "C", area: {topleft: {x: 3233, y: 3414}, botright: {x: 3234, y: 3412}}},
+                {name: "C", area: {topleft: {x: 3242, y: 3418}, botright: {x: 3244, y: 3417}}},
+                {name: "E", spot: {x: 3254, y: 3449}},
+                {name: "F", spot: {x: 3244, y: 3459}},
+                {name: "G", area: {topleft: {x: 3179, y: 3420}, botright: {x: 3183, y: 3416}}},
+                {name: "H", area: {topleft: {x: 3162, y: 3466}, botright: {x: 3163, y: 3462}}},
+            ],
+            {
+                "-A": {
+                    text: "Varrock teleport (regular) will land you directly at A. You have some leeway on where to stand exactly, the shown tiles are all equivalent."
+                },
+                "A-B": {
+                    text: "B can be reached from A by surging or divin once."
+                },
+                "B-C": {
+                    text: "If you went to B by surging or diving south-east, another surge will land you in C."
+                },
+                "B-D": {},
+                "B-G": {
+                    text: "Use an archaeology teleport (9-8) to get to F."
+                },
+                "A-1": {},
+                "A-2": {},
+                "A-3": {},
+                "B-4": {},
+                "B-5": {},
+                "B-6": {},
+                "C-7": {},
+                "C-8": {},
+                "C-9": {},
+                "G-10": {},
+                "G-11": {},
+                "G-12": {
+                    text: "Teleport to the grand exchange (i.e with a LotD) to get to 12 the fastest."
+                },
+                "B-13": {
+                    text: "By lining up correctly you can surge south-west through the shop and then go south."
+                },
+                "B-14": {
+                    text: "By lining up correctly you can surge south-west through the shop and then go south."
+                },
+                "B-15": {
+                    text: "By lining up correctly you can surge south-west through the shop and then go south."
+                },
+                "B-16": {
+                    text: "By lining up correctly you can surge south-west through the shop and then go south."
+                },
+                "D-17": {},
+                "D-18": {},
+                "E-23": {},
+                "E-24": {},
+            },
+            goTo("A", "Varrock teleport to {}.")
+                .triple(1, 2, 3)
+                .double(goTo("B", "Dive to {}.")
+                    .triple(4, 5, 6)
+                    .double(goTo("C")
+                        .why("Spot C perfectly distinguishes the remaining candidates 7, 8 and 9")
+                        .triple(9)
+                        .single(digAt(7))
+                        .double(digAt(8))
+                    )
+                    .single(goTo("F")
+                        .why("The spot has been narrowed down to just 3 candidates, two of which are at Soran.")
+                        .triple(10, 11)
+                        .double(digAt(12))
+                    )
+                )
+                .single(goTo("B")
+                    .double(decide("The spot is along the southern wall")
+                        .answer("13", digAt(13))
+                        .answer("14", digAt(14))
+                        .answer("15", digAt(15))
+                        .answer("16", digAt(16))
+                    )
+                    .single(
+                        goTo("D")
+                            .double(decide("The spot is in the south-eastern area.")
+                                .answer("17", digAt(17))
+                                .answer("18", digAt(18))
+                            )
+                            .single(
+                                goTo("E")
+                                    .double(
+                                        goTo("F", "Dive to {}.")
+                                            .why("F is exactly one dive distance north-west and can distinguish the remaining 2 spots")
+                                            .triple(24)
+                                            .double(digAt(23))
+                                    )
+                                    .single(
+                                        goTo("H", "Grand Exchange teleport to {}.")
+                                            .double(decide("It's either 19 or 20.")
+                                                .answer("19", digAt(19))
+                                                .answer("20", digAt(20))
+                                            )
+                                            .single(
+                                                decide("It's either 21 or 22.")
+                                                    .answer("21", digAt(21))
+                                                    .answer("22", digAt(22))
+                                            )
+                                    )
+                            )
+                    )
                 )
         )
     })

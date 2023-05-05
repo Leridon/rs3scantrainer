@@ -63,6 +63,8 @@ export default class FilterControl {
                 else $("#filters").hide()
             })
 
+        this.filtertoggle.button.hide()
+
         this.update()
     }
 
@@ -74,7 +76,10 @@ export default class FilterControl {
         )
     }
 
-    getCandidates() {
+    getCandidates(): ClueStep[] {
+        // Just return scans for now
+        return clues.filter((c) => c.type == "scan")
+
         return this.candidates
     }
 }

@@ -275,9 +275,10 @@ const teles: teleport_item[] = [{
         {spot: {x: 3359, y: 2993}, code: "6", hover: "Sumona"},
         {spot: {x: 2447, y: 4431}, code: "7", hover: "Chealdar"},
         {spot: {x: 3510, y: 3507}, code: "8", hover: "Mazchna"},
-        {spot: {x: 3094, y: 3481}, code: "9", hover: "Vannaka"},
-        {spot: {x: 3221, y: 3223}, code: "0,1", hover: "Jacquelyn"},
-        {spot: {x: 2887, y: 3544}, code: "0,2", hover: "Spria"},
+        {spot: {x: 3295, y: 3546}, code: "9", hover: "The Raptor"},
+        {spot: {x: 3094, y: 3481}, code: "0,1", hover: "Vannaka"},
+        {spot: {x: 3221, y: 3223}, code: "0,2", hover: "Jacquelyn"},
+        {spot: {x: 2887, y: 3544}, code: "0,3", hover: "Spria"},
     ]
 }, {
     id: "dungcape",
@@ -445,7 +446,7 @@ const teles: teleport_item[] = [{
         {spot: {x: 3006, y: 3321}, code: "3", hover: "Falador"},
         {spot: {x: 2538, y: 3308}, code: "4", hover: "Ardounge"},
         {spot: {x: 3170, y: 3199}, code: "5", hover: "Lumbridge"},
-        {spot: {x: 3252, y: 3450}, code: "6", hover: "Varrock"},
+        {spot: {x: 3254, y: 3449}, code: "6", hover: "Varrock"},
     ]
 }, {
     id: "drakansmedallion", name: "Drakan's medallion", img: "drakmed.gif",

@@ -648,6 +648,72 @@ function loadScanMethods() {
         )
     })
 
+    associate({
+        id: 353,
+        method: tree(
+            [
+                {"x": 2937, "y": 10191, "level": 0},
+                {"x": 2936, "y": 10206, "level": 0},
+                {"x": 2924, "y": 10191, "level": 0},
+                {"x": 2906, "y": 10202, "level": 0},
+                {"x": 2904, "y": 10193, "level": 0},
+                {"x": 2922, "y": 10179, "level": 0},
+                {"x": 2938, "y": 10179, "level": 0},
+                {"x": 2905, "y": 10162, "level": 0},
+                {"x": 2924, "y": 10162, "level": 0},
+                {"x": 2938, "y": 10162, "level": 0},
+                {"x": 2856, "y": 10192, "level": 0},
+                {"x": 2860, "y": 10215, "level": 0},
+                {"x": 2837, "y": 10209, "level": 0},
+                {"x": 2873, "y": 10194, "level": 0},
+                {"x": 2841, "y": 10189, "level": 0},
+                {"x": 2872, "y": 10181, "level": 0},
+                {"x": 2822, "y": 10193, "level": 0},
+                {"x": 2846, "y": 10233, "level": 0}],
+            [
+                {name: "A", spot: {x: 2939, y: 10198}},
+                {name: "B", spot: {x: 2924, y: 10191}},
+                {name: "C", spot: {x: 2910, y: 10178}},
+                {name: "D", area: {topleft: {x: 2856, y: 10201}, botright: {x: 2860, y: 10197}}},
+                {name: "E", spot: {x: 2853, y: 10199}},
+                {name: "F", spot: {x: 2858, y: 10199}},
+                //{name: "B", area: {topleft: {x: 2923, y: 10195}, botright: {x: 2926, y: 10189}}}
+            ],
+            {},
+            goTo("A", "GotE Lava Flow Mine to {}.")
+                .triple(1, 2, 3)
+                .double(
+                    goTo("B", "Run/Dive to {}.")
+                        .triple(6, 7)
+                        .double(digAt(4))
+                )
+                .single(
+                    goTo("B", "Run/Dive to {}.")
+                        .double(
+                            goTo("C", "Run/Dive to {}")
+                                .triple(5, 8, 9)
+                                .double(digAt(10))
+                        )
+                        .single(
+                            goTo("D", "LotD teleport to {}.")
+                                .triple(11, 12, 14, 16)
+                                .double(
+                                    goTo("E")
+                                        .triple(12, 13, 15)
+                                        .double(goTo("F")
+                                            .triple(14)
+                                            .double(digAt(16))
+                                        )
+                                )
+                                .single(
+                                    goTo("E")
+                                        .double(digAt(17))
+                                        .single(digAt(18))
+                                )
+                        ))
+        )
+    })
+
     /*
     associate({
         id: 352, // ardounge

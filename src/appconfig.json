@@ -1,9 +1,9 @@
 {
 	"appName": "Clue Trainer",
 	"description": "Explore scan routes and get help along the way.",
-	"appUrl": "./index.html",
-	"configUrl": "./appconfig.json",
-	"iconUrl": "./assets/icons/glass.png",
+	"appUrl": "index.html",
+	"configUrl": "appconfig.json",
+	"iconUrl": "assets/icons/glass.png",
 	"defaultWidth": 500,
 	"defaultHeight": 380,
 	"minWidth": 250,
@@ -12,5 +12,5 @@
 	"maxHeight": 1000,
 	"requestHandlers": [ ],
 	"activators": [	],
-	"permissions": ""
+	"permissions": "pixel,overlay"
 }

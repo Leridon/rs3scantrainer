@@ -1,5 +1,5 @@
 import {ScanTree} from "../../model/methods";
-import {boxPolygon, tilePolygon} from "../../model/coordinates";
+import {Box, boxPolygon, MapCoordinate, tilePolygon} from "../../model/coordinates";
 import {ScanSolutionLayer} from "./solutionlayer";
 
 export class ScanTreeMethodLayer extends ScanSolutionLayer {
@@ -8,6 +8,18 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
         this.markers.forEach((e, i) => {
             e.setActive(candidates.findIndex((j) => j == (i + 1)) >= 0)
         })
+    }
+
+    public setRelevant(spots: number[],
+                       areas: string[],
+                       fit: boolean,
+
+    ) {
+
+    }
+
+    public drawAreas(areas: { name: string, area?: Box, spot?: MapCoordinate }[], relevant: string[]) {
+
     }
 
     constructor(private scantree: ScanTree) {
@@ -20,6 +32,7 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
         this.markers.forEach((m, i) => {
             m.withLabel((i + 1).toString(), "spot-number", [0, 10])
         })
+
 
         for (let spot of scantree.scan_spots) {
             /*

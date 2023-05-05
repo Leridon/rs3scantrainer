@@ -7,14 +7,19 @@ import {getSolutionLayer} from "./map/solutionlayer";
 
 export default class CluePanelControl {
 
-    private clue_panel =  $("#solutionpanel")
+    private clue_panel = $("#solutionpanel")
+
+    selected_clue: ClueStep = null
 
     constructor(private app: Application) {
         this.clue_panel.hide()
     }
 
-
     selectClue(clue: ClueStep) {
+        if (this.selected_clue && this.selected_clue.id == clue.id) return
+        
+        this.selected_clue = clue
+
         this.clue_panel.show()
 
         $("#clue-panel-title").attr("title", clue.id)

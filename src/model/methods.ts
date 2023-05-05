@@ -26,6 +26,8 @@ export abstract class Method {
     abstract howto(): HowTo
 
     abstract sendToUi(trainer: Application): void
+
+    public abstract explanation(): JQuery
 }
 
 export class ScanTree extends Method {
@@ -56,6 +58,10 @@ export class ScanTree extends Method {
 
     spot(number: number) {
         return this.dig_spot_mapping[number - 1]
+    }
+
+    explanation(): JQuery {
+        return $("<div>")
     }
 }
 
@@ -95,6 +101,7 @@ export class ScanTreeNode {
     constructor(
         public instruction: string,
         public solved: number | null,
+        public where: string | null,
         public _children: [ChildKey, ScanTreeNode][],
         public howto: HowTo,
         private is_synthetic_triple_node: boolean = false
@@ -238,6 +245,7 @@ export class ScanTreeNode {
                         } else {
                             let synthetic = new ScanTreeNode("Which spot?",
                                 null,
+                                this.where,
                                 triples.map((e) => {
                                     return [{
                                         key: e.solved.toString(),

@@ -244,7 +244,7 @@ export class GameMapControl {
             this.activeLayer = preferred
             this.activeLayer.addTo(this.map)
 
-            if (fit) this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 2})
+            if (fit) this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 4})
         }
     }
 

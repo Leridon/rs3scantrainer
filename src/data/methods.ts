@@ -40,6 +40,7 @@ function loadScanMethods() {
         }
 
         propagateMethods(methods: Dict<HowTo>, parent: ScanBuilder = null) {
+            if (this.spotName && !this.node.solved) this.node.where = this.spotName
 
             let m_key = parent ? `${parent.spotName}-${this.spotName}` : `-${this.spotName}`
 
@@ -57,7 +58,6 @@ function loadScanMethods() {
             } else if (parent.spotName != this.spotName) {
                 this.node.howto = methods[`${parent.spotName}-${this.spotName}`] || null
             }
-
 
             this.children.forEach((c) => {
                 if (!c.spotName) c.spotName = this.spotName
@@ -100,7 +100,7 @@ function loadScanMethods() {
 
         triple(...spot: number[]) {
             spot.forEach((s) => {
-                let child = new ScanBuilder(new ScanTreeNode(`Dig at spot ${s}`, s, [], {}), s.toString())
+                let child = new ScanBuilder(new ScanTreeNode(`Dig at spot ${s}`, s, null, [], {}), s.toString())
 
                 this.child({
                     key: `${this.spotName}3/Spot ${s}`,
@@ -124,15 +124,15 @@ function loadScanMethods() {
     function goTo(where: string, how: string = "Go to {}.") {
         let instruction = how.replace("{}", where)
 
-        return new ScanBuilder(new ScanTreeNode(instruction, null, [], {}), where)
+        return new ScanBuilder(new ScanTreeNode(instruction, null, where, [], {}), where)
     }
 
     function digAt(spot: number): ScanBuilder {
-        return new ScanBuilder(new ScanTreeNode(`Dig at spot ${spot}`, spot, [], {}), spot.toString())
+        return new ScanBuilder(new ScanTreeNode(`Dig at spot ${spot}`, spot, null, [], {}), spot.toString())
     }
 
     function decide(text: string) {
-        return new ScanBuilder(new ScanTreeNode(text, null, [], {}), null)
+        return new ScanBuilder(new ScanTreeNode(text, null, null, [], {}), null)
     }
 
     let videos = {

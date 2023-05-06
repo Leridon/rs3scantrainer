@@ -875,13 +875,14 @@ function loadScanMethods() {
             [
                 {name: "A", area: {topleft: {x: 2721, y: 5266}, botright: {x: 2724, y: 5263}}},
                 {name: "B", spot: {x: 2726, y: 5266}},
-                {name: "C", area: {topleft: {x: 2713, y: 5281}, botright: {x: 2714, y: 5281}}},
-                {name: "D", area: {topleft: {x: 2713, y: 5285}, botright: {x: 2714, y: 5285}}},
-                {name: "E", spot: {x: 2713, y: 5294}},
-                {name: "F", area: {topleft: {x: 2695, y: 5311}, botright: {x: 2701, y: 5307}}},
+                {name: "C", area: {topleft: {x: 2712, y: 5277}, botright: {x: 2715, y: 5273}}},
+                {name: "D", area: {topleft: {x: 2713, y: 5281}, botright: {x: 2714, y: 5281}}},
+                {name: "E", area: {topleft: {x: 2713, y: 5285}, botright: {x: 2714, y: 5285}}},
+                {name: "F", area: {topleft: {x: 2696, y: 5311}, botright: {x: 2701, y: 5307}}},
                 {name: "G", spot: {x: 2701, y: 5305}},
                 {name: "H", area: {topleft: {x: 2701, y: 5336}, botright: {x: 2701, y: 5328}}},
                 {name: "I", area: {topleft: {x: 2707, y: 5353}, botright: {x: 2707, y: 5343}}},
+                {name: "J", area: {topleft: {x: 2707, y: 5290}, botright: {x: 2712, y: 5290}}},
             ],
             {
                 "-A": {},
@@ -958,16 +959,20 @@ function loadScanMethods() {
                         )
                         .single(
                             goTo("C")
-                                .double(
-                                    goTo("E")
-                                        .why("Even though we will pass D, we already know that it will double ping.")
-                                        .triple(8, 9)
-                                        .double(digAt(10))
-                                )
                                 .single(
-                                    goTo("D", "Down the stairs to {}.")
-                                        .double(digAt(11))
-                                        .single(digAt(12))
+                                    goTo("D", "Up the stairs to {}.")
+                                        .double(digAt(10))
+                                        .single(
+                                            goTo("E", "Down the stairs to {}.")
+                                                .double(digAt(11))
+                                                .single(digAt(12)
+                                                )
+                                        )
+                                )
+                                .double(
+                                    goTo("J")
+                                        .triple(8)
+                                        .double(digAt(9))
                                 )
                         )
                 )

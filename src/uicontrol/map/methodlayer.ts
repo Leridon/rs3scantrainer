@@ -46,12 +46,6 @@ class SpotPolygon extends leaflet.FeatureGroup {
 
 export class ScanTreeMethodLayer extends ScanSolutionLayer {
 
-    public spotsLeft(candidates: number[]) {
-        this.markers.forEach((e, i) => {
-            e.setActive(candidates.findIndex((j) => j == (i + 1)) >= 0)
-        })
-    }
-
     polygons: SpotPolygon[] = []
 
     public setRelevant(spots: number[],
@@ -79,9 +73,13 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
             bounds = this.polygons.find((p) => p.spot.name == areas[0]).getBounds()
         }
 
-        this._map.fitBounds(bounds.pad(0.1), {
-            maxZoom: 4
-        })
+        if (fit) {
+            this._map.fitBounds(bounds.pad(0.1), {
+                maxZoom: 4
+            })
+        }
+
+        //this.draw_equivalence_classes(spots.map((s) => this.scantree.spot(s)))
     }
 
     constructor(private scantree: ScanTree) {

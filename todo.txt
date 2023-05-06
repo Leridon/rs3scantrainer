@@ -18,6 +18,8 @@ Done:
 - Zanaris
 - Taverley
 - Varrock
+- Falador
+- Keldagrim
 
 
 Scan maps:
@@ -25,14 +27,12 @@ Scan maps:
 - Brimhaven
 - Darkmeyer
 - Dorgesh-Kaan
-- Falador
 - Fremennik Isles
 - Fremennik Slayer Dungeon
 - Haunted Woods
 - Heart of Gielinor
 - Elven Lands
 - Turtle Islands
-- Keldagrim
 - Kharazi Jungle
 - Desert
 - Menaphos
@@ -49,5 +49,10 @@ Debugging: Draw tile grid on the map
 - Add methods for remaining clue types.
 - Add puzzle solvers
 
+
+Teleports:
+- Add configuration options
+- Figure out how to handle RoW/LotD/HSR
+- Add Dragon Trinket teleports
 
 Figure out hosting

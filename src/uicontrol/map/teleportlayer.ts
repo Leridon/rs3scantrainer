@@ -291,7 +291,7 @@ const teles: teleport_item[] = [{
         {spot: {x: 2844, y: 9558}, code: "4", hover: "Karamja volcano"},
         {spot: {x: 3511, y: 3666}, code: "5", hover: "Daemonheim wc"},
         {spot: {x: 2511, y: 3464}, code: "6", hover: "Waterfall fire giants"},
-        {spot: {x: 3019, y: 3339}, code: "7", hover: "Mining guild"},
+        {spot: {x: 3022, y: 9740}, code: "7", hover: "Mining guild"},
         {spot: {x: 2127, y: 5146}, code: "8", hover: "Braindeath Island"},
         {spot: {x: 2854, y: 9841}, code: "9", hover: "Taverley dungeon hellhounds"},
         {spot: {x: 2911, y: 9810}, code: "0,1", hover: "Taverley dungeon blue dragons"},
@@ -424,7 +424,7 @@ const teles: teleport_item[] = [{
     id: "skillsnecklace", name: "Skills necklace", img: "jewellry_skillsnecklace.png", can_be_in_pota: true,
     spots: [
         {spot: {x: 2614, y: 3386}, code: "1", hover: "Fishing Guild"},
-        {spot: {x: 3023, y: 3339}, code: "2", hover: "Mining Guild"},
+        {spot: {x: 3016, y: 3338}, code: "2", hover: "Mining Guild"},
         {spot: {x: 2934, y: 3291}, code: "3", hover: "Crafting Guild"},
         {spot: {x: 3144, y: 3443}, code: "4", hover: "Cooking Guild"},
         {spot: {x: 2998, y: 3440}, code: "5", hover: "Invention guild"},
@@ -549,14 +549,11 @@ const teles: teleport_item[] = [{
 }, {
     id: "spheredorgeshkaan", name: "Dorgesh-kaan sphere", img: "sphere_dorgeshkaan.png",
     spots: [
-        {spot: {x: 2719, y: 5350}, hover: "North"},
-        {spot: {x: 2722, y: 5264}, hover: "South"},
-        {spot: {x: 2735, y: 5307}, hover: "East"},
-        {spot: {x: 2701, y: 5303}, hover: "West"},
+        {spot: {x: 2719, y: 5350}, hover: "North", code: "1"},
+        {spot: {x: 2722, y: 5264}, hover: "South", code: "2"},
+        {spot: {x: 2735, y: 5307}, hover: "East", code: "3"},
+        {spot: {x: 2700, y: 5308}, hover: "West", code: "4"},
     ]
-}, {
-    id: "spheredorgeshkaan", name: "Goblin village sphere", img: "sphere_goblinvillage.png",
-    spots: [{spot: {x: 2957, y: 3503}},]
 }, {
     id: "spheredorgeshkaan", name: "Goblin village sphere", img: "sphere_goblinvillage.png",
     spots: [{spot: {x: 2957, y: 3503}},]

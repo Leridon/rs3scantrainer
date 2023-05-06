@@ -728,7 +728,7 @@ function loadScanMethods() {
                 "C-10": {},
                 "D-11": {},
                 "D-12": {},
-                "D-14":  {
+                "D-14": {
                     text: "You can dive onto spot 14 immediately after entering the door.",
                     video: {ref: "assets/scanassets/keldagrim/Dto14.webm", contributor: "Leridon"},
                 },
@@ -775,6 +775,261 @@ function loadScanMethods() {
                         ))
         )
     })
+
+    // Falador
+    associate({
+        id: 364,
+        method: (clue) => tree(clue as ScanStep,
+            [
+                {"x": 2958, "y": 3379, "level": 0},
+                {"x": 2948, "y": 3390, "level": 0},
+                {"x": 2942, "y": 3388, "level": 0},
+                {"x": 2939, "y": 3355, "level": 0},
+                {"x": 2945, "y": 3339, "level": 0},
+                {"x": 2972, "y": 3342, "level": 0},
+                {"x": 3015, "y": 3339, "level": 0},
+                {"x": 3011, "y": 3382, "level": 0},
+                {"x": 3005, "y": 3326, "level": 0},
+                {"x": 2938, "y": 3322, "level": 0},
+                {"x": 2947, "y": 3316, "level": 0},
+                {"x": 2976, "y": 3316, "level": 0},
+                {"x": 3039, "y": 3331, "level": 0},
+                {"x": 3050, "y": 3348, "level": 0},
+                {"x": 3027, "y": 3365, "level": 0},
+                {"x": 3031, "y": 3379, "level": 0},
+                {"x": 3025, "y": 3379, "level": 0},
+                {"x": 3059, "y": 3384, "level": 0}
+            ],
+            [
+                {name: "A", area: {topleft: {x: 2963, y: 3380}, botright: {x: 2967, y: 3376}}},
+                {name: "B", area: {topleft: {x: 2964, y: 3366}, botright: {x: 2965, y: 3365}}},
+                {name: "C", area: {topleft: {x: 2958, y: 3365}, botright: {x: 2960, y: 3363}}},
+                {name: "D", area: {topleft: {x: 2955, y: 3365}, botright: {x: 2956, y: 3363}}},
+                {name: "E", area: {topleft: {x: 2950, y: 3365}, botright: {x: 2950, y: 3363}}},
+                {name: "F", area: {topleft: {x: 3029, y: 3341}, botright: {x: 3033, y: 3338}}},
+                {name: "G", area: {topleft: {x: 3032, y: 3359}, botright: {x: 3034, y: 3357}}},
+            ]
+            ,
+            {},
+            goTo("A", "Falador teleport to {}.")
+                .triple(1, 2, 3, 4)
+                .double(
+                    goTo("B", "Surge to {}.")
+                        .triple(5, 6)
+                        .double(
+                            goTo("C")
+                                .single(digAt(7).why("Going from B to C, you are now more than 2x range away from spot 7. If the ping changes to single, it therefore must be spot 7."))
+                                .double(
+                                    goTo("D")
+                                        .single(digAt(8).why("Going from C to D, you are now more than 2x range away from spot 8. If the ping changes to single, it therefore must be spot 8."))
+                                        .double(
+                                            goTo("E")
+                                                .double(digAt(10).why("You spawned on the southernmost possible square it was possible to spawn on teleport and it's 10."))
+                                                .single(digAt(9).why("Going from D to E, you are now more than 2x range away from spot 9. If the ping changes to single, it therefore must be spot 9."))
+                                        )
+                                )
+                        )
+                )
+                .single(
+                    goTo("B", "Surge to {}.")
+                        .double(decide("It's 10, 11, or 12.")
+                            .answer("10", digAt(10))
+                            .answer("11", digAt(11))
+                            .answer("12", digAt(12))
+                        )
+                        .single(
+                            goTo("F")
+                                .triple(13, 14, 15)
+                                .double(goTo("G")
+                                    .triple(16, 17, 18)
+                                )
+                        )
+                )
+        )
+    })
+
+
+    associate({
+        id: 365, // dorgeshkaan
+        method: (clue) => tree(clue as ScanStep,
+            [{"x": 2711, "y": 5271, "level": 0},
+                {"x": 2723, "y": 5279, "level": 0},
+                {"x": 2731, "y": 5266, "level": 0},
+                {"x": 2740, "y": 5273, "level": 0},
+                {"x": 2711, "y": 5284, "level": 0},
+                {"x": 2747, "y": 5263, "level": 0},
+                {"x": 2729, "y": 5295, "level": 0},
+                {"x": 2717, "y": 5311, "level": 0},
+                {"x": 2730, "y": 5315, "level": 0},
+                {"x": 2704, "y": 5321, "level": 0},
+                {"x": 2732, "y": 5327, "level": 0},
+                {"x": 2704, "y": 5349, "level": 0},
+                {"x": 2698, "y": 5316, "level": 1},
+                {"x": 2700, "y": 5284, "level": 1},
+                {"x": 2701, "y": 5343, "level": 1},
+                {"x": 2704, "y": 5357, "level": 1},
+                {"x": 2734, "y": 5370, "level": 1},
+                {"x": 2747, "y": 5327, "level": 1},
+                {"x": 2738, "y": 5301, "level": 1},
+                {"x": 2739, "y": 5253, "level": 1}],
+            [
+                {name: "A", area: {topleft: {x: 2721, y: 5266}, botright: {x: 2724, y: 5263}}},
+                {name: "B", spot: {x: 2726, y: 5266}},
+                {name: "C", area: {topleft: {x: 2713, y: 5281}, botright: {x: 2714, y: 5281}}},
+                {name: "D", area: {topleft: {x: 2713, y: 5285}, botright: {x: 2714, y: 5285}}},
+                {name: "E", spot: {x: 2713, y: 5294}},
+                {name: "F", area: {topleft: {x: 2695, y: 5311}, botright: {x: 2701, y: 5307}}},
+                {name: "G", spot: {x: 2701, y: 5305}},
+                {name: "H", area: {topleft: {x: 2701, y: 5336}, botright: {x: 2701, y: 5328}}},
+                {name: "I", area: {topleft: {x: 2707, y: 5353}, botright: {x: 2707, y: 5343}}},
+            ],
+            {
+                "-A": {},
+                "-F": {
+                    text: "F is the area you land in when using the teleport sphere to the west."
+                },
+                "F-G": {
+                    text: "G is the southern one of the two tiles on top of the stairs."
+                },
+                "F-H": {},
+                "G-H": {},
+                "H-I": {},
+                "A-B": {},
+                "A-C": {},
+                "C-D": {},
+                "C-E": {},
+                "A-1": {},
+                "A-2": {},
+                "A-3": {},
+                "A-4": {},
+                "A-5": {},
+                "B-6": {},
+                "B-7": {},
+                "F-13": {},
+                "F-14": {},
+                "H-15": {},
+                "H-16": {},
+                "H-17": {},
+                "I-18": {
+                    text: "Spot 18 is on the eastern part, use teleport sphere (3) to get there."
+                },
+                "H-19": {
+                    text: "Spot 19 is on the eastern part, use teleport sphere (3) to get there."
+                },
+                "I-20": {
+                    text: "Spot 18 is on south-east, use teleport sphere (2) to get there."
+                },
+            },
+            decide("Does the scroll say to \"scan a different level\"?")
+                .why("")
+                .answer({kind: "Yes", key: "Upper"},
+                    goTo("F", "Sphere 4 to {}.")
+                        .triple(13, 14)
+                        .double(
+                            goTo("G")
+                                .triple(14)
+                                .double(
+                                    goTo("H")
+                                        .triple(15)
+                                        .double(digAt(19))
+                                )
+                        )
+                        .single(
+                            goTo("H")
+                                .double(
+                                    decide("It's either 16 or 17 to the north")
+                                        .answer("16", digAt(16))
+                                        .answer("17", digAt(17))
+                                )
+                                .single(
+                                    goTo("I")
+                                        .double(digAt(18))
+                                        .single(digAt(20))
+                                )
+                        )
+                )
+                .answer({kind: "No", key: "Lower"},
+                    goTo("A")
+                        .triple(1, 2, 3, 4, 5)
+                        .double(
+                            goTo("B")
+                                .triple(6)
+                                .double(digAt(7))
+                        )
+                        .single(
+                            goTo("C")
+                                .double(
+                                    goTo("E")
+                                        .why("Even though we will pass D, we already know that it will double ping.")
+                                        .triple(8, 9)
+                                        .double(digAt(10))
+                                )
+                                .single(
+                                    goTo("D", "Down the stairs to {}.")
+                                        .double(digAt(11))
+                                        .single(digAt(12))
+                                )
+                        )
+                )
+        )
+    })
+    /*.child({
+            key: "Upper",
+            kind: "Yes"
+        }, step("Sphere 4 to", "F")
+            .triple(13)
+            .triple(14)
+            .double(step("Go to", "G")
+                .howto(howtos.dorgeshkaan.FtoG)
+                .triple(14)
+                .double(step("Surge to", "H")
+                    .howto(howtos.dorgeshkaan.GtoH)
+                    .triple(15)
+                    .double(solved(19).howto(howtos.dorgeshkaan.Hto19))
+                )
+            )
+            .single(step("Go to", "H")
+                .howto(howtos.dorgeshkaan.FtoH)
+                .double(step("The spot is north")
+                    .solution(16)
+                    .solution(17))
+                .single(step("Go to", "I").howto(howtos.dorgeshkaan.HtoI)
+                    .double(solved(18).howto(howtos.dorgeshkaan.Ito18))
+                    .single(solved(20).howto(howtos.dorgeshkaan.Ito20))
+                )
+            )
+    )
+    .child({
+            key: "Lower",
+            kind: "No"
+        }, step("Sphere 2 to", "A")
+            .triple(1)
+            .triple(2)
+            .triple(3)
+            .triple(4)
+            .triple(5)
+            .double(step("Go to", "B")
+                .howto(howtos.dorgeshkaan.AtoB)
+                .triple(6)
+                .double(solved(7))
+            )
+            .single(step("Go to", "C")
+                .howto(howtos.dorgeshkaan.BtoC)
+                .double(step("Stairs down to", "D")
+                    .howto(howtos.dorgeshkaan.CtoD)
+                    .double(step("Go to", "E").howto(howtos.dorgeshkaan.DtoE)
+                        .triple(8)
+                        .triple(9)
+                        .double(solved(10))
+                    )
+                )
+                .single(step("Stairs down to", "D")
+                    .howto(howtos.dorgeshkaan.CtoD)
+                    .double(solved(11))
+                    .single(solved(12))
+                )
+            )
+    )*/
 
     /*
     associate({
@@ -924,69 +1179,6 @@ function loadScanMethods() {
         )
     })
 
-    associate({
-        id: 362, // dorgeshkaan
-        method:
-            tree("assets/scanassets/dorgeshkaan/dorgeshkaan.png",
-                step("Different level?")
-                    .child({
-                            key: "Upper",
-                            kind: "Yes"
-                        }, step("Sphere 4 to", "F")
-                            .triple(13)
-                            .triple(14)
-                            .double(step("Go to", "G")
-                                .howto(howtos.dorgeshkaan.FtoG)
-                                .triple(14)
-                                .double(step("Surge to", "H")
-                                    .howto(howtos.dorgeshkaan.GtoH)
-                                    .triple(15)
-                                    .double(solved(19).howto(howtos.dorgeshkaan.Hto19))
-                                )
-                            )
-                            .single(step("Go to", "H")
-                                .howto(howtos.dorgeshkaan.FtoH)
-                                .double(step("The spot is north")
-                                    .solution(16)
-                                    .solution(17))
-                                .single(step("Go to", "I").howto(howtos.dorgeshkaan.HtoI)
-                                    .double(solved(18).howto(howtos.dorgeshkaan.Ito18))
-                                    .single(solved(20).howto(howtos.dorgeshkaan.Ito20))
-                                )
-                            )
-                    )
-                    .child({
-                            key: "Lower",
-                            kind: "No"
-                        }, step("Sphere 2 to", "A")
-                            .triple(1)
-                            .triple(2)
-                            .triple(3)
-                            .triple(4)
-                            .triple(5)
-                            .double(step("Go to", "B")
-                                .howto(howtos.dorgeshkaan.AtoB)
-                                .triple(6)
-                                .double(solved(7))
-                            )
-                            .single(step("Go to", "C")
-                                .howto(howtos.dorgeshkaan.BtoC)
-                                .double(step("Stairs down to", "D")
-                                    .howto(howtos.dorgeshkaan.CtoD)
-                                    .double(step("Go to", "E").howto(howtos.dorgeshkaan.DtoE)
-                                        .triple(8)
-                                        .triple(9)
-                                        .double(solved(10))
-                                    )
-                                )
-                                .single(step("Stairs down to", "D")
-                                    .howto(howtos.dorgeshkaan.CtoD)
-                                    .double(solved(11))
-                                    .single(solved(12))
-                                )
-                            )
-                    )
-            )
     })*/
 }
 

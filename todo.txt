@@ -56,3 +56,5 @@ Teleports:
 - Add Dragon Trinket teleports
 
 Figure out hosting
+
+Warn when not using meerkats

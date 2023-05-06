@@ -1,7 +1,8 @@
 import {ClueStep, ScanStep, SetSolution, SimpleSolution, Solution, VariantSolution} from "../../model/clues";
 import {TileMarker} from "./map";
 import * as leaflet from "leaflet"
-import {Box, boxPolygon, MapCoordinate} from "../../model/coordinates";
+import {Box, boxPolygon, MapCoordinate, tilePolygon} from "../../model/coordinates";
+import {Point} from "leaflet";
 
 export class TileMarkerWithActive extends TileMarker {
 
@@ -44,6 +45,83 @@ export class ScanSolutionLayer extends Solutionlayer {
         this.markers.forEach((m) => m.addTo(this))
     }
 
+    equivalence_class_polygons: leaflet.Polygon[] = []
+    cands: MapCoordinate[] = []
+
+    draw_equivalence_classes(candidates: MapCoordinate[]) {
+        this.cands = candidates
+
+        function rainbow(h: number) {
+            // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
+            // Adam Cole, 2011-Sept-14
+            // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+            var r, g, b;
+            var i = ~~(h * 6);
+            var f = h * 6 - i;
+            var q = 1 - f;
+            switch (i % 6) {
+                case 0:
+                    r = 1;
+                    g = f;
+                    b = 0;
+                    break;
+                case 1:
+                    r = q;
+                    g = 1;
+                    b = 0;
+                    break;
+                case 2:
+                    r = 0;
+                    g = 1;
+                    b = f;
+                    break;
+                case 3:
+                    r = 0;
+                    g = q;
+                    b = 1;
+                    break;
+                case 4:
+                    r = f;
+                    g = 0;
+                    b = 1;
+                    break;
+                case 5:
+                    r = 1;
+                    g = 0;
+                    b = q;
+                    break;
+            }
+            var c = "#" + ("00" + (~~(r * 255)).toString(16)).slice(-2) + ("00" + (~~(g * 255)).toString(16)).slice(-2) + ("00" + (~~(b * 255)).toString(16)).slice(-2);
+            return (c);
+        }
+
+        this.equivalence_class_polygons.forEach((p) => p.remove())
+
+        let range = this.clue.range + 5
+        let bounds = leaflet.bounds(this.clue.solution.candidates.map((c) => leaflet.point(c.x, c.y)))
+
+        let class_cache = {}
+
+        for (let x = bounds.getTopLeft().x - range; x <= bounds.getTopRight().x + range; x++) {
+            for (let y = bounds.getTopLeft().y - range; y <= bounds.getBottomLeft().y + range; y++) {
+
+                let hash = JSON.stringify(candidates.map((s) => Math.min(2, Math.floor(Math.max(Math.abs(s.x - x) - 1, Math.abs(s.y - y) - 1) / range))))
+
+                if (!class_cache[hash]) {
+                    class_cache[hash] = rainbow(Math.random())
+                }
+
+                let color = class_cache[hash]
+
+                this.equivalence_class_polygons.push(
+                    tilePolygon({x: x, y: y}).setStyle({
+                        color: color,
+                        opacity: 0
+                    }).addTo(this))
+            }
+        }
+    }
+
     on_marker_set(marker: TileMarker | null) {
         if (this.radius_polygon) {
             this.radius_polygon.forEach((l) => l.remove())
@@ -52,6 +130,13 @@ export class ScanSolutionLayer extends Solutionlayer {
         }
 
         if (!marker) return
+
+        let range = this.clue.range + 5
+        console.log("Range: " + range)
+        for (let s of this.cands) {
+            let d = Math.min(2, Math.floor(Math.max(Math.abs(s.x - marker.getSpot().x) - 1, Math.abs(s.y - marker.getSpot().y) - 1) / range))
+            console.log(JSON.stringify(s) + ":" + d)
+        }
 
         let center = marker.getSpot()
 

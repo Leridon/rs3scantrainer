@@ -9,7 +9,7 @@ RELEASE 0.2
     - Fix the sizing of videos.
 
 
-RELEASE 0.3
+RELEASE 1.1
 - Integrate a solving method for compasses
 - Track Jacket/Backpack Charges via Chat.
 
@@ -20,13 +20,13 @@ Done:
 - Varrock
 - Falador
 - Keldagrim
+- Dorgesh-Kaan
 
 
 Scan maps:
 - Ardounge
 - Brimhaven
 - Darkmeyer
-- Dorgesh-Kaan
 - Fremennik Isles
 - Fremennik Slayer Dungeon
 - Haunted Woods

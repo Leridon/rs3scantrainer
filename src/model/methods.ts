@@ -30,9 +30,8 @@ export abstract class Method {
 export type ScanSpot = { name: string, area?: Box, spot?: MapCoordinate, is_far_away?: boolean }
 
 export class ScanTree extends Method {
-    clue: ScanStep = null
-
-    constructor(public dig_spot_mapping: MapCoordinate[],
+    constructor(public clue: ScanStep,
+                public dig_spot_mapping: MapCoordinate[],
                 public scan_spots: ScanSpot[],
                 public root: ScanTreeNode
     ) {

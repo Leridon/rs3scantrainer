@@ -1,6 +1,6 @@
 import {ChildKey, HowTo, Method, PingType, ScanSpot, ScanTree, ScanTreeNode} from "../model/methods";
 import {clues} from "./clues";
-import {ClueStep} from "../model/clues";
+import {ClueStep, ScanStep} from "../model/clues";
 import {Box, MapCoordinate} from "../model/coordinates";
 import Dict = NodeJS.Dict;
 import {go} from "fuzzysort";
@@ -13,10 +13,18 @@ for (let i = 0; i < n; i++) {
     methods.push([])
 }
 
-function associate(v: { id: number, method: Method }) {
-    methods[v.id].push(v.method)
+function associate(v: { id: number, method: (step: ClueStep) => Method }) {
+    try {
+        let c = clues.find((c) => c.id == v.id)
 
-    v.method.clue = clues.find((c) => c.id == v.id)
+        let m = v.method(c)
+
+        methods[v.id].push(m)
+
+        m.clue = c
+    } catch (e) {
+        console.log(`ERROR: Skipped loading a method for ${v.id} due to an error: ${e}`)
+    }
 }
 
 export function forClue(clue: ClueStep): Method[] {
@@ -44,7 +52,12 @@ function loadScanMethods() {
 
             let m_key = parent ? `${parent.spotName}-${this.spotName}` : `-${this.spotName}`
 
-            let ht = methods[m_key] || {}
+            let ht = methods[m_key]
+
+            if (!ht) {
+                console.log(`Method for ${this.node.root.clue.scantext} misses howto for: ${m_key}`)
+                ht = {}
+            }
 
             if (this._why) {
                 if (ht.text) ht.text += "\n\n<b>Why:</b> " + this._why
@@ -112,13 +125,18 @@ function loadScanMethods() {
         }
     }
 
-    function tree(coordinates: MapCoordinate[],
-                  spots: ScanSpot[],
-                  methods: Dict<HowTo>,
-                  tree: ScanBuilder): ScanTree {
+    function tree(
+        clue: ScanStep,
+        coordinates: MapCoordinate[],
+        spots: ScanSpot[],
+        methods: Dict<HowTo>,
+        tree: ScanBuilder): ScanTree {
+
+        // create the full tree before propagating the method, so it has access to root and the clue step
+        let t = new ScanTree(clue, coordinates, spots, tree.node)
 
         tree.propagateMethods(methods)
-        return new ScanTree(coordinates, spots, tree.node)
+        return t
     }
 
     function goTo(where: string, how: string = "Go to {}.") {
@@ -190,7 +208,7 @@ function loadScanMethods() {
     //zanaris
     associate({
             id: 361,
-            method: tree(
+            method: (clue) => tree(clue as ScanStep,
                 [
                     {x: 2406, y: 4428}, // 1
                     {x: 2429, y: 4431}, // 2
@@ -289,7 +307,7 @@ function loadScanMethods() {
     //lumbridge
     associate({
         id: 362,
-        method: tree(
+        method: (clue) => tree(clue as ScanStep,
             [
                 {"x": 3233, "y": 9547, "level": 0},
                 {"x": 3210, "y": 9557, "level": 0},
@@ -378,7 +396,7 @@ function loadScanMethods() {
     //taverley
     associate({
         id: 357,
-        method: tree(
+        method: (clue) => tree(clue as ScanStep,
             [
                 {"x": 2884, "y": 9799, "level": 0},
                 {"x": 2904, "y": 9809, "level": 0},
@@ -511,7 +529,7 @@ function loadScanMethods() {
     //Varrock
     associate({
         id: 351,
-        method: tree(
+        method: (clue) => tree(clue as ScanStep,
             [
                 {"x": 3231, "y": 3439, "level": 0},
                 {"x": 3197, "y": 3423, "level": 0},
@@ -650,7 +668,7 @@ function loadScanMethods() {
 
     associate({
         id: 353,
-        method: tree(
+        method: (clue) => tree(clue as ScanStep,
             [
                 {"x": 2937, "y": 10191, "level": 0},
                 {"x": 2936, "y": 10206, "level": 0},
@@ -679,7 +697,50 @@ function loadScanMethods() {
                 {name: "F", spot: {x: 2858, y: 10199}},
                 //{name: "B", area: {topleft: {x: 2923, y: 10195}, botright: {x: 2926, y: 10189}}}
             ],
-            {},
+            {
+                "-A": {
+                    text: "A is the spot you land in after exiting lava flow cave. Go there using the max guild portal with the grace of the elves.",
+                    video: {ref: "assets/scanassets/keldagrim/toA.webm", contributor: "Leridon"},
+                },
+                "A-B": {
+                    text: "B is also a potential clue spot and can be reached by diving diagonally south west from a spot along the northern wall of the building.",
+                    video: {ref: "assets/scanassets/keldagrim/AtoB.webm", contributor: "Leridon"},
+                },
+                "B-C": {
+                    text: "C can be reached by lining up a surge south-west.",
+                    video: {ref: "assets/scanassets/keldagrim/BtoC.webm", contributor: "Leridon"},
+                },
+                "B-D": {
+                    text: "D is the area you land in when using the Luck of the Dwarves to teleport to Keldagrim.",
+                    video: {ref: "assets/scanassets/keldagrim/BtoD.webm", contributor: "Leridon"},
+                },
+                "D-E": {},
+                "E-F": {},
+                "A-1": {},
+                "A-2": {},
+                "A-3": {},
+                "B-4": {},
+                "B-6": {},
+                "B-7": {},
+                "C-5": {},
+                "C-8": {},
+                "C-9": {},
+                "C-10": {},
+                "D-11": {},
+                "D-12": {},
+                "D-14":  {
+                    text: "You can dive onto spot 14 immediately after entering the door.",
+                    video: {ref: "assets/scanassets/keldagrim/Dto14.webm", contributor: "Leridon"},
+                },
+                "D-16": {},
+                "E-12": {},
+                "E-13": {},
+                "E-15": {},
+                "F-14": {},
+                "F-16": {},
+                "E-17": {},
+                "E-18": {},
+            },
             goTo("A", "GotE Lava Flow Mine to {}.")
                 .triple(1, 2, 3)
                 .double(
@@ -696,6 +757,7 @@ function loadScanMethods() {
                         )
                         .single(
                             goTo("D", "LotD teleport to {}.")
+                                .why("The spot can no longer be on the eastern part of the city, so we continue west.")
                                 .triple(11, 12, 14, 16)
                                 .double(
                                     goTo("E")

@@ -131,13 +131,6 @@ export class ScanSolutionLayer extends Solutionlayer {
 
         if (!marker) return
 
-        let range = this.clue.range + 5
-        console.log("Range: " + range)
-        for (let s of this.cands) {
-            let d = Math.min(2, Math.floor(Math.max(Math.abs(s.x - marker.getSpot().x) - 1, Math.abs(s.y - marker.getSpot().y) - 1) / range))
-            console.log(JSON.stringify(s) + ":" + d)
-        }
-
         let center = marker.getSpot()
 
         let radius = this.clue.range + 5 // Always assume meerkats

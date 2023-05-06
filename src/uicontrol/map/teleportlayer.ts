@@ -483,12 +483,12 @@ const teles: teleport_item[] = [{
 }, {
     id: "quiver", name: "Tirannwn quiver", img: "quiver.gif",
     spots: [
-        {spot: {x: 2348, y: 3172}, hover: "Lletya"},
-        {spot: {x: 2186, y: 3148}, hover: "Tyras Camp"},
-        {spot: {x: 2321, y: 3102}, hover: "Poison Waste"},
-        {spot: {x: 2202, y: 3255}, hover: "Elf Camp"},
-        {spot: {x: 2227, y: 3136}, hover: "Mushroom Patch"},
-        {spot: {x: 2219, y: 3397}, hover: "Harmony Pillars"},
+        {spot: {x: 2348, y: 3172}, hover: "Lletya", code: "1"},
+        {spot: {x: 2186, y: 3148}, hover: "Tyras Camp", code: "3"},
+        {spot: {x: 2321, y: 3102}, hover: "Poison Waste", code: "4"},
+        {spot: {x: 2202, y: 3255}, hover: "Elf Camp", code: "6"},
+        {spot: {x: 2227, y: 3136}, hover: "Mushroom Patch", code: "7"},
+        {spot: {x: 2219, y: 3397}, hover: "Harmony Pillars", code: "8"},
     ]
 }, {
     id: "sceptreofthegods", name: "Sceptre of the gods", img: "sotg.png",

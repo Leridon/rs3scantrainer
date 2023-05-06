@@ -45,7 +45,8 @@ The plugin visualizes these trees by highlighting where to stand, telling you ho
 The live version can be viewed at https://leridon.github.io/cluetrainer-live/.
 
 To install Scan Trainer into Alt1, open this (full) link in your browser:
-[alt1://addapp/https://leridon.github.io/cluetrainer-live/appconfig.json](alt1://addapp/https://leridon.github.io/cluetrainer-live/appconfig.json)
+
+```alt1://addapp/https://leridon.github.io/cluetrainer-live/appconfig.json```
 
 or open https://leridon.github.io/cluetrainer-live/ inside of the Alt1 browser.
 

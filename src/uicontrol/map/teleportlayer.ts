@@ -687,6 +687,29 @@ const teles: teleport_item[] = [{
             {spot: {x: 3140, y: 2662}, hover: "Menaphos"},
         ]
     },
+    {
+        id: "dragontrinkets", name: "Dragon Trinkets", img: "dragontrinkets.png",
+        spots: [
+            {spot: {x: 3303, y: 5468}, hover: "Green Dragons", code: "1,1"},
+            {spot: {x: 2512, y: 3511}, hover: "Brutal Green Dragons", code: "1,2"},
+            {spot: {x: 2891, y: 9769}, hover: "Blue Dragons", code: "2"},
+            {spot: {x: 2731, y: 9529}, hover: "Red Dragons", code: "3"},
+            {spot: {x: 2453, y: 4476}, hover: "Black Dragons", code: "4,1"},
+            {spot: {x: 3051, y: 3519}, hover: "King Black Dragon", code: "4,2"},
+            //{spot: {x: 0, y: 0}, hover: "Queen Black Dragon", code: "4,2"},
+        ]
+    },
+    {
+        id: "metallicdragontrinkets", name: "Metallic Dragon Trinkets", img: "metallicdragontrinkets.png",
+        spots: [
+            {spot: {x: 2723, y: 9486}, hover: "Bronze Dragons", code: "1"},
+            {spot: {x: 2694, y: 9443}, hover: "Iron Dragons", code: "2"},
+            {spot: {x: 2708, y: 9468}, hover: "Steel Dragons", code: "3"},
+            {spot: {x: 1778, y: 5346}, hover: "Mithril Dragons", code: "4"},
+            //{spot: {x: 0, y: 0}, hover: "Adamant Dragons", code: "5,1"},
+            {spot: {x: 2367, y: 3353}, hover: "Rune Dragons", code: "5,2"},
+        ]
+    }
 ]
 
 class TeleportIcon extends leaflet.Icon {

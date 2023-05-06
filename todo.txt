@@ -9,7 +9,7 @@ RELEASE 0.2
     - Fix the sizing of videos.
 
 
-RELEASE 0.3
+RELEASE 1.1
 - Integrate a solving method for compasses
 - Track Jacket/Backpack Charges via Chat.
 
@@ -18,21 +18,21 @@ Done:
 - Zanaris
 - Taverley
 - Varrock
+- Falador
+- Keldagrim
+- Dorgesh-Kaan
 
 
 Scan maps:
 - Ardounge
 - Brimhaven
 - Darkmeyer
-- Dorgesh-Kaan
-- Falador
 - Fremennik Isles
 - Fremennik Slayer Dungeon
 - Haunted Woods
 - Heart of Gielinor
 - Elven Lands
 - Turtle Islands
-- Keldagrim
 - Kharazi Jungle
 - Desert
 - Menaphos
@@ -49,5 +49,10 @@ Debugging: Draw tile grid on the map
 - Add methods for remaining clue types.
 - Add puzzle solvers
 
+
+Teleports:
+- Add configuration options
+- Figure out how to handle RoW/LotD/HSR
+- Add Dragon Trinket teleports
 
 Figure out hosting

@@ -1,3 +1,0 @@
-[submodule "staging/live"]
-	path = staging/live
-	url = git@github.com:Leridon/cluetrainer-live.git

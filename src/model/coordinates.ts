@@ -50,7 +50,7 @@ export function toLeafletLatLngExpression(point: MapCoordinate): [number, number
     return [point.y, point.x]
 }
 
-export function areaToPolygon(area: Area) {
+export function t(area: Area) {
     let bounds = leaflet.bounds(area.tiles.map((c) => leaflet.point(c.x, c.y)))
 
     let raster = new Raster({
@@ -65,8 +65,18 @@ export function areaToPolygon(area: Area) {
     area.tiles.forEach((t) => {
         raster.data[raster.xyToI(t)] = true
     })
+}
 
+
+export function areaToPolygon<T>(raster: Raster<T>,
+                                 f: (T) => boolean,
+                                 s: number) {
     type TileCorner = { tile: number, corner: corner }
+
+    function area(i: number) {
+        let a = raster.data[i]
+        return a && f(a)
+    }
 
     function toCoords(point: TileCorner): MapCoordinate {
         let xy = raster.iToXY(point.tile)
@@ -78,9 +88,9 @@ export function areaToPolygon(area: Area) {
     }
 
     // Find a start point that is on the border of the shape. Assumes there are no holes in the shape
-    let startpoint = raster.xyToI(area.tiles[0])
-    while (raster.data[startpoint - 1]) startpoint -= 1
-    while (raster.data[startpoint - raster.size.x]) startpoint -= raster.size.x
+    let startpoint = s
+    while (area(startpoint - 1)) startpoint -= 1
+    while (area(startpoint - raster.size.x)) startpoint -= raster.size.x
 
     let start: TileCorner = {tile: startpoint, corner: 0}
     let current: TileCorner = {tile: startpoint, corner: 0}
@@ -89,31 +99,30 @@ export function areaToPolygon(area: Area) {
         return start.tile == current.tile && start.corner == current.corner;
     }
 
-    let polygon: MapCoordinate[] = [toCoords(current)]
+    let polygon: MapCoordinate[] = []
 
-    let don = false
     do {
         switch (current.corner) {
             case 0: // Bottom left, going up
             {
                 let i: number = current.tile
 
-                while (raster.data[i + raster.size.x] && !raster.data[i + raster.size.x - 1]) i += raster.size.x
+                while (area(i + raster.size.x) && !area(i + raster.size.x - 1)) i += raster.size.x
 
                 polygon.push(toCoords({tile: i, corner: 1}))
 
-                if (raster.data[i + raster.size.x - 1]) current = {tile: i + raster.size.x - 1, corner: 2} // Go left
+                if (area(i + raster.size.x - 1)) current = {tile: i + raster.size.x - 1, corner: 2} // Go left
                 else current = {tile: i, corner: 1} // Go right
             }
                 break;
             case 1: { // Top left, going right
                 let i = current.tile
 
-                while (raster.data[i + 1] && !raster.data[i + raster.size.x + 1]) i += 1
+                while (area(i + 1) && !area(i + raster.size.x + 1)) i += 1
 
                 polygon.push(toCoords({tile: i, corner: 3}))
 
-                if (raster.data[i + raster.size.x + 1]) current = {tile: i + raster.size.x + 1, corner: 0}  // Go up
+                if (area(i + raster.size.x + 1)) current = {tile: i + raster.size.x + 1, corner: 0}  // Go up
                 else current = {tile: i, corner: 3} // Go down
 
                 break;
@@ -122,11 +131,11 @@ export function areaToPolygon(area: Area) {
             case 2: { // Bottom right, going left
                 let i = current.tile
 
-                while (raster.data[i - 1] && !raster.data[i - raster.size.x - 1]) i -= 1
+                while (area(i - 1) && !area(i - raster.size.x - 1)) i -= 1
 
                 polygon.push(toCoords({tile: i, corner: 0}))
 
-                if (raster.data[i - raster.size.x - 1]) current = {tile: i - raster.size.x - 1, corner: 3}  // Go down
+                if (area(i - raster.size.x - 1)) current = {tile: i - raster.size.x - 1, corner: 3}  // Go down
                 else current = {tile: i, corner: 0} // Go up
 
                 break;
@@ -134,21 +143,19 @@ export function areaToPolygon(area: Area) {
             case 3: {// Top right, going down
                 let i = current.tile
 
-                while (raster.data[i - raster.size.x] && !raster.data[i - raster.size.x + 1]) i -= raster.size.x
+                while (area(i - raster.size.x) && !area(i - raster.size.x + 1)) i -= raster.size.x
 
                 polygon.push(toCoords({tile: i, corner: 2}))
 
-                if (raster.data[i - raster.size.x + 1]) current = {tile: i - raster.size.x + 1, corner: 1}  // Go right
+                if (area(i - raster.size.x + 1)) current = {tile: i - raster.size.x + 1, corner: 1}  // Go right
                 else current = {tile: i, corner: 2} // Go left
 
                 break;
             }
-            default:
-                don = true
 
         }
 
-    } while (!done() && !don)
+    } while (!done())
 
     return leaflet.polygon(polygon.map(toLeafletLatLngExpression))
 

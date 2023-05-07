@@ -215,6 +215,11 @@ html, body {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     color: gold;
     font-size: 1rem;
+    text-align: center;
+    vertical-align: center;
+    width: 50px;/*
+    left: -25px;
+    top: -10px;*/
 }
 
 .area-name {

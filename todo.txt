@@ -24,14 +24,16 @@ Done:
 - Keldagrim
 - Dorgesh-Kaan
 
+Next up:
+- Ardounge
+- Fremennik Isles
+- Haunted Woods
+
 
 Scan maps:
-- Ardounge
 - Brimhaven
 - Darkmeyer
-- Fremennik Isles
 - Fremennik Slayer Dungeon
-- Haunted Woods
 - Heart of Gielinor
 - Elven Lands
 - Turtle Islands

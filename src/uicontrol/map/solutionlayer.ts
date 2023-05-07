@@ -66,12 +66,6 @@ class EquivalenceClass {
                     html: `${this.information_gain.toFixed(2)}b`,
                 }),
             }).addTo(this.polygon)
-
-            /*.bindTooltip(`${this.information_gain.toFixed(2)}b`, {
-                permanent: true,
-                direction: "center",
-                className: "equivalence-class-information"
-            })*/
         }
 
         return this.polygon
@@ -92,10 +86,10 @@ class ScanEquivalenceClasses {
         let bounds = leaflet.bounds(this.candidates.map((c) => leaflet.point(c.x, c.y)))
 
         this.raster = new Raster<EquivalenceClass>({
-            left: bounds.getTopLeft().x - this.range,
-            right: bounds.getTopRight().x + this.range,
-            top: bounds.getBottomLeft().y + this.range,    // the Y axis in leaflet.pounds is exactly opposite to what the map uses.
-            bottom: bounds.getTopLeft().y - this.range
+            left: bounds.getTopLeft().x - 2 * this.range,
+            right: bounds.getTopRight().x + 2 * this.range,
+            top: bounds.getBottomLeft().y + 2 * this.range,    // the Y axis in leaflet.pounds is exactly opposite to what the map uses.
+            bottom: bounds.getTopLeft().y - 2 * this.range
         })
 
         this.equivalence_classes = []

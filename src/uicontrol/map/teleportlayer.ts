@@ -444,7 +444,7 @@ const teles: teleport_item[] = [{
         {spot: {x: 2444, y: 3182}, code: "1", hover: "Watchtower"},
         {spot: {x: 2794, y: 3419}, code: "2", hover: "Camelot"},
         {spot: {x: 3006, y: 3321}, code: "3", hover: "Falador"},
-        {spot: {x: 2538, y: 3308}, code: "4", hover: "Ardounge"},
+        {spot: {x: 2538, y: 3306}, code: "4", hover: "Ardounge"},
         {spot: {x: 3170, y: 3199}, code: "5", hover: "Lumbridge"},
         {spot: {x: 3254, y: 3449}, code: "6", hover: "Varrock"},
     ]

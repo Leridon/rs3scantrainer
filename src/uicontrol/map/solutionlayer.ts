@@ -1,12 +1,19 @@
-import {ClueStep, ScanStep, SetSolution, SimpleSolution, Solution, VariantSolution} from "../../model/clues";
+import {ClueStep, ScanStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
 import {TileMarker} from "./map";
 import * as leaflet from "leaflet"
-import {Box, boxPolygon, MapCoordinate, tilePolygon} from "../../model/coordinates";
-import {Point} from "leaflet";
+import {Area, areaToPolygon, Box, boxPolygon, MapCoordinate} from "../../model/coordinates";
 
 export class TileMarkerWithActive extends TileMarker {
 
+    private active: boolean = true
+
+    isActive() {
+        return this.active
+    }
+
     setActive(isActive: boolean) {
+        this.active = isActive
+
         if (isActive) this.setOpacity(1)
         else this.setOpacity(0.2)
     }
@@ -16,6 +23,156 @@ export abstract class Solutionlayer extends leaflet.FeatureGroup {
 
     on_marker_set(marker: TileMarker) {
     }
+}
+
+class EquivalenceClass {
+    public information_gain: number
+    private polygon: leaflet.Polygon = null
+
+    constructor(
+        private parent: ScanEquivalenceClasses,
+        public profile: scan_profile,
+        public area: Area
+    ) {
+        this.information_gain = information_gain(profile)
+    }
+
+    getPolygon(): leaflet.Polygon {
+        if (!this.polygon) {
+            let color = Math.abs(this.information_gain - this.parent.max_information) < 0.01
+                ? "blue"
+                : `rgb(${255 * (1 - (this.information_gain / this.parent.max_information))}, ${255 * this.information_gain / this.parent.max_information}, 0)`
+
+            this.polygon = areaToPolygon(this.area).setStyle({
+                color: "black",
+                opacity: 1,
+                weight: 3,
+                fillOpacity: 0.25,
+                fillColor: color
+            }).bindTooltip(`${this.information_gain.toFixed(2)}b`, {
+                permanent: true,
+                direction: "center",
+                className: "equivalence-class-information"
+            })
+        }
+
+        return this.polygon
+    }
+}
+
+class ScanEquivalenceClasses {
+    equivalence_classes: EquivalenceClass[] = null
+    max_information: number
+
+    constructor(private candidates: MapCoordinate[],
+                private range: number) {
+    }
+
+    private calculate_classes() {
+        this.equivalence_classes = []
+
+        let bounds = leaflet.bounds(this.candidates.map((c) => leaflet.point(c.x, c.y)))
+
+        let left = bounds.getTopLeft().x - this.range
+        let right = bounds.getTopRight().x + this.range
+        let top = bounds.getBottomLeft().y + this.range      // the Y axis in leaflet.pounds is exactly opposite to what the map uses.
+        let bottom = bounds.getTopLeft().y - this.range
+
+        let size = {
+            x: right - left,
+            y: top - bottom
+        }
+
+        function eq(a: scan_profile, b: scan_profile) {
+            if (a.length != b.length) return false
+
+            for (let i = 0; i < a.length; i++) {
+                if (a[i] != b[i]) return false
+            }
+
+            return true
+        }
+
+        let tiling: EquivalenceClass[] = new Array(size.y * size.x)
+        for (let row = 0; row < size.y; row++) {
+            for (let col = 0; col < size.x; col++) {
+                let index = row * size.x + col
+
+                let tile = {
+                    x: left + col,
+                    y: bottom + row
+                }
+
+                let profile = this.get_scan_profile(tile)
+
+                if (col > 0) {
+                    let left_neighbour = tiling[index - 1]
+
+                    if (eq(profile, left_neighbour.profile)) {
+                        tiling[index] = left_neighbour
+
+                        left_neighbour.area.tiles.push(tile)
+                        continue
+                    }
+                }
+                if (row > 0) {
+                    let down_neighour = tiling[index - size.x]
+
+                    if (eq(profile, down_neighour.profile)) {
+                        tiling[index] = down_neighour
+
+                        down_neighour.area.tiles.push(tile)
+                        continue
+                    }
+                }
+
+                // Create new equivalence class
+                tiling[index] = new EquivalenceClass(this, profile, {tiles: [tile]})
+
+                this.equivalence_classes.push(tiling[index])
+            }
+        }
+
+        this.max_information = Math.max(...this.equivalence_classes.map((c) => c.information_gain))
+    }
+
+    get_scan_profile(tile: MapCoordinate) {
+        return this.candidates.map((s) => {
+            let d_x = Math.abs(s.x - tile.x)
+            let d_y = Math.abs(s.y - tile.y)
+            let d = Math.max(d_x, d_y)
+
+            let pulse = 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / this.range))
+
+            return pulse as (1 | 2 | 3)
+        })
+    }
+
+    getClasses(): EquivalenceClass[] {
+        if (!this.equivalence_classes) this.calculate_classes()
+
+        return this.equivalence_classes
+    }
+}
+
+type scan_profile = (1 | 2 | 3)[]
+
+function information_gain(profile: scan_profile) {
+    let counts = [0, 0, 0]
+
+    profile.forEach((s) => counts[s - 1]++)
+
+    let number_of_singles = counts[0]
+    let number_of_doubles = counts[1]
+    let number_of_triples = counts[2]
+
+    let gain = 0
+
+    if (number_of_singles > 0) gain += Math.log2(profile.length / number_of_singles) * (number_of_singles / profile.length)
+    if (number_of_doubles > 0) gain += Math.log2(profile.length / number_of_doubles) * (number_of_doubles / profile.length)
+    if (number_of_triples > 0) gain += Math.log2(profile.length) * (number_of_triples / profile.length)  // Triples are special: They narrow down to exactly one candidate instead of all triple candidates.
+
+    return gain
 }
 
 export class ScanSolutionLayer extends Solutionlayer {
@@ -43,83 +200,84 @@ export class ScanSolutionLayer extends Solutionlayer {
         })
 
         this.markers.forEach((m) => m.addTo(this))
+
+        this.set_remaining_candidates(clue.solution.candidates)
+        this.drawEquivalenceClasses()
     }
 
-    equivalence_class_polygons: leaflet.Polygon[] = []
-    cands: MapCoordinate[] = []
+    remaining_candidates: MapCoordinate[] = this.clue.solution.candidates
 
-    draw_equivalence_classes(candidates: MapCoordinate[]) {
-        this.cands = candidates
+    rule_out(spots: MapCoordinate[]) {
 
-        function rainbow(h: number) {
-            // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
-            // Adam Cole, 2011-Sept-14
-            // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
-            var r, g, b;
-            var i = ~~(h * 6);
-            var f = h * 6 - i;
-            var q = 1 - f;
-            switch (i % 6) {
-                case 0:
-                    r = 1;
-                    g = f;
-                    b = 0;
-                    break;
-                case 1:
-                    r = q;
-                    g = 1;
-                    b = 0;
-                    break;
-                case 2:
-                    r = 0;
-                    g = 1;
-                    b = f;
-                    break;
-                case 3:
-                    r = 0;
-                    g = q;
-                    b = 1;
-                    break;
-                case 4:
-                    r = f;
-                    g = 0;
-                    b = 1;
-                    break;
-                case 5:
-                    r = 1;
-                    g = 0;
-                    b = q;
-                    break;
-            }
-            var c = "#" + ("00" + (~~(r * 255)).toString(16)).slice(-2) + ("00" + (~~(g * 255)).toString(16)).slice(-2) + ("00" + (~~(b * 255)).toString(16)).slice(-2);
-            return (c);
+    }
+
+    rule_out_but(spots: MapCoordinate[]) {
+
+    }
+
+    set_remaining_candidates(spots: MapCoordinate[]) {
+        this.remaining_candidates = spots
+        this.invalidate_equivalence_classes()
+    }
+
+    pulse(spot: MapCoordinate, pulse: 1 | 2 | 3) {
+
+    }
+
+    pulse_area(area: Box, pulse: 1 | 2 | 3) {
+
+    }
+
+    equivalence_classes: ScanEquivalenceClasses = null
+
+    invalidate_equivalence_classes() {
+        if (this.equivalence_classes) {
+            this.equivalence_classes.getClasses().forEach((c) => {
+                let p = c.getPolygon()
+                if (p) p.remove()
+            })
         }
+    }
 
-        this.equivalence_class_polygons.forEach((p) => p.remove())
+    drawEquivalenceClasses() {
+        this.invalidate_equivalence_classes()
 
-        let range = this.clue.range + 5
-        let bounds = leaflet.bounds(this.clue.solution.candidates.map((c) => leaflet.point(c.x, c.y)))
+        this.equivalence_classes = new ScanEquivalenceClasses(this.remaining_candidates, this.clue.range + 5)
 
-        let class_cache = {}
+        var startTime = performance.now()
 
-        for (let x = bounds.getTopLeft().x - range; x <= bounds.getTopRight().x + range; x++) {
-            for (let y = bounds.getTopLeft().y - range; y <= bounds.getBottomLeft().y + range; y++) {
+        this.equivalence_classes.getClasses().forEach((c) => {
+            c.getPolygon().addTo(this)
+        })
 
-                let hash = JSON.stringify(candidates.map((s) => Math.min(2, Math.floor(Math.max(Math.abs(s.x - x) - 1, Math.abs(s.y - y) - 1) / range))))
+        var endTime = performance.now()
 
-                if (!class_cache[hash]) {
-                    class_cache[hash] = rainbow(Math.random())
-                }
+        console.log(`Created polygons in ${endTime - startTime} milliseconds`)
 
-                let color = class_cache[hash]
+        /*
+        for (let i = 0; i < size.y; i++) {
+            for (let j = 0; j < size.x; j++) {
+                let equivalenceClass = tiling[i][j]
 
-                this.equivalence_class_polygons.push(
-                    tilePolygon({x: x, y: y}).setStyle({
-                        color: color,
-                        opacity: 0
-                    }).addTo(this))
+                if (equivalenceClass.polygon) continue
+
+                let information_value = information_gain(equivalenceClass.profile)
+
+                equivalenceClass.polygon = areaToPolygon(equivalenceClass.area).setStyle({
+                    color: `rgb(${255 * (1 - (information_value / 4))}, ${255 * information_value / 4}, 0)`,
+                    opacity: 1,
+                    weight: 3,
+                    fillOpacity: 0.25,
+                    fillColor: `rgb(${255 * (1 - (information_value / 4))}, ${255 * information_value / 4}, 0)`
+                }).bindTooltip(`${information_value.toFixed(2)}b`, {
+                    permanent: true,
+                    direction: "center",
+                    className: "equivalence-class-information"
+                }).addTo(this)
+
+                this.equivalence_classes.push(equivalenceClass)
             }
-        }
+        }*/
     }
 
     on_marker_set(marker: TileMarker | null) {
@@ -128,6 +286,7 @@ export class ScanSolutionLayer extends Solutionlayer {
 
             this.radius_polygon = []
         }
+
 
         if (!marker) return
 
@@ -144,10 +303,6 @@ export class ScanSolutionLayer extends Solutionlayer {
             topleft: {x: center.x - 2 * radius, y: center.y + 2 * radius},
             botright: {x: center.x + 2 * radius, y: center.y - 2 * radius}
         }
-
-        console.log("Center: " + JSON.stringify(center))
-        console.log("Inner: " + JSON.stringify(inner))
-        console.log("Outer: " + JSON.stringify(outer))
 
         this.radius_polygon = [
             boxPolygon(inner).setStyle({color: "green", fillOpacity: 0.1}),

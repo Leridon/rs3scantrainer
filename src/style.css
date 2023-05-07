@@ -199,15 +199,16 @@ html, body {
     width: 100%;
 }
 
-.my-tooltip {
-    position: relative;
-    width: 20px;
-    height: 20px;
-    font-size: 14pt;
-    color: #00FF21;
+.spot-number {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: gold;
+    font-size: 1rem;
 }
 
-.spot-number {
+.equivalence-class-information {
     background-color: transparent;
     border: transparent;
     box-shadow: none;

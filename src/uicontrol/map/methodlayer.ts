@@ -79,7 +79,8 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
             })
         }
 
-        //this.draw_equivalence_classes(spots.map((s) => this.scantree.spot(s)))
+        this.set_remaining_candidates(spots.map((s) => this.scantree.spot(s)))
+        this.drawEquivalenceClasses()
     }
 
     constructor(private scantree: ScanTree) {

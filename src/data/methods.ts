@@ -1036,72 +1036,88 @@ function loadScanMethods() {
             )
     )*/
 
-    /*
+
     associate({
         id: 352, // ardounge
-        method: tree("assets/scanassets/ardounge/ardoungemap.png",
-            step("Ardounge teleport to", "A")
-                .howto({
+        method: (clue) => tree(clue as ScanStep,
+            [{"x": 2662, "y": 3304, "level": 0},
+                {"x": 2635, "y": 3313, "level": 0},
+                {"x": 2623, "y": 3311, "level": 0},
+                {"x": 2625, "y": 3292, "level": 0},
+                {"x": 2662, "y": 3338, "level": 0},
+                {"x": 2633, "y": 3339, "level": 0},
+                {"x": 2613, "y": 3337, "level": 0},
+                {"x": 2537, "y": 3306, "level": 0},
+                {"x": 2540, "y": 3331, "level": 0},
+                {"x": 2520, "y": 3318, "level": 0},
+                {"x": 2517, "y": 3281, "level": 0},
+                {"x": 2509, "y": 3330, "level": 0},
+                {"x": 2500, "y": 3290, "level": 0},
+                {"x": 2496, "y": 3282, "level": 0},
+                {"x": 2512, "y": 3267, "level": 0},
+                {"x": 2529, "y": 3270, "level": 0},
+                {"x": 2569, "y": 3340, "level": 0},
+                {"x": 2570, "y": 3321, "level": 0},
+                {"x": 2582, "y": 3314, "level": 0},
+                {"x": 2583, "y": 3265, "level": 0},
+                {"x": 2589, "y": 3330, "level": 0},
+                {"x": 2589, "y": 3319, "level": 0},
+                {"x": 2483, "y": 3313, "level": 0},
+                {"x": 2475, "y": 3331, "level": 0},
+                {"x": 2467, "y": 3319, "level": 0},
+                {"x": 2462, "y": 3282, "level": 0},
+                {"x": 2442, "y": 3310, "level": 0},
+                {"x": 2440, "y": 3319, "level": 0}],
+            [
+                {name: "A", area: {topleft: {x: 2659, y: 3306}, botright: {x: 2665, y: 3300}}},
+                {name: "B", area: {topleft: {x: 2648, y: 3308}, botright: {x: 2650, y: 3306}}},
+                {name: "C", spot: {x: 2538, y: 3306}},
+                {name: "D", spot: {x: 2531, y: 3303}},
+                {name: "E", spot: {x: 2521, y: 3293}},
+            ],
+            {
+                "-A": {
                     video: videos.ardounge.toA,
                     text: "Teleport to ardounge (Spot A)."
-                })
-                .triple(1)
-                .triple(2)
-                .double(step("Dive to", "B")
-                    .triple(2)
-                    .triple(3)
-                    .triple(4)
-                    .double(step("Teleport to ardounge lodestone")
-                        .howto({
-                            text: "The spot is to the north, use the lodestone."
-                        })
-                        .double(solved(5))
-                        .triple(6)
-                        .triple(7)
+                },
+                "A-C": {
+                    video: videos.ardounge.AtoC,
+                    text: "Ruled out most of east ardounge, teleport to C with Dave's spellbook (4)."
+                },
+                "C-D": {}
+            },
+            goTo("A", "Ardounge teleport to {}.")
+                .triple(1, 2)
+                .double(goTo("B", "Dive to {}.")
+                    .triple(2, 3, 4)
+                    .double(decide("Teleport to ardounge lodestone")
+                        .double(digAt(5))
+                        .triple(6, 7)
                     )
                 )
-                .single(step("Dave's spellbook to", "C")
-                    .howto({
-                        video: videos.ardounge.AtoC,
-                        text: "Ruled out most of east ardounge, teleport to C with Dave's spellbook (4)."
-                    })
-                    .triple(8)
-                    .triple(9)
-                    .triple(10)
-                    .triple(11)
-                    .single(step("The spot is at the western end")
-                        .howto({
-                            text: "Dive/Surge to the west. Hug the north wall of the long buildings so you don't miss 26."
-                        })
-                        .solution(23)
-                        .solution(24)
-                        .solution(25)
-                        .solution(26)
-                        .solution(27)
-                        .solution(28)
+                .single(goTo("C", "Dave's spellbook to {}.")
+                    .triple(8, 9, 10, 11)
+                    .single(decide("The spot is at the western end")
+                        .answer("23", digAt(23))
+                        .answer("24", digAt(24))
+                        .answer("25", digAt(25))
+                        .answer("26", digAt(26))
+                        .answer("27", digAt(27))
+                        .answer("28", digAt(28))
                     )
-                    .double(step("Step/Dive to", "D")
-                        .howto({
-                            video: videos.ardounge.CtoD,
-                            text: "Walk 1 square west then dive to D, to have E accessible via surge. D is the tile directly east of the manhole cover."
-                        })
+                    .double(goTo("D", "Step/Dive to {}")
                         .triple(12)
-                        .single(step("Go through the manhole")
-                            .triple(21)
-                            .triple(22)
+                        .single(decide("Go through the manhole")
+                            .triple(21, 22)
                         )
-                        .double(step("Surge to", "E")
-                            .triple(13)
-                            .triple(14)
-                            .triple(15)
-                            .triple(16)
-                            .double(step("Go through the manhole")
-                                .triple(17)
-                                .triple(18)
+                        .double(goTo("E", "Surge to {}.")
+                            .triple(13, 14, 15, 16)
+                            .double(decide("Go through the manhole")
+                                .triple(17, 18)
                             )
-                            .single(step("Teleport back to C and use the gate")
+                            .single(goTo("C", "Teleport back to {} and use the gate")
                                 .triple(19)
-                                .double(solved(20))
+                                .double(digAt(20))
                             )
                         )
                     )
@@ -1109,6 +1125,7 @@ function loadScanMethods() {
         )
     })
 
+    /*
     associate({
         id: 355, // piscatoris
         method: tree("assets/scanassets/piscatoris/piscatoris.png",

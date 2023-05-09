@@ -217,9 +217,10 @@ html, body {
     font-size: 1rem;
     text-align: center;
     vertical-align: center;
-    width: 50px;/*
-    left: -25px;
-    top: -10px;*/
+    width: 50px;
+    /*
+        left: -25px;
+        top: -10px;*/
 }
 
 .area-name {
@@ -326,4 +327,13 @@ html, body {
 #filters > div {
     padding-top: 1px;
     padding-bottom: 1px;
+}
+
+.modal-content {
+    background-image: url('assets/style/background.png')
+}
+
+.img-button {
+    height: 80%;
+    cursor: pointer;
 }

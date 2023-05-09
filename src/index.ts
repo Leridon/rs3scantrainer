@@ -25,5 +25,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
     initialize()
 
+    $("#scantree-method-explanation").modal("show")
+
 })
 

@@ -2,6 +2,7 @@ import {ScanSpot, ScanTree} from "../../model/methods";
 import {boxPolygon, tilePolygon} from "../../model/coordinates";
 import {ScanSolutionLayer} from "./solutionlayer";
 import * as leaflet from "leaflet"
+import {CustomControl} from "./map";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -81,6 +82,14 @@ export class ScanTreeMethodLayer extends ScanSolutionLayer {
 
         this.set_remaining_candidates(spots.map((s) => this.scantree.spot(s)))
         this.drawEquivalenceClasses()
+
+        new CustomControl({
+            position: "bottomleft"
+        }).addTo(this._map);
+        new CustomControl({
+            position: "bottomleft"
+        }).addTo(this._map);
+        new CustomControl().addTo(this._map);
     }
 
     constructor(private scantree: ScanTree) {

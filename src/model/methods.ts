@@ -23,8 +23,6 @@ export abstract class Method {
     abstract howto(): HowTo
 
     abstract sendToUi(trainer: Application): void
-
-    public abstract explanation(): JQuery
 }
 
 export type ScanSpot = { name: string, area?: Box, spot?: MapCoordinate, is_far_away?: boolean }
@@ -41,6 +39,10 @@ export class ScanTree extends Method {
     }
 
     sendToUi(app: Application): void {
+        $("#methodexplanation").on("click", (e) => {
+            $("#scantree-method-explanation").modal("show")
+        })
+
         app.howtotabs.map.setMethodLayer(new ScanTreeMethodLayer(this))
 
         this.root.sendToUI(app)
@@ -60,10 +62,6 @@ export class ScanTree extends Method {
 
     area(name: string): ScanSpot {
         return this.scan_spots.find((s) => s.name == name)
-    }
-
-    explanation(): JQuery {
-        return $("<div>")
     }
 }
 

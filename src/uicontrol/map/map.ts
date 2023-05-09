@@ -133,6 +133,25 @@ export class TileMarker extends leaflet.FeatureGroup {
     }
 }
 
+// Define the custom control class
+export var CustomControl = leaflet.Control.extend({
+    options: {
+        position: 'topleft',
+    },
+
+    onAdd: function (map) {
+        var button = leaflet.DomUtil.create("button", "my-button-class");
+        button.innerHTML = "My Button";
+        leaflet.DomEvent.on(button, "click", function () {
+            alert("Button clicked!");
+        });
+        return button;
+    },
+    onRemove: function (map) {
+        // Nothing to do here
+    }
+});
+
 /**
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.
@@ -225,6 +244,7 @@ export class GameMapControl {
         }).addTo(this.map)
 
         this.teleportLayer = new TeleportLayer().addTo(this.map).setZIndex(100)
+
     }
 
     updateActiveLayer(fit: boolean) {

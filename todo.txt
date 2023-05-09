@@ -60,3 +60,6 @@ Teleports:
 Figure out hosting
 
 Warn when not using meerkats
+
+Information theory and equivalence classes from scans also apply to compasses.
+

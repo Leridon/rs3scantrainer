@@ -1,9 +1,10 @@
 import {ClueStep, ScanStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
 import {GameMapControl, TileMarker} from "./map";
 import * as leaflet from "leaflet"
-import {Area, areaToPolygon, Box, boxPolygon, MapCoordinate} from "../../model/coordinates";
+import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate} from "../../model/coordinates";
 import {Raster} from "../../util/raster";
 import {polygon} from "leaflet";
+import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../model/scans/scans";
 
 export class TileMarkerWithActive extends TileMarker {
 
@@ -38,6 +39,7 @@ export abstract class Solutionlayer extends leaflet.FeatureGroup {
 
 export class ScanSolutionLayer extends Solutionlayer {
     protected markers: TileMarkerWithActive[]
+    range: number
 
     radius_polygon: leaflet.Polygon[]
 
@@ -45,6 +47,8 @@ export class ScanSolutionLayer extends Solutionlayer {
 
     constructor(private clue: ScanStep) {
         super()
+
+        this.range = clue.range + 5 // Always assume meerkats
 
         this.markers = (clue.solution as SetSolution).candidates.map((e) => {
             return new TileMarkerWithActive(e).withMarker().withX("#B21319")
@@ -63,46 +67,51 @@ export class ScanSolutionLayer extends Solutionlayer {
         this.markers.forEach((m) => m.addTo(this))
 
         this.set_remaining_candidates(clue.solution.candidates)
-        this.drawEquivalenceClasses()
+        this.createEquivalenceClasses()
     }
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates
 
     rule_out(spots: MapCoordinate[]) {
-
+        this.set_remaining_candidates(this.remaining_candidates.filter((c) => !spots.some((b) => eq(c, b))))
     }
 
     rule_out_but(spots: MapCoordinate[]) {
-
+        this.set_remaining_candidates(this.remaining_candidates.filter((c) => spots.some((b) => eq(c, b))))
     }
 
     set_remaining_candidates(spots: MapCoordinate[]) {
         this.remaining_candidates = spots
-        this.invalidate_equivalence_classes()
+        this.invalidateEquivalenceClasses()
     }
 
-    pulse(spot: MapCoordinate, pulse: 1 | 2 | 3) {
-
+    pulse(spot: MapCoordinate, pulse: PulseType) {
+        this.set_remaining_candidates(
+            this.remaining_candidates.filter((s) => get_pulse(spot, s, this.clue.range + 5) == pulse)
+        )
     }
 
     pulse_area(area: Box, pulse: 1 | 2 | 3) {
 
     }
 
-    equivalence_classes: ScanEquivalenceClasses = null
+    private draw_equivalence_classes: boolean = false
+    private equivalence_classes: ScanEquivalenceClasses = null
 
-    invalidate_equivalence_classes() {
+    private invalidateEquivalenceClasses() {
         if (this.equivalence_classes) {
             this.equivalence_classes.getClasses().forEach((c) => {
                 let p = c.getPolygon()
                 if (p) p.remove()
             })
+
+            this.equivalence_classes = null
         }
+
+        if (this.draw_equivalence_classes) this.createEquivalenceClasses()
     }
 
-    drawEquivalenceClasses() {
-        this.invalidate_equivalence_classes()
-
+    private createEquivalenceClasses() {
         {
             let startTime = performance.now()
 
@@ -125,6 +134,16 @@ export class ScanSolutionLayer extends Solutionlayer {
 
             console.log(`Created ${this.equivalence_classes.equivalence_classes.length} polygons in ${endTime - startTime} milliseconds`)
         }
+    }
+
+    protected setEquivalenceClassesEnabled(enabled: boolean) {
+        this.draw_equivalence_classes = enabled
+
+        this.invalidateEquivalenceClasses() // Redraw
+    }
+
+    private equivalenceClassesEnabled() {
+        return this.draw_equivalence_classes
     }
 
     on_marker_set(marker: TileMarker | null) {

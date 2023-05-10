@@ -337,3 +337,7 @@ html, body {
     height: 80%;
     cursor: pointer;
 }
+
+.inline-img {
+    height: 1.5em;
+}

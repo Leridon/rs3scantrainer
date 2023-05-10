@@ -22,6 +22,11 @@ export type Vector2 = { x: number, y: number }
 export type MapCoordinate = Vector2 & {
     level?: number
 }
+
+export function eq(a: MapCoordinate, b: MapCoordinate) {
+    return a.x == b.x && a.y == b.y     // Ignores level for spot equality
+}
+
 export type Box = { topleft: Vector2, botright: Vector2 }
 
 export function toBounds(box: Box) {

@@ -1,8 +1,9 @@
 import * as leaflet from "leaflet";
-import {areaToPolygon, MapCoordinate} from "../coordinates";
+import {areaToPolygon, Box, MapCoordinate} from "../coordinates";
 import {Raster} from "../../util/raster";
+import {ScanSpot} from "../methods";
 
-class EquivalenceClass {
+export class EquivalenceClass {
     public information_gain: number
     private polygon: leaflet.FeatureGroup = null
 
@@ -47,7 +48,7 @@ class EquivalenceClass {
     }
 }
 
-class ScanEquivalenceClasses {
+export class ScanEquivalenceClasses {
     raster: Raster<EquivalenceClass> = null
     equivalence_classes: EquivalenceClass[] = null
     max_information: number
@@ -123,15 +124,7 @@ class ScanEquivalenceClasses {
     }
 
     get_scan_profile(tile: MapCoordinate) {
-        return this.candidates.map((s) => {
-            let d_x = Math.abs(s.x - tile.x)
-            let d_y = Math.abs(s.y - tile.y)
-            let d = Math.max(d_x, d_y)
-
-            let pulse = 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / this.range))
-
-            return pulse as (1 | 2 | 3)
-        })
+        return this.candidates.map((s) => get_pulse(tile, s, this.range))
     }
 
     getClasses(): EquivalenceClass[] {
@@ -141,9 +134,22 @@ class ScanEquivalenceClasses {
     }
 }
 
-export type pulse = 1 | 2 | 3
+export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: number): PulseType {
+    let d_x = Math.abs(spot.x - tile.x)
+    let d_y = Math.abs(spot.y - tile.y)
+    let d = Math.max(d_x, d_y)
 
-export type scan_profile = pulse[]
+    return 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as PulseType
+}
+
+export function area_pulse(spot: MapCoordinate, area: Box, range: number) {
+    let dx_min = spot.x - area.topleft.x
+
+}
+
+export type PulseType = 1 | 2 | 3
+
+export type scan_profile = PulseType[]
 
 export function information_gain(profile: scan_profile) {
     let counts = [0, 0, 0]

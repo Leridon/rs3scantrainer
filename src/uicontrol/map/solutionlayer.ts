@@ -1,7 +1,7 @@
 import {ClueStep, ScanStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
 import {GameMapControl, TileMarker} from "./map";
 import * as leaflet from "leaflet"
-import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate} from "../../model/coordinates";
+import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../model/coordinates";
 import {Raster} from "../../util/raster";
 import {polygon} from "leaflet";
 import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../model/scans/scans";
@@ -23,7 +23,7 @@ export class TileMarkerWithActive extends TileMarker {
 }
 
 export abstract class Solutionlayer extends leaflet.FeatureGroup {
-    map: GameMapControl = null
+    protected map: GameMapControl = null
 
     activate(map: GameMapControl) {
         this.map = map
@@ -44,6 +44,7 @@ export class ScanSolutionLayer extends Solutionlayer {
     radius_polygon: leaflet.Polygon[]
 
     private ms: MapCoordinate[] = []
+
 
     constructor(private clue: ScanStep) {
         super()
@@ -66,7 +67,71 @@ export class ScanSolutionLayer extends Solutionlayer {
 
         this.markers.forEach((m) => m.addTo(this))
 
+
         this.set_remaining_candidates(clue.solution.candidates)
+
+    }
+
+    dragstart: MapCoordinate = null
+    drag_polygon: leaflet.Polygon = null
+
+    activate(map: GameMapControl) {
+        super.activate(map);
+
+        this.map.map.dragging.disable()
+
+        let self = this
+
+        this.map.map.on({
+            "mousedown": (e) => {
+                map.map.dragging.disable()
+
+                this.dragstart = map.tileFromMouseEvent(e)
+
+                this.drag_polygon = tilePolygon(this.dragstart)
+                    .setStyle({
+                        color: "#00FF21",
+                        fillColor: "#00FF21",
+                        interactive: false,
+                    })
+                    .addTo(self)
+            },
+            "mousemove": (e) => {
+                if (self.dragstart) {
+                    let now = map.tileFromMouseEvent(e)
+
+                    let area: Box =
+                        {
+                            topleft: {
+                                x: Math.min(self.dragstart.x, now.x),
+                                y: Math.max(self.dragstart.y, now.y),
+                            },
+                            botright: {
+                                x: Math.max(self.dragstart.x, now.x),
+                                y: Math.min(self.dragstart.y, now.y),
+                            }
+                        }
+
+                        console.log(area)
+
+                    self.drag_polygon.remove()
+                    self.drag_polygon = boxPolygon(area)
+                        .setStyle({
+                            color: "#00FF21",
+                            fillColor: "#00FF21",
+                            interactive: false,
+                        }).addTo(self)
+                    self.drag_polygon.addTo(self)
+                }
+            },
+
+            "mouseup": () => {
+                self.dragstart = null
+                self.drag_polygon = null
+
+                map.map.dragging.enable()
+            }
+        })
     }
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates

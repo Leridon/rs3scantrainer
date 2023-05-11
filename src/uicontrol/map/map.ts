@@ -225,16 +225,20 @@ export class GameMapControl {
         }).addTo(this.map)
 
         this.teleportLayer = new TeleportLayer().addTo(this.map).setZIndex(100)
-
     }
 
     updateActiveLayer(fit: boolean) {
         let preferred = this.methodLayer || this.solutionLayer
 
         if (this.activeLayer != preferred) {
-            if (this.activeLayer) this.activeLayer.remove()
+            if (this.activeLayer) {
+                this.activeLayer.remove()
+                this.activeLayer.deactivate()
+            }
             this.activeLayer = preferred
             this.activeLayer.addTo(this.map)
+
+            this.activeLayer.activate(this)
 
             if (fit) this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 4})
         }
@@ -258,5 +262,12 @@ export class GameMapControl {
 
     getMethodLayer() {
         return this.methodLayer
+    }
+
+    tileFromMouseEvent(e: leaflet.LeafletMouseEvent): MapCoordinate {
+        return {
+            x: Math.round(e.latlng.lng),
+            y: Math.round(e.latlng.lat)
+        }
     }
 }

@@ -2,8 +2,6 @@ RELEASE 1.0
 - Finish scan mapping and record more clips.
     - Fix some clue spots being on a different level
 
-- Display a "how does this work" button for scans.
-
 - Manual scan solving
 
 - Arrow key/enter control for the search.
@@ -23,9 +21,9 @@ Done:
 - Falador
 - Keldagrim
 - Dorgesh-Kaan
+- Ardounge
 
 Next up:
-- Ardounge
 - Fremennik Isles
 - Haunted Woods
 

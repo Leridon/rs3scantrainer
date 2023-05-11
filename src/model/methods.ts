@@ -2,6 +2,7 @@ import {ClueStep, ScanStep} from "./clues";
 import {Application, scantrainer} from "../application";
 import {Box, MapCoordinate} from "./coordinates";
 import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
+import {modal, Modal} from "../uicontrol/widgets/modal";
 
 export type Video = {
     ref: string,
@@ -22,10 +23,19 @@ export abstract class Method {
 
     abstract howto(): HowTo
 
+    abstract explanationModal(): Modal
+
     abstract sendToUi(trainer: Application): void
 }
 
 export type ScanSpot = { name: string, area?: Box, spot?: MapCoordinate, is_far_away?: boolean }
+
+class ScanExplanationModal extends Modal {
+
+    protected hidden() {
+        ($("#pingexplanationvideo").get(0) as HTMLVideoElement).pause();
+    }
+}
 
 export class ScanTree extends Method {
     constructor(public clue: ScanStep,
@@ -38,11 +48,12 @@ export class ScanTree extends Method {
         root.setRoot(this)
     }
 
-    sendToUi(app: Application): void {
-        $("#methodexplanation").on("click", (e) => {
-            $("#scantree-method-explanation").modal("show")
-        })
+    explanationModal(): Modal {
+        return modal("modal-scantree-method-explanation", ScanExplanationModal);
+    }
 
+
+    sendToUi(app: Application): void {
         app.howtotabs.map.setMethodLayer(new ScanTreeMethodLayer(this))
 
         this.root.sendToUI(app)

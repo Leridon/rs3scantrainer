@@ -341,3 +341,12 @@ html, body {
 .inline-img {
     height: 1.5em;
 }
+
+a {
+    text-decoration: none;
+}
+
+video {
+    max-width: 100%;
+    object-fit: contain;
+}

@@ -8,11 +8,16 @@ import {getSolutionLayer} from "./map/solutionlayer";
 export default class CluePanelControl {
 
     private clue_panel = $("#solutionpanel")
+    private active_method: Method = null
 
     selected_clue: ClueStep = null
 
     constructor(private app: Application) {
         this.clue_panel.hide()
+
+        $("#methodexplanation").on("click", () => {
+            this.active_method.explanationModal().show()
+        })
     }
 
     selectClue(clue: ClueStep) {
@@ -59,7 +64,10 @@ export default class CluePanelControl {
     }
 
     setMethod(method: Method) {
+        this.active_method = method
+
         $(".cluemethodcontent").hide()
+
         method.sendToUi(this.app)
         $(`.cluemethodcontent[data-methodtype=${method.type}]`).show()
 

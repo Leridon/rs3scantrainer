@@ -67,7 +67,6 @@ export class ScanSolutionLayer extends Solutionlayer {
         this.markers.forEach((m) => m.addTo(this))
 
         this.set_remaining_candidates(clue.solution.candidates)
-        this.createEquivalenceClasses()
     }
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates

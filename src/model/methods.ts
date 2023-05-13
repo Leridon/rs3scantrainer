@@ -28,7 +28,7 @@ export abstract class Method {
     abstract sendToUi(trainer: Application): void
 }
 
-export type ScanSpot = { name: string, area?: Box, spot?: MapCoordinate, is_far_away?: boolean }
+export type ScanSpot = { name: string, area?: Box, tile?: MapCoordinate, is_far_away?: boolean }
 
 class ScanExplanationModal extends Modal {
 
@@ -162,16 +162,21 @@ export class ScanTreeNode {
 
     sendToUI(app: Application) {
         {
+            let layer = app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer
+            /*
             let rel = [this.where]
             if (this.parent) rel.push(this.parent.node.where);
 
-            let layer = app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer
+            let ca = this.solved != null ? [this.solved] : []
+
 
             layer.setRelevant(
-                this.candidates(),
+                ca,
                 rel,
                 true
-            )
+            )*/
+
+            layer.setNode(this)
         }
 
         {

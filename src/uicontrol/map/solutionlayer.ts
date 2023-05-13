@@ -3,8 +3,9 @@ import {GameMapControl, TileMarker} from "./map";
 import * as leaflet from "leaflet"
 import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../model/coordinates";
 import {Raster} from "../../util/raster";
-import {polygon} from "leaflet";
+import {FeatureGroup, Polygon, polygon} from "leaflet";
 import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../model/scans/scans";
+import {ScanSpot} from "../../model/methods";
 
 export class TileMarkerWithActive extends TileMarker {
 
@@ -37,9 +38,76 @@ export abstract class Solutionlayer extends leaflet.FeatureGroup {
     }
 }
 
+
+class SpotPolygon extends leaflet.FeatureGroup {
+    polygon: leaflet.Polygon
+    label: leaflet.Tooltip
+    active: boolean
+
+    constructor(private _spot: ScanSpot) {
+        super()
+
+        this.active = true
+
+        this.update()
+    }
+
+    spot() {
+        return this._spot
+    }
+
+    setSpot(spot: ScanSpot) {
+        this._spot = spot
+        this.update()
+    }
+
+    update() {
+        this.polygon = this._spot.area ? boxPolygon(this._spot.area) : tilePolygon(this._spot.tile)
+
+        this.label = leaflet.tooltip({
+            interactive: false,
+            permanent: true,
+            className: "area-name",
+            offset: [0, 0],
+            direction: "center",
+            content: this._spot.name
+        })
+
+        this.polygon
+            .setStyle({
+                color: "#00FF21",
+                fillColor: "#00FF21",
+                interactive: false,
+            })
+            .bindTooltip(this.label)
+            .addTo(this)
+
+        this.updateOpacity()
+    }
+
+    updateOpacity() {
+        let opacity = this.active ? 1 : 0.2
+
+        this.polygon.setStyle(
+            Object.assign(this.polygon.options, {
+                opacity: opacity,
+                fillOpacity: opacity * 0.2,
+            }))
+
+        this.label.setOpacity(opacity)
+    }
+
+    setActive(active: boolean) {
+        this.active = active
+
+        this.updateOpacity()
+    }
+}
+
 export class ScanSolutionLayer extends Solutionlayer {
     protected markers: TileMarkerWithActive[]
-    range: number
+    protected areas: SpotPolygon[] = []
+    protected range: number
 
     radius_polygon: leaflet.Polygon[]
 
@@ -78,7 +146,7 @@ export class ScanSolutionLayer extends Solutionlayer {
     activate(map: GameMapControl) {
         super.activate(map);
 
-        this.map.map.dragging.disable()
+        /*this.map.map.dragging.disable()
 
         let self = this
 
@@ -112,7 +180,6 @@ export class ScanSolutionLayer extends Solutionlayer {
                             }
                         }
 
-                        console.log(area)
 
                     self.drag_polygon.remove()
                     self.drag_polygon = boxPolygon(area)
@@ -131,7 +198,7 @@ export class ScanSolutionLayer extends Solutionlayer {
 
                 map.map.dragging.enable()
             }
-        })
+        })*/
     }
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates
@@ -210,13 +277,28 @@ export class ScanSolutionLayer extends Solutionlayer {
         return this.draw_equivalence_classes
     }
 
+    setAreas(spots: ScanSpot[]) {
+        this.areas.forEach((a) => a.remove())
+
+        this.areas = spots.map((s) => new SpotPolygon(s))
+
+        this.areas.forEach((a) => a.addTo(this))
+    }
+
+    getArea(name: string): SpotPolygon {
+        return this.areas.find((a) => a.spot().name == name)
+    }
+
+    getMarker(i: number): TileMarkerWithActive {
+        return this.markers[i - 1]
+    }
+
     on_marker_set(marker: TileMarker | null) {
         if (this.radius_polygon) {
             this.radius_polygon.forEach((l) => l.remove())
 
             this.radius_polygon = []
         }
-
 
         if (!marker) return
 
@@ -241,6 +323,13 @@ export class ScanSolutionLayer extends Solutionlayer {
 
         this.radius_polygon.forEach((p) => p.addTo(this))
     }
+}
+
+
+export class ScanEditLayer extends Solutionlayer {
+    equivalence_class_button: leaflet.Control
+        
+
 }
 
 export class SimpleMarkerLayer extends Solutionlayer {

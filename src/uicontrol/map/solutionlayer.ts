@@ -2,10 +2,9 @@ import {ClueStep, ScanStep, SetSolution, SimpleSolution, VariantSolution} from "
 import {GameMapControl, TileMarker} from "./map";
 import * as leaflet from "leaflet"
 import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../model/coordinates";
-import {Raster} from "../../util/raster";
-import {FeatureGroup, Polygon, polygon} from "leaflet";
 import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../model/scans/scans";
 import {ScanSpot} from "../../model/methods";
+import {ImageButton} from "./CustomControl";
 
 export class TileMarkerWithActive extends TileMarker {
 
@@ -25,13 +24,24 @@ export class TileMarkerWithActive extends TileMarker {
 
 export abstract class Solutionlayer extends leaflet.FeatureGroup {
     protected map: GameMapControl = null
+    private controls: leaflet.Control[] = []
+
+    protected addControl(control: leaflet.Control) {
+        this.controls.push(control)
+
+        if (this.map) this.map.map.addControl(control)
+    }
 
     activate(map: GameMapControl) {
         this.map = map
+
+        this.controls.forEach((e) => e.addTo(map.map))
     }
 
     deactivate() {
         this.map = null
+
+        this.controls.forEach((e) => e.remove())
     }
 
     on_marker_set(marker: TileMarker) {
@@ -113,7 +123,6 @@ export class ScanSolutionLayer extends Solutionlayer {
 
     private ms: MapCoordinate[] = []
 
-
     constructor(private clue: ScanStep) {
         super()
 
@@ -123,6 +132,7 @@ export class ScanSolutionLayer extends Solutionlayer {
             return new TileMarkerWithActive(e).withMarker().withX("#B21319")
         })
 
+        /*
         // DO NOT REMOVE. Development code to easily assign numbers to scans
         this.markers.forEach((m) => {
             m.on("click", (e) => {
@@ -131,13 +141,21 @@ export class ScanSolutionLayer extends Solutionlayer {
 
                 console.log(JSON.stringify(this.ms))
             })
-        })
+        })*/
 
         this.markers.forEach((m) => m.addTo(this))
 
-
         this.set_remaining_candidates(clue.solution.candidates)
 
+        if(!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
+            this.addControl(new ImageButton("assets/icons/eqclasses.png", {
+                "click": (e) => {
+                    this.setEquivalenceClassesEnabled(!this.draw_equivalence_classes)
+                }
+            }, {
+                title: "Toggle equivalence classes."
+            }).setPosition("topright"),)
+        }
     }
 
     dragstart: MapCoordinate = null
@@ -325,11 +343,18 @@ export class ScanSolutionLayer extends Solutionlayer {
     }
 }
 
-
 export class ScanEditLayer extends Solutionlayer {
-    equivalence_class_button: leaflet.Control
-        
+    constructor() {
+        super();
+    }
 
+    activate(map: GameMapControl) {
+        super.activate(map);
+    }
+
+    deactivate() {
+        super.deactivate();
+    }
 }
 
 export class SimpleMarkerLayer extends Solutionlayer {

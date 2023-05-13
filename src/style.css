@@ -386,7 +386,7 @@ video {
     --bs-modal-header-border-color: rgba(65, 85, 95, 0.5);
 }
 
-.modal-content{
+.modal-content {
     border-radius: 1rem;
     border: 2px solid rgb(43, 58, 67);
 }
@@ -398,7 +398,6 @@ video {
 
 .modal-header {
     color: #FFCB05FF;
-    /*background: #5A341E80; */
     background: #23323B80;
     font-family: 'trajan-pro-3', serif;
     font-size: 2em;
@@ -409,4 +408,21 @@ video {
     background-image: url("assets/icons/exit.png");
     height: 22px;
     width: 22px;
+}
+
+.leaflet-button {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 3px;
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-button > img {
+    width: 16px;
+    height: 16px;
+}
+
+.leaflet-button:hover {
+    background-color: #f4f4f4;
 }

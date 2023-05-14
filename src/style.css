@@ -180,7 +180,7 @@ html, body {
     height: 2em;
 }
 
-#nextscanstep {
+.nextstep {
     font-size: 20px;
     font-weight: bold;
 }

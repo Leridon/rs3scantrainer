@@ -1,25 +1,123 @@
-import {ClueStep, ScanStep, SetSolution, SimpleSolution, Solution, VariantSolution} from "../../model/clues";
-import {TileMarker} from "./map";
+import {ClueStep, ScanStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
+import {GameMapControl, TileMarker} from "./map";
 import * as leaflet from "leaflet"
-import {Box, boxPolygon, MapCoordinate, tilePolygon} from "../../model/coordinates";
-import {Point} from "leaflet";
+import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../model/coordinates";
+import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../model/scans/scans";
+import {ScanSpot} from "../../model/methods";
+import {ImageButton} from "./CustomControl";
 
 export class TileMarkerWithActive extends TileMarker {
 
+    private active: boolean = true
+
+    isActive() {
+        return this.active
+    }
+
     setActive(isActive: boolean) {
+        this.active = isActive
+
         if (isActive) this.setOpacity(1)
         else this.setOpacity(0.2)
     }
 }
 
 export abstract class Solutionlayer extends leaflet.FeatureGroup {
+    protected map: GameMapControl = null
+    private controls: leaflet.Control[] = []
+
+    protected addControl(control: leaflet.Control) {
+        this.controls.push(control)
+
+        if (this.map) this.map.map.addControl(control)
+    }
+
+    activate(map: GameMapControl) {
+        this.map = map
+
+        this.controls.forEach((e) => e.addTo(map.map))
+    }
+
+    deactivate() {
+        this.map = null
+
+        this.controls.forEach((e) => e.remove())
+    }
 
     on_marker_set(marker: TileMarker) {
     }
 }
 
+
+class SpotPolygon extends leaflet.FeatureGroup {
+    polygon: leaflet.Polygon
+    label: leaflet.Tooltip
+    active: boolean
+
+    constructor(private _spot: ScanSpot) {
+        super()
+
+        this.active = true
+
+        this.update()
+    }
+
+    spot() {
+        return this._spot
+    }
+
+    setSpot(spot: ScanSpot) {
+        this._spot = spot
+        this.update()
+    }
+
+    update() {
+        this.polygon = this._spot.area ? boxPolygon(this._spot.area) : tilePolygon(this._spot.tile)
+
+        this.label = leaflet.tooltip({
+            interactive: false,
+            permanent: true,
+            className: "area-name",
+            offset: [0, 0],
+            direction: "center",
+            content: this._spot.name
+        })
+
+        this.polygon
+            .setStyle({
+                color: "#00FF21",
+                fillColor: "#00FF21",
+                interactive: false,
+            })
+            .bindTooltip(this.label)
+            .addTo(this)
+
+        this.updateOpacity()
+    }
+
+    updateOpacity() {
+        let opacity = this.active ? 1 : 0.2
+
+        this.polygon.setStyle(
+            Object.assign(this.polygon.options, {
+                opacity: opacity,
+                fillOpacity: opacity * 0.2,
+            }))
+
+        this.label.setOpacity(opacity)
+    }
+
+    setActive(active: boolean) {
+        this.active = active
+
+        this.updateOpacity()
+    }
+}
+
 export class ScanSolutionLayer extends Solutionlayer {
     protected markers: TileMarkerWithActive[]
+    protected areas: SpotPolygon[] = []
+    protected range: number
 
     radius_polygon: leaflet.Polygon[]
 
@@ -28,10 +126,13 @@ export class ScanSolutionLayer extends Solutionlayer {
     constructor(private clue: ScanStep) {
         super()
 
+        this.range = clue.range + 5 // Always assume meerkats
+
         this.markers = (clue.solution as SetSolution).candidates.map((e) => {
             return new TileMarkerWithActive(e).withMarker().withX("#B21319")
         })
 
+        /*
         // DO NOT REMOVE. Development code to easily assign numbers to scans
         this.markers.forEach((m) => {
             m.on("click", (e) => {
@@ -40,86 +141,174 @@ export class ScanSolutionLayer extends Solutionlayer {
 
                 console.log(JSON.stringify(this.ms))
             })
-        })
+        })*/
 
         this.markers.forEach((m) => m.addTo(this))
+
+        this.set_remaining_candidates(clue.solution.candidates)
+
+        if(!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
+            this.addControl(new ImageButton("assets/icons/eqclasses.png", {
+                "click": (e) => {
+                    this.setEquivalenceClassesEnabled(!this.draw_equivalence_classes)
+                }
+            }, {
+                title: "Toggle equivalence classes."
+            }).setPosition("topright"),)
+        }
     }
 
-    equivalence_class_polygons: leaflet.Polygon[] = []
-    cands: MapCoordinate[] = []
+    dragstart: MapCoordinate = null
+    drag_polygon: leaflet.Polygon = null
 
-    draw_equivalence_classes(candidates: MapCoordinate[]) {
-        this.cands = candidates
+    activate(map: GameMapControl) {
+        super.activate(map);
 
-        function rainbow(h: number) {
-            // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
-            // Adam Cole, 2011-Sept-14
-            // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
-            var r, g, b;
-            var i = ~~(h * 6);
-            var f = h * 6 - i;
-            var q = 1 - f;
-            switch (i % 6) {
-                case 0:
-                    r = 1;
-                    g = f;
-                    b = 0;
-                    break;
-                case 1:
-                    r = q;
-                    g = 1;
-                    b = 0;
-                    break;
-                case 2:
-                    r = 0;
-                    g = 1;
-                    b = f;
-                    break;
-                case 3:
-                    r = 0;
-                    g = q;
-                    b = 1;
-                    break;
-                case 4:
-                    r = f;
-                    g = 0;
-                    b = 1;
-                    break;
-                case 5:
-                    r = 1;
-                    g = 0;
-                    b = q;
-                    break;
-            }
-            var c = "#" + ("00" + (~~(r * 255)).toString(16)).slice(-2) + ("00" + (~~(g * 255)).toString(16)).slice(-2) + ("00" + (~~(b * 255)).toString(16)).slice(-2);
-            return (c);
-        }
+        /*this.map.map.dragging.disable()
 
-        this.equivalence_class_polygons.forEach((p) => p.remove())
+        let self = this
 
-        let range = this.clue.range + 5
-        let bounds = leaflet.bounds(this.clue.solution.candidates.map((c) => leaflet.point(c.x, c.y)))
+        this.map.map.on({
+            "mousedown": (e) => {
+                map.map.dragging.disable()
 
-        let class_cache = {}
+                this.dragstart = map.tileFromMouseEvent(e)
 
-        for (let x = bounds.getTopLeft().x - range; x <= bounds.getTopRight().x + range; x++) {
-            for (let y = bounds.getTopLeft().y - range; y <= bounds.getBottomLeft().y + range; y++) {
+                this.drag_polygon = tilePolygon(this.dragstart)
+                    .setStyle({
+                        color: "#00FF21",
+                        fillColor: "#00FF21",
+                        interactive: false,
+                    })
+                    .addTo(self)
+            },
+            "mousemove": (e) => {
+                if (self.dragstart) {
+                    let now = map.tileFromMouseEvent(e)
 
-                let hash = JSON.stringify(candidates.map((s) => Math.min(2, Math.floor(Math.max(Math.abs(s.x - x) - 1, Math.abs(s.y - y) - 1) / range))))
+                    let area: Box =
+                        {
+                            topleft: {
+                                x: Math.min(self.dragstart.x, now.x),
+                                y: Math.max(self.dragstart.y, now.y),
+                            },
+                            botright: {
+                                x: Math.max(self.dragstart.x, now.x),
+                                y: Math.min(self.dragstart.y, now.y),
+                            }
+                        }
 
-                if (!class_cache[hash]) {
-                    class_cache[hash] = rainbow(Math.random())
+
+                    self.drag_polygon.remove()
+                    self.drag_polygon = boxPolygon(area)
+                        .setStyle({
+                            color: "#00FF21",
+                            fillColor: "#00FF21",
+                            interactive: false,
+                        }).addTo(self)
+                    self.drag_polygon.addTo(self)
                 }
+            },
 
-                let color = class_cache[hash]
+            "mouseup": () => {
+                self.dragstart = null
+                self.drag_polygon = null
 
-                this.equivalence_class_polygons.push(
-                    tilePolygon({x: x, y: y}).setStyle({
-                        color: color,
-                        opacity: 0
-                    }).addTo(this))
+                map.map.dragging.enable()
             }
+        })*/
+    }
+
+    remaining_candidates: MapCoordinate[] = this.clue.solution.candidates
+
+    rule_out(spots: MapCoordinate[]) {
+        this.set_remaining_candidates(this.remaining_candidates.filter((c) => !spots.some((b) => eq(c, b))))
+    }
+
+    rule_out_but(spots: MapCoordinate[]) {
+        this.set_remaining_candidates(this.remaining_candidates.filter((c) => spots.some((b) => eq(c, b))))
+    }
+
+    set_remaining_candidates(spots: MapCoordinate[]) {
+        this.remaining_candidates = spots
+        this.invalidateEquivalenceClasses()
+    }
+
+    pulse(spot: MapCoordinate, pulse: PulseType) {
+        this.set_remaining_candidates(
+            this.remaining_candidates.filter((s) => get_pulse(spot, s, this.clue.range + 5) == pulse)
+        )
+    }
+
+    pulse_area(area: Box, pulse: 1 | 2 | 3) {
+
+    }
+
+    private draw_equivalence_classes: boolean = false
+    private equivalence_classes: ScanEquivalenceClasses = null
+
+    private invalidateEquivalenceClasses() {
+        if (this.equivalence_classes) {
+            this.equivalence_classes.getClasses().forEach((c) => {
+                let p = c.getPolygon()
+                if (p) p.remove()
+            })
+
+            this.equivalence_classes = null
         }
+
+        if (this.draw_equivalence_classes) this.createEquivalenceClasses()
+    }
+
+    private createEquivalenceClasses() {
+        {
+            let startTime = performance.now()
+
+            this.equivalence_classes = new ScanEquivalenceClasses(this.remaining_candidates, this.clue.range + 5)
+
+            console.log(this.equivalence_classes.getClasses().map((c) => c.information_gain))
+
+            let endTime = performance.now()
+            console.log(`Created ${this.equivalence_classes.equivalence_classes.length} classes in ${endTime - startTime} milliseconds`)
+        }
+
+        {
+            let startTime = performance.now()
+
+            this.equivalence_classes.getClasses().forEach((c) => {
+                c.getPolygon().addTo(this)
+            })
+
+            let endTime = performance.now()
+
+            console.log(`Created ${this.equivalence_classes.equivalence_classes.length} polygons in ${endTime - startTime} milliseconds`)
+        }
+    }
+
+    protected setEquivalenceClassesEnabled(enabled: boolean) {
+        this.draw_equivalence_classes = enabled
+
+        this.invalidateEquivalenceClasses() // Redraw
+    }
+
+    private equivalenceClassesEnabled() {
+        return this.draw_equivalence_classes
+    }
+
+    setAreas(spots: ScanSpot[]) {
+        this.areas.forEach((a) => a.remove())
+
+        this.areas = spots.map((s) => new SpotPolygon(s))
+
+        this.areas.forEach((a) => a.addTo(this))
+    }
+
+    getArea(name: string): SpotPolygon {
+        return this.areas.find((a) => a.spot().name == name)
+    }
+
+    getMarker(i: number): TileMarkerWithActive {
+        return this.markers[i - 1]
     }
 
     on_marker_set(marker: TileMarker | null) {
@@ -145,16 +334,26 @@ export class ScanSolutionLayer extends Solutionlayer {
             botright: {x: center.x + 2 * radius, y: center.y - 2 * radius}
         }
 
-        console.log("Center: " + JSON.stringify(center))
-        console.log("Inner: " + JSON.stringify(inner))
-        console.log("Outer: " + JSON.stringify(outer))
-
         this.radius_polygon = [
             boxPolygon(inner).setStyle({color: "green", fillOpacity: 0.1}),
             boxPolygon(outer).setStyle({color: "yellow", fillOpacity: 0.1, dashArray: [5, 5]})
         ]
 
         this.radius_polygon.forEach((p) => p.addTo(this))
+    }
+}
+
+export class ScanEditLayer extends Solutionlayer {
+    constructor() {
+        super();
+    }
+
+    activate(map: GameMapControl) {
+        super.activate(map);
+    }
+
+    deactivate() {
+        super.deactivate();
     }
 }
 

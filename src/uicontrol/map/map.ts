@@ -185,7 +185,7 @@ export class GameMapControl {
             if (this.custom_marker) {
                 let old_c = this.custom_marker.getSpot()
                 this.custom_marker.remove()
-                if(this.activeLayer) this.activeLayer.on_marker_set(null)
+                if (this.activeLayer) this.activeLayer.on_marker_set(null)
                 this.custom_marker = null
 
                 // If the same spot is clicked without hitting the marker, remove it without spawning a new one
@@ -198,11 +198,11 @@ export class GameMapControl {
                 .withLabel(`[${c.x}, ${c.y}]`, "spot-number", [0, 10])
                 .on("click", () => {
                     this.custom_marker.remove()
-                    if(this.activeLayer) this.activeLayer.on_marker_set(null)
+                    if (this.activeLayer) this.activeLayer.on_marker_set(null)
                 })
                 .addTo(this.map)
 
-            if(this.activeLayer) this.activeLayer.on_marker_set(this.custom_marker)
+            if (this.activeLayer) this.activeLayer.on_marker_set(this.custom_marker)
         })
 
         new RsBaseTileLayer([
@@ -231,9 +231,14 @@ export class GameMapControl {
         let preferred = this.methodLayer || this.solutionLayer
 
         if (this.activeLayer != preferred) {
-            if (this.activeLayer) this.activeLayer.remove()
+            if (this.activeLayer) {
+                this.activeLayer.remove()
+                this.activeLayer.deactivate()
+            }
             this.activeLayer = preferred
             this.activeLayer.addTo(this.map)
+
+            this.activeLayer.activate(this)
 
             if (fit) this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 4})
         }
@@ -257,5 +262,12 @@ export class GameMapControl {
 
     getMethodLayer() {
         return this.methodLayer
+    }
+
+    tileFromMouseEvent(e: leaflet.LeafletMouseEvent): MapCoordinate {
+        return {
+            x: Math.round(e.latlng.lng),
+            y: Math.round(e.latlng.lat)
+        }
     }
 }

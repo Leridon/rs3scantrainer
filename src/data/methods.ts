@@ -323,12 +323,12 @@ function loadScanMethods() {
                 {"x": 3172, "y": 9570, "level": 0}
             ],
             [
-                {name: "A", spot: {x: 3226, y: 9542}},
-                {name: "B", spot: {x: 3226, y: 9547}},
-                {name: "C", spot: {x: 3221, y: 9552}},
-                {name: "D", spot: {x: 3221, y: 9556}},
-                {name: "E", spot: {x: 3206, y: 9553}},
-                {name: "F", spot: {x: 3204, y: 9553}},
+                {name: "A", tile: {x: 3226, y: 9542}},
+                {name: "B", tile: {x: 3226, y: 9547}},
+                {name: "C", tile: {x: 3221, y: 9552}},
+                {name: "D", tile: {x: 3221, y: 9556}},
+                {name: "E", tile: {x: 3206, y: 9553}},
+                {name: "F", tile: {x: 3204, y: 9553}},
             ],
             {
                 "-A": {
@@ -429,8 +429,8 @@ function loadScanMethods() {
                 {name: "B", area: {topleft: {x: 2918, y: 9702}, botright: {x: 2924, y: 9700}}},
                 {name: "C", area: {topleft: {x: 2906, y: 9722}, botright: {x: 2909, y: 9719}}},
                 {name: "D", area: {topleft: {x: 2908, y: 9742}, botright: {x: 2912, y: 9742}}},
-                {name: "E", spot: {x: 2914, y: 9742}},
-                {name: "F", spot: {x: 2886, y: 9795}},
+                {name: "E", tile: {x: 2914, y: 9742}},
+                {name: "F", tile: {x: 2886, y: 9795}},
                 {name: "G", area: {topleft: {x: 2881, y: 9833}, botright: {x: 2887, y: 9828}}},
             ],
             {
@@ -561,8 +561,8 @@ function loadScanMethods() {
                 {name: "B", area: {topleft: {x: 3223, y: 3424}, botright: {x: 3224, y: 3422}}},
                 {name: "C", area: {topleft: {x: 3233, y: 3414}, botright: {x: 3234, y: 3412}}},
                 {name: "D", area: {topleft: {x: 3242, y: 3418}, botright: {x: 3244, y: 3417}}},
-                {name: "E", spot: {x: 3254, y: 3449}},
-                {name: "F", spot: {x: 3244, y: 3459}},
+                {name: "E", tile: {x: 3254, y: 3449}},
+                {name: "F", tile: {x: 3244, y: 3459}},
                 {name: "G", area: {topleft: {x: 3179, y: 3420}, botright: {x: 3183, y: 3416}}},
                 {name: "H", area: {topleft: {x: 3162, y: 3466}, botright: {x: 3163, y: 3462}}},
             ],
@@ -666,7 +666,7 @@ function loadScanMethods() {
         )
     })
 
-    associate({
+    associate({ // Keldagrim
         id: 353,
         method: (clue) => tree(clue as ScanStep,
             [
@@ -689,12 +689,12 @@ function loadScanMethods() {
                 {"x": 2822, "y": 10193, "level": 0},
                 {"x": 2846, "y": 10233, "level": 0}],
             [
-                {name: "A", spot: {x: 2939, y: 10198}},
-                {name: "B", spot: {x: 2924, y: 10191}},
-                {name: "C", spot: {x: 2910, y: 10178}},
+                {name: "A", tile: {x: 2939, y: 10198}},
+                {name: "B", tile: {x: 2924, y: 10191}},
+                {name: "C", tile: {x: 2910, y: 10178}},
                 {name: "D", area: {topleft: {x: 2856, y: 10201}, botright: {x: 2860, y: 10197}}},
-                {name: "E", spot: {x: 2853, y: 10199}},
-                {name: "F", spot: {x: 2858, y: 10199}},
+                {name: "E", tile: {x: 2853, y: 10199}},
+                {name: "F", tile: {x: 2858, y: 10199}},
                 //{name: "B", area: {topleft: {x: 2923, y: 10195}, botright: {x: 2926, y: 10189}}}
             ],
             {
@@ -874,12 +874,12 @@ function loadScanMethods() {
                 {"x": 2739, "y": 5253, "level": 1}],
             [
                 {name: "A", area: {topleft: {x: 2721, y: 5266}, botright: {x: 2724, y: 5263}}},
-                {name: "B", spot: {x: 2726, y: 5266}},
+                {name: "B", tile: {x: 2726, y: 5266}},
                 {name: "C", area: {topleft: {x: 2712, y: 5277}, botright: {x: 2715, y: 5273}}},
                 {name: "D", area: {topleft: {x: 2713, y: 5281}, botright: {x: 2714, y: 5281}}},
                 {name: "E", area: {topleft: {x: 2713, y: 5285}, botright: {x: 2714, y: 5285}}},
                 {name: "F", area: {topleft: {x: 2696, y: 5311}, botright: {x: 2701, y: 5307}}},
-                {name: "G", spot: {x: 2701, y: 5305}},
+                {name: "G", tile: {x: 2701, y: 5305}},
                 {name: "H", area: {topleft: {x: 2701, y: 5336}, botright: {x: 2701, y: 5328}}},
                 {name: "I", area: {topleft: {x: 2707, y: 5353}, botright: {x: 2707, y: 5343}}},
                 {name: "J", area: {topleft: {x: 2707, y: 5290}, botright: {x: 2712, y: 5290}}},
@@ -1036,72 +1036,88 @@ function loadScanMethods() {
             )
     )*/
 
-    /*
+
     associate({
         id: 352, // ardounge
-        method: tree("assets/scanassets/ardounge/ardoungemap.png",
-            step("Ardounge teleport to", "A")
-                .howto({
+        method: (clue) => tree(clue as ScanStep,
+            [{"x": 2662, "y": 3304, "level": 0},
+                {"x": 2635, "y": 3313, "level": 0},
+                {"x": 2623, "y": 3311, "level": 0},
+                {"x": 2625, "y": 3292, "level": 0},
+                {"x": 2662, "y": 3338, "level": 0},
+                {"x": 2633, "y": 3339, "level": 0},
+                {"x": 2613, "y": 3337, "level": 0},
+                {"x": 2537, "y": 3306, "level": 0},
+                {"x": 2540, "y": 3331, "level": 0},
+                {"x": 2520, "y": 3318, "level": 0},
+                {"x": 2517, "y": 3281, "level": 0},
+                {"x": 2509, "y": 3330, "level": 0},
+                {"x": 2500, "y": 3290, "level": 0},
+                {"x": 2496, "y": 3282, "level": 0},
+                {"x": 2512, "y": 3267, "level": 0},
+                {"x": 2529, "y": 3270, "level": 0},
+                {"x": 2569, "y": 3340, "level": 0},
+                {"x": 2570, "y": 3321, "level": 0},
+                {"x": 2582, "y": 3314, "level": 0},
+                {"x": 2583, "y": 3265, "level": 0},
+                {"x": 2589, "y": 3330, "level": 0},
+                {"x": 2589, "y": 3319, "level": 0},
+                {"x": 2483, "y": 3313, "level": 0},
+                {"x": 2475, "y": 3331, "level": 0},
+                {"x": 2467, "y": 3319, "level": 0},
+                {"x": 2462, "y": 3282, "level": 0},
+                {"x": 2442, "y": 3310, "level": 0},
+                {"x": 2440, "y": 3319, "level": 0}],
+            [
+                {name: "A", area: {topleft: {x: 2659, y: 3306}, botright: {x: 2665, y: 3300}}},
+                {name: "B", area: {topleft: {x: 2648, y: 3308}, botright: {x: 2650, y: 3306}}},
+                {name: "C", tile: {x: 2538, y: 3306}},
+                {name: "D", tile: {x: 2531, y: 3303}},
+                {name: "E", tile: {x: 2521, y: 3293}},
+            ],
+            {
+                "-A": {
                     video: videos.ardounge.toA,
                     text: "Teleport to ardounge (Spot A)."
-                })
-                .triple(1)
-                .triple(2)
-                .double(step("Dive to", "B")
-                    .triple(2)
-                    .triple(3)
-                    .triple(4)
-                    .double(step("Teleport to ardounge lodestone")
-                        .howto({
-                            text: "The spot is to the north, use the lodestone."
-                        })
-                        .double(solved(5))
-                        .triple(6)
-                        .triple(7)
+                },
+                "A-C": {
+                    video: videos.ardounge.AtoC,
+                    text: "Ruled out most of east ardounge, teleport to C with Dave's spellbook (4)."
+                },
+                "C-D": {}
+            },
+            goTo("A", "Ardounge teleport to {}.")
+                .triple(1, 2)
+                .double(goTo("B", "Dive to {}.")
+                    .triple(2, 3, 4)
+                    .double(decide("Teleport to ardounge lodestone")
+                        .double(digAt(5))
+                        .triple(6, 7)
                     )
                 )
-                .single(step("Dave's spellbook to", "C")
-                    .howto({
-                        video: videos.ardounge.AtoC,
-                        text: "Ruled out most of east ardounge, teleport to C with Dave's spellbook (4)."
-                    })
-                    .triple(8)
-                    .triple(9)
-                    .triple(10)
-                    .triple(11)
-                    .single(step("The spot is at the western end")
-                        .howto({
-                            text: "Dive/Surge to the west. Hug the north wall of the long buildings so you don't miss 26."
-                        })
-                        .solution(23)
-                        .solution(24)
-                        .solution(25)
-                        .solution(26)
-                        .solution(27)
-                        .solution(28)
+                .single(goTo("C", "Dave's spellbook to {}.")
+                    .triple(8, 9, 10, 11)
+                    .single(decide("The spot is at the western end")
+                        .answer("23", digAt(23))
+                        .answer("24", digAt(24))
+                        .answer("25", digAt(25))
+                        .answer("26", digAt(26))
+                        .answer("27", digAt(27))
+                        .answer("28", digAt(28))
                     )
-                    .double(step("Step/Dive to", "D")
-                        .howto({
-                            video: videos.ardounge.CtoD,
-                            text: "Walk 1 square west then dive to D, to have E accessible via surge. D is the tile directly east of the manhole cover."
-                        })
+                    .double(goTo("D", "Step/Dive to {}")
                         .triple(12)
-                        .single(step("Go through the manhole")
-                            .triple(21)
-                            .triple(22)
+                        .single(decide("Go through the manhole")
+                            .triple(21, 22)
                         )
-                        .double(step("Surge to", "E")
-                            .triple(13)
-                            .triple(14)
-                            .triple(15)
-                            .triple(16)
-                            .double(step("Go through the manhole")
-                                .triple(17)
-                                .triple(18)
+                        .double(goTo("E", "Surge to {}.")
+                            .triple(13, 14, 15, 16)
+                            .double(decide("Go through the manhole")
+                                .triple(17, 18)
                             )
-                            .single(step("Teleport back to C and use the gate")
+                            .single(goTo("C", "Teleport back to {} and use the gate")
                                 .triple(19)
-                                .double(solved(20))
+                                .double(digAt(20))
                             )
                         )
                     )
@@ -1109,6 +1125,7 @@ function loadScanMethods() {
         )
     })
 
+    /*
     associate({
         id: 355, // piscatoris
         method: tree("assets/scanassets/piscatoris/piscatoris.png",

@@ -2,6 +2,7 @@ import {ClueStep, ScanStep} from "./clues";
 import {Application, scantrainer} from "../application";
 import {Box, MapCoordinate} from "./coordinates";
 import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
+import {modal, Modal} from "../uicontrol/widgets/modal";
 
 export type Video = {
     ref: string,
@@ -22,12 +23,19 @@ export abstract class Method {
 
     abstract howto(): HowTo
 
-    abstract sendToUi(trainer: Application): void
+    abstract explanationModal(): Modal
 
-    public abstract explanation(): JQuery
+    abstract sendToUi(trainer: Application): void
 }
 
-export type ScanSpot = { name: string, area?: Box, spot?: MapCoordinate, is_far_away?: boolean }
+export type ScanSpot = { name: string, area?: Box, tile?: MapCoordinate, is_far_away?: boolean }
+
+class ScanExplanationModal extends Modal {
+
+    protected hidden() {
+        ($("#pingexplanationvideo").get(0) as HTMLVideoElement).pause();
+    }
+}
 
 export class ScanTree extends Method {
     constructor(public clue: ScanStep,
@@ -39,6 +47,11 @@ export class ScanTree extends Method {
 
         root.setRoot(this)
     }
+
+    explanationModal(): Modal {
+        return modal("modal-scantree-method-explanation", ScanExplanationModal);
+    }
+
 
     sendToUi(app: Application): void {
         app.howtotabs.map.setMethodLayer(new ScanTreeMethodLayer(this))
@@ -60,10 +73,6 @@ export class ScanTree extends Method {
 
     area(name: string): ScanSpot {
         return this.scan_spots.find((s) => s.name == name)
-    }
-
-    explanation(): JQuery {
-        return $("<div>")
     }
 }
 
@@ -153,16 +162,21 @@ export class ScanTreeNode {
 
     sendToUI(app: Application) {
         {
+            let layer = app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer
+            /*
             let rel = [this.where]
             if (this.parent) rel.push(this.parent.node.where);
 
-            let layer = app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer
+            let ca = this.solved != null ? [this.solved] : []
+
 
             layer.setRelevant(
-                this.candidates(),
+                ca,
                 rel,
                 true
-            )
+            )*/
+
+            layer.setNode(this)
         }
 
         {

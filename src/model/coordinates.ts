@@ -1,4 +1,7 @@
 import * as leaflet from "leaflet";
+import {Raster} from "../util/raster";
+import {Browser} from "leaflet";
+import win = Browser.win;
 
 
 export type GieliCoordinates = {
@@ -19,6 +22,11 @@ export type Vector2 = { x: number, y: number }
 export type MapCoordinate = Vector2 & {
     level?: number
 }
+
+export function eq(a: MapCoordinate, b: MapCoordinate) {
+    return a.x == b.x && a.y == b.y     // Ignores level for spot equality
+}
+
 export type Box = { topleft: Vector2, botright: Vector2 }
 
 export function toBounds(box: Box) {
@@ -41,24 +49,122 @@ export function contains(box: Box, tile: Vector2) {
 
 export type Area = { tiles: MapCoordinate[] }
 type corner = 0 | 1 | 2 | 3
-type TileCorner = { tile: MapCoordinate, corner: corner }
 
-export function toCoords(point: TileCorner): MapCoordinate {
-    return {
-        x: point.tile.x - 0.5 + Math.floor(point.corner / 2),
-        y: point.tile.y - 0.5 + (point.corner % 2)
-    }
-}
 
 export function toLeafletLatLngExpression(point: MapCoordinate): [number, number] {
     return [point.y, point.x]
 }
 
-export function areaToPolygon(area: Area) {
-    function a(coordinates: MapCoordinate) {
-        return area.tiles.findIndex((e) => e.x == coordinates.x && e.y == coordinates.y) >= 0
+export function t(area: Area) {
+    let bounds = leaflet.bounds(area.tiles.map((c) => leaflet.point(c.x, c.y)))
+
+    let raster = new Raster({
+        left: bounds.getTopLeft().x - 1,
+        right: bounds.getTopRight().x + 1,
+        top: bounds.getBottomLeft().y + 1,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
+        bottom: bounds.getTopLeft().y - 1
+    })
+
+    raster.data.fill(false)
+
+    area.tiles.forEach((t) => {
+        raster.data[raster.xyToI(t)] = true
+    })
+}
+
+
+export function areaToPolygon<T>(raster: Raster<T>,
+                                 f: (T) => boolean,
+                                 s: number) {
+    type TileCorner = { tile: number, corner: corner }
+
+    function area(i: number) {
+        let a = raster.data[i]
+        return a && f(a)
     }
 
+    function toCoords(point: TileCorner): MapCoordinate {
+        let xy = raster.iToXY(point.tile)
+
+        return {
+            x: xy.x - 0.5 + Math.floor(point.corner / 2),
+            y: xy.y - 0.5 + (point.corner % 2)
+        }
+    }
+
+    // Find a start point that is on the border of the shape. Assumes there are no holes in the shape
+    let startpoint = s
+    while (area(startpoint - 1)) startpoint -= 1
+    while (area(startpoint - raster.size.x)) startpoint -= raster.size.x
+
+    let start: TileCorner = {tile: startpoint, corner: 0}
+    let current: TileCorner = {tile: startpoint, corner: 0}
+
+    function done() {
+        return start.tile == current.tile && start.corner == current.corner;
+    }
+
+    let polygon: MapCoordinate[] = []
+
+    do {
+        switch (current.corner) {
+            case 0: // Bottom left, going up
+            {
+                let i: number = current.tile
+
+                while (area(i + raster.size.x) && !area(i + raster.size.x - 1)) i += raster.size.x
+
+                polygon.push(toCoords({tile: i, corner: 1}))
+
+                if (area(i + raster.size.x - 1)) current = {tile: i + raster.size.x - 1, corner: 2} // Go left
+                else current = {tile: i, corner: 1} // Go right
+            }
+                break;
+            case 1: { // Top left, going right
+                let i = current.tile
+
+                while (area(i + 1) && !area(i + raster.size.x + 1)) i += 1
+
+                polygon.push(toCoords({tile: i, corner: 3}))
+
+                if (area(i + raster.size.x + 1)) current = {tile: i + raster.size.x + 1, corner: 0}  // Go up
+                else current = {tile: i, corner: 3} // Go down
+
+                break;
+            }
+
+            case 2: { // Bottom right, going left
+                let i = current.tile
+
+                while (area(i - 1) && !area(i - raster.size.x - 1)) i -= 1
+
+                polygon.push(toCoords({tile: i, corner: 0}))
+
+                if (area(i - raster.size.x - 1)) current = {tile: i - raster.size.x - 1, corner: 3}  // Go down
+                else current = {tile: i, corner: 0} // Go up
+
+                break;
+            }
+            case 3: {// Top right, going down
+                let i = current.tile
+
+                while (area(i - raster.size.x) && !area(i - raster.size.x + 1)) i -= raster.size.x
+
+                polygon.push(toCoords({tile: i, corner: 2}))
+
+                if (area(i - raster.size.x + 1)) current = {tile: i - raster.size.x + 1, corner: 1}  // Go right
+                else current = {tile: i, corner: 2} // Go left
+
+                break;
+            }
+
+        }
+
+    } while (!done())
+
+    return leaflet.polygon(polygon.map(toLeafletLatLngExpression))
+
+    /*
     // Find a start point that is on the border of the shape. Assumes there are no holes in the shape
     let startpoint = area.tiles[0]
     while (a({x: startpoint.x - 1, y: startpoint.y})) startpoint = {x: startpoint.x - 1, y: startpoint.y}
@@ -111,16 +217,16 @@ export function areaToPolygon(area: Area) {
         }
     } while (!done())
 
-    return leaflet.polygon(polygon.map((c) => [c.y, c.x] as [number, number]))
+    return leaflet.polygon(polygon.map((c) => [c.y, c.x] as [number, number]))*/
 }
 
 export function tilePolygon(tile: MapCoordinate) {
     return leaflet.polygon([
-        {tile: tile, corner: 0},
-        {tile: tile, corner: 1},
-        {tile: tile, corner: 3},
-        {tile: tile, corner: 2},
-    ].map(toCoords).map(toLeafletLatLngExpression))
+        {x: tile.x - 0.5, y: tile.y - 0.5},
+        {x: tile.x - 0.5, y: tile.y + 0.5},
+        {x: tile.x + 0.5, y: tile.y + 0.5},
+        {x: tile.x + 0.5, y: tile.y - 0.5},
+    ].map(toLeafletLatLngExpression))
 }
 
 export function boxPolygon(tile: Box) {

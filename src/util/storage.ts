@@ -21,9 +21,18 @@ export namespace storage {
             return this.value
         }
 
-        set(value: type){
+        set(value: type) {
             this.value = value
             set(this.key, value)
+        }
+
+        map(f: (type) => (type | void)) {
+            let old = this.get()
+            let n = f(this.get())
+
+            if (n == null) n = old // Assume f changed the value in place instead of constructing a new one
+
+            this.set(n as type)
         }
 
         save() {

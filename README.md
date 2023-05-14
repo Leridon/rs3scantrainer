@@ -64,6 +64,6 @@ Also thanks to the guide writers and theorycrafters over at the [Clue Chasers Di
 
 ## Future Plans
 
-Plans for the immediate future are to finish mapping the remaining scan routes and improve the readability of instructions, allow configuring and filtering teleports and embed an explanation for how the methods work directly into the app.
+Plans for the immediate future are to finish mapping the remaining scan routes and improve the readability of instructions, allow configuring and filtering teleports.
 
-Longer term plans (no guarantees) include embedding solving methods for other clue types than just scans.
+Longer term plans (no guarantees) are inclusion of solving methods for other clue types than just scans.

@@ -180,7 +180,7 @@ html, body {
     height: 2em;
 }
 
-#nextscanstep {
+.nextstep {
     font-size: 20px;
     font-weight: bold;
 }
@@ -199,14 +199,6 @@ html, body {
     width: 100%;
 }
 
-.my-tooltip {
-    position: relative;
-    width: 20px;
-    height: 20px;
-    font-size: 14pt;
-    color: #00FF21;
-}
-
 .spot-number {
     background-color: transparent;
     border: transparent;
@@ -214,6 +206,21 @@ html, body {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     color: gold;
     font-size: 1rem;
+}
+
+.equivalence-class-information {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: gold;
+    font-size: 1rem;
+    text-align: center;
+    vertical-align: center;
+    width: 50px;
+    /*
+        left: -25px;
+        top: -10px;*/
 }
 
 .area-name {
@@ -320,4 +327,102 @@ html, body {
 #filters > div {
     padding-top: 1px;
     padding-bottom: 1px;
+}
+
+.modal-content {
+    background-image: url('assets/style/background.png')
+}
+
+.img-button {
+    height: 80%;
+    cursor: pointer;
+}
+
+.inline-img {
+    height: 1.5em;
+}
+
+a {
+    text-decoration: none;
+}
+
+video {
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.btn-nis {
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'trajan-pro-3', serif;
+    text-shadow: 1px 1px 2px #ECC622;
+    font-size: 14px;
+    margin: 5px;
+    padding: 0px 12px;
+    line-height: 32px;
+    color: #00000A;
+    border-top: 1px #fef6d7;
+    border-bottom: 1px #381e02;
+    background: linear-gradient(to bottom, #fad54e, #ce720a);
+}
+
+.btn-nis:hover {
+    border-top: 1px #edeeee;
+    border-bottom: 1px #381e02;
+    background: linear-gradient(to bottom, #ffff78, #f1a800);
+}
+
+.btn-nis:active {
+    background: #ffff78;
+}
+
+.icon-button {
+    cursor: pointer;
+}
+
+.modal {
+    --bs-modal-padding: 0.5rem;
+    --bs-modal-footer-border-color: rgba(65, 85, 95, 0.5);
+    --bs-modal-header-border-color: rgba(65, 85, 95, 0.5);
+}
+
+.modal-content {
+    border-radius: 1rem;
+    border: 2px solid rgb(43, 58, 67);
+}
+
+.modal-exit {
+    padding: calc(var(--bs-modal-header-padding-y) * .5) calc(var(--bs-modal-header-padding-x) * .5);
+    margin: calc(-.5 * var(--bs-modal-header-padding-y)) calc(-.5 * var(--bs-modal-header-padding-x)) calc(-.5 * var(--bs-modal-header-padding-y)) auto;
+}
+
+.modal-header {
+    color: #FFCB05FF;
+    background: #23323B80;
+    font-family: 'trajan-pro-3', serif;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px #ECC622;
+}
+
+.exit-button {
+    background-image: url("assets/icons/exit.png");
+    height: 22px;
+    width: 22px;
+}
+
+.leaflet-button {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 3px;
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-button > img {
+    width: 16px;
+    height: 16px;
+}
+
+.leaflet-button:hover {
+    background-color: #f4f4f4;
 }

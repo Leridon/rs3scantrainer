@@ -1,8 +1,8 @@
-RELEASE 0.2
+RELEASE 1.0
 - Finish scan mapping and record more clips.
     - Fix some clue spots being on a different level
 
-- Display a "how does this work" button for scans.
+- Manual scan solving
 
 - Arrow key/enter control for the search.
 - Finish styling
@@ -21,15 +21,17 @@ Done:
 - Falador
 - Keldagrim
 - Dorgesh-Kaan
+- Ardounge
+
+Next up:
+- Fremennik Isles
+- Haunted Woods
 
 
 Scan maps:
-- Ardounge
 - Brimhaven
 - Darkmeyer
-- Fremennik Isles
 - Fremennik Slayer Dungeon
-- Haunted Woods
 - Heart of Gielinor
 - Elven Lands
 - Turtle Islands
@@ -42,19 +44,20 @@ Scan maps:
 
 - Collapsible panels
 
-Debugging: Draw tile grid on the map
-
-
 - Add method display like the old clueguider
 - Add methods for remaining clue types.
 - Add puzzle solvers
 
 
+Figure out z-Ordering of layers (need to use panes probably)
+
 Teleports:
 - Add configuration options
 - Figure out how to handle RoW/LotD/HSR
-- Add Dragon Trinket teleports
 
 Figure out hosting
 
 Warn when not using meerkats
+
+Information theory and equivalence classes from scans also apply to compasses.
+

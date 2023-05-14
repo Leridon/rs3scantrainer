@@ -20,9 +20,14 @@ class BetaNoticeModal extends Modal {
 
 class PatchNotesModal extends Modal {
     sections: { el: JQuery, patchnotes: string }[]
+    all_title: JQuery
+    new_title: JQuery
 
     constructor(id: string, private app: Application) {
         super(id);
+
+        this.all_title = $("#patch-note-title-all")
+        this.new_title = $("#patch-note-title-new")
 
         this.sections = $(".patchnotesection").get().map($).map((e: JQuery) => {
             return {
@@ -40,8 +45,10 @@ class PatchNotesModal extends Modal {
 
 
     showNew() {
-        let seen = this.app.startup_settings.get().seen_changelogs
+        this.all_title.hide()
+        this.new_title.show()
 
+        let seen = this.app.startup_settings.get().seen_changelogs
 
         this.sections.forEach((el) => {
             if (seen.includes(el.patchnotes)) el.el.hide()
@@ -55,6 +62,29 @@ class PatchNotesModal extends Modal {
         return this.show()
     }
 
+    showAll() {
+        this.all_title.show()
+        this.new_title.hide()
+
+        this.sections.forEach((el) => {
+            el.el.show()
+        })
+
+        return this.show()
+    }
+
+}
+
+class AboutModal extends Modal {
+
+    constructor(id: string, private app: Application) {
+        super(id);
+        $("#viewpatchnotes").on("click", async () => {
+            this.hide()
+            await this.app.patch_notes_modal.showAll()
+            this.show()
+        })
+    }
 }
 
 export class Application {
@@ -74,6 +104,7 @@ export class Application {
 
     beta_notice_modal = new BetaNoticeModal("modal-public-beta", this)
     patch_notes_modal = new PatchNotesModal("modal-patchnotes", this)
+    about_modal = new AboutModal("modal-about", this)
 
     constructor() {
     }

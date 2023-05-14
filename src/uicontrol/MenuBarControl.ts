@@ -15,7 +15,7 @@ export default class MenuBarControl {
         this.solve = new SolveControl(app)
 
         // Hide for now
-        $("#infobutton").on("click", () => $("#modal-about").modal("show"))
+        $("#infobutton").on("click", () => app.about_modal.show())
         $("#settingsbutton").hide()
     }
 }

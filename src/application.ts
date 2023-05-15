@@ -84,6 +84,8 @@ class AboutModal extends Modal {
             await this.app.patch_notes_modal.showAll()
             this.show()
         })
+
+        $("#current-version").text(app.patch_notes_modal.sections[0].patchnotes)
     }
 }
 

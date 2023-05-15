@@ -1,9 +1,9 @@
-import {ClueStep, pretty, SetSolution, SimpleSolution, Solution, VariantSolution} from "../model/clues";
+import {ClueStep, pretty, SimpleSolution} from "../model/clues";
 import {icons} from "../constants";
 import {forClue} from "../data/methods";
 import {Method} from "../model/methods";
 import {Application} from "../application";
-import {getSolutionLayer} from "./map/solutionlayer";
+import {getSolutionLayer} from "./map/activeLayer";
 
 export default class CluePanelControl {
 
@@ -37,20 +37,8 @@ export default class CluePanelControl {
             .attr("src", icons.types[clue.type])
             .attr("title", pretty(clue.type))
 
-        if (clue.solution && false) {
-            // TODO: Reenable solutions when they are ready.
-            $("#cluesolution").show()
-
-            if (clue.solution.type == "simple") {
-                // TODO: Display coordinates with map
-                $("#cluesolutioncontent").text((clue.solution as SimpleSolution).answer)
-            }
-            // TODO: Display other solution types.
-        } else {
-            $("#cluesolution").hide()
-        }
-
-        this.app.howtotabs.map.setSolutionLayer(getSolutionLayer(clue))
+        $("#cluesolution").hide()
+        this.app.howtotabs.map.setActiveLayer(getSolutionLayer(clue, this.app))
 
         let methods = forClue(clue)
 

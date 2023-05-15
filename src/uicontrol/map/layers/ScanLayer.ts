@@ -1,53 +1,12 @@
-import {ClueStep, ScanStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
-import {GameMapControl, TileMarker} from "./map";
-import * as leaflet from "leaflet"
-import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../model/coordinates";
-import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../model/scans/scans";
-import {ScanSpot} from "../../model/methods";
-import {ImageButton} from "./CustomControl";
-
-export class TileMarkerWithActive extends TileMarker {
-
-    private active: boolean = true
-
-    isActive() {
-        return this.active
-    }
-
-    setActive(isActive: boolean) {
-        this.active = isActive
-
-        if (isActive) this.setOpacity(1)
-        else this.setOpacity(0.2)
-    }
-}
-
-export abstract class Solutionlayer extends leaflet.FeatureGroup {
-    protected map: GameMapControl = null
-    private controls: leaflet.Control[] = []
-
-    protected addControl(control: leaflet.Control) {
-        this.controls.push(control)
-
-        if (this.map) this.map.map.addControl(control)
-    }
-
-    activate(map: GameMapControl) {
-        this.map = map
-
-        this.controls.forEach((e) => e.addTo(map.map))
-    }
-
-    deactivate() {
-        this.map = null
-
-        this.controls.forEach((e) => e.remove())
-    }
-
-    on_marker_set(marker: TileMarker) {
-    }
-}
-
+import * as leaflet from "leaflet";
+import {ScanSpot} from "../../../model/methods";
+import {Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../../model/coordinates";
+import {ScanStep, SetSolution} from "../../../model/clues";
+import {ImageButton} from "../CustomControl";
+import {GameMapControl, TileMarker} from "../map";
+import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
+import {Application} from "../../../application";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -114,7 +73,7 @@ class SpotPolygon extends leaflet.FeatureGroup {
     }
 }
 
-export class ScanSolutionLayer extends Solutionlayer {
+export class ScanLayer extends ActiveLayer {
     protected markers: TileMarkerWithActive[]
     protected areas: SpotPolygon[] = []
     protected range: number
@@ -123,7 +82,7 @@ export class ScanSolutionLayer extends Solutionlayer {
 
     private ms: MapCoordinate[] = []
 
-    constructor(private clue: ScanStep) {
+    constructor(protected clue: ScanStep, protected app: Application) {
         super()
 
         this.range = clue.range + 5 // Always assume meerkats
@@ -147,7 +106,7 @@ export class ScanSolutionLayer extends Solutionlayer {
 
         this.set_remaining_candidates(clue.solution.candidates)
 
-        if(!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
+        if (!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
             this.addControl(new ImageButton("assets/icons/eqclasses.png", {
                 "click": (e) => {
                     this.setEquivalenceClassesEnabled(!this.draw_equivalence_classes)
@@ -343,9 +302,9 @@ export class ScanSolutionLayer extends Solutionlayer {
     }
 }
 
-export class ScanEditLayer extends Solutionlayer {
-    constructor() {
-        super();
+export class ScanEditLayer extends ScanLayer {
+    constructor(clue: ScanStep, app: Application) {
+        super(clue, app)
     }
 
     activate(map: GameMapControl) {
@@ -355,38 +314,4 @@ export class ScanEditLayer extends Solutionlayer {
     deactivate() {
         super.deactivate();
     }
-}
-
-export class SimpleMarkerLayer extends Solutionlayer {
-    constructor(private markers: TileMarker[]) {
-        super()
-
-        this.markers.forEach((e) => e.addTo(this))
-    }
-}
-
-export function getSolutionLayer(clue: ClueStep, variant: number = 0): Solutionlayer {
-    if (clue.type == "scan") {
-        return new ScanSolutionLayer(clue)
-    }
-
-    if (clue.solution) {
-        switch (clue.solution.type) {
-            case "coordset":
-                return new SimpleMarkerLayer((clue.solution as SetSolution).candidates.map((e) => {
-                    return new TileMarker(e).withMarker().withX("#B21319")
-                }))
-            case "simple":
-                return new SimpleMarkerLayer([
-                    new TileMarker((clue.solution as SimpleSolution).coordinates).withMarker().withX("#B21319")
-                ])
-            case "variants":
-                // TODO: Properly handle variant solutions
-                return new SimpleMarkerLayer([
-                    new TileMarker((clue.solution as VariantSolution).variants[variant].solution.coordinates).withMarker().withX("#B21319")
-                ])
-
-        }
-    }
-
 }

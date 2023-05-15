@@ -26,21 +26,21 @@ Done:
 Next up:
 - Fremennik Isles
 - Haunted Woods
+- Piscatoris
 
 
 Scan maps:
+- Menaphos
+- Desert
 - Brimhaven
-- Darkmeyer
 - Fremennik Slayer Dungeon
-- Heart of Gielinor
 - Elven Lands
 - Turtle Islands
-- Kharazi Jungle
-- Desert
-- Menaphos
-- Mos Le Harless
-- Piscatoris
+- Heart of Gielinor
+- Darkmeyer
 - Prifddinias
+- Kharazi Jungle
+- Mos Le Harmless
 
 - Collapsible panels
 

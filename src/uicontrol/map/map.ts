@@ -2,7 +2,7 @@ import * as leaflet from "leaflet";
 import {Layer} from "leaflet";
 import {TeleportLayer} from "./teleportlayer";
 import {MapCoordinate} from "../../model/coordinates";
-import {Solutionlayer} from "./solutionlayer";
+import {ActiveLayer} from "./activeLayer";
 
 type ElevationConfig = { dxdy: number, dzdy: number }
 type Layersource = { urls: string[], from?: number, to?: number, elevation?: ElevationConfig };
@@ -141,10 +141,8 @@ export class GameMapControl {
     map: leaflet.Map
 
     private teleportLayer: TeleportLayer
-    private solutionLayer: Solutionlayer = null
-    private methodLayer: Solutionlayer = null
 
-    private activeLayer: Solutionlayer = null
+    private activeLayer: ActiveLayer = null
 
     private custom_marker: TileMarker = null
 
@@ -227,41 +225,22 @@ export class GameMapControl {
         this.teleportLayer = new TeleportLayer().addTo(this.map).setZIndex(100)
     }
 
-    updateActiveLayer(fit: boolean) {
-        let preferred = this.methodLayer || this.solutionLayer
-
-        if (this.activeLayer != preferred) {
-            if (this.activeLayer) {
-                this.activeLayer.remove()
-                this.activeLayer.deactivate()
-            }
-            this.activeLayer = preferred
-            this.activeLayer.addTo(this.map)
-
-            this.activeLayer.activate(this)
-
-            if (fit) this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 4})
+    setActiveLayer(layer: ActiveLayer) {
+        if (this.activeLayer) {
+            this.activeLayer.deactivate()
+            this.activeLayer.remove()
         }
+
+        this.activeLayer = layer
+
+        this.activeLayer.addTo(this.map)
+        this.activeLayer.activate(this)
+
+        this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 4})
     }
 
-    setSolutionLayer(layer: Solutionlayer, fit: boolean = true) {
-        this.solutionLayer = layer.setZIndex(200)
-        this.methodLayer = null
-
-        this.updateActiveLayer(fit)
-    }
-
-    getSolutionLayer() {
-        return this.solutionLayer
-    }
-
-    setMethodLayer(layer: Solutionlayer, fit: boolean = true) {
-        this.methodLayer = layer.setZIndex(300)
-        this.updateActiveLayer(fit)
-    }
-
-    getMethodLayer() {
-        return this.methodLayer
+    getActiveLayer() {
+        return this.activeLayer
     }
 
     tileFromMouseEvent(e: leaflet.LeafletMouseEvent): MapCoordinate {

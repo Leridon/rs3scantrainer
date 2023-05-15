@@ -54,9 +54,7 @@ export class ScanTree extends Method {
 
 
     sendToUi(app: Application): void {
-        app.howtotabs.map.setMethodLayer(new ScanTreeMethodLayer(this))
-
-        this.root.sendToUI(app)
+        app.howtotabs.map.setActiveLayer(new ScanTreeMethodLayer(this, app))
     }
 
     howto(): HowTo {
@@ -162,7 +160,7 @@ export class ScanTreeNode {
 
     sendToUI(app: Application) {
         {
-            let layer = app.howtotabs.map.getMethodLayer() as ScanTreeMethodLayer
+            let layer = app.howtotabs.map.getActiveLayer() as ScanTreeMethodLayer
             /*
             let rel = [this.where]
             if (this.parent) rel.push(this.parent.node.where);

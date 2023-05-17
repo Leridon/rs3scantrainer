@@ -32,7 +32,7 @@ export default class SearchControl {
                 this.search_box.val("")
 
                 if (reltgt.hasClass("cluesearchresult") && reltgt.data("clue")) {
-                    this.app.cluepanel.selectClue(reltgt.data("clue"))
+                    this.app.sidepanels.clue_panel.selectClue(reltgt.data("clue"))
                     this.search_box.val("")
                 }
 
@@ -47,7 +47,7 @@ export default class SearchControl {
     private search_results = $("#searchresults").hide()
         .on("click", (e) => {
             if ($(e.target).data("clue")) {
-                this.app.cluepanel.selectClue($(e.target).data("clue"))
+                this.app.sidepanels.clue_panel.selectClue($(e.target).data("clue"))
                 this.search_box.val("")
             }
         })

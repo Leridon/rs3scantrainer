@@ -50,7 +50,10 @@ export class ScanTreeMethodLayer extends ScanLayer {
     }
 
     constructor(private scantree: ScanTree, app: Application) {
-        super(scantree.clue, app);
+        super(scantree.clue, app, {
+            show_edit_button: true,
+            show_equivalence_classes_button: true
+        });
 
         // sort markers to correlate to the spot mapping
         this.markers.sort((a, b) => scantree.spotToNumber(a.getSpot()) - scantree.spotToNumber(b.getSpot()))
@@ -66,6 +69,14 @@ export class ScanTreeMethodLayer extends ScanLayer {
     public activate(map: GameMapControl) {
         super.activate(map);
 
+        this.app.sidepanels.methods_panel.showSection("scantree")
+
         this.scantree.root.sendToUI(this.app)
+    }
+
+    deactivate() {
+        super.deactivate();
+
+        this.app.sidepanels.methods_panel.hide()
     }
 }

@@ -1,5 +1,5 @@
 import {storage} from "./util/storage";
-import CluePanelControl from "./uicontrol/CluePanelControl";
+import SidePanelControl from "./uicontrol/SidePanelControl";
 import HowToTabControls from "./uicontrol/HowToTabControl";
 import MenuBarControl from "./uicontrol/MenuBarControl";
 import {Modal} from "./uicontrol/widgets/modal";
@@ -94,7 +94,7 @@ export class Application {
 
     menubar = new MenuBarControl(this)
     howtotabs = new HowToTabControls(this)
-    cluepanel = new CluePanelControl(this)
+    sidepanels = new SidePanelControl(this)
 
     startup_settings = new storage.Variable<{
         hide_beta_notice: boolean,

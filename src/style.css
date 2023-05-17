@@ -47,7 +47,7 @@ html, body {
     text-overflow: ellipsis;*/
 }
 
-#solutionpanel {
+#sidebar-panels {
     overflow-y: auto;
 }
 
@@ -425,4 +425,11 @@ video {
 
 .leaflet-button:hover {
     background-color: #f4f4f4;
+}
+
+.area-div {
+    color: #00FF21;
+    background-color: #00FF2119;
+    border: 1px solid #00FF21;
+    padding: 4px;
 }

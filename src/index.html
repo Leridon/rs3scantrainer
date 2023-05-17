@@ -174,8 +174,8 @@
             </div>
         </div>
 
-        <div id="solutionpanel">
-            <div class="panel">
+        <div id="sidebar-panels">
+            <div id="clue-panel" class="panel">
                 <div style="display: flex">
                     <span class="paneltitle" id="clue-panel-title">Clue</span>
                     <span class="flex-grow-1"></span>
@@ -185,12 +185,12 @@
                 <span id="cluetext"></span>
             </div>
 
-            <div id="cluesolution" class="panel">
+            <div id="solution-panel" class="panel">
                 <div class="paneltitle">Solution</div>
                 <span id="cluesolutioncontent"></span>
             </div>
 
-            <div id="cluemethod" class="panel">
+            <div id="method-panel" class="panel">
                 <div style="display: flex">
                     <span class="paneltitle">Method</span>
                     <span class="flex-grow-1"></span>
@@ -199,7 +199,7 @@
                     </span>
                 </div>
 
-                <div class="cluemethodcontent" data-methodtype="scantree">
+                <div class="cluemethodcontent" data-methodsection="scantree">
                     <nav style="--bs-breadcrumb-divider: '>'; display: inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb" id="pathview">
                         </ol>
@@ -210,6 +210,10 @@
                     <div id="scantreeview">
 
                     </div>
+                </div>
+
+                <div class="cluemethodcontent" data-methodsection="scanedit">
+                    <div class="nextchoice">Add area</div>
                 </div>
             </div>
         </div>

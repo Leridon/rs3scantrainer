@@ -3,6 +3,8 @@ import {Application, scantrainer} from "../application";
 import {Box, MapCoordinate} from "./coordinates";
 import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
 import {modal, Modal} from "../uicontrol/widgets/modal";
+import * as leaflet from "leaflet"
+import {ActiveLayer} from "../uicontrol/map/activeLayer";
 
 export type Video = {
     ref: string,
@@ -25,7 +27,7 @@ export abstract class Method {
 
     abstract explanationModal(): Modal
 
-    abstract sendToUi(trainer: Application): void
+    abstract methodLayer(trainer: Application): ActiveLayer
 }
 
 export type ScanSpot = { name: string, area?: Box, tile?: MapCoordinate, is_far_away?: boolean }
@@ -52,9 +54,8 @@ export class ScanTree extends Method {
         return modal("modal-scantree-method-explanation", ScanExplanationModal);
     }
 
-
-    sendToUi(app: Application): void {
-        app.howtotabs.map.setActiveLayer(new ScanTreeMethodLayer(this, app))
+    methodLayer(app: Application): ActiveLayer {
+        return new ScanTreeMethodLayer(this, app)
     }
 
     howto(): HowTo {

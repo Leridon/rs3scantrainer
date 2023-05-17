@@ -7,6 +7,7 @@ import {GameMapControl, TileMarker} from "../map";
 import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
+import * as events from "events";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -82,7 +83,12 @@ export class ScanLayer extends ActiveLayer {
 
     private ms: MapCoordinate[] = []
 
-    constructor(protected clue: ScanStep, protected app: Application) {
+    constructor(protected clue: ScanStep, protected app: Application,
+                options: {
+                    show_edit_button?: boolean,
+                    show_equivalence_classes_button?: boolean
+                } = {}
+    ) {
         super()
 
         this.range = clue.range + 5 // Always assume meerkats
@@ -107,13 +113,28 @@ export class ScanLayer extends ActiveLayer {
         this.set_remaining_candidates(clue.solution.candidates)
 
         if (!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
-            this.addControl(new ImageButton("assets/icons/eqclasses.png", {
-                "click": (e) => {
-                    this.setEquivalenceClassesEnabled(!this.draw_equivalence_classes)
-                }
-            }, {
-                title: "Toggle equivalence classes."
-            }).setPosition("topright"),)
+
+            if (options.show_equivalence_classes_button)
+                this.addControl(new ImageButton("assets/icons/eqclasses.png", {
+                    "click": (e) => {
+                        this.setEquivalenceClassesEnabled(!this.draw_equivalence_classes)
+                    }
+                }, {
+                    title: "Toggle equivalence classes."
+                }).setPosition("topright"))
+
+            if (options.show_edit_button && !app.in_alt1)
+                this.addControl(new ImageButton("assets/icons/lock.png", {
+                    "click": (e) => {
+                        let l = new ScanEditLayer(this.clue, this.app)
+
+                        l.setAreas(this.areas.map((s) => s.spot()))
+
+                        this.map.setActiveLayer(l)
+                    }
+                }, {
+                    title: "Edit scan route (Advanced)"
+                }).setPosition("topright"))
         }
     }
 
@@ -294,8 +315,8 @@ export class ScanLayer extends ActiveLayer {
         }
 
         this.radius_polygon = [
-            boxPolygon(inner).setStyle({color: "green", fillOpacity: 0.1}),
-            boxPolygon(outer).setStyle({color: "yellow", fillOpacity: 0.1, dashArray: [5, 5]})
+            boxPolygon(inner).setStyle({color: "green", fillOpacity: 0}),
+            boxPolygon(outer).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]})
         ]
 
         this.radius_polygon.forEach((p) => p.addTo(this))
@@ -303,12 +324,33 @@ export class ScanLayer extends ActiveLayer {
 }
 
 export class ScanEditLayer extends ScanLayer {
+    private panel_content = $(".cluemethodcontent[data-methodsection=scanedit]")
+
     constructor(clue: ScanStep, app: Application) {
-        super(clue, app)
+        super(clue, app, {
+            show_edit_button: false,
+            show_equivalence_classes_button: true
+        })
+    }
+
+    private updateMethodPanel() {
+        this.panel_content.empty()
+
+        for (let a of this.areas) {
+            $("<div>").addClass("area-div").text(a.spot().name).appendTo(this.panel_content)
+        }
+    }
+
+    setAreas(spots: ScanSpot[]) {
+        super.setAreas(spots);
+
+        this.updateMethodPanel()
     }
 
     activate(map: GameMapControl) {
         super.activate(map);
+
+        this.app.sidepanels.methods_panel.showSection("scanedit")
     }
 
     deactivate() {

@@ -49,6 +49,8 @@ export class CluePanel {
         } else {
             this.parent.app.howtotabs.map.setActiveLayer(getSolutionLayer(clue, this.parent.app))
 
+            this.parent.methods_panel.hide()
+
             this.parent.app.howtotabs.setHowToTabs({})
         }
     }

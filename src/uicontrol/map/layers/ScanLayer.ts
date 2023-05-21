@@ -7,7 +7,6 @@ import {GameMapControl, TileMarker} from "../map";
 import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
-import * as events from "events";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -148,55 +147,7 @@ export class ScanLayer extends ActiveLayer {
 
         let self = this
 
-        this.map.map.on({
-            "mousedown": (e) => {
-                map.map.dragging.disable()
-
-                this.dragstart = map.tileFromMouseEvent(e)
-
-                this.drag_polygon = tilePolygon(this.dragstart)
-                    .setStyle({
-                        color: "#00FF21",
-                        fillColor: "#00FF21",
-                        interactive: false,
-                    })
-                    .addTo(self)
-            },
-            "mousemove": (e) => {
-                if (self.dragstart) {
-                    let now = map.tileFromMouseEvent(e)
-
-                    let area: Box =
-                        {
-                            topleft: {
-                                x: Math.min(self.dragstart.x, now.x),
-                                y: Math.max(self.dragstart.y, now.y),
-                            },
-                            botright: {
-                                x: Math.max(self.dragstart.x, now.x),
-                                y: Math.min(self.dragstart.y, now.y),
-                            }
-                        }
-
-
-                    self.drag_polygon.remove()
-                    self.drag_polygon = boxPolygon(area)
-                        .setStyle({
-                            color: "#00FF21",
-                            fillColor: "#00FF21",
-                            interactive: false,
-                        }).addTo(self)
-                    self.drag_polygon.addTo(self)
-                }
-            },
-
-            "mouseup": () => {
-                self.dragstart = null
-                self.drag_polygon = null
-
-                map.map.dragging.enable()
-            }
-        })*/
+ */
     }
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates
@@ -326,6 +277,56 @@ export class ScanLayer extends ActiveLayer {
 export class ScanEditLayer extends ScanLayer {
     private panel_content = $(".cluemethodcontent[data-methodsection=scanedit]")
 
+    drawing: leaflet.LeafletEventHandlerFnMap = {
+        "mousedown": (e) => {
+            this.map.map.dragging.disable()
+
+            this.dragstart = this.map.tileFromMouseEvent(e)
+
+            this.drag_polygon = tilePolygon(this.dragstart)
+                .setStyle({
+                    color: "#00FF21",
+                    fillColor: "#00FF21",
+                    interactive: false,
+                })
+                .addTo(this)
+        },
+        "mousemove": (e) => {
+            if (self.dragstart) {
+                let now = map.tileFromMouseEvent(e)
+
+                let area: Box =
+                    {
+                        topleft: {
+                            x: Math.min(self.dragstart.x, now.x),
+                            y: Math.max(self.dragstart.y, now.y),
+                        },
+                        botright: {
+                            x: Math.max(self.dragstart.x, now.x),
+                            y: Math.min(self.dragstart.y, now.y),
+                        }
+                    }
+
+
+                self.drag_polygon.remove()
+                self.drag_polygon = boxPolygon(area)
+                    .setStyle({
+                        color: "#00FF21",
+                        fillColor: "#00FF21",
+                        interactive: false,
+                    }).addTo(self)
+                self.drag_polygon.addTo(self)
+            }
+        },
+
+        "mouseup": () => {
+            self.dragstart = null
+            self.drag_polygon = null
+
+            map.map.dragging.enable()
+        }
+    }
+
     constructor(clue: ScanStep, app: Application) {
         super(clue, app, {
             show_edit_button: false,
@@ -337,23 +338,36 @@ export class ScanEditLayer extends ScanLayer {
         this.panel_content.empty()
 
         for (let a of this.areas) {
-            $("<div>").addClass("area-div").text(a.spot().name).appendTo(this.panel_content)
+            let row_div = $("<div style='display: flex' class='flex-row'>")
+
+            $("<div class=\"nissmallimagebutton menubarbutton\">\n" +
+                "                        <img src=\"assets/icons/settings.png\" class=\"inline-img\">\n" +
+                "                    </div>").appendTo(row_div)
+            $("<div class='area-div'>").text(a.spot().name).appendTo(row_div)
+            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>1</div>").appendTo(row_div)
+            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>2</div>").appendTo(row_div)
+            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>3</div>").appendTo(row_div)
+            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>DL</div>").appendTo(row_div)
+            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>TF</div>").appendTo(row_div)
+
+            row_div.appendTo(this.panel_content)
+
         }
     }
 
     setAreas(spots: ScanSpot[]) {
-        super.setAreas(spots);
+        super.setAreas(spots)
 
         this.updateMethodPanel()
     }
 
     activate(map: GameMapControl) {
-        super.activate(map);
+        super.activate(map)
 
         this.app.sidepanels.methods_panel.showSection("scanedit")
     }
 
     deactivate() {
-        super.deactivate();
+        super.deactivate()
     }
 }

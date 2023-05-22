@@ -3,6 +3,7 @@ import SidePanelControl from "./uicontrol/SidePanelControl";
 import HowToTabControls from "./uicontrol/HowToTabControl";
 import MenuBarControl from "./uicontrol/MenuBarControl";
 import {Modal} from "./uicontrol/widgets/modal";
+import {clues} from "./data/clues";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -128,4 +129,5 @@ export function initialize() {
 
     //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
     //scantrainer.select(clues.find((c) => c.id == 399)) // compass
+    scantrainer.sidepanels.clue_panel.selectClue(clues.find((c) => c.id == 364)) // compass
 }

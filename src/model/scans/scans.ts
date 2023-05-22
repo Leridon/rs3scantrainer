@@ -168,3 +168,36 @@ export function information_gain(profile: scan_profile) {
 
     return gain
 }
+
+export enum ChildType {
+    SINGLE,
+    DOUBLE,
+    TRIPLE,
+    DIFFERENTLEVEL,
+    TOOFAR,
+}
+
+export namespace ChildType {
+    export let all = [
+        ChildType.SINGLE,
+        ChildType.DOUBLE,
+        ChildType.TRIPLE,
+        ChildType.DIFFERENTLEVEL,
+        ChildType.TOOFAR,
+    ]
+
+    type meta = {
+        pretty: string,
+        short: string
+    }
+
+    export function meta(type: ChildType): meta {
+        return new Map([
+            [ChildType.SINGLE, {pretty: "Single", short: "1"}],
+            [ChildType.DOUBLE, {pretty: "Double", short: "2"}],
+            [ChildType.TRIPLE, {pretty: "Triple", short: "3"}],
+            [ChildType.DIFFERENTLEVEL, {pretty: "Different Level", short: "DL"}],
+            [ChildType.TOOFAR, {pretty: "Too Far", short: "TF"}],
+        ]).get(type)
+    }
+}

@@ -4,11 +4,11 @@ import {Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../../model/co
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {GameMapControl, TileMarker} from "../map";
-import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {ChildType, get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
-import {createRoot} from "react-dom/client";
-import {AreaWidget} from "../../widgets/AreaWidget";
+import {ToggleGroup} from "./ToggleGroup";
+import ToggleButton from "../../widgets/togglebutton";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -125,7 +125,7 @@ export class ScanLayer extends ActiveLayer {
                 }).setPosition("topright"))
 
             if (options.show_edit_button && !app.in_alt1)
-                this.addControl(new ImageButton("assets/icons/lock.png", {
+                this.addControl(new ImageButton("assets/icons/edit.png", {
                     "click": (e) => {
                         let l = new ScanEditLayer(this.clue, this.app)
 
@@ -278,80 +278,185 @@ export class ScanLayer extends ActiveLayer {
 
 
 class AreaWidget {
+    main_row: {
+        row: JQuery,
+        area_div?: JQuery
+        delete_button?: JQuery,
+        edit_button?: JQuery,
+        info_buttons?: ToggleGroup<ChildType>
+    }
+
     container: JQuery
-    status_row: JQuery
-    edit_area: JQuery
+
+    edit_area: {
+        container: JQuery
+    }
 
     constructor(
         private parent: ScanEditLayer,
-        private area: ScanSpot) {
+        public area: ScanSpot) {
 
-        this.container = $("<div>")
+        this.container = $("<div class='panel'>")
 
-        this.status_row = $("<div class='flex-row'>").text("Im an area").appendTo(this.container)
+        this.main_row = {
+            row: $("<div class='area-edit-row' style='display: flex;'>").appendTo(this.container)
+        }
 
-        $("<div>Edit</div>").on("click", () => {
-            this.edit_area.animate({"height": 'toggle'})
-        }).appendTo(this.status_row)
+        this.main_row.area_div = $("<div class='area-div'></div>").text(this.area.name).appendTo(this.main_row.row)
 
-        this.edit_area = $("<div>Here be edits </div>")
-            .hide()
-            .appendTo(this.container)
+        this.main_row.delete_button = $('<div class="nissmallimagebutton" title="Edit"><img src="assets/icons/delete.png"></div>')
+            .on("click", () => {
+                // TODO:
+            })
+            .appendTo(this.main_row.row)
+
+        this.main_row.edit_button = $('<div class="nissmallimagebutton" title="Edit"><img src="assets/icons/edit.png"></div>')
+            .on("click", () => {
+                this.edit_area.container.animate({"height": 'toggle'})
+            })
+            .appendTo(this.main_row.row)
+
+        this.main_row.info_buttons = new ToggleGroup(ChildType.all.map((c) => {
+            return $("<div class='lightbutton'>")
+                .text(ChildType.meta(c).short)
+                .attr("title", ChildType.meta(c).pretty)
+                .data("value", c)
+                .appendTo(this.main_row.row)
+        }))
+
+        this.main_row.info_buttons.on("value_changed", (value) => this.parent.updateCandidates())
+
+        this.edit_area = {
+            container: $("<div class='properties'></div>")
+                .hide()
+                .appendTo(this.container)
+        }
+
+        // This section is proof that I need to learn React...
+        $("<div class='head'>General</div>").appendTo(this.edit_area.container)
+
+        $("<div class='row'>")
+            .append($("<div class='col-2 property'>Name</div>"))
+            .append($("<div class='col-10'>").append($("<input type='text' class='nisinput' style='width: 100%'>")))
+            .appendTo(this.edit_area.container)
+
+        $("<div class='head'>Area</div>").appendTo(this.edit_area.container)
+
+        $("<div class='row'>")
+            .append($("<div class='col-2 property'></div>"))
+            .append($("<div class='col-5 property' style='text-align: center'>x</div>"))
+            .append($("<div class='col-5 property' style='text-align: center'>y</div>"))
+            .appendTo(this.edit_area.container)
+
+        $("<div class='row'>")
+            .append($("<div class='col-2 property' title='Top left' style='text-align: center'>TL</div>"))
+            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
+            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
+            .appendTo(this.edit_area.container)
+
+        $("<div class='row'>")
+            .append($("<div class='col-2 property' title='Bottom right' style='text-align: center'>BR</div>"))
+            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
+            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
+            .appendTo(this.edit_area.container)
+
+        $("<div class='row'>")
+            .append($("<div class='col-2 property'></div>"))
+            .append($("<div class='col-10'>").append($("<div class='lightbutton' style='width: 100%'>Redraw on map</div>")))
+            .appendTo(this.edit_area.container)
+
+        $("<div class='head'>Overrides</div>").appendTo(this.edit_area.container)
     }
 }
 
-export class ScanEditLayer extends ScanLayer {
-    private panel_content = $(".cluemethodcontent[data-methodsection=scanedit]")
+class ScanEditPanel {
+    content: JQuery
 
-    drawing: leaflet.LeafletEventHandlerFnMap = {
-        "mousedown": (e) => {
-            this.map.map.dragging.disable()
-
-            this.dragstart = this.map.tileFromMouseEvent(e)
-
-            this.drag_polygon = tilePolygon(this.dragstart)
-                .setStyle({
-                    color: "#00FF21",
-                    fillColor: "#00FF21",
-                    interactive: false,
-                })
-                .addTo(this)
+    scan_spots: {
+        heading?: JQuery,
+        areas?: {
+            container: JQuery
+            areas?: AreaWidget[],
         },
-        "mousemove": (e) => {
-            if (self.dragstart) {
-                let now = map.tileFromMouseEvent(e)
+        add_button?: JQuery
+    } = {}
 
-                let area: Box =
-                    {
-                        topleft: {
-                            x: Math.min(self.dragstart.x, now.x),
-                            y: Math.max(self.dragstart.y, now.y),
-                        },
-                        botright: {
-                            x: Math.max(self.dragstart.x, now.x),
-                            y: Math.min(self.dragstart.y, now.y),
-                        }
-                    }
+    constructor(public layer: ScanEditLayer) {
+        this.content = $(".cluemethodcontent[data-methodsection=scanedit]").empty()
 
+        //$("<h3>Spots</h3>").appendTo(this.content)
 
-                self.drag_polygon.remove()
-                self.drag_polygon = boxPolygon(area)
-                    .setStyle({
-                        color: "#00FF21",
-                        fillColor: "#00FF21",
-                        interactive: false,
-                    }).addTo(self)
-                self.drag_polygon.addTo(self)
-            }
-        },
+        this.scan_spots.heading = $("<h4>Scan Spots</h4>").appendTo(this.content)
 
-        "mouseup": () => {
-            self.dragstart = null
-            self.drag_polygon = null
-
-            map.map.dragging.enable()
+        this.scan_spots.areas = {
+            container: $("<div>").appendTo(this.content)
         }
+
+        this.scan_spots.add_button = $("<div class='lightbutton'>+ Add area</div>").appendTo($("<div style='text-align: center'></div>").appendTo(this.content))
     }
+
+    setAreas(areas: ScanSpot[]) {
+        this.scan_spots.areas.container.empty()
+
+        this.scan_spots.areas.areas = areas.map((e) => new AreaWidget(this.layer, e))
+
+        for (let e of this.scan_spots.areas.areas) e.container.appendTo(this.scan_spots.areas.container)
+    }
+}
+
+
+export class ScanEditLayer extends ScanLayer {
+    private edit_panel = new ScanEditPanel(this)
+
+    /*drawing: leaflet.LeafletEventHandlerFnMap = {
+         "mousedown": (e) => {
+             this.map.map.dragging.disable()
+
+             this.dragstart = this.map.tileFromMouseEvent(e)
+
+             this.drag_polygon = tilePolygon(this.dragstart)
+                 .setStyle({
+                     color: "#00FF21",
+                     fillColor: "#00FF21",
+                     interactive: false,
+                 })
+                 .addTo(this)
+         },
+         "mousemove": (e) => {
+             if (self.dragstart) {
+                 let now = map.tileFromMouseEvent(e)
+
+                 let area: Box =
+                     {
+                         topleft: {
+                             x: Math.min(self.dragstart.x, now.x),
+                             y: Math.max(self.dragstart.y, now.y),
+                         },
+                         botright: {
+                             x: Math.max(self.dragstart.x, now.x),
+                             y: Math.min(self.dragstart.y, now.y),
+                         }
+                     }
+
+
+                 self.drag_polygon.remove()
+                 self.drag_polygon = boxPolygon(area)
+                     .setStyle({
+                         color: "#00FF21",
+                         fillColor: "#00FF21",
+                         interactive: false,
+                     }).addTo(self)
+                 self.drag_polygon.addTo(self)
+             }
+         },
+
+         "mouseup": () => {
+             self.dragstart = null
+             self.drag_polygon = null
+
+             map.map.dragging.enable()
+         }
+     }**/
 
     constructor(clue: ScanStep, app: Application) {
         super(clue, app, {
@@ -360,33 +465,10 @@ export class ScanEditLayer extends ScanLayer {
         })
     }
 
-    private updateMethodPanel() {
-        this.panel_content.empty()
-
-        for (let a of this.areas) {
-            /*let row_div = $("<div style='display: flex' class='flex-row'>")
-
-            $("<div class=\"nissmallimagebutton menubarbutton\">\n" +
-                "                        <img src=\"assets/icons/settings.png\" class=\"inline-img\">\n" +
-                "                    </div>").appendTo(row_div)
-            $("<div class='area-div'>").text(a.spot().name).appendTo(row_div)
-            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>1</div>").appendTo(row_div)
-            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>2</div>").appendTo(row_div)
-            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>3</div>").appendTo(row_div)
-            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>DL</div>").appendTo(row_div)
-            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>TF</div>").appendTo(row_div)*/
-
-            new AreaWidget(this, a.spot()).container.appendTo(this.panel_content)
-
-            // row_div.appendTo(this.panel_content)
-
-        }
-    }
-
     setAreas(spots: ScanSpot[]) {
         super.setAreas(spots)
 
-        this.updateMethodPanel()
+        this.edit_panel.setAreas(this.areas.map((e) => e.spot()))
     }
 
     activate(map: GameMapControl) {
@@ -397,5 +479,37 @@ export class ScanEditLayer extends ScanLayer {
 
     deactivate() {
         super.deactivate()
+    }
+
+    updateCandidates() {
+        // TODO
+        let candidates: number[] = []
+
+        let areafilters: Set<number>[] = this.edit_panel.scan_spots.areas.areas
+            .filter((e) => e.main_row.info_buttons.value() != null) // Get all areas with a set pulse type
+            .map((e) => {   // TODO: Determine actual candidates
+                switch (e.main_row.info_buttons.value()) {
+                    case ChildType.SINGLE:
+                        break;
+                    case ChildType.DOUBLE:
+                        break;
+                    case ChildType.TRIPLE:
+                        break;
+                    case ChildType.DIFFERENTLEVEL:
+                        break;
+                    case ChildType.TOOFAR:
+                        break;
+                }
+
+                e.area
+
+                e.main_row.info_buttons.value()
+                return new Set()
+            })
+
+        let remaining_candidates = candidates.filter((c) => areafilters.every((f) => f.has(c)))
+
+        this.markers.forEach((m) => m.setActive(false))
+        for (let c of remaining_candidates) this.markers[0].setActive(true)
     }
 }

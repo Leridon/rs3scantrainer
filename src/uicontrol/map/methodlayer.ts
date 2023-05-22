@@ -1,8 +1,9 @@
-import {PingType, ScanTree, ScanTreeNode} from "../../model/methods";
+import {ScanTree, ScanTreeNode} from "../../model/methods";
 import * as leaflet from "leaflet"
 import {ScanLayer} from "./layers/ScanLayer";
 import {Application} from "../../application";
 import {GameMapControl} from "./map";
+import {ChildType} from "../../model/scans/scans";
 
 
 export class ScanTreeMethodLayer extends ScanLayer {
@@ -23,7 +24,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
         if (this.node.solved) bounds.extend(this.getMarker(this.node.solved).getBounds())
 
         // Include all triple children
-        this.node.children().filter((c) => c.parent.key.kind == PingType.TRIPLE).forEach((c) => {
+        this.node.children().filter((c) => c.parent.key.kind == ChildType.TRIPLE).forEach((c) => {
             bounds.extend(this.getMarker(c.solved).getBounds())
         })
 
@@ -52,7 +53,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
     constructor(private scantree: ScanTree, app: Application) {
         super(scantree.clue, app, {
             show_edit_button: true,
-            show_equivalence_classes_button: true
+            show_equivalence_classes_button: false
         });
 
         // sort markers to correlate to the spot mapping

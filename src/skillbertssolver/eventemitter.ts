@@ -37,6 +37,9 @@ export class TypedEmitter<T extends Record<string, any>> {
 	}
 	emit<K extends keyof T>(event: K, value: T[K]) {
 		let listeners = this.listeners[event] ?? (this.listeners[event] = new Set());
-		listeners.forEach(cb => cb(value));
+		listeners.forEach(cb => {
+			console.log(cb)
+			cb(value)
+		});
 	}
 }

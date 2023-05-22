@@ -431,5 +431,64 @@ video {
     color: #00FF21;
     background-color: #00FF2119;
     border: 1px solid #00FF21;
-    padding: 4px;
+    width: 2em;
+    text-align: center;
+}
+
+.lightbutton {
+    text-align: center;
+    display: inline-block;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: #FFFFFF19;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.lightbutton.inactive {
+    background-color: #FFFFFF0B;
+}
+
+.lightbutton.active {
+    background-color: #FFFFFF50;
+}
+
+.lightbutton:hover {
+    background-color: #FFFFFF32;
+}
+
+.lightbutton.active:hover {
+    background-color: #FFFFFF49;
+}
+
+.area-edit-row > * {
+    margin-right: 0.5em;
+}
+
+.properties > .row {
+    margin-top: 5px;
+}
+
+.properties > .head {
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.property {
+    font-weight: bold;
+}
+
+body.nis::-webkit-scrollbar {
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
 }

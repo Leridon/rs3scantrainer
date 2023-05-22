@@ -5,6 +5,7 @@ import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
 import {modal, Modal} from "../uicontrol/widgets/modal";
 import * as leaflet from "leaflet"
 import {ActiveLayer} from "../uicontrol/map/activeLayer";
+import {ChildType} from "./scans/scans";
 
 export type Video = {
     ref: string,
@@ -30,7 +31,34 @@ export abstract class Method {
     abstract methodLayer(trainer: Application): ActiveLayer
 }
 
-export type ScanSpot = { name: string, area?: Box, tile?: MapCoordinate, is_far_away?: boolean }
+export type ScanSpot = {
+    name: string, area?: Box, tile?: MapCoordinate, is_far_away?: boolean,
+    overrides?: {
+        single?: number[]
+        double?: number[]
+        triple?: number[]
+        toofar?: number[]
+        differentlevel?: number[]
+    }
+}
+
+export namespace ScanSpot {
+    export function override(s: ScanSpot, type: ChildType): number[] | null {
+       switch (type) {
+           case ChildType.SINGLE:
+               return s.overrides ? s.overrides.single : null;
+           case ChildType.DOUBLE:
+               return s.overrides ? s.overrides.double : null;
+           case ChildType.TRIPLE:
+               return s.overrides ? s.overrides.triple : null;
+           case ChildType.DIFFERENTLEVEL:
+               return s.overrides ? s.overrides.differentlevel : null;
+           case ChildType.TOOFAR:
+               return s.overrides ? s.overrides.toofar : null;
+
+       }
+    }
+}
 
 class ScanExplanationModal extends Modal {
 
@@ -75,15 +103,10 @@ export class ScanTree extends Method {
     }
 }
 
-export enum PingType {
-    SINGLE,
-    DOUBLE,
-    TRIPLE
-}
 
 export type ChildKey = {
     key: string,
-    kind: PingType | string
+    kind: ChildType | string
 }
 
 function prettykey(key: ChildKey) {
@@ -91,11 +114,11 @@ function prettykey(key: ChildKey) {
         return key.kind
     } else {
         switch (key.kind) {
-            case PingType.SINGLE:
+            case ChildType.SINGLE:
                 return "Single"
-            case PingType.DOUBLE:
+            case ChildType.DOUBLE:
                 return "Double"
-            case PingType.TRIPLE:
+            case ChildType.TRIPLE:
                 return "Triple"
         }
     }
@@ -244,13 +267,13 @@ export class ScanTreeNode {
         if (depth >= 2) return
 
         if (this.is_synthetic_triple_node) {
-            this.children().filter((e) => e.parent.key.kind == PingType.TRIPLE)
+            this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
                 .forEach((e) => e.generateList(depth, container, app, e.solved.toString()))
 
             return;
         }
 
-        let triples = this.children().filter((e) => e.parent.key.kind == PingType.TRIPLE)
+        let triples = this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
 
         if (triples.length >= 1) {
             let line = $("<div>")
@@ -275,13 +298,13 @@ export class ScanTreeNode {
                                 triples.map((e) => {
                                     return [{
                                         key: e.solved.toString(),
-                                        kind: PingType.TRIPLE
+                                        kind: ChildType.TRIPLE
                                     }, e]
                                 }),
                                 null,
                                 true
                             )
-                            synthetic.parent = {node: this, key: {key: "Triple", kind: PingType.TRIPLE}}
+                            synthetic.parent = {node: this, key: {key: "Triple", kind: ChildType.TRIPLE}}
                             synthetic.root = this.root
 
                             synthetic.sendToUI(app)
@@ -308,10 +331,10 @@ export class ScanTreeNode {
             container.append(line)
         }
 
-        this.children().filter((e) => e.parent.key.kind == PingType.DOUBLE)
+        this.children().filter((e) => e.parent.key.kind == ChildType.DOUBLE)
             .forEach((e) => e.generateList(depth, container, app))
 
-        this.children().filter((e) => e.parent.key.kind == PingType.SINGLE)
+        this.children().filter((e) => e.parent.key.kind == ChildType.SINGLE)
             .forEach((e) => e.generateList(depth, container, app))
 
         this.children().filter((e) => (typeof e.parent.key.kind) == "string")

@@ -1,9 +1,9 @@
-import {ChildKey, HowTo, Method, PingType, ScanSpot, ScanTree, ScanTreeNode} from "../model/methods";
+import {ChildKey, HowTo, Method, ScanSpot, ScanTree, ScanTreeNode} from "../model/methods";
 import {clues} from "./clues";
 import {ClueStep, ScanStep} from "../model/clues";
 import {Box, MapCoordinate} from "../model/coordinates";
 import Dict = NodeJS.Dict;
-import {go} from "fuzzysort";
+import {ChildType} from "../model/scans/scans";
 
 let methods: Method[][] = []
 
@@ -98,7 +98,7 @@ function loadScanMethods() {
         single(child: ScanBuilder) {
             return this.child({
                     key: `${this.spotName}1`,
-                    kind: PingType.SINGLE
+                    kind: ChildType.SINGLE
                 },
                 child)
         }
@@ -106,7 +106,7 @@ function loadScanMethods() {
         double(child: ScanBuilder) {
             return this.child({
                     key: `${this.spotName}2`,
-                    kind: PingType.DOUBLE
+                    kind: ChildType.DOUBLE
                 },
                 child)
         }
@@ -117,7 +117,7 @@ function loadScanMethods() {
 
                 this.child({
                     key: `${this.spotName}3/Spot ${s}`,
-                    kind: PingType.TRIPLE
+                    kind: ChildType.TRIPLE
                 }, child)
             })
 

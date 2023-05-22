@@ -61,3 +61,6 @@ Warn when not using meerkats
 
 Information theory and equivalence classes from scans also apply to compasses.
 
+Check out if the info icon from weekly challenges are useful.
+Extract the edit layout icon
+

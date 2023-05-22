@@ -7,6 +7,8 @@ import {GameMapControl, TileMarker} from "../map";
 import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
+import {createRoot} from "react-dom/client";
+import {AreaWidget} from "../../widgets/AreaWidget";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -274,6 +276,30 @@ export class ScanLayer extends ActiveLayer {
     }
 }
 
+
+class AreaWidget {
+    container: JQuery
+    status_row: JQuery
+    edit_area: JQuery
+
+    constructor(
+        private parent: ScanEditLayer,
+        private area: ScanSpot) {
+
+        this.container = $("<div>")
+
+        this.status_row = $("<div class='flex-row'>").text("Im an area").appendTo(this.container)
+
+        $("<div>Edit</div>").on("click", () => {
+            this.edit_area.animate({"height": 'toggle'})
+        }).appendTo(this.status_row)
+
+        this.edit_area = $("<div>Here be edits </div>")
+            .hide()
+            .appendTo(this.container)
+    }
+}
+
 export class ScanEditLayer extends ScanLayer {
     private panel_content = $(".cluemethodcontent[data-methodsection=scanedit]")
 
@@ -338,7 +364,7 @@ export class ScanEditLayer extends ScanLayer {
         this.panel_content.empty()
 
         for (let a of this.areas) {
-            let row_div = $("<div style='display: flex' class='flex-row'>")
+            /*let row_div = $("<div style='display: flex' class='flex-row'>")
 
             $("<div class=\"nissmallimagebutton menubarbutton\">\n" +
                 "                        <img src=\"assets/icons/settings.png\" class=\"inline-img\">\n" +
@@ -348,9 +374,11 @@ export class ScanEditLayer extends ScanLayer {
             $("<div class='icon-button' style='border: 1px solid red; width: 20px'>2</div>").appendTo(row_div)
             $("<div class='icon-button' style='border: 1px solid red; width: 20px'>3</div>").appendTo(row_div)
             $("<div class='icon-button' style='border: 1px solid red; width: 20px'>DL</div>").appendTo(row_div)
-            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>TF</div>").appendTo(row_div)
+            $("<div class='icon-button' style='border: 1px solid red; width: 20px'>TF</div>").appendTo(row_div)*/
 
-            row_div.appendTo(this.panel_content)
+            new AreaWidget(this, a.spot()).container.appendTo(this.panel_content)
+
+            // row_div.appendTo(this.panel_content)
 
         }
     }

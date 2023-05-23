@@ -24,5 +24,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
     }
 
     initialize()
+
+    $("#stage").show()
+    $("#curtain").hide()
 })
 

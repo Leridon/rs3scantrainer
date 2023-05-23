@@ -65,7 +65,7 @@ export class SimpleMarkerLayer extends ActiveLayer {
 
 export function getSolutionLayer(clue: ClueStep, app: Application, variant: number = 0): ActiveLayer {
     if (clue.type == "scan") {
-        return new ScanLayer(clue, app)
+        return new ScanLayer(clue, app, {show_edit_button: true})
     }
 
     if (clue.solution) {
@@ -83,7 +83,6 @@ export function getSolutionLayer(clue: ClueStep, app: Application, variant: numb
                 return new SimpleMarkerLayer([
                     new TileMarker((clue.solution as VariantSolution).variants[variant].solution.coordinates).withMarker().withX("#B21319")
                 ])
-
         }
     }
 

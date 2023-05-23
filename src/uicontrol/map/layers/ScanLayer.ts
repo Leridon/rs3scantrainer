@@ -4,11 +4,10 @@ import {Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../../model/co
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {GameMapControl, TileMarker} from "../map";
-import {ChildType, get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {area_pulse, ChildType, get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {ToggleGroup} from "./ToggleGroup";
-import ToggleButton from "../../widgets/togglebutton";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -33,7 +32,9 @@ class SpotPolygon extends leaflet.FeatureGroup {
     }
 
     update() {
-        this.polygon = this._spot.area ? boxPolygon(this._spot.area) : tilePolygon(this._spot.tile)
+        if (this.polygon) this.polygon.remove()
+
+        this.polygon = boxPolygon(this._spot.area)
 
         this.label = leaflet.tooltip({
             interactive: false,
@@ -74,6 +75,10 @@ class SpotPolygon extends leaflet.FeatureGroup {
         this.updateOpacity()
     }
 }
+
+
+import * as lodash from 'lodash';
+import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 
 export class ScanLayer extends ActiveLayer {
     protected markers: TileMarkerWithActive[]
@@ -128,8 +133,7 @@ export class ScanLayer extends ActiveLayer {
                 this.addControl(new ImageButton("assets/icons/edit.png", {
                     "click": (e) => {
                         let l = new ScanEditLayer(this.clue, this.app)
-
-                        l.setAreas(this.areas.map((s) => s.spot()))
+                        l.setAreas(lodash.cloneDeep(this.areas.map((s) => s.spot())))
 
                         this.map.setActiveLayer(l)
                     }
@@ -180,7 +184,7 @@ export class ScanLayer extends ActiveLayer {
     private draw_equivalence_classes: boolean = false
     private equivalence_classes: ScanEquivalenceClasses = null
 
-    private invalidateEquivalenceClasses() {
+    protected invalidateEquivalenceClasses() {
         if (this.equivalence_classes) {
             this.equivalence_classes.getClasses().forEach((c) => {
                 let p = c.getPolygon()
@@ -276,8 +280,12 @@ export class ScanLayer extends ActiveLayer {
     }
 }
 
+type AreaWidgetEvents = {
+    "deleted": any,
+    "changed": ScanSpot
+}
 
-class AreaWidget {
+class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
     main_row: {
         row: JQuery,
         area_div?: JQuery
@@ -294,7 +302,12 @@ class AreaWidget {
 
     constructor(
         private parent: ScanEditLayer,
-        public area: ScanSpot) {
+        public area: ScanSpot,
+        private polygon: SpotPolygon = null
+    ) {
+        super()
+
+        if (!polygon) this.polygon = new SpotPolygon(area).addTo(this.parent)
 
         this.container = $("<div class='panel'>")
 
@@ -305,9 +318,7 @@ class AreaWidget {
         this.main_row.area_div = $("<div class='area-div'></div>").text(this.area.name).appendTo(this.main_row.row)
 
         this.main_row.delete_button = $('<div class="nissmallimagebutton" title="Edit"><img src="assets/icons/delete.png"></div>')
-            .on("click", () => {
-                // TODO:
-            })
+            .on("click", () => this.delete())
             .appendTo(this.main_row.row)
 
         this.main_row.edit_button = $('<div class="nissmallimagebutton" title="Edit"><img src="assets/icons/edit.png"></div>')
@@ -337,7 +348,14 @@ class AreaWidget {
 
         $("<div class='row'>")
             .append($("<div class='col-2 property'>Name</div>"))
-            .append($("<div class='col-10'>").append($("<input type='text' class='nisinput' style='width: 100%'>")))
+            .append($("<div class='col-10'>").append($("<input type='text' class='nisinput' style='width: 100%'>")
+                .val(area.name)
+                .on("input", (e) => {
+                    this.area.name = $(e.target).val() as string
+                    this.main_row.area_div.text(this.area.name)
+                    this.polygon.update()
+                })
+            ))
             .appendTo(this.edit_area.container)
 
         $("<div class='head'>Area</div>").appendTo(this.edit_area.container)
@@ -350,14 +368,48 @@ class AreaWidget {
 
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Top left' style='text-align: center'>TL</div>"))
-            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
-            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
+            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")
+                .val(this.area.area.topleft.x)
+                .on("input", (e) => {
+                    this.area.area.topleft.x = Number($(e.target).val())
+                    console.log(this.area.area)
+                    this.polygon.update()
+                    this.parent.updateCandidates()
+                })
+            ))
+            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")
+                .val(this.area.area.topleft.y)
+                .on("input", (e) => {
+                    this.area.area.topleft.y = Number($(e.target).val())
+                    console.log(this.area.area)
+                    this.polygon.update()
+                    this.parent.updateCandidates()
+
+                    console.log(this.area)
+                })
+            ))
             .appendTo(this.edit_area.container)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Bottom right' style='text-align: center'>BR</div>"))
-            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
-            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")))
+            .append($("<div class='col-5'>").append(
+                $("<input type='number' class='nisinput' style='width: 100%'>")
+                    .val(this.area.area.botright.x)
+                    .on("input", (e) => {
+                        this.area.area.botright.x = Number($(e.target).val())
+                        console.log(this.area.area)
+                        this.polygon.update()
+                        this.parent.updateCandidates()
+                    })))
+            .append($("<div class='col-5'>").append(
+                $("<input type='number' class='nisinput' style='width: 100%'>")
+                    .val(this.area.area.botright.y)
+                    .on("input", (e) => {
+                        this.area.area.botright.y = Number($(e.target).val())
+                        console.log(this.area.area)
+                        this.polygon.update()
+                        this.parent.updateCandidates()
+                    })))
             .appendTo(this.edit_area.container)
 
         $("<div class='row'>")
@@ -366,6 +418,13 @@ class AreaWidget {
             .appendTo(this.edit_area.container)
 
         $("<div class='head'>Overrides</div>").appendTo(this.edit_area.container)
+    }
+
+    delete() {
+        this.polygon.remove()
+        this.container.remove()
+
+        this.emit("deleted", "")
     }
 }
 
@@ -376,7 +435,7 @@ class ScanEditPanel {
         heading?: JQuery,
         areas?: {
             container: JQuery
-            areas?: AreaWidget[],
+            areas: AreaWidget[],
         },
         add_button?: JQuery
     } = {}
@@ -389,18 +448,30 @@ class ScanEditPanel {
         this.scan_spots.heading = $("<h4>Scan Spots</h4>").appendTo(this.content)
 
         this.scan_spots.areas = {
-            container: $("<div>").appendTo(this.content)
+            container: $("<div>").appendTo(this.content),
+            areas: []
         }
 
-        this.scan_spots.add_button = $("<div class='lightbutton'>+ Add area</div>").appendTo($("<div style='text-align: center'></div>").appendTo(this.content))
+        this.scan_spots.add_button = $("<div class='lightbutton'>+ Add area</div>")
+            .on("click", () => {
+                this.addArea({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
+            })
+            .appendTo($("<div style='text-align: center'></div>").appendTo(this.content))
+    }
+
+    private addArea(area: ScanSpot) {
+        let w =
+            new AreaWidget(this.layer, area)
+                .on("deleted", () => this.scan_spots.areas.areas.splice(this.scan_spots.areas.areas.indexOf(w), 1))
+
+        w.container.appendTo(this.scan_spots.areas.container)
+        this.scan_spots.areas.areas.push(w)
     }
 
     setAreas(areas: ScanSpot[]) {
-        this.scan_spots.areas.container.empty()
+        this.scan_spots.areas.areas.forEach((a) => a.delete())
 
-        this.scan_spots.areas.areas = areas.map((e) => new AreaWidget(this.layer, e))
-
-        for (let e of this.scan_spots.areas.areas) e.container.appendTo(this.scan_spots.areas.container)
+        areas.forEach((a) => this.addArea(a))
     }
 }
 
@@ -466,9 +537,8 @@ export class ScanEditLayer extends ScanLayer {
     }
 
     setAreas(spots: ScanSpot[]) {
-        super.setAreas(spots)
-
-        this.edit_panel.setAreas(this.areas.map((e) => e.spot()))
+        //super.setAreas(spots)
+        this.edit_panel.setAreas(spots)
     }
 
     activate(map: GameMapControl) {
@@ -482,34 +552,19 @@ export class ScanEditLayer extends ScanLayer {
     }
 
     updateCandidates() {
-        // TODO
-        let candidates: number[] = []
-
-        let areafilters: Set<number>[] = this.edit_panel.scan_spots.areas.areas
+        let areafilters: MapCoordinate[][] = this.edit_panel.scan_spots.areas.areas
             .filter((e) => e.main_row.info_buttons.value() != null) // Get all areas with a set pulse type
-            .map((e) => {   // TODO: Determine actual candidates
-                switch (e.main_row.info_buttons.value()) {
-                    case ChildType.SINGLE:
-                        break;
-                    case ChildType.DOUBLE:
-                        break;
-                    case ChildType.TRIPLE:
-                        break;
-                    case ChildType.DIFFERENTLEVEL:
-                        break;
-                    case ChildType.TOOFAR:
-                        break;
-                }
+            .map((e) => {
+                let ping = e.main_row.info_buttons.value()
 
-                e.area
+                let override = ScanSpot.override(e.area, ping)
 
-                e.main_row.info_buttons.value()
-                return new Set()
+                return override || this.clue.solution.candidates.filter((s) => area_pulse(s, e.area.area, this.range).map(ChildType.fromPulse).includes(ping))
             })
 
-        let remaining_candidates = candidates.filter((c) => areafilters.every((f) => f.has(c)))
+        let remaining_candidates = this.clue.solution.candidates.filter((c) => areafilters.every((f) => f.some((filt) => eq(filt, c))))
 
-        this.markers.forEach((m) => m.setActive(false))
-        for (let c of remaining_candidates) this.markers[0].setActive(true)
+        this.markers.forEach((m) => m.setActive(remaining_candidates.some((c) => eq(c, m.getSpot()))))
+        this.set_remaining_candidates(remaining_candidates)
     }
 }

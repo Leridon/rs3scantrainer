@@ -480,15 +480,6 @@ video {
     font-weight: bold;
 }
 
-body.nis::-webkit-scrollbar {
-
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-input[type=number] {
-    -moz-appearance: textfield;
+#curtain {
+    background: url("assets/nis/background.png");
 }

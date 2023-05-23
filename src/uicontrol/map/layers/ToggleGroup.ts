@@ -34,6 +34,6 @@ export class ToggleGroup<T> extends TypedEmitter<ToggleGroupEvents<T>> {
 
     value(): T {
         if (!this.active_button) return null
-        else this.active_button.data("value")
+        else return this.active_button.data("value")
     }
 }

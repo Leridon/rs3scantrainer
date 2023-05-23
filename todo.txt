@@ -1,12 +1,22 @@
+Release b0.2
+
+- Scan Tree Editor
+    - Draw area on map
+    - Order dig spots
+    - Import/Export
+    - Overrides
+    - Edit actual tree
+    - Edit pathing
+
 RELEASE 1.0
-- Finish scan mapping and record more clips.
-    - Fix some clue spots being on a different level
+- Finish scan mapping
 
 - Manual scan solving
 
 - Arrow key/enter control for the search.
 - Finish styling
     - Fix the sizing of videos.
+
 
 
 RELEASE 1.1
@@ -61,6 +71,6 @@ Warn when not using meerkats
 
 Information theory and equivalence classes from scans also apply to compasses.
 
-Check out if the info icon from weekly challenges are useful.
-Extract the edit layout icon
+Check out if the info icon from weekly challenges are useful
 
+- Fix some clue spots being on a different level

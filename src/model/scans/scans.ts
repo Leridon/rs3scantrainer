@@ -1,7 +1,8 @@
 import * as leaflet from "leaflet";
-import {areaToPolygon, Box, MapCoordinate} from "../coordinates";
+import {areaToPolygon, Box, clampInto, MapCoordinate} from "../coordinates";
 import {Raster} from "../../util/raster";
 import {ScanSpot} from "../methods";
+import {clamp, rangeRight} from "lodash";
 
 export class EquivalenceClass {
     public information_gain: number
@@ -58,6 +59,12 @@ export class ScanEquivalenceClasses {
     }
 
     private calculate_classes() {
+
+        if (this.candidates.length == 0) {
+            this.max_information = 0
+            this.equivalence_classes = []
+            return
+        }
 
         let bounds = leaflet.bounds(this.candidates.map((c) => leaflet.point(c.x, c.y)))
 
@@ -142,9 +149,22 @@ export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: numbe
     return 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as PulseType
 }
 
-export function area_pulse(spot: MapCoordinate, area: Box, range: number) {
-    let dx_min = spot.x - area.topleft.x
+export function area_pulse(spot: MapCoordinate, area: Box, range: number): PulseType[] {
+    let min = get_pulse(spot, clampInto(spot, area), range)
 
+    let tl = area.topleft
+    let br = area.botright
+    let tr = {x: br.x, y: tl.y}
+    let bl = {x: tl.x, y: br.y}
+
+    let max = Math.max(
+        get_pulse(spot, tl, range),
+        get_pulse(spot, br, range),
+        get_pulse(spot, tr, range),
+        get_pulse(spot, bl, range)
+    )
+
+    return rangeRight(min, max + 1, 1) as PulseType[]
 }
 
 export type PulseType = 1 | 2 | 3
@@ -199,5 +219,13 @@ export namespace ChildType {
             [ChildType.DIFFERENTLEVEL, {pretty: "Different Level", short: "DL"}],
             [ChildType.TOOFAR, {pretty: "Too Far", short: "TF"}],
         ]).get(type)
+    }
+
+    export function fromPulse(pulse: PulseType): ChildType {
+        return [
+            ChildType.SINGLE,
+            ChildType.DOUBLE,
+            ChildType.TRIPLE,
+        ][pulse - 1]
     }
 }

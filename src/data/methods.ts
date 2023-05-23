@@ -323,12 +323,12 @@ function loadScanMethods() {
                 {"x": 3172, "y": 9570, "level": 0}
             ],
             [
-                {name: "A", tile: {x: 3226, y: 9542}},
-                {name: "B", tile: {x: 3226, y: 9547}},
-                {name: "C", tile: {x: 3221, y: 9552}},
-                {name: "D", tile: {x: 3221, y: 9556}},
-                {name: "E", tile: {x: 3206, y: 9553}},
-                {name: "F", tile: {x: 3204, y: 9553}},
+                {name: "A", area: {topleft: {x: 3226, y: 9542}, botright: {x: 3226, y: 9542}}},
+                {name: "B", area: {topleft: {x: 3226, y: 9547}, botright: {x: 3226, y: 9547}}},
+                {name: "C", area: {topleft: {x: 3221, y: 9552}, botright: {x: 3221, y: 9552}}},
+                {name: "D", area: {topleft: {x: 3221, y: 9556}, botright: {x: 3221, y: 9556}}},
+                {name: "E", area: {topleft: {x: 3206, y: 9553}, botright: {x: 3206, y: 9553}}},
+                {name: "F", area: {topleft: {x: 3204, y: 9553}, botright: {x: 3204, y: 9553}}},
             ],
             {
                 "-A": {
@@ -429,8 +429,8 @@ function loadScanMethods() {
                 {name: "B", area: {topleft: {x: 2918, y: 9702}, botright: {x: 2924, y: 9700}}},
                 {name: "C", area: {topleft: {x: 2906, y: 9722}, botright: {x: 2909, y: 9719}}},
                 {name: "D", area: {topleft: {x: 2908, y: 9742}, botright: {x: 2912, y: 9742}}},
-                {name: "E", tile: {x: 2914, y: 9742}},
-                {name: "F", tile: {x: 2886, y: 9795}},
+                {name: "E", area: {topleft: {x: 2914, y: 9742}, botright: {x: 2914, y: 9742}}},
+                {name: "F", area: {topleft: {x: 2886, y: 9795}, botright: {x: 2886, y: 9795}}},
                 {name: "G", area: {topleft: {x: 2881, y: 9833}, botright: {x: 2887, y: 9828}}},
             ],
             {
@@ -561,8 +561,8 @@ function loadScanMethods() {
                 {name: "B", area: {topleft: {x: 3223, y: 3424}, botright: {x: 3224, y: 3422}}},
                 {name: "C", area: {topleft: {x: 3233, y: 3414}, botright: {x: 3234, y: 3412}}},
                 {name: "D", area: {topleft: {x: 3242, y: 3418}, botright: {x: 3244, y: 3417}}},
-                {name: "E", tile: {x: 3254, y: 3449}},
-                {name: "F", tile: {x: 3244, y: 3459}},
+                {name: "E", area: {topleft: {x: 3254, y: 3449}, botright: {x: 3254, y: 3449}}},
+                {name: "F", area: {topleft: {x: 3244, y: 3459}, botright: {x: 3244, y: 3459}}},
                 {name: "G", area: {topleft: {x: 3179, y: 3420}, botright: {x: 3183, y: 3416}}},
                 {name: "H", area: {topleft: {x: 3162, y: 3466}, botright: {x: 3163, y: 3462}}},
             ],
@@ -689,12 +689,12 @@ function loadScanMethods() {
                 {"x": 2822, "y": 10193, "level": 0},
                 {"x": 2846, "y": 10233, "level": 0}],
             [
-                {name: "A", tile: {x: 2939, y: 10198}},
-                {name: "B", tile: {x: 2924, y: 10191}},
-                {name: "C", tile: {x: 2910, y: 10178}},
+                {name: "A", area: {topleft: {x: 2939, y: 10198}, botright: {x: 2939, y: 10198}}},
+                {name: "B", area: {topleft: {x: 2924, y: 10191}, botright: {x: 2924, y: 10191}}},
+                {name: "C", area: {topleft: {x: 2910, y: 10178}, botright: {x: 2910, y: 10178}}},
                 {name: "D", area: {topleft: {x: 2856, y: 10201}, botright: {x: 2860, y: 10197}}},
-                {name: "E", tile: {x: 2853, y: 10199}},
-                {name: "F", tile: {x: 2858, y: 10199}},
+                {name: "E", area: {topleft: {x: 2853, y: 10199}, botright: {x: 2853, y: 10199}}},
+                {name: "F", area: {topleft: {x: 2858, y: 10199}, botright: {x: 2858, y: 10199}}},
                 //{name: "B", area: {topleft: {x: 2923, y: 10195}, botright: {x: 2926, y: 10189}}}
             ],
             {
@@ -874,12 +874,12 @@ function loadScanMethods() {
                 {"x": 2739, "y": 5253, "level": 1}],
             [
                 {name: "A", area: {topleft: {x: 2721, y: 5266}, botright: {x: 2724, y: 5263}}},
-                {name: "B", tile: {x: 2726, y: 5266}},
+                {name: "B", area: {topleft: {x: 2726, y: 5266}, botright: {x: 2726, y: 5266}}},
                 {name: "C", area: {topleft: {x: 2712, y: 5277}, botright: {x: 2715, y: 5273}}},
                 {name: "D", area: {topleft: {x: 2713, y: 5281}, botright: {x: 2714, y: 5281}}},
                 {name: "E", area: {topleft: {x: 2713, y: 5285}, botright: {x: 2714, y: 5285}}},
                 {name: "F", area: {topleft: {x: 2696, y: 5311}, botright: {x: 2701, y: 5307}}},
-                {name: "G", tile: {x: 2701, y: 5305}},
+                {name: "G", area: {topleft: {x: 2701, y: 5305}, botright: {x: 2701, y: 5305}}},
                 {name: "H", area: {topleft: {x: 2701, y: 5336}, botright: {x: 2701, y: 5328}}},
                 {name: "I", area: {topleft: {x: 2707, y: 5353}, botright: {x: 2707, y: 5343}}},
                 {name: "J", area: {topleft: {x: 2707, y: 5290}, botright: {x: 2712, y: 5290}}},
@@ -1071,9 +1071,9 @@ function loadScanMethods() {
             [
                 {name: "A", area: {topleft: {x: 2659, y: 3306}, botright: {x: 2665, y: 3300}}},
                 {name: "B", area: {topleft: {x: 2648, y: 3308}, botright: {x: 2650, y: 3306}}},
-                {name: "C", tile: {x: 2538, y: 3306}},
-                {name: "D", tile: {x: 2531, y: 3303}},
-                {name: "E", tile: {x: 2521, y: 3293}},
+                {name: "C", area: {topleft: {x: 2538, y: 3306}, botright: {x: 2538, y: 3306}}},
+                {name: "D", area: {topleft: {x: 2531, y: 3303}, botright: {x: 2531, y: 3303}}},
+                {name: "E", area: {topleft: {x: 2521, y: 3293}, botright: {x: 2521, y: 3293}}},
             ],
             {
                 "-A": {

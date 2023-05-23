@@ -32,18 +32,20 @@ export abstract class Method {
 }
 
 export type ScanSpot = {
-    name: string, area?: Box, tile?: MapCoordinate, is_far_away?: boolean,
+    name: string,
+    area: Box,
+    is_far_away?: boolean,
     overrides?: {
-        single?: number[]
-        double?: number[]
-        triple?: number[]
-        toofar?: number[]
-        differentlevel?: number[]
+        single?: MapCoordinate[]
+        double?: MapCoordinate[]
+        triple?: MapCoordinate[]
+        toofar?: MapCoordinate[]
+        differentlevel?: MapCoordinate[]
     }
 }
 
 export namespace ScanSpot {
-    export function override(s: ScanSpot, type: ChildType): number[] | null {
+    export function override(s: ScanSpot, type: ChildType): MapCoordinate[] | null {
        switch (type) {
            case ChildType.SINGLE:
                return s.overrides ? s.overrides.single : null;

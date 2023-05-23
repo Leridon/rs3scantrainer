@@ -70,6 +70,8 @@ export class ScanTreeMethodLayer extends ScanLayer {
     public activate(map: GameMapControl) {
         super.activate(map);
 
+        this.app.sidepanels.methods_panel.setModal(this.scantree.explanationModal())
+
         this.app.sidepanels.methods_panel.showSection("scantree")
 
         this.scantree.root.sendToUI(this.app)

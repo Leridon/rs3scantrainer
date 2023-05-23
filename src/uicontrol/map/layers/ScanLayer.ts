@@ -1,13 +1,16 @@
 import * as leaflet from "leaflet";
-import {ScanSpot} from "../../../model/methods";
-import {Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../../model/coordinates";
+import {ScanSpot, Video} from "../../../model/methods";
+import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {GameMapControl, TileMarker} from "../map";
 import {area_pulse, ChildType, get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
-import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
+import {ActiveLayer, LayerInteraction, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {ToggleGroup} from "./ToggleGroup";
+import * as lodash from 'lodash';
+import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
+import {Layer, LeafletMouseEvent} from "leaflet";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -76,9 +79,6 @@ class SpotPolygon extends leaflet.FeatureGroup {
     }
 }
 
-
-import * as lodash from 'lodash';
-import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 
 export class ScanLayer extends ActiveLayer {
     protected markers: TileMarkerWithActive[]
@@ -296,8 +296,59 @@ class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
 
     container: JQuery
 
-    edit_area: {
-        container: JQuery
+    edit_panel: {
+        container: JQuery,
+        name: JQuery,
+        area: {
+            topleft: { x: JQuery, y: JQuery },
+            botright: { x: JQuery, y: JQuery },
+            redraw_button: JQuery
+        }
+    }
+
+    private createInputfield(read: () => number, write: (number) => void): JQuery {
+        return $("<input type='number' class='nisinput' style='width: 100%'>")
+            .val(read())
+            .on("input", (e) => {
+                write($(e.target).val())
+
+                console.log(this.area)
+
+                this.polygon.update()
+                this.parent.updateCandidates()
+            })
+    }
+
+    toggleEdit(): this {
+        this.edit_panel.container.animate({"height": 'toggle'})
+
+        return this
+    }
+
+    startRedraw(): DrawAreaInteraction {
+        let interaction = new DrawAreaInteraction(this.parent)
+
+        this.edit_panel.area.redraw_button.text("Drawing...")
+
+        interaction.events.on("changed", (a) => {
+            this.area.area = a
+
+            this.edit_panel.area.topleft.x.val(a.topleft.x)
+            this.edit_panel.area.topleft.y.val(a.topleft.y)
+            this.edit_panel.area.botright.x.val(a.botright.x)
+            this.edit_panel.area.botright.y.val(a.botright.y)
+
+            this.polygon.update()
+        })
+
+        interaction.events.on("done", (a) => {
+            this.parent.updateCandidates()
+            this.edit_panel.area.redraw_button.text("Draw on map")
+        })
+
+        interaction.activate()
+
+        return interaction
     }
 
     constructor(
@@ -323,7 +374,7 @@ class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
 
         this.main_row.edit_button = $('<div class="nissmallimagebutton" title="Edit"><img src="assets/icons/edit.png"></div>')
             .on("click", () => {
-                this.edit_area.container.animate({"height": 'toggle'})
+                this.toggleEdit()
             })
             .appendTo(this.main_row.row)
 
@@ -337,87 +388,67 @@ class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
 
         this.main_row.info_buttons.on("value_changed", (value) => this.parent.updateCandidates())
 
-        this.edit_area = {
+        this.edit_panel = {
             container: $("<div class='properties'></div>")
                 .hide()
-                .appendTo(this.container)
-        }
-
-        // This section is proof that I need to learn React...
-        $("<div class='head'>General</div>").appendTo(this.edit_area.container)
-
-        $("<div class='row'>")
-            .append($("<div class='col-2 property'>Name</div>"))
-            .append($("<div class='col-10'>").append($("<input type='text' class='nisinput' style='width: 100%'>")
+                .appendTo(this.container),
+            name: $("<input type='text' class='nisinput' style='width: 100%'>")
                 .val(area.name)
                 .on("input", (e) => {
                     this.area.name = $(e.target).val() as string
                     this.main_row.area_div.text(this.area.name)
                     this.polygon.update()
-                })
-            ))
-            .appendTo(this.edit_area.container)
+                }),
+            area: {
+                topleft: {
+                    x: this.createInputfield(() => this.area.area.topleft.x, (v) => this.area.area.topleft.x = v),
+                    y: this.createInputfield(() => this.area.area.topleft.y, (v) => this.area.area.topleft.y = v),
+                },
+                botright: {
+                    x: this.createInputfield(() => this.area.area.botright.x, (v) => this.area.area.botright.x = v),
+                    y: this.createInputfield(() => this.area.area.botright.y, (v) => this.area.area.botright.y = v),
+                },
+                redraw_button: $("<div class='lightbutton' style='width: 100%'>Draw on map</div>")
+                    .on("click", () => {
+                        this.startRedraw()
+                    })
+            }
+        }
 
-        $("<div class='head'>Area</div>").appendTo(this.edit_area.container)
+        // This section is proof that I need to learn React...
+        $("<div class='head'>General</div>").appendTo(this.edit_panel.container)
+
+        $("<div class='row'>")
+            .append($("<div class='col-2 property'>Name</div>"))
+            .append($("<div class='col-10'>").append(this.edit_panel.name))
+            .appendTo(this.edit_panel.container)
+
+        $("<div class='head'>Area</div>").appendTo(this.edit_panel.container)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property'></div>"))
             .append($("<div class='col-5 property' style='text-align: center'>x</div>"))
             .append($("<div class='col-5 property' style='text-align: center'>y</div>"))
-            .appendTo(this.edit_area.container)
+            .appendTo(this.edit_panel.container)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Top left' style='text-align: center'>TL</div>"))
-            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")
-                .val(this.area.area.topleft.x)
-                .on("input", (e) => {
-                    this.area.area.topleft.x = Number($(e.target).val())
-                    console.log(this.area.area)
-                    this.polygon.update()
-                    this.parent.updateCandidates()
-                })
-            ))
-            .append($("<div class='col-5'>").append($("<input type='number' class='nisinput' style='width: 100%'>")
-                .val(this.area.area.topleft.y)
-                .on("input", (e) => {
-                    this.area.area.topleft.y = Number($(e.target).val())
-                    console.log(this.area.area)
-                    this.polygon.update()
-                    this.parent.updateCandidates()
-
-                    console.log(this.area)
-                })
-            ))
-            .appendTo(this.edit_area.container)
+            .append($("<div class='col-5'>").append(this.edit_panel.area.topleft.x))
+            .append($("<div class='col-5'>").append(this.edit_panel.area.topleft.y))
+            .appendTo(this.edit_panel.container)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Bottom right' style='text-align: center'>BR</div>"))
-            .append($("<div class='col-5'>").append(
-                $("<input type='number' class='nisinput' style='width: 100%'>")
-                    .val(this.area.area.botright.x)
-                    .on("input", (e) => {
-                        this.area.area.botright.x = Number($(e.target).val())
-                        console.log(this.area.area)
-                        this.polygon.update()
-                        this.parent.updateCandidates()
-                    })))
-            .append($("<div class='col-5'>").append(
-                $("<input type='number' class='nisinput' style='width: 100%'>")
-                    .val(this.area.area.botright.y)
-                    .on("input", (e) => {
-                        this.area.area.botright.y = Number($(e.target).val())
-                        console.log(this.area.area)
-                        this.polygon.update()
-                        this.parent.updateCandidates()
-                    })))
-            .appendTo(this.edit_area.container)
+            .append($("<div class='col-5'>").append(this.edit_panel.area.botright.x))
+            .append($("<div class='col-5'>").append(this.edit_panel.area.botright.y))
+            .appendTo(this.edit_panel.container)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property'></div>"))
-            .append($("<div class='col-10'>").append($("<div class='lightbutton' style='width: 100%'>Redraw on map</div>")))
-            .appendTo(this.edit_area.container)
+            .append($("<div class='col-10'>").append(this.edit_panel.area.redraw_button))
+            .appendTo(this.edit_panel.container)
 
-        $("<div class='head'>Overrides</div>").appendTo(this.edit_area.container)
+        $("<div class='head'>Overrides</div>").appendTo(this.edit_panel.container)
     }
 
     delete() {
@@ -426,6 +457,34 @@ class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
 
         this.emit("deleted", "")
     }
+}
+
+type path = any
+
+type tree = {
+    spot_ordering: MapCoordinate[],
+    areas: ScanSpot[],
+    methods: {
+        from?: string,
+        to: string | MapCoordinate,
+        path?: path,
+        instruction?: string,
+        clip?: Video
+    }[]
+    root: tree_node
+}
+
+type tree_node = {
+    where: string,
+    decisions?: [ChildType, tree_node][]
+}
+
+let kelda: tree_node = {
+    where: "A",
+    decisions: [
+        [ChildType.SINGLE, {where: "B"}],
+        [ChildType.DOUBLE, {where: "B"}]
+    ]
 }
 
 class ScanEditPanel {
@@ -454,18 +513,22 @@ class ScanEditPanel {
 
         this.scan_spots.add_button = $("<div class='lightbutton'>+ Add area</div>")
             .on("click", () => {
-                this.addArea({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
+                let w = this.addArea({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
+                    .toggleEdit()
+                w.startRedraw().events.on("done", () => (w.edit_panel.name[0] as HTMLInputElement).select())
             })
             .appendTo($("<div style='text-align: center'></div>").appendTo(this.content))
     }
 
-    private addArea(area: ScanSpot) {
+    private addArea(area: ScanSpot): AreaWidget {
         let w =
             new AreaWidget(this.layer, area)
                 .on("deleted", () => this.scan_spots.areas.areas.splice(this.scan_spots.areas.areas.indexOf(w), 1))
 
         w.container.appendTo(this.scan_spots.areas.container)
         this.scan_spots.areas.areas.push(w)
+
+        return w
     }
 
     setAreas(areas: ScanSpot[]) {
@@ -475,59 +538,80 @@ class ScanEditPanel {
     }
 }
 
+class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
+    events = new TypedEmitter<{
+        "changed": Box,
+        "done": Box
+        "cancelled": Box
+    }>()
+
+    dragstart: MapCoordinate = null
+    last_area: Box = null
+
+    constructor(layer: ScanEditLayer) {
+        super(layer);
+    }
+
+    cancel() {
+        this.layer.getMap().map.off(this._maphooks)
+        this.layer.getMap().map.dragging.enable()
+    }
+
+    start() {
+        console.log("Starting")
+
+        this.layer.getMap().map.on(this._maphooks)
+        this.layer.getMap().map.dragging.disable()
+    }
+
+    _maphooks: leaflet.LeafletEventHandlerFnMap = {
+        "mousedown": (e: LeafletMouseEvent) => {
+            leaflet.DomEvent.stopPropagation(e)
+
+            this.dragstart = this.layer.getMap().tileFromMouseEvent(e)
+
+            this.last_area = {topleft: this.dragstart, botright: this.dragstart}
+
+            this.events.emit("changed", this.last_area)
+        },
+
+        "mousemove": (e: LeafletMouseEvent) => {
+            if (this.dragstart) {
+                leaflet.DomEvent.stopPropagation(e)
+
+                let now = this.layer.getMap().tileFromMouseEvent(e)
+
+                this.last_area =
+                    {
+                        topleft: {
+                            x: Math.min(this.dragstart.x, now.x),
+                            y: Math.max(this.dragstart.y, now.y),
+                        },
+                        botright: {
+                            x: Math.max(this.dragstart.x, now.x),
+                            y: Math.min(this.dragstart.y, now.y),
+                        }
+                    }
+
+                this.events.emit("changed", this.last_area)
+            }
+        },
+
+        "mouseup": (e: LeafletMouseEvent) => {
+            if (this.dragstart) {
+                leaflet.DomEvent.stopPropagation(e)
+
+                this.events.emit("done", this.last_area)
+
+                this.layer.cancelInteraction()
+            }
+        }
+    }
+
+}
 
 export class ScanEditLayer extends ScanLayer {
     private edit_panel = new ScanEditPanel(this)
-
-    /*drawing: leaflet.LeafletEventHandlerFnMap = {
-         "mousedown": (e) => {
-             this.map.map.dragging.disable()
-
-             this.dragstart = this.map.tileFromMouseEvent(e)
-
-             this.drag_polygon = tilePolygon(this.dragstart)
-                 .setStyle({
-                     color: "#00FF21",
-                     fillColor: "#00FF21",
-                     interactive: false,
-                 })
-                 .addTo(this)
-         },
-         "mousemove": (e) => {
-             if (self.dragstart) {
-                 let now = map.tileFromMouseEvent(e)
-
-                 let area: Box =
-                     {
-                         topleft: {
-                             x: Math.min(self.dragstart.x, now.x),
-                             y: Math.max(self.dragstart.y, now.y),
-                         },
-                         botright: {
-                             x: Math.max(self.dragstart.x, now.x),
-                             y: Math.min(self.dragstart.y, now.y),
-                         }
-                     }
-
-
-                 self.drag_polygon.remove()
-                 self.drag_polygon = boxPolygon(area)
-                     .setStyle({
-                         color: "#00FF21",
-                         fillColor: "#00FF21",
-                         interactive: false,
-                     }).addTo(self)
-                 self.drag_polygon.addTo(self)
-             }
-         },
-
-         "mouseup": () => {
-             self.dragstart = null
-             self.drag_polygon = null
-
-             map.map.dragging.enable()
-         }
-     }**/
 
     constructor(clue: ScanStep, app: Application) {
         super(clue, app, {
@@ -537,7 +621,6 @@ export class ScanEditLayer extends ScanLayer {
     }
 
     setAreas(spots: ScanSpot[]) {
-        //super.setAreas(spots)
         this.edit_panel.setAreas(spots)
     }
 

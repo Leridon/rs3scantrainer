@@ -1,10 +1,6 @@
-import {ClueStep, ScanStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
+import {ClueStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
 import {GameMapControl, TileMarker} from "./map";
 import * as leaflet from "leaflet"
-import {Area, areaToPolygon, Box, boxPolygon, eq, MapCoordinate, tilePolygon} from "../../model/coordinates";
-import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../model/scans/scans";
-import {ScanSpot} from "../../model/methods";
-import {ImageButton} from "./CustomControl";
 import {ScanLayer} from "./layers/ScanLayer";
 import {Application} from "../../application";
 
@@ -24,12 +20,41 @@ export class TileMarkerWithActive extends TileMarker {
     }
 }
 
+export abstract class LayerInteraction<T extends ActiveLayer> {
+    constructor(protected layer: T) {
+    }
+
+    activate() {
+        this.layer.setInteraction(this)
+    }
+
+    abstract start()
+
+    abstract cancel()
+}
+
 export abstract class ActiveLayer extends leaflet.FeatureGroup {
     protected map: GameMapControl = null
     private controls: leaflet.Control[] = []
+    private interaction: LayerInteraction<ActiveLayer>
 
-    constructor() {
+    protected constructor() {
         super();
+    }
+
+    getMap(): GameMapControl {
+        return this.map
+    }
+
+    setInteraction(interaction: LayerInteraction<ActiveLayer>) {
+        this.cancelInteraction()
+
+        this.interaction = interaction
+        this.interaction.start()
+    }
+
+    cancelInteraction() {
+        if (this.interaction) this.interaction.cancel()
     }
 
     protected addControl(control: leaflet.Control) {
@@ -45,6 +70,8 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
     }
 
     deactivate() {
+        this.cancelInteraction()
+
         this.map = null
 
         this.controls.forEach((e) => e.remove())

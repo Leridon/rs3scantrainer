@@ -1,27 +1,32 @@
-Release b0.2
+Release b0.3
 
 - Scan Tree Editor
-    - Draw area on map
     - Order dig spots
     - Import/Export
     - Overrides
     - Edit actual tree
-    - Edit pathing
+    - Edit pathing (?)
+- Fremmenik Isles, Haunted Woods, Piscatoris
+- Revisit existing scans
 
 RELEASE 1.0
-- Finish scan mapping
+- Finish all scans
 
-- Manual scan solving
-
+Unscheduled:
 - Arrow key/enter control for the search.
-- Finish styling
-    - Fix the sizing of videos.
-
-
-
-RELEASE 1.1
 - Integrate a solving method for compasses
+- Collapsible panels
+- Add puzzle solvers
+- Add methods for remaining clue types.
+- Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat.
+- Setting menu
+    - Teleports
+    - Locally saved methods
+- Figure out how to handle RoW/LotD/HSR
+- Apply information theory and equivalence classes from scans also to compasses.
+- Rich text format to include icons in instructions
+- Figure out z-Ordering of layers (need to use panes probably)
 
 Done:
 - Lumbdridge
@@ -37,9 +42,6 @@ Next up:
 - Fremennik Isles
 - Haunted Woods
 - Piscatoris
-
-
-Scan maps:
 - Menaphos
 - Desert
 - Brimhaven
@@ -51,26 +53,3 @@ Scan maps:
 - Prifddinias
 - Kharazi Jungle
 - Mos Le Harmless
-
-- Collapsible panels
-
-- Add method display like the old clueguider
-- Add methods for remaining clue types.
-- Add puzzle solvers
-
-
-Figure out z-Ordering of layers (need to use panes probably)
-
-Teleports:
-- Add configuration options
-- Figure out how to handle RoW/LotD/HSR
-
-Figure out hosting
-
-Warn when not using meerkats
-
-Information theory and equivalence classes from scans also apply to compasses.
-
-Check out if the info icon from weekly challenges are useful
-
-- Fix some clue spots being on a different level

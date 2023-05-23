@@ -143,17 +143,8 @@ export class ScanLayer extends ActiveLayer {
         }
     }
 
-    dragstart: MapCoordinate = null
-    drag_polygon: leaflet.Polygon = null
-
     activate(map: GameMapControl) {
         super.activate(map);
-
-        /*this.map.map.dragging.disable()
-
-        let self = this
-
- */
     }
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates

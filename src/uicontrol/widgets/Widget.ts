@@ -1,7 +1,7 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as events from "events";
 
-export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<events>{
+export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T>{
     protected constructor(protected container: JQuery) {
         super()
     }

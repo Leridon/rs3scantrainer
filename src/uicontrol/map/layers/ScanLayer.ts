@@ -274,7 +274,7 @@ export class ScanLayer extends ActiveLayer {
 }
 
 class SpotOrderingWidget extends Widget<{
-    change: MapCoordinate[]
+    changed: MapCoordinate[]
 }> {
     list: JQuery
     reselect_button: JQuery
@@ -282,8 +282,6 @@ class SpotOrderingWidget extends Widget<{
     current_order: MapCoordinate[] = null
 
     interaction: SelectDigSpotsInteraction = null
-
-    events = new TypedEmitter()
 
     constructor(private layer: ScanEditLayer) {
         super($("<div>"))
@@ -326,6 +324,7 @@ class SpotOrderingWidget extends Widget<{
     }
 
     private old_order: MapCoordinate[] = null
+
     startSelection(): SelectDigSpotsInteraction {
         this.old_order = this.current_order
 
@@ -345,7 +344,7 @@ class SpotOrderingWidget extends Widget<{
 
                 this.update(l)
 
-                this.events.emit("changed", l)
+                this.emit("changed", l)
             })
 
         this.update([])
@@ -596,7 +595,13 @@ class ScanEditPanel {
     constructor(public layer: ScanEditLayer) {
         this.content = $(".cluemethodcontent[data-methodsection=scanedit]").empty()
 
-        this.spot_ordering = new SpotOrderingWidget(layer).appendTo(this.content)
+        this.spot_ordering = new SpotOrderingWidget(layer)
+            .appendTo(this.content)
+
+        this.spot_ordering.on("changed", (v: MapCoordinate[]) => {
+            this.value.spot_ordering = v
+            console.log(this.value)
+        })
 
         //$("<h3>Spots</h3>").appendTo(this.content)
 

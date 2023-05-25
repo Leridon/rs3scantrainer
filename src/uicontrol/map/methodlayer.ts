@@ -36,6 +36,11 @@ export class ScanTreeMethodLayer extends ScanLayer {
         })
     }
 
+
+    getTree(): ScanTree {
+        return this.scantree;
+    }
+
     public setNode(node: ScanTreeNode) {
         this.node = node
         this.fit()
@@ -56,15 +61,17 @@ export class ScanTreeMethodLayer extends ScanLayer {
             show_equivalence_classes_button: false
         });
 
+        this.setSpotOrder(scantree.dig_spot_mapping)
+
         // sort markers to correlate to the spot mapping
-        this.markers.sort((a, b) => scantree.spotToNumber(a.getSpot()) - scantree.spotToNumber(b.getSpot()))
+        //this.markers.sort((a, b) => scantree.spotToNumber(a.getSpot()) - scantree.spotToNumber(b.getSpot()))
 
         this.setAreas(this.scantree.scan_spots)
 
         // Create labels
-        this.markers.forEach((m, i) => {
+        /*this.markers.forEach((m, i) => {
             m.withLabel((i + 1).toString(), "spot-number", [0, 10])
-        })
+        })*/
     }
 
     public activate(map: GameMapControl) {

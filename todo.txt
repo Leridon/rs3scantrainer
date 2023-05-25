@@ -2,8 +2,6 @@ Release b0.3
 
 - Scan Tree Editor
     - Order dig spots
-        - Initialize order
-        - Draw order on map
         - Apply new ordering to overrides
     - Overrides
     - Edit actual tree
@@ -30,6 +28,8 @@ Unscheduled:
 - Apply information theory and equivalence classes from scans also to compasses.
 - Rich text format to include icons in instructions
 - Figure out z-Ordering of layers (need to use panes probably)
+- Assign clue tiers to remaining clues
+- Figure out how to handle clues with different solutions depending on game progress.
 
 Done:
 - Lumbdridge

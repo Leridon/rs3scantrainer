@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet";
-import {ScanSpot, Video} from "../../../model/methods";
+import {ScanSpot, ScanTree, Video} from "../../../model/methods";
 import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
@@ -108,7 +108,6 @@ export class ScanLayer extends ActiveLayer {
             let m = new TileMarkerWithActive(e).withMarker().withX("#B21319")
 
             m.on("click", (e) => {
-
                 this.events.emit("dig_spot_clicked", m)
             })
 
@@ -143,16 +142,24 @@ export class ScanLayer extends ActiveLayer {
 
             if (options.show_edit_button && !app.in_alt1)
                 this.addControl(new ImageButton("assets/icons/edit.png", {
-                    "click": (e) => {
-                        let l = new ScanEditLayer(this.clue, this.app)
-                        l.setAreas(lodash.cloneDeep(this.areas.map((s) => s.spot())))
-
-                        this.map.setActiveLayer(l)
-                    }
+                    "click": (e) => this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, this.getTree()))
                 }, {
                     title: "Edit scan route (Advanced)"
                 }).setPosition("topright"))
         }
+    }
+
+    getTree(): ScanTree {
+        return null
+    }
+
+    setSpotOrder(ordering: MapCoordinate[]) {
+        this.markers.forEach((m) => {
+            let i = ordering.findIndex((s) => eq(m.getSpot(), s))
+
+            if (i >= 0) m.withLabel((i + 1).toString(), "spot-number", [0, 10])
+            else m.removeLabel()
+        })
     }
 
     activate(map: GameMapControl) {
@@ -266,16 +273,13 @@ export class ScanLayer extends ActiveLayer {
     }
 }
 
-type AreaWidgetEvents = {
-    "deleted": any,
-    "changed": ScanSpot
-}
-
 class SpotOrderingWidget extends Widget<{
     change: MapCoordinate[]
 }> {
     list: JQuery
     reselect_button: JQuery
+
+    current_order: MapCoordinate[] = null
 
     interaction: SelectDigSpotsInteraction = null
 
@@ -298,7 +302,9 @@ class SpotOrderingWidget extends Widget<{
             .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
     }
 
-    update(l: MapCoordinate[]) {
+    update(ordering: MapCoordinate[]) {
+        this.current_order = ordering
+
         this.list.empty()
 
         $("<div class='row'>")
@@ -307,16 +313,22 @@ class SpotOrderingWidget extends Widget<{
             .append($("<div class='col-5' style='text-align: center'>").text("y"))
             .appendTo(this.list)
 
-        l.forEach((v, i) => {
+        ordering.forEach((v, i) => {
             $("<div class='row'>")
                 .append($("<div class='col-2' style='text-align: center'>").text(i + 1))
                 .append($("<div class='col-5' style='text-align: center'>").text(v.x))
                 .append($("<div class='col-5' style='text-align: center'>").text(v.y))
                 .appendTo(this.list)
         })
+
+        // Draw ordering on map
+        this.layer.setSpotOrder(ordering)
     }
 
+    private old_order: MapCoordinate[] = null
     startSelection(): SelectDigSpotsInteraction {
+        this.old_order = this.current_order
+
         let interaction = new SelectDigSpotsInteraction(this.layer)
 
         this.reselect_button.text("Save")
@@ -327,7 +339,7 @@ class SpotOrderingWidget extends Widget<{
             .on("done", (l) => {
                 this.reselect_button.text("Select new order")
 
-                let unaccounted = this.layer.getClue().solution.candidates.filter((c) => !l.some((i) => eq(i, c)))
+                let unaccounted = this.old_order.filter((c) => !l.some((i) => eq(i, c)))
 
                 l = l.concat(...unaccounted)
 
@@ -336,11 +348,16 @@ class SpotOrderingWidget extends Widget<{
                 this.events.emit("changed", l)
             })
 
+        this.update([])
+
         return this.interaction = interaction.activate()
     }
 }
 
-class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
+class AreaWidget extends TypedEmitter<{
+    "deleted": any,
+    "changed": ScanSpot
+}> {
     main_row: {
         row: JQuery,
         area_div?: JQuery
@@ -561,6 +578,8 @@ let kelda: tree_node = {
 }
 
 class ScanEditPanel {
+    value: tree
+
     content: JQuery
 
     spot_ordering: SpotOrderingWidget
@@ -595,6 +614,13 @@ class ScanEditPanel {
                 w.startRedraw().events.on("done", () => (w.edit_panel.name[0] as HTMLInputElement).select())
             })
             .appendTo($("<div style='text-align: center'></div>").appendTo(this.content))
+    }
+
+    setValue(value: tree) {
+        this.value = value
+
+        this.spot_ordering.update(value.spot_ordering)
+        this.setAreas(value.areas)
     }
 
     private addArea(area: ScanSpot): AreaWidget {
@@ -729,19 +755,31 @@ class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
 export class ScanEditLayer extends ScanLayer {
     private edit_panel = new ScanEditPanel(this)
 
-    constructor(clue: ScanStep, app: Application) {
+    constructor(clue: ScanStep, app: Application, tree: ScanTree) {
         super(clue, app, {
             show_edit_button: false,
             show_equivalence_classes_button: true
         })
+
+        if (tree) {
+            this.edit_panel.setValue({
+                spot_ordering: tree.dig_spot_mapping,
+                areas: tree.scan_spots,
+                methods: [],
+                root: null
+            })
+        } else {
+            this.edit_panel.setValue({
+                spot_ordering: clue.solution.candidates,
+                areas: [],
+                methods: [],
+                root: null
+            })
+        }
     }
 
     getClue(): ScanStep {
         return this.clue
-    }
-
-    setAreas(spots: ScanSpot[]) {
-        this.edit_panel.setAreas(spots)
     }
 
     activate(map: GameMapControl) {

@@ -88,6 +88,8 @@ export class TileMarker extends leaflet.FeatureGroup {
     }
 
     withLabel(text: string, className: string, offset: [number, number]) {
+        if(this.label) this.removeLabel()
+
         this.label = leaflet.tooltip({
             content: text,
             className: className,
@@ -99,6 +101,13 @@ export class TileMarker extends leaflet.FeatureGroup {
         this.bindTooltip(this.label)
 
         return this
+    }
+
+    removeLabel() {
+        if (this.label) {
+            this.label.remove()
+            this.label = null
+        }
     }
 
     withX(color: string) {

@@ -21,11 +21,25 @@ export class TileMarkerWithActive extends TileMarker {
 }
 
 export abstract class LayerInteraction<T extends ActiveLayer> {
+    private is_active: boolean
+
     constructor(protected layer: T) {
     }
 
-    activate() {
-        this.layer.setInteraction(this)
+    activate(): this {
+        if (!this.is_active) {
+            this.layer.setInteraction(this)
+            this.is_active = true
+        }
+        return this
+    }
+
+    deactivate(): this {
+        if (this.is_active) {
+            this.layer.cancelInteraction()
+            this.is_active = false
+        }
+        return this
     }
 
     abstract start()
@@ -54,7 +68,10 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
     }
 
     cancelInteraction() {
-        if (this.interaction) this.interaction.cancel()
+        if (this.interaction) {
+            this.interaction.cancel()
+            this.interaction = null
+        }
     }
 
     protected addControl(control: leaflet.Control) {

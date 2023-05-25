@@ -2,9 +2,12 @@ Release b0.3
 
 - Scan Tree Editor
     - Order dig spots
-    - Import/Export
+        - Initialize order
+        - Draw order on map
+        - Apply new ordering to overrides
     - Overrides
     - Edit actual tree
+    - Import/Export
     - Edit pathing (?)
 - Fremmenik Isles, Haunted Woods, Piscatoris
 - Revisit existing scans

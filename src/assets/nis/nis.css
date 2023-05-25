@@ -62,6 +62,11 @@
 .nisdropdown
 {height:20px; cursor:text; color:#B1AFAE; outline:none; position:relative; padding:0px 4px; box-sizing:border-box; background:linear-gradient(to bottom, #191714,#292222,#100C0C); border:1px solid #514949; font-family:sans-serif; font-size:13px;}
 
+.nisinput[disabled] {
+    background:linear-gradient(to bottom, #2C2C2C,#4A4A4A,#1c1c1c);
+    filter:brightness(120%);
+}
+
 .nisdropdown{height:19px; cursor:pointer; outline:none; box-sizing:border-box; padding:0px 0px 0px 4px;}
 .nisdropdown>option{background:#1D190D;}
 

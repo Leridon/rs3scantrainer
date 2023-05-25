@@ -4,7 +4,6 @@ export default class ToggleButton {
     private handler: (s: boolean, e: ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => void = null
 
     constructor(public button: JQuery, private state: boolean = false) {
-
         this.update()
 
         let self = this

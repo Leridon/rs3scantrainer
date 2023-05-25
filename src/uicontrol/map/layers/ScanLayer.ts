@@ -11,6 +11,7 @@ import {ToggleGroup} from "./ToggleGroup";
 import * as lodash from 'lodash';
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {Layer, LeafletMouseEvent} from "leaflet";
+import Widget from "../../widgets/Widget";
 
 class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -85,6 +86,10 @@ export class ScanLayer extends ActiveLayer {
     protected areas: SpotPolygon[] = []
     protected range: number
 
+    public events = new TypedEmitter<{
+        "dig_spot_clicked": TileMarkerWithActive
+    }>
+
     radius_polygon: leaflet.Polygon[]
 
     private ms: MapCoordinate[] = []
@@ -100,7 +105,14 @@ export class ScanLayer extends ActiveLayer {
         this.range = clue.range + 5 // Always assume meerkats
 
         this.markers = (clue.solution as SetSolution).candidates.map((e) => {
-            return new TileMarkerWithActive(e).withMarker().withX("#B21319")
+            let m = new TileMarkerWithActive(e).withMarker().withX("#B21319")
+
+            m.on("click", (e) => {
+
+                this.events.emit("dig_spot_clicked", m)
+            })
+
+            return m
         })
 
         /*
@@ -189,28 +201,11 @@ export class ScanLayer extends ActiveLayer {
     }
 
     private createEquivalenceClasses() {
-        {
-            let startTime = performance.now()
+        this.equivalence_classes = new ScanEquivalenceClasses(this.remaining_candidates, this.clue.range + 5)
 
-            this.equivalence_classes = new ScanEquivalenceClasses(this.remaining_candidates, this.clue.range + 5)
-
-            console.log(this.equivalence_classes.getClasses().map((c) => c.information_gain))
-
-            let endTime = performance.now()
-            console.log(`Created ${this.equivalence_classes.equivalence_classes.length} classes in ${endTime - startTime} milliseconds`)
-        }
-
-        {
-            let startTime = performance.now()
-
-            this.equivalence_classes.getClasses().forEach((c) => {
-                c.getPolygon().addTo(this)
-            })
-
-            let endTime = performance.now()
-
-            console.log(`Created ${this.equivalence_classes.equivalence_classes.length} polygons in ${endTime - startTime} milliseconds`)
-        }
+        this.equivalence_classes.getClasses().forEach((c) => {
+            c.getPolygon().addTo(this)
+        })
     }
 
     protected setEquivalenceClassesEnabled(enabled: boolean) {
@@ -274,6 +269,75 @@ export class ScanLayer extends ActiveLayer {
 type AreaWidgetEvents = {
     "deleted": any,
     "changed": ScanSpot
+}
+
+class SpotOrderingWidget extends Widget<{
+    change: MapCoordinate[]
+}> {
+    list: JQuery
+    reselect_button: JQuery
+
+    interaction: SelectDigSpotsInteraction = null
+
+    events = new TypedEmitter()
+
+    constructor(private layer: ScanEditLayer) {
+        super($("<div>"))
+
+        this.append($("<h4>Spot numbering</h4>"))
+
+        this.append(this.list = $("<div>"))
+
+        this.reselect_button = $("<div class='lightbutton'>Select new order</div>")
+            .on("click", (e) => {
+                if (this.interaction) {
+                    this.interaction.deactivate()
+                    this.interaction = null
+                } else this.startSelection()
+            })
+            .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
+    }
+
+    update(l: MapCoordinate[]) {
+        this.list.empty()
+
+        $("<div class='row'>")
+            .append($("<div class='col-2' style='text-align: center'>").text("#"))
+            .append($("<div class='col-5' style='text-align: center'>").text("x"))
+            .append($("<div class='col-5' style='text-align: center'>").text("y"))
+            .appendTo(this.list)
+
+        l.forEach((v, i) => {
+            $("<div class='row'>")
+                .append($("<div class='col-2' style='text-align: center'>").text(i + 1))
+                .append($("<div class='col-5' style='text-align: center'>").text(v.x))
+                .append($("<div class='col-5' style='text-align: center'>").text(v.y))
+                .appendTo(this.list)
+        })
+    }
+
+    startSelection(): SelectDigSpotsInteraction {
+        let interaction = new SelectDigSpotsInteraction(this.layer)
+
+        this.reselect_button.text("Save")
+
+        interaction.events.on("changed", (l) => {
+            this.update(l)
+        })
+            .on("done", (l) => {
+                this.reselect_button.text("Select new order")
+
+                let unaccounted = this.layer.getClue().solution.candidates.filter((c) => !l.some((i) => eq(i, c)))
+
+                l = l.concat(...unaccounted)
+
+                this.update(l)
+
+                this.events.emit("changed", l)
+            })
+
+        return this.interaction = interaction.activate()
+    }
 }
 
 class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
@@ -440,6 +504,23 @@ class AreaWidget extends TypedEmitter<AreaWidgetEvents> {
             .appendTo(this.edit_panel.container)
 
         $("<div class='head'>Overrides</div>").appendTo(this.edit_panel.container)
+
+
+        for (let c of ChildType.all) {
+            let input = $("<input class='nisinput disabled' disabled type='text'>")
+            let checkbox = $("<input type='checkbox'>")
+                .on("input", () => {
+                        input.prop("disabled", !(checkbox.is(":checked")))
+                    }
+                )
+
+            let r = $("<div class='flex-row'>")
+                .append($("<div>").text(ChildType.meta(c).pretty))
+                .append(checkbox)
+                .append(input)
+                .append($("<div class='lightbutton'>Select on map</div>"))
+                .appendTo(this.edit_panel.container)
+        }
     }
 
     delete() {
@@ -466,7 +547,8 @@ type tree = {
 }
 
 type tree_node = {
-    where: string,
+    where?: string,
+    why?: string,
     decisions?: [ChildType, tree_node][]
 }
 
@@ -481,6 +563,8 @@ let kelda: tree_node = {
 class ScanEditPanel {
     content: JQuery
 
+    spot_ordering: SpotOrderingWidget
+
     scan_spots: {
         heading?: JQuery,
         areas?: {
@@ -492,6 +576,8 @@ class ScanEditPanel {
 
     constructor(public layer: ScanEditLayer) {
         this.content = $(".cluemethodcontent[data-methodsection=scanedit]").empty()
+
+        this.spot_ordering = new SpotOrderingWidget(layer).appendTo(this.content)
 
         //$("<h3>Spots</h3>").appendTo(this.content)
 
@@ -529,6 +615,47 @@ class ScanEditPanel {
     }
 }
 
+class SelectDigSpotsInteraction extends LayerInteraction<ScanEditLayer> {
+    events = new TypedEmitter<{
+        "changed": MapCoordinate[],
+        "done": MapCoordinate[]
+    }>()
+
+    selection: MapCoordinate[]
+
+    constructor(layer: ScanEditLayer) {
+        super(layer);
+    }
+
+    start() {
+        this.selection = []
+
+        let self = this
+        this.layer.events.on("dig_spot_clicked", self._hook)
+    }
+
+    cancel() {
+
+        let self = this
+        this.layer.events.off("dig_spot_clicked", self._hook)
+
+        this.events.emit("done", this.selection)
+    }
+
+    private _hook = (m: TileMarkerWithActive) => {
+        let s = m.getSpot()
+
+        console.log(s)
+
+        let i = this.selection.findIndex((e) => eq(e, s))
+
+        if (i >= 0) this.selection.splice(i, 1)
+        else this.selection.push(s)
+
+        this.events.emit("changed", this.selection)
+    }
+}
+
 class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
     events = new TypedEmitter<{
         "changed": Box,
@@ -549,8 +676,6 @@ class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
     }
 
     start() {
-        console.log("Starting")
-
         this.layer.getMap().map.on(this._maphooks)
         this.layer.getMap().map.dragging.disable()
     }
@@ -609,6 +734,10 @@ export class ScanEditLayer extends ScanLayer {
             show_edit_button: false,
             show_equivalence_classes_button: true
         })
+    }
+
+    getClue(): ScanStep {
+        return this.clue
     }
 
     setAreas(spots: ScanSpot[]) {

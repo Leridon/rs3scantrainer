@@ -32,11 +32,12 @@
 .nisseperator{width:100%; height:0px; border-top:1px solid #000; border-bottom:1px solid #41555F; position:absolute; left:0px;}
 
 .nissmallimagebutton{width:21px; height:21px; cursor:pointer; user-select:none; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; background-image:url("buttonsmall.png"); background-size:auto 42px;}
-.nissmallimagebutton:hover{background-position:0px -21px;}
+.nissmallimagebutton:not(.disabled):hover{background-position:0px -21px;}
 .nissmallimagebutton.offset1{background-position:-21px 0px;}
 .nissmallimagebutton.offset1:hover{background-position:-21px -21px;}
 .nissmallimagebutton.offset2{background-position:-42px 0px;}
 .nissmallimagebutton.offset2:hover{background-position:-42px -21px;}
+.nissmallimagebutton.disabled{filter: brightness(50%); cursor: default}
 
 .nistinyimagebutton{width:21px; height:19px; cursor:pointer; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;}
 .nistinyimagebutton:hover{background-position:0px -19px;}

@@ -4,6 +4,7 @@ Release b0.3
     - Order dig spots
         - Apply new ordering to overrides
     - Overrides
+    - Virtual areas
     - Edit actual tree
     - Import/Export
     - Edit pathing (?)

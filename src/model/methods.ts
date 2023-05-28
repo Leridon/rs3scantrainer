@@ -33,7 +33,7 @@ export abstract class Method {
 
 export type ScanSpot = {
     name: string,
-    area: Box,
+    area?: Box,
     is_far_away?: boolean,
     overrides?: {
         single?: MapCoordinate[]

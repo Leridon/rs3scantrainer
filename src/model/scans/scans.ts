@@ -3,6 +3,7 @@ import {areaToPolygon, Box, clampInto, MapCoordinate} from "../coordinates";
 import {Raster} from "../../util/raster";
 import {ScanSpot} from "../methods";
 import {clamp, rangeRight} from "lodash";
+import {ScanStep} from "../clues";
 
 export class EquivalenceClass {
     public information_gain: number
@@ -187,6 +188,18 @@ export function information_gain(profile: scan_profile) {
     if (number_of_triples > 0) gain += Math.log2(profile.length) * (number_of_triples / profile.length)  // Triples are special: They narrow down to exactly one candidate instead of all triple candidates.
 
     return gain
+}
+
+export function narrow_down_area(candidates: MapCoordinate[], area: ScanSpot, range: number): Map<ChildType, MapCoordinate[]> {
+    let m = new Map<ChildType, MapCoordinate[]>()
+
+    ChildType.all.forEach((c) => {
+        let override = ScanSpot.override(area, c)
+
+        m.set(c, override || candidates.filter((s) => area_pulse(s, area.area, range).map(ChildType.fromPulse).includes(c)))
+    })
+
+    return m
 }
 
 export enum ChildType {

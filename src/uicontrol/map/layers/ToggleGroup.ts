@@ -36,4 +36,17 @@ export class ToggleGroup<T> extends TypedEmitter<ToggleGroupEvents<T>> {
         if (!this.active_button) return null
         else return this.active_button.data("value")
     }
+
+    setValue(value: T): void {
+        this.buttons.forEach((e) => e.removeClass("active").removeClass("inactive"))
+
+        if (value != null) {
+            this.buttons.forEach((e) => e.addClass("inactive"))
+
+            this.active_button = this.buttons.find((b) => b.data("value") == value)
+            this.active_button.removeClass("inactive").addClass("active")
+
+        }
+
+    }
 }

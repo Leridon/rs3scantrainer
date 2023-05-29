@@ -24,7 +24,6 @@ export default class SelectDigSpotsInteraction extends LayerInteraction<ScanEdit
     }
 
     cancel() {
-
         let self = this
         this.layer.events.off("dig_spot_clicked", self._hook)
 

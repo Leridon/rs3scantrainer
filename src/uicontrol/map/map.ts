@@ -202,7 +202,7 @@ export class GameMapControl {
             this.custom_marker = new TileMarker(c)
                 .withX("white")
                 .withMarker(blue_icon)
-                .withLabel(`[${c.x}, ${c.y}]`, "spot-number", [0, 10])
+                //.withLabel(`[${c.x}, ${c.y}]`, "spot-number", [0, 10])
                 .on("click", () => {
                     this.custom_marker.remove()
                     if (this.activeLayer) this.activeLayer.on_marker_set(null)

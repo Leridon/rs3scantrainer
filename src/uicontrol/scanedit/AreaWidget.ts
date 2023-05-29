@@ -5,9 +5,13 @@ import {ChildType} from "../../model/scans/scans";
 import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import {ScanDecision} from "./TreeEdit";
+import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
+import SmallImageButton from "../widgets/SmallImageButton";
+import AreaEdit from "./AreaEdit";
+import {eq} from "../../model/coordinates";
 
 export default class AreaWidget extends TypedEmitter<{
-    "deleted": any,
+    "deleted": ScanSpot,
     "changed": ScanSpot,
     "decision_changed": ScanDecision
 }> {
@@ -25,11 +29,15 @@ export default class AreaWidget extends TypedEmitter<{
         container: JQuery,
         name: JQuery,
         area: {
+            container: JQuery,
             topleft: { x: JQuery, y: JQuery },
             botright: { x: JQuery, y: JQuery },
             redraw_button: JQuery
-        }
+        },
+        overrides: Map<ChildType, JQuery>
     }
+
+    select_interaction: SelectDigSpotsInteraction = null
 
     private createInputfield(read: () => number, write: (number) => void): JQuery {
         return $("<input type='number' class='nisinput' style='width: 100%'>")
@@ -37,11 +45,10 @@ export default class AreaWidget extends TypedEmitter<{
             .on("input", (e) => {
                 write($(e.target).val())
 
-                console.log(this.area)
-
                 this.polygon.update()
+                this.emit("changed", this.value)
 
-                if(this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
+                if (this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
             })
     }
 
@@ -52,12 +59,12 @@ export default class AreaWidget extends TypedEmitter<{
     }
 
     startRedraw(): DrawAreaInteraction {
-        let interaction = new DrawAreaInteraction(this.parent)
+        let interaction = new DrawAreaInteraction(this.layer)
 
         this.edit_panel.area.redraw_button.text("Drawing...")
 
         interaction.events.on("changed", (a) => {
-            this.area.area = a
+            this.value.area = a
 
             this.edit_panel.area.topleft.x.val(a.topleft.x)
             this.edit_panel.area.topleft.y.val(a.topleft.y)
@@ -68,7 +75,7 @@ export default class AreaWidget extends TypedEmitter<{
         })
 
         interaction.events.on("done", (a) => {
-            if(this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
+            if (this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
 
             this.edit_panel.area.redraw_button.text("Draw on map")
         })
@@ -79,13 +86,14 @@ export default class AreaWidget extends TypedEmitter<{
     }
 
     constructor(
-        private parent: ScanEditLayer,
-        public area: ScanSpot,
+        private parent: AreaEdit,
+        private layer: ScanEditLayer,
+        public value: ScanSpot,
         private polygon: SpotPolygon = null
     ) {
         super()
 
-        if (!polygon) this.polygon = new SpotPolygon(area).addTo(this.parent)
+        if (!polygon) this.polygon = new SpotPolygon(value).addTo(this.layer)
 
         this.container = $("<div class='panel'>")
 
@@ -93,7 +101,7 @@ export default class AreaWidget extends TypedEmitter<{
             row: $("<div class='area-edit-row' style='display: flex;'>").appendTo(this.container)
         }
 
-        this.main_row.area_div = $("<div class='area-div'></div>").text(this.area.name).appendTo(this.main_row.row)
+        this.main_row.area_div = $("<div class='area-div'></div>").text(this.value.name).appendTo(this.main_row.row)
 
         this.main_row.delete_button = $('<div class="nissmallimagebutton" title="Edit"><img src="assets/icons/delete.png"></div>')
             .on("click", () => this.delete())
@@ -122,26 +130,30 @@ export default class AreaWidget extends TypedEmitter<{
                 .hide()
                 .appendTo(this.container),
             name: $("<input type='text' class='nisinput' style='width: 100%'>")
-                .val(area.name)
+                .val(value.name)
                 .on("input", (e) => {
-                    this.area.name = $(e.target).val() as string
-                    this.main_row.area_div.text(this.area.name)
+                    this.value.name = $(e.target).val() as string
+                    this.emit("changed", this.value)
+
+                    this.main_row.area_div.text(this.value.name)
                     this.polygon.update()
                 }),
             area: {
+                container: $("<div>"),
                 topleft: {
-                    x: this.createInputfield(() => this.area.area.topleft.x, (v) => this.area.area.topleft.x = v),
-                    y: this.createInputfield(() => this.area.area.topleft.y, (v) => this.area.area.topleft.y = v),
+                    x: this.createInputfield(() => this.value.area.topleft.x, (v) => this.value.area.topleft.x = v),
+                    y: this.createInputfield(() => this.value.area.topleft.y, (v) => this.value.area.topleft.y = v),
                 },
                 botright: {
-                    x: this.createInputfield(() => this.area.area.botright.x, (v) => this.area.area.botright.x = v),
-                    y: this.createInputfield(() => this.area.area.botright.y, (v) => this.area.area.botright.y = v),
+                    x: this.createInputfield(() => this.value.area.botright.x, (v) => this.value.area.botright.x = v),
+                    y: this.createInputfield(() => this.value.area.botright.y, (v) => this.value.area.botright.y = v),
                 },
                 redraw_button: $("<div class='lightbutton' style='width: 100%'>Draw on map</div>")
                     .on("click", () => {
                         this.startRedraw()
                     })
-            }
+            },
+            overrides: new Map<ChildType, JQuery>()
         }
 
         // This section is proof that I need to learn React...
@@ -156,10 +168,16 @@ export default class AreaWidget extends TypedEmitter<{
 
         let virtual_checkbox = $("<input type='checkbox'>")
             .on("input", (e) => {
+                this.value.is_virtual = virtual_checkbox.is(":checked")
 
+                this.polygon.update()
+
+                this.emit("changed", this.value)
+
+                this.edit_panel.area.container.animate({"height": 'toggle'})
             })
 
-        if (area.is_virtual) virtual_checkbox.prop("checked", true)
+        if (value.is_virtual) virtual_checkbox.prop("checked", true)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Check if this area is no specific place on the map, for example when \"Try scanning a different level\" is used.'>Virtual?</div>"))
@@ -168,70 +186,122 @@ export default class AreaWidget extends TypedEmitter<{
             )
             .appendTo(this.edit_panel.container)
 
+        this.edit_panel.area.container.appendTo(this.edit_panel.container)
+
         $("<div class='row'>")
             .append($("<div class='col-2 property'></div>"))
             .append($("<div class='col-5 property' style='text-align: center'>x</div>"))
             .append($("<div class='col-5 property' style='text-align: center'>y</div>"))
-            .appendTo(this.edit_panel.container)
+            .appendTo(this.edit_panel.area.container)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Top left' style='text-align: center'>TL</div>"))
             .append($("<div class='col-5'>").append(this.edit_panel.area.topleft.x))
             .append($("<div class='col-5'>").append(this.edit_panel.area.topleft.y))
-            .appendTo(this.edit_panel.container)
+            .appendTo(this.edit_panel.area.container)
+
 
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Bottom right' style='text-align: center'>BR</div>"))
             .append($("<div class='col-5'>").append(this.edit_panel.area.botright.x))
             .append($("<div class='col-5'>").append(this.edit_panel.area.botright.y))
-            .appendTo(this.edit_panel.container)
+            .appendTo(this.edit_panel.area.container)
 
         $("<div class='row'>")
             .append($("<div class='col-2 property'></div>"))
             .append($("<div class='col-10'>").append(this.edit_panel.area.redraw_button))
-            .appendTo(this.edit_panel.container)
+            .appendTo(this.edit_panel.area.container)
+
 
         $("<div class='head'>Overrides</div>").appendTo(this.edit_panel.container)
 
 
         for (let c of ChildType.all) {
-            let override_exists = ScanSpot.override(area, c) != null
+            let override_exists = ScanSpot.override(value, c) != null
 
             let input = $("<input class='nisinput disabled' style='flex-grow: 1; min-width: 30%' disabled type='text'>")
+                .on("input", (e) => {
+                    let chosen = (input.val() as string).split(",")
+                        .map((s) => this.parent.parent.value.spot_ordering[Number(s.trim()) - 1])
+                        .filter((s) => s)
+
+                    ScanSpot.setOverride(this.value, c, chosen)
+
+                    this.emit("changed", this.value)
+                })
+                .on("focusout", () => {
+                    this.updateSpotOrder()
+                })
                 .prop("disabled", !override_exists)
+
+            this.edit_panel.overrides.set(c, input)
 
             let checkbox = $("<input type='checkbox' style='margin-right: 5px'>")
                 .prop("checked", override_exists)
                 .on("input", () => {
                     let checked = checkbox.is(":checked")
 
+                    if (!checked) {
+                        ScanSpot.setOverride(this.value, c, null)
+                        this.updateSpotOrder()
+                    }
+
                     input.prop("disabled", !checked)
-                    if (checked) select_button.removeClass("disabled")
-                    else select_button.addClass("disabled")
+                    select_button.setEnabled(checked)
                 })
 
-            let select_button = $("<div class='nissmallimagebutton' style='margin-left: 5px'><img src='assets/icons/select.png'></div>")
+            let select_button = SmallImageButton.new("assets/icons/select.png")
+                .tooltip("Select on map")
+                .css("margin-left", "5px")
+                .on("click", () => {
+                    if (this.select_interaction == null) {
+                        select_button.setIcon("assets/icons/checkmark.png")
 
-            if (!override_exists) select_button.addClass("disabled")
+                        let old = this.layer.highlightedCandidates()
+
+                        this.select_interaction = new SelectDigSpotsInteraction(this.layer)
+
+                        this.select_interaction.events
+                            .on("changed", (selection) => {
+                                ScanSpot.setOverride(this.value, c, selection)
+                                this.updateSpotOrder()
+                                this.layer.highlightCandidates(selection)
+                            })
+                            .on("done", (selection) => {
+                                ScanSpot.setOverride(this.value, c, selection)
+                                this.updateSpotOrder()
+                                this.layer.highlightCandidates(old)
+                            })
+
+                        this.layer.highlightCandidates([])
+
+                        this.select_interaction.activate()
+                    } else {
+                        this.select_interaction.cancel()
+
+                        select_button.setIcon("assets/icons/select.png")
+
+                        this.select_interaction = null
+                    }
+                })
+
+            if (!override_exists) select_button.setEnabled(false)
 
             let r = $("<div class='row'>")
                 .append($("<div class='col-2'>").attr("title", ChildType.meta(c).pretty).text(ChildType.meta(c).pretty))
                 .append($("<div class='col-10'>")
                     .append($("<div style='display: flex'>")
-                        .append(checkbox).append(input).append(select_button)
+                        .append(checkbox).append(input).append(select_button.container)
                     ))
-                /*.append($("<div class='col-1'>").append(checkbox))
-                .append($("<div class='col-7'>").append(input))
-                .append($("<div class='col-2'>").append(select_button))*/
                 .appendTo(this.edit_panel.container)
         }
     }
 
     getActiveDecision(): ScanDecision {
-        if(this.main_row.info_buttons.value() == null) return null
+        if (this.main_row.info_buttons.value() == null) return null
 
         return {
-            area: this.area,
+            area: this.value,
             ping: this.main_row.info_buttons.value()
         }
     }
@@ -241,5 +311,26 @@ export default class AreaWidget extends TypedEmitter<{
         this.container.remove()
 
         this.emit("deleted", "")
+    }
+
+    updateSpotOrder() {
+        for (let c of ChildType.all) {
+            let override = ScanSpot.override(this.value, c)
+
+            if (override) {
+
+                let input = override.map((s) => this.parent.parent.value.spot_ordering.findIndex((e) => eq(e, s)) + 1)
+                input = input.sort()
+
+                this.edit_panel.overrides.get(c).val(input.join(", "))
+            } else {
+                this.edit_panel.overrides.get(c).val("")
+            }
+
+        }
+    }
+
+    setDecision(decision: ChildType) {
+        this.main_row.info_buttons.setValue(decision)
     }
 }

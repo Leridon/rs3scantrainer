@@ -3,6 +3,7 @@ import {ScanSpot} from "../../model/methods";
 import AreaWidget from "./AreaWidget";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import {ScanDecision} from "./TreeEdit";
+import ScanEditPanel from "./ScanEditPanel";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],
@@ -14,6 +15,7 @@ export default class AreaEdit extends Widget<{
     add_button?: JQuery
 
     constructor(
+        public parent: ScanEditPanel,
         private value: ScanSpot[],
         private layer: ScanEditLayer
     ) {
@@ -24,24 +26,38 @@ export default class AreaEdit extends Widget<{
         this.area_container = $("<div>").appendTo(this.container)
         this.areas = []
 
-        this.add_button = $("<div class='lightbutton'>+ Add area</div>")
+        this.add_button = $("<div class='lightbutton' style='width: 100%'>+ Add area</div>")
             .on("click", () => {
-                let w = this.addArea({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
+                let w = this.addWidget({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
+                    .on("deleted", (spot) => {
+                        this.value.splice(this.value.indexOf(spot), 1)
+                        this.emit("changed", this.value)
+                    })
+                    .on("changed", () => {
+                        this.emit("changed", this.value)
+                    })
                     .toggleEdit()
-                w.startRedraw().events.on("done", () => (w.edit_panel.name[0] as HTMLInputElement).select())
-            })
-            .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
 
-        this.setAreas(this.value)
+                w.startRedraw().events.on("done", () => {
+                    (w.edit_panel.name[0] as HTMLInputElement).select()
+                    this.emit("changed", this.value)
+                })
+
+                this.value.push(w.value)
+                this.emit("changed", this.value)
+            })
+            .appendTo(this.container)
+
+        value.forEach((a) => this.addWidget(a))
     }
 
     public getDecisions(): ScanDecision[] {
         return this.areas.map((a) => a.getActiveDecision()).filter((d) => d != null)
     }
 
-    private addArea(area: ScanSpot): AreaWidget {
+    private addWidget(area: ScanSpot): AreaWidget {
         let w =
-            new AreaWidget(this.layer, area)
+            new AreaWidget(this, this.layer, area)
                 .on("deleted", () => {
                     this.areas.splice(this.areas.indexOf(w), 1)
                     this.emit("decisions_changed", this.getDecisions())
@@ -56,9 +72,14 @@ export default class AreaEdit extends Widget<{
         return w
     }
 
-    setAreas(areas: ScanSpot[]) {
-        this.areas.forEach((a) => a.delete())
+    setDecisions(decisions: ScanDecision[]) {
+        this.areas.forEach((a) => {
+            let d = decisions.find((e) => e.area == a.value)
 
-        areas.forEach((a) => this.addArea(a))
+            if (d != null) a.setDecision(d.ping)
+            else a.setDecision(null)
+        })
+
+        this.emit("decisions_changed", decisions)
     }
 }

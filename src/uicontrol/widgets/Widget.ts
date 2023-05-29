@@ -1,8 +1,8 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as events from "events";
 
-export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T>{
-    protected constructor(protected container: JQuery) {
+export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
+    protected constructor(public container: JQuery) {
         super()
     }
 
@@ -19,6 +19,17 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
         this.container.append(widget)
 
+        return this
+    }
+
+    css(key: string, value: string): this {
+        this.container.css(key, value)
+
+        return this
+    }
+
+    tooltip(title: string) : this {
+        this.container.attr("title", title)
         return this
     }
 }

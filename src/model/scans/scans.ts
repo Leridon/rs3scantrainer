@@ -152,14 +152,14 @@ export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: numbe
 }
 
 export function area_pulse(spot: MapCoordinate, area: Box, range: number): PulseType[] {
-    let min = get_pulse(spot, clampInto(spot, area), range)
+    let max = get_pulse(spot, clampInto(spot, area), range)
 
     let tl = area.topleft
     let br = area.botright
     let tr = {x: br.x, y: tl.y}
     let bl = {x: tl.x, y: br.y}
 
-    let max = Math.max(
+    let min = Math.min(
         get_pulse(spot, tl, range),
         get_pulse(spot, br, range),
         get_pulse(spot, tr, range),
@@ -197,7 +197,7 @@ export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, rang
     ChildType.all.forEach((c) => {
         let override = ScanSpot.override(area, c)
 
-        m.set(c, override || candidates.filter((s) => area_pulse(s, area.area, range).map(ChildType.fromPulse).includes(c)))
+        m.set(c, override || (area.is_virtual ? [] : candidates.filter((s) => area_pulse(s, area.area, range).map(ChildType.fromPulse).includes(c))))
     })
 
     return m
@@ -226,16 +226,17 @@ export namespace ChildType {
 
     type meta = {
         pretty: string,
-        short: string
+        short: string,
+        shorted: string
     }
 
     export function meta(type: ChildType): meta {
         return new Map([
-            [ChildType.SINGLE, {pretty: "Single", short: "1"}],
-            [ChildType.DOUBLE, {pretty: "Double", short: "2"}],
-            [ChildType.TRIPLE, {pretty: "Triple", short: "3"}],
-            [ChildType.DIFFERENTLEVEL, {pretty: "Different Level", short: "DL"}],
-            [ChildType.TOOFAR, {pretty: "Too Far", short: "TF"}],
+            [ChildType.SINGLE, {pretty: "Single", short: "1", shorted: "1"}],
+            [ChildType.DOUBLE, {pretty: "Double", short: "2", shorted: "2"}],
+            [ChildType.TRIPLE, {pretty: "Triple", short: "3", shorted: "3"}],
+            [ChildType.DIFFERENTLEVEL, {pretty: "Different Level", short: "DL", shorted: "\"DL\""}],
+            [ChildType.TOOFAR, {pretty: "Too Far", short: "TF", shorted: "\"TF\""}],
         ]).get(type)
     }
 

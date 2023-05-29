@@ -4,15 +4,12 @@ import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {GameMapControl, TileMarker} from "../map";
-import {area_pulse, ChildType, get_pulse, narrow_down, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {ChildType, get_pulse, narrow_down, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import Widget from "../../widgets/Widget";
-import SpotOrderingEdit from "../../scanedit/SpotNumberingEdit";
-import AreaEdit from "../../scanedit/AreaEdit";
-import TreeEdit, {ScanDecision} from "../../scanedit/TreeEdit";
-import ScanEditPanel from "../../scanedit/ScanMethodEdit";
+import {ScanDecision} from "../../scanedit/TreeEdit";
+import ScanEditPanel from "../../scanedit/ScanEditPanel";
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -37,41 +34,49 @@ export class SpotPolygon extends leaflet.FeatureGroup {
     }
 
     update() {
-        if (this.polygon) this.polygon.remove()
+        if (this.polygon) {
+            this.polygon.remove()
+            this.polygon = null
+        }
 
-        this.polygon = boxPolygon(this._spot.area)
+        if (!this._spot.is_virtual) {
 
-        this.label = leaflet.tooltip({
-            interactive: false,
-            permanent: true,
-            className: "area-name",
-            offset: [0, 0],
-            direction: "center",
-            content: this._spot.name
-        })
+            this.polygon = boxPolygon(this._spot.area)
 
-        this.polygon
-            .setStyle({
-                color: "#00FF21",
-                fillColor: "#00FF21",
+            this.label = leaflet.tooltip({
                 interactive: false,
+                permanent: true,
+                className: "area-name",
+                offset: [0, 0],
+                direction: "center",
+                content: this._spot.name
             })
-            .bindTooltip(this.label)
-            .addTo(this)
 
-        this.updateOpacity()
+            this.polygon
+                .setStyle({
+                    color: "#00FF21",
+                    fillColor: "#00FF21",
+                    interactive: false,
+                })
+                .bindTooltip(this.label)
+                .addTo(this)
+
+            this.updateOpacity()
+        }
     }
 
     updateOpacity() {
-        let opacity = this.active ? 1 : 0.2
+        if(this.polygon){
+            let opacity = this.active ? 1 : 0.2
 
-        this.polygon.setStyle(
-            Object.assign(this.polygon.options, {
-                opacity: opacity,
-                fillOpacity: opacity * 0.2,
-            }))
+            this.polygon.setStyle(
+                Object.assign(this.polygon.options, {
+                    opacity: opacity,
+                    fillOpacity: opacity * 0.2,
+                }))
 
-        this.label.setOpacity(opacity)
+            this.label.setOpacity(opacity)
+        }
     }
 
     setActive(active: boolean) {
@@ -294,10 +299,16 @@ export type tree = {
 export type tree_node = {
     where: string,
     why?: string,
-    decisions?: {
+    decisions: {
         key: ChildType,
         value: tree_node
     }[]
+}
+
+export namespace ScanMethod {
+    export function spotNumber(self: tree, spot: MapCoordinate): number {
+        return self.spot_ordering.findIndex((s) => eq(s, spot)) + 1
+    }
 }
 
 export class ScanEditLayer extends ScanLayer {
@@ -364,13 +375,22 @@ export class ScanEditLayer extends ScanLayer {
         super.deactivate()
     }
 
+    highlightedCandidates(): MapCoordinate[] {
+        return this.markers.filter((m) => m.isActive()).map((m) => m.getSpot())
+    }
+
+    highlightCandidates(spots: MapCoordinate[]) {
+        this.markers.forEach((m) => m.setActive(spots.some((c) => eq(c, m.getSpot()))))
+    }
+
     updateCandidates(decisions: ScanDecision[]) {
         let remaining_candidates: MapCoordinate[] = decisions.reduce((candidates, decision) => {
             console.log(candidates)
             return narrow_down(candidates, decision, this.getRange())
         }, this.clue.solution.candidates)
 
-        this.markers.forEach((m) => m.setActive(remaining_candidates.some((c) => eq(c, m.getSpot()))))
+        this.highlightCandidates(remaining_candidates)
+
         this.set_remaining_candidates(remaining_candidates)
     }
 }

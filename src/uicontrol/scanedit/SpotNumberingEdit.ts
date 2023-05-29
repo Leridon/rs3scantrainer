@@ -63,7 +63,10 @@ export default class SpotOrderingWidget extends Widget<{
 
         this.reselect_button.text("Save")
 
+        let old_hightlight = this.layer.highlightedCandidates()
+
         interaction.events.on("changed", (l) => {
+            this.layer.highlightCandidates(l)
             this.update(l)
         })
             .on("done", (l) => {
@@ -76,6 +79,8 @@ export default class SpotOrderingWidget extends Widget<{
                 this.update(l)
 
                 this.emit("changed", l)
+
+                this.layer.highlightCandidates(old_hightlight)
             })
 
         this.update([])

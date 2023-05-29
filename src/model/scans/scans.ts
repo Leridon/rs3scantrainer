@@ -4,6 +4,7 @@ import {Raster} from "../../util/raster";
 import {ScanSpot} from "../methods";
 import {clamp, rangeRight} from "lodash";
 import {ScanStep} from "../clues";
+import {ScanDecision} from "../../uicontrol/scanedit/TreeEdit";
 
 export class EquivalenceClass {
     public information_gain: number
@@ -190,7 +191,7 @@ export function information_gain(profile: scan_profile) {
     return gain
 }
 
-export function narrow_down_area(candidates: MapCoordinate[], area: ScanSpot, range: number): Map<ChildType, MapCoordinate[]> {
+export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, range: number): Map<ChildType, MapCoordinate[]> {
     let m = new Map<ChildType, MapCoordinate[]>()
 
     ChildType.all.forEach((c) => {
@@ -200,6 +201,10 @@ export function narrow_down_area(candidates: MapCoordinate[], area: ScanSpot, ra
     })
 
     return m
+}
+
+export function narrow_down(candidates: MapCoordinate[], decision: ScanDecision, range: number): MapCoordinate[] {
+    return spot_narrowing(candidates, decision.area, range).get(decision.ping)
 }
 
 export enum ChildType {

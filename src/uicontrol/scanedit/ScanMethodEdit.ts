@@ -27,6 +27,11 @@ export default class ScanEditPanel extends Widget {
         this.areas.on("changed", (a: ScanSpot[]) => {
             this.value.areas = a
         })
+            .on("decisions_changed", (decisions) => {
+                console.log("d:")
+                console.log(decisions)
+                this.layer.updateCandidates(decisions)
+            })
 
         this.tree_edit.on("changed", (t) => {
             this.value.root = t

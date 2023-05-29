@@ -4,14 +4,14 @@ import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {GameMapControl, TileMarker} from "../map";
-import {area_pulse, ChildType, get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {area_pulse, ChildType, get_pulse, narrow_down, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import Widget from "../../widgets/Widget";
 import SpotOrderingEdit from "../../scanedit/SpotNumberingEdit";
 import AreaEdit from "../../scanedit/AreaEdit";
-import TreeEdit from "../../scanedit/TreeEdit";
+import TreeEdit, {ScanDecision} from "../../scanedit/TreeEdit";
 import ScanEditPanel from "../../scanedit/ScanMethodEdit";
 
 export class SpotPolygon extends leaflet.FeatureGroup {
@@ -301,7 +301,7 @@ export type tree_node = {
 }
 
 export class ScanEditLayer extends ScanLayer {
-    private edit_panel
+    private edit_panel: ScanEditPanel
 
     constructor(clue: ScanStep, app: Application, tree: ScanTree) {
         super(clue, app, {
@@ -364,18 +364,11 @@ export class ScanEditLayer extends ScanLayer {
         super.deactivate()
     }
 
-    updateCandidates() {
-        let areafilters: MapCoordinate[][] = this.edit_panel.scan_spots.areas.areas
-            .filter((e) => e.main_row.info_buttons.value() != null) // Get all areas with a set pulse type
-            .map((e) => {
-                let ping = e.main_row.info_buttons.value()
-
-                let override = ScanSpot.override(e.area, ping)
-
-                return override || this.clue.solution.candidates.filter((s) => area_pulse(s, e.area.area, this.getRange()).map(ChildType.fromPulse).includes(ping))
-            })
-
-        let remaining_candidates = this.clue.solution.candidates.filter((c) => areafilters.every((f) => f.some((filt) => eq(filt, c))))
+    updateCandidates(decisions: ScanDecision[]) {
+        let remaining_candidates: MapCoordinate[] = decisions.reduce((candidates, decision) => {
+            console.log(candidates)
+            return narrow_down(candidates, decision, this.getRange())
+        }, this.clue.solution.candidates)
 
         this.markers.forEach((m) => m.setActive(remaining_candidates.some((c) => eq(c, m.getSpot()))))
         this.set_remaining_candidates(remaining_candidates)

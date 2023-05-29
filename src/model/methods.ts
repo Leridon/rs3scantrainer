@@ -33,6 +33,7 @@ export abstract class Method {
 
 export type ScanSpot = {
     name: string,
+    is_virtual?: boolean,
     area?: Box,
     is_far_away?: boolean,
     overrides?: {

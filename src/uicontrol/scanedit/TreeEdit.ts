@@ -1,12 +1,12 @@
 import Widget from "../widgets/Widget";
 import {ScanSpot} from "../../model/methods";
-import {ChildType, narrow_down_area} from "../../model/scans/scans";
+import {ChildType, spot_narrowing} from "../../model/scans/scans";
 import {MapCoordinate} from "../../model/coordinates";
 import {tree_node} from "../map/layers/ScanLayer";
 import ScanEditPanel from "./ScanMethodEdit";
 
 
-type ScanDecision = {
+export type ScanDecision = {
     area: ScanSpot,
     ping: ChildType
 }
@@ -88,7 +88,7 @@ export default class TreeEdit extends Widget<{
 
             select.val(node.where)
 
-            let narrowing = narrow_down_area(remaining_candidates, area, this.parent.clue.range + 5)
+            let narrowing = spot_narrowing(remaining_candidates, area, this.parent.clue.range + 5)
 
             narrowing.forEach((v, k) => {
                 let child = node.decisions.find((c) => c.key == k)

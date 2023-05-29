@@ -4,10 +4,12 @@ import {ToggleGroup} from "../map/layers/ToggleGroup";
 import {ChildType} from "../../model/scans/scans";
 import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
+import {ScanDecision} from "./TreeEdit";
 
 export default class AreaWidget extends TypedEmitter<{
     "deleted": any,
-    "changed": ScanSpot
+    "changed": ScanSpot,
+    "decision_changed": ScanDecision
 }> {
     main_row: {
         row: JQuery,
@@ -38,7 +40,8 @@ export default class AreaWidget extends TypedEmitter<{
                 console.log(this.area)
 
                 this.polygon.update()
-                this.parent.updateCandidates()
+
+                if(this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
             })
     }
 
@@ -65,7 +68,8 @@ export default class AreaWidget extends TypedEmitter<{
         })
 
         interaction.events.on("done", (a) => {
-            this.parent.updateCandidates()
+            if(this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
+
             this.edit_panel.area.redraw_button.text("Draw on map")
         })
 
@@ -109,7 +113,9 @@ export default class AreaWidget extends TypedEmitter<{
                 .appendTo(this.main_row.row)
         }))
 
-        this.main_row.info_buttons.on("value_changed", (value) => this.parent.updateCandidates())
+        this.main_row.info_buttons.on("value_changed", (value) => {
+            this.emit("decision_changed", this.getActiveDecision())
+        })
 
         this.edit_panel = {
             container: $("<div class='properties'></div>")
@@ -148,10 +154,17 @@ export default class AreaWidget extends TypedEmitter<{
 
         $("<div class='head'>Area</div>").appendTo(this.edit_panel.container)
 
+        let virtual_checkbox = $("<input type='checkbox'>")
+            .on("input", (e) => {
+
+            })
+
+        if (area.is_virtual) virtual_checkbox.prop("checked", true)
+
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Check if this area is no specific place on the map, for example when \"Try scanning a different level\" is used.'>Virtual?</div>"))
             .append($("<div class='col-10 property' style='text-align: left'></div>")
-                .append($("<input type='checkbox'>"))
+                .append(virtual_checkbox)
             )
             .appendTo(this.edit_panel.container)
 
@@ -182,8 +195,13 @@ export default class AreaWidget extends TypedEmitter<{
 
 
         for (let c of ChildType.all) {
+            let override_exists = ScanSpot.override(area, c) != null
+
             let input = $("<input class='nisinput disabled' style='flex-grow: 1; min-width: 30%' disabled type='text'>")
+                .prop("disabled", !override_exists)
+
             let checkbox = $("<input type='checkbox' style='margin-right: 5px'>")
+                .prop("checked", override_exists)
                 .on("input", () => {
                     let checked = checkbox.is(":checked")
 
@@ -192,7 +210,9 @@ export default class AreaWidget extends TypedEmitter<{
                     else select_button.addClass("disabled")
                 })
 
-            let select_button = $("<div class='nissmallimagebutton disabled' style='margin-left: 5px'><img src='assets/icons/select.png'></div>")
+            let select_button = $("<div class='nissmallimagebutton' style='margin-left: 5px'><img src='assets/icons/select.png'></div>")
+
+            if (!override_exists) select_button.addClass("disabled")
 
             let r = $("<div class='row'>")
                 .append($("<div class='col-2'>").attr("title", ChildType.meta(c).pretty).text(ChildType.meta(c).pretty))
@@ -204,6 +224,15 @@ export default class AreaWidget extends TypedEmitter<{
                 .append($("<div class='col-7'>").append(input))
                 .append($("<div class='col-2'>").append(select_button))*/
                 .appendTo(this.edit_panel.container)
+        }
+    }
+
+    getActiveDecision(): ScanDecision {
+        if(this.main_row.info_buttons.value() == null) return null
+
+        return {
+            area: this.area,
+            ping: this.main_row.info_buttons.value()
         }
     }
 

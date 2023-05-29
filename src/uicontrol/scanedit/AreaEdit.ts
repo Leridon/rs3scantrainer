@@ -2,10 +2,12 @@ import Widget from "../widgets/Widget";
 import {ScanSpot} from "../../model/methods";
 import AreaWidget from "./AreaWidget";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
+import {ScanDecision} from "./TreeEdit";
 
 export default class AreaEdit extends Widget<{
-    changed: ScanSpot[]
-}>{
+    changed: ScanSpot[],
+    decisions_changed: ScanDecision[]
+}> {
     area_container: JQuery
     areas: AreaWidget[]
 
@@ -22,7 +24,6 @@ export default class AreaEdit extends Widget<{
         this.area_container = $("<div>").appendTo(this.container)
         this.areas = []
 
-
         this.add_button = $("<div class='lightbutton'>+ Add area</div>")
             .on("click", () => {
                 let w = this.addArea({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
@@ -34,10 +35,20 @@ export default class AreaEdit extends Widget<{
         this.setAreas(this.value)
     }
 
+    public getDecisions(): ScanDecision[] {
+        return this.areas.map((a) => a.getActiveDecision()).filter((d) => d != null)
+    }
+
     private addArea(area: ScanSpot): AreaWidget {
         let w =
             new AreaWidget(this.layer, area)
-                .on("deleted", () => this.areas.splice(this.areas.indexOf(w), 1))
+                .on("deleted", () => {
+                    this.areas.splice(this.areas.indexOf(w), 1)
+                    this.emit("decisions_changed", this.getDecisions())
+                })
+                .on("decision_changed", (d) => {
+                    this.emit("decisions_changed", this.getDecisions())
+                })
 
         w.container.appendTo(this.area_container)
         this.areas.push(w)

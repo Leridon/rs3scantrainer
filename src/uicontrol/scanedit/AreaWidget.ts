@@ -269,6 +269,9 @@ export default class AreaWidget extends TypedEmitter<{
                             })
                             .on("done", (selection) => {
                                 ScanSpot.setOverride(this.value, c, selection)
+
+                                this.emit("changed", this.value)
+
                                 this.updateSpotOrder()
                                 this.layer.highlightCandidates(old)
                             })
@@ -310,7 +313,7 @@ export default class AreaWidget extends TypedEmitter<{
         this.polygon.remove()
         this.container.remove()
 
-        this.emit("deleted", "")
+        this.emit("deleted", this.value)
     }
 
     updateSpotOrder() {

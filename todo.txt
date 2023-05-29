@@ -1,20 +1,21 @@
 Release b0.3
 
 - Scan Tree Editor
-    - Order dig spots
-        - Apply new ordering to overrides and tree
-    - Overrides
-    - Virtual areas
-    - Edit actual tree
-        - Apply changed areas
+    - Apply renamed areas to tree editor
     - Import/Export
-    - Edit pathing (?)
-- Port everything to new data structure
+    - Edit pathing
+    - Fix that weird bug where changing tl.y with the spinner bugs out
+    - Add explanation modal
+- Port guide part to new data structure
 - Fremmenik Isles, Haunted Woods, Piscatoris
 - Revisit existing scans
+    - Cobs suggestions for Falador/Keldagrims
+    - Jays improved Swamp Caves
+- Rethink zoom-in to incorporate feedback
+- "default interactions" for scans
 
 RELEASE 1.0
-- Finish all scans
+- Finish all elite/master scans
 
 Unscheduled:
 - Arrow key/enter control for the search.

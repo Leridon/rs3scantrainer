@@ -29,28 +29,36 @@ export default class ScanEditPanel extends Widget {
             this.value.spot_ordering = v
             this.areas.areas.forEach((a) => a.updateSpotOrder())
             this.tree_edit.update()
+            this.path_edit.update()
         })
 
         this.areas
             .on("changed", (a: ScanSpot[]) => {
+                console.log("Changed areas")
                 this.value.areas = a
                 this.tree_edit.update()
+                this.path_edit.clean()
             })
             .on("decisions_changed", (decisions) => {
                 this.layer.updateCandidates(decisions)
             })
 
         this.tree_edit.on("changed", (t) => {
-            console.log("Changed")
+            console.log("Changed tree")
             this.value.root = t
-            this.path_edit.update()
+            this.path_edit.clean()
         }).on("decisions_loaded", (decisions) => {
             this.areas.setDecisions(decisions)
         })
 
+        this.path_edit.on("changed", (v) => {
+            console.log("Changed paths")
+            this.value.methods = v
+        })
+
         $("<div class='lightbutton'>Export</div>")
             .on("click", () => {
-                console.log(this.value)
+                console.log(JSON.stringify(ScanTree2.indirect(this.value)))
             })
             .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
     }

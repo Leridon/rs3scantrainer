@@ -63,6 +63,10 @@ export default class TreeEdit extends Widget<{
         this.update()
     }
 
+    clean() {
+        // TODO: Delete instructions for areas that don't exist anymore and prune branches without candidates
+    }
+
     update() {
         if (this.view) this.view.remove()
 
@@ -107,13 +111,16 @@ export default class TreeEdit extends Widget<{
                         console.log(selected_name)
 
                         if (!selected_name) {
-                            // Delete the node from parent
-                            let i = node.parent.node.raw.children.findIndex((c) => c.key == node.parent.kind)
+                            if (!node.parent) {// Is root node
+                                self.value = null
+                            } else {
+                                // Delete the node from parent
+                                let i = node.parent.node.raw.children.findIndex((c) => c.key == node.parent.kind)
 
-                            console.log(i)
+                                node.parent.node.raw.children.splice(i, 1)
+                            }
 
-                            node.parent.node.raw.children.splice(i, 1)
-                        } else if (!node) {
+                        } else if (!node.raw) {
                             // Is a null node, need to create in parent
 
                             let new_node: tree_node = {
@@ -141,7 +148,13 @@ export default class TreeEdit extends Widget<{
                     })
 
                 if (node.raw == null) {
-                    $(`<span style="margin-left: 5px">(${node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort().join(", ")}) remain</span>`).appendTo(label)
+                    let text = $(`<span style="margin-left: 5px"></span>`).appendTo(label)
+
+                    if (node.remaining_candidates.length > 5){
+                        text.text(`${node.remaining_candidates.length} spots remain`).attr("title", node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort().join(", "))
+                    } else {
+                        text.text(`(${node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort().join(", ")}) remain`)
+                    }
                 }
 
                 $("<option>").val(null).text("-").appendTo(dom.selection)

@@ -4,15 +4,16 @@ Release b0.3
     - Main control row (Export only for now)
     - Collapsible, styled sections
     - Apply renamed areas to tree editor and pathing
-    - Edit pathing
     - Add explanation modal
+    - String Templates
+
 - Port guide part to new data structure
 - Fremmenik Isles, Haunted Woods, Piscatoris
 - Revisit existing scans
     - Cobs suggestions for Falador/Keldagrims
     - Jays improved Swamp Caves
 - Rethink zoom-in to incorporate feedback
-- "default interactions" for scans
+- "default interactions" for scan layers
 
 RELEASE 1.0
 - Finish all elite/master scans

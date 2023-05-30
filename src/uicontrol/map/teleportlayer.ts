@@ -2,6 +2,7 @@ import * as leaflet from "leaflet"
 import {MapCoordinate} from "../../model/coordinates";
 
 type spot = {
+    subid: string,
     spot: MapCoordinate | ({ id: string, name: string, spot: MapCoordinate }[]),
     code?: string,
     has_variants?: boolean

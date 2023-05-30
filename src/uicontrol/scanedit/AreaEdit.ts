@@ -61,6 +61,7 @@ export default class AreaEdit extends Widget<{
                 .on("deleted", () => {
                     this.areas.splice(this.areas.indexOf(w), 1)
                     this.emit("decisions_changed", this.getDecisions())
+                    this.emit("changed", this.value)
                 })
                 .on("decision_changed", (d) => {
                     this.emit("decisions_changed", this.getDecisions())

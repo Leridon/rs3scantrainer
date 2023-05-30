@@ -10,6 +10,7 @@ import YouTubePlayer from 'youtube-player';
 import {Simulate} from "react-dom/test-utils";
 import play = Simulate.play;
 import PlayerStates from "youtube-player/dist/constants/PlayerStates";
+import TemplateResolver from "./util/TemplateResolver";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -103,6 +104,17 @@ export class Application {
     howtotabs = new HowToTabControls(this)
     sidepanels = new SidePanelControl(this)
 
+    template_resolver = new TemplateResolver(new Map(
+        [
+            ["surge", () => "<img src='assets/icons/surge.png'>"],
+            ["dive", () => "<img src='assets/icons/dive.png'>"],
+            ["bladeddive", () => "<img src='assets/icons/bladeddive.png'>"],
+            ["teleport", (args) => {
+                return "<img src='assets/icons/teleports/tele-fal.png'>"
+            }]
+        ]
+    ))
+
     startup_settings = new storage.Variable<{
         hide_beta_notice: boolean,
         seen_changelogs: string[]
@@ -136,47 +148,47 @@ export function initialize() {
     //scantrainer.select(clues.find((c) => c.id == 399)) // compass
     scantrainer.sidepanels.clue_panel.selectClue(clues.find((c) => c.id == 364)) // falador
 
-/*
-    let player = YouTubePlayer('my-player', {
-        events: undefined,
-        height: undefined,
-        host: "",
-        playerVars: {
-            autoplay: 1,
-            controls: 1,
-            enablejsapi: 1,
-            end: 7,
-            fs: 0,
-            iv_load_policy: 3,
-            loop: 1,
-            modestbranding: 1,
-            list: "U9pFPB6gjug",
-            rel: 0,
-            start: 3
-
-        },
-        videoId: "U9pFPB6gjug",
-        width: undefined
-    })
-
-    player.mute()
-        .then(() =>
-            player.loadVideoById({
-                videoId: "U9pFPB6gjug",
-                startSeconds: 3,
-                endSeconds: 7
-            }))
-        .then(() => player.playVideo())
-
-    // TODO: Check the current time on a loop and reset when close to end
-
-
     /*
-        player.loadVideoByUrl({
-            mediaContentUrl: "U9pFPB6gjug",
-            startSeconds: 2,
-            endSeconds: 3,
-        })*/
+        let player = YouTubePlayer('my-player', {
+            events: undefined,
+            height: undefined,
+            host: "",
+            playerVars: {
+                autoplay: 1,
+                controls: 1,
+                enablejsapi: 1,
+                end: 7,
+                fs: 0,
+                iv_load_policy: 3,
+                loop: 1,
+                modestbranding: 1,
+                list: "U9pFPB6gjug",
+                rel: 0,
+                start: 3
+
+            },
+            videoId: "U9pFPB6gjug",
+            width: undefined
+        })
+
+        player.mute()
+            .then(() =>
+                player.loadVideoById({
+                    videoId: "U9pFPB6gjug",
+                    startSeconds: 3,
+                    endSeconds: 7
+                }))
+            .then(() => player.playVideo())
+
+        // TODO: Check the current time on a loop and reset when close to end
+
+
+        /*
+            player.loadVideoByUrl({
+                mediaContentUrl: "U9pFPB6gjug",
+                startSeconds: 2,
+                endSeconds: 3,
+            })*/
 
     //player.playVideo()
 }

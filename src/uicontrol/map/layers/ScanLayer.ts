@@ -12,6 +12,7 @@ import {ScanDecision} from "../../scanedit/TreeEdit";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
 import {ScanTree2} from "../../../model/scans/ScanTree2";
 import tree_node = ScanTree2.decision_tree;
+import edge_path = ScanTree2.edge_path;
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -312,8 +313,15 @@ export class ScanEditLayer extends ScanLayer {
             show_equivalence_classes_button: true
         })
 
+        let methods: edge_path[] = []
+
         function migrate(tree: ScanTreeNode): tree_node {
 
+            methods.push({
+                from: tree.parent ? tree.parent.node.where : null,
+                to: tree.where || tree.root.spot(tree.solved),
+                short_instruction: tree.instruction
+            })
 
             let t: tree_node = {
                 where: tree.where || "A",
@@ -333,7 +341,6 @@ export class ScanEditLayer extends ScanLayer {
             return t
         }
 
-
         let tr: ScanTree2.resolved_tree = tree ?
             {
                 type: "scantree",
@@ -341,7 +348,7 @@ export class ScanEditLayer extends ScanLayer {
                 assumes_meerkats: true,
                 spot_ordering: tree.dig_spot_mapping,
                 areas: tree.scan_spots,
-                methods: [],
+                methods: methods,
                 root: migrate(tree.root)
             }
             : {
@@ -350,7 +357,7 @@ export class ScanEditLayer extends ScanLayer {
                 assumes_meerkats: true,
                 spot_ordering: clue.solution.candidates,
                 areas: [],
-                methods: [],
+                methods: methods,
                 root: null
             }
 

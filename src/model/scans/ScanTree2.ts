@@ -9,7 +9,7 @@ export namespace ScanTree2 {
     export type edge_path = {
         from?: string,
         to: string | MapCoordinate | MapCoordinate[],
-        short_instruction: string,
+        short_instruction?: string,
         path?: path,
     }
 
@@ -46,6 +46,18 @@ export namespace ScanTree2 {
             key: ChildType,
             value: augmented_decision_tree
         }[]
+    }
+
+    export function indirect(tree: resolved_tree): indirect_tree {
+        return {
+            type: "scantree",
+            clue: tree.clue.id,
+            spot_ordering: tree.spot_ordering,
+            assumes_meerkats: tree.assumes_meerkats,
+            areas: tree.areas,
+            methods: tree.methods,
+            root: tree.root
+        }
     }
 
     function assumedRange(tree: resolved_tree): number {
@@ -111,14 +123,8 @@ export namespace ScanTree2 {
         return helper(tree.root, null, 0, tree.clue.solution.candidates, [])
     }
 
-    export function gatherPaths(root_node: augmented_decision_tree): {
-        from?: string,
-        to: string | MapCoordinate
-    }[] {
-        let accumulator: {
-            from?: string,
-            to: string | MapCoordinate
-        }[] = []
+    export function gatherPaths(root_node: augmented_decision_tree): edge_path[] {
+        let accumulator: edge_path[] = []
 
         function helper(node: augmented_decision_tree): void {
             let from = node.parent ? node.parent.node.where.name : null
@@ -131,18 +137,51 @@ export namespace ScanTree2 {
 
                 node.children.forEach((c) => helper(c.value))
             } else {
-                node.remaining_candidates.forEach((c) => {
+                if (node.parent && node.parent.kind == ChildType.TRIPLE) {
+                    node.remaining_candidates.forEach((c) => {
+                        accumulator.push({
+                            from: from,
+                            to: [c]
+                        })
+                    })
+                } else {
                     accumulator.push({
                         from: from,
-                        to: c
+                        to: node.remaining_candidates
                     })
-                })
+                }
             }
         }
 
         helper(root_node)
 
         return accumulator
+    }
 
+    export function edgeSame(a: edge_path, b: edge_path): boolean {
+        if (a.from != b.from) return false
+
+        if (a.to == b.to) return true
+
+        if (Array.isArray(a.to) && Array.isArray(b.to)) {
+            return a.to.every((c) => (b.to as MapCoordinate[]).includes(c))
+        }
+
+        return false
+    }
+
+    export function edgeTitle(self: edge_path, tree: tree): string {
+        let str = self.from ? `${self.from} to ` : "To ";
+
+        if (Array.isArray(self.to)) {
+            if (self.to.length != 1) str += `(${self.to.map((c) => spotNumber(tree, c)).join(", ")})`
+            else str += spotNumber(tree, self.to[0])
+        } else if (typeof self.to == "string") {
+            str += self.to
+        } else {
+            str += spotNumber(tree, self.to)
+        }
+
+        return str
     }
 }

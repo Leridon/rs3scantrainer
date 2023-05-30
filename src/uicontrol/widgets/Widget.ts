@@ -2,7 +2,7 @@ import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as events from "events";
 
 export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
-    protected constructor(public container: JQuery) {
+    protected constructor(public container: JQuery = $("<div>")) {
         super()
     }
 
@@ -28,8 +28,13 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    tooltip(title: string) : this {
+    tooltip(title: string): this {
         this.container.attr("title", title)
+        return this
+    }
+
+    remove(): this {
+        this.container.remove()
         return this
     }
 }

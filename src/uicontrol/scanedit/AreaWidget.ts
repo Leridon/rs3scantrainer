@@ -43,7 +43,7 @@ export default class AreaWidget extends TypedEmitter<{
         return $("<input type='number' class='nisinput' style='width: 100%'>")
             .val(read())
             .on("input", (e) => {
-                write($(e.target).val())
+                write(Number($(e.target).val()))
 
                 this.polygon.update()
                 this.emit("changed", this.value)

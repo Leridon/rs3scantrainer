@@ -10,6 +10,8 @@ import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {ScanDecision} from "../../scanedit/TreeEdit";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
+import {ScanTree2} from "../../../model/scans/ScanTree2";
+import tree_node = ScanTree2.decision_tree;
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -66,7 +68,7 @@ export class SpotPolygon extends leaflet.FeatureGroup {
     }
 
     updateOpacity() {
-        if(this.polygon){
+        if (this.polygon) {
             let opacity = this.active ? 1 : 0.2
 
             this.polygon.setStyle(
@@ -280,35 +282,25 @@ export class ScanLayer extends ActiveLayer {
     }
 }
 
-
-export type path = any
-
-export type tree = {
-    spot_ordering: MapCoordinate[],
-    areas: ScanSpot[],
-    methods: {
-        from?: string,
-        to: string | MapCoordinate,
-        path?: path,
-        instruction?: string,
-        clip?: Video
-    }[],
-    root: tree_node
+type step = {
+    type: "ability",
+    ability: "surge" | "dive"
+    from: MapCoordinate,
+    to: MapCoordinate
+} | {
+    type: "redclick",
+    where: MapCoordinate,
+} | {
+    type: "teleport",
+    id: string,
+    subid?: string
 }
 
-export type tree_node = {
-    where: string,
-    why?: string,
-    decisions: {
-        key: ChildType,
-        value: tree_node
-    }[]
-}
 
-export namespace ScanMethod {
-    export function spotNumber(self: tree, spot: MapCoordinate): number {
-        return self.spot_ordering.findIndex((s) => eq(s, spot)) + 1
-    }
+export type path = {
+    description: string,
+    clip: Video
+    sections: step[][],
 }
 
 export class ScanEditLayer extends ScanLayer {
@@ -326,12 +318,12 @@ export class ScanEditLayer extends ScanLayer {
             let t: tree_node = {
                 where: tree.where || "A",
                 why: "",
-                decisions: [],
+                children: [],
             }
 
             for (let c of tree.children()) {
                 if (c.parent.key.kind != ChildType.TRIPLE && !c.solved) {
-                    t.decisions.push({
+                    t.children.push({
                         key: c.parent.key.kind as ChildType,
                         value: migrate(c)
                     })
@@ -342,14 +334,20 @@ export class ScanEditLayer extends ScanLayer {
         }
 
 
-        let tr: tree = tree ?
+        let tr: ScanTree2.resolved_tree = tree ?
             {
+                type: "scantree",
+                clue: tree.clue,
+                assumes_meerkats: true,
                 spot_ordering: tree.dig_spot_mapping,
                 areas: tree.scan_spots,
                 methods: [],
                 root: migrate(tree.root)
             }
             : {
+                type: "scantree",
+                clue: tree.clue,
+                assumes_meerkats: true,
                 spot_ordering: clue.solution.candidates,
                 areas: [],
                 methods: [],

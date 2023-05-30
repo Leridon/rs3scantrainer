@@ -1,10 +1,10 @@
 Release b0.3
 
 - Scan Tree Editor
-    - Apply renamed areas to tree editor
-    - Import/Export
+    - Main control row (Export only for now)
+    - Collapsible, styled sections
+    - Apply renamed areas to tree editor and pathing
     - Edit pathing
-    - Fix that weird bug where changing tl.y with the spinner bugs out
     - Add explanation modal
 - Port guide part to new data structure
 - Fremmenik Isles, Haunted Woods, Piscatoris
@@ -16,6 +16,11 @@ Release b0.3
 
 RELEASE 1.0
 - Finish all elite/master scans
+- Setting menu
+    - Teleports
+        - Fairy Ring Favorites
+        - POTA
+        - Camelot, Watchtower, Varrock alternatives
 
 Unscheduled:
 - Arrow key/enter control for the search.
@@ -25,9 +30,7 @@ Unscheduled:
 - Add methods for remaining clue types.
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat.
-- Setting menu
-    - Teleports
-    - Locally saved methods
+- Locally saved methods
 - Figure out how to handle RoW/LotD/HSR
 - Apply information theory and equivalence classes from scans also to compasses.
 - Rich text format to include icons in instructions
@@ -60,3 +63,5 @@ Next up:
 - Prifddinias
 - Kharazi Jungle
 - Mos Le Harmless
+
+Look into https://github.com/mejrs/rs3cache for map data.

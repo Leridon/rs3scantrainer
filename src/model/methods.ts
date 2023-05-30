@@ -3,7 +3,6 @@ import {Application, scantrainer} from "../application";
 import {Box, MapCoordinate} from "./coordinates";
 import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
 import {modal, Modal} from "../uicontrol/widgets/modal";
-import * as leaflet from "leaflet"
 import {ActiveLayer} from "../uicontrol/map/activeLayer";
 import {ChildType} from "./scans/scans";
 

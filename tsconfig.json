@@ -1,8 +1,9 @@
 {
-	"compilerOptions": {
-		"moduleResolution": "Node",
-		"experimentalDecorators": true,
-      "jsx": "react"
-    },
-	"allowTsInNodeModules": true
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "noImplicitThis": true
+  },
+  "allowTsInNodeModules": true
 }

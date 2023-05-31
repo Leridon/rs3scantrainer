@@ -119,11 +119,19 @@ export class Application {
             ["teleport", (args) => {
                 let tele = this.teleports.get(args[0], args[1])
 
-                if (! tele) return "NULL"
+                if (!tele) return "NULL"
 
                 // TODO: Overlay code
 
-                return `<img src='assets/icons/teleports/${tele.icon}' title="${tele.hover}">`
+                /*
+                *
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+                * */
+
+                return `<div><img src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"> <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${tele.code}</div></div>`
             }]
         ]
     ))

@@ -3,9 +3,7 @@ Release b0.3
 - Scan Tree Editor
     - Main control row (Export only for now)
     - Collapsible, styled sections
-    - Apply renamed areas to tree editor and pathing
     - Add explanation modal
-    - String Templates
 
 - Port guide part to new data structure
 - Fremmenik Isles, Haunted Woods, Piscatoris

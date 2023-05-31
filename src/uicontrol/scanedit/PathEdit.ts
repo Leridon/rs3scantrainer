@@ -42,7 +42,7 @@ class EdgeEdit extends Widget<{
                 this.emit("changed", this.value)
             })
 
-        this.render_span = $("<span>")
+        this.render_span = $("<div>")
 
         $("<div class='row'>")
             .append($("<div class='col-3'>Instruction</div>"))

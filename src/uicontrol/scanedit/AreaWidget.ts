@@ -10,10 +10,13 @@ import SmallImageButton from "../widgets/SmallImageButton";
 import AreaEdit from "./AreaEdit";
 import {eq} from "../../model/coordinates";
 
+let area_name_pattern = /[a-zA-Z_][_a-zA-Z0-9]*/
+
 export default class AreaWidget extends TypedEmitter<{
     "deleted": ScanSpot,
     "changed": ScanSpot,
-    "decision_changed": ScanDecision
+    "decision_changed": ScanDecision,
+    "renamed": { old: string, new: string }
 }> {
     main_row: {
         row: JQuery,
@@ -130,14 +133,29 @@ export default class AreaWidget extends TypedEmitter<{
                 .hide()
                 .appendTo(this.container),
             name: $("<input type='text' class='nisinput' style='width: 100%'>")
+                //.attr("pattern", area_name_pattern.toString())
                 .val(value.name)
-                .on("input", (e) => {
-                    this.value.name = $(e.target).val() as string
-                    this.emit("changed", this.value)
+                .on("change", () => {
+                    let oldName = this.value.name
+                    let newName = this.edit_panel.name.val() as string
 
-                    this.main_row.area_div.text(this.value.name)
-                    this.polygon.update()
-                }),
+                    if (area_name_pattern.test(newName) && oldName != newName) {
+                        this.value.name = newName
+
+                        this.main_row.area_div.text(this.value.name)
+                        this.polygon.update()
+
+                        this.emit("renamed", {old: oldName, new: newName})
+                    } else {
+                        // Reset input field
+                        if (!this.edit_panel.name.is(":focus")) this.edit_panel.name.val(this.value.name)
+                    }
+                })
+            /*
+            .on("input", (e) => {
+                this.value.name = $(e.target).val() as string
+                this.emit("changed", this.value)
+            })*/,
             area: {
                 container: $("<div>"),
                 topleft: {

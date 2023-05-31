@@ -42,6 +42,24 @@ export default class ScanEditPanel extends Widget {
             .on("decisions_changed", (decisions) => {
                 this.layer.updateCandidates(decisions)
             })
+            .on("renamed", (e) => {
+                function tree_renamer(node: ScanTree2.decision_tree) {
+                    if (node.where == e.old) node.where = e.new
+
+                    node.children.forEach((c) => tree_renamer(c.value))
+                }
+
+                tree_renamer(this.value.root)
+
+                this.tree_edit.update()
+
+                this.value.methods.forEach((m) => {
+                    if (m.from == e.old) m.from = e.new
+                    if (m.to == e.old) m.to = e.new
+                })
+
+                this.path_edit.update()
+            })
 
         this.tree_edit.on("changed", (t) => {
             console.log("Changed tree")

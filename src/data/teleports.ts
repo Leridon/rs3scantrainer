@@ -415,13 +415,13 @@ const raw: teleport_group[] = [{
 }, {
     id: "skillsnecklace", name: "Skills necklace", img: "jewellry_skillsnecklace.png", can_be_in_pota: true,
     spots: [
-        {spot: {x: 2614, y: 3386}, code: "1", hover: "Fishing Guild"},
-        {spot: {x: 3016, y: 3338}, code: "2", hover: "Mining Guild"},
-        {spot: {x: 2934, y: 3291}, code: "3", hover: "Crafting Guild"},
-        {spot: {x: 3144, y: 3443}, code: "4", hover: "Cooking Guild"},
-        {spot: {x: 2998, y: 3440}, code: "5", hover: "Invention guild"},
-        {spot: {x: 2645, y: 3354}, code: "6", hover: "Farming Guild"},
-        {spot: {x: 3097, y: 3156}, code: "7", hover: "Runecrafting Guild"},
+        {subid: "fishing", spot: {x: 2614, y: 3386}, code: "1", hover: "Fishing Guild"},
+        {subid: "mining", spot: {x: 3016, y: 3338}, code: "2", hover: "Mining Guild"},
+        {subid: "crafting", spot: {x: 2934, y: 3291}, code: "3", hover: "Crafting Guild"},
+        {subid: "cooking", spot: {x: 3144, y: 3443}, code: "4", hover: "Cooking Guild"},
+        {subid: "invention", spot: {x: 2997, y: 3436}, code: "5", hover: "Invention guild"},
+        {subid: "farming", spot: {x: 2645, y: 3354}, code: "6", hover: "Farming Guild"},
+        {subid: "runecrafting", spot: {x: 3097, y: 3156}, code: "7", hover: "Runecrafting Guild"},
     ]
 }, {
     id: "travellersnecklace",
@@ -731,6 +731,5 @@ const raw: teleport_group[] = [{
         ]
     }
 ]
-
 
 export default raw

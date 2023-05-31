@@ -7,7 +7,8 @@ import ScanEditPanel from "./ScanEditPanel";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],
-    decisions_changed: ScanDecision[]
+    decisions_changed: ScanDecision[],
+    renamed: { old: string, new: string }
 }> {
     area_container: JQuery
     areas: AreaWidget[]
@@ -66,6 +67,7 @@ export default class AreaEdit extends Widget<{
                 .on("decision_changed", (d) => {
                     this.emit("decisions_changed", this.getDecisions())
                 })
+                .on("renamed", (e) => this.emit("renamed", e))
 
         w.container.appendTo(this.area_container)
         this.areas.push(w)

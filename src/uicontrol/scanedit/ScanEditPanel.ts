@@ -4,12 +4,12 @@ import AreaEdit from "./AreaEdit";
 import TreeEdit from "./TreeEdit";
 import {ScanStep} from "../../model/clues";
 import {MapCoordinate} from "../../model/coordinates";
-import {ScanSpot} from "../../model/methods";
+import {indirect} from "../../model/methods";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import PathEdit from "./PathEdit";
 import {ScanTree2} from "../../model/scans/ScanTree2";
-import resolved_tree = ScanTree2.resolved_tree;
-
+import ScanSpot = ScanTree2.ScanSpot;
+import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 
 export default class ScanEditPanel extends Widget {
     spot_ordering: SpotOrderingEdit
@@ -17,7 +17,7 @@ export default class ScanEditPanel extends Widget {
     tree_edit: TreeEdit
     path_edit: PathEdit
 
-    constructor(public layer: ScanEditLayer, public clue: ScanStep, public value: resolved_tree) {
+    constructor(public layer: ScanEditLayer, public clue: ScanStep, public value: resolved_scan_tree) {
         super($(".cluemethodcontent[data-methodsection=scanedit]").empty())
 
         this.spot_ordering = new SpotOrderingEdit(layer, value.spot_ordering).appendTo(this)
@@ -76,7 +76,7 @@ export default class ScanEditPanel extends Widget {
 
         $("<div class='lightbutton'>Export</div>")
             .on("click", () => {
-                console.log(JSON.stringify(ScanTree2.indirect(this.value)))
+                console.log(JSON.stringify(indirect(this.value)))
             })
             .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
     }

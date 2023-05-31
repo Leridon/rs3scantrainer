@@ -1,38 +1,11 @@
 import Widget from "../widgets/Widget";
-import {ScanSpot} from "../../model/methods";
 import {ChildType, spot_narrowing} from "../../model/scans/scans";
 import ScanEditPanel from "./ScanEditPanel";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import tree_node = ScanTree2.decision_tree;
 import augmented_tree = ScanTree2.augmented_decision_tree;
-
-
-export type ScanDecision = {
-    area: ScanSpot,
-    ping: ChildType
-}
-
-export namespace ScanDecision {
-    export function toString(decision: ScanDecision) {
-        function postfix(kind: ChildType) {
-            switch (kind) {
-                case ChildType.SINGLE:
-                    return "1"
-                case ChildType.DOUBLE:
-                    return "2"
-                case ChildType.TRIPLE:
-                    return "3"
-                case ChildType.DIFFERENTLEVEL:
-                    return "\"DL\""
-                case ChildType.TOOFAR:
-                    return "\"TF\""
-            }
-        }
-
-        return `${decision.area.name}${postfix(decision.ping)}`
-    }
-}
+import ScanDecision = ScanTree2.ScanDecision;
 
 type TreeDom = {
     node: augmented_tree,

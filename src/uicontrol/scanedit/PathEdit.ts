@@ -1,7 +1,6 @@
 import Widget from "../widgets/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree2} from "../../model/scans/ScanTree2";
-import {Video} from "../../model/methods";
 import edge_path = ScanTree2.edge_path;
 import edgeSame = ScanTree2.edgeSame;
 import TemplateResolver from "../../util/TemplateResolver";
@@ -12,7 +11,7 @@ import {util} from "../../util/util";
 
 
 class ClipEdit extends Widget {
-    constructor(private value: Video) {
+    constructor() {
         super();
 
         this.append($("<div class='head'>Clip</div>"))
@@ -101,10 +100,11 @@ export default class PathEdit extends Widget<{
 
         // Remove paths that aren't needed anymore and create paths for new edges
         this.value = needed.map((p) => {
+
             return this.parent.value.methods.find((m) => edgeSame(p, m)) || {
                 from: p.from,
                 to: p.to,
-                short_instruction: `Go to {{target}}` // TODO: etter Default instruction
+                short_instruction: `Go to {{target}}` // TODO: better Default instruction
             }
         })
 

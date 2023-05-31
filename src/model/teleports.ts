@@ -118,8 +118,8 @@ export class Teleports extends TypedEmitter<{
         this.emit("refreshed", this)
     }
 
-    get(id: string, subid: string): flat_teleport {
-        return this.data.find((t) => t.id.group == id && t.id.sub == subid)
+    get(id: string, subid: string = null): flat_teleport {
+        return this.data.find((t) => t.id.group == id && (!subid || t.id.sub == subid))
     }
 
     getAll(): flat_teleport[] {

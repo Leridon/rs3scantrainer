@@ -1,5 +1,4 @@
 import {storage} from "../util/storage";
-import {HowTo} from "../model/methods";
 import {GameMapControl} from "./map/map";
 import {Application} from "../application";
 

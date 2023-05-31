@@ -1,14 +1,15 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
-import {ScanSpot} from "../../model/methods";
 import {ToggleGroup} from "../map/layers/ToggleGroup";
 import {ChildType} from "../../model/scans/scans";
 import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
-import {ScanDecision} from "./TreeEdit";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import SmallImageButton from "../widgets/SmallImageButton";
 import AreaEdit from "./AreaEdit";
 import {eq} from "../../model/coordinates";
+import {ScanTree2} from "../../model/scans/ScanTree2";
+import ScanSpot = ScanTree2.ScanSpot;
+import ScanDecision = ScanTree2.ScanDecision;
 
 let area_name_pattern = /[a-zA-Z_][_a-zA-Z0-9]*/
 

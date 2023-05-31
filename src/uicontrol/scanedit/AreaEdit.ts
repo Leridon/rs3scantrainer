@@ -1,9 +1,10 @@
 import Widget from "../widgets/Widget";
-import {ScanSpot} from "../../model/methods";
 import AreaWidget from "./AreaWidget";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
-import {ScanDecision} from "./TreeEdit";
 import ScanEditPanel from "./ScanEditPanel";
+import {ScanTree2} from "../../model/scans/ScanTree2";
+import ScanSpot = ScanTree2.ScanSpot;
+import ScanDecision = ScanTree2.ScanDecision;
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],

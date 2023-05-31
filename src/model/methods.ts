@@ -5,7 +5,37 @@ import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
 import {modal, Modal} from "../uicontrol/widgets/modal";
 import {ActiveLayer} from "../uicontrol/map/activeLayer";
 import {ChildType} from "./scans/scans";
+import {ScanTree2} from "./scans/ScanTree2";
+import {clues} from "../data/clues";
 
+export type method_base = {
+    type: string,
+    clue: ScanStep | number,
+}
+
+export type indirect = method_base & { clue: number }
+export type resolved<T extends ClueStep> = method_base & { clue: T }
+
+export type method = ScanTree2.tree
+
+export function resolve<U extends ClueStep, T extends method_base>(clue: T & indirect): T & resolved<U> {
+    let copy: method_base = Object.create(clue)
+
+    copy.clue = clues.find((c) => c.id == clue.clue)
+
+    return copy as (T & resolved<U>)
+}
+
+export function indirect<T extends method_base, U extends ClueStep>(clue: T & resolved<U>): T & indirect {
+    let copy: method_base = Object.create(clue)
+
+    copy.clue = clue.clue.id
+
+    return copy as (T & indirect)
+}
+
+
+/*
 export type Video = {
     ref: string,
     contributor?: string
@@ -15,7 +45,7 @@ export type HowTo = {
     video?: Video,
     text?: string,
     image?: string
-}
+}*/
 
 export abstract class Method {
     clue: ClueStep
@@ -23,75 +53,14 @@ export abstract class Method {
     protected constructor(public type: string) {
     }
 
-    abstract howto(): HowTo
-
     abstract explanationModal(): Modal
 
     abstract methodLayer(trainer: Application): ActiveLayer
 }
 
-export type ScanSpot = {
-    name: string,
-    is_virtual?: boolean,
-    area?: Box,
-    is_far_away?: boolean,
-    overrides?: {
-        single?: MapCoordinate[]
-        double?: MapCoordinate[]
-        triple?: MapCoordinate[]
-        toofar?: MapCoordinate[]
-        differentlevel?: MapCoordinate[]
-    }
-}
+/*
 
-export namespace ScanSpot {
-    export function override(s: ScanSpot, type: ChildType): MapCoordinate[] | null {
-        switch (type) {
-            case ChildType.SINGLE:
-                return s.overrides ? s.overrides.single : null;
-            case ChildType.DOUBLE:
-                return s.overrides ? s.overrides.double : null;
-            case ChildType.TRIPLE:
-                return s.overrides ? s.overrides.triple : null;
-            case ChildType.DIFFERENTLEVEL:
-                return s.overrides ? s.overrides.differentlevel : null;
-            case ChildType.TOOFAR:
-                return s.overrides ? s.overrides.toofar : null;
-
-        }
-    }
-
-    export function setOverride(s: ScanSpot, type: ChildType, override: MapCoordinate[]): void {
-        if (!s.overrides) s.overrides = {}
-
-        switch (type) {
-            case ChildType.SINGLE:
-                s.overrides.single = override;
-                break;
-            case ChildType.DOUBLE:
-                s.overrides.double = override;
-                break;
-            case ChildType.TRIPLE:
-                s.overrides.triple = override;
-                break;
-            case ChildType.DIFFERENTLEVEL:
-                s.overrides.differentlevel = override;
-                break;
-            case ChildType.TOOFAR:
-                s.overrides.toofar = override;
-                break;
-
-        }
-    }
-}
-
-class ScanExplanationModal extends Modal {
-
-    protected hidden() {
-        ($("#pingexplanationvideo").get(0) as HTMLVideoElement).pause();
-    }
-}
-
+/
 export class ScanTree extends Method {
     constructor(public clue: ScanStep,
                 public dig_spot_mapping: MapCoordinate[],
@@ -210,18 +179,6 @@ export class ScanTreeNode {
     sendToUI(app: Application) {
         {
             let layer = app.howtotabs.map.getActiveLayer() as ScanTreeMethodLayer
-            /*
-            let rel = [this.where]
-            if (this.parent) rel.push(this.parent.node.where);
-
-            let ca = this.solved != null ? [this.solved] : []
-
-
-            layer.setRelevant(
-                ca,
-                rel,
-                true
-            )*/
 
             layer.setNode(this)
         }
@@ -365,4 +322,4 @@ export class ScanTreeNode {
         this.children().filter((e) => (typeof e.parent.key.kind) == "string")
             .forEach((e) => e.generateList(depth, container, app))
     }
-}
+}*/

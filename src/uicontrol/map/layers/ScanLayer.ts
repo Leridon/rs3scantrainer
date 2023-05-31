@@ -1,5 +1,4 @@
 import * as leaflet from "leaflet";
-import {ScanSpot, ScanTree, ScanTreeNode, Video} from "../../../model/methods";
 import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
@@ -8,13 +7,17 @@ import {ChildType, get_pulse, narrow_down, PulseType, ScanEquivalenceClasses} fr
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import {ScanDecision} from "../../scanedit/TreeEdit";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
 import {ScanTree2} from "../../../model/scans/ScanTree2";
 import tree_node = ScanTree2.decision_tree;
 import edge_path = ScanTree2.edge_path;
-import {constant} from "lodash";
+import {cloneDeep, constant} from "lodash";
 import {Constants} from "../../../constants";
+import ScanSpot = ScanTree2.ScanSpot;
+import tree = ScanTree2.tree;
+import {indirect, resolve, resolved} from "../../../model/methods";
+import ScanDecision = ScanTree2.ScanDecision;
+import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -161,7 +164,7 @@ export class ScanLayer extends ActiveLayer {
         return this.clue.range + 5
     }
 
-    getTree(): ScanTree {
+    getTree(): resolved_scan_tree {
         return null
     }
 
@@ -299,76 +302,22 @@ type step = {
     subid?: string
 }
 
-
 export type path = {
     description: string,
-    clip: Video
+    clip: any
     sections: step[][],
 }
 
 export class ScanEditLayer extends ScanLayer {
     private edit_panel: ScanEditPanel
 
-    constructor(clue: ScanStep, app: Application, tree: ScanTree) {
+    constructor(clue: ScanStep, app: Application, tree: resolved_scan_tree) {
         super(clue, app, {
             show_edit_button: false,
             show_equivalence_classes_button: true
         })
 
-        let methods: edge_path[] = []
-
-        function migrate(tree: ScanTreeNode): tree_node {
-
-            methods.push({
-                from: tree.parent ? tree.parent.node.where : null,
-                to: tree.where || tree.root.spot(tree.solved),
-                short_instruction:
-                    tree.instruction.replace("Surge", "{{surge}}")
-                        .replace("Dive", "{{dive}}")
-                        .replace(/to (\w+)/, "to {{target}}")
-            })
-
-            let t: tree_node = {
-                where: tree.where || "A",
-                why: "",
-                children: [],
-            }
-
-            for (let c of tree.children()) {
-                if (c.parent.key.kind != ChildType.TRIPLE && !c.solved) {
-                    t.children.push({
-                        key: c.parent.key.kind as ChildType,
-                        value: migrate(c)
-                    })
-                }
-            }
-
-            return t
-        }
-
-        let tr: ScanTree2.resolved_tree = tree ?
-            {
-                type: "scantree",
-                clue: tree.clue,
-                assumes_meerkats: true,
-                spot_ordering: tree.dig_spot_mapping,
-                areas: tree.scan_spots,
-                methods: methods,
-                root: migrate(tree.root)
-            }
-            : {
-                type: "scantree",
-                clue: tree.clue,
-                assumes_meerkats: true,
-                spot_ordering: clue.solution.candidates,
-                areas: [],
-                methods: methods,
-                root: null
-            }
-
-        console.log(tr.root)
-
-        this.edit_panel = new ScanEditPanel(this, this.clue, tr)
+        this.edit_panel = new ScanEditPanel(this, this.clue, resolve<ScanStep, tree>(cloneDeep(indirect(tree))))
     }
 
     getClue(): ScanStep {

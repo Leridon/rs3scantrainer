@@ -3,6 +3,8 @@ Release b0.3
 - Scan Tree Editor
     - Main control row (Export only for now)
     - Collapsible, styled sections
+        - More styling
+    - Sort paths in a sensible way
     - Add explanation modal
 
 - Port guide part to new data structure

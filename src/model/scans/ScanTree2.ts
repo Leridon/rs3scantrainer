@@ -1,11 +1,67 @@
 import {path} from "../../uicontrol/map/layers/ScanLayer";
-import {eq, MapCoordinate} from "../coordinates";
-import {ScanSpot} from "../methods";
+import {Box, eq, MapCoordinate} from "../coordinates";
+import {method_base, resolved} from "../methods";
 import {ChildType, spot_narrowing} from "./scans";
-import {ScanDecision} from "../../uicontrol/scanedit/TreeEdit";
+import {Modal} from "../../uicontrol/widgets/modal";
 import {ScanStep} from "../clues";
 
 export namespace ScanTree2 {
+
+    export type ScanSpot = {
+        name: string,
+        is_virtual?: boolean,
+        area?: Box,
+        is_far_away?: boolean,
+        overrides?: {
+            single?: MapCoordinate[]
+            double?: MapCoordinate[]
+            triple?: MapCoordinate[]
+            toofar?: MapCoordinate[]
+            differentlevel?: MapCoordinate[]
+        }
+    }
+
+    export namespace ScanSpot {
+        export function override(s: ScanSpot, type: ChildType): MapCoordinate[] | null {
+            switch (type) {
+                case ChildType.SINGLE:
+                    return s.overrides ? s.overrides.single : null;
+                case ChildType.DOUBLE:
+                    return s.overrides ? s.overrides.double : null;
+                case ChildType.TRIPLE:
+                    return s.overrides ? s.overrides.triple : null;
+                case ChildType.DIFFERENTLEVEL:
+                    return s.overrides ? s.overrides.differentlevel : null;
+                case ChildType.TOOFAR:
+                    return s.overrides ? s.overrides.toofar : null;
+
+            }
+        }
+
+        export function setOverride(s: ScanSpot, type: ChildType, override: MapCoordinate[]): void {
+            if (!s.overrides) s.overrides = {}
+
+            switch (type) {
+                case ChildType.SINGLE:
+                    s.overrides.single = override;
+                    break;
+                case ChildType.DOUBLE:
+                    s.overrides.double = override;
+                    break;
+                case ChildType.TRIPLE:
+                    s.overrides.triple = override;
+                    break;
+                case ChildType.DIFFERENTLEVEL:
+                    s.overrides.differentlevel = override;
+                    break;
+                case ChildType.TOOFAR:
+                    s.overrides.toofar = override;
+                    break;
+
+            }
+        }
+    }
+
     export type edge_path = {
         from?: string,
         to: string | MapCoordinate | MapCoordinate[],
@@ -13,18 +69,16 @@ export namespace ScanTree2 {
         path?: path,
     }
 
-    export type tree = {
+    export type tree = method_base & {
         type: "scantree",
-        clue: ScanStep | number,
         spot_ordering: MapCoordinate[],
         assumes_meerkats: boolean,
         areas: ScanSpot[],
         methods: edge_path[],
         root: decision_tree
     }
-
-    export type indirect_tree = tree & { clue: number }
-    export type resolved_tree = tree & { clue: ScanStep }
+    
+    export type resolved_scan_tree = tree & resolved<ScanStep>
 
     export type decision_tree = {
         where: string,
@@ -48,19 +102,7 @@ export namespace ScanTree2 {
         }[]
     }
 
-    export function indirect(tree: resolved_tree): indirect_tree {
-        return {
-            type: "scantree",
-            clue: tree.clue.id,
-            spot_ordering: tree.spot_ordering,
-            assumes_meerkats: tree.assumes_meerkats,
-            areas: tree.areas,
-            methods: tree.methods,
-            root: tree.root
-        }
-    }
-
-    function assumedRange(tree: resolved_tree): number {
+    function assumedRange(tree: resolved_scan_tree): number {
         let r = tree.clue.range
         if (tree.assumes_meerkats) r += 5;
         return r
@@ -70,7 +112,7 @@ export namespace ScanTree2 {
         return self.spot_ordering.findIndex((s) => eq(s, spot)) + 1
     }
 
-    export function augment(tree: resolved_tree): augmented_decision_tree {
+    export function augment(tree: resolved_scan_tree): augmented_decision_tree {
 
         function helper(
             node: decision_tree,
@@ -183,5 +225,37 @@ export namespace ScanTree2 {
         }
 
         return str
+    }
+
+    export class ScanExplanationModal extends Modal {
+        protected hidden() {
+            ($("#pingexplanationvideo").get(0) as HTMLVideoElement).pause();
+        }
+    }
+
+    export type ScanDecision = {
+        area: ScanSpot,
+        ping: ChildType
+    }
+
+    export namespace ScanDecision {
+        export function toString(decision: ScanDecision) {
+            function postfix(kind: ChildType) {
+                switch (kind) {
+                    case ChildType.SINGLE:
+                        return "1"
+                    case ChildType.DOUBLE:
+                        return "2"
+                    case ChildType.TRIPLE:
+                        return "3"
+                    case ChildType.DIFFERENTLEVEL:
+                        return "\"DL\""
+                    case ChildType.TOOFAR:
+                        return "\"TF\""
+                }
+            }
+
+            return `${decision.area.name}${postfix(decision.ping)}`
+        }
     }
 }

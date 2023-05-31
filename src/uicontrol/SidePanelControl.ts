@@ -1,6 +1,5 @@
 import {ClueStep, pretty} from "../model/clues";
 import {Constants} from "../constants";
-import {forClue} from "../data/methods";
 import {Application} from "../application";
 import {getSolutionLayer} from "./map/activeLayer";
 import {Modal} from "./widgets/modal";

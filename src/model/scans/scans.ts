@@ -1,10 +1,10 @@
 import * as leaflet from "leaflet";
 import {areaToPolygon, Box, clampInto, MapCoordinate} from "../coordinates";
 import {Raster} from "../../util/raster";
-import {ScanSpot} from "../methods";
-import {clamp, rangeRight} from "lodash";
-import {ScanStep} from "../clues";
-import {ScanDecision} from "../../uicontrol/scanedit/TreeEdit";
+import {rangeRight} from "lodash";
+import {ScanTree2} from "./ScanTree2";
+import ScanSpot = ScanTree2.ScanSpot;
+import ScanDecision = ScanTree2.ScanDecision;
 
 export class EquivalenceClass {
     public information_gain: number
@@ -142,6 +142,7 @@ export class ScanEquivalenceClasses {
         return this.equivalence_classes
     }
 }
+
 
 export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: number): PulseType {
     let d_x = Math.abs(spot.x - tile.x)

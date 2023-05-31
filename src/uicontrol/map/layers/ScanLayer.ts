@@ -13,6 +13,8 @@ import ScanEditPanel from "../../scanedit/ScanEditPanel";
 import {ScanTree2} from "../../../model/scans/ScanTree2";
 import tree_node = ScanTree2.decision_tree;
 import edge_path = ScanTree2.edge_path;
+import {constant} from "lodash";
+import {Constants} from "../../../constants";
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -57,8 +59,8 @@ export class SpotPolygon extends leaflet.FeatureGroup {
 
             this.polygon
                 .setStyle({
-                    color: "#00FF21",
-                    fillColor: "#00FF21",
+                    color: Constants.colors.scan_area,
+                    fillColor: Constants.colors.scan_area,
                     interactive: false,
                 })
                 .bindTooltip(this.label)
@@ -320,7 +322,10 @@ export class ScanEditLayer extends ScanLayer {
             methods.push({
                 from: tree.parent ? tree.parent.node.where : null,
                 to: tree.where || tree.root.spot(tree.solved),
-                short_instruction: tree.instruction
+                short_instruction:
+                    tree.instruction.replace("Surge", "{{surge}}")
+                        .replace("Dive", "{{dive}}")
+                        .replace(/to (\w+)/, "to {{target}}")
             })
 
             let t: tree_node = {

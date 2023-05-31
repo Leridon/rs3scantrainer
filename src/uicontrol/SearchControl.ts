@@ -1,6 +1,6 @@
 import {Application} from "../application";
 import * as fuzzysort from "fuzzysort";
-import {icons} from "../constants";
+import {Constants} from "../constants";
 
 export default class SearchControl {
     private menubarcontrols = $("#menubarcontrols")
@@ -57,9 +57,9 @@ export default class SearchControl {
             let src = ""
 
             if ($(e).data().type) {
-                src = icons.types[$(e).data().type]
+                src = Constants.icons.types[$(e).data().type]
             } else if ($(e).data().tier) {
-                src = icons.tiers[$(e).data().tier]
+                src = Constants.icons.tiers[$(e).data().tier]
             }
 
             $(e).children("img").first().attr("src", src)

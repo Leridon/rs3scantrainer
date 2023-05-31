@@ -5,12 +5,9 @@ import MenuBarControl from "./uicontrol/MenuBarControl";
 import {Modal} from "./uicontrol/widgets/modal";
 import {clues} from "./data/clues";
 
-
-import YouTubePlayer from 'youtube-player';
-import {Simulate} from "react-dom/test-utils";
-import play = Simulate.play;
-import PlayerStates from "youtube-player/dist/constants/PlayerStates";
 import TemplateResolver from "./util/TemplateResolver";
+import {TeleportLayer} from "./uicontrol/map/teleportlayer";
+import {Teleports} from "./model/teleports";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -104,13 +101,29 @@ export class Application {
     howtotabs = new HowToTabControls(this)
     sidepanels = new SidePanelControl(this)
 
+    teleports = new Teleports({
+        fairy_ring_favourites: [],
+        potas: [{
+            color: "red",
+            active: true,
+            slots: ["gamesnecklace", "ringofduelling", "amuletofglory", "skillsnecklace", "digsitependant", "ringofslaying"]
+        }],
+        variants: []
+    })
+
     template_resolver = new TemplateResolver(new Map(
         [
-            ["surge", () => "<img src='assets/icons/surge.png'>"],
-            ["dive", () => "<img src='assets/icons/dive.png'>"],
-            ["bladeddive", () => "<img src='assets/icons/bladeddive.png'>"],
+            ["surge", () => "<img src='assets/icons/surge.png' title='Surge'>"],
+            ["dive", () => "<img src='assets/icons/dive.png' title='Dive'>"],
+            ["bladeddive", () => "<img src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
             ["teleport", (args) => {
-                return "<img src='assets/icons/teleports/tele-fal.png'>"
+                let tele = this.teleports.get(args[0], args[1])
+
+                if (! tele) return "NULL"
+
+                // TODO: Overlay code
+
+                return `<img src='assets/icons/teleports/${tele.icon}' title="${tele.hover}">`
             }]
         ]
     ))
@@ -128,6 +141,11 @@ export class Application {
     about_modal = new AboutModal("modal-about", this)
 
     constructor() {
+        this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.teleports.getAll()))
+
+        this.teleports.on("refreshed", (t) => {
+            this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.teleports.getAll()))
+        })
     }
 
     async start() {

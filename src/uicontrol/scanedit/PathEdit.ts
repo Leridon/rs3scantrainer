@@ -6,6 +6,9 @@ import edge_path = ScanTree2.edge_path;
 import edgeSame = ScanTree2.edgeSame;
 import TemplateResolver from "../../util/TemplateResolver";
 import {scantrainer} from "../../application";
+import spotNumber = ScanTree2.spotNumber;
+import {Constants} from "../../constants";
+import {util} from "../../util/util";
 
 
 class ClipEdit extends Widget {
@@ -34,11 +37,7 @@ class EdgeEdit extends Widget<{
             .on("input", () => {
                 this.value.short_instruction = this.instruction_input.val() as string
 
-                this.render_span.html(
-                    scantrainer.template_resolver
-                        .withSingle("target", () => JSON.stringify(this.value.to))
-                        .resolve(this.value.short_instruction)
-                )
+                this.renderInstruction()
 
                 this.emit("changed", this.value)
             })
@@ -56,6 +55,27 @@ class EdgeEdit extends Widget<{
             .appendTo(this.container)
 
         //this.clip_edit = new ClipEdit(null).appendTo(this)
+
+        this.renderInstruction()
+    }
+
+    private renderInstruction() {
+
+        this.render_span.html(
+            scantrainer.template_resolver
+                .withSingle("target", () => {
+                    if (Array.isArray(this.value.to)) {
+                        return util.natural_join(this.value.to.map((c) => {
+                            return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(this.parent.parent.value, c)}</span>`
+                        }))
+                    } else if (typeof this.value.to == "string") {
+                        return `<span style="color: ${Constants.colors.scan_area}">${this.value.to}</span>`
+                    } else {
+                        return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(this.parent.parent.value, this.value.to)}</span>`
+                    }
+                })
+                .resolve(this.value.short_instruction)
+        )
     }
 }
 

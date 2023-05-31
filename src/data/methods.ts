@@ -1,7 +1,7 @@
 import {ChildKey, HowTo, Method, ScanSpot, ScanTree, ScanTreeNode} from "../model/methods";
 import {clues} from "./clues";
 import {ClueStep, ScanStep} from "../model/clues";
-import {Box, MapCoordinate} from "../model/coordinates";
+import {MapCoordinate} from "../model/coordinates";
 import Dict = NodeJS.Dict;
 import {ChildType} from "../model/scans/scans";
 

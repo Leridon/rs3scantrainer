@@ -13,7 +13,7 @@ export default class TemplateResolver {
         return copy
     }
 
-    withSingle(key: string, replacement: (args: string[]) => string) {
+    withSingle(key: string, replacement: (args: string[]) => string): TemplateResolver {
         let copy = this.copy()
 
         copy.templates.set(key, replacement)

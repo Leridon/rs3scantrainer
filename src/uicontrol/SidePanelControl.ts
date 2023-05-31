@@ -1,7 +1,6 @@
-import {ClueStep, pretty, SimpleSolution} from "../model/clues";
-import {icons} from "../constants";
+import {ClueStep, pretty} from "../model/clues";
+import {Constants} from "../constants";
 import {forClue} from "../data/methods";
-import {Method} from "../model/methods";
 import {Application} from "../application";
 import {getSolutionLayer} from "./map/activeLayer";
 import {Modal} from "./widgets/modal";
@@ -27,10 +26,10 @@ export class CluePanel {
         $("#cluetext").text(clue.clue)
 
         $("#activecluetier")
-            .attr("src", clue.tier ? icons.tiers[clue.tier] : "")
+            .attr("src", clue.tier ? Constants.icons.tiers[clue.tier] : "")
             .attr("title", pretty(clue.tier))
         $("#activecluetype")
-            .attr("src", icons.types[clue.type])
+            .attr("src", Constants.icons.types[clue.type])
             .attr("title", pretty(clue.type))
 
         // TODO: Add selection for variant if multiple

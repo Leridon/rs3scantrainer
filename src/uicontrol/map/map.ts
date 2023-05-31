@@ -88,7 +88,7 @@ export class TileMarker extends leaflet.FeatureGroup {
     }
 
     withLabel(text: string, className: string, offset: [number, number]) {
-        if(this.label) this.removeLabel()
+        if (this.label) this.removeLabel()
 
         this.label = leaflet.tooltip({
             content: text,
@@ -230,8 +230,16 @@ export class GameMapControl {
             maxNativeZoom: 3,
             minZoom: -5
         }).addTo(this.map)
+    }
 
-        this.teleportLayer = new TeleportLayer().addTo(this.map).setZIndex(100)
+    setTeleportLayer(layer: TeleportLayer): this {
+        if (this.teleportLayer) this.teleportLayer.remove()
+
+        this.teleportLayer = layer
+
+        layer.addTo(this.map).setZIndex(100)
+
+        return this
     }
 
     setActiveLayer(layer: ActiveLayer) {

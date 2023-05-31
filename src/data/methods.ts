@@ -1,12 +1,6 @@
-import {ChildKey, HowTo, Method, ScanSpot, ScanTree, ScanTreeNode} from "../model/methods";
-import {clues} from "./clues";
-import {ClueStep, ScanStep} from "../model/clues";
-import {MapCoordinate} from "../model/coordinates";
-import Dict = NodeJS.Dict;
-import {ChildType} from "../model/scans/scans";
-import {ScanTree2} from "../model/scans/ScanTree2";
+import {method} from "../model/methods";
 
-let raw: ScanTree2.tree[] = [
+let raw: method[] = [
     {
         "type": "scantree",
         "clue": 364,
@@ -421,7 +415,7 @@ let raw: ScanTree2.tree[] = [
         "areas": [{
             "name": "_",
             "is_virtual": true
-        },{
+        }, {
             "name": "A",
             "area": {"topleft": {"x": 2721, "y": 5266}, "botright": {"x": 2724, "y": 5263}}
         }, {"name": "B", "area": {"topleft": {"x": 2726, "y": 5266}, "botright": {"x": 2726, "y": 5266}}}, {
@@ -1110,11 +1104,7 @@ let raw: ScanTree2.tree[] = [
             }]
         }
     }
-
-
 ]
-
-let methods: Method[][] = []
 /*
 let n = Math.max(...clues.map((e) => e.id))
 
@@ -2313,6 +2303,4 @@ function loadScanMethods() {
     })
 }*/
 
-export function loadMethods() {
-    loadScanMethods()
-}
+export default raw

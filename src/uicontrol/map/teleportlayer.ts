@@ -1,6 +1,5 @@
 import * as leaflet from "leaflet"
-import {MapCoordinate, toLeafletLatLngExpression} from "../../model/coordinates";
-import teleports from "../../data/teleports";
+import {toLeafletLatLngExpression} from "../../model/coordinates";
 import {flat_teleport} from "../../model/teleports";
 
 class TeleportIcon extends leaflet.Icon {

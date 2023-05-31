@@ -1,6 +1,7 @@
 import {storage} from "../util/storage";
 import {GameMapControl} from "./map/map";
 import {Application} from "../application";
+import {HowTo} from "../model/methods";
 
 
 export default class HowToTabControls {
@@ -84,7 +85,7 @@ export default class HowToTabControls {
         $(".methodtabcontent").hide()
         $(`.methodtabcontent[data-methodtype=${key}]`).show()
 
-        if(key == "map"){
+        if (key == "map") {
             this.map.map.invalidateSize()
         }
     }

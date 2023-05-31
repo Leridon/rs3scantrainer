@@ -1,6 +1,6 @@
 import {ClueStep, pretty} from "../model/clues";
 import {Constants} from "../constants";
-import {Application} from "../application";
+import {Application, scantrainer} from "../application";
 import {getSolutionLayer} from "./map/activeLayer";
 import {Modal} from "./widgets/modal";
 
@@ -39,7 +39,7 @@ export class CluePanel {
         // Ignore solution panels for now
         this.parent.solution_panel.hide()
 
-        let methods = forClue(clue)
+        let methods = scantrainer.data.methods.forStep(clue)
 
         // TODO: Handle more than 1 method
         if (methods.length > 0) {

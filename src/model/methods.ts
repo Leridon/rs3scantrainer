@@ -7,6 +7,9 @@ import {ActiveLayer} from "../uicontrol/map/activeLayer";
 import {ChildType} from "./scans/scans";
 import {ScanTree2} from "./scans/ScanTree2";
 import {clues} from "../data/clues";
+import {deprecate} from "util";
+import methods from "../data/methods";
+import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 
 export type method_base = {
     type: string,
@@ -34,28 +37,32 @@ export function indirect<T extends method_base, U extends ClueStep>(clue: T & re
     return copy as (T & indirect)
 }
 
-
-/*
-export type Video = {
-    ref: string,
-    contributor?: string
-}
-
+// TODO: Remove
 export type HowTo = {
-    video?: Video,
+    video?: any,
     text?: string,
     image?: string
-}*/
+}
 
-export abstract class Method {
-    clue: ClueStep
+export class Methods {
+    data: method[]
 
-    protected constructor(public type: string) {
+    constructor() {
+        this.data = methods
     }
 
-    abstract explanationModal(): Modal
+    forStep(step: ClueStep | number): method[] {
+        if (typeof step != "number") step = step.id
 
-    abstract methodLayer(trainer: Application): ActiveLayer
+        return this.data.filter((m) => m.clue == step)
+    }
+}
+
+export function createMethodLayer(method: method & resolved<ClueStep>) {
+    switch (method.type) {
+        case "scantree":
+            return new ScanTreeMethodLayer(method as resolved_scan_tree, scantrainer)
+    }
 }
 
 /*

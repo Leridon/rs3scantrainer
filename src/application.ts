@@ -8,6 +8,8 @@ import {clues} from "./data/clues";
 import TemplateResolver from "./util/TemplateResolver";
 import {TeleportLayer} from "./uicontrol/map/teleportlayer";
 import {Teleports} from "./model/teleports";
+import {ClueSteps} from "./model/clues";
+import {Methods} from "./model/methods";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -101,15 +103,19 @@ export class Application {
     howtotabs = new HowToTabControls(this)
     sidepanels = new SidePanelControl(this)
 
-    teleports = new Teleports({
-        fairy_ring_favourites: [],
-        potas: [{
-            color: "red",
-            active: true,
-            slots: ["gamesnecklace", "ringofduelling", "amuletofglory", "skillsnecklace", "digsitependant", "ringofslaying"]
-        }],
-        variants: []
-    })
+    data = {
+        teleports: new Teleports({
+            fairy_ring_favourites: [],
+            potas: [{
+                color: "red",
+                active: true,
+                slots: ["gamesnecklace", "ringofduelling", "amuletofglory", "skillsnecklace", "digsitependant", "ringofslaying"]
+            }],
+            variants: []
+        }),
+        clues: new ClueSteps(),
+        methods: new Methods()
+    }
 
     template_resolver = new TemplateResolver(new Map(
         [
@@ -117,7 +123,7 @@ export class Application {
             ["dive", () => "<img src='assets/icons/dive.png' title='Dive'>"],
             ["bladeddive", () => "<img src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
             ["teleport", (args) => {
-                let tele = this.teleports.get(args[0], args[1])
+                let tele = this.data.teleports.get(args[0], args[1])
 
                 if (!tele) return "NULL"
 

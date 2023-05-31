@@ -9,9 +9,11 @@ import augmented_decision_tree = ScanTree2.augmented_decision_tree;
 import {modal} from "../widgets/modal";
 import ScanExplanationModal = ScanTree2.ScanExplanationModal;
 import {eq} from "../../model/coordinates";
+import augment = ScanTree2.augment;
 
 
 export class ScanTreeMethodLayer extends ScanLayer {
+    private root: augmented_decision_tree
     private node: augmented_decision_tree
 
     private fit() {
@@ -59,8 +61,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
         this.areas.forEach((p) => p.setActive(relevant_areas.some((a) => a.name == (p.spot().name))))
 
-
-        this.node.sendToUI(this.app)
+        this.update()
     }
 
     constructor(private scantree: resolved_scan_tree, app: Application) {
@@ -69,10 +70,9 @@ export class ScanTreeMethodLayer extends ScanLayer {
             show_equivalence_classes_button: false
         });
 
-        this.setSpotOrder(scantree.spot_ordering)
+        this.root = augment(scantree)
 
-        // sort markers to correlate to the spot mapping
-        //this.markers.sort((a, b) => scantree.spotToNumber(a.getSpot()) - scantree.spotToNumber(b.getSpot()))
+        this.setSpotOrder(scantree.spot_ordering)
 
         this.setAreas(this.scantree.areas)
 
@@ -89,7 +89,13 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
         this.app.sidepanels.methods_panel.showSection("scantree")
 
-        this.scantree.root.sendToUI(this.app)
+        this.node = this.root
+
+        this.update()
+    }
+
+    private update(){
+
     }
 
     deactivate() {

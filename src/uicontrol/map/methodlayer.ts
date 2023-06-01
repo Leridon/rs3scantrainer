@@ -107,10 +107,12 @@ export class ScanTreeMethodLayer extends ScanLayer {
                 if (node.parent) buildPathNavigation(node.parent.node)
             }
 
-            let last = list.children().last()
-            last.text(last.children("a").text()).addClass("active")
-
             buildPathNavigation(this.node)
+
+            let last = list.children().last()
+
+            last.text(last.children().first().text()).addClass("active")
+
         }
 
 

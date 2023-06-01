@@ -1,10 +1,6 @@
 import {ClueStep, ScanStep} from "./clues";
-import {ScanTreeMethodLayer} from "../uicontrol/map/methodlayer";
 import {ScanTree2} from "./scans/ScanTree2";
 import {clues} from "../data/clues";
-import methods from "../data/methods";
-import resolved_scan_tree = ScanTree2.resolved_scan_tree;
-import app from "../app";
 
 export type method_base = {
     type: string,
@@ -39,27 +35,6 @@ export type HowTo = {
     image?: string
 }
 
-export class Methods {
-    data: (method & indirect)[]
-
-    constructor() {
-        this.data = methods
-    }
-
-    forStep(step: ClueStep | number): (method & resolved<any>)[] {
-        if (typeof step != "number") step = step.id
-
-        return this.data.filter((m) => m.clue == step)
-            .map((m) => resolve<ClueStep, method>(m))
-    }
-}
-
-export function createMethodLayer(method: method & resolved<ClueStep>) {
-    switch (method.type) {
-        case "scantree":
-            return new ScanTreeMethodLayer(method as resolved_scan_tree, app)
-    }
-}
 
 /*
 

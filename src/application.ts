@@ -9,7 +9,7 @@ import TemplateResolver from "./util/TemplateResolver";
 import {TeleportLayer} from "./uicontrol/map/teleportlayer";
 import {Teleports} from "./model/teleports";
 import {ClueSteps} from "./model/clues";
-import {Methods} from "./model/methods";
+import {Methods} from "./data/accessors";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -168,9 +168,7 @@ export class Application {
     }
 }
 
-declare global {
-    var scantrainer: Application
-}
+export let scantrainer: Application
 
 
 export function initialize() {

@@ -1,8 +1,18 @@
 import {ClueStep, getSolutionLayer, pretty} from "../model/clues";
 import {Constants} from "../constants";
 import {Modal} from "./widgets/modal";
-import {createMethodLayer} from "../model/methods";
-import {Application} from "../application";
+import {Application, scantrainer} from "../application";
+import {method, resolved} from "../model/methods";
+import {ScanTreeMethodLayer} from "./map/methodlayer";
+import {ScanTree2} from "../model/scans/ScanTree2";
+import resolved_scan_tree = ScanTree2.resolved_scan_tree;
+
+function createMethodLayer(method: method & resolved<ClueStep>) {
+    switch (method.type) {
+        case "scantree":
+            return new ScanTreeMethodLayer(method as resolved_scan_tree, scantrainer)
+    }
+}
 
 export class CluePanel {
     selected_clue: ClueStep = null

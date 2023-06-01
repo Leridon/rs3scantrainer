@@ -6,6 +6,7 @@ import edgeSame = ScanTree2.edgeSame;
 import spotNumber = ScanTree2.spotNumber;
 import {Constants} from "../../constants";
 import {util} from "../../util/util";
+import {scantrainer} from "../../application";
 
 
 class ClipEdit extends Widget {

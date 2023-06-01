@@ -1,8 +1,5 @@
-import {ClueStep, SetSolution, SimpleSolution, VariantSolution} from "../../model/clues";
 import {GameMapControl, TileMarker} from "./map";
 import * as leaflet from "leaflet"
-import {ScanLayer} from "./layers/ScanLayer";
-import {Application} from "../../application";
 
 export class TileMarkerWithActive extends TileMarker {
 
@@ -23,7 +20,7 @@ export class TileMarkerWithActive extends TileMarker {
 export abstract class LayerInteraction<T extends ActiveLayer> {
     private is_active: boolean
 
-    constructor(protected layer: T) {
+    protected constructor(protected layer: T) {
     }
 
     activate(): this {
@@ -105,29 +102,4 @@ export class SimpleMarkerLayer extends ActiveLayer {
 
         this.markers.forEach((e) => e.addTo(this))
     }
-}
-
-export function getSolutionLayer(clue: ClueStep, app: Application, variant: number = 0): ActiveLayer {
-    if (clue.type == "scan") {
-        return new ScanLayer(clue, app, {show_edit_button: true})
-    }
-
-    if (clue.solution) {
-        switch (clue.solution.type) {
-            case "coordset":
-                return new SimpleMarkerLayer((clue.solution as SetSolution).candidates.map((e) => {
-                    return new TileMarker(e).withMarker().withX("#B21319")
-                }))
-            case "simple":
-                return new SimpleMarkerLayer([
-                    new TileMarker((clue.solution as SimpleSolution).coordinates).withMarker().withX("#B21319")
-                ])
-            case "variants":
-                // TODO: Properly handle variant solutions
-                return new SimpleMarkerLayer([
-                    new TileMarker((clue.solution as VariantSolution).variants[variant].solution.coordinates).withMarker().withX("#B21319")
-                ])
-        }
-    }
-
 }

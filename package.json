@@ -16,6 +16,7 @@
 		"@types/youtube-player": "^5.5.7",
 		"autobind-decorator": "^2.4.0",
 		"bootstrap": "^5.2.3",
+		"circular-dependency-plugin": "^5.2.2",
 		"copy-webpack-plugin": "^11.0.0",
 		"fuzzysort": "^2.0.4",
 		"jquery": "^3.6.4",

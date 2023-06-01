@@ -1,7 +1,7 @@
 import {path} from "../../uicontrol/map/layers/ScanLayer";
 import {Box, eq, MapCoordinate} from "../coordinates";
 import {method_base, resolved} from "../methods";
-import {ChildType, spot_narrowing} from "./scans";
+import {area_pulse, ChildType} from "./scans";
 import {Modal} from "../../uicontrol/widgets/modal";
 import {ScanStep} from "../clues";
 
@@ -77,7 +77,7 @@ export namespace ScanTree2 {
         methods: edge_path[],
         root: decision_tree
     }
-    
+
     export type resolved_scan_tree = tree & resolved<ScanStep>
 
     export type decision_tree = {
@@ -257,5 +257,21 @@ export namespace ScanTree2 {
 
             return `${decision.area.name}${postfix(decision.ping)}`
         }
+    }
+
+    export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, range: number): Map<ChildType, MapCoordinate[]> {
+        let m = new Map<ChildType, MapCoordinate[]>()
+
+        ChildType.all.forEach((c) => {
+            let override = ScanSpot.override(area, c)
+
+            m.set(c, override || (area.is_virtual ? [] : candidates.filter((s) => area_pulse(s, area.area, range).map(ChildType.fromPulse).includes(c))))
+        })
+
+        return m
+    }
+
+    export function narrow_down(candidates: MapCoordinate[], decision: ScanDecision, range: number): MapCoordinate[] {
+        return spot_narrowing(candidates, decision.area, range).get(decision.ping)
     }
 }

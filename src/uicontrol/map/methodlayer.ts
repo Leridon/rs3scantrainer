@@ -1,8 +1,6 @@
-import * as leaflet from "leaflet"
 import {ScanLayer} from "./layers/ScanLayer";
 import {Application} from "../../application";
 import {GameMapControl} from "./map";
-import {ChildType} from "../../model/scans/scans";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import augmented_decision_tree = ScanTree2.augmented_decision_tree;
@@ -10,13 +8,14 @@ import {modal} from "../widgets/modal";
 import ScanExplanationModal = ScanTree2.ScanExplanationModal;
 import {eq} from "../../model/coordinates";
 import augment = ScanTree2.augment;
-
+import ScanDecision = ScanTree2.ScanDecision;
 
 export class ScanTreeMethodLayer extends ScanLayer {
     private root: augmented_decision_tree
     private node: augmented_decision_tree
 
     private fit() {
+        /*
         let bounds = leaflet.latLngBounds([])
 
         // Include old location in bounds
@@ -40,7 +39,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
         this._map.fitBounds(bounds.pad(0.1), {
             maxZoom: 4
-        })
+        })*/
     }
 
 
@@ -94,8 +93,56 @@ export class ScanTreeMethodLayer extends ScanLayer {
         this.update()
     }
 
-    private update(){
+    private update() {
 
+        {
+            let list = $("#pathview").empty()
+
+            let buildPathNavigation = (node: augmented_decision_tree) => {
+                $("<a>").attr("href", "javascript:;")
+                    .on("click", () => this.setNode(node))
+                    .text(node.parent ? ScanDecision.toString(node.decisions[node.decisions.length - 1]) : "Start")
+                    .appendTo($("<li>").addClass("breadcrumb-item").prependTo(list))
+
+                if (node.parent) buildPathNavigation(node.parent.node)
+            }
+
+            let last = list.children().last()
+            last.text(last.children("a").text()).addClass("active")
+
+            buildPathNavigation(this.node)
+        }
+
+
+        return
+
+/*
+        for (let i = 0; i < path.length; i++) {
+            let p = path[i]
+
+            let li = $("<li>").addClass("breadcrumb-item")
+
+            let text = p.parent ? p.parent.key.key : "Start"
+
+            if (i < path.length - 1) {
+                $("<a>").attr("href", "javascript:;")
+                    .on("click", () => p.sendToUI(app))
+                    .text(text)
+                    .appendTo(li)
+            } else {
+                li.addClass("active")
+                    .text(text)
+            }
+
+            li.appendTo(list)
+        }
+
+
+        $("#nextscanstep").text(this.instruction)
+
+        this.generateChildren(0, $("#scantreeview").empty(), app)
+
+        scantrainer.howtotabs.setHowToTabs(this.howTo())*/
     }
 
     deactivate() {

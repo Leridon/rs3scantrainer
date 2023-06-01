@@ -19,8 +19,6 @@ export default class HowToTabControls {
             if (index >= 0) preferred.splice(index, 1)
             preferred.unshift(key)
 
-            console.log("New preferred: " + JSON.stringify(preferred))
-
             this.preferred.set(preferred)
 
             this.activateHowToTab(key)

@@ -5,5 +5,6 @@
     "jsx": "react",
     "noImplicitThis": true
   },
+  "include": ["src"],
   "allowTsInNodeModules": true
 }

@@ -1,8 +1,8 @@
-import {ClueStep, pretty} from "../model/clues";
+import {ClueStep, getSolutionLayer, pretty} from "../model/clues";
 import {Constants} from "../constants";
-import {Application, scantrainer} from "../application";
-import {getSolutionLayer} from "./map/activeLayer";
 import {Modal} from "./widgets/modal";
+import {createMethodLayer} from "../model/methods";
+import {Application} from "../application";
 
 export class CluePanel {
     selected_clue: ClueStep = null
@@ -43,7 +43,7 @@ export class CluePanel {
 
         // TODO: Handle more than 1 method
         if (methods.length > 0) {
-            this.parent.app.howtotabs.map.setActiveLayer(methods[0].methodLayer(this.parent.app))
+            this.parent.app.howtotabs.map.setActiveLayer(createMethodLayer(methods[0]))
         } else {
             this.parent.app.howtotabs.map.setActiveLayer(getSolutionLayer(clue, this.parent.app))
 

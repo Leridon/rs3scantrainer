@@ -1,11 +1,12 @@
 import Widget from "../widgets/Widget";
-import {ChildType, spot_narrowing} from "../../model/scans/scans";
+import {ChildType} from "../../model/scans/scans";
 import ScanEditPanel from "./ScanEditPanel";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import tree_node = ScanTree2.decision_tree;
 import augmented_tree = ScanTree2.augmented_decision_tree;
 import ScanDecision = ScanTree2.ScanDecision;
+import spot_narrowing = ScanTree2.spot_narrowing;
 
 type TreeDom = {
     node: augmented_tree,

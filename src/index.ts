@@ -2,16 +2,12 @@
 //also gives your editor info about the window.alt1 api
 import "jquery";
 import {initialize} from "./application";
-import {loadMethods} from "./data/methods";
-
-let $ = jQuery
 
 //tell webpack to add index.html and appconfig.json to output
 require("!file-loader?name=[name].[ext]!./index.html");
 require("!file-loader?name=[name].[ext]!./style.css");
 require("!file-loader?name=[name].[ext]!./appconfig.json");
 
-loadMethods()
 
 document.addEventListener("DOMContentLoaded", (e) => {
 

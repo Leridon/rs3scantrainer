@@ -3,21 +3,20 @@ import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {GameMapControl, TileMarker} from "../map";
-import {ChildType, get_pulse, narrow_down, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
 import {ScanTree2} from "../../../model/scans/ScanTree2";
-import tree_node = ScanTree2.decision_tree;
-import edge_path = ScanTree2.edge_path;
-import {cloneDeep, constant} from "lodash";
+import {cloneDeep} from "lodash";
 import {Constants} from "../../../constants";
 import ScanSpot = ScanTree2.ScanSpot;
 import tree = ScanTree2.tree;
-import {indirect, resolve, resolved} from "../../../model/methods";
+import {indirect, resolve} from "../../../model/methods";
 import ScanDecision = ScanTree2.ScanDecision;
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
+import narrow_down = ScanTree2.narrow_down;
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -93,8 +92,6 @@ export class SpotPolygon extends leaflet.FeatureGroup {
         this.updateOpacity()
     }
 }
-
-
 export class ScanLayer extends ActiveLayer {
     protected markers: TileMarkerWithActive[]
     protected areas: SpotPolygon[] = []

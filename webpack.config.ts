@@ -2,6 +2,7 @@ import alt1chain from "@alt1/webpack";
 import * as path from "path";
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 let srcdir = path.resolve(__dirname, "./src/");
 let outdir = path.resolve(__dirname, "./dist/");
@@ -30,7 +31,20 @@ c.plugins = [
                 to: "assets"
             }
         ]
-    })]
+    }),
+    new CircularDependencyPlugin({
+        exclude: /a\.js|node_modules/,
+        // include specific files based on a RegExp
+        include: /src/,
+        // add errors to webpack instead of warnings
+        //failOnError: true,
+        // allow import cycles that include an asyncronous import,
+        // e.g. via import( './file.js')
+        allowAsyncCycles: false,
+        // set the current working directory for displaying module paths
+        cwd: process.cwd(),
+    })
+]
 
 c.resolve.fallback = {
     "timers": false

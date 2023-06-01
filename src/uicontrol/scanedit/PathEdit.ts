@@ -3,8 +3,6 @@ import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import edge_path = ScanTree2.edge_path;
 import edgeSame = ScanTree2.edgeSame;
-import TemplateResolver from "../../util/TemplateResolver";
-import {scantrainer} from "../../application";
 import spotNumber = ScanTree2.spotNumber;
 import {Constants} from "../../constants";
 import {util} from "../../util/util";

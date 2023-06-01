@@ -155,10 +155,10 @@ export class Application {
     about_modal = new AboutModal("modal-about", this)
 
     constructor() {
-        this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.teleports.getAll()))
+        this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
 
-        this.teleports.on("refreshed", (t) => {
-            this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.teleports.getAll()))
+        this.data.teleports.on("refreshed", (t) => {
+            this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
         })
     }
 
@@ -168,7 +168,10 @@ export class Application {
     }
 }
 
-export let scantrainer: Application = null
+declare global {
+    var scantrainer: Application
+}
+
 
 export function initialize() {
 

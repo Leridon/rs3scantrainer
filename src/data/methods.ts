@@ -1,6 +1,6 @@
-import {method} from "../model/methods";
+import {indirect, method} from "../model/methods";
 
-let raw: method[] = [
+let raw: (method & indirect)[] = [
     {
         "type": "scantree",
         "clue": 364,

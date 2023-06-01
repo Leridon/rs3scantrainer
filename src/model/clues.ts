@@ -1,6 +1,10 @@
 import {GieliCoordinates, MapCoordinate} from "./coordinates";
 import {clues} from "../data/clues";
 import {data} from "jquery";
+import {Application} from "../application";
+import {TileMarker} from "../uicontrol/map/map";
+import {ActiveLayer, SimpleMarkerLayer} from "../uicontrol/map/activeLayer";
+import {ScanLayer} from "../uicontrol/map/layers/ScanLayer";
 
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
@@ -75,5 +79,33 @@ export class ClueSteps {
 
     byId(id: number): ClueStep {
         return this.steps.find((s) => s.id == id)
+    }
+}
+
+
+
+export function getSolutionLayer(clue: ClueStep, app: Application, variant: number = 0): ActiveLayer {
+    // TODO: This probably does not belong here
+
+    if (clue.type == "scan") {
+        return new ScanLayer(clue, app, {show_edit_button: true})
+    }
+
+    if (clue.solution) {
+        switch (clue.solution.type) {
+            case "coordset":
+                return new SimpleMarkerLayer((clue.solution as SetSolution).candidates.map((e) => {
+                    return new TileMarker(e).withMarker().withX("#B21319")
+                }))
+            case "simple":
+                return new SimpleMarkerLayer([
+                    new TileMarker((clue.solution as SimpleSolution).coordinates).withMarker().withX("#B21319")
+                ])
+            case "variants":
+                // TODO: Properly handle variant solutions
+                return new SimpleMarkerLayer([
+                    new TileMarker((clue.solution as VariantSolution).variants[variant].solution.coordinates).withMarker().withX("#B21319")
+                ])
+        }
     }
 }

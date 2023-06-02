@@ -1,5 +1,5 @@
 import {ScanLayer} from "./layers/ScanLayer";
-import {Application} from "../../application";
+import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
@@ -9,6 +9,11 @@ import ScanExplanationModal = ScanTree2.ScanExplanationModal;
 import {eq} from "../../model/coordinates";
 import augment = ScanTree2.augment;
 import ScanDecision = ScanTree2.ScanDecision;
+import {util} from "../../util/util";
+import {Constants} from "../../constants";
+import spotNumber = ScanTree2.spotNumber;
+import template_resolvers = ScanTree2.template_resolvers;
+import {ChildType} from "../../model/scans/scans";
 
 export class ScanTreeMethodLayer extends ScanLayer {
     private root: augmented_decision_tree
@@ -112,39 +117,131 @@ export class ScanTreeMethodLayer extends ScanLayer {
             let last = list.children().last()
 
             last.text(last.children().first().text()).addClass("active")
-
         }
 
+        $("#nextscanstep").html(scantrainer.template_resolver
+            .with(template_resolvers(this.node.root, this.node.path))
+            .resolve(this.node.path.short_instruction))
+
+        this.generateChildren(this.node, 0, $("#scantreeview").empty())
 
         return
+    }
 
-/*
-        for (let i = 0; i < path.length; i++) {
-            let p = path[i]
+    generateList(node: augmented_decision_tree, depth: number, container: JQuery) {
+        let line = $("<div>")
+            .addClass("scantreeline")
+            .css("margin-left", `${depth * 12}px`)
+            .css("font-size", `${13 / (Math.pow(1.25, depth))}px`)
 
-            let li = $("<li>").addClass("breadcrumb-item")
+        if (depth == 0) {
+            $("<span>")
+                .addClass("nextchoice")
+                .text(ChildType.meta(node.parent.kind).pretty)      // Parent can't be null when being here... I think
+                .on("click", () => this.setNode(node))
+                .appendTo(line)
 
-            let text = p.parent ? p.parent.key.key : "Start"
-
-            if (i < path.length - 1) {
-                $("<a>").attr("href", "javascript:;")
-                    .on("click", () => p.sendToUI(app))
-                    .text(text)
-                    .appendTo(li)
-            } else {
-                li.addClass("active")
-                    .text(text)
-            }
-
-            li.appendTo(list)
+            //line.css("line-height", `30px`)
+        } else if (depth > 0) {
+            $("<span>")
+                .text(ChildType.meta(node.parent.kind).pretty + ": ")
+                .appendTo(line)
         }
 
+        $("<span>")
+            .html(
+                node.path ?
+                scantrainer.template_resolver
+                .with(template_resolvers(node.root, node.path))
+                .resolve(node.path.short_instruction) : "IDK dude")
+            .appendTo(line)
 
-        $("#nextscanstep").text(this.instruction)
+        line.appendTo(container)
 
-        this.generateChildren(0, $("#scantreeview").empty(), app)
+        this.generateChildren(node, depth + 1, container)
+    }
 
-        scantrainer.howtotabs.setHowToTabs(this.howTo())*/
+
+    generateChildren(node: augmented_decision_tree, depth: number, container: JQuery) {
+        if (depth >= 2) return
+
+        /*
+        if (this.is_synthetic_triple_node) {
+            this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
+                .forEach((e) => e.generateList(depth, container, app, e.solved.toString()))
+
+            return;
+        }*/
+
+        /*let triples = this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
+
+        if (triples.length >= 1) {
+            let line = $("<div>")
+                .addClass("scantreeline")
+                .css("margin-left", `${depth * 12}px`)
+                .css("font-size", `${13 / (Math.pow(1.25, depth))}px`)
+
+            if (depth == 0) {
+
+                let triple_span = $("<span>")
+                    .addClass("nextchoice")
+                    .text("Triple")
+                    .on("click", () => {
+                        if (triples.length == 1) {
+                            triples[0].sendToUI(app)
+                        } else if (this.is_synthetic_triple_node) {
+                            this.sendToUI(app) // This does nothing
+                        } else {
+                            let synthetic = new ScanTreeNode("Which spot?",
+                                null,
+                                this.where,
+                                triples.map((e) => {
+                                    return [{
+                                        key: e.solved.toString(),
+                                        kind: ChildType.TRIPLE
+                                    }, e]
+                                }),
+                                null,
+                                true
+                            )
+                            synthetic.parent = {node: this, key: {key: "Triple", kind: ChildType.TRIPLE}}
+                            synthetic.root = this.root
+
+                            synthetic.sendToUI(app)
+                        }
+                    })
+                    .appendTo(line)
+
+                line.append($("<span>").text("at"))
+
+                for (let child of triples) {
+                    $("<span>")
+                        .text(`${child.solved}`)
+                        .addClass("nextchoice")
+                        .addClass("tripleping")
+                        .on("click", () => child.sendToUI(app))
+                        .appendTo(line)
+                }
+            } else {
+                $("<span>")
+                    .text(`Triple ping at ${triples.map((e) => e.solved).join(", ")}`)
+                    .appendTo(line)
+            }
+
+            container.append(line)
+        }
+        */
+        node.children.forEach((e) => this.generateList(e.value, depth, container))
+
+        /*
+        this.children().filter((e) => e.parent.key.kind == ChildType.DOUBLE)
+            .forEach((e) => e.generateList(depth, container, app))
+
+        this.children().filter((e) => e.parent.key.kind == ChildType.SINGLE)
+            .forEach((e) => e.generateList(depth, container, app))
+
+        this.children().filter((e) => (typeof e.parent.key.kind) == "string")
+            .forEach((e) => e.generateList(depth, container, app))*/
     }
 
     deactivate() {

@@ -4,6 +4,8 @@ import {method_base, resolved} from "../methods";
 import {area_pulse, ChildType} from "./scans";
 import {Modal} from "../../uicontrol/widgets/modal";
 import {ScanStep} from "../clues";
+import {util} from "../../util/util";
+import {Constants} from "../../constants";
 
 export namespace ScanTree2 {
 
@@ -90,7 +92,9 @@ export namespace ScanTree2 {
     }
 
     export type augmented_decision_tree = {
+        root: tree,
         parent: { node: augmented_decision_tree, kind: ChildType },
+        path: edge_path,
         where: ScanSpot
         raw: decision_tree,
         depth: number,
@@ -114,6 +118,8 @@ export namespace ScanTree2 {
 
     export function augment(tree: resolved_scan_tree): augmented_decision_tree {
 
+        console.log(tree.methods)
+
         function helper(
             node: decision_tree,
             parent: { node: augmented_decision_tree, kind: ChildType },
@@ -122,9 +128,21 @@ export namespace ScanTree2 {
             decisions: ScanDecision[],
         ): augmented_decision_tree {
 
+            let edge: edge_path = {
+                from: parent ? parent.node.where.name : null,
+                to: node ? node.where : remaining_candidates
+            }
+
+            let path = tree.methods.find((m) => edgeSame(m, edge))
+
+
+            if (!path) console.log(edge)
+
             let t: augmented_decision_tree = {
+                root: tree,
                 parent: parent,
                 where: null,
+                path: path,//tree.methods.find((m) => ((parent == null) || (m.from == parent.node.where.name)) && (node && (node.where == m.to) || remaining_candidates == m.to)),
                 raw: node,
                 depth: depth,
                 remaining_candidates: remaining_candidates,
@@ -206,7 +224,7 @@ export namespace ScanTree2 {
         if (a.to == b.to) return true
 
         if (Array.isArray(a.to) && Array.isArray(b.to)) {
-            return a.to.every((c) => (b.to as MapCoordinate[]).includes(c))
+            return a.to.length == b.to.length && a.to.every((c) => (b.to as MapCoordinate[]).some((bc) => eq(c, bc)))
         }
 
         return false
@@ -273,5 +291,21 @@ export namespace ScanTree2 {
 
     export function narrow_down(candidates: MapCoordinate[], decision: ScanDecision, range: number): MapCoordinate[] {
         return spot_narrowing(candidates, decision.area, range).get(decision.ping)
+    }
+
+    export function template_resolvers(tree: tree, path: edge_path): Record<string, (args: string[]) => string> {
+        return {
+            "target": () => {
+                if (Array.isArray(path.to)) {
+                    return util.natural_join(path.to.map((c) => {
+                        return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(tree, c)}</span>`
+                    }))
+                } else if (typeof path.to == "string") {
+                    return `<span style="color: ${Constants.colors.scan_area}">${path.to}</span>`
+                } else {
+                    return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(tree, path.to)}</span>`
+                }
+            }
+        }
     }
 }

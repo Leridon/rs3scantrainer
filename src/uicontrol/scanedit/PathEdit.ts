@@ -7,6 +7,7 @@ import spotNumber = ScanTree2.spotNumber;
 import {Constants} from "../../constants";
 import {util} from "../../util/util";
 import {scantrainer} from "../../application";
+import template_resolvers = ScanTree2.template_resolvers;
 
 
 class ClipEdit extends Widget {
@@ -61,17 +62,7 @@ class EdgeEdit extends Widget<{
 
         this.render_span.html(
             scantrainer.template_resolver
-                .withSingle("target", () => {
-                    if (Array.isArray(this.value.to)) {
-                        return util.natural_join(this.value.to.map((c) => {
-                            return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(this.parent.parent.value, c)}</span>`
-                        }))
-                    } else if (typeof this.value.to == "string") {
-                        return `<span style="color: ${Constants.colors.scan_area}">${this.value.to}</span>`
-                    } else {
-                        return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(this.parent.parent.value, this.value.to)}</span>`
-                    }
-                })
+                .with(template_resolvers(this.parent.parent.value, this.value))
                 .resolve(this.value.short_instruction)
         )
     }

@@ -10,6 +10,7 @@ import {TeleportLayer} from "./uicontrol/map/teleportlayer";
 import {Teleports} from "./model/teleports";
 import {ClueSteps} from "./model/clues";
 import {Methods} from "./data/accessors";
+import {Constants} from "./constants";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -119,9 +120,11 @@ export class Application {
 
     template_resolver = new TemplateResolver(new Map(
         [
-            ["surge", () => "<img src='assets/icons/surge.png' title='Surge'>"],
-            ["dive", () => "<img src='assets/icons/dive.png' title='Dive'>"],
-            ["bladeddive", () => "<img src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
+            ["surge", () => "<img class='text-icon' src='assets/icons/surge.png' title='Surge'>"],
+            ["dive", () => "<img class='text-icon' src='assets/icons/dive.png' title='Dive'>"],
+            ["bladeddive", () => "<img class='text-icon' src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
+            ["digspot", (args) => `<span class="spot-number">${args[0]}</span>`],
+            ["scanarea", (args) => `<span style="color: ${Constants.colors.scan_area}">${args[0]}</span>`],
             ["teleport", (args) => {
                 let tele = this.data.teleports.get(args[0], args[1])
 
@@ -137,7 +140,7 @@ export class Application {
   transform: translate(-50%, -50%);
                 * */
 
-                return `<div><img src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"> <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${tele.code}</div></div>`
+                return `<div style="display: inline-block"><img class='text-icon' src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"> <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${tele.code}</div></div>`
             }]
         ]
     ))

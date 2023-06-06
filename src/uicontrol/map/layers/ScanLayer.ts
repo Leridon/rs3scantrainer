@@ -169,7 +169,7 @@ export class ScanLayer extends ActiveLayer {
         this.markers.forEach((m) => {
             let i = ordering.findIndex((s) => eq(m.getSpot(), s))
 
-            if (i >= 0) m.withLabel((i + 1).toString(), "spot-number", [0, 10])
+            if (i >= 0) m.withLabel((i + 1).toString(), "spot-number-on-map", [0, 10])
             else m.removeLabel()
         })
     }

@@ -288,7 +288,7 @@ const raw: teleport_group[] = [{
 }, {
     id: "slayercape",
     name: "Slayer Cape",
-    img: "capeslay.gif",
+    img: "capeslay.png",
     spots: [
         {subid: "mandrith", spot: {x: 3050, y: 3953}, code: "1", hover: "Mandrith"},
         {subid: "laniakea", spot: {x: 5671, y: 2138}, code: "2", hover: "Laniakea"},
@@ -306,7 +306,7 @@ const raw: teleport_group[] = [{
 }, {
     id: "dungcape",
     name: "Dungeoneering Cape",
-    img: "capedung.gif",
+    img: "capedung.png",
     spots: [
         {subid: "edgevilledungeon", spot: {x: 3132, y: 9914}, code: "1", hover: "Edgeville Dungeon"},   // TODO: Check correctness of hovers
         {subid: "dwarvenmine", spot: {x: 3035, y: 9772}, code: "2", hover: "Dwarven mine"},

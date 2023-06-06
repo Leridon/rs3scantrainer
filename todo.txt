@@ -13,6 +13,7 @@ Release b0.3
     - Fix "IDK dude" for triple nodes
     - Readd direct links to triple pings
     - Fix whatever tf happens with dorgesh kaan and taverley
+    - Fix and rethink zoom-in to incorporate feedback
 
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
@@ -22,7 +23,6 @@ Release b0.3
 
 - Polishing
     - Add control bar for map interactions (top center).
-    - Rethink zoom-in to incorporate feedback
     - "default interactions" for scan layers
     - Arch teleport icon instead of outfit
 

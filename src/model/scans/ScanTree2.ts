@@ -5,10 +5,10 @@ import {area_pulse, ChildType} from "./scans";
 import {Modal} from "../../uicontrol/widgets/modal";
 import {ScanStep} from "../clues";
 import {util} from "../../util/util";
-import {Constants} from "../../constants";
 
 export namespace ScanTree2 {
 
+    import natural_order = util.natural_order;
     export type ScanSpot = {
         name: string,
         is_virtual?: boolean,
@@ -66,7 +66,7 @@ export namespace ScanTree2 {
 
     export type edge_path = {
         from?: string,
-        to: string | MapCoordinate | MapCoordinate[],
+        to: string | MapCoordinate[],
         short_instruction?: string,
         path?: path,
     }
@@ -118,8 +118,6 @@ export namespace ScanTree2 {
 
     export function augment(tree: resolved_scan_tree): augmented_decision_tree {
 
-        console.log(tree.methods)
-
         function helper(
             node: decision_tree,
             parent: { node: augmented_decision_tree, kind: ChildType },
@@ -134,7 +132,6 @@ export namespace ScanTree2 {
             }
 
             let path = tree.methods.find((m) => edgeSame(m, edge))
-
 
             if (!path) console.log(edge)
 
@@ -297,13 +294,14 @@ export namespace ScanTree2 {
         return {
             "target": () => {
                 if (Array.isArray(path.to)) {
-                    return util.natural_join(path.to.map((c) => {
-                        return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(tree, c)}</span>`
-                    }))
+                    return util.natural_join(path.to
+                        .map((c) => spotNumber(tree, c))
+                        .sort(natural_order)
+                        .map((c) => `{{digspot ${c}}}`))
                 } else if (typeof path.to == "string") {
-                    return `<span style="color: ${Constants.colors.scan_area}">${path.to}</span>`
+                    return `{{scanarea ${path.to}}}`
                 } else {
-                    return `<span style="color: ${Constants.colors.dig_spot_number}">${spotNumber(tree, path.to)}</span>`
+                    return `{{digspot ${spotNumber(tree, path.to)}}}`
                 }
             }
         }

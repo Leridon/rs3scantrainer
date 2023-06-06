@@ -160,26 +160,6 @@ html, body {
     display: block;
 }
 
-.nextchoice {
-    text-align: center;
-    display: inline-block;
-    padding: 2px;
-    padding-left: 1em;
-    padding-right: 1em;
-    background-color: #FFFFFF19;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid black;
-}
-
-.nextchoice:hover {
-    background-color: #FFFFFF33;
-}
-
-.nextchoice.tripleping {
-    height: 2em;
-}
-
 .nextstep {
     font-size: 20px;
     font-weight: bold;
@@ -205,7 +185,15 @@ html, body {
     box-shadow: none;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     color: gold;
-    font-size: 1rem;
+}
+
+.spot-number-on-map {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: gold;
+    font-size: 1.5rem;
 }
 
 .equivalence-class-information {
@@ -306,14 +294,17 @@ html, body {
     transform-origin: center;
     position: absolute;
     color: #fff;
-    margin: -16px;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
+    margin: -50px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
     text-align: center;
+    vertical-align: center;
     white-space: nowrap;
     text-shadow: 1px 1px #000, -1px 1px #000, 1px -1px #000, -1px -1px #000;
     font-size: 12px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .fuzzyhighlight {
@@ -433,9 +424,18 @@ video {
     border: 1px solid #00FF21;
     width: 2em;
     text-align: center;
+    vertical-align: center;
+}
+
+
+
+.nextchoice {
+    padding: 2px;
 }
 
 .lightbutton {
+    margin-left: 3px;
+    margin-right: 3px;
     text-align: center;
     display: inline-block;
     padding-left: 1em;
@@ -443,7 +443,7 @@ video {
     background-color: #FFFFFF19;
     border-radius: 5px;
     cursor: pointer;
-    border: 1px solid black;
+    border: 1px solid gray;
 }
 
 .lightbutton.inactive {
@@ -482,4 +482,8 @@ video {
 
 #curtain {
     background: url("assets/nis/background.png");
+}
+
+.text-icon {
+    height: 1.5em;
 }

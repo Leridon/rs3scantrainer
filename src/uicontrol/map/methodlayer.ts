@@ -2,18 +2,36 @@ import {ScanLayer} from "./layers/ScanLayer";
 import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
 import {ScanTree2} from "../../model/scans/ScanTree2";
+import {modal} from "../widgets/modal";
+import {eq} from "../../model/coordinates";
+import {ChildType} from "../../model/scans/scans";
+import {util} from "../../util/util";
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import augmented_decision_tree = ScanTree2.augmented_decision_tree;
-import {modal} from "../widgets/modal";
 import ScanExplanationModal = ScanTree2.ScanExplanationModal;
-import {eq} from "../../model/coordinates";
 import augment = ScanTree2.augment;
 import ScanDecision = ScanTree2.ScanDecision;
-import {util} from "../../util/util";
-import {Constants} from "../../constants";
-import spotNumber = ScanTree2.spotNumber;
 import template_resolvers = ScanTree2.template_resolvers;
-import {ChildType} from "../../model/scans/scans";
+import spotNumber = ScanTree2.spotNumber;
+import natural_join = util.natural_join;
+import natural_order = util.natural_order;
+import comparator_by = util.comparator_by;
+
+function synthetic_triple_children(node: augmented_decision_tree): augmented_decision_tree[] {
+    return node.remaining_candidates.map((child) => {
+        return {
+            children: [],
+            decisions: node.decisions,
+            depth: node.depth + 1,
+            parent: {kind: ChildType.TRIPLE, node: node},
+            path: node.root.methods.find((m) => ScanTree2.edgeSame(m, {from: node.parent.node.where.name, to: [child]})),
+            raw: undefined,
+            remaining_candidates: [child],
+            root: node.root,
+            where: null
+        }
+    })
+}
 
 export class ScanTreeMethodLayer extends ScanLayer {
     private root: augmented_decision_tree
@@ -57,8 +75,8 @@ export class ScanTreeMethodLayer extends ScanLayer {
         this.fit()
 
         let candidates = this.node.remaining_candidates
-        let relevant_areas = [this.node.where]
-        if (this.node.parent) relevant_areas.push(this.node.parent.node.where);
+        let relevant_areas = this.node.where ? [this.node.where] : []
+        if (this.node.parent && this.node.parent.node.where) relevant_areas.push(this.node.parent.node.where);
 
         this.set_remaining_candidates(candidates)
         this.markers.forEach((e) => e.setActive(candidates.some((c) => eq(c, e.getSpot()))))
@@ -104,9 +122,19 @@ export class ScanTreeMethodLayer extends ScanLayer {
             let list = $("#pathview").empty()
 
             let buildPathNavigation = (node: augmented_decision_tree) => {
+                let text: string
+
+                if (!node.parent) {
+                    text = "Start"
+                } else if (node.parent.node.parent && node.parent.kind == ChildType.TRIPLE && node.parent.node.parent.kind == ChildType.TRIPLE) {
+                    text = `Spot ${spotNumber(node.root, node.remaining_candidates[0])}`
+                } else {
+                    text = ScanDecision.toString(node.decisions[node.decisions.length - 1])
+                }
+
                 $("<a>").attr("href", "javascript:;")
                     .on("click", () => this.setNode(node))
-                    .text(node.parent ? ScanDecision.toString(node.decisions[node.decisions.length - 1]) : "Start")
+                    .text(text)
                     .appendTo($("<li>").addClass("breadcrumb-item").prependTo(list))
 
                 if (node.parent) buildPathNavigation(node.parent.node)
@@ -119,9 +147,28 @@ export class ScanTreeMethodLayer extends ScanLayer {
             last.text(last.children().first().text()).addClass("active")
         }
 
-        $("#nextscanstep").html(scantrainer.template_resolver
-            .with(template_resolvers(this.node.root, this.node.path))
-            .resolve(this.node.path.short_instruction))
+        let text: string = ""
+
+        if (!this.node.path) {
+            if (this.node.parent && this.node.parent.kind == ChildType.TRIPLE && this.node.remaining_candidates.length > 1) {
+                // Triple children with more than one candidate do not have an associated path, synthesize one
+                text = scantrainer.template_resolver
+                    .with(template_resolvers(this.node.root, {
+                        from: this.node.parent.node.where.name,
+                        to: this.node.remaining_candidates
+                    }))
+                    .resolve("Which spot of {{target}}?")
+            } else {
+                // When created by the editor, this case should never happen, output error instead
+                text = "INVALID DATA"
+            }
+        } else {
+            text = scantrainer.template_resolver
+                .with(template_resolvers(this.node.root, this.node.path))
+                .resolve(this.node.path.short_instruction)
+        }
+
+        $("#nextscanstep").html(text)
 
         this.generateChildren(this.node, 0, $("#scantreeview").empty())
 
@@ -132,29 +179,49 @@ export class ScanTreeMethodLayer extends ScanLayer {
         let line = $("<div>")
             .addClass("scantreeline")
             .css("margin-left", `${depth * 12}px`)
-            .css("font-size", `${13 / (Math.pow(1.25, depth))}px`)
+            .css("margin-top", "3px")
+            .css("margin-bottom", "3px")
+            .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
 
         if (depth == 0) {
             $("<span>")
-                .addClass("nextchoice")
+                .addClass("lightbutton")
                 .text(ChildType.meta(node.parent.kind).pretty)      // Parent can't be null when being here... I think
                 .on("click", () => this.setNode(node))
                 .appendTo(line)
-
-            //line.css("line-height", `30px`)
         } else if (depth > 0) {
             $("<span>")
                 .text(ChildType.meta(node.parent.kind).pretty + ": ")
                 .appendTo(line)
         }
 
-        $("<span>")
-            .html(
-                node.path ?
-                scantrainer.template_resolver
-                .with(template_resolvers(node.root, node.path))
-                .resolve(node.path.short_instruction) : "IDK dude")
-            .appendTo(line)
+        if (node.parent.kind == ChildType.TRIPLE) {
+
+            if (depth == 0 && node.remaining_candidates.length > 1) {
+                line.append($("<span>").text("at"))
+
+                synthetic_triple_children(node).forEach((child) => {
+                    $("<span>")
+                        .text(`${spotNumber(node.root, child.remaining_candidates[0])}`)
+                        .addClass("lightbutton")
+                        .addClass("spot-number")
+                        .addClass("tripleping")
+                        .on("click", () => this.setNode(child))
+                        .appendTo(line)
+                })
+            } else {
+                $("<span>")
+                    .html(scantrainer.template_resolver.resolve(`Spot ${natural_join(node.remaining_candidates.map((e) => spotNumber(node.root, e)).sort(natural_order).map((e) => `{{digspot ${e}}}`), "or")}`))
+                    .appendTo(line)
+            }
+        } else {
+            $("<span>")
+                .html(scantrainer.template_resolver
+                    .with(template_resolvers(node.root, node.path))
+                    .resolve(node.path.short_instruction))
+                .appendTo(line)
+        }
+
 
         line.appendTo(container)
 
@@ -231,7 +298,12 @@ export class ScanTreeMethodLayer extends ScanLayer {
             container.append(line)
         }
         */
-        node.children.forEach((e) => this.generateList(e.value, depth, container))
+
+        if (depth == 0 && node.parent && node.parent.kind == ChildType.TRIPLE && node.remaining_candidates.length > 1) {
+            synthetic_triple_children(node).forEach((child) => this.generateList(child, depth, container))
+        }
+
+        node.children.sort(comparator_by((c) => [ChildType.TRIPLE, ChildType.DOUBLE, ChildType.SINGLE, ChildType.DIFFERENTLEVEL, ChildType.TOOFAR].indexOf(c.key))).forEach((e) => this.generateList(e.value, depth, container))
 
         /*
         this.children().filter((e) => e.parent.key.kind == ChildType.DOUBLE)

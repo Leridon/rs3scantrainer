@@ -46,7 +46,7 @@ let raw: (method & indirect)[] = [
             "name": "G",
             "area": {"topleft": {"x": 3032, "y": 3359}, "botright": {"x": 3034, "y": 3357}}
         }],
-        "methods": [{"from": null, "to": "A", "short_instruction": "Falador teleport to {{target}}."}, {
+        "methods": [{"from": null, "to": "A", "short_instruction": "{{teleport normalspellbook falador}} to {{target}}"}, {
             "from": "A",
             "to": "B",
             "short_instruction": "{{surge}} to {{target}}."

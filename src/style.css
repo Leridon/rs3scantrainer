@@ -291,13 +291,14 @@ html, body {
 }
 
 .marktele {
+    cursor: default;
     transform-origin: center;
     position: absolute;
     color: #fff;
-    margin: -50px;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    margin: -20px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
     vertical-align: center;
     white-space: nowrap;

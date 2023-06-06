@@ -50,7 +50,7 @@ let raw: (method & indirect)[] = [
             "from": "A",
             "to": "B",
             "short_instruction": "{{surge}} to {{target}}."
-        }, {"from": "B", "to": "F", "short_instruction": "Go to {{target}}."}, {
+        }, {"from": "B", "to": "F", "short_instruction": "{{teleport skillsnecklace mining}} to {{target}}."}, {
             "from": "F",
             "to": "G",
             "short_instruction": "Go to {{target}}."

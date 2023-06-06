@@ -176,6 +176,8 @@ export class ScanTreeMethodLayer extends ScanLayer {
     }
 
     generateList(node: augmented_decision_tree, depth: number, container: JQuery) {
+        let resolver = scantrainer.template_resolver.with(template_resolvers(node.root, node.path))
+
         let line = $("<div>")
             .addClass("scantreeline")
             .css("margin-left", `${depth * 12}px`)
@@ -184,11 +186,22 @@ export class ScanTreeMethodLayer extends ScanLayer {
             .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
 
         if (depth == 0) {
-            $("<span>")
-                .addClass("lightbutton")
-                .text(ChildType.meta(node.parent.kind).pretty)      // Parent can't be null when being here... I think
-                .on("click", () => this.setNode(node))
-                .appendTo(line)
+
+
+            if (node.parent.kind == ChildType.TRIPLE && node.parent.node.parent && node.parent.node.parent.kind == ChildType.TRIPLE) {
+                $("<span>")
+                    .addClass("lightbutton")
+                    .html(resolver.resolve(`Spot {{digspot ${spotNumber(node.root, node.remaining_candidates[0])}}}`))
+                    .on("click", () => this.setNode(node))
+                    .appendTo(line)
+            } else {
+
+                $("<span>")
+                    .addClass("lightbutton")
+                    .text(ChildType.meta(node.parent.kind).pretty)      // Parent can't be null when being here... I think
+                    .on("click", () => this.setNode(node))
+                    .appendTo(line)
+            }
         } else if (depth > 0) {
             $("<span>")
                 .text(ChildType.meta(node.parent.kind).pretty + ": ")
@@ -200,19 +213,26 @@ export class ScanTreeMethodLayer extends ScanLayer {
             if (depth == 0 && node.remaining_candidates.length > 1) {
                 line.append($("<span>").text("at"))
 
-                synthetic_triple_children(node).forEach((child) => {
+                synthetic_triple_children(node).sort(comparator_by((c) => spotNumber(node.root, c.remaining_candidates[0]))).forEach((child) => {
                     $("<span>")
-                        .text(`${spotNumber(node.root, child.remaining_candidates[0])}`)
+                        .html(resolver.resolve(`{{digspot ${spotNumber(node.root, child.remaining_candidates[0])}}}`))
                         .addClass("lightbutton")
-                        .addClass("spot-number")
-                        .addClass("tripleping")
                         .on("click", () => this.setNode(child))
                         .appendTo(line)
                 })
             } else {
-                $("<span>")
-                    .html(scantrainer.template_resolver.resolve(`Spot ${natural_join(node.remaining_candidates.map((e) => spotNumber(node.root, e)).sort(natural_order).map((e) => `{{digspot ${e}}}`), "or")}`))
-                    .appendTo(line)
+
+                if (node.parent.kind == ChildType.TRIPLE && node.parent.node.parent && node.parent.node.parent.kind == ChildType.TRIPLE) {
+                    $("<span>")
+                        .html(scantrainer.template_resolver
+                            .with(template_resolvers(node.root, node.path))
+                            .resolve(node.path ? node.path.short_instruction : "WTF"))
+                        .appendTo(line)
+                } else {
+                    $("<span>")
+                        .html(scantrainer.template_resolver.resolve(`Spot ${natural_join(node.remaining_candidates.map((e) => spotNumber(node.root, e)).sort(natural_order).map((e) => `{{digspot ${e}}}`), "or")}`))
+                        .appendTo(line)
+                }
             }
         } else {
             $("<span>")

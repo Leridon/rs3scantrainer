@@ -1,17 +1,11 @@
 Release b0.3
 
 - Scan Tree Editor
-    - Main control row (Export only for now)
-    - Collapsible, styled sections
-        - More styling
+    - Main control row (Export/Import only for now)
     - Sort paths in a sensible way
     - Add explanation modal
 
 - Port guide part to new data structure
-    - Fix keybind overlay
-    - Fix sizing of inline icons
-    - Fix "IDK dude" for triple nodes
-    - Readd direct links to triple pings
     - Fix whatever tf happens with dorgesh kaan and taverley
     - Fix and rethink zoom-in to incorporate feedback
 
@@ -22,9 +16,17 @@ Release b0.3
         - Jays improved Swamp Caves
 
 - Polishing
-    - Add control bar for map interactions (top center).
     - "default interactions" for scan layers
     - Arch teleport icon instead of outfit
+
+Release b0.4:
+- Styling pass over the scan editor
+- Add control bar for map interactions (top center).
+
+- Scan Editor:
+    - Collapsible, styled sections
+        - More styling
+
 
 RELEASE 1.0
 - Finish all elite/master scans
@@ -45,7 +47,6 @@ Unscheduled:
 - Locally saved methods
 - Figure out how to handle RoW/LotD/HSR
 - Apply information theory and equivalence classes from scans also to compasses.
-- Rich text format to include icons in instructions
 - Figure out z-Ordering of layers (need to use panes probably)
 - Assign clue tiers to remaining clues
 - Figure out how to handle clues with different solutions depending on game progress.

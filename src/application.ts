@@ -140,7 +140,7 @@ export class Application {
   transform: translate(-50%, -50%);
                 * */
 
-                return `<div style="display: inline-block"><img class='text-icon' src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"> <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)">${tele.code}</div></div>`
+                return `<span style="position: relative"><img class='text-icon' src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7em">${tele.code ? tele.code : ""}</div></span>`
             }]
         ]
     ))

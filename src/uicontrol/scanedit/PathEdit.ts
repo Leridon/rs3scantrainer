@@ -94,7 +94,11 @@ export default class PathEdit extends Widget<{
             return this.parent.value.methods.find((m) => edgeSame(p, m)) || {
                 from: p.from,
                 to: p.to,
-                short_instruction: `Go to {{target}}` // TODO: better Default instruction
+                short_instruction:
+                    Array.isArray(p.to) ?
+                        (p.to.length > 1) ? `Check {{target}}`
+                            : "Dig at {{target}}"
+                        : `Go to {{target}}`
             }
         })
 

@@ -153,8 +153,6 @@ export class GameMapControl {
 
     private activeLayer: ActiveLayer = null
 
-    private custom_marker: TileMarker = null
-
     geturl(filename: string) {
         return `https://runeapps.org/maps/map1/${filename}`;
     }

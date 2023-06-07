@@ -40,8 +40,6 @@ export default class TreeEdit extends Widget<{
     }
 
     clean() {
-        // TODO: Delete instructions for areas that don't exist anymore and prune branches without candidates
-
         let self = this
 
         function prune(node: tree_node, candidates: MapCoordinate[]): tree_node {
@@ -56,6 +54,10 @@ export default class TreeEdit extends Widget<{
             node.children.forEach((n) => {
                 n.value = prune(n.value, narrowing.get(n.key))
             })
+
+            node.children = node.children.filter((c) => c.value != null)
+
+            return node
         }
 
         this.value = prune(this.value, this.parent.value.clue.solution.candidates)

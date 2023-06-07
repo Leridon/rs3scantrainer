@@ -212,10 +212,6 @@ export class ScanLayer extends ActiveLayer {
         if (this.tile_marker) this.tile_marker.setRange(this.clue.range + (value ? 5 : 0))
     }
 
-    cancelInteraction() {
-        super.cancelInteraction();
-    }
-
     override loadDefaultInteraction() {
         let self = this
 

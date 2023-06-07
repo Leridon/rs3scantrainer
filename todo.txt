@@ -1,5 +1,7 @@
 Release b0.3
 
+- Fix default interaction not being applied after drawing an area
+
 - Scan Tree Editor
     - Add explanation modal
 
@@ -10,7 +12,6 @@ Release b0.3
     - Fremmenik Isles, Haunted Woods, Piscatoris
     - Revisit existing scans
         - Cobs suggestions for Falador/Keldagrims
-        - Jays improved Swamp Caves
 
 - Polishing
     - "default interactions" for scan layers
@@ -78,3 +79,8 @@ Next up:
 - Mos Le Harmless
 
 Look into https://github.com/mejrs/rs3cache for map data.
+
+
+[23:45]Malinoric: If you're taking feedback, the only problematic locations are places without any buildings as easy reference. Foliage often looks very different between the game visual and what you see on the minimap.
+[23:45]Malinoric: so desert, piscatoris, haunted woods... those places.
+[23:46]Malinoric: kharazi is a particular nightmare, but the positions are a lot more lenient in that case, so it isn't as much of an issue

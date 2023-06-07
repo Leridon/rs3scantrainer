@@ -72,8 +72,8 @@ export default class ScanEditPanel extends Widget {
 
         this.areas
             .on("changed", (a: ScanSpot[]) => {
-                console.log("Changed areas")
                 this.value.areas = a
+
                 this.tree_edit.clean()
                 this.path_edit.clean()
             })
@@ -87,6 +87,8 @@ export default class ScanEditPanel extends Widget {
             })
             .on("renamed", (e) => {
                 function tree_renamer(node: ScanTree2.decision_tree) {
+                    if (!node) return
+
                     if (node.where == e.old) node.where = e.new
 
                     node.children.forEach((c) => tree_renamer(c.value))

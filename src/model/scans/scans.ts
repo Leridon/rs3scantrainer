@@ -69,8 +69,8 @@ export class ScanEquivalenceClasses {
 
         this.raster = new Raster<EquivalenceClass>({
             left: bounds.getTopLeft().x - 2 * this.range,
-            right: bounds.getTopRight().x + 2 * this.range,
-            top: bounds.getBottomLeft().y + 2 * this.range,    // the Y axis in leaflet.pounds is exactly opposite to what the map uses.
+            right: bounds.getTopRight().x + 2 * this.range + 1,
+            top: bounds.getBottomLeft().y + 2 * this.range + 1,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
             bottom: bounds.getTopLeft().y - 2 * this.range
         })
 

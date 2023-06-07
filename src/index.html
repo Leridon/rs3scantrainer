@@ -419,6 +419,24 @@
                 <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
             </div>
             <div class="modal-body">
+                <div class="patchnotesection" data-patchnotes="b0.3">
+                    <h2>Version b0.3 - TODO</h2>
+
+                    <p>
+                        b0.3 includes new and improved scan routes, as well as icons and colored instructions for steps.
+                        The editor used for development of scan routes is also now available (not in Alt1, only in a browser).
+                        Check it out by clicking the edit button on the map while any scan clue is selected.
+                        Please note that created scan routes can not be locally saved and used yet, the ability to do so will most likely be included in b0.4.1
+                    </p>
+
+                    <ul>
+                        <li>The scan editor is now publicly available.</li>
+                        <li>Instructions can now include icons and have colored spot numbers/names.</li>
+                        <li>The zoom when advancing to the next step has been tweaked to reliably include all the necessary spots.</li>
+                        <li>Lumbridge Cave scan has been improved (Thanks to Xindrjayzda)</li>
+                    </ul>
+                </div>
+
                 <div class="patchnotesection" data-patchnotes="b0.2">
                     <h2>Version b0.2 - 2023-05-13</h2>
                     <ul>
@@ -478,7 +496,8 @@
             </div>
             <div class="modal-body">
                 <label style="display: block">
-                    <textarea id="import-modal-text" style="resize: none; width: 100%; height: 20em" onclick="this.select()" class="nisinput nistext" placeholder="Paste the shareable string here">
+                    <textarea id="import-modal-text" style="resize: none; width: 100%; height: 20em" onclick="this.select()" class="nisinput nistext"
+                              placeholder="Paste the shareable string here">
                     </textarea>
                 </label>
 

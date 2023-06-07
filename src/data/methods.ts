@@ -1,6 +1,6 @@
 import {indirected, method} from "../model/methods";
 
-/*
+
 let raw: (method & indirected)[] = [
     {
         "type": "scantree",
@@ -846,94 +846,363 @@ let raw: (method & indirected)[] = [
     }
 
     ,
+   {
+  "areas": [
     {
-        "type": "scantree",
-        "clue": 362,
-        "spot_ordering": [{"x": 3233, "y": 9547, "level": 0}, {"x": 3210, "y": 9557, "level": 0}, {
-            "x": 3210,
-            "y": 9571,
-            "level": 0
-        }, {"x": 3227, "y": 9575, "level": 0}, {"x": 3246, "y": 9566, "level": 0}, {
-            "x": 3252,
-            "y": 9577,
-            "level": 0
-        }, {"x": 3209, "y": 9587, "level": 0}, {"x": 3191, "y": 9555, "level": 0}, {
-            "x": 3179,
-            "y": 9559,
-            "level": 0
-        }, {"x": 3170, "y": 9557, "level": 0}, {"x": 3167, "y": 9546, "level": 0}, {"x": 3172, "y": 9570, "level": 0}],
-        "assumes_meerkats": true,
-        "areas": [{
-            "name": "A",
-            "area": {"topleft": {"x": 3226, "y": 9542}, "botright": {"x": 3226, "y": 9542}}
-        }, {"name": "B", "area": {"topleft": {"x": 3226, "y": 9547}, "botright": {"x": 3226, "y": 9547}}}, {
-            "name": "C",
-            "area": {"topleft": {"x": 3221, "y": 9552}, "botright": {"x": 3221, "y": 9552}}
-        }, {"name": "D", "area": {"topleft": {"x": 3221, "y": 9556}, "botright": {"x": 3221, "y": 9556}}}, {
-            "name": "E",
-            "area": {"topleft": {"x": 3206, "y": 9553}, "botright": {"x": 3206, "y": 9553}}
-        }, {"name": "F", "area": {"topleft": {"x": 3204, "y": 9553}, "botright": {"x": 3204, "y": 9553}}}],
-        "methods": [{"from": null, "to": "A", "short_instruction": "Go to {{target}}."}, {
-            "from": "A",
-            "to": "D",
-            "short_instruction": "{{dive}} and jump to {{target}}."
-        }, {"from": "A", "to": "B", "short_instruction": "Go to {{target}}."}, {
-            "from": "B",
-            "to": "B",
-            "short_instruction": "It can only be spot 4 or 6"
-        }, {"from": "B", "to": "C", "short_instruction": "Go to {{target}}."}, {
-            "from": "C",
-            "to": "D",
-            "short_instruction": "Jump to {{target}}."
-        }, {"from": "D", "to": "E", "short_instruction": "Run/{{dive}} to {{target}}."}, {
-            "from": "E",
-            "to": "F",
-            "short_instruction": "Go to {{target}}."
-        }, {"from": "F", "to": "F", "short_instruction": "The spot is either 10 or 11"}],
-        "root": {
-            "where": "A",
-            "why": "",
-            "children": [{"key": 1, "value": {"where": "D", "why": "", "children": []}}, {
-                "key": 0,
-                "value": {
-                    "where": "B",
-                    "why": "",
-                    "children": [{"key": 1, "value": {"where": "B", "why": "", "children": []}}, {
-                        "key": 0,
-                        "value": {
-                            "where": "C",
-                            "why": "",
-                            "children": [{
+      "name": "A",
+      "area": {
+        "topleft": {
+          "x": 3248,
+          "y": 9519
+        },
+        "botright": {
+          "x": 3252,
+          "y": 9515
+        }
+      }
+    },
+    {
+      "name": "B",
+      "area": {
+        "topleft": {
+          "x": 3229,
+          "y": 9527
+        },
+        "botright": {
+          "x": 3242,
+          "y": 9525
+        }
+      }
+    },
+    {
+      "name": "C",
+      "area": {
+        "topleft": {
+          "x": 3218,
+          "y": 9531
+        },
+        "botright": {
+          "x": 3221,
+          "y": 9530
+        }
+      }
+    },
+    {
+      "name": "D",
+      "area": {
+        "topleft": {
+          "x": 3226,
+          "y": 9542
+        },
+        "botright": {
+          "x": 3226,
+          "y": 9542
+        }
+      }
+    },
+    {
+      "name": "E",
+      "area": {
+        "topleft": {
+          "x": 3220,
+          "y": 9552
+        },
+        "botright": {
+          "x": 3222,
+          "y": 9552
+        }
+      }
+    },
+    {
+      "name": "F",
+      "area": {
+        "topleft": {
+          "x": 3220,
+          "y": 9556
+        },
+        "botright": {
+          "x": 3222,
+          "y": 9556
+        }
+      }
+    },
+    {
+      "name": "G",
+      "area": {
+        "topleft": {
+          "x": 3203,
+          "y": 9553
+        },
+        "botright": {
+          "x": 3204,
+          "y": 9553
+        }
+      }
+    }
+  ],
+  "assumes_meerkats": true,
+  "clue": 362,
+  "methods": [
+    {
+      "from": null,
+      "to": "A",
+      "short_instruction": "{{teleport gamesnecklace tearsofguthix}} to {{target}}"
+    },
+    {
+      "from": "A",
+      "to": "B",
+      "short_instruction": "{{Dive}}/{{Surge}} to {{target}}"
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "short_instruction": "Go to {{target}}"
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "short_instruction": "Cave entrance to {{target}}"
+    },
+    {
+      "from": "D",
+      "to": "E",
+      "short_instruction": "{{Dive}} to {{target}}"
+    },
+    {
+      "from": "E",
+      "to": "F",
+      "short_instruction": "Stepping stones to {{target}}"
+    },
+    {
+      "from": "F",
+      "to": "G",
+      "short_instruction": "Go to {{target}}"
+    },
+    {
+      "from": "A",
+      "to": [
+        {
+          "x": 3233,
+          "y": 9547,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Dig at {{target}}"
+    },
+    {
+      "from": "B",
+      "to": [
+        {
+          "x": 3210,
+          "y": 9557,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Dig at {{target}}"
+    },
+    {
+      "from": "C",
+      "to": [
+        {
+          "x": 3191,
+          "y": 9555,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Dig at {{target}}"
+    },
+    {
+      "from": "D",
+      "to": [
+        {
+          "x": 3246,
+          "y": 9566,
+          "level": 0
+        },
+        {
+          "x": 3210,
+          "y": 9571,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Check {{target}}"
+    },
+    {
+      "from": "E",
+      "to": [
+        {
+          "x": 3252,
+          "y": 9577,
+          "level": 0
+        },
+        {
+          "x": 3227,
+          "y": 9575,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Check {{target}}"
+    },
+    {
+      "from": "F",
+      "to": [
+        {
+          "x": 3209,
+          "y": 9587,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Dig at {{target}}"
+    },
+    {
+      "from": "G",
+      "to": [
+        {
+          "x": 3172,
+          "y": 9570,
+          "level": 0
+        },
+        {
+          "x": 3179,
+          "y": 9559,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Check {{target}}"
+    },
+    {
+      "from": "G",
+      "to": [
+        {
+          "x": 3167,
+          "y": 9546,
+          "level": 0
+        },
+        {
+          "x": 3170,
+          "y": 9557,
+          "level": 0
+        }
+      ],
+      "short_instruction": "Check {{target}}"
+    }
+  ],
+  "root": {
+    "where": "A",
+    "children": [
+      {
+        "key": 0,
+        "value": {
+          "where": "B",
+          "children": [
+            {
+              "key": 0,
+              "value": {
+                "where": "C",
+                "children": [
+                  {
+                    "key": 0,
+                    "value": {
+                      "where": "D",
+                      "children": [
+                        {
+                          "key": 0,
+                          "value": {
+                            "where": "E",
+                            "children": [
+                              {
                                 "key": 0,
                                 "value": {
-                                    "where": "D",
-                                    "why": "",
-                                    "children": [{
-                                        "key": 0,
-                                        "value": {
-                                            "where": "E",
-                                            "why": "",
-                                            "children": [{
-                                                "key": 0,
-                                                "value": {
-                                                    "where": "F",
-                                                    "why": "",
-                                                    "children": [{
-                                                        "key": 0,
-                                                        "value": {"where": "F", "why": "", "children": []}
-                                                    }]
-                                                }
-                                            }]
-                                        }
-                                    }]
+                                  "where": "F",
+                                  "children": [
+                                    {
+                                      "key": 0,
+                                      "value": {
+                                        "where": "G",
+                                        "children": []
+                                      }
+                                    }
+                                  ]
                                 }
-                            }]
+                              }
+                            ]
+                          }
                         }
-                    }]
-                }
-            }]
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
+      }
+    ]
+  },
+  "spot_ordering": [
+    {
+      "x": 3233,
+      "y": 9547,
+      "level": 0
+    },
+    {
+      "x": 3210,
+      "y": 9557,
+      "level": 0
+    },
+    {
+      "x": 3191,
+      "y": 9555,
+      "level": 0
+    },
+    {
+      "x": 3246,
+      "y": 9566,
+      "level": 0
+    },
+    {
+      "x": 3227,
+      "y": 9575,
+      "level": 0
+    },
+    {
+      "x": 3252,
+      "y": 9577,
+      "level": 0
+    },
+    {
+      "x": 3210,
+      "y": 9571,
+      "level": 0
+    },
+    {
+      "x": 3209,
+      "y": 9587,
+      "level": 0
+    },
+    {
+      "x": 3179,
+      "y": 9559,
+      "level": 0
+    },
+    {
+      "x": 3170,
+      "y": 9557,
+      "level": 0
+    },
+    {
+      "x": 3167,
+      "y": 9546,
+      "level": 0
+    },
+    {
+      "x": 3172,
+      "y": 9570,
+      "level": 0
     }
+  ],
+  "type": "scantree"
+}
 
     ,
     {
@@ -1438,8 +1707,8 @@ let raw: (method & indirected)[] = [
         }
     }
 ]
-*/
 
-let raw: (method & indirected)[] = []
+
+//let raw: (method & indirected)[] = []
 
 export default raw

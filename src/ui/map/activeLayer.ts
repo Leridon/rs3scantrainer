@@ -50,7 +50,7 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
     private interaction: LayerInteraction<ActiveLayer>
 
     protected constructor() {
-        super();
+        super()
     }
 
     getMap(): GameMapControl {
@@ -77,8 +77,13 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
         if (this.map) this.map.map.addControl(control)
     }
 
+    loadDefaultInteraction() {
+    }
+
     activate(map: GameMapControl) {
         this.map = map
+
+        this.loadDefaultInteraction()
 
         this.controls.forEach((e) => e.addTo(map.map))
     }
@@ -89,9 +94,6 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
         this.map = null
 
         this.controls.forEach((e) => e.remove())
-    }
-
-    on_marker_set(marker: TileMarker) {
     }
 }
 

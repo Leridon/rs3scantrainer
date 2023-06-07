@@ -7,25 +7,31 @@ export type method_base = {
     clue: ScanStep | number,
 }
 
-export type indirect = method_base & { clue: number }
+export type indirected = method_base & { clue: number }
 export type resolved<T extends ClueStep> = method_base & { clue: T }
 
 export type method = ScanTree2.tree
 
-export function resolve<U extends ClueStep, T extends method_base>(clue: T & indirect): T & resolved<U> {
-    let copy: method_base = Object.create(clue)
+export function resolve<U extends ClueStep, T extends method_base>(clue: T & indirected): T & resolved<U> {
+    if (clue == null) return null
+
+    let copy: method_base = lodash.clone(clue)
 
     copy.clue = clues.find((c) => c.id == clue.clue)
 
     return copy as (T & resolved<U>)
 }
 
-export function indirect<T extends method_base, U extends ClueStep>(clue: T & resolved<U>): T & indirect {
-    let copy: method_base = Object.create(clue)
+import * as lodash from "lodash"
+
+export function indirect<T extends method_base, U extends ClueStep>(clue: T & resolved<U>): T & indirected {
+    if (clue == null) return null
+
+    let copy: method_base = lodash.clone(clue)
 
     copy.clue = clue.clue.id
 
-    return copy as (T & indirect)
+    return copy as (T & indirected)
 }
 
 // TODO: Remove

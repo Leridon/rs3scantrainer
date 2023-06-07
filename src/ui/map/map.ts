@@ -69,7 +69,7 @@ export class TileMarker extends leaflet.FeatureGroup {
     label: leaflet.Tooltip
     x_marks_the_spot: leaflet.Polyline
 
-    constructor(private spot: MapCoordinate
+    constructor(protected spot: MapCoordinate
     ) {
         super()
 
@@ -170,8 +170,8 @@ export class GameMapControl {
 
         var crs = leaflet.CRS.Simple;
         //add 0.5 to so coords are center of tile
-        //@ts-ignore
-        crs.transformation = L.transformation(
+        // @ts-ignore
+        crs.transformation = leaflet.transformation(
             1, chunkoffsetx + 0.5,
             -1, mapsizez * chunksize + -1 * (chunkoffsetz + 0.5)
         );
@@ -185,32 +185,6 @@ export class GameMapControl {
             doubleClickZoom: false,
             attributionControl: true
         }).setView([3200, 3000], 0);
-
-        this.map.on("click", (e) => {
-            let c = {x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)}
-
-            if (this.custom_marker) {
-                let old_c = this.custom_marker.getSpot()
-                this.custom_marker.remove()
-                if (this.activeLayer) this.activeLayer.on_marker_set(null)
-                this.custom_marker = null
-
-                // If the same spot is clicked without hitting the marker, remove it without spawning a new one
-                if (old_c.x == c.x && old_c.y == c.y) return
-            }
-
-            this.custom_marker = new TileMarker(c)
-                .withX("white")
-                .withMarker(blue_icon)
-                //.withLabel(`[${c.x}, ${c.y}]`, "spot-number", [0, 10])
-                .on("click", () => {
-                    this.custom_marker.remove()
-                    if (this.activeLayer) this.activeLayer.on_marker_set(null)
-                })
-                .addTo(this.map)
-
-            if (this.activeLayer) this.activeLayer.on_marker_set(this.custom_marker)
-        })
 
         new RsBaseTileLayer([
             {urls: [this.geturl(`topdown-0/{z}/{x}-{y}.webp`), this.geturl(`topdown-0/{z}/{x}-{y}.webp`)]}

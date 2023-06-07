@@ -1,8 +1,8 @@
-import {path} from "../../uicontrol/map/layers/ScanLayer";
+import {path} from "../../ui/map/layers/ScanLayer";
 import {Box, eq, MapCoordinate} from "../coordinates";
-import {method_base, resolved} from "../methods";
+import {indirect, indirected, method_base, resolved} from "../methods";
 import {area_pulse, ChildType} from "./scans";
-import {Modal} from "../../uicontrol/widgets/modal";
+import {Modal} from "../../ui/widgets/modal";
 import {ScanStep} from "../clues";
 import {util} from "../../util/util";
 
@@ -81,6 +81,7 @@ export namespace ScanTree2 {
     }
 
     export type resolved_scan_tree = tree & resolved<ScanStep>
+    export type indirect_scan_tree = tree & indirected
 
     export type decision_tree = {
         where: string,
@@ -106,7 +107,7 @@ export namespace ScanTree2 {
         }[]
     }
 
-    function assumedRange(tree: resolved_scan_tree): number {
+    export function assumedRange(tree: resolved_scan_tree): number {
         let r = tree.clue.range
         if (tree.assumes_meerkats) r += 5;
         return r
@@ -183,11 +184,15 @@ export namespace ScanTree2 {
     export function gatherPaths(root_node: augmented_decision_tree): edge_path[] {
         let accumulator: edge_path[] = []
 
+        function push(edge: edge_path) {
+            if(!accumulator.some((p) => edgeSame(p, edge))) accumulator.push(edge)
+        }
+
         function helper(node: augmented_decision_tree): void {
             let from = node.parent ? node.parent.node.where.name : null
 
             if (node.raw) {
-                accumulator.push({
+                push({
                     from: from,
                     to: node.where.name
                 })
@@ -196,13 +201,13 @@ export namespace ScanTree2 {
             } else {
                 if (node.parent && node.parent.kind == ChildType.TRIPLE) {
                     node.remaining_candidates.forEach((c) => {
-                        accumulator.push({
+                        push({
                             from: from,
                             to: [c]
                         })
                     })
                 } else {
-                    accumulator.push({
+                    push({
                         from: from,
                         to: node.remaining_candidates
                     })

@@ -2,9 +2,9 @@ import {GieliCoordinates, MapCoordinate} from "./coordinates";
 import {clues} from "../data/clues";
 import {data} from "jquery";
 import {Application} from "../application";
-import {TileMarker} from "../uicontrol/map/map";
-import {ActiveLayer, SimpleMarkerLayer} from "../uicontrol/map/activeLayer";
-import {ScanLayer} from "../uicontrol/map/layers/ScanLayer";
+import {TileMarker} from "../ui/map/map";
+import {ActiveLayer, SimpleMarkerLayer} from "../ui/map/activeLayer";
+import {ScanLayer} from "../ui/map/layers/ScanLayer";
 
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 

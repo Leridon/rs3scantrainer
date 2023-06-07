@@ -28,12 +28,10 @@ export default class SpotOrderingWidget extends Widget<{
             })
             .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
 
-        this.update(value)
+        this.setValue(value)
     }
 
-    private update(ordering: MapCoordinate[]) {
-        this.value = ordering
-
+    private update() {
         this.list.empty()
 
         $("<div class='row'>")
@@ -42,7 +40,7 @@ export default class SpotOrderingWidget extends Widget<{
             .append($("<div class='col-5' style='text-align: center'>").text("y"))
             .appendTo(this.list)
 
-        ordering.forEach((v, i) => {
+        this.value.forEach((v, i) => {
             $("<div class='row'>")
                 .append($("<div class='col-2' style='text-align: center'>").text(i + 1))
                 .append($("<div class='col-5' style='text-align: center'>").text(v.x))
@@ -51,7 +49,7 @@ export default class SpotOrderingWidget extends Widget<{
         })
 
         // Draw ordering on map
-        this.layer.setSpotOrder(ordering)
+        this.layer.setSpotOrder(this.value)
     }
 
     private old_value: MapCoordinate[] = null
@@ -67,7 +65,7 @@ export default class SpotOrderingWidget extends Widget<{
 
         interaction.events.on("changed", (l) => {
             this.layer.highlightCandidates(l)
-            this.update(l)
+            this.setValue(l)
         })
             .on("done", (l) => {
                 this.reselect_button.text("Select new order")
@@ -76,15 +74,20 @@ export default class SpotOrderingWidget extends Widget<{
 
                 l = l.concat(...unaccounted)
 
-                this.update(l)
+                this.setValue(l)
 
                 this.emit("changed", l)
 
                 this.layer.highlightCandidates(old_hightlight)
             })
 
-        this.update([])
+        this.setValue([])
 
         return this.interaction = interaction.activate()
+    }
+
+    setValue(value: MapCoordinate[]) {
+        this.value = value
+        this.update()
     }
 }

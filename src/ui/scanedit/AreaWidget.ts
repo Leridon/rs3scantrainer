@@ -6,14 +6,17 @@ import DrawAreaInteraction from "./DrawAreaInteraction";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import SmallImageButton from "../widgets/SmallImageButton";
 import AreaEdit from "./AreaEdit";
-import {eq} from "../../model/coordinates";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import ScanSpot = ScanTree2.ScanSpot;
 import ScanDecision = ScanTree2.ScanDecision;
+import {util} from "../../util/util";
+import natural_order = util.natural_order;
+import spotNumber = ScanTree2.spotNumber;
+import Widget from "../widgets/Widget";
 
 let area_name_pattern = /[a-zA-Z_][_a-zA-Z0-9]*/
 
-export default class AreaWidget extends TypedEmitter<{
+export default class AreaWidget extends Widget<{
     "deleted": ScanSpot,
     "changed": ScanSpot,
     "decision_changed": ScanDecision,
@@ -26,8 +29,6 @@ export default class AreaWidget extends TypedEmitter<{
         edit_button?: JQuery,
         info_buttons?: ToggleGroup<ChildType>
     }
-
-    container: JQuery
 
     edit_panel: {
         container: JQuery,
@@ -95,11 +96,9 @@ export default class AreaWidget extends TypedEmitter<{
         public value: ScanSpot,
         private polygon: SpotPolygon = null
     ) {
-        super()
+        super($("<div class='panel'>"))
 
         if (!polygon) this.polygon = new SpotPolygon(value).addTo(this.layer)
-
-        this.container = $("<div class='panel'>")
 
         this.main_row = {
             row: $("<div class='area-edit-row' style='display: flex;'>").appendTo(this.container)
@@ -330,7 +329,7 @@ export default class AreaWidget extends TypedEmitter<{
 
     delete() {
         this.polygon.remove()
-        this.container.remove()
+        this.remove()
 
         this.emit("deleted", this.value)
     }
@@ -341,8 +340,7 @@ export default class AreaWidget extends TypedEmitter<{
 
             if (override) {
 
-                let input = override.map((s) => this.parent.parent.value.spot_ordering.findIndex((e) => eq(e, s)) + 1)
-                input = input.sort()
+                let input = override.map((s) => spotNumber(this.parent.parent.value, s)).sort(natural_order)
 
                 this.edit_panel.overrides.get(c).val(input.join(", "))
             } else {

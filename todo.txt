@@ -1,13 +1,10 @@
 Release b0.3
 
 - Scan Tree Editor
-    - Main control row (Export/Import only for now)
-    - Sort paths in a sensible way
     - Add explanation modal
 
 - Port guide part to new data structure
     - Fix whatever tf happens with dorgesh kaan and taverley
-    - Fix and rethink zoom-in to incorporate feedback
 
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
@@ -18,6 +15,7 @@ Release b0.3
 - Polishing
     - "default interactions" for scan layers
     - Arch teleport icon instead of outfit
+    - Amulet of nature teleports
 
 Release b0.4:
 - Styling pass over the scan editor
@@ -50,6 +48,8 @@ Unscheduled:
 - Figure out z-Ordering of layers (need to use panes probably)
 - Assign clue tiers to remaining clues
 - Figure out how to handle clues with different solutions depending on game progress.
+
+Rechecked
 
 Done:
 - Lumbdridge

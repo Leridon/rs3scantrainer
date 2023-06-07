@@ -2,9 +2,9 @@ import * as leaflet from "leaflet";
 import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
-import {GameMapControl, TileMarker} from "../map";
+import {blue_icon, GameMapControl, TileMarker} from "../map";
 import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
-import {ActiveLayer, TileMarkerWithActive} from "../activeLayer";
+import {ActiveLayer, LayerInteraction, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
@@ -17,6 +17,9 @@ import {indirect, resolve} from "../../../model/methods";
 import ScanDecision = ScanTree2.ScanDecision;
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import narrow_down = ScanTree2.narrow_down;
+import indirect_scan_tree = ScanTree2.indirect_scan_tree;
+import {LeafletMouseEvent} from "leaflet";
+import assumedRange = ScanTree2.assumedRange;
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon
@@ -92,17 +95,75 @@ export class SpotPolygon extends leaflet.FeatureGroup {
         this.updateOpacity()
     }
 }
+
+class ScanRadiusTileMarker extends TileMarker {
+    range_polygon: leaflet.FeatureGroup
+
+    constructor(spot: MapCoordinate, private range: number) {
+        super(spot);
+
+        this.update()
+    }
+
+    update() {
+        if (this.range_polygon) this.range_polygon.remove()
+
+        this.range_polygon = leaflet.featureGroup().addTo(this)
+
+        let center = this.getSpot()
+
+        let inner: Box = {
+            topleft: {x: center.x - this.range, y: center.y + this.range},
+            botright: {x: center.x + this.range, y: center.y - this.range}
+        }
+
+        let outer: Box = {
+            topleft: {x: center.x - 2 * this.range, y: center.y + 2 * this.range},
+            botright: {x: center.x + 2 * this.range, y: center.y - 2 * this.range}
+        }
+
+        boxPolygon(inner).setStyle({color: "green", fillOpacity: 0}).addTo(this.range_polygon)
+        boxPolygon(outer).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]}).addTo(this.range_polygon)
+    }
+
+    setRange(range: number) {
+        this.range = range
+        this.update()
+    }
+}
+
+class ClickMapInteraction extends LayerInteraction<ScanLayer> {
+
+    constructor(layer: ScanLayer, private handlers: {
+        "click": (p: MapCoordinate) => void
+    }) {
+        super(layer);
+    }
+
+    private _maphooks: leaflet.LeafletEventHandlerFnMap = {
+        "click": (e) => {
+            this.handlers.click({x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)})
+        }
+    }
+
+    cancel() {
+        this.layer.getMap().map.off(this._maphooks)
+    }
+
+    start() {
+        this.layer.getMap().map.on(this._maphooks)
+    }
+}
+
+
 export class ScanLayer extends ActiveLayer {
     protected markers: TileMarkerWithActive[]
-    protected areas: SpotPolygon[] = []
 
     public events = new TypedEmitter<{
         "dig_spot_clicked": TileMarkerWithActive
     }>
 
-    radius_polygon: leaflet.Polygon[]
-
-    private ms: MapCoordinate[] = []
+    tile_marker: ScanRadiusTileMarker = null
 
     constructor(protected clue: ScanStep, protected app: Application,
                 options: {
@@ -115,23 +176,10 @@ export class ScanLayer extends ActiveLayer {
         this.markers = (clue.solution as SetSolution).candidates.map((e) => {
             let m = new TileMarkerWithActive(e).withMarker().withX("#B21319")
 
-            m.on("click", (e) => {
-                this.events.emit("dig_spot_clicked", m)
-            })
+            m.on("click", (e) => this.events.emit("dig_spot_clicked", m))
 
             return m
         })
-
-        /*
-        // DO NOT REMOVE. Development code to easily assign numbers to scans
-        this.markers.forEach((m) => {
-            m.on("click", (e) => {
-                this.ms.push(e.target.getSpot())
-                e.target.withLabel(this.ms.length.toString(), "spot-number", [0, 0])
-
-                console.log(JSON.stringify(this.ms))
-            })
-        })*/
 
         this.markers.forEach((m) => m.addTo(this))
 
@@ -150,15 +198,45 @@ export class ScanLayer extends ActiveLayer {
 
             if (options.show_edit_button && !app.in_alt1)
                 this.addControl(new ImageButton("assets/icons/edit.png", {
-                    "click": (e) => this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, this.getTree()))
+                    "click": (e) => this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, indirect(this.getTree())))
                 }, {
                     title: "Edit scan route (Advanced)"
                 }).setPosition("topright"))
         }
     }
 
-    getRange(): number {
-        return this.clue.range + 5
+    _meerkats: boolean = true
+
+    setMeerkats(value: boolean) {
+        this._meerkats = value
+        if (this.tile_marker) this.tile_marker.setRange(this.clue.range + (value ? 5 : 0))
+    }
+
+    cancelInteraction() {
+        super.cancelInteraction();
+    }
+
+    override loadDefaultInteraction() {
+        let self = this
+
+        new ClickMapInteraction(this, {
+            "click": (p) => {
+                if (self.tile_marker) {
+                    let old = self.tile_marker.getSpot()
+
+                    self.tile_marker.remove()
+                    self.tile_marker = null
+
+                    if (eq(p, old)) return
+                }
+
+                self.tile_marker = new ScanRadiusTileMarker(p, self.clue.range + (self._meerkats ? 5 : 0))
+                    .withX("white")
+                    .withMarker(blue_icon)
+                    .on("click", () => self.tile_marker.remove())
+                    .addTo(self)
+            }
+        }).activate()
     }
 
     getTree(): resolved_scan_tree {
@@ -180,27 +258,9 @@ export class ScanLayer extends ActiveLayer {
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates
 
-    rule_out(spots: MapCoordinate[]) {
-        this.set_remaining_candidates(this.remaining_candidates.filter((c) => !spots.some((b) => eq(c, b))))
-    }
-
-    rule_out_but(spots: MapCoordinate[]) {
-        this.set_remaining_candidates(this.remaining_candidates.filter((c) => spots.some((b) => eq(c, b))))
-    }
-
     set_remaining_candidates(spots: MapCoordinate[]) {
         this.remaining_candidates = spots
         this.invalidateEquivalenceClasses()
-    }
-
-    pulse(spot: MapCoordinate, pulse: PulseType) {
-        this.set_remaining_candidates(
-            this.remaining_candidates.filter((s) => get_pulse(spot, s, this.clue.range + 5) == pulse)
-        )
-    }
-
-    pulse_area(area: Box, pulse: 1 | 2 | 3) {
-
     }
 
     private draw_equivalence_classes: boolean = false
@@ -237,51 +297,8 @@ export class ScanLayer extends ActiveLayer {
         return this.draw_equivalence_classes
     }
 
-    setAreas(spots: ScanSpot[]) {
-        this.areas.forEach((a) => a.remove())
-
-        this.areas = spots.map((s) => new SpotPolygon(s))
-
-        this.areas.forEach((a) => a.addTo(this))
-    }
-
-    getArea(name: string): SpotPolygon {
-        return this.areas.find((a) => a.spot().name == name)
-    }
-
     getMarker(i: number): TileMarkerWithActive {
         return this.markers[i - 1]
-    }
-
-    on_marker_set(marker: TileMarker | null) {
-        if (this.radius_polygon) {
-            this.radius_polygon.forEach((l) => l.remove())
-
-            this.radius_polygon = []
-        }
-
-        if (!marker) return
-
-        let center = marker.getSpot()
-
-        let radius = this.clue.range + 5 // Always assume meerkats
-
-        let inner: Box = {
-            topleft: {x: center.x - radius, y: center.y + radius},
-            botright: {x: center.x + radius, y: center.y - radius}
-        }
-
-        let outer: Box = {
-            topleft: {x: center.x - 2 * radius, y: center.y + 2 * radius},
-            botright: {x: center.x + 2 * radius, y: center.y - 2 * radius}
-        }
-
-        this.radius_polygon = [
-            boxPolygon(inner).setStyle({color: "green", fillOpacity: 0}),
-            boxPolygon(outer).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]})
-        ]
-
-        this.radius_polygon.forEach((p) => p.addTo(this))
     }
 }
 
@@ -308,17 +325,27 @@ export type path = {
 export class ScanEditLayer extends ScanLayer {
     private edit_panel: ScanEditPanel
 
-    constructor(clue: ScanStep, app: Application, tree: resolved_scan_tree) {
+    constructor(clue: ScanStep, app: Application, tree: indirect_scan_tree | null) {
         super(clue, app, {
             show_edit_button: false,
             show_equivalence_classes_button: true
         })
 
-        this.edit_panel = new ScanEditPanel(this, this.clue, resolve<ScanStep, tree>(cloneDeep(indirect(tree))))
-    }
+        if (tree == null) {
+            tree = {
+                areas: [],
+                assumes_meerkats: true,
+                clue: clue.id,
+                methods: [],
+                root: null,
+                spot_ordering: clue.solution.candidates,
+                type: "scantree"
+            }
+        }
 
-    getClue(): ScanStep {
-        return this.clue
+        this.setMeerkats(tree.assumes_meerkats)
+
+        this.edit_panel = new ScanEditPanel(this, this.clue, resolve<ScanStep, tree>(cloneDeep(tree)))
     }
 
     activate(map: GameMapControl) {
@@ -337,16 +364,5 @@ export class ScanEditLayer extends ScanLayer {
 
     highlightCandidates(spots: MapCoordinate[]) {
         this.markers.forEach((m) => m.setActive(spots.some((c) => eq(c, m.getSpot()))))
-    }
-
-    updateCandidates(decisions: ScanDecision[]) {
-        let remaining_candidates: MapCoordinate[] = decisions.reduce((candidates, decision) => {
-            console.log(candidates)
-            return narrow_down(candidates, decision, this.getRange())
-        }, this.clue.solution.candidates)
-
-        this.highlightCandidates(remaining_candidates)
-
-        this.set_remaining_candidates(remaining_candidates)
     }
 }

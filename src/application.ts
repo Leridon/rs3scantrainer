@@ -1,12 +1,12 @@
 import {storage} from "./util/storage";
-import SidePanelControl from "./uicontrol/SidePanelControl";
-import HowToTabControls from "./uicontrol/HowToTabControl";
-import MenuBarControl from "./uicontrol/MenuBarControl";
-import {Modal} from "./uicontrol/widgets/modal";
+import SidePanelControl from "./ui/SidePanelControl";
+import HowToTabControls from "./ui/HowToTabControl";
+import MenuBarControl from "./ui/MenuBarControl";
+import {Modal} from "./ui/widgets/modal";
 import {clues} from "./data/clues";
 
 import TemplateResolver from "./util/TemplateResolver";
-import {TeleportLayer} from "./uicontrol/map/teleportlayer";
+import {TeleportLayer} from "./ui/map/teleportlayer";
 import {Teleports} from "./model/teleports";
 import {ClueSteps} from "./model/clues";
 import {Methods} from "./data/accessors";

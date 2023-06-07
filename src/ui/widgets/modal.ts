@@ -46,8 +46,8 @@ export class Modal {
 
 let modal_cache: Dict<Modal> = {}
 
-export function modal(id: string, constructor: new (id: string) => Modal = Modal) {
+export function modal<T extends Modal>(id: string, constructor: new (id: string) => T = (Modal as new (id: string) => T)): T {
     if (!(id in modal_cache)) modal_cache[id] = new constructor(id)
 
-    return modal_cache[id]
+    return modal_cache[id] as T
 }

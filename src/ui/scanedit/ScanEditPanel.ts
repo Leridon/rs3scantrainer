@@ -4,12 +4,18 @@ import AreaEdit from "./AreaEdit";
 import TreeEdit from "./TreeEdit";
 import {ScanStep} from "../../model/clues";
 import {MapCoordinate} from "../../model/coordinates";
-import {indirect} from "../../model/methods";
+import {indirect, resolve} from "../../model/methods";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import PathEdit from "./PathEdit";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import ScanSpot = ScanTree2.ScanSpot;
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
+import ExportStringModal from "../widgets/modals/ExportStringModal";
+import {export_string, import_string} from "../../util/exportString";
+import ImportStringModal from "../widgets/modals/ImportStringModal";
+import indirect_scan_tree = ScanTree2.indirect_scan_tree;
+import narrow_down = ScanTree2.narrow_down;
+import assumedRange = ScanTree2.assumedRange;
 
 export default class ScanEditPanel extends Widget {
     spot_ordering: SpotOrderingEdit
@@ -19,6 +25,38 @@ export default class ScanEditPanel extends Widget {
 
     constructor(public layer: ScanEditLayer, public clue: ScanStep, public value: resolved_scan_tree) {
         super($(".cluemethodcontent[data-methodsection=scanedit]").empty())
+
+        {
+            let control_row = $("<div style='text-align: center'></div>").appendTo(this.container)
+
+            $("<div class='lightbutton'>Show JSON</div>")
+                .on("click", () => {
+                    ExportStringModal.do(JSON.stringify(indirect(this.value), null, 2))
+                })
+                .appendTo(control_row)
+
+            $("<div class='lightbutton'>Export</div>")
+                .on("click", () => {
+                    ExportStringModal.do(export_string("scantree", 0, indirect(this.value)), "Copy the string below to share this scan route.")
+                })
+                .appendTo(control_row)
+
+            $("<div class='lightbutton'>Import</div>")
+                .on("click", () => {
+                    ImportStringModal.do((s) => {
+                        let i = import_string<indirect_scan_tree>("scantree", 0, s)
+
+                        if (i.clue != this.clue.id) throw new Error("This method is not for the currently loaded clue")
+
+                        return resolve(i)
+                    })
+                        .then((obj: resolved_scan_tree) => {
+                            this.setValue(obj)
+                        })
+                })
+                .appendTo(control_row)
+        }
+
 
         this.spot_ordering = new SpotOrderingEdit(layer, value.spot_ordering).appendTo(this)
         this.areas = new AreaEdit(this, value.areas, layer).appendTo(this)
@@ -36,11 +74,16 @@ export default class ScanEditPanel extends Widget {
             .on("changed", (a: ScanSpot[]) => {
                 console.log("Changed areas")
                 this.value.areas = a
-                this.tree_edit.update()
+                this.tree_edit.clean()
                 this.path_edit.clean()
             })
             .on("decisions_changed", (decisions) => {
-                this.layer.updateCandidates(decisions)
+                let candidates = decisions.reduce((candidates, decision) => {
+                    return narrow_down(candidates, decision, assumedRange(this.value))
+                }, this.clue.solution.candidates)
+
+                this.layer.set_remaining_candidates(candidates)
+                this.layer.highlightCandidates(candidates)
             })
             .on("renamed", (e) => {
                 function tree_renamer(node: ScanTree2.decision_tree) {
@@ -73,11 +116,14 @@ export default class ScanEditPanel extends Widget {
             console.log("Changed paths")
             this.value.methods = v
         })
+    }
 
-        $("<div class='lightbutton'>Export</div>")
-            .on("click", () => {
-                console.log(JSON.stringify(indirect(this.value)))
-            })
-            .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
+    setValue(value: resolved_scan_tree) {
+        this.value = value
+
+        this.spot_ordering.setValue(value.spot_ordering)
+        this.areas.setValue(value.areas)
+        this.tree_edit.setValue(value.root)
+        this.path_edit.setValue(value.methods)
     }
 }

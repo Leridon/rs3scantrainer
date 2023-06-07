@@ -8,6 +8,7 @@ import {Constants} from "../../constants";
 import {util} from "../../util/util";
 import {scantrainer} from "../../application";
 import template_resolvers = ScanTree2.template_resolvers;
+import {MapCoordinate} from "../../model/coordinates";
 
 
 class ClipEdit extends Widget {
@@ -102,6 +103,20 @@ export default class PathEdit extends Widget<{
             }
         })
 
+        this.value = this.value.sort((a, b) => {
+            if (!a.from) return -1
+            if (!b.from) return 1
+            if (typeof a.to == "string" && !(typeof b.to == "string")) return -1
+            if (typeof b.to == "string" && !(typeof a.to == "string")) return 1
+
+            let res = (a.from.localeCompare(b.from))
+            if (res != 0) return res
+
+            if (typeof a.to == "string") return a.to.localeCompare(b.to as string)
+
+            return Math.min(...a.to.map((c) => spotNumber(this.parent.value, c))) - Math.min(...(b.to as MapCoordinate[]).map((c) => spotNumber(this.parent.value, c)))
+        })
+
         this.update()
 
         this.emit("changed", this.value)
@@ -117,5 +132,10 @@ export default class PathEdit extends Widget<{
                 })
                 .appendTo(this))
         })
+    }
+
+    setValue(value: ScanTree2.edge_path[]) {
+        this.value = value
+        this.update()
     }
 }

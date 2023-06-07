@@ -1,4 +1,4 @@
-import {ScanLayer} from "./layers/ScanLayer";
+import {ScanLayer, SpotPolygon} from "./layers/ScanLayer";
 import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
 import {ScanTree2} from "../../model/scans/ScanTree2";
@@ -35,8 +35,9 @@ function synthetic_triple_children(node: augmented_decision_tree): augmented_dec
 }
 
 export class ScanTreeMethodLayer extends ScanLayer {
-    private root: augmented_decision_tree
+    private readonly root: augmented_decision_tree
     private node: augmented_decision_tree
+    private areas: SpotPolygon[] = []
 
     private fit() {
 
@@ -70,7 +71,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
             o.extend(toPoint(this.node.parent.node.where.area.topleft))
             o.extend(toPoint(this.node.parent.node.where.area.botright))
 
-            if (o.getCenter().distanceTo(bounds.getCenter()) < 200) {
+            if (o.getCenter().distanceTo(bounds.getCenter()) < 60) {
                 bounds.extend(o)
             }
         }
@@ -88,7 +89,6 @@ export class ScanTreeMethodLayer extends ScanLayer {
             maxZoom: 4
         })
     }
-
 
     getTree(): resolved_scan_tree {
         return this.scantree;
@@ -120,7 +120,9 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
         this.setSpotOrder(scantree.spot_ordering)
 
-        this.setAreas(this.scantree.areas)
+        this.areas = scantree.areas.map((s) => new SpotPolygon(s).addTo(this))
+
+        this.setMeerkats(scantree.assumes_meerkats)
     }
 
     public activate(map: GameMapControl) {

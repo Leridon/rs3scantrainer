@@ -50,7 +50,13 @@ export default class AreaEdit extends Widget<{
             })
             .appendTo(this.container)
 
-        value.forEach((a) => this.addWidget(a))
+        this.update()
+    }
+
+    private update() {
+        this.areas.forEach((a) => a.remove())
+        this.areas = []
+        this.value.forEach((a) => this.addWidget(a))
     }
 
     public getDecisions(): ScanDecision[] {
@@ -85,5 +91,10 @@ export default class AreaEdit extends Widget<{
         })
 
         this.emit("decisions_changed", decisions)
+    }
+
+    setValue(value: ScanSpot[]) {
+        this.value = value
+        this.update()
     }
 }

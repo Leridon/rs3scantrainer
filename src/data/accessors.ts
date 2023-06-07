@@ -1,10 +1,10 @@
 import methods from "./methods";
 import {ClueStep} from "../model/clues";
-import {indirect, method, resolve, resolved} from "../model/methods";
+import {indirected, method, resolve, resolved} from "../model/methods";
 
 
 export class Methods {
-    data: (method & indirect)[]
+    data: (method & indirected)[]
 
     constructor() {
         this.data = methods

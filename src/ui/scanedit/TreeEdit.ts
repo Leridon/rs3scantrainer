@@ -7,6 +7,8 @@ import tree_node = ScanTree2.decision_tree;
 import augmented_tree = ScanTree2.augmented_decision_tree;
 import ScanDecision = ScanTree2.ScanDecision;
 import spot_narrowing = ScanTree2.spot_narrowing;
+import {MapCoordinate} from "../../model/coordinates";
+import assumedRange = ScanTree2.assumedRange;
 
 type TreeDom = {
     node: augmented_tree,
@@ -39,6 +41,28 @@ export default class TreeEdit extends Widget<{
 
     clean() {
         // TODO: Delete instructions for areas that don't exist anymore and prune branches without candidates
+
+        let self = this
+
+        function prune(node: tree_node, candidates: MapCoordinate[]): tree_node {
+            if (node == null || candidates.length == 0) return null
+
+            let area = self.parent.value.areas.find((a) => a.name == node.where)
+
+            if (!area) return null
+
+            let narrowing = spot_narrowing(candidates, area, assumedRange(self.parent.value))
+
+            node.children.forEach((n) => {
+                n.value = prune(n.value, narrowing.get(n.key))
+            })
+        }
+
+        this.value = prune(this.value, this.parent.value.clue.solution.candidates)
+
+        this.emit("changed", this.value)
+
+        this.update()
     }
 
     update() {
@@ -124,7 +148,7 @@ export default class TreeEdit extends Widget<{
                 if (node.raw == null) {
                     let text = $(`<span style="margin-left: 5px"></span>`).appendTo(label)
 
-                    if (node.remaining_candidates.length > 5){
+                    if (node.remaining_candidates.length > 5) {
                         text.text(`${node.remaining_candidates.length} spots remain`).attr("title", node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort().join(", "))
                     } else {
                         text.text(`(${node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort().join(", ")}) remain`)
@@ -143,7 +167,7 @@ export default class TreeEdit extends Widget<{
 
                 dom.selection.val(node.raw.where)
 
-                let narrowing = spot_narrowing(node.remaining_candidates, area, self.parent.clue.range + 5)
+                let narrowing = spot_narrowing(node.remaining_candidates, area, assumedRange(self.parent.value))
 
                 narrowing.forEach((v, k) => {
                     let child = node.children.find((c) => c.key == k)
@@ -158,5 +182,10 @@ export default class TreeEdit extends Widget<{
         }
 
         return helper(augmented)
+    }
+
+    setValue(value: tree_node) {
+        this.value = value
+        this.update()
     }
 }

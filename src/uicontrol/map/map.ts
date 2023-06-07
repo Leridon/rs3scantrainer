@@ -251,9 +251,9 @@ export class GameMapControl {
         this.activeLayer = layer
 
         this.activeLayer.addTo(this.map)
-        this.activeLayer.activate(this)
-
         this.map.fitBounds(this.activeLayer.getBounds().pad(0.1), {maxZoom: 4})
+
+        this.activeLayer.activate(this)
     }
 
     getActiveLayer() {

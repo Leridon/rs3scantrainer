@@ -3,9 +3,10 @@ import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import {modal} from "../widgets/modal";
-import {eq} from "../../model/coordinates";
+import {eq, toPoint} from "../../model/coordinates";
 import {ChildType} from "../../model/scans/scans";
 import {util} from "../../util/util";
+import * as leaflet from "leaflet"
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import augmented_decision_tree = ScanTree2.augmented_decision_tree;
 import ScanExplanationModal = ScanTree2.ScanExplanationModal;
@@ -38,31 +39,54 @@ export class ScanTreeMethodLayer extends ScanLayer {
     private node: augmented_decision_tree
 
     private fit() {
+
         /*
-        let bounds = leaflet.latLngBounds([])
+            4. parent.where if not far away
+         */
 
-        // Include old location in bounds
-        if (this.node.parent && this.node.parent.node.where) {
-            let a = this.getArea(this.node.parent.node.where)
+        let bounds = leaflet.bounds([])
 
-            if (!a.spot().is_far_away) bounds.extend(this.getArea(this.node.parent.node.where).getBounds())
-        }
+        //1. If no children: All Candidates
+        //2. If Triple: All Candidates
+        if (this.node.children.length == 0 || (this.node.parent && this.node.parent.kind == ChildType.TRIPLE))
+            this.node.remaining_candidates.map(toPoint).forEach((c) => bounds.extend(c))
 
-        // Include next location in bounds
-        if (this.node.where) bounds.extend(this.getArea(this.node.where).getBounds())
-        if (this.node.solved) bounds.extend(this.getMarker(this.node.solved).getBounds())
 
-        // Include all triple children
-        this.node.children().filter((c) => c.parent.key.kind == ChildType.TRIPLE).forEach((c) => {
-            bounds.extend(this.getMarker(c.solved).getBounds())
+        //3. All triple children
+        this.node.children.filter((c) => c.key == ChildType.TRIPLE).forEach((c) => {
+            c.value.remaining_candidates.forEach((c) => bounds.extend(toPoint(c)))
         })
 
-        // If there are no valid bounds (because the above all don't apply), default to the scan area as a bound
-        if (!bounds.isValid()) this.markers.forEach((e) => bounds.extend(e.getBounds()))
+        //4. "Where"
+        if (this.node.where) {
+            bounds.extend(toPoint(this.node.where.area.topleft))
+            bounds.extend(toPoint(this.node.where.area.botright))
+        }
 
-        this._map.fitBounds(bounds.pad(0.1), {
+        // 5. parent.where if not far away
+        if (this.node.parent && this.node.parent.node.where) {
+            let o = leaflet.bounds([])
+
+            o.extend(toPoint(this.node.parent.node.where.area.topleft))
+            o.extend(toPoint(this.node.parent.node.where.area.botright))
+
+            if (o.getCenter().distanceTo(bounds.getCenter()) < 200) {
+                bounds.extend(o)
+            }
+        }
+
+        leaflet.latLngBounds([
+            [bounds.getTopLeft().y, bounds.getTopLeft().x],
+            [bounds.getBottomRight().y, bounds.getBottomRight().x],
+        ])
+
+
+        this._map.fitBounds(leaflet.latLngBounds([
+            [bounds.getTopLeft().y, bounds.getTopLeft().x],
+            [bounds.getBottomRight().y, bounds.getBottomRight().x],
+        ]).pad(0.1), {
             maxZoom: 4
-        })*/
+        })
     }
 
 
@@ -97,11 +121,6 @@ export class ScanTreeMethodLayer extends ScanLayer {
         this.setSpotOrder(scantree.spot_ordering)
 
         this.setAreas(this.scantree.areas)
-
-        // Create labels
-        /*this.markers.forEach((m, i) => {
-            m.withLabel((i + 1).toString(), "spot-number", [0, 10])
-        })*/
     }
 
     public activate(map: GameMapControl) {
@@ -111,9 +130,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
         this.app.sidepanels.methods_panel.showSection("scantree")
 
-        this.node = this.root
-
-        this.update()
+        this.setNode(this.root)
     }
 
     private update() {
@@ -186,8 +203,6 @@ export class ScanTreeMethodLayer extends ScanLayer {
             .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
 
         if (depth == 0) {
-
-
             if (node.parent.kind == ChildType.TRIPLE && node.parent.node.parent && node.parent.node.parent.kind == ChildType.TRIPLE) {
                 $("<span>")
                     .addClass("lightbutton")

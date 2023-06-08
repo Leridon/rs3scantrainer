@@ -211,8 +211,6 @@ export class ScanLayer extends ActiveLayer {
     }
 
     override loadDefaultInteraction() {
-        console.log("Loading default")
-
         let self = this
 
         new ClickMapInteraction(this, {

@@ -1,17 +1,18 @@
 Release b0.3
 
 - Properly implement different level
+    - Level control on map
+    - Move equivalence class control to method panel
+    - Show equivalence classes for different levels
+    - Display scan spots on surface/underground
     - Add an input to control the level of a scan area [0 - 3]
 
 - Fix synthethic triple not highlighting previous area
-- Move equivalence class control to the method panel
-    - Control the level
 
 - Scan Tree Editor
     - Add explanation modal
     - Fix info buttons drowning out the row.
     - Disable info buttons that leave 0 candidates
-    -
 
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
@@ -62,11 +63,9 @@ Rechecked
 - Ardounge
 - Zanaris
 
-Done:
+Next up:
 - Taverley
 - Dorgesh-Kaan
-
-Next up:
 - Fremennik Isles
 - Haunted Woods
 - Piscatoris

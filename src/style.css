@@ -490,3 +490,7 @@ video {
 .text-icon {
     height: 1.3em;
 }
+
+.treeview > * {
+    margin-top: 2px;
+}

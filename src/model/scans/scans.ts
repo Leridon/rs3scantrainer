@@ -182,8 +182,9 @@ export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): 
             })
         }
 
-        if (distance(spot_levelled, area_levelled.topleft) > (range + 15)
-            || distance(spot_levelled, area_levelled.botright) > (range + 15)
+        if ((distance(spot_levelled, area_levelled.topleft) > (range + 15)
+            || distance(spot_levelled, area_levelled.botright) > (range + 15))
+            && spot.level == area.level
         ) { // Any tile in area does not trigger different level
             pulses.push({
                 pulse: 1,

@@ -69,7 +69,7 @@ export default class TreeEdit extends Widget<{
     update() {
         if (this.view) this.view.remove()
 
-        this.view = $("<div>").appendTo(this.container)
+        this.view = $("<div class='treeview'>").appendTo(this.container)
 
         this.create(this.view)
     }

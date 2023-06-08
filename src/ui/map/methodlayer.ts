@@ -270,73 +270,6 @@ export class ScanTreeMethodLayer extends ScanLayer {
     generateChildren(node: augmented_decision_tree, depth: number, container: JQuery) {
         if (depth >= 2) return
 
-        /*
-        if (this.is_synthetic_triple_node) {
-            this.children().filter((e) => e.parent.key.kind .pulse == 3)
-                .forEach((e) => e.generateList(depth, container, app, e.solved.toString()))
-
-            return;
-        }*/
-
-        /*let triples = this.children().filter((e) => e.parent.key.kind .pulse == 3)
-
-        if (triples.length >= 1) {
-            let line = $("<div>")
-                .addClass("scantreeline")
-                .css("margin-left", `${depth * 12}px`)
-                .css("font-size", `${13 / (Math.pow(1.25, depth))}px`)
-
-            if (depth == 0) {
-
-                let triple_span = $("<span>")
-                    .addClass("nextchoice")
-                    .text("Triple")
-                    .on("click", () => {
-                        if (triples.length == 1) {
-                            triples[0].sendToUI(app)
-                        } else if (this.is_synthetic_triple_node) {
-                            this.sendToUI(app) // This does nothing
-                        } else {
-                            let synthetic = new ScanTreeNode("Which spot?",
-                                null,
-                                this.where,
-                                triples.map((e) => {
-                                    return [{
-                                        key: e.solved.toString(),
-                                        kind: ChildType.TRIPLE
-                                    }, e]
-                                }),
-                                null,
-                                true
-                            )
-                            synthetic.parent = {node: this, key: {key: "Triple", kind: ChildType.TRIPLE}}
-                            synthetic.root = this.root
-
-                            synthetic.sendToUI(app)
-                        }
-                    })
-                    .appendTo(line)
-
-                line.append($("<span>").text("at"))
-
-                for (let child of triples) {
-                    $("<span>")
-                        .text(`${child.solved}`)
-                        .addClass("nextchoice")
-                        .addClass("tripleping")
-                        .on("click", () => child.sendToUI(app))
-                        .appendTo(line)
-                }
-            } else {
-                $("<span>")
-                    .text(`Triple ping at ${triples.map((e) => e.solved).join(", ")}`)
-                    .appendTo(line)
-            }
-
-            container.append(line)
-        }
-        */
-
         if (depth == 0 && node.parent && node.parent.kind.pulse == 3 && node.remaining_candidates.length > 1) {
             synthetic_triple_children(node).forEach((child) => this.generateList(child, depth, container))
         }
@@ -345,20 +278,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
             if (a.key.different_level != b.key.different_level) return (a.key.different_level ? 1 : -1)
 
             return a.key.pulse - b.key.pulse
-
-
-            //comparator_by((c) => [ChildType.TRIPLE, ChildType.DOUBLE, ChildType.SINGLE, ChildType.DIFFERENTLEVEL, ChildType.TOOFAR].indexOf(c.key))
         }).forEach((e) => this.generateList(e.value, depth, container))
-
-        /*
-        this.children().filter((e) => e.parent.key.kind == ChildType.DOUBLE)
-            .forEach((e) => e.generateList(depth, container, app))
-
-        this.children().filter((e) => e.parent.key.kind == ChildType.SINGLE)
-            .forEach((e) => e.generateList(depth, container, app))
-
-        this.children().filter((e) => (typeof e.parent.key.kind) == "string")
-            .forEach((e) => e.generateList(depth, container, app))*/
     }
 
     deactivate() {

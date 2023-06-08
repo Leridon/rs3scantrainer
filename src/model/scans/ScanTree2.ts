@@ -15,54 +15,6 @@ export namespace ScanTree2 {
         area?: Box,
         level: number,
         is_far_away?: boolean,
-        /*overrides?: {
-            single?: MapCoordinate[]
-            double?: MapCoordinate[]
-            triple?: MapCoordinate[]
-            toofar?: MapCoordinate[]
-            differentlevel?: MapCoordinate[]
-        }*/
-    }
-
-    export namespace ScanSpot {
-        /*export function override(s: ScanSpot, type: ChildType): MapCoordinate[] | null {
-            switch (type) {
-                case ChildType.SINGLE:
-                    return s.overrides ? s.overrides.single : null;
-                case ChildType.DOUBLE:
-                    return s.overrides ? s.overrides.double : null;
-                case ChildType.TRIPLE:
-                    return s.overrides ? s.overrides.triple : null;
-                case ChildType.DIFFERENTLEVEL:
-                    return s.overrides ? s.overrides.differentlevel : null;
-                case ChildType.TOOFAR:
-                    return s.overrides ? s.overrides.toofar : null;
-
-            }
-        }
-
-        export function setOverride(s: ScanSpot, type: ChildType, override: MapCoordinate[]): void {
-            if (!s.overrides) s.overrides = {}
-
-            switch (type) {
-                case ChildType.SINGLE:
-                    s.overrides.single = override;
-                    break;
-                case ChildType.DOUBLE:
-                    s.overrides.double = override;
-                    break;
-                case ChildType.TRIPLE:
-                    s.overrides.triple = override;
-                    break;
-                case ChildType.DIFFERENTLEVEL:
-                    s.overrides.differentlevel = override;
-                    break;
-                case ChildType.TOOFAR:
-                    s.overrides.toofar = override;
-                    break;
-
-            }
-        }*/
     }
 
     export type edge_path = {

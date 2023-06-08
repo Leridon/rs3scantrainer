@@ -1,7 +1,5 @@
 Release b0.3
 
-- Fix default interaction not being applied after drawing an area
-
 - Scan Tree Editor
     - Add explanation modal
 
@@ -10,11 +8,7 @@ Release b0.3
 
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
-    - Revisit existing scans
-        - Cobs suggestions for Falador/Keldagrims
-
 - Polishing
-    - "default interactions" for scan layers
     - Arch teleport icon instead of outfit
     - Amulet of nature teleports
 
@@ -56,9 +50,9 @@ Rechecked
 - Falador
 - Keldagrim
 - Ardounge
+- Zanaris
 
 Done:
-- Zanaris
 - Taverley
 - Dorgesh-Kaan
 

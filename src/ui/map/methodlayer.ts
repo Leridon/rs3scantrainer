@@ -86,7 +86,8 @@ export class ScanTreeMethodLayer extends ScanLayer {
             [bounds.getTopLeft().y, bounds.getTopLeft().x],
             [bounds.getBottomRight().y, bounds.getBottomRight().x],
         ]).pad(0.1), {
-            maxZoom: 4
+            maxZoom: 4,
+            animate: true,
         })
     }
 

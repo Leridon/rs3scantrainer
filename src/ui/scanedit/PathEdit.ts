@@ -109,12 +109,14 @@ export default class PathEdit extends Widget<{
             if (typeof a.to == "string" && !(typeof b.to == "string")) return -1
             if (typeof b.to == "string" && !(typeof a.to == "string")) return 1
 
-            let res = (a.from.localeCompare(b.from))
+            let res: number
+
+            if (typeof a.to == "string") res = a.to.localeCompare(b.to as string)
+            else res = Math.min(...a.to.map((c) => spotNumber(this.parent.value, c))) - Math.min(...(b.to as MapCoordinate[]).map((c) => spotNumber(this.parent.value, c)))
             if (res != 0) return res
 
-            if (typeof a.to == "string") return a.to.localeCompare(b.to as string)
-
-            return Math.min(...a.to.map((c) => spotNumber(this.parent.value, c))) - Math.min(...(b.to as MapCoordinate[]).map((c) => spotNumber(this.parent.value, c)))
+            res = (a.from.localeCompare(b.from))
+            return res
         })
 
         this.update()

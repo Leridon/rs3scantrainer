@@ -234,6 +234,7 @@ const raw: teleport_group[] = [{
     name: "Fairy Ring",
     img: "fairyring.gif",
     spots: [
+        {subid: "AIP", spot: {x: 2412, y: 4434}, code: ""},
         {subid: "AIQ", spot: {x: 2996, y: 3114}, code: "AIQ"},
         {subid: "AIR", spot: {x: 2700, y: 3247}, code: "AIR"},
         {subid: "AJR", spot: {x: 2780, y: 3613}, code: "AJR"},

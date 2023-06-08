@@ -997,85 +997,528 @@ let raw: (method & indirected)[] = [
     {
         "type": "scantree",
         "clue": 361,
-        "spot_ordering": [{"x": 2406, "y": 4428}, {"x": 2429, "y": 4431}, {"x": 2417, "y": 4444}, {
-            "x": 2400,
-            "y": 4441
-        }, {"x": 2410, "y": 4460}, {"x": 2439, "y": 4460}, {"x": 2441, "y": 4428}, {"x": 2417, "y": 4470}, {
-            "x": 2402,
-            "y": 4466
-        }, {"x": 2396, "y": 4457}, {"x": 2385, "y": 4447}, {"x": 2380, "y": 4421}, {"x": 2372, "y": 4467}, {
-            "x": 2404,
-            "y": 4406
-        }, {"x": 2389, "y": 4405}, {"x": 2377, "y": 4410}, {"x": 2453, "y": 4471}, {"x": 2457, "y": 4443}, {
-            "x": 2468,
-            "y": 4439
-        }, {"x": 2414, "y": 4378}, {"x": 2420, "y": 4381}, {"x": 2423, "y": 4372}],
+        "spot_ordering": [
+            {
+                "x": 2406,
+                "y": 4428
+            },
+            {
+                "x": 2429,
+                "y": 4431
+            },
+            {
+                "x": 2417,
+                "y": 4444
+            },
+            {
+                "x": 2400,
+                "y": 4441
+            },
+            {
+                "x": 2410,
+                "y": 4460
+            },
+            {
+                "x": 2439,
+                "y": 4460
+            },
+            {
+                "x": 2441,
+                "y": 4428
+            },
+            {
+                "x": 2417,
+                "y": 4470
+            },
+            {
+                "x": 2402,
+                "y": 4466
+            },
+            {
+                "x": 2396,
+                "y": 4457
+            },
+            {
+                "x": 2385,
+                "y": 4447
+            },
+            {
+                "x": 2380,
+                "y": 4421
+            },
+            {
+                "x": 2372,
+                "y": 4467
+            },
+            {
+                "x": 2404,
+                "y": 4406
+            },
+            {
+                "x": 2389,
+                "y": 4405
+            },
+            {
+                "x": 2377,
+                "y": 4410
+            },
+            {
+                "x": 2453,
+                "y": 4471
+            },
+            {
+                "x": 2457,
+                "y": 4443
+            },
+            {
+                "x": 2468,
+                "y": 4439
+            },
+            {
+                "x": 2414,
+                "y": 4378
+            },
+            {
+                "x": 2420,
+                "y": 4381
+            },
+            {
+                "x": 2423,
+                "y": 4372
+            }
+        ],
         "assumes_meerkats": true,
-        "areas": [{
-            "name": "A",
-            "area": {"topleft": {"x": 2412, "y": 4434}, "botright": {"x": 2412, "y": 4434}}
-        }, {"name": "B", "area": {"topleft": {"x": 2410, "y": 4436}, "botright": {"x": 2410, "y": 4436}}}, {
-            "name": "C",
-            "area": {"topleft": {"x": 2420, "y": 4444}, "botright": {"x": 2420, "y": 4444}}
-        }, {"name": "D", "area": {"topleft": {"x": 2409, "y": 4455}, "botright": {"x": 2409, "y": 4455}}}, {
-            "name": "E",
-            "area": {"topleft": {"x": 2398, "y": 4444}, "botright": {"x": 2398, "y": 4444}}
-        }, {"name": "F", "area": {"topleft": {"x": 2447, "y": 4430}, "botright": {"x": 2447, "y": 4430}}}, {
-            "name": "G",
-            "area": {"topleft": {"x": 2405, "y": 4381}, "botright": {"x": 2405, "y": 4381}}
-        }],
-        "methods": [{"from": null, "to": "A", "short_instruction": "Fairy Ring to {{target}}."}, {
-            "from": "A",
-            "to": "F",
-            "short_instruction": "Slayer Cape 7 to {{target}}."
-        }, {"from": "F", "to": "G", "short_instruction": "Wicked hood cosmic altar tele"}, {
-            "from": "A",
-            "to": "B",
-            "short_instruction": "Go to {{target}}."
-        }, {"from": "B", "to": "C", "short_instruction": "{{dive}} to {{target}}."}, {
-            "from": "C",
-            "to": "D",
-            "short_instruction": "{{surge}} to {{target}}."
-        }, {"from": "C", "to": "D", "short_instruction": "{{surge}} to {{target}}."}, {
-            "from": "D",
-            "to": "E",
-            "short_instruction": "Step and {{surge}} to {{target}}."
-        }, {"from": "D", "to": "D", "short_instruction": "The spot is in the tunnels to {{target}} cosmic altar."}],
+        "areas": [
+            {
+                "name": "A",
+                "area": {
+                    "topleft": {
+                        "x": 2412,
+                        "y": 4434
+                    },
+                    "botright": {
+                        "x": 2412,
+                        "y": 4434
+                    }
+                }
+            },
+            {
+                "name": "B",
+                "area": {
+                    "topleft": {
+                        "x": 2410,
+                        "y": 4436
+                    },
+                    "botright": {
+                        "x": 2410,
+                        "y": 4436
+                    }
+                }
+            },
+            {
+                "name": "C",
+                "area": {
+                    "topleft": {
+                        "x": 2420,
+                        "y": 4444
+                    },
+                    "botright": {
+                        "x": 2420,
+                        "y": 4444
+                    }
+                }
+            },
+            {
+                "name": "D",
+                "area": {
+                    "topleft": {
+                        "x": 2409,
+                        "y": 4455
+                    },
+                    "botright": {
+                        "x": 2409,
+                        "y": 4455
+                    }
+                }
+            },
+            {
+                "name": "E",
+                "area": {
+                    "topleft": {
+                        "x": 2398,
+                        "y": 4444
+                    },
+                    "botright": {
+                        "x": 2398,
+                        "y": 4444
+                    }
+                }
+            },
+            {
+                "name": "F",
+                "area": {
+                    "topleft": {
+                        "x": 2445,
+                        "y": 4431
+                    },
+                    "botright": {
+                        "x": 2447,
+                        "y": 4429
+                    }
+                }
+            },
+            {
+                "name": "G",
+                "area": {
+                    "topleft": {
+                        "x": 2405,
+                        "y": 4381
+                    },
+                    "botright": {
+                        "x": 2405,
+                        "y": 4381
+                    }
+                }
+            }
+        ],
+        "methods": [
+            {
+                "from": null,
+                "to": "A",
+                "short_instruction": "{{teleport fairyring aip}} to {{target}}."
+            },
+            {
+                "from": "A",
+                "to": "B",
+                "short_instruction": "Go to {{target}}."
+            },
+            {
+                "from": "A",
+                "to": "F",
+                "short_instruction": "{{teleport slayercape chealdar}} to {{target}}."
+            },
+            {
+                "from": "B",
+                "to": "C",
+                "short_instruction": "{{dive}} to {{target}}."
+            },
+            {
+                "from": "C",
+                "to": "D",
+                "short_instruction": "Step NW + {{surge}} to {{target}}."
+            },
+            {
+                "from": "D",
+                "to": "E",
+                "short_instruction": "Step SW + {{surge}} to {{target}}."
+            },
+            {
+                "from": "F",
+                "to": "G",
+                "short_instruction": "{{teleport wickedhood cosmic}} to {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 2406,
+                        "y": 4428,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "{{Dive}} to {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 2429,
+                        "y": 4431,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 2417,
+                        "y": 4444,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 2400,
+                        "y": 4441,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 2396,
+                        "y": 4457,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 2453,
+                        "y": 4471,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "{{teleport dragontrinkets black}} to {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 2410,
+                        "y": 4460,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 2439,
+                        "y": 4460,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 2441,
+                        "y": 4428,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2417,
+                        "y": 4470,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2402,
+                        "y": 4466,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2372,
+                        "y": 4467,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2389,
+                        "y": 4405,
+                        "level": 0
+                    },
+                    {
+                        "x": 2404,
+                        "y": 4406,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Check {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2377,
+                        "y": 4410,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "E",
+                "to": [
+                    {
+                        "x": 2385,
+                        "y": 4447,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "E",
+                "to": [
+                    {
+                        "x": 2380,
+                        "y": 4421,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 2457,
+                        "y": 4443,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 2468,
+                        "y": 4439,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "G",
+                "to": [
+                    {
+                        "x": 2414,
+                        "y": 4378,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "G",
+                "to": [
+                    {
+                        "x": 2420,
+                        "y": 4381,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "G",
+                "to": [
+                    {
+                        "x": 2423,
+                        "y": 4372,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            }
+        ],
         "root": {
             "where": "A",
             "why": "",
-            "children": [{
-                "key": 0,
-                "value": {
-                    "where": "F",
-                    "why": "",
-                    "children": [{"key": 0, "value": {"where": "G", "why": "", "children": []}}]
-                }
-            }, {
-                "key": 1,
-                "value": {
-                    "where": "B",
-                    "why": "",
-                    "children": [{
-                        "key": 1,
-                        "value": {
-                            "where": "C",
-                            "why": "",
-                            "children": [{"key": 0, "value": {"where": "D", "why": "", "children": []}}, {
+            "children": [
+                {
+                    "key": 0,
+                    "value": {
+                        "where": "F",
+                        "why": "",
+                        "children": [
+                            {
+                                "key": 0,
+                                "value": {
+                                    "where": "G",
+                                    "why": "",
+                                    "children": []
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "key": 1,
+                    "value": {
+                        "where": "B",
+                        "why": "",
+                        "children": [
+                            {
                                 "key": 1,
                                 "value": {
-                                    "where": "D",
+                                    "where": "C",
                                     "why": "",
-                                    "children": [{
-                                        "key": 1,
-                                        "value": {"where": "E", "why": "", "children": []}
-                                    }, {"key": 0, "value": {"where": "D", "why": "", "children": []}}]
+                                    "children": [
+                                        {
+                                            "key": 0,
+                                            "value": {
+                                                "where": "D",
+                                                "why": "",
+                                                "children": []
+                                            }
+                                        },
+                                        {
+                                            "key": 1,
+                                            "value": {
+                                                "where": "D",
+                                                "why": "",
+                                                "children": [
+                                                    {
+                                                        "key": 1,
+                                                        "value": {
+                                                            "where": "E",
+                                                            "why": "",
+                                                            "children": []
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
                                 }
-                            }]
-                        }
-                    }]
+                            }
+                        ]
+                    }
                 }
-            }]
+            ]
         }
     },
     {

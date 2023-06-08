@@ -233,13 +233,13 @@ export class ScanTreeNode {
         if (depth >= 2) return
 
         if (this.is_synthetic_triple_node) {
-            this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
+            this.children().filter((e) => e.parent.key.kind .pulse == 3)
                 .forEach((e) => e.generateList(depth, container, app, e.solved.toString()))
 
             return;
         }
 
-        let triples = this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
+        let triples = this.children().filter((e) => e.parent.key.kind .pulse == 3)
 
         if (triples.length >= 1) {
             let line = $("<div>")

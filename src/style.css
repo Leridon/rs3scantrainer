@@ -91,6 +91,8 @@ html, body {
 }
 
 .nissmallimagebutton {
+    min-width:21px;
+    min-height:21px;
     background: url("assets/icons/imagebuttonbackground.png");
 }
 

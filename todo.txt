@@ -1,10 +1,17 @@
 Release b0.3
 
+- Properly implement different level
+    - Add an input to control the level of a scan area [0 - 3]
+
+- Fix synthethic triple not highlighting previous area
+- Move equivalence class control to the method panel
+    - Control the level
+
 - Scan Tree Editor
     - Add explanation modal
-
-- Port guide part to new data structure
-    - Fix whatever tf happens with dorgesh kaan and taverley
+    - Fix info buttons drowning out the row.
+    - Disable info buttons that leave 0 candidates
+    -
 
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
@@ -15,6 +22,9 @@ Release b0.3
 Release b0.4:
 - Styling pass over the scan editor
 - Add control bar for map interactions (top center).
+- Detailled pathing
+    - Pathfinder/-validator/-drawer
+
 
 - Scan Editor:
     - Collapsible, styled sections

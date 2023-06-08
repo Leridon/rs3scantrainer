@@ -1,7 +1,7 @@
 import {path} from "../../ui/map/layers/ScanLayer";
 import {Box, eq, MapCoordinate} from "../coordinates";
-import {indirect, indirected, method_base, resolved} from "../methods";
-import {area_pulse, ChildType} from "./scans";
+import {indirected, method_base, resolved} from "../methods";
+import {area_pulse, Pulse} from "./scans";
 import {Modal} from "../../ui/widgets/modal";
 import {ScanStep} from "../clues";
 import {util} from "../../util/util";
@@ -13,18 +13,19 @@ export namespace ScanTree2 {
         name: string,
         is_virtual?: boolean,
         area?: Box,
+        level: number,
         is_far_away?: boolean,
-        overrides?: {
+        /*overrides?: {
             single?: MapCoordinate[]
             double?: MapCoordinate[]
             triple?: MapCoordinate[]
             toofar?: MapCoordinate[]
             differentlevel?: MapCoordinate[]
-        }
+        }*/
     }
 
     export namespace ScanSpot {
-        export function override(s: ScanSpot, type: ChildType): MapCoordinate[] | null {
+        /*export function override(s: ScanSpot, type: ChildType): MapCoordinate[] | null {
             switch (type) {
                 case ChildType.SINGLE:
                     return s.overrides ? s.overrides.single : null;
@@ -61,7 +62,7 @@ export namespace ScanTree2 {
                     break;
 
             }
-        }
+        }*/
     }
 
     export type edge_path = {
@@ -87,14 +88,14 @@ export namespace ScanTree2 {
         where: string,
         why?: string,
         children: {
-            key: ChildType,
+            key: Pulse,
             value: decision_tree
         }[]
     }
 
     export type augmented_decision_tree = {
         root: tree,
-        parent: { node: augmented_decision_tree, kind: ChildType },
+        parent: { node: augmented_decision_tree, kind: Pulse },
         path: edge_path,
         where: ScanSpot
         raw: decision_tree,
@@ -102,7 +103,7 @@ export namespace ScanTree2 {
         remaining_candidates: MapCoordinate[],
         decisions: ScanDecision[],
         children: {
-            key: ChildType,
+            key: Pulse,
             value: augmented_decision_tree
         }[]
     }
@@ -121,7 +122,7 @@ export namespace ScanTree2 {
 
         function helper(
             node: decision_tree,
-            parent: { node: augmented_decision_tree, kind: ChildType },
+            parent: { node: augmented_decision_tree, kind: Pulse },
             depth: number,
             remaining_candidates: MapCoordinate[],
             decisions: ScanDecision[],
@@ -152,20 +153,23 @@ export namespace ScanTree2 {
 
                 let narrowing = spot_narrowing(remaining_candidates, t.where, assumedRange(tree))
 
-                narrowing.forEach((v, k) => {
-                    let child = node.children.find((c) => c.key == k)
+                narrowing.forEach((v: { pulse: Pulse, narrowed_candidates: MapCoordinate[] }) => {
 
-                    if ((v.length > 0 || child != null)) {
+                    node.children
+
+                    let child = node.children.find((c) => Pulse.equals(c.key, v.pulse))
+
+                    if ((v.narrowed_candidates.length > 0 || child != null)) {
                         t.children.push({
-                            key: k,
+                            key: v.pulse,
                             value: helper(
                                 child ? child.value : null,
-                                {node: t, kind: k},
+                                {node: t, kind: v.pulse},
                                 depth + 1,
-                                narrowing.get(k),
+                                v.narrowed_candidates,
                                 decisions.concat([{
                                     area: t.where,
-                                    ping: k
+                                    ping: v.pulse
                                 }])
                             )
                         })
@@ -183,7 +187,7 @@ export namespace ScanTree2 {
         let accumulator: edge_path[] = []
 
         function push(edge: edge_path) {
-            if(!accumulator.some((p) => edgeSame(p, edge))) accumulator.push(edge)
+            if (!accumulator.some((p) => edgeSame(p, edge))) accumulator.push(edge)
         }
 
         function helper(node: augmented_decision_tree): void {
@@ -197,7 +201,7 @@ export namespace ScanTree2 {
 
                 node.children.forEach((c) => helper(c.value))
             } else {
-                if (node.parent && node.parent.kind == ChildType.TRIPLE) {
+                if (node.parent && node.parent.kind.pulse == 3) {
                     node.remaining_candidates.forEach((c) => {
                         push({
                             from: from,
@@ -253,44 +257,26 @@ export namespace ScanTree2 {
 
     export type ScanDecision = {
         area: ScanSpot,
-        ping: ChildType
+        ping: Pulse
     }
 
     export namespace ScanDecision {
         export function toString(decision: ScanDecision) {
-            function postfix(kind: ChildType) {
-                switch (kind) {
-                    case ChildType.SINGLE:
-                        return "1"
-                    case ChildType.DOUBLE:
-                        return "2"
-                    case ChildType.TRIPLE:
-                        return "3"
-                    case ChildType.DIFFERENTLEVEL:
-                        return "\"DL\""
-                    case ChildType.TOOFAR:
-                        return "\"TF\""
-                }
-            }
-
-            return `${decision.area.name}${postfix(decision.ping)}`
+            return `${decision.area.name}${Pulse.meta(decision.ping).shorted}`
         }
     }
 
-    export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, range: number): Map<ChildType, MapCoordinate[]> {
-        let m = new Map<ChildType, MapCoordinate[]>()
-
-        ChildType.all.forEach((c) => {
-            let override = ScanSpot.override(area, c)
-
-            m.set(c, override || (area.is_virtual ? [] : candidates.filter((s) => area_pulse(s, area.area, range).map(ChildType.fromPulse).includes(c))))
+    export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, range: number): { pulse: Pulse, narrowed_candidates: MapCoordinate[] }[] {
+        return Pulse.all.map((p) => {
+            return {
+                pulse: p,
+                narrowed_candidates: narrow_down(candidates, {area: area, ping: p}, range)
+            }
         })
-
-        return m
     }
 
     export function narrow_down(candidates: MapCoordinate[], decision: ScanDecision, range: number): MapCoordinate[] {
-        return spot_narrowing(candidates, decision.area, range).get(decision.ping)
+        return candidates.filter((s) => area_pulse(s, decision.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
     }
 
     export function template_resolvers(tree: tree, path: edge_path): Record<string, (args: string[]) => string> {

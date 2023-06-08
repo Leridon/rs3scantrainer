@@ -1,5 +1,4 @@
 import Widget from "../widgets/Widget";
-import {ChildType} from "../../model/scans/scans";
 import ScanEditPanel from "./ScanEditPanel";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {ScanTree2} from "../../model/scans/ScanTree2";
@@ -9,6 +8,8 @@ import ScanDecision = ScanTree2.ScanDecision;
 import spot_narrowing = ScanTree2.spot_narrowing;
 import {MapCoordinate} from "../../model/coordinates";
 import assumedRange = ScanTree2.assumedRange;
+import {Pulse} from "../../model/scans/scans";
+import narrow_down = ScanTree2.narrow_down;
 
 type TreeDom = {
     node: augmented_tree,
@@ -49,10 +50,8 @@ export default class TreeEdit extends Widget<{
 
             if (!area) return null
 
-            let narrowing = spot_narrowing(candidates, area, assumedRange(self.parent.value))
-
             node.children.forEach((n) => {
-                n.value = prune(n.value, narrowing.get(n.key))
+                n.value = prune(n.value, narrow_down(candidates, {area: area, ping: n.key}, assumedRange(self.parent.value)))
             })
 
             node.children = node.children.filter((c) => c.value != null)
@@ -98,10 +97,10 @@ export default class TreeEdit extends Widget<{
                     self.emit("decisions_loaded", node.decisions)
                 })
 
-            if ((node.parent && node.parent.kind == ChildType.TRIPLE) || node.remaining_candidates.length == 1) {
-                $(`<div>${node.parent.node.where.name}${ChildType.meta(node.parent.kind).shorted} -> Solved! (${node.remaining_candidates.map((c) => ScanTree2.spotNumber(self.parent.value, c)).sort().join(", ")})</div>`).appendTo(col1)
+            if ((node.parent && node.parent.kind .pulse == 3) || node.remaining_candidates.length == 1) {
+                $(`<div>${node.parent.node.where.name}${Pulse.meta(node.parent.kind).shorted} -> Solved! (${node.remaining_candidates.map((c) => ScanTree2.spotNumber(self.parent.value, c)).sort().join(", ")})</div>`).appendTo(col1)
             } else {
-                let label = $("<label class='flex-grow-1' style='display: flex; flex-direction: row'>").text(node.parent != null ? `${node.parent.node.where.name}${ChildType.meta(node.parent.kind).shorted} ->` : "Start at").appendTo(col1)
+                let label = $("<label class='flex-grow-1' style='display: flex; flex-direction: row'>").text(node.parent != null ? `${node.parent.node.where.name}${Pulse.meta(node.parent.kind).shorted} ->` : "Start at").appendTo(col1)
 
                 dom.selection = $("<select style='margin-left: 0.5em'>").appendTo(label)
                     .on("input", (event) => {
@@ -168,10 +167,10 @@ export default class TreeEdit extends Widget<{
 
                 let narrowing = spot_narrowing(node.remaining_candidates, area, assumedRange(self.parent.value))
 
-                narrowing.forEach((v, k) => {
-                    let child = node.children.find((c) => c.key == k)
+                narrowing.forEach((v) => {
+                    let child = node.children.find((c) => Pulse.equals(v.pulse, c.key))
 
-                    if ((v.length > 0 || child != null)) {
+                    if ((v.narrowed_candidates.length > 0 || child != null)) {
                         dom.children.push(helper(child ? child.value : null))
                     }
                 })

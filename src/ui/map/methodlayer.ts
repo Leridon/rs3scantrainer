@@ -4,7 +4,6 @@ import {GameMapControl} from "./map";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import {modal} from "../widgets/modal";
 import {eq, toPoint} from "../../model/coordinates";
-import {ChildType} from "../../model/scans/scans";
 import {util} from "../../util/util";
 import * as leaflet from "leaflet"
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
@@ -17,6 +16,7 @@ import spotNumber = ScanTree2.spotNumber;
 import natural_join = util.natural_join;
 import natural_order = util.natural_order;
 import comparator_by = util.comparator_by;
+import {Pulse} from "../../model/scans/scans";
 
 function synthetic_triple_children(node: augmented_decision_tree): augmented_decision_tree[] {
     return node.remaining_candidates.map((child) => {
@@ -24,7 +24,7 @@ function synthetic_triple_children(node: augmented_decision_tree): augmented_dec
             children: [],
             decisions: node.decisions,
             depth: node.depth + 1,
-            parent: {kind: ChildType.TRIPLE, node: node},
+            parent: {kind: {pulse: 3, different_level: node.parent.kind.different_level}, node: node},
             path: node.root.methods.find((m) => ScanTree2.edgeSame(m, {from: node.parent.node.where.name, to: [child]})),
             raw: undefined,
             remaining_candidates: [child],
@@ -49,12 +49,12 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
         //1. If no children: All Candidates
         //2. If Triple: All Candidates
-        if (this.node.children.length == 0 || (this.node.parent && this.node.parent.kind == ChildType.TRIPLE))
+        if (this.node.children.length == 0 || (this.node.parent && this.node.parent.kind.pulse == 3))
             this.node.remaining_candidates.map(toPoint).forEach((c) => bounds.extend(c))
 
 
         //3. All triple children
-        this.node.children.filter((c) => c.key == ChildType.TRIPLE).forEach((c) => {
+        this.node.children.filter((c) => c.key.pulse == 3).forEach((c) => {
             c.value.remaining_candidates.forEach((c) => bounds.extend(toPoint(c)))
         })
 
@@ -146,7 +146,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
                 if (!node.parent) {
                     text = "Start"
-                } else if (node.parent.node.parent && node.parent.kind == ChildType.TRIPLE && node.parent.node.parent.kind == ChildType.TRIPLE) {
+                } else if (node.parent.node.parent && node.parent.kind.pulse == 3 && node.parent.node.parent.kind.pulse == 3) {
                     text = `Spot ${spotNumber(node.root, node.remaining_candidates[0])}`
                 } else {
                     text = ScanDecision.toString(node.decisions[node.decisions.length - 1])
@@ -170,7 +170,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
         let text: string = ""
 
         if (!this.node.path) {
-            if (this.node.parent && this.node.parent.kind == ChildType.TRIPLE && this.node.remaining_candidates.length > 1) {
+            if (this.node.parent && this.node.parent.kind.pulse == 3 && this.node.remaining_candidates.length > 1) {
                 // Triple children with more than one candidate do not have an associated path, synthesize one
                 text = scantrainer.template_resolver
                     .with(template_resolvers(this.node.root, {
@@ -206,7 +206,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
             .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
 
         if (depth == 0) {
-            if (node.parent.kind == ChildType.TRIPLE && node.parent.node.parent && node.parent.node.parent.kind == ChildType.TRIPLE) {
+            if (node.parent.kind.pulse == 3 && node.parent.node.parent && node.parent.node.parent.kind.pulse == 3) {
                 $("<span>")
                     .addClass("lightbutton")
                     .html(resolver.resolve(`Spot {{digspot ${spotNumber(node.root, node.remaining_candidates[0])}}}`))
@@ -216,17 +216,17 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
                 $("<span>")
                     .addClass("lightbutton")
-                    .text(ChildType.meta(node.parent.kind).pretty)      // Parent can't be null when being here... I think
+                    .text(Pulse.meta(node.parent.kind).pretty)      // Parent can't be null when being here... I think
                     .on("click", () => this.setNode(node))
                     .appendTo(line)
             }
         } else if (depth > 0) {
             $("<span>")
-                .text(ChildType.meta(node.parent.kind).pretty + ": ")
+                .text(Pulse.meta(node.parent.kind).pretty + ": ")
                 .appendTo(line)
         }
 
-        if (node.parent.kind == ChildType.TRIPLE) {
+        if (node.parent.kind.pulse == 3) {
 
             if (depth == 0 && node.remaining_candidates.length > 1) {
                 line.append($("<span>").text("at"))
@@ -240,7 +240,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
                 })
             } else {
 
-                if (node.parent.kind == ChildType.TRIPLE && node.parent.node.parent && node.parent.node.parent.kind == ChildType.TRIPLE) {
+                if (node.parent.kind.pulse == 3 && node.parent.node.parent && node.parent.node.parent.kind.pulse == 3) {
                     $("<span>")
                         .html(scantrainer.template_resolver
                             .with(template_resolvers(node.root, node.path))
@@ -272,13 +272,13 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
         /*
         if (this.is_synthetic_triple_node) {
-            this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
+            this.children().filter((e) => e.parent.key.kind .pulse == 3)
                 .forEach((e) => e.generateList(depth, container, app, e.solved.toString()))
 
             return;
         }*/
 
-        /*let triples = this.children().filter((e) => e.parent.key.kind == ChildType.TRIPLE)
+        /*let triples = this.children().filter((e) => e.parent.key.kind .pulse == 3)
 
         if (triples.length >= 1) {
             let line = $("<div>")
@@ -337,11 +337,18 @@ export class ScanTreeMethodLayer extends ScanLayer {
         }
         */
 
-        if (depth == 0 && node.parent && node.parent.kind == ChildType.TRIPLE && node.remaining_candidates.length > 1) {
+        if (depth == 0 && node.parent && node.parent.kind.pulse == 3 && node.remaining_candidates.length > 1) {
             synthetic_triple_children(node).forEach((child) => this.generateList(child, depth, container))
         }
 
-        node.children.sort(comparator_by((c) => [ChildType.TRIPLE, ChildType.DOUBLE, ChildType.SINGLE, ChildType.DIFFERENTLEVEL, ChildType.TOOFAR].indexOf(c.key))).forEach((e) => this.generateList(e.value, depth, container))
+        node.children.sort((a, b) => {
+            if (a.key.different_level != b.key.different_level) return (a.key.different_level ? 1 : -1)
+
+            return a.key.pulse - b.key.pulse
+
+
+            //comparator_by((c) => [ChildType.TRIPLE, ChildType.DOUBLE, ChildType.SINGLE, ChildType.DIFFERENTLEVEL, ChildType.TOOFAR].indexOf(c.key))
+        }).forEach((e) => this.generateList(e.value, depth, container))
 
         /*
         this.children().filter((e) => e.parent.key.kind == ChildType.DOUBLE)

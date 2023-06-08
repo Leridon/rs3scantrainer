@@ -3,7 +3,7 @@ import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {blue_icon, GameMapControl, TileMarker} from "../map";
-import {get_pulse, PulseType, ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {ScanEquivalenceClasses} from "../../../model/scans/scans";
 import {ActiveLayer, LayerInteraction, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
@@ -14,12 +14,9 @@ import {Constants} from "../../../constants";
 import ScanSpot = ScanTree2.ScanSpot;
 import tree = ScanTree2.tree;
 import {indirect, resolve} from "../../../model/methods";
-import ScanDecision = ScanTree2.ScanDecision;
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
-import narrow_down = ScanTree2.narrow_down;
 import indirect_scan_tree = ScanTree2.indirect_scan_tree;
-import {LeafletMouseEvent} from "leaflet";
-import assumedRange = ScanTree2.assumedRange;
+
 
 export class SpotPolygon extends leaflet.FeatureGroup {
     polygon: leaflet.Polygon

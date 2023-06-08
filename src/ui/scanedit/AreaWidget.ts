@@ -1,17 +1,13 @@
 import {ToggleGroup} from "../map/layers/ToggleGroup";
-import {ChildType} from "../../model/scans/scans";
 import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
-import SmallImageButton from "../widgets/SmallImageButton";
 import AreaEdit from "./AreaEdit";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import ScanSpot = ScanTree2.ScanSpot;
 import ScanDecision = ScanTree2.ScanDecision;
-import {util} from "../../util/util";
-import natural_order = util.natural_order;
-import spotNumber = ScanTree2.spotNumber;
 import Widget from "../widgets/Widget";
+import {Pulse} from "../../model/scans/scans";
 
 let area_name_pattern = /[a-zA-Z_][_a-zA-Z0-9]*/
 
@@ -26,7 +22,7 @@ export default class AreaWidget extends Widget<{
         area_div?: JQuery
         delete_button?: JQuery,
         edit_button?: JQuery,
-        info_buttons?: ToggleGroup<ChildType>
+        info_buttons?: ToggleGroup<Pulse>
     }
 
     edit_panel: {
@@ -38,7 +34,7 @@ export default class AreaWidget extends Widget<{
             botright: { x: JQuery, y: JQuery },
             redraw_button: JQuery
         },
-        overrides: Map<ChildType, JQuery>
+        //overrides: Map<ChildType, JQuery>
     }
 
     select_interaction: SelectDigSpotsInteraction = null
@@ -117,10 +113,10 @@ export default class AreaWidget extends Widget<{
             })
             .appendTo(this.main_row.row)
 
-        this.main_row.info_buttons = new ToggleGroup(ChildType.all.map((c) => {
-            return $("<div class='lightbutton'>")
-                .text(ChildType.meta(c).short)
-                .attr("title", ChildType.meta(c).pretty)
+        this.main_row.info_buttons = new ToggleGroup(Pulse.all.map((c) => {
+            return $("<div class='lightbutton' style='padding-left: 0.5em; padding-right : 0.5em'>")
+                .text(Pulse.meta(c).short)
+                .attr("title", Pulse.meta(c).pretty)
                 .data("value", c)
                 .appendTo(this.main_row.row)
         }))
@@ -130,7 +126,7 @@ export default class AreaWidget extends Widget<{
         })
 
         this.edit_panel = {
-            container: $("<div class='properties'></div>")
+            container: $("<div class='properties' style='margin-top: 5px; border-top: 1px solid #41555F'></div>")
                 .hide()
                 .appendTo(this.container),
             name: $("<input type='text' class='nisinput' style='width: 100%'>")
@@ -172,7 +168,7 @@ export default class AreaWidget extends Widget<{
                         this.startRedraw()
                     })
             },
-            overrides: new Map<ChildType, JQuery>()
+            //overrides: new Map<ChildType, JQuery>()
         }
 
         // This section is proof that I need to learn React...
@@ -185,25 +181,27 @@ export default class AreaWidget extends Widget<{
 
         $("<div class='head'>Area</div>").appendTo(this.edit_panel.container)
 
-        let virtual_checkbox = $("<input type='checkbox'>")
-            .on("input", (e) => {
-                this.value.is_virtual = virtual_checkbox.is(":checked")
+        /*
+                let virtual_checkbox = $("<input type='checkbox'>")
+                    .on("input", (e) => {
+                        this.value.is_virtual = virtual_checkbox.is(":checked")
 
-                this.polygon.update()
+                        this.polygon.update()
 
-                this.emit("changed", this.value)
+                        this.emit("changed", this.value)
 
-                this.edit_panel.area.container.animate({"height": 'toggle'})
-            })
+                        this.edit_panel.area.container.animate({"height": 'toggle'})
+                    }
+                if (value.is_virtual) virtual_checkbox.prop("checked", true)
 
-        if (value.is_virtual) virtual_checkbox.prop("checked", true)
+               /* $("<div class='row'>")
+                    .append($("<div class='col-2 property' title='Check if this area is no specific place on the map, for example when \"Try scanning a different level\" is used.'>Virtual?</div>"))
+                    .append($("<div class='col-10 property' style='text-align: left'></div>")
+                        .append(virtual_checkbox)
+                    )
+                    .appendTo(this.edit_panel.container)
 
-        $("<div class='row'>")
-            .append($("<div class='col-2 property' title='Check if this area is no specific place on the map, for example when \"Try scanning a different level\" is used.'>Virtual?</div>"))
-            .append($("<div class='col-10 property' style='text-align: left'></div>")
-                .append(virtual_checkbox)
-            )
-            .appendTo(this.edit_panel.container)
+                */
 
         this.edit_panel.area.container.appendTo(this.edit_panel.container)
 
@@ -230,93 +228,93 @@ export default class AreaWidget extends Widget<{
             .append($("<div class='col-2 property'></div>"))
             .append($("<div class='col-10'>").append(this.edit_panel.area.redraw_button))
             .appendTo(this.edit_panel.area.container)
+        /*
+
+                $("<div class='head'>Overrides</div>").appendTo(this.edit_panel.contaer)
 
 
-        $("<div class='head'>Overrides</div>").appendTo(this.edit_panel.container)
+                /*for (let c of Pulse.all) {
+                    let override_exists = ScanSpot.override(value, c) != null
 
+                    let input = $("<input class='nisinput disabled' style='flex-grow: 1; min-width: 30%' disabled type='text'>")
+                        .on("input", (e) => {
+                            let chosen = (input.val() as string).split(",")
+                                .map((s) => this.parent.parent.value.spot_ordering[Number(s.trim()) - 1])
+                                .filter((s) => s)
 
-        for (let c of ChildType.all) {
-            let override_exists = ScanSpot.override(value, c) != null
+                            ScanSpot.setOverride(this.value, c, chosen)
 
-            let input = $("<input class='nisinput disabled' style='flex-grow: 1; min-width: 30%' disabled type='text'>")
-                .on("input", (e) => {
-                    let chosen = (input.val() as string).split(",")
-                        .map((s) => this.parent.parent.value.spot_ordering[Number(s.trim()) - 1])
-                        .filter((s) => s)
+                            this.emit("changed", this.value)
+                        })
+                        .on("focusout", () => {
+                            this.updateSpotOrder()
+                        })
+                        .prop("disabled", !override_exists)
 
-                    ScanSpot.setOverride(this.value, c, chosen)
+                    this.edit_panel.overrides.set(c, input)
 
-                    this.emit("changed", this.value)
-                })
-                .on("focusout", () => {
-                    this.updateSpotOrder()
-                })
-                .prop("disabled", !override_exists)
+                    let checkbox = $("<input type='checkbox' style='margin-right: 5px'>")
+                        .prop("checked", override_exists)
+                        .on("input", () => {
+                            let checked = checkbox.is(":checked")
 
-            this.edit_panel.overrides.set(c, input)
-
-            let checkbox = $("<input type='checkbox' style='margin-right: 5px'>")
-                .prop("checked", override_exists)
-                .on("input", () => {
-                    let checked = checkbox.is(":checked")
-
-                    if (!checked) {
-                        ScanSpot.setOverride(this.value, c, null)
-                        this.updateSpotOrder()
-                    }
-
-                    input.prop("disabled", !checked)
-                    select_button.setEnabled(checked)
-                })
-
-            let select_button = SmallImageButton.new("assets/icons/select.png")
-                .tooltip("Select on map")
-                .css("margin-left", "5px")
-                .on("click", () => {
-                    if (this.select_interaction == null) {
-                        select_button.setIcon("assets/icons/checkmark.png")
-
-                        let old = this.layer.highlightedCandidates()
-
-                        this.select_interaction = new SelectDigSpotsInteraction(this.layer)
-
-                        this.select_interaction.events
-                            .on("changed", (selection) => {
-                                ScanSpot.setOverride(this.value, c, selection)
+                            if (!checked) {
+                                ScanSpot.setOverride(this.value, c, null)
                                 this.updateSpotOrder()
-                                this.layer.highlightCandidates(selection)
-                            })
-                            .on("done", (selection) => {
-                                ScanSpot.setOverride(this.value, c, selection)
+                            }
 
-                                this.emit("changed", this.value)
+                            input.prop("disabled", !checked)
+                            select_button.setEnabled(checked)
+                        })
 
-                                this.updateSpotOrder()
-                                this.layer.highlightCandidates(old)
-                            })
+                    let select_button = SmallImageButton.new("assets/icons/select.png")
+                        .tooltip("Select on map")
+                        .css("margin-left", "5px")
+                        .on("click", () => {
+                            if (this.select_interaction == null) {
+                                select_button.setIcon("assets/icons/checkmark.png")
 
-                        this.layer.highlightCandidates([])
+                                let old = this.layer.highlightedCandidates()
 
-                        this.select_interaction.activate()
-                    } else {
-                        this.select_interaction.cancel()
+                                this.select_interaction = new SelectDigSpotsInteraction(this.layer)
 
-                        select_button.setIcon("assets/icons/select.png")
+                                this.select_interaction.events
+                                    .on("changed", (selection) => {
+                                        ScanSpot.setOverride(this.value, c, selection)
+                                        this.updateSpotOrder()
+                                        this.layer.highlightCandidates(selection)
+                                    })
+                                    .on("done", (selection) => {
+                                        ScanSpot.setOverride(this.value, c, selection)
 
-                        this.select_interaction = null
-                    }
-                })
+                                        this.emit("changed", this.value)
 
-            if (!override_exists) select_button.setEnabled(false)
+                                        this.updateSpotOrder()
+                                        this.layer.highlightCandidates(old)
+                                    })
 
-            let r = $("<div class='row'>")
-                .append($("<div class='col-2'>").attr("title", ChildType.meta(c).pretty).text(ChildType.meta(c).pretty))
-                .append($("<div class='col-10'>")
-                    .append($("<div style='display: flex'>")
-                        .append(checkbox).append(input).append(select_button.container)
-                    ))
-                .appendTo(this.edit_panel.container)
-        }
+                                this.layer.highlightCandidates([])
+
+                                this.select_interaction.activate()
+                            } else {
+                                this.select_interaction.cancel()
+
+                                select_button.setIcon("assets/icons/select.png")
+
+                                this.select_interaction = null
+                            }
+                        })
+
+                    if (!override_exists) select_button.setEnabled(false)
+
+                    let r = $("<div class='row'>")
+                        .append($("<div class='col-2'>").attr("title", ChildType.meta(c).pretty).text(ChildType.meta(c).pretty))
+                        .append($("<div class='col-10'>")
+                            .append($("<div style='display: flex'>")
+                                .append(checkbox).append(input).append(select_button.container)
+                            ))
+                        .appendTo(this.edit_panel.container)
+                }*/
     }
 
     getActiveDecision(): ScanDecision {
@@ -336,11 +334,10 @@ export default class AreaWidget extends Widget<{
     }
 
     updateSpotOrder() {
-        for (let c of ChildType.all) {
+       /* for (let c of Pulse.all) {
             let override = ScanSpot.override(this.value, c)
 
             if (override) {
-
                 let input = override.map((s) => spotNumber(this.parent.parent.value, s)).sort(natural_order)
 
                 this.edit_panel.overrides.get(c).val(input.join(", "))
@@ -348,10 +345,10 @@ export default class AreaWidget extends Widget<{
                 this.edit_panel.overrides.get(c).val("")
             }
 
-        }
+        }*/
     }
 
-    setDecision(decision: ChildType) {
+    setDecision(decision: Pulse) {
         this.main_row.info_buttons.setValue(decision)
     }
 }

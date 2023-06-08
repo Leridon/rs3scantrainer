@@ -1,7 +1,9 @@
 import * as leaflet from "leaflet";
-import {areaToPolygon, Box, clampInto, MapCoordinate} from "../coordinates";
+import {areaToPolygon, Box, clampInto, MapCoordinate, Vector2} from "../coordinates";
 import {Raster} from "../../util/raster";
 import {rangeRight} from "lodash";
+import {ScanTree2} from "./ScanTree2";
+import ScanSpot = ScanTree2.ScanSpot;
 
 export class EquivalenceClass {
     public information_gain: number
@@ -10,10 +12,10 @@ export class EquivalenceClass {
     constructor(
         public id: number,
         private parent: ScanEquivalenceClasses,
-        public profile: scan_profile,
+        public profile: ScanProfile,
         public area: number[]
     ) {
-        this.information_gain = information_gain(profile)
+        this.information_gain = ScanProfile.information_gain(profile)
     }
 
     getPolygon(): leaflet.FeatureGroup {
@@ -76,16 +78,6 @@ export class ScanEquivalenceClasses {
 
         this.equivalence_classes = []
 
-        function eq(a: scan_profile, b: scan_profile) {
-            if (a.length != b.length) return false
-
-            for (let i = 0; i < a.length; i++) {
-                if (a[i] != b[i]) return false
-            }
-
-            return true
-        }
-
         let next_id = 0
         for (let row = 0; row < this.raster.size.y; row++) {
             for (let col = 0; col < this.raster.size.x; col++) {
@@ -96,12 +88,12 @@ export class ScanEquivalenceClasses {
                     y: this.raster.bounds.bottom + row
                 }
 
-                let profile = this.get_scan_profile(tile)
+                let profile = ScanProfile.compute(tile, this.candidates, this.range)
 
                 if (col > 0) {
                     let left_neighbour = this.raster.data[index - 1]
 
-                    if (eq(profile, left_neighbour.profile)) {
+                    if (ScanProfile.equals(profile, left_neighbour.profile)) {
                         this.raster.data[index] = left_neighbour
 
                         left_neighbour.area.push(index)
@@ -111,7 +103,7 @@ export class ScanEquivalenceClasses {
                 if (row > 0) {
                     let down_neighour = this.raster.data[index - this.raster.size.x]
 
-                    if (eq(profile, down_neighour.profile)) {
+                    if (ScanProfile.equals(profile, down_neighour.profile)) {
                         this.raster.data[index] = down_neighour
 
                         down_neighour.area.push(index)
@@ -129,10 +121,6 @@ export class ScanEquivalenceClasses {
         this.max_information = Math.max(...this.equivalence_classes.map((c) => c.information_gain))
     }
 
-    get_scan_profile(tile: MapCoordinate) {
-        return this.candidates.map((s) => get_pulse(tile, s, this.range))
-    }
-
     getClasses(): EquivalenceClass[] {
         if (!this.equivalence_classes) this.calculate_classes()
 
@@ -141,54 +129,192 @@ export class ScanEquivalenceClasses {
 }
 
 
-export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: number): PulseType {
-    let d_x = Math.abs(spot.x - tile.x)
-    let d_y = Math.abs(spot.y - tile.y)
-    let d = Math.max(d_x, d_y)
+export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: number): Pulse {
+    let d = distance(spot, tile)
 
-    return 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as PulseType
+    let p = 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as 1 | 2 | 3
+
+    let different_level = spot.level != tile.level || distance(levelled_spot(spot), levelled_spot(tile)) <= range + 15
+
+    return {
+        pulse: p,
+        different_level: different_level
+    }
 }
 
-export function area_pulse(spot: MapCoordinate, area: Box, range: number): PulseType[] {
-    let max = get_pulse(spot, clampInto(spot, area), range)
-
-    let tl = area.topleft
-    let br = area.botright
-    let tr = {x: br.x, y: tl.y}
-    let bl = {x: tl.x, y: br.y}
-
-    let min = Math.min(
-        get_pulse(spot, tl, range),
-        get_pulse(spot, br, range),
-        get_pulse(spot, tr, range),
-        get_pulse(spot, bl, range)
-    )
-
-    return rangeRight(min, max + 1, 1) as PulseType[]
+function levelled_spot(spot: Vector2): Vector2 {
+    return {
+        x: spot.x,
+        y: spot.y % 6400
+    }
 }
 
-export type PulseType = 1 | 2 | 3
-
-export type scan_profile = PulseType[]
-
-export function information_gain(profile: scan_profile) {
-    let counts = [0, 0, 0]
-
-    profile.forEach((s) => counts[s - 1]++)
-
-    let number_of_singles = counts[0]
-    let number_of_doubles = counts[1]
-    let number_of_triples = counts[2]
-
-    let gain = 0
-
-    if (number_of_singles > 0) gain += Math.log2(profile.length / number_of_singles) * (number_of_singles / profile.length)
-    if (number_of_doubles > 0) gain += Math.log2(profile.length / number_of_doubles) * (number_of_doubles / profile.length)
-    if (number_of_triples > 0) gain += Math.log2(profile.length) * (number_of_triples / profile.length)  // Triples are special: They narrow down to exactly one candidate instead of all triple candidates.
-
-    return gain
+function leveled_area(area: Box): Box {
+    return {
+        topleft: levelled_spot(area.topleft),
+        botright: levelled_spot(area.botright),
+    }
 }
 
+function distance(a: Vector2, b: Vector2): number {
+    let d_x = Math.abs(a.x - b.x)
+    let d_y = Math.abs(a.y - b.y)
+    return Math.max(d_x, d_y)
+}
+
+export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): Pulse[] {
+    let pulses: Pulse[] = null
+
+    let max = get_pulse(spot, clampInto(spot, area.area), range).pulse
+
+    // This breaks if areas are so large they cover both cases. But in that case: Wtf are you doing?
+    if (max == 1) {
+        pulses = []
+
+        let spot_levelled = levelled_spot(spot)
+        let area_levelled = leveled_area(area.area)
+
+        if (spot.level != area.level || distance(spot_levelled, clampInto(spot_levelled, area_levelled)) <= (range + 15)) {
+            // Any tile in area triggers different level
+            pulses.push({
+                pulse: 1,
+                different_level: true
+            })
+        }
+
+        if (distance(spot_levelled, area_levelled.topleft) > (range + 15)
+            || distance(spot_levelled, area_levelled.botright) > (range + 15)
+        ) { // Any tile in area does not trigger different level
+            pulses.push({
+                pulse: 1,
+                different_level: false
+            })
+        }
+    } else {
+        let tl = area.area.topleft
+        let br = area.area.botright
+
+        let min = Math.min(
+            get_pulse(spot, tl, range).pulse,
+            get_pulse(spot, br, range).pulse,
+        )
+
+        pulses = rangeRight(min, max + 1, 1).map((p: 1 | 2 | 3) => {
+            return {
+                pulse: p,
+                different_level: spot.level != area.level
+            }
+        })
+    }
+
+    return pulses
+}
+
+export type Pulse = {
+    pulse: 1 | 2 | 3,
+    different_level: boolean
+}
+
+export namespace Pulse {
+    export type hash_t = 0 | 1 | 2 | 3 | 4 | 5
+
+    export function hash(pulse: Pulse): hash_t {
+        return (pulse.pulse - 1) + (pulse.different_level ? 3 : 0) as hash_t
+    }
+
+    export function equals(a: Pulse, b: Pulse): boolean {
+        return a.pulse == b.pulse && a.different_level == b.different_level
+    }
+
+    export let all: Pulse[] = [
+        // CAREFUL: This is sorted by the hash of the pulse (0 to 5), and MUST stay this way to not break some optimized code!
+        {pulse: 1, different_level: false},
+        {pulse: 2, different_level: false},
+        {pulse: 3, different_level: false},
+        {pulse: 1, different_level: true},
+        {pulse: 2, different_level: true},
+        {pulse: 3, different_level: true},
+    ]
+
+    type meta = {
+        pretty: string,
+        short: string,
+        shorted: string
+    }
+
+    export function meta(type: Pulse): meta {
+        let pretty = ["Single", "Double", "Triple"][type.pulse - 1]
+
+        // TODO: Clean this pos up
+
+        if (type.different_level) {
+            return {
+                pretty: type.pulse == 1 ? "Different Level" : pretty + " (DL)",
+                short: type.pulse == 1 ? "DL" : "DL" + type.pulse,
+                shorted: type.pulse == 1 ? "\"DL\"" : "\"DL\"" + type.pulse
+            }
+        } else {
+            return {
+                pretty: pretty,
+                short: type.pulse.toString(),
+                shorted: type.pulse.toString()
+            }
+        }
+    }
+}
+
+export type ScanProfile = number[]
+
+namespace ScanProfile {
+    export function compute(tile: MapCoordinate, candidates: MapCoordinate[], range: number): ScanProfile {
+        return candidates.map((s) => Pulse.hash(get_pulse(tile, s, range)))
+    }
+
+    export function equals(a: ScanProfile, b: ScanProfile): boolean {
+        if (a.length != b.length) return false
+
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] != b[i]) return false
+        }
+
+        return true
+    }
+
+    export function information_gain(profile: ScanProfile): number {
+        let n = profile.length
+
+        let counts: number[] = [0, 0, 0, 0, 0, 0, 0, 0]
+
+        profile.forEach((s) => counts[s]++)
+
+        let gain = 0
+
+        // TODO: Somehow get rid of those branches
+        if (counts[0] > 0) gain += counts[0] * Math.log2(n / counts[0])
+        if (counts[1] > 0) gain += counts[1] * Math.log2(n / counts[1])
+        if (counts[2] > 0) gain += counts[2] * Math.log2(n)
+        if (counts[3] > 0) gain += counts[3] * Math.log2(n / counts[3])
+        if (counts[4] > 0) gain += counts[4] * Math.log2(n / counts[4])
+        if (counts[5] > 0) gain += counts[5] * Math.log2(n)
+
+        gain /= n
+
+        /*counts.forEach()
+
+        let number_of_singles = counts[0]
+        let number_of_doubles = counts[1]
+        let number_of_triples = counts[2]
+
+
+        if (number_of_singles > 0) gain += Math.log2(profile.length / number_of_singles) * (number_of_singles / profile.length)
+        if (number_of_doubles > 0) gain += Math.log2(profile.length / number_of_doubles) * (number_of_doubles / profile.length)
+        if (number_of_triples > 0) gain += Math.log2(profile.length) * (number_of_triples / profile.length)  // Triples are special: They narrow down to exactly one candidate instead of all triple candidates.
+
+         */
+        return gain
+    }
+}
+/*
 export enum ChildType {
     SINGLE,
     DOUBLE,
@@ -229,4 +355,4 @@ export namespace ChildType {
             ChildType.TRIPLE,
         ][pulse - 1]
     }
-}
+}*/

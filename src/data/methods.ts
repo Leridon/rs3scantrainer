@@ -102,6 +102,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2963,
@@ -115,6 +116,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2964,
@@ -128,6 +130,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2958,
@@ -141,6 +144,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2955,
@@ -154,6 +158,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2950,
@@ -167,6 +172,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3016,
@@ -180,6 +186,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3024,
@@ -193,6 +200,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3042,
@@ -460,25 +468,25 @@ let raw: (method & indirected)[] = [
             "why": "",
             "children": [
                 {
-                    "key": 1,
+                    "key": {pulse: 2, different_level: false},
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": 1,
+                                "key": {pulse: 2, different_level: false},
                                 "value": {
                                     "where": "C",
                                     "why": "",
                                     "children": [
                                         {
-                                            "key": 1,
+                                            "key": {pulse: 2, different_level: false},
                                             "value": {
                                                 "where": "D",
                                                 "why": "",
                                                 "children": [
                                                     {
-                                                        "key": 1,
+                                                        "key": {pulse: 2, different_level: false},
                                                         "value": {
                                                             "where": "E",
                                                             "why": "",
@@ -495,23 +503,23 @@ let raw: (method & indirected)[] = [
                     }
                 },
                 {
-                    "key": 0,
+                    "key": {pulse: 1, different_level: false},
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": 0,
+                                "key": {pulse: 1, different_level: false},
                                 "value": {
                                     "where": "F",
                                     "children": [
                                         {
-                                            "key": 1,
+                                            "key": {pulse: 2, different_level: false},
                                             "value": {
                                                 "where": "G",
                                                 "children": [
                                                     {
-                                                        "key": 1,
+                                                        "key": {pulse: 2, different_level: false},
                                                         "value": {
                                                             "where": "H",
                                                             "children": []
@@ -542,10 +550,12 @@ let raw: (method & indirected)[] = [
                         "x": 2939,
                         "y": 10197
                     }
-                }
+                },
+                "level": 0
             },
             {
                 "name": "B",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2933,
@@ -559,6 +569,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2923,
@@ -572,6 +583,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2904,
@@ -585,6 +597,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2857,
@@ -598,6 +611,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2853,
@@ -845,36 +859,36 @@ let raw: (method & indirected)[] = [
             "where": "A",
             "children": [
                 {
-                    "key": 0,
+                    "key": {pulse: 1, different_level: false},
                     "value": {
                         "where": "B",
                         "children": [
                             {
-                                "key": 0,
+                                "key": {pulse: 1, different_level: false},
                                 "value": {
                                     "where": "C",
                                     "children": [
                                         {
-                                            "key": 1,
+                                            "key": {pulse: 2, different_level: false},
                                             "value": {
                                                 "where": "D",
                                                 "children": []
                                             }
                                         },
                                         {
-                                            "key": 0,
+                                            "key": {pulse: 1, different_level: false},
                                             "value": {
                                                 "where": "E",
                                                 "children": [
                                                     {
-                                                        "key": 0,
+                                                        "key": {pulse: 1, different_level: false},
                                                         "value": {
                                                             "where": "F",
                                                             "children": []
                                                         }
                                                     },
                                                     {
-                                                        "key": 1,
+                                                        "key": {pulse: 2, different_level: false},
                                                         "value": {
                                                             "where": "F",
                                                             "children": []
@@ -890,7 +904,7 @@ let raw: (method & indirected)[] = [
                     }
                 },
                 {
-                    "key": 1,
+                    "key": {pulse: 2, different_level: false},
                     "value": {
                         "where": "C",
                         "children": []
@@ -1091,6 +1105,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2412,
@@ -1104,6 +1119,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2410,
@@ -1117,6 +1133,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2420,
@@ -1130,6 +1147,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2409,
@@ -1143,6 +1161,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2398,
@@ -1156,6 +1175,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2445,
@@ -1169,6 +1189,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2405,
@@ -1459,13 +1480,13 @@ let raw: (method & indirected)[] = [
             "why": "",
             "children": [
                 {
-                    "key": 0,
+                    "key": {pulse: 1, different_level: false},
                     "value": {
                         "where": "F",
                         "why": "",
                         "children": [
                             {
-                                "key": 0,
+                                "key": {pulse: 1, different_level: false},
                                 "value": {
                                     "where": "G",
                                     "why": "",
@@ -1476,19 +1497,19 @@ let raw: (method & indirected)[] = [
                     }
                 },
                 {
-                    "key": 1,
+                    "key": {pulse: 2, different_level: false},
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": 1,
+                                "key": {pulse: 2, different_level: false},
                                 "value": {
                                     "where": "C",
                                     "why": "",
                                     "children": [
                                         {
-                                            "key": 0,
+                                            "key": {pulse: 1, different_level: false},
                                             "value": {
                                                 "where": "D",
                                                 "why": "",
@@ -1496,13 +1517,13 @@ let raw: (method & indirected)[] = [
                                             }
                                         },
                                         {
-                                            "key": 1,
+                                            "key": {pulse: 2, different_level: false},
                                             "value": {
                                                 "where": "D",
                                                 "why": "",
                                                 "children": [
                                                     {
-                                                        "key": 1,
+                                                        "key": {pulse: 2, different_level: false},
                                                         "value": {
                                                             "where": "E",
                                                             "why": "",
@@ -1650,6 +1671,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3213,
@@ -1663,6 +1685,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3223,
@@ -1676,6 +1699,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3233,
@@ -1689,6 +1713,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3242,
@@ -1702,6 +1727,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3254,
@@ -1715,6 +1741,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3244,
@@ -1728,6 +1755,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3179,
@@ -1741,6 +1769,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3162,
@@ -2034,13 +2063,13 @@ let raw: (method & indirected)[] = [
             "why": "",
             "children": [
                 {
-                    "key": 1,
+                    "key": {pulse: 2, different_level: false},
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": 1,
+                                "key": {pulse: 2, different_level: false},
                                 "value": {
                                     "where": "C",
                                     "why": "",
@@ -2048,7 +2077,7 @@ let raw: (method & indirected)[] = [
                                 }
                             },
                             {
-                                "key": 0,
+                                "key": {pulse: 1, different_level: false},
                                 "value": {
                                     "where": "G",
                                     "why": "",
@@ -2059,25 +2088,25 @@ let raw: (method & indirected)[] = [
                     }
                 },
                 {
-                    "key": 0,
+                    "key": {pulse: 1, different_level: false},
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": 0,
+                                "key": {pulse: 1, different_level: false},
                                 "value": {
                                     "where": "D",
                                     "why": "",
                                     "children": [
                                         {
-                                            "key": 0,
+                                            "key": {pulse: 1, different_level: false},
                                             "value": {
                                                 "where": "E",
                                                 "why": "",
                                                 "children": [
                                                     {
-                                                        "key": 1,
+                                                        "key": {pulse: 2, different_level: false},
                                                         "value": {
                                                             "where": "F",
                                                             "why": "",
@@ -2085,7 +2114,7 @@ let raw: (method & indirected)[] = [
                                                         }
                                                     },
                                                     {
-                                                        "key": 0,
+                                                        "key": {pulse: 1, different_level: false},
                                                         "value": {
                                                             "where": "H",
                                                             "why": "",
@@ -2105,139 +2134,10 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "type": "scantree",
-        "clue": 365,
-        "spot_ordering": [{"x": 2711, "y": 5271, "level": 0}, {"x": 2723, "y": 5279, "level": 0}, {
-            "x": 2731,
-            "y": 5266,
-            "level": 0
-        }, {"x": 2740, "y": 5273, "level": 0}, {"x": 2711, "y": 5284, "level": 0}, {
-            "x": 2747,
-            "y": 5263,
-            "level": 0
-        }, {"x": 2729, "y": 5295, "level": 0}, {"x": 2717, "y": 5311, "level": 0}, {
-            "x": 2730,
-            "y": 5315,
-            "level": 0
-        }, {"x": 2704, "y": 5321, "level": 0}, {"x": 2732, "y": 5327, "level": 0}, {
-            "x": 2704,
-            "y": 5349,
-            "level": 0
-        }, {"x": 2698, "y": 5316, "level": 1}, {"x": 2700, "y": 5284, "level": 1}, {
-            "x": 2701,
-            "y": 5343,
-            "level": 1
-        }, {"x": 2704, "y": 5357, "level": 1}, {"x": 2734, "y": 5370, "level": 1}, {
-            "x": 2747,
-            "y": 5327,
-            "level": 1
-        }, {"x": 2738, "y": 5301, "level": 1}, {"x": 2739, "y": 5253, "level": 1}],
-        "assumes_meerkats": true,
-        "areas": [{
-            "name": "_",
-            "is_virtual": true
-        }, {
-            "name": "A",
-            "area": {"topleft": {"x": 2721, "y": 5266}, "botright": {"x": 2724, "y": 5263}}
-        }, {"name": "B", "area": {"topleft": {"x": 2726, "y": 5266}, "botright": {"x": 2726, "y": 5266}}}, {
-            "name": "C",
-            "area": {"topleft": {"x": 2712, "y": 5277}, "botright": {"x": 2715, "y": 5273}}
-        }, {"name": "D", "area": {"topleft": {"x": 2713, "y": 5281}, "botright": {"x": 2714, "y": 5281}}}, {
-            "name": "E",
-            "area": {"topleft": {"x": 2713, "y": 5285}, "botright": {"x": 2714, "y": 5285}}
-        }, {"name": "F", "area": {"topleft": {"x": 2696, "y": 5311}, "botright": {"x": 2701, "y": 5307}}}, {
-            "name": "G",
-            "area": {"topleft": {"x": 2701, "y": 5305}, "botright": {"x": 2701, "y": 5305}}
-        }, {"name": "H", "area": {"topleft": {"x": 2701, "y": 5336}, "botright": {"x": 2701, "y": 5328}}}, {
-            "name": "I",
-            "area": {"topleft": {"x": 2707, "y": 5353}, "botright": {"x": 2707, "y": 5343}}
-        }, {"name": "J", "area": {"topleft": {"x": 2707, "y": 5290}, "botright": {"x": 2712, "y": 5290}}}],
-        "methods": [{
-            "from": null,
-            "to": "_",
-            "short_instruction": "Does the scroll say to \"scan a different level\"?"
-        }, {"from": null, "to": "F", "short_instruction": "Sphere 4 to {{target}}."}, {
-            "from": "F",
-            "to": "G",
-            "short_instruction": "Go to {{target}}."
-        }, {"from": "G", "to": "H", "short_instruction": "Go to {{target}}."}, {
-            "from": "F",
-            "to": "H",
-            "short_instruction": "Go to {{target}}."
-        }, {"from": "H", "to": "H", "short_instruction": "It's either 16 or 17 to {{target}} north"}, {
-            "from": "H",
-            "to": "I",
-            "short_instruction": "Go to {{target}}."
-        }, {"from": null, "to": "A", "short_instruction": "Go to {{target}}."}, {
-            "from": "A",
-            "to": "B",
-            "short_instruction": "Go to {{target}}."
-        }, {"from": "A", "to": "C", "short_instruction": "Go to {{target}}."}, {
-            "from": "C",
-            "to": "D",
-            "short_instruction": "Up the stairs to {{target}}."
-        }, {"from": "D", "to": "E", "short_instruction": "Down the stairs to {{target}}."}, {
-            "from": "C",
-            "to": "J",
-            "short_instruction": "Go to {{target}}."
-        }],
-        "root": {
-            "where": "A",
-            "why": "",
-            "children": [{
-                "key": 3,
-                "value": {
-                    "where": "F",
-                    "why": "",
-                    "children": [{
-                        "key": 1,
-                        "value": {
-                            "where": "G",
-                            "why": "",
-                            "children": [{"key": 1, "value": {"where": "H", "why": "", "children": []}}]
-                        }
-                    }, {
-                        "key": 0,
-                        "value": {
-                            "where": "H",
-                            "why": "",
-                            "children": [{"key": 1, "value": {"where": "H", "why": "", "children": []}}, {
-                                "key": 0,
-                                "value": {"where": "I", "why": "", "children": []}
-                            }]
-                        }
-                    }]
-                }
-            }, {
-                "key": 4,
-                "value": {
-                    "where": "A",
-                    "why": "",
-                    "children": [{"key": 1, "value": {"where": "B", "why": "", "children": []}}, {
-                        "key": 0,
-                        "value": {
-                            "where": "C",
-                            "why": "",
-                            "children": [{
-                                "key": 0,
-                                "value": {
-                                    "where": "D",
-                                    "why": "",
-                                    "children": [{"key": 0, "value": {"where": "E", "why": "", "children": []}}]
-                                }
-                            }, {"key": 1, "value": {"where": "J", "why": "", "children": []}}]
-                        }
-                    }]
-                }
-            }]
-        }
-    }
-
-    ,
-    {
         "areas": [
             {
                 "name": "A",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3248,
@@ -2251,6 +2151,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3229,
@@ -2264,6 +2165,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3218,
@@ -2277,6 +2179,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3226,
@@ -2290,6 +2193,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3220,
@@ -2303,6 +2207,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3220,
@@ -2316,6 +2221,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 3203,
@@ -2479,32 +2385,32 @@ let raw: (method & indirected)[] = [
             "where": "A",
             "children": [
                 {
-                    "key": 0,
+                    "key": {pulse: 1, different_level: false},
                     "value": {
                         "where": "B",
                         "children": [
                             {
-                                "key": 0,
+                                "key": {pulse: 1, different_level: false},
                                 "value": {
                                     "where": "C",
                                     "children": [
                                         {
-                                            "key": 0,
+                                            "key": {pulse: 1, different_level: false},
                                             "value": {
                                                 "where": "D",
                                                 "children": [
                                                     {
-                                                        "key": 0,
+                                                        "key": {pulse: 1, different_level: false},
                                                         "value": {
                                                             "where": "E",
                                                             "children": [
                                                                 {
-                                                                    "key": 0,
+                                                                    "key": {pulse: 1, different_level: false},
                                                                     "value": {
                                                                         "where": "F",
                                                                         "children": [
                                                                             {
-                                                                                "key": 0,
+                                                                                "key": {pulse: 1, different_level: false},
                                                                                 "value": {
                                                                                     "where": "G",
                                                                                     "children": []
@@ -2590,138 +2496,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "type": "scantree"
-    }
-
-    ,
-    {
-        "type": "scantree",
-        "clue": 357,
-        "spot_ordering": [{"x": 2884, "y": 9799, "level": 0}, {"x": 2904, "y": 9809, "level": 0}, {
-            "x": 2875,
-            "y": 9805,
-            "level": 0
-        }, {"x": 2892, "y": 9783, "level": 0}, {"x": 2895, "y": 9831, "level": 0}, {
-            "x": 2907,
-            "y": 9842,
-            "level": 0
-        }, {"x": 2888, "y": 9846, "level": 0}, {"x": 2933, "y": 9848, "level": 0}, {
-            "x": 2938,
-            "y": 9812,
-            "level": 0
-        }, {"x": 2945, "y": 9796, "level": 0}, {"x": 2952, "y": 9786, "level": 0}, {
-            "x": 2926,
-            "y": 9692,
-            "level": 0
-        }, {"x": 2907, "y": 9705, "level": 0}, {"x": 2907, "y": 9718, "level": 0}, {
-            "x": 2905,
-            "y": 9734,
-            "level": 0
-        }, {"x": 2914, "y": 9757, "level": 0}, {"x": 2936, "y": 9764, "level": 0}, {
-            "x": 2895,
-            "y": 9769,
-            "level": 0
-        }, {"x": 2949, "y": 9773, "level": 0}, {"x": 2968, "y": 9786, "level": 0}, {
-            "x": 2858,
-            "y": 9788,
-            "level": 0
-        }, {"x": 2870, "y": 9791, "level": 0}, {"x": 2835, "y": 9819, "level": 0}, {
-            "x": 2832,
-            "y": 9813,
-            "level": 0
-        }, {"x": 2822, "y": 9826, "level": 0}],
-        "assumes_meerkats": true,
-        "areas": [{
-            "name": "A",
-            "area": {"topleft": {"x": 2908, "y": 3423}, "botright": {"x": 2912, "y": 3419}},
-            "is_far_away": true
-        }, {"name": "B", "area": {"topleft": {"x": 2918, "y": 9702}, "botright": {"x": 2924, "y": 9700}}}, {
-            "name": "C",
-            "area": {"topleft": {"x": 2906, "y": 9722}, "botright": {"x": 2909, "y": 9719}}
-        }, {"name": "D", "area": {"topleft": {"x": 2908, "y": 9742}, "botright": {"x": 2912, "y": 9742}}}, {
-            "name": "E",
-            "area": {"topleft": {"x": 2914, "y": 9742}, "botright": {"x": 2914, "y": 9742}}
-        }, {"name": "F", "area": {"topleft": {"x": 2886, "y": 9795}, "botright": {"x": 2886, "y": 9795}}}, {
-            "name": "G",
-            "area": {"topleft": {"x": 2881, "y": 9833}, "botright": {"x": 2887, "y": 9828}}
-        }],
-        "methods": [{"from": null, "to": "A", "short_instruction": "Taverley teleport to {{target}}."}, {
-            "from": "A",
-            "to": "F",
-            "short_instruction": "Use the dungeon entrance to {{target}}."
-        }, {"from": "F", "to": "G", "short_instruction": "{{surge}}/{{dive}} north to {{target}}."}, {
-            "from": "G",
-            "to": "G",
-            "short_instruction": "The spot is either 8 or 9."
-        }, {
-            "from": "F",
-            "to": "F",
-            "short_instruction": "The spot is to {{target}} very east, Go there."
-        }, {"from": "A", "to": "B", "short_instruction": "Archaeology teleport 9,4 to {{target}}."}, {
-            "from": "B",
-            "to": "C",
-            "short_instruction": "Go to {{target}}."
-        }, {"from": "C", "to": "D", "short_instruction": "{{surge}}/Run to {{target}}."}, {
-            "from": "C",
-            "to": "D",
-            "short_instruction": "{{surge}}/Run to {{target}}."
-        }, {"from": "D", "to": "D", "short_instruction": "The spot is either 21 or 22"}, {
-            "from": "D",
-            "to": "E",
-            "short_instruction": "Step to {{target}}."
-        }, {"from": "E", "to": "E", "short_instruction": "The spot is in the north-western part of the dungeon"}],
-        "root": {
-            "where": "A",
-            "why": "",
-            "children": [{
-                "key": 3,
-                "value": {
-                    "where": "F",
-                    "why": "",
-                    "children": [{
-                        "key": 1,
-                        "value": {
-                            "where": "G",
-                            "why": "",
-                            "children": [{"key": 1, "value": {"where": "G", "why": "", "children": []}}]
-                        }
-                    }, {"key": 0, "value": {"where": "F", "why": "", "children": []}}]
-                }
-            }, {
-                "key": 4,
-                "value": {
-                    "where": "B",
-                    "why": "",
-                    "children": [{
-                        "key": 0,
-                        "value": {
-                            "where": "C",
-                            "why": "",
-                            "children": [{"key": 1, "value": {"where": "D", "why": "", "children": []}}, {
-                                "key": 0,
-                                "value": {
-                                    "where": "D",
-                                    "why": "",
-                                    "children": [{
-                                        "key": 1,
-                                        "value": {"where": "D", "why": "", "children": []}
-                                    }, {
-                                        "key": 0,
-                                        "value": {
-                                            "where": "E",
-                                            "why": "",
-                                            "children": [{"key": 0, "value": {"where": "E", "why": "", "children": []}}]
-                                        }
-                                    }]
-                                }
-                            }]
-                        }
-                    }]
-                }
-            }]
-        }
-    }
-
-    ,
+    },
     {
         "type": "scantree",
         "clue": 352,
@@ -2871,6 +2646,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2659,
@@ -2884,6 +2660,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2648,
@@ -2897,6 +2674,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2538,
@@ -2910,6 +2688,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2531,
@@ -2923,6 +2702,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2521,
@@ -2936,6 +2716,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2646,
@@ -3256,13 +3037,13 @@ let raw: (method & indirected)[] = [
             "why": "",
             "children": [
                 {
-                    "key": 1,
+                    "key": {pulse: 2, different_level: false},
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": 1,
+                                "key": {pulse: 2, different_level: false},
                                 "value": {
                                     "where": "F",
                                     "children": []
@@ -3272,19 +3053,19 @@ let raw: (method & indirected)[] = [
                     }
                 },
                 {
-                    "key": 0,
+                    "key": {pulse: 1, different_level: false},
                     "value": {
                         "where": "C",
                         "why": "",
                         "children": [
                             {
-                                "key": 1,
+                                "key": {pulse: 2, different_level: false},
                                 "value": {
                                     "where": "D",
                                     "why": "",
                                     "children": [
                                         {
-                                            "key": 1,
+                                            "key": {pulse: 2, different_level: false},
                                             "value": {
                                                 "where": "E",
                                                 "why": "",

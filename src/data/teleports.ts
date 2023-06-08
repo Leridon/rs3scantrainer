@@ -434,7 +434,7 @@ const raw: teleport_group[] = [{
     spots: [
         {subid: "sumona", spot: {x: 3362, y: 2992}, code: "1", hover: "Sumona"},
         {subid: "slayertower", spot: {x: 3423, y: 3524}, code: "2", hover: "Slayer Tower"},
-        {subid: "slayerdungeon", spot: {x: 2789, y: 3627}, code: "3", hover: "Fremennik Slayer Dungeon"},
+        {subid: "slayerdungeon", spot: {x: 2790, y: 3616}, code: "3", hover: "Fremennik Slayer Dungeon"},
         // Tarns lair
     ]
 }, {

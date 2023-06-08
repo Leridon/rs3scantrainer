@@ -33,8 +33,6 @@ export default class SelectDigSpotsInteraction extends LayerInteraction<ScanEdit
     private _hook = (m: TileMarkerWithActive) => {
         let s = m.getSpot()
 
-        console.log(s)
-
         let i = this.selection.findIndex((e) => eq(e, s))
 
         if (i >= 0) this.selection.splice(i, 1)

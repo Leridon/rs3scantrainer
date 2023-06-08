@@ -7,7 +7,7 @@ const raw: teleport_group[] = [{
     img: "homeport.png",
     spots: [
         {subid: "alkharid", spot: {x: 3297, y: 3184}, code: "A", hover: "Al-Kharid"},
-        {subid: "ardounge", spot: {x: 2634, y: 3348}, code: "Alt+A", hover: "Ardounge"},
+        {subid: "ardougne", spot: {x: 2634, y: 3348}, code: "Alt+A", hover: "Ardounge"},
         {subid: "ashdale", spot: {x: 2474, y: 2708, level: 2}, code: "Shift+A", hover: "Ashdale"},
         {subid: "banditcamp", spot: {x: 3214, y: 2954}, code: "Alt+B", hover: "Bandit Camp"},
         {subid: "burthope", spot: {x: 2899, y: 3544}, code: "B", hover: "Burthope"},
@@ -71,7 +71,7 @@ const raw: teleport_group[] = [{
         },
         {subid: "lumbridge", spot: {x: 3220, y: 3245}, img: "tele-lum.png", hover: "Lumbridge"},
         {subid: "falador", spot: {x: 2966, y: 3381}, img: "tele-fal.png", hover: "Falador"},
-        {subid: "ardounge", spot: {x: 2661, y: 3302}, img: "tele-ard.png", hover: "Ardougne"},
+        {subid: "ardougne", spot: {x: 2661, y: 3302}, img: "tele-ard.png", hover: "Ardougne"},
         {subid: "southfeldiphills", spot: {x: 2414, y: 2847}, img: "tele-mob.png", hover: "South Feldip Hills"},
         {subid: "taverley", spot: {x: 2910, y: 3421}, img: "tele-taverley.png", hover: "Taverley"},
         {subid: "godwars", spot: {x: 2908, y: 3724}, img: "tele-god.png", hover: "God Wars"},
@@ -101,7 +101,7 @@ const raw: teleport_group[] = [{
         {subid: "southfalador", spot: {x: 3057, y: 3311}, img: "tele-southfalador.png", hover: "South Falador"},
         {subid: "waterbirth", spot: {x: 2548, y: 3758}, img: "tele-waterbirth.png", hover: "Waterbirth"},
         {subid: "barbarian", spot: {x: 2542, y: 3570}, img: "tele-barbarian.png", hover: "Barbarian Outpost"},
-        {subid: "northardounge", spot: {x: 2670, y: 3375}, img: "tele-northardougne.png", hover: "North Ardougne"},
+        {subid: "northardougne", spot: {x: 2670, y: 3375}, img: "tele-northardougne.png", hover: "North Ardougne"},
         {subid: "khazard", spot: {x: 2634, y: 3167}, img: "tele-khazard.png", hover: "Port Khazard"},
         {subid: "fishing", spot: {x: 2614, y: 3383}, img: "tele-fishing.png", hover: "Fishing Guild"},
         {subid: "catherby", spot: {x: 2803, y: 3450}, img: "tele-catherby.png", hover: "Catherby"},
@@ -439,8 +439,8 @@ const raw: teleport_group[] = [{
 }, {
     id: "ringofwealth", name: "Ring of Wealth", img: "jewellry_ringofwealth.png", can_be_in_pota: true,
     spots: [
-        {subid: "mescellania", spot: {x: 2508, y: 3862}, code: "1", hover: "Miscellania"},
-        {subid: "grandexchange", spot: {x: 3165, y: 3462}, code: "2", hover: "Grand Exchange"}
+        {subid: "miscellania", spot: {x: 2508, y: 3862}, code: "1", hover: "Miscellania"},
+        {subid: "grandexchange", spot: {x: 3162, y: 3463}, code: "2", hover: "Grand Exchange"}
     ]
 }, {
     id: "luckofthedwarves", name: "Luck of the Dwarves", img: "luck_of_the_dwarves.png", can_be_in_pota: true,
@@ -461,7 +461,7 @@ const raw: teleport_group[] = [{
         {subid: "crafting", spot: {x: 2934, y: 3291}, code: "3", hover: "Crafting Guild"},
         {subid: "cooking", spot: {x: 3144, y: 3443}, code: "4", hover: "Cooking Guild"},
         {subid: "invention", spot: {x: 2997, y: 3436}, code: "5", hover: "Invention guild"},
-        {subid: "farming", spot: {x: 2645, y: 3354}, code: "6", hover: "Farming Guild"},
+        {subid: "farming", spot: {x: 2646, y: 3355}, code: "6", hover: "Farming Guild"},
         {subid: "runecrafting", spot: {x: 3097, y: 3156}, code: "7", hover: "Runecrafting Guild"},
     ]
 }, {
@@ -480,7 +480,7 @@ const raw: teleport_group[] = [{
         {subid: "watchtower", spot: {x: 2444, y: 3182}, code: "1", hover: "Watchtower"},
         {subid: "camelot", spot: {x: 2794, y: 3419}, code: "2", hover: "Camelot"},
         {subid: "falador", spot: {x: 3006, y: 3321}, code: "3", hover: "Falador"},
-        {subid: "ardounge", spot: {x: 2538, y: 3306}, code: "4", hover: "Ardounge"},
+        {subid: "ardougne", spot: {x: 2538, y: 3306}, code: "4", hover: "Ardounge"},
         {subid: "lumbridge", spot: {x: 3170, y: 3199}, code: "5", hover: "Lumbridge"},
         {subid: "varrock", spot: {x: 3254, y: 3449}, code: "6", hover: "Varrock"},
     ]
@@ -638,7 +638,7 @@ const raw: teleport_group[] = [{
         {subid: "ivynorthfalador", spot: {x: 3015, y: 3393}, code: "0,5,3"},
         {subid: "ivysouthfalador", spot: {x: 3044, y: 3327}, code: "0,5,4"},
         {subid: "ivytaverley", spot: {x: 2938, y: 3429}, code: "0,5,5"},
-        {subid: "ivyardounge", spot: {x: 2623, y: 3308}, code: "0,5,6"},
+        {subid: "ivyardougne", spot: {x: 2623, y: 3308}, code: "0,5,6"},
         {subid: "ivyyanille", spot: {x: 2593, y: 3114}, code: "0,5,7"},
         {subid: "ivycastlewars", spot: {x: 2426, y: 3062}, code: "0,5,8"},
         {subid: "ivycrwys", spot: {x: 2241, y: 3377}, code: "0,5,9"},

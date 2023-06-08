@@ -142,6 +142,7 @@ class ClickMapInteraction extends LayerInteraction<ScanLayer> {
 
     private _maphooks: leaflet.LeafletEventHandlerFnMap = {
         "click": (e) => {
+            console.log("Click")
             this.handlers.click({x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)})
         }
     }
@@ -213,6 +214,8 @@ export class ScanLayer extends ActiveLayer {
     }
 
     override loadDefaultInteraction() {
+        console.log("Loading default")
+
         let self = this
 
         new ClickMapInteraction(this, {

@@ -1,4 +1,3 @@
-import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {ToggleGroup} from "../map/layers/ToggleGroup";
 import {ChildType} from "../../model/scans/scans";
 import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
@@ -76,6 +75,8 @@ export default class AreaWidget extends Widget<{
             this.edit_panel.area.botright.x.val(a.botright.x)
             this.edit_panel.area.botright.y.val(a.botright.y)
 
+            this.emit("changed", this.value)
+
             this.polygon.update()
         })
 
@@ -106,7 +107,7 @@ export default class AreaWidget extends Widget<{
 
         this.main_row.area_div = $("<div class='area-div'></div>").text(this.value.name).appendTo(this.main_row.row)
 
-        this.main_row.delete_button = $('<div class="nissmallimagebutton" title="Edit"><img src="assets/icons/delete.png"></div>')
+        this.main_row.delete_button = $('<div class="nissmallimagebutton" title="Delete"><img src="assets/icons/delete.png"></div>')
             .on("click", () => this.delete())
             .appendTo(this.main_row.row)
 

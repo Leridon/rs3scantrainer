@@ -30,14 +30,31 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
     }
 
     _maphooks: leaflet.LeafletEventHandlerFnMap = {
-        "mousedown": (e: LeafletMouseEvent) => {
+
+        "click": (e: LeafletMouseEvent) => {
+            // Capture and consume the click event so it does not get sent to the default interaction
+
             leaflet.DomEvent.stopPropagation(e)
 
-            this.dragstart = this.layer.getMap().tileFromMouseEvent(e)
+            if (this.dragstart) {
+                leaflet.DomEvent.stopPropagation(e)
 
-            this.last_area = {topleft: this.dragstart, botright: this.dragstart}
+                this.events.emit("done", this.last_area)
 
-            this.events.emit("changed", this.last_area)
+                this.layer.cancelInteraction()
+            }
+        },
+
+        "mousedown": (e: LeafletMouseEvent) => {
+            if (!this.dragstart) {
+                leaflet.DomEvent.stopPropagation(e)
+
+                this.dragstart = this.layer.getMap().tileFromMouseEvent(e)
+
+                this.last_area = {topleft: this.dragstart, botright: this.dragstart}
+
+                this.events.emit("changed", this.last_area)
+            }
         },
 
         "mousemove": (e: LeafletMouseEvent) => {
@@ -62,7 +79,11 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
             }
         },
 
+        /*
         "mouseup": (e: LeafletMouseEvent) => {
+
+            leaflet.DomEvent.stopPropagation(e)
+
             if (this.dragstart) {
                 leaflet.DomEvent.stopPropagation(e)
 
@@ -70,7 +91,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
 
                 this.layer.cancelInteraction()
             }
-        }
+        }*/
     }
 
 }

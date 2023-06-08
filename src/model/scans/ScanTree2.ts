@@ -134,8 +134,6 @@ export namespace ScanTree2 {
 
             let path = tree.methods.find((m) => edgeSame(m, edge))
 
-            if (!path) console.log(edge)
-
             let t: augmented_decision_tree = {
                 root: tree,
                 parent: parent,
@@ -236,7 +234,7 @@ export namespace ScanTree2 {
         let str = self.from ? `${self.from} to ` : "To ";
 
         if (Array.isArray(self.to)) {
-            if (self.to.length != 1) str += `(${self.to.map((c) => spotNumber(tree, c)).join(", ")})`
+            if (self.to.length != 1) str += `(${self.to.map((c) => spotNumber(tree, c)).sort(natural_order).join(", ")})`
             else str += spotNumber(tree, self.to[0])
         } else if (typeof self.to == "string") {
             str += self.to

@@ -105,10 +105,7 @@ export default class TreeEdit extends Widget<{
 
                 dom.selection = $("<select style='margin-left: 0.5em'>").appendTo(label)
                     .on("input", (event) => {
-
                         let selected_name = dom.selection.val() as string
-
-                        console.log(selected_name)
 
                         if (!selected_name) {
                             if (!node.parent) {// Is root node
@@ -164,7 +161,7 @@ export default class TreeEdit extends Widget<{
                 })
             }
 
-            if (node.raw != null) {
+            if (node.raw != null && dom.selection) {
                 let area = self.parent.value.areas.find((a) => a.name == node.where.name)
 
                 dom.selection.val(node.raw.where)

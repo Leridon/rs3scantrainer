@@ -58,7 +58,10 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
     }
 
     setInteraction(interaction: LayerInteraction<ActiveLayer>) {
-        this.cancelInteraction()
+        if (this.interaction) {
+            this.interaction.cancel()
+            this.interaction = null
+        }
 
         this.interaction = interaction
         this.interaction.start()

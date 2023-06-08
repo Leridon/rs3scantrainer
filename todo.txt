@@ -51,16 +51,16 @@ Unscheduled:
 - Figure out how to handle clues with different solutions depending on game progress.
 
 Rechecked
-
-Done:
 - Lumbdridge
-- Zanaris
-- Taverley
 - Varrock
 - Falador
 - Keldagrim
-- Dorgesh-Kaan
 - Ardounge
+
+Done:
+- Zanaris
+- Taverley
+- Dorgesh-Kaan
 
 Next up:
 - Fremennik Isles

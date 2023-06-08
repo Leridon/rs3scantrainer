@@ -31,13 +31,6 @@ export default class AreaEdit extends Widget<{
         this.add_button = $("<div class='lightbutton' style='width: 100%'>+ Add area</div>")
             .on("click", () => {
                 let w = this.addWidget({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
-                    .on("deleted", (spot) => {
-                        this.value.splice(this.value.indexOf(spot), 1)
-                        this.emit("changed", this.value)
-                    })
-                    .on("changed", () => {
-                        this.emit("changed", this.value)
-                    })
                     .toggleEdit()
 
                 w.startRedraw().events.on("done", () => {
@@ -68,11 +61,17 @@ export default class AreaEdit extends Widget<{
             new AreaWidget(this, this.layer, area)
                 .on("deleted", () => {
                     this.areas.splice(this.areas.indexOf(w), 1)
+
+                    this.value = this.areas.map((a) => a.value)
+
                     this.emit("decisions_changed", this.getDecisions())
                     this.emit("changed", this.value)
                 })
                 .on("decision_changed", (d) => {
                     this.emit("decisions_changed", this.getDecisions())
+                })
+                .on("changed", () => {
+                    this.emit("changed", this.value)
                 })
                 .on("renamed", (e) => this.emit("renamed", e))
 

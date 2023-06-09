@@ -41,6 +41,8 @@ RELEASE 1.0
         - Camelot, Watchtower, Varrock alternatives
 
 Unscheduled:
+- Canoe transport
+- Color spots differently according to level?
 - Arrow key/enter control for the search.
 - Integrate a solving method for compasses
 - Collapsible panels
@@ -54,6 +56,7 @@ Unscheduled:
 - Figure out z-Ordering of layers (need to use panes probably)
 - Assign clue tiers to remaining clues
 - Figure out how to handle clues with different solutions depending on game progress.
+- Google Maps like layout for a slimmer experience? Make the map be the center of everything
 
 Rechecked
 - Lumbdridge

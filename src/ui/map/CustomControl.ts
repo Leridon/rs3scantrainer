@@ -3,16 +3,16 @@ import Dict = NodeJS.Dict;
 
 
 export class CustomControl extends leaflet.Control {
-    constructor(private html: JQuery,
+    constructor(protected container: JQuery,
                 events: Dict<(Event) => void> = {}
     ) {
         super()
 
-        for (let key of Object.keys(events)) this.html.on(key, events[key])
+        for (let key of Object.keys(events)) this.container.on(key, events[key])
     }
 
     onAdd(map: leaflet.Map): HTMLElement {
-        return this.html.get()[0]
+        return this.container.get()[0]
     }
 }
 

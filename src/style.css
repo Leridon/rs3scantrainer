@@ -494,3 +494,7 @@ video {
 .treeview > * {
     margin-top: 2px;
 }
+
+.leaflet-container {
+    background-color: black;
+}

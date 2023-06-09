@@ -1,16 +1,15 @@
 import * as leaflet from "leaflet";
-import {Layer} from "leaflet";
 import {TeleportLayer} from "./teleportlayer";
 import {MapCoordinate} from "../../model/coordinates";
 import {ActiveLayer} from "./activeLayer";
+import {CustomControl} from "./CustomControl";
+import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 
-type ElevationConfig = { dxdy: number, dzdy: number }
-type Layersource = { urls: string[], from?: number, to?: number, elevation?: ElevationConfig };
+type Layersource = { urls: string[], from?: number, to?: number };
 
 class RsBaseTileLayer extends leaflet.TileLayer {
-    zoomurls: Layersource[];
-
-    constructor(zoomurls: Layersource[], opts?: leaflet.TileLayerOptions) {
+    constructor(private readonly zoomurls: Layersource[],
+                opts?: leaflet.TileLayerOptions) {
         super(zoomurls[0].urls[0], opts);
         this.zoomurls = zoomurls;
 
@@ -25,13 +24,9 @@ class RsBaseTileLayer extends leaflet.TileLayer {
         });
     }
 
-    getZoomConfig(zoom: number) {
-        for (let level of this.zoomurls) {
-            if ((level.from ?? -Infinity) <= zoom && (level.to ?? Infinity) >= zoom) {
-                return level;
-            }
-        }
-        return undefined;
+    getZoomConfig(zoom: number): Layersource {
+        // Find first zoom url that contains the zoom
+        return this.zoomurls.find((level) => (level.from ?? -Infinity) <= zoom && (level.to ?? Infinity) >= zoom)
     }
 
     getTileUrl(coords: leaflet.Coords, retrycount = 0) {
@@ -142,22 +137,67 @@ export class TileMarker extends leaflet.FeatureGroup {
     }
 }
 
+class FloorControl extends CustomControl {
+
+    up: JQuery
+    down: JQuery
+    current: JQuery
+
+
+    constructor(private parent: GameMapControl) {
+        super($("<div style='color: black'>"), {});
+
+        this.up = $("<div style='background-color: white'>up</div>")
+            .on("click", (e) => {
+                e.stopPropagation()
+                this.parent.setFloor(this.parent.floor + 1)
+            })
+            .appendTo(this.container)
+        this.current = $("<div style='background-color: white'>0</div>").appendTo(this.container)
+        this.down = $("<div style='background-color: white'>down</div>")
+            .on("click", (e) => {
+                e.stopPropagation()
+                this.parent.setFloor(this.parent.floor - 1)
+            })
+            .appendTo(this.container)
+
+
+        parent.on("floorChanged", (f) => this.current.text(f))
+    }
+
+}
+
 /**
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.
  */
-export class GameMapControl {
+export class GameMapControl extends TypedEmitter<{
+    floorChanged: number
+}> {
     map: leaflet.Map
-
+    floor: number
+    baseLayers: RsBaseTileLayer[]
     private teleportLayer: TeleportLayer
-
     private activeLayer: ActiveLayer = null
 
-    geturl(filename: string) {
-        return `https://runeapps.org/maps/map1/${filename}`;
+    // Hardcoded
+    private mapid: number = 4
+    private version: number = 0
+
+    backupUrl(filename: string, version: number) {
+        return `https://runeapps.org/node/map/getnamed?mapid=${this.mapid}&version=${version}&file=${filename}`;
+    }
+
+    geturls(filename: string) {
+        return [
+            this.backupUrl(filename, this.version),
+            `https://runeapps.org/maps/map${this.mapid}/${this.version}/${filename}`,
+        ];
     }
 
     constructor(map_id: string) {
+        super()
+
         const chunkoffsetx = 16;
         const chunkoffsetz = 16;
 
@@ -166,7 +206,7 @@ export class GameMapControl {
 
         const chunksize = 64;
 
-        var crs = leaflet.CRS.Simple;
+        let crs = leaflet.CRS.Simple;
         //add 0.5 to so coords are center of tile
         // @ts-ignore
         crs.transformation = leaflet.transformation(
@@ -184,24 +224,64 @@ export class GameMapControl {
             attributionControl: true
         }).setView([3200, 3000], 0);
 
-        new RsBaseTileLayer([
-            {urls: [this.geturl(`topdown-0/{z}/{x}-{y}.webp`), this.geturl(`topdown-0/{z}/{x}-{y}.webp`)]}
+        this.floor = 0
+
+        this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
+
+        fetch(this.backupUrl("versions.json", 0), {mode: "cors"}).then(async (q) => {
+            let content: { versions: { version: number, build: number, date: number, source: string }[] } = await q.json();
+            this.version = content.versions[0].version;
+
+            this.updateBaseLayers()
+        });
+    }
+
+    setFloor(floor: number) {
+        let old = this.floor
+
+        this.floor = Math.min(3, Math.max(0, floor))
+
+        if (old != this.floor) {
+            this.updateBaseLayers()
+            this.emit("floorChanged", this.floor)
+        }
+    }
+
+    updateBaseLayers() {
+        if (this.version == 0) return
+
+        let layers: RsBaseTileLayer[] = []
+
+        layers.push(new RsBaseTileLayer([
+            {urls: this.geturls(`topdown-${this.floor}/{z}/{x}-{y}.webp`)}
         ], {
             attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
             tileSize: 512,
             maxNativeZoom: 5,
             minZoom: -5
-        }).addTo(this.map)
+        }))
 
-        new RsBaseTileLayer([
-            {to: 2, urls: [this.geturl(`walls-0/{z}/{x}-{y}.webp`)]},
-            {from: 3, to: 3, urls: [this.geturl(`walls-0/{z}/{x}-{y}.svg`)]}
+        /*
+        layers.push(new RsBaseTileLayer([
+            {to: 2, urls: this.geturls(`walls-${this.level}/{z}/{x}-{y}.webp`)},
+            {from: 3, to: 3, urls: this.geturls(`walls-${this.level}/{z}/{x}-{y}.svg`)}
         ], {
             attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
             tileSize: 512,
             maxNativeZoom: 3,
             minZoom: -5
-        }).addTo(this.map)
+        }))*/
+
+        let oldbase = this.baseLayers;
+        if (oldbase && oldbase.length > 0) {
+            //prevent loading of new tiles on old layer
+            oldbase.forEach(q => q.on("tileloadstart", e => e.target.src = ""));
+            layers[0].on("load", () => setTimeout(() => oldbase.forEach(q => q.remove()), 2000));
+        }
+
+        this.baseLayers = layers
+
+        layers.forEach((l) => l.addTo(this.map))
     }
 
     setTeleportLayer(layer: TeleportLayer): this {

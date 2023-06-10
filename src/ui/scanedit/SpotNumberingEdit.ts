@@ -19,8 +19,6 @@ export default class SpotOrderingWidget extends Widget<{
 
         this.collapsible = new Collapsible(this.container, "Dig spots").appendTo(this)
 
-        this.collapsible.content.append(this.list = $("<div>"))
-
         this.reselect_button = $("<div class='lightbutton'>Select new spot numbering</div>")
             .on("click", (e) => {
                 if (this.interaction) {
@@ -30,6 +28,8 @@ export default class SpotOrderingWidget extends Widget<{
             })
             .appendTo($("<div style='text-align: center'></div>").appendTo(this.collapsible.content.container))
 
+        this.collapsible.content.append(this.list = $("<div>"))
+
         this.setValue(value)
     }
 
@@ -37,16 +37,18 @@ export default class SpotOrderingWidget extends Widget<{
         this.list.empty()
 
         $("<div class='row'>")
-            .append($("<div class='col-2' style='text-align: center'>").text("#"))
-            .append($("<div class='col-5' style='text-align: center'>").text("x"))
-            .append($("<div class='col-5' style='text-align: center'>").text("y"))
+            .append($("<div class='col-3' style='text-align: center'>").text("#"))
+            .append($("<div class='col-3' style='text-align: center'>").text("x"))
+            .append($("<div class='col-3' style='text-align: center'>").text("y"))
+            .append($("<div class='col-3' style='text-align: center'>").text("Floor"))
             .appendTo(this.list)
 
         this.value.forEach((v, i) => {
             $("<div class='row'>")
-                .append($("<div class='col-2' style='text-align: center'>").text(i + 1))
-                .append($("<div class='col-5' style='text-align: center'>").text(v.x))
-                .append($("<div class='col-5' style='text-align: center'>").text(v.y))
+                .append($("<div class='col-3' style='text-align: center'>").text(i + 1))
+                .append($("<div class='col-3' style='text-align: center'>").text(v.x))
+                .append($("<div class='col-3' style='text-align: center'>").text(v.y))
+                .append($("<div class='col-3' style='text-align: center'>").text(v.level ?? 0))
                 .appendTo(this.list)
         })
 

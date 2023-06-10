@@ -10,6 +10,7 @@ import {MapCoordinate} from "../../model/coordinates";
 import assumedRange = ScanTree2.assumedRange;
 import {Pulse} from "../../model/scans/scans";
 import narrow_down = ScanTree2.narrow_down;
+import Collapsible from "../widgets/modals/Collapsible";
 
 type TreeDom = {
     node: augmented_tree,
@@ -23,6 +24,8 @@ export default class TreeEdit extends Widget<{
     decisions_loaded: ScanDecision[]
 }> {
 
+    collapsible: Collapsible
+
     view: JQuery = null
 
     tree: TreeDom
@@ -30,12 +33,12 @@ export default class TreeEdit extends Widget<{
     constructor(private parent: ScanEditPanel, private value: tree_node) {
         super($("<div>"))
 
-        this.append($("<h4 style='text-align: center'>Decision tree</h4>"))
+        this.collapsible = new Collapsible(this.container, "Decision Tree")
 
         $("<div style='display: flex; text-align: center'>")
             .append($("<div class='col-9' style='font-weight: bold'>Instructions</div>"))
             .append($("<div class='col-3' style='font-weight: bold'>Candidates</div>"))
-            .appendTo(this.container)
+            .appendTo(this.collapsible.content.container)
 
         this.update()
     }
@@ -69,7 +72,7 @@ export default class TreeEdit extends Widget<{
     update() {
         if (this.view) this.view.remove()
 
-        this.view = $("<div class='treeview'>").appendTo(this.container)
+        this.view = $("<div class='treeview'>").appendTo(this.collapsible.content.container)
 
         this.create(this.view)
     }
@@ -97,7 +100,7 @@ export default class TreeEdit extends Widget<{
                     self.emit("decisions_loaded", node.decisions)
                 })
 
-            if ((node.parent && node.parent.kind .pulse == 3) || node.remaining_candidates.length == 1) {
+            if ((node.parent && node.parent.kind.pulse == 3) || node.remaining_candidates.length == 1) {
                 $(`<div>${node.parent.node.where.name}${Pulse.meta(node.parent.kind).shorted} -> Solved! (${node.remaining_candidates.map((c) => ScanTree2.spotNumber(self.parent.value, c)).sort().join(", ")})</div>`).appendTo(col1)
             } else {
                 let label = $("<label class='flex-grow-1' style='display: flex; flex-direction: row'>").text(node.parent != null ? `${node.parent.node.where.name}${Pulse.meta(node.parent.kind).shorted} ->` : "Start at").appendTo(col1)

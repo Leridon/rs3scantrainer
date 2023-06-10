@@ -5,12 +5,15 @@ import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import ScanSpot = ScanTree2.ScanSpot;
 import ScanDecision = ScanTree2.ScanDecision;
+import Collapsible from "../widgets/modals/Collapsible";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],
     decisions_changed: ScanDecision[],
     renamed: { old: string, new: string }
 }> {
+    collapsible: Collapsible
+
     area_container: JQuery
     areas: AreaWidget[]
 
@@ -23,12 +26,12 @@ export default class AreaEdit extends Widget<{
     ) {
         super($("<div>"))
 
-        $("<h4 style='text-align: center'>Scan Spots</h4>").appendTo(this.container)
+        this.collapsible = new Collapsible(this.container, "Scan Spots")
 
-        this.area_container = $("<div>").appendTo(this.container)
+        this.area_container = $("<div>").appendTo(this.collapsible.content.container)
         this.areas = []
 
-        this.add_button = $("<div class='lightbutton' style='width: 100%'>+ Add area</div>")
+        this.add_button = $("<div class='lightbutton'>+ Add area</div>")
             .on("click", () => {
                 let w = this.addWidget({name: "New", level: 0, area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
                     .toggleEdit()
@@ -41,7 +44,7 @@ export default class AreaEdit extends Widget<{
                 this.value.push(w.value)
                 this.emit("changed", this.value)
             })
-            .appendTo(this.container)
+            .appendTo($("<div style='text-align: center'></div>").appendTo(this.collapsible.content.container))
 
         this.update()
     }

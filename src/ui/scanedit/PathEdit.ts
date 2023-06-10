@@ -9,6 +9,7 @@ import {util} from "../../util/util";
 import {scantrainer} from "../../application";
 import template_resolvers = ScanTree2.template_resolvers;
 import {MapCoordinate} from "../../model/coordinates";
+import Collapsible from "../widgets/modals/Collapsible";
 
 
 class ClipEdit extends Widget {
@@ -72,12 +73,14 @@ class EdgeEdit extends Widget<{
 export default class PathEdit extends Widget<{
     "changed": ScanTree2.edge_path[]
 }> {
+    collapsible: Collapsible
+
     edges: EdgeEdit[]
 
     constructor(public parent: ScanEditPanel, private value: ScanTree2.edge_path[]) {
         super()
 
-        $("<h4 style='text-align: center'>Pathing</h4>").appendTo(this.container)
+        this.collapsible = new Collapsible(this.container, "Pathing")
 
         this.edges = []
 
@@ -91,7 +94,6 @@ export default class PathEdit extends Widget<{
 
         // Remove paths that aren't needed anymore and create paths for new edges
         this.value = needed.map((p) => {
-
             return this.parent.value.methods.find((m) => edgeSame(p, m)) || {
                 from: p.from,
                 to: p.to,
@@ -132,7 +134,7 @@ export default class PathEdit extends Widget<{
                 .on("changed", () => {
                     this.emit("changed", this.value)
                 })
-                .appendTo(this))
+                .appendTo(this.collapsible.content))
         })
     }
 

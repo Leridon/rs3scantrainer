@@ -436,8 +436,7 @@ video {
 }
 
 .lightbutton {
-    margin-left: 3px;
-    margin-right: 3px;
+    margin: 3px;
     text-align: center;
     display: inline-block;
     padding-left: 1em;
@@ -507,6 +506,11 @@ video {
     font-size: 1em;
 }
 
+.nis-collapsible {
+    border: 1px solid rgb(52, 67, 74);
+    border-top: 1px solid rgb(108, 116, 120);
+}
+
 .nis-collapsible-heading {
     display: flex;
     background-image: linear-gradient(rgb(41, 65, 77), rgb(20, 51, 66), rgb(41, 65, 77));
@@ -522,7 +526,11 @@ video {
     filter: brightness(1.2);
 }
 
-.panel .nis-collapsible {
+.nis-collapsible-content {
+    padding-top: 5px;
+}
+
+.fullwidth-in-panel {
     margin-left: -5px;
     margin-right: -5px;
 }

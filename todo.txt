@@ -1,5 +1,7 @@
 Release b0.3
 
+- Some weird stuff happens when jumping to a decision point and then manually changing the decisions.
+
 - Properly implement different level
     - Move equivalence class control to method panel
     - Show equivalence classes for different levels
@@ -10,7 +12,6 @@ Release b0.3
 
 - Scan Tree Editor
     - Add explanation modal
-    - Fix info buttons drowning out the row.
     - Disable info buttons that leave 0 candidates
 
 - Content:
@@ -24,12 +25,6 @@ Release b0.4:
 - Add control bar for map interactions (top center).
 - Detailled pathing
     - Pathfinder/-validator/-drawer
-
-
-- Scan Editor:
-    - Collapsible, styled sections
-        - More styling
-
 
 RELEASE 1.0
 - Finish all elite/master scans

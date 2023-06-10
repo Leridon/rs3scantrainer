@@ -21,7 +21,6 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
         return this
     }
-
     css(key: string, value: string): this {
         this.container.css(key, value)
 
@@ -35,6 +34,11 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
     remove(): this {
         this.container.remove()
+        return this
+    }
+
+    addClass(cls: string): this {
+        this.container.addClass(cls)
         return this
     }
 

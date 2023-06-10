@@ -2,10 +2,12 @@ import Widget from "../widgets/Widget";
 import {eq, MapCoordinate} from "../../model/coordinates";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
+import Collapsible from "../widgets/modals/Collapsible";
 
 export default class SpotOrderingWidget extends Widget<{
     changed: MapCoordinate[]
 }> {
+    collapsible: Collapsible
     list: JQuery
     reselect_button: JQuery
 
@@ -15,18 +17,18 @@ export default class SpotOrderingWidget extends Widget<{
                 private value: MapCoordinate[]) {
         super($("<div>"))
 
-        this.append($("<h4>Spot numbering</h4>"))
+        this.collapsible = new Collapsible(this.container, "Dig spots").appendTo(this)
 
-        this.append(this.list = $("<div>"))
+        this.collapsible.content.append(this.list = $("<div>"))
 
-        this.reselect_button = $("<div class='lightbutton'>Select new order</div>")
+        this.reselect_button = $("<div class='lightbutton'>Select new spot numbering</div>")
             .on("click", (e) => {
                 if (this.interaction) {
                     this.interaction.deactivate()
                     this.interaction = null
                 } else this.startSelection()
             })
-            .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
+            .appendTo($("<div style='text-align: center'></div>").appendTo(this.collapsible.content.container))
 
         this.setValue(value)
     }

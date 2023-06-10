@@ -23,7 +23,7 @@ export default class AreaEdit extends Widget<{
     ) {
         super($("<div>"))
 
-        $("<h4>Scan Spots</h4>").appendTo(this.container)
+        $("<h4 style='text-align: center'>Scan Spots</h4>").appendTo(this.container)
 
         this.area_container = $("<div>").appendTo(this.container)
         this.areas = []

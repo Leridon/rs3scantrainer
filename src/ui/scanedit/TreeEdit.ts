@@ -30,7 +30,7 @@ export default class TreeEdit extends Widget<{
     constructor(private parent: ScanEditPanel, private value: tree_node) {
         super($("<div>"))
 
-        this.append($("<h4>Decision tree</h4>"))
+        this.append($("<h4 style='text-align: center'>Decision tree</h4>"))
 
         $("<div style='display: flex; text-align: center'>")
             .append($("<div class='col-9' style='font-weight: bold'>Instructions</div>"))

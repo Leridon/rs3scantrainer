@@ -248,6 +248,8 @@ export class ScanLayer extends ActiveLayer {
 
     activate(map: GameMapControl) {
         super.activate(map);
+
+        map.setFloor(Math.min(...this.clue.solution.candidates.map((c) => c.level)))
     }
 
     remaining_candidates: MapCoordinate[] = this.clue.solution.candidates

@@ -1,7 +1,6 @@
 Release b0.3
 
 - Properly implement different level
-    - Level control on map
     - Move equivalence class control to method panel
     - Show equivalence classes for different levels
     - Display scan spots on surface/underground

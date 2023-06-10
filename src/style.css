@@ -91,8 +91,8 @@ html, body {
 }
 
 .nissmallimagebutton {
-    min-width:21px;
-    min-height:21px;
+    min-width: 21px;
+    min-height: 21px;
     background: url("assets/icons/imagebuttonbackground.png");
 }
 
@@ -431,7 +431,6 @@ video {
 }
 
 
-
 .nextchoice {
     padding: 2px;
 }
@@ -497,4 +496,33 @@ video {
 
 .leaflet-container {
     background-color: black;
+}
+
+.nis-map-control {
+    border-radius: 8px;
+    background-color: rgb(10, 31, 41);
+    border: 1px solid rgb(5, 56, 66);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    color: var(--nis-col-std);
+    font-size: 1em;
+}
+
+.nis-collapsible-heading {
+    display: flex;
+    background-image: linear-gradient(rgb(41, 65, 77), rgb(20, 51, 66), rgb(41, 65, 77));
+    border-radius: 2px;
+    border: 1px solid rgb(12, 22, 27);
+}
+
+.nis-collapsible-heading.collapsed {
+    background-image: linear-gradient(rgb(45, 75, 90), rgb(18, 48, 62), rgb(11, 34, 46));
+}
+
+.nis-collapsible-heading:hover {
+    filter: brightness(1.2);
+}
+
+.panel .nis-collapsible {
+    margin-left: -5px;
+    margin-right: -5px;
 }

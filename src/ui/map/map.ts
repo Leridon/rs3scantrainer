@@ -145,26 +145,24 @@ class FloorControl extends CustomControl {
 
 
     constructor(private parent: GameMapControl) {
-        super($("<div style='color: black'>"), {});
+        super($("<div style='display: flex' class='nis-map-control'>"), {});
 
-        this.up = $("<div style='background-color: white'>up</div>")
-            .on("click", (e) => {
-                e.stopPropagation()
-                this.parent.setFloor(this.parent.floor + 1)
-            })
-            .appendTo(this.container)
-        this.current = $("<div style='background-color: white'>0</div>").appendTo(this.container)
-        this.down = $("<div style='background-color: white'>down</div>")
+        this.down = $("<div style='cursor: pointer'><img src='assets/icons/stairdown.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
                 this.parent.setFloor(this.parent.floor - 1)
             })
             .appendTo(this.container)
+        this.current = $("<div style='border-left: 1px solid rgb(5, 56, 66); border-right: 1px solid rgb(5, 56, 66); padding-left: 4px; padding-right: 4px; line-height: 20px'>Floor 0</div>").appendTo(this.container)
+        this.up = $("<div style='cursor: pointer'><img src='assets/icons/stairup.png' style='width: 20px; padding: 4px'></div>")
+            .on("click", (e) => {
+                e.stopPropagation()
+                this.parent.setFloor(this.parent.floor + 1)
+            })
+            .appendTo(this.container)
 
-
-        parent.on("floorChanged", (f) => this.current.text(f))
+        parent.on("floorChanged", (f) => this.current.text(`Floor ${f}`))
     }
-
 }
 
 /**

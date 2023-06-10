@@ -77,7 +77,7 @@ export default class PathEdit extends Widget<{
     constructor(public parent: ScanEditPanel, private value: ScanTree2.edge_path[]) {
         super()
 
-        $("<h4>Pathing</h4>").appendTo(this.container)
+        $("<h4 style='text-align: center'>Pathing</h4>").appendTo(this.container)
 
         this.edges = []
 

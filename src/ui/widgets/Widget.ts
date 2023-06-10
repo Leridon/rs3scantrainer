@@ -37,4 +37,8 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         this.container.remove()
         return this
     }
+
+    static wrap(jquery: JQuery): Widget {
+        return new Widget(jquery)
+    }
 }

@@ -81,8 +81,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
             [bounds.getBottomRight().y, bounds.getBottomRight().x],
         ])
 
-
-        this._map.fitBounds(leaflet.latLngBounds([
+        this.getMap().map.fitBounds(leaflet.latLngBounds([
             [bounds.getTopLeft().y, bounds.getTopLeft().x],
             [bounds.getBottomRight().y, bounds.getBottomRight().x],
         ]).pad(0.1), {
@@ -103,8 +102,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
         let relevant_areas = this.node.where ? [this.node.where] : []
         if (this.node.parent && this.node.parent.node.where) relevant_areas.push(this.node.parent.node.where);
 
-        this.set_remaining_candidates(candidates)
-        this.markers.forEach((e) => e.setActive(candidates.some((c) => eq(c, e.getSpot()))))
+        this.highlightCandidates(candidates)
 
         this.areas.forEach((p) => p.setActive(relevant_areas.some((a) => a.name == (p.spot().name))))
 
@@ -113,8 +111,7 @@ export class ScanTreeMethodLayer extends ScanLayer {
 
     constructor(private scantree: resolved_scan_tree, app: Application) {
         super(scantree.clue, app, {
-            show_edit_button: true,
-            show_equivalence_classes_button: false
+            show_edit_button: true
         });
 
         this.root = augment(scantree)

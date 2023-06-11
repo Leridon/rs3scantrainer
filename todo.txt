@@ -3,8 +3,6 @@ Release b0.3
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions.
 
 - Properly implement different level
-    - Move equivalence class control to method panel
-    - Show equivalence classes for different levels
     - Display scan spots on surface/underground
     - Add an input to control the level of a scan area [0 - 3]
 

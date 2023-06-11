@@ -1,9 +1,9 @@
 import * as leaflet from "leaflet";
-import {Box, boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
+import {boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
-import {blue_icon, GameMapControl, TileMarker} from "../map";
-import {ScanEquivalenceClasses} from "../../../model/scans/scans";
+import {blue_icon, GameMapControl, green_icon, red_icon, TileMarker, yellow_icon} from "../map";
+import {complementSpot} from "../../../model/scans/scans";
 import {ActiveLayer, LayerInteraction, TileMarkerWithActive} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
@@ -11,9 +11,9 @@ import ScanEditPanel from "../../scanedit/ScanEditPanel";
 import {ScanTree2} from "../../../model/scans/ScanTree2";
 import {cloneDeep} from "lodash";
 import {Constants} from "../../../constants";
+import {indirect, resolve} from "../../../model/methods";
 import ScanSpot = ScanTree2.ScanSpot;
 import tree = ScanTree2.tree;
-import {indirect, resolve} from "../../../model/methods";
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import indirect_scan_tree = ScanTree2.indirect_scan_tree;
 
@@ -96,7 +96,7 @@ export class SpotPolygon extends leaflet.FeatureGroup {
 class ScanRadiusTileMarker extends TileMarker {
     range_polygon: leaflet.FeatureGroup
 
-    constructor(spot: MapCoordinate, private range: number) {
+    constructor(spot: MapCoordinate, private range: number, private complement: boolean) {
         super(spot);
 
         this.update()
@@ -109,18 +109,22 @@ class ScanRadiusTileMarker extends TileMarker {
 
         let center = this.getSpot()
 
-        let inner: Box = {
-            topleft: {x: center.x - this.range, y: center.y + this.range},
-            botright: {x: center.x + this.range, y: center.y - this.range}
+        if (this.complement) {
+            boxPolygon({
+                topleft: {x: center.x - (this.range + 15), y: center.y + (this.range + 15)},
+                botright: {x: center.x + (this.range + 15), y: center.y - (this.range + 15)}
+            }).setStyle({color: "blue", fillOpacity: 0}).addTo(this.range_polygon)
+        } else {
+            boxPolygon({
+                topleft: {x: center.x - this.range, y: center.y + this.range},
+                botright: {x: center.x + this.range, y: center.y - this.range}
+            }).setStyle({color: "green", fillOpacity: 0}).addTo(this.range_polygon)
+            boxPolygon({
+                topleft: {x: center.x - 2 * this.range, y: center.y + 2 * this.range},
+                botright: {x: center.x + 2 * this.range, y: center.y - 2 * this.range}
+            }).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]}).addTo(this.range_polygon)
         }
 
-        let outer: Box = {
-            topleft: {x: center.x - 2 * this.range, y: center.y + 2 * this.range},
-            botright: {x: center.x + 2 * this.range, y: center.y - 2 * this.range}
-        }
-
-        boxPolygon(inner).setStyle({color: "green", fillOpacity: 0}).addTo(this.range_polygon)
-        boxPolygon(outer).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]}).addTo(this.range_polygon)
     }
 
     setRange(range: number) {
@@ -155,7 +159,11 @@ class ClickMapInteraction extends LayerInteraction<ScanLayer> {
 
 
 export class ScanLayer extends ActiveLayer {
+    private marker_layer: leaflet.FeatureGroup
+    private complement_layer: leaflet.FeatureGroup
+
     protected markers: TileMarkerWithActive[]
+    protected complement_markers: TileMarkerWithActive[]
 
     public events = new TypedEmitter<{
         "dig_spot_clicked": TileMarkerWithActive
@@ -165,35 +173,27 @@ export class ScanLayer extends ActiveLayer {
 
     constructor(protected clue: ScanStep, protected app: Application,
                 options: {
-                    show_edit_button?: boolean,
-                    show_equivalence_classes_button?: boolean
+                    show_edit_button?: boolean
                 } = {}
     ) {
         super()
 
+        this.marker_layer = leaflet.featureGroup().addTo(this)
+        this.complement_layer = leaflet.featureGroup().addTo(this)
+
         this.markers = (clue.solution as SetSolution).candidates.map((e) => {
-            let m = new TileMarkerWithActive(e).withMarker().withX("#B21319")
+            let m = new TileMarkerWithActive(e).withMarker().withX("#B21319").addTo(this.marker_layer)
 
             m.on("click", (e) => this.events.emit("dig_spot_clicked", m))
 
             return m
         })
 
-        this.markers.forEach((m) => m.addTo(this))
-
-        this.set_remaining_candidates(clue.solution.candidates)
+        this.complement_markers = (clue.solution as SetSolution).candidates.map((e) => {
+            return new TileMarkerWithActive(complementSpot(e)).withMarker().withX("#B21319").addTo(this.complement_layer)
+        })
 
         if (!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
-
-            if (options.show_equivalence_classes_button)
-                this.addControl(new ImageButton("assets/icons/eqclasses.png", {
-                    "click": (e) => {
-                        this.setEquivalenceClassesEnabled(!this.draw_equivalence_classes)
-                    }
-                }, {
-                    title: "Toggle equivalence classes."
-                }).setPosition("topright"))
-
             if (options.show_edit_button && !app.in_alt1)
                 this.addControl(new ImageButton("assets/icons/edit.png", {
                     "click": (e) => this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, indirect(this.getTree())))
@@ -224,7 +224,7 @@ export class ScanLayer extends ActiveLayer {
                     if (eq(p, old)) return
                 }
 
-                self.tile_marker = new ScanRadiusTileMarker(p, self.clue.range + (self._meerkats ? 5 : 0))
+                self.tile_marker = new ScanRadiusTileMarker(p, self.clue.range + (self._meerkats ? 5 : 0), Math.floor(p.y / 6400) != Math.floor(this.clue.solution.candidates[0].y / 6400))
                     .withX("white")
                     .withMarker(blue_icon)
                     .on("click", () => self.tile_marker.remove())
@@ -244,57 +244,30 @@ export class ScanLayer extends ActiveLayer {
             if (i >= 0) m.withLabel((i + 1).toString(), "spot-number-on-map", [0, 10])
             else m.removeLabel()
         })
+
+        this.complement_markers.forEach((m) => {
+            let i = ordering.findIndex((s) => eq(m.getSpot(), complementSpot(s)))
+
+            if (i >= 0) m.withLabel((i + 1).toString(), "spot-number-on-map", [0, 10])
+            else m.removeLabel()
+        })
     }
 
     activate(map: GameMapControl) {
         super.activate(map);
 
+        map.map.fitBounds(this.marker_layer.getBounds().pad(0.1), {maxZoom: 4})
+
         map.setFloor(Math.min(...this.clue.solution.candidates.map((c) => c.level)))
     }
 
-    remaining_candidates: MapCoordinate[] = this.clue.solution.candidates
-
-    set_remaining_candidates(spots: MapCoordinate[]) {
-        this.remaining_candidates = spots
-        this.invalidateEquivalenceClasses()
+    highlightedCandidates(): MapCoordinate[] {
+        return this.markers.filter((m) => m.isActive()).map((m) => m.getSpot())
     }
 
-    private draw_equivalence_classes: boolean = false
-    private equivalence_classes: ScanEquivalenceClasses = null
-
-    protected invalidateEquivalenceClasses() {
-        if (this.equivalence_classes) {
-            this.equivalence_classes.getClasses().forEach((c) => {
-                let p = c.getPolygon()
-                if (p) p.remove()
-            })
-
-            this.equivalence_classes = null
-        }
-
-        if (this.draw_equivalence_classes) this.createEquivalenceClasses()
-    }
-
-    private createEquivalenceClasses() {
-        this.equivalence_classes = new ScanEquivalenceClasses(this.remaining_candidates, this.clue.range + 5)
-
-        this.equivalence_classes.getClasses().forEach((c) => {
-            c.getPolygon().addTo(this)
-        })
-    }
-
-    protected setEquivalenceClassesEnabled(enabled: boolean) {
-        this.draw_equivalence_classes = enabled
-
-        this.invalidateEquivalenceClasses() // Redraw
-    }
-
-    private equivalenceClassesEnabled() {
-        return this.draw_equivalence_classes
-    }
-
-    getMarker(i: number): TileMarkerWithActive {
-        return this.markers[i - 1]
+    highlightCandidates(spots: MapCoordinate[]) {
+        this.markers.forEach((m) => m.setActive(spots.some((c) => eq(c, m.getSpot()))))
+        this.complement_markers.forEach((m) => m.setActive(spots.some((c) => eq(complementSpot(c), m.getSpot()))))
     }
 }
 
@@ -321,14 +294,13 @@ export type path = {
 export class ScanEditLayer extends ScanLayer {
     private edit_panel: ScanEditPanel
 
-    constructor(clue: ScanStep, app: Application, tree: indirect_scan_tree | null) {
+    constructor(clue: ScanStep, app: Application, private tree: indirect_scan_tree | null) {
         super(clue, app, {
-            show_edit_button: false,
-            show_equivalence_classes_button: true
+            show_edit_button: false
         })
 
         if (tree == null) {
-            tree = {
+            this.tree = {
                 areas: [],
                 assumes_meerkats: true,
                 clue: clue.id,
@@ -339,26 +311,21 @@ export class ScanEditLayer extends ScanLayer {
             }
         }
 
-        this.setMeerkats(tree.assumes_meerkats)
-
-        this.edit_panel = new ScanEditPanel(this, this.clue, resolve<ScanStep, tree>(cloneDeep(tree)))
+        this.setMeerkats(this.tree.assumes_meerkats)
     }
 
     activate(map: GameMapControl) {
         super.activate(map)
+
+        this.edit_panel = new ScanEditPanel(this, this.clue, resolve<ScanStep, tree>(cloneDeep(this.tree)))
 
         this.app.sidepanels.methods_panel.showSection("scanedit")
     }
 
     deactivate() {
         super.deactivate()
-    }
 
-    highlightedCandidates(): MapCoordinate[] {
-        return this.markers.filter((m) => m.isActive()).map((m) => m.getSpot())
-    }
-
-    highlightCandidates(spots: MapCoordinate[]) {
-        this.markers.forEach((m) => m.setActive(spots.some((c) => eq(c, m.getSpot()))))
+        this.edit_panel.container.empty()
+        this.edit_panel = null
     }
 }

@@ -2,29 +2,37 @@ import Widget from "../widgets/Widget";
 import SpotOrderingEdit from "./SpotNumberingEdit";
 import AreaEdit from "./AreaEdit";
 import TreeEdit from "./TreeEdit";
-import {ScanStep} from "../../model/clues";
-import {MapCoordinate} from "../../model/coordinates";
+import {ScanStep, SetSolution} from "../../model/clues";
+import {eq, MapCoordinate} from "../../model/coordinates";
 import {indirect, resolve} from "../../model/methods";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import PathEdit from "./PathEdit";
 import {ScanTree2} from "../../model/scans/ScanTree2";
-import ScanSpot = ScanTree2.ScanSpot;
-import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
+import ScanTools from "./ScanTools";
+import {TileMarkerWithActive} from "../map/activeLayer";
+import {complementSpot} from "../../model/scans/scans";
+import ScanSpot = ScanTree2.ScanSpot;
+import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import indirect_scan_tree = ScanTree2.indirect_scan_tree;
 import narrow_down = ScanTree2.narrow_down;
 import assumedRange = ScanTree2.assumedRange;
-import ScanTools from "./ScanTools";
 
-export default class ScanEditPanel extends Widget {
+export default class ScanEditPanel extends Widget<{
+    "candidates_changed": MapCoordinate[]
+}> {
     tools: ScanTools
     spot_ordering: SpotOrderingEdit
     areas: AreaEdit
     tree_edit: TreeEdit
     path_edit: PathEdit
-    constructor(public layer: ScanEditLayer, public clue: ScanStep, public value: resolved_scan_tree) {
+
+    candidates: MapCoordinate[]
+
+    constructor(public layer: ScanEditLayer, public clue: ScanStep, public value: resolved_scan_tree
+    ) {
         super($(".cluemethodcontent[data-methodsection=scanedit]").empty())
 
         {
@@ -58,11 +66,13 @@ export default class ScanEditPanel extends Widget {
                 .appendTo(control_row)
         }
 
-        this.tools = new ScanTools().addClass("fullwidth-in-panel").appendTo(this)
+        this.tools = new ScanTools(this).addClass("fullwidth-in-panel").appendTo(this)
         this.spot_ordering = new SpotOrderingEdit(layer, value.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
         this.areas = new AreaEdit(this, value.areas, layer).addClass("fullwidth-in-panel").appendTo(this)
         this.tree_edit = new TreeEdit(this, value.root).addClass("fullwidth-in-panel").appendTo(this)
         this.path_edit = new PathEdit(this, this.value.methods).addClass("fullwidth-in-panel").appendTo(this)
+
+        this.candidates = this.clue.solution.candidates
 
         this.spot_ordering.on("changed", (v: MapCoordinate[]) => {
             this.value.spot_ordering = v
@@ -79,12 +89,13 @@ export default class ScanEditPanel extends Widget {
                 this.path_edit.clean()
             })
             .on("decisions_changed", (decisions) => {
-                let candidates = decisions.reduce((candidates, decision) => {
+                this.candidates = decisions.reduce((candidates, decision) => {
                     return narrow_down(candidates, decision, assumedRange(this.value))
                 }, this.clue.solution.candidates)
 
-                this.layer.set_remaining_candidates(candidates)
-                this.layer.highlightCandidates(candidates)
+                this.layer.highlightCandidates(this.candidates)
+
+                this.emit("candidates_changed", this.candidates)
             })
             .on("renamed", (e) => {
                 function tree_renamer(node: ScanTree2.decision_tree) {
@@ -108,7 +119,6 @@ export default class ScanEditPanel extends Widget {
             })
 
         this.tree_edit.on("changed", (t) => {
-            console.log("Changed tree")
             this.value.root = t
             this.path_edit.clean()
         }).on("decisions_loaded", (decisions) => {
@@ -116,12 +126,14 @@ export default class ScanEditPanel extends Widget {
         })
 
         this.path_edit.on("changed", (v) => {
-            console.log("Changed paths")
             this.value.methods = v
         })
     }
 
-    setValue(value: resolved_scan_tree) {
+    setValue(value
+                 :
+                 resolved_scan_tree
+    ) {
         this.value = value
 
         this.spot_ordering.setValue(value.spot_ordering)

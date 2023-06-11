@@ -50,31 +50,49 @@ export class EquivalenceClass {
     }
 }
 
+export type ScanEquivalenceClassOptions = {
+    candidates: MapCoordinate[],
+    range: number,
+    complement: boolean,
+    floor: number
+}
+
 export class ScanEquivalenceClasses {
     raster: Raster<EquivalenceClass> = null
     equivalence_classes: EquivalenceClass[] = null
     max_information: number
 
-    constructor(private candidates: MapCoordinate[],
-                private range: number) {
+    layer: leaflet.FeatureGroup = null
+
+    constructor(public options: ScanEquivalenceClassOptions) {
+        this.invalidate()
     }
 
     private calculate_classes() {
+        if (this.equivalence_classes != null) return;
 
-        if (this.candidates.length == 0) {
+        if (this.options.candidates.length == 0) {
             this.max_information = 0
             this.equivalence_classes = []
             return
         }
 
-        let bounds = leaflet.bounds(this.candidates.map((c) => leaflet.point(c.x, c.y)))
+        let bounds = leaflet.bounds(this.options.candidates.map((c) => leaflet.point(c.x, c.y)))
 
-        this.raster = new Raster<EquivalenceClass>({
-            left: bounds.getTopLeft().x - 2 * this.range,
-            right: bounds.getTopRight().x + 2 * this.range + 1,
-            top: bounds.getBottomLeft().y + 2 * this.range + 1,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
-            bottom: bounds.getTopLeft().y - 2 * this.range
-        })
+        this.raster = new Raster<EquivalenceClass>(this.options.complement ?
+            {
+                left: bounds.getTopLeft().x - (this.options.range + 15),
+                right: bounds.getTopRight().x + (this.options.range + 15) + 1,
+                top: ((bounds.getBottomLeft().y + (this.options.range + 15) + 1) + 6400) % 12800,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
+                bottom: ((bounds.getTopLeft().y - (this.options.range + 15)) + 6400) % 12800
+            }
+
+            : {
+                left: bounds.getTopLeft().x - 2 * this.options.range,
+                right: bounds.getTopRight().x + 2 * this.options.range + 1,
+                top: bounds.getBottomLeft().y + 2 * this.options.range + 1,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
+                bottom: bounds.getTopLeft().y - 2 * this.options.range
+            })
 
         this.equivalence_classes = []
 
@@ -83,12 +101,13 @@ export class ScanEquivalenceClasses {
             for (let col = 0; col < this.raster.size.x; col++) {
                 let index = row * this.raster.size.x + col
 
-                let tile = {
+                let tile: MapCoordinate = {
                     x: this.raster.bounds.left + col,
-                    y: this.raster.bounds.bottom + row
+                    y: this.raster.bounds.bottom + row,
+                    level: this.options.floor
                 }
 
-                let profile = ScanProfile.compute(tile, this.candidates, this.range)
+                let profile = ScanProfile.compute(tile, this.options.candidates, this.options.range)
 
                 if (col > 0) {
                     let left_neighbour = this.raster.data[index - 1]
@@ -121,13 +140,40 @@ export class ScanEquivalenceClasses {
         this.max_information = Math.max(...this.equivalence_classes.map((c) => c.information_gain))
     }
 
-    getClasses(): EquivalenceClass[] {
-        if (!this.equivalence_classes) this.calculate_classes()
+    getLayer(): leaflet.FeatureGroup {
+        this.calculate_classes()
 
-        return this.equivalence_classes
+        if (this.layer == null) {
+            this.layer = leaflet.featureGroup()
+
+            this.equivalence_classes.forEach((c) => c.getPolygon().addTo(this.layer))
+        }
+
+        console.log(this.layer.getLayers().length)
+
+        return this.layer
+    }
+
+    invalidate(options?: ScanEquivalenceClassOptions) {
+        if (options) this.options = options
+
+        this.equivalence_classes = null
+        this.max_information = null
+
+        this.calculate_classes()
+
+        let old_layer = this.layer
+        this.layer = null
+
+        // @ts-ignore
+        let old_map = old_layer?._map
+        if (old_map) {
+            old_layer.remove()
+
+            this.getLayer().addTo(old_map)
+        }
     }
 }
-
 
 export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: number): Pulse {
     let d = distance(spot, tile)
@@ -183,7 +229,7 @@ export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): 
         }
 
         if ((distance(spot_levelled, area_levelled.topleft) > (range + 15)
-            || distance(spot_levelled, area_levelled.botright) > (range + 15))
+                || distance(spot_levelled, area_levelled.botright) > (range + 15))
             && spot.level == area.level
         ) { // Any tile in area does not trigger different level
             pulses.push({
@@ -315,6 +361,15 @@ namespace ScanProfile {
         return gain
     }
 }
+
+export function complementSpot(spot: MapCoordinate) {
+    return {
+        x: spot.x,
+        y: (spot.y + 6400) % 12800,
+        level: spot.level
+    }
+}
+
 /*
 export enum ChildType {
     SINGLE,

@@ -1,17 +1,21 @@
 Release b0.3
 - Scan Tree Editor
     - Add explanation modal
-    - Disable info buttons that leave 0 candidates
 
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
 
 Release b0.4:
+- Incorporate jacket/backpack recommmendations
 - Styling pass over the scan editor
     - Tree as a table
+    - Disable info buttons that leave 0 candidates
 - Add control bar for map interactions (top center).
 - Detailled pathing
     - Pathfinder/-validator/-drawer
+- Settings modal
+    - Local methods
+    - Teleport settings
 
 RELEASE 1.0
 - Finish all elite/master scans
@@ -22,6 +26,9 @@ RELEASE 1.0
         - Camelot, Watchtower, Varrock alternatives
 
 Unscheduled:
+- Better algorithm to combine equivalence classes.
+- Better algorithm to construct polygon for equivalence class (with hole support).
+- Better placement of information marker to guaranteee it's always inside the area.
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Arrow key/enter control for the search.
 - Integrate a solving method for compasses
@@ -44,10 +51,10 @@ Rechecked
 - Keldagrim
 - Ardounge
 - Zanaris
-
-Next up:
 - Taverley
 - Dorgesh-Kaan
+
+Next up:
 - Fremennik Isles
 - Haunted Woods
 - Piscatoris

@@ -33,6 +33,7 @@ export default class AreaWidget extends Widget<{
             botright: { x: JQuery, y: JQuery },
             redraw_button: JQuery
         },
+        floor: JQuery
     }
 
     private createInputfield(read: () => number, write: (number) => void): JQuery {
@@ -61,6 +62,7 @@ export default class AreaWidget extends Widget<{
 
         interaction.events.on("changed", (a) => {
             this.value.area = a
+            this.value.level = this.layer.getMap().floor
 
             this.edit_panel.area.topleft.x.val(a.topleft.x)
             this.edit_panel.area.topleft.y.val(a.topleft.y)
@@ -143,12 +145,7 @@ export default class AreaWidget extends Widget<{
                         // Reset input field
                         if (!this.edit_panel.name.is(":focus")) this.edit_panel.name.val(this.value.name)
                     }
-                })
-            /*
-            .on("input", (e) => {
-                this.value.name = $(e.target).val() as string
-                this.emit("changed", this.value)
-            })*/,
+                }),
             area: {
                 topleft: {
                     x: this.createInputfield(() => this.value.area.topleft.x, (v) => this.value.area.topleft.x = v),
@@ -163,6 +160,7 @@ export default class AreaWidget extends Widget<{
                         this.startRedraw()
                     })
             },
+            floor: this.createInputfield(() => this.value.level, (v) => this.value.level = v).attr({"min": 0, "max": 3})
         }
 
         // This section is proof that I need to learn React...
@@ -174,28 +172,6 @@ export default class AreaWidget extends Widget<{
             .appendTo(this.edit_panel.container)
 
         $("<div class='head'>Area</div>").appendTo(this.edit_panel.container)
-
-        /*
-                let virtual_checkbox = $("<input type='checkbox'>")
-                    .on("input", (e) => {
-                        this.value.is_virtual = virtual_checkbox.is(":checked")
-
-                        this.polygon.update()
-
-                        this.emit("changed", this.value)
-
-                        this.edit_panel.area.container.animate({"height": 'toggle'})
-                    }
-                if (value.is_virtual) virtual_checkbox.prop("checked", true)
-
-               /* $("<div class='row'>")
-                    .append($("<div class='col-2 property' title='Check if this area is no specific place on the map, for example when \"Try scanning a different level\" is used.'>Virtual?</div>"))
-                    .append($("<div class='col-10 property' style='text-align: left'></div>")
-                        .append(virtual_checkbox)
-                    )
-                    .appendTo(this.edit_panel.container)
-
-                */
 
         $("<div class='row'>")
             .append($("<div class='col-2 property'></div>"))
@@ -209,11 +185,15 @@ export default class AreaWidget extends Widget<{
             .append($("<div class='col-5'>").append(this.edit_panel.area.topleft.y))
             .appendTo(this.edit_panel.container)
 
-
         $("<div class='row'>")
             .append($("<div class='col-2 property' title='Bottom right' style='text-align: center'>BR</div>"))
             .append($("<div class='col-5'>").append(this.edit_panel.area.botright.x))
             .append($("<div class='col-5'>").append(this.edit_panel.area.botright.y))
+            .appendTo(this.edit_panel.container)
+
+        $("<div class='row'>")
+            .append($("<div class='col-2 property'>Floor</div>"))
+            .append($("<div class='col-10'></div>").append(this.edit_panel.floor))
             .appendTo(this.edit_panel.container)
 
         $("<div class='row'>")

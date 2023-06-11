@@ -38,6 +38,7 @@ export default class AreaEdit extends Widget<{
 
                 w.startRedraw().events.on("done", () => {
                     (w.edit_panel.name[0] as HTMLInputElement).select()
+
                     this.emit("changed", this.value)
                 })
 

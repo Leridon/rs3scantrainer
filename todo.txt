@@ -2,10 +2,6 @@ Release b0.3
 
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions.
 
-- Properly implement different level
-    - Display scan spots on surface/underground
-    - Add an input to control the level of a scan area [0 - 3]
-
 - Fix synthethic triple not highlighting previous area
 
 - Scan Tree Editor

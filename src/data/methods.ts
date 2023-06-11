@@ -1806,7 +1806,7 @@ let raw: (method & indirected)[] = [
             {
                 "from": "B",
                 "to": "G",
-                "short_instruction": "Archaeology Teleport to {{target}}."
+                "short_instruction": "{{teleport archteleport soran}} Teleport to {{target}}."
             },
             {
                 "from": "D",

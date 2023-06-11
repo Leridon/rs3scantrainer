@@ -99,6 +99,9 @@ export namespace ScanTree2 {
                 children: []
             }
 
+            // For triples with more than one candidate, inherit the parent's spot
+            if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.where = parent.node.where
+
             if (node != null) {
                 // The node is not a leaf node, find all relevant children
                 t.where = tree.areas.find((a) => a.name == node.where)

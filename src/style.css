@@ -534,3 +534,12 @@ video {
     margin-left: -5px;
     margin-right: -5px;
 }
+
+.tele-icon-code-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7em;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}

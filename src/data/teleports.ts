@@ -1,6 +1,5 @@
 import {teleport_group} from "../model/teleports";
 
-//@tsignore()
 const raw: teleport_group[] = [{
     id: "home",
     name: "Lodestone",
@@ -25,7 +24,7 @@ const raw: teleport_group[] = [{
         {subid: "portsarim", spot: {x: 3011, y: 3215}, code: "P", hover: "Port Sarim"},
         {subid: "prifddinas", spot: {x: 2208, y: 3360, level: 1}, code: "Alt+P", hover: "Prifddinas"},
         {subid: "seersvillage", spot: {x: 2689, y: 3482}, code: "S", hover: "Seers' Village"},
-        {subid: "taverley", spot: {x: 2878, y: 3442}, code: "T", hover: "Taverley"},
+        {subid: "taverley", spot: {x: 2880, y: 3443}, code: "T", hover: "Taverley"},
         {subid: "tirannwn", spot: {x: 2254, y: 3149}, code: "Alt+T", hover: "Tirannwn"},
         {subid: "varrock", spot: {x: 3214, y: 3376}, code: "V", hover: "Varrock"},
         {subid: "wilderness", spot: {x: 3143, y: 3635}, code: "W", hover: "Wilderness"},
@@ -648,26 +647,26 @@ const raw: teleport_group[] = [{
 
     ]
 }, {
-    id: "archteleport", name: "Archaeology teleport (or outfit)", img: "masterarchaeologist.png",
+    id: "archteleport", name: "Archaeology teleport (or outfit)", img: "archteleport.png",
     spots: [
         {subid: "campus", spot: {x: 3329, y: 3379}, code: "1", hover: "Archaeology Campus"},
-        {subid: "", spot: {x: 3349, y: 3195}, code: "2", hover: "Kharid-et"},
-        {subid: "", spot: {x: 3271, y: 3504}, code: "3", hover: "Infernal Source"},
-        {subid: "", spot: {x: 3695, y: 3209}, code: "4", hover: "Everlight"},
-        {subid: "", spot: {x: 2682, y: 3403}, code: "6", hover: "Senntisten"},
-        {subid: "", spot: {x: 2408, y: 2829}, code: "7", hover: "Stormguard Citadel"},
-        {subid: "", spot: {x: 3985, y: 4323}, code: "8", hover: "Warforge"},
+        {subid: "kharidet", spot: {x: 3349, y: 3195}, code: "2", hover: "Kharid-et"},
+        {subid: "infernal", spot: {x: 3271, y: 3504}, code: "3", hover: "Infernal Source"},
+        {subid: "everlight", spot: {x: 3695, y: 3209}, code: "4", hover: "Everlight"},
+        {subid: "senntisten", spot: {x: 2682, y: 3403}, code: "6", hover: "Senntisten"},
+        {subid: "stormguard", spot: {x: 2408, y: 2829}, code: "7", hover: "Stormguard Citadel"},
+        {subid: "warforge", spot: {x: 3985, y: 4323}, code: "8", hover: "Warforge"},
         // Orthen
-        {subid: "", spot: {x: 3254, y: 3455}, code: "9,1", hover: "Collectors - Art Critic Jacques"},
-        {subid: "", spot: {x: 2550, y: 2854}, code: "9,2", hover: "Collectors - Chief Tess"},
-        {subid: "", spot: {x: 2957, y: 3510}, code: "9,3", hover: "Collectors - Generals Bentnoze & Wartface"},
-        {subid: "", spot: {x: 2921, y: 9702}, code: "9,4", hover: "Collectors - Isaura"},
-        {subid: "", spot: {x: 2988, y: 3269}, code: "9,5", hover: "Collectors - Lowse"},
-        {subid: "", spot: {x: 3985, y: 4329}, code: "9,6", hover: "Collectors - Sharrigan"},
-        {subid: "", spot: {x: 2962, y: 3347}, code: "9,7", hover: "Collectors - Sir Atcha"},
-        {subid: "", spot: {x: 3182, y: 3418}, code: "9,8", hover: "Collectors - Soran"},
-        {subid: "", spot: {x: 3342, y: 3384}, code: "9,9", hover: "Collectors - Velucia"},
-        {subid: "", spot: {x: 3088, y: 3254}, code: "9,0,1", hover: "Collectors - Wise Old Man"},
+        {subid: "jacques", spot: {x: 3254, y: 3455}, code: "9,1", hover: "Collectors - Art Critic Jacques"},
+        {subid: "tess", spot: {x: 2550, y: 2854}, code: "9,2", hover: "Collectors - Chief Tess"},
+        {subid: "generals", spot: {x: 2957, y: 3510}, code: "9,3", hover: "Collectors - Generals Bentnoze & Wartface"},
+        {subid: "isaura", spot: {x: 2921, y: 9702}, code: "9,4", hover: "Collectors - Isaura"},
+        {subid: "lowse", spot: {x: 2988, y: 3269}, code: "9,5", hover: "Collectors - Lowse"},
+        {subid: "sharrigan", spot: {x: 3985, y: 4329}, code: "9,6", hover: "Collectors - Sharrigan"},
+        {subid: "atcha", spot: {x: 2962, y: 3347}, code: "9,7", hover: "Collectors - Sir Atcha"},
+        {subid: "soran", spot: {x: 3182, y: 3418}, code: "9,8", hover: "Collectors - Soran"},
+        {subid: "velucia", spot: {x: 3342, y: 3384}, code: "9,9", hover: "Collectors - Velucia"},
+        {subid: "wiseoldman", spot: {x: 3088, y: 3254}, code: "9,0,1", hover: "Collectors - Wise Old Man"},
     ]
 },
     {id: "ringofkinship", name: "Ring of Kinship", img: "ringofkinship.png", spots: [{subid: "daemonheim", spot: {x: 3449, y: 3701}}]},
@@ -794,6 +793,15 @@ const raw: teleport_group[] = [{
             {subid: "rune", spot: {x: 2367, y: 3353}, hover: "Rune Dragons", code: "5,2"},
         ]
     },
+    {
+        id: "amuletofnature", name: "Amulet of Nature", img: "amuletofnature.png",
+        spots: [
+            {subid: "draynornightshade", spot: {x: 3086, y: 3353}, hover: "Nightshade Patch"},
+            {subid: "herblorehabitat", spot: {x: 2949, y: 2904}, hover: "Vine Bush Patch"},
+            {subid: "faladortree", spot: {x: 3006, y: 3375}, hover: "Falador Tree Patch"},
+            {subid: "harmonyallotment", spot: {x: 3793, y: 2832}, hover: "Harony Island Allotment Patch"},
+        ]
+    }
     //TODO: Eagle transport system
     //TODO: Canoes
 ]

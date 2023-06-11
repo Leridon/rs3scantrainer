@@ -11,6 +11,8 @@ import assumedRange = ScanTree2.assumedRange;
 import {Pulse} from "../../model/scans/scans";
 import narrow_down = ScanTree2.narrow_down;
 import Collapsible from "../widgets/modals/Collapsible";
+import {util} from "../../util/util";
+import natural_order = util.natural_order;
 
 type TreeDom = {
     node: augmented_tree,
@@ -93,7 +95,7 @@ export default class TreeEdit extends Widget<{
             let col1 = $("<div class='col-9'>").css("padding-left", `${node.depth * 7}px`).appendTo(row)
 
             dom.candidate_count = $("<div class='col-2' style='text-align: center'>")
-                .attr("title", node.remaining_candidates.map((c) => ScanTree2.spotNumber(self.parent.value, c)).sort().join(", "))
+                .attr("title", node.remaining_candidates.map((c) => ScanTree2.spotNumber(self.parent.value, c)).sort(natural_order).join(", "))
                 .text(node.remaining_candidates.length).appendTo(row)
             let load_button = SmallImageButton.new('assets/icons/share.png').appendTo($("<div class='col-1'>").appendTo(row))
                 .on("click", () => {
@@ -101,7 +103,7 @@ export default class TreeEdit extends Widget<{
                 })
 
             if ((node.parent && node.parent.kind.pulse == 3) || node.remaining_candidates.length == 1) {
-                $(`<div>${node.parent.node.where.name}${Pulse.meta(node.parent.kind).shorted} -> Solved! (${node.remaining_candidates.map((c) => ScanTree2.spotNumber(self.parent.value, c)).sort().join(", ")})</div>`).appendTo(col1)
+                $(`<div>${node.parent.node.where.name}${Pulse.meta(node.parent.kind).shorted} -> Solved! (${node.remaining_candidates.map((c) => ScanTree2.spotNumber(self.parent.value, c)).sort(natural_order).join(", ")})</div>`).appendTo(col1)
             } else {
                 let label = $("<label class='flex-grow-1' style='display: flex; flex-direction: row'>").text(node.parent != null ? `${node.parent.node.where.name}${Pulse.meta(node.parent.kind).shorted} ->` : "Start at").appendTo(col1)
 
@@ -150,9 +152,9 @@ export default class TreeEdit extends Widget<{
                     let text = $(`<span style="margin-left: 5px"></span>`).appendTo(label)
 
                     if (node.remaining_candidates.length > 5) {
-                        text.text(`${node.remaining_candidates.length} spots remain`).attr("title", node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort().join(", "))
+                        text.text(`${node.remaining_candidates.length} spots remain`).attr("title", node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort(natural_order).join(", "))
                     } else {
-                        text.text(`(${node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort().join(", ")}) remain`)
+                        text.text(`(${node.remaining_candidates.map((s) => ScanTree2.spotNumber(self.parent.value, s)).sort(natural_order).join(", ")}) remain`)
                     }
                 }
 

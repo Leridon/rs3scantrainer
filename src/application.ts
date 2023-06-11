@@ -111,11 +111,7 @@ export class Application {
     data = {
         teleports: new Teleports({
             fairy_ring_favourites: [],
-            potas: [{
-                color: "red",
-                active: true,
-                slots: ["gamesnecklace", "ringofduelling", "amuletofglory", "skillsnecklace", "digsitependant", "ringofslaying"]
-            }],
+            potas: [],
             variants: []
         }),
         clues: new ClueSteps(),
@@ -134,17 +130,7 @@ export class Application {
 
                 if (!tele) return "NULL"
 
-                // TODO: Overlay code
-
-                /*
-                *
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-                * */
-
-                return `<span style="position: relative"><img class='text-icon' src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.7em">${tele.code ? tele.code : ""}</div></span>`
+                return `<span style="position: relative"><img class='text-icon' src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"><div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
             }]
         ]
     ))
@@ -186,7 +172,7 @@ export function initialize() {
 
     //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
     //scantrainer.select(clues.find((c) => c.id == 399)) // compass
-    scantrainer.sidepanels.clue_panel.selectClue(clues.find((c) => c.id == 364)) // falador
+    // scantrainer.sidepanels.clue_panel.selectClue(clues.find((c) => c.id == 364)) // falador
 
     /*
         let player = YouTubePlayer('my-player', {

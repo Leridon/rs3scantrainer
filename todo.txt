@@ -1,13 +1,11 @@
 Release b0.3
-
-- Some weird stuff happens when jumping to a decision point and then manually changing the decisions.
-
 - Scan Tree Editor
     - Add explanation modal
     - Disable info buttons that leave 0 candidates
 
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
+
 - Polishing
     - Arch teleport icon instead of outfit
     - Amulet of nature teleports
@@ -27,6 +25,7 @@ RELEASE 1.0
         - Camelot, Watchtower, Varrock alternatives
 
 Unscheduled:
+- Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Canoe transport
 - Arrow key/enter control for the search.
 - Integrate a solving method for compasses
@@ -36,7 +35,6 @@ Unscheduled:
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat.
 - Locally saved methods
-- Figure out how to handle RoW/LotD/HSR
 - Apply information theory and equivalence classes from scans also to compasses.
 - Figure out z-Ordering of layers (need to use panes probably)
 - Assign clue tiers to remaining clues

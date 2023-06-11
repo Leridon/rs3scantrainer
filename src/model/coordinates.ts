@@ -34,7 +34,7 @@ export type Box = { topleft: Vector2, botright: Vector2 }
 export function clampInto(pos: Vector2, area: Box): Vector2 {
     return {
         x: clamp(pos.x, area.topleft.x, area.botright.x),
-        y: clamp(pos.x, area.botright.y, area.topleft.y),
+        y: clamp(pos.y, area.botright.y, area.topleft.y),
     }
 }
 

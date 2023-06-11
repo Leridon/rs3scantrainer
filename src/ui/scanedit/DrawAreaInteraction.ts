@@ -4,6 +4,7 @@ import {Box, MapCoordinate} from "../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
+import * as lodash from "lodash"
 
 export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
     events = new TypedEmitter<{
@@ -39,7 +40,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
             if (this.dragstart) {
                 leaflet.DomEvent.stopPropagation(e)
 
-                this.events.emit("done", this.last_area)
+                this.events.emit("done", lodash.cloneDeep(this.last_area))
 
                 this.layer.cancelInteraction()
             }
@@ -51,9 +52,9 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
 
                 this.dragstart = this.layer.getMap().tileFromMouseEvent(e)
 
-                this.last_area = {topleft: this.dragstart, botright: this.dragstart}
+                this.last_area = {topleft: this.dragstart, botright: this.layer.getMap().tileFromMouseEvent(e)}
 
-                this.events.emit("changed", this.last_area)
+                this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }
         },
 
@@ -75,7 +76,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
                         }
                     }
 
-                this.events.emit("changed", this.last_area)
+                this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }
         },
 

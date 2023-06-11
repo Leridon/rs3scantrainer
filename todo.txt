@@ -6,12 +6,9 @@ Release b0.3
 - Content:
     - Fremmenik Isles, Haunted Woods, Piscatoris
 
-- Polishing
-    - Arch teleport icon instead of outfit
-    - Amulet of nature teleports
-
 Release b0.4:
 - Styling pass over the scan editor
+    - Tree as a table
 - Add control bar for map interactions (top center).
 - Detailled pathing
     - Pathfinder/-validator/-drawer
@@ -26,7 +23,6 @@ RELEASE 1.0
 
 Unscheduled:
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
-- Canoe transport
 - Arrow key/enter control for the search.
 - Integrate a solving method for compasses
 - Collapsible panels

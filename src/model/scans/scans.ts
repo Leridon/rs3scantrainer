@@ -43,7 +43,9 @@ export class EquivalenceClass {
                     className: "equivalence-class-information",
                     html: `${this.information_gain.toFixed(2)}b`,
                 }),
-            }).addTo(this.polygon)
+            })
+                .on("click", () => console.log(this.profile))
+                .addTo(this.polygon)
         }
 
         return this.polygon
@@ -180,28 +182,15 @@ export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: numbe
 
     let p = 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as 1 | 2 | 3
 
-    let different_level = spot.level != tile.level || distance(levelled_spot(spot), levelled_spot(tile)) <= range + 15
+    if (p > 3) console.log("PANIC")
+
+    let different_level = spot.level != tile.level || distance(complementSpot(spot), tile) <= range + 15
 
     return {
         pulse: p,
         different_level: different_level
     }
 }
-
-function levelled_spot(spot: Vector2): Vector2 {
-    return {
-        x: spot.x,
-        y: spot.y % 6400
-    }
-}
-
-function leveled_area(area: Box): Box {
-    return {
-        topleft: levelled_spot(area.topleft),
-        botright: levelled_spot(area.botright),
-    }
-}
-
 function distance(a: Vector2, b: Vector2): number {
     let d_x = Math.abs(a.x - b.x)
     let d_y = Math.abs(a.y - b.y)
@@ -217,10 +206,9 @@ export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): 
     if (max == 1) {
         pulses = []
 
-        let spot_levelled = levelled_spot(spot)
-        let area_levelled = leveled_area(area.area)
+        let complement_spot = complementSpot(spot)
 
-        if (spot.level != area.level || distance(spot_levelled, clampInto(spot_levelled, area_levelled)) <= (range + 15)) {
+        if (spot.level != area.level || distance(complement_spot, clampInto(complement_spot, area.area)) <= (range + 15)) {
             // Any tile in area triggers different level
             pulses.push({
                 pulse: 1,
@@ -228,8 +216,8 @@ export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): 
             })
         }
 
-        if ((distance(spot_levelled, area_levelled.topleft) > (range + 15)
-                || distance(spot_levelled, area_levelled.botright) > (range + 15))
+        if ((distance(complement_spot, area.area.topleft) > (range + 15)
+                || distance(complement_spot, area.area.botright) > (range + 15))
             && spot.level == area.level
         ) { // Any tile in area does not trigger different level
             pulses.push({

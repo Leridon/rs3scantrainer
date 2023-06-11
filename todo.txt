@@ -1,7 +1,6 @@
 Release b0.3
 
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions.
-
 - Fix synthethic triple not highlighting previous area
 
 - Scan Tree Editor
@@ -30,7 +29,6 @@ RELEASE 1.0
 
 Unscheduled:
 - Canoe transport
-- Color spots differently according to level?
 - Arrow key/enter control for the search.
 - Integrate a solving method for compasses
 - Collapsible panels

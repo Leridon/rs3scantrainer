@@ -67,10 +67,14 @@ class PatchNotesModal extends Modal {
             s.seen_changelogs = this.sections.map((e) => e.patchnotes)
         })
 
+        $("#modal-patchnotes-report-issues").show()
+
         return this.show()
     }
 
     showAll() {
+        $("#modal-patchnotes-report-issues").hide()
+
         this.all_title.show()
         this.new_title.hide()
 

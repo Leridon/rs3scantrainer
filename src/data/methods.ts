@@ -5917,6 +5917,549 @@ let raw: (method & indirected)[] = [
         ],
         "type": "scantree"
     },
+    {
+        "areas": [
+            {
+                "name": "A",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 3597,
+                        "y": 3495
+                    },
+                    "botright": {
+                        "x": 3597,
+                        "y": 3495
+                    }
+                }
+            },
+            {
+                "name": "B",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 3587,
+                        "y": 3485
+                    },
+                    "botright": {
+                        "x": 3587,
+                        "y": 3485
+                    }
+                }
+            },
+            {
+                "name": "C",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 3583,
+                        "y": 3482
+                    },
+                    "botright": {
+                        "x": 3583,
+                        "y": 3482
+                    }
+                }
+            },
+            {
+                "name": "D",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 3591,
+                        "y": 3481
+                    },
+                    "botright": {
+                        "x": 3591,
+                        "y": 3479
+                    }
+                }
+            },
+            {
+                "name": "E",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 3567,
+                        "y": 3484
+                    },
+                    "botright": {
+                        "x": 3568,
+                        "y": 3482
+                    }
+                }
+            },
+            {
+                "name": "F",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 3554,
+                        "y": 3478
+                    },
+                    "botright": {
+                        "x": 3555,
+                        "y": 3477
+                    }
+                }
+            }
+        ],
+        "assumes_meerkats": true,
+        "clue": 359,
+        "methods": [
+            {
+                "from": null,
+                "to": "A",
+                "short_instruction": "{{teleport fairyring ALQ}} to {{target}}"
+            },
+            {
+                "from": "A",
+                "to": "B",
+                "short_instruction": "Step-{{Surge}} to {{target}}"
+            },
+            {
+                "from": "B",
+                "to": "C",
+                "short_instruction": "Go to {{target}}"
+            },
+            {
+                "from": "B",
+                "to": "D",
+                "short_instruction": "Go to {{target}}"
+            },
+            {
+                "from": "C",
+                "to": "D",
+                "short_instruction": "{{Dive}} to {{target}}"
+            },
+            {
+                "from": "B",
+                "to": "E",
+                "short_instruction": "{{Surge}} to {{target}}"
+            },
+            {
+                "from": "E",
+                "to": "F",
+                "short_instruction": "{{Dive}} to {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 3596,
+                        "y": 3501,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 3604,
+                        "y": 3507,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 3609,
+                        "y": 3499,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 3583,
+                        "y": 3484,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 3590,
+                        "y": 3475,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 3583,
+                        "y": 3466,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 3567,
+                        "y": 3475,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 3573,
+                        "y": 3484,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 3606,
+                        "y": 3465,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 3575,
+                        "y": 3511,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 3616,
+                        "y": 3512,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 3624,
+                        "y": 3508,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 3623,
+                        "y": 3476,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 3562,
+                        "y": 3509,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "E",
+                "to": [
+                    {
+                        "x": 3552,
+                        "y": 3483,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 3551,
+                        "y": 3514,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 3544,
+                        "y": 3465,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 3534,
+                        "y": 3470,
+                        "level": 0
+                    },
+                    {
+                        "x": 3523,
+                        "y": 3460,
+                        "level": 0
+                    },
+                    {
+                        "x": 3529,
+                        "y": 3501,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Check {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 3637,
+                        "y": 3486,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            }
+        ],
+        "root": {
+            "where": "A",
+            "children": [
+                {
+                    "key": {
+                        "pulse": 2,
+                        "different_level": false
+                    },
+                    "value": {
+                        "where": "B",
+                        "children": [
+                            {
+                                "key": {
+                                    "pulse": 2,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "where": "C",
+                                    "children": [
+                                        {
+                                            "key": {
+                                                "pulse": 2,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "where": "D",
+                                                "children": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "key": {
+                                    "pulse": 1,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "where": "D",
+                                    "children": []
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "key": {
+                        "pulse": 1,
+                        "different_level": false
+                    },
+                    "value": {
+                        "where": "B",
+                        "children": [
+                            {
+                                "key": {
+                                    "pulse": 1,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "where": "E",
+                                    "children": [
+                                        {
+                                            "key": {
+                                                "pulse": 2,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "where": "F",
+                                                "children": []
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 1,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "where": "F",
+                                                "children": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "spot_ordering": [
+            {
+                "x": 3596,
+                "y": 3501,
+                "level": 0
+            },
+            {
+                "x": 3604,
+                "y": 3507,
+                "level": 0
+            },
+            {
+                "x": 3609,
+                "y": 3499,
+                "level": 0
+            },
+            {
+                "x": 3583,
+                "y": 3484,
+                "level": 0
+            },
+            {
+                "x": 3590,
+                "y": 3475,
+                "level": 0
+            },
+            {
+                "x": 3583,
+                "y": 3466,
+                "level": 0
+            },
+            {
+                "x": 3567,
+                "y": 3475,
+                "level": 0
+            },
+            {
+                "x": 3573,
+                "y": 3484,
+                "level": 0
+            },
+            {
+                "x": 3606,
+                "y": 3465,
+                "level": 0
+            },
+            {
+                "x": 3575,
+                "y": 3511,
+                "level": 0
+            },
+            {
+                "x": 3616,
+                "y": 3512,
+                "level": 0
+            },
+            {
+                "x": 3624,
+                "y": 3508,
+                "level": 0
+            },
+            {
+                "x": 3623,
+                "y": 3476,
+                "level": 0
+            },
+            {
+                "x": 3562,
+                "y": 3509,
+                "level": 0
+            },
+            {
+                "x": 3552,
+                "y": 3483,
+                "level": 0
+            },
+            {
+                "x": 3551,
+                "y": 3514,
+                "level": 0
+            },
+            {
+                "x": 3544,
+                "y": 3465,
+                "level": 0
+            },
+            {
+                "x": 3534,
+                "y": 3470,
+                "level": 0
+            },
+            {
+                "x": 3529,
+                "y": 3501,
+                "level": 0
+            },
+            {
+                "x": 3523,
+                "y": 3460,
+                "level": 0
+            },
+            {
+                "x": 3637,
+                "y": 3486,
+                "level": 0
+            }
+        ],
+        "type": "scantree"
+    },
 ]
 
 

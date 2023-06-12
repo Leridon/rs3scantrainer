@@ -170,6 +170,7 @@ export class ScanLayer extends ActiveLayer {
     }>
 
     tile_marker: ScanRadiusTileMarker = null
+    complement_tile_marker: ScanRadiusTileMarker = null
 
     constructor(public clue: ScanStep, protected app: Application,
                 options: {
@@ -208,6 +209,7 @@ export class ScanLayer extends ActiveLayer {
     setMeerkats(value: boolean) {
         this._meerkats = value
         if (this.tile_marker) this.tile_marker.setRange(this.clue.range + (value ? 5 : 0))
+        if (this.complement_tile_marker) this.complement_tile_marker.setRange(this.clue.range + (value ? 5 : 0))
     }
 
     override loadDefaultInteraction() {
@@ -215,20 +217,9 @@ export class ScanLayer extends ActiveLayer {
 
         new ClickMapInteraction(this, {
             "click": (p) => {
-                if (self.tile_marker) {
-                    let old = self.tile_marker.getSpot()
-
-                    self.tile_marker.remove()
-                    self.tile_marker = null
-
-                    if (eq(p, old)) return
-                }
-
-                self.tile_marker = new ScanRadiusTileMarker(p, self.clue.range + (self._meerkats ? 5 : 0), Math.floor(p.y / 6400) != Math.floor(this.clue.solution.candidates[0].y / 6400))
-                    .withX("white")
-                    .withMarker(blue_icon)
-                    .on("click", () => self.tile_marker.remove())
-                    .addTo(self)
+                if (self.tile_marker && eq(p, self.tile_marker.getSpot())
+                    || self.complement_tile_marker && eq(p, self.complement_tile_marker.getSpot())) self.removeMarker()
+                else self.setMarker(p)
             }
         }).activate()
     }
@@ -268,6 +259,36 @@ export class ScanLayer extends ActiveLayer {
     highlightCandidates(spots: MapCoordinate[]) {
         this.markers.forEach((m) => m.setActive(spots.some((c) => eq(c, m.getSpot()))))
         this.complement_markers.forEach((m) => m.setActive(spots.some((c) => eq(complementSpot(c), m.getSpot()))))
+    }
+
+    removeMarker() {
+        if (this.tile_marker) {
+            this.tile_marker.remove()
+            this.tile_marker = null
+        }
+
+        if (this.complement_tile_marker) {
+            this.complement_tile_marker.remove()
+            this.complement_tile_marker = null
+        }
+    }
+
+    setMarker(spot: MapCoordinate) {
+        this.removeMarker()
+
+        let complement = Math.floor(spot.y / 6400) != Math.floor(this.clue.solution.candidates[0].y / 6400)
+
+        this.tile_marker = new ScanRadiusTileMarker(spot, this.clue.range + (this._meerkats ? 5 : 0), complement)
+            .withX("white")
+            .withMarker(blue_icon)
+            .on("click", () => this.tile_marker.remove())
+            .addTo(this)
+
+        this.complement_tile_marker = new ScanRadiusTileMarker(complementSpot(spot), this.clue.range + (this._meerkats ? 5 : 0), complement)
+            .withX("white")
+            .withMarker(blue_icon)
+            .on("click", () => this.tile_marker.remove())
+            .addTo(this)
     }
 }
 

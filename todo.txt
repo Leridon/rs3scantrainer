@@ -2,9 +2,6 @@ Release b0.3
 - Scan Tree Editor
     - Add explanation modal
 
-- Content:
-    - Fremmenik Isles, Haunted Woods, Piscatoris
-
 Release b0.4:
 - Incorporate jacket/backpack recommmendations
 - Styling pass over the scan editor
@@ -58,10 +55,10 @@ Rechecked
 - Haunted Woods
 - Menaphos
 - Desert
+- Fremennik Slayer Dungeon
 
 Next up:
 - Brimhaven
-- Fremennik Slayer Dungeon
 - Elven Lands
 - Turtle Islands
 - Heart of Gielinor

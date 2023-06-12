@@ -3,7 +3,7 @@ import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import {modal} from "../widgets/modal";
-import {eq, toPoint} from "../../model/coordinates";
+import {box_center, eq, toPoint} from "../../model/coordinates";
 import {util} from "../../util/util";
 import * as leaflet from "leaflet"
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
@@ -101,6 +101,24 @@ export class ScanTreeMethodLayer extends ScanLayer {
         let candidates = this.node.remaining_candidates
         let relevant_areas = this.node.where ? [this.node.where] : []
         if (this.node.parent && this.node.parent.node.where) relevant_areas.push(this.node.parent.node.where);
+
+        if (node.where) {
+            // TODO: This is experimental. Gather feedback and decide whether to keep
+
+            this.getMap().setFloor(node.where.level)
+
+            let c = box_center(node.where.area)
+
+            this.setMarker({
+                x: c.x,
+                y: c.y,
+                level: node.where.level,
+            })
+        } else {
+            this.getMap().setFloor(Math.min(...node.remaining_candidates.map((c) => c.level)))
+
+            this.removeMarker()
+        }
 
         this.highlightCandidates(candidates)
 

@@ -425,7 +425,7 @@
                 </p>
 
                 <div class="patchnotesection" data-patchnotes="b0.3">
-                    <h2>Version b0.3 - TODO</h2>
+                    <h2>Version b0.3 - 2023-06-12</h2>
 
                     <p>
                         b0.3 focuses on internal improvements, more colorful instructions and an editor for scan routes.
@@ -438,6 +438,7 @@
                                 <li>
                                     <p>
                                         Only available in the browser. Check it out by selecting any scan and clicking the edit button in the top right corner of the map.
+                                        There is no manual for it yet, feel free to reach out with questions.
                                     </p>
                                     <p>
                                         Please note that created scan routes can not be locally saved and used yet, the ability to do so will most likely be included in b0.4
@@ -448,9 +449,37 @@
                         </li>
                         <li>Instructions can (and do) now include icons and have colored spot numbers/names.</li>
                         <li>The zoom when advancing to the next step has been tweaked to reliably include all the necessary spots.</li>
-                        <li>Lumbridge Cave scan has been improved (Thanks to Xindrjayzda)</li>
-                        <li>Eastern part of Falador scan has been improved (Thanks to Mr Cob)</li>
-                        <li>Keldagrim scan has been overhauled (Thanks to Mr Cob)</li>
+                        <li>The scan radius around key areas is now displayed.</li>
+                        <li>Switched the map data source to the most recent version.</li>
+                        <li>The map can now have its floor changed. Selected clues automatically change to the correct floor.</li>
+
+                        <li>Overhauled/Tweaked the routes for...
+                            <ul>
+                                <li>Lumbridge Cave scan (Thanks to Xindrjayzda)</li>
+                                <li>Eastern part of Falador (Thanks to Mr Cob)</li>
+                                <li>Keldagrim (Thanks to Mr Cob)</li>
+                            </ul>
+                        </li>
+                        <li>Routes are now available for...
+                            <ul>
+                                <li>Fremennik Isles</li>
+                                <li>Piscatoris</li>
+                                <li>Haunted Woods</li>
+                                <li>Menaphos (Merchant method)</li>
+                                <li>Desert</li>
+                                <li>Fremennik Slayer Dungeon</li>
+                            </ul>
+                        </li>
+                        <li>Lots of internal changes.
+
+                            <ul>
+                                <li>
+                                    Scan routes are now automatically verified and can essentially never be wrong.
+                                    They can still be bad, but the remaining candidates will always be correct and no spots can be forgotten.
+                                    This includes all of the "different level" logic.
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
 

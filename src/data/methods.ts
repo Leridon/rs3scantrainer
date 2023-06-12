@@ -8050,6 +8050,390 @@ let raw: (method & indirected)[] = [
         ],
         "type": "scantree"
     },
+    {
+        "areas": [
+            {
+                "name": "A",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 2780,
+                        "y": 3613
+                    },
+                    "botright": {
+                        "x": 2780,
+                        "y": 3613
+                    }
+                }
+            },
+            {
+                "name": "B",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 2808,
+                        "y": 10003
+                    },
+                    "botright": {
+                        "x": 2808,
+                        "y": 10002
+                    }
+                }
+            },
+            {
+                "name": "D",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 2768,
+                        "y": 10002
+                    },
+                    "botright": {
+                        "x": 2768,
+                        "y": 10002
+                    }
+                }
+            },
+            {
+                "name": "C",
+                "level": 0,
+                "area": {
+                    "topleft": {
+                        "x": 2788,
+                        "y": 9999
+                    },
+                    "botright": {
+                        "x": 2788,
+                        "y": 9998
+                    }
+                }
+            }
+        ],
+        "assumes_meerkats": true,
+        "clue": 366,
+        "methods": [
+            {
+                "from": null,
+                "to": "A",
+                "short_instruction": "{{teleport fairyring AJR}} to {{target}}"
+            },
+            {
+                "from": "A",
+                "to": "B",
+                "short_instruction": "Enter Cave to {{target}}"
+            },
+            {
+                "from": "C",
+                "to": "D",
+                "short_instruction": "{{Surge}} to {{target}}"
+            },
+            {
+                "from": "B",
+                "to": "C",
+                "short_instruction": "{{Dive}}/{{Surge}} to {{target}}"
+            },
+            {
+                "from": "A",
+                "to": [
+                    {
+                        "x": 2720,
+                        "y": 9969,
+                        "level": 0
+                    },
+                    {
+                        "x": 2741,
+                        "y": 9977,
+                        "level": 0
+                    },
+                    {
+                        "x": 2701,
+                        "y": 9978,
+                        "level": 0
+                    },
+                    {
+                        "x": 2724,
+                        "y": 9977,
+                        "level": 0
+                    },
+                    {
+                        "x": 2714,
+                        "y": 9990,
+                        "level": 0
+                    },
+                    {
+                        "x": 2731,
+                        "y": 9998,
+                        "level": 0
+                    },
+                    {
+                        "x": 2718,
+                        "y": 10000,
+                        "level": 0
+                    },
+                    {
+                        "x": 2722,
+                        "y": 10025,
+                        "level": 0
+                    },
+                    {
+                        "x": 2705,
+                        "y": 10027,
+                        "level": 0
+                    },
+                    {
+                        "x": 2743,
+                        "y": 9986,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Check {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 2745,
+                        "y": 10024,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2751,
+                        "y": 9995,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2754,
+                        "y": 10009,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 2804,
+                        "y": 10004,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 2808,
+                        "y": 10018,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 2789,
+                        "y": 10042,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 2772,
+                        "y": 10030,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 2757,
+                        "y": 10029,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "C",
+                "to": [
+                    {
+                        "x": 2767,
+                        "y": 10002,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            }
+        ],
+        "root": {
+            "where": "A",
+            "children": [
+                {
+                    "key": {
+                        "pulse": 1,
+                        "different_level": true
+                    },
+                    "value": {
+                        "where": "B",
+                        "children": [
+                            {
+                                "key": {
+                                    "pulse": 1,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "where": "C",
+                                    "children": [
+                                        {
+                                            "key": {
+                                                "pulse": 2,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "where": "D",
+                                                "children": []
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "key": {
+                                    "pulse": 2,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "where": "C",
+                                    "children": []
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "spot_ordering": [
+            {
+                "x": 2720,
+                "y": 9969,
+                "level": 0
+            },
+            {
+                "x": 2741,
+                "y": 9977,
+                "level": 0
+            },
+            {
+                "x": 2701,
+                "y": 9978,
+                "level": 0
+            },
+            {
+                "x": 2724,
+                "y": 9977,
+                "level": 0
+            },
+            {
+                "x": 2714,
+                "y": 9990,
+                "level": 0
+            },
+            {
+                "x": 2731,
+                "y": 9998,
+                "level": 0
+            },
+            {
+                "x": 2718,
+                "y": 10000,
+                "level": 0
+            },
+            {
+                "x": 2722,
+                "y": 10025,
+                "level": 0
+            },
+            {
+                "x": 2705,
+                "y": 10027,
+                "level": 0
+            },
+            {
+                "x": 2745,
+                "y": 10024,
+                "level": 0
+            },
+            {
+                "x": 2743,
+                "y": 9986,
+                "level": 0
+            },
+            {
+                "x": 2751,
+                "y": 9995,
+                "level": 0
+            },
+            {
+                "x": 2754,
+                "y": 10009,
+                "level": 0
+            },
+            {
+                "x": 2804,
+                "y": 10004,
+                "level": 0
+            },
+            {
+                "x": 2808,
+                "y": 10018,
+                "level": 0
+            },
+            {
+                "x": 2789,
+                "y": 10042,
+                "level": 0
+            },
+            {
+                "x": 2772,
+                "y": 10030,
+                "level": 0
+            },
+            {
+                "x": 2757,
+                "y": 10029,
+                "level": 0
+            },
+            {
+                "x": 2767,
+                "y": 10002,
+                "level": 0
+            }
+        ],
+        "type": "scantree"
+    },
 ]
 
 

@@ -1,8 +1,13 @@
-Release b0.3
-- Scan Tree Editor
-    - Add explanation modal
-
 Release b0.4:
+
+- Settings modal
+    - Local methods
+    - Teleport settings
+- Support for multiple methods
+
+- Draw subtle grid
+- Subtle Walkable-Overlay (Figure out data source).
+- Favicon
 - Incorporate jacket/backpack recommmendations
 - Styling pass over the scan editor
     - Tree as a table
@@ -10,9 +15,6 @@ Release b0.4:
 - Add control bar for map interactions (top center).
 - Detailled pathing
     - Pathfinder/-validator/-drawer
-- Settings modal
-    - Local methods
-    - Teleport settings
 
 RELEASE 1.0
 - Finish all elite/master scans
@@ -23,12 +25,12 @@ RELEASE 1.0
         - Camelot, Watchtower, Varrock alternatives
 
 Unscheduled:
+- Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
 - Better placement of information marker to guaranteee it's always inside the area.
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Arrow key/enter control for the search.
-- Integrate a solving method for compasses
 - Collapsible panels
 - Add puzzle solvers
 - Add methods for remaining clue types.

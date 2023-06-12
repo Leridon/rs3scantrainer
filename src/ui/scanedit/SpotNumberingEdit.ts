@@ -68,7 +68,7 @@ export default class SpotOrderingWidget extends Widget<{
         let old_hightlight = this.layer.highlightedCandidates()
 
         interaction.events.on("changed", (l) => {
-            this.layer.highlightCandidates(l)
+            //this.layer.highlightCandidates(l)
             this.setValue(l)
         })
             .on("done", (l) => {
@@ -86,6 +86,8 @@ export default class SpotOrderingWidget extends Widget<{
             })
 
         this.setValue([])
+
+        this.layer.highlightCandidates(this.layer.clue.solution.candidates)
 
         return this.interaction = interaction.activate()
     }

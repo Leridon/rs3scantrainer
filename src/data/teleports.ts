@@ -631,7 +631,7 @@ const raw: teleport_group[] = [{
         {subid: "teakcastlewars", spot: {x: 2333, y: 3048}, code: "0,1,3"},
         {subid: "mahoganyape", spot: {x: 2715, y: 2708}, code: "0,2,2"},
         {subid: "mahoganiharazi", spot: {x: 2934, y: 2928}, code: "0,2,3"},
-        {subid: "arcticpine", spot: {x: 2355, y: 3849}, code: "0,3"},
+        {subid: "arcticpine", spot: {x: 2355, y: 3848}, code: "0,3"},
         {subid: "acadia", spot: {x: 3187, y: 2720}, code: "0,4"},
         {subid: "ivynorthvarrock", spot: {x: 3218, y: 3499}, code: "0,5,1"},
         {subid: "ivyeastvarrock", spot: {x: 3232, y: 3460}, code: "0,5,2"},
@@ -744,7 +744,7 @@ const raw: teleport_group[] = [{
             {subid: "agility", spot: {x: 2998, y: 3913}, code: "1,5", hover: "Wilderness Agility course"},
         ]
     }, {
-        id: "enchantedlyre", name: "Enchanted lyre", img: "enchantedlyre.png",
+        id: "lyre", name: "Enchanted lyre", img: "enchantedlyre.png",
         spots: [
             {subid: "relekka", spot: {x: 2651, y: 3689}, code: "1", hover: "Relekka"},
             {subid: "waterbirth", spot: {x: 2529, y: 3740}, code: "2", hover: "Waterbirth Island"},

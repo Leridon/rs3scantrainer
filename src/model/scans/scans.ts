@@ -44,7 +44,7 @@ export class EquivalenceClass {
                     html: `${this.information_gain.toFixed(2)}b`,
                 }),
             })
-                .on("click", () => console.log(this.profile))
+                //.on("click", () => console.log(this.profile))
                 .addTo(this.polygon)
         }
 

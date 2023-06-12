@@ -53,11 +53,11 @@ Rechecked
 - Zanaris
 - Taverley
 - Dorgesh-Kaan
+- Fremennik Isles
+- Piscatoris
 
 Next up:
-- Fremennik Isles
 - Haunted Woods
-- Piscatoris
 - Menaphos
 - Desert
 - Brimhaven

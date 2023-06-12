@@ -171,7 +171,7 @@ export class ScanLayer extends ActiveLayer {
 
     tile_marker: ScanRadiusTileMarker = null
 
-    constructor(protected clue: ScanStep, protected app: Application,
+    constructor(public clue: ScanStep, protected app: Application,
                 options: {
                     show_edit_button?: boolean
                 } = {}

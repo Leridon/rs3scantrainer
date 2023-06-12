@@ -236,12 +236,16 @@ export class GameMapControl extends TypedEmitter<{
 
         this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
 
-        fetch(this.backupUrl("versions.json", 0), {mode: "cors"}).then(async (q) => {
+        // TODO: This is hardcoded, because I cant dynamically get the current version from runeapps because of CORS.
+        this.version = 1685523317
+        this.updateBaseLayers()
+
+        /*fetch(this.backupUrl("versions.json", 0), {mode: "cors"}).then(async (q) => {
             let content: { versions: { version: number, build: number, date: number, source: string }[] } = await q.json();
             this.version = content.versions[0].version;
 
             this.updateBaseLayers()
-        });
+        });*/
     }
 
     setFloor(floor: number) {

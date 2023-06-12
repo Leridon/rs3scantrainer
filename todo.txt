@@ -1,63 +1,75 @@
+Release b0.3
+- Scan Tree Editor
+    - Add explanation modal
+
+Release b0.4:
+- Incorporate jacket/backpack recommmendations
+- Styling pass over the scan editor
+    - Tree as a table
+    - Disable info buttons that leave 0 candidates
+- Add control bar for map interactions (top center).
+- Detailled pathing
+    - Pathfinder/-validator/-drawer
+- Settings modal
+    - Local methods
+    - Teleport settings
+
 RELEASE 1.0
-- Finish scan mapping and record more clips.
-    - Fix some clue spots being on a different level
+- Finish all elite/master scans
+- Setting menu
+    - Teleports
+        - Fairy Ring Favorites
+        - POTA
+        - Camelot, Watchtower, Varrock alternatives
 
-- Manual scan solving
-
+Unscheduled:
+- Better algorithm to combine equivalence classes.
+- Better algorithm to construct polygon for equivalence class (with hole support).
+- Better placement of information marker to guaranteee it's always inside the area.
+- Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Arrow key/enter control for the search.
-- Finish styling
-    - Fix the sizing of videos.
-
-
-RELEASE 1.1
 - Integrate a solving method for compasses
+- Collapsible panels
+- Add puzzle solvers
+- Add methods for remaining clue types.
+- Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat.
+- Locally saved methods
+- Apply information theory and equivalence classes from scans also to compasses.
+- Figure out z-Ordering of layers (need to use panes probably)
+- Assign clue tiers to remaining clues
+- Figure out how to handle clues with different solutions depending on game progress.
+- Google Maps like layout for a slimmer experience? Make the map be the center of everything
 
-Done:
+Rechecked
 - Lumbdridge
-- Zanaris
-- Taverley
 - Varrock
 - Falador
 - Keldagrim
-- Dorgesh-Kaan
 - Ardounge
+- Zanaris
+- Taverley
+- Dorgesh-Kaan
+- Fremennik Isles
+- Piscatoris
+- Haunted Woods
+- Menaphos
+- Desert
+- Fremennik Slayer Dungeon
 
 Next up:
-- Fremennik Isles
-- Haunted Woods
-
-
-Scan maps:
 - Brimhaven
-- Darkmeyer
-- Fremennik Slayer Dungeon
-- Heart of Gielinor
 - Elven Lands
 - Turtle Islands
-- Kharazi Jungle
-- Desert
-- Menaphos
-- Mos Le Harless
-- Piscatoris
+- Heart of Gielinor
+- Darkmeyer
 - Prifddinias
+- Kharazi Jungle
+- Mos Le Harmless
 
-- Collapsible panels
-
-- Add method display like the old clueguider
-- Add methods for remaining clue types.
-- Add puzzle solvers
+Look into https://github.com/mejrs/rs3cache for map data.
 
 
-Figure out z-Ordering of layers (need to use panes probably)
-
-Teleports:
-- Add configuration options
-- Figure out how to handle RoW/LotD/HSR
-
-Figure out hosting
-
-Warn when not using meerkats
-
-Information theory and equivalence classes from scans also apply to compasses.
-
+[23:45]Malinoric: If you're taking feedback, the only problematic locations are places without any buildings as easy reference. Foliage often looks very different between the game visual and what you see on the minimap.
+[23:45]Malinoric: so desert, piscatoris, haunted woods... those places.
+[23:46]Malinoric: kharazi is a particular nightmare, but the positions are a lot more lenient in that case, so it isn't as much of an issue

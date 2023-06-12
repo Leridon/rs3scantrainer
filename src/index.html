@@ -14,8 +14,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://runeapps.org/nis/nis.css">
-    <link rel="stylesheet" type="text/css" href="https://runeapps.org/runeappslib.css">
+    <link rel="stylesheet" type="text/css" href="assets/nis/nis.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
           integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
@@ -174,8 +173,8 @@
             </div>
         </div>
 
-        <div id="solutionpanel">
-            <div class="panel">
+        <div id="sidebar-panels">
+            <div id="clue-panel" class="panel">
                 <div style="display: flex">
                     <span class="paneltitle" id="clue-panel-title">Clue</span>
                     <span class="flex-grow-1"></span>
@@ -185,12 +184,12 @@
                 <span id="cluetext"></span>
             </div>
 
-            <div id="cluesolution" class="panel">
+            <div id="solution-panel" class="panel">
                 <div class="paneltitle">Solution</div>
                 <span id="cluesolutioncontent"></span>
             </div>
 
-            <div id="cluemethod" class="panel">
+            <div id="method-panel" class="panel">
                 <div style="display: flex">
                     <span class="paneltitle">Method</span>
                     <span class="flex-grow-1"></span>
@@ -199,7 +198,7 @@
                     </span>
                 </div>
 
-                <div class="cluemethodcontent" data-methodtype="scantree">
+                <div class="cluemethodcontent" data-methodsection="scantree">
                     <nav style="--bs-breadcrumb-divider: '>'; display: inline-block" aria-label="breadcrumb">
                         <ol class="breadcrumb" id="pathview">
                         </ol>
@@ -211,7 +210,12 @@
 
                     </div>
                 </div>
+
+                <div class="cluemethodcontent" data-methodsection="scanedit">
+                </div>
             </div>
+
+            <div id="my-player"></div>
         </div>
     </div>
 
@@ -247,14 +251,6 @@
     </div>
 </div>
 
-<div class="nisseperator" style="position: unset"></div>
-
-<div id="footer" style="flex-grow: 0">
-    Created by Zyklop Marco, Based on work from Skillbert, Knowledge powered by <a
-        href="https://discord.gg/cluechasers"> <img
-        src="assets/icons/cluchasers.png" style="height: 1em"></a>
-</div>
-
 <!-- Modals -->
 <div class="modal fade" id="modal-scantree-method-explanation" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
@@ -276,7 +272,8 @@
                 </p>
 
                 <p>
-                    <span><img src="assets/icons/info.png" class="inline-img"></span> These methods assume that you have a meerkats
+                    <span><img src="assets/icons/info.png" class="inline-img"></span> These methods assume that you have
+                    a meerkats
                     familiar active to boost your scan range by 5 tiles.
                     If you don't use meerkats, <b>the method will not work and you will get angry.</b> Use meerkats.
                 </p>
@@ -330,7 +327,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="modal-about" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -341,30 +337,42 @@
             </div>
             <div class="modal-body">
                 <p>
-                    Scan trainer is being developed by Leridon (RSN Zyklop Marco) over at <a href="https://github.com/Leridon/rs3scantrainer">GitHub</a>.
-                    Join <a href="https://discord.gg/cluechasers"><img src="assets/icons/cluchasers.png" class="inline-img"> Clue Chasers</a> on discord, where conversation about
-                    this plugin takes place in <a href="https://discord.com/channels/332595657363685377/1103737270114209825">#scan-trainer</a>.
+                    Scan trainer is being developed by Leridon (RSN Zyklop Marco) over at <a
+                        href="https://github.com/Leridon/rs3scantrainer">GitHub</a>.
+                    Join <a href="https://discord.gg/cluechasers"><img src="assets/icons/cluchasers.png"
+                                                                       class="inline-img"> Clue Chasers</a> on discord,
+                    where conversation about
+                    this plugin takes place in <a
+                        href="https://discord.com/channels/332595657363685377/1103737270114209825">#scan-trainer</a>.
+                </p>
+
+                <p>
+                    Current version: <span id="current-version"></span> <sup><a href="javascript:;" id="viewpatchnotes">View
+                    patchnotes</a></sup>
                 </p>
 
                 <h2>Credits</h2>
 
                 <p>
-                    This project would not be possible without the work of Skillbert on <a href="https://www.runeapps.org">runeapps.org</a> and the Alt1 toolkit.
-                    This software also includes code from Alt1's official clue solver with kind permission from Skillbert.
+                    This project would not be possible without the work of Skillbert on <a
+                        href="https://www.runeapps.org">runeapps.org</a> and the Alt1 toolkit.
+                    This software also includes code from Alt1's official clue solver with kind permission from
+                    Skillbert.
                 </p>
                 <p>
-                    The methods included in this plugin are based on the collective knowledge of the Clue Chasers discord, especially on Fiery's guide on efficient scan routes.
+                    The methods included in this plugin are based on the collective knowledge of the Clue Chasers
+                    discord, especially on Fiery's guide on efficient scan routes.
                 </p>
 
                 <p>
-                    Icons and other assets used are owned by Jagex Ltd. and their use is intended to fall under fair dealing as a fan project.
+                    Icons and other assets used are owned by Jagex Ltd. and their use is intended to fall under fair
+                    dealing as a fan project.
                 </p>
 
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="modal-public-beta" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
@@ -382,15 +390,20 @@
                 </p>
 
                 <p>
-                    Scan trainer is being developed by Leridon (RSN Zyklop Marco) over at <a href="https://github.com/Leridon/rs3scantrainer">GitHub</a>.
-                    Join <a href="https://discord.gg/cluechasers"><img src="assets/icons/cluchasers.png" class="inline-img"> Clue Chasers</a> on discord, where conversation about
-                    this plugin takes place in <a href="https://discord.com/channels/332595657363685377/1103737270114209825">#scan-trainer</a>.
+                    Scan trainer is being developed by Leridon (RSN Zyklop Marco) over at <a
+                        href="https://github.com/Leridon/rs3scantrainer">GitHub</a>.
+                    Join <a href="https://discord.gg/cluechasers"><img src="assets/icons/cluchasers.png"
+                                                                       class="inline-img"> Clue Chasers</a> on discord,
+                    where conversation about
+                    this plugin takes place in <a
+                        href="https://discord.com/channels/332595657363685377/1103737270114209825">#scan-trainer</a>.
                 </p>
 
             </div>
 
             <div class="modal-footer align-content-center">
-                <div class="btn-nis" id="beta-notice-dismiss" data-bs-dismiss="modal">I understand, don't show again.</div>
+                <div class="btn-nis" id="beta-notice-dismiss" data-bs-dismiss="modal">I understand, don't show again.
+                </div>
             </div>
         </div>
     </div>
@@ -400,20 +413,87 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5">Patch notes - New Update available</h1>
+                <h1 class="modal-title fs-5" id="patch-note-title-new">New update since last visit - Patch notes</h1>
+                <h1 class="modal-title fs-5" id="patch-note-title-all">Update history</h1>
 
                 <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
             </div>
             <div class="modal-body">
+                <p id="modal-patchnotes-report-issues">
+                    Visit <a href="https://github.com/Leridon/rs3scantrainer">GitHub</a> or the <a href="https://discord.com/channels/332595657363685377/1103737270114209825">Clue
+                    Chasers discord</a> to report any issues.
+                </p>
+
+                <div class="patchnotesection" data-patchnotes="b0.3">
+                    <h2>Version b0.3 - 2023-06-12</h2>
+
+                    <p>
+                        b0.3 focuses on internal improvements, more colorful instructions and an editor for scan routes.
+                        It also comes with new and improved scan routes.
+                    </p>
+
+                    <ul>
+                        <li>The scan editor is now publicly available.
+                            <ul>
+                                <li>
+                                    <p>
+                                        Only available in the browser. Check it out by selecting any scan and clicking the edit button in the top right corner of the map.
+                                        There is no manual for it yet, feel free to reach out with questions.
+                                    </p>
+                                    <p>
+                                        Please note that created scan routes can not be locally saved and used yet, the ability to do so will most likely be included in b0.4
+                                        In the meantime, you can save them manually by exporting and later importing them.
+                                    </p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Instructions can (and do) now include icons and have colored spot numbers/names.</li>
+                        <li>The zoom when advancing to the next step has been tweaked to reliably include all the necessary spots.</li>
+                        <li>The scan radius around key areas is now displayed.</li>
+                        <li>Switched the map data source to the most recent version.</li>
+                        <li>The map can now have its floor changed. Selected clues automatically change to the correct floor.</li>
+
+                        <li>Overhauled/Tweaked the routes for...
+                            <ul>
+                                <li>Lumbridge Cave scan (Thanks to Xindrjayzda)</li>
+                                <li>Eastern part of Falador (Thanks to Mr Cob)</li>
+                                <li>Keldagrim (Thanks to Mr Cob)</li>
+                            </ul>
+                        </li>
+                        <li>Routes are now available for...
+                            <ul>
+                                <li>Fremennik Isles</li>
+                                <li>Piscatoris</li>
+                                <li>Haunted Woods</li>
+                                <li>Menaphos (Merchant method)</li>
+                                <li>Desert</li>
+                                <li>Fremennik Slayer Dungeon</li>
+                            </ul>
+                        </li>
+                        <li>Lots of internal changes.
+                            <ul>
+                                <li>
+                                    One Example: Scan routes are now automatically verified and can essentially never be wrong.
+                                    They can still be bad, but the remaining candidates will always be correct and no spots can be forgotten.
+                                    This includes all of the "different level" logic.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="patchnotesection" data-patchnotes="b0.2">
                     <h2>Version b0.2 - 2023-05-13</h2>
                     <ul>
                         <li>
                             This is the first full public release.
-                            It includes scan routes for Ardounge, Dorgesh-Kaan, Falador, Keldagrim, Lumbridge Swamp Caves, Taverley Dungeon, Varrock, and Zanaris.
+                            It includes scan routes for Ardounge, Dorgesh-Kaan, Falador, Keldagrim, Lumbridge Swamp
+                            Caves, Taverley Dungeon, Varrock, and Zanaris.
                         </li>
                         <li>
-                            Added display option for equivalence classes<sup><a href="https://github.com/Leridon/rs3scantrainer/blob/master/docs/equivalence_classes.md" target="_blank">What's this?</a></sup> (browser only).
+                            Added display option for equivalence classes<sup><a
+                                href="https://github.com/Leridon/rs3scantrainer/blob/master/docs/equivalence_classes.md"
+                                target="_blank">What's this?</a></sup> (browser only).
                         </li>
                         <li>Reworked zoom in for scans slightly.</li>
                         <li>Added an embedded explanation for how scan routes work.</li>
@@ -421,6 +501,54 @@
                     </ul>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-export-string" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Export</h1>
+
+                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
+            </div>
+            <div class="modal-body">
+
+                <p id="modal-export-string-explanation"></p>
+
+                <label style="display: block">
+                    <textarea id="export-modal-text" readonly style="resize: none; width: 100%; height: 20em" onclick="this.select()" class="nisinput nistext">
+                    </textarea>
+                </label>
+
+                <div style="text-align: center">
+                    <div class="lightbutton" id="modal-export-string-copy">Copy to Clipboard</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-import-string" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Import</h1>
+
+                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
+            </div>
+            <div class="modal-body">
+                <label style="display: block">
+                    <textarea id="import-modal-text" style="resize: none; width: 100%; height: 20em" onclick="this.select()" class="nisinput nistext"
+                              placeholder="Paste the shareable string here">
+                    </textarea>
+                </label>
+
+                <div style="text-align: center">
+                    <div class="lightbutton" id="modal-import-string-import-button">Import</div>
+                </div>
             </div>
         </div>
     </div>

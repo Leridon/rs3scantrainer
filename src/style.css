@@ -47,7 +47,7 @@ html, body {
     text-overflow: ellipsis;*/
 }
 
-#solutionpanel {
+#sidebar-panels {
     overflow-y: auto;
 }
 
@@ -91,6 +91,8 @@ html, body {
 }
 
 .nissmallimagebutton {
+    min-width: 21px;
+    min-height: 21px;
     background: url("assets/icons/imagebuttonbackground.png");
 }
 
@@ -160,26 +162,6 @@ html, body {
     display: block;
 }
 
-.nextchoice {
-    text-align: center;
-    display: inline-block;
-    padding: 2px;
-    padding-left: 1em;
-    padding-right: 1em;
-    background-color: #FFFFFF19;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 1px solid black;
-}
-
-.nextchoice:hover {
-    background-color: #FFFFFF33;
-}
-
-.nextchoice.tripleping {
-    height: 2em;
-}
-
 .nextstep {
     font-size: 20px;
     font-weight: bold;
@@ -205,7 +187,15 @@ html, body {
     box-shadow: none;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     color: gold;
-    font-size: 1rem;
+}
+
+.spot-number-on-map {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: gold;
+    font-size: 1.5rem;
 }
 
 .equivalence-class-information {
@@ -303,17 +293,21 @@ html, body {
 }
 
 .marktele {
+    cursor: default;
     transform-origin: center;
     position: absolute;
     color: #fff;
-    margin: -16px;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
+    margin: -20px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
+    vertical-align: center;
     white-space: nowrap;
     text-shadow: 1px 1px #000, -1px 1px #000, 1px -1px #000, -1px -1px #000;
     font-size: 12px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .fuzzyhighlight {
@@ -425,4 +419,127 @@ video {
 
 .leaflet-button:hover {
     background-color: #f4f4f4;
+}
+
+.area-div {
+    color: #00FF21;
+    background-color: #00FF2119;
+    border: 1px solid #00FF21;
+    width: 2em;
+    text-align: center;
+    vertical-align: center;
+}
+
+
+.nextchoice {
+    padding: 2px;
+}
+
+.lightbutton {
+    margin: 3px;
+    text-align: center;
+    display: inline-block;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: #FFFFFF19;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid gray;
+}
+
+.lightbutton.inactive {
+    background-color: #FFFFFF0B;
+}
+
+.lightbutton.active {
+    background-color: #FFFFFF50;
+}
+
+.lightbutton:hover {
+    background-color: #FFFFFF32;
+}
+
+.lightbutton.active:hover {
+    background-color: #FFFFFF49;
+}
+
+.area-edit-row > * {
+    margin-right: 0.5em;
+}
+
+.properties > .row {
+    margin-top: 5px;
+}
+
+.properties > .head {
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.property {
+    font-weight: bold;
+}
+
+#curtain {
+    background: url("assets/nis/background.png");
+}
+
+.text-icon {
+    height: 1.3em;
+}
+
+.treeview > * {
+    margin-top: 2px;
+}
+
+.leaflet-container {
+    background-color: black;
+}
+
+.nis-map-control {
+    border-radius: 8px;
+    background-color: rgb(10, 31, 41);
+    border: 1px solid rgb(5, 56, 66);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    color: var(--nis-col-std);
+    font-size: 1em;
+}
+
+.nis-collapsible {
+    border: 1px solid rgb(52, 67, 74);
+    border-top: 1px solid rgb(108, 116, 120);
+}
+
+.nis-collapsible-heading {
+    display: flex;
+    background-image: linear-gradient(rgb(41, 65, 77), rgb(20, 51, 66), rgb(41, 65, 77));
+    border-radius: 2px;
+    border: 1px solid rgb(12, 22, 27);
+}
+
+.nis-collapsible-heading.collapsed {
+    background-image: linear-gradient(rgb(45, 75, 90), rgb(18, 48, 62), rgb(11, 34, 46));
+}
+
+.nis-collapsible-heading:hover {
+    filter: brightness(1.2);
+}
+
+.nis-collapsible-content {
+    padding-top: 5px;
+}
+
+.fullwidth-in-panel {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.tele-icon-code-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7em;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }

@@ -1,8 +1,6 @@
 import * as leaflet from "leaflet";
 import {Raster} from "../util/raster";
-import {Browser} from "leaflet";
-import win = Browser.win;
-
+import {clamp} from "lodash";
 
 export type GieliCoordinates = {
     latitude: {
@@ -27,7 +25,25 @@ export function eq(a: MapCoordinate, b: MapCoordinate) {
     return a.x == b.x && a.y == b.y     // Ignores level for spot equality
 }
 
+export function toPoint(c: Vector2): leaflet.Point {
+    return leaflet.point(c.x, c.y)
+}
+
 export type Box = { topleft: Vector2, botright: Vector2 }
+
+export function box_center(box: Box): Vector2 {
+    return {
+        x: Math.round((box.topleft.x + box.botright.x) / 2),
+        y: Math.round((box.topleft.y + box.botright.y) / 2)
+    }
+}
+
+export function clampInto(pos: Vector2, area: Box): Vector2 {
+    return {
+        x: clamp(pos.x, area.topleft.x, area.botright.x),
+        y: clamp(pos.y, area.botright.y, area.topleft.y),
+    }
+}
 
 export function toBounds(box: Box) {
     let tl = leaflet.point(box.topleft)

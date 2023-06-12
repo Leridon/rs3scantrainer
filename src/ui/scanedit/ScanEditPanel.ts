@@ -2,8 +2,8 @@ import Widget from "../widgets/Widget";
 import SpotOrderingEdit from "./SpotNumberingEdit";
 import AreaEdit from "./AreaEdit";
 import TreeEdit from "./TreeEdit";
-import {ScanStep, SetSolution} from "../../model/clues";
-import {eq, MapCoordinate} from "../../model/coordinates";
+import {ScanStep} from "../../model/clues";
+import {MapCoordinate} from "../../model/coordinates";
 import {indirect, resolve} from "../../model/methods";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import PathEdit from "./PathEdit";
@@ -12,8 +12,6 @@ import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
-import {TileMarkerWithActive} from "../map/activeLayer";
-import {complementSpot} from "../../model/scans/scans";
 import ScanSpot = ScanTree2.ScanSpot;
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import indirect_scan_tree = ScanTree2.indirect_scan_tree;
@@ -62,6 +60,14 @@ export default class ScanEditPanel extends Widget<{
                         .then((obj: resolved_scan_tree) => {
                             this.setValue(obj)
                         })
+                })
+                .appendTo(control_row)
+
+            $("<div class='lightbutton' title='Open the route in training mode.'>Try</div>")
+                .on("click", () => {
+
+                    // It's the year 2023 and TypeScript/Webpac can't deal with ciruclar dependent files. What the actual fuck.
+                    this.layer.app.sidepanels.clue_panel.method(this.value)
                 })
                 .appendTo(control_row)
         }

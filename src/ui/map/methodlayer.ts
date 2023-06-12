@@ -34,7 +34,7 @@ function synthetic_triple_children(node: augmented_decision_tree): augmented_dec
     })
 }
 
-export class ScanTreeMethodLayer extends ScanLayer {
+export default class ScanTreeMethodLayer extends ScanLayer {
     private readonly root: augmented_decision_tree
     private node: augmented_decision_tree
     private areas: SpotPolygon[] = []

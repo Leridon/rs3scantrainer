@@ -359,7 +359,7 @@ const raw: teleport_group[] = [{
 }, {
     id: "desertamulet", name: "Desert Amulet", img: "desertamulet.gif", spots: [
         {subid: "nardah", spot: {x: 3434, y: 2914}, code: "1", hover: "Nardah"},
-        {subid: "uzer", spot: {x: 3478, y: 3103}, code: "2", hover: "Uzer"},
+        {subid: "uzer", spot: {x: 3479, y: 3099}, code: "2", hover: "Uzer"},
     ]
 }, {
     id: "piratebook", name: "Big book o´piracy", img: "bookopiracy.gif",

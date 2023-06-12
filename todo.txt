@@ -57,9 +57,9 @@ Rechecked
 - Piscatoris
 - Haunted Woods
 - Menaphos
+- Desert
 
 Next up:
-- Desert
 - Brimhaven
 - Fremennik Slayer Dungeon
 - Elven Lands

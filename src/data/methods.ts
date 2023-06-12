@@ -1541,8 +1541,7 @@ let raw: (method & indirected)[] = [
                 }
             ]
         }
-    },
-    {
+    },{
         "type": "scantree",
         "clue": 351,
         "spot_ordering": [
@@ -1791,32 +1790,32 @@ let raw: (method & indirected)[] = [
             {
                 "from": "A",
                 "to": "B",
-                "short_instruction": "{{dive}} to {{target}}."
+                "short_instruction": "{{Surge}} to {{target}}."
             },
             {
                 "from": "B",
                 "to": "C",
-                "short_instruction": "Go to {{target}}."
+                "short_instruction": "{{Surge}} to {{target}}."
             },
             {
                 "from": "B",
                 "to": "D",
-                "short_instruction": "Go to {{target}}."
-            },
-            {
-                "from": "B",
-                "to": "G",
-                "short_instruction": "{{teleport archteleport soran}} Teleport to {{target}}."
+                "short_instruction": "{{Dive}}-{{Surge}} to {{target}}."
             },
             {
                 "from": "D",
                 "to": "E",
-                "short_instruction": "Go to {{target}}."
+                "short_instruction": "{{teleport davesspellbook varrock}} to {{target}}."
             },
             {
                 "from": "E",
                 "to": "F",
                 "short_instruction": "{{dive}} to {{target}}."
+            },
+            {
+                "from": "B",
+                "to": "G",
+                "short_instruction": "{{teleport archteleport soran}} Teleport to {{target}}."
             },
             {
                 "from": "E",
@@ -1890,32 +1889,6 @@ let raw: (method & indirected)[] = [
                 "short_instruction": "Dig at {{target}}"
             },
             {
-                "from": "B",
-                "to": [
-                    {
-                        "x": 3197,
-                        "y": 3383,
-                        "level": 0
-                    },
-                    {
-                        "x": 3211,
-                        "y": 3385,
-                        "level": 0
-                    },
-                    {
-                        "x": 3228,
-                        "y": 3383,
-                        "level": 0
-                    },
-                    {
-                        "x": 3240,
-                        "y": 3383,
-                        "level": 0
-                    }
-                ],
-                "short_instruction": "Check {{target}}"
-            },
-            {
                 "from": "C",
                 "to": [
                     {
@@ -1943,44 +1916,6 @@ let raw: (method & indirected)[] = [
                     {
                         "x": 3253,
                         "y": 3393,
-                        "level": 0
-                    }
-                ],
-                "short_instruction": "Dig at {{target}}"
-            },
-            {
-                "from": "D",
-                "to": [
-                    {
-                        "x": 3273,
-                        "y": 3398,
-                        "level": 0
-                    },
-                    {
-                        "x": 3284,
-                        "y": 3378,
-                        "level": 0
-                    }
-                ],
-                "short_instruction": "Check {{target}}"
-            },
-            {
-                "from": "F",
-                "to": [
-                    {
-                        "x": 3213,
-                        "y": 3484,
-                        "level": 0
-                    }
-                ],
-                "short_instruction": "Dig at {{target}}"
-            },
-            {
-                "from": "F",
-                "to": [
-                    {
-                        "x": 3241,
-                        "y": 3480,
                         "level": 0
                     }
                 ],
@@ -2020,6 +1955,48 @@ let raw: (method & indirected)[] = [
                 "short_instruction": "Dig at {{target}}"
             },
             {
+                "from": "B",
+                "to": [
+                    {
+                        "x": 3197,
+                        "y": 3383,
+                        "level": 0
+                    },
+                    {
+                        "x": 3211,
+                        "y": 3385,
+                        "level": 0
+                    },
+                    {
+                        "x": 3228,
+                        "y": 3383,
+                        "level": 0
+                    },
+                    {
+                        "x": 3240,
+                        "y": 3383,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Check {{target}}"
+            },
+            {
+                "from": "D",
+                "to": [
+                    {
+                        "x": 3273,
+                        "y": 3398,
+                        "level": 0
+                    },
+                    {
+                        "x": 3284,
+                        "y": 3378,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Check {{target}}"
+            },
+            {
                 "from": "H",
                 "to": [
                     {
@@ -2056,6 +2033,28 @@ let raw: (method & indirected)[] = [
                     }
                 ],
                 "short_instruction": "Check {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 3213,
+                        "y": 3484,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
+            },
+            {
+                "from": "F",
+                "to": [
+                    {
+                        "x": 3241,
+                        "y": 3480,
+                        "level": 0
+                    }
+                ],
+                "short_instruction": "Dig at {{target}}"
             }
         ],
         "root": {
@@ -2063,13 +2062,19 @@ let raw: (method & indirected)[] = [
             "why": "",
             "children": [
                 {
-                    "key": {pulse: 2, different_level: false},
+                    "key": {
+                        "pulse": 2,
+                        "different_level": false
+                    },
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": {pulse: 2, different_level: false},
+                                "key": {
+                                    "pulse": 2,
+                                    "different_level": false
+                                },
                                 "value": {
                                     "where": "C",
                                     "why": "",
@@ -2077,7 +2082,10 @@ let raw: (method & indirected)[] = [
                                 }
                             },
                             {
-                                "key": {pulse: 1, different_level: false},
+                                "key": {
+                                    "pulse": 1,
+                                    "different_level": false
+                                },
                                 "value": {
                                     "where": "G",
                                     "why": "",
@@ -2088,25 +2096,37 @@ let raw: (method & indirected)[] = [
                     }
                 },
                 {
-                    "key": {pulse: 1, different_level: false},
+                    "key": {
+                        "pulse": 1,
+                        "different_level": false
+                    },
                     "value": {
                         "where": "B",
                         "why": "",
                         "children": [
                             {
-                                "key": {pulse: 1, different_level: false},
+                                "key": {
+                                    "pulse": 1,
+                                    "different_level": false
+                                },
                                 "value": {
                                     "where": "D",
                                     "why": "",
                                     "children": [
                                         {
-                                            "key": {pulse: 1, different_level: false},
+                                            "key": {
+                                                "pulse": 1,
+                                                "different_level": false
+                                            },
                                             "value": {
                                                 "where": "E",
                                                 "why": "",
                                                 "children": [
                                                     {
-                                                        "key": {pulse: 2, different_level: false},
+                                                        "key": {
+                                                            "pulse": 2,
+                                                            "different_level": false
+                                                        },
                                                         "value": {
                                                             "where": "F",
                                                             "why": "",
@@ -2114,7 +2134,10 @@ let raw: (method & indirected)[] = [
                                                         }
                                                     },
                                                     {
-                                                        "key": {pulse: 1, different_level: false},
+                                                        "key": {
+                                                            "pulse": 1,
+                                                            "different_level": false
+                                                        },
                                                         "value": {
                                                             "where": "H",
                                                             "why": "",

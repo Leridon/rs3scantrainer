@@ -2,6 +2,7 @@ Ready for release:
 - [Presentation] Remove marker icon for automatically placed radius
 - [Presentation] Tweak indentation of the tree, maybe add Bullet points?
 - [Interactivity] Add links to the nested steps to allow quicker navigation
+- [Presentation] Draw subtle grid
 
 
 Planned for next release (b0.4):
@@ -12,7 +13,6 @@ Planned for next release (b0.4):
     - Teleport settings
 - Support for multiple methods
 
-- [Presentation] Draw subtle grid
 - [Tooling, Presentation] Subtle Walkable-Overlay (Figure out data source).
 - [Presentation] Favicon
 - [What] Incorporate jacket/backpack recommmendations

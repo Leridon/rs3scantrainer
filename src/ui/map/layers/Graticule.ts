@@ -1,29 +1,33 @@
 import * as leaflet from "leaflet"
 import {Vector2} from "../../../model/coordinates";
+import {PolylineOptions} from "leaflet";
 
 /**
  *  File: leaflet.SimpleGraticule.ts
  *  Desc: A graticule for Leaflet maps in the leaflet.CRS.Simple coordinate system.
  *  Original Author: Andrew Blakey (ablakey@gmaileaflet.com)
- *  Ported to typescript and adjusted to this projects needs
+ *  Ported to typescript and adjusted to this project's needs
  */
 export default class Graticule extends leaflet.FeatureGroup {
 
-    _bounds: leaflet.LatLngBounds
+    last_drawn: {
+        bounds: leaflet.LatLngBounds,
+        interval: number
+    } = null
 
-    lineStyle: {
-        stroke: boolean,
-        color: string,
-        opacity: number,
-        weight: number
-    }
-
-    constructor(private options: {
-        offset: Vector2
-    }, private interval: number = 1) {
+    constructor(public _options: {
+        intervals: {
+            min_zoom: number,
+            interval: number
+        }[],
+        offset?: Vector2,
+        lineStyle?: PolylineOptions
+    }) {
         super()
 
-        this.lineStyle = {
+        if (!this._options.offset) this._options.offset = {x: 0.5, y: 0.5}
+
+        if (!this._options.lineStyle) this._options.lineStyle = {
             stroke: true,
             color: '#111',
             opacity: 0.6,
@@ -31,14 +35,15 @@ export default class Graticule extends leaflet.FeatureGroup {
         }
     }
 
-    onAdd(map): this {
+    override onAdd(map): this {
+        super.onAdd(map)
+
         this._map = map;
 
-        console.log("test")
+        this._map.on('zoomend', () => this.redraw())
+        this._map.on('moveend', () => this.redraw())
 
-        this._map.on('viewreset', () => this.redraw());
-
-        this.eachLayer(map.addLayer, map);
+        this.redraw()
 
         return this
     }
@@ -50,74 +55,67 @@ export default class Graticule extends leaflet.FeatureGroup {
     }
 
     redraw() {
-        this._bounds = this._map.getBounds().pad(0.5);
+        let bounds = this._map.getBounds()
+        console.log("Zoom " + this._map.getZoom())
 
-        this.clearLayers();
+        let interval = Math.min(...this._options.intervals.filter((i) => this._map.getZoom() >= i.min_zoom).map((i) => i.interval))
+        console.log("Interval " + interval)
+
+        if (!this.last_drawn || !this.last_drawn.bounds.contains(bounds) || this.last_drawn.interval != interval) {
+            this.constructLines(this._map.getBounds().pad(0.5), interval)
+        }
 
         /*
-        var currentZoom = this._map.getZoom();
+        let currentZoom = this._map.getZoom();
 
-        for (var i = 0; i < this.options.zoomIntervals.length; i++) {
-            if (currentZoom >= this.options.zoomIntervals[i].start && currentZoom <= this.options.zoomIntervals[i].end) {
-                this.interval = this.options.zoomIntervals[i].interval;
+        for (let i = 0; i < this._options.zoomIntervals.length; i++) {
+            if (currentZoom >= this._options.zoomIntervals[i].start && currentZoom <= this._options.zoomIntervals[i].end) {
+                this.interval = this._options.zoomIntervals[i].interval;
                 break;
             }
         }*/
-
-        this.constructLines(this.getMins(), this.getLineCounts());
-
-        return this;
     }
 
-    getLineCounts() {
-        return {
-            x: Math.ceil((this._bounds.getEast() - this._bounds.getWest()) /
-                this.interval),
-            y: Math.ceil((this._bounds.getNorth() - this._bounds.getSouth()) /
-                this.interval)
+    constructLines(bounds: leaflet.LatLngBounds, interval: number) {
+        this.last_drawn = {
+            bounds: bounds,
+            interval: interval
+        }
+
+        console.log("Redrawing")
+
+        this.clearLayers()
+
+        let counts = {
+            x: Math.ceil((bounds.getEast() - bounds.getWest()) / interval),
+            y: Math.ceil((bounds.getNorth() - bounds.getSouth()) / interval)
+        }
+
+        let mins = {
+            x: Math.floor(bounds.getWest() / interval) * interval,
+            y: Math.floor(bounds.getSouth() / interval) * interval
         };
-    }
-
-    getMins() {
-        //rounds up to nearest multiple of x
-        var s = this.interval;
-        return {
-            x: Math.floor(this._bounds.getWest() / s) * s,
-            y: Math.floor(this._bounds.getSouth() / s) * s
-        };
-    }
-
-    constructLines(mins, counts) {
-        var lines = new Array(counts.x + counts.y);
-        var labels = new Array(counts.x + counts.y);
 
         //for horizontal lines
-        for (var i = 0; i <= counts.x; i++) {
-            var x = mins.x + i * this.interval;
-            lines[i] = this.buildXLine(x);
+        for (let i = 0; i <= counts.x; i++) {
+            let x = mins.x + i * interval + this._options.offset.x;
+
+            new leaflet.Polyline([
+                new leaflet.LatLng(bounds.getSouth(), x),
+                new leaflet.LatLng(bounds.getNorth(), x)
+            ], this._options.lineStyle)
+                .addTo(this)
         }
 
         //for vertical lines
-        for (var j = 0; j <= counts.y; j++) {
-            var y = mins.y + j * this.interval;
-            lines[j + i] = this.buildYLine(y);
+        for (let j = 0; j <= counts.y; j++) {
+            let y = mins.y + j * interval + this._options.offset.y;
+
+            new leaflet.Polyline([
+                new leaflet.LatLng(y, bounds.getWest()),
+                new leaflet.LatLng(y, bounds.getEast())
+            ], this._options.lineStyle)
+                .addTo(this)
         }
-
-        lines.forEach(this.addLayer, this);
-        labels.forEach(this.addLayer, this);
-    }
-
-    buildXLine(x) {
-        var bottomLL = new leaflet.LatLng(this._bounds.getSouth(), x);
-        var topLL = new leaflet.LatLng(this._bounds.getNorth(), x);
-
-        return new leaflet.Polyline([bottomLL, topLL], this.lineStyle)
-    }
-
-    buildYLine(y) {
-        var leftLL = new leaflet.LatLng(y, this._bounds.getWest());
-        var rightLL = new leaflet.LatLng(y, this._bounds.getEast());
-
-        return new leaflet.Polyline([leftLL, rightLL], this.lineStyle);
     }
 }

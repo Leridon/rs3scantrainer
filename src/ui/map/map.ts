@@ -234,6 +234,7 @@ export class GameMapControl extends TypedEmitter<{
 
         this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
 
+        /*
         let e1 = new CustomControl($("<div class='nis-map-control'><img src='assets/icons/teleports/homeport.png'></div>")
             .on("click", () => {
                     if (e1.container.children("img").hasClass("nis-inactive")) e1.container.children("img").removeClass("nis-inactive")
@@ -248,17 +249,25 @@ export class GameMapControl extends TypedEmitter<{
                     else e2.container.children("img").addClass("nis-inactive")
                 }
             ))
-            .setPosition("bottomleft").addTo(this.map)
+            .setPosition("bottomleft").addTo(this.map)*/
 
         // TODO: This is hardcoded, because I cant dynamically get the current version from runeapps because of CORS.
         this.version = 1685523317
         this.updateBaseLayers()
 
-        let g= new Graticule(64)
-
-        this.map.addLayer(g)
-
-        g.redraw()
+        new Graticule({
+            intervals: [
+                {min_zoom: -Infinity, interval: 64},
+                {min_zoom: 0.5, interval: 8},
+                {min_zoom: 1, interval: 4},
+                {min_zoom: 2, interval: 1},
+            ],
+            lineStyle: {
+                weight: 1,
+                color: '#000000',
+                opacity: 0.3,
+            }
+        }).addTo(this.map)
 
         /*fetch(this.backupUrl("versions.json", 0), {mode: "cors"}).then(async (q) => {
             let content: { versions: { version: number, build: number, date: number, source: string }[] } = await q.json();

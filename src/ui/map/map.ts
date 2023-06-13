@@ -4,6 +4,7 @@ import {MapCoordinate} from "../../model/coordinates";
 import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
+import Graticule from "./layers/Graticule";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -147,11 +148,9 @@ export class TileMarker extends leaflet.FeatureGroup {
 }
 
 class FloorControl extends CustomControl {
-
     up: JQuery
     down: JQuery
     current: JQuery
-
 
     constructor(private parent: GameMapControl) {
         super($("<div style='display: flex' class='nis-map-control'>"), {});
@@ -235,9 +234,40 @@ export class GameMapControl extends TypedEmitter<{
 
         this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
 
+        /*
+        let e1 = new CustomControl($("<div class='nis-map-control'><img src='assets/icons/teleports/homeport.png'></div>")
+            .on("click", () => {
+                    if (e1.container.children("img").hasClass("nis-inactive")) e1.container.children("img").removeClass("nis-inactive")
+                    else e1.container.children("img").addClass("nis-inactive")
+                }
+            ))
+            .setPosition("bottomleft").addTo(this.map)
+
+        let e2 = new CustomControl($("<div  class='nis-map-control'><img src='assets/icons/walls.png'></div>")
+            .on("click", () => {
+                    if (e2.container.children("img").hasClass("nis-inactive")) e2.container.children("img").removeClass("nis-inactive")
+                    else e2.container.children("img").addClass("nis-inactive")
+                }
+            ))
+            .setPosition("bottomleft").addTo(this.map)*/
+
         // TODO: This is hardcoded, because I cant dynamically get the current version from runeapps because of CORS.
         this.version = 1685523317
         this.updateBaseLayers()
+
+        new Graticule({
+            intervals: [
+                {min_zoom: -Infinity, interval: 64},
+                {min_zoom: 0.5, interval: 8},
+                {min_zoom: 1, interval: 4},
+                {min_zoom: 2, interval: 1},
+            ],
+            lineStyle: {
+                weight: 1,
+                color: '#000000',
+                opacity: 0.3,
+            }
+        }).addTo(this.map)
 
         /*fetch(this.backupUrl("versions.json", 0), {mode: "cors"}).then(async (q) => {
             let content: { versions: { version: number, build: number, date: number, source: string }[] } = await q.json();

@@ -96,35 +96,35 @@ export class SpotPolygon extends leaflet.FeatureGroup {
 class ScanRadiusTileMarker extends TileMarker {
     range_polygon: leaflet.FeatureGroup
 
-    constructor(spot: MapCoordinate, private range: number, private complement: boolean) {
+    constructor(spot: MapCoordinate, private range: number, private is_complement: boolean) {
         super(spot);
 
         this.update()
     }
 
     update() {
-        if (this.range_polygon) this.range_polygon.remove()
+        if (this.range_polygon) {
+            this.range_polygon.remove()
+            this.range_polygon = null
+        }
 
         this.range_polygon = leaflet.featureGroup().addTo(this)
 
-        let center = this.getSpot()
-
-        if (this.complement) {
+        if (this.is_complement) {
             boxPolygon({
-                topleft: {x: center.x - (this.range + 15), y: center.y + (this.range + 15)},
-                botright: {x: center.x + (this.range + 15), y: center.y - (this.range + 15)}
+                topleft: {x: this.spot.x - (this.range + 15), y: this.spot.y + (this.range + 15)},
+                botright: {x: this.spot.x + (this.range + 15), y: this.spot.y - (this.range + 15)}
             }).setStyle({color: "blue", fillOpacity: 0}).addTo(this.range_polygon)
         } else {
             boxPolygon({
-                topleft: {x: center.x - this.range, y: center.y + this.range},
-                botright: {x: center.x + this.range, y: center.y - this.range}
+                topleft: {x: this.spot.x - this.range, y: this.spot.y + this.range},
+                botright: {x: this.spot.x + this.range, y: this.spot.y - this.range}
             }).setStyle({color: "green", fillOpacity: 0}).addTo(this.range_polygon)
             boxPolygon({
-                topleft: {x: center.x - 2 * this.range, y: center.y + 2 * this.range},
-                botright: {x: center.x + 2 * this.range, y: center.y - 2 * this.range}
+                topleft: {x: this.spot.x - 2 * this.range, y: this.spot.y + 2 * this.range},
+                botright: {x: this.spot.x + 2 * this.range, y: this.spot.y - 2 * this.range}
             }).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]}).addTo(this.range_polygon)
         }
-
     }
 
     setRange(range: number) {
@@ -272,22 +272,27 @@ export class ScanLayer extends ActiveLayer {
         }
     }
 
-    setMarker(spot: MapCoordinate) {
+    setMarker(spot: MapCoordinate, include_marker: boolean = true, removeable: boolean = true) {
         this.removeMarker()
 
         let complement = Math.floor(spot.y / 6400) != Math.floor(this.clue.solution.candidates[0].y / 6400)
 
         this.tile_marker = new ScanRadiusTileMarker(spot, this.clue.range + (this._meerkats ? 5 : 0), complement)
-            .withX("white")
-            .withMarker(blue_icon)
             .on("click", () => this.tile_marker.remove())
             .addTo(this)
 
         this.complement_tile_marker = new ScanRadiusTileMarker(complementSpot(spot), this.clue.range + (this._meerkats ? 5 : 0), complement)
-            .withX("white")
-            .withMarker(blue_icon)
-            .on("click", () => this.tile_marker.remove())
             .addTo(this)
+
+        if (include_marker) {
+            this.tile_marker.withX("white").withMarker(blue_icon)
+            this.complement_tile_marker.withX("white").withMarker(blue_icon)
+        }
+
+        if (removeable) {
+            this.tile_marker.on("click", () => this.tile_marker.remove())
+            this.complement_tile_marker.on("click", () => this.tile_marker.remove())
+        }
     }
 }
 

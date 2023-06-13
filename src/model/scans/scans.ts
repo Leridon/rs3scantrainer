@@ -4,6 +4,7 @@ import {Raster} from "../../util/raster";
 import {rangeRight} from "lodash";
 import {ScanTree2} from "./ScanTree2";
 import ScanSpot = ScanTree2.ScanSpot;
+import {util} from "../../util/util";
 
 export class EquivalenceClass {
     public information_gain: number
@@ -251,6 +252,7 @@ export type Pulse = {
 }
 
 export namespace Pulse {
+    import natural_order = util.natural_order;
     export type hash_t = 0 | 1 | 2 | 3 | 4 | 5
 
     export function hash(pulse: Pulse): hash_t {
@@ -295,6 +297,14 @@ export namespace Pulse {
                 shorted: type.pulse.toString()
             }
         }
+    }
+
+    export function compare(a: Pulse, b: Pulse) {
+        return natural_order(hash(a), hash(b))
+
+        if (a.different_level != b.different_level) return (a.different_level ? 1 : -1)
+
+        return a.pulse - b.pulse
     }
 }
 

@@ -15,8 +15,8 @@ import template_resolvers = ScanTree2.template_resolvers;
 import spotNumber = ScanTree2.spotNumber;
 import natural_join = util.natural_join;
 import natural_order = util.natural_order;
-import comparator_by = util.comparator_by;
 import {Pulse} from "../../model/scans/scans";
+import comap = util.comap;
 
 function synthetic_triple_children(node: augmented_decision_tree): augmented_decision_tree[] {
     return node.remaining_candidates.map((child) => {
@@ -103,8 +103,6 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         if (this.node.parent && this.node.parent.node.where) relevant_areas.push(this.node.parent.node.where);
 
         if (node.where) {
-            // TODO: This is experimental. Gather feedback and decide whether to keep
-
             this.getMap().setFloor(node.where.level)
 
             let c = box_center(node.where.area)
@@ -113,7 +111,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 x: c.x,
                 y: c.y,
                 level: node.where.level,
-            })
+            }, false, false)
         } else {
             this.getMap().setFloor(Math.min(...node.remaining_candidates.map((c) => c.level)))
 
@@ -215,7 +213,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         let line = $("<div>")
             .addClass("scantreeline")
-            .css("margin-left", `${depth * 12}px`)
+            .css("padding-left", `${depth * 18}px`)
             .css("margin-top", "3px")
             .css("margin-bottom", "3px")
             .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
@@ -236,9 +234,15 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                     .appendTo(line)
             }
         } else if (depth > 0) {
-            $("<span>")
-                .text(Pulse.meta(node.parent.kind).pretty + ": ")
-                .appendTo(line)
+            // TODO: Link
+            let el = $("<span>- <span></span>: </span>")
+
+            el.children("span")
+                .text(Pulse.meta(node.parent.kind).pretty)
+                .addClass("lightlink")
+                .on("click", () => this.setNode(node))
+
+            el.appendTo(line)
         }
 
         if (node.parent.kind.pulse == 3) {
@@ -246,7 +250,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             if (depth == 0 && node.remaining_candidates.length > 1) {
                 line.append($("<span>").text("at"))
 
-                synthetic_triple_children(node).sort(comparator_by((c) => spotNumber(node.root, c.remaining_candidates[0]))).forEach((child) => {
+                synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0]))/*comparator_by((c) => spotNumber(node.root, c.remaining_candidates[0]))*/).forEach((child) => {
                     $("<span>")
                         .html(resolver.resolve(`{{digspot ${spotNumber(node.root, child.remaining_candidates[0])}}}`))
                         .addClass("lightbutton")
@@ -262,9 +266,16 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                             .resolve(node.path ? node.path.short_instruction : "WTF"))
                         .appendTo(line)
                 } else {
-                    $("<span>")
-                        .html(scantrainer.template_resolver.resolve(`Spot ${natural_join(node.remaining_candidates.map((e) => spotNumber(node.root, e)).sort(natural_order).map((e) => `{{digspot ${e}}}`), "or")}`))
+                    let synthetic_children = synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0])))
+
+                    let el = $("<span>")
+                        .html(`Spot ${natural_join(synthetic_children.map((e) => e.remaining_candidates[0]).map((e) => `<span class="lightlink spot-number">${spotNumber(node.root, e)}</span>`), "or")}`)
                         .appendTo(line)
+
+                    for (let i = 0; i < synthetic_children.length; i++) {
+                        $(el.children("span").get()[i]).on("click", () => this.setNode(synthetic_children[i]))
+                    }
+
                 }
             }
         } else {
@@ -289,11 +300,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             synthetic_triple_children(node).forEach((child) => this.generateList(child, depth, container))
         }
 
-        node.children.sort((a, b) => {
-            if (a.key.different_level != b.key.different_level) return (a.key.different_level ? 1 : -1)
-
-            return a.key.pulse - b.key.pulse
-        }).forEach((e) => this.generateList(e.value, depth, container))
+        node.children.sort(comap(Pulse.compare, (a) => a.key)).forEach((e) => this.generateList(e.value, depth, container))
     }
 
     deactivate() {

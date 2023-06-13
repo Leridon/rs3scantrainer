@@ -187,6 +187,7 @@ html, body {
     box-shadow: none;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     color: gold;
+    text-decoration-color: gold;
 }
 
 .spot-number-on-map {
@@ -542,4 +543,10 @@ video {
     transform: translate(-50%, -50%);
     font-size: 0.7em;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.lightlink {
+    text-decoration: underline;
+    cursor: pointer;
+    text-decoration-style: dotted;
 }

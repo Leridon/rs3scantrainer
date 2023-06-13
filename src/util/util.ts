@@ -11,7 +11,7 @@ export namespace util {
         return a - b
     }
 
-    export function comparator_by<T>(f: (T) => number): (a: T, b: T) => number {
-        return (a, b) => f(a) - f(b)
+    export function comap<T, U>(cmp: (a: U, b: U) => number, f: (T) => U): (a: T, b: T) => number {
+        return (a, b) => cmp(f(a), f(b))
     }
 }

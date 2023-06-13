@@ -3,7 +3,7 @@ import Dict = NodeJS.Dict;
 
 
 export class CustomControl extends leaflet.Control {
-    constructor(protected container: JQuery,
+    constructor(public container: JQuery,
                 events: Dict<(Event) => void> = {}
     ) {
         super()

@@ -264,8 +264,8 @@ export class GameMapControl extends TypedEmitter<{
             ],
             lineStyle: {
                 weight: 1,
-                color: '#000000',
-                opacity: 0.3,
+                color: '#111111',
+                opacity: 0.25,
             }
         }).addTo(this.map)
 

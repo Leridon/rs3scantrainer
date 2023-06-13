@@ -56,10 +56,7 @@ export default class Graticule extends leaflet.FeatureGroup {
 
     redraw() {
         let bounds = this._map.getBounds()
-        console.log("Zoom " + this._map.getZoom())
-
         let interval = Math.min(...this._options.intervals.filter((i) => this._map.getZoom() >= i.min_zoom).map((i) => i.interval))
-        console.log("Interval " + interval)
 
         if (!this.last_drawn || !this.last_drawn.bounds.contains(bounds) || this.last_drawn.interval != interval) {
             this.constructLines(this._map.getBounds().pad(0.5), interval)

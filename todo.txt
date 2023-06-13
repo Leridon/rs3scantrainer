@@ -19,6 +19,8 @@ Planned for next release (b0.4):
 - [Tooling] Styling pass over the scan editor
     - Tree as a table
     - Disable info buttons that leave 0 candidates
+    - Better placement of information marker to guaranteee it's always inside the area.
+    - Scale information gain down when zoomed out
 - [Tooling] Add control bar for map interactions (top center).
 - [How] Detailled pathing
     - Pathfinder/-validator/-drawer
@@ -35,7 +37,6 @@ Unscheduled:
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
-- Better placement of information marker to guaranteee it's always inside the area.
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Arrow key/enter control for the search.
 - Collapsible panels

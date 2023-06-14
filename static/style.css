@@ -3,6 +3,7 @@ html, body, #main-content {
     margin: 0;
     display: inline-flex;
     font-family: monospace;
+    font-size: 10pt;
 }
 
 html, body {
@@ -553,4 +554,18 @@ video {
 
 .nis-inactive {
     filter: grayscale(0.5) brightness(0.5);
+}
+
+.my-leaflet-topcenter {
+    max-width: 50%;
+    z-index: 10000;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding-top: 10px;
+    font-size: 12pt;
+}
+
+.nis-map-control-top {
+    padding: 5px;
 }

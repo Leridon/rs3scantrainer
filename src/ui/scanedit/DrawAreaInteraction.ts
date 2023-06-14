@@ -5,6 +5,15 @@ import {LeafletMouseEvent} from "leaflet";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import * as lodash from "lodash"
 import LayerInteraction from "../map/interactions/LayerInteraction";
+import TopControl from "../map/TopControl";
+
+class DrawTopControl extends TopControl {
+    constructor() {
+        super()
+
+        this.container.text("Draw")
+    }
+}
 
 export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
     events = new TypedEmitter<{
@@ -79,20 +88,6 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }
         },
-
-        /*
-        "mouseup": (e: LeafletMouseEvent) => {
-
-            leaflet.DomEvent.stopPropagation(e)
-
-            if (this.dragstart) {
-                leaflet.DomEvent.stopPropagation(e)
-
-                this.events.emit("done", this.last_area)
-
-                this.layer.cancelInteraction()
-            }
-        }*/
     }
 
 }

@@ -4,6 +4,9 @@ Ready for release:
 - [Interactivity] Add links to the nested steps to allow quicker navigation
 - [Presentation] Draw subtle grid
 - [Map] Added/repositioned a bunch of teleports on the map
+- [Presentation] Favicon
+
+
 
 Planned for next release (b0.4):
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
@@ -14,14 +17,15 @@ Planned for next release (b0.4):
 - Support for multiple methods
 
 - [Tooling, Presentation] Subtle Walkable-Overlay (Figure out data source).
-- [Presentation] Favicon
 - [What] Incorporate jacket/backpack recommmendations
 - [Tooling] Styling pass over the scan editor
     - Tree as a table
     - Disable info buttons that leave 0 candidates
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
-- [Tooling] Add control bar for map interactions (top center).
+- [Tooling] Add control bar for map interactions (top center)
+    - Select dig spots
+    - Draw Area
 - [How] Detailled pathing
     - Pathfinder/-validator/-drawer
 

@@ -25,6 +25,9 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         }
 
         this.interaction = interaction
+
+        this.map.setTopControl(this.interaction.getTopControl())
+
         this.interaction.start()
     }
 
@@ -32,6 +35,8 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         if (this.interaction) {
             this.interaction.cancel()
             this.interaction = null
+
+            this.map.setTopControl(null)
 
             this.loadDefaultInteraction().activate()
         }

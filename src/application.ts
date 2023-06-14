@@ -104,7 +104,7 @@ export class Application {
     in_alt1: boolean = !!window.alt1
 
     menubar = new MenuBarControl(this)
-    map = new GameMapControl("map")
+    map = new GameMapControl($("#map"))
     sidepanels = new SidePanelControl(this)
 
     data = {

@@ -2,6 +2,7 @@ import type {ActiveLayer} from "../activeLayer";
 import {MapCoordinate} from "../../../model/coordinates";
 import * as leaflet from "leaflet";
 import LayerInteraction from "./LayerInteraction";
+import type Widget from "../../widgets/Widget";
 
 export default class SimpleClickInteraction extends LayerInteraction<ActiveLayer> {
 
@@ -23,5 +24,9 @@ export default class SimpleClickInteraction extends LayerInteraction<ActiveLayer
 
     start() {
         this.layer.getMap().map.on(this._maphooks)
+    }
+
+    getTopControl(): Widget {
+        return null
     }
 }

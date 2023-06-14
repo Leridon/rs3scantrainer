@@ -5,6 +5,7 @@ import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import Graticule from "./layers/Graticule";
+import Widget from "../widgets/Widget";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -99,14 +100,15 @@ class FloorControl extends CustomControl {
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.
  */
-export class GameMapControl extends TypedEmitter<{
+export class GameMapControl extends Widget<{
     floorChanged: number
 }> {
     map: leaflet.Map
-    floor: number
+    floor: number = 0
     baseLayers: RsBaseTileLayer[]
     private teleportLayer: TeleportLayer
     private activeLayer: ActiveLayer = null
+    private top_control_container: Widget
 
     // Hardcoded
     private mapid: number = 4
@@ -123,14 +125,16 @@ export class GameMapControl extends TypedEmitter<{
         ];
     }
 
-    constructor(map_id: string) {
-        super()
+    private getCRS(): leaflet.CRS {
+        const chunkoffset = {
+            x: 16,
+            z: 16
+        }
 
-        const chunkoffsetx = 16;
-        const chunkoffsetz = 16;
-
-        const mapsizex = 100;
-        const mapsizez = 200;
+        const mapsize = {
+            x: 100,
+            z: 200
+        }
 
         const chunksize = 64;
 
@@ -138,12 +142,19 @@ export class GameMapControl extends TypedEmitter<{
         //add 0.5 to so coords are center of tile
         // @ts-ignore
         crs.transformation = leaflet.transformation(
-            1, chunkoffsetx + 0.5,
-            -1, mapsizez * chunksize + -1 * (chunkoffsetz + 0.5)
+            1, chunkoffset.x + 0.5,
+            -1, mapsize.z * chunksize + -1 * (chunkoffset.z + 0.5)
         );
 
-        this.map = leaflet.map(map_id, {
-            crs: crs,
+        return crs
+    }
+
+    constructor(container: JQuery) {
+        super(container)
+
+
+        this.map = leaflet.map(container.get()[0], {
+            crs: this.getCRS(),
             zoomSnap: 0.25,
             minZoom: -5,
             maxZoom: 7,
@@ -152,7 +163,7 @@ export class GameMapControl extends TypedEmitter<{
             attributionControl: true
         }).setView([3200, 3000], 0);
 
-        this.floor = 0
+        this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'>Im a test test test</div>").appendTo(container.children(".leaflet-control-container")))
 
         this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
 
@@ -200,6 +211,7 @@ export class GameMapControl extends TypedEmitter<{
 
             this.updateBaseLayers()
         });*/
+
     }
 
     setFloor(floor: number) {
@@ -258,6 +270,14 @@ export class GameMapControl extends TypedEmitter<{
         layer.addTo(this.map).setZIndex(100)
 
         return this
+    }
+
+    setTopControl(widget: Widget) {
+        this.top_control_container.container.empty()
+
+        if (widget) {
+            widget.appendTo(this.top_control_container)
+        }
     }
 
     setActiveLayer(layer: ActiveLayer) {

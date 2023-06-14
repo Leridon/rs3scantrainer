@@ -56,31 +56,40 @@ export default class SpotOrderingWidget extends Widget<{
         this.layer.setSpotOrder(this.value)
     }
 
-    private old_value: MapCoordinate[] = null
-
     startSelection(): SelectDigSpotsInteraction {
-        this.old_value = this.value
+        let old_value = this.value
 
         let interaction = new SelectDigSpotsInteraction(this.layer)
 
-        this.reselect_button.text("Save")
+        this.reselect_button.hide()
 
         let old_hightlight = this.layer.highlightedCandidates()
 
-        interaction.events.on("changed", (l) => {
-            //this.layer.highlightCandidates(l)
-            this.setValue(l)
-        })
+        interaction.events
+            .on("changed", (l) => {
+                this.setValue(l)
+            })
             .on("done", (l) => {
-                this.reselect_button.text("Select new order")
+                this.interaction = null
 
-                let unaccounted = this.old_value.filter((c) => !l.some((i) => eq(i, c)))
+                this.reselect_button.show()
+
+                let unaccounted = old_value.filter((c) => !l.some((i) => eq(i, c)))
 
                 l = l.concat(...unaccounted)
 
                 this.setValue(l)
 
                 this.emit("changed", l)
+
+                this.layer.highlightCandidates(old_hightlight)
+            })
+            .on("cancelled", () => {
+                this.interaction = null
+
+                this.reselect_button.show()
+
+                this.setValue(old_value)
 
                 this.layer.highlightCandidates(old_hightlight)
             })

@@ -222,32 +222,7 @@
     <div class="verticalsep"></div>
 
     <div class="split-screen">
-        <div id="tabcontainer" style="display: block">
-            <div class="methodtab contenttab lefttab" data-methodtype="map">Map</div>
-            <div class="methodtab contenttab lefttab" data-methodtype="video">Video</div>
-            <div class="methodtab contenttab lefttab" data-methodtype="text">Explain</div>
-        </div>
-
-        <div class="methodtabcontent" data-methodtype="map">
-            <div id="map"></div>
-        </div>
-
-        <div class="methodtabcontent" data-methodtype="video">
-            <div class="videocontainer">
-                <video controls muted loop id="videoplayer">
-                    <source id="videosource" src="" type="video/webm">
-                </video>
-
-                <div class="attribution" style="flex-grow: 1; min-height: 20px">
-                    Clip contributed by <span id="videoclipcontributor"></span>
-                </div>
-            </div>
-        </div>
-        <div class="methodtabcontent" data-methodtype="text">
-            <div id="textmethodcontent" class="panel">
-
-            </div>
-        </div>
+        <div id="map"></div>
     </div>
 </div>
 
@@ -420,7 +395,8 @@
             </div>
             <div class="modal-body">
                 <p id="modal-patchnotes-report-issues">
-                    Visit <a href="https://github.com/Leridon/rs3scantrainer">GitHub</a> or the <a href="https://discord.com/channels/332595657363685377/1103737270114209825">Clue
+                    Visit <a href="https://github.com/Leridon/rs3scantrainer">GitHub</a> or the <a
+                        href="https://discord.com/channels/332595657363685377/1103737270114209825">Clue
                     Chasers discord</a> to report any issues.
                 </p>
 
@@ -437,21 +413,28 @@
                             <ul>
                                 <li>
                                     <p>
-                                        Only available in the browser. Check it out by selecting any scan and clicking the edit button in the top right corner of the map.
+                                        Only available in the browser. Check it out by selecting any scan and clicking
+                                        the edit button in the top right corner of the map.
                                         There is no manual for it yet, feel free to reach out with questions.
                                     </p>
                                     <p>
-                                        Please note that created scan routes can not be locally saved and used yet, the ability to do so will most likely be included in b0.4
-                                        In the meantime, you can save them manually by exporting and later importing them.
+                                        Please note that created scan routes can not be locally saved and used yet, the
+                                        ability to do so will most likely be included in b0.4
+                                        In the meantime, you can save them manually by exporting and later importing
+                                        them.
                                     </p>
                                 </li>
                             </ul>
                         </li>
                         <li>Instructions can (and do) now include icons and have colored spot numbers/names.</li>
-                        <li>The zoom when advancing to the next step has been tweaked to reliably include all the necessary spots.</li>
+                        <li>The zoom when advancing to the next step has been tweaked to reliably include all the
+                            necessary spots.
+                        </li>
                         <li>The scan radius around key areas is now displayed.</li>
                         <li>Switched the map data source to the most recent version.</li>
-                        <li>The map can now have its floor changed. Selected clues automatically change to the correct floor.</li>
+                        <li>The map can now have its floor changed. Selected clues automatically change to the correct
+                            floor.
+                        </li>
 
                         <li>Overhauled/Tweaked the routes for...
                             <ul>
@@ -473,8 +456,10 @@
                         <li>Lots of internal changes.
                             <ul>
                                 <li>
-                                    One Example: Scan routes are now automatically verified and can essentially never be wrong.
-                                    They can still be bad, but the remaining candidates will always be correct and no spots can be forgotten.
+                                    One Example: Scan routes are now automatically verified and can essentially never be
+                                    wrong.
+                                    They can still be bad, but the remaining candidates will always be correct and no
+                                    spots can be forgotten.
                                     This includes all of the "different level" logic.
                                 </li>
                             </ul>
@@ -519,7 +504,8 @@
                 <p id="modal-export-string-explanation"></p>
 
                 <label style="display: block">
-                    <textarea id="export-modal-text" readonly style="resize: none; width: 100%; height: 20em" onclick="this.select()" class="nisinput nistext">
+                    <textarea id="export-modal-text" readonly style="resize: none; width: 100%; height: 20em"
+                              onclick="this.select()" class="nisinput nistext">
                     </textarea>
                 </label>
 
@@ -541,7 +527,8 @@
             </div>
             <div class="modal-body">
                 <label style="display: block">
-                    <textarea id="import-modal-text" style="resize: none; width: 100%; height: 20em" onclick="this.select()" class="nisinput nistext"
+                    <textarea id="import-modal-text" style="resize: none; width: 100%; height: 20em"
+                              onclick="this.select()" class="nisinput nistext"
                               placeholder="Paste the shareable string here">
                     </textarea>
                 </label>

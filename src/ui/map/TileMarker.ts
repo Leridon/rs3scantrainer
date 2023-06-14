@@ -59,6 +59,7 @@ export class TileMarker extends leaflet.FeatureGroup {
             ], {
                 color: color,
                 fillColor: color,
+                interactive: false
             }
         ).addTo(this)
 

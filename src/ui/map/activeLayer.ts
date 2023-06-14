@@ -8,7 +8,7 @@ import {TileMarker} from "./TileMarker";
 export class ActiveLayer extends leaflet.FeatureGroup {
     protected map: GameMapControl = null
     private controls: leaflet.Control[] = []
-    private interaction: LayerInteraction<ActiveLayer>
+    protected interaction: LayerInteraction<ActiveLayer>
 
     constructor() {
         super()
@@ -22,6 +22,8 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         if (this.interaction) {
             this.interaction.cancel()
             this.interaction = null
+
+            this.map.setTopControl(null)
         }
 
         this.interaction = interaction
@@ -38,7 +40,11 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
             this.map.setTopControl(null)
 
-            this.loadDefaultInteraction().activate()
+            let de = this.loadDefaultInteraction()
+
+            console.log(de.constructor.name)
+
+            de.activate()
         }
     }
 
@@ -51,14 +57,16 @@ export class ActiveLayer extends leaflet.FeatureGroup {
     private _tilemarker: TileMarker = null
 
     loadDefaultInteraction(): LayerInteraction<ActiveLayer> {
+        console.log("Loading default default")
 
-        console.log("Loading")
         let self = this
 
         return new SimpleClickInteraction(this, {
             "click": (p) => {
-                if (self._tilemarker && eq(p, self._tilemarker.getSpot())) self.removeMarker()
-                else self.setMarker(p)
+                if (self._tilemarker && eq(p, self._tilemarker.getSpot())) {
+                    console.log("Default asd")
+                    self.removeMarker()
+                } else self.setMarker(p)
             }
         })
     }
@@ -80,15 +88,24 @@ export class ActiveLayer extends leaflet.FeatureGroup {
     }
 
     activate(map: GameMapControl) {
+        console.log("Activate layer")
+
         this.map = map
 
-        this.loadDefaultInteraction().activate()
+        let de = this.loadDefaultInteraction()
+
+        console.log(de.constructor.name)
+
+        de.activate()
 
         this.controls.forEach((e) => e.addTo(map.map))
     }
 
     deactivate() {
-        this.cancelInteraction()
+        this.interaction.cancel()
+        this.interaction = null
+
+        this.map.setTopControl(null)
 
         this.map = null
 

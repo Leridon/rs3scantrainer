@@ -149,8 +149,8 @@ export class ScanLayer extends ActiveLayer {
         "dig_spot_clicked": TileMarker
     }>
 
-    tile_marker: ScanRadiusTileMarker = null
-    complement_tile_marker: ScanRadiusTileMarker = null
+    tile_marker: ScanRadiusTileMarker
+    complement_tile_marker: ScanRadiusTileMarker
 
     constructor(public clue: ScanStep, public app: Application,
                 options: {
@@ -158,6 +158,9 @@ export class ScanLayer extends ActiveLayer {
                 } = {}
     ) {
         super()
+
+        this.tile_marker = null
+        this.complement_tile_marker = null
 
         this.marker_layer = leaflet.featureGroup().addTo(this)
         this.complement_layer = leaflet.featureGroup().addTo(this)
@@ -196,10 +199,14 @@ export class ScanLayer extends ActiveLayer {
         let self = this
 
         return new SimpleClickInteraction(this, {
-            "click": (p) => {
-                if (self.tile_marker && eq(p, self.tile_marker.getSpot())
-                    || self.complement_tile_marker && eq(p, self.complement_tile_marker.getSpot())) self.removeMarker()
-                else self.setMarker(p)
+            "click": (p: MapCoordinate) => {
+                if ((self.tile_marker && eq(p, self.tile_marker.getSpot()))
+                    || (self.complement_tile_marker && eq(p, self.complement_tile_marker.getSpot()))) {
+                    self.removeMarker()
+                }
+                else {
+                    self.setMarker(p)
+                }
             }
         })
     }
@@ -242,8 +249,6 @@ export class ScanLayer extends ActiveLayer {
     }
 
     removeMarker() {
-        super.removeMarker()
-
         if (this.tile_marker) {
             this.tile_marker.remove()
             this.tile_marker = null
@@ -272,8 +277,14 @@ export class ScanLayer extends ActiveLayer {
         }
 
         if (removeable) {
-            this.tile_marker.on("click", () => this.removeMarker())
-            this.complement_tile_marker.on("click", () => this.removeMarker())
+            this.tile_marker.on("click", (e) => {
+                leaflet.DomEvent.stopPropagation(e)
+                this.removeMarker()
+            })
+            this.complement_tile_marker.on("click", (e) => {
+                leaflet.DomEvent.stopPropagation(e)
+                this.removeMarker()
+            })
         }
     }
 }

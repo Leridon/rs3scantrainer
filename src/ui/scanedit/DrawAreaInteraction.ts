@@ -8,10 +8,10 @@ import LayerInteraction from "../map/interactions/LayerInteraction";
 import TopControl from "../map/TopControl";
 
 class DrawTopControl extends TopControl {
-    constructor() {
+    constructor(private parent: DrawAreaInteraction) {
         super()
 
-        this.container.text("Draw")
+        this.container.text("Click and drag the map to draw an area.")
     }
 }
 
@@ -88,6 +88,10 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }
         },
+    }
+
+    protected constructTopControl(): TopControl {
+        return new DrawTopControl(this);
     }
 
 }

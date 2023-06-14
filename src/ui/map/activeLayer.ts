@@ -57,14 +57,11 @@ export class ActiveLayer extends leaflet.FeatureGroup {
     private _tilemarker: TileMarker = null
 
     loadDefaultInteraction(): LayerInteraction<ActiveLayer> {
-        console.log("Loading default default")
-
         let self = this
 
         return new SimpleClickInteraction(this, {
             "click": (p) => {
                 if (self._tilemarker && eq(p, self._tilemarker.getSpot())) {
-                    console.log("Default asd")
                     self.removeMarker()
                 } else self.setMarker(p)
             }
@@ -88,13 +85,9 @@ export class ActiveLayer extends leaflet.FeatureGroup {
     }
 
     activate(map: GameMapControl) {
-        console.log("Activate layer")
-
         this.map = map
 
         let de = this.loadDefaultInteraction()
-
-        console.log(de.constructor.name)
 
         de.activate()
 

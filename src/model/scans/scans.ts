@@ -152,8 +152,6 @@ export class ScanEquivalenceClasses {
             this.equivalence_classes.forEach((c) => c.getPolygon().addTo(this.layer))
         }
 
-        console.log(this.layer.getLayers().length)
-
         return this.layer
     }
 

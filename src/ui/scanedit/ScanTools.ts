@@ -54,12 +54,7 @@ export default class ScanTools extends Widget {
 
         $("<div style='display: flex; padding-left: 5px'>")
             .append(new Checkbox().on("changed", (v) => {
-                console.log("Changed S: " + v)
-                if (v) {
-                    console.log("Adding")
-                    this.equivalence_classes.normal.getLayer().addTo(this.parent.layer)
-                    console.log("Added")
-                }
+                if (v) this.equivalence_classes.normal.getLayer().addTo(this.parent.layer)
                 else {
                     this.equivalence_classes.normal.getLayer().remove()
                     this.equivalence_classes.normal.layer = null
@@ -70,7 +65,6 @@ export default class ScanTools extends Widget {
 
         $("<div style='display: flex; padding-left: 5px'>")
             .append(new Checkbox().on("changed", (v) => {
-                console.log("Changed C")
                 if (v) this.equivalence_classes.complement.getLayer().addTo(this.parent.layer)
                 else {
                     this.equivalence_classes.complement.getLayer().remove()

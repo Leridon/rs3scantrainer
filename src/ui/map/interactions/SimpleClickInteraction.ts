@@ -19,7 +19,6 @@ export default class SimpleClickInteraction extends LayerInteraction<ActiveLayer
     }
 
     cancel() {
-        console.log("Cancelling")
         this.layer.getMap().map.off(this._maphooks)
     }
 

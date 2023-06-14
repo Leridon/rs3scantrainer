@@ -25,12 +25,9 @@ let c = config.toConfig()
 
 c.plugins = [
     new CopyWebpackPlugin({
-        patterns: [
-            {
-                from: "assets",
-                to: "assets"
-            }
-        ]
+        patterns: [{
+            from: path.resolve(__dirname, "./static")
+        }]
     }),
     new CircularDependencyPlugin({
         exclude: /a\.js|node_modules/,
@@ -40,7 +37,7 @@ c.plugins = [
         //failOnError: true,
         // allow import cycles that include an asyncronous import,
         // e.g. via import( './file.js')
-        allowAsyncCycles: false,
+        allowAsyncCycles: true,
         // set the current working directory for displaying module paths
         cwd: process.cwd(),
     })

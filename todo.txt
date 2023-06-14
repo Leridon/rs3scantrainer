@@ -5,7 +5,6 @@ Ready for release:
 - [Presentation] Draw subtle grid
 - [Map] Added/repositioned a bunch of teleports on the map
 
-
 Planned for next release (b0.4):
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 
@@ -13,7 +12,6 @@ Planned for next release (b0.4):
     - Local methods
     - Teleport settings
 - Support for multiple methods
--
 
 - [Tooling, Presentation] Subtle Walkable-Overlay (Figure out data source).
 - [Presentation] Favicon

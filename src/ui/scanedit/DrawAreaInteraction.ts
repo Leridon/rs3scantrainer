@@ -1,10 +1,10 @@
-import {LayerInteraction} from "../map/activeLayer";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {Box, MapCoordinate} from "../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import * as lodash from "lodash"
+import LayerInteraction from "../map/interactions/LayerInteraction";
 
 export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
     events = new TypedEmitter<{

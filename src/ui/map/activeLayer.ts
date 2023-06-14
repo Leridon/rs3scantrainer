@@ -1,55 +1,16 @@
-import {GameMapControl, TileMarker} from "./map";
+import {blue_icon, GameMapControl} from "./map";
 import * as leaflet from "leaflet"
+import {eq, MapCoordinate} from "../../model/coordinates";
+import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
+import LayerInteraction from "./interactions/LayerInteraction";
+import {TileMarker} from "./TileMarker";
 
-export class TileMarkerWithActive extends TileMarker {
-
-    private active: boolean = true
-
-    isActive() {
-        return this.active
-    }
-
-    setActive(isActive: boolean) {
-        this.active = isActive
-
-        if (isActive) this.setOpacity(1)
-        else this.setOpacity(0.2)
-    }
-}
-
-export abstract class LayerInteraction<T extends ActiveLayer> {
-    private is_active: boolean
-
-    protected constructor(protected layer: T) {
-    }
-
-    activate(): this {
-        if (!this.is_active) {
-            this.layer.setInteraction(this)
-            this.is_active = true
-        }
-        return this
-    }
-
-    deactivate(): this {
-        if (this.is_active) {
-            this.layer.cancelInteraction()
-            this.is_active = false
-        }
-        return this
-    }
-
-    abstract start()
-
-    abstract cancel()
-}
-
-export abstract class ActiveLayer extends leaflet.FeatureGroup {
+export class ActiveLayer extends leaflet.FeatureGroup {
     protected map: GameMapControl = null
     private controls: leaflet.Control[] = []
     private interaction: LayerInteraction<ActiveLayer>
 
-    protected constructor() {
+    constructor() {
         super()
     }
 
@@ -72,7 +33,7 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
             this.interaction.cancel()
             this.interaction = null
 
-            this.loadDefaultInteraction()
+            this.loadDefaultInteraction().activate()
         }
     }
 
@@ -82,13 +43,41 @@ export abstract class ActiveLayer extends leaflet.FeatureGroup {
         if (this.map) this.map.map.addControl(control)
     }
 
-    loadDefaultInteraction() {
+    private _tilemarker: TileMarker = null
+
+    loadDefaultInteraction(): LayerInteraction<ActiveLayer> {
+
+        console.log("Loading")
+        let self = this
+
+        return new SimpleClickInteraction(this, {
+            "click": (p) => {
+                if (self._tilemarker && eq(p, self._tilemarker.getSpot())) self.removeMarker()
+                else self.setMarker(p)
+            }
+        })
+    }
+
+    setMarker(spot: MapCoordinate) {
+        this.removeMarker()
+
+        this._tilemarker = new TileMarker(spot)
+            .withX("white").withMarker(blue_icon)
+            .on("click", () => this.removeMarker())
+            .addTo(this)
+    }
+
+    removeMarker() {
+        if (this._tilemarker) {
+            this._tilemarker.remove()
+            this._tilemarker = null
+        }
     }
 
     activate(map: GameMapControl) {
         this.map = map
 
-        this.loadDefaultInteraction()
+        this.loadDefaultInteraction().activate()
 
         this.controls.forEach((e) => e.addTo(map.map))
     }

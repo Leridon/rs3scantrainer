@@ -1,10 +1,9 @@
 import {GieliCoordinates, MapCoordinate} from "./coordinates";
 import {clues} from "../data/clues";
-import {data} from "jquery";
 import {Application} from "../application";
-import {TileMarker} from "../ui/map/map";
 import {ActiveLayer, SimpleMarkerLayer} from "../ui/map/activeLayer";
 import {ScanLayer} from "../ui/map/layers/ScanLayer";
+import {TileMarker} from "../ui/map/TileMarker";
 
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
@@ -81,8 +80,6 @@ export class ClueSteps {
         return this.steps.find((s) => s.id == id)
     }
 }
-
-
 
 export function getSolutionLayer(clue: ClueStep, app: Application, variant: number = 0): ActiveLayer {
     // TODO: This probably does not belong here

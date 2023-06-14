@@ -76,6 +76,7 @@ const raw: teleport_group[] = [{
         {subid: "godwars", spot: {x: 2908, y: 3724}, img: "tele-god.png", hover: "God Wars"},
         {subid: "trollheim", spot: {x: 2881, y: 3669}, img: "tele-troll.png", hover: "Trollheim"},
         {subid: "apeatoll", spot: {x: 2798, y: 2791}, img: "tele-ape.png", hover: "Ape Atoll"},
+        {subid: "mazcab", spot: {x: 4317, y: 814}, img: "tele-mazcab.png", hover: "Mazcab"},
     ]
 }, {
     id: "ancientspellook",
@@ -186,7 +187,7 @@ const raw: teleport_group[] = [{
 
     ]
 }, {
-    id: "teleportseeds",
+    id: "teleportseed",
     name: "Teleport Seed",
     img: "crystal.gif",
     spots: [
@@ -236,6 +237,7 @@ const raw: teleport_group[] = [{
         {subid: "AIP", spot: {x: 2412, y: 4434}, code: ""},
         {subid: "AIQ", spot: {x: 2996, y: 3114}, code: "AIQ"},
         {subid: "AIR", spot: {x: 2700, y: 3247}, code: "AIR"},
+        {subid: "AJQ", spot: {x: 2735, y: 5221}, code: "AJQ"},
         {subid: "AJR", spot: {x: 2780, y: 3613}, code: "AJR"},
         {subid: "AJS", spot: {x: 2500, y: 3896}, code: "AJS"},
         {subid: "AKQ", spot: {x: 2319, y: 3619}, code: "AKQ"},
@@ -246,6 +248,7 @@ const raw: teleport_group[] = [{
         {subid: "BIP", spot: {x: 3410, y: 3324}, code: "BIP"},
         {subid: "BIQ", spot: {x: 3251, y: 3095}, code: "BIQ"},
         {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS"},
+        {subid: "BJQ", spot: {x: 1737, y: 5342}, code: "BJQ"},
         {subid: "BJS", spot: {x: 1936, y: 3137}, code: "BJS"},
         {subid: "BKP", spot: {x: 2385, y: 3035}, code: "BKP"},
         {subid: "BKR", spot: {x: 3469, y: 3431}, code: "BKR"},
@@ -271,11 +274,11 @@ const raw: teleport_group[] = [{
         {subid: "DKS", spot: {x: 2744, y: 3719}, code: "DKS"},
         {subid: "DLQ", spot: {x: 3423, y: 3016}, code: "DLQ"},
         {subid: "DLR", spot: {x: 2213, y: 3099}, code: "DLR"},
+        {subid: "DLR", spot: {x: 3501, y: 9821, level: 3}, code: "DLS"},
+        {subid: "resistance", spot: {x: 2254, y: 4426, level: 0}, hover: "Fairy Resistance HQ"},
         //ais guthix dream
-        //ajq dorghes kaan agi dungeon
         //alr the abbyss
         //bir stuck in forrest zanaris
-        //bjq waterfiends kura dung
         //bjr fisher realm
         //bkq spirit realm
         //blq yubuisk
@@ -283,7 +286,7 @@ const raw: teleport_group[] = [{
         //ckp floating space lsd thingy
         //dir gorak plane
         //dkq glacors
-        //dls canifis cave
+        //orks rift
     ]
 }, {
     id: "slayercape",
@@ -293,7 +296,7 @@ const raw: teleport_group[] = [{
         {subid: "mandrith", spot: {x: 3050, y: 3953}, code: "1", hover: "Mandrith"},
         {subid: "laniakea", spot: {x: 5671, y: 2138}, code: "2", hover: "Laniakea"},
         {subid: "morvran", spot: {x: 2197, y: 3327, level: 1}, code: "3", hover: "Morvran"},
-        // 4 Kuradal
+        {subid: "kuradal", spot: {x: 1737, y: 5313, level: 1}, code: "4", hover: "Kuradal"},
         {subid: "lapalok", spot: {x: 2870, y: 2982, level: 1}, code: "5", hover: "Lapalok"},
         {subid: "sumona", spot: {x: 3359, y: 2993}, code: "6", hover: "Sumona"},
         {subid: "chealdar", spot: {x: 2447, y: 4431}, code: "7", hover: "Chealdar"},
@@ -335,13 +338,14 @@ const raw: teleport_group[] = [{
     name: "Quest Cape",
     img: "capequest.png",
     spots: [
-        //1 tds cave
+        {subid: "guthixtemple", spot: {x: 2540, y: 5774}, code: "1", hover: "Ancient Guthix Temple"},
         //2 gower quest bts
         {subid: "championsguild", spot: {x: 3192, y: 3357}, code: "3", hover: "Champion's Guild"},
         {subid: "emptythroneroom", spot: {x: 3375, y: 3402}, code: "4", hover: "The empty throne room"},
         {subid: "glacorcavern", spot: {x: 2912, y: 3840}, code: "5", hover: "Glacor cavern"},
+        {subid: "heroesguild", spot: {x: 2918, y: 9895}, code: "6", hover: "Heroes's Guild - Fountain of Heroes"},
         //6 heroes guild underground
-        {subid: "legensguild", spot: {x: 2730, y: 3353}, code: "7", hover: "Legends' Guild"},
+        {subid: "legensguild", spot: {x: 2730, y: 3348}, code: "7", hover: "Legends' Guild"},
         {subid: "tearsofguthix", spot: {x: 3250, y: 9518}, code: "8", hover: "Tears of Guthix"},
         {subid: "museum", spot: {x: 3255, y: 3449}, code: "9", hover: "Varrock Museum"},
         {subid: "worldgate", spot: {x: 2371, y: 3355}, code: "0", hover: "The World Gate"},
@@ -354,7 +358,7 @@ const raw: teleport_group[] = [{
         {subid: "shrine", spot: {x: 2709, y: 3373}, code: "1", hover: "Guthix's Shrine"},
         {subid: "worldgate", spot: {x: 2367, y: 3355}, code: "2", hover: "World Gate"},
         {subid: "memorial", spot: {x: 2265, y: 3554}, code: "3", hover: "Guthix Memorial"},
-        //4 Guthix temple
+        {subid: "temple", spot: {x: 2540, y: 5772}, code: "4", hover: "Guthix Memorial"},
     ]
 }, {
     id: "desertamulet", name: "Desert Amulet", img: "desertamulet.gif", spots: [
@@ -653,10 +657,10 @@ const raw: teleport_group[] = [{
         {subid: "kharidet", spot: {x: 3349, y: 3195}, code: "2", hover: "Kharid-et"},
         {subid: "infernal", spot: {x: 3271, y: 3504}, code: "3", hover: "Infernal Source"},
         {subid: "everlight", spot: {x: 3695, y: 3209}, code: "4", hover: "Everlight"},
-        {subid: "senntisten", spot: {x: 1784, y: 1295}, code: "6", hover: "Senntisten"},
-        {subid: "stormguard", spot: {x: 2682, y: 3403}, code: "7", hover: "Stormguard Citadel"},
-        {subid: "warforge", spot: {x: 2408, y: 2829}, code: "8", hover: "Warforge"},
-        // Orthen
+        {subid: "senntisten", spot: {x: 1784, y: 1295}, code: "5", hover: "Senntisten"},
+        {subid: "stormguard", spot: {x: 2682, y: 3403}, code: "6", hover: "Stormguard Citadel"},
+        {subid: "warforge", spot: {x: 2408, y: 2829}, code: "7", hover: "Warforge"},
+        {subid: "orthen", spot: {x: 5456, y: 2339}, code: "8", hover: "Orthen"},
         {subid: "jacques", spot: {x: 3254, y: 3455}, code: "9,1", hover: "Collectors - Art Critic Jacques"},
         {subid: "tess", spot: {x: 2550, y: 2854}, code: "9,2", hover: "Collectors - Chief Tess"},
         {subid: "generals", spot: {x: 2957, y: 3510}, code: "9,3", hover: "Collectors - Generals Bentnoze & Wartface"},
@@ -705,7 +709,7 @@ const raw: teleport_group[] = [{
         id: "legendscape",
         name: "Legends Cape",
         img: "legendscape.png",
-        spots: [{subid: "legendsguild", spot: {x: 2729, y: 3349}}]
+        spots: [{subid: "legendsguild", spot: {x: 2728, y: 3348}}]
     },
     {
         id: "archjounal",
@@ -801,9 +805,22 @@ const raw: teleport_group[] = [{
             {subid: "faladortree", spot: {x: 3006, y: 3375}, hover: "Falador Tree Patch"},
             {subid: "harmonyallotment", spot: {x: 3793, y: 2832}, hover: "Harony Island Allotment Patch"},
         ]
+    },
+    {
+        id: "tokkulzo", name: "TokKul-Zo", img: "tokkulzo.png",
+        spots: [
+            {subid: "plaza", spot: {x: 4672, y: 5155}, hover: "Main Plaza", code: "1"},
+            {subid: "plaza", spot: {x: 4603, y: 5062}, hover: "Fight Pit", code: "2"},
+            {subid: "plaza", spot: {x: 4616, y: 5131}, hover: "Fight Cave", code: "3"},
+            {subid: "plaza", spot: {x: 4744, y: 5171}, hover: "Fight Kiln", code: "4"},
+            {subid: "plaza", spot: {x: 4787, y: 5127}, hover: "Fight Cauldron", code: "5"},
+        ]
     }
     //TODO: Eagle transport system
     //TODO: Canoes
+    //TODO: Orthen Teleport network
+    //TODO: Anachronia teleport (totems)
+    //TODO: grand seed pod
 ]
 
 export default raw

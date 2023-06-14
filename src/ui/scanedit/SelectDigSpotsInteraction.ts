@@ -1,7 +1,8 @@
-import {LayerInteraction, TileMarkerWithActive} from "../map/activeLayer";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {eq, MapCoordinate} from "../../model/coordinates";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
+import LayerInteraction from "../map/interactions/LayerInteraction";
+import {TileMarker} from "../map/TileMarker";
 
 
 export default class SelectDigSpotsInteraction extends LayerInteraction<ScanEditLayer> {
@@ -30,7 +31,7 @@ export default class SelectDigSpotsInteraction extends LayerInteraction<ScanEdit
         this.events.emit("done", this.selection)
     }
 
-    private _hook = (m: TileMarkerWithActive) => {
+    private _hook = (m: TileMarker) => {
         let s = m.getSpot()
 
         let i = this.selection.findIndex((e) => eq(e, s))

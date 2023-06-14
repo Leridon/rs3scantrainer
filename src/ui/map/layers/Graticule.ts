@@ -3,10 +3,10 @@ import {Vector2} from "../../../model/coordinates";
 import {PolylineOptions} from "leaflet";
 
 /**
- *  File: leaflet.SimpleGraticule.ts
+ *  File: Graticule.ts
  *  Desc: A graticule for Leaflet maps in the leaflet.CRS.Simple coordinate system.
  *  Original Author: Andrew Blakey (ablakey@gmaileaflet.com)
- *  Ported to typescript and adjusted to this project's needs
+ *  Ported to typescript and adjusted to this project's needs.
  */
 export default class Graticule extends leaflet.FeatureGroup {
 
@@ -35,13 +35,17 @@ export default class Graticule extends leaflet.FeatureGroup {
         }
     }
 
+    _hook = () => this.redraw()
+
     override onAdd(map): this {
         super.onAdd(map)
 
         this._map = map;
 
-        this._map.on('zoomend', () => this.redraw())
-        this._map.on('moveend', () => this.redraw())
+        let self = this
+
+        this._map.on('zoomend', self._hook)
+        this._map.on('moveend', self._hook)
 
         this.redraw()
 
@@ -49,8 +53,11 @@ export default class Graticule extends leaflet.FeatureGroup {
     }
 
     onRemove(map): this {
-        map.off('viewreset', () => this.redraw());
-        this.eachLayer(this.removeLayer, this);
+        let self = this
+
+        this._map.off('zoomend', self._hook)
+        this._map.off('moveend', self._hook)
+
         return this
     }
 
@@ -61,16 +68,6 @@ export default class Graticule extends leaflet.FeatureGroup {
         if (!this.last_drawn || !this.last_drawn.bounds.contains(bounds) || this.last_drawn.interval != interval) {
             this.constructLines(this._map.getBounds().pad(0.5), interval)
         }
-
-        /*
-        let currentZoom = this._map.getZoom();
-
-        for (let i = 0; i < this._options.zoomIntervals.length; i++) {
-            if (currentZoom >= this._options.zoomIntervals[i].start && currentZoom <= this._options.zoomIntervals[i].end) {
-                this.interval = this._options.zoomIntervals[i].interval;
-                break;
-            }
-        }*/
     }
 
     constructLines(bounds: leaflet.LatLngBounds, interval: number) {
@@ -78,8 +75,6 @@ export default class Graticule extends leaflet.FeatureGroup {
             bounds: bounds,
             interval: interval
         }
-
-        console.log("Redrawing")
 
         this.clearLayers()
 

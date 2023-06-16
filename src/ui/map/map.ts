@@ -3,7 +3,6 @@ import {TeleportLayer} from "./teleportlayer";
 import {MapCoordinate} from "../../model/coordinates";
 import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
-import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import Graticule from "./layers/Graticule";
 import Widget from "../widgets/Widget";
 import PathLayer from "./layers/PathLayer";

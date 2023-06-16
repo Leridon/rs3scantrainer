@@ -47,15 +47,21 @@ type step_powerburst = step_base & {
 
 export type step = step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
 
-export type path = {
+export type Path = {
     description: string,
     clip: any
     steps: step[],
 }
 
-type augmented_path = {
-    description: string,
-    clip: any,
-    sections: step[][],
-    expected_execution_time: number
+namespace Path  {
+    export type augmented = {
+        description: string,
+        clip: any,
+        sections: step[][],
+        expected_execution_time: number
+    }
+
+    export function augment(path: Path): Path.augmented {
+        throw new Error("Not implemented")
+    }
 }

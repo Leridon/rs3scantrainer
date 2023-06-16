@@ -235,59 +235,61 @@ const raw: teleport_group[] = [{
     name: "Fairy Ring",
     img: "fairyring.gif",
     spots: [
-        {subid: "AIP", spot: {x: 2412, y: 4434}, code: ""},
-        {subid: "AIQ", spot: {x: 2996, y: 3114}, code: "AIQ"},
-        {subid: "AIR", spot: {x: 2700, y: 3247}, code: "AIR"},
-        {subid: "AJQ", spot: {x: 2735, y: 5221}, code: "AJQ"},
-        {subid: "AJR", spot: {x: 2780, y: 3613}, code: "AJR"},
-        {subid: "AJS", spot: {x: 2500, y: 3896}, code: "AJS"},
-        {subid: "AKQ", spot: {x: 2319, y: 3619}, code: "AKQ"},
-        {subid: "AKS", spot: {x: 2571, y: 2956}, code: "AKS"},
-        {subid: "ALP", spot: {x: 2473, y: 3028}, code: "ALP"},
-        {subid: "ALQ", spot: {x: 3597, y: 3495}, code: "ALQ"},
-        {subid: "ALS", spot: {x: 2644, y: 3495}, code: "ALS"},
-        {subid: "BIP", spot: {x: 3410, y: 3324}, code: "BIP"},
-        {subid: "BIQ", spot: {x: 3251, y: 3095}, code: "BIQ"},
-        {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS"},
-        {subid: "BJQ", spot: {x: 1737, y: 5342}, code: "BJQ"},
-        {subid: "BJS", spot: {x: 1936, y: 3137}, code: "BJS"},
-        {subid: "BKP", spot: {x: 2385, y: 3035}, code: "BKP"},
-        {subid: "BKR", spot: {x: 3469, y: 3431}, code: "BKR"},
-        {subid: "BLP", spot: {x: 4622, y: 5147}, code: "BLP"},
-        {subid: "BLR", spot: {x: 2740, y: 3351}, code: "BLR"},
-        {subid: "CIP", spot: {x: 2513, y: 3884}, code: "CIP"},
-        {subid: "CIQ", spot: {x: 2528, y: 3127}, code: "CIQ"},
-        {subid: "CJR", spot: {x: 2705, y: 3576}, code: "CJR"},
-        {subid: "CJS", spot: {x: 2901, y: 2930}, code: "CJS"},
-        {subid: "CKQ", spot: {x: 3086, y: 2704}, code: "CKQ"},
-        {subid: "CKR", spot: {x: 2801, y: 3003}, code: "CKR"},
-        {subid: "CKS", spot: {x: 3447, y: 3470}, code: "CKS"},
-        {subid: "CLP", spot: {x: 3082, y: 3206}, code: "CLP"},
-        {subid: "CLS", spot: {x: 2682, y: 3081}, code: "CLS"},
-        {subid: "CLR", spot: {x: 2735, y: 2742}, code: "CLR"},
-        {subid: "DIP", spot: {x: 3763, y: 2930}, code: "DIP"},
-        {subid: "DIS", spot: {x: 3092, y: 3137}, code: "DIS"},
-        {subid: "DJP", spot: {x: 2658, y: 3230}, code: "DJP"},
-        {subid: "DJR", spot: {x: 2676, y: 3587}, code: "DJR"},
-        {subid: "DJS", spot: {x: 2130, y: 3369}, code: "DJS"},
-        {subid: "DKP", spot: {x: 2900, y: 3111}, code: "DKP"},
-        {subid: "DKR", spot: {x: 3129, y: 3496}, code: "DKR"},
-        {subid: "DKS", spot: {x: 2744, y: 3719}, code: "DKS"},
-        {subid: "DLQ", spot: {x: 3423, y: 3016}, code: "DLQ"},
-        {subid: "DLR", spot: {x: 2213, y: 3099}, code: "DLR"},
-        {subid: "DLR", spot: {x: 3501, y: 9821, level: 3}, code: "DLS"},
+        {subid: "AIP", spot: {x: 2412, y: 4434}, code: "", hover: "Zanaris"},
+        {subid: "AIQ", spot: {x: 2996, y: 3114}, code: "AIQ", hover: "Asgarnia: Mudskipper Point"},
+        {subid: "AIR", spot: {x: 2700, y: 3247}, code: "AIR", hover: "Islands: South of Witchhaven"},
+        {subid: "AJQ", spot: {x: 2735, y: 5221}, code: "AJQ", hover: "Dungeons: Dark cave south of Dorgesh-Kaan"},
+        {subid: "AJR", spot: {x: 2780, y: 3613}, code: "AJR", hover: "Kandarin: Slayer cave south-east of Relekka"},
+        {subid: "AJS", spot: {x: 2500, y: 3896}, code: "AJS", hover: "Islands: Penguins near Miscellania"},
+        {subid: "AKQ", spot: {x: 2319, y: 3619}, code: "AKQ", hover: "Piscatoris Hunter area"},
+        {subid: "AKS", spot: {x: 2571, y: 2956}, code: "AKS", hover: "Feldip Hills: Jungle Hunter area"},
+        {subid: "ALP", spot: {x: 2473, y: 3028}, code: "ALP", hover: "Feldip Hills: Near Gu´Tanoth"},
+        {subid: "ALQ", spot: {x: 3597, y: 3495}, code: "ALQ", hover: "Morytania: Haunted Woods east of Canifis"},
+        {subid: "ALS", spot: {x: 2644, y: 3495}, code: "ALS", hover: "Kandarin: McGrubor´s Wood"},
+        {subid: "BIP", spot: {x: 3410, y: 3324}, code: "BIP", hover: "Islands: Polypore Dungeon"},
+        {subid: "BIQ", spot: {x: 3251, y: 3095}, code: "BIQ", hover: "Kharidian Desert: Near Kalphite Hive"},
+        {subid: "BIR", spot: {x: 2455, y: 4396}, code: "BIS", hover: "Sparse Plane"},
+        {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS", hover: "Kandarin: Ardougne Zoo unicorns"},
+        {subid: "BJP", spot: {x: 3342, y: 3539}, code: "BJP", hover: "Fort Forinthry: Woodcutters`s Grove"}, // TODO: Check hover after release
+        {subid: "BJQ", spot: {x: 1737, y: 5342}, code: "BJQ", hover: "Dungeons: Ancient Cavern"},
+        {subid: "BJS", spot: {x: 1936, y: 3137}, code: "BJS", hover: "The Lost Grove"},
+        {subid: "BKP", spot: {x: 2385, y: 3035}, code: "BKP", hover: "Feldip Hills: South of Castle Wars"},
+        {subid: "BKQ", spot: {x: 3041, y: 4532}, code: "BKQ", hover: "Other realms: Enchanted Valley"},
+        {subid: "BKR", spot: {x: 3469, y: 3431}, code: "BKR", hover: "Morytania: Mort Myre, south of Canifis"},
+        {subid: "BLP", spot: {x: 4622, y: 5147}, code: "BLP", hover: "Dungeons: TzHaar area"},
+        {subid: "BLR", spot: {x: 2740, y: 3351}, code: "BLR", hover: "Kandarin: Legends´ Guild"},
+        {subid: "CIP", spot: {x: 2513, y: 3884}, code: "CIP", hover: "Islands: Miscellania"},
+        {subid: "CIQ", spot: {x: 2528, y: 3127}, code: "CIQ", hover: "Kandarin: North-west of Yanille"},
+        {subid: "CIS", spot: {x: 3419, y: 4772}, code: "CIS", hover: "Other realms: ScapeRune (Evil Bob´s island)"},
+        {subid: "CJR", spot: {x: 2705, y: 3576}, code: "CJR", hover: "Kandarin: Sinclair Mansion (east)"},
+        {subid: "CJS", spot: {x: 2901, y: 2930}, code: "CJS", hover: "Karamja: Kharazi Jungle"},
+        //TODO: {subid: "CKP", spot: {x: 0, y: 0}, code: "CKP", hover: "Other realms: Cosmic entity´s plane"},
+        {subid: "CKQ", spot: {x: 3086, y: 2704}, code: "CKQ", hover: "Menaphos: Imperial District"},
+        {subid: "CKR", spot: {x: 2801, y: 3003}, code: "CKR", hover: "Karamja: South of Tai Bwo Wannai Village"},
+        {subid: "CKS", spot: {x: 3447, y: 3470}, code: "CKS", hover: "Morytania: Canifis"},
+        {subid: "CLP", spot: {x: 3082, y: 3206}, code: "CLP", hover: "Islands: South of Draynor Village"},
+        {subid: "CLS", spot: {x: 2682, y: 3081}, code: "CLS", hover: "Islands: Jungle spiders near Yanille"},
+        {subid: "CLR", spot: {x: 2735, y: 2742}, code: "CLR", hover: "Islands: Ape Atoll"},
+        {subid: "DIP", spot: {x: 3763, y: 2930}, code: "DIP", hover: "Islands: Mos Le´Harmless"},
+        //TODO: {subid: "DIR", spot: {x: 0, y: 0}, code: "DIR", hover: "Other realms: Gorak`s Plane"},
+        //TODO: {subid: "kethsi", spot: {x: 0, y: 0}, hover: "Kethsi (DIR AKS)"},
+        {subid: "DIS", spot: {x: 3092, y: 3137}, code: "DIS", hover: "Misthalin: Wizard´s Tower"},
+        {subid: "DJP", spot: {x: 2658, y: 3230}, code: "DJP", hover: "Kandarin: Tower of Life"},
+        {subid: "DJR", spot: {x: 2676, y: 3587}, code: "DJR", hover: "Kandarin: Sinclair Mansion (west)"},
+        {subid: "DJS", spot: {x: 2130, y: 3369}, code: "DJS", hover: "Tirannwn: Prifddinas (Clan Amlodd)"},
+        {subid: "DKP", spot: {x: 2900, y: 3111}, code: "DKP", hover: "Karamja: South of Musa Point"},
+        //TODO: {subid: "DKQ", spot: {x: 0, y: 0}, code: "DKQ", hover: "Dungeons: Glacor Cave"},
+        {subid: "DKR", spot: {x: 3129, y: 3496}, code: "DKR", hover: "Misthalin: Edgeville"},
+        {subid: "DKS", spot: {x: 2744, y: 3719}, code: "DKS", hover: "Kandarin: Snowy Hunter area"},
+        {subid: "DLQ", spot: {x: 3423, y: 3016}, code: "DLQ", hover: "Kharidian Desert: North of Nardah"},
+        {subid: "DLR", spot: {x: 2213, y: 3099}, code: "DLR", hover: "Zanaris"},
+        {subid: "DLR", spot: {x: 3501, y: 9821, level: 3}, code: "DLS", hover: "Zanaris"},
         {subid: "resistance", spot: {x: 2254, y: 4426, level: 0}, hover: "Fairy Resistance HQ"},
-        {subid: "rift", spot: {x: 1626, y: 4176, level: 0}, hover: "Orks Rift (BIR, DIP, CLR, ALP)"},
+        {subid: "rift", spot: {x: 1626, y: 4176, level: 0}, hover: "Ork´s Rift (BIR, DIP, CLR, ALP)"},
         //ais guthix dream
         //alr the abbyss
-        //bir stuck in forrest zanaris
         //bjr fisher realm
-        //bkq spirit realm
-        //blq yubuisk
-        //cis evil bobs island
-        //ckp floating space lsd thingy
-        //dir gorak plane
-        //dkq glacors
+        //blq yubuisk0
     ]
 }, {
     id: "slayercape",
@@ -823,6 +825,8 @@ const raw: teleport_group[] = [{
     //TODO: grand seed pod
     //TODO: Boss portals
     //      - 1912 4367 Dagannoth Kings
+    // TODO: Slayer masks
+
 ]
 
 export default raw

@@ -2766,7 +2766,7 @@ let raw: (method & indirected)[] = [
             {
                 "from": "A",
                 "to": "C",
-                "short_instruction": "{{teleport davesspellbook ardougne}} spellbook to {{target}}."
+                "short_instruction": "{{teleport davesspellbook ardougne}} to {{target}}."
             },
             {
                 "from": "B",

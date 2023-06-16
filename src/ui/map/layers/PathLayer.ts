@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet"
 import {movement_ability, step} from "../../../model/pathing";
-import {MapCoordinate, toLL, Vector2} from "../../../model/coordinates";
+import {boxPolygon, MapCoordinate, toLL, Vector2} from "../../../model/coordinates";
 
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
@@ -69,7 +69,6 @@ export default class PathLayer extends leaflet.FeatureGroup {
         ]
 
         this.update()
-
     }
 
 
@@ -145,9 +144,24 @@ export default class PathLayer extends leaflet.FeatureGroup {
                 return group
             }
             case "interaction":
+                boxPolygon(step.area).setStyle({
+                    weight: 2,
+                    color: "#888888",
+                    fillColor: "#888888",
+                    fillOpacity: 0.3,
+                })
                 break;
             case "redclick": {
                 return createX(step.where, "red").addTo(this)
+            }
+            case "powerburst": {
+                return leaflet.marker(toLL(step.where), {
+                    icon: leaflet.icon({
+                        iconUrl: "assets/icons/accel.png",
+                        iconSize: [16, 16],
+                        iconAnchor: [8, 8],
+                    })
+                })
             }
         }
     }

@@ -4,7 +4,7 @@ import {area_pulse, Pulse} from "./scans";
 import {Modal} from "../../ui/widgets/modal";
 import {ScanStep} from "../clues";
 import {util} from "../../util/util";
-import type {path} from "../pathing";
+import type {Path} from "../pathing";
 
 export namespace ScanTree2 {
 
@@ -21,7 +21,7 @@ export namespace ScanTree2 {
         from?: string,
         to: string | MapCoordinate[],
         short_instruction?: string,
-        path?: path,
+        path?: Path,
     }
 
     export type tree = method_base & {

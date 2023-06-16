@@ -201,7 +201,9 @@ export class GameMapControl extends Widget<{
                 color: '#111111',
                 opacity: 0.25,
             }
-        }).addTo(this.map)
+        })
+            .setZIndex(10)
+            .addTo(this.map)
 
         // Set a default active layer
         this.setActiveLayer(new ActiveLayer())
@@ -213,24 +215,7 @@ export class GameMapControl extends Widget<{
             this.updateBaseLayers()
         });*/
 
-        new PathLayer([{
-            type: "ability",
-            ability: "surge",
-            from: {x: 2880, y: 3443},
-            to: {x: 2884, y: 3434}
-        },{
-            type: "ability",
-            ability: "escape",
-            from: {x: 2884, y: 3434},
-            to: {x: 2888, y: 3441}
-        },{
-            type: "ability",
-            ability: "dive",
-            from: {x: 2888, y: 3441},
-            to: {x: 2880, y: 3443}
-        },
-
-        ]).addTo(this.map)
+        new PathLayer([]).setZIndex(20).addTo(this.map)
     }
 
     setFloor(floor: number) {

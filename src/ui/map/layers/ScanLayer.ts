@@ -116,15 +116,21 @@ class ScanRadiusTileMarker extends TileMarker {
             boxPolygon({
                 topleft: {x: this.spot.x - (this.range + 15), y: this.spot.y + (this.range + 15)},
                 botright: {x: this.spot.x + (this.range + 15), y: this.spot.y - (this.range + 15)}
+            }).setStyle({
+                interactive: false
             }).setStyle({color: "blue", fillOpacity: 0}).addTo(this.range_polygon)
         } else {
             boxPolygon({
                 topleft: {x: this.spot.x - this.range, y: this.spot.y + this.range},
                 botright: {x: this.spot.x + this.range, y: this.spot.y - this.range}
+            }).setStyle({
+                interactive: false
             }).setStyle({color: "green", fillOpacity: 0}).addTo(this.range_polygon)
             boxPolygon({
                 topleft: {x: this.spot.x - 2 * this.range, y: this.spot.y + 2 * this.range},
                 botright: {x: this.spot.x + 2 * this.range, y: this.spot.y - 2 * this.range}
+            }).setStyle({
+                interactive: false
             }).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]}).addTo(this.range_polygon)
         }
     }
@@ -202,6 +208,7 @@ export class ScanLayer extends ActiveLayer {
             "click": (p: MapCoordinate) => {
                 if ((self.tile_marker && eq(p, self.tile_marker.getSpot()))
                     || (self.complement_tile_marker && eq(p, self.complement_tile_marker.getSpot()))) {
+                    console.log("Removing 1")
                     self.removeMarker()
                 }
                 else {
@@ -249,6 +256,8 @@ export class ScanLayer extends ActiveLayer {
     }
 
     removeMarker() {
+        console.log("Removing")
+
         if (this.tile_marker) {
             this.tile_marker.remove()
             this.tile_marker = null
@@ -262,6 +271,8 @@ export class ScanLayer extends ActiveLayer {
 
     setMarker(spot: MapCoordinate, include_marker: boolean = true, removeable: boolean = true) {
         this.removeMarker()
+
+        console.log("Adding")
 
         let complement = Math.floor(spot.y / 6400) != Math.floor(this.clue.solution.candidates[0].y / 6400)
 

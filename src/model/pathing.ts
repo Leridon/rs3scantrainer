@@ -1,17 +1,20 @@
 import {Box, MapCoordinate} from "./coordinates";
 
-type step_base = { type: string }
+type step_base = {
+    type: string,
+    ticks?: number
+}
 
 type step_ability = step_base & {
     type: "ability",
-    ability: "surge" | "dive" | "escape",
+    ability: "surge" | "dive" | "escape" | "barge",
     from: MapCoordinate,
     to: MapCoordinate
 }
 
 type step_run = step_base & {
     type: "run",
-    points: MapCoordinate[]
+    waypoints: MapCoordinate[]
 }
 
 type step_teleport = step_base & {

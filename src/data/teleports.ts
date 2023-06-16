@@ -277,6 +277,7 @@ const raw: teleport_group[] = [{
         {subid: "DLR", spot: {x: 2213, y: 3099}, code: "DLR"},
         {subid: "DLR", spot: {x: 3501, y: 9821, level: 3}, code: "DLS"},
         {subid: "resistance", spot: {x: 2254, y: 4426, level: 0}, hover: "Fairy Resistance HQ"},
+        {subid: "rift", spot: {x: 1626, y: 4176, level: 0}, hover: "Orks Rift (BIR, DIP, CLR, ALP)"},
         //ais guthix dream
         //alr the abbyss
         //bir stuck in forrest zanaris
@@ -287,7 +288,6 @@ const raw: teleport_group[] = [{
         //ckp floating space lsd thingy
         //dir gorak plane
         //dkq glacors
-        //orks rift
     ]
 }, {
     id: "slayercape",
@@ -345,7 +345,6 @@ const raw: teleport_group[] = [{
         {subid: "emptythroneroom", spot: {x: 3375, y: 3402}, code: "4", hover: "The empty throne room"},
         {subid: "glacorcavern", spot: {x: 2912, y: 3840}, code: "5", hover: "Glacor cavern"},
         {subid: "heroesguild", spot: {x: 2918, y: 9895}, code: "6", hover: "Heroes's Guild - Fountain of Heroes"},
-        //6 heroes guild underground
         {subid: "legensguild", spot: {x: 2730, y: 3348}, code: "7", hover: "Legends' Guild"},
         {subid: "tearsofguthix", spot: {x: 3250, y: 9518}, code: "8", hover: "Tears of Guthix"},
         {subid: "museum", spot: {x: 3255, y: 3449}, code: "9", hover: "Varrock Museum"},
@@ -354,7 +353,7 @@ const raw: teleport_group[] = [{
 }, {
     id: "sixthage",
     name: "Sixth Age Circuit",
-    img: "sixthagecircuit.gif",
+    img: "sixthagecircuit.png",
     spots: [
         {subid: "shrine", spot: {x: 2709, y: 3373}, code: "1", hover: "Guthix's Shrine"},
         {subid: "worldgate", spot: {x: 2367, y: 3355}, code: "2", hover: "World Gate"},
@@ -811,10 +810,10 @@ const raw: teleport_group[] = [{
         id: "tokkulzo", name: "TokKul-Zo", img: "tokkulzo.png",
         spots: [
             {subid: "plaza", spot: {x: 4672, y: 5155}, hover: "Main Plaza", code: "1"},
-            {subid: "plaza", spot: {x: 4603, y: 5062}, hover: "Fight Pit", code: "2"},
-            {subid: "plaza", spot: {x: 4616, y: 5131}, hover: "Fight Cave", code: "3"},
-            {subid: "plaza", spot: {x: 4744, y: 5171}, hover: "Fight Kiln", code: "4"},
-            {subid: "plaza", spot: {x: 4787, y: 5127}, hover: "Fight Cauldron", code: "5"},
+            {subid: "pit", spot: {x: 4603, y: 5062}, hover: "Fight Pit", code: "2"},
+            {subid: "cave", spot: {x: 4616, y: 5131}, hover: "Fight Cave", code: "3"},
+            {subid: "kiln", spot: {x: 4744, y: 5171}, hover: "Fight Kiln", code: "4"},
+            {subid: "cauldron", spot: {x: 4787, y: 5127}, hover: "Fight Cauldron", code: "5"},
         ]
     }
     //TODO: Eagle transport system
@@ -822,6 +821,8 @@ const raw: teleport_group[] = [{
     //TODO: Orthen Teleport network
     //TODO: Anachronia teleport (totems)
     //TODO: grand seed pod
+    //TODO: Boss portals
+    //      - 1912 4367 Dagannoth Kings
 ]
 
 export default raw

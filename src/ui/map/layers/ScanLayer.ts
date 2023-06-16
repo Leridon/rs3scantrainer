@@ -289,26 +289,6 @@ export class ScanLayer extends ActiveLayer {
     }
 }
 
-type step = {
-    type: "ability",
-    ability: "surge" | "dive"
-    from: MapCoordinate,
-    to: MapCoordinate
-} | {
-    type: "redclick",
-    where: MapCoordinate,
-} | {
-    type: "teleport",
-    id: string,
-    subid?: string
-}
-
-export type path = {
-    description: string,
-    clip: any
-    sections: step[][],
-}
-
 export class ScanEditLayer extends ScanLayer {
     private edit_panel: ScanEditPanel
 

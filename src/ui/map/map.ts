@@ -6,6 +6,7 @@ import {CustomControl} from "./CustomControl";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import Graticule from "./layers/Graticule";
 import Widget from "../widgets/Widget";
+import PathLayer from "./layers/PathLayer";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -212,6 +213,24 @@ export class GameMapControl extends Widget<{
             this.updateBaseLayers()
         });*/
 
+        new PathLayer([{
+            type: "ability",
+            ability: "surge",
+            from: {x: 2880, y: 3443},
+            to: {x: 2884, y: 3434}
+        },{
+            type: "ability",
+            ability: "escape",
+            from: {x: 2884, y: 3434},
+            to: {x: 2888, y: 3441}
+        },{
+            type: "ability",
+            ability: "dive",
+            from: {x: 2888, y: 3441},
+            to: {x: 2880, y: 3443}
+        },
+
+        ]).addTo(this.map)
     }
 
     setFloor(floor: number) {
@@ -233,7 +252,7 @@ export class GameMapControl extends Widget<{
         layers.push(new RsBaseTileLayer([
             {urls: this.geturls(`topdown-${this.floor}/{z}/{x}-{y}.webp`)}
         ], {
-            attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
+            attribution: '<a href="https://runeapps.org/">Skillbert</a>',
             tileSize: 512,
             maxNativeZoom: 5,
             minZoom: -5

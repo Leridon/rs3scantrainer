@@ -10,6 +10,19 @@ Ready for release:
     - Draw Area
 
 Planned for next release (b0.4):
+- [How] Detailled pathing
+    - Model what kinds of actions a past can consist of
+    - Define a graphical representation for each one.
+    - Add an editor/Unified way to show paths
+
+- [Tech] Overlay pathing into the game.
+    - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
+    - Player position is input explicitly by placing a marker on the map.
+    - This should be enough to draw polygons into the world as long as the camera height is not modified.
+    - Yaw can be read by the compass on the minimap.
+
+
+
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 - [Presentation] Unique icons for home teleports
 
@@ -25,8 +38,6 @@ Planned for next release (b0.4):
     - Disable info buttons that leave 0 candidates
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
-- [How] Detailled pathing
-    - Pathfinder/-validator/-drawer
 
 RELEASE 1.0
 - Finish all elite/master scans

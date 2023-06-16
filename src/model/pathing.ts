@@ -4,6 +4,7 @@ export type movement_ability = "surge" | "dive" | "escape" | "barge"
 
 type step_base = {
     type: string,
+    description?: string,
     ticks?: number
 }
 
@@ -44,7 +45,7 @@ type step_powerburst = step_base & {
     where: MapCoordinate
 }
 
-export type step = step_ability | step_run | step_teleport | step_interact | step_redclick
+export type step = step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
 
 export type path = {
     description: string,

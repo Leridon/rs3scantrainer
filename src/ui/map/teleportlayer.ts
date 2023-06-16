@@ -3,7 +3,7 @@ import {toLL} from "../../model/coordinates";
 import {flat_teleport} from "../../model/teleports";
 
 class TeleportIcon extends leaflet.Icon {
-    constructor(public options: leaflet.IconOptions & { teleport: flat_teleport}) {
+    constructor(public options: leaflet.IconOptions & { teleport: flat_teleport }) {
         super(options);
     }
 
@@ -18,8 +18,6 @@ class TeleportIcon extends leaflet.Icon {
             el.title = this.options.teleport.hover;
         }
         if (typeof this.options.teleport.icon != "string") {
-
-
             el.style.backgroundSize = `${this.options.teleport.icon.width ? this.options.teleport.icon.width + "px" : "auto"} ${this.options.teleport.icon.height ? this.options.teleport.icon.height + "px" : "auto"}`
         }
         return el;

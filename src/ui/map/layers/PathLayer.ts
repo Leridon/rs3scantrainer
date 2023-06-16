@@ -1,29 +1,24 @@
 import * as leaflet from "leaflet"
-import {step} from "../../../model/pathing";
+import {movement_ability, step} from "../../../model/pathing";
 import {MapCoordinate, toLL, Vector2} from "../../../model/coordinates";
 
 
-function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Polyline {
-    const click_colors = {
-        "yellow": "#b0e019",
-        "red": "#9c0906"
+function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
+    const click_icons = {
+        "red": "assets/icons/redclick.png",
+        "yellow": "assets/icons/yellowclick.png",
     }
 
-    const size = 0.2
-
-    return leaflet.polyline(
-        [
-            [toLL(Vector2.add(coordinate, {x: -size, y: size})), toLL(Vector2.add(coordinate, {x: size, y: -size}))],
-            [toLL(Vector2.add(coordinate, {x: -size, y: -size})), toLL(Vector2.add(coordinate, {x: size, y: size}))],
-        ],
-        {
-            color: click_colors[color],
-            weight: 5
-        }
-    )
+    return leaflet.marker(toLL(coordinate), {
+        icon: leaflet.icon({
+            iconUrl: click_icons[color],
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+        })
+    })
 }
 
-function arrowTip(): MapCoordinate[]{
+function arrowTip(): MapCoordinate[] {
 
 }
 
@@ -67,7 +62,7 @@ export default class PathLayer extends leaflet.FeatureGroup {
                 to: {x: 2450, y: 3066}
             }, {
                 type: "ability",
-                ability: "surge",
+                ability: "barge",
                 from: {x: 2450, y: 3066},
                 to: {x: 2440, y: 3056}
             }
@@ -78,7 +73,6 @@ export default class PathLayer extends leaflet.FeatureGroup {
     }
 
 
-
     private create(step: step): leaflet.Layer {
 
 
@@ -86,21 +80,32 @@ export default class PathLayer extends leaflet.FeatureGroup {
             case "teleport":
                 break;
             case "ability": {
-                const color = {
-                    "escape": "#56ba0f",
-                    "surge": "#0091f2",
-                    "dive": "#e7d82c",
-                    "barge": "#a97104"
-                }[step.ability]
+                let group = leaflet.featureGroup()
 
-                return leaflet.polyline(
+                const meta: Record<movement_ability, { color: string, icon: string }> = {
+                    barge: {color: "#a97104", icon: "assets/icons/barge.png"},
+                    dive: {color: "#e7d82c", icon: "assets/icons/dive.png"},
+                    escape: {color: "#56ba0f", icon: "assets/icons/escape.png"},
+                    surge: {color: "#0091f2", icon: "assets/icons/surge.png"}
+                }
+
+                leaflet.polyline(
                     [toLL(step.from), toLL(step.to)],
                     {
-                        color: color
+                        color: meta[step.ability].color
                     }
-                )
+                ).addTo(group)
+
+                leaflet.marker(toLL(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
+                    icon: leaflet.icon({
+                        iconUrl: meta[step.ability].icon,
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12],
+                    })
+                }).addTo(group)
+
+                return group
             }
-                break;
             case "run": {
                 let lines: [Vector2, Vector2][] = []
 

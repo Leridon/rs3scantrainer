@@ -1,13 +1,4 @@
 Ready for release:
-- [Presentation] Remove marker icon for automatically placed radius
-- [Presentation] Tweak indentation of the tree, maybe add Bullet points?
-- [Interactivity] Add links to the nested steps to allow quicker navigation
-- [Presentation] Draw subtle grid
-- [Map] Added/repositioned a bunch of teleports on the map
-- [Presentation] Favicon
-- [Tooling] Add control bar for map interactions (top center)
-    - Select dig spots
-    - Draw Area
 
 Planned for next release (b0.4):
 - [How] Detailled pathing
@@ -22,7 +13,6 @@ Planned for next release (b0.4):
     - Yaw can be read by the compass on the minimap.
 
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
-- [Presentation] Unique icons for home teleports
 
 - Settings modal
     - Local methods
@@ -59,7 +49,7 @@ Unscheduled:
 - Track Jacket/Backpack Charges via Chat.
 - Locally saved methods
 - Apply information theory and equivalence classes from scans also to compasses.
-- Figure out z-Ordering of layers (need to use panes probably)
+- Figure out z-Ordering of layers (need to use panes maybe)
 - Assign clue tiers to remaining clues
 - Figure out how to handle clues with different solutions depending on game progress.
 - Google Maps like layout for a slimmer experience? Make the map be the center of everything

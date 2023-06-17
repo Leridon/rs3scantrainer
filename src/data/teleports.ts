@@ -357,7 +357,7 @@ const raw: teleport_group[] = [{
     name: "Sixth Age Circuit",
     img: "sixthagecircuit.png",
     spots: [
-        {subid: "shrine", spot: {x: 2709, y: 3373}, code: "1", hover: "Guthix's Shrine"},
+        //TODO: This spot is underground, coordinates on the surface are bogus {subid: "shrine", spot: {x: 2709, y: 3373}, code: "1", hover: "Guthix's Shrine"},
         {subid: "worldgate", spot: {x: 2367, y: 3355}, code: "2", hover: "World Gate"},
         {subid: "memorial", spot: {x: 2265, y: 3554}, code: "3", hover: "Guthix Memorial"},
         {subid: "temple", spot: {x: 2540, y: 5772}, code: "4", hover: "Guthix Memorial"},

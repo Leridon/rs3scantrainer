@@ -92,6 +92,8 @@ class FloorControl extends CustomControl {
             })
             .appendTo(this.container)
 
+        this.container.on("click", (e) => e.stopPropagation())
+
         parent.on("floorChanged", (f) => this.current.text(`Floor ${f}`))
     }
 }
@@ -152,7 +154,6 @@ export class GameMapControl extends Widget<{
     constructor(container: JQuery) {
         super(container)
 
-
         this.map = leaflet.map(container.get()[0], {
             crs: this.getCRS(),
             zoomSnap: 0.25,
@@ -162,6 +163,10 @@ export class GameMapControl extends Widget<{
             doubleClickZoom: false,
             attributionControl: true
         }).setView([3200, 3000], 0);
+
+        /*$(this.map.attributionControl.getContainer())
+            .addClass("nis-map-control")
+            .removeClass("leaflet-control-attribution")*/
 
         this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'>Im a test test test</div>").appendTo(container.children(".leaflet-control-container")))
 
@@ -214,7 +219,7 @@ export class GameMapControl extends Widget<{
             this.updateBaseLayers()
         });*/
 
-        new PathLayer([]).setZIndex(20).addTo(this.map)
+        // new PathLayer([]).setZIndex(20).addTo(this.map)
     }
 
     setFloor(floor: number) {
@@ -236,7 +241,7 @@ export class GameMapControl extends Widget<{
         layers.push(new RsBaseTileLayer([
             {urls: this.geturls(`topdown-${this.floor}/{z}/{x}-{y}.webp`)}
         ], {
-            attribution: '<a href="https://runeapps.org/">Skillbert</a>',
+            attribution: '<a href="https://runeapps.org/" title="Creator of Alt1 and RuneApps.org">Skillbert</a>',
             tileSize: 512,
             maxNativeZoom: 5,
             minZoom: -5

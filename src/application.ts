@@ -1,9 +1,7 @@
 import {storage} from "./util/storage";
 import SidePanelControl from "./ui/SidePanelControl";
-import HowToTabControls from "./ui/HowToTabControl";
 import MenuBarControl from "./ui/MenuBarControl";
 import {Modal} from "./ui/widgets/modal";
-import {clues} from "./data/clues";
 
 import TemplateResolver from "./util/TemplateResolver";
 import {TeleportLayer} from "./ui/map/teleportlayer";
@@ -11,6 +9,7 @@ import {Teleports} from "./model/teleports";
 import {ClueSteps} from "./model/clues";
 import {Methods} from "./data/accessors";
 import {Constants} from "./constants";
+import {GameMapControl} from "./ui/map/map";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -105,7 +104,7 @@ export class Application {
     in_alt1: boolean = !!window.alt1
 
     menubar = new MenuBarControl(this)
-    howtotabs = new HowToTabControls(this)
+    map = new GameMapControl($("#map"))
     sidepanels = new SidePanelControl(this)
 
     data = {
@@ -148,10 +147,10 @@ export class Application {
     about_modal = new AboutModal("modal-about", this)
 
     constructor() {
-        this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+        this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
 
         this.data.teleports.on("refreshed", (t) => {
-            this.howtotabs.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+            this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
         })
     }
 

@@ -1,25 +1,33 @@
 import * as leaflet from "leaflet"
-import {toLeafletLatLngExpression} from "../../model/coordinates";
+import {toLL} from "../../model/coordinates";
 import {flat_teleport} from "../../model/teleports";
 
 class TeleportIcon extends leaflet.Icon {
-    declare options: leaflet.IconOptions & { text?: string, title?: string };
-
-    constructor(p: leaflet.IconOptions & { text?: string, title?: string }) {
-        super(p);
+    constructor(public options: leaflet.IconOptions & { teleport: flat_teleport }) {
+        super(options);
     }
 
     createIcon() {
         let el = document.createElement("div");
         el.style.backgroundImage = `url("${this.options.iconUrl}")`;
         el.classList.add("marktele");
-        if (this.options.text) {
-            el.innerText = this.options.text;
+        if (this.options.teleport.code) {
+            el.innerText = this.options.teleport.code;
         }
-        if (this.options.title) {
-            el.title = this.options.title;
+        if (this.options.teleport.hover) {
+            el.title = this.options.teleport.hover;
+        }
+        if (typeof this.options.teleport.icon != "string") {
+            el.style.backgroundSize = `${this.options.teleport.icon.width ? this.options.teleport.icon.width + "px" : "auto"} ${this.options.teleport.icon.height ? this.options.teleport.icon.height + "px" : "auto"}`
         }
         return el;
+    }
+
+    static fromTeleport(tele: flat_teleport): TeleportIcon {
+        return new TeleportIcon({
+            iconUrl: `./assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`,
+            teleport: tele
+        })
     }
 }
 
@@ -29,12 +37,8 @@ export class TeleportLayer extends leaflet.FeatureGroup {
         super()
 
         for (let tele of teleports) {
-            leaflet.marker(toLeafletLatLngExpression(tele.spot), {
-                icon: new TeleportIcon({
-                    iconUrl: `./assets/icons/teleports/${tele.icon}`,
-                    text: tele.code,
-                    title: tele.hover
-                })
+            leaflet.marker(toLL(tele.spot), {
+                icon: TeleportIcon.fromTeleport(tele)
             }).addTo(this)
         }
     }

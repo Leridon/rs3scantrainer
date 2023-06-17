@@ -1,18 +1,31 @@
-Release b0.3
-- Scan Tree Editor
-    - Add explanation modal
+Ready for release:
 
-Release b0.4:
-- Incorporate jacket/backpack recommmendations
-- Styling pass over the scan editor
-    - Tree as a table
-    - Disable info buttons that leave 0 candidates
-- Add control bar for map interactions (top center).
-- Detailled pathing
-    - Pathfinder/-validator/-drawer
+Planned for next release (b0.4):
+- [How] Detailled pathing
+    - Model what kinds of actions a past can consist of
+    - Define a graphical representation for each one.
+    - Add an editor/Unified way to show paths
+
+- [Tech] Overlay pathing into the game.
+    - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
+    - Player position is input explicitly by placing a marker on the map.
+    - This should be enough to draw polygons into the world as long as the camera height is not modified.
+    - Yaw can be read by the compass on the minimap.
+
+- [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
+
 - Settings modal
     - Local methods
     - Teleport settings
+- Support for multiple methods
+
+- [Tooling, Presentation] Subtle Walkable-Overlay (Figure out data source).
+- [What] Incorporate jacket/backpack recommmendations
+- [Tooling] Styling pass over the scan editor
+    - Tree as a table
+    - Disable info buttons that leave 0 candidates
+    - Better placement of information marker to guaranteee it's always inside the area.
+    - Scale information gain down when zoomed out
 
 RELEASE 1.0
 - Finish all elite/master scans
@@ -23,12 +36,12 @@ RELEASE 1.0
         - Camelot, Watchtower, Varrock alternatives
 
 Unscheduled:
+- Scale teleports with zoom
+- Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
-- Better placement of information marker to guaranteee it's always inside the area.
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Arrow key/enter control for the search.
-- Integrate a solving method for compasses
 - Collapsible panels
 - Add puzzle solvers
 - Add methods for remaining clue types.
@@ -36,7 +49,7 @@ Unscheduled:
 - Track Jacket/Backpack Charges via Chat.
 - Locally saved methods
 - Apply information theory and equivalence classes from scans also to compasses.
-- Figure out z-Ordering of layers (need to use panes probably)
+- Figure out z-Ordering of layers (need to use panes maybe)
 - Assign clue tiers to remaining clues
 - Figure out how to handle clues with different solutions depending on game progress.
 - Google Maps like layout for a slimmer experience? Make the map be the center of everything
@@ -69,7 +82,33 @@ Next up:
 
 Look into https://github.com/mejrs/rs3cache for map data.
 
+Notable feedback to consider:
 
 [23:45]Malinoric: If you're taking feedback, the only problematic locations are places without any buildings as easy reference. Foliage often looks very different between the game visual and what you see on the minimap.
 [23:45]Malinoric: so desert, piscatoris, haunted woods... those places.
 [23:46]Malinoric: kharazi is a particular nightmare, but the positions are a lot more lenient in that case, so it isn't as much of an issue
+
+[03:18]Offline: bit confused, when it says step- (surge), does that mean step and then surge?
+
+then for the double ping, it says (surge) -step south- (surge), does that mean surge, then take 1 step south, then surge once more? maybe it could be separated with commas so its more clear its like a step
+
+the patch notes does note that the zooming when going to next step has changed to include necessary spots, but i think the zoom should also include necessary next steps that dont have a teleport specified
+second picture for example, i dont know where C is, but the map doesnt need to zoom so far to see G because now i know where G is because a teleport is specified
+or for 3rd image i dont know where im diving or surging to, F cant be seen at all
+i see that the plugin works so that you arrive to a step, you see the pings, then click the plugin, then move accordingly
+but the way i use it is that i like to look forward to where i should move and then click the plugin as im arriving
+
+09:25]Offline: I think having an option to go 2 steps ahead might be useful, theres times on the older version where i just dont click the plugin because im moving through the steps rather quickly and then when i get stuck, then i click through whatever steps ive already done
+
+however i think there would have to be more of a distinct separator between ping sections and a section’s future steps
+so maybe indenting the future steps in farther for a better visual, or maybe even adding bullet points so that each section of ping directions has their own bullet points of future steps
+
+as for the blue marker, now that i look at it, it does look like it can be in the way at times, especially on specific tile directions like you said
+sometimes instead of perfectly surging to the next location i just run there because my brain still trying to process next steps and whatnot, so being able to see what exact tile i might need to stand on through the plugin would help
+
+one thing that did come in mind is maybe theres a way you can incorporate a statement that kinda visually describes what to stand near or on… for example maybe for a certain haunted woods step, there could be a tip saying that the next step is 1 step southwest of a nearby mushroom, which iirc step C and F is (just off top of my head)
+or for the second image, it could say something like “dive/surge to B, south of the nearby tree”
+
+also one thing i did remember about is that i think the upstairs portion of dorg was a bit visually confusing (when you option 4 tele to the west) because the map shows upstairs and downstairs
+off top of my head cause im on mobile atm, i think step H was a strip of land that looked like it was right by the bank, so i ended up getting confused if i was supposed to stay upstairs or downstairs for that step
+im not sure if all of the steps relating to dorg orb option4 are upstairs only, but maybe the steps in that table could specify that you would be staying upstairs or noting if/when go downstairs? idk, maybe its a me specific problem

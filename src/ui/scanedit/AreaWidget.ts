@@ -1,7 +1,6 @@
 import {ToggleGroup} from "../map/layers/ToggleGroup";
 import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
-import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import AreaEdit from "./AreaEdit";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import ScanSpot = ScanTree2.ScanSpot;

@@ -1,0 +1,571 @@
+html, body, #main-content {
+    min-width: 100%;
+    margin: 0;
+    display: inline-flex;
+    font-family: monospace;
+    font-size: 10pt;
+}
+
+html, body {
+    width: 100vh;
+    height: 100vh;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#searchresults {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    background-color: black;
+    border: 1px solid #514949;
+    z-index: 1000;
+    /*
+    padding-left: 4px;
+    padding-right: 4px;
+    max-width: 100%;
+    position: relative;
+    background-color: black;
+    border: 1px solid #514949;
+    border-top: 0;
+    flex-wrap: wrap;*/
+}
+
+#searchresults div {
+    /*white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;*/
+}
+
+#sidebar-panels {
+    overflow-y: auto;
+}
+
+.split-screen {
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    width: 50%;
+    flex-grow: 1;
+    /*margin-left: 6px;
+    margin-right: 6px;*/
+}
+
+.verticalsep {
+    border-left: 1px solid black;
+    border-right: 1px solid #41555F;
+    height: 100%;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.indented {
+    margin-left: 15px;
+    display: block;
+}
+
+.togglebutton {
+    text-align: center;
+    padding: 0;
+    opacity: 0.4;
+}
+
+.togglebutton.active {
+    opacity: 1;
+}
+
+.menubarbutton {
+    margin-left: 6px;
+    min-width: 21px;
+    max-width: 21px;
+}
+
+.nissmallimagebutton {
+    min-width: 21px;
+    min-height: 21px;
+    background: url("assets/icons/imagebuttonbackground.png");
+}
+
+.nissmallimagebutton.active {
+    background: url("assets/icons/imagebuttonbackground.png");
+    background-position-x: 21px;
+}
+
+.nissmallimagebutton {
+    align-content: center;
+    text-align: center;
+}
+
+.nissmallimagebutton > img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.icon {
+    max-width: 1.3em;
+    max-height: 1.3em;
+}
+
+#pathview {
+    font-size: small;
+    margin-bottom: unset;
+}
+
+.instruction-top {
+    font-weight: bold;
+}
+
+#textmethodcontent {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.panel {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 5px;
+    border: 1px solid #41555F;
+    background: #00000030;
+}
+
+.paneltitle {
+    font-weight: bold;
+}
+
+#footer {
+    display: none;
+    min-height: 20px;
+    font-size: 8pt;
+    color: #FFFFFF80;
+}
+
+#filters {
+    border: 1px solid #41555F;
+    background: #00000030;
+}
+
+#scantreeview {
+    padding-left: 15px;
+}
+
+.scantreeline {
+    display: block;
+}
+
+.nextstep {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.cluesearchresult {
+    cursor: pointer;
+    text-underline: dash;
+}
+
+.cluesearchresult:hover {
+    background-color: #FFFFFF33;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+.spot-number {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: gold;
+    text-decoration-color: gold;
+}
+
+.spot-number-on-map {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: gold;
+    font-size: 1.5rem;
+}
+
+.equivalence-class-information {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: gold;
+    font-size: 1rem;
+    text-align: center;
+    vertical-align: center;
+    width: 50px;
+    /*
+        left: -25px;
+        top: -10px;*/
+}
+
+.area-name {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: #00FF21;
+    font-size: 1.5rem;
+}
+
+
+.marker-icon {
+}
+
+
+#map {
+    cursor: default;
+}
+
+#tabcontainer {
+    position: absolute;
+    z-index: 1000;
+}
+
+.methodtabcontent[data-methodtype="video"] {
+    margin-top: 20px;
+}
+
+.videocontainer:before {
+    content: "";
+    width: 1px;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: -1px;
+}
+
+.videocontainer {
+    max-height: 100%;
+    text-align: center;
+    /*display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    max-height: 100% !important;
+    margin: 0 auto;*/
+}
+
+#videoplayer {
+
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: contain;
+
+    /*max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto;
+    height: auto;
+    object-fit: contain;*/
+}
+
+.methodtabcontent[data-methodtype=map] {
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid black;
+}
+
+.methodtabcontent[data-methodtype=text] {
+    padding-top: 20px;
+}
+
+.attribution {
+    font-size: 8pt;
+    text-align: center;
+    color: #FFFFFF80;
+}
+
+.marktele {
+    cursor: default;
+    transform-origin: center;
+    position: absolute;
+    color: #fff;
+    margin: -20px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    vertical-align: center;
+    white-space: nowrap;
+    text-shadow: 1px 1px #000, -1px 1px #000, 1px -1px #000, -1px -1px #000;
+    font-size: 12px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.fuzzyhighlight {
+    color: gold
+}
+
+#cluesearchbox {
+    height: 21px;
+}
+
+#filters > div {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.modal-content {
+    background-image: url('assets/nis/background.png')
+}
+
+.img-button {
+    height: 80%;
+    cursor: pointer;
+}
+
+.inline-img {
+    height: 1.5em;
+}
+
+a {
+    text-decoration: none;
+}
+
+video {
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.btn-nis {
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'trajan-pro-3', serif;
+    text-shadow: 1px 1px 2px #ECC622;
+    font-size: 14px;
+    margin: 5px;
+    padding: 0px 12px;
+    line-height: 32px;
+    color: #00000A;
+    border-top: 1px #fef6d7;
+    border-bottom: 1px #381e02;
+    background: linear-gradient(to bottom, #fad54e, #ce720a);
+}
+
+.btn-nis:hover {
+    border-top: 1px #edeeee;
+    border-bottom: 1px #381e02;
+    background: linear-gradient(to bottom, #ffff78, #f1a800);
+}
+
+.btn-nis:active {
+    background: #ffff78;
+}
+
+.icon-button {
+    cursor: pointer;
+}
+
+.modal {
+    --bs-modal-padding: 0.5rem;
+    --bs-modal-footer-border-color: rgba(65, 85, 95, 0.5);
+    --bs-modal-header-border-color: rgba(65, 85, 95, 0.5);
+}
+
+.modal-content {
+    border-radius: 1rem;
+    border: 2px solid rgb(43, 58, 67);
+}
+
+.modal-exit {
+    padding: calc(var(--bs-modal-header-padding-y) * .5) calc(var(--bs-modal-header-padding-x) * .5);
+    margin: calc(-.5 * var(--bs-modal-header-padding-y)) calc(-.5 * var(--bs-modal-header-padding-x)) calc(-.5 * var(--bs-modal-header-padding-y)) auto;
+}
+
+.modal-header {
+    color: #FFCB05FF;
+    background: #23323B80;
+    font-family: 'trajan-pro-3', serif;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px #ECC622;
+}
+
+.exit-button {
+    background-image: url("assets/icons/exit.png");
+    height: 22px;
+    width: 22px;
+}
+
+.leaflet-button {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 3px;
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.leaflet-button > img {
+    width: 16px;
+    height: 16px;
+}
+
+.leaflet-button:hover {
+    background-color: #f4f4f4;
+}
+
+.area-div {
+    color: #00FF21;
+    background-color: #00FF2119;
+    border: 1px solid #00FF21;
+    width: 2em;
+    text-align: center;
+    vertical-align: center;
+}
+
+
+.nextchoice {
+    padding: 2px;
+}
+
+.lightbutton {
+    margin: 3px;
+    text-align: center;
+    display: inline-block;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: #FFFFFF19;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid gray;
+}
+
+.lightbutton.inactive {
+    background-color: #FFFFFF0B;
+}
+
+.lightbutton.active {
+    background-color: #FFFFFF50;
+}
+
+.lightbutton:hover {
+    background-color: #FFFFFF32;
+}
+
+.lightbutton.active:hover {
+    background-color: #FFFFFF49;
+}
+
+.area-edit-row > * {
+    margin-right: 0.5em;
+}
+
+.properties > .row {
+    margin-top: 5px;
+}
+
+.properties > .head {
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.property {
+    font-weight: bold;
+}
+
+#curtain {
+    background: url("assets/nis/background.png");
+}
+
+.text-icon {
+    height: 1.3em;
+}
+
+.treeview > * {
+    margin-top: 2px;
+}
+
+.leaflet-container {
+    background-color: black;
+}
+
+.nis-map-control {
+    border-radius: 8px;
+    background-color: rgb(10, 31, 41);
+    border: 1px solid rgb(5, 56, 66);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    color: var(--nis-col-std);
+    font-size: 1em;
+}
+
+.nis-collapsible {
+    border: 1px solid rgb(52, 67, 74);
+    border-top: 1px solid rgb(108, 116, 120);
+}
+
+.nis-collapsible-heading {
+    display: flex;
+    background-image: linear-gradient(rgb(41, 65, 77), rgb(20, 51, 66), rgb(41, 65, 77));
+    border-radius: 2px;
+    border: 1px solid rgb(12, 22, 27);
+}
+
+.nis-collapsible-heading.collapsed {
+    background-image: linear-gradient(rgb(45, 75, 90), rgb(18, 48, 62), rgb(11, 34, 46));
+}
+
+.nis-collapsible-heading:hover {
+    filter: brightness(1.2);
+}
+
+.nis-collapsible-content {
+    padding-top: 5px;
+}
+
+.fullwidth-in-panel {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.tele-icon-code-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7em;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.lightlink {
+    text-decoration: underline;
+    cursor: pointer;
+    text-decoration-style: dotted;
+}
+
+.nis-inactive {
+    filter: grayscale(0.5) brightness(0.5);
+}
+
+.my-leaflet-topcenter {
+    max-width: 50%;
+    z-index: 10000;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    padding-top: 10px;
+    font-size: 12pt;
+}
+
+.nis-map-control-top {
+    padding: 5px;
+}

@@ -5,32 +5,33 @@ const raw: teleport_group[] = [{
     name: "Lodestone",
     img: "homeport.png",
     spots: [
-        {subid: "alkharid", spot: {x: 3297, y: 3184}, code: "A", hover: "Al-Kharid"},
-        {subid: "ardougne", spot: {x: 2634, y: 3348}, code: "Alt+A", hover: "Ardounge"},
-        {subid: "ashdale", spot: {x: 2474, y: 2708, level: 2}, code: "Shift+A", hover: "Ashdale"},
-        {subid: "banditcamp", spot: {x: 3214, y: 2954}, code: "Alt+B", hover: "Bandit Camp"},
-        {subid: "burthope", spot: {x: 2899, y: 3544}, code: "B", hover: "Burthope"},
-        {subid: "canifis", spot: {x: 3517, y: 3515}, code: "Alt+C", hover: "Canifis"},
-        {subid: "catherby", spot: {x: 2811, y: 3449}, code: "C", hover: "Cathery"},
-        {subid: "draynor", spot: {x: 3105, y: 3298}, code: "D", hover: "Draynor"},
-        {subid: "eaglespeak", spot: {x: 2366, y: 3479}, code: "Alt+E", hover: "Eagle's Peak"},
-        {subid: "edgeville", spot: {x: 3067, y: 3505}, code: "E", hover: "Edgeville"},
-        {subid: "falador", spot: {x: 2967, y: 3403}, code: "F", hover: "Falador"},
-        {subid: "fremmenik", spot: {x: 2712, y: 3677}, code: "Alt+F", hover: "Fremmenik Province"},
-        {subid: "karamja", spot: {x: 2761, y: 3147}, code: "K", hover: "Karamja"},
-        {subid: "lumbridge", spot: {x: 3233, y: 3221}, code: "L", hover: "Lumbridge"},
-        {subid: "lunarisle", spot: {x: 2085, y: 3914}, code: "Alt+L", hover: "Lunar Isle"},
-        {subid: "ooglog", spot: {x: 2532, y: 2871}, code: "O", hover: "Oo'glog"},
-        {subid: "portsarim", spot: {x: 3011, y: 3215}, code: "P", hover: "Port Sarim"},
-        {subid: "prifddinas", spot: {x: 2208, y: 3360, level: 1}, code: "Alt+P", hover: "Prifddinas"},
-        {subid: "seersvillage", spot: {x: 2689, y: 3482}, code: "S", hover: "Seers' Village"},
-        {subid: "taverley", spot: {x: 2880, y: 3443}, code: "T", hover: "Taverley"},
-        {subid: "tirannwn", spot: {x: 2254, y: 3149}, code: "Alt+T", hover: "Tirannwn"},
-        {subid: "varrock", spot: {x: 3214, y: 3376}, code: "V", hover: "Varrock"},
-        {subid: "wilderness", spot: {x: 3143, y: 3635}, code: "W", hover: "Wilderness"},
-        {subid: "yanille", spot: {x: 2529, y: 3094}, code: "Y", hover: "Yanille"},
-        {subid: "menaphos", spot: {x: 3216, y: 2716}, code: "M", hover: "Menaphos"},
-        {subid: "fortforinthry", spot: {x: 3298, y: 3525}, code: "Alt+W", hover: "Fort Forinthry"},
+        {subid: "alkharid", img: {url: "lode_alkharid.png", width: 28}, spot: {x: 3297, y: 3184}, code: "A", hover: "Al-Kharid"},
+        {subid: "anachronia", img: {url: "lode_anachronia.png", height: 28}, spot: {x: 5431, y: 2338}, code: "A", hover: "Anachronia"},
+        {subid: "ardougne", img: {url: "lode_ardougne.png", height: 28}, spot: {x: 2634, y: 3348}, code: "Alt+A", hover: "Ardounge"},
+        {subid: "ashdale", img: {url: "lode_ashdale.png", height: 28}, spot: {x: 2474, y: 2708, level: 2}, code: "Shift+A", hover: "Ashdale"},
+        {subid: "banditcamp", img: {url: "lode_bandit.png", width: 28}, spot: {x: 3214, y: 2954}, code: "Alt+B", hover: "Bandit Camp"},
+        {subid: "burthorpe", img: {url: "lode_burthorpe.png", height: 28}, spot: {x: 2899, y: 3544}, code: "B", hover: "Burthope"},
+        {subid: "canifis", img: {url: "lode_canifis.png", height: 28}, spot: {x: 3517, y: 3515}, code: "Alt+C", hover: "Canifis"},
+        {subid: "catherby", img: {url: "lode_catherby.png", height: 28}, spot: {x: 2811, y: 3449}, code: "C", hover: "Cathery"},
+        {subid: "draynor", img: {url: "lode_draynor.png", height: 28}, spot: {x: 3105, y: 3298}, code: "D", hover: "Draynor"},
+        {subid: "eaglespeak", img: {url: "lode_eagles.png", height: 28}, spot: {x: 2366, y: 3479}, code: "Alt+E", hover: "Eagle's Peak"},
+        {subid: "edgeville", img: {url: "lode_edgeville.png", height: 28}, spot: {x: 3067, y: 3505}, code: "E", hover: "Edgeville"},
+        {subid: "falador", img: {url: "lode_falador.png", height: 28}, spot: {x: 2967, y: 3403}, code: "F", hover: "Falador"},
+        {subid: "fremmenik", img: {url: "lode_fremennik.png", height: 28}, spot: {x: 2712, y: 3677}, code: "Alt+F", hover: "Fremmenik Province"},
+        {subid: "karamja", img: {url: "lode_karamja.png", height: 28}, spot: {x: 2761, y: 3147}, code: "K", hover: "Karamja"},
+        {subid: "lumbridge", img: {url: "lode_lumbridge.png", height: 28}, spot: {x: 3233, y: 3221}, code: "L", hover: "Lumbridge"},
+        {subid: "lunarisle", img: {url: "lode_lunar.png", height: 28}, spot: {x: 2085, y: 3914}, code: "Alt+L", hover: "Lunar Isle"},
+        {subid: "ooglog", img: {url: "lode_ooglog.png", height: 28}, spot: {x: 2532, y: 2871}, code: "O", hover: "Oo'glog"},
+        {subid: "portsarim", img: {url: "lode_portsarim.png", height: 28}, spot: {x: 3011, y: 3215}, code: "P", hover: "Port Sarim"},
+        {subid: "prifddinas", img: {url: "lode_prifddinas.png", height: 28}, spot: {x: 2208, y: 3360, level: 1}, code: "Alt+P", hover: "Prifddinas"},
+        {subid: "seersvillage", img: {url: "lode_seers.png", height: 28}, spot: {x: 2689, y: 3482}, code: "S", hover: "Seers' Village"},
+        {subid: "taverley", img: {url: "lode_taverley.png", height: 28}, spot: {x: 2880, y: 3443}, code: "T", hover: "Taverley"},
+        {subid: "tirannwn", img: {url: "lode_tirannwn.png", height: 28}, spot: {x: 2254, y: 3149}, code: "Alt+T", hover: "Tirannwn"},
+        {subid: "varrock", img: {url: "lode_varrock.png", height: 28}, spot: {x: 3214, y: 3376}, code: "V", hover: "Varrock"},
+        {subid: "wilderness", img: {url: "lode_wilderness.png", height: 28}, spot: {x: 3143, y: 3635}, code: "W", hover: "Wilderness"},
+        {subid: "yanille", img: {url: "lode_yanille.png", height: 28}, spot: {x: 2529, y: 3094}, code: "Y", hover: "Yanille"},
+        {subid: "menaphos", img: {url: "lode_menaphos.png", height: 28}, spot: {x: 3216, y: 2716}, code: "M", hover: "Menaphos"},
+        {subid: "fortforinthry", img: {url: "lode_fortforinthry.png", height: 28}, spot: {x: 3298, y: 3525}, code: "Alt+W", hover: "Fort Forinthry"},
     ]
 }, {
     id: "normalspellbook",
@@ -76,6 +77,7 @@ const raw: teleport_group[] = [{
         {subid: "godwars", spot: {x: 2908, y: 3724}, img: "tele-god.png", hover: "God Wars"},
         {subid: "trollheim", spot: {x: 2881, y: 3669}, img: "tele-troll.png", hover: "Trollheim"},
         {subid: "apeatoll", spot: {x: 2798, y: 2791}, img: "tele-ape.png", hover: "Ape Atoll"},
+        {subid: "mazcab", spot: {x: 4317, y: 814}, img: "tele-mazcab.png", hover: "Mazcab"},
     ]
 }, {
     id: "ancientspellook",
@@ -186,7 +188,7 @@ const raw: teleport_group[] = [{
 
     ]
 }, {
-    id: "teleportseeds",
+    id: "teleportseed",
     name: "Teleport Seed",
     img: "crystal.gif",
     spots: [
@@ -233,57 +235,61 @@ const raw: teleport_group[] = [{
     name: "Fairy Ring",
     img: "fairyring.gif",
     spots: [
-        {subid: "AIP", spot: {x: 2412, y: 4434}, code: ""},
-        {subid: "AIQ", spot: {x: 2996, y: 3114}, code: "AIQ"},
-        {subid: "AIR", spot: {x: 2700, y: 3247}, code: "AIR"},
-        {subid: "AJR", spot: {x: 2780, y: 3613}, code: "AJR"},
-        {subid: "AJS", spot: {x: 2500, y: 3896}, code: "AJS"},
-        {subid: "AKQ", spot: {x: 2319, y: 3619}, code: "AKQ"},
-        {subid: "AKS", spot: {x: 2571, y: 2956}, code: "AKS"},
-        {subid: "ALP", spot: {x: 2473, y: 3028}, code: "ALP"},
-        {subid: "ALQ", spot: {x: 3597, y: 3495}, code: "ALQ"},
-        {subid: "ALS", spot: {x: 2644, y: 3495}, code: "ALS"},
-        {subid: "BIP", spot: {x: 3410, y: 3324}, code: "BIP"},
-        {subid: "BIQ", spot: {x: 3251, y: 3095}, code: "BIQ"},
-        {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS"},
-        {subid: "BJS", spot: {x: 1936, y: 3137}, code: "BJS"},
-        {subid: "BKP", spot: {x: 2385, y: 3035}, code: "BKP"},
-        {subid: "BKR", spot: {x: 3469, y: 3431}, code: "BKR"},
-        {subid: "BLP", spot: {x: 4622, y: 5147}, code: "BLP"},
-        {subid: "BLR", spot: {x: 2740, y: 3351}, code: "BLR"},
-        {subid: "CIP", spot: {x: 2513, y: 3884}, code: "CIP"},
-        {subid: "CIQ", spot: {x: 2528, y: 3127}, code: "CIQ"},
-        {subid: "CJR", spot: {x: 2705, y: 3576}, code: "CJR"},
-        {subid: "CJS", spot: {x: 2901, y: 2930}, code: "CJS"},
-        {subid: "CKQ", spot: {x: 3086, y: 2704}, code: "CKQ"},
-        {subid: "CKR", spot: {x: 2801, y: 3003}, code: "CKR"},
-        {subid: "CKS", spot: {x: 3447, y: 3470}, code: "CKS"},
-        {subid: "CLP", spot: {x: 3082, y: 3206}, code: "CLP"},
-        {subid: "CLS", spot: {x: 2682, y: 3081}, code: "CLS"},
-        {subid: "CLR", spot: {x: 2735, y: 2742}, code: "CLR"},
-        {subid: "DIP", spot: {x: 3763, y: 2930}, code: "DIP"},
-        {subid: "DIS", spot: {x: 3092, y: 3137}, code: "DIS"},
-        {subid: "DJP", spot: {x: 2658, y: 3230}, code: "DJP"},
-        {subid: "DJR", spot: {x: 2676, y: 3587}, code: "DJR"},
-        {subid: "DJS", spot: {x: 2130, y: 3369}, code: "DJS"},
-        {subid: "DKP", spot: {x: 2900, y: 3111}, code: "DKP"},
-        {subid: "DKR", spot: {x: 3129, y: 3496}, code: "DKR"},
-        {subid: "DKS", spot: {x: 2744, y: 3719}, code: "DKS"},
-        {subid: "DLQ", spot: {x: 3423, y: 3016}, code: "DLQ"},
-        {subid: "DLR", spot: {x: 2213, y: 3099}, code: "DLR"},
+        {subid: "AIP", spot: {x: 2412, y: 4434}, code: "", hover: "Zanaris"},
+        {subid: "AIQ", spot: {x: 2996, y: 3114}, code: "AIQ", hover: "Asgarnia: Mudskipper Point"},
+        {subid: "AIR", spot: {x: 2700, y: 3247}, code: "AIR", hover: "Islands: South of Witchhaven"},
+        {subid: "AJQ", spot: {x: 2735, y: 5221}, code: "AJQ", hover: "Dungeons: Dark cave south of Dorgesh-Kaan"},
+        {subid: "AJR", spot: {x: 2780, y: 3613}, code: "AJR", hover: "Kandarin: Slayer cave south-east of Relekka"},
+        {subid: "AJS", spot: {x: 2500, y: 3896}, code: "AJS", hover: "Islands: Penguins near Miscellania"},
+        {subid: "AKQ", spot: {x: 2319, y: 3619}, code: "AKQ", hover: "Piscatoris Hunter area"},
+        {subid: "AKS", spot: {x: 2571, y: 2956}, code: "AKS", hover: "Feldip Hills: Jungle Hunter area"},
+        {subid: "ALP", spot: {x: 2473, y: 3028}, code: "ALP", hover: "Feldip Hills: Near Gu´Tanoth"},
+        {subid: "ALQ", spot: {x: 3597, y: 3495}, code: "ALQ", hover: "Morytania: Haunted Woods east of Canifis"},
+        {subid: "ALS", spot: {x: 2644, y: 3495}, code: "ALS", hover: "Kandarin: McGrubor´s Wood"},
+        {subid: "BIP", spot: {x: 3410, y: 3324}, code: "BIP", hover: "Islands: Polypore Dungeon"},
+        {subid: "BIQ", spot: {x: 3251, y: 3095}, code: "BIQ", hover: "Kharidian Desert: Near Kalphite Hive"},
+        {subid: "BIR", spot: {x: 2455, y: 4396}, code: "BIS", hover: "Sparse Plane"},
+        {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS", hover: "Kandarin: Ardougne Zoo unicorns"},
+        {subid: "BJP", spot: {x: 3342, y: 3539}, code: "BJP", hover: "Fort Forinthry: Woodcutters`s Grove"}, // TODO: Check hover after release
+        {subid: "BJQ", spot: {x: 1737, y: 5342}, code: "BJQ", hover: "Dungeons: Ancient Cavern"},
+        {subid: "BJS", spot: {x: 1936, y: 3137}, code: "BJS", hover: "The Lost Grove"},
+        {subid: "BKP", spot: {x: 2385, y: 3035}, code: "BKP", hover: "Feldip Hills: South of Castle Wars"},
+        {subid: "BKQ", spot: {x: 3041, y: 4532}, code: "BKQ", hover: "Other realms: Enchanted Valley"},
+        {subid: "BKR", spot: {x: 3469, y: 3431}, code: "BKR", hover: "Morytania: Mort Myre, south of Canifis"},
+        {subid: "BLP", spot: {x: 4622, y: 5147}, code: "BLP", hover: "Dungeons: TzHaar area"},
+        {subid: "BLR", spot: {x: 2740, y: 3351}, code: "BLR", hover: "Kandarin: Legends´ Guild"},
+        {subid: "CIP", spot: {x: 2513, y: 3884}, code: "CIP", hover: "Islands: Miscellania"},
+        {subid: "CIQ", spot: {x: 2528, y: 3127}, code: "CIQ", hover: "Kandarin: North-west of Yanille"},
+        {subid: "CIS", spot: {x: 3419, y: 4772}, code: "CIS", hover: "Other realms: ScapeRune (Evil Bob´s island)"},
+        {subid: "CJR", spot: {x: 2705, y: 3576}, code: "CJR", hover: "Kandarin: Sinclair Mansion (east)"},
+        {subid: "CJS", spot: {x: 2901, y: 2930}, code: "CJS", hover: "Karamja: Kharazi Jungle"},
+        //TODO: {subid: "CKP", spot: {x: 0, y: 0}, code: "CKP", hover: "Other realms: Cosmic entity´s plane"},
+        {subid: "CKQ", spot: {x: 3086, y: 2704}, code: "CKQ", hover: "Menaphos: Imperial District"},
+        {subid: "CKR", spot: {x: 2801, y: 3003}, code: "CKR", hover: "Karamja: South of Tai Bwo Wannai Village"},
+        {subid: "CKS", spot: {x: 3447, y: 3470}, code: "CKS", hover: "Morytania: Canifis"},
+        {subid: "CLP", spot: {x: 3082, y: 3206}, code: "CLP", hover: "Islands: South of Draynor Village"},
+        {subid: "CLS", spot: {x: 2682, y: 3081}, code: "CLS", hover: "Islands: Jungle spiders near Yanille"},
+        {subid: "CLR", spot: {x: 2735, y: 2742}, code: "CLR", hover: "Islands: Ape Atoll"},
+        {subid: "DIP", spot: {x: 3763, y: 2930}, code: "DIP", hover: "Islands: Mos Le´Harmless"},
+        //TODO: {subid: "DIR", spot: {x: 0, y: 0}, code: "DIR", hover: "Other realms: Gorak`s Plane"},
+        //TODO: {subid: "kethsi", spot: {x: 0, y: 0}, hover: "Kethsi (DIR AKS)"},
+        {subid: "DIS", spot: {x: 3092, y: 3137}, code: "DIS", hover: "Misthalin: Wizard´s Tower"},
+        {subid: "DJP", spot: {x: 2658, y: 3230}, code: "DJP", hover: "Kandarin: Tower of Life"},
+        {subid: "DJR", spot: {x: 2676, y: 3587}, code: "DJR", hover: "Kandarin: Sinclair Mansion (west)"},
+        {subid: "DJS", spot: {x: 2130, y: 3369}, code: "DJS", hover: "Tirannwn: Prifddinas (Clan Amlodd)"},
+        {subid: "DKP", spot: {x: 2900, y: 3111}, code: "DKP", hover: "Karamja: South of Musa Point"},
+        //TODO: {subid: "DKQ", spot: {x: 0, y: 0}, code: "DKQ", hover: "Dungeons: Glacor Cave"},
+        {subid: "DKR", spot: {x: 3129, y: 3496}, code: "DKR", hover: "Misthalin: Edgeville"},
+        {subid: "DKS", spot: {x: 2744, y: 3719}, code: "DKS", hover: "Kandarin: Snowy Hunter area"},
+        {subid: "DLQ", spot: {x: 3423, y: 3016}, code: "DLQ", hover: "Kharidian Desert: North of Nardah"},
+        {subid: "DLR", spot: {x: 2213, y: 3099}, code: "DLR", hover: "Zanaris"},
+        {subid: "DLR", spot: {x: 3501, y: 9821, level: 3}, code: "DLS", hover: "Zanaris"},
+        {subid: "resistance", spot: {x: 2254, y: 4426, level: 0}, hover: "Fairy Resistance HQ"},
+        {subid: "rift", spot: {x: 1626, y: 4176, level: 0}, hover: "Ork´s Rift (BIR, DIP, CLR, ALP)"},
         //ais guthix dream
-        //ajq dorghes kaan agi dungeon
         //alr the abbyss
-        //bir stuck in forrest zanaris
-        //bjq waterfiends kura dung
         //bjr fisher realm
-        //bkq spirit realm
-        //blq yubuisk
-        //cis evil bobs island
-        //ckp floating space lsd thingy
-        //dir gorak plane
-        //dkq glacors
-        //dls canifis cave
+        //blq yubuisk0
     ]
 }, {
     id: "slayercape",
@@ -293,7 +299,7 @@ const raw: teleport_group[] = [{
         {subid: "mandrith", spot: {x: 3050, y: 3953}, code: "1", hover: "Mandrith"},
         {subid: "laniakea", spot: {x: 5671, y: 2138}, code: "2", hover: "Laniakea"},
         {subid: "morvran", spot: {x: 2197, y: 3327, level: 1}, code: "3", hover: "Morvran"},
-        // 4 Kuradal
+        {subid: "kuradal", spot: {x: 1737, y: 5313, level: 1}, code: "4", hover: "Kuradal"},
         {subid: "lapalok", spot: {x: 2870, y: 2982, level: 1}, code: "5", hover: "Lapalok"},
         {subid: "sumona", spot: {x: 3359, y: 2993}, code: "6", hover: "Sumona"},
         {subid: "chealdar", spot: {x: 2447, y: 4431}, code: "7", hover: "Chealdar"},
@@ -335,13 +341,13 @@ const raw: teleport_group[] = [{
     name: "Quest Cape",
     img: "capequest.png",
     spots: [
-        //1 tds cave
+        {subid: "guthixtemple", spot: {x: 2540, y: 5774}, code: "1", hover: "Ancient Guthix Temple"},
         //2 gower quest bts
         {subid: "championsguild", spot: {x: 3192, y: 3357}, code: "3", hover: "Champion's Guild"},
         {subid: "emptythroneroom", spot: {x: 3375, y: 3402}, code: "4", hover: "The empty throne room"},
         {subid: "glacorcavern", spot: {x: 2912, y: 3840}, code: "5", hover: "Glacor cavern"},
-        //6 heroes guild underground
-        {subid: "legensguild", spot: {x: 2730, y: 3353}, code: "7", hover: "Legends' Guild"},
+        {subid: "heroesguild", spot: {x: 2918, y: 9895}, code: "6", hover: "Heroes's Guild - Fountain of Heroes"},
+        {subid: "legensguild", spot: {x: 2730, y: 3348}, code: "7", hover: "Legends' Guild"},
         {subid: "tearsofguthix", spot: {x: 3250, y: 9518}, code: "8", hover: "Tears of Guthix"},
         {subid: "museum", spot: {x: 3255, y: 3449}, code: "9", hover: "Varrock Museum"},
         {subid: "worldgate", spot: {x: 2371, y: 3355}, code: "0", hover: "The World Gate"},
@@ -349,12 +355,12 @@ const raw: teleport_group[] = [{
 }, {
     id: "sixthage",
     name: "Sixth Age Circuit",
-    img: "sixthagecircuit.gif",
+    img: "sixthagecircuit.png",
     spots: [
-        {subid: "shrine", spot: {x: 2709, y: 3373}, code: "1", hover: "Guthix's Shrine"},
+        //TODO: This spot is underground, coordinates on the surface are bogus {subid: "shrine", spot: {x: 2709, y: 3373}, code: "1", hover: "Guthix's Shrine"},
         {subid: "worldgate", spot: {x: 2367, y: 3355}, code: "2", hover: "World Gate"},
         {subid: "memorial", spot: {x: 2265, y: 3554}, code: "3", hover: "Guthix Memorial"},
-        //4 Guthix temple
+        {subid: "temple", spot: {x: 2540, y: 5772}, code: "4", hover: "Guthix Memorial"},
     ]
 }, {
     id: "desertamulet", name: "Desert Amulet", img: "desertamulet.gif", spots: [
@@ -653,16 +659,16 @@ const raw: teleport_group[] = [{
         {subid: "kharidet", spot: {x: 3349, y: 3195}, code: "2", hover: "Kharid-et"},
         {subid: "infernal", spot: {x: 3271, y: 3504}, code: "3", hover: "Infernal Source"},
         {subid: "everlight", spot: {x: 3695, y: 3209}, code: "4", hover: "Everlight"},
-        {subid: "senntisten", spot: {x: 2682, y: 3403}, code: "6", hover: "Senntisten"},
-        {subid: "stormguard", spot: {x: 2408, y: 2829}, code: "7", hover: "Stormguard Citadel"},
-        {subid: "warforge", spot: {x: 3985, y: 4323}, code: "8", hover: "Warforge"},
-        // Orthen
+        {subid: "senntisten", spot: {x: 1784, y: 1295}, code: "5", hover: "Senntisten"},
+        {subid: "stormguard", spot: {x: 2682, y: 3403}, code: "6", hover: "Stormguard Citadel"},
+        {subid: "warforge", spot: {x: 2408, y: 2829}, code: "7", hover: "Warforge"},
+        {subid: "orthen", spot: {x: 5456, y: 2339}, code: "8", hover: "Orthen"},
         {subid: "jacques", spot: {x: 3254, y: 3455}, code: "9,1", hover: "Collectors - Art Critic Jacques"},
         {subid: "tess", spot: {x: 2550, y: 2854}, code: "9,2", hover: "Collectors - Chief Tess"},
         {subid: "generals", spot: {x: 2957, y: 3510}, code: "9,3", hover: "Collectors - Generals Bentnoze & Wartface"},
         {subid: "isaura", spot: {x: 2921, y: 9702}, code: "9,4", hover: "Collectors - Isaura"},
         {subid: "lowse", spot: {x: 2988, y: 3269}, code: "9,5", hover: "Collectors - Lowse"},
-        {subid: "sharrigan", spot: {x: 3985, y: 4329}, code: "9,6", hover: "Collectors - Sharrigan"},
+        {subid: "sharrigan", spot: {x: 5456, y: 2344}, code: "9,6", hover: "Collectors - Sharrigan"},
         {subid: "atcha", spot: {x: 2962, y: 3347}, code: "9,7", hover: "Collectors - Sir Atcha"},
         {subid: "soran", spot: {x: 3182, y: 3418}, code: "9,8", hover: "Collectors - Soran"},
         {subid: "velucia", spot: {x: 3342, y: 3384}, code: "9,9", hover: "Collectors - Velucia"},
@@ -705,7 +711,7 @@ const raw: teleport_group[] = [{
         id: "legendscape",
         name: "Legends Cape",
         img: "legendscape.png",
-        spots: [{subid: "legendsguild", spot: {x: 2729, y: 3349}}]
+        spots: [{subid: "legendsguild", spot: {x: 2728, y: 3348}}]
     },
     {
         id: "archjounal",
@@ -801,9 +807,26 @@ const raw: teleport_group[] = [{
             {subid: "faladortree", spot: {x: 3006, y: 3375}, hover: "Falador Tree Patch"},
             {subid: "harmonyallotment", spot: {x: 3793, y: 2832}, hover: "Harony Island Allotment Patch"},
         ]
+    },
+    {
+        id: "tokkulzo", name: "TokKul-Zo", img: "tokkulzo.png",
+        spots: [
+            {subid: "plaza", spot: {x: 4672, y: 5155}, hover: "Main Plaza", code: "1"},
+            {subid: "pit", spot: {x: 4603, y: 5062}, hover: "Fight Pit", code: "2"},
+            {subid: "cave", spot: {x: 4616, y: 5131}, hover: "Fight Cave", code: "3"},
+            {subid: "kiln", spot: {x: 4744, y: 5171}, hover: "Fight Kiln", code: "4"},
+            {subid: "cauldron", spot: {x: 4787, y: 5127}, hover: "Fight Cauldron", code: "5"},
+        ]
     }
     //TODO: Eagle transport system
     //TODO: Canoes
+    //TODO: Orthen Teleport network
+    //TODO: Anachronia teleport (totems)
+    //TODO: grand seed pod
+    //TODO: Boss portals
+    //      - 1912 4367 Dagannoth Kings
+    // TODO: Slayer masks
+
 ]
 
 export default raw

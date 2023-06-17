@@ -1,10 +1,19 @@
-import {LayerInteraction} from "../map/activeLayer";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {Box, MapCoordinate} from "../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import * as lodash from "lodash"
+import LayerInteraction from "../map/interactions/LayerInteraction";
+import TopControl from "../map/TopControl";
+
+class DrawTopControl extends TopControl {
+    constructor(private parent: DrawAreaInteraction) {
+        super()
+
+        this.container.text("Click and drag the map to draw an area.")
+    }
+}
 
 export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
     events = new TypedEmitter<{
@@ -79,20 +88,10 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }
         },
+    }
 
-        /*
-        "mouseup": (e: LeafletMouseEvent) => {
-
-            leaflet.DomEvent.stopPropagation(e)
-
-            if (this.dragstart) {
-                leaflet.DomEvent.stopPropagation(e)
-
-                this.events.emit("done", this.last_area)
-
-                this.layer.cancelInteraction()
-            }
-        }*/
+    protected constructTopControl(): TopControl {
+        return new DrawTopControl(this);
     }
 
 }

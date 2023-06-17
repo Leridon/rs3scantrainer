@@ -2,9 +2,9 @@ import * as leaflet from "leaflet";
 import {boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
-import {blue_icon, GameMapControl, green_icon, red_icon, TileMarker, yellow_icon} from "../map";
+import {blue_icon, GameMapControl, } from "../map";
 import {complementSpot} from "../../../model/scans/scans";
-import {ActiveLayer, LayerInteraction, TileMarkerWithActive} from "../activeLayer";
+import {ActiveLayer} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
@@ -16,6 +16,8 @@ import ScanSpot = ScanTree2.ScanSpot;
 import tree = ScanTree2.tree;
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;
 import indirect_scan_tree = ScanTree2.indirect_scan_tree;
+import SimpleClickInteraction from "../interactions/SimpleClickInteraction";
+import {TileMarker} from "../TileMarker";
 
 
 export class SpotPolygon extends leaflet.FeatureGroup {
@@ -96,35 +98,41 @@ export class SpotPolygon extends leaflet.FeatureGroup {
 class ScanRadiusTileMarker extends TileMarker {
     range_polygon: leaflet.FeatureGroup
 
-    constructor(spot: MapCoordinate, private range: number, private complement: boolean) {
+    constructor(spot: MapCoordinate, private range: number, private is_complement: boolean) {
         super(spot);
 
         this.update()
     }
 
     update() {
-        if (this.range_polygon) this.range_polygon.remove()
+        if (this.range_polygon) {
+            this.range_polygon.remove()
+            this.range_polygon = null
+        }
 
         this.range_polygon = leaflet.featureGroup().addTo(this)
 
-        let center = this.getSpot()
-
-        if (this.complement) {
+        if (this.is_complement) {
             boxPolygon({
-                topleft: {x: center.x - (this.range + 15), y: center.y + (this.range + 15)},
-                botright: {x: center.x + (this.range + 15), y: center.y - (this.range + 15)}
+                topleft: {x: this.spot.x - (this.range + 15), y: this.spot.y + (this.range + 15)},
+                botright: {x: this.spot.x + (this.range + 15), y: this.spot.y - (this.range + 15)}
+            }).setStyle({
+                interactive: false
             }).setStyle({color: "blue", fillOpacity: 0}).addTo(this.range_polygon)
         } else {
             boxPolygon({
-                topleft: {x: center.x - this.range, y: center.y + this.range},
-                botright: {x: center.x + this.range, y: center.y - this.range}
+                topleft: {x: this.spot.x - this.range, y: this.spot.y + this.range},
+                botright: {x: this.spot.x + this.range, y: this.spot.y - this.range}
+            }).setStyle({
+                interactive: false
             }).setStyle({color: "green", fillOpacity: 0}).addTo(this.range_polygon)
             boxPolygon({
-                topleft: {x: center.x - 2 * this.range, y: center.y + 2 * this.range},
-                botright: {x: center.x + 2 * this.range, y: center.y - 2 * this.range}
+                topleft: {x: this.spot.x - 2 * this.range, y: this.spot.y + 2 * this.range},
+                botright: {x: this.spot.x + 2 * this.range, y: this.spot.y - 2 * this.range}
+            }).setStyle({
+                interactive: false
             }).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]}).addTo(this.range_polygon)
         }
-
     }
 
     setRange(range: number) {
@@ -133,44 +141,22 @@ class ScanRadiusTileMarker extends TileMarker {
     }
 }
 
-class ClickMapInteraction extends LayerInteraction<ScanLayer> {
 
-    constructor(layer: ScanLayer, private handlers: {
-        "click": (p: MapCoordinate) => void
-    }) {
-        super(layer);
-    }
-
-    private _maphooks: leaflet.LeafletEventHandlerFnMap = {
-        "click": (e) => {
-            console.log("Click")
-            this.handlers.click({x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)})
-        }
-    }
-
-    cancel() {
-        this.layer.getMap().map.off(this._maphooks)
-    }
-
-    start() {
-        this.layer.getMap().map.on(this._maphooks)
-    }
-}
 
 
 export class ScanLayer extends ActiveLayer {
     private marker_layer: leaflet.FeatureGroup
     private complement_layer: leaflet.FeatureGroup
 
-    protected markers: TileMarkerWithActive[]
-    protected complement_markers: TileMarkerWithActive[]
+    protected markers: TileMarker[]
+    protected complement_markers: TileMarker[]
 
     public events = new TypedEmitter<{
-        "dig_spot_clicked": TileMarkerWithActive
+        "dig_spot_clicked": TileMarker
     }>
 
-    tile_marker: ScanRadiusTileMarker = null
-    complement_tile_marker: ScanRadiusTileMarker = null
+    tile_marker: ScanRadiusTileMarker
+    complement_tile_marker: ScanRadiusTileMarker
 
     constructor(public clue: ScanStep, public app: Application,
                 options: {
@@ -179,11 +165,14 @@ export class ScanLayer extends ActiveLayer {
     ) {
         super()
 
+        this.tile_marker = null
+        this.complement_tile_marker = null
+
         this.marker_layer = leaflet.featureGroup().addTo(this)
         this.complement_layer = leaflet.featureGroup().addTo(this)
 
         this.markers = (clue.solution as SetSolution).candidates.map((e) => {
-            let m = new TileMarkerWithActive(e).withMarker().withX("#B21319").addTo(this.marker_layer)
+            let m = new TileMarker(e).withMarker().withX("#B21319").addTo(this.marker_layer)
 
             m.on("click", (e) => this.events.emit("dig_spot_clicked", m))
 
@@ -191,7 +180,7 @@ export class ScanLayer extends ActiveLayer {
         })
 
         this.complement_markers = (clue.solution as SetSolution).candidates.map((e) => {
-            return new TileMarkerWithActive(complementSpot(e)).withMarker().withX("#B21319").addTo(this.complement_layer)
+            return new TileMarker(complementSpot(e)).withMarker().withX("#B21319").addTo(this.complement_layer)
         })
 
         if (!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
@@ -215,13 +204,18 @@ export class ScanLayer extends ActiveLayer {
     override loadDefaultInteraction() {
         let self = this
 
-        new ClickMapInteraction(this, {
-            "click": (p) => {
-                if (self.tile_marker && eq(p, self.tile_marker.getSpot())
-                    || self.complement_tile_marker && eq(p, self.complement_tile_marker.getSpot())) self.removeMarker()
-                else self.setMarker(p)
+        return new SimpleClickInteraction(this, {
+            "click": (p: MapCoordinate) => {
+                if ((self.tile_marker && eq(p, self.tile_marker.getSpot()))
+                    || (self.complement_tile_marker && eq(p, self.complement_tile_marker.getSpot()))) {
+                    console.log("Removing 1")
+                    self.removeMarker()
+                }
+                else {
+                    self.setMarker(p)
+                }
             }
-        }).activate()
+        })
     }
 
     getTree(): resolved_scan_tree {
@@ -262,6 +256,8 @@ export class ScanLayer extends ActiveLayer {
     }
 
     removeMarker() {
+        console.log("Removing")
+
         if (this.tile_marker) {
             this.tile_marker.remove()
             this.tile_marker = null
@@ -273,43 +269,35 @@ export class ScanLayer extends ActiveLayer {
         }
     }
 
-    setMarker(spot: MapCoordinate) {
+    setMarker(spot: MapCoordinate, include_marker: boolean = true, removeable: boolean = true) {
         this.removeMarker()
+
+        console.log("Adding")
 
         let complement = Math.floor(spot.y / 6400) != Math.floor(this.clue.solution.candidates[0].y / 6400)
 
         this.tile_marker = new ScanRadiusTileMarker(spot, this.clue.range + (this._meerkats ? 5 : 0), complement)
-            .withX("white")
-            .withMarker(blue_icon)
-            .on("click", () => this.tile_marker.remove())
             .addTo(this)
 
         this.complement_tile_marker = new ScanRadiusTileMarker(complementSpot(spot), this.clue.range + (this._meerkats ? 5 : 0), complement)
-            .withX("white")
-            .withMarker(blue_icon)
-            .on("click", () => this.tile_marker.remove())
             .addTo(this)
+
+        if (include_marker) {
+            this.tile_marker.withX("white").withMarker(blue_icon)
+            this.complement_tile_marker.withX("white").withMarker(blue_icon)
+        }
+
+        if (removeable) {
+            this.tile_marker.on("click", (e) => {
+                leaflet.DomEvent.stopPropagation(e)
+                this.removeMarker()
+            })
+            this.complement_tile_marker.on("click", (e) => {
+                leaflet.DomEvent.stopPropagation(e)
+                this.removeMarker()
+            })
+        }
     }
-}
-
-type step = {
-    type: "ability",
-    ability: "surge" | "dive"
-    from: MapCoordinate,
-    to: MapCoordinate
-} | {
-    type: "redclick",
-    where: MapCoordinate,
-} | {
-    type: "teleport",
-    id: string,
-    subid?: string
-}
-
-export type path = {
-    description: string,
-    clip: any
-    sections: step[][],
 }
 
 export class ScanEditLayer extends ScanLayer {

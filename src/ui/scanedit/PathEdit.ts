@@ -10,6 +10,7 @@ import {scantrainer} from "../../application";
 import template_resolvers = ScanTree2.template_resolvers;
 import {MapCoordinate} from "../../model/coordinates";
 import Collapsible from "../widgets/modals/Collapsible";
+import TemplateStringEdit from "../widgets/TemplateStringEdit";
 
 
 class ClipEdit extends Widget {
@@ -23,8 +24,7 @@ class ClipEdit extends Widget {
 class EdgeEdit extends Widget<{
     "changed": edge_path
 }> {
-    instruction_input: JQuery
-    render_span: JQuery
+    instruction_input: TemplateStringEdit
     clip_edit: ClipEdit
 
     constructor(private parent: PathEdit, private value: edge_path) {
@@ -33,40 +33,25 @@ class EdgeEdit extends Widget<{
         this.append(
             $(`<div style="text-align: center; font-weight: bold">${ScanTree2.edgeTitle(this.value, this.parent.parent.value)}</div>`)
         )
-        this.instruction_input = $("<input type='text' class='nisinput' style='width: 100%'>")
-            .val(value.short_instruction)
-            .on("input", () => {
-                this.value.short_instruction = this.instruction_input.val() as string
-
-                this.renderInstruction()
-
-                this.emit("changed", this.value)
-            })
-
-        this.render_span = $("<div>")
+        this.instruction_input = new TemplateStringEdit(scantrainer.template_resolver
+            .with(template_resolvers(this.parent.parent.value, this.value)),
+            this.value.short_instruction
+        ).on("changed", (v) => {
+            this.value.short_instruction = v
+            this.emit("changed", this.value)
+        })
 
         $("<div class='row'>")
             .append($("<div class='col-3'>Instruction</div>"))
-            .append($("<div class='col-9'>").append(this.instruction_input))
-            .appendTo(this.container)
-
-        $("<div class='row'>")
-            .append($("<div class='col-3'>Rendered</div>"))
-            .append($("<div class='col-9'>").append(this.render_span))
+            .append($("<div class='col-9'>").append(this.instruction_input.container))
             .appendTo(this.container)
 
         //this.clip_edit = new ClipEdit(null).appendTo(this)
 
-        this.renderInstruction()
     }
 
-    private renderInstruction() {
-
-        this.render_span.html(
-            scantrainer.template_resolver
-                .with(template_resolvers(this.parent.parent.value, this.value))
-                .resolve(this.value.short_instruction)
-        )
+    update() {
+        this.instruction_input.setResolver(scantrainer.template_resolver.with(template_resolvers(this.parent.parent.value, this.value)))
     }
 }
 
@@ -88,6 +73,8 @@ export default class PathEdit extends Widget<{
     }
 
     clean() {
+        this.edges.forEach((e) => e.update())
+
         let needed = ScanTree2.gatherPaths(ScanTree2.augment(this.parent.value))
 
         this.edges.forEach((e) => e.remove())

@@ -17,6 +17,51 @@ export type GieliCoordinates = {
 
 export type Vector2 = { x: number, y: number }
 
+export namespace Vector2 {
+    export function add(a: Vector2, b: Vector2): Vector2 {
+        return {
+            x: a.x + b.x,
+            y: a.y + b.y
+        }
+    }
+
+    export function sub(a: Vector2, b: Vector2): Vector2 {
+        return {
+            x: a.x - b.x,
+            y: a.y - b.y
+        }
+    }
+
+    export function scale(f: number, v: Vector2): Vector2 {
+        return {
+            x: v.x * f,
+            y: v.y * f
+        }
+    }
+
+    export function length(a: Vector2): number {
+        return Math.sqrt(a.x * a.x + a.y * a.y)
+    }
+
+    export function normalize(a: Vector2): Vector2 {
+        return scale(1 / length(a), a)
+    }
+
+    export function rotate(v: Vector2, angle_radians: number): Vector2 {
+        let sin = Math.sin(angle_radians)
+        let cos = Math.cos(angle_radians)
+
+        return {
+            x: cos * v.x - sin * v.y,
+            y: sin * v.x + cos * v.y,
+        }
+    }
+
+    export function eq(a: Vector2, b: Vector2): boolean {
+        return a.x == b.x && a.y == b.y
+    }
+}
+
 export type MapCoordinate = Vector2 & {
     level?: number
 }
@@ -67,8 +112,8 @@ export type Area = { tiles: MapCoordinate[] }
 type corner = 0 | 1 | 2 | 3
 
 
-export function toLeafletLatLngExpression(point: MapCoordinate): [number, number] {
-    return [point.y, point.x]
+export function toLL(point: MapCoordinate): leaflet.LatLng {
+    return leaflet.latLng(point.y, point.x)
 }
 
 export function t(area: Area) {
@@ -178,7 +223,7 @@ export function areaToPolygon<T>(raster: Raster<T>,
 
     } while (!done())
 
-    return leaflet.polygon(polygon.map(toLeafletLatLngExpression))
+    return leaflet.polygon(polygon.map(toLL))
 
     /*
     // Find a start point that is on the border of the shape. Assumes there are no holes in the shape
@@ -242,16 +287,16 @@ export function tilePolygon(tile: MapCoordinate) {
         {x: tile.x - 0.5, y: tile.y + 0.5},
         {x: tile.x + 0.5, y: tile.y + 0.5},
         {x: tile.x + 0.5, y: tile.y - 0.5},
-    ].map(toLeafletLatLngExpression))
+    ].map(toLL))
 }
 
-export function boxPolygon(tile: Box) {
+export function boxPolygon(tile: Box): leaflet.Polygon {
     return leaflet.polygon([
         {x: tile.topleft.x - 0.5, y: tile.topleft.y + 0.5},
         {x: tile.botright.x + 0.5, y: tile.topleft.y + 0.5},
         {x: tile.botright.x + 0.5, y: tile.botright.y - 0.5},
         {x: tile.topleft.x - 0.5, y: tile.botright.y - 0.5},
-    ].map(toLeafletLatLngExpression))
+    ].map(toLL))
 }
 
 function sextantToCoord(comp: GieliCoordinates): MapCoordinate {

@@ -3,7 +3,7 @@ import Collapsible from "../widgets/modals/Collapsible";
 import ScanEditPanel from "./ScanEditPanel";
 
 import * as leaflet from "leaflet"
-import {toLeafletLatLngExpression} from "../../model/coordinates";
+import {toLL} from "../../model/coordinates";
 import Checkbox from "../widgets/Checkbox";
 import {ScanEquivalenceClasses} from "../../model/scans/scans";
 import {ScanTree2} from "../../model/scans/ScanTree2";
@@ -26,7 +26,7 @@ export default class ScanTools extends Widget {
             .on("click", () => {
                 let bounds = leaflet.latLngBounds([])
 
-                this.parent.clue.solution.candidates.forEach((c) => bounds.extend(toLeafletLatLngExpression(c)))
+                this.parent.clue.solution.candidates.forEach((c) => bounds.extend(toLL(c)))
 
                 bounds.pad(0.1)
 
@@ -39,7 +39,7 @@ export default class ScanTools extends Widget {
                 let bounds = leaflet.latLngBounds([])
 
                 this.parent.clue.solution.candidates.forEach((c) => {
-                    bounds.extend(toLeafletLatLngExpression({
+                    bounds.extend(toLL({
                         x: c.x,
                         y: (c.y < 6400 ? c.y + 6400 : c.y - 6400)
                     }))
@@ -54,12 +54,7 @@ export default class ScanTools extends Widget {
 
         $("<div style='display: flex; padding-left: 5px'>")
             .append(new Checkbox().on("changed", (v) => {
-                console.log("Changed S: " + v)
-                if (v) {
-                    console.log("Adding")
-                    this.equivalence_classes.normal.getLayer().addTo(this.parent.layer)
-                    console.log("Added")
-                }
+                if (v) this.equivalence_classes.normal.getLayer().addTo(this.parent.layer)
                 else {
                     this.equivalence_classes.normal.getLayer().remove()
                     this.equivalence_classes.normal.layer = null
@@ -70,7 +65,6 @@ export default class ScanTools extends Widget {
 
         $("<div style='display: flex; padding-left: 5px'>")
             .append(new Checkbox().on("changed", (v) => {
-                console.log("Changed C")
                 if (v) this.equivalence_classes.complement.getLayer().addTo(this.parent.layer)
                 else {
                     this.equivalence_classes.complement.getLayer().remove()

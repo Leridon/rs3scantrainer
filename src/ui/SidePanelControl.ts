@@ -56,17 +56,15 @@ export class CluePanel {
             this.method(methods[0])
             //this.parent.app.howtotabs.map.setActiveLayer(createMethodLayer(methods[0]))
         } else {
-            this.parent.app.howtotabs.map.setActiveLayer(getSolutionLayer(clue, this.parent.app))
+            this.parent.app.map.setActiveLayer(getSolutionLayer(clue, this.parent.app))
 
             this.parent.methods_panel.hide()
-
-            this.parent.app.howtotabs.setHowToTabs({})
         }
     }
 
     method(method){
         // This stupid function is necessary to work around the stupid pile of shit that is Javascript Modules.
-        this.parent.app.howtotabs.map.setActiveLayer(createMethodLayer(method))
+        this.parent.app.map.setActiveLayer(createMethodLayer(method))
     }
 }
 

@@ -5,7 +5,7 @@ import {TypedEmitter} from "../skillbertssolver/eventemitter";
 export type teleport_group = {
     id: string,
     name: string,
-    img: string
+    img: string | { url: string, width?: number, height?: number }
     can_be_in_pota?: boolean,
     spots: teleport_spot[]
 }
@@ -16,7 +16,7 @@ export type teleport_spot = {
     code?: string,
     has_variants?: boolean
     hover?: string,
-    img?: string
+    img?: string | { url: string, width?: number, height?: number }
 }
 
 export type flat_teleport = {
@@ -25,7 +25,7 @@ export type flat_teleport = {
         sub: string
     },
     spot: MapCoordinate,
-    icon: string,
+    icon: string | { url: string, width?: number, height?: number },
     code?: string,
     hover?: string
 }

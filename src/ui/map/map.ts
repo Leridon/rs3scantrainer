@@ -246,16 +246,15 @@ export class GameMapControl extends Widget<{
             minZoom: -5
         }))
 
-        /*
         layers.push(new RsBaseTileLayer([
-            {to: 2, urls: this.geturls(`walls-${this.level}/{z}/{x}-{y}.webp`)},
-            {from: 3, to: 3, urls: this.geturls(`walls-${this.level}/{z}/{x}-{y}.svg`)}
+            {to: 2, urls: this.geturls(`walls-${this.floor}/{z}/{x}-{y}.webp`)},
+            {from: 3, to: 3, urls: this.geturls(`walls-${this.floor}/{z}/{x}-{y}.svg`)}
         ], {
-            attribution: 'Skillbert (<a href="https://runeapps.org/">RuneApps.org</a>',
+            attribution: '<a href="https://runeapps.org/" title="Creator of Alt1 and RuneApps.org">Skillbert</a>',
             tileSize: 512,
             maxNativeZoom: 3,
             minZoom: -5
-        }))*/
+        }))
 
         let oldbase = this.baseLayers;
         if (oldbase && oldbase.length > 0) {

@@ -67,6 +67,14 @@ export namespace Vector2 {
     export function eq(a: Vector2, b: Vector2): boolean {
         return a.x == b.x && a.y == b.y
     }
+
+    export function manhatten(a: Vector2): number {
+        return Math.abs(a.x) + Math.abs(a.y)
+    }
+
+    export function min_axis(a: Vector2): number {
+        return Math.min(Math.abs(a.x), Math.abs(a.y))
+    }
 }
 
 export type MapCoordinate = Vector2 & {

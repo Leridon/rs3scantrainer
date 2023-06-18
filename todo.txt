@@ -1,4 +1,5 @@
 Ready for release:
+- [Prsentation] reenable walls on the map.
 
 Planned for next release (b0.4):
 - [How] Detailled pathing
@@ -11,6 +12,8 @@ Planned for next release (b0.4):
     - Player position is input explicitly by placing a marker on the map.
     - This should be enough to draw polygons into the world as long as the camera height is not modified.
     - Yaw can be read by the compass on the minimap.
+    - Camera orientation/position: Developer console 'getscamerapos'.
+      Format:  floor,chunkx,chunkz,subx,subz
 
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 

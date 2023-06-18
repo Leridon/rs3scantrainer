@@ -47,6 +47,13 @@ export namespace Vector2 {
         return scale(1 / length(a), a)
     }
 
+    export function cardinality(a: Vector2): Vector2 {
+        return {
+            x: Math.sign(a.x),
+            y: Math.sign(a.y)
+        }
+    }
+
     export function rotate(v: Vector2, angle_radians: number): Vector2 {
         let sin = Math.sin(angle_radians)
         let cos = Math.cos(angle_radians)
@@ -75,6 +82,15 @@ export function toPoint(c: Vector2): leaflet.Point {
 }
 
 export type Box = { topleft: Vector2, botright: Vector2 }
+
+export namespace Box {
+    export function from(a: Vector2, b: Vector2): Box {
+        return {
+            topleft: {x: Math.min(a.x, b.x), y: Math.max(a.y, b.y)},
+            botright: {x: Math.max(a.x, b.x), y: Math.min(a.y, b.y)},
+        }
+    }
+}
 
 export function box_center(box: Box): Vector2 {
     return {

@@ -36,6 +36,10 @@ RELEASE 1.0
         - Camelot, Watchtower, Varrock alternatives
 
 Unscheduled:
+- Add a view to see the entire scan tree without having to enter the editor
+- Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
+- Add overview layer to display all clues based on the filter. Very useful tool to get an overview.
+- Have a way to directly link to a given clue and its method with query parameters.
 - Scale teleports with zoom
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.

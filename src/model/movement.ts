@@ -15,6 +15,18 @@ interface MapData {
     getTile(coordinate: MapCoordinate): Tile
 }
 
+class RuneAppsMapData implements MapData{
+    private fetch_chunk(x: number, z: number) {
+        
+    }
+
+    private constructor() {
+    }
+
+
+    getTile(coordinate: MapCoordinate): Tile
+}
+
 type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
 namespace direction {

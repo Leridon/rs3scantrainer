@@ -113,7 +113,6 @@ export class GameMapControl extends Widget<{
 
     // Hardcoded
     private mapid: number = 4
-    private version: number = 0
 
     backupUrl(filename: string, version: number) {
         return `https://runeapps.org/node/map/getnamed?mapid=${this.mapid}&version=${version}&file=${filename}`;
@@ -121,8 +120,8 @@ export class GameMapControl extends Widget<{
 
     geturls(filename: string) {
         return [
-            this.backupUrl(filename, this.version),
-            `https://runeapps.org/maps/map${this.mapid}/${this.version}/${filename}`,
+            this.backupUrl(filename, Constants.map_version),
+            `https://runeapps.org/maps/map${this.mapid}/${Constants.map_version}/${filename}`,
         ];
     }
 
@@ -188,8 +187,6 @@ export class GameMapControl extends Widget<{
             ))
             .setPosition("bottomleft").addTo(this.map)*/
 
-        // TODO: This is hardcoded, because I cant dynamically get the current version from runeapps because of CORS.
-        this.version = 1685523317
         this.updateBaseLayers()
 
         new Graticule({

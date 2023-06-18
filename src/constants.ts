@@ -1,4 +1,7 @@
 export namespace Constants {
+    // TODO: This is hardcoded, because I cant dynamically get the current version from runeapps because of CORS.
+    export const map_version = 1685523317
+
     export const icons = {
         tiers: {
             "easy": "assets/icons/sealedeasy.png",

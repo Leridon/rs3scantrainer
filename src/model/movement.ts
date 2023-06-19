@@ -15,16 +15,21 @@ interface MapData {
     getTile(coordinate: MapCoordinate): Tile
 }
 
-class RuneAppsMapData implements MapData{
+export class RuneAppsMapData implements MapData {
     private fetch_chunk(x: number, z: number) {
-        
+
     }
 
-    private constructor() {
+    public constructor() {
     }
 
 
-    getTile(coordinate: MapCoordinate): Tile
+    getTile(coordinate: MapCoordinate): Tile {
+        return {
+            center_blocked: false,
+            neighbour_blocked: [false, false, false, false, false, false, false, false]
+        }
+    }
 }
 
 type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
@@ -55,8 +60,6 @@ namespace direction {
     }
 
     export function fromVector(v: Vector2): direction {
-        // TOOD: Implement, via lookup table?
-
         const E = -1
 
         // There is most likely a better solution, but this is enough for now
@@ -132,10 +135,12 @@ function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordi
     if (dia.x != 0) choices.push({delta: {x: dia.x, y: 0}, dir: direction.fromDelta({x: dia.x, y: 0})})
     if (dia.y != 0) choices.push({delta: {x: 0, y: dia.y}, dir: direction.fromDelta({x: 0, y: dia.y})})
 
+    let dir_if_success = direction.fromVector(Vector2.sub(target, position))
+
     while (true) {
         if (Vector2.eq(position, target)) return {
             tile: position,
-            direction: 0 // TODO: Calculate proper direction based on the info image
+            direction: dir_if_success // TODO: Calculate proper direction based on the info image
         }
 
         let next: MapCoordinate = null

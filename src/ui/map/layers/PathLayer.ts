@@ -18,9 +18,10 @@ function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.La
     })
 }
 
+/*
 function arrowTip(): MapCoordinate[] {
-    return null
-}
+
+}*/
 
 export default class PathLayer extends leaflet.FeatureGroup {
     constructor(private path: step[]) {

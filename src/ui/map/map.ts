@@ -230,7 +230,7 @@ export class GameMapControl extends Widget<{
     }
 
     updateBaseLayers() {
-        if (this.version == 0) return
+        if (Constants.map_version == 0) return
 
         let layers: RsBaseTileLayer[] = []
 

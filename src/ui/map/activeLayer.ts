@@ -1,9 +1,79 @@
 import {blue_icon, GameMapControl} from "./map";
 import * as leaflet from "leaflet"
-import {eq, MapCoordinate} from "../../model/coordinates";
+import {Box, eq, MapCoordinate, toLL} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
+import {ScanEditLayer} from "./layers/ScanLayer";
+import {LeafletMouseEvent} from "leaflet";
+import * as lodash from "lodash";
+import {dive, RuneAppsMapData} from "../../model/movement";
+
+class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
+    _start: MapCoordinate = null
+
+    constructor(layer: ScanEditLayer) {
+        super(layer);
+    }
+
+    cancel() {
+        this.layer.getMap().map.off(this._maphooks)
+        this.layer.getMap().map.dragging.enable()
+    }
+
+    start() {
+        this.layer.getMap().map.on(this._maphooks)
+        this.layer.getMap().map.dragging.disable()
+    }
+
+    _maphooks: leaflet.LeafletEventHandlerFnMap = {
+
+        "click": (e: LeafletMouseEvent) => {
+            // Capture and consume the click event so it does not get sent to the default interaction
+
+            leaflet.DomEvent.stopPropagation(e)
+
+            if (this._start) {
+                leaflet.DomEvent.stopPropagation(e)
+
+                this.events.emit("done", lodash.cloneDeep(this.last_area))
+
+                this.layer.cancelInteraction()
+            }
+        },
+
+        "mousedown": (e: LeafletMouseEvent) => {
+            if (!this._start) {
+                leaflet.DomEvent.stopPropagation(e)
+
+                this._start = this.layer.getMap().tileFromMouseEvent(e)
+            }
+        },
+
+        "mousemove": (e: LeafletMouseEvent) => {
+            if (this._start) {
+                leaflet.DomEvent.stopPropagation(e)
+
+                let now = this.layer.getMap().tileFromMouseEvent(e)
+
+                this.update(now)
+            }
+        },
+    }
+
+    _polygon: leaflet.Polyline = null
+
+    update(to: MapCoordinate){
+
+        dive(new RuneAppsMapData(), this._start, to)
+
+        if(this._polygon) this._polygon.remove()
+
+        this._polygon = leaflet.polyline(
+            [toLL(this._start), toLL(to)]
+        ).addTo(this.layer)
+    }
+}
 
 export class ActiveLayer extends leaflet.FeatureGroup {
     protected map: GameMapControl = null

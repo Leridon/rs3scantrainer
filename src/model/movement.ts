@@ -1,5 +1,5 @@
 import {Box, clampInto, contains, MapCoordinate, Vector2} from "./coordinates";
-import min_axis = Vector2.min_axis;
+import min_axis = Vector2.max_axis;
 
 type Tile = {
     center_blocked: boolean,
@@ -32,9 +32,9 @@ export class RuneAppsMapData implements MapData {
     }
 }
 
-type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+export type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
-namespace direction {
+export namespace direction {
     const vectors: Vector2[] = [
         {x: -1, y: 0},  // 0 left
         {x: 0, y: -1},  // 1 bottom
@@ -96,7 +96,7 @@ namespace direction {
             botright: {x: 11, y: -11},
         })
 
-        return lookup_table[10 - v2.y][v2.x + 10] as direction
+        return lookup_table[11 - v2.y][v2.x + 11] as direction
     }
 }
 
@@ -125,7 +125,7 @@ function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordi
 
     if (position.level != target.level) return null
 
-    let dia = Vector2.cardinality(Vector2.sub(target, position))
+    let dia = Vector2.sign(Vector2.sub(target, position))
 
     let bound = Box.from(position, target)
 
@@ -140,7 +140,7 @@ function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordi
     while (true) {
         if (Vector2.eq(position, target)) return {
             tile: position,
-            direction: dir_if_success // TODO: Calculate proper direction based on the info image
+            direction: dir_if_success
         }
 
         let next: MapCoordinate = null

@@ -47,7 +47,7 @@ export namespace Vector2 {
         return scale(1 / length(a), a)
     }
 
-    export function cardinality(a: Vector2): Vector2 {
+    export function sign(a: Vector2): Vector2 {
         return {
             x: Math.sign(a.x),
             y: Math.sign(a.y)
@@ -72,8 +72,8 @@ export namespace Vector2 {
         return Math.abs(a.x) + Math.abs(a.y)
     }
 
-    export function min_axis(a: Vector2): number {
-        return Math.min(Math.abs(a.x), Math.abs(a.y))
+    export function max_axis(a: Vector2): number {
+        return Math.max(Math.abs(a.x), Math.abs(a.y))
     }
 }
 
@@ -127,9 +127,9 @@ export function add(tile: Vector2, offset: Vector2): MapCoordinate {
 
 export function contains(box: Box, tile: Vector2) {
     return box.topleft.x <= tile.x
-        && box.topleft.y <= tile.y
+        && box.topleft.y >= tile.y
         && box.botright.x >= tile.x
-        && box.botright.y >= tile.y
+        && box.botright.y <= tile.y
 }
 
 export type Area = { tiles: MapCoordinate[] }

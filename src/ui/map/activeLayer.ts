@@ -1,11 +1,12 @@
 import {blue_icon, GameMapControl} from "./map";
 import * as leaflet from "leaflet"
-import {Box, eq, MapCoordinate, toLL} from "../../model/coordinates";
+import {Box, eq, MapCoordinate, toLL, Vector2} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import {LeafletMouseEvent} from "leaflet";
 import {dive, RuneAppsMapData} from "../../model/movement";
+import * as movement from "../../model/movement";
 
 class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
     _start: MapCoordinate = null
@@ -37,6 +38,8 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
                 let now = this.layer.getMap().tileFromMouseEvent(e)
 
                 this.update(now)
+
+                this._start = null
             }
         },
 
@@ -62,10 +65,11 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
 
     _polygon: leaflet.Polyline = null
 
-    update(to: MapCoordinate){
-        let tile = dive(new RuneAppsMapData(), this._start, to)
+    update(to: MapCoordinate) {
+        //let tile = dive(new RuneAppsMapData(), this._start, to)
+        let tile = movement.escape(new RuneAppsMapData(), {tile: this._start, direction: movement.direction.fromVector(Vector2.sub(to, this._start))})
 
-        if(this._polygon) this._polygon.remove()
+        if (this._polygon) this._polygon.remove()
 
         if (tile) {
 

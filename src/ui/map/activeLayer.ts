@@ -4,15 +4,13 @@ import {Box, eq, MapCoordinate, toLL} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
-import {ScanEditLayer} from "./layers/ScanLayer";
 import {LeafletMouseEvent} from "leaflet";
-import * as lodash from "lodash";
 import {dive, RuneAppsMapData} from "../../model/movement";
 
 class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
     _start: MapCoordinate = null
 
-    constructor(layer: ScanEditLayer) {
+    constructor(layer: ActiveLayer) {
         super(layer);
     }
 
@@ -36,9 +34,9 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
             if (this._start) {
                 leaflet.DomEvent.stopPropagation(e)
 
-                this.events.emit("done", lodash.cloneDeep(this.last_area))
+                let now = this.layer.getMap().tileFromMouseEvent(e)
 
-                this.layer.cancelInteraction()
+                this.update(now)
             }
         },
 
@@ -51,6 +49,7 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
         },
 
         "mousemove": (e: LeafletMouseEvent) => {
+
             if (this._start) {
                 leaflet.DomEvent.stopPropagation(e)
 
@@ -64,14 +63,16 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
     _polygon: leaflet.Polyline = null
 
     update(to: MapCoordinate){
-
-        dive(new RuneAppsMapData(), this._start, to)
+        let tile = dive(new RuneAppsMapData(), this._start, to)
 
         if(this._polygon) this._polygon.remove()
 
-        this._polygon = leaflet.polyline(
-            [toLL(this._start), toLL(to)]
-        ).addTo(this.layer)
+        if (tile) {
+
+            this._polygon = leaflet.polyline(
+                [toLL(this._start), toLL(tile.tile)]
+            ).addTo(this.layer)
+        }
     }
 }
 
@@ -128,6 +129,8 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
     loadDefaultInteraction(): LayerInteraction<ActiveLayer> {
         let self = this
+
+        return new DrawDiveInteraction(this)
 
         return new SimpleClickInteraction(this, {
             "click": (p) => {

@@ -569,3 +569,9 @@ video {
 .nis-map-control-top {
     padding: 5px;
 }
+
+.map-collisionlayer {
+    image-rendering: pixelated;
+    /*filter: grayscale(100%) hue-rotate(0) opacity(0.5)*/
+    filter: brightness(0%) grayscale(100%) opacity(0.3);
+}

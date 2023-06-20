@@ -1,15 +1,15 @@
 import {blue_icon, GameMapControl} from "./map";
 import * as leaflet from "leaflet"
-import {Box, eq, MapCoordinate, toLL, Vector2} from "../../model/coordinates";
+import {Box, eq, MapCoordinate, tilePolygon, toLL, Vector2} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import {LeafletMouseEvent} from "leaflet";
-import {dive, RuneAppsMapData} from "../../model/movement";
-import * as movement from "../../model/movement";
+import {canMove, direction, dive, HostedMapData} from "../../model/movement";
 
 class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
     _start: MapCoordinate = null
+    _to: MapCoordinate = null
 
     constructor(layer: ActiveLayer) {
         super(layer);
@@ -27,7 +27,7 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
 
     _maphooks: leaflet.LeafletEventHandlerFnMap = {
 
-        "click": (e: LeafletMouseEvent) => {
+        "click": async (e: LeafletMouseEvent) => {
             // Capture and consume the click event so it does not get sent to the default interaction
 
             leaflet.DomEvent.stopPropagation(e)
@@ -37,13 +37,13 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
 
                 let now = this.layer.getMap().tileFromMouseEvent(e)
 
-                this.update(now)
+                await this.update(now)
 
                 this._start = null
             }
         },
 
-        "mousedown": (e: LeafletMouseEvent) => {
+        "mousedown": async (e: LeafletMouseEvent) => {
             if (!this._start) {
                 leaflet.DomEvent.stopPropagation(e)
 
@@ -51,31 +51,47 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
             }
         },
 
-        "mousemove": (e: LeafletMouseEvent) => {
+        "mousemove": async (e: LeafletMouseEvent) => {
 
             if (this._start) {
+                console.log("move")
+
                 leaflet.DomEvent.stopPropagation(e)
 
                 let now = this.layer.getMap().tileFromMouseEvent(e)
 
-                this.update(now)
+                await this.update(now)
             }
         },
     }
 
     _polygon: leaflet.Polyline = null
 
-    update(to: MapCoordinate) {
-        //let tile = dive(new RuneAppsMapData(), this._start, to)
-        let tile = movement.escape(new RuneAppsMapData(), {tile: this._start, direction: movement.direction.fromVector(Vector2.sub(to, this._start))})
+    async update(to: MapCoordinate) {
+        if (!this._to || !Vector2.eq(to, this._to)) {
+            this._to = to
 
-        if (this._polygon) this._polygon.remove()
+            let tile = await dive(HostedMapData.get(), this._start, to)
+            //let tile = await movement.escape(HostedMapData.get(), {tile: this._start, direction: movement.direction.fromVector(Vector2.sub(to, this._start))})
 
-        if (tile) {
+            if (this._polygon) this._polygon.remove()
 
-            this._polygon = leaflet.polyline(
-                [toLL(this._start), toLL(tile.tile)]
-            ).addTo(this.layer)
+            console.log(this._start)
+            console.log(tile.tile)
+
+            if (tile) {
+
+                this._polygon = leaflet.polyline(
+                    [toLL(this._start), toLL(tile.tile)]
+                ).addTo(this.layer)
+            } else {
+
+                this._polygon = leaflet.polyline(
+                    [toLL(this._start), toLL(to)]
+                ).setStyle({
+                    color: "red"
+                }).addTo(this.layer)
+            }
         }
     }
 }
@@ -117,8 +133,6 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
             let de = this.loadDefaultInteraction()
 
-            console.log(de.constructor.name)
-
             de.activate()
         }
     }
@@ -131,13 +145,44 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
     private _tilemarker: TileMarker = null
 
+    private abc: leaflet.FeatureGroup = null
+
     loadDefaultInteraction(): LayerInteraction<ActiveLayer> {
         let self = this
 
-        return new DrawDiveInteraction(this)
+        //return new DrawDiveInteraction(this)
 
         return new SimpleClickInteraction(this, {
-            "click": (p) => {
+            "click": async (p) => {
+                console.log(await HostedMapData.get().getTile(p))
+
+                if (self.abc) self.abc.remove()
+
+                self.abc = leaflet.featureGroup().addTo(self)
+                /*
+                                for (let d: direction = 0; d < 8; d++) {
+
+                                    tilePolygon(Vector2.add(p, direction.toVector(d as direction)))
+                                        .setStyle({
+                                            fillOpacity: 0.5,
+                                            stroke: false,
+                                            fillColor: (await canMove(HostedMapData.get(), p, d as direction)) ? "green" : "red"
+                                        }).addTo(self.abc)
+
+                                }*/
+
+                for (let dx = -10; dx <= 10; dx++) {
+                    for (let dy = -10; dy <= 10; dy++) {
+
+                        tilePolygon( Vector2.add(p, {x: dx, y: dy}))
+                            .setStyle({
+                                fillOpacity: 0.5,
+                                stroke: false,
+                                fillColor: (await dive(HostedMapData.get(), p, Vector2.add(p, {x: dx, y: dy}))) ? "green" : "red"
+                            }).addTo(self.abc)
+                    }
+                }
+
                 if (self._tilemarker && eq(p, self._tilemarker.getSpot())) {
                     self.removeMarker()
                 } else self.setMarker(p)

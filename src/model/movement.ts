@@ -1,9 +1,9 @@
 import {Box, clampInto, contains, MapCoordinate, Vector2} from "./coordinates";
 import min_axis = Vector2.max_axis;
+import {rangeRight} from "lodash";
 
 type Tile = {
-    center_blocked: boolean,
-    neighbour_blocked: boolean[]
+    blocks: boolean[]
 }
 
 type PlayerPosition = {
@@ -12,43 +12,86 @@ type PlayerPosition = {
 }
 
 interface MapData {
-    getTile(coordinate: MapCoordinate): Tile
+    getTile(coordinate: MapCoordinate): Promise<Tile>
 }
 
-export class RuneAppsMapData implements MapData {
-    private fetch_chunk(x: number, z: number) {
+type file = Tile[]
+const t = [
+    1, 2, 4, 8, 16, 32, 64, 128, 256
+]
 
+export class HostedMapData implements MapData {
+    chunks: (file | Promise<file>)[][]
+
+    private async fetch(x: number, z: number, floor: number): Promise<Uint16Array> {
+        let a = await fetch(`map/collision-${x}-${z}-${floor}.bin`)
+
+        return new Uint16Array(await (await a.blob()).arrayBuffer())
     }
 
-    public constructor() {
+    private constructor() {
+        // For every floor (0 to 3), create 200 slots in the data cache.
+        this.chunks = [null, null, null, null].map(() => Array(200))
+    }
+
+    private static _instance: HostedMapData = new HostedMapData()
+
+    static get() {
+        return HostedMapData._instance
     }
 
 
-    getTile(coordinate: MapCoordinate): Tile {
-        return {
-            center_blocked: false,
-            neighbour_blocked: [false, false, false, false, false, false, false, false]
+    async getTile(coordinate: MapCoordinate): Promise<Tile> {
+        let floor = coordinate.level || 0
+
+        let file_x = Math.floor(coordinate.x / (64 * 10))
+        let file_y = Math.floor(coordinate.y / (64 * 10))
+        let file_i = file_y * 10 + file_x
+
+        if (!this.chunks[floor][file_i]) {
+
+            let promise = this.fetch(file_x, file_y, floor)
+                .then((a: Uint16Array) =>
+                    Array.from(a).map((v) => {
+                        return {
+                            blocks: t.map((i) => (Math.floor(v / i) % 2) != 0)
+                        }
+                    })
+                )
+
+            this.chunks[floor][file_i] = promise
+
+            promise.then((a) => {
+                this.chunks[floor][file_i] = a
+            })
         }
+
+        let tile_x = coordinate.x % (64 * 10)
+        let tile_y = coordinate.y % (64 * 10)
+        let tile_i = tile_y * 640 + tile_x
+
+        return (await this.chunks[floor][file_i])[tile_i]
     }
 }
 
-export type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+export type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 
 export namespace direction {
     const vectors: Vector2[] = [
-        {x: -1, y: 0},  // 0 left
-        {x: 0, y: -1},  // 1 bottom
-        {x: 1, y: 0},   // 2 right
-        {x: 0, y: 1},   // 3 top
-        {x: -1, y: 1},  // 4 topleft
-        {x: -1, y: -1}, // 5 botleft
-        {x: 1, y: -1},  // 6 botright
-        {x: 1, y: 1},   // 7 topright
+        {x: 0, y: 0},   // 0 center
+        {x: -1, y: 0},  // 1 left
+        {x: 0, y: 1},   // 2 top
+        {x: 1, y: 0},   // 3 right
+        {x: 0, y: -1},  // 4 bottom
+        {x: -1, y: 1},  // 5 topleft
+        {x: 1, y: 1},   // 6 topright
+        {x: 1, y: -1},  // 7 botright
+        {x: -1, y: -1}, // 8 botleft
     ]
 
     export function invert(d: direction): direction {
         // Could do something smart here, but a lookup table is easier and faster
-        return [2, 3, 0, 1, 6, 7, 4, 5][d] as direction
+        return [0, 3, 4, 1, 2, 7, 8, 5, 6][d] as direction
     }
 
     export function toVector(d: direction): Vector2 {
@@ -65,29 +108,29 @@ export namespace direction {
         // There is most likely a better solution, but this is enough for now
         // It's an 23 by 23 box where real click are clamped into.
         const lookup_table = [
-            [4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7],
-            [4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7],
-            [4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7],
-            [4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7],
-            [4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7, 7],
-            [4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7, 7],
-            [0, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7, 2],
-            [0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2],
-            [0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 3, 3, 3, 7, 7, 7, 7, 7, 7, 2, 2, 2, 2],
-            [0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 3, 7, 7, 7, 7, 2, 2, 2, 2, 2, 2, 2],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, 3, 7, 7, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, E, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 1, 6, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2],
-            [0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 1, 6, 6, 6, 6, 2, 2, 2, 2, 2, 2, 2],
-            [0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 1, 1, 1, 6, 6, 6, 6, 6, 6, 2, 2, 2, 2],
-            [0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6, 2, 2],
-            [0, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6, 2],
-            [5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6],
-            [5, 5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6],
-            [5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6],
-            [5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6],
-            [5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6, 6],
-            [5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 6, 6],
+            [5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6],
+            [5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6],
+            [5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6],
+            [5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6],
+            [5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6, 6],
+            [5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6, 6],
+            [1, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6, 3],
+            [1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 6, 6, 6, 6, 6, 6, 6, 6, 3, 3],
+            [1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 2, 2, 2, 6, 6, 6, 6, 6, 6, 3, 3, 3, 3],
+            [1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 2, 6, 6, 6, 6, 3, 3, 3, 3, 3, 3, 3],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 2, 6, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 4, 7, 7, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+            [1, 1, 1, 1, 1, 1, 1, 8, 8, 8, 8, 4, 7, 7, 7, 7, 3, 3, 3, 3, 3, 3, 3],
+            [1, 1, 1, 1, 8, 8, 8, 8, 8, 8, 4, 4, 4, 7, 7, 7, 7, 7, 7, 3, 3, 3, 3],
+            [1, 1, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7, 3, 3],
+            [1, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7, 3],
+            [8, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+            [8, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+            [8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7],
+            [8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7],
+            [8, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7],
+            [8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7],
         ]
 
         // Clamp vector into bounds
@@ -108,19 +151,39 @@ function move(pos: MapCoordinate, off: Vector2) {
     }
 }
 
-export function canMove(data: MapData, pos: MapCoordinate, d: direction): boolean {
+export async function canMove(data: MapData, pos: MapCoordinate, d: direction): Promise<boolean> {
     // To be honest, this function in its entirety is mostly a guess. Maybe it is completely broken
 
-    let origin = data.getTile(pos)
+    // sideway blockings block diagonal movements too
+    let implies_table = [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [1, 2],
+        [2, 3],
+        [3, 4],
+        [4, 1]
+    ]
 
-    if (origin.center_blocked || origin.neighbour_blocked[d]) return false
+    let origin = await data.getTile(pos)
+    if (origin.blocks[d]) return false
 
-    let target = data.getTile(move(pos, direction.toVector(d)))
+    // This still breaks for fairy rings. Maybe that's because of the center simplification?
 
-    return !(target.center_blocked || target.neighbour_blocked[direction.invert(d)])
+    let target = await data.getTile(move(pos, direction.toVector(d)))
+    if (target.blocks[0] || target.blocks[direction.invert(d)]) return false
+
+    // Array.every can't handle asyncs
+    for (let implied of implies_table[d]) {
+        if (!(await canMove(data, pos, implied as direction))) return false
+    }
+
+    return true
 }
 
-function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): PlayerPosition | null {
+async function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
     // This function does not respect any max distances and expects the caller to handle that.
 
     if (position.level != target.level) return null
@@ -148,7 +211,7 @@ function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordi
         for (let choice of choices) {
             let candidate = move(position, choice.delta)
 
-            if (contains(bound, candidate) && canMove(data, position, choice.dir)) {
+            if (contains(bound, candidate) && (await canMove(data, position, choice.dir))) {
                 next = candidate
                 break
             }
@@ -160,11 +223,11 @@ function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordi
     }
 }
 
-function dive_far_internal(data: MapData, start: MapCoordinate, dir: direction, max_distance: number): PlayerPosition | null {
+async function dive_far_internal(data: MapData, start: MapCoordinate, dir: direction, max_distance: number): Promise<PlayerPosition | null> {
     let d = direction.toVector(dir)
 
     for (let i = max_distance; i > 0; i--) {
-        let t = dive_internal(data, start, move(start, Vector2.scale(i, d)))
+        let t = await dive_internal(data, start, move(start, Vector2.scale(i, d)))
 
         if (t) return t
     }
@@ -172,21 +235,21 @@ function dive_far_internal(data: MapData, start: MapCoordinate, dir: direction, 
     return null
 }
 
-export function dive(data: MapData, position: MapCoordinate, target: MapCoordinate): PlayerPosition | null {
+export async function dive(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
 
     let delta = Vector2.sub(target, position)
 
     if (min_axis(delta) > 10) {
         let dir = direction.fromVector(delta)
 
-        let res = dive_far_internal(data, position, dir, 10)
+        let res = await dive_far_internal(data, position, dir, 10)
 
         if (res) return res
         else return {
             tile: target,
             direction: dir
         }
-    } else return dive_internal(data, position, target)
+    } else return dive_internal(data, position, target);
 
     //
 
@@ -205,12 +268,12 @@ export function dive(data: MapData, position: MapCoordinate, target: MapCoordina
      */
 }
 
-export function surge(data: MapData, position: PlayerPosition): PlayerPosition | null {
+export async function surge(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
     return dive_far_internal(data, position.tile, position.direction, 10)
 }
 
-export function escape(data: MapData, position: PlayerPosition): PlayerPosition | null {
-    let res = dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
+export async function escape(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
+    let res = await dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
 
     if (!res) return null
     else return {

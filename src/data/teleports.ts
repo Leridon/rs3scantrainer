@@ -238,6 +238,7 @@ const raw: teleport_group[] = [{
         {subid: "AIP", spot: {x: 2412, y: 4434}, code: "", hover: "Zanaris"},
         {subid: "AIQ", spot: {x: 2996, y: 3114}, code: "AIQ", hover: "Asgarnia: Mudskipper Point"},
         {subid: "AIR", spot: {x: 2700, y: 3247}, code: "AIR", hover: "Islands: South of Witchhaven"},
+        {subid: "AIS", spot: {x: 2030, y: 5982}, code: "AIS", hover: "Other realms: Naragi homeworld"},
         {subid: "AJQ", spot: {x: 2735, y: 5221}, code: "AJQ", hover: "Dungeons: Dark cave south of Dorgesh-Kaan"},
         {subid: "AJR", spot: {x: 2780, y: 3613}, code: "AJR", hover: "Kandarin: Slayer cave south-east of Relekka"},
         {subid: "AJS", spot: {x: 2500, y: 3896}, code: "AJS", hover: "Islands: Penguins near Miscellania"},
@@ -252,6 +253,7 @@ const raw: teleport_group[] = [{
         {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS", hover: "Kandarin: Ardougne Zoo unicorns"},
         {subid: "BJP", spot: {x: 3342, y: 3539}, code: "BJP", hover: "Fort Forinthry: Woodcutters`s Grove"}, // TODO: Check hover after release
         {subid: "BJQ", spot: {x: 1737, y: 5342}, code: "BJQ", hover: "Dungeons: Ancient Cavern"},
+        {subid: "BJR", spot: {x: 2650, y: 4730}, code: "BJR", hover: "Other realms: Realm of the fisher king"},
         {subid: "BJS", spot: {x: 1359, y: 5635}, code: "BJS", hover: "The Lost Grove"},
         {subid: "BKP", spot: {x: 2385, y: 3035}, code: "BKP", hover: "Feldip Hills: South of Castle Wars"},
         {subid: "BKQ", spot: {x: 3041, y: 4532}, code: "BKQ", hover: "Other realms: Enchanted Valley"},
@@ -286,10 +288,8 @@ const raw: teleport_group[] = [{
         {subid: "DLR", spot: {x: 3501, y: 9821, level: 3}, code: "DLS", hover: "Zanaris"},
         {subid: "resistance", spot: {x: 2254, y: 4426, level: 0}, hover: "Fairy Resistance HQ"},
         {subid: "rift", spot: {x: 1626, y: 4176, level: 0}, hover: "Ork´s Rift (BIR, DIP, CLR, ALP)"},
-        //ais guthix dream
         //alr the abbyss
-        //bjr fisher realm
-        //blq yubuisk0
+        //blq yubuisk
     ]
 }, {
     id: "slayercape",
@@ -342,7 +342,7 @@ const raw: teleport_group[] = [{
     img: "capequest.png",
     spots: [
         {subid: "guthixtemple", spot: {x: 2540, y: 5774}, code: "1", hover: "Ancient Guthix Temple"},
-        //2 gower quest bts
+        {subid: "behindthescenes", spot: {x: 1182, y: 5396}, code: "2", hover: "Behind the scenes"},
         {subid: "championsguild", spot: {x: 3192, y: 3357}, code: "3", hover: "Champion's Guild"},
         {subid: "emptythroneroom", spot: {x: 3375, y: 3402}, code: "4", hover: "The empty throne room"},
         {subid: "glacorcavern", spot: {x: 2912, y: 3840}, code: "5", hover: "Glacor cavern"},
@@ -357,7 +357,7 @@ const raw: teleport_group[] = [{
     name: "Sixth Age Circuit",
     img: "sixthagecircuit.png",
     spots: [
-        //TODO: This spot is underground, coordinates on the surface are bogus {subid: "shrine", spot: {x: 2709, y: 3373}, code: "1", hover: "Guthix's Shrine"},
+        {subid: "shrine", spot: {x: 1928, y: 5987}, code: "1", hover: "Guthix's Shrine"},
         {subid: "worldgate", spot: {x: 2367, y: 3355}, code: "2", hover: "World Gate"},
         {subid: "memorial", spot: {x: 2265, y: 3554}, code: "3", hover: "Guthix Memorial"},
         {subid: "temple", spot: {x: 2540, y: 5772}, code: "4", hover: "Guthix Memorial"},
@@ -723,7 +723,13 @@ const raw: teleport_group[] = [{
         id: "skullsceptre",
         name: "Skull Sceptre",
         img: "skullsceptre.png",
-        spots: [{subid: "outside", spot: {x: 3081, y: 3422}, code: "1", hover: "Outside"}]
+        spots: [
+            {subid: "outside", spot: {x: 3081, y: 3422}, code: "1", hover: "Outside"},
+            {subid: "war", spot: {x: 1862, y: 5241}, code: "2", hover: "Vault of War"},
+            {subid: "famine", spot: {x: 2044, y: 5244}, code: "3", hover: "Catacomb of Famine"},
+            {subid: "pestillence", spot: {x: 2125, y: 5253}, code: "4", hover: "Pit of Pestilence"},
+            {subid: "death", spot: {x: 2359, y: 5211}, code: "5", hover: "Sepulchre of Death"},
+        ]
     },
     {
         id: "dragonkinlaboratory",
@@ -785,7 +791,7 @@ const raw: teleport_group[] = [{
             {subid: "red", spot: {x: 2731, y: 9529}, hover: "Red Dragons", code: "3"},
             {subid: "black", spot: {x: 2453, y: 4476}, hover: "Black Dragons", code: "4,1"},
             {subid: "kbd", spot: {x: 3051, y: 3519}, hover: "King Black Dragon", code: "4,2"},
-            //{subid: "qbd", spot: {x: 0, y: 0}, hover: "Queen Black Dragon", code: "4,2"},
+            {subid: "qbd", spot: {x: 1198, y: 6499}, hover: "Queen Black Dragon", code: "4,2"},
         ]
     },
     {

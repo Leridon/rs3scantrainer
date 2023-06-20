@@ -5,6 +5,7 @@ import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
 import Graticule from "./layers/Graticule";
 import Widget from "../widgets/Widget";
+import {Constants} from "../../constants";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -106,7 +107,7 @@ export class GameMapControl extends Widget<{
 }> {
     map: leaflet.Map
     floor: number = 0
-    baseLayers: RsBaseTileLayer[]
+    baseLayers: leaflet.TileLayer[]
     private teleportLayer: TeleportLayer
     private activeLayer: ActiveLayer = null
     private top_control_container: Widget
@@ -148,6 +149,7 @@ export class GameMapControl extends Widget<{
 
         return crs
     }
+
 
     constructor(container: JQuery) {
         super(container)
@@ -232,7 +234,7 @@ export class GameMapControl extends Widget<{
     updateBaseLayers() {
         if (Constants.map_version == 0) return
 
-        let layers: RsBaseTileLayer[] = []
+        let layers: leaflet.TileLayer[] = []
 
         layers.push(new RsBaseTileLayer([
             {urls: this.geturls(`topdown-${this.floor}/{z}/{x}-{y}.webp`)}
@@ -252,6 +254,26 @@ export class GameMapControl extends Widget<{
             maxNativeZoom: 3,
             minZoom: -5
         }))
+
+        //layers.push(new CollisionLayer(this.floor))
+/*
+        layers.push(new RsBaseTileLayer([
+            {urls: [`map/overlay-46-52-${this.floor}.png?x={x}&y={y}`]},
+        ], {
+            tileSize: 64,
+            maxNativeZoom: 0,
+            minZoom: -5,
+            className: "map-pixellayer"
+        }))*/
+
+        layers.push(new RsBaseTileLayer([
+            { urls: this.geturls(`collision-${this.floor}/{z}/{x}-{y}.png`) }
+        ], {
+            tileSize: 512,
+            maxNativeZoom: 3,
+            minZoom: -5,
+            className: "map-collisionlayer"
+        }));
 
         let oldbase = this.baseLayers;
         if (oldbase && oldbase.length > 0) {
@@ -303,7 +325,8 @@ export class GameMapControl extends Widget<{
     tileFromMouseEvent(e: leaflet.LeafletMouseEvent): MapCoordinate {
         return {
             x: Math.round(e.latlng.lng),
-            y: Math.round(e.latlng.lat)
+            y: Math.round(e.latlng.lat),
+            level: this.floor
         }
     }
 }

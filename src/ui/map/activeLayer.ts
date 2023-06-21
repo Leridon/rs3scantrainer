@@ -6,6 +6,7 @@ import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import {LeafletMouseEvent} from "leaflet";
 import {canMove, direction, dive, HostedMapData} from "../../model/movement";
+import PathEditLayer from "../scanedit/PathEditLayer";
 
 class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
     _start: MapCoordinate = null
@@ -98,6 +99,51 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
     constructor() {
         super()
+
+        new PathEditLayer(this, {
+            description: "",
+            clip: null,
+            steps: [
+                {
+                    type: "teleport",
+                    id: {
+                        main: "ringofduelling",
+                        sub: "castlewars"
+                    }
+                }, {
+                    type: "run",
+                    waypoints: [
+                        {x: 2444, y: 3089},
+                        {x: 2448, y: 3090},
+                        {x: 2451, y: 3090},
+                    ]
+                }, {
+                    type: "redclick",
+                    where: {x: 2462, y: 3077}
+                }, {
+                    type: "ability",
+                    ability: "surge",
+                    from: {x: 2451, y: 3090},
+                    to: {x: 2461, y: 3080}
+                }, {
+                    type: "run",
+                    waypoints: [
+                        {x: 2461, y: 3080},
+                        {x: 2460, y: 3076},
+                    ]
+                }, {
+                    type: "ability",
+                    ability: "dive",
+                    from: {x: 2460, y: 3076},
+                    to: {x: 2450, y: 3066}
+                }, {
+                    type: "ability",
+                    ability: "barge",
+                    from: {x: 2450, y: 3066},
+                    to: {x: 2440, y: 3056}
+                }
+            ]
+        }).addTo(this)
     }
 
     getMap(): GameMapControl {
@@ -132,7 +178,7 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         }
     }
 
-    protected addControl(control: leaflet.Control) {
+    public addControl(control: leaflet.Control) {
         this.controls.push(control)
 
         if (this.map) this.map.map.addControl(control)
@@ -164,17 +210,7 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
                                 }*/
 
-                for (let dx = -10; dx <= 10; dx++) {
-                    for (let dy = -10; dy <= 10; dy++) {
 
-                        tilePolygon( Vector2.add(p, {x: dx, y: dy}))
-                            .setStyle({
-                                fillOpacity: 0.5,
-                                stroke: false,
-                                fillColor: (await dive(HostedMapData.get(), p, Vector2.add(p, {x: dx, y: dy}))) ? "green" : "red"
-                            }).addTo(self.abc)
-                    }
-                }
 
                 if (self._tilemarker && eq(p, self._tilemarker.getSpot())) {
                     self.removeMarker()

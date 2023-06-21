@@ -4,6 +4,8 @@ import * as events from "events";
 export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
     protected constructor(public container: JQuery = $("<div>")) {
         super()
+
+        if (!container) this.container = $("<div>")
     }
 
     appendTo(widget: Widget | JQuery): this {
@@ -21,6 +23,7 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
         return this
     }
+
     css(key: string, value: string): this {
         this.container.css(key, value)
 
@@ -44,5 +47,10 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
     static wrap(jquery: JQuery): Widget {
         return new Widget(jquery)
+    }
+
+    text(text: string): this {
+        this.container.text(text)
+        return this
     }
 }

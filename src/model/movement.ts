@@ -1,9 +1,17 @@
 import {Box, clampInto, contains, MapCoordinate, Vector2} from "./coordinates";
 import min_axis = Vector2.max_axis;
 
-type TileMovementData = boolean[]
+type TileMovementData = number
 
-type PlayerPosition = {
+namespace TileMovementData {
+    export function free(tile: TileMovementData, d: direction): boolean {
+        const t = [1, 2, 4, 8, 16, 32, 64, 128]
+
+        return (Math.floor(tile / t[d - 1]) % 2) != 0
+    }
+}
+
+export type PlayerPosition = {
     tile: MapCoordinate,
     direction: direction
 }
@@ -12,10 +20,8 @@ interface MapData {
     getTile(coordinate: MapCoordinate): Promise<TileMovementData>
 }
 
-type file = TileMovementData[]
-const t = [
-    1, 2, 4, 8, 16, 32, 64, 128, 256
-]
+type file = Uint8Array
+
 
 export class HostedMapData implements MapData {
     chunks: (file | Promise<file>)[][]
@@ -37,7 +43,6 @@ export class HostedMapData implements MapData {
         return HostedMapData._instance
     }
 
-
     async getTile(coordinate: MapCoordinate): Promise<TileMovementData> {
         let floor = coordinate.level || 0
 
@@ -48,9 +53,9 @@ export class HostedMapData implements MapData {
         if (!this.chunks[floor][file_i]) {
 
             let promise = this.fetch(file_x, file_y, floor)
-                .then((a: Uint8Array) =>
-                    Array.from(a).map((v) => t.map((i) => (Math.floor(v / i) % 2) != 0))
-                )
+            /*.then((a: Uint8Array) =>
+                Array.from(a).map((v) => t.map((i) => (Math.floor(v / i) % 2) != 0))
+            )*/
 
             this.chunks[floor][file_i] = promise
 
@@ -136,7 +141,7 @@ export namespace direction {
     }
 }
 
-function move(pos: MapCoordinate, off: Vector2) {
+export function move(pos: MapCoordinate, off: Vector2) {
     return {
         x: pos.x + off.x,
         y: pos.y + off.y,
@@ -146,7 +151,7 @@ function move(pos: MapCoordinate, off: Vector2) {
 
 export async function canMove(data: MapData, pos: MapCoordinate, d: direction): Promise<boolean> {
     // Data is preprocessed so for every tile there are 8 bit signalling in which directions the player can move.
-    return (await data.getTile(pos))[d - 1]
+    return TileMovementData.free(await data.getTile(pos), d)
 }
 
 async function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {

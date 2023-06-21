@@ -1,4 +1,5 @@
 import {Box, MapCoordinate} from "./coordinates";
+import {PlayerPosition} from "./movement";
 
 export type movement_ability = "surge" | "dive" | "escape" | "barge"
 
@@ -32,7 +33,8 @@ type step_teleport = step_base & {
 
 type step_interact = step_base & {
     type: "interaction",
-    area: Box
+    area: Box,
+    ends_up: PlayerPosition
 }
 
 type step_redclick = step_base & {
@@ -47,21 +49,30 @@ type step_powerburst = step_base & {
 
 export type step = step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
 
-export type Path = {
-    description: string,
-    clip: any
-    steps: step[],
-}
 
-namespace Path  {
+export namespace Path {
+    export type raw = {
+        description: string,
+        clip: any
+        steps: step[],
+    }
+
     export type augmented = {
         description: string,
         clip: any,
-        sections: step[][],
-        expected_execution_time: number
+        steps: augmented_step[],
+        expected_execution_time: number,
+        ends_up: PlayerPosition
     }
 
-    export function augment(path: Path): Path.augmented {
+    export type augmented_step = {
+        raw: step,
+        section: number,
+        ticks: number,
+        ends_up: PlayerPosition
+    }
+
+    export function augment(path: Path.raw): Path.augmented {
         throw new Error("Not implemented")
     }
 }

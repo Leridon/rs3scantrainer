@@ -81,6 +81,13 @@ export type MapCoordinate = Vector2 & {
     level?: number
 }
 
+export namespace MapCoordinate {
+    export function eq(a: MapCoordinate, b: MapCoordinate) {
+        return a.x == b.x && a.y == b.y && a.level == b.level
+    }
+}
+
+// TODO: deprecate
 export function eq(a: MapCoordinate, b: MapCoordinate) {
     return a.x == b.x && a.y == b.y     // Ignores level for spot equality
 }

@@ -1,6 +1,7 @@
 import * as leaflet from "leaflet"
 import {movement_ability, step} from "../../../model/pathing";
 import {boxPolygon, MapCoordinate, toLL, Vector2} from "../../../model/coordinates";
+import PathEditLayer from "../../scanedit/PathEditLayer";
 
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
@@ -74,8 +75,6 @@ export default class PathLayer extends leaflet.FeatureGroup {
 
 
     private create(step: step): leaflet.Layer {
-
-
         switch (step.type) {
             case "teleport":
                 break;

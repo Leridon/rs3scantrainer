@@ -8,17 +8,18 @@ export default abstract class LayerInteraction<T extends ActiveLayer> {
     protected constructor(public layer: T) {
     }
 
-    protected control: TopControl = null
+    protected top_control: Widget = null
 
-    getTopControl(): TopControl {
-        if (!this.control) this.control = this.constructTopControl()
+    getTopControl(): Widget {
+        if (!this.top_control) this.top_control = this.constructTopControl()
 
-        return this.control
+        return this.top_control
     }
 
-    protected constructTopControl(): TopControl {
-        return Widget.wrap($(`<div class='nis-map-control'>Test Control for Interaction ${this.constructor.name}</div>`))
+    protected constructTopControl(): Widget {
+        return new TopControl()
 
+        return Widget.wrap($(`<div class='nis-map-control'>Test Control for Interaction ${this.constructor.name}</div>`))
     }
 
     activate(): this {

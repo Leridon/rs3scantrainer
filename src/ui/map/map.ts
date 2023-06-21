@@ -169,7 +169,7 @@ export class GameMapControl extends Widget<{
             .addClass("nis-map-control")
             .removeClass("leaflet-control-attribution")*/
 
-        this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'>Im a test test test</div>").appendTo(container.children(".leaflet-control-container")))
+        this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(container.children(".leaflet-control-container")))
 
         this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
 

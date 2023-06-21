@@ -575,3 +575,16 @@ video {
     /*filter: grayscale(100%) hue-rotate(0) opacity(0.5)*/
     filter: brightness(0%) grayscale(100%) opacity(0.3);
 }
+
+.medium-image-button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+}
+
+.medium-image-button > img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}

@@ -54,8 +54,6 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
         "mousemove": async (e: LeafletMouseEvent) => {
 
             if (this._start) {
-                console.log("move")
-
                 leaflet.DomEvent.stopPropagation(e)
 
                 let now = this.layer.getMap().tileFromMouseEvent(e)
@@ -75,9 +73,6 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
             //let tile = await movement.escape(HostedMapData.get(), {tile: this._start, direction: movement.direction.fromVector(Vector2.sub(to, this._start))})
 
             if (this._polygon) this._polygon.remove()
-
-            console.log(this._start)
-            console.log(tile.tile)
 
             if (tile) {
 
@@ -154,8 +149,6 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
         return new SimpleClickInteraction(this, {
             "click": async (p) => {
-                console.log(await HostedMapData.get().getTile(p))
-
                 if (self.abc) self.abc.remove()
 
                 self.abc = leaflet.featureGroup().addTo(self)

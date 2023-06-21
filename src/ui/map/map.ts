@@ -6,6 +6,7 @@ import {CustomControl} from "./CustomControl";
 import Graticule from "./layers/Graticule";
 import Widget from "../widgets/Widget";
 import {Constants} from "../../constants";
+import PathLayer from "./layers/PathLayer";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -202,6 +203,7 @@ export class GameMapControl extends Widget<{
                 weight: 1,
                 color: '#111111',
                 opacity: 0.25,
+                interactive: false
             }
         })
             .setZIndex(10)
@@ -217,7 +219,7 @@ export class GameMapControl extends Widget<{
             this.updateBaseLayers()
         });*/
 
-        // new PathLayer([]).setZIndex(20).addTo(this.map)
+        new PathLayer([]).setZIndex(20).addTo(this.map)
     }
 
     setFloor(floor: number) {

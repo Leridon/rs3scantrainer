@@ -1,10 +1,7 @@
 import {Box, clampInto, contains, MapCoordinate, Vector2} from "./coordinates";
 import min_axis = Vector2.max_axis;
-import {rangeRight} from "lodash";
 
-type Tile = {
-    blocks: boolean[]
-}
+type TileMovementData = boolean[]
 
 type PlayerPosition = {
     tile: MapCoordinate,
@@ -12,10 +9,10 @@ type PlayerPosition = {
 }
 
 interface MapData {
-    getTile(coordinate: MapCoordinate): Promise<Tile>
+    getTile(coordinate: MapCoordinate): Promise<TileMovementData>
 }
 
-type file = Tile[]
+type file = TileMovementData[]
 const t = [
     1, 2, 4, 8, 16, 32, 64, 128, 256
 ]
@@ -23,10 +20,10 @@ const t = [
 export class HostedMapData implements MapData {
     chunks: (file | Promise<file>)[][]
 
-    private async fetch(x: number, z: number, floor: number): Promise<Uint16Array> {
+    private async fetch(x: number, z: number, floor: number): Promise<Uint8Array> {
         let a = await fetch(`map/collision-${x}-${z}-${floor}.bin`)
 
-        return new Uint16Array(await (await a.blob()).arrayBuffer())
+        return new Uint8Array(await (await a.blob()).arrayBuffer())
     }
 
     private constructor() {
@@ -41,7 +38,7 @@ export class HostedMapData implements MapData {
     }
 
 
-    async getTile(coordinate: MapCoordinate): Promise<Tile> {
+    async getTile(coordinate: MapCoordinate): Promise<TileMovementData> {
         let floor = coordinate.level || 0
 
         let file_x = Math.floor(coordinate.x / (64 * 10))
@@ -51,12 +48,8 @@ export class HostedMapData implements MapData {
         if (!this.chunks[floor][file_i]) {
 
             let promise = this.fetch(file_x, file_y, floor)
-                .then((a: Uint16Array) =>
-                    Array.from(a).map((v) => {
-                        return {
-                            blocks: t.map((i) => (Math.floor(v / i) % 2) != 0)
-                        }
-                    })
+                .then((a: Uint8Array) =>
+                    Array.from(a).map((v) => t.map((i) => (Math.floor(v / i) % 2) != 0))
                 )
 
             this.chunks[floor][file_i] = promise
@@ -152,35 +145,8 @@ function move(pos: MapCoordinate, off: Vector2) {
 }
 
 export async function canMove(data: MapData, pos: MapCoordinate, d: direction): Promise<boolean> {
-    // To be honest, this function in its entirety is mostly a guess. Maybe it is completely broken
-
-    // sideway blockings block diagonal movements too
-    let implies_table = [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [1, 2],
-        [2, 3],
-        [3, 4],
-        [4, 1]
-    ]
-
-    let origin = await data.getTile(pos)
-    if (origin.blocks[d]) return false
-
-    // This still breaks for fairy rings. Maybe that's because of the center simplification?
-
-    let target = await data.getTile(move(pos, direction.toVector(d)))
-    if (target.blocks[0] || target.blocks[direction.invert(d)]) return false
-
-    // Array.every can't handle asyncs
-    for (let implied of implies_table[d]) {
-        if (!(await canMove(data, pos, implied as direction))) return false
-    }
-
-    return true
+    // Data is preprocessed so for every tile there are 8 bit signalling in which directions the player can move.
+    return (await data.getTile(pos))[d - 1]
 }
 
 async function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {

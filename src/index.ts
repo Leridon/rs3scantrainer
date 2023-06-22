@@ -3,11 +3,6 @@
 import "jquery";
 import {initialize} from "./application";
 
-//tell webpack to add index.html and appconfig.json to output
-require("!file-loader?name=[name].[ext]!../static/index.html");
-require("!file-loader?name=[name].[ext]!../static/style.css");
-require("!file-loader?name=[name].[ext]!../static/appconfig.json");
-
 require("bootstrap")
 
 document.addEventListener("DOMContentLoaded", (e) => {

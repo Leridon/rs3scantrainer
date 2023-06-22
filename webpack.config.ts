@@ -23,6 +23,8 @@ config.output(outdir);
 
 let c = config.toConfig()
 
+const is_production = process.env.NODE_ENV == "production"
+
 c.plugins = [
     new CopyWebpackPlugin({
         patterns: [{
@@ -45,6 +47,10 @@ c.plugins = [
 
 c.resolve.fallback = {
     "timers": false
+}
+
+c.optimization = {
+    minimize: is_production
 }
 
 export default c

@@ -1,6 +1,7 @@
 {
 	"scripts": {
 		"build": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js",
+		"build-production": "node -r ts-node/register ./node_modules/webpack/bin/webpack.js --node-env production",
 		"watch": "npm run build -- --watch"
 	},
 	"dependencies": {

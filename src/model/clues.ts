@@ -46,7 +46,7 @@ export type ImageStep = StepBase &
 export type CrypticStep = StepBase &
     { type: "cryptic", solution: SimpleSolution | VariantSolution }
 export type CoordinateStep = StepBase &
-    { type: "coordinates", solution: null, coordinates: GieliCoordinates }
+    { type: "coordinates", solution: SimpleSolution, coordinates: GieliCoordinates }    // TODO: Remove solution since it's redundant
 export type SkillingStep = StepBase &
     { type: "skilling", solution: SimpleSolution | VariantSolution }
 export type CompassStep = StepBase &

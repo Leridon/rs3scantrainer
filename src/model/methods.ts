@@ -4,7 +4,7 @@ import {clues} from "../data/clues";
 
 export type method_base = {
     type: string,
-    clue: ScanStep | number,
+    clue: ClueStep | number,
 }
 
 export type indirected = method_base & { clue: number }
@@ -15,9 +15,9 @@ export type method = ScanTree2.tree
 export function resolve<U extends ClueStep, T extends method_base>(clue: T & indirected): T & resolved<U> {
     if (clue == null) return null
 
-    let copy: method_base = lodash.clone(clue)
+    let copy = lodash.clone(clue) as T & resolved<U>
 
-    copy.clue = clues.find((c) => c.id == clue.clue)
+    copy.clue = clues.find((c) => c.id == clue.clue) as U
 
     return copy as (T & resolved<U>)
 }
@@ -32,11 +32,4 @@ export function indirect<T extends method_base, U extends ClueStep>(clue: T & re
     copy.clue = clue.clue.id
 
     return copy as (T & indirected)
-}
-
-// TODO: Remove
-export type HowTo = {
-    video?: any,
-    text?: string,
-    image?: string
 }

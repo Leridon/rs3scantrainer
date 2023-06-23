@@ -1,6 +1,5 @@
 import * as a1lib from "@alt1/base";
 import { ImgRef, ImageDetect } from "@alt1/base";
-import { boundMethod } from "autobind-decorator";
 import { TypedEmitter } from "../eventemitter";
 import { coldiff } from "../oldlib";
 import { posmod } from "../util";
@@ -166,7 +165,7 @@ export class CompassSolver extends TypedEmitter<CompassSolverEvents> {
 		}
 	}
 
-	@boundMethod
+	
 	trigger() {
 		this.toggleTrackCompass(0);
 		if (!this.selectedCoord) {
@@ -186,13 +185,13 @@ export class CompassSolver extends TypedEmitter<CompassSolverEvents> {
 		return !!state;
 	}
 
-	@boundMethod
+	
 	undo() {
 		this.beams.pop();
 		this.emit("beamschanged", undefined);
 	}
 
-	@boundMethod
+	
 	clear() {
 		this.beams.length = 0;
 		this.emit("beamschanged", undefined);
@@ -260,7 +259,7 @@ export class CompassSolver extends TypedEmitter<CompassSolverEvents> {
 	}
 
 
-	@boundMethod
+	
 	tracktick() {
 		let img = a1lib.captureHoldFullRs();
 		let state = this.reader.read(img);

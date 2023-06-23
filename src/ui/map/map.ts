@@ -5,7 +5,6 @@ import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
 import Graticule from "./layers/Graticule";
 import Widget from "../widgets/Widget";
-import PathLayer from "./layers/PathLayer";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 

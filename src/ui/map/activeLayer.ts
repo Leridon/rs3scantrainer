@@ -1,13 +1,12 @@
 import {blue_icon, GameMapControl} from "./map";
 import * as leaflet from "leaflet"
-import {Box, eq, MapCoordinate, tilePolygon, toLL, Vector2} from "../../model/coordinates";
+import {eq, MapCoordinate} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
-import {LeafletMouseEvent} from "leaflet";
-import {canMove, direction, dive, HostedMapData} from "../../model/movement";
 import PathEditLayer from "../scanedit/PathEditLayer";
 
+/*
 class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
     _start: MapCoordinate = null
     _to: MapCoordinate = null
@@ -90,7 +89,7 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
             }
         }
     }
-}
+}*/
 
 export class ActiveLayer extends leaflet.FeatureGroup {
     protected map: GameMapControl = null

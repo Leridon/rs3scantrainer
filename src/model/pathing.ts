@@ -1,7 +1,6 @@
 import {Box, MapCoordinate} from "./coordinates";
-import {PlayerPosition} from "./movement";
-
-export type movement_ability = "surge" | "dive" | "escape" | "barge"
+import {MovementAbilities, PlayerPosition} from "./movement";
+import movement_ability = MovementAbilities.movement_ability;
 
 type step_base = {
     type: string,

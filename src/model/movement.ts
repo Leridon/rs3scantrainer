@@ -1,5 +1,6 @@
-import {Box, clampInto, contains, MapCoordinate, Vector2} from "./coordinates";
+import {Box, clampInto, MapCoordinate, Vector2} from "./coordinates";
 import min_axis = Vector2.max_axis;
+import {Raster} from "../util/raster";
 
 type TileMovementData = number
 
@@ -22,14 +23,13 @@ interface MapData {
 
 type file = Uint8Array
 
-
 export class HostedMapData implements MapData {
     chunks: (file | Promise<file>)[][]
 
     private async fetch(x: number, z: number, floor: number): Promise<Uint8Array> {
         let a = await fetch(`map/collision-${x}-${z}-${floor}.bin`)
 
-        return new Uint8Array(await (await a.blob()).arrayBuffer())
+        return new Uint8Array(await a.arrayBuffer())
     }
 
     private constructor() {
@@ -53,9 +53,6 @@ export class HostedMapData implements MapData {
         if (!this.chunks[floor][file_i]) {
 
             let promise = this.fetch(file_x, file_y, floor)
-            /*.then((a: Uint8Array) =>
-                Array.from(a).map((v) => t.map((i) => (Math.floor(v / i) % 2) != 0))
-            )*/
 
             this.chunks[floor][file_i] = promise
 
@@ -131,6 +128,8 @@ export namespace direction {
             [8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7],
         ]
 
+        // TODO: Clamping probably isnt correct and also weird.
+
         // Clamp vector into bounds
         let v2 = clampInto(v, {
             topleft: {x: -11, y: 11},
@@ -154,96 +153,184 @@ export async function canMove(data: MapData, pos: MapCoordinate, d: direction): 
     return TileMovementData.free(await data.getTile(pos), d)
 }
 
-async function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
-    // This function does not respect any max distances and expects the caller to handle that.
+export namespace PathFinder {
+    type raster_t = Raster<{ parent: number }>
 
-    if (position.level != target.level) return null
+    async function djikstra(data: MapData, start: MapCoordinate, target: MapCoordinate): Promise<raster_t> {
+        // This is a typical djikstra algorithm
+        // To improve it to A*, it still needs to prefer ortogonal pathing before diagonal pathing like ingame, but I'm not sure how to do that yet.
+        // Possibly with a stable priority queue and tile distance as an estimator
 
-    let dia = Vector2.sign(Vector2.sub(target, position))
+        // Create a bounded raster to efficiently associate information with nodes.
+        let raster: raster_t = new Raster<{ parent: number }>(Box.extend(Box.from(start, target), 50))
 
-    let bound = Box.from(position, target)
+        let queue: { tile: MapCoordinate, i: number }[] = []
 
-    let choices: { delta: Vector2, dir: direction }[] = []
+        // Abstraction to push elements into the queue. Filters out of bounds tiles and tiles that already have a path
+        function push(tile: MapCoordinate, parent: number) {
+            if (!Box.contains(raster.bounds, tile)) return
 
-    if (dia.x != 0 && dia.y != 0) choices.push({delta: dia, dir: direction.fromDelta(dia)})
-    if (dia.x != 0) choices.push({delta: {x: dia.x, y: 0}, dir: direction.fromDelta({x: dia.x, y: 0})})
-    if (dia.y != 0) choices.push({delta: {x: 0, y: dia.y}, dir: direction.fromDelta({x: 0, y: dia.y})})
+            let i = raster.xyToI(tile)
 
-    let dir_if_success = direction.fromVector(Vector2.sub(target, position))
-
-    while (true) {
-        if (Vector2.eq(position, target)) return {
-            tile: position,
-            direction: dir_if_success
-        }
-
-        let next: MapCoordinate = null
-
-        for (let choice of choices) {
-            let candidate = move(position, choice.delta)
-
-            if (contains(bound, candidate) && (await canMove(data, position, choice.dir))) {
-                next = candidate
-                break
+            if (raster.data[i] != null) {
+                raster.data[i] = {parent: parent}
+                queue.push({tile: tile, i: i})
             }
         }
 
-        if (!next) return null
+        raster.data[raster.xyToI(start)] = {parent: null}
 
-        position = next
+        queue.push({
+            tile: start,
+            i: raster.xyToI(start)
+        })
+
+        const target_i = raster.xyToI(target)
+
+        while (queue.length > 0) {
+            let e = queue.pop()
+
+            if (e.i == target_i) return raster
+            else {
+                const directions: direction[] = [1, 2, 3, 4, 5, 6, 7, 8]
+
+                for (let i of directions) {
+                    if (await canMove(data, e.tile, i as direction)) push(move(e.tile, direction.toVector(i as direction)), e.i)
+                }
+            }
+        }
+
+        return raster
+    }
+
+
+    // Get
+    function getPath(raster: raster_t, i: number) {
+        if (raster.data[i].parent == null) return [raster.iToXY(i)]
+        else return getPath(raster, raster.data[i].parent).push(raster.iToXY(i))
+    }
+
+    export async function pathFinder(data: MapData, start: MapCoordinate, target: MapCoordinate): Promise<MapCoordinate[] | null> {
+        if (start.level != target.level) return null
+
+        let raster = await djikstra(data, start, target)
+
+        let target_i = raster.xyToI(target)
+
+        if (!raster.data[target_i]) return getPath(raster, target_i)    // TODO: Reduce path to necessary waypoints
+        else return null
     }
 }
 
-async function dive_far_internal(data: MapData, start: MapCoordinate, dir: direction, max_distance: number): Promise<PlayerPosition | null> {
-    let d = direction.toVector(dir)
 
-    for (let i = max_distance; i > 0; i--) {
-        let t = await dive_internal(data, start, move(start, Vector2.scale(i, d)))
+export namespace MovementAbilities {
+    export type movement_ability = "surge" | "dive" | "escape" | "barge"
 
-        if (t) return t
-    }
+    async function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+        // This function does not respect any max distances and expects the caller to handle that.
 
-    return null
-}
+        if (position.level != target.level) return null
 
-export async function dive(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+        let dia = Vector2.sign(Vector2.sub(target, position))
 
-    let delta = Vector2.sub(target, position)
+        let bound = Box.from(position, target)
 
-    if (min_axis(delta) > 10) {
-        let dir = direction.fromVector(delta)
+        let choices: { delta: Vector2, dir: direction }[] = []
 
-        // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.
-        return await dive_far_internal(data, position, dir, 10)
-    } else return dive_internal(data, position, target);
-
-    //
-
-
-    /*  For a specific tile
-        Repeat until tile found or out of bounds, only consider if not out of bounds:
+        /* Repeat until tile found or out of bounds, only consider if not out of bounds:
             1. Move towards the target tile diagonally. Only if diagonal walk is permitted.
             (E.g. in an attempt to move 1 tile north-east, you actually move 1 tile east, then north due to a wall = doesn't count.)
             2. Move towards the target tile on X-axis.
             3. Move towards the target tile on Y-axis.
-     */
+         */
+        if (dia.x != 0 && dia.y != 0) choices.push({delta: dia, dir: direction.fromDelta(dia)})
+        if (dia.x != 0) choices.push({delta: {x: dia.x, y: 0}, dir: direction.fromDelta({x: dia.x, y: 0})})
+        if (dia.y != 0) choices.push({delta: {x: 0, y: dia.y}, dir: direction.fromDelta({x: 0, y: dia.y})})
 
-    /*
-        If clicked more than max distance:
-        Check each tile, take the maximum
-     */
-}
+        let dir_if_success = direction.fromVector(Vector2.sub(target, position))
 
-export async function surge(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
-    return dive_far_internal(data, position.tile, position.direction, 10)
-}
+        while (true) {
+            if (Vector2.eq(position, target)) return {
+                tile: position,
+                direction: dir_if_success
+            }
 
-export async function escape(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
-    let res = await dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
+            let next: MapCoordinate = null
 
-    if (!res) return null
-    else return {
-        tile: res.tile,
-        direction: position.direction
+            for (let choice of choices) {
+                let candidate = move(position, choice.delta)
+
+                if (Box.contains(bound, candidate) && (await canMove(data, position, choice.dir))) {
+                    next = candidate
+                    break
+                }
+            }
+
+            if (!next) return null
+
+            position = next
+        }
+    }
+
+    async function dive_far_internal(data: MapData, start: MapCoordinate, dir: direction, max_distance: number): Promise<PlayerPosition | null> {
+        let d = direction.toVector(dir)
+
+        /*
+            If clicked more than max distance:
+            Check each tile, take the maximum
+         */
+        // Is there a way to optimize this so not every tile has to be checked?
+        for (let i = max_distance; i > 0; i--) {
+            let t = await dive_internal(data, start, move(start, Vector2.scale(i, d)))
+
+            if (t) return t
+        }
+
+        return null
+    }
+
+    export async function dive(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+
+        let delta = Vector2.sub(target, position)
+
+        if (min_axis(delta) > 10) {
+            let dir = direction.fromVector(delta)
+
+            // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.
+            return await dive_far_internal(data, position, dir, 10)
+        } else return dive_internal(data, position, target);
+    }
+
+    export async function barge(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+        return dive(data, position, target) // Barge is the same logic as dive
+    }
+
+
+    export async function surge(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
+        return dive_far_internal(data, position.tile, position.direction, 10)
+    }
+
+    export async function escape(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
+        let res = await dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
+
+        if (!res) return null
+        else return {
+            tile: res.tile,
+            direction: position.direction
+        }
+    }
+
+    export async function generic(data: MapData, ability: movement_ability, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+        switch (ability) {
+            case "surge":
+                return surge(data, {tile: position, direction: direction.fromVector(Vector2.sub(target, position))});
+            case "dive":
+                return dive(data, position, target);
+            case "escape":
+                return escape(data, {tile: position, direction: direction.fromVector(Vector2.sub(position, target))});
+            case "barge":
+                return barge(data, position, target);
+
+        }
     }
 }

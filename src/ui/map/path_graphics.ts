@@ -1,6 +1,7 @@
 import * as leaflet from "leaflet"
-import {movement_ability, step} from "../../model/pathing";
+import {step} from "../../model/pathing";
 import {boxPolygon, MapCoordinate, toLL, Vector2} from "../../model/coordinates";
+import {MovementAbilities} from "../../model/movement";
 
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
@@ -41,7 +42,7 @@ export function createStepGraphics(step: step): leaflet.Layer {
         case "ability": {
             let group = leaflet.featureGroup()
 
-            const meta: Record<movement_ability, { color: string, icon: string }> = {
+            const meta: Record<MovementAbilities.movement_ability, { color: string, icon: string }> = {
                 barge: {color: "#a97104", icon: "assets/icons/barge.png"},
                 dive: {color: "#e7d82c", icon: "assets/icons/dive.png"},
                 escape: {color: "#56ba0f", icon: "assets/icons/escape.png"},

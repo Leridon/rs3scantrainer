@@ -3,7 +3,7 @@ import {ActiveLayer} from "../map/activeLayer";
 import {CustomControl} from "../map/CustomControl";
 import {Path} from "../../model/pathing";
 import Widget from "../widgets/Widget";
-import {DrawDiveInteraction} from "../map/interactions/DrawDiveInteraction";
+import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 
 
 function btn(icon: string) {
@@ -29,15 +29,13 @@ class ControlWidget extends Widget {
         this.menu = $("<div style='display: flex'>").appendTo(this.container)
 
         btn('assets/icons/surge.png').appendTo(this.menu)
+            .on("click", () => new DrawAbilityInteraction(this.parent.parent, "surge").activate())
         btn('assets/icons/escape.png').appendTo(this.menu)
+            .on("click", () => new DrawAbilityInteraction(this.parent.parent, "escape").activate())
         btn('assets/icons/dive.png').appendTo(this.menu)
-            .on("click", () => {
-                new DrawDiveInteraction(this.parent.parent, "dive").activate()
-            })
+            .on("click", () => new DrawAbilityInteraction(this.parent.parent, "dive").activate())
         btn('assets/icons/barge.png').appendTo(this.menu)
-            .on("click", () => {
-                new DrawDiveInteraction(this.parent.parent, "barge").activate()
-            })
+            .on("click", () => new DrawAbilityInteraction(this.parent.parent, "barge").activate())
         btn('assets/icons/run.png').appendTo(this.menu)
         btn('assets/icons/teleports/homeport.png').appendTo(this.menu)
         btn('assets/icons/redclick.png').appendTo(this.menu)

@@ -84,17 +84,24 @@ export class ScanEquivalenceClasses {
 
         this.raster = new Raster<EquivalenceClass>(this.options.complement ?
             {
-                left: bounds.getTopLeft().x - (this.options.range + 15),
-                right: bounds.getTopRight().x + (this.options.range + 15) + 1,
-                top: ((bounds.getBottomLeft().y + (this.options.range + 15) + 1) + 6400) % 12800,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
-                bottom: ((bounds.getTopLeft().y - (this.options.range + 15)) + 6400) % 12800
+                topleft: {
+                    x: bounds.getTopLeft().x - (this.options.range + 15),
+                    y: ((bounds.getBottomLeft().y + (this.options.range + 15) + 1) + 6400) % 12800,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
+                },
+                botright: {
+                    x: bounds.getTopRight().x + (this.options.range + 15) + 1,
+                    y: ((bounds.getTopLeft().y - (this.options.range + 15)) + 6400) % 12800
+                }
             }
-
             : {
-                left: bounds.getTopLeft().x - 2 * this.options.range,
-                right: bounds.getTopRight().x + 2 * this.options.range + 1,
-                top: bounds.getBottomLeft().y + 2 * this.options.range + 1,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
-                bottom: bounds.getTopLeft().y - 2 * this.options.range
+                topleft: {
+                    x: bounds.getTopLeft().x - 2 * this.options.range,
+                    y: bounds.getBottomLeft().y + 2 * this.options.range + 1,    // the Y axis in leaflet.bounds is exactly opposite to what the map uses.
+                },
+                botright: {
+                    x: bounds.getTopRight().x + 2 * this.options.range + 1,
+                    y: bounds.getTopLeft().y - 2 * this.options.range
+                },
             })
 
         this.equivalence_classes = []
@@ -105,8 +112,8 @@ export class ScanEquivalenceClasses {
                 let index = row * this.raster.size.x + col
 
                 let tile: MapCoordinate = {
-                    x: this.raster.bounds.left + col,
-                    y: this.raster.bounds.bottom + row,
+                    x: this.raster.bounds.topleft.x + col,
+                    y: this.raster.bounds.botright.y + row,
                     level: this.options.floor
                 }
 
@@ -190,6 +197,7 @@ export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: numbe
         different_level: different_level
     }
 }
+
 function distance(a: Vector2, b: Vector2): number {
     let d_x = Math.abs(a.x - b.x)
     let d_y = Math.abs(a.y - b.y)

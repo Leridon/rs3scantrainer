@@ -109,6 +109,20 @@ export namespace Box {
             botright: {x: Math.max(a.x, b.x), y: Math.min(a.y, b.y)},
         }
     }
+
+    export function contains(box: Box, tile: Vector2) {
+        return box.topleft.x <= tile.x
+            && box.topleft.y >= tile.y
+            && box.botright.x >= tile.x
+            && box.botright.y <= tile.y
+    }
+
+    export function extend(box: Box, padding: number): Box {
+        return {
+            topleft: Vector2.add(box.topleft, {x: -padding, y: padding}),
+            botright: Vector2.add(box.botright, {x: padding, y: -padding}),
+        }
+    }
 }
 
 export function box_center(box: Box): Vector2 {
@@ -136,13 +150,6 @@ export function add(tile: Vector2, offset: Vector2): MapCoordinate {
     return {x: tile.x + offset.x, y: tile.y + offset.y}
 }
 
-export function contains(box: Box, tile: Vector2) {
-    return box.topleft.x <= tile.x
-        && box.topleft.y >= tile.y
-        && box.botright.x >= tile.x
-        && box.botright.y <= tile.y
-}
-
 export type Area = { tiles: MapCoordinate[] }
 type corner = 0 | 1 | 2 | 3
 
@@ -151,6 +158,7 @@ export function toLL(point: MapCoordinate): leaflet.LatLng {
     return leaflet.latLng(point.y, point.x)
 }
 
+/*
 export function t(area: Area) {
     let bounds = leaflet.bounds(area.tiles.map((c) => leaflet.point(c.x, c.y)))
 
@@ -167,7 +175,7 @@ export function t(area: Area) {
         raster.data[raster.xyToI(t)] = true
     })
 }
-
+*/
 
 export function areaToPolygon<T>(raster: Raster<T>,
                                  f: (T) => boolean,

@@ -4,13 +4,13 @@ import {MapCoordinate, tilePolygon, Vector2} from "../../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import {dive, HostedMapData, move} from "../../../model/movement";
+import {HostedMapData, move, MovementAbilities} from "../../../model/movement";
 import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../path_graphics";
 import {step_ability} from "../../../model/pathing";
 import {capitalize} from "lodash";
 
-export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
+export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
     private start_position: MapCoordinate = null
 
     _overlay_position: MapCoordinate = null
@@ -29,7 +29,7 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
         "cancelled": null
     }>()
 
-    constructor(layer: ActiveLayer, private ability: "barge" | "dive") {
+    constructor(layer: ActiveLayer, private ability: MovementAbilities.movement_ability) {
         super(layer);
 
         this.instruction_div = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
@@ -56,11 +56,13 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
         this.start_position = pos
 
         this.update_overlay(pos)
-        this.update_dive(null)
+        this.update_preview(null)
         this.updateInstructions()
     }
 
     private async update_overlay(p: MapCoordinate | null) {
+        if (this.ability != "barge" && this.ability != "dive") return
+
         if (MapCoordinate.eq2(p, this._overlay_position)) return
 
         if (this._possibility_overlay) this._possibility_overlay.remove()
@@ -79,7 +81,7 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
                         .setStyle({
                             fillOpacity: 0.5,
                             stroke: false,
-                            fillColor: (await dive(HostedMapData.get(), p, move(p, {x: dx, y: dy}))) ? "green" : "red"
+                            fillColor: (await MovementAbilities.dive(HostedMapData.get(), p, move(p, {x: dx, y: dy}))) ? "green" : "red"
                         })
                         .addTo(this._possibility_overlay)
                 }
@@ -97,7 +99,7 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
         this._possibility_overlay.addTo(this.layer)
     }
 
-    private async update_dive(p: MapCoordinate) {
+    private async update_preview(p: MapCoordinate) {
         if (MapCoordinate.eq2(p, this._dive_target)) return
         this._dive_target = p
 
@@ -107,7 +109,7 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
             return
         }
 
-        let res = await dive(HostedMapData.get(), this.start_position, p)
+        let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position, p)
 
         if (res != null && MapCoordinate.eq2(this._dive_land_up, res?.tile)) return
         this._dive_land_up = res?.tile
@@ -139,7 +141,7 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
         this.reset_button.setVisible(!!this.start_position)
 
         if (!this.start_position) {
-            this.instruction_div.text(`Click the start location of the dive`)
+            this.instruction_div.text(`Click the start location of the ${this.ability}.`)
         } else {
             this.instruction_div.html(`${capitalize(this.ability)} from ${this.start_position.x} | ${this.start_position.y}.<br> Click where the dive is targeted.`)
         }
@@ -168,7 +170,7 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
                 await this.update_overlay(this.start_position)
                 this.updateInstructions()
             } else {
-                let res = await dive(HostedMapData.get(), this.start_position, tile)
+                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position, tile)
 
                 if (res) {
                     this.events.emit("done", {
@@ -187,7 +189,7 @@ export class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
             let tile = this.layer.getMap().tileFromMouseEvent(e)
 
             if (!this.start_position) this.update_overlay(tile)
-            else this.update_dive(tile)
+            else this.update_preview(tile)
         },
     }
 }

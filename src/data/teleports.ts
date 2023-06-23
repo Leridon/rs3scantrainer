@@ -252,7 +252,7 @@ const raw: teleport_group[] = [{
         {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS", hover: "Kandarin: Ardougne Zoo unicorns"},
         {subid: "BJP", spot: {x: 3342, y: 3539}, code: "BJP", hover: "Fort Forinthry: Woodcutters`s Grove"}, // TODO: Check hover after release
         {subid: "BJQ", spot: {x: 1737, y: 5342}, code: "BJQ", hover: "Dungeons: Ancient Cavern"},
-        {subid: "BJS", spot: {x: 1936, y: 3137}, code: "BJS", hover: "The Lost Grove"},
+        {subid: "BJS", spot: {x: 1359, y: 5635}, code: "BJS", hover: "The Lost Grove"},
         {subid: "BKP", spot: {x: 2385, y: 3035}, code: "BKP", hover: "Feldip Hills: South of Castle Wars"},
         {subid: "BKQ", spot: {x: 3041, y: 4532}, code: "BKQ", hover: "Other realms: Enchanted Valley"},
         {subid: "BKR", spot: {x: 3469, y: 3431}, code: "BKR", hover: "Morytania: Mort Myre, south of Canifis"},

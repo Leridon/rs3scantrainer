@@ -1,5 +1,3 @@
-import type * as React from "react";
-
 export function copyToClipboard(str: string) {
 	var el = document.createElement('textarea');
 	el.value = str;
@@ -9,10 +7,8 @@ export function copyToClipboard(str: string) {
 	document.body.removeChild(el);
 }
 
-
-
 export type DragHandlerState = { x: number, y: number, dx: number, dy: number, sx: number, sy: number, end: boolean, start: boolean };
-export function newDragHandler(startevent: MouseEvent | React.MouseEvent | Touch | TouchEvent, movefunc?: (state: DragHandlerState, end: boolean) => any, mindist = 0) {
+export function newDragHandler(startevent: MouseEvent | Touch | TouchEvent, movefunc?: (state: DragHandlerState, end: boolean) => any, mindist = 0) {
 	var locked = mindist != 0;
 	var mouseloc: DragHandlerState;
 	//type juggling because firefox doesnt know what touchevent is

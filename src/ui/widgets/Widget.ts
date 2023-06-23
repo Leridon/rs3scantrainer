@@ -53,4 +53,11 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         this.container.text(text)
         return this
     }
+
+    setVisible(visible: boolean): this {
+        if (visible) this.container.show()
+        else this.container.hide()
+
+        return this
+    }
 }

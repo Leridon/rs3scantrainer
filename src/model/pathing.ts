@@ -9,7 +9,7 @@ type step_base = {
     ticks?: number
 }
 
-type step_ability = step_base & {
+export type step_ability = step_base & {
     type: "ability",
     ability: movement_ability,
     from: MapCoordinate,

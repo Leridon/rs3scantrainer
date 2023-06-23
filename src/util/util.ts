@@ -14,4 +14,8 @@ export namespace util {
     export function comap<T, U>(cmp: (a: U, b: U) => number, f: (T) => U): (a: T, b: T) => number {
         return (a, b) => cmp(f(a), f(b))
     }
+
+    export function capitalize(s: string): string {
+        return s ? s[0].toUpperCase() + s.slice(1) : ""
+    }
 }

@@ -32,9 +32,12 @@ class ControlWidget extends Widget {
         btn('assets/icons/escape.png').appendTo(this.menu)
         btn('assets/icons/dive.png').appendTo(this.menu)
             .on("click", () => {
-                new DrawDiveInteraction(this.parent.parent, null).activate()
+                new DrawDiveInteraction(this.parent.parent, "dive").activate()
             })
         btn('assets/icons/barge.png').appendTo(this.menu)
+            .on("click", () => {
+                new DrawDiveInteraction(this.parent.parent, "barge").activate()
+            })
         btn('assets/icons/run.png').appendTo(this.menu)
         btn('assets/icons/teleports/homeport.png').appendTo(this.menu)
         btn('assets/icons/redclick.png').appendTo(this.menu)

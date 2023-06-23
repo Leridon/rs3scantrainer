@@ -169,6 +169,7 @@ export class GameMapControl extends Widget<{
             .removeClass("leaflet-control-attribution")*/
 
         this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(container.children(".leaflet-control-container")))
+        this.top_control_container.container.on("click", (e) => e.stopPropagation())
 
         this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
 
@@ -257,18 +258,18 @@ export class GameMapControl extends Widget<{
         }))
 
         //layers.push(new CollisionLayer(this.floor))
-/*
-        layers.push(new RsBaseTileLayer([
-            {urls: [`map/overlay-46-52-${this.floor}.png?x={x}&y={y}`]},
-        ], {
-            tileSize: 64,
-            maxNativeZoom: 0,
-            minZoom: -5,
-            className: "map-pixellayer"
-        }))*/
+        /*
+                layers.push(new RsBaseTileLayer([
+                    {urls: [`map/overlay-46-52-${this.floor}.png?x={x}&y={y}`]},
+                ], {
+                    tileSize: 64,
+                    maxNativeZoom: 0,
+                    minZoom: -5,
+                    className: "map-pixellayer"
+                }))*/
 
         layers.push(new RsBaseTileLayer([
-            { urls: this.geturls(`collision-${this.floor}/{z}/{x}-{y}.png`) }
+            {urls: this.geturls(`collision-${this.floor}/{z}/{x}-{y}.png`)}
         ], {
             tileSize: 512,
             maxNativeZoom: 3,

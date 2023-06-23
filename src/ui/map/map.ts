@@ -70,7 +70,6 @@ export const yellow_icon = leaflet.icon({
     className: "marker-icon"
 })
 
-
 class FloorControl extends CustomControl {
     up: JQuery
     down: JQuery

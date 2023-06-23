@@ -21,7 +21,7 @@ export namespace ScanTree2 {
         from?: string,
         to: string | MapCoordinate[],
         short_instruction?: string,
-        path?: Path,
+        path?: Path.raw,
     }
 
     export type tree = method_base & {

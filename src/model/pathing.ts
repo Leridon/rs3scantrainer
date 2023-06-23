@@ -13,7 +13,8 @@ type step_ability = step_base & {
     type: "ability",
     ability: movement_ability,
     from: MapCoordinate,
-    to: MapCoordinate
+    to: MapCoordinate,
+    barge_target?: string
 }
 
 type step_run = step_base & {
@@ -40,6 +41,7 @@ type step_interact = step_base & {
 type step_redclick = step_base & {
     type: "redclick",
     where: MapCoordinate,
+    how?: "spell" | "talkto"
 }
 
 type step_powerburst = step_base & {

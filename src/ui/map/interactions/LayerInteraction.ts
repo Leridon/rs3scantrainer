@@ -18,8 +18,6 @@ export default abstract class LayerInteraction<T extends ActiveLayer> {
 
     protected constructTopControl(): Widget {
         return new TopControl()
-
-        return Widget.wrap($(`<div class='nis-map-control'>Test Control for Interaction ${this.constructor.name}</div>`))
     }
 
     activate(): this {

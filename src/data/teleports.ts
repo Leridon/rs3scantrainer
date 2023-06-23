@@ -114,6 +114,7 @@ const raw: teleport_group[] = [{
     name: "Green Teleports",
     img: "",
     spots: [
+        // TODO: Wars retreat
         {subid: "monastery", spot: {x: 2606, y: 3217, level: 1}, img: "monastery.png", hover: "Kandarin Monastery",},
         {subid: "manorfarm", spot: {x: 2670, y: 3372, level: 1}, img: "pof.png", hover: "Ardougne Farm"},
         {subid: "maxguild", spot: {x: 2276, y: 3313, level: 1}, img: "max.png", hover: "Max guild"},
@@ -246,12 +247,13 @@ const raw: teleport_group[] = [{
         {subid: "AKS", spot: {x: 2571, y: 2956}, code: "AKS", hover: "Feldip Hills: Jungle Hunter area"},
         {subid: "ALP", spot: {x: 2473, y: 3028}, code: "ALP", hover: "Feldip Hills: Near Gu´Tanoth"},
         {subid: "ALQ", spot: {x: 3597, y: 3495}, code: "ALQ", hover: "Morytania: Haunted Woods east of Canifis"},
+        {subid: "ALR", spot: {x: 3059, y: 4875}, code: "ALR", hover: "Other realmms: Abyss"},
         {subid: "ALS", spot: {x: 2644, y: 3495}, code: "ALS", hover: "Kandarin: McGrubor´s Wood"},
         {subid: "BIP", spot: {x: 3410, y: 3324}, code: "BIP", hover: "Islands: Polypore Dungeon"},
         {subid: "BIQ", spot: {x: 3251, y: 3095}, code: "BIQ", hover: "Kharidian Desert: Near Kalphite Hive"},
         {subid: "BIR", spot: {x: 2455, y: 4396}, code: "BIS", hover: "Sparse Plane"},
         {subid: "BIS", spot: {x: 2635, y: 3266}, code: "BIS", hover: "Kandarin: Ardougne Zoo unicorns"},
-        {subid: "BJP", spot: {x: 3342, y: 3539}, code: "BJP", hover: "Fort Forinthry: Woodcutters`s Grove"}, // TODO: Check hover after release
+        {subid: "BJP", spot: {x: 3342, y: 3539}, code: "BJP", hover: "Fort Forinthry"},
         {subid: "BJQ", spot: {x: 1737, y: 5342}, code: "BJQ", hover: "Dungeons: Ancient Cavern"},
         {subid: "BJR", spot: {x: 2650, y: 4730}, code: "BJR", hover: "Other realms: Realm of the fisher king"},
         {subid: "BJS", spot: {x: 1359, y: 5635}, code: "BJS", hover: "The Lost Grove"},
@@ -288,8 +290,7 @@ const raw: teleport_group[] = [{
         {subid: "DLR", spot: {x: 3501, y: 9821, level: 3}, code: "DLS", hover: "Zanaris"},
         {subid: "resistance", spot: {x: 2254, y: 4426, level: 0}, hover: "Fairy Resistance HQ"},
         {subid: "rift", spot: {x: 1626, y: 4176, level: 0}, hover: "Ork´s Rift (BIR, DIP, CLR, ALP)"},
-        //alr the abbyss
-        //blq yubuisk
+        //blq yubuisk       // TODO: Around 4823 6721 ?
     ]
 }, {
     id: "slayercape",
@@ -535,7 +536,7 @@ const raw: teleport_group[] = [{
 }, {
     id: "sceptreofthegods", name: "Sceptre of the gods", img: "sotg.png",
     spots: [
-        {subid: "pyramidpain", spot: {x: 3289, y: 2802}, hover: "Pyramid Plunder", code: "1"},
+        {subid: "pyramidpain", spot: {x: 3289, y: 2802}, hover: "Pyramid Plunder", code: "1"},      // TODO: Inside is around 1950 4517
         {subid: "agility", spot: {x: 3344, y: 2832}, hover: "Agility Pyramid", code: "2"},
         {subid: "ancient", spot: {x: 3233, y: 2898}, hover: "Ancient Pyramid", code: "3"},
         {subid: "palace", spot: {x: 3169, y: 2730}, hover: "Golden Palace", code: "4"},

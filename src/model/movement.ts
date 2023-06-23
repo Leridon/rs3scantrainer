@@ -213,13 +213,8 @@ export async function dive(data: MapData, position: MapCoordinate, target: MapCo
     if (min_axis(delta) > 10) {
         let dir = direction.fromVector(delta)
 
-        let res = await dive_far_internal(data, position, dir, 10)
-
-        if (res) return res
-        else return {
-            tile: target,
-            direction: dir
-        }
+        // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.
+        return await dive_far_internal(data, position, dir, 10)
     } else return dive_internal(data, position, target);
 
     //

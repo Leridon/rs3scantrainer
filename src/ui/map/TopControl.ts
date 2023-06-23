@@ -5,6 +5,7 @@ export default class TopControl<T extends Record<string, any> = {}> extends Widg
         super(container)
 
         this.addClass("nis-map-control-top").addClass("nis-map-control")
+            .on("click", (e) => e.stopPropagation())
     }
 
     static wrap(jquery: JQuery): Widget {

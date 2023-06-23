@@ -85,6 +85,10 @@ export namespace MapCoordinate {
     export function eq(a: MapCoordinate, b: MapCoordinate) {
         return a.x == b.x && a.y == b.y && a.level == b.level
     }
+
+    export function eq2(a: MapCoordinate, b: MapCoordinate) {
+        return a == b || (a != null && b != null && eq(a, b))
+    }
 }
 
 // TODO: deprecate

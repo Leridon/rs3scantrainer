@@ -3,7 +3,7 @@ import Widget from "../Widget";
 
 export default class Collapsible extends Widget {
     heading: JQuery
-    text: JQuery
+    title: JQuery
     icon: JQuery
     content: Widget
 
@@ -20,7 +20,7 @@ export default class Collapsible extends Widget {
             })
 
             .appendTo(this.container)
-        this.text = $("<div style='flex-grow: 1; text-align: center; border-right: 1px solid rgb(11, 34, 46)'>").text(title).appendTo(this.heading)
+        this.title = $("<div style='flex-grow: 1; text-align: center; border-right: 1px solid rgb(11, 34, 46)'>").text(title).appendTo(this.heading)
         this.icon = $("<div style='padding-left: 5px; padding-right: 5px; border-left: 1px solid rgb(53, 81, 94)'><img src='assets/nis/arrow_up.png'></div>").appendTo(this.heading)
 
         this.content = Widget.wrap($("<div class='nis-collapsible-content'></div>")).appendTo(this)

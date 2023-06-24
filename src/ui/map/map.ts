@@ -121,8 +121,8 @@ export class GameMapControl extends Widget<{
 
     geturls(filename: string) {
         return [
+            `https://runeapps.org/s3/map${this.mapid}/live/${filename}`,
             this.backupUrl(filename, Constants.map_version),
-            `https://runeapps.org/maps/map${this.mapid}/${Constants.map_version}/${filename}`,
         ];
     }
 

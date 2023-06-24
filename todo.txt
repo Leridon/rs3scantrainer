@@ -1,5 +1,5 @@
 Ready for release:
-- [Prsentation] reenable walls on the map.
+- [Presentation] reenable walls on the map.
 
 Planned for next release (b0.4):
 - [How] Detailled pathing

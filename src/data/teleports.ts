@@ -114,11 +114,11 @@ const raw: teleport_group[] = [{
     name: "Green Teleports",
     img: "",
     spots: [
-        // TODO: Wars retreat
-        {subid: "monastery", spot: {x: 2606, y: 3217, level: 1}, img: "monastery.png", hover: "Kandarin Monastery",},
-        {subid: "manorfarm", spot: {x: 2670, y: 3372, level: 1}, img: "pof.png", hover: "Ardougne Farm"},
+        {subid: "monastery", spot: {x: 2606, y: 3217, level: 0}, img: "monastery.png", hover: "Kandarin Monastery",},
+        {subid: "wars", spot: {x: 3294, y: 10127, level: 0}, img: "warsretreat.png", hover: "Wars Retreat",},
+        {subid: "manorfarm", spot: {x: 2670, y: 3372, level: 0}, img: "pof.png", hover: "Ardougne Farm"},
         {subid: "maxguild", spot: {x: 2276, y: 3313, level: 1}, img: "max.png", hover: "Max guild"},
-        {subid: "skelettalhorror", spot: {x: 3364, y: 3502, level: 1}, img: "skhorror.png", hover: "Skeletal Horror"},
+        {subid: "skelettalhorror", spot: {x: 3364, y: 3502, level: 0}, img: "skhorror.png", hover: "Skeletal Horror"},
     ]
 }, {
     id: "houseteleports",

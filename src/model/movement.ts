@@ -162,7 +162,7 @@ export namespace PathFinder {
         // Possibly with a stable priority queue and tile distance as an estimator
 
         // Create a bounded raster to efficiently associate information with nodes.
-        let raster: raster_t = new Raster<{ parent: number }>(Box.extend(Box.from(start, target), 50))
+        let raster: raster_t = new Raster<{ parent: number }>(Box.extend(Box.from(start, target), 5))
 
         let queue: { tile: MapCoordinate, i: number }[] = []
 
@@ -172,7 +172,7 @@ export namespace PathFinder {
 
             let i = raster.xyToI(tile)
 
-            if (raster.data[i] != null) {
+            if (raster.data[i] == null) {
                 raster.data[i] = {parent: parent}
                 queue.push({tile: tile, i: i})
             }
@@ -188,6 +188,8 @@ export namespace PathFinder {
         const target_i = raster.xyToI(target)
 
         while (queue.length > 0) {
+            console.log(queue.length)
+
             let e = queue.pop()
 
             if (e.i == target_i) return raster
@@ -203,11 +205,17 @@ export namespace PathFinder {
         return raster
     }
 
-
-    // Get
+    /**
+     * Utility function to extract the path from a filled raster
+     */
     function getPath(raster: raster_t, i: number) {
+        // TODO: This creates MapCoordinates with undefined level
+        if (raster.data[i] == null) return null
         if (raster.data[i].parent == null) return [raster.iToXY(i)]
-        else return getPath(raster, raster.data[i].parent).push(raster.iToXY(i))
+
+        let p = getPath(raster, raster.data[i].parent)
+        p.push(raster.iToXY(i))
+        return p
     }
 
     export async function pathFinder(data: MapData, start: MapCoordinate, target: MapCoordinate): Promise<MapCoordinate[] | null> {
@@ -217,8 +225,8 @@ export namespace PathFinder {
 
         let target_i = raster.xyToI(target)
 
-        if (!raster.data[target_i]) return getPath(raster, target_i)    // TODO: Reduce path to necessary waypoints
-        else return null
+        if (!raster.data[target_i]) return null    // TODO: Reduce path to necessary waypoints
+        else return getPath(raster, target_i)
     }
 }
 

@@ -3,7 +3,7 @@ Ready for release:
 
 Planned for next release (b0.4):
 - [How] Detailled pathing
-    - Model what kinds of actions a past can consist of
+    - Model what kinds of actions a path can consist of
     - Define a graphical representation for each one.
     - Add an editor/Unified way to show paths
 

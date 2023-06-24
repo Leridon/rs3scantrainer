@@ -1,6 +1,7 @@
 //alt1 base libs, provides all the commonly used methods for image matching and capture
 //also gives your editor info about the window.alt1 api
 import {initialize} from "./application";
+import {HostedMapData, PathFinder} from "./model/movement";
 
 require("bootstrap")
 
@@ -15,4 +16,12 @@ document.addEventListener("DOMContentLoaded", (e) => {
     }
 
     initialize()
+
+    PathFinder.pathFinder(HostedMapData.get(), {
+        x: 2965, y: 3379, level: 0
+    }, {
+        x: 2954, y: 3390, level: 0
+    }).then(console.log)
 })
+
+

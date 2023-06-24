@@ -32,4 +32,4 @@ jobs:
           branch: main
           repository-name: Leridon/cluetrainer-live
           clean: true
-          tag: release-${{ env.VERSION }}
+          tag: release-${{env.VERSION}}-${{github.run_id}}

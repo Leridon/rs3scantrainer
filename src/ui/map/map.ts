@@ -121,8 +121,8 @@ export class GameMapControl extends Widget<{
 
     geturls(filename: string) {
         return [
+            `https://runeapps.org/s3/map${this.mapid}/live/${filename}`,
             this.backupUrl(filename, this.version),
-            `https://runeapps.org/maps/map${this.mapid}/${this.version}/${filename}`,
         ];
     }
 
@@ -189,7 +189,7 @@ export class GameMapControl extends Widget<{
             .setPosition("bottomleft").addTo(this.map)*/
 
         // TODO: This is hardcoded, because I cant dynamically get the current version from runeapps because of CORS.
-        this.version = 1685523317
+        this.version = 1686910882
         this.updateBaseLayers()
 
         new Graticule({

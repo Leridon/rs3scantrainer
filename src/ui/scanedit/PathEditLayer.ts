@@ -11,6 +11,13 @@ import Button from "../widgets/Button";
 
 class StepEditWidget extends Widget {
 
+    /*TODO:
+     * - Style Icon properly
+     * - Make buttons functional.
+     * - Add editing for properties
+     * - Display warnings
+     */
+
     private getIcon(): string {
         switch (this.value.type) {
             case "run":
@@ -132,6 +139,7 @@ class ControlWidget extends Widget {
         new MediumImageButton('assets/icons/run.png').appendTo(this.menu)
             .on("click", () => {
                 let interaction = new DrawRunInteraction(this.parent.parent)
+                if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
                 interaction.events.on("done", (s) => {
                     this.value.steps.push(s)
                     this.update()

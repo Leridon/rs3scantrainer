@@ -43,10 +43,8 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
             })
             .appendTo(control_row)
 
-        this.reset_button = new LightButton("Reset")
-            .on("click", () => {
-                this.setStartPosition(null)
-            })
+        this.reset_button = new LightButton("Reset Start")
+            .on("click", () => this.setStartPosition(null))
             .appendTo(control_row)
 
         this.updateInstructions()
@@ -143,7 +141,7 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
         if (!this.start_position) {
             this.instruction_div.text(`Click the start location of the ${this.ability}.`)
         } else {
-            this.instruction_div.html(`${capitalize(this.ability)} from ${this.start_position.x} | ${this.start_position.y}.<br> Click where the dive is targeted.`)
+            this.instruction_div.html(`${capitalize(this.ability)} from ${this.start_position.x} | ${this.start_position.y}.<br> Click where the ability is targeted.`)
         }
     }
 

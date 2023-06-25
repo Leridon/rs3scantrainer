@@ -212,7 +212,7 @@ export namespace PathFinder {
     /**
      * Utility function to extract the path from a filled raster
      */
-    function getPath(raster: raster_t, i: number) {
+    function getPath(raster: raster_t, i: number): MapCoordinate[] {
         // TODO: This creates MapCoordinates with undefined level
         if (raster.data[i] == null) return null
         if (raster.data[i].parent == null) return [raster.iToXY(i)]
@@ -230,7 +230,13 @@ export namespace PathFinder {
         let target_i = raster.xyToI(target)
 
         if (!raster.data[target_i]) return null    // TODO: Reduce path to necessary waypoints
-        else return getPath(raster, target_i)
+        else {
+            let p = getPath(raster, target_i)
+
+            p.forEach((s) => s.level = start.level)
+
+            return p
+        }
     }
 }
 

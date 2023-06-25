@@ -8,6 +8,8 @@ type step_base = {
     description?: string,
 }
 
+// TODO: Orientation step
+
 export type step_ability = step_base & {
     type: "ability",
     ability: movement_ability,
@@ -50,7 +52,6 @@ type step_powerburst = step_base & {
 }
 
 export type step = step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
-
 
 export namespace Path {
     import index = util.index;
@@ -150,7 +151,12 @@ export namespace Path {
     }
 
     export function analyze(path: Path.augmented): Path.augmented {
-        // TODO:
+        /*
+         TODO: Analyze for issues
+            - Start-location not matching up where previous step ends
+            - Violated ability cooldown
+            - Surge/Escape direction not matching up
+         */
         return path
     }
 }

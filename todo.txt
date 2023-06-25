@@ -1,19 +1,12 @@
 Ready for release:
 - [Presentation] reenable walls on the map.
+- [Tooling, Presentation] Subtle Walkable-Overlay.
 
 Planned for next release (b0.4):
 - [How] Detailled pathing
     - Model what kinds of actions a path can consist of
     - Define a graphical representation for each one.
     - Add an editor/Unified way to show paths
-
-- [Tech] Overlay pathing into the game.
-    - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
-    - Player position is input explicitly by placing a marker on the map.
-    - This should be enough to draw polygons into the world as long as the camera height is not modified.
-    - Yaw can be read by the compass on the minimap.
-    - Camera orientation/position: Developer console 'getcamerapos'.
-      Format:  floor,chunkx,chunkz,subx,subz
 
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 
@@ -22,7 +15,6 @@ Planned for next release (b0.4):
     - Teleport settings
 - Support for multiple methods
 
-- [Tooling, Presentation] Subtle Walkable-Overlay (Figure out data source).
 - [What] Incorporate jacket/backpack recommmendations
 - [Tooling] Styling pass over the scan editor
     - Tree as a table
@@ -37,6 +29,14 @@ RELEASE 1.0
         - Fairy Ring Favorites
         - POTA
         - Camelot, Watchtower, Varrock alternatives
+- [Tech] Overlay pathing into the game.
+    - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
+    - Player position is input explicitly by placing a marker on the map.
+    - This should be enough to draw polygons into the world as long as the camera height is not modified.
+    - Yaw can be read by the compass on the minimap.
+    - Camera orientation/position: Developer console 'getcamerapos'.
+      Format:  floor,chunkx,chunkz,subx,subz
+
 
 Unscheduled:
 - Add a view to see the entire scan tree without having to enter the editor
@@ -82,6 +82,7 @@ Next up:
 - Elven Lands
 - Turtle Islands
 - Heart of Gielinor
+- Deep wilderness (Add back clue)
 - Darkmeyer
 - Prifddinias
 - Kharazi Jungle

@@ -1,6 +1,8 @@
-import {Box, clampInto, MapCoordinate, Vector2} from "./coordinates";
+import {Box, clampInto, MapCoordinate, tilePolygon, Vector2} from "./coordinates";
 import min_axis = Vector2.max_axis;
 import {Raster} from "../util/raster";
+import {scantrainer} from "../application";
+import * as leaflet from "leaflet"
 
 type TileMovementData = number
 
@@ -154,6 +156,7 @@ export async function canMove(data: MapData, pos: MapCoordinate, d: direction): 
 }
 
 export namespace PathFinder {
+
     type raster_t = Raster<{ parent: number }>
 
     async function djikstra(data: MapData, start: MapCoordinate, target: MapCoordinate): Promise<raster_t> {
@@ -162,7 +165,7 @@ export namespace PathFinder {
         // Possibly with a stable priority queue and tile distance as an estimator
 
         // Create a bounded raster to efficiently associate information with nodes.
-        let raster: raster_t = new Raster<{ parent: number }>(Box.extend(Box.from(start, target), 5))
+        let raster: raster_t = new Raster<{ parent: number }>(Box.extend(Box.from(start, target), 64))
 
         let queue: { tile: MapCoordinate, i: number }[] = []
 
@@ -187,10 +190,9 @@ export namespace PathFinder {
 
         const target_i = raster.xyToI(target)
 
+        let i = 0
         while (queue.length > 0) {
-            console.log(queue.length)
-
-            let e = queue.pop()
+            let e = queue[i]
 
             if (e.i == target_i) return raster
             else {
@@ -200,6 +202,8 @@ export namespace PathFinder {
                     if (await canMove(data, e.tile, i as direction)) push(move(e.tile, direction.toVector(i as direction)), e.i)
                 }
             }
+
+            i++
         }
 
         return raster

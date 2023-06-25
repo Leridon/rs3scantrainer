@@ -5,7 +5,7 @@ export class Raster<T> {
     size: { x: number, y: number }
 
     constructor(public bounds: Box,) {
-        this.size = {x: bounds.botright.x - bounds.topleft.x, y: bounds.topleft.y - bounds.botright.y}
+        this.size = {x: bounds.botright.x - bounds.topleft.x + 1, y: bounds.topleft.y - bounds.botright.y + 1}
         this.data = new Array(this.size.x * this.size.y)
     }
 

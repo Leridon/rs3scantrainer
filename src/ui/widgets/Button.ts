@@ -1,10 +1,12 @@
 import Widget from "./Widget";
 
-export default abstract class Button extends Widget<{
+export default class Button extends Widget<{
     "click": null
 }> {
-    protected constructor() {
+    constructor() {
         super();
+
+        this.css("cursor", "pointer")
 
         this.container.on("click", (e) => {
             e.stopPropagation()

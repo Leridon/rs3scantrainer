@@ -16,12 +16,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
     }
 
     initialize()
-
-    PathFinder.pathFinder(HostedMapData.get(), {
-        x: 2965, y: 3379, level: 0
-    }, {
-        x: 2954, y: 3390, level: 0
-    }).then(console.log)
 })
 
 

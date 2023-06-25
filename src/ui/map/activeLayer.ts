@@ -102,7 +102,7 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         new PathEditLayer(this, {
             description: "",
             clip: null,
-            steps: [
+            steps: []/*[
                 {
                     type: "teleport",
                     id: {
@@ -141,7 +141,7 @@ export class ActiveLayer extends leaflet.FeatureGroup {
                     from: {x: 2450, y: 3066},
                     to: {x: 2440, y: 3056}
                 }
-            ]
+            ]*/
         }).addTo(this)
     }
 
@@ -190,26 +190,11 @@ export class ActiveLayer extends leaflet.FeatureGroup {
     loadDefaultInteraction(): LayerInteraction<ActiveLayer> {
         let self = this
 
-        //return new DrawDiveInteraction(this)
-
         return new SimpleClickInteraction(this, {
             "click": async (p) => {
                 if (self.abc) self.abc.remove()
 
                 self.abc = leaflet.featureGroup().addTo(self)
-                /*
-                                for (let d: direction = 0; d < 8; d++) {
-
-                                    tilePolygon(Vector2.add(p, direction.toVector(d as direction)))
-                                        .setStyle({
-                                            fillOpacity: 0.5,
-                                            stroke: false,
-                                            fillColor: (await canMove(HostedMapData.get(), p, d as direction)) ? "green" : "red"
-                                        }).addTo(self.abc)
-
-                                }*/
-
-
 
                 if (self._tilemarker && eq(p, self._tilemarker.getSpot())) {
                     self.removeMarker()

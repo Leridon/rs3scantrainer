@@ -2,10 +2,15 @@ import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as events from "events";
 
 export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
-    protected constructor(public container: JQuery = $("<div>")) {
+    constructor(public container: JQuery = $("<div>")) {
         super()
 
         if (!container) this.container = $("<div>")
+    }
+
+    empty(): this {
+        this.container.empty()
+        return this
     }
 
     appendTo(widget: Widget | JQuery): this {

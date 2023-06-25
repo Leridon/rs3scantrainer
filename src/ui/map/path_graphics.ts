@@ -72,6 +72,14 @@ export function createStepGraphics(step: step): leaflet.Layer {
                 const from = step.waypoints[i]
                 const to = step.waypoints[i + 1]
 
+                lines.push([from, to])
+            }
+
+            /*
+            for (let i = 0; i < step.waypoints.length - 1; i++) {
+                const from = step.waypoints[i]
+                const to = step.waypoints[i + 1]
+
                 const delta = Vector2.sub(to, from)
 
                 const diagonal_part = Math.min(Math.abs(delta.x), Math.abs(delta.y))
@@ -85,7 +93,7 @@ export function createStepGraphics(step: step): leaflet.Layer {
 
                 lines.push([from, checkpoint])
                 lines.push([checkpoint, to])
-            }
+            }*/
 
             lines = lines.filter((l) => !Vector2.eq(l[0], l[1]))
 
@@ -104,13 +112,12 @@ export function createStepGraphics(step: step): leaflet.Layer {
             return group
         }
         case "interaction":
-            boxPolygon(step.area).setStyle({
+            return boxPolygon(step.area).setStyle({
                 weight: 2,
                 color: "#888888",
                 fillColor: "#888888",
                 fillOpacity: 0.3,
             })
-            break;
         case "redclick": {
             return createX(step.where, "red")
         }

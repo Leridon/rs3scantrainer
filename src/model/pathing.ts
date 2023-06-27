@@ -78,9 +78,27 @@ export namespace Path {
     }
 
     export function augment(path: Path.raw): Path.augmented {
+        type carry_t = {
+            tick: number,
+            ability_ticks: {
+                escape: number[],
+                surge: number[],
+                barge: number[],
+                dive: number[],
+            },
+            acceleration_activation_tick: number,
+            position: PlayerPosition,
+            target: MapCoordinate,
+        }
+
+        // TODO: Consider antispam delay of subsequent surges
+        // TODO: Auto wait for cooldown (Emit warning)
+
 
         let augmented_steps: augmented_step[] = []
         let orientation_click: MapCoordinate = null
+
+        let carry: carry_t
 
         for (let step of path.steps) {
 

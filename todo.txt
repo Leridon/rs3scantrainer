@@ -24,6 +24,7 @@ Planned for next release (b0.4):
 
 RELEASE 1.0
 - Finish all elite/master scans
+- Auto read pulses
 - Setting menu
     - Teleports
         - Fairy Ring Favorites

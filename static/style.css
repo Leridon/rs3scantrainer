@@ -588,3 +588,14 @@ video {
     height: 30px;
     object-fit: contain;
 }
+
+/*Classes for custom components*/
+
+.lcss-button:not(.enabled) {
+    filter: grayscale(100%);
+}
+
+.lcss-button.enabled {
+    cursor: pointer;
+}
+

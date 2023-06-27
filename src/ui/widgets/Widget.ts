@@ -65,4 +65,13 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
         return this
     }
+
+    toggleClass(cls: string, value: boolean = null): this {
+        if (value == null) value = !this.container.hasClass(cls)
+
+        if (value) this.container.addClass(cls)
+        else this.container.removeClass(cls)
+
+        return this
+    }
 }

@@ -9,7 +9,11 @@ import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
 import Button from "../widgets/Button";
 
-class StepEditWidget extends Widget {
+class StepEditWidget extends Widget<{
+    "deleted": step,
+    "up": step,
+    "down": step,
+}> {
 
     /*TODO:
      * - Style Icon properly
@@ -54,16 +58,25 @@ class StepEditWidget extends Widget {
             let panel = new Widget().css("display", "flex").addClass("col-2").appendTo(this)
 
             let column = new Widget().css("text-align", "center").appendTo(panel)
-            new Button().append($("<img src='assets/nis/arrow_up.png'>")).appendTo(column)
-            new Button().append($("<img src='assets/icons/delete.png'>")).appendTo(column)
-            new Button().append($("<img src='assets/nis/arrow_down.png'>")).appendTo(column)
+            let up = new Button().append($("<img src='assets/nis/arrow_up.png' title='Up'>")).appendTo(column)
+                .on("click", () => this.emit("up", this.value))
+            new Button().append($("<img src='assets/icons/delete.png' title='Delete'>")).appendTo(column)
+                .on("click", () => this.emit("deleted", this.value))
+                .css("margin-top", "3px")
+                .css("margin-bottom", "3px")
+            let down = new Button().append($("<img src='assets/nis/arrow_down.png' title='Down'>")).appendTo(column)
+                .on("click", () => this.emit("down", this.value))
+
+            up.setEnabled(this.parent.value.steps.indexOf(this.value) != 0)
+            down.setEnabled(this.parent.value.steps.indexOf(this.value) != this.parent.value.steps.length - 1)
 
             new Widget().append($(`<img src='${this.getIcon()}' style="">`)
                 .css({
                     "width": "30px",
                     "height": "30px",
                     "object-fit": "contain",
-                })).appendTo(panel)
+                    "margin": "3px"
+                })).appendTo($("<div style='display: flex; align-items: center'>").appendTo(panel.container))
         }
 
         let main = new Widget().addClass("col-11").css("text-align", "center").appendTo(this)
@@ -175,6 +188,28 @@ class ControlWidget extends Widget {
             createStepGraphics(step)?.addTo(this._preview_layer)
 
             new StepEditWidget(this, step).appendTo(this.step_widgets)
+                .on("deleted", (step) => {
+                    this.value.steps.splice(this.value.steps.indexOf(step), 1)
+                    this.update()
+                })
+                .on("up", (step) => {
+                    let index = this.value.steps.indexOf(step)
+                    let to_index = Math.max(0, index - 1)
+
+                    if (index != to_index) {
+                        this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
+                        this.update()
+                    }
+                })
+                .on("down", (step) => {
+                    let index = this.value.steps.indexOf(step)
+                    let to_index = Math.min(this.value.steps.length - 1, index + 1)
+
+                    if (index != to_index) {
+                        this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
+                        this.update()
+                    }
+                })
         }
 
         this._preview_layer.addTo(this.parent)

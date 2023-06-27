@@ -6,12 +6,19 @@ export default class Button extends Widget<{
     constructor() {
         super();
 
-        this.css("cursor", "pointer")
+        this.addClass("lcss-button")
 
         this.container.on("click", (e) => {
             e.stopPropagation()
 
             this.emit("click", null)
         })
+
+        this.setEnabled(true)
+    }
+
+    setEnabled(value: boolean): this {
+        this.toggleClass("enabled", value)
+        return this
     }
 }

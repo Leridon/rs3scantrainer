@@ -863,6 +863,6 @@ export namespace teleport_data {
             ?.spots.find((s) => s.subid == id.sub)
 
         if (id.variant && Array.isArray(spot.spot)) return spot.spot.find((v) => v.id == id.variant)?.spot
-        else return spot
+        else return spot.spot as MapCoordinate
     }
 }

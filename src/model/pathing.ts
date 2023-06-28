@@ -50,7 +50,8 @@ type step_redclick = step_base & {
 }
 
 type step_powerburst = step_base & {
-    type: "powerburst"
+    type: "powerburst",
+    where: MapCoordinate
 }
 
 export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
@@ -109,7 +110,7 @@ export namespace Path {
                 dive: 0,
             },
             acceleration_activation_tick: -1000,
-            position: null,
+            position: {tile: null, direction: null},
             targeted_entity: null
         }
 
@@ -262,11 +263,11 @@ export namespace Path {
 
                     augmented.ticks = 1
 
-                    carry.position = {
+                    augmented.ends_up = {
                         tile: step.to,
                         direction: direction.fromVector(Vector2.sub(step.to, step.from))
                     }
-                    if (step.ability == "escape") carry.position.direction = direction.invert(carry.position.direction)
+                    if (step.ability == "escape") augmented.ends_up.direction = direction.invert(augmented.ends_up.direction)
 
                     // A movement ability overrides target (TODO: Or does it?)
                     carry.targeted_entity = null
@@ -290,8 +291,15 @@ export namespace Path {
                     carry.targeted_entity = step.where
                     break;
                 case "powerburst":
-                    if (carry.tick - carry.acceleration_activation_tick < 120)
-                        augmented.issues.push("Powerburst of acceleration still on cooldown!")
+                    if (carry.position.tile && !MapCoordinate.eq(carry.position.tile, step.where)) {
+                        augmented.issues.push("Position of powerburst does not match where the player is at that point.")
+                        augmented.ends_up.tile = step.where
+                    }
+
+                    if (carry.tick - carry.acceleration_activation_tick < 120) {
+                        augmented.issues.push(`Powerburst of acceleration still on cooldown for ${carry.acceleration_activation_tick + 120 - carry.tick} ticks!`)
+                        augmented.tick = carry.acceleration_activation_tick + 120
+                    }
 
                     carry.acceleration_activation_tick = carry.tick
                     augmented.ticks = 1

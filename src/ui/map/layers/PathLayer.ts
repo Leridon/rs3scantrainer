@@ -17,7 +17,7 @@ export default class PathLayer extends leaflet.FeatureGroup {
             {
                 type: "teleport",
                 id: {
-                    main: "ringofduelling",
+                    group: "ringofduelling",
                     sub: "castlewars"
                 }
             }, {

@@ -172,8 +172,8 @@ class ControlWidget extends Widget {
         this.update()
     }
 
-    update() {
-        this.augmented = Path.augment(this.value)
+    async update() {
+        this.augmented = await Path.augment(this.value)
 
         if (this._preview_layer) {
             this._preview_layer.remove()

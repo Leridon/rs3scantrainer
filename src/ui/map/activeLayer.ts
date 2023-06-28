@@ -1,6 +1,6 @@
 import {blue_icon, GameMapControl} from "./map";
 import * as leaflet from "leaflet"
-import {eq, MapCoordinate} from "../../model/coordinates";
+import {MapCoordinate, Vector2} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
@@ -196,7 +196,7 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
                 self.abc = leaflet.featureGroup().addTo(self)
 
-                if (self._tilemarker && eq(p, self._tilemarker.getSpot())) {
+                if (self._tilemarker && Vector2.eq(p, self._tilemarker.getSpot())) {
                     self.removeMarker()
                 } else self.setMarker(p)
             }

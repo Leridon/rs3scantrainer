@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet";
-import {boxPolygon, eq, MapCoordinate} from "../../../model/coordinates";
+import {boxPolygon, MapCoordinate, Vector2} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {blue_icon, GameMapControl, } from "../map";
@@ -206,8 +206,8 @@ export class ScanLayer extends ActiveLayer {
 
         return new SimpleClickInteraction(this, {
             "click": (p: MapCoordinate) => {
-                if ((self.tile_marker && eq(p, self.tile_marker.getSpot()))
-                    || (self.complement_tile_marker && eq(p, self.complement_tile_marker.getSpot()))) {
+                if ((self.tile_marker && Vector2.eq(p, self.tile_marker.getSpot()))
+                    || (self.complement_tile_marker && Vector2.eq(p, self.complement_tile_marker.getSpot()))) {
                     console.log("Removing 1")
                     self.removeMarker()
                 }
@@ -224,14 +224,14 @@ export class ScanLayer extends ActiveLayer {
 
     setSpotOrder(ordering: MapCoordinate[]) {
         this.markers.forEach((m) => {
-            let i = ordering.findIndex((s) => eq(m.getSpot(), s))
+            let i = ordering.findIndex((s) => Vector2.eq(m.getSpot(), s))
 
             if (i >= 0) m.withLabel((i + 1).toString(), "spot-number-on-map", [0, 10])
             else m.removeLabel()
         })
 
         this.complement_markers.forEach((m) => {
-            let i = ordering.findIndex((s) => eq(m.getSpot(), complementSpot(s)))
+            let i = ordering.findIndex((s) => Vector2.eq(m.getSpot(), complementSpot(s)))
 
             if (i >= 0) m.withLabel((i + 1).toString(), "spot-number-on-map", [0, 10])
             else m.removeLabel()
@@ -251,8 +251,8 @@ export class ScanLayer extends ActiveLayer {
     }
 
     highlightCandidates(spots: MapCoordinate[]) {
-        this.markers.forEach((m) => m.setActive(spots.some((c) => eq(c, m.getSpot()))))
-        this.complement_markers.forEach((m) => m.setActive(spots.some((c) => eq(complementSpot(c), m.getSpot()))))
+        this.markers.forEach((m) => m.setActive(spots.some((c) => Vector2.eq(c, m.getSpot()))))
+        this.complement_markers.forEach((m) => m.setActive(spots.some((c) => Vector2.eq(complementSpot(c), m.getSpot()))))
     }
 
     removeMarker() {

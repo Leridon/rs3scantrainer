@@ -1,5 +1,5 @@
 import Widget from "../widgets/Widget";
-import {eq, MapCoordinate} from "../../model/coordinates";
+import {MapCoordinate, Vector2} from "../../model/coordinates";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import Collapsible from "../widgets/modals/Collapsible";
@@ -74,7 +74,7 @@ export default class SpotOrderingWidget extends Widget<{
 
                 this.reselect_button.show()
 
-                let unaccounted = old_value.filter((c) => !l.some((i) => eq(i, c)))
+                let unaccounted = old_value.filter((c) => !l.some((i) => Vector2.eq(i, c)))
 
                 l = l.concat(...unaccounted)
 

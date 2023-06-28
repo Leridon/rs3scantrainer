@@ -1,4 +1,4 @@
-import {Box, eq, MapCoordinate} from "../coordinates";
+import {Box, MapCoordinate, Vector2} from "../coordinates";
 import {indirected, method_base, resolved} from "../methods";
 import {area_pulse, Pulse} from "./scans";
 import {Modal} from "../../ui/widgets/modal";
@@ -67,7 +67,7 @@ export namespace ScanTree2 {
     }
 
     export function spotNumber(self: ScanTree2.tree, spot: MapCoordinate): number {
-        return self.spot_ordering.findIndex((s) => eq(s, spot)) + 1
+        return self.spot_ordering.findIndex((s) => Vector2.eq(s, spot)) + 1
     }
 
     export function augment(tree: resolved_scan_tree): augmented_decision_tree {
@@ -183,7 +183,7 @@ export namespace ScanTree2 {
         if (a.to == b.to) return true
 
         if (Array.isArray(a.to) && Array.isArray(b.to)) {
-            return a.to.length == b.to.length && a.to.every((c) => (b.to as MapCoordinate[]).some((bc) => eq(c, bc)))
+            return a.to.length == b.to.length && a.to.every((c) => (b.to as MapCoordinate[]).some((bc) => Vector2.eq(c, bc)))
         }
 
         return false

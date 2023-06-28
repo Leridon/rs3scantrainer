@@ -3,7 +3,7 @@ import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
 import {ScanTree2} from "../../model/scans/ScanTree2";
 import {modal} from "../widgets/modal";
-import {box_center, eq, toPoint} from "../../model/coordinates";
+import {box_center, toPoint} from "../../model/coordinates";
 import {util} from "../../util/util";
 import * as leaflet from "leaflet"
 import resolved_scan_tree = ScanTree2.resolved_scan_tree;

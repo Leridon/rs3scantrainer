@@ -83,17 +83,12 @@ export type MapCoordinate = Vector2 & {
 
 export namespace MapCoordinate {
     export function eq(a: MapCoordinate, b: MapCoordinate) {
-        return a.x == b.x && a.y == b.y && a.level == b.level
+        return Vector2.eq(a, b) && a.level == b.level
     }
 
     export function eq2(a: MapCoordinate, b: MapCoordinate) {
         return a == b || (a != null && b != null && eq(a, b))
     }
-}
-
-// TODO: deprecate
-export function eq(a: MapCoordinate, b: MapCoordinate) {
-    return a.x == b.x && a.y == b.y     // Ignores level for spot equality
 }
 
 export function toPoint(c: Vector2): leaflet.Point {

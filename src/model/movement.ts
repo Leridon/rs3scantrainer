@@ -19,6 +19,12 @@ export type PlayerPosition = {
     direction: direction
 }
 
+export namespace PlayerPosition {
+    export function eq(a: PlayerPosition, b: PlayerPosition) {
+        return MapCoordinate.eq(a.tile, b.tile) && a.direction == b.direction
+    }
+}
+
 interface MapData {
     getTile(coordinate: MapCoordinate): Promise<TileMovementData>
 }
@@ -328,6 +334,10 @@ export namespace MovementAbilities {
         return dive_far_internal(data, position.tile, position.direction, 10)
     }
 
+    export async function surge2(position: PlayerPosition, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
+        return dive_far_internal(data, position.tile, position.direction, 10)
+    }
+
     export async function escape(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
         let res = await dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
 
@@ -336,6 +346,15 @@ export namespace MovementAbilities {
             tile: res.tile,
             direction: position.direction
         }
+    }
+
+
+    export async function escape2(position: PlayerPosition, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
+        let res = await dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
+
+        if (res) res.direction = direction.invert(res.direction)
+
+        return res
     }
 
     export async function generic(data: MapData, ability: movement_ability, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {

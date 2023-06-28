@@ -8,19 +8,18 @@ Planned for next release (b0.4):
     - Define a graphical representation for each one.
     - Add an editor/Unified way to show paths
 
-- [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
-
 - Settings modal
     - Local methods
     - Teleport settings
 - Support for multiple methods
 
-- [What] Incorporate jacket/backpack recommmendations
 - [Tooling] Styling pass over the scan editor
     - Tree as a table
     - Disable info buttons that leave 0 candidates
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
+
+- "Add to Alt1 button" at the top when in browser
 
 RELEASE 1.0
 - Finish all elite/master scans
@@ -40,6 +39,8 @@ RELEASE 1.0
 
 
 Unscheduled:
+- [What] Incorporate jacket/backpack recommmendations
+- [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 - Add a view to see the entire scan tree without having to enter the editor
 - Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
 - Add overview layer to display all clues based on the filter. Very useful tool to get an overview.

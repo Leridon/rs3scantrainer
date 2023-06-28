@@ -325,7 +325,23 @@ export namespace MovementAbilities {
         } else return dive_internal(data, position, target);
     }
 
+    export async function dive2(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
+
+        let delta = Vector2.sub(target, position)
+
+        if (min_axis(delta) > 10) {
+            let dir = direction.fromVector(delta)
+
+            // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.
+            return await dive_far_internal(data, position, dir, 10)
+        } else return dive_internal(data, position, target);
+    }
+
     export async function barge(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+        return dive(data, position, target) // Barge is the same logic as dive
+    }
+
+    export async function barge2(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
         return dive(data, position, target) // Barge is the same logic as dive
     }
 
@@ -368,6 +384,19 @@ export namespace MovementAbilities {
             case "barge":
                 return barge(data, position, target);
 
+        }
+    }
+
+    export function cooldown(ability: MovementAbilities.movement_ability, powerburst: boolean, mobile: boolean = true): number {
+        switch (ability) {
+            case "surge":
+                return (powerburst ? 2 : (mobile ? 34 : 17))
+            case "dive":
+                return (powerburst ? 2 : (mobile ? 34 : 17))
+            case "escape":
+                return mobile ? 34 : 17 // Powerburst does not affect escape
+            case "barge":
+                return 34;
         }
     }
 }

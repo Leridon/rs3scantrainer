@@ -29,4 +29,8 @@ export namespace util {
     export function index<T>(array: T[], index: number): T {
         return array[(array.length + index) % array.length]
     }
+
+    export function minIndex(array: number[]): number {
+        return array.indexOf(Math.min(...array))
+    }
 }

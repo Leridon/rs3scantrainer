@@ -1,6 +1,6 @@
 import {MapCoordinate} from "./coordinates";
-import teleports from "../data/teleports";
 import {TypedEmitter} from "../skillbertssolver/eventemitter";
+import {teleport_data} from "../data/teleport_data";
 
 export type teleport_group = {
     id: string,
@@ -20,10 +20,7 @@ export type teleport_spot = {
 }
 
 export type flat_teleport = {
-    id: {
-        group: string,
-        sub: string
-    },
+    id: full_teleport_id,
     spot: MapCoordinate,
     icon: string | { url: string, width?: number, height?: number },
     code?: string,
@@ -42,6 +39,12 @@ type teleport_settings = {
         slots: string[],
         active: boolean
     }[]
+}
+
+export type full_teleport_id = {
+    group: string,
+    sub: string,
+    variant?: string
 }
 
 export class Teleports extends TypedEmitter<{
@@ -64,7 +67,7 @@ export class Teleports extends TypedEmitter<{
 
         this.data = []
 
-        for (let group of teleports) {
+        for (let group of teleport_data.raw_data) {
             let pota = group.can_be_in_pota
                 ? this.settings.potas.find((p) => p.active && p.slots.includes(group.id))
                 : null

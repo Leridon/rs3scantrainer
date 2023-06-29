@@ -589,6 +589,12 @@ video {
     object-fit: contain;
 }
 
+/* Step Edit Widget*/
+
+.step-edit-component {
+    border-bottom: 1px solid white;
+}
+
 .step-issue-warning {
     background-color: #42381f;
     color: #fce2a1;

@@ -9,6 +9,9 @@ import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
 import Button from "../widgets/Button";
 import augmented_step = Path.augmented_step;
+import {MovementAbilities} from "../../model/movement";
+import surge2 = MovementAbilities.surge2;
+import escape2 = MovementAbilities.escape2;
 
 class WarningWidget extends Widget {
 
@@ -119,7 +122,24 @@ class ControlWidget extends Widget {
         this.menu = $("<div style='display: flex'>").appendTo(this.container)
 
         new MediumImageButton('assets/icons/surge.png').appendTo(this.menu)
-            .on("click", () => {
+            .on("click", async () => {
+                if (this.augmented.ends_up.tile != null && this.augmented.ends_up.direction != null) {
+                    let res = await surge2(this.augmented.ends_up)
+
+                    if(res) {
+                        this.value.steps.push({
+                            type: "ability",
+                            ability: "surge",
+                            from: this.augmented.ends_up.tile,
+                            to: res.tile
+                        })
+
+                        await this.update()
+
+                        return
+                    }
+                }
+
                 let interaction = new DrawAbilityInteraction(this.parent.parent, "surge")
                 if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
                 interaction.events.on("done", (s) => {
@@ -129,7 +149,26 @@ class ControlWidget extends Widget {
                 interaction.activate()
             })
         new MediumImageButton('assets/icons/escape.png').appendTo(this.menu)
-            .on("click", () => {
+            .on("click", async () => {
+
+                if (this.augmented.ends_up.tile != null && this.augmented.ends_up.direction != null) {
+                    let res = await escape2(this.augmented.ends_up)
+
+                    if (res) {
+                        this.value.steps.push({
+                            type: "ability",
+                            ability: "escape",
+                            from: this.augmented.ends_up.tile,
+                            to: res.tile
+                        })
+
+                        await this.update()
+
+                        return
+                    }
+                }
+
+
                 let interaction = new DrawAbilityInteraction(this.parent.parent, "escape")
                 if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
                 interaction.events.on("done", (s) => {

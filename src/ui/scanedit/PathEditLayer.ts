@@ -123,7 +123,7 @@ class ControlWidget extends Widget {
 
         new MediumImageButton('assets/icons/surge.png').appendTo(this.menu)
             .on("click", async () => {
-                if (this.augmented.ends_up.tile != null && this.augmented.ends_up.direction != null) {
+                if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
                     let res = await surge2(this.augmented.ends_up)
 
                     if(res) {
@@ -151,7 +151,7 @@ class ControlWidget extends Widget {
         new MediumImageButton('assets/icons/escape.png').appendTo(this.menu)
             .on("click", async () => {
 
-                if (this.augmented.ends_up.tile != null && this.augmented.ends_up.direction != null) {
+                if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
                     let res = await escape2(this.augmented.ends_up)
 
                     if (res) {

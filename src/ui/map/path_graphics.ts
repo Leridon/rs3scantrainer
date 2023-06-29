@@ -15,7 +15,8 @@ function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.La
             iconUrl: click_icons[color],
             iconSize: [16, 16],
             iconAnchor: [8, 8],
-        })
+        }),
+        interactive: false
     })
 }
 
@@ -38,9 +39,13 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
 export function createStepGraphics(step: step): leaflet.Layer {
     switch (step.type) {
         case "teleport":
+
+            // TODO: Implement
             break;
         case "ability": {
             let group = leaflet.featureGroup()
+
+            group.setStyle({interactive: false})
 
             const meta: Record<MovementAbilities.movement_ability, { color: string, icon: string }> = {
                 barge: {color: "#a97104", icon: "assets/icons/barge.png"},
@@ -99,6 +104,10 @@ export function createStepGraphics(step: step): leaflet.Layer {
 
             let group = leaflet.featureGroup()
 
+            group.setStyle({
+                interactive: false
+            })
+
             leaflet.polyline(
                 lines.map((t) => t.map(toLL)),
                 {
@@ -117,6 +126,7 @@ export function createStepGraphics(step: step): leaflet.Layer {
                 color: "#888888",
                 fillColor: "#888888",
                 fillOpacity: 0.3,
+                interactive: false
             })
         case "redclick": {
             return createX(step.where, "red")
@@ -127,7 +137,8 @@ export function createStepGraphics(step: step): leaflet.Layer {
                     iconUrl: "assets/icons/accel.png",
                     iconSize: [16, 16],
                     iconAnchor: [8, 8],
-                })
+                }),
+                interactive: false
             })
         }
     }

@@ -8,7 +8,7 @@ import {full_teleport_id} from "./teleports";
 
 type step_base = {
     type: string,
-    description?: string,
+    description?: string
 }
 
 // TODO: Orientation step
@@ -155,23 +155,36 @@ export namespace Path {
                         if (carry.position.tile && !MapCoordinate.eq(carry.position.tile, step.from)) {
                             augmented.issues.push("Ability does not start where the previous step ends!")
                         } else {
+
+                            // if there is no previous position, at least assume the defined start position
+                            let assumed_pos = carry.position
+
+                            assumed_pos.tile ||= step.from
+
+                            if (assumed_pos.direction == null) {
+                                assumed_pos.direction = direction.fromVector(Vector2.sub(step.to, step.from))
+                                if (step.ability == "escape") assumed_pos.direction = direction.invert(assumed_pos.direction)
+                            }
+
                             switch (step.ability) {
                                 case "surge": {
-                                    let res = await MovementAbilities.surge2(carry.position)
+                                    let res = await MovementAbilities.surge2(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push("Surge target does not match where it would end up!")
-                                }
+
                                     break
+                                }
                                 case "escape": {
-                                    let res = await MovementAbilities.escape2(carry.position)
+                                    let res = await MovementAbilities.escape2(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push("Escape target does not match where it would end up!")
-                                }
+
                                     break
+                                }
                                 case "dive": {
-                                    let res = await MovementAbilities.barge2(carry.position.tile, step.to)
+                                    let res = await MovementAbilities.dive2(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push("Barge target can't be reached!")
@@ -179,7 +192,7 @@ export namespace Path {
                                     break
                                 }
                                 case "barge": {
-                                    let res = await MovementAbilities.dive2(carry.position.tile, step.to)
+                                    let res = await MovementAbilities.barge2(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push("Dive target can't be reached!")
@@ -192,7 +205,7 @@ export namespace Path {
 
                     // Whether powerburst is active can only be determined AFTER the real tick of the step is set
                     // To not duplicate so much code, this is used as a reusable shortcut.
-                    const powerburst = () => (carry.acceleration_activation_tick - augmented.tick) <= 120
+                    const powerburst = () => (augmented.tick - carry.acceleration_activation_tick) <= 120
 
                     // Check cooldowns
                     // Assumes mobile as well as double surge/escape.
@@ -207,7 +220,11 @@ export namespace Path {
                             let min = minIndex(carry.cooldowns.surge)
 
                             if (carry.cooldowns.surge[min] > augmented.tick) {
-                                augmented.issues.push(`Both surge charges are still on cooldown for ${carry.cooldowns.surge[min] - augmented.tick} ticks.`)
+                                if (carry.cooldowns.surge[min] - augmented.tick <= 2 && carry.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
+                                    augmented.issues.push(`Antispam delay. Waiting for ${carry.cooldowns.surge[min] - augmented.tick} ticks.`)
+                                else
+                                    augmented.issues.push(`Both surge charges are still on cooldown for ${carry.cooldowns.surge[min] - augmented.tick} ticks.`)
+
                                 augmented.tick = carry.cooldowns.surge[min] // Wait for cooldown
                             }
 
@@ -225,7 +242,11 @@ export namespace Path {
                             let min = minIndex(carry.cooldowns.escape)
 
                             if (carry.cooldowns.escape[min] > augmented.tick) {
-                                augmented.issues.push(`Both escape charges are still on cooldown for ${carry.cooldowns.escape[min] - augmented.tick} ticks.`)
+                                if (carry.cooldowns.escape[min] - augmented.tick <= 2 && carry.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
+                                    augmented.issues.push(`Antispam delay. Waiting for ${carry.cooldowns.escape[min] - augmented.tick} ticks.`)
+                                else
+                                    augmented.issues.push(`Both escape charges are still on cooldown for ${carry.cooldowns.escape[min] - augmented.tick} ticks.`)
+
                                 augmented.tick = carry.cooldowns.escape[min] // Wait for cooldown
                             }
 

@@ -390,11 +390,11 @@ export namespace MovementAbilities {
     export function cooldown(ability: MovementAbilities.movement_ability, powerburst: boolean, mobile: boolean = true): number {
         switch (ability) {
             case "surge":
-                return (powerburst ? 2 : (mobile ? 34 : 17))
+                return (powerburst ? 2 : (mobile ? 17 : 34))
             case "dive":
-                return (powerburst ? 2 : (mobile ? 34 : 17))
+                return (powerburst ? 2 : (mobile ? 17 : 34))
             case "escape":
-                return mobile ? 34 : 17 // Powerburst does not affect escape
+                return mobile ? 17 : 34 // Powerburst does not affect escape
             case "barge":
                 return 34;
         }

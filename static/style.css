@@ -589,6 +589,22 @@ video {
     object-fit: contain;
 }
 
+.step-issue-warning {
+    background-color: #42381f;
+    color: #fce2a1;
+    border-radius: 3px;
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 3px;
+}
+
+.step-issue-warning > img {
+    margin-right: 5px;
+}
+
+
 /*Classes for custom components*/
 
 .lcss-button:not(.enabled) {
@@ -598,4 +614,6 @@ video {
 .lcss-button.enabled {
     cursor: pointer;
 }
+
+
 

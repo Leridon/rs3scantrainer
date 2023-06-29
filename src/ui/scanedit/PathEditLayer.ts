@@ -8,6 +8,15 @@ import MediumImageButton from "../widgets/MediumImageButton";
 import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
 import Button from "../widgets/Button";
+import augmented_step = Path.augmented_step;
+
+class WarningWidget extends Widget {
+
+    constructor(text: string) {
+        super($(`<div class='step-issue-warning'><img src='assets/icons/warning.png' alt="warning"> ${text}</div>`));
+    }
+
+}
 
 class StepEditWidget extends Widget<{
     "deleted": step,
@@ -23,11 +32,11 @@ class StepEditWidget extends Widget<{
      */
 
     private getIcon(): string {
-        switch (this.value.type) {
+        switch (this.value.raw.type) {
             case "run":
                 return 'assets/icons/run.png'
             case "ability":
-                switch (this.value.ability) {
+                switch (this.value.raw.ability) {
                     case "surge":
                         return 'assets/icons/surge.png'
                     case "escape":
@@ -49,7 +58,7 @@ class StepEditWidget extends Widget<{
         }
     }
 
-    constructor(private parent: ControlWidget, private value: step) {
+    constructor(private parent: ControlWidget, private value: augmented_step) {
         super()
 
         this.css("display", "flex")
@@ -59,16 +68,16 @@ class StepEditWidget extends Widget<{
 
             let column = new Widget().css("text-align", "center").appendTo(panel)
             let up = new Button().append($("<img src='assets/nis/arrow_up.png' title='Up'>")).appendTo(column)
-                .on("click", () => this.emit("up", this.value))
+                .on("click", () => this.emit("up", this.value.raw))
             new Button().append($("<img src='assets/icons/delete.png' title='Delete'>")).appendTo(column)
-                .on("click", () => this.emit("deleted", this.value))
+                .on("click", () => this.emit("deleted", this.value.raw))
                 .css("margin-top", "3px")
                 .css("margin-bottom", "3px")
             let down = new Button().append($("<img src='assets/nis/arrow_down.png' title='Down'>")).appendTo(column)
-                .on("click", () => this.emit("down", this.value))
+                .on("click", () => this.emit("down", this.value.raw))
 
-            up.setEnabled(this.parent.value.steps.indexOf(this.value) != 0)
-            down.setEnabled(this.parent.value.steps.indexOf(this.value) != this.parent.value.steps.length - 1)
+            up.setEnabled(this.parent.value.steps.indexOf(this.value.raw) != 0)
+            down.setEnabled(this.parent.value.steps.indexOf(this.value.raw) != this.parent.value.steps.length - 1)
 
             new Widget().append($(`<img src='${this.getIcon()}' style="">`)
                 .css({
@@ -81,7 +90,9 @@ class StepEditWidget extends Widget<{
 
         let main = new Widget().addClass("col-11").css("text-align", "center").appendTo(this)
 
-        new Widget($("<div>")).text(this.value.type).appendTo(main)
+        this.value.issues.forEach((i) => new WarningWidget(i).appendTo(main))
+
+        new Widget($("<div>")).text(this.value.raw.type).appendTo(main)
 
         $("<div>Description:</div>").appendTo(main.container)
         $("<div>Ticks:</div>").appendTo(main.container)
@@ -184,8 +195,8 @@ class ControlWidget extends Widget {
 
         this._preview_layer = leaflet.featureGroup()
 
-        for (let step of this.value.steps) {
-            createStepGraphics(step)?.addTo(this._preview_layer)
+        for (let step of this.augmented.steps) {
+            createStepGraphics(step.raw)?.addTo(this._preview_layer)
 
             new StepEditWidget(this, step).appendTo(this.step_widgets)
                 .on("deleted", (step) => {

@@ -505,7 +505,7 @@ video {
     border: 1px solid rgb(5, 56, 66);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
     color: var(--nis-col-std);
-    font-size: 1em;
+    font-size: 10pt;
 }
 
 .nis-collapsible {
@@ -591,8 +591,24 @@ video {
 
 /* Step Edit Widget*/
 
+.path-edit-control {
+    width: 350px;
+}
+
+.path-step-edit-widget-control-row {
+    display: flex;
+    justify-content: center;
+    line-height: 20px;
+    border-bottom: 1px dashed var(--nis-col-faded);
+}
+
+.path-step-edit-widget-control-row > div {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
 .step-edit-component {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid var(--nis-col-faded);
 }
 
 .step-issue-warning {
@@ -603,23 +619,49 @@ video {
     padding-left: 5px;
     padding-top: 2px;
     padding-bottom: 2px;
-    margin-bottom: 3px;
+    margin: 1px 3px;
+    text-wrap: normal;
 }
 
 .step-issue-warning > img {
     margin-right: 5px;
 }
 
-
 /*Classes for custom components*/
 
 .lcss-button:not(.enabled) {
-    filter: grayscale(100%);
+    filter: opacity(0.5) grayscale(100%);
 }
 
 .lcss-button.enabled {
     cursor: pointer;
 }
 
+/* nis like extensions */
+
+.nisl-properties {
+    font-family: monospace;
+}
+
+.nisl-property-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.nisl-property-name {
+    flex: 0 0 auto;
+    width: 20%;
+    font-weight: bold;
+    text-align: left;
+}
+
+.nisl-property-content {
+    flex: 0 0 auto;
+    width: 80%;
+}
+
+.nisl-property-row {
+    display: flex;
+}
 
 

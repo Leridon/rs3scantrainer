@@ -6,7 +6,6 @@ export default class TemplateStringEdit extends Widget<{
 }> {
 
     instruction_input: JQuery
-    view_render_button: JQuery
     render_view: JQuery
 
 
@@ -33,6 +32,6 @@ export default class TemplateStringEdit extends Widget<{
     }
 
     private render() {
-        this.render_view.html(this.resolver.resolve(this.value))
+        this.render_view.html(`Preview: ${this.resolver.resolve(this.value)}`)
     }
 }

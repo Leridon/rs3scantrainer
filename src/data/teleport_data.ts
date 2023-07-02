@@ -854,11 +854,9 @@ export namespace teleport_data {
         //TODO: Boss portals
         //      - 1912 4367 Dagannoth Kings
         // TODO: Slayer masks
-
     ]
 
     export function resolveTarget(id: full_teleport_id): MapCoordinate {
-
         let spot = raw_data.find((g) => g.id == id.group)
             ?.spots.find((s) => s.subid == id.sub)
 

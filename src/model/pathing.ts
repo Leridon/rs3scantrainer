@@ -60,6 +60,7 @@ export namespace Path {
     import index = util.index;
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
+    import capitalize = util.capitalize;
 
     export type raw = {
         description: string,
@@ -140,7 +141,7 @@ export namespace Path {
 
                     augmented.ticks = Math.ceil(step.waypoints.length / 2)
                     augmented.ends_up = {
-                        tile: step.waypoints[step.waypoints.length - 1],
+                        tile: index(step.waypoints, -1),
                         direction: direction.fromVector(
                             carry.targeted_entity
                                 ? Vector2.sub(carry.targeted_entity, index(step.waypoints, -1))
@@ -329,7 +330,7 @@ export namespace Path {
             }
 
             carry.position = augmented.ends_up
-            carry.tick += augmented.ticks
+            carry.tick = augmented.tick + augmented.ticks
 
             augmented_steps.push(augmented)
         }
@@ -342,13 +343,25 @@ export namespace Path {
         }
     }
 
-    export function analyze(path: Path.augmented): Path.augmented {
-        /*
-         TODO: Analyze for issues
-            - Start-location not matching up where previous step ends
-            - Violated ability cooldown
-            - Surge/Escape direction not matching up
-         */
-        return path
+    export function title(step: step): string {
+        switch (step.type) {
+            case "orientation":
+                return `Face ${direction.toString(step.direction)}`
+            case "ability":
+                return `Ability - ${capitalize(step.ability)}`
+            case "run":
+                return `Run ${step.waypoints.length} tiles`
+            case "teleport":
+                return `Teleport TODO`
+            case "interaction":
+                break;
+            case "redclick":
+                return "Redclick"
+            case "powerburst":
+                return "Use Powerburst of Acceleration"
+
+        }
+
+        return "MISSING"
     }
 }

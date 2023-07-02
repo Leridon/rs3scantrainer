@@ -20,6 +20,7 @@ Planned for next release (b0.4):
     - Scale information gain down when zoomed out
 
 - "Add to Alt1 button" at the top when in browser
+- Fix floor of Dorgesh Khaan spot E
 
 RELEASE 1.0
 - Finish all elite/master scans

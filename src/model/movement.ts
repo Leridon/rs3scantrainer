@@ -146,6 +146,20 @@ export namespace direction {
 
         return lookup_table[11 - v2.y][v2.x + 11] as direction
     }
+
+    export function toString(dir: direction): string {
+        return [
+            "center",
+            "west",
+            "north",
+            "east",
+            "south",
+            "northwest",
+            "northeast",
+            "southeast",
+            "southwest"
+        ][dir]
+    }
 }
 
 export function move(pos: MapCoordinate, off: Vector2) {

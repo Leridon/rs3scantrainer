@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet";
 import {ActiveLayer} from "../map/activeLayer";
 import {CustomControl} from "../map/CustomControl";
-import {Path, step} from "../../model/pathing";
+import {Path, step, step_ability} from "../../model/pathing";
 import Widget from "../widgets/Widget";
 import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 import MediumImageButton from "../widgets/MediumImageButton";
@@ -12,17 +12,19 @@ import augmented_step = Path.augmented_step;
 import {MovementAbilities} from "../../model/movement";
 import surge2 = MovementAbilities.surge2;
 import escape2 = MovementAbilities.escape2;
+import TemplateStringEdit from "../widgets/TemplateStringEdit";
+import {scantrainer} from "../../application";
+import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 
 class WarningWidget extends Widget {
-
     constructor(text: string) {
         super($(`<div class='step-issue-warning'><img src='assets/icons/warning.png' alt="warning"> ${text}</div>`));
     }
-
 }
 
 class StepEditWidget extends Widget<{
     "deleted": step,
+    "changed": step,
     "up": step,
     "down": step,
 }> {
@@ -64,41 +66,53 @@ class StepEditWidget extends Widget<{
     constructor(private parent: ControlWidget, private value: augmented_step) {
         super()
 
-        this.css("display", "flex")
+        this.addClass("step-edit-component")
+            .addClass("nisl-properties")
+
+        let title = new Widget($("<div style='text-align: center'></div>"))
+            .appendTo(this)
+        title.text(`T${value.tick}: ${Path.title(value.raw)}`)
 
         {
-            let panel = new Widget().css("display", "flex").addClass("col-2").appendTo(this)
+            let control_row = new Widget().addClass("path-step-edit-widget-control-row").appendTo(this)
 
-            let column = new Widget().css("text-align", "center").appendTo(panel)
-            let up = new Button().append($("<img src='assets/nis/arrow_up.png' title='Up'>")).appendTo(column)
+            let up = new Button().append($("<div><img src='assets/nis/arrow_up.png' title='Up'> Move up</div>")).appendTo(control_row)
                 .on("click", () => this.emit("up", this.value.raw))
-            new Button().append($("<img src='assets/icons/delete.png' title='Delete'>")).appendTo(column)
-                .on("click", () => this.emit("deleted", this.value.raw))
-                .css("margin-top", "3px")
-                .css("margin-bottom", "3px")
-            let down = new Button().append($("<img src='assets/nis/arrow_down.png' title='Down'>")).appendTo(column)
+            let down = new Button().append($("<div><img src='assets/nis/arrow_down.png' title='Down'> Move down</div>")).appendTo(control_row)
                 .on("click", () => this.emit("down", this.value.raw))
 
+            new Button().append($("<div><img src='assets/icons/delete.png' title='Delete'> Remove</div>")).appendTo(control_row)
+                .on("click", () => this.emit("deleted", this.value.raw))
             up.setEnabled(this.parent.value.steps.indexOf(this.value.raw) != 0)
             down.setEnabled(this.parent.value.steps.indexOf(this.value.raw) != this.parent.value.steps.length - 1)
-
-            new Widget().append($(`<img src='${this.getIcon()}' style="">`)
-                .css({
-                    "width": "30px",
-                    "height": "30px",
-                    "object-fit": "contain",
-                    "margin": "3px"
-                })).appendTo($("<div style='display: flex; align-items: center'>").appendTo(panel.container))
         }
 
-        let main = new Widget().addClass("col-11").css("text-align", "center").appendTo(this)
+        this.value.issues.forEach((i) => new WarningWidget(i).appendTo(this))
 
-        this.value.issues.forEach((i) => new WarningWidget(i).appendTo(main))
+        $("<div>Description:</div>").appendTo(this.container)
+        new TemplateStringEdit(scantrainer.template_resolver, value.raw.description)
+            .on("changed", (v) => {
+                this.value.raw.description = v
+                this.emit("changed", this.value.raw)
+            })
+            .appendTo(this)
 
-        new Widget($("<div>")).text(this.value.raw.type).appendTo(main)
 
-        $("<div>Description:</div>").appendTo(main.container)
-        $("<div>Ticks:</div>").appendTo(main.container)
+        if (this.value.raw.type == "ability") {
+            let from = $("<div class='nisl-property-row'><div class='nisl-property-name'>From: </div></div>").appendTo(this.container)
+            new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.from).addClass("nisl-property-content").appendTo(from)
+                .on("changed", (c) => {
+                    (this.value.raw as step_ability).from = c
+                    this.emit("changed", this.value.raw)
+                })
+
+            let to = $("<div class='nisl-property-row'><div class='nisl-property-name'>To: </div></div>").appendTo(this.container)
+            new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.to).addClass("nisl-property-content").appendTo(to)
+                .on("changed", (c) => {
+                    (this.value.raw as step_ability).to = c
+                    this.emit("changed", this.value.raw)
+                })
+        }
     }
 }
 
@@ -113,20 +127,23 @@ class ControlWidget extends Widget {
 
     menu: JQuery
 
-    constructor(private parent: PathEditLayer, public value: Path.raw) {
+    constructor(public parent: PathEditLayer, public value: Path.raw) {
         super()
+
+        this.addClass("path-edit-control")
 
         this.control = new CustomControl(this.container)
 
         this.step_widgets = new Widget().appendTo(this)
         this.menu = $("<div style='display: flex'>").appendTo(this.container)
 
+
         new MediumImageButton('assets/icons/surge.png').appendTo(this.menu)
             .on("click", async () => {
                 if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
                     let res = await surge2(this.augmented.ends_up)
 
-                    if(res) {
+                    if (res) {
                         this.value.steps.push({
                             type: "ability",
                             ability: "surge",

@@ -35,6 +35,12 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
+    css2(properties: JQuery.PlainObject<string | number>): this {
+        this.container.css(properties)
+
+        return this
+    }
+
     tooltip(title: string): this {
         this.container.attr("title", title)
         return this

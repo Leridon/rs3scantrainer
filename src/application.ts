@@ -130,6 +130,9 @@ export class Application {
                 if (!tele) return "NULL"
 
                 return `<span style="position: relative"><img class='text-icon' src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"><div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+            }],
+            ["icon", (args) => {
+                return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`
             }]
         ]
     ))

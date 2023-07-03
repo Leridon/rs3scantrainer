@@ -1,8 +1,6 @@
 import {Box, clampInto, MapCoordinate, tilePolygon, Vector2} from "./coordinates";
 import min_axis = Vector2.max_axis;
 import {Raster} from "../util/raster";
-import {scantrainer} from "../application";
-import * as leaflet from "leaflet"
 
 type TileMovementData = number
 

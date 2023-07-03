@@ -1,11 +1,14 @@
 import type {ActiveLayer} from "../activeLayer";
 import Widget from "../../widgets/Widget";
 import TopControl from "../TopControl";
+import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 
-export default abstract class LayerInteraction<T extends ActiveLayer> {
+export default abstract class LayerInteraction<T extends ActiveLayer, events extends Record<string, any> = {}> {
+    protected events: TypedEmitter<events> = new TypedEmitter<events>()
+
     private is_active: boolean
 
-    protected constructor(public layer: T) {
+    constructor(public layer: T) {
     }
 
     protected top_control: Widget = null
@@ -39,4 +42,9 @@ export default abstract class LayerInteraction<T extends ActiveLayer> {
     abstract start()
 
     abstract cancel()
+
+    tapEvents(f: ((e: TypedEmitter<events>) => any)): this {
+        f(this.events)
+        return this
+    }
 }

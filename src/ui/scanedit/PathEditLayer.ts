@@ -15,6 +15,7 @@ import escape2 = MovementAbilities.escape2;
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
+import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -69,6 +70,9 @@ class StepEditWidget extends Widget<{
         this.addClass("step-edit-component")
             .addClass("nisl-properties")
 
+        this.on("changed", () => this.updatePreview())
+        this.on("deleted", () => this.removePreview())
+
         let title = new Widget($("<div style='text-align: center'></div>"))
             .appendTo(this)
         title.text(`T${value.tick}: ${Path.title(value.raw)}`)
@@ -89,7 +93,7 @@ class StepEditWidget extends Widget<{
 
         this.value.issues.forEach((i) => new WarningWidget(i).appendTo(this))
 
-        $("<div>Description:</div>").appendTo(this.container)
+        $("<div class='nisl-property-header'>Description:</div>").appendTo(this.container)
         new TemplateStringEdit(scantrainer.template_resolver, value.raw.description)
             .on("changed", (v) => {
                 this.value.raw.description = v
@@ -112,17 +116,44 @@ class StepEditWidget extends Widget<{
                     (this.value.raw as step_ability).to = c
                     this.emit("changed", this.value.raw)
                 })
+
+            // TODO: Redraw button
+        }
+
+        // TODO: Run waypoints
+        // TODO: Teleport selection/override
+        // TODO: Default descriptions
+        // TODO: Redclick
+        // TODO: Powerburst
+        // TODO: Shortcut
+
+        this.updatePreview()
+    }
+
+    _preview: leaflet.Layer = null
+
+    updatePreview() {
+        this.removePreview()
+
+        this._preview = createStepGraphics(this.value.raw).addTo(this.parent._preview_layer)
+    }
+
+    removePreview() {
+        if (this._preview) {
+            this._preview.remove()
+            this._preview = null
         }
     }
 }
 
-
 class ControlWidget extends Widget {
     private augmented: Path.augmented
 
-    _preview_layer: leaflet.FeatureGroup = null
+    _preview_layer: leaflet.FeatureGroup = leaflet.featureGroup()
 
-    step_widgets: Widget
+    step_widget_container: Widget
+    step_widgets: StepEditWidget[] = []
+
     control: CustomControl
 
     menu: JQuery
@@ -132,11 +163,13 @@ class ControlWidget extends Widget {
 
         this.addClass("path-edit-control")
 
+        this._preview_layer.addTo(this.parent)
+        // TODO: At some point, remove preview layer
+
         this.control = new CustomControl(this.container)
 
-        this.step_widgets = new Widget().appendTo(this)
+        this.step_widget_container = new Widget().appendTo(this)
         this.menu = $("<div style='display: flex'>").appendTo(this.container)
-
 
         new MediumImageButton('assets/icons/surge.png').appendTo(this.menu)
             .on("click", async () => {
@@ -229,7 +262,44 @@ class ControlWidget extends Widget {
 
         new MediumImageButton('assets/icons/teleports/homeport.png').appendTo(this.menu)
         new MediumImageButton('assets/icons/redclick.png').appendTo(this.menu)
+            .on("click", () => {
+                new SelectTileInteraction(this.parent.parent)
+                    .tapEvents((e) => e.on("selected", (t) => {
+                        this.value.steps.push({
+                            type: "redclick",
+                            description: "",
+                            where: t,
+                            how: "generic"
+                        })
+
+                        this.update()
+                    })).activate()
+            })
+
         new MediumImageButton('assets/icons/accel.png').appendTo(this.menu)
+            .on("click", () => {
+                if (this.augmented.ends_up?.tile) {
+                    this.value.steps.push({
+                        type: "powerburst",
+                        description: "Use a {{icon accel}}",
+                        where: this.augmented.ends_up.tile
+                    })
+
+                    this.update()
+                } else {
+                    new SelectTileInteraction(this.parent.parent)
+                        .tapEvents((e) => e.on("selected", (t) => {
+                            this.value.steps.push({
+                                type: "powerburst",
+                                description: "Use a {{icon accel}}",
+                                where: t
+                            })
+
+                            this.update()
+                        })).activate()
+                }
+
+            })
         new MediumImageButton('assets/icons/shortcut.png').appendTo(this.menu)
 
         this.container.on("click", (e) => e.stopPropagation())
@@ -242,44 +312,38 @@ class ControlWidget extends Widget {
     async update() {
         this.augmented = await Path.augment(this.value)
 
-        if (this._preview_layer) {
-            this._preview_layer.remove()
-            this._preview_layer = null
-        }
-
-        this.step_widgets.empty()
-
-        this._preview_layer = leaflet.featureGroup()
+        this.step_widgets.forEach((w) => w.removePreview())
+        this.step_widgets = []
+        this.step_widget_container.empty()
 
         for (let step of this.augmented.steps) {
-            createStepGraphics(step.raw)?.addTo(this._preview_layer)
-
-            new StepEditWidget(this, step).appendTo(this.step_widgets)
-                .on("deleted", (step) => {
-                    this.value.steps.splice(this.value.steps.indexOf(step), 1)
-                    this.update()
-                })
-                .on("up", (step) => {
-                    let index = this.value.steps.indexOf(step)
-                    let to_index = Math.max(0, index - 1)
-
-                    if (index != to_index) {
-                        this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
+            this.step_widgets.push(
+                new StepEditWidget(this, step).appendTo(this.step_widget_container)
+                    .on("deleted", (step) => {
+                        this.value.steps.splice(this.value.steps.indexOf(step), 1)
                         this.update()
-                    }
-                })
-                .on("down", (step) => {
-                    let index = this.value.steps.indexOf(step)
-                    let to_index = Math.min(this.value.steps.length - 1, index + 1)
+                    })
+                    .on("up", (step) => {
+                        let index = this.value.steps.indexOf(step)
+                        let to_index = Math.max(0, index - 1)
 
-                    if (index != to_index) {
-                        this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
-                        this.update()
-                    }
-                })
+                        if (index != to_index) {
+                            this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
+                            this.update()
+                        }
+                    })
+                    .on("down", (step) => {
+                        let index = this.value.steps.indexOf(step)
+                        let to_index = Math.min(this.value.steps.length - 1, index + 1)
+
+                        if (index != to_index) {
+                            this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
+                            this.update()
+                        }
+                    })
+                    .on("changed", () => this.update())
+            )
         }
-
-        this._preview_layer.addTo(this.parent)
     }
 }
 

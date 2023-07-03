@@ -646,6 +646,7 @@ video {
 .nisl-property-header {
     text-align: center;
     font-weight: bold;
+    margin-top: 2px;
 }
 
 .nisl-property-name {
@@ -662,6 +663,7 @@ video {
 
 .nisl-property-row {
     display: flex;
+    margin-top: 2px;
 }
 
 

@@ -11,6 +11,9 @@ type step_base = {
     description?: string
 }
 
+export type interaction_type =
+    "generic" | "chop" | "talk"
+
 // TODO: Orientation step
 
 export type step_orientation = step_base & {
@@ -46,7 +49,7 @@ type step_interact = step_base & {
 type step_redclick = step_base & {
     type: "redclick",
     where: MapCoordinate,
-    how?: "spell" | "talkto"
+    how: interaction_type
 }
 
 type step_powerburst = step_base & {
@@ -188,7 +191,7 @@ export namespace Path {
                                     let res = await MovementAbilities.dive2(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
-                                        augmented.issues.push("Barge target can't be reached!")
+                                        augmented.issues.push("Dive target can't be reached!")
 
                                     break
                                 }
@@ -196,7 +199,7 @@ export namespace Path {
                                     let res = await MovementAbilities.barge2(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
-                                        augmented.issues.push("Dive target can't be reached!")
+                                        augmented.issues.push("Barge target can't be reached!")
 
                                     break
                                 }
@@ -310,6 +313,19 @@ export namespace Path {
 
                     break;
                 case "redclick":
+                    let next = path.steps[i + 1] as step_run
+
+                    if (next?.type != "run")
+                        augmented.issues.push("Redclicking is not followed by a run")
+
+                    if(next) {
+                        let natural = direction.fromVector(Vector2.sub(index(next.waypoints, -1), index(next.waypoints, -2)))
+                        let redclicked = direction.fromVector(Vector2.sub(step.where, index(next.waypoints, -1)))
+
+                        if (natural == redclicked)
+                            augmented.issues.push("Redclicking orientation is the same as natural orientation.")
+                    }
+
                     carry.targeted_entity = step.where
                     break;
                 case "powerburst":

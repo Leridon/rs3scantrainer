@@ -23,7 +23,7 @@ export default class TemplateStringEdit extends Widget<{
             })
             .appendTo(this.container)
 
-        this.render_view = $("<div>").appendTo(this.container)
+        this.render_view = $("<div style='padding-left: 5px'>").appendTo(this.container)
 
         this.render()
     }

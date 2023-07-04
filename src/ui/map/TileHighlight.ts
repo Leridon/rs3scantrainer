@@ -4,7 +4,7 @@ import {tilePolygon, Vector2} from "../../model/coordinates";
 export default class TileHighlight extends leaflet.FeatureGroup {
     _polygon: leaflet.Polygon = null
 
-    constructor(private position: Vector2) {
+    constructor(private position: Vector2 = {x: 0, y: 0}) {
         super()
 
         this.update()

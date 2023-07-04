@@ -7,6 +7,7 @@ import Graticule from "./layers/Graticule";
 import Widget from "../widgets/Widget";
 import {Constants} from "../../constants";
 import PathLayer from "./layers/PathLayer";
+import TileHighlight from "./TileHighlight";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -111,6 +112,7 @@ export class GameMapControl extends Widget<{
     private teleportLayer: TeleportLayer
     private activeLayer: ActiveLayer = null
     private top_control_container: Widget
+    private tile_highlight: TileHighlight
 
     // Hardcoded
     private mapid: number = 4
@@ -172,6 +174,9 @@ export class GameMapControl extends Widget<{
         this.top_control_container.container.on("click", (e) => e.stopPropagation())
 
         this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
+
+        this.tile_highlight = new TileHighlight({x: 0, y: 0}).addTo(this.map)
+        this.map.on("mousemove", (e) => this.tile_highlight.setPosition(this.tileFromMouseEvent(e)))
 
         /*
         let e1 = new CustomControl($("<div class='nis-map-control'><img src='assets/icons/teleports/homeport.png'></div>")

@@ -317,8 +317,7 @@ export namespace Path {
 
                     if (next?.type != "run")
                         augmented.issues.push("Redclicking is not followed by a run")
-
-                    if(next) {
+                    else if (next) {
                         let natural = direction.fromVector(Vector2.sub(index(next.waypoints, -1), index(next.waypoints, -2)))
                         let redclicked = direction.fromVector(Vector2.sub(step.where, index(next.waypoints, -1)))
 

@@ -1,13 +1,14 @@
 import LayerInteraction from "./LayerInteraction";
 import {ActiveLayer} from "../activeLayer";
-import {MapCoordinate} from "../../../model/coordinates";
+import {MapCoordinate, Vector2} from "../../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {HostedMapData, PathFinder} from "../../../model/movement";
-import {createStepGraphics} from "../path_graphics";
+import {PathFinder} from "../../../model/movement";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {step_run} from "../../../model/pathing";
 import LightButton from "../../widgets/LightButton";
+import TileHighlight from "../TileHighlight";
+import {createStepGraphics} from "../path_graphics";
 
 export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
     /* TODO:
@@ -19,6 +20,8 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
         "done": step_run,
         "cancelled": null
     }>()
+
+    pathfinding_state: PathFinder.state = null
 
     instruction_div: JQuery
     reset_button: LightButton
@@ -43,8 +46,7 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
             .appendTo(control_row)
     }
 
-    _start: MapCoordinate = null
-    _to: MapCoordinate = null
+    last_previewed_to: MapCoordinate = null
 
     cancel() {
         this.layer.getMap().map.off(this._maphooks)
@@ -57,9 +59,10 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
     }
 
     setStartPosition(pos: MapCoordinate) {
-        this._start = pos
+        if (pos) this.pathfinding_state = PathFinder.init_djikstra(pos)
+        else this.pathfinding_state = null
 
-        this.update()
+        this.update_preview(null)
     }
 
     _maphooks: leaflet.LeafletEventHandlerFnMap = {
@@ -69,53 +72,84 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
 
             let tile = this.layer.getMap().tileFromMouseEvent(e)
 
-            if (!this._start) this._start = tile
-            else if (!this._to) {
-                this._to = tile
-                await this.done()
-                return
-            }
+            if (!this.pathfinding_state) {
+                this.setStartPosition(tile)
+                await this.update_preview(null)
+            } else {
+                let path = await PathFinder.find(this.pathfinding_state, tile)
 
-            await this.update()
+                if (path) {
+                    this.events.emit("done", {
+                        type: "run",
+                        waypoints: path,
+                        description: `Run to ${tile.x} | ${tile.y}`
+                    })
+
+                    this.deactivate()
+                    return
+                }
+            }
         },
+
+        "mousemove": (e: LeafletMouseEvent) => {
+            let tile = this.layer.getMap().tileFromMouseEvent(e)
+
+            this.update_preview(tile)
+        }
     }
 
     _preview: leaflet.Layer = null
 
-    private async done() {
-        let path = await PathFinder.pathFinder(HostedMapData.get(), this._start, this._to)
+    async update_preview(to: MapCoordinate) {
+        if (to == null || !this.pathfinding_state || !MapCoordinate.eq2(this.last_previewed_to, to)) {
+            if (this._preview) {
+                this._preview.remove()
+                this._preview = null
+            }
+        }
 
-        this.events.emit("done", {
-            type: "run",
-            waypoints: path,
-            description: `Run to ${this._to.x} | ${this._to.y}`
-        })
+        if (this.pathfinding_state && to && !MapCoordinate.eq2(this.last_previewed_to, to)) {
+            let path = await PathFinder.find(this.pathfinding_state, to)
 
-        this.deactivate()
-    }
+            if (this._preview) {
+                this._preview.remove()
+                this._preview = null
+            }
 
-    async update() {
-        this.reset_button.setVisible(!!this._start)
+            if (path) {
+                this._preview = createStepGraphics({
+                    type: "run",
+                    description: "",
+                    waypoints: path
+                }).addTo(this.layer)
+            }
+        }
 
-        if (!this._start) {
+        this.last_previewed_to = to
+
+        this.reset_button.setVisible(!!this.pathfinding_state)
+
+        //
+        if (!this.pathfinding_state) {
             this.instruction_div.text(`Click where you want to start running.`)
         } else {
-            this.instruction_div.html(`Running from ${this._start.x} | ${this._start.y}.<br> Click where to run to.`)
+            this.instruction_div.html(`Running from ${this.pathfinding_state.start.x} | ${this.pathfinding_state.start.y}.<br> Click where to run to.`)
         }
 
-        let path = await PathFinder.pathFinder(HostedMapData.get(), this._start, this._to)
+        //let path = await PathFinder.pathFinder(HostedMapData.get(), this._start, this._to)
+        /*let path = await PathFinder.find(PathFinder.init_djikstra(this._start), this._to)
 
-        if (this._preview) {
-            this._preview.remove()
-            this._preview = null
-        }
+       if (this._preview) {
+           this._preview.remove()
+           this._preview = null
+       }
 
-        if (path) {
-            this._preview = createStepGraphics({
-                type: "run",
-                waypoints: path,
-                description: ""
-            }).addTo(this.layer)
-        }
+       if (path) {
+           this._preview = createStepGraphics({
+               type: "run",
+               waypoints: path,
+               description: ""
+           }).addTo(this.layer)
+       }*/
     }
 }

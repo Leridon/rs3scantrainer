@@ -1,6 +1,10 @@
 import {Box, clampInto, MapCoordinate, tilePolygon, Vector2} from "./coordinates";
 import min_axis = Vector2.max_axis;
 import {Raster} from "../util/raster";
+import {ChunkedData} from "../util/ChunkedData";
+import {stat} from "fs";
+import {data} from "jquery";
+import * as lodash from "lodash"
 
 type TileMovementData = number
 
@@ -175,86 +179,114 @@ export async function canMove(data: MapData, pos: MapCoordinate, d: direction): 
 
 export namespace PathFinder {
 
-    type raster_t = Raster<{ parent: number }>
+    export type state = {
+        data: MapData,
+        start: MapCoordinate,
+        tiles: ChunkedData<{ parent: ChunkedData.coordinates, unreachable?: boolean }>,
+        queue: ChunkedData.coordinates[],
+        next: number,
+        blocked?: boolean
+    }
 
-    async function djikstra(data: MapData, start: MapCoordinate, target: MapCoordinate): Promise<raster_t> {
+    export function init_djikstra(start: MapCoordinate, data: MapData = HostedMapData.get()): state {
+        let state: state = {
+            data: data,
+            start: start,
+            tiles: new ChunkedData(),
+            queue: [ChunkedData.split(start)],
+            next: 0
+        }
+
+        state.tiles.set(state.queue[0], {parent: null})
+
+        return state
+    }
+
+    async function djikstra2(state: state, target: MapCoordinate, step_limit: number): Promise<void> {
         // This is a typical djikstra algorithm
         // To improve it to A*, it still needs to prefer ortogonal pathing before diagonal pathing like ingame, but I'm not sure how to do that yet.
         // Possibly with a stable priority queue and tile distance as an estimator
 
-        // Create a bounded raster to efficiently associate information with nodes.
-        let raster: raster_t = new Raster<{ parent: number }>(Box.extend(Box.from(start, target), 64))
+        while (state.blocked) {
+            await new Promise(resolve => setTimeout(resolve, 100))
+        }
 
-        let queue: { tile: MapCoordinate, i: number }[] = []
+        state.blocked = true
 
         // Abstraction to push elements into the queue. Filters out of bounds tiles and tiles that already have a path
-        function push(tile: MapCoordinate, parent: number) {
-            if (!Box.contains(raster.bounds, tile)) return
+        function push(tile: MapCoordinate, parent: ChunkedData.coordinates) {
+            let i = ChunkedData.split(tile)
 
-            let i = raster.xyToI(tile)
-
-            if (raster.data[i] == null) {
-                raster.data[i] = {parent: parent}
-                queue.push({tile: tile, i: i})
+            if (state.tiles.get(i) == null) {
+                state.tiles.set(i, {parent: parent})
+                state.queue.push(i)
             }
         }
 
-        raster.data[raster.xyToI(start)] = {parent: null}
+        while (state.queue.length < step_limit && state.next < state.queue.length) {
+            let e = state.queue[state.next++]
 
-        queue.push({
-            tile: start,
-            i: raster.xyToI(start)
-        })
+            const directions: direction[] = [1, 2, 3, 4, 5, 6, 7, 8]
 
-        const target_i = raster.xyToI(target)
-
-        let i = 0
-        while (queue.length > 0) {
-            let e = queue[i]
-
-            if (e.i == target_i) return raster
-            else {
-                const directions: direction[] = [1, 2, 3, 4, 5, 6, 7, 8]
-
-                for (let i of directions) {
-                    if (await canMove(data, e.tile, i as direction)) push(move(e.tile, direction.toVector(i as direction)), e.i)
-                }
+            for (let i of directions) {
+                if (await canMove(state.data, e.coords, i)) push(move(e.coords, direction.toVector(i)), e)
             }
 
-            i++
+            if (Vector2.eq(e.coords, target)) break
         }
 
-        return raster
+        state.blocked = false
     }
 
-    /**
-     * Utility function to extract the path from a filled raster
-     */
-    function getPath(raster: raster_t, i: number): MapCoordinate[] {
-        // TODO: This creates MapCoordinates with undefined level
-        if (raster.data[i] == null) return null
-        if (raster.data[i].parent == null) return [raster.iToXY(i)]
+    function get(state: state, tile: ChunkedData.coordinates): MapCoordinate[] {
+        function helper(i: ChunkedData.coordinates): ChunkedData.coordinates[] {
+            let parent = state.tiles.get(i)?.parent
 
-        let p = getPath(raster, raster.data[i].parent)
-        p.push(raster.iToXY(i))
+            if (state.tiles.get(i)?.parent == null) return [i]
+
+            let p = helper(parent)
+            p.push(i)
+            return p
+        }
+
+        let p = helper(tile).map((c) => lodash.clone(c.coords as MapCoordinate))
+
+        // TODO: Reduce path to necessary waypoints
+        p.forEach(l => l.level = state.start.level)
+
         return p
     }
 
-    export async function pathFinder(data: MapData, start: MapCoordinate, target: MapCoordinate): Promise<MapCoordinate[] | null> {
-        if (start.level != target.level) return null
+    export async function find(state: state, target: MapCoordinate): Promise<MapCoordinate[] | null> {
+        if (target.level != state.start.level) return null
 
-        let raster = await djikstra(data, start, target)
+        let target_i = ChunkedData.split(target)
 
-        let target_i = raster.xyToI(target)
-
-        if (!raster.data[target_i]) return null    // TODO: Reduce path to necessary waypoints
-        else {
-            let p = getPath(raster, target_i)
-
-            p.forEach((s) => s.level = start.level)
-
-            return p
+        // Check the cache for existing result
+        let existing = state.tiles.get(target_i)
+        if (existing != null) {
+            if (existing.unreachable) return null
+            else return get(state, target_i)
         }
+
+        // Check if the target tile can be reached from any of its direct neighbours
+        // If not, do not even search for a path.
+        let reachable_at_all = ([1, 2, 3, 4] as direction[]).some((d) => canMove(state.data, move(target, direction.toVector(d)), direction.invert(d)))
+
+        if (!reachable_at_all) {
+            state.tiles.set(target_i, {parent: null, unreachable: true})
+            return null
+        }
+
+        await djikstra2(state, target, 5000)
+
+        if (state.tiles.get(target_i) == null) {
+            // Cache whether the tile is unreachable to prevent endless search
+            state.tiles.set(target_i, {parent: null, unreachable: true})
+            return null
+        }
+
+        return get(state, target_i)
     }
 }
 

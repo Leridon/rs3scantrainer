@@ -10,7 +10,10 @@ import {arrow, createStepGraphics} from "../path_graphics";
 import {step_ability} from "../../../model/pathing";
 import {capitalize} from "lodash";
 
-export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
+export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
+    "done": step_ability,
+    "cancelled": null
+}> {
     private start_position: MapCoordinate = null
 
     _overlay_position: MapCoordinate = null
@@ -24,13 +27,8 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
     reset_button: LightButton
     cancel_button: LightButton
 
-    events = new TypedEmitter<{
-        "done": step_ability,
-        "cancelled": null
-    }>()
-
     constructor(layer: ActiveLayer, private ability: MovementAbilities.movement_ability) {
-        super(layer);
+        super(layer)
 
         this.instruction_div = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
 
@@ -50,12 +48,14 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
         this.updateInstructions()
     }
 
-    setStartPosition(pos: MapCoordinate) {
+    setStartPosition(pos: MapCoordinate): this {
         this.start_position = pos
 
         this.update_overlay(pos)
         this.update_preview(null)
         this.updateInstructions()
+
+        return this
     }
 
     private async update_overlay(p: MapCoordinate | null) {

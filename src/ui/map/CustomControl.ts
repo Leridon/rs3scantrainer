@@ -9,7 +9,7 @@ export class CustomControl extends leaflet.Control {
         super()
 
         // Disable events propagating to the map
-        this.container.on("blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize scroll select submit", (e) => e.stopPropagation())
+        this.container.on("blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize select submit mousewheel", (e) => e.stopPropagation())
 
         for (let key of Object.keys(events)) this.container.on(key, events[key])
     }

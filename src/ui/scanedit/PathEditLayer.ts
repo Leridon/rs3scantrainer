@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet";
 import {ActiveLayer} from "../map/activeLayer";
 import {CustomControl} from "../map/CustomControl";
-import {Path, step, step_ability, step_powerburst, step_redclick} from "../../model/pathing";
+import {Path, step, step_ability, step_interact, step_powerburst, step_redclick} from "../../model/pathing";
 import Widget from "../widgets/Widget";
 import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 import MediumImageButton from "../widgets/MediumImageButton";
@@ -17,6 +17,8 @@ import {scantrainer} from "../../application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import Properties from "../widgets/Properties";
+import LightButton from "../widgets/LightButton";
+import Collapsible from "../widgets/modals/Collapsible";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -32,10 +34,8 @@ class StepEditWidget extends Widget<{
 }> {
 
     /*TODO:
-     * - Style Icon properly
      * - Make buttons functional.
      * - Add editing for properties
-     * - Display warnings
      */
 
     private getIcon(): string {
@@ -74,7 +74,7 @@ class StepEditWidget extends Widget<{
         this.on("changed", () => this.updatePreview())
         this.on("deleted", () => this.removePreview())
 
-        new Widget($("<div style='text-align: center'></div>"))
+        new Widget($("<div class='path-step-edit-header'></div>"))
             .text(`T${value.tick}: ${Path.title(value.raw)}`)
             .appendTo(this)
 
@@ -92,7 +92,9 @@ class StepEditWidget extends Widget<{
             down.setEnabled(this.parent.value.steps.indexOf(this.value.raw) != this.parent.value.steps.length - 1)
         }
 
-        this.value.issues.forEach((i) => new WarningWidget(i).appendTo(this))
+        let issues = c().addClass("step-edit-issues").appendTo(this)
+
+        this.value.issues.forEach((i) => new WarningWidget(i).appendTo(issues))
 
         let props = new Properties().appendTo(this)
 
@@ -106,38 +108,112 @@ class StepEditWidget extends Widget<{
                 })
         )
 
-        if (this.value.raw.type == "ability") {
-            props.named("From", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.from))
-                .on("changed", (c) => {
-                    (this.value.raw as step_ability).from = c
-                    this.emit("changed", this.value.raw)
-                })
+        switch (this.value.raw.type) {
+            case "ability":
+                props.named("From", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.from))
+                    .on("changed", (c) => {
+                        (this.value.raw as step_ability).from = c
+                        this.emit("changed", this.value.raw)
+                    })
 
-            props.named("To", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.to))
-                .on("changed", (c) => {
-                    (this.value.raw as step_ability).to = c
-                    this.emit("changed", this.value.raw)
-                })
+                props.named("To", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.to))
+                    .on("changed", (c) => {
+                        (this.value.raw as step_ability).to = c
+                        this.emit("changed", this.value.raw)
+                    })
 
-            // TODO: Redraw button
+                props.row(new LightButton("Redraw")
+                    .on("click", () => {
+                        let s = this.value.raw as step_ability
+
+                        if (this._preview) this._preview.remove()
+
+                        new DrawAbilityInteraction(this.parent.parent.parent, s.ability)
+                            .setStartPosition(s.from)
+                            .tapEvents((e) => {
+                                e
+                                    .on("done", (new_s) => {
+                                        Object.assign(s, new_s)
+                                        this.updatePreview()
+                                        this.emit("changed", this.value.raw)
+                                    })
+                                    .on("cancelled", () => {
+                                        this._preview.addTo(this.parent._preview_layer)
+                                    })
+                            }).activate()
+                    })
+                )
+
+                break;
+            case "redclick":
+
+                props.named("Where", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.where))
+                    .on("changed", (c) => {
+                        (this.value.raw as (step_powerburst | step_redclick)).where = c
+                        this.emit("changed", this.value.raw)
+                    })
+                break
+            case "powerburst":
+
+                props.named("Where", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.where))
+                    .on("changed", (c) => {
+                        (this.value.raw as (step_powerburst | step_redclick)).where = c
+                        this.emit("changed", this.value.raw)
+                    })
+
+                break
+
+            case "run":
+                props.row(new LightButton("Repath")
+                    .on("click", () => {
+                        let s = this.value.raw as step_ability
+
+                        if (this._preview) this._preview.remove()
+
+                        new DrawRunInteraction(this.parent.parent.parent)
+                            .setStartPosition(s.from)
+                            .tapEvents((e) => {
+                                e
+                                    .on("done", (new_s) => {
+                                        Object.assign(s, new_s)
+                                        this.updatePreview()
+                                        this.emit("changed", this.value.raw)
+                                    })
+                                    .on("cancelled", () => {
+                                        this._preview.addTo(this.parent._preview_layer)
+                                    })
+                            }).activate()
+                    })
+                )
+                break
+            case "interaction":
+
+                props.named("Ticks", c("<input type='number' class='nisinput' min='0'>")
+                    .tapRaw((c) => c.on("change", () => {
+                        (this.value.raw as step_interact).ticks = Number(c.val())
+                        this.emit("changed", this.value.raw)
+                    }))
+                )
+
+                props.named("Where", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.ends_up.tile))
+                    .on("changed", (c) => {
+                        (this.value.raw as step_interact).ends_up.tile = c
+                        this.emit("changed", this.value.raw)
+                    })
+
+                break
+
         }
 
-        if (this.value.raw.type == "redclick" || this.value.raw.type == "powerburst") {
-
-            props.named("Where", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.where))
-                .on("changed", (c) => {
-                    (this.value.raw as (step_powerburst | step_redclick)).where = c
-                    this.emit("changed", this.value.raw)
-                })
-        }
-
-        // TODO: Run waypoints
         // TODO: Teleport selection/override
-        // TODO: Default descriptions
-        // TODO: Redclick
-        // TODO: Powerburst
         // TODO: Shortcut
-        // TODO: Scrollbar
+        // TODO: Fix scroll events passing through
+        // TODO: Orientation select
+        // TODO: Add analytics
+        // TODO: Start/End state
+        // TODO: Action select
+        // TODO: Make Show JSON/Export/Import functional
+
 
         this.updatePreview()
     }
@@ -163,12 +239,10 @@ class ControlWidget extends Widget {
 
     _preview_layer: leaflet.FeatureGroup = leaflet.featureGroup()
 
-    step_widget_container: Widget
+    steps_collapsible: Collapsible
     step_widgets: StepEditWidget[] = []
 
     control: CustomControl
-
-    menu: JQuery
 
     constructor(public parent: PathEditLayer, public value: Path.raw) {
         super()
@@ -180,141 +254,162 @@ class ControlWidget extends Widget {
 
         this.control = new CustomControl(this.container)
 
-        this.step_widget_container = new Widget().appendTo(this)
-        this.menu = $("<div style='display: flex'>").appendTo(this.container)
+        this.steps_collapsible = new Collapsible().setTitle("Steps").appendTo(this)
 
-        new MediumImageButton('assets/icons/surge.png').appendTo(this.menu)
-            .on("click", async () => {
-                if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
-                    let res = await surge2(this.augmented.ends_up)
+        this.steps_collapsible.content.css2({
+            "max-height": "400px",
+            "overflow-y": "auto",
+        })
 
-                    if (res) {
-                        this.value.steps.push({
-                            type: "ability",
-                            ability: "surge",
-                            description: "Use {{surge}}",
-                            from: this.augmented.ends_up.tile,
-                            to: res.tile
-                        })
+        {
+            let controls_collapsible = new Collapsible().setTitle("Controls").appendTo(this)
+            let props = new Properties().appendTo(controls_collapsible.content)
 
-                        await this.update()
+            let add_buttons = c("<div style='display: flex; flex-wrap: wrap'>")
 
-                        return
+            new MediumImageButton('assets/icons/surge.png').appendTo(add_buttons)
+                .on("click", async () => {
+                    if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
+                        let res = await surge2(this.augmented.ends_up)
+
+                        if (res) {
+                            this.value.steps.push({
+                                type: "ability",
+                                ability: "surge",
+                                description: "Use {{surge}}",
+                                from: this.augmented.ends_up.tile,
+                                to: res.tile
+                            })
+
+                            await this.update()
+
+                            return
+                        }
                     }
-                }
 
-                let interaction = new DrawAbilityInteraction(this.parent.parent, "surge")
-                if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
-                interaction.events.on("done", (s) => {
-                    this.value.steps.push(s)
-                    this.update()
-                })
-                interaction.activate()
-            })
-        new MediumImageButton('assets/icons/escape.png').appendTo(this.menu)
-            .on("click", async () => {
-
-                if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
-                    let res = await escape2(this.augmented.ends_up)
-
-                    if (res) {
-                        this.value.steps.push({
-                            type: "ability",
-                            ability: "escape",
-                            description: "Use {{escape}}",
-                            from: this.augmented.ends_up.tile,
-                            to: res.tile
-                        })
-
-                        await this.update()
-
-                        return
-                    }
-                }
-
-
-                let interaction = new DrawAbilityInteraction(this.parent.parent, "escape")
-                if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
-                interaction.events.on("done", (s) => {
-                    this.value.steps.push(s)
-                    this.update()
-                })
-                interaction.activate()
-            })
-        new MediumImageButton('assets/icons/dive.png').appendTo(this.menu)
-            .on("click", () => {
-                let interaction = new DrawAbilityInteraction(this.parent.parent, "dive")
-
-                if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
-
-                interaction.events.on("done", (s) => {
-                    this.value.steps.push(s)
-                    this.update()
-                })
-                interaction.activate()
-            })
-        new MediumImageButton('assets/icons/barge.png').appendTo(this.menu)
-            .on("click", () => {
-                let interaction = new DrawAbilityInteraction(this.parent.parent, "barge")
-                if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
-                interaction.events.on("done", (s) => {
-                    this.value.steps.push(s)
-                    this.update()
-                })
-                interaction.activate()
-            })
-        new MediumImageButton('assets/icons/run.png').appendTo(this.menu)
-            .on("click", () => {
-                let interaction = new DrawRunInteraction(this.parent.parent)
-                if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
-                interaction.events.on("done", (s) => {
-                    this.value.steps.push(s)
-                    this.update()
-                })
-                interaction.activate()
-            })
-
-        new MediumImageButton('assets/icons/teleports/homeport.png').appendTo(this.menu)
-        new MediumImageButton('assets/icons/redclick.png').appendTo(this.menu)
-            .on("click", () => {
-                new SelectTileInteraction(this.parent.parent)
-                    .tapEvents((e) => e.on("selected", (t) => {
-                        this.value.steps.push({
-                            type: "redclick",
-                            description: "",
-                            where: t,
-                            how: "generic"
-                        })
-
+                    let interaction = new DrawAbilityInteraction(this.parent.parent, "surge")
+                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(s)
                         this.update()
-                    })).activate()
-            })
-
-        new MediumImageButton('assets/icons/accel.png').appendTo(this.menu)
-            .on("click", () => {
-                if (this.augmented.ends_up?.tile) {
-                    this.value.steps.push({
-                        type: "powerburst",
-                        description: "Use a {{icon accel}}",
-                        where: this.augmented.ends_up.tile
                     })
+                    interaction.activate()
+                })
+            new MediumImageButton('assets/icons/escape.png').appendTo(add_buttons)
+                .on("click", async () => {
 
-                    this.update()
-                } else {
+                    if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
+                        let res = await escape2(this.augmented.ends_up)
+
+                        if (res) {
+                            this.value.steps.push({
+                                type: "ability",
+                                ability: "escape",
+                                description: "Use {{escape}}",
+                                from: this.augmented.ends_up.tile,
+                                to: res.tile
+                            })
+
+                            await this.update()
+
+                            return
+                        }
+                    }
+
+
+                    let interaction = new DrawAbilityInteraction(this.parent.parent, "escape")
+                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(s)
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+            new MediumImageButton('assets/icons/dive.png').appendTo(add_buttons)
+                .on("click", () => {
+                    let interaction = new DrawAbilityInteraction(this.parent.parent, "dive")
+
+                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(s)
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+            new MediumImageButton('assets/icons/barge.png').appendTo(add_buttons)
+                .on("click", () => {
+                    let interaction = new DrawAbilityInteraction(this.parent.parent, "barge")
+                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(s)
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+            new MediumImageButton('assets/icons/run.png').appendTo(add_buttons)
+                .on("click", () => {
+                    let interaction = new DrawRunInteraction(this.parent.parent)
+                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(s)
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+
+            new MediumImageButton('assets/icons/teleports/homeport.png').appendTo(add_buttons)
+            new MediumImageButton('assets/icons/redclick.png').appendTo(add_buttons)
+                .on("click", () => {
                     new SelectTileInteraction(this.parent.parent)
                         .tapEvents((e) => e.on("selected", (t) => {
                             this.value.steps.push({
-                                type: "powerburst",
-                                description: "Use a {{icon accel}}",
-                                where: t
+                                type: "redclick",
+                                description: "",
+                                where: t,
+                                how: "generic"
                             })
 
                             this.update()
                         })).activate()
-                }
+                })
 
-            })
-        new MediumImageButton('assets/icons/shortcut.png').appendTo(this.menu)
+            new MediumImageButton('assets/icons/accel.png').appendTo(add_buttons)
+                .on("click", () => {
+                    if (this.augmented.ends_up?.tile) {
+                        this.value.steps.push({
+                            type: "powerburst",
+                            description: "Use a {{icon accel}}",
+                            where: this.augmented.ends_up.tile
+                        })
+
+                        this.update()
+                    } else {
+                        new SelectTileInteraction(this.parent.parent)
+                            .tapEvents((e) => e.on("selected", (t) => {
+                                this.value.steps.push({
+                                    type: "powerburst",
+                                    description: "Use a {{icon accel}}",
+                                    where: t
+                                })
+
+                                this.update()
+                            })).activate()
+                    }
+
+                })
+            new MediumImageButton('assets/icons/shortcut.png').appendTo(add_buttons)
+            new MediumImageButton('assets/icons/compass.png').appendTo(add_buttons)
+
+            props.named("New Step", add_buttons)
+            props.row(new LightButton("Pathfind").tooltip("Hopefully coming soon").setEnabled(false))
+            props.row(new LightButton("Show JSON"))
+            props.row(new LightButton("Export"))
+            props.row(new LightButton("Import"))
+
+        }
+
+        c("<div style='grid'>")
 
         this.container.on("click", (e) => e.stopPropagation())
 
@@ -328,11 +423,15 @@ class ControlWidget extends Widget {
 
         this.step_widgets.forEach((w) => w.removePreview())
         this.step_widgets = []
-        this.step_widget_container.empty()
+        this.steps_collapsible.content.empty()
+
+        if (this.augmented.steps.length == 0) {
+            this.steps_collapsible.content.text("No steps yet.")
+        }
 
         for (let step of this.augmented.steps) {
             this.step_widgets.push(
-                new StepEditWidget(this, step).appendTo(this.step_widget_container)
+                new StepEditWidget(this, step).appendTo(this.steps_collapsible.content)
                     .on("deleted", (step) => {
                         this.value.steps.splice(this.value.steps.indexOf(step), 1)
                         this.update()

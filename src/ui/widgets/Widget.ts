@@ -83,10 +83,16 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
         return this
     }
+
+    tapRaw(f: (JQuery) => any): this {
+        f(this.container)
+
+        return this
+    }
 }
 
 declare global {
-    function c(s: string): Widget
+    function c(s?: string): Widget
 }
 
-globalThis.c = Widget.wrap
+globalThis.c = (s: string = "<div>") => Widget.wrap(s)

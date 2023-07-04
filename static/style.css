@@ -457,7 +457,7 @@ video {
     background-color: #FFFFFF50;
 }
 
-.lightbutton:hover {
+.lightbutton.enabled:hover {
     background-color: #FFFFFF32;
 }
 
@@ -593,13 +593,20 @@ video {
 
 .path-edit-control {
     width: 350px;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.path-step-edit-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 .path-step-edit-widget-control-row {
     display: flex;
     justify-content: center;
     line-height: 20px;
-    border-bottom: 1px dashed var(--nis-col-faded);
 }
 
 .path-step-edit-widget-control-row > div {
@@ -607,8 +614,12 @@ video {
     margin-right: 3px;
 }
 
-.step-edit-component {
-    border-bottom: 1px solid var(--nis-col-faded);
+.step-edit-component:not(:first-child) {
+    border-top: 2px solid var(--nis-col-faded);
+}
+
+.step-edit-issues {
+    border-bottom: 1px dashed var(--nis-col-faded);
 }
 
 .step-issue-warning {
@@ -619,7 +630,7 @@ video {
     padding-left: 5px;
     padding-top: 2px;
     padding-bottom: 2px;
-    margin: 1px 3px;
+    margin: 2px 3px;
     text-wrap: normal;
 }
 
@@ -653,6 +664,10 @@ video {
     width: 20%;
     font-weight: bold;
     text-align: left;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
 }
 
 .nisl-property-content {
@@ -666,7 +681,7 @@ video {
 }
 
 /*Why do I even need this? Shouldn't flexbox contents auto fill the row if there is no other size limit?*/
-.nisl-property-row > * {
+.nisl-property-standalone-row > * {
     flex: 1;
 }
 

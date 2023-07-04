@@ -1,26 +1,17 @@
 import LayerInteraction from "./LayerInteraction";
 import {ActiveLayer} from "../activeLayer";
-import {MapCoordinate, Vector2} from "../../../model/coordinates";
+import {MapCoordinate} from "../../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {PathFinder} from "../../../model/movement";
-import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {step_run} from "../../../model/pathing";
 import LightButton from "../../widgets/LightButton";
-import TileHighlight from "../TileHighlight";
 import {createStepGraphics} from "../path_graphics";
 
-export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
-    /* TODO:
-        - Proper preview of tiles
-        - Live preview of path? Caching of pathfinding needed, ideally limit pathlength
-     */
-
-    events = new TypedEmitter<{
-        "done": step_run,
-        "cancelled": null
-    }>()
-
+export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
+    "done": step_run,
+    "cancelled": null
+}> {
     pathfinding_state: PathFinder.state = null
 
     instruction_div: JQuery
@@ -58,11 +49,12 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
         this.layer.getMap().map.on(this._maphooks)
     }
 
-    setStartPosition(pos: MapCoordinate) {
+    setStartPosition(pos: MapCoordinate): this {
         if (pos) this.pathfinding_state = PathFinder.init_djikstra(pos)
         else this.pathfinding_state = null
 
         this.update_preview(null)
+        return this
     }
 
     _maphooks: leaflet.LeafletEventHandlerFnMap = {

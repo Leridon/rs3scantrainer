@@ -4,7 +4,7 @@ import TopControl from "../TopControl";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 
 export default abstract class LayerInteraction<T extends ActiveLayer, events extends Record<string, any> = {}> {
-    protected events: TypedEmitter<events> = new TypedEmitter<events>()
+    public events: TypedEmitter<events> = new TypedEmitter<events>()
 
     private is_active: boolean
 

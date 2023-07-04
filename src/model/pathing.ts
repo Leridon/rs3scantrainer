@@ -14,6 +14,10 @@ type step_base = {
 export type interaction_type =
     "generic" | "chop" | "talk"
 
+export namespace interaction_type {
+
+}
+
 // TODO: Orientation step
 
 export type step_orientation = step_base & {
@@ -41,9 +45,9 @@ export type step_teleport = step_base & {
 
 export type step_interact = step_base & {
     type: "interaction",
-    area: Box,
     ticks: number,
-    ends_up: PlayerPosition
+    ends_up: PlayerPosition,
+    how: interaction_type
 }
 
 export type step_redclick = step_base & {
@@ -67,7 +71,6 @@ export namespace Path {
 
     export type raw = {
         description: string,
-        clip: any
         steps: step[],
     }
 

@@ -9,7 +9,7 @@ export default class Collapsible extends Widget {
 
     is_collapsed: boolean = false
 
-    constructor(container: JQuery, title: string) {
+    constructor(container: JQuery = $("<div>"), title: string = "") {
         super(container)
 
         container.addClass("nis-collapsible")
@@ -26,6 +26,12 @@ export default class Collapsible extends Widget {
         this.content = Widget.wrap($("<div class='nis-collapsible-content'></div>")).appendTo(this)
 
         this.append($("<div>"))
+    }
+
+    setTitle(title: string): this {
+        this.title.text(title)
+
+        return this
     }
 
     setCollapsed(collapsed: boolean) {

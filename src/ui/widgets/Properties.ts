@@ -14,7 +14,7 @@ export default class Properties extends Widget {
     }
 
     row(content: Widget): this {
-        c("<div class='nisl-property-row'></div>").append(content).appendTo(this)
+        c("<div class='nisl-property-row nisl-property-standalone-row'></div>").append(content).appendTo(this)
 
         return this
     }

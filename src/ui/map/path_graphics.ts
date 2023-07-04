@@ -80,26 +80,6 @@ export function createStepGraphics(step: step): leaflet.Layer {
                 lines.push([from, to])
             }
 
-            /*
-            for (let i = 0; i < step.waypoints.length - 1; i++) {
-                const from = step.waypoints[i]
-                const to = step.waypoints[i + 1]
-
-                const delta = Vector2.sub(to, from)
-
-                const diagonal_part = Math.min(Math.abs(delta.x), Math.abs(delta.y))
-
-                let straight_vector: Vector2 = {
-                    x: delta.x - Math.sign(delta.x) * diagonal_part,
-                    y: delta.y - Math.sign(delta.x) * diagonal_part
-                }
-
-                let checkpoint = Vector2.add(from, straight_vector)
-
-                lines.push([from, checkpoint])
-                lines.push([checkpoint, to])
-            }*/
-
             lines = lines.filter((l) => !Vector2.eq(l[0], l[1]))
 
             let group = leaflet.featureGroup()

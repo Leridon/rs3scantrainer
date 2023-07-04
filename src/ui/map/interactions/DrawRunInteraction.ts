@@ -49,7 +49,7 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
     cancel() {
         this.layer.getMap().map.off(this._maphooks)
 
-        if(this._preview) this._preview.remove()
+        if (this._preview) this._preview.remove()
     }
 
     start() {
@@ -87,7 +87,8 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
 
         this.events.emit("done", {
             type: "run",
-            waypoints: path
+            waypoints: path,
+            description: `Run to ${this._to.x} | ${this._to.y}`
         })
 
         this.deactivate()
@@ -102,7 +103,6 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
             this.instruction_div.html(`Running from ${this._start.x} | ${this._start.y}.<br> Click where to run to.`)
         }
 
-
         let path = await PathFinder.pathFinder(HostedMapData.get(), this._start, this._to)
 
         if (this._preview) {
@@ -113,7 +113,8 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer> {
         if (path) {
             this._preview = createStepGraphics({
                 type: "run",
-                waypoints: path
+                waypoints: path,
+                description: ""
             }).addTo(this.layer)
         }
     }

@@ -1,5 +1,6 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as events from "events";
+import {Browser} from "leaflet";
 
 export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
     constructor(public container: JQuery = $("<div>")) {
@@ -56,7 +57,9 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    static wrap(jquery: JQuery): Widget {
+    static wrap(jquery: JQuery | string): Widget {
+        if (typeof jquery == "string") jquery = $(jquery)
+
         return new Widget(jquery)
     }
 
@@ -81,3 +84,9 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 }
+
+declare global {
+    function c(s: string): Widget
+}
+
+globalThis.c = Widget.wrap

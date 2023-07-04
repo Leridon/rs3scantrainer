@@ -123,6 +123,7 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
             this._dive_preview = createStepGraphics({
                 type: "ability",
                 ability: this.ability,
+                description: "",
                 from: this.start_position,
                 to: res.tile
             }).addTo(this.layer)
@@ -174,6 +175,7 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer> {
                     this.events.emit("done", {
                         type: "ability",
                         ability: this.ability,
+                        description: `Use {{${this.ability}}}`,
                         from: this.start_position,
                         to: res.tile
                     })

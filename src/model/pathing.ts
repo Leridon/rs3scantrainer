@@ -8,7 +8,7 @@ import {full_teleport_id} from "./teleports";
 
 type step_base = {
     type: string,
-    description?: string
+    description: string
 }
 
 export type interaction_type =
@@ -33,26 +33,26 @@ export type step_run = step_base & {
     waypoints: MapCoordinate[]
 }
 
-type step_teleport = step_base & {
+export type step_teleport = step_base & {
     type: "teleport",
     id: full_teleport_id,
     spot_override?: MapCoordinate
 }
 
-type step_interact = step_base & {
+export type step_interact = step_base & {
     type: "interaction",
     area: Box,
     ticks: number,
     ends_up: PlayerPosition
 }
 
-type step_redclick = step_base & {
+export type step_redclick = step_base & {
     type: "redclick",
     where: MapCoordinate,
     how: interaction_type
 }
 
-type step_powerburst = step_base & {
+export type step_powerburst = step_base & {
     type: "powerburst",
     where: MapCoordinate
 }

@@ -646,7 +646,6 @@ video {
 .nisl-property-header {
     text-align: center;
     font-weight: bold;
-    margin-top: 2px;
 }
 
 .nisl-property-name {
@@ -663,7 +662,11 @@ video {
 
 .nisl-property-row {
     display: flex;
-    margin-top: 2px;
+    margin: 2px 3px;
 }
 
+/*Why do I even need this? Shouldn't flexbox contents auto fill the row if there is no other size limit?*/
+.nisl-property-row > * {
+    flex: 1;
+}
 

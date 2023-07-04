@@ -122,6 +122,8 @@ export class Application {
             ["surge", () => "<img class='text-icon' src='assets/icons/surge.png' title='Surge'>"],
             ["dive", () => "<img class='text-icon' src='assets/icons/dive.png' title='Dive'>"],
             ["bladeddive", () => "<img class='text-icon' src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
+            ["escape", () => "<img class='text-icon' src='assets/icons/escape.png' title='Escape'>"],
+            ["barge", () => "<img class='text-icon' src='assets/icons/barge.png' title='Barge'>"],
             ["digspot", (args) => `<span class="spot-number">${args[0]}</span>`],
             ["scanarea", (args) => `<span style="color: ${Constants.colors.scan_area}">${args[0]}</span>`],
             ["teleport", (args) => {

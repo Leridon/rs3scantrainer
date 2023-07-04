@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet";
 import {ActiveLayer} from "../map/activeLayer";
 import {CustomControl} from "../map/CustomControl";
-import {Path, step, step_ability} from "../../model/pathing";
+import {Path, step, step_ability, step_powerburst, step_redclick} from "../../model/pathing";
 import Widget from "../widgets/Widget";
 import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 import MediumImageButton from "../widgets/MediumImageButton";
@@ -16,6 +16,7 @@ import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
+import Properties from "../widgets/Properties";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -68,14 +69,14 @@ class StepEditWidget extends Widget<{
         super()
 
         this.addClass("step-edit-component")
-            .addClass("nisl-properties")
+
 
         this.on("changed", () => this.updatePreview())
         this.on("deleted", () => this.removePreview())
 
-        let title = new Widget($("<div style='text-align: center'></div>"))
+        new Widget($("<div style='text-align: center'></div>"))
+            .text(`T${value.tick}: ${Path.title(value.raw)}`)
             .appendTo(this)
-        title.text(`T${value.tick}: ${Path.title(value.raw)}`)
 
         {
             let control_row = new Widget().addClass("path-step-edit-widget-control-row").appendTo(this)
@@ -93,25 +94,26 @@ class StepEditWidget extends Widget<{
 
         this.value.issues.forEach((i) => new WarningWidget(i).appendTo(this))
 
-        $("<div class='nisl-property-header'>Description:</div>").appendTo(this.container)
-        new TemplateStringEdit(scantrainer.template_resolver, value.raw.description)
-            .on("changed", (v) => {
-                this.value.raw.description = v
-                this.emit("changed", this.value.raw)
-            })
-            .appendTo(this)
+        let props = new Properties().appendTo(this)
 
+        props.header("Description")
+
+        props.row(
+            new TemplateStringEdit(scantrainer.template_resolver, value.raw.description)
+                .on("changed", (v) => {
+                    this.value.raw.description = v
+                    this.emit("changed", this.value.raw)
+                })
+        )
 
         if (this.value.raw.type == "ability") {
-            let from = $("<div class='nisl-property-row'><div class='nisl-property-name'>From: </div></div>").appendTo(this.container)
-            new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.from).addClass("nisl-property-content").appendTo(from)
+            props.named("From", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.from))
                 .on("changed", (c) => {
                     (this.value.raw as step_ability).from = c
                     this.emit("changed", this.value.raw)
                 })
 
-            let to = $("<div class='nisl-property-row'><div class='nisl-property-name'>To: </div></div>").appendTo(this.container)
-            new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.to).addClass("nisl-property-content").appendTo(to)
+            props.named("To", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.to))
                 .on("changed", (c) => {
                     (this.value.raw as step_ability).to = c
                     this.emit("changed", this.value.raw)
@@ -120,12 +122,22 @@ class StepEditWidget extends Widget<{
             // TODO: Redraw button
         }
 
+        if (this.value.raw.type == "redclick" || this.value.raw.type == "powerburst") {
+
+            props.named("Where", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.where))
+                .on("changed", (c) => {
+                    (this.value.raw as (step_powerburst | step_redclick)).where = c
+                    this.emit("changed", this.value.raw)
+                })
+        }
+
         // TODO: Run waypoints
         // TODO: Teleport selection/override
         // TODO: Default descriptions
         // TODO: Redclick
         // TODO: Powerburst
         // TODO: Shortcut
+        // TODO: Scrollbar
 
         this.updatePreview()
     }
@@ -180,6 +192,7 @@ class ControlWidget extends Widget {
                         this.value.steps.push({
                             type: "ability",
                             ability: "surge",
+                            description: "Use {{surge}}",
                             from: this.augmented.ends_up.tile,
                             to: res.tile
                         })
@@ -208,6 +221,7 @@ class ControlWidget extends Widget {
                         this.value.steps.push({
                             type: "ability",
                             ability: "escape",
+                            description: "Use {{escape}}",
                             from: this.augmented.ends_up.tile,
                             to: res.tile
                         })

@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet";
 import {ActiveLayer} from "../map/activeLayer";
 import {CustomControl} from "../map/CustomControl";
-import {Path, step, step_ability, step_interact, step_powerburst, step_redclick} from "../../model/pathing";
+import {Path, step, step_ability, step_interact, step_orientation, step_powerburst, step_redclick} from "../../model/pathing";
 import Widget from "../widgets/Widget";
 import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 import MediumImageButton from "../widgets/MediumImageButton";
@@ -9,7 +9,7 @@ import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
 import Button from "../widgets/Button";
 import augmented_step = Path.augmented_step;
-import {MovementAbilities} from "../../model/movement";
+import {direction, MovementAbilities} from "../../model/movement";
 import surge2 = MovementAbilities.surge2;
 import escape2 = MovementAbilities.escape2;
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
@@ -19,6 +19,7 @@ import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import Collapsible from "../widgets/modals/Collapsible";
+import {DropdownSelection} from "../widgets/DropdownSelection";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -189,17 +190,49 @@ class StepEditWidget extends Widget<{
             case "interaction":
 
                 props.named("Ticks", c("<input type='number' class='nisinput' min='0'>")
-                    .tapRaw((c) => c.on("change", () => {
+                    .tapRaw((c) => c.val((this.value.raw as step_interact).ticks).on("change", () => {
                         (this.value.raw as step_interact).ticks = Number(c.val())
                         this.emit("changed", this.value.raw)
                     }))
                 )
 
-                props.named("Where", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.ends_up.tile))
+                props.named("Where", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.where))
+                    .on("changed", (c) => {
+                        (this.value.raw as step_interact).where = c
+                        this.emit("changed", this.value.raw)
+                    })
+
+                props.named("Ends up", new MapCoordinateEdit(this.parent.parent.parent, this.value.raw.ends_up.tile))
                     .on("changed", (c) => {
                         (this.value.raw as step_interact).ends_up.tile = c
                         this.emit("changed", this.value.raw)
                     })
+
+                props.named("Facing", new DropdownSelection<direction>({
+                        type_class: {
+                            toHTML: (v: direction) => c(`<div>${direction.toString(v)}</div>`)
+                        }
+                    }, direction.all)
+                        .setValue(this.value.raw.ends_up.direction)
+                        .on("selection_changed", v => {
+                            (this.value.raw as step_interact).ends_up.direction = v
+                            this.emit("changed", this.value.raw)
+                        })
+                )
+                break
+            case "orientation":
+
+                props.named("Facing", new DropdownSelection<direction>({
+                        type_class: {
+                            toHTML: (v: direction) => c(`<div>${direction.toString(v)}</div>`)
+                        }
+                    }, direction.all)
+                        .setValue(this.value.raw.direction)
+                        .on("selection_changed", v => {
+                            (this.value.raw as step_orientation).direction = v
+                            this.emit("changed", this.value.raw)
+                        })
+                )
 
                 break
 
@@ -396,20 +429,47 @@ class ControlWidget extends Widget {
                                 this.update()
                             })).activate()
                     }
-
                 })
-            new MediumImageButton('assets/icons/shortcut.png').appendTo(add_buttons)
-            new MediumImageButton('assets/icons/compass.png').appendTo(add_buttons)
 
-            props.named("New Step", add_buttons)
-            props.row(new LightButton("Pathfind").tooltip("Hopefully coming soon").setEnabled(false))
+            new MediumImageButton('assets/icons/shortcut.png').appendTo(add_buttons)
+                .on("click", () => {
+
+                    new SelectTileInteraction(this.parent.parent)
+                        .tapEvents((e) => e.on("selected", (t) => {
+                            this.value.steps.push({
+                                type: "interaction",
+                                ticks: 1,
+                                description: "",
+                                where: t,
+                                ends_up: {
+                                    direction: null,
+                                    tile: {x: 0, y: 0, level: 0}
+                                },
+                                how: "generic"
+                            })
+
+                            this.update()
+                        })).activate()
+                })
+
+            new MediumImageButton('assets/icons/compass.png').appendTo(add_buttons)
+                .on("click", () => {
+                    this.value.steps.push({
+                        type: "orientation",
+                        description: `Face ${direction.toString(1)}`,
+                        direction: 1
+                    })
+
+                    this.update()
+                })
+
+            props.named("Add Step", add_buttons)
+            props.row(new LightButton("Autocomplete").tooltip("Hopefully coming soon").setEnabled(false))
             props.row(new LightButton("Show JSON"))
             props.row(new LightButton("Export"))
             props.row(new LightButton("Import"))
 
         }
-
-        c("<div style='grid'>")
 
         this.container.on("click", (e) => e.stopPropagation())
 

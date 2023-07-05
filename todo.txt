@@ -21,6 +21,10 @@ Planned for next release (b0.4):
 
 - "Add to Alt1 button" at the top when in browser
 - Fix floor of Dorgesh Khaan spot E
+- Lumbridge Caves: A, B and C are at floor 2, not 0. Check whether that checks out ingame
+- Have a way to directly link to a given clue and its method with query parameters.
+- Update Deep Wildy Scan
+- Update compass spots from rsmv
 
 RELEASE 1.0
 - Finish all elite/master scans
@@ -45,14 +49,12 @@ Unscheduled:
 - Add a view to see the entire scan tree without having to enter the editor
 - Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
 - Add overview layer to display all clues based on the filter. Very useful tool to get an overview.
-- Have a way to directly link to a given clue and its method with query parameters.
 - Scale teleports with zoom
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
 - Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Arrow key/enter control for the search.
-- Collapsible panels
 - Add puzzle solvers
 - Add methods for remaining clue types.
 - Warn when not using meerkats

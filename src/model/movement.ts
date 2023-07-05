@@ -82,6 +82,10 @@ export class HostedMapData implements MapData {
 export type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 
 export namespace direction {
+    export const cardinal: direction[] = [1, 2, 3, 4]
+    export const diagonal: direction[] = [5, 6, 7, 8]
+    export const all: direction[] = [1, 2, 3, 4, 5, 6, 7, 8]
+
     const vectors: Vector2[] = [
         {x: 0, y: 0},   // 0 center
         {x: -1, y: 0},  // 1 left

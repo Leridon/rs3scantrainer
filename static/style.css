@@ -648,7 +648,11 @@ video {
     cursor: pointer;
 }
 
-/* nis like extensions */
+/*
+ * nis like extensions
+ */
+
+/** Properties**/
 
 .nisl-properties {
     font-family: monospace;
@@ -675,6 +679,10 @@ video {
     width: 80%;
 }
 
+.nisl-property-content > * {
+    width: 100%;
+}
+
 .nisl-property-row {
     display: flex;
     margin: 2px 3px;
@@ -685,3 +693,39 @@ video {
     flex: 1;
 }
 
+/** Dropdown select **/
+
+.nisl-selectdropdown {
+    position: relative;
+    overflow: visible;
+}
+
+.nisl-selectdropdown-input {
+    width: 100%;
+    user-select: none;
+    cursor: pointer;
+    height: 20px;
+    color: #B1AFAE;
+    outline: none;
+    position: relative;
+    padding: 0px 4px;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #191714, #292222, #100C0C);
+    border: 1px solid #514949;
+    font-family: sans-serif;
+    font-size: 13px;
+}
+
+.nisl-selectdropdown-options {
+    cursor: pointer;
+    /*position: absolute;
+    z-index: 10000;*/
+}
+
+.nisl-selectdropdown-options > * {
+    background-color: #1D190D;
+}
+
+.nisl-selectdropdown-options > .selected {
+    background-color: #333333FF;
+}

@@ -46,6 +46,7 @@ export type step_teleport = step_base & {
 export type step_interact = step_base & {
     type: "interaction",
     ticks: number,
+    where: MapCoordinate,
     ends_up: PlayerPosition,
     how: interaction_type
 }
@@ -372,7 +373,7 @@ export namespace Path {
             case "teleport":
                 return `Teleport TODO`
             case "interaction":
-                break;
+                return "Use entrance/shortcut";
             case "redclick":
                 return "Redclick"
             case "powerburst":

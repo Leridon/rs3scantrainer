@@ -22,7 +22,7 @@ export default class Properties extends Widget {
     named<T extends Widget>(name: string, content: T): T {
         let row = $(`<div class='nisl-property-row'><div class='nisl-property-name'>${name}:</div></div>`).appendTo(this.container)
 
-        content.addClass("nisl-property-content").appendTo(row)
+        content.appendTo(c("<div class='nisl-property-content'>").appendTo(row))
 
         return content
     }

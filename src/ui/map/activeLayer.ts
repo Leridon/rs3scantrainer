@@ -101,7 +101,6 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
         new PathEditLayer(this, {
             description: "",
-            clip: null,
             steps: []/*[
                 {
                     type: "teleport",

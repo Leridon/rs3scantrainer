@@ -84,7 +84,7 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    tapRaw(f: (JQuery) => any): this {
+    tapRaw(f: (j: JQuery) => any): this {
         f(this.container)
 
         return this

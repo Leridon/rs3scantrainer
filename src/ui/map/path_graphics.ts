@@ -100,14 +100,6 @@ export function createStepGraphics(step: step): leaflet.Layer {
 
             return group
         }
-        case "interaction":
-            return boxPolygon(step.area).setStyle({
-                weight: 2,
-                color: "#888888",
-                fillColor: "#888888",
-                fillOpacity: 0.3,
-                interactive: false
-            })
         case "redclick": {
             return createX(step.where, "red")
         }
@@ -121,6 +113,12 @@ export function createStepGraphics(step: step): leaflet.Layer {
                 interactive: false
             })
         }
+        case "interaction":
+            // TODO:
+        case "orientation":
+        default:
+            // Return an empty layer to avoid having to null check everywhere
+            return leaflet.featureGroup()
     }
 
     return null

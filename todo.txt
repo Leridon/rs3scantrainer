@@ -1,6 +1,25 @@
+Immediate next:
+- Place Path editor as fixed component of Map
+- Connect scan editor to path editor
+- Searchable Dropdown for teleports
+- Dropdown Select + Icons for interaction types
+- Include a way to set a start state for a path
+    - As a general section?
+    - Locked when loaded from the scan editor maybe
+- Display analytics section
+    - Total time
+    - More? If not, maye display elsewhere 2
+
+- Restyle step header to include icon
+- Show pathing when available
+
+
+
+
 Ready for release:
 - [Presentation] reenable walls on the map.
 - [Tooling, Presentation] Subtle Walkable-Overlay.
+- [Tooling] Add a permanent tile highlight when moving the mouse over the map
 
 Planned for next release (b0.4):
 - [How] Detailled pathing
@@ -8,10 +27,6 @@ Planned for next release (b0.4):
     - Define a graphical representation for each one.
     - Add an editor/Unified way to show paths
 
-- Settings modal
-    - Local methods
-    - Teleport settings
-- Support for multiple methods
 
 - [Tooling] Styling pass over the scan editor
     - Tree as a table
@@ -25,6 +40,14 @@ Planned for next release (b0.4):
 - Have a way to directly link to a given clue and its method with query parameters.
 - Update Deep Wildy Scan
 - Update compass spots from rsmv
+
+b0.5:
+- Settings modal
+    - Local methods
+    - Teleport settings
+- Support for multiple methods
+
+
 
 RELEASE 1.0
 - Finish all elite/master scans

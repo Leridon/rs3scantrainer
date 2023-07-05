@@ -46,7 +46,7 @@ export default class ImportStringModal extends Modal {
         })
     }
 
-    static do<T>(parser: (string) => T) {
+    static do<T>(parser: (string) => T): Promise<T> {
         return modal("modal-import-string", ImportStringModal).showWith(parser)
     }
 }

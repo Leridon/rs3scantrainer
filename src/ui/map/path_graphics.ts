@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet"
 import {step} from "../../model/pathing";
-import {boxPolygon, MapCoordinate, toLL, Vector2} from "../../model/coordinates";
+import {MapCoordinate, toLL, Vector2} from "../../model/coordinates";
 import {MovementAbilities} from "../../model/movement";
 
 

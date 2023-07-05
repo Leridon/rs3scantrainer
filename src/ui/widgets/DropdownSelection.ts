@@ -1,15 +1,18 @@
 import Widget from "./Widget";
 import {createPopper} from '@popperjs/core';
 
-
+/* TODO:
+    - Styling pass over dropdown
+    - Add arrow indicating that it's a dropdown
+ */
 export class DropdownSelection<T extends object | string | number> extends Widget<{
     "selection_changed": T
 }> {
     private input: Widget
 
-    dropdown: Widget = null
-    dropdown_rows: Widget[] = null
-    highlighted_value: T = null
+    private dropdown: Widget = null
+    private dropdown_rows: Widget[] = null
+    private highlighted_value: T = null
 
     private value: T = null
 
@@ -23,22 +26,6 @@ export class DropdownSelection<T extends object | string | number> extends Widge
                 .on("click", (e) => {
                     if (this.dropdown) this.hideDropdown()
                     else this.openDropdown()
-                })
-                .on("focusout", (e) => {
-                    if (this.dropdown && this.dropdown.container.has(e.relatedTarget as HTMLElement)) return
-
-                    this.hideDropdown()
-                })
-                .on("keydown", (e) => {
-                    if (e.key == "Enter") this.selectValue(this.highlighted_value)
-
-                    if (e.key == "ArrowDown") {
-                        this.setHighlight(items[Math.min(this.items.length - 1, this.items.indexOf(this.highlighted_value) + 1)])
-                    }
-
-                    if (e.key == "ArrowUp") {
-                        this.setHighlight(items[Math.max(0, this.items.indexOf(this.highlighted_value) - 1)])
-                    }
                 })
             )
 
@@ -72,7 +59,24 @@ export class DropdownSelection<T extends object | string | number> extends Widge
     openDropdown() {
         if (this.dropdown) return
 
-        this.dropdown = c("<div class='nisl-selectdropdown-options' style='z-index: 9999999999'>").appendTo(DropdownSelection.getDropdownPane())
+        this.dropdown = c("<div class='nisl-selectdropdown-options' style='z-index: 9999999999' tabindex='0'>").appendTo(DropdownSelection.getDropdownPane())
+            .tapRaw(r => r
+                .on("keydown", (e) => {
+                    if (e.key == "Enter") this.selectValue(this.highlighted_value)
+
+                    if (e.key == "ArrowDown") {
+                        this.setHighlight(this.items[Math.min(this.items.length - 1, this.items.indexOf(this.highlighted_value) + 1)])
+                    }
+
+                    if (e.key == "ArrowUp") {
+                        this.setHighlight(this.items[Math.max(0, this.items.indexOf(this.highlighted_value) - 1)])
+                    }
+                })
+                .on("focusout blur", (e) => {
+                    this.hideDropdown()
+                })
+            )
+
 
         this.dropdown_rows = this.items.map((i) =>
             c(`<div></div>`).appendTo(this.dropdown)
@@ -110,6 +114,8 @@ export class DropdownSelection<T extends object | string | number> extends Widge
                 },
             ]
         })
+
+        this.dropdown.container.focus() // The deprecation warning here is for a different overload
     }
 
     setValue(v: T): this {

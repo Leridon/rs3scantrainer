@@ -12,20 +12,10 @@ import {MapCoordinate} from "../../model/coordinates";
 import Collapsible from "../widgets/modals/Collapsible";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 
-
-class ClipEdit extends Widget {
-    constructor() {
-        super();
-
-        this.append($("<div class='head'>Clip</div>"))
-    }
-}
-
 class EdgeEdit extends Widget<{
     "changed": edge_path
 }> {
     instruction_input: TemplateStringEdit
-    clip_edit: ClipEdit
 
     constructor(private parent: PathEdit, private value: edge_path) {
         super();
@@ -45,9 +35,6 @@ class EdgeEdit extends Widget<{
             .append($("<div class='col-3'>Instruction</div>"))
             .append($("<div class='col-9'>").append(this.instruction_input.container))
             .appendTo(this.container)
-
-        //this.clip_edit = new ClipEdit(null).appendTo(this)
-
     }
 
     update() {

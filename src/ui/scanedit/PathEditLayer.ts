@@ -8,10 +8,7 @@ import MediumImageButton from "../widgets/MediumImageButton";
 import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
 import Button from "../widgets/Button";
-import augmented_step = Path.augmented_step;
 import {direction, MovementAbilities} from "../../model/movement";
-import surge2 = MovementAbilities.surge2;
-import escape2 = MovementAbilities.escape2;
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
@@ -19,7 +16,14 @@ import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import Collapsible from "../widgets/modals/Collapsible";
-import {DropdownSelection} from "../widgets/DropdownSelection";
+import DirectionSelect from "../pathedit/DirectionSelect";
+import ExportStringModal from "../widgets/modals/ExportStringModal";
+import {export_string, import_string} from "../../util/exportString";
+import ImportStringModal from "../widgets/modals/ImportStringModal";
+import augmented_step = Path.augmented_step;
+import surge2 = MovementAbilities.surge2;
+import escape2 = MovementAbilities.escape2;
+import {GameMapControl} from "../map/map";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -208,40 +212,32 @@ class StepEditWidget extends Widget<{
                         this.emit("changed", this.value.raw)
                     })
 
-                props.named("Facing", new DropdownSelection<direction>({
-                        type_class: {
-                            toHTML: (v: direction) => c(`<div>${direction.toString(v)}</div>`)
-                        }
-                    }, direction.all)
-                        .setValue(this.value.raw.ends_up.direction)
-                        .on("selection_changed", v => {
-                            (this.value.raw as step_interact).ends_up.direction = v
-                            this.emit("changed", this.value.raw)
-                        })
+                props.named("Facing", new DirectionSelect()
+                    .setValue(this.value.raw.ends_up.direction)
+                    .on("selection_changed", v => {
+                        (this.value.raw as step_interact).ends_up.direction = v
+                        this.emit("changed", this.value.raw)
+                    })
                 )
                 break
             case "orientation":
-
-                props.named("Facing", new DropdownSelection<direction>({
-                        type_class: {
-                            toHTML: (v: direction) => c(`<div>${direction.toString(v)}</div>`)
-                        }
-                    }, direction.all)
-                        .setValue(this.value.raw.direction)
-                        .on("selection_changed", v => {
-                            (this.value.raw as step_orientation).direction = v
-                            this.emit("changed", this.value.raw)
-                        })
+                props.named("Facing", new DirectionSelect()
+                    .setValue(this.value.raw.direction)
+                    .on("selection_changed", v => {
+                        (this.value.raw as step_orientation).direction = v
+                        this.emit("changed", this.value.raw)
+                    })
                 )
 
                 break
+            case "teleport":
 
+            // TODO: Override
+            //      - Teleport
         }
 
         // TODO: Teleport selection/override
-        // TODO: Shortcut
         // TODO: Fix scroll events passing through
-        // TODO: Orientation select
         // TODO: Add analytics
         // TODO: Start/End state
         // TODO: Action select
@@ -465,10 +461,19 @@ class ControlWidget extends Widget {
 
             props.named("Add Step", add_buttons)
             props.row(new LightButton("Autocomplete").tooltip("Hopefully coming soon").setEnabled(false))
-            props.row(new LightButton("Show JSON"))
-            props.row(new LightButton("Export"))
-            props.row(new LightButton("Import"))
+            props.row(new LightButton("Show JSON")
+                .on("click", () => ExportStringModal.do(JSON.stringify(this.value, null, 2))))
+            props.row(new LightButton("Export")
+                .on("click", () => ExportStringModal.do(export_string("path", 0, this.value)))
+            )
+            props.row(new LightButton("Import")
+                .on("click", async () => {
+                    this.value = await ImportStringModal.do((s) => import_string<Path.raw>("path", 0, s))
+                    await this.update()
+                }))
 
+            props.row(new LightButton("Save"))
+            props.row(new LightButton("Save and Close"))
         }
 
         this.container.on("click", (e) => e.stopPropagation())
@@ -517,6 +522,21 @@ class ControlWidget extends Widget {
                     .on("changed", () => this.update())
             )
         }
+    }
+}
+
+class PathEditor {
+
+    constructor(private map: GameMapControl) {
+
+    }
+
+    private createEmptyPath() {
+
+    }
+
+    public load(path: Path.raw, save_handler: (p: Path.raw) => void) {
+
     }
 }
 

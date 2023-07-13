@@ -708,7 +708,7 @@ video {
     color: #B1AFAE;
     outline: none;
     position: relative;
-    padding: 0px 4px;
+    padding: 0 4px;
     box-sizing: border-box;
     background: linear-gradient(to bottom, #191714, #292222, #100C0C);
     border: 1px solid #514949;
@@ -723,6 +723,7 @@ video {
 }
 
 .nisl-selectdropdown-options > * {
+    padding: 0 4px;
     background-color: #1D190D;
 }
 

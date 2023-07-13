@@ -8,7 +8,7 @@ Immediate next:
     - Locked when loaded from the scan editor maybe
 - Display analytics section
     - Total time
-    - More? If not, maye display elsewhere 2
+    - More? If not, maye display elsewhere
 
 - Restyle step header to include icon
 - Show pathing when available

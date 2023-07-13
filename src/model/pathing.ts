@@ -5,20 +5,43 @@ import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "../data/teleport_data";
 import {full_teleport_id} from "./teleports";
+import {capitalize} from "lodash";
 
 type step_base = {
     type: string,
     description: string
 }
 
+export enum InteractionType {
+    GENERIC = "generic",
+    CHOP = "chop",
+    TALK = "talk"
+
+    /** TODO:
+     * Use Shortcut
+     *  - Different Types
+     * Enter Cave
+     * Exit Cave
+     * Ladder Up
+     * Ladder Down
+     * Open Door
+     * Use Spell on Object
+     *
+     */
+}
+
 export type interaction_type =
     "generic" | "chop" | "talk"
 
 export namespace interaction_type {
-
+    export function meta(type: InteractionType): { icon_url: string, description: string } {
+        return {
+            icon_url: "assets/icons/accel.png",
+            description: capitalize(type.toString())
+        }
+        // TODO: Add real data
+    }
 }
-
-// TODO: Orientation step
 
 export type step_orientation = step_base & {
     type: "orientation",
@@ -48,13 +71,13 @@ export type step_interact = step_base & {
     ticks: number,
     where: MapCoordinate,
     ends_up: PlayerPosition,
-    how: interaction_type
+    how: InteractionType
 }
 
 export type step_redclick = step_base & {
     type: "redclick",
     where: MapCoordinate,
-    how: interaction_type
+    how: InteractionType
 }
 
 export type step_powerburst = step_base & {
@@ -93,9 +116,6 @@ export namespace Path {
     }
 
     export async function augment(path: Path.raw): Promise<Path.augmented> {
-        // TODO: Consider antispam delay of subsequent surges
-        // TODO: Auto wait for cooldown (Emit warning)
-
         let augmented_steps: augmented_step[] = []
 
         let carry: {

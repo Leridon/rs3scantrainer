@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet";
 import {ActiveLayer} from "../map/activeLayer";
 import {CustomControl} from "../map/CustomControl";
-import {Path, step, step_ability, step_interact, step_orientation, step_powerburst, step_redclick} from "../../model/pathing";
+import {InteractionType, Path, step, step_ability, step_interact, step_orientation, step_powerburst, step_redclick} from "../../model/pathing";
 import Widget from "../widgets/Widget";
 import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 import MediumImageButton from "../widgets/MediumImageButton";
@@ -20,10 +20,11 @@ import DirectionSelect from "../pathedit/DirectionSelect";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
+import {GameMapControl} from "../map/map";
+import InteractionSelect from "../pathedit/InteractionSelect";
 import augmented_step = Path.augmented_step;
 import surge2 = MovementAbilities.surge2;
 import escape2 = MovementAbilities.escape2;
-import {GameMapControl} from "../map/map";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -39,7 +40,6 @@ class StepEditWidget extends Widget<{
 }> {
 
     /*TODO:
-     * - Make buttons functional.
      * - Add editing for properties
      */
 
@@ -157,6 +157,14 @@ class StepEditWidget extends Widget<{
                         (this.value.raw as (step_powerburst | step_redclick)).where = c
                         this.emit("changed", this.value.raw)
                     })
+
+                props.named("Action", new InteractionSelect()
+                    .setValue(this.value.raw.how)
+                    .on("selection_changed", v => {
+                        (this.value.raw as step_interact).how = v
+                        this.emit("changed", this.value.raw)
+                    })
+                )
                 break
             case "powerburst":
 
@@ -219,6 +227,15 @@ class StepEditWidget extends Widget<{
                         this.emit("changed", this.value.raw)
                     })
                 )
+
+                props.named("Action", new InteractionSelect()
+                    .setValue(this.value.raw.how)
+                    .on("selection_changed", v => {
+                        (this.value.raw as step_interact).how = v
+                        this.emit("changed", this.value.raw)
+                    })
+                )
+
                 break
             case "orientation":
                 props.named("Facing", new DirectionSelect()
@@ -396,7 +413,7 @@ class ControlWidget extends Widget {
                                 type: "redclick",
                                 description: "",
                                 where: t,
-                                how: "generic"
+                                how: InteractionType.GENERIC
                             })
 
                             this.update()
@@ -441,7 +458,7 @@ class ControlWidget extends Widget {
                                     direction: null,
                                     tile: {x: 0, y: 0, level: 0}
                                 },
-                                how: "generic"
+                                how: InteractionType.GENERIC
                             })
 
                             this.update()

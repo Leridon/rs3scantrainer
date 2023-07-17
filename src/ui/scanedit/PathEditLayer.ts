@@ -80,7 +80,7 @@ class StepEditWidget extends Widget<{
         this.on("deleted", () => this.removePreview())
 
         new Widget($("<div class='path-step-edit-header'></div>"))
-            .text(`T${value.tick}: ${Path.title(value.raw)}`)
+            .text(`T${value.pre_state.tick} - T${value.post_state.tick}: ${Path.title(value.raw)}`)
             .appendTo(this)
 
         {
@@ -315,15 +315,15 @@ class ControlWidget extends Widget {
 
             new MediumImageButton('assets/icons/surge.png').appendTo(add_buttons)
                 .on("click", async () => {
-                    if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
-                        let res = await surge2(this.augmented.ends_up)
+                    if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
+                        let res = await surge2(this.augmented.post_state.position)
 
                         if (res) {
                             this.value.steps.push({
                                 type: "ability",
                                 ability: "surge",
                                 description: "Use {{surge}}",
-                                from: this.augmented.ends_up.tile,
+                                from: this.augmented.post_state.position?.tile,
                                 to: res.tile
                             })
 
@@ -334,7 +334,7 @@ class ControlWidget extends Widget {
                     }
 
                     let interaction = new DrawAbilityInteraction(this.parent.parent, "surge")
-                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(s)
                         this.update()
@@ -344,15 +344,15 @@ class ControlWidget extends Widget {
             new MediumImageButton('assets/icons/escape.png').appendTo(add_buttons)
                 .on("click", async () => {
 
-                    if (this.augmented.ends_up?.tile != null && this.augmented.ends_up?.direction != null) {
-                        let res = await escape2(this.augmented.ends_up)
+                    if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
+                        let res = await escape2(this.augmented.post_state.position)
 
                         if (res) {
                             this.value.steps.push({
                                 type: "ability",
                                 ability: "escape",
                                 description: "Use {{escape}}",
-                                from: this.augmented.ends_up.tile,
+                                from: this.augmented.post_state.position?.tile,
                                 to: res.tile
                             })
 
@@ -364,7 +364,7 @@ class ControlWidget extends Widget {
 
 
                     let interaction = new DrawAbilityInteraction(this.parent.parent, "escape")
-                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(s)
                         this.update()
@@ -375,7 +375,7 @@ class ControlWidget extends Widget {
                 .on("click", () => {
                     let interaction = new DrawAbilityInteraction(this.parent.parent, "dive")
 
-                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
 
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(s)
@@ -386,7 +386,7 @@ class ControlWidget extends Widget {
             new MediumImageButton('assets/icons/barge.png').appendTo(add_buttons)
                 .on("click", () => {
                     let interaction = new DrawAbilityInteraction(this.parent.parent, "barge")
-                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(s)
                         this.update()
@@ -396,7 +396,7 @@ class ControlWidget extends Widget {
             new MediumImageButton('assets/icons/run.png').appendTo(add_buttons)
                 .on("click", () => {
                     let interaction = new DrawRunInteraction(this.parent.parent)
-                    if (this.augmented.ends_up) interaction.setStartPosition(this.augmented.ends_up.tile)
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(s)
                         this.update()
@@ -422,11 +422,11 @@ class ControlWidget extends Widget {
 
             new MediumImageButton('assets/icons/accel.png').appendTo(add_buttons)
                 .on("click", () => {
-                    if (this.augmented.ends_up?.tile) {
+                    if (this.augmented.post_state.position?.tile) {
                         this.value.steps.push({
                             type: "powerburst",
                             description: "Use a {{icon accel}}",
-                            where: this.augmented.ends_up.tile
+                            where: this.augmented.post_state.position.tile
                         })
 
                         this.update()

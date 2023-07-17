@@ -6,6 +6,7 @@ import * as lodash from "lodash"
 import {teleport_data} from "../data/teleport_data";
 import {full_teleport_id} from "./teleports";
 import {capitalize} from "lodash";
+import {stat} from "fs";
 
 type step_base = {
     type: string,
@@ -93,43 +94,44 @@ export namespace Path {
     import cooldown = MovementAbilities.cooldown;
     import capitalize = util.capitalize;
 
+    export type movement_state = {
+        tick: number,
+        cooldowns: {    // Cooldowns signify the next tick the ability/charge can be used.
+            escape: [number, number],
+            surge: [number, number],
+            barge: number,
+            dive: number,
+        },
+        acceleration_activation_tick: number,
+        position: PlayerPosition,
+        targeted_entity: MapCoordinate,      // The targeted entity is set by redclicking it and can be used to set the player's orientation after running.
+    }
+
     export type raw = {
+        start_state?: movement_state,   // Useful for movement trees, where a path depends on a previous state
         description: string,
         steps: step[],
     }
 
     export type augmented = {
+        pre_state: movement_state,
+        post_state: movement_state,
         raw: raw,
         steps: augmented_step[],
-        expected_execution_time: number,
-        ends_up: PlayerPosition
-        issues?: string[]
     }
 
     export type augmented_step = {
+        pre_state: movement_state,
+        post_state: movement_state,
         raw: step,
-        tick: number,
-        section: number,
-        ticks: number,
-        ends_up: PlayerPosition
+        section?: number,
         issues?: string[]
     }
 
     export async function augment(path: Path.raw): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
-        let carry: {
-            tick: number,
-            cooldowns: {    // Cooldowns signify the next tick the ability/charge can be used.
-                escape: [number, number],
-                surge: [number, number],
-                barge: number,
-                dive: number,
-            },
-            acceleration_activation_tick: number,
-            position: PlayerPosition,
-            targeted_entity: MapCoordinate,      // The targeted entity is set by redclicking it and can be used to set the player's orientation after running.
-        } = {
+        let state: movement_state = path.start_state || {
             tick: 0,
             cooldowns: {
                 escape: [0, 0],
@@ -142,15 +144,19 @@ export namespace Path {
             targeted_entity: null
         }
 
+        let start_state = lodash.clone(state)
+
+        // null positions are a pain, replace with position with unknown tile and direction
+        state.position ||= {tile: null, direction: null}
+
         for (let i = 0; i < path.steps.length; i++) {
             let step = path.steps[i]
 
             let augmented: augmented_step = {
-                ends_up: lodash.clone(carry.position) || {tile: null, direction: null},
-                tick: carry.tick,
+                pre_state: lodash.clone(state),
+                post_state: null,
                 issues: [],
                 section: 0,
-                ticks: 0,
                 raw: step
             }
 
@@ -158,34 +164,39 @@ export namespace Path {
                 case "orientation":
                     if (i > 0) augmented.issues.push("Orientation steps should only be used as the first step!")
 
-                    augmented.ticks = 1
+                    // Assume one tick
+                    state.tick += 1
+                    state.targeted_entity = null
 
-                    augmented.ends_up.direction = step.direction
+                    state.position.direction = step.direction
                     break
                 case "run": {
-                    if (carry.position.tile && !MapCoordinate.eq(carry.position.tile, step.waypoints[0]))
+                    if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.waypoints[0]))
                         augmented.issues.push("Running does not start where the previous step ends!")
 
-                    augmented.ticks = Math.ceil(step.waypoints.length / 2)
-                    augmented.ends_up = {
+                    state.position = {
                         tile: index(step.waypoints, -1),
                         direction: direction.fromVector(
-                            carry.targeted_entity
-                                ? Vector2.sub(carry.targeted_entity, index(step.waypoints, -1))
+                            state.targeted_entity
+                                ? Vector2.sub(state.targeted_entity, index(step.waypoints, -1))
                                 : Vector2.sub(index(step.waypoints, -1), index(step.waypoints, -2)))
                     }
-                    carry.targeted_entity = null
+
+                    // The first waypoint is the start point, so path length is |waypoints| - 1
+                    state.tick += Math.ceil((step.waypoints.length - 1) / 2)
+
+                    state.targeted_entity = null
                 }
                     break;
                 case "ability":
                     // Check whether start and target matches expectations
-                    if (carry.position) {
-                        if (carry.position.tile && !MapCoordinate.eq(carry.position.tile, step.from)) {
+                    if (state.position) {
+                        if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.from)) {
                             augmented.issues.push("Ability does not start where the previous step ends!")
                         } else {
 
                             // if there is no previous position, at least assume the defined start position
-                            let assumed_pos = carry.position
+                            let assumed_pos = state.position
 
                             assumed_pos.tile ||= step.from
 
@@ -233,7 +244,7 @@ export namespace Path {
 
                     // Whether powerburst is active can only be determined AFTER the real tick of the step is set
                     // To not duplicate so much code, this is used as a reusable shortcut.
-                    const powerburst = () => (augmented.tick - carry.acceleration_activation_tick) <= 120
+                    const powerburst = () => (state.tick - state.acceleration_activation_tick) <= 120
 
                     // Check cooldowns
                     // Assumes mobile as well as double surge/escape.
@@ -245,95 +256,107 @@ export namespace Path {
                     // moving first and THEN an ability in the same tick does not work.
                     switch (step.ability) {
                         case "surge": {
-                            let min = minIndex(carry.cooldowns.surge)
+                            let min = minIndex(state.cooldowns.surge)
 
-                            if (carry.cooldowns.surge[min] > augmented.tick) {
-                                if (carry.cooldowns.surge[min] - augmented.tick <= 2 && carry.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
-                                    augmented.issues.push(`Antispam delay. Waiting for ${carry.cooldowns.surge[min] - augmented.tick} ticks.`)
+                            if (state.cooldowns.surge[min] > state.tick) {
+                                if (state.cooldowns.surge[min] - state.tick <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
+                                    augmented.issues.push(`Antispam delay. Waiting for ${state.cooldowns.surge[min] - state.tick} ticks.`)
                                 else
-                                    augmented.issues.push(`Both surge charges are still on cooldown for ${carry.cooldowns.surge[min] - augmented.tick} ticks.`)
+                                    augmented.issues.push(`Both surge charges are still on cooldown for ${state.cooldowns.surge[min] - state.tick} ticks.`)
 
-                                augmented.tick = carry.cooldowns.surge[min] // Wait for cooldown
+                                state.tick = state.cooldowns.surge[min] // Wait for cooldown
                             }
 
                             // Put the used charge on cooldown
-                            carry.cooldowns.surge[min] = augmented.tick + cooldown("surge", powerburst())
+                            state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst())
                             // Set the antispam delay for the second charge
-                            carry.cooldowns.surge[1 - min] = Math.max(augmented.tick + 2, carry.cooldowns.surge[1 - min])
+                            state.cooldowns.surge[1 - min] = Math.max(state.tick + 2, state.cooldowns.surge[1 - min])
 
                             // Surge puts both escape charges on cooldown
-                            carry.cooldowns.escape.fill(augmented.tick + cooldown("escape", powerburst()))
+                            state.cooldowns.escape.fill(state.tick + cooldown("escape", powerburst()))
 
                             break
                         }
                         case "escape": {
-                            let min = minIndex(carry.cooldowns.escape)
+                            let min = minIndex(state.cooldowns.escape)
 
-                            if (carry.cooldowns.escape[min] > augmented.tick) {
-                                if (carry.cooldowns.escape[min] - augmented.tick <= 2 && carry.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
-                                    augmented.issues.push(`Antispam delay. Waiting for ${carry.cooldowns.escape[min] - augmented.tick} ticks.`)
+                            if (state.cooldowns.escape[min] > state.tick) {
+                                if (state.cooldowns.escape[min] - state.tick <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
+                                    augmented.issues.push(`Antispam delay. Waiting for ${state.cooldowns.escape[min] - state.tick} ticks.`)
                                 else
-                                    augmented.issues.push(`Both escape charges are still on cooldown for ${carry.cooldowns.escape[min] - augmented.tick} ticks.`)
+                                    augmented.issues.push(`Both escape charges are still on cooldown for ${state.cooldowns.escape[min] - state.tick} ticks.`)
 
-                                augmented.tick = carry.cooldowns.escape[min] // Wait for cooldown
+                                state.tick = state.cooldowns.escape[min] // Wait for cooldown
                             }
 
                             // Put the used charge on cooldown
-                            carry.cooldowns.escape[min] = augmented.tick + cooldown("escape", powerburst())
+                            state.cooldowns.escape[min] = state.tick + cooldown("escape", powerburst())
                             // Set the antispam delay for the second charge
-                            carry.cooldowns.escape[1 - min] = Math.max(augmented.tick + 2, carry.cooldowns.escape[1 - min])
+                            state.cooldowns.escape[1 - min] = Math.max(state.tick + 2, state.cooldowns.escape[1 - min])
 
                             // Escape puts both surge charges on cooldown
-                            carry.cooldowns.surge.fill(augmented.tick + cooldown("surge", powerburst()))
+                            state.cooldowns.surge.fill(state.tick + cooldown("surge", powerburst()))
 
                             break
                         }
                         case "dive": {
-                            if (carry.cooldowns.dive > augmented.tick) {
-                                augmented.issues.push(`Dive is still on cooldown for ${carry.cooldowns.dive - augmented.tick} ticks!`)
-                                augmented.tick = carry.cooldowns.dive // Wait for cooldown
+                            if (state.cooldowns.dive > state.tick) {
+                                augmented.issues.push(`Dive is still on cooldown for ${state.cooldowns.dive - state.tick} ticks!`)
+                                state.tick = state.cooldowns.dive // Wait for cooldown
                             }
 
-                            carry.cooldowns.dive = augmented.tick + cooldown("dive", powerburst())
+                            state.cooldowns.dive = state.tick + cooldown("dive", powerburst())
 
                             break
                         }
                         case "barge": {
-                            if (carry.cooldowns.barge > augmented.tick) {
-                                augmented.issues.push(`Barge is still on cooldown for ${carry.cooldowns.barge - augmented.tick} ticks!`)
-                                augmented.tick = carry.cooldowns.barge // Wait for cooldown
+                            if (state.cooldowns.barge > state.tick) {
+                                augmented.issues.push(`Barge is still on cooldown for ${state.cooldowns.barge - state.tick} ticks!`)
+                                state.tick = state.cooldowns.barge // Wait for cooldown
                             }
 
-                            carry.cooldowns.barge = augmented.tick + cooldown("barge", powerburst())
+                            state.cooldowns.barge = state.tick + cooldown("barge", powerburst())
 
                             break
                         }
                     }
 
-                    augmented.ticks = 1
-
-                    augmented.ends_up = {
+                    state.position = {
                         tile: step.to,
                         direction: direction.fromVector(Vector2.sub(step.to, step.from))
                     }
-                    if (step.ability == "escape") augmented.ends_up.direction = direction.invert(augmented.ends_up.direction)
+                    if (step.ability == "escape") state.position.direction = direction.invert(state.position.direction)
+
+                    switch (step.ability) {
+                        case "surge":
+                        case "dive":
+                        case "escape":
+                            break; // Movement abilities do not end the tick and allow for another action (such as doing the other ability or running) in the same tick
+                        case "barge":
+                            state.tick += 1
+                            break;
+                    }
 
                     // A movement ability overrides target (TODO: Or does it?)
-                    carry.targeted_entity = null
+                    state.targeted_entity = null
 
                     break;
                 case "teleport":
 
                     // With this implementation, teleports always preserve player orientation.
                     // There are teleports in the game that do not do that, but that's not included in the data I have.
-                    if (step.spot_override) augmented.ends_up.tile = step.spot_override
-                    else augmented.ends_up.tile = teleport_data.resolveTarget(step.id)
+                    if (step.spot_override) state.position.tile = step.spot_override
+                    else state.position.tile = teleport_data.resolveTarget(step.id)
+
+                    state.tick += 1 // TODO: Add teleport and interface times!
+                    state.targeted_entity = null
 
                     break;
                 case "interaction":
-                    augmented.ends_up = step.ends_up
 
-                    augmented.ticks = step.ticks
+                    state.position = step.ends_up
+                    state.tick += step.ticks
+                    state.targeted_entity = null
 
                     break;
                 case "redclick":
@@ -349,36 +372,38 @@ export namespace Path {
                             augmented.issues.push("Redclicking orientation is the same as natural orientation.")
                     }
 
-                    carry.targeted_entity = step.where
+                    state.targeted_entity = step.where
+
+                    // redclicks are considered to be loss less, i.e. don't take any ticks.
+
                     break;
                 case "powerburst":
-                    if (carry.position.tile && !MapCoordinate.eq(carry.position.tile, step.where)) {
+                    if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.where)) {
                         augmented.issues.push("Position of powerburst does not match where the player is at that point.")
-                        augmented.ends_up.tile = step.where
+                        state.position.tile = step.where
                     }
 
-                    if (carry.tick - carry.acceleration_activation_tick < 120) {
-                        augmented.issues.push(`Powerburst of acceleration still on cooldown for ${carry.acceleration_activation_tick + 120 - carry.tick} ticks!`)
-                        augmented.tick = carry.acceleration_activation_tick + 120
+                    if (state.tick - state.acceleration_activation_tick < 120) {
+                        augmented.issues.push(`Powerburst of acceleration still on cooldown for ${state.acceleration_activation_tick + 120 - state.tick} ticks!`)
+                        state.tick = state.acceleration_activation_tick + 120
                     }
 
-                    carry.acceleration_activation_tick = carry.tick
-                    augmented.ticks = 1
+                    state.acceleration_activation_tick = state.tick
+                    state.tick += 1
 
                     break;
             }
 
-            carry.position = augmented.ends_up
-            carry.tick = augmented.tick + augmented.ticks
+            augmented.post_state = lodash.clone(state)
 
             augmented_steps.push(augmented)
         }
 
         return {
+            pre_state: start_state,
+            post_state: index(augmented_steps, -1)?.post_state || start_state,
             raw: path,
             steps: augmented_steps,
-            expected_execution_time: augmented_steps.map((s) => s.ticks).reduce((a, b) => a + b, 0),
-            ends_up: index(augmented_steps, -1)?.ends_up
         }
     }
 

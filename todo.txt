@@ -38,13 +38,15 @@ Planned for next release (b0.4):
 - Fix floor of Dorgesh Khaan spot E
 - Lumbridge Caves: A, B and C are at floor 2, not 0. Check whether that checks out ingame
 - Have a way to directly link to a given clue and its method with query parameters.
-- Update Deep Wildy Scan
+- Update Deep Wildy Scan/Wilderness Crater
 - Update compass spots from rsmv
+-
 
 b0.5:
 - Settings modal
     - Local methods
     - Teleport settings
+    - Shown depth of scan trees
 - Support for multiple methods
 
 
@@ -52,11 +54,6 @@ b0.5:
 RELEASE 1.0
 - Finish all elite/master scans
 - Auto read pulses
-- Setting menu
-    - Teleports
-        - Fairy Ring Favorites
-        - POTA
-        - Camelot, Watchtower, Varrock alternatives
 - [Tech] Overlay pathing into the game.
     - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.
     - Player position is input explicitly by placing a marker on the map.

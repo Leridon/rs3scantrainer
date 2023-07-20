@@ -20,6 +20,7 @@ Ready for release:
 - [Presentation] reenable walls on the map.
 - [Tooling, Presentation] Subtle Walkable-Overlay.
 - [Tooling] Add a permanent tile highlight when moving the mouse over the map
+- Fix floor of Dorgesh Khaan spot E
 
 Planned for next release (b0.4):
 - [How] Detailled pathing
@@ -35,7 +36,6 @@ Planned for next release (b0.4):
     - Scale information gain down when zoomed out
 
 - "Add to Alt1 button" at the top when in browser
-- Fix floor of Dorgesh Khaan spot E
 - Lumbridge Caves: A, B and C are at floor 2, not 0. Check whether that checks out ingame
 - Have a way to directly link to a given clue and its method with query parameters.
 - Update Deep Wildy Scan/Wilderness Crater

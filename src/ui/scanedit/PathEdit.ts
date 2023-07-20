@@ -11,6 +11,8 @@ import template_resolvers = ScanTree2.template_resolvers;
 import {MapCoordinate} from "../../model/coordinates";
 import Collapsible from "../widgets/modals/Collapsible";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
+import Properties from "../widgets/Properties";
+import PathProperty from "../pathedit/PathProperty";
 
 class EdgeEdit extends Widget<{
     "changed": edge_path
@@ -20,11 +22,27 @@ class EdgeEdit extends Widget<{
     constructor(private parent: PathEdit, private value: edge_path) {
         super();
 
+        let properties = new Properties().appendTo(this)
+
+        properties.header(ScanTree2.edgeTitle(this.value, this.parent.parent.value))
+
+        properties.named("Instruction",
+            new TemplateStringEdit(scantrainer.template_resolver
+                .with(template_resolvers(this.parent.parent.value, this.value)), this.value.short_instruction
+            ).on("changed", (v) => {
+                this.value.short_instruction = v
+                this.emit("changed", this.value)
+            })
+        )
+
+        properties.named("Path", new PathProperty())
+
+        /*
         this.append(
             $(`<div style="text-align: center; font-weight: bold">${ScanTree2.edgeTitle(this.value, this.parent.parent.value)}</div>`)
         )
         this.instruction_input = new TemplateStringEdit(scantrainer.template_resolver
-            .with(template_resolvers(this.parent.parent.value, this.value)),
+                .with(template_resolvers(this.parent.parent.value, this.value)),
             this.value.short_instruction
         ).on("changed", (v) => {
             this.value.short_instruction = v
@@ -34,7 +52,7 @@ class EdgeEdit extends Widget<{
         $("<div class='row'>")
             .append($("<div class='col-3'>Instruction</div>"))
             .append($("<div class='col-9'>").append(this.instruction_input.container))
-            .appendTo(this.container)
+            .appendTo(this.container)*/
     }
 
     update() {

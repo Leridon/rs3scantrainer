@@ -4,7 +4,6 @@ import {MapCoordinate, Vector2} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
-import PathEditLayer from "../scanedit/PathEditLayer";
 
 /*
 class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
@@ -98,50 +97,6 @@ export class ActiveLayer extends leaflet.FeatureGroup {
 
     constructor() {
         super()
-
-        new PathEditLayer(this, {
-            description: "",
-            steps: []/*[
-                {
-                    type: "teleport",
-                    id: {
-                        main: "ringofduelling",
-                        sub: "castlewars"
-                    }
-                }, {
-                    type: "run",
-                    waypoints: [
-                        {x: 2444, y: 3089},
-                        {x: 2448, y: 3090},
-                        {x: 2451, y: 3090},
-                    ]
-                }, {
-                    type: "redclick",
-                    where: {x: 2462, y: 3077}
-                }, {
-                    type: "ability",
-                    ability: "surge",
-                    from: {x: 2451, y: 3090},
-                    to: {x: 2461, y: 3080}
-                }, {
-                    type: "run",
-                    waypoints: [
-                        {x: 2461, y: 3080},
-                        {x: 2460, y: 3076},
-                    ]
-                }, {
-                    type: "ability",
-                    ability: "dive",
-                    from: {x: 2460, y: 3076},
-                    to: {x: 2450, y: 3066}
-                }, {
-                    type: "ability",
-                    ability: "barge",
-                    from: {x: 2450, y: 3066},
-                    to: {x: 2440, y: 3056}
-                }
-            ]*/
-        }).addTo(this)
     }
 
     getMap(): GameMapControl {

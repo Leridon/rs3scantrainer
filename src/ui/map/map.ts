@@ -8,6 +8,7 @@ import Widget from "../widgets/Widget";
 import {Constants} from "../../constants";
 import PathLayer from "./layers/PathLayer";
 import TileHighlight from "./TileHighlight";
+import {PathEditor} from "../scanedit/PathEditLayer";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -114,6 +115,8 @@ export class GameMapControl extends Widget<{
     private top_control_container: Widget
     private tile_highlight: TileHighlight
 
+    public path_editor: PathEditor
+
     // Hardcoded
     private mapid: number = 4
 
@@ -177,6 +180,14 @@ export class GameMapControl extends Widget<{
 
         this.tile_highlight = new TileHighlight({x: 0, y: 0}).addTo(this.map)
         this.map.on("mousemove", (e) => this.tile_highlight.setPosition(this.tileFromMouseEvent(e)))
+
+
+        this.path_editor = new PathEditor(this)
+        this.path_editor.load({
+            description: "",
+            steps: [],
+        }, {save_handler: () => {}})
+
 
         /*
         let e1 = new CustomControl($("<div class='nis-map-control'><img src='assets/icons/teleports/homeport.png'></div>")

@@ -11,6 +11,8 @@ export default class Button extends Widget<{
         this.container.on("click", (e) => {
             e.stopPropagation()
 
+            if (!this.container.hasClass("enabled")) return
+
             this.emit("click", null)
         })
 

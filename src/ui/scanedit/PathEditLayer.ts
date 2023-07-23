@@ -25,7 +25,6 @@ import InteractionSelect from "../pathedit/InteractionSelect";
 import augmented_step = Path.augmented_step;
 import surge2 = MovementAbilities.surge2;
 import escape2 = MovementAbilities.escape2;
-import * as path from "path";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -107,7 +106,8 @@ class StepEditWidget extends Widget<{
         props.header("Description")
 
         props.row(
-            new TemplateStringEdit(scantrainer.template_resolver, value.raw.description)
+            new TemplateStringEdit(scantrainer.template_resolver)
+                .setValue(value.raw.description)
                 .on("changed", (v) => {
                     this.value.raw.description = v
                     this.emit("changed", this.value.raw)
@@ -552,6 +552,10 @@ class ControlWidget extends Widget<{
             )
         }
     }
+
+    cleanup() {
+        // TODO: This is most likely the place to remove the preview layer
+    }
 }
 
 export class PathEditor {
@@ -565,11 +569,17 @@ export class PathEditor {
     public load(path: Path.raw, options: {
         save_handler: (p: Path.raw) => void
     }) {
+        if (this.control) {
+            this.control.cleanup()
+            this.control.remove()
+            this.control = null
+        }
 
         this.control = new ControlWidget(this, path)
             .on("saved", (v) => options.save_handler(v))
             .on("closed", () => {
-                this.control.remove()   // TODO: This is most likely the place to remove the preview layer
+                this.control.cleanup()
+                this.control.remove()
                 this.control = null
             })
 

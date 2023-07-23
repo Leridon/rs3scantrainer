@@ -7,10 +7,8 @@ export default class Properties extends Widget {
         this.addClass("nisl-properties")
     }
 
-    header(text: string): this {
-        c(`<div class='nisl-property-header nisl-property-row'>${text}:</div>`).appendTo(this)
-
-        return this
+    header(text: string): Widget {
+        return c(`<div class='nisl-property-header nisl-property-row'>${text}:</div>`).appendTo(this)
     }
 
     row(content: Widget): this {

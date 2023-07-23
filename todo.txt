@@ -1,5 +1,4 @@
 Immediate next:
-- Place Path editor as fixed component of Map
 - Connect scan editor to path editor
 - Searchable Dropdown for teleports
 - Dropdown Select + Icons for interaction types

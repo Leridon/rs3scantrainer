@@ -88,11 +88,11 @@ export default class ScanEditPanel extends Widget<{
         })
 
         this.areas
-            .on("changed", (a: ScanSpot[]) => {
+            .on("changed", async (a: ScanSpot[]) => {
                 this.value.areas = a
 
-                this.tree_edit.clean()
-                this.path_edit.clean()
+                await this.tree_edit.clean()
+                await this.path_edit.clean()
             })
             .on("decisions_changed", (decisions) => {
                 this.candidates = decisions.reduce((candidates, decision) => {

@@ -641,6 +641,7 @@ video {
 /*Classes for custom components*/
 
 .lcss-button:not(.enabled) {
+    cursor: not-allowed;
     filter: opacity(0.5) grayscale(100%);
 }
 

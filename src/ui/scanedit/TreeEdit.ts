@@ -35,7 +35,7 @@ export default class TreeEdit extends Widget<{
     constructor(private parent: ScanEditPanel, private value: tree_node) {
         super($("<div>"))
 
-        this.collapsible = new Collapsible(this.container, "Decision Tree")
+        this.collapsible = new Collapsible(this.container, "Decision/Movement Tree")
 
         $("<div style='display: flex; text-align: center'>")
             .append($("<div class='col-9' style='font-weight: bold'>Instructions</div>"))
@@ -45,26 +45,26 @@ export default class TreeEdit extends Widget<{
         this.update()
     }
 
-    clean() {
+    async clean() {
         let self = this
 
-        function prune(node: tree_node, candidates: MapCoordinate[]): tree_node {
+        async function prune(node: tree_node, candidates: MapCoordinate[]): Promise<tree_node> {
             if (node == null || candidates.length == 0) return null
 
             let area = self.parent.value.areas.find((a) => a.name == node.where)
 
             if (!area) return null
 
-            node.children.forEach((n) => {
-                n.value = prune(n.value, narrow_down(candidates, {area: area, ping: n.key}, assumedRange(self.parent.value)))
-            })
+            for (const n of node.children) {
+                n.value = await prune(n.value, narrow_down(candidates, {area: area, ping: n.key}, assumedRange(self.parent.value)))
+            }
 
             node.children = node.children.filter((c) => c.value != null)
 
             return node
         }
 
-        this.value = prune(this.value, this.parent.value.clue.solution.candidates)
+        this.value = await prune(this.value, this.parent.value.clue.solution.candidates)
 
         this.emit("changed", this.value)
 
@@ -78,7 +78,6 @@ export default class TreeEdit extends Widget<{
 
         this.create(this.view)
     }
-
 
     private create(container: JQuery): TreeDom {
         let augmented = ScanTree2.augment(this.parent.value)

@@ -4,11 +4,13 @@ import {area_pulse, Pulse} from "./scans";
 import {Modal} from "../../ui/widgets/modal";
 import {ScanStep} from "../clues";
 import {util} from "../../util/util";
-import type {Path} from "../pathing";
+import {Path} from "../pathing";
 
 export namespace ScanTree2 {
 
     import natural_order = util.natural_order;
+    import help = alt1.help;
+
     export type ScanSpot = {
         name: string,
         is_virtual?: boolean,
@@ -21,7 +23,7 @@ export namespace ScanTree2 {
         from?: string,
         to: string | MapCoordinate[],
         short_instruction?: string,
-        path?: Path.raw,
+        path: Path.raw,
     }
 
     export type tree = method_base & {
@@ -37,10 +39,11 @@ export namespace ScanTree2 {
     export type indirect_scan_tree = tree & indirected
 
     export type decision_tree = {
+        path: Path.raw,
         where: string,
         why?: string,
         children: {
-            key: Pulse,
+            key: Pulse | null,
             value: decision_tree
         }[]
     }
@@ -58,6 +61,20 @@ export namespace ScanTree2 {
             key: Pulse,
             value: augmented_decision_tree
         }[]
+    }
+
+    export async function propagate_movement_state(tree: ScanTree2.tree) {
+        async function helper(tree: decision_tree, pre_state: Path.movement_state) {
+            tree.path.start_state = pre_state
+
+            let ap = await Path.augment(tree.path)
+
+            for (const c of tree.children) {
+                await helper(c.value, ap.post_state)
+            }
+        }
+
+        await helper(tree.root, Path.movement_state.start())
     }
 
     export function assumedRange(tree: resolved_scan_tree): number {
@@ -82,7 +99,8 @@ export namespace ScanTree2 {
 
             let edge: edge_path = {
                 from: parent ? parent.node.where.name : null,
-                to: node ? node.where : remaining_candidates
+                to: node ? node.where : remaining_candidates,
+                path: null
             }
 
             let path = tree.methods.find((m) => edgeSame(m, edge))

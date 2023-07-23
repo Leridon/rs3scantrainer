@@ -107,8 +107,26 @@ export namespace Path {
         targeted_entity: MapCoordinate,      // The targeted entity is set by redclicking it and can be used to set the player's orientation after running.
     }
 
+    export namespace movement_state {
+        export function start(): movement_state {
+            return {
+                tick: 0,
+                cooldowns: {
+                    escape: [0, 0],
+                    surge: [0, 0],
+                    barge: 0,
+                    dive: 0,
+                },
+                acceleration_activation_tick: -1000,
+                position: {tile: null, direction: null},
+                targeted_entity: null
+            }
+        }
+    }
+
     export type raw = {
         start_state?: movement_state,   // Useful for movement trees, where a path depends on a previous state
+        target?: Box
         description: string,
         steps: step[],
     }
@@ -131,18 +149,7 @@ export namespace Path {
     export async function augment(path: Path.raw): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
-        let state: movement_state = path.start_state || {
-            tick: 0,
-            cooldowns: {
-                escape: [0, 0],
-                surge: [0, 0],
-                barge: 0,
-                dive: 0,
-            },
-            acceleration_activation_tick: -1000,
-            position: {tile: null, direction: null},
-            targeted_entity: null
-        }
+        let state: movement_state = path.start_state || movement_state.start()
 
         let start_state = lodash.clone(state)
 

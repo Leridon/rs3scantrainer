@@ -4,8 +4,6 @@ import {ScanTree2} from "../../model/scans/ScanTree2";
 import edge_path = ScanTree2.edge_path;
 import edgeSame = ScanTree2.edgeSame;
 import spotNumber = ScanTree2.spotNumber;
-import {Constants} from "../../constants";
-import {util} from "../../util/util";
 import {scantrainer} from "../../application";
 import template_resolvers = ScanTree2.template_resolvers;
 import {MapCoordinate} from "../../model/coordinates";
@@ -13,50 +11,41 @@ import Collapsible from "../widgets/modals/Collapsible";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import Properties from "../widgets/Properties";
 import PathProperty from "../pathedit/PathProperty";
+import AbstractEditWidget from "../widgets/AbstractEditWidget";
 
-class EdgeEdit extends Widget<{
-    "changed": edge_path
-}> {
+class EdgeEdit extends AbstractEditWidget<edge_path> {
+    header: Widget
     instruction_input: TemplateStringEdit
+    path_input: PathProperty
 
-    constructor(private parent: PathEdit, private value: edge_path) {
-        super();
+    constructor(private parent: PathEdit) {
+        super()
 
         let properties = new Properties().appendTo(this)
 
-        properties.header(ScanTree2.edgeTitle(this.value, this.parent.parent.value))
+        this.header = properties.header("")
 
-        properties.named("Instruction",
-            new TemplateStringEdit(scantrainer.template_resolver
-                .with(template_resolvers(this.parent.parent.value, this.value)), this.value.short_instruction
-            ).on("changed", (v) => {
-                this.value.short_instruction = v
-                this.emit("changed", this.value)
+        this.instruction_input = properties.named("Instruction",
+            new TemplateStringEdit(scantrainer.template_resolver)
+                .on("changed", (v) => {
+                    this.value.short_instruction = v
+                    this.changed(this.value)
+                })
+        )
+
+        this.path_input = properties.named("Path", new PathProperty(this.parent.parent.layer.getMap())
+            .on("changed", v => {
+                this.value.path = v
+                this.changed(this.value)
             })
         )
-
-        properties.named("Path", new PathProperty())
-
-        /*
-        this.append(
-            $(`<div style="text-align: center; font-weight: bold">${ScanTree2.edgeTitle(this.value, this.parent.parent.value)}</div>`)
-        )
-        this.instruction_input = new TemplateStringEdit(scantrainer.template_resolver
-                .with(template_resolvers(this.parent.parent.value, this.value)),
-            this.value.short_instruction
-        ).on("changed", (v) => {
-            this.value.short_instruction = v
-            this.emit("changed", this.value)
-        })
-
-        $("<div class='row'>")
-            .append($("<div class='col-3'>Instruction</div>"))
-            .append($("<div class='col-9'>").append(this.instruction_input.container))
-            .appendTo(this.container)*/
     }
 
     update() {
+        this.header.text(ScanTree2.edgeTitle(this.value, this.parent.parent.value))
+        this.path_input.setValue(this.value.path)
         this.instruction_input.setResolver(scantrainer.template_resolver.with(template_resolvers(this.parent.parent.value, this.value)))
+            .setValue(this.value.short_instruction)
     }
 }
 
@@ -93,7 +82,13 @@ export default class PathEdit extends Widget<{
                     Array.isArray(p.to) ?
                         (p.to.length > 1) ? `Check {{target}}`
                             : "Dig at {{target}}"
-                        : `Go to {{target}}`
+                        : `Go to {{target}}`,
+                path: {
+                    start_state: null,   // Useful for movement trees, where a path depends on a previous state
+                    target: null,
+                    description: "",
+                    steps: [],
+                }
             }
         })
 
@@ -122,7 +117,8 @@ export default class PathEdit extends Widget<{
         this.edges.forEach((e) => e.remove())
 
         this.value.forEach((p) => {
-            this.edges.push(new EdgeEdit(this, p)
+            this.edges.push(new EdgeEdit(this)
+                .setValue(p)
                 .on("changed", () => {
                     this.emit("changed", this.value)
                 })

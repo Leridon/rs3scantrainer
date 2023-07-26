@@ -67,6 +67,20 @@ export namespace ScanTree2 {
         }[]
     }
 
+    export function init_leaf(candidates: MapCoordinate[]): decision_tree {
+        return {
+            where_to: null,
+            children: [],
+            paths: candidates.map(c => {
+                return {
+                    spot: c,
+                    short_instruction: "Dig at {{target}}",
+                    path: null
+                }
+            })
+        }
+    }
+
     export async function propagate_movement_state(tree: ScanTree2.tree) {
         async function helper(tree: decision_tree, pre_state: Path.movement_state) {
             tree.path.start_state = pre_state
@@ -124,15 +138,13 @@ export namespace ScanTree2 {
             // For triples with more than one candidate, inherit the parent's spot
             if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.where = parent.node.where
 
-            if (node != null) {
+            if (node.where_to != null) {
                 // The node is not a leaf node, find all relevant children
                 t.where = tree.areas.find((a) => a.name == node.where_to)
 
                 let narrowing = spot_narrowing(remaining_candidates, t.where, assumedRange(tree))
 
                 narrowing.forEach((v: { pulse: Pulse, narrowed_candidates: MapCoordinate[] }) => {
-
-                    node.children
 
                     let child = node.children.find((c) => Pulse.equals(c.key, v.pulse))
 

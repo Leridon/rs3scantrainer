@@ -87,6 +87,15 @@ export class DropdownSelection<T extends object | string | number> extends Widge
                 )
         )
 
+        if (this.options.can_be_null){
+            c(`<div></div>`).appendTo(this.dropdown)
+                .append(this.construct(null))
+                .tapRaw((r) => r.data("value", null)
+                    .on("mouseover", () => this.setHighlight(null))
+                    .on("click", () => this.selectValue(null))
+                )
+        }
+
         this.setHighlight(this.value)
 
         let instance = createPopper(this.input.container.get()[0], this.dropdown.container.get()[0], {

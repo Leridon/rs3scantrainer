@@ -25,7 +25,7 @@ export default class ScanEditPanel extends Widget<{
     spot_ordering: SpotOrderingEdit
     areas: AreaEdit
     tree_edit: TreeEdit
-    path_edit: PathEdit
+    //path_edit: PathEdit
 
     candidates: MapCoordinate[]
 
@@ -76,7 +76,7 @@ export default class ScanEditPanel extends Widget<{
         this.spot_ordering = new SpotOrderingEdit(layer, value.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
         this.areas = new AreaEdit(this, value.areas, layer).addClass("fullwidth-in-panel").appendTo(this)
         this.tree_edit = new TreeEdit(this, value.root).addClass("fullwidth-in-panel").appendTo(this)
-        this.path_edit = new PathEdit(this, this.value.methods).addClass("fullwidth-in-panel").appendTo(this)
+        //this.path_edit = new PathEdit(this, this.value.methods).addClass("fullwidth-in-panel").appendTo(this)
 
         this.candidates = this.clue.solution.candidates
 
@@ -84,7 +84,7 @@ export default class ScanEditPanel extends Widget<{
             this.value.spot_ordering = v
             this.areas.areas.forEach((a) => a.updateSpotOrder())
             this.tree_edit.update()
-            this.path_edit.update()
+            //this.path_edit.update()
         })
 
         this.areas
@@ -92,7 +92,7 @@ export default class ScanEditPanel extends Widget<{
                 this.value.areas = a
 
                 await this.tree_edit.clean()
-                await this.path_edit.clean()
+                //await this.path_edit.clean()
             })
             .on("decisions_changed", (decisions) => {
                 this.candidates = decisions.reduce((candidates, decision) => {
@@ -121,19 +121,19 @@ export default class ScanEditPanel extends Widget<{
                     if (m.to == e.old) m.to = e.new
                 })
 
-                this.path_edit.update()
+                //this.path_edit.update()
             })
 
         this.tree_edit.on("changed", (t) => {
             this.value.root = t
-            this.path_edit.clean()
+            //this.path_edit.clean()
         }).on("decisions_loaded", (decisions) => {
             this.areas.setDecisions(decisions)
         })
 
-        this.path_edit.on("changed", (v) => {
+        /*this.path_edit.on("changed", (v) => {
             this.value.methods = v
-        })
+        })*/
     }
 
     setValue(value
@@ -145,6 +145,6 @@ export default class ScanEditPanel extends Widget<{
         this.spot_ordering.setValue(value.spot_ordering)
         this.areas.setValue(value.areas)
         this.tree_edit.setValue(value.root)
-        this.path_edit.setValue(value.methods)
+        //this.path_edit.setValue(value.methods)
     }
 }

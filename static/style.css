@@ -731,3 +731,17 @@ video {
 .nisl-selectdropdown-options > .selected {
     background-color: #333333FF;
 }
+
+/** Alternating color-list */
+
+.nisl-alternating > *:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.nisl-alternating > *:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.nisl-textlink {
+    cursor: pointer;
+    color: #0a58ca;
+}

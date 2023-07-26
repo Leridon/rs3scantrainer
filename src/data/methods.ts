@@ -1,7 +1,7 @@
 import {indirected, method} from "../model/methods";
 
 
-let raw: (method & indirected)[] = [
+let raw: (method & indirected)[] = [] /*[
 
     {
         "type": "scantree",
@@ -8457,7 +8457,7 @@ let raw: (method & indirected)[] = [
         ],
         "type": "scantree"
     },
-]
+]*/
 
 
 //let raw: (method & indirected)[] = []

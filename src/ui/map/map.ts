@@ -183,10 +183,10 @@ export class GameMapControl extends Widget<{
 
 
         this.path_editor = new PathEditor(this)
-        this.path_editor.load({
-            description: "",
-            steps: [],
-        }, {save_handler: () => {}})
+        /*this.path_editor.load({description: "", steps: [],}, {
+            save_handler: () => {
+            }
+        })*/
 
 
         /*

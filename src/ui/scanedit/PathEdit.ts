@@ -25,7 +25,8 @@ class EdgeEdit extends AbstractEditWidget<edge_path> {
 
         this.header = properties.header("")
 
-        this.instruction_input = properties.named("Instruction",
+
+        this.instruction_input = properties.named("Direction",
             new TemplateStringEdit(scantrainer.template_resolver)
                 .on("changed", (v) => {
                     this.value.short_instruction = v

@@ -39,8 +39,12 @@ export namespace ScanTree2 {
     export type indirect_scan_tree = tree & indirected
 
     export type decision_tree = {
-        path: Path.raw,
-        where: string,
+        paths: {
+            spot?: MapCoordinate,
+            short_instruction: string,
+            path: Path.raw
+        }[],
+        where_to: string,
         why?: string,
         children: {
             key: Pulse | null,
@@ -99,7 +103,7 @@ export namespace ScanTree2 {
 
             let edge: edge_path = {
                 from: parent ? parent.node.where.name : null,
-                to: node ? node.where : remaining_candidates,
+                to: node ? node.where_to : remaining_candidates,
                 path: null
             }
 
@@ -122,7 +126,7 @@ export namespace ScanTree2 {
 
             if (node != null) {
                 // The node is not a leaf node, find all relevant children
-                t.where = tree.areas.find((a) => a.name == node.where)
+                t.where = tree.areas.find((a) => a.name == node.where_to)
 
                 let narrowing = spot_narrowing(remaining_candidates, t.where, assumedRange(tree))
 
@@ -239,7 +243,10 @@ export namespace ScanTree2 {
         }
     }
 
-    export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, range: number): { pulse: Pulse, narrowed_candidates: MapCoordinate[] }[] {
+    export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, range: number): {
+        pulse: Pulse,
+        narrowed_candidates: MapCoordinate[]
+    }[] {
         return Pulse.all.map((p) => {
             return {
                 pulse: p,

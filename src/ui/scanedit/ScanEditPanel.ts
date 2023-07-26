@@ -107,7 +107,7 @@ export default class ScanEditPanel extends Widget<{
                 function tree_renamer(node: ScanTree2.decision_tree) {
                     if (!node) return
 
-                    if (node.where == e.old) node.where = e.new
+                    if (node.where_to == e.old) node.where_to = e.new
 
                     node.children.forEach((c) => tree_renamer(c.value))
                 }

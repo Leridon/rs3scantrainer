@@ -51,7 +51,7 @@ export default class TreeEdit extends Widget<{
         async function prune(node: tree_node, candidates: MapCoordinate[]): Promise<tree_node> {
             if (node == null || candidates.length == 0) return null
 
-            let area = self.parent.value.areas.find((a) => a.name == node.where)
+            let area = self.parent.value.areas.find((a) => a.name == node.where_to)
 
             if (!area) return null
 
@@ -124,7 +124,7 @@ export default class TreeEdit extends Widget<{
                             // Is a null node, need to create in parent
 
                             let new_node: tree_node = {
-                                where: selected_name,
+                                where_to: selected_name,
                                 children: []
                             }
 
@@ -138,7 +138,7 @@ export default class TreeEdit extends Widget<{
                             }
                         } else {
                             // Node exists, delete children to refresh
-                            node.raw.where = selected_name
+                            node.raw.where_to = selected_name
                             node.raw.children = []
                         }
 
@@ -167,7 +167,7 @@ export default class TreeEdit extends Widget<{
             if (node.raw != null && dom.selection) {
                 let area = self.parent.value.areas.find((a) => a.name == node.where.name)
 
-                dom.selection.val(node.raw.where)
+                dom.selection.val(node.raw.where_to)
 
                 let narrowing = spot_narrowing(node.remaining_candidates, area, assumedRange(self.parent.value))
 

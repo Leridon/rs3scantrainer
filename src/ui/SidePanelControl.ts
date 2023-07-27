@@ -3,8 +3,8 @@ import {Constants} from "../constants";
 import {Modal} from "./widgets/modal";
 import {Application, scantrainer} from "../application";
 import {method, resolved} from "../model/methods";
-import {ScanTree2} from "../model/scans/ScanTree2";
-import resolved_scan_tree = ScanTree2.resolved_scan_tree;
+import {ScanTree} from "../model/scans/ScanTree";
+import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import ScanTreeMethodLayer from "./map/methodlayer";
 
 function createMethodLayer(method: method & resolved<ClueStep>) {

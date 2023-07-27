@@ -124,8 +124,8 @@ export class Application {
             ["bladeddive", () => "<img class='text-icon' src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
             ["escape", () => "<img class='text-icon' src='assets/icons/escape.png' title='Escape'>"],
             ["barge", () => "<img class='text-icon' src='assets/icons/barge.png' title='Barge'>"],
-            ["digspot", (args) => `<span class="spot-number">${args[0]}</span>`],
-            ["scanarea", (args) => `<span style="color: ${Constants.colors.scan_area}">${args[0]}</span>`],
+            ["digspot", (args) => `<span class="ctr-digspot-inline">${args[0]}</span>`],
+            ["scanarea", (args) => `<span class="ctr-scanspot-inline">${args[0]}</span>`],
             ["teleport", (args) => {
                 let tele = this.data.teleports.get(args[0], args[1])
 

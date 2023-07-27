@@ -2,9 +2,9 @@ import Widget from "../widgets/Widget";
 import AreaWidget from "./AreaWidget";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import ScanEditPanel from "./ScanEditPanel";
-import {ScanTree2} from "../../model/scans/ScanTree2";
-import ScanSpot = ScanTree2.ScanSpot;
-import ScanDecision = ScanTree2.ScanDecision;
+import {ScanTree} from "../../model/scans/ScanTree";
+import ScanSpot = ScanTree.ScanSpot;
+import ScanDecision = ScanTree.ScanDecision;
 import Collapsible from "../widgets/modals/Collapsible";
 
 export default class AreaEdit extends Widget<{

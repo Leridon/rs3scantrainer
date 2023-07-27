@@ -6,17 +6,16 @@ import {ScanStep} from "../../model/clues";
 import {MapCoordinate} from "../../model/coordinates";
 import {indirect, resolve} from "../../model/methods";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
-import PathEdit from "./PathEdit";
-import {ScanTree2} from "../../model/scans/ScanTree2";
+import {ScanTree} from "../../model/scans/ScanTree";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
-import ScanSpot = ScanTree2.ScanSpot;
-import resolved_scan_tree = ScanTree2.resolved_scan_tree;
-import indirect_scan_tree = ScanTree2.indirect_scan_tree;
-import narrow_down = ScanTree2.narrow_down;
-import assumedRange = ScanTree2.assumedRange;
+import ScanSpot = ScanTree.ScanSpot;
+import resolved_scan_tree = ScanTree.resolved_scan_tree;
+import indirect_scan_tree = ScanTree.indirect_scan_tree;
+import narrow_down = ScanTree.narrow_down;
+import assumedRange = ScanTree.assumedRange;
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]
@@ -91,8 +90,8 @@ export default class ScanEditPanel extends Widget<{
             .on("changed", async (a: ScanSpot[]) => {
                 this.value.areas = a
 
-                await this.tree_edit.clean()
-                //await this.path_edit.clean()
+                await ScanTree.prune_clean_and_propagate(this.value)
+                this.tree_edit.update()
             })
             .on("decisions_changed", (decisions) => {
                 this.candidates = decisions.reduce((candidates, decision) => {
@@ -104,7 +103,7 @@ export default class ScanEditPanel extends Widget<{
                 this.emit("candidates_changed", this.candidates)
             })
             .on("renamed", (e) => {
-                function tree_renamer(node: ScanTree2.decision_tree) {
+                function tree_renamer(node: ScanTree.decision_tree) {
                     if (!node) return
 
                     if (node.where_to == e.old) node.where_to = e.new
@@ -115,11 +114,6 @@ export default class ScanEditPanel extends Widget<{
                 tree_renamer(this.value.root)
 
                 this.tree_edit.update()
-
-                this.value.methods.forEach((m) => {
-                    if (m.from == e.old) m.from = e.new
-                    if (m.to == e.old) m.to = e.new
-                })
 
                 //this.path_edit.update()
             })

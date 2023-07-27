@@ -2,20 +2,20 @@ import * as leaflet from "leaflet";
 import {boxPolygon, MapCoordinate, Vector2} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
-import {blue_icon, GameMapControl, } from "../map";
+import {blue_icon, GameMapControl,} from "../map";
 import {complementSpot} from "../../../model/scans/scans";
 import {ActiveLayer} from "../activeLayer";
 import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
-import {ScanTree2} from "../../../model/scans/ScanTree2";
+import {ScanTree} from "../../../model/scans/ScanTree";
 import {cloneDeep} from "lodash";
 import {Constants} from "../../../constants";
 import {indirect, resolve} from "../../../model/methods";
-import ScanSpot = ScanTree2.ScanSpot;
-import tree = ScanTree2.tree;
-import resolved_scan_tree = ScanTree2.resolved_scan_tree;
-import indirect_scan_tree = ScanTree2.indirect_scan_tree;
+import ScanSpot = ScanTree.ScanSpot;
+import tree = ScanTree.tree;
+import resolved_scan_tree = ScanTree.resolved_scan_tree;
+import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import SimpleClickInteraction from "../interactions/SimpleClickInteraction";
 import {TileMarker} from "../TileMarker";
 
@@ -48,31 +48,29 @@ export class SpotPolygon extends leaflet.FeatureGroup {
             this.polygon = null
         }
 
-        if (!this._spot.is_virtual) {
+        this.polygon = boxPolygon(this._spot.area)
 
-            this.polygon = boxPolygon(this._spot.area)
+        this.label = leaflet.tooltip({
+            interactive: false,
+            permanent: true,
+            className: "area-name",
+            offset: [0, 0],
+            direction: "center",
+            content: this._spot.name
+        })
 
-            this.label = leaflet.tooltip({
+        this.polygon
+            .setStyle({
+                color: Constants.colors.scan_area,
+                fillColor: Constants.colors.scan_area,
                 interactive: false,
-                permanent: true,
-                className: "area-name",
-                offset: [0, 0],
-                direction: "center",
-                content: this._spot.name
             })
+            .bindTooltip(this.label)
+            .addTo(this)
 
-            this.polygon
-                .setStyle({
-                    color: Constants.colors.scan_area,
-                    fillColor: Constants.colors.scan_area,
-                    interactive: false,
-                })
-                .bindTooltip(this.label)
-                .addTo(this)
-
-            this.updateOpacity()
-        }
+        this.updateOpacity()
     }
+
 
     updateOpacity() {
         if (this.polygon) {
@@ -142,8 +140,6 @@ class ScanRadiusTileMarker extends TileMarker {
 }
 
 
-
-
 export class ScanLayer extends ActiveLayer {
     private marker_layer: leaflet.FeatureGroup
     private complement_layer: leaflet.FeatureGroup
@@ -210,8 +206,7 @@ export class ScanLayer extends ActiveLayer {
                     || (self.complement_tile_marker && Vector2.eq(p, self.complement_tile_marker.getSpot()))) {
                     console.log("Removing 1")
                     self.removeMarker()
-                }
-                else {
+                } else {
                     self.setMarker(p)
                 }
             }
@@ -313,8 +308,7 @@ export class ScanEditLayer extends ScanLayer {
                 areas: [],
                 assumes_meerkats: true,
                 clue: clue.id,
-                methods: [],
-                root: ScanTree2.init_leaf(clue.solution.candidates),
+                root: ScanTree.init_leaf(clue.solution.candidates),
                 spot_ordering: clue.solution.candidates,
                 type: "scantree"
             }

@@ -2,8 +2,8 @@ import * as leaflet from "leaflet";
 import {areaToPolygon, Box, clampInto, MapCoordinate, Vector2} from "../coordinates";
 import {Raster} from "../../util/raster";
 import {rangeRight} from "lodash";
-import {ScanTree2} from "./ScanTree2";
-import ScanSpot = ScanTree2.ScanSpot;
+import {ScanTree} from "./ScanTree";
+import ScanSpot = ScanTree.ScanSpot;
 import {util} from "../../util/util";
 
 export class EquivalenceClass {

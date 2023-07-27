@@ -1,5 +1,5 @@
 import {ClueStep, ScanStep} from "./clues";
-import {ScanTree2} from "./scans/ScanTree2";
+import {ScanTree} from "./scans/ScanTree";
 import {clues} from "../data/clues";
 
 export type method_base = {
@@ -10,7 +10,7 @@ export type method_base = {
 export type indirected = method_base & { clue: number }
 export type resolved<T extends ClueStep> = method_base & { clue: T }
 
-export type method = ScanTree2.tree
+export type method = ScanTree.tree
 
 export function resolve<U extends ClueStep, T extends method_base>(clue: T & indirected): T & resolved<U> {
     if (clue == null) return null

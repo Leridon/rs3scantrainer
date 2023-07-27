@@ -638,6 +638,21 @@ video {
     margin-right: 5px;
 }
 
+/* Classes specific to the clue trainer */
+
+* {
+    --ctr-digspot-color: gold;
+    --ctr-scanspot-color: #00FF21;
+}
+
+.ctr-digspot-inline {
+    color: var(--ctr-digspot-color)
+}
+
+.ctr-scanspot-inline {
+    color: var(--ctr-scanspot-color)
+}
+
 /*Classes for custom components*/
 
 .lcss-button:not(.enabled) {
@@ -662,6 +677,7 @@ video {
 .nisl-property-header {
     text-align: center;
     font-weight: bold;
+    margin: 2px 3px;
 }
 
 .nisl-property-name {
@@ -737,6 +753,7 @@ video {
 .nisl-alternating > *:nth-child(even) {
     background-color: rgba(255, 255, 255, 0.1);
 }
+
 .nisl-alternating > *:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.1);
 }

@@ -6,8 +6,8 @@ import * as leaflet from "leaflet"
 import {toLL} from "../../model/coordinates";
 import Checkbox from "../widgets/Checkbox";
 import {ScanEquivalenceClasses} from "../../model/scans/scans";
-import {ScanTree2} from "../../model/scans/ScanTree2";
-import assumedRange = ScanTree2.assumedRange;
+import {ScanTree} from "../../model/scans/ScanTree";
+import assumedRange = ScanTree.assumedRange;
 
 export default class ScanTools extends Widget {
     collapsible: Collapsible

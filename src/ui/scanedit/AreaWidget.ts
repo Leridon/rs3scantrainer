@@ -2,9 +2,9 @@ import {ToggleGroup} from "../map/layers/ToggleGroup";
 import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import AreaEdit from "./AreaEdit";
-import {ScanTree2} from "../../model/scans/ScanTree2";
-import ScanSpot = ScanTree2.ScanSpot;
-import ScanDecision = ScanTree2.ScanDecision;
+import {ScanTree} from "../../model/scans/ScanTree";
+import ScanSpot = ScanTree.ScanSpot;
+import ScanDecision = ScanTree.ScanDecision;
 import Widget from "../widgets/Widget";
 import {Pulse} from "../../model/scans/scans";
 

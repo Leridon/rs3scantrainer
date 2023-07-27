@@ -127,7 +127,7 @@ export namespace Path {
     export type raw = {
         start_state?: movement_state,   // Useful for movement trees, where a path depends on a previous state
         target?: Box
-        description: string,
+        description?: string,
         steps: step[],
     }
 
@@ -405,6 +405,10 @@ export namespace Path {
 
             augmented_steps.push(augmented)
         }
+
+        // TODO: Check whether path ends up at target
+
+        // TODO: Sort issues into warning and errors
 
         return {
             pre_state: start_state,

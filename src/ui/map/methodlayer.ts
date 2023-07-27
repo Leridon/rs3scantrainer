@@ -1,23 +1,24 @@
 import {ScanLayer, SpotPolygon} from "./layers/ScanLayer";
 import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
-import {ScanTree2} from "../../model/scans/ScanTree2";
+import {ScanTree} from "../../model/scans/ScanTree";
 import {modal} from "../widgets/modal";
 import {box_center, toPoint} from "../../model/coordinates";
 import {util} from "../../util/util";
 import * as leaflet from "leaflet"
-import resolved_scan_tree = ScanTree2.resolved_scan_tree;
-import augmented_decision_tree = ScanTree2.augmented_decision_tree;
-import ScanExplanationModal = ScanTree2.ScanExplanationModal;
-import augment = ScanTree2.augment;
-import ScanDecision = ScanTree2.ScanDecision;
-import template_resolvers = ScanTree2.template_resolvers;
-import spotNumber = ScanTree2.spotNumber;
+import resolved_scan_tree = ScanTree.resolved_scan_tree;
+import augmented_decision_tree = ScanTree.augmented_decision_tree;
+import ScanExplanationModal = ScanTree.ScanExplanationModal;
+import augment = ScanTree.augment;
+import ScanDecision = ScanTree.ScanDecision;
+import template_resolvers = ScanTree.template_resolvers;
+import spotNumber = ScanTree.spotNumber;
 import natural_join = util.natural_join;
 import natural_order = util.natural_order;
 import {Pulse} from "../../model/scans/scans";
 import comap = util.comap;
 
+/*
 function synthetic_triple_children(node: augmented_decision_tree): augmented_decision_tree[] {
     return node.remaining_candidates.map((child) => {
         return {
@@ -32,10 +33,10 @@ function synthetic_triple_children(node: augmented_decision_tree): augmented_dec
             where: null
         }
     })
-}
+}*/
 
 export default class ScanTreeMethodLayer extends ScanLayer {
-    private readonly root: augmented_decision_tree
+    private readonly root: Promise<augmented_decision_tree>
     private node: augmented_decision_tree
     private areas: SpotPolygon[] = []
 
@@ -59,17 +60,17 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         })
 
         //4. "Where"
-        if (this.node.where) {
-            bounds.extend(toPoint(this.node.where.area.topleft))
-            bounds.extend(toPoint(this.node.where.area.botright))
+        if (this.node.scan_spot) {
+            bounds.extend(toPoint(this.node.scan_spot.area.topleft))
+            bounds.extend(toPoint(this.node.scan_spot.area.botright))
         }
 
         // 5. parent.where if not far away
-        if (this.node.parent && this.node.parent.node.where) {
+        if (this.node.parent && this.node.parent.node.scan_spot) {
             let o = leaflet.bounds([])
 
-            o.extend(toPoint(this.node.parent.node.where.area.topleft))
-            o.extend(toPoint(this.node.parent.node.where.area.botright))
+            o.extend(toPoint(this.node.parent.node.scan_spot.area.topleft))
+            o.extend(toPoint(this.node.parent.node.scan_spot.area.botright))
 
             if (o.getCenter().distanceTo(bounds.getCenter()) < 60) {
                 bounds.extend(o)
@@ -99,18 +100,18 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.fit()
 
         let candidates = this.node.remaining_candidates
-        let relevant_areas = this.node.where ? [this.node.where] : []
-        if (this.node.parent && this.node.parent.node.where) relevant_areas.push(this.node.parent.node.where);
+        let relevant_areas = this.node.scan_spot ? [this.node.scan_spot] : []
+        if (this.node.parent && this.node.parent.node.scan_spot) relevant_areas.push(this.node.parent.node.scan_spot);
 
-        if (node.where) {
-            this.getMap().setFloor(node.where.level)
+        if (node.scan_spot) {
+            this.getMap().setFloor(node.scan_spot.level)
 
-            let c = box_center(node.where.area)
+            let c = box_center(node.scan_spot.area)
 
             this.setMarker({
                 x: c.x,
                 y: c.y,
-                level: node.where.level,
+                level: node.scan_spot.level,
             }, false, false)
         } else {
             this.getMap().setFloor(Math.min(...node.remaining_candidates.map((c) => c.level)))
@@ -139,14 +140,14 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.setMeerkats(scantree.assumes_meerkats)
     }
 
-    public activate(map: GameMapControl) {
+    public async activate(map: GameMapControl) {
         super.activate(map);
 
         this.app.sidepanels.methods_panel.setModal(modal("modal-scantree-method-explanation", ScanExplanationModal))
 
         this.app.sidepanels.methods_panel.showSection("scantree")
 
-        this.setNode(this.root)
+        this.setNode(await this.root)
     }
 
     private update() {
@@ -187,7 +188,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 // Triple children with more than one candidate do not have an associated path, synthesize one
                 text = scantrainer.template_resolver
                     .with(template_resolvers(this.node.root, {
-                        from: this.node.parent.node.where.name,
+                        from: this.node.parent.node.scan_spot.name,
                         to: this.node.remaining_candidates
                     }))
                     .resolve("Which spot of {{target}}?")
@@ -250,13 +251,13 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             if (depth == 0 && node.remaining_candidates.length > 1) {
                 line.append($("<span>").text("at"))
 
-                synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0]))/*comparator_by((c) => spotNumber(node.root, c.remaining_candidates[0]))*/).forEach((child) => {
+                /*synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0]))/*comparator_by((c) => spotNumber(node.root, c.remaining_candidates[0]))*).forEach((child) => {
                     $("<span>")
                         .html(resolver.resolve(`{{digspot ${spotNumber(node.root, child.remaining_candidates[0])}}}`))
                         .addClass("lightbutton")
                         .on("click", () => this.setNode(child))
                         .appendTo(line)
-                })
+                })*/
             } else {
 
                 if (node.parent.kind.pulse == 3 && node.parent.node.parent && node.parent.node.parent.kind.pulse == 3) {
@@ -266,7 +267,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                             .resolve(node.path ? node.path.short_instruction : "WTF"))
                         .appendTo(line)
                 } else {
-                    let synthetic_children = synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0])))
+                    /*let synthetic_children = synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0])))
 
                     let el = $("<span>")
                         .html(`Spot ${natural_join(synthetic_children.map((e) => e.remaining_candidates[0]).map((e) => `<span class="lightlink spot-number">${spotNumber(node.root, e)}</span>`), "or")}`)
@@ -274,7 +275,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
                     for (let i = 0; i < synthetic_children.length; i++) {
                         $(el.children("span").get()[i]).on("click", () => this.setNode(synthetic_children[i]))
-                    }
+                    }*/
 
                 }
             }
@@ -297,7 +298,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         if (depth >= 2) return
 
         if (depth == 0 && node.parent && node.parent.kind.pulse == 3 && node.remaining_candidates.length > 1) {
-            synthetic_triple_children(node).forEach((child) => this.generateList(child, depth, container))
+            //synthetic_triple_children(node).forEach((child) => this.generateList(child, depth, container))
         }
 
         node.children.sort(comap(Pulse.compare, (a) => a.key)).forEach((e) => this.generateList(e.value, depth, container))

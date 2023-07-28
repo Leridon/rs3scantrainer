@@ -22,7 +22,7 @@ import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";
 
-function combined_number_list(l: number[]): string[] {
+function combined_number_list(l: number[], f: ((_: number) => string) = (n => n.toString())): string[] {
     l.sort(natural_order)
 
     let res: string[] = []
@@ -35,18 +35,18 @@ function combined_number_list(l: number[]): string[] {
 
         if (n <= last + 1) last = n
         else {
-            if (last == start_range) res.push(last.toString())
-            else if (last == start_range + 1) res.push(start_range.toString(), last.toString())
-            else res.push(`${start_range} - ${last}`)
+            if (last == start_range) res.push(f(last))
+            else if (last == start_range + 1) res.push(f(start_range), f(last))
+            else res.push(`${f(start_range)} - ${f(last)}`)
 
             start_range = n
             last = n
         }
     }
 
-    if (last == start_range) res.push(last.toString())
-    else if (last == start_range + 1) res.push(start_range.toString(), last.toString())
-    else res.push(`${start_range} - ${last}`)
+    if (last == start_range) res.push(f(last))
+    else if (last == start_range + 1) res.push(f(start_range), f(last))
+    else res.push(`${f(start_range)} - ${f(last)}`)
 
     return res
 }
@@ -56,7 +56,9 @@ class TreeNodeEdit extends Widget {
         super()
 
         let decision_path_text = (["Start"].concat(node.decisions.map(d => ScanDecision.toString(d)))).join("/")
-        let spot_text = natural_join(combined_number_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c))), "and")
+        let spot_text = natural_join(combined_number_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
+            (n) => `<span class="ctr-digspot-inline">${n}</span>`
+        ), "and")
 
         let header = c(`<div style="overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold"></div>`).appendTo(this)
             .append(c(`<span class='nisl-textlink'>${decision_path_text}: </span>`).tooltip("Load decisions into map")

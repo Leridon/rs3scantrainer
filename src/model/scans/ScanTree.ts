@@ -216,8 +216,7 @@ export namespace ScanTree {
                         )
                     })
                 }
-            } else {y
-
+            } else {
                 // TODO: Decide if this is the place to create synthetic children
 
                 if (remaining_candidates.length > 1) {

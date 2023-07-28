@@ -40,7 +40,7 @@ export namespace ScanTree {
     export type decision_tree = {
         paths: {
             spot?: MapCoordinate,
-            short_instruction: string,
+            directions: string,
             path: Path.raw
         }[],
         where_to: string,
@@ -76,7 +76,7 @@ export namespace ScanTree {
             paths: candidates.map(c => {
                 return {
                     spot: c,
-                    short_instruction: "Dig at {{target}}",
+                    directions: "Dig at {{target}}",
                     path: {
                         steps: [],
                         start_state: Path.movement_state.start(), // The real start state is propagated from the parent and done elsewhere
@@ -111,7 +111,7 @@ export namespace ScanTree {
                 node.paths = [node.paths.find(p => p.spot == null) || {
                     path: {start_state: movement_state.start(), steps: []},
                     spot: null,
-                    short_instruction: "Move to {{target}}"
+                    directions: "Move to {{target}}"
                 }]
             } else {
                 node.children = []  // Nodes without a "where_to" can never have children nodes, only paths
@@ -220,6 +220,28 @@ export namespace ScanTree {
                 // TODO: Decide if this is the place to create synthetic children
 
                 if (remaining_candidates.length > 1) {
+                    t.children = []
+
+                    remaining_candidates.forEach((c) => {
+
+                        let p = node.paths.find((p) => MapCoordinate.eq2(p.spot, c))
+
+                        t.children.push({
+                            key: null, value: {
+                                children: [],
+                                decisions: t.decisions,
+                                depth: t.depth + 1,
+                                directions: p.directions,
+                                is_leaf: true,
+                                leaf_spot: c,
+                                parent: {kind: null, node: t},
+                                path: p.path,
+                                raw: null,
+                                remaining_candidates: [c],
+                                root: t.root,
+                            }
+                        })
+                    })
 
                 } else {
                     t.is_leaf = true
@@ -228,7 +250,7 @@ export namespace ScanTree {
                     const path = node.paths.find(p => MapCoordinate.eq2(p.spot, t.leaf_spot))
 
                     t.path = path.path
-                    t.directions = path.short_instruction
+                    t.directions = path.directions
                 }
             }
 

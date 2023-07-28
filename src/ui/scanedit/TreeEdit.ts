@@ -119,8 +119,12 @@ class TreeNodeEdit extends Widget {
                         node.raw.where_to = s.area
 
                         node.raw.paths = [{
-                            short_instruction: "Move to {{target}}",
-                            path: null
+                            directions: "Move to {{target}}",
+                            path: {
+                                start_state: Path.movement_state.start(),
+                                steps: [],
+                                target: area.area
+                            }
                         }]
                     }
 
@@ -153,10 +157,10 @@ class TreeNodeEdit extends Widget {
             props.named("Direction",
                 new TemplateStringEdit(scantrainer.template_resolver)
                     .on("changed", (v) => {
-                        p.short_instruction = v
+                        p.directions = v
                         //this.changed(this.value) // TODO:
                     })
-                    .setValue(p.short_instruction)
+                    .setValue(p.directions)
             )
 
             props.named("Path", new PathProperty(parent.parent.layer.getMap())

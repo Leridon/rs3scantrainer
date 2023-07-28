@@ -251,8 +251,6 @@ export class ScanLayer extends ActiveLayer {
     }
 
     removeMarker() {
-        console.log("Removing")
-
         if (this.tile_marker) {
             this.tile_marker.remove()
             this.tile_marker = null
@@ -266,8 +264,6 @@ export class ScanLayer extends ActiveLayer {
 
     setMarker(spot: MapCoordinate, include_marker: boolean = true, removeable: boolean = true) {
         this.removeMarker()
-
-        console.log("Adding")
 
         let complement = Math.floor(spot.y / 6400) != Math.floor(this.clue.solution.candidates[0].y / 6400)
 

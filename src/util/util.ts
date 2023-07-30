@@ -33,4 +33,34 @@ export namespace util {
     export function minIndex(array: number[]): number {
         return array.indexOf(Math.min(...array))
     }
+
+    export function shorten_integer_list(l: number[], f: ((_: number) => string) = (n => n.toString())): string[] {
+        l.sort(natural_order)
+
+        let res: string[] = []
+
+        let start_range = l[0]
+        let last = start_range
+
+        for (let i = 1; i < l.length; i++) {
+            let n = l[i]
+
+            if (n <= last + 1) last = n
+            else {
+                if (last == start_range) res.push(f(last))
+                else if (last == start_range + 1) res.push(f(start_range), f(last))
+                else res.push(`${f(start_range)} - ${f(last)}`)
+
+                start_range = n
+                last = n
+            }
+        }
+
+        if (last == start_range) res.push(f(last))
+        else if (last == start_range + 1) res.push(f(start_range), f(last))
+        else res.push(`${f(start_range)} - ${f(last)}`)
+
+        return res
+    }
+
 }

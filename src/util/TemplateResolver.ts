@@ -23,6 +23,9 @@ export default class TemplateResolver {
 
 
     resolve(template: string): string {
+        // TODO Critical: The input string needs to be html-escaped since it is user-provided text and can be shared across users!
+        //                => Potential for Script-Injection !!!
+
         let begin = template.indexOf("{{")
         let end = template.indexOf("}}")
 

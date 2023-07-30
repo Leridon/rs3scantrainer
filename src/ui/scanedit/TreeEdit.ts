@@ -21,42 +21,14 @@ import init_leaf = ScanTree.init_leaf;
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";
-
-function combined_number_list(l: number[], f: ((_: number) => string) = (n => n.toString())): string[] {
-    l.sort(natural_order)
-
-    let res: string[] = []
-
-    let start_range = l[0]
-    let last = start_range
-
-    for (let i = 1; i < l.length; i++) {
-        let n = l[i]
-
-        if (n <= last + 1) last = n
-        else {
-            if (last == start_range) res.push(f(last))
-            else if (last == start_range + 1) res.push(f(start_range), f(last))
-            else res.push(`${f(start_range)} - ${f(last)}`)
-
-            start_range = n
-            last = n
-        }
-    }
-
-    if (last == start_range) res.push(f(last))
-    else if (last == start_range + 1) res.push(f(start_range), f(last))
-    else res.push(`${f(start_range)} - ${f(last)}`)
-
-    return res
-}
+import shorten_integer_list = util.shorten_integer_list;
 
 class TreeNodeEdit extends Widget {
     constructor(parent: TreeEdit, node: augmented_tree) {
         super()
 
         let decision_path_text = (["Start"].concat(node.decisions.map(d => ScanDecision.toString(d)))).join("/")
-        let spot_text = natural_join(combined_number_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
+        let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
             (n) => `<span class="ctr-digspot-inline">${n}</span>`
         ), "and")
 
@@ -178,35 +150,26 @@ export default class TreeEdit extends Widget<{
     changed: tree_node,
     decisions_loaded: ScanDecision[]
 }> {
-
-    collapsible: Collapsible
-
-    view: JQuery = null
-
     constructor(public parent: ScanEditPanel, public value: tree_node) {
-        super($("<div>"))
-
-        this.collapsible = new Collapsible(this.container, "Decision/Movement Tree")
+        super($("<div class='treeview nisl-alternating'>"))
 
         this.update()
     }
 
     async update() {
-        if (this.view) this.view.remove()
+        this.empty()
 
-        this.view = $("<div class='treeview nisl-alternating'>").appendTo(this.collapsible.content.container)
-
-        await this.create(this.view)
+        await this.renderContent()
     }
 
-    private async create(container: JQuery) {
+    private async renderContent() {
         let augmented = await ScanTree.augment(this.parent.value)
 
         let self = this
 
         function helper(node: augmented_tree) {
             // Only create edits for real nodes
-            if (node.raw) new TreeNodeEdit(self, node).appendTo(container)
+            if (node.raw) new TreeNodeEdit(self, node).appendTo(self)
 
             node.children.forEach(c => helper(c.value))
             return null

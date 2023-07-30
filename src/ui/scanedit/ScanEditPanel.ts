@@ -16,6 +16,7 @@ import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import narrow_down = ScanTree.narrow_down;
 import assumedRange = ScanTree.assumedRange;
+import Collapsible from "../widgets/modals/Collapsible";
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]
@@ -71,11 +72,15 @@ export default class ScanEditPanel extends Widget<{
                 .appendTo(control_row)
         }
 
-        this.tools = new ScanTools(this).addClass("fullwidth-in-panel").appendTo(this)
-        this.spot_ordering = new SpotOrderingEdit(layer, value.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
-        this.areas = new AreaEdit(this, value.areas, layer).addClass("fullwidth-in-panel").appendTo(this)
-        this.tree_edit = new TreeEdit(this, value.root).addClass("fullwidth-in-panel").appendTo(this)
-        //this.path_edit = new PathEdit(this, this.value.methods).addClass("fullwidth-in-panel").appendTo(this)
+        this.tools = new ScanTools(this)
+        this.spot_ordering = new SpotOrderingEdit(layer, value.spot_ordering)
+        this.areas = new AreaEdit(this, value.areas, layer)
+        this.tree_edit = new TreeEdit(this, value.root)
+
+        new Collapsible("Tools", this.tools).addClass("fullwidth-in-panel").appendTo(this)
+        new Collapsible("Spot ordering", this.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
+        new Collapsible("Scan Areas", this.areas).addClass("fullwidth-in-panel").appendTo(this)
+        new Collapsible("Decision/Movement Tree", this.tree_edit).addClass("fullwidth-in-panel").appendTo(this)
 
         this.candidates = this.clue.solution.candidates
 

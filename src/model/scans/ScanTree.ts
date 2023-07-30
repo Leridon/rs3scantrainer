@@ -6,6 +6,7 @@ import {ScanStep} from "../clues";
 import {util} from "../../util/util";
 import {Path} from "../pathing";
 import * as lodash from "lodash";
+import {TextRendering} from "../../ui/TextRendering";
 
 export namespace ScanTree {
 
@@ -18,7 +19,8 @@ export namespace ScanTree {
         }
     }
 
-    import natural_order = util.natural_order;
+    import shorten_integer_list = util.shorten_integer_list;
+    import render_digspot = TextRendering.render_digspot;
 
     export type ScanSpot = {
         name: string,
@@ -295,18 +297,19 @@ export namespace ScanTree {
         return candidates.filter((s) => area_pulse(s, decision.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
     }
 
-    export function template_resolvers(tree: tree, path: {}): Record<string, (args: string[]) => string> {
+    export function template_resolvers(node: ScanTree.augmented_decision_tree): Record<string, (args: string[]) => string> {
         return {
             "target": () => {
-                if (Array.isArray(path.to)) {
-                    return util.natural_join(path.to
-                        .map((c) => spotNumber(tree, c))
-                        .sort(natural_order)
-                        .map((c) => `{{digspot ${c}}}`))
-                } else if (typeof path.to == "string") {
-                    return `{{scanarea ${path.to}}}`
+                if (node.is_leaf) {
+                    return render_digspot(spotNumber(node.root, node.leaf_spot))
+                } else if (node.scan_spot) {
+                    return `{{scanarea ${node.scan_spot.name}}}`
                 } else {
-                    return `{{digspot ${spotNumber(tree, path.to)}}}`
+                    return util.natural_join(
+                        shorten_integer_list(node.remaining_candidates
+                                .map(c => spotNumber(node.root, c)),
+                            render_digspot
+                        ))
                 }
             }
         }

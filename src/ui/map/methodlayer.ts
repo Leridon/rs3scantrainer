@@ -13,8 +13,6 @@ import augment = ScanTree.augment;
 import ScanDecision = ScanTree.ScanDecision;
 import template_resolvers = ScanTree.template_resolvers;
 import spotNumber = ScanTree.spotNumber;
-import natural_join = util.natural_join;
-import natural_order = util.natural_order;
 import {Pulse} from "../../model/scans/scans";
 import comap = util.comap;
 
@@ -187,10 +185,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             if (this.node.parent && this.node.parent.kind.pulse == 3 && this.node.remaining_candidates.length > 1) {
                 // Triple children with more than one candidate do not have an associated path, synthesize one
                 text = scantrainer.template_resolver
-                    .with(template_resolvers(this.node.root, {
-                        from: this.node.parent.node.scan_spot.name,
-                        to: this.node.remaining_candidates
-                    }))
+                    .with(template_resolvers(this.node))
                     .resolve("Which spot of {{target}}?")
             } else {
                 // When created by the editor, this case should never happen, output error instead
@@ -198,8 +193,8 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             }
         } else {
             text = scantrainer.template_resolver
-                .with(template_resolvers(this.node.root, this.node.path))
-                .resolve(this.node.path.short_instruction)
+                .with(template_resolvers(this.node))
+                .resolve(this.node.directions)
         }
 
         $("#nextscanstep").html(text)
@@ -210,7 +205,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     }
 
     generateList(node: augmented_decision_tree, depth: number, container: JQuery) {
-        let resolver = scantrainer.template_resolver.with(template_resolvers(node.root, node.path))
+        let resolver = scantrainer.template_resolver.with(template_resolvers(node))
 
         let line = $("<div>")
             .addClass("scantreeline")
@@ -263,8 +258,8 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 if (node.parent.kind.pulse == 3 && node.parent.node.parent && node.parent.node.parent.kind.pulse == 3) {
                     $("<span>")
                         .html(scantrainer.template_resolver
-                            .with(template_resolvers(node.root, node.path))
-                            .resolve(node.path ? node.path.short_instruction : "WTF"))
+                            .with(template_resolvers(node))
+                            .resolve( node.directions))
                         .appendTo(line)
                 } else {
                     /*let synthetic_children = synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0])))
@@ -282,8 +277,8 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         } else {
             $("<span>")
                 .html(scantrainer.template_resolver
-                    .with(template_resolvers(node.root, node.path))
-                    .resolve(node.path.short_instruction))
+                    .with(template_resolvers(node))
+                    .resolve(node.directions))
                 .appendTo(line)
         }
 

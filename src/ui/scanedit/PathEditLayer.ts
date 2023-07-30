@@ -306,14 +306,14 @@ class ControlWidget extends Widget<{
 
         this.steps_collapsible = new Collapsible().setTitle("Steps").appendTo(this)
 
-        this.steps_collapsible.content.css2({
+        this.steps_collapsible.content_container.css2({
             "max-height": "400px",
             "overflow-y": "auto",
         })
 
         {
-            let controls_collapsible = new Collapsible().setTitle("Controls").appendTo(this)
-            let props = new Properties().appendTo(controls_collapsible.content)
+            let controls_collapsible = new Collapsible("Controls").appendTo(this)
+            let props = new Properties().appendTo(controls_collapsible.content_container)
 
             let add_buttons = c("<div style='display: flex; flex-wrap: wrap'>")
 
@@ -517,15 +517,15 @@ class ControlWidget extends Widget<{
 
         this.step_widgets.forEach((w) => w.removePreview())
         this.step_widgets = []
-        this.steps_collapsible.content.empty()
+        this.steps_collapsible.content_container.empty()
 
         if (this.augmented.steps.length == 0) {
-            this.steps_collapsible.content.text("No steps yet.")
+            this.steps_collapsible.content_container.text("No steps yet.")
         }
 
         for (let step of this.augmented.steps) {
             this.step_widgets.push(
-                new StepEditWidget(this, step).appendTo(this.steps_collapsible.content)
+                new StepEditWidget(this, step).appendTo(this.steps_collapsible.content_container)
                     .on("deleted", (step) => {
                         this.value.steps.splice(this.value.steps.indexOf(step), 1)
                         this.update()

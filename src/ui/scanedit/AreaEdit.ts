@@ -6,32 +6,29 @@ import {ScanTree} from "../../model/scans/ScanTree";
 import ScanSpot = ScanTree.ScanSpot;
 import ScanDecision = ScanTree.ScanDecision;
 import Collapsible from "../widgets/modals/Collapsible";
+import LightButton from "../widgets/LightButton";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],
     decisions_changed: ScanDecision[],
     renamed: { old: string, new: string }
 }> {
-    collapsible: Collapsible
-
-    area_container: JQuery
+    area_container: Widget
     areas: AreaWidget[]
 
-    add_button?: JQuery
+    add_button?: LightButton
 
     constructor(
         public parent: ScanEditPanel,
         private value: ScanSpot[],
         private layer: ScanEditLayer
     ) {
-        super($("<div>"))
+        super()
 
-        this.collapsible = new Collapsible(this.container, "Scan Spots")
-
-        this.area_container = $("<div>").appendTo(this.collapsible.content.container)
+        this.area_container = c("<div>").appendTo(this)
         this.areas = []
 
-        this.add_button = $("<div class='lightbutton'>+ Add area</div>")
+        this.add_button = new LightButton("+ Add area")
             .on("click", () => {
                 let w = this.addWidget({name: "New", level: 0, area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
                     .toggleEdit()
@@ -45,7 +42,7 @@ export default class AreaEdit extends Widget<{
                 this.value.push(w.value)
                 this.emit("changed", this.value)
             })
-            .appendTo($("<div style='text-align: center'></div>").appendTo(this.collapsible.content.container))
+            .appendTo(c("<div style='text-align: center'></div>").appendTo(this))
 
         this.update()
     }
@@ -78,8 +75,8 @@ export default class AreaEdit extends Widget<{
                     this.emit("changed", this.value)
                 })
                 .on("renamed", (e) => this.emit("renamed", e))
+                .appendTo(this)
 
-        w.container.appendTo(this.area_container)
         this.areas.push(w)
 
         return w

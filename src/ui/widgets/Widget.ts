@@ -57,14 +57,14 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    static wrap(jquery: JQuery | string): Widget {
+    static wrap<T extends Record<string, any> = {}>(jquery: JQuery | string): Widget<T> {
         if (typeof jquery == "string") jquery = $(jquery)
 
-        return new Widget(jquery)
+        return new Widget<T>(jquery)
     }
 
-    text(text: string): this {
-        this.container.text(text)
+    text(text: string | number): this {
+        this.container.text(text.toString())
         return this
     }
 

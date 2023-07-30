@@ -8,10 +8,9 @@ import Checkbox from "../widgets/Checkbox";
 import {ScanEquivalenceClasses} from "../../model/scans/scans";
 import {ScanTree} from "../../model/scans/ScanTree";
 import assumedRange = ScanTree.assumedRange;
+import LightButton from "../widgets/LightButton";
 
 export default class ScanTools extends Widget {
-    collapsible: Collapsible
-
     equivalence_classes: {
         normal?: ScanEquivalenceClasses,
         complement?: ScanEquivalenceClasses
@@ -20,9 +19,7 @@ export default class ScanTools extends Widget {
     constructor(private parent: ScanEditPanel) {
         super();
 
-        this.collapsible = new Collapsible(this.container, "Tools")
-
-        $("<div class='lightbutton'>Center on Spots</div>")
+        new LightButton("Center on Spots")
             .on("click", () => {
                 let bounds = leaflet.latLngBounds([])
 
@@ -32,9 +29,9 @@ export default class ScanTools extends Widget {
 
                 this.parent.layer.getMap().map.fitBounds(bounds)
             })
-            .appendTo($("<div style='text-align: center'>").appendTo(this.collapsible.content.container))
+            .appendTo($("<div style='text-align: center'>").appendTo(this.container))
 
-        $(`<div class='lightbutton'>Center on Complement</div>`)
+        new LightButton("Center on Complement")
             .on("click", () => {
                 let bounds = leaflet.latLngBounds([])
 
@@ -48,22 +45,22 @@ export default class ScanTools extends Widget {
 
                 this.parent.layer.getMap().map.fitBounds(bounds)
             })
-            .appendTo($("<div style='text-align: center'>").appendTo(this.collapsible.content.container))
+            .appendTo(c("<div style='text-align: center'>").appendTo(this))
 
-        $("<div style='font-weight: bold'>Show Equivalence Classes</div>").appendTo(this.collapsible.content.container)
+        c("<div style='font-weight: bold'>Show Equivalence Classes</div>").appendTo(this)
 
-        $("<div style='display: flex; padding-left: 5px'>")
+        c("<div style='display: flex; padding-left: 5px'>")
             .append(new Checkbox().on("changed", (v) => {
                 if (v) this.equivalence_classes.normal.getLayer().addTo(this.parent.layer)
                 else {
                     this.equivalence_classes.normal.getLayer().remove()
                     this.equivalence_classes.normal.layer = null
                 }
-            }).container)
-            .append($("<div class='col-4' style='margin-left: 5px'>Spots</div>"))
-            .appendTo(this.collapsible.content.container)
+            }))
+            .append(c("<div class='col-4' style='margin-left: 5px'>Spots</div>"))
+            .appendTo(this)
 
-        $("<div style='display: flex; padding-left: 5px'>")
+        c("<div style='display: flex; padding-left: 5px'>")
             .append(new Checkbox().on("changed", (v) => {
                 if (v) this.equivalence_classes.complement.getLayer().addTo(this.parent.layer)
                 else {
@@ -71,8 +68,8 @@ export default class ScanTools extends Widget {
                     this.equivalence_classes.complement.layer = null
                 }
             }).container)
-            .append($("<div class='col-4' style='margin-left: 5px'>Complement</div>"))
-            .appendTo(this.collapsible.content.container)
+            .append(c("<div class='col-4' style='margin-left: 5px'>Complement</div>"))
+            .appendTo(this)
 
         this.equivalence_classes.normal = new ScanEquivalenceClasses({
             candidates: this.parent.clue.solution.candidates,

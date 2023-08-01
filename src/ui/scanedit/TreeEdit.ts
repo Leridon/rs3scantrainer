@@ -22,9 +22,10 @@ import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
+import Checkbox from "../widgets/Checkbox";
 
 class TreeNodeEdit extends Widget {
-    constructor(parent: TreeEdit, node: augmented_tree) {
+    constructor(parent: TreeEdit, node: augmented_tree, include_paths: boolean) {
         super()
 
         let decision_path_text = (["Start"].concat(node.decisions.map(d => ScanDecision.toString(d)))).join("/")
@@ -110,39 +111,40 @@ class TreeNodeEdit extends Widget {
             props.named("Move to", dropdown);
         }
 
+        if (include_paths) {
+            (node.raw?.paths || []).forEach(p => {
+                {
+                    // Create header line for this path segment
+                    let origin = node.parent?.node?.scan_spot
 
-        (node.raw?.paths || []).forEach(p => {
-            {
-                // Create header line for this path segment
-                let origin = node.parent?.node?.scan_spot
+                    let header = "Path"
+                    if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
+                    header += ` to`
 
-                let header = "Path"
-                if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
-                header += ` to`
+                    if (p.spot) header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, p.spot)}`
+                    else header += `&nbsp;<span class="ctr-scanspot-inline">${node.scan_spot.name}</span>`
 
-                if (p.spot) header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, p.spot)}`
-                else header += `&nbsp;<span class="ctr-scanspot-inline">${node.scan_spot.name}</span>`
+                    props.header(header)
+                }
 
-                props.header(header)
-            }
+                props.named("Direction",
+                    new TemplateStringEdit(scantrainer.template_resolver)
+                        .on("changed", (v) => {
+                            p.directions = v
+                            //this.changed(this.value) // TODO:
+                        })
+                        .setValue(p.directions)
+                )
 
-            props.named("Direction",
-                new TemplateStringEdit(scantrainer.template_resolver)
-                    .on("changed", (v) => {
-                        p.directions = v
-                        //this.changed(this.value) // TODO:
+                props.named("Path", new PathProperty(parent.parent.layer.getMap())
+                    .on("changed", v => {
+                        p.path = v
+                        //this.changed(this.value) // TODO
                     })
-                    .setValue(p.directions)
-            )
-
-            props.named("Path", new PathProperty(parent.parent.layer.getMap())
-                .on("changed", v => {
-                    p.path = v
-                    //this.changed(this.value) // TODO
-                })
-                .setValue(p.path)
-            )
-        })
+                    .setValue(p.path)
+                )
+            })
+        }
     }
 }
 
@@ -150,8 +152,10 @@ export default class TreeEdit extends Widget<{
     changed: tree_node,
     decisions_loaded: ScanDecision[]
 }> {
+    private hide_paths = false
+
     constructor(public parent: ScanEditPanel, public value: tree_node) {
-        super($("<div class='treeview nisl-alternating'>"))
+        super($("<div class='nisl-alternating'>"))
 
         this.update()
     }
@@ -167,9 +171,15 @@ export default class TreeEdit extends Widget<{
 
         let self = this
 
+        new Properties().appendTo(this)
+            .named("Hide Paths?", new Checkbox().setValue(self.hide_paths).on("changed", (v) => {
+                self.hide_paths = v
+                self.update()
+            }))
+
         function helper(node: augmented_tree) {
             // Only create edits for real nodes
-            if (node.raw) new TreeNodeEdit(self, node).appendTo(self)
+            if (node.raw) new TreeNodeEdit(self, node, !self.hide_paths).appendTo(self)
 
             node.children.forEach(c => helper(c.value))
             return null

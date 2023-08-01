@@ -491,10 +491,6 @@ video {
     height: 1.3em;
 }
 
-.treeview > * {
-    margin-top: 2px;
-}
-
 .leaflet-container {
     background-color: black;
 }

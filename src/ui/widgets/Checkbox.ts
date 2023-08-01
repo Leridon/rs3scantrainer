@@ -1,10 +1,7 @@
-import Widget from "./Widget";
+import AbstractEditWidget from "./AbstractEditWidget";
 
-export default class Checkbox extends Widget<{
-    "changed": boolean
-}> {
+export default class Checkbox extends AbstractEditWidget<boolean> {
     input: JQuery
-    value: boolean = false
 
     constructor() {
         super()
@@ -12,10 +9,12 @@ export default class Checkbox extends Widget<{
         this.input = $("<input type='checkbox'>")
             .on("input", () => {
                 let value = this.input.is(":checked")
-                let changed = value != this.value
-                this.value = value
-                if(changed) this.emit("changed", this.value)
+                if (value != this.value) this.changed(value)
             })
             .appendTo(this.container)
+    }
+
+    protected update() {
+        this.input.prop("checked", this.value);
     }
 }

@@ -25,7 +25,6 @@ export default class ScanEditPanel extends Widget<{
     spot_ordering: SpotOrderingEdit
     areas: AreaEdit
     tree_edit: TreeEdit
-    //path_edit: PathEdit
 
     candidates: MapCoordinate[]
 

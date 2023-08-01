@@ -287,7 +287,7 @@ class ControlWidget extends Widget<{
 }> {
     private augmented: Path.augmented
 
-    _preview_layer: leaflet.FeatureGroup = leaflet.featureGroup()
+    _preview_layer: leaflet.FeatureGroup
 
     steps_collapsible: Collapsible
     step_widgets: StepEditWidget[] = []
@@ -298,9 +298,6 @@ class ControlWidget extends Widget<{
         super()
 
         this.addClass("path-edit-control")
-
-        this._preview_layer.addTo(this.parent.map.map)
-        // TODO: At some point, remove preview layer
 
         this.control = new CustomControl(this.container)
 
@@ -509,6 +506,8 @@ class ControlWidget extends Widget<{
 
         this.addClass("nis-map-control")
 
+        this.resetPreviewLayer()
+
         this.update()
     }
 
@@ -553,8 +552,16 @@ class ControlWidget extends Widget<{
         }
     }
 
-    cleanup() {
-        // TODO: This is most likely the place to remove the preview layer
+    removePreviewLayer() {
+        if (this._preview_layer) {
+            this._preview_layer.remove()
+            this._preview_layer = null
+        }
+    }
+
+    resetPreviewLayer() {
+        this.removePreviewLayer()
+        this._preview_layer = leaflet.featureGroup().addTo(this.parent.map.map)
     }
 }
 
@@ -570,7 +577,7 @@ export class PathEditor {
         save_handler: (p: Path.raw) => void
     }) {
         if (this.control) {
-            this.control.cleanup()
+            this.control.resetPreviewLayer()
             this.control.remove()
             this.control = null
         }
@@ -578,7 +585,7 @@ export class PathEditor {
         this.control = new ControlWidget(this, path)
             .on("saved", (v) => options.save_handler(v))
             .on("closed", () => {
-                this.control.cleanup()
+                this.control.removePreviewLayer()
                 this.control.remove()
                 this.control = null
             })

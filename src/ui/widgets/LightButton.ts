@@ -1,13 +1,19 @@
 import Button from "./Button";
 
 export default class LightButton extends Button {
-    constructor(text: string) {
+    constructor(text: string = "Button") {
         super()
 
         this.addClass("lightbutton").text(text)
     }
 
-    setText(text: string){
+    setText(text: string): this {
         this.text(text)
+        return this
+    }
+
+    setHTML(html: string): this {
+        this.container.html(html)
+        return this
     }
 }

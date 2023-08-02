@@ -182,7 +182,7 @@ export namespace ScanTree {
         ): Promise<augmented_decision_tree> {
 
             let t: augmented_decision_tree = {
-                directions: "",
+                directions: null,
                 root: tree,
                 parent: parent,
                 scan_spot: null,
@@ -194,11 +194,18 @@ export namespace ScanTree {
                 children: []
             }
 
-            // For triples with more than one candidate, inherit the parent's spot
+            // For triples with more than one candidate, inherit the parent's spot, TODO: Is this sensible?
             if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.scan_spot = parent.node.scan_spot
 
             if (node.where_to != null) {
                 t.scan_spot = tree.areas.find((a) => a.name == node.where_to)
+
+                let path = node.paths.find((p) => p.spot == null)
+
+                if (path) {
+                    t.path = path.path
+                    t.directions = path.directions
+                }
 
                 let narrowing = spot_narrowing(remaining_candidates, t.scan_spot, assumedRange(tree))
 
@@ -219,8 +226,6 @@ export namespace ScanTree {
                     })
                 }
             } else {
-                // TODO: Decide if this is the place to create synthetic children
-
                 if (remaining_candidates.length > 1) {
                     t.children = []
 
@@ -229,7 +234,8 @@ export namespace ScanTree {
                         let p = node.paths.find((p) => MapCoordinate.eq2(p.spot, c))
 
                         t.children.push({
-                            key: null, value: {
+                            key: null,
+                            value: {
                                 children: [],
                                 decisions: t.decisions,
                                 depth: t.depth + 1,
@@ -305,12 +311,15 @@ export namespace ScanTree {
                 } else if (node.scan_spot) {
                     return `{{scanarea ${node.scan_spot.name}}}`
                 } else {
-                    return util.natural_join(
-                        shorten_integer_list(node.remaining_candidates
-                                .map(c => spotNumber(node.root, c)),
-                            render_digspot
-                        ))
+                    return "{ERROR: No target}"
                 }
+            },
+            "candidates": () => {
+                return util.natural_join(
+                    shorten_integer_list(node.remaining_candidates
+                            .map(c => spotNumber(node.root, c)),
+                        render_digspot
+                    ))
             }
         }
     }

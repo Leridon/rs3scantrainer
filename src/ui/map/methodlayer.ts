@@ -15,23 +15,12 @@ import template_resolvers = ScanTree.template_resolvers;
 import spotNumber = ScanTree.spotNumber;
 import {Pulse} from "../../model/scans/scans";
 import comap = util.comap;
-
-/*
-function synthetic_triple_children(node: augmented_decision_tree): augmented_decision_tree[] {
-    return node.remaining_candidates.map((child) => {
-        return {
-            children: [],
-            decisions: node.decisions,
-            depth: node.depth + 1,
-            parent: {kind: {pulse: 3, different_level: node.parent.kind.different_level}, node: node},
-            path: node.root.methods.find((m) => ScanTree2.edgeSame(m, {from: node.parent.node.where.name, to: [child]})),
-            raw: undefined,
-            remaining_candidates: [child],
-            root: node.root,
-            where: null
-        }
-    })
-}*/
+import natural_order = util.natural_order;
+import LightButton from "../widgets/LightButton";
+import {TextRendering} from "../TextRendering";
+import render_digspot = TextRendering.render_digspot;
+import natural_join = util.natural_join;
+import shorten_integer_list = util.shorten_integer_list;
 
 export default class ScanTreeMethodLayer extends ScanLayer {
     private readonly root: Promise<augmented_decision_tree>
@@ -39,23 +28,15 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     private areas: SpotPolygon[] = []
 
     private fit() {
-
-        /*
-            4. parent.where if not far away
-         */
-
         let bounds = leaflet.bounds([])
 
         //1. If no children: All Candidates
-        //2. If Triple: All Candidates
-        if (this.node.children.length == 0 || (this.node.parent && this.node.parent.kind.pulse == 3))
+        if (this.node.children.length == 0)
             this.node.remaining_candidates.map(toPoint).forEach((c) => bounds.extend(c))
 
-
-        //3. All triple children
-        this.node.children.filter((c) => c.key.pulse == 3).forEach((c) => {
-            c.value.remaining_candidates.forEach((c) => bounds.extend(toPoint(c)))
-        })
+        //2. All children that are leafs in the augmented tree (i.e. spots directly reached from here)
+        this.node.children.filter(c => c.value.is_leaf)
+            .map(c => c.value.remaining_candidates.map(toPoint).forEach(spot => bounds.extend(spot)))
 
         //4. "Where"
         if (this.node.scan_spot) {
@@ -149,6 +130,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     }
 
     private update() {
+        console.log(this.node)
 
         {
             let list = $("#pathview").empty()
@@ -158,7 +140,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
                 if (!node.parent) {
                     text = "Start"
-                } else if (node.parent.node.parent && node.parent.kind.pulse == 3 && node.parent.node.parent.kind.pulse == 3) {
+                } else if (node.is_leaf) {
                     text = `Spot ${spotNumber(node.root, node.remaining_candidates[0])}`
                 } else {
                     text = ScanDecision.toString(node.decisions[node.decisions.length - 1])
@@ -179,22 +161,20 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             last.text(last.children().first().text()).addClass("active")
         }
 
-        let text: string = ""
+        let text: string = "INVALID DATA"
 
-        if (!this.node.path) {
-            if (this.node.parent && this.node.parent.kind.pulse == 3 && this.node.remaining_candidates.length > 1) {
-                // Triple children with more than one candidate do not have an associated path, synthesize one
-                text = scantrainer.template_resolver
-                    .with(template_resolvers(this.node))
-                    .resolve("Which spot of {{target}}?")
-            } else {
-                // When created by the editor, this case should never happen, output error instead
-                text = "INVALID DATA"
-            }
-        } else {
+        if (this.node.directions) {
             text = scantrainer.template_resolver
                 .with(template_resolvers(this.node))
                 .resolve(this.node.directions)
+        } else {
+            if (this.node.remaining_candidates.length > 1) {
+                if (this.node.parent && this.node.parent.kind.pulse == 3) {
+                    text = `Which spot of ${natural_join(shorten_integer_list(this.node.remaining_candidates.map(c => spotNumber(this.node.root, c)), render_digspot))}?`
+                } else {
+                    text = `No more instructions. Check remaining spots:`
+                }
+            }
         }
 
         $("#nextscanstep").html(text)
@@ -214,89 +194,63 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             .css("margin-bottom", "3px")
             .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
 
+        let link_html = node.parent.kind
+            ? Pulse.meta(node.parent.kind).pretty // TODO: Make this depend on the siblings to avoid redundant "different level"
+            : resolver.resolve(`Spot {{digspot ${spotNumber(node.root, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
+
         if (depth == 0) {
-            if (node.parent.kind.pulse == 3 && node.parent.node.parent && node.parent.node.parent.kind.pulse == 3) {
-                $("<span>")
-                    .addClass("lightbutton")
-                    .html(resolver.resolve(`Spot {{digspot ${spotNumber(node.root, node.remaining_candidates[0])}}}`))
-                    .on("click", () => this.setNode(node))
-                    .appendTo(line)
-            } else {
-
-                $("<span>")
-                    .addClass("lightbutton")
-                    .text(Pulse.meta(node.parent.kind).pretty)      // Parent can't be null when being here... I think
-                    .on("click", () => this.setNode(node))
-                    .appendTo(line)
-            }
+            new LightButton().on("click", () => this.setNode(node))
+                .setHTML(link_html)
+                .appendTo(line)
         } else if (depth > 0) {
-            // TODO: Link
-            let el = $("<span>- <span></span>: </span>")
-
-            el.children("span")
-                .text(Pulse.meta(node.parent.kind).pretty)
-                .addClass("lightlink")
+            $("<span>- <span class='lightlink'></span>: </span>").appendTo(line)
+                .children("span")
+                .html(link_html)
                 .on("click", () => this.setNode(node))
-
-            el.appendTo(line)
         }
 
-        if (node.parent.kind.pulse == 3) {
-
-            if (depth == 0 && node.remaining_candidates.length > 1) {
-                line.append($("<span>").text("at"))
-
-                /*synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0]))/*comparator_by((c) => spotNumber(node.root, c.remaining_candidates[0]))*).forEach((child) => {
-                    $("<span>")
-                        .html(resolver.resolve(`{{digspot ${spotNumber(node.root, child.remaining_candidates[0])}}}`))
-                        .addClass("lightbutton")
-                        .on("click", () => this.setNode(child))
-                        .appendTo(line)
-                })*/
-            } else {
-
-                if (node.parent.kind.pulse == 3 && node.parent.node.parent && node.parent.node.parent.kind.pulse == 3) {
-                    $("<span>")
-                        .html(scantrainer.template_resolver
-                            .with(template_resolvers(node))
-                            .resolve( node.directions))
-                        .appendTo(line)
-                } else {
-                    /*let synthetic_children = synthetic_triple_children(node).sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0])))
-
-                    let el = $("<span>")
-                        .html(`Spot ${natural_join(synthetic_children.map((e) => e.remaining_candidates[0]).map((e) => `<span class="lightlink spot-number">${spotNumber(node.root, e)}</span>`), "or")}`)
-                        .appendTo(line)
-
-                    for (let i = 0; i < synthetic_children.length; i++) {
-                        $(el.children("span").get()[i]).on("click", () => this.setNode(synthetic_children[i]))
-                    }*/
-
-                }
-            }
-        } else {
+        if (node.directions != null) {
             $("<span>")
                 .html(scantrainer.template_resolver
                     .with(template_resolvers(node))
                     .resolve(node.directions))
                 .appendTo(line)
-        }
+        } else if (node.children.some(c => c.key == null)) {
+            // This node only has synthetic children left
 
+            if (node?.parent?.kind && node.parent.kind.pulse == 3) {
+                // Directly link to triple spots
+
+                line.append($("<span>").text("at"))
+
+                node.children.map(c => c.value)
+                    .sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0])))
+                    .forEach((child) => {
+                        new LightButton()
+                            .setHTML(render_digspot(spotNumber(node.root, child.remaining_candidates[0])))
+                            .on("click", () => this.setNode(child))
+                            .appendTo(line)
+                    })
+            } else {
+                $("<span>No more instructions</span>").appendTo(line)
+            }
+        }
 
         line.appendTo(container)
 
         this.generateChildren(node, depth + 1, container)
     }
 
-
     generateChildren(node: augmented_decision_tree, depth: number, container: JQuery) {
         if (depth >= 2) return
 
-        if (depth == 0 && node.parent && node.parent.kind.pulse == 3 && node.remaining_candidates.length > 1) {
-            //synthetic_triple_children(node).forEach((child) => this.generateList(child, depth, container))
-        }
+        let children = []
 
-        node.children.sort(comap(Pulse.compare, (a) => a.key)).forEach((e) => this.generateList(e.value, depth, container))
+        if (depth == 0) children = children.concat(node.children.filter(c => c.key == null).sort(comap(natural_order, (a) => spotNumber(node.root, a.value.remaining_candidates[0]))))
+
+        children = children.concat(node.children.filter(c => c.key != null).sort(comap(Pulse.compare, (a) => a.key)))
+
+        children.forEach((e) => this.generateList(e.value, depth, container))
     }
 
     deactivate() {

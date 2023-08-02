@@ -1,14 +1,15 @@
 import * as leaflet from "leaflet";
 import {MapCoordinate} from "../../model/coordinates";
 import {blue_icon, green_icon, red_icon, yellow_icon} from "./map";
+import {ActiveOpacityGroup} from "./layers/OpacityLayer";
 
-export class TileMarker extends leaflet.FeatureGroup {
+export class TileMarker extends ActiveOpacityGroup {
     marker: leaflet.Marker
     label: leaflet.Tooltip
     x_marks_the_spot: leaflet.Polyline
 
     constructor(protected spot: MapCoordinate) {
-        super()
+        super(1, 0.2)
 
         this.setOpacity(1)
     }
@@ -34,7 +35,8 @@ export class TileMarker extends leaflet.FeatureGroup {
             className: className,
             offset: offset,
             permanent: true,
-            direction: "center"
+            direction: "center",
+            opacity: 1
         })
 
         this.bindTooltip(this.label)
@@ -68,28 +70,5 @@ export class TileMarker extends leaflet.FeatureGroup {
 
     getSpot(): MapCoordinate {
         return this.spot
-    }
-
-    private setOpacity(opacity: number) {
-        if (this.marker) this.marker.setOpacity(opacity)
-        if (this.x_marks_the_spot)
-            this.x_marks_the_spot.setStyle(
-                Object.assign(this.x_marks_the_spot.options, {
-                    opacity: opacity * 0.75,
-                    fillOpacity: opacity * 0.25,
-                }))
-        if (this.label) this.label.setOpacity(opacity)
-    }
-
-    private active: boolean = true
-    isActive() {
-        return this.active
-    }
-
-    setActive(isActive: boolean) {
-        this.active = isActive
-
-        if (isActive) this.setOpacity(1)
-        else this.setOpacity(0.2)
     }
 }

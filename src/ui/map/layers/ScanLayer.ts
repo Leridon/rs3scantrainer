@@ -18,17 +18,15 @@ import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import SimpleClickInteraction from "../interactions/SimpleClickInteraction";
 import {TileMarker} from "../TileMarker";
+import {ActiveOpacityGroup, OpacityGroup} from "./OpacityLayer";
 
 
-export class SpotPolygon extends leaflet.FeatureGroup {
+export class SpotPolygon extends ActiveOpacityGroup {
     polygon: leaflet.Polygon
     label: leaflet.Tooltip
-    active: boolean
 
     constructor(private _spot: ScanSpot) {
-        super()
-
-        this.active = true
+        super(1, 0.2)
 
         this.update()
     }
@@ -68,28 +66,7 @@ export class SpotPolygon extends leaflet.FeatureGroup {
             .bindTooltip(this.label)
             .addTo(this)
 
-        this.updateOpacity()
-    }
-
-
-    updateOpacity() {
-        if (this.polygon) {
-            let opacity = this.active ? 1 : 0.2
-
-            this.polygon.setStyle(
-                Object.assign(this.polygon.options, {
-                    opacity: opacity,
-                    fillOpacity: opacity * 0.2,
-                }))
-
-            this.label.setOpacity(opacity)
-        }
-    }
-
-    setActive(active: boolean) {
-        this.active = active
-
-        this.updateOpacity()
+        this.setActive(this.isActive())
     }
 }
 
@@ -322,11 +299,11 @@ export class ScanEditLayer extends ScanLayer {
     }
 
     deactivate() {
+        this.map.path_editor.reset()
+
         super.deactivate()
 
         this.edit_panel.container.empty()
         this.edit_panel = null
-
-        this.map.path_editor.reset()
     }
 }

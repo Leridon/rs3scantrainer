@@ -21,6 +21,7 @@ import {TextRendering} from "../TextRendering";
 import render_digspot = TextRendering.render_digspot;
 import natural_join = util.natural_join;
 import shorten_integer_list = util.shorten_integer_list;
+import {createStepGraphics} from "./path_graphics";
 
 export default class ScanTreeMethodLayer extends ScanLayer {
     private readonly root: Promise<augmented_decision_tree>
@@ -101,6 +102,8 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.highlightCandidates(candidates)
 
         this.areas.forEach((p) => p.setActive(relevant_areas.some((a) => a.name == (p.spot().name))))
+
+        // TODO: Create step graphics
 
         this.update()
     }

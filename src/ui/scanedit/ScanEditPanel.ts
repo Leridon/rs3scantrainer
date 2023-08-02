@@ -87,7 +87,6 @@ export default class ScanEditPanel extends Widget<{
             this.value.spot_ordering = v
             this.areas.areas.forEach((a) => a.updateSpotOrder())
             this.tree_edit.update()
-            //this.path_edit.update()
         })
 
         this.areas
@@ -128,10 +127,6 @@ export default class ScanEditPanel extends Widget<{
         }).on("decisions_loaded", (decisions) => {
             this.areas.setDecisions(decisions)
         })
-
-        /*this.path_edit.on("changed", (v) => {
-            this.value.methods = v
-        })*/
     }
 
     setValue(value
@@ -143,6 +138,5 @@ export default class ScanEditPanel extends Widget<{
         this.spot_ordering.setValue(value.spot_ordering)
         this.areas.setValue(value.areas)
         this.tree_edit.setValue(value.root)
-        //this.path_edit.setValue(value.methods)
     }
 }

@@ -4,12 +4,12 @@ import {MapCoordinate} from "../../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {PathFinder} from "../../../model/movement";
-import {step_run} from "../../../model/pathing";
 import LightButton from "../../widgets/LightButton";
 import {createStepGraphics} from "../path_graphics";
+import {Path} from "../../../model/pathing";
 
 export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
-    "done": step_run,
+    "done": Path.step_run,
     "cancelled": null
 }> {
     pathfinding_state: PathFinder.state = null

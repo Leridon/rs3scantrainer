@@ -3,15 +3,14 @@ import {ActiveLayer} from "../activeLayer";
 import {MapCoordinate, tilePolygon, Vector2} from "../../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {HostedMapData, move, MovementAbilities} from "../../../model/movement";
 import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../path_graphics";
-import {step_ability} from "../../../model/pathing";
 import {capitalize} from "lodash";
+import {Path} from "../../../model/pathing";
 
 export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
-    "done": step_ability,
+    "done": Path.step_ability,
     "cancelled": null
 }> {
     private start_position: MapCoordinate = null

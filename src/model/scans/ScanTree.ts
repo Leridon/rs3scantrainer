@@ -129,13 +129,10 @@ export namespace ScanTree {
 
             // Propagate movement state to paths/children
             {
-                let pre = lodash.clone(pre_state)
-
-                pre.tick += 1 // Simulate a waiting tick between steps
-
                 // Set proper target for every path
                 node.paths.forEach(p => {
-                    p.path.start_state = pre
+                    p.path.start_state = lodash.cloneDeep(pre_state)
+                    p.path.start_state.tick += 1 // Simulate a waiting tick between steps
 
                     if (p.spot) p.path.target = dig_area(p.spot)
                     else p.path.target = tree.areas.find((a) => a.name == node.where_to).area
@@ -149,7 +146,7 @@ export namespace ScanTree {
                     let ap = await Path.augment(to_here.path)
 
                     for (const c of node.children) {
-                        await helper(c.value, narrow_down(candidates, {area: area, ping: c.key}, assumedRange(tree)), ap.post_state)
+                        await helper(c.value, narrow_down(candidates, {area: area, ping: c.key}, assumedRange(tree)), lodash.cloneDeep(ap.post_state))
                     }
                 }
             }
@@ -157,7 +154,11 @@ export namespace ScanTree {
 
         if (!tree.root) tree.root = init_leaf(tree.clue.solution.candidates)
 
+
+        console.log("Propagating")
         await helper(tree.root, tree.clue.solution.candidates, Path.movement_state.start())
+        console.log("After:")
+        console.log(tree.root.paths[0].path.start_state)
 
         return tree
     }
@@ -303,24 +304,27 @@ export namespace ScanTree {
         return candidates.filter((s) => area_pulse(s, decision.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
     }
 
-    export function template_resolvers(node: ScanTree.augmented_decision_tree): Record<string, (args: string[]) => string> {
+    export function template_resolvers(node: ScanTree.augmented_decision_tree, spot?: MapCoordinate): Record<string, (args: string[]) => string> {
         return {
             "target": () => {
                 if (node.is_leaf) {
                     return render_digspot(spotNumber(node.root, node.leaf_spot))
+                } else if (spot) {
+                    return render_digspot(spotNumber(node.root, spot))
                 } else if (node.scan_spot) {
                     return `{{scanarea ${node.scan_spot.name}}}`
                 } else {
                     return "{ERROR: No target}"
                 }
             },
-            "candidates": () => {
-                return util.natural_join(
-                    shorten_integer_list(node.remaining_candidates
-                            .map(c => spotNumber(node.root, c)),
-                        render_digspot
-                    ))
-            }
+            "candidates":
+                () => {
+                    return util.natural_join(
+                        shorten_integer_list((spot ? [spot] : node.remaining_candidates)
+                                .map(c => spotNumber(node.root, c)),
+                            render_digspot
+                        ))
+                }
         }
     }
 }

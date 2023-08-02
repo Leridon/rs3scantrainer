@@ -1,7 +1,8 @@
 import * as leaflet from "leaflet"
-import {step} from "../../model/pathing";
+import {Path} from "../../model/pathing";
 import {MapCoordinate, toLL, Vector2} from "../../model/coordinates";
 import {MovementAbilities} from "../../model/movement";
+import Widget from "../widgets/Widget";
 
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
@@ -36,7 +37,40 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
     )
 }
 
-export function createStepGraphics(step: step): leaflet.Layer {
+export namespace PathingGraphics {
+
+    export function getIcon(step: Path.step): Widget {
+        switch (step.type) {
+            case "orientation":
+                break;
+            case "run":
+                return c(`<img class='text-icon' src='assets/icons/run.png'>`)
+            case "ability":
+                switch (step.ability) {
+                    case "surge":
+                        return c(`<img class='text-icon' src='assets/icons/surge.png'>`)
+                    case "escape":
+                        return c(`<img class='text-icon' src='assets/icons/escape.png'>`)
+                    case "barge":
+                        return c(`<img class='text-icon' src='assets/icons/barge.png'>`)
+                    case "dive":
+                        return c(`<img class='text-icon' src='assets/icons/dive.png'>`)
+                }
+                break;
+            case "teleport":
+                return c(`<img class='text-icon' src='assets/icons/homeport.png'>`)
+            case "interaction":
+                return c(`<img class='text-icon' src='assets/icons/shortcut.png'>`)
+            case "redclick":
+                return c(`<img class='text-icon' src='assets/icons/redclick.png'>`)
+            case "powerburst":
+                return c(`<img class='text-icon' src='assets/icons/accel.png'>`)
+        }
+    }
+}
+
+
+export function createStepGraphics(step: Path.step): leaflet.Layer {
     switch (step.type) {
         case "teleport":
 
@@ -114,7 +148,7 @@ export function createStepGraphics(step: step): leaflet.Layer {
             })
         }
         case "interaction":
-            // TODO:
+        // TODO:
         case "orientation":
         default:
             // Return an empty layer to avoid having to null check everywhere

@@ -1,15 +1,15 @@
 import {DropdownSelection} from "../widgets/DropdownSelection";
-import {interaction_type, InteractionType} from "../../model/pathing";
+import {Path} from "../../model/pathing";
 
-export default class InteractionSelect extends DropdownSelection<InteractionType> {
+export default class InteractionSelect extends DropdownSelection<Path.InteractionType> {
     constructor() {
         super({
             type_class: {
-                toHTML: (v: InteractionType) => {
-                    let meta = interaction_type.meta(v)
+                toHTML: (v: Path.InteractionType) => {
+                    let meta = Path.interaction_type.meta(v)
                     return c(`<div><img style="height: 18px; object-fit: contain; margin-right: 3px" src="${meta.icon_url}" alt="${meta.description}">${meta.description}</div>`)
                 }
             }
-        }, Object.values(InteractionType) as InteractionType[]);
+        }, Object.values(Path.InteractionType) as Path.InteractionType[]);
     }
 }

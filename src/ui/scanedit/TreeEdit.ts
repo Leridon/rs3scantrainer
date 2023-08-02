@@ -24,7 +24,9 @@ import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
 import Checkbox from "../widgets/Checkbox";
 
-class TreeNodeEdit extends Widget {
+class TreeNodeEdit extends Widget<{
+    "changed": ScanTree.decision_tree
+}> {
     constructor(parent: TreeEdit, node: augmented_tree, include_paths: boolean) {
         super()
 
@@ -128,7 +130,7 @@ class TreeNodeEdit extends Widget {
                 }
 
                 props.named("Direction",
-                    new TemplateStringEdit(scantrainer.template_resolver)
+                    new TemplateStringEdit(scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot)))
                         .on("changed", (v) => {
                             p.directions = v
                             //this.changed(this.value) // TODO:
@@ -139,7 +141,7 @@ class TreeNodeEdit extends Widget {
                 props.named("Path", new PathProperty(parent.parent.layer.getMap())
                     .on("changed", v => {
                         p.path = v
-                        //this.changed(this.value) // TODO
+                        this.emit("changed", node.raw)
                     })
                     .setValue(p.path)
                 )
@@ -179,7 +181,12 @@ export default class TreeEdit extends Widget<{
 
         function helper(node: augmented_tree) {
             // Only create edits for real nodes
-            if (node.raw) new TreeNodeEdit(self, node, !self.hide_paths).appendTo(self)
+            if (node.raw) new TreeNodeEdit(self, node, !self.hide_paths)
+                .on("changed", async () => {
+                    await ScanTree.prune_clean_and_propagate(self.parent.value)
+                    await self.update()
+                })
+                .appendTo(self)
 
             node.children.forEach(c => helper(c.value))
             return null

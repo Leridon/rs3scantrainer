@@ -1,15 +1,10 @@
 import * as leaflet from "leaflet"
-import {step} from "../../../model/pathing";
 import {createStepGraphics} from "../path_graphics";
+import {Path} from "../../../model/pathing";
 
-
-/*
-function arrowTip(): MapCoordinate[] {
-
-}*/
 
 export default class PathLayer extends leaflet.FeatureGroup {
-    constructor(private path: step[]) {
+    constructor(private path: Path.step[]) {
         super()
 
         this.update()
@@ -18,7 +13,6 @@ export default class PathLayer extends leaflet.FeatureGroup {
 
     private update() {
         this.clearLayers()
-
 
         this.path.reverse().forEach((p) => createStepGraphics(p)?.addTo(this))
     }

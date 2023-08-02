@@ -326,5 +326,7 @@ export class ScanEditLayer extends ScanLayer {
 
         this.edit_panel.container.empty()
         this.edit_panel = null
+
+        this.map.path_editor.reset()
     }
 }

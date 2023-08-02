@@ -8,87 +8,89 @@ import {full_teleport_id} from "./teleports";
 import {capitalize} from "lodash";
 import {stat} from "fs";
 
-type step_base = {
-    type: string,
-    description: string
-}
-
-export enum InteractionType {
-    GENERIC = "generic",
-    CHOP = "chop",
-    TALK = "talk"
-
-    /** TODO:
-     * Use Shortcut
-     *  - Different Types
-     * Enter Cave
-     * Exit Cave
-     * Ladder Up
-     * Ladder Down
-     * Open Door
-     * Use Spell on Object
-     *
-     */
-}
-
-export type interaction_type =
-    "generic" | "chop" | "talk"
-
-export namespace interaction_type {
-    export function meta(type: InteractionType): { icon_url: string, description: string } {
-        return {
-            icon_url: "assets/icons/accel.png",
-            description: capitalize(type.toString())
-        }
-        // TODO: Add real data
-    }
-}
-
-export type step_orientation = step_base & {
-    type: "orientation",
-    direction: direction
-}
-
-export type step_ability = step_base & {
-    type: "ability",
-    ability: movement_ability,
-    from: MapCoordinate,
-    to: MapCoordinate,
-}
-
-export type step_run = step_base & {
-    type: "run",
-    waypoints: MapCoordinate[]
-}
-
-export type step_teleport = step_base & {
-    type: "teleport",
-    id: full_teleport_id,
-    spot_override?: MapCoordinate
-}
-
-export type step_interact = step_base & {
-    type: "interaction",
-    ticks: number,
-    where: MapCoordinate,
-    ends_up: PlayerPosition,
-    how: InteractionType
-}
-
-export type step_redclick = step_base & {
-    type: "redclick",
-    where: MapCoordinate,
-    how: InteractionType
-}
-
-export type step_powerburst = step_base & {
-    type: "powerburst",
-    where: MapCoordinate
-}
-
-export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
 
 export namespace Path {
+    type step_base = {
+        type: string,
+        description: string
+    }
+
+    export enum InteractionType {
+        GENERIC = "generic",
+        CHOP = "chop",
+        TALK = "talk"
+
+        /** TODO:
+         * Use Shortcut
+         *  - Different Types
+         * Enter Cave
+         * Exit Cave
+         * Ladder Up
+         * Ladder Down
+         * Open Door
+         * Use Spell on Object
+         *
+         */
+    }
+
+    export type interaction_type =
+        "generic" | "chop" | "talk"
+
+    export namespace interaction_type {
+        export function meta(type: InteractionType): { icon_url: string, description: string } {
+            return {
+                icon_url: "assets/icons/accel.png",
+                description: capitalize(type.toString())
+            }
+            // TODO: Add real data
+        }
+    }
+
+    export type step_orientation = step_base & {
+        type: "orientation",
+        direction: direction
+    }
+
+    export type step_ability = step_base & {
+        type: "ability",
+        ability: movement_ability,
+        from: MapCoordinate,
+        to: MapCoordinate,
+    }
+
+    export type step_run = step_base & {
+        type: "run",
+        waypoints: MapCoordinate[]
+    }
+
+    export type step_teleport = step_base & {
+        type: "teleport",
+        id: full_teleport_id,
+        spot_override?: MapCoordinate
+    }
+
+    export type step_interact = step_base & {
+        type: "interaction",
+        ticks: number,
+        where: MapCoordinate,
+        ends_up: PlayerPosition,
+        how: InteractionType
+    }
+
+    export type step_redclick = step_base & {
+        type: "redclick",
+        where: MapCoordinate,
+        how: InteractionType
+    }
+
+    export type step_powerburst = step_base & {
+        type: "powerburst",
+        where: MapCoordinate
+    }
+
+    export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
+
+
     import index = util.index;
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
@@ -141,7 +143,7 @@ export namespace Path {
     export type augmented_step = {
         pre_state: movement_state,
         post_state: movement_state,
-        raw: step,
+        raw: Path.step,
         section?: number,
         issues?: string[]
     }
@@ -149,9 +151,9 @@ export namespace Path {
     export async function augment(path: Path.raw): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
-        let state: movement_state = path.start_state || movement_state.start()
+        let start_state = path.start_state ? lodash.cloneDeep(path.start_state) : movement_state.start()
+        let state: movement_state = lodash.cloneDeep(start_state)
 
-        let start_state = lodash.clone(state)
 
         // null positions are a pain, replace with position with unknown tile and direction
         state.position ||= {tile: null, direction: null}
@@ -160,7 +162,7 @@ export namespace Path {
             let step = path.steps[i]
 
             let augmented: augmented_step = {
-                pre_state: lodash.clone(state),
+                pre_state: lodash.cloneDeep(state),
                 post_state: null,
                 issues: [],
                 section: 0,
@@ -257,10 +259,10 @@ export namespace Path {
                     // Assumes mobile as well as double surge/escape.
                     // TODO: This entire logic is most likely riddled by off-by-one errors that need to be checked to ensure path lengths are estimated correctly.
 
-                    // TODO: Incorporate the fact that you can run 2 tiles and use an ability in the same tick.
                     // [13:46] treborsmada: its just (surge/escape/bd/(surge + bd)/(bd + surge)/(escape + bd)/(bd+ escape)) + <= 2 tiles movement
                     // So essentially: Any movement + optionally dive + 2 tiles movement.
                     // moving first and THEN an ability in the same tick does not work.
+                    // This essentially means that surge/escape/dive do not end the tick, but running does
                     switch (step.ability) {
                         case "surge": {
                             let min = minIndex(state.cooldowns.surge)
@@ -401,12 +403,14 @@ export namespace Path {
                     break;
             }
 
-            augmented.post_state = lodash.clone(state)
+            if ((i == path.steps.length - 1 && path.target && (!state.position.tile || !Box.contains(path.target, state.position.tile)))) {
+                augmented.issues.push("Path does not end in target area")
+            }
+
+            augmented.post_state = lodash.cloneDeep(state)
 
             augmented_steps.push(augmented)
         }
-
-        // TODO: Check whether path ends up at target
 
         // TODO: Sort issues into warning and errors
 

@@ -3,6 +3,7 @@ import {Path} from "../../model/pathing";
 import {MapCoordinate, toLL, Vector2} from "../../model/coordinates";
 import {MovementAbilities} from "../../model/movement";
 import Widget from "../widgets/Widget";
+import {OpacityGroup} from "./layers/OpacityLayer";
 
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
@@ -67,20 +68,29 @@ export namespace PathingGraphics {
                 return c(`<img class='text-icon' src='assets/icons/accel.png'>`)
         }
     }
+
+    export function renderPath(path: Path.raw): OpacityGroup {
+        let group = new OpacityGroup()
+
+        for (let step of path.steps) {
+            createStepGraphics(step).addTo(group)
+        }
+
+        return group
+    }
 }
 
 
-export function createStepGraphics(step: Path.step): leaflet.Layer {
+export function createStepGraphics(step: Path.step): OpacityGroup {
+    let layer = new OpacityGroup()
+        .setStyle({interactive: false})
+
     switch (step.type) {
         case "teleport":
 
             // TODO: Implement
             break;
         case "ability": {
-            let group = leaflet.featureGroup()
-
-            group.setStyle({interactive: false})
-
             const meta: Record<MovementAbilities.movement_ability, { color: string, icon: string }> = {
                 barge: {color: "#a97104", icon: "assets/icons/barge.png"},
                 dive: {color: "#e7d82c", icon: "assets/icons/dive.png"},
@@ -92,7 +102,7 @@ export function createStepGraphics(step: Path.step): leaflet.Layer {
                 .setStyle({
                     color: meta[step.ability].color,
                     weight: 4
-                }).addTo(group)
+                }).addTo(layer)
 
             leaflet.marker(toLL(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
                 icon: leaflet.icon({
@@ -100,9 +110,9 @@ export function createStepGraphics(step: Path.step): leaflet.Layer {
                     iconSize: [24, 24],
                     iconAnchor: [12, 12],
                 })
-            }).addTo(group)
+            }).addTo(layer)
 
-            return group
+            break
         }
         case "run": {
             let lines: [Vector2, Vector2][] = []
@@ -116,9 +126,7 @@ export function createStepGraphics(step: Path.step): leaflet.Layer {
 
             lines = lines.filter((l) => !Vector2.eq(l[0], l[1]))
 
-            let group = leaflet.featureGroup()
-
-            group.setStyle({
+            layer.setStyle({
                 interactive: false
             })
 
@@ -128,32 +136,32 @@ export function createStepGraphics(step: Path.step): leaflet.Layer {
                     color: "#b4b4b4",
                     weight: 3
                 }
-            ).addTo(group)
+            ).addTo(layer)
 
-            createX(step.waypoints[step.waypoints.length - 1], "yellow").addTo(group)
+            createX(step.waypoints[step.waypoints.length - 1], "yellow").addTo(layer)
 
-            return group
+            break
         }
         case "redclick": {
-            return createX(step.where, "red")
+            createX(step.where, "red").addTo(layer)
+            break
         }
         case "powerburst": {
-            return leaflet.marker(toLL(step.where), {
+            leaflet.marker(toLL(step.where), {
                 icon: leaflet.icon({
                     iconUrl: "assets/icons/accel.png",
                     iconSize: [16, 16],
                     iconAnchor: [8, 8],
                 }),
                 interactive: false
-            })
+            }).addTo(layer)
+            break
         }
         case "interaction":
         // TODO:
         case "orientation":
         default:
-            // Return an empty layer to avoid having to null check everywhere
-            return leaflet.featureGroup()
     }
 
-    return null
+    return layer
 }

@@ -13,7 +13,7 @@ export class OpacityGroup extends leaflet.FeatureGroup {
         this.options.opacity = 1
     }
 
-    setOpacity(opacity: number) {
+    setOpacity(opacity: number): this {
         this.options.opacity = opacity
 
         this.getTooltip()?.setOpacity(opacity)
@@ -41,6 +41,8 @@ export class OpacityGroup extends leaflet.FeatureGroup {
         }
 
         this.children.forEach(set)
+
+        return this
     }
 
 

@@ -5,8 +5,6 @@ import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "../data/teleport_data";
 import {full_teleport_id} from "./teleports";
-import {capitalize} from "lodash";
-import {stat} from "fs";
 
 
 export namespace Path {

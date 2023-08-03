@@ -55,7 +55,8 @@ export namespace ScanTree {
 
     export type augmented_decision_tree = {
         raw: decision_tree,
-        root: tree,
+        raw_root: tree,
+        root: augmented_decision_tree,
         parent: { node: augmented_decision_tree, kind: Pulse },
         is_leaf?: boolean,
         scan_spot?: ScanSpot,
@@ -69,6 +70,14 @@ export namespace ScanTree {
             key: Pulse,
             value: augmented_decision_tree
         }[]
+    }
+
+    export namespace augmented_decision_tree {
+        export function traverse(node: augmented_decision_tree, f: (_: augmented_decision_tree) => void) {
+            f(node)
+
+            node.children.forEach(c => traverse(c.value, f))
+        }
     }
 
     export function init_leaf(candidates: MapCoordinate[]): decision_tree {
@@ -184,7 +193,8 @@ export namespace ScanTree {
 
             let t: augmented_decision_tree = {
                 directions: null,
-                root: tree,
+                raw_root: tree,
+                root: null,
                 parent: parent,
                 scan_spot: null,
                 path: null,
@@ -194,6 +204,8 @@ export namespace ScanTree {
                 decisions: decisions,
                 children: []
             }
+
+            t.root = parent == null ? t : parent.node.root
 
             // For triples with more than one candidate, inherit the parent's spot, TODO: Is this sensible?
             if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.scan_spot = parent.node.scan_spot
@@ -238,6 +250,7 @@ export namespace ScanTree {
                             key: null,
                             value: {
                                 children: [],
+                                root: t.root,
                                 decisions: t.decisions,
                                 depth: t.depth + 1,
                                 directions: p.directions,
@@ -247,7 +260,7 @@ export namespace ScanTree {
                                 path: p.path,
                                 raw: null,
                                 remaining_candidates: [c],
-                                root: t.root,
+                                raw_root: t.raw_root,
                             }
                         })
                     })
@@ -308,9 +321,9 @@ export namespace ScanTree {
         return {
             "target": () => {
                 if (node.is_leaf) {
-                    return render_digspot(spotNumber(node.root, node.leaf_spot))
+                    return render_digspot(spotNumber(node.raw_root, node.leaf_spot))
                 } else if (spot) {
-                    return render_digspot(spotNumber(node.root, spot))
+                    return render_digspot(spotNumber(node.raw_root, spot))
                 } else if (node.scan_spot) {
                     return `{{scanarea ${node.scan_spot.name}}}`
                 } else {
@@ -321,7 +334,7 @@ export namespace ScanTree {
                 () => {
                     return util.natural_join(
                         shorten_integer_list((spot ? [spot] : node.remaining_candidates)
-                                .map(c => spotNumber(node.root, c)),
+                                .map(c => spotNumber(node.raw_root, c)),
                             render_digspot
                         ))
                 }

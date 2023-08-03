@@ -21,12 +21,14 @@ import {TextRendering} from "../TextRendering";
 import render_digspot = TextRendering.render_digspot;
 import natural_join = util.natural_join;
 import shorten_integer_list = util.shorten_integer_list;
-import {createStepGraphics} from "./path_graphics";
+import {createStepGraphics, PathingGraphics} from "./path_graphics";
+import {Path} from "../../model/pathing";
 
 export default class ScanTreeMethodLayer extends ScanLayer {
     private readonly root: Promise<augmented_decision_tree>
     private node: augmented_decision_tree
     private areas: SpotPolygon[] = []
+    private path_graphics: leaflet.FeatureGroup
 
     private fit() {
         let bounds = leaflet.bounds([])
@@ -103,6 +105,28 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         this.areas.forEach((p) => p.setActive(relevant_areas.some((a) => a.name == (p.spot().name))))
 
+        let opaque_paths: Path.raw[] = []
+        if (node.path) opaque_paths.push(node.path)
+
+        node.children.forEach(c => {
+            if (c.key == null && c.value.is_leaf && c.value.path) opaque_paths.push(c.value.path)
+        })
+
+        // 1. Path here
+        // 2. Path to all leaf children
+
+        // Render pathing with appropriate opacity
+        this.path_graphics.clearLayers()
+
+        augmented_decision_tree.traverse(node.root, n => {
+            if(n.path) {
+                let opaque = opaque_paths.some(o => o == n.path)
+
+                PathingGraphics.renderPath(n.path).setOpacity(opaque ? 1 : 0.2).addTo(this.path_graphics)
+            }
+        })
+
+
         // TODO: Create step graphics
 
         this.update()
@@ -119,6 +143,8 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         this.areas = scantree.areas.map((s) => new SpotPolygon(s).addTo(this))
 
+        this.path_graphics = leaflet.featureGroup().addTo(this)
+
         this.setMeerkats(scantree.assumes_meerkats)
     }
 
@@ -133,8 +159,6 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     }
 
     private update() {
-        console.log(this.node)
-
         {
             let list = $("#pathview").empty()
 
@@ -144,7 +168,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 if (!node.parent) {
                     text = "Start"
                 } else if (node.is_leaf) {
-                    text = `Spot ${spotNumber(node.root, node.remaining_candidates[0])}`
+                    text = `Spot ${spotNumber(node.raw_root, node.remaining_candidates[0])}`
                 } else {
                     text = ScanDecision.toString(node.decisions[node.decisions.length - 1])
                 }
@@ -173,7 +197,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         } else {
             if (this.node.remaining_candidates.length > 1) {
                 if (this.node.parent && this.node.parent.kind.pulse == 3) {
-                    text = `Which spot of ${natural_join(shorten_integer_list(this.node.remaining_candidates.map(c => spotNumber(this.node.root, c)), render_digspot))}?`
+                    text = `Which spot of ${natural_join(shorten_integer_list(this.node.remaining_candidates.map(c => spotNumber(this.node.raw_root, c)), render_digspot))}?`
                 } else {
                     text = `No more instructions. Check remaining spots:`
                 }
@@ -199,7 +223,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         let link_html = node.parent.kind
             ? Pulse.meta(node.parent.kind).pretty // TODO: Make this depend on the siblings to avoid redundant "different level"
-            : resolver.resolve(`Spot {{digspot ${spotNumber(node.root, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
+            : resolver.resolve(`Spot {{digspot ${spotNumber(node.raw_root, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
 
         if (depth == 0) {
             new LightButton().on("click", () => this.setNode(node))
@@ -227,10 +251,10 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 line.append($("<span>").text("at"))
 
                 node.children.map(c => c.value)
-                    .sort(comap(natural_order, (c) => spotNumber(node.root, c.remaining_candidates[0])))
+                    .sort(comap(natural_order, (c) => spotNumber(node.raw_root, c.remaining_candidates[0])))
                     .forEach((child) => {
                         new LightButton()
-                            .setHTML(render_digspot(spotNumber(node.root, child.remaining_candidates[0])))
+                            .setHTML(render_digspot(spotNumber(node.raw_root, child.remaining_candidates[0])))
                             .on("click", () => this.setNode(child))
                             .appendTo(line)
                     })
@@ -249,7 +273,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         let children = []
 
-        if (depth == 0) children = children.concat(node.children.filter(c => c.key == null).sort(comap(natural_order, (a) => spotNumber(node.root, a.value.remaining_candidates[0]))))
+        if (depth == 0) children = children.concat(node.children.filter(c => c.key == null).sort(comap(natural_order, (a) => spotNumber(node.raw_root, a.value.remaining_candidates[0]))))
 
         children = children.concat(node.children.filter(c => c.key != null).sort(comap(Pulse.compare, (a) => a.key)))
 

@@ -265,6 +265,13 @@ export namespace Pulse {
         return (pulse.pulse - 1) + (pulse.different_level ? 3 : 0) as hash_t
     }
 
+    export function unhash(hash: hash_t): Pulse {
+        return {
+            pulse: (hash % 3) + 1 as 1 | 2 | 3,
+            different_level: hash >= 3
+        }
+    }
+
     export function equals(a: Pulse, b: Pulse): boolean {
         return a.pulse == b.pulse && a.different_level == b.different_level
     }

@@ -7,6 +7,7 @@ import ScanSpot = ScanTree.ScanSpot;
 import ScanDecision = ScanTree.ScanDecision;
 import Widget from "../widgets/Widget";
 import {Pulse} from "../../model/scans/scans";
+import LightButton from "../widgets/LightButton";
 
 let area_name_pattern = /[a-zA-Z_][_a-zA-Z0-9]*/
 
@@ -21,7 +22,7 @@ export default class AreaWidget extends Widget<{
         area_div?: JQuery
         delete_button?: JQuery,
         edit_button?: JQuery,
-        info_buttons?: ToggleGroup<Pulse>
+        info_buttons?: ToggleGroup<Pulse.hash_t>
     }
 
     edit_panel: {
@@ -110,12 +111,16 @@ export default class AreaWidget extends Widget<{
             })
             .appendTo(this.main_row.row)
 
+        // TODO: This entire thing is pretty hacky and needs a cleanup
         this.main_row.info_buttons = new ToggleGroup(Pulse.all.map((c) => {
-            return $("<div class='lightbutton' style='padding-left: 0.5em; padding-right : 0.5em'>")
-                .text(Pulse.meta(c).short)
-                .attr("title", Pulse.meta(c).pretty)
-                .data("value", c)
+            return new LightButton(Pulse.meta(c).short)
+                .css2({
+                    "padding-left": "0.5em",
+                    "padding-right": "0.5em",
+                })
+                .tooltip(Pulse.meta(c).pretty)
                 .appendTo(this.main_row.row)
+                .container.data("value", Pulse.hash(c))
         }))
 
         this.main_row.info_buttons.on("value_changed", (value) => {
@@ -206,7 +211,7 @@ export default class AreaWidget extends Widget<{
 
         return {
             area: this.value,
-            ping: this.main_row.info_buttons.value()
+            ping: Pulse.unhash(this.main_row.info_buttons.value())
         }
     }
 
@@ -222,6 +227,6 @@ export default class AreaWidget extends Widget<{
     }
 
     setDecision(decision: Pulse) {
-        this.main_row.info_buttons.setValue(decision)
+        this.main_row.info_buttons.setValue(decision ? Pulse.hash(decision) : null)
     }
 }

@@ -45,7 +45,6 @@ export class ToggleGroup<T> extends TypedEmitter<ToggleGroupEvents<T>> {
 
             this.active_button = this.buttons.find((b) => b.data("value") == value)
             this.active_button.removeClass("inactive").addClass("active")
-
         }
     }
 }

@@ -9,10 +9,7 @@ import spot_narrowing = ScanTree.spot_narrowing;
 import {MapCoordinate} from "../../model/coordinates";
 import assumedRange = ScanTree.assumedRange;
 import {Pulse} from "../../model/scans/scans";
-import narrow_down = ScanTree.narrow_down;
-import Collapsible from "../widgets/modals/Collapsible";
 import {util} from "../../util/util";
-import natural_order = util.natural_order;
 import {DropdownSelection} from "../widgets/DropdownSelection";
 import Properties from "../widgets/Properties";
 import natural_join = util.natural_join;
@@ -23,6 +20,7 @@ import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
 import Checkbox from "../widgets/Checkbox";
+import Order = util.Order;
 
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree
@@ -114,38 +112,44 @@ class TreeNodeEdit extends Widget<{
         }
 
         if (include_paths) {
-            (node.raw?.paths || []).forEach(p => {
-                {
-                    // Create header line for this path segment
-                    let origin = node.parent?.node?.scan_spot
+            (node.raw?.paths || [])
+                .sort(Order.comap(Order.natural_order, (p: {
+                    spot?: MapCoordinate,
+                    directions: string,
+                    path: Path.raw
+                }) => p.spot ? ScanTree.spotNumber(node.raw_root, p.spot) : -1))
+                .forEach(p => {
+                    {
+                        // Create header line for this path segment
+                        let origin = node.parent?.node?.scan_spot
 
-                    let header = "Path"
-                    if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
-                    header += ` to`
+                        let header = "Path"
+                        if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
+                        header += ` to`
 
-                    if (p.spot) header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, p.spot)}`
-                    else header += `&nbsp;<span class="ctr-scanspot-inline">${node.scan_spot.name}</span>`
+                        if (p.spot) header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, p.spot)}`
+                        else header += `&nbsp;<span class="ctr-scanspot-inline">${node.scan_spot.name}</span>`
 
-                    props.header(header)
-                }
+                        props.header(header)
+                    }
 
-                props.named("Direction",
-                    new TemplateStringEdit(scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot)))
-                        .on("changed", (v) => {
-                            p.directions = v
-                            //this.changed(this.value) // TODO:
+                    props.named("Direction",
+                        new TemplateStringEdit(scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot)))
+                            .on("changed", (v) => {
+                                p.directions = v
+                                //this.changed(this.value) // TODO:
+                            })
+                            .setValue(p.directions)
+                    )
+
+                    props.named("Path", new PathProperty(parent.parent.layer.getMap())
+                        .on("changed", v => {
+                            p.path = v
+                            this.emit("changed", node.raw)
                         })
-                        .setValue(p.directions)
-                )
-
-                props.named("Path", new PathProperty(parent.parent.layer.getMap())
-                    .on("changed", v => {
-                        p.path = v
-                        this.emit("changed", node.raw)
-                    })
-                    .setValue(p.path)
-                )
-            })
+                        .setValue(p.path)
+                    )
+                })
         }
     }
 }
@@ -188,7 +192,10 @@ export default class TreeEdit extends Widget<{
                 })
                 .appendTo(self)
 
-            node.children.forEach(c => helper(c.value))
+            node.children
+                .filter(n => n.key)
+                .sort(Order.comap(Order.reverse(Pulse.compare), a => a.key))
+                .forEach(c => helper(c.value))
             return null
         }
 

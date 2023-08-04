@@ -16,7 +16,9 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
 
         this.summary = c("<div>").appendTo(this)
 
-        this.load_button = new LightButton("Load to editor").setEnabled(false).appendTo(this)
+        this.load_button = new LightButton("Load to editor")
+            .css("width", "100%")
+            .setEnabled(false).appendTo(this)
             .on("click", () => {
                 map.path_editor.load(this.value, {
                     save_handler: async v => {

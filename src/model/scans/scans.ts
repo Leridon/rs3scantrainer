@@ -258,7 +258,7 @@ export type Pulse = {
 }
 
 export namespace Pulse {
-    import natural_order = util.natural_order;
+    import natural_order = util.Order.natural_order;
     export type hash_t = 0 | 1 | 2 | 3 | 4 | 5
 
     export function hash(pulse: Pulse): hash_t {
@@ -305,12 +305,8 @@ export namespace Pulse {
         }
     }
 
-    export function compare(a: Pulse, b: Pulse) {
+    export function compare(a: Pulse, b: Pulse): number {
         return natural_order(hash(a), hash(b))
-
-        if (a.different_level != b.different_level) return (a.different_level ? 1 : -1)
-
-        return a.pulse - b.pulse
     }
 }
 

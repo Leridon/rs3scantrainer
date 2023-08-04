@@ -11,13 +11,21 @@ export namespace util {
         return a.slice(0, -1).join(", ") + `, ${connector} ` + a[a.length - 1]
     }
 
-    export function natural_order(a: number, b: number): number {
-        return a - b
+    export namespace Order {
+
+        export function natural_order(a: number, b: number): number {
+            return a - b
+        }
+
+        export function comap<T, U>(cmp: (a: U, b: U) => number, f: (T) => U): (a: T, b: T) => number {
+            return (a, b) => cmp(f(a), f(b))
+        }
+
+        export function reverse<T>(cmp: (a: T, b: T) => number): (a: T, b: T) => number {
+            return (a, b) => -cmp(a, b)
+        }
     }
 
-    export function comap<T, U>(cmp: (a: U, b: U) => number, f: (T) => U): (a: T, b: T) => number {
-        return (a, b) => cmp(f(a), f(b))
-    }
 
     export function capitalize(s: string): string {
         return s ? s[0].toUpperCase() + s.slice(1) : ""
@@ -35,7 +43,7 @@ export namespace util {
     }
 
     export function shorten_integer_list(l: number[], f: ((_: number) => string) = (n => n.toString())): string[] {
-        l.sort(natural_order)
+        l.sort(Order.natural_order)
 
         let res: string[] = []
 

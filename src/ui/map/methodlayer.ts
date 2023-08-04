@@ -14,8 +14,6 @@ import ScanDecision = ScanTree.ScanDecision;
 import template_resolvers = ScanTree.template_resolvers;
 import spotNumber = ScanTree.spotNumber;
 import {Pulse} from "../../model/scans/scans";
-import comap = util.comap;
-import natural_order = util.natural_order;
 import LightButton from "../widgets/LightButton";
 import {TextRendering} from "../TextRendering";
 import render_digspot = TextRendering.render_digspot;
@@ -23,6 +21,7 @@ import natural_join = util.natural_join;
 import shorten_integer_list = util.shorten_integer_list;
 import {createStepGraphics, PathingGraphics} from "./path_graphics";
 import {Path} from "../../model/pathing";
+import Order = util.Order;
 
 export default class ScanTreeMethodLayer extends ScanLayer {
     private readonly root: Promise<augmented_decision_tree>
@@ -251,7 +250,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 line.append($("<span>").text("at"))
 
                 node.children.map(c => c.value)
-                    .sort(comap(natural_order, (c) => spotNumber(node.raw_root, c.remaining_candidates[0])))
+                    .sort(Order.comap(Order.natural_order, (c) => spotNumber(node.raw_root, c.remaining_candidates[0])))
                     .forEach((child) => {
                         new LightButton()
                             .setHTML(render_digspot(spotNumber(node.raw_root, child.remaining_candidates[0])))
@@ -273,9 +272,9 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         let children = []
 
-        if (depth == 0) children = children.concat(node.children.filter(c => c.key == null).sort(comap(natural_order, (a) => spotNumber(node.raw_root, a.value.remaining_candidates[0]))))
+        if (depth == 0) children = children.concat(node.children.filter(c => c.key == null).sort(Order.comap(Order.natural_order, (a) => spotNumber(node.raw_root, a.value.remaining_candidates[0]))))
 
-        children = children.concat(node.children.filter(c => c.key != null).sort(comap(Pulse.compare, (a) => a.key)))
+        children = children.concat(node.children.filter(c => c.key != null).sort(Order.comap(Pulse.compare, (a) => a.key)))
 
         children.forEach((e) => this.generateList(e.value, depth, container))
     }

@@ -9,6 +9,8 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
     summary: Widget
     load_button: LightButton
 
+    private loaded: boolean = false
+
     private augmented: Path.augmented
 
     constructor(map: GameMapControl) {
@@ -19,19 +21,34 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
         this.load_button = new LightButton("Load to editor")
             .css("width", "100%")
             .setEnabled(false).appendTo(this)
-            .on("click", () => {
+            .on("click", async () => {
+                this.loaded = true
+                await this.update()
+
                 map.path_editor.load(this.value, {
                     save_handler: async v => {
-                        this.changed(v)
+                        this.value = v
+                        await this.update()
+                    },
+                    close_handler: async () => {
+                        this.loaded = false
+                        this.changed(this.value)
+
                         await this.update()
                     }
                 })
-            })
 
+            })
     }
 
     protected async update() {
-        this.load_button.setEnabled(!!this.value)
+        this.load_button.setEnabled(!!this.value && !this.loaded)
+
+        if (this.loaded) {
+            this.load_button.setText("Loaded to editor, edit on map")
+        } else {
+            this.load_button.setText("Load to editor")
+        }
 
         this.augmented = await Path.augment(this.value)
 
@@ -48,6 +65,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
             PathingGraphics.getIcon(this.value.steps[i]).appendTo(this.summary)
         }
 
-        if(this.value.steps.length == 0) this.summary.text("Empty path")
+        if (this.value.steps.length == 0) this.summary.text("Empty path")
     }
 }

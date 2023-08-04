@@ -1,6 +1,5 @@
 import Widget from "../widgets/Widget";
 import ScanEditPanel from "./ScanEditPanel";
-import SmallImageButton from "../widgets/SmallImageButton";
 import {ScanTree} from "../../model/scans/ScanTree";
 import tree_node = ScanTree.decision_tree;
 import augmented_tree = ScanTree.augmented_decision_tree;
@@ -14,7 +13,6 @@ import {DropdownSelection} from "../widgets/DropdownSelection";
 import Properties from "../widgets/Properties";
 import natural_join = util.natural_join;
 import {Path} from "../../model/pathing";
-import init_leaf = ScanTree.init_leaf;
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";

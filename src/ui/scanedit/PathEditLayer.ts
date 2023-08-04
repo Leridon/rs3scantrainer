@@ -22,7 +22,7 @@ import {GameMapControl} from "../map/map";
 import InteractionSelect from "../pathedit/InteractionSelect";
 import surge2 = MovementAbilities.surge2;
 import escape2 = MovementAbilities.escape2;
-import { Path } from "../../model/pathing";
+import {Path} from "../../model/pathing";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -532,34 +532,43 @@ class ControlWidget extends Widget<{
 }
 
 export class PathEditor {
-
     control: ControlWidget
+    current_options: PathEditor.options_t = null
 
     constructor(public map: GameMapControl) {
         this.control = null
     }
 
-    public load(path: Path.raw, options: {
-        save_handler: (p: Path.raw) => void
-    }) {
+    public load(path: Path.raw, options: PathEditor.options_t) {
         this.reset()
 
-        console.log(path.start_state)
-        console.log(path.target)
+        this.current_options = options
 
         this.control = new ControlWidget(this, path)
-            .on("saved", (v) => options.save_handler(v))
-            .on("closed", () => this.reset())
+            .on("saved", async (v) => await options.save_handler(v))
+            .on("closed", async () => await this.reset())
 
         this.map.map.addControl(this.control.control.setPosition("topleft"))
     }
 
-    public reset() {
+    public async reset() {
         if (this.control) {
             this.control.resetPreviewLayer()
             this.control.remove()
             this.control = null
         }
+
+        if (this.current_options) {
+            await this.current_options.close_handler()
+            this.current_options = null
+        }
+    }
+}
+
+namespace PathEditor {
+    export type options_t = {
+        save_handler: (p: Path.raw) => any,
+        close_handler: () => any
     }
 }
 

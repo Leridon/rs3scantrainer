@@ -7,10 +7,12 @@ Immediate next:
 
 - Display paths in the editor
 - Fade areas and other stuff in the path editor
+- Indicate when a path property is loaded to the editor
+
+
 - Restyle step header to include icon
 - Add a way to view pre and post state in the editor (tooltip)
 - Fix scrolling in the path editor
-- Indicate when a path property is loaded to the editor
 - Highlight start and target in the path editor (blue and ???)
 - Display warnings/errors in path property
 

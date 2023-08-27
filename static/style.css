@@ -740,6 +740,10 @@ video {
     background-color: #1D190D;
 }
 
+.nisl-selectdropdown-options-none {
+    font-style: italic;
+}
+
 .nisl-selectdropdown-options > .selected {
     background-color: #333333FF;
 }

@@ -446,7 +446,7 @@ video {
     background-color: #FFFFFF19;
     border-radius: 5px;
     cursor: pointer;
-    border: 1px solid gray;
+    border: 1px solid grey;
 }
 
 .lightbutton.inactive {

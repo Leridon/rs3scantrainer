@@ -41,8 +41,17 @@ export class TypedEmitter<T extends Record<string, any>> {
         listeners.delete(listener);
     }
 
-    emit<K extends keyof T>(event: K, value: T[K]) {
+    async emitAsync<K extends keyof T>(event: K, value: T[K]) {
         let listeners = this.listeners[event] ?? (this.listeners[event] = new Set());
-        listeners.forEach(cb => cb(value));
+
+        for (let cb of Array.from(listeners)) {
+            await cb(value)
+        }
+    }
+
+    async emit<K extends keyof T>(event: K, value: T[K]) {
+        let listeners = this.listeners[event] ?? (this.listeners[event] = new Set());
+
+        listeners.forEach(cb => cb(value))
     }
 }

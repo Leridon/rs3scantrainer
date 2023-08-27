@@ -23,6 +23,9 @@ import InteractionSelect from "../pathedit/InteractionSelect";
 import surge2 = MovementAbilities.surge2;
 import escape2 = MovementAbilities.escape2;
 import {Path} from "../../model/pathing";
+import {TypedEmitter} from "../../skillbertssolver/eventemitter";
+import {boxPolygon, tilePolygon} from "../../model/coordinates";
+import {featureGroup} from "leaflet";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -516,6 +519,19 @@ class ControlWidget extends Widget<{
                     .on("changed", () => this.update())
             )
         }
+
+        if (this.value.target) boxPolygon(this.value.target)
+            .setStyle({
+                color: "yellow"
+            })
+            .addTo(this._preview_layer)
+
+
+        if (this.value?.start_state?.position?.tile) tilePolygon(this.value.start_state.position.tile)
+            .setStyle({
+                color: "red"
+            })
+            .addTo(this._preview_layer)
     }
 
     removePreviewLayer() {
@@ -531,22 +547,32 @@ class ControlWidget extends Widget<{
     }
 }
 
-export class PathEditor {
+export class PathEditor extends TypedEmitter<{
+    "active_changed": boolean
+}> {
     control: ControlWidget
     current_options: PathEditor.options_t = null
 
     constructor(public map: GameMapControl) {
+        super()
         this.control = null
     }
 
-    public load(path: Path.raw, options: PathEditor.options_t) {
-        this.reset()
+    public async load(path: Path.raw, options: PathEditor.options_t) {
+        let before = this.current_options != null
+
+        await this.reset()
 
         this.current_options = options
 
+        if (!before) await this.emitAsync("active_changed", true)
+
         this.control = new ControlWidget(this, path)
             .on("saved", async (v) => await options.save_handler(v))
-            .on("closed", async () => await this.reset())
+            .on("closed", async () => {
+                await this.reset()
+                await this.emitAsync("active_changed", false)
+            })
 
         this.map.map.addControl(this.control.control.setPosition("topleft"))
     }

@@ -72,6 +72,12 @@ export namespace ScanTree {
         }[]
     }
 
+    export function traverse(tree: decision_tree, f: (_: decision_tree) => void): void {
+        if (tree) f(tree)
+
+        tree.children.forEach(c => traverse(c.value, f))
+    }
+
     export namespace augmented_decision_tree {
         export function traverse(node: augmented_decision_tree, f: (_: augmented_decision_tree) => void) {
             f(node)
@@ -138,36 +144,45 @@ export namespace ScanTree {
 
             // Propagate movement state to paths/children
             {
-                // Set proper target for every path
-                node.paths.forEach(p => {
-                    p.path.start_state = lodash.cloneDeep(pre_state)
-                    p.path.start_state.tick += 1 // Simulate a waiting tick between steps
+                console.log("Debug")
+                console.log(node.paths)
+                // Find the path to here, and propagate previous state to it.
+                let to_here = node.paths.find(p => p.spot == null)
 
-                    if (p.spot) p.path.target = dig_area(p.spot)
-                    else p.path.target = tree.areas.find((a) => a.name == node.where_to).area
-                })
+                let fixed_pre_state = pre_state
 
-                // Augment path and propagate post_state to all children
-                if (node.children.length > 0) {
-                    let area = tree.areas.find((a) => a.name == node.where_to)
+                if (to_here) {
+                    to_here.path.start_state = lodash.cloneDeep(pre_state)
+                    to_here.path.start_state.tick += 1 // Simulate a waiting tick between steps
+                    to_here.path.target = tree.areas.find((a) => a.name == node.where_to).area
 
-                    let to_here = node.paths.find(p => p.spot == null)
                     let ap = await Path.augment(to_here.path)
 
-                    for (const c of node.children) {
-                        await helper(c.value, narrow_down(candidates, {area: area, ping: c.key}, assumedRange(tree)), lodash.cloneDeep(ap.post_state))
+                    // Propagate post_state to all children
+                    if (node.children.length > 0) {
+                        let area = tree.areas.find((a) => a.name == node.where_to)
+
+                        for (const c of node.children) {
+                            await helper(c.value, narrow_down(candidates, {area: area, ping: c.key}, assumedRange(tree)), lodash.cloneDeep(ap.post_state))
+                        }
                     }
+
+                    fixed_pre_state = ap.post_state
                 }
+
+                // Set proper target for every other path from here to a dig spot.
+                node.paths.filter(p => p.spot != null).forEach(p => {
+                    p.path.start_state = lodash.cloneDeep(fixed_pre_state)
+                    p.path.start_state.tick += 1 // Simulate a waiting tick between steps
+
+                    p.path.target = dig_area(p.spot)
+                })
             }
         }
 
         if (!tree.root) tree.root = init_leaf(tree.clue.solution.candidates)
 
-
-        console.log("Propagating")
         await helper(tree.root, tree.clue.solution.candidates, Path.movement_state.start())
-        console.log("After:")
-        console.log(tree.root.paths[0].path.start_state)
 
         return tree
     }

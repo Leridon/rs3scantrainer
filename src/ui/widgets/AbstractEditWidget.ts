@@ -4,9 +4,9 @@ import Widget from "./Widget";
 /**
  * This class encapsulates common functionality for widgets that are an editor for a value.
  */
-export default abstract class AbstractEditWidget<T> extends Widget<{
+export default abstract class AbstractEditWidget<T, AdditionalEvents extends Record<string, any> = {}> extends Widget<AdditionalEvents & {
     "changed": T
-}> {
+} > {
 
     protected value: T = null
 

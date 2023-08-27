@@ -8,6 +8,8 @@ import ScanDecision = ScanTree.ScanDecision;
 import Widget from "../widgets/Widget";
 import {Pulse} from "../../model/scans/scans";
 import LightButton from "../widgets/LightButton";
+import {Layer, Polygon} from "leaflet";
+import {OpacityGroup} from "../map/layers/OpacityLayer";
 
 let area_name_pattern = /[a-zA-Z_][_a-zA-Z0-9]*/
 
@@ -42,7 +44,6 @@ export default class AreaWidget extends Widget<{
             .on("input", (e) => {
                 write(Number($(e.target).val()))
 
-                this.polygon.update()
                 this.emit("changed", this.value)
 
                 if (this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
@@ -70,8 +71,6 @@ export default class AreaWidget extends Widget<{
             this.edit_panel.area.botright.y.val(a.botright.y)
 
             this.emit("changed", this.value)
-
-            this.polygon.update()
         })
 
         interaction.events.on("done", (a) => {
@@ -89,11 +88,8 @@ export default class AreaWidget extends Widget<{
         private parent: AreaEdit,
         private layer: ScanEditLayer,
         public value: ScanSpot,
-        private polygon: SpotPolygon = null
     ) {
         super($("<div class='panel'>"))
-
-        if (!polygon) this.polygon = new SpotPolygon(value).addTo(this.layer)
 
         this.main_row = {
             row: $("<div class='area-edit-row' style='display: flex;'>").appendTo(this.container)
@@ -142,7 +138,6 @@ export default class AreaWidget extends Widget<{
                         this.value.name = newName
 
                         this.main_row.area_div.text(this.value.name)
-                        this.polygon.update()
 
                         this.emit("renamed", {old: oldName, new: newName})
                     } else {
@@ -216,7 +211,6 @@ export default class AreaWidget extends Widget<{
     }
 
     delete() {
-        this.polygon.remove()
         this.remove()
 
         this.emit("deleted", this.value)
@@ -228,5 +222,11 @@ export default class AreaWidget extends Widget<{
 
     setDecision(decision: Pulse) {
         this.main_row.info_buttons.setValue(decision ? Pulse.hash(decision) : null)
+    }
+
+    preview_polyon: Layer = null
+
+    updatePreview(layer: OpacityGroup) {
+        this.preview_polyon =  new SpotPolygon(this.value).addTo(layer)
     }
 }

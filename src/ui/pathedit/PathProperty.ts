@@ -5,7 +5,10 @@ import {GameMapControl} from "../map/map";
 import Widget from "../widgets/Widget";
 import {PathingGraphics} from "../map/path_graphics";
 
-export default class PathProperty extends AbstractEditWidget<Path.raw> {
+export default class PathProperty extends AbstractEditWidget<Path.raw, {
+    "loaded_to_editor": null,
+    "editor_closed": null
+}> {
     summary: Widget
     load_button: LightButton
 
@@ -35,9 +38,13 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
                         this.changed(this.value)
 
                         await this.update()
+
+                        this.emit("editor_closed", null)
+
                     }
                 })
 
+                this.emit("loaded_to_editor", null)
             })
     }
 

@@ -5,7 +5,7 @@ import TreeEdit from "./TreeEdit";
 import {ScanStep} from "../../model/clues";
 import {MapCoordinate} from "../../model/coordinates";
 import {indirect, resolve} from "../../model/methods";
-import {ScanEditLayer} from "../map/layers/ScanLayer";
+import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import {ScanTree} from "../../model/scans/ScanTree";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {export_string, import_string} from "../../util/exportString";
@@ -17,6 +17,9 @@ import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import narrow_down = ScanTree.narrow_down;
 import assumedRange = ScanTree.assumedRange;
 import Collapsible from "../widgets/modals/Collapsible";
+import {ActiveOpacityGroup, OpacityGroup} from "../map/layers/OpacityLayer";
+import * as leaflet from "leaflet";
+import {PathingGraphics} from "../map/path_graphics";
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]
@@ -25,6 +28,8 @@ export default class ScanEditPanel extends Widget<{
     spot_ordering: SpotOrderingEdit
     areas: AreaEdit
     tree_edit: TreeEdit
+
+    private preview_layer: ActiveOpacityGroup
 
     candidates: MapCoordinate[]
 
@@ -94,7 +99,9 @@ export default class ScanEditPanel extends Widget<{
                 this.value.areas = a
 
                 await ScanTree.prune_clean_and_propagate(this.value)
-                this.tree_edit.update()
+                await this.tree_edit.update()
+
+                this.updatePreview()
             })
             .on("decisions_changed", (decisions) => {
                 this.candidates = decisions.reduce((candidates, decision) => {
@@ -105,7 +112,7 @@ export default class ScanEditPanel extends Widget<{
 
                 this.emit("candidates_changed", this.candidates)
             })
-            .on("renamed", (e) => {
+            .on("renamed", async (e) => {
                 function tree_renamer(node: ScanTree.decision_tree) {
                     if (!node) return
 
@@ -116,21 +123,41 @@ export default class ScanEditPanel extends Widget<{
 
                 tree_renamer(this.value.root)
 
-                this.tree_edit.update()
+                await this.tree_edit.update()
 
-                //this.path_edit.update()
+                this.updatePreview()
             })
 
         this.tree_edit.on("changed", (t) => {
             this.value.root = t
-            //this.path_edit.clean()
+            this.updatePreview()
         }).on("decisions_loaded", (decisions) => {
             this.areas.setDecisions(decisions)
+        }).on("preview_invalidated", () => {
+            this.updatePreview()
         })
+
+        this.layer.getMap().path_editor.on("active_changed", v => {
+            this.preview_layer.setActive(!v)
+        })
+
+        this.updatePreview()
     }
 
-    setValue(value
-                 :
+    updatePreview() {
+        console.log("Updating preview")
+        if (this.preview_layer) {
+            this.preview_layer.remove()
+            this.preview_layer = null
+        }
+
+        this.preview_layer = new ActiveOpacityGroup(1, 0).addTo(this.layer)
+
+        this.areas.updatePreview(this.preview_layer)
+        this.tree_edit.updatePreview(this.preview_layer)
+    }
+
+    setValue(value:
                  resolved_scan_tree
     ) {
         this.value = value
@@ -138,5 +165,7 @@ export default class ScanEditPanel extends Widget<{
         this.spot_ordering.setValue(value.spot_ordering)
         this.areas.setValue(value.areas)
         this.tree_edit.setValue(value.root)
+
+        this.updatePreview()
     }
 }

@@ -19,11 +19,14 @@ import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
 import Checkbox from "../widgets/Checkbox";
 import Order = util.Order;
+import {PathingGraphics} from "../map/path_graphics";
+import {OpacityGroup} from "../map/layers/OpacityLayer";
+import {Layer} from "leaflet";
 
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree
 }> {
-    constructor(parent: TreeEdit, node: augmented_tree, include_paths: boolean) {
+    constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
         super()
 
         let decision_path_text = (["Start"].concat(node.decisions.map(d => ScanDecision.toString(d)))).join("/")
@@ -54,7 +57,6 @@ class TreeNodeEdit extends Widget<{
             options.push({create_new: true})
             options.push({area: null})
         }
-
 
         let props = new Properties().appendTo(this)
 
@@ -145,18 +147,36 @@ class TreeNodeEdit extends Widget<{
                             p.path = v
                             this.emit("changed", node.raw)
                         })
+                        .on("loaded_to_editor", () => {
+                            this.parent.addToPathEditCounter(1)
+                        })
+                        .on("editor_closed", () => {
+                            this.parent.addToPathEditCounter(-1)
+                        })
                         .setValue(p.path)
                     )
                 })
         }
     }
+
+    preview_polyons: Layer[] = null
+
+    updatePreview(layer: OpacityGroup) {
+        this.preview_polyons = this.node.raw.paths.map(p => {
+            return PathingGraphics.renderPath(p.path).addTo(layer)
+        })
+    }
 }
 
 export default class TreeEdit extends Widget<{
     changed: tree_node,
-    decisions_loaded: ScanDecision[]
+    decisions_loaded: ScanDecision[],
+    preview_invalidated: null,
+    path_editor_state_changed: boolean,
 }> {
     private hide_paths = false
+
+    render_promise: Promise<void> = null
 
     constructor(public parent: ScanEditPanel, public value: tree_node) {
         super($("<div class='nisl-alternating'>"))
@@ -167,8 +187,12 @@ export default class TreeEdit extends Widget<{
     async update() {
         this.empty()
 
-        await this.renderContent()
+        this.render_promise = this.renderContent()
+
+        return this.render_promise
     }
+
+    children: TreeNodeEdit[] = []
 
     private async renderContent() {
         let augmented = await ScanTree.augment(this.parent.value)
@@ -179,16 +203,19 @@ export default class TreeEdit extends Widget<{
             .named("Hide Paths?", new Checkbox().setValue(self.hide_paths).on("changed", (v) => {
                 self.hide_paths = v
                 self.update()
+                this.emit("preview_invalidated", null)
             }))
+
+        this.children = []
 
         function helper(node: augmented_tree) {
             // Only create edits for real nodes
-            if (node.raw) new TreeNodeEdit(self, node, !self.hide_paths)
+            if (node.raw) self.children.push(new TreeNodeEdit(self, node, !self.hide_paths)
                 .on("changed", async () => {
                     await ScanTree.prune_clean_and_propagate(self.parent.value)
                     await self.update()
                 })
-                .appendTo(self)
+                .appendTo(self))
 
             node.children
                 .filter(n => n.key)
@@ -197,11 +224,31 @@ export default class TreeEdit extends Widget<{
             return null
         }
 
-        return helper(augmented)
+        helper(augmented)
     }
 
     setValue(value: tree_node) {
         this.value = value
         this.update()
+    }
+
+    _pathEditCounter = 0
+
+    addToPathEditCounter(n: number) {
+        let before = this._pathEditCounter > 0
+
+        this._pathEditCounter += n
+
+        let now = this._pathEditCounter > 0
+
+        if (before != now) this.emit("path_editor_state_changed", now)
+    }
+
+    async updatePreview(layer: OpacityGroup) {
+        console.log(this.children.length)
+
+        await this.render_promise
+
+        if (!this.hide_paths) this.children.forEach(c => c.updatePreview(layer))
     }
 }

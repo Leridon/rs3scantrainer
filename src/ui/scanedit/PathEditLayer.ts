@@ -29,12 +29,12 @@ import {Teleports} from "../../model/teleports";
 import {teleport_data} from "../../data/teleport_data";
 import Checkbox from "../widgets/Checkbox";
 import {boxPolygon, tilePolygon} from "../map/polygon_helpers";
-import {util} from "../../util/util";
-import index = util.index;
+import movement_state = Path.movement_state;
+import issue = Path.issue;
 
-class WarningWidget extends Widget {
-    constructor(text: string) {
-        super($(`<div class='step-issue-warning'><img src='assets/icons/warning.png' alt="warning"> ${text}</div>`));
+class IssueWidget extends Widget {
+    constructor(issue: issue) {
+        super($(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
     }
 }
 
@@ -73,7 +73,7 @@ class StepEditWidget extends Widget<{
 
         let issues = c().addClass("step-edit-issues").appendTo(this)
 
-        this.value.issues.forEach((i) => new WarningWidget(i).appendTo(issues))
+        this.value.issues.forEach((i) => new IssueWidget(i).appendTo(issues))
 
         let props = new Properties().appendTo(this)
 
@@ -297,6 +297,7 @@ class ControlWidget extends Widget<{
 
     steps_collapsible: Collapsible
     step_widgets: StepEditWidget[] = []
+    add_buttons_container: Widget
 
     control: CustomControl
 
@@ -318,185 +319,9 @@ class ControlWidget extends Widget<{
             let controls_collapsible = new Collapsible("Controls").appendTo(this)
             let props = new Properties().appendTo(controls_collapsible.content_container)
 
-            let add_buttons = c("<div style='display: flex; flex-wrap: wrap'>")
+            this.add_buttons_container = c("<div style='display: flex; flex-wrap: wrap'>")
 
-            new MediumImageButton('assets/icons/surge.png').appendTo(add_buttons)
-                .on("click", async () => {
-                    if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
-                        let res = await surge2(this.augmented.post_state.position)
-
-                        if (res) {
-                            this.value.steps.push(Path.auto_describe({
-                                type: "ability",
-                                ability: "surge",
-                                description: "Use {{surge}}",
-                                from: this.augmented.post_state.position?.tile,
-                                to: res.tile
-                            }))
-
-                            await this.update()
-
-                            return
-                        }
-                    }
-
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "surge")
-                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
-                    interaction.events.on("done", (s) => {
-                        this.value.steps.push(Path.auto_describe(s))
-                        this.update()
-                    })
-                    interaction.activate()
-                })
-            new MediumImageButton('assets/icons/escape.png').appendTo(add_buttons)
-                .on("click", async () => {
-
-                    if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
-                        let res = await escape2(this.augmented.post_state.position)
-
-                        if (res) {
-                            this.value.steps.push(Path.auto_describe({
-                                type: "ability",
-                                ability: "escape",
-                                description: "Use {{escape}}",
-                                from: this.augmented.post_state.position?.tile,
-                                to: res.tile
-                            }))
-
-                            await this.update()
-
-                            return
-                        }
-                    }
-
-
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "escape")
-                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
-                    interaction.events.on("done", (s) => {
-                        this.value.steps.push(Path.auto_describe(s))
-                        this.update()
-                    })
-                    interaction.activate()
-                })
-            new MediumImageButton('assets/icons/dive.png').appendTo(add_buttons)
-                .on("click", () => {
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "dive")
-
-                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
-
-                    interaction.events.on("done", (s) => {
-                        this.value.steps.push(Path.auto_describe(s))
-                        this.update()
-                    })
-                    interaction.activate()
-                })
-            new MediumImageButton('assets/icons/barge.png').appendTo(add_buttons)
-                .on("click", () => {
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "barge")
-                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
-                    interaction.events.on("done", (s) => {
-                        this.value.steps.push(Path.auto_describe(s))
-                        this.update()
-                    })
-                    interaction.activate()
-                })
-            new MediumImageButton('assets/icons/run.png').appendTo(add_buttons)
-                .on("click", () => {
-                    let interaction = new DrawRunInteraction(this.parent.map.getActiveLayer())
-                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
-                    interaction.events.on("done", (s) => {
-                        this.value.steps.push(Path.auto_describe(s))
-                        this.update()
-                    })
-                    interaction.activate()
-                })
-
-            new MediumImageButton('assets/icons/teleports/homeport.png').appendTo(add_buttons)
-                .on("click", () => {
-                        this.value.steps.push(Path.auto_describe({
-                            description: "Teleport",
-                            type: "teleport",
-                            id: {
-                                group: "home",
-                                sub: "lumbridge"
-                            }
-                        }))
-
-                        this.update()
-                    }
-                )
-            new MediumImageButton('assets/icons/redclick.png').appendTo(add_buttons)
-                .on("click", () => {
-                    new SelectTileInteraction(this.parent.map.getActiveLayer())
-                        .tapEvents((e) => e.on("selected", (t) => {
-                            this.value.steps.push(Path.auto_describe({
-                                type: "redclick",
-                                description: "",
-                                where: t,
-                                how: Path.InteractionType.GENERIC
-                            }))
-
-                            this.update()
-                        })).activate()
-                })
-
-            new MediumImageButton('assets/icons/accel.png').appendTo(add_buttons)
-                .on("click", () => {
-                    if (this.augmented.post_state.position?.tile) {
-                        this.value.steps.push(Path.auto_describe({
-                            type: "powerburst",
-                            description: "Use a {{icon accel}}",
-                            where: this.augmented.post_state.position.tile
-                        }))
-
-                        this.update()
-                    } else {
-                        new SelectTileInteraction(this.parent.map.getActiveLayer())
-                            .tapEvents((e) => e.on("selected", (t) => {
-                                this.value.steps.push(Path.auto_describe({
-                                    type: "powerburst",
-                                    description: "Use a {{icon accel}}",
-                                    where: t
-                                }))
-
-                                this.update()
-                            })).activate()
-                    }
-                })
-
-            new MediumImageButton('assets/icons/shortcut.png').appendTo(add_buttons)
-                .on("click", () => {
-
-                    new SelectTileInteraction(this.parent.map.getActiveLayer())
-                        .tapEvents((e) => e.on("selected", (t) => {
-                            this.value.steps.push(Path.auto_describe({
-                                type: "interaction",
-                                ticks: 1,
-                                description: "",
-                                where: t,
-                                ends_up: {
-                                    direction: null,
-                                    tile: {x: 0, y: 0, level: 0}
-                                },
-                                how: Path.InteractionType.GENERIC
-                            }))
-
-                            this.update()
-                        })).activate()
-                })
-
-            new MediumImageButton('assets/icons/compass.png').appendTo(add_buttons)
-                .on("click", () => {
-                    this.value.steps.push(Path.auto_describe({
-                        type: "orientation",
-                        description: `Face ${direction.toString(1)}`,
-                        direction: 1
-                    }))
-
-                    this.update()
-                })
-
-            props.named("Add Step", add_buttons)
+            props.named("Add Step", this.add_buttons_container)
             props.row(new LightButton("Autocomplete").tooltip("Hopefully coming soon").setEnabled(false))
             props.row(new LightButton("Show JSON")
                 .on("click", () => ExportStringModal.do(JSON.stringify(this.value, null, 2))))
@@ -542,7 +367,222 @@ class ControlWidget extends Widget<{
             this.steps_collapsible.content_container.text("No steps yet.")
         }
 
+        // Render add step buttons
+        {
+            this.add_buttons_container.empty()
 
+            let surge_button = new MediumImageButton('assets/icons/surge.png').appendTo(this.add_buttons_container)
+                .on("click", async () => {
+                    if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
+                        let res = await surge2(this.augmented.post_state.position)
+
+                        if (res) {
+                            this.value.steps.push(Path.auto_describe({
+                                type: "ability",
+                                ability: "surge",
+                                description: "Use {{surge}}",
+                                from: this.augmented.post_state.position?.tile,
+                                to: res.tile
+                            }))
+
+                            await this.update()
+
+                            return
+                        }
+                    }
+
+                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "surge")
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(Path.auto_describe(s))
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+
+            let surge_cooldown = movement_state.surge_cooldown(this.augmented.post_state)
+
+            if(surge_cooldown > 0) {
+                surge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(surge_cooldown+"t"))
+            }
+
+            let escape_button = new MediumImageButton('assets/icons/escape.png').appendTo(this.add_buttons_container)
+                .on("click", async () => {
+
+                    if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
+                        let res = await escape2(this.augmented.post_state.position)
+
+                        if (res) {
+                            this.value.steps.push(Path.auto_describe({
+                                type: "ability",
+                                ability: "escape",
+                                description: "Use {{escape}}",
+                                from: this.augmented.post_state.position?.tile,
+                                to: res.tile
+                            }))
+
+                            await this.update()
+
+                            return
+                        }
+                    }
+
+
+                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "escape")
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(Path.auto_describe(s))
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+
+            let escape_cooldown = movement_state.escape_cooldown(this.augmented.post_state)
+
+            if(escape_cooldown > 0) {
+                escape_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(escape_cooldown+"t"))
+            }
+
+            let dive_button = new MediumImageButton('assets/icons/dive.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "dive")
+
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
+
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(Path.auto_describe(s))
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+
+            let dive_cooldown = movement_state.dive_cooldown(this.augmented.post_state)
+
+            if(dive_cooldown > 0) {
+                dive_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(dive_cooldown+"t"))
+            }
+
+            let barge_button = new MediumImageButton('assets/icons/barge.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "barge")
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(Path.auto_describe(s))
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+
+            let barge_cooldown = movement_state.barge_cooldown(this.augmented.post_state)
+
+            if(barge_cooldown > 0) {
+                barge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(barge_cooldown+"t"))
+            }
+
+            new MediumImageButton('assets/icons/run.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+                    let interaction = new DrawRunInteraction(this.parent.map.getActiveLayer())
+                    if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
+                    interaction.events.on("done", (s) => {
+                        this.value.steps.push(Path.auto_describe(s))
+                        this.update()
+                    })
+                    interaction.activate()
+                })
+
+            new MediumImageButton('assets/icons/teleports/homeport.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+                        this.value.steps.push(Path.auto_describe({
+                            description: "Teleport",
+                            type: "teleport",
+                            id: {
+                                group: "home",
+                                sub: "lumbridge"
+                            }
+                        }))
+
+                        this.update()
+                    }
+                )
+            new MediumImageButton('assets/icons/redclick.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+                    new SelectTileInteraction(this.parent.map.getActiveLayer())
+                        .tapEvents((e) => e.on("selected", (t) => {
+                            this.value.steps.push(Path.auto_describe({
+                                type: "redclick",
+                                description: "",
+                                where: t,
+                                how: Path.InteractionType.GENERIC
+                            }))
+
+                            this.update()
+                        })).activate()
+                })
+
+            let accel_button = new MediumImageButton('assets/icons/accel.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+                    if (this.augmented.post_state.position?.tile) {
+                        this.value.steps.push(Path.auto_describe({
+                            type: "powerburst",
+                            description: "Use a {{icon accel}}",
+                            where: this.augmented.post_state.position.tile
+                        }))
+
+                        this.update()
+                    } else {
+                        new SelectTileInteraction(this.parent.map.getActiveLayer())
+                            .tapEvents((e) => e.on("selected", (t) => {
+                                this.value.steps.push(Path.auto_describe({
+                                    type: "powerburst",
+                                    description: "Use a {{icon accel}}",
+                                    where: t
+                                }))
+
+                                this.update()
+                            })).activate()
+                    }
+                })
+
+            let accel_cooldown = Math.max(this.augmented.post_state.acceleration_activation_tick + 120 - this.augmented.post_state.tick, 0)
+
+            if(accel_cooldown > 0) {
+                accel_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(accel_cooldown+"t"))
+            }
+
+            new MediumImageButton('assets/icons/shortcut.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+
+                    new SelectTileInteraction(this.parent.map.getActiveLayer())
+                        .tapEvents((e) => e.on("selected", (t) => {
+                            this.value.steps.push(Path.auto_describe({
+                                type: "interaction",
+                                ticks: 1,
+                                description: "",
+                                where: t,
+                                ends_up: {
+                                    direction: null,
+                                    tile: {x: 0, y: 0, level: 0}
+                                },
+                                how: Path.InteractionType.GENERIC
+                            }))
+
+                            this.update()
+                        })).activate()
+                })
+
+            new MediumImageButton('assets/icons/compass.png').appendTo(this.add_buttons_container)
+                .on("click", () => {
+                    this.value.steps.push(Path.auto_describe({
+                        type: "orientation",
+                        description: `Face ${direction.toString(1)}`,
+                        direction: 1
+                    }))
+
+                    this.update()
+                })
+        }
+
+        // Render edit widgets for indiviual steps
         for (let step of this.augmented.steps) {
             this.step_widgets.push(
                 new StepEditWidget(this, step).appendTo(this.steps_collapsible.content_container)
@@ -571,7 +611,6 @@ class ControlWidget extends Widget<{
                     .on("changed", () => this.update())
             )
         }
-
 
         if (this.value.target) boxPolygon(this.value.target)
             .setStyle({

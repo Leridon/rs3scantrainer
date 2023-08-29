@@ -8,7 +8,6 @@ import {TeleportLayer} from "./ui/map/teleportlayer";
 import {Teleports} from "./model/teleports";
 import {ClueSteps} from "./model/clues";
 import {Methods} from "./data/accessors";
-import {Constants} from "./constants";
 import {GameMapControl} from "./ui/map/map";
 
 class BetaNoticeModal extends Modal {
@@ -131,7 +130,7 @@ export class Application {
 
                 if (!tele) return "NULL"
 
-                return `<span style="position: relative"><img class='text-icon' src='assets/icons/teleports/${tele.icon}' title="${tele.hover}"><div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+                return `<span style="position: relative"><img class='text-icon' src='assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}' title="${tele.hover}"><div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
             }],
             ["icon", (args) => {
                 return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`

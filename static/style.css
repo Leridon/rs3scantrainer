@@ -50,6 +50,7 @@ html, body {
 
 #sidebar-panels {
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .split-screen {
@@ -618,9 +619,7 @@ video {
     border-bottom: 1px dashed var(--nis-col-faded);
 }
 
-.step-issue-warning {
-    background-color: #42381f;
-    color: #fce2a1;
+.ctr-step-issue[level] {
     border-radius: 3px;
     text-align: left;
     padding-left: 5px;
@@ -629,9 +628,55 @@ video {
     margin: 2px 3px;
     text-wrap: normal;
 }
+.ctr-step-issue[level="1"] {
+    background-color: #42381f;
+    color: #fce2a1;
+}
 
-.step-issue-warning > img {
+.ctr-step-issue[level="0"] {
+    background-color: #8f464a;
+    color: #2f2324;
+}
+
+.ctr-step-issue[level="1"] > .ctr-step-issue-icon {
     margin-right: 5px;
+    display: inline-block;
+    width: 12px;
+    height: 11px;
+    background-image: url("assets/icons/warning.png");
+}
+
+.ctr-step-issue[level="0"] > .ctr-step-issue-icon {
+    margin-right: 5px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url("assets/icons/error.png");
+}
+
+.ctr-cooldown-overlay-shadow {
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: rgba(206, 213, 135);
+    text-shadow: black;
+}
+
+.ctr-cooldown-overlay-shadow {
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: rgb(206, 213, 135);
+    text-shadow: 1px 1px 0 #000;
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 12pt;
 }
 
 /* Classes specific to the clue trainer */

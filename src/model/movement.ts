@@ -2,7 +2,6 @@ import {MapCoordinate} from "./coordinates";
 import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../util/math";
-import {Rect} from "@alt1/base";
 
 type TileMovementData = number
 

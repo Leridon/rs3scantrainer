@@ -123,6 +123,26 @@ export namespace Path {
                 targeted_entity: null
             }
         }
+
+        function cooldown(state: movement_state, charges: number[]): number {
+            return Math.max(0, Math.min(...charges) - state.tick)
+        }
+
+        export function surge_cooldown(state: movement_state): number {
+            return cooldown(state, state.cooldowns.surge)
+        }
+
+        export function escape_cooldown(state: movement_state): number {
+            return cooldown(state, state.cooldowns.escape)
+        }
+
+        export function barge_cooldown(state: movement_state): number {
+            return cooldown(state, [state.cooldowns.barge])
+        }
+
+        export function dive_cooldown(state: movement_state): number {
+            return cooldown(state, [state.cooldowns.dive])
+        }
     }
 
     export type raw = {
@@ -144,8 +164,11 @@ export namespace Path {
         post_state: movement_state,
         raw: Path.step,
         section?: number,
-        issues?: string[]
+        issues?: issue[] // 0 = error, 1 = warning
     }
+
+    export type issue_level = 0 | 1
+    export type issue = { level: issue_level, message: string }
 
     export async function augment(path: Path.raw): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
@@ -170,7 +193,7 @@ export namespace Path {
 
             switch (step.type) {
                 case "orientation":
-                    if (i > 0) augmented.issues.push("Orientation steps should only be used as the first step!")
+                    if (i > 0) augmented.issues.push({level: 0, message: "Orientation steps should only be used as the first step!"})
 
                     // Assume one tick
                     state.tick += 1
@@ -180,7 +203,7 @@ export namespace Path {
                     break
                 case "run": {
                     if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.waypoints[0]))
-                        augmented.issues.push("Running does not start where the previous step ends!")
+                        augmented.issues.push({level: 0, message: "Running does not start where the previous step ends!"})
 
                     state.position = {
                         tile: index(step.waypoints, -1),
@@ -200,7 +223,7 @@ export namespace Path {
                     // Check whether start and target matches expectations
                     if (state.position) {
                         if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.from)) {
-                            augmented.issues.push("Ability does not start where the previous step ends!")
+                            augmented.issues.push({level: 0, message: "Ability does not start where the previous step ends!"})
                         } else {
 
                             // if there is no previous position, at least assume the defined start position
@@ -218,7 +241,7 @@ export namespace Path {
                                     let res = await MovementAbilities.surge2(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
-                                        augmented.issues.push("Surge target does not match where it would end up!")
+                                        augmented.issues.push({level: 0, message: "Surge target does not match where it would end up!"})
 
                                     break
                                 }
@@ -226,7 +249,7 @@ export namespace Path {
                                     let res = await MovementAbilities.escape2(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
-                                        augmented.issues.push("Escape target does not match where it would end up!")
+                                        augmented.issues.push({level: 0, message: "Escape target does not match where it would end up!"})
 
                                     break
                                 }
@@ -234,7 +257,7 @@ export namespace Path {
                                     let res = await MovementAbilities.dive2(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
-                                        augmented.issues.push("Dive target can't be reached!")
+                                        augmented.issues.push({level: 0, message: "Dive target can't be reached!"})
 
                                     break
                                 }
@@ -242,7 +265,7 @@ export namespace Path {
                                     let res = await MovementAbilities.barge2(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
-                                        augmented.issues.push("Barge target can't be reached!")
+                                        augmented.issues.push({level: 0, message: "Barge target can't be reached!"})
 
                                     break
                                 }
@@ -268,9 +291,9 @@ export namespace Path {
 
                             if (state.cooldowns.surge[min] > state.tick) {
                                 if (state.cooldowns.surge[min] - state.tick <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
-                                    augmented.issues.push(`Antispam delay. Waiting for ${state.cooldowns.surge[min] - state.tick} ticks.`)
+                                    augmented.issues.push({level: 1, message: `Antispam delay. Waiting for ${state.cooldowns.surge[min] - state.tick} ticks.`})
                                 else
-                                    augmented.issues.push(`Both surge charges are still on cooldown for ${state.cooldowns.surge[min] - state.tick} ticks.`)
+                                    augmented.issues.push({level: 1, message: `Both surge charges are still on cooldown for ${state.cooldowns.surge[min] - state.tick} ticks.`})
 
                                 state.tick = state.cooldowns.surge[min] // Wait for cooldown
                             }
@@ -290,9 +313,9 @@ export namespace Path {
 
                             if (state.cooldowns.escape[min] > state.tick) {
                                 if (state.cooldowns.escape[min] - state.tick <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
-                                    augmented.issues.push(`Antispam delay. Waiting for ${state.cooldowns.escape[min] - state.tick} ticks.`)
+                                    augmented.issues.push({level: 1, message: `Antispam delay. Waiting for ${state.cooldowns.escape[min] - state.tick} ticks.`})
                                 else
-                                    augmented.issues.push(`Both escape charges are still on cooldown for ${state.cooldowns.escape[min] - state.tick} ticks.`)
+                                    augmented.issues.push({level: 1, message: `Both escape charges are still on cooldown for ${state.cooldowns.escape[min] - state.tick} ticks.`})
 
                                 state.tick = state.cooldowns.escape[min] // Wait for cooldown
                             }
@@ -309,7 +332,7 @@ export namespace Path {
                         }
                         case "dive": {
                             if (state.cooldowns.dive > state.tick) {
-                                augmented.issues.push(`Dive is still on cooldown for ${state.cooldowns.dive - state.tick} ticks!`)
+                                augmented.issues.push({level: 0, message: `Dive is still on cooldown for ${state.cooldowns.dive - state.tick} ticks!`})
                                 state.tick = state.cooldowns.dive // Wait for cooldown
                             }
 
@@ -319,7 +342,7 @@ export namespace Path {
                         }
                         case "barge": {
                             if (state.cooldowns.barge > state.tick) {
-                                augmented.issues.push(`Barge is still on cooldown for ${state.cooldowns.barge - state.tick} ticks!`)
+                                augmented.issues.push({level: 0, message: `Barge is still on cooldown for ${state.cooldowns.barge - state.tick} ticks!`})
                                 state.tick = state.cooldowns.barge // Wait for cooldown
                             }
 
@@ -371,13 +394,13 @@ export namespace Path {
                     let next = path.steps[i + 1] as step_run
 
                     if (next?.type != "run")
-                        augmented.issues.push("Redclicking is not followed by a run")
+                        augmented.issues.push({level: 0, message: "Redclicking is not followed by a run"})
                     else if (next) {
                         let natural = direction.fromVector(Vector2.sub(index(next.waypoints, -1), index(next.waypoints, -2)))
                         let redclicked = direction.fromVector(Vector2.sub(step.where, index(next.waypoints, -1)))
 
                         if (natural == redclicked)
-                            augmented.issues.push("Redclicking orientation is the same as natural orientation.")
+                            augmented.issues.push({level: 1, message: "Redclicking orientation is the same as natural orientation."})
                     }
 
                     state.targeted_entity = step.where
@@ -387,14 +410,22 @@ export namespace Path {
                     break;
                 case "powerburst":
                     if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.where)) {
-                        augmented.issues.push("Position of powerburst does not match where the player is at that point.")
+                        augmented.issues.push({level: 0, message: "Position of powerburst does not match where the player is at that point."})
                         state.position.tile = step.where
                     }
 
                     if (state.tick - state.acceleration_activation_tick < 120) {
-                        augmented.issues.push(`Powerburst of acceleration still on cooldown for ${state.acceleration_activation_tick + 120 - state.tick} ticks!`)
+                        augmented.issues.push({
+                            level: 1,
+                            message: `Powerburst of acceleration still on cooldown for ${state.acceleration_activation_tick + 120 - state.tick} ticks!`
+                        })
                         state.tick = state.acceleration_activation_tick + 120
                     }
+
+                    // Reset cooldowns
+                    state.cooldowns.surge = [state.tick, state.tick]
+                    state.cooldowns.escape = [state.tick, state.tick]
+                    state.cooldowns.dive = state.tick
 
                     state.acceleration_activation_tick = state.tick
                     state.tick += 1
@@ -403,7 +434,7 @@ export namespace Path {
             }
 
             if ((i == path.steps.length - 1 && path.target && (!state.position.tile || !MapRectangle.contains(path.target, state.position.tile)))) {
-                augmented.issues.push("Path does not end in target area")
+                augmented.issues.push({level: 0, message: "Path does not end in target area"})
             }
 
             augmented.post_state = lodash.cloneDeep(state)
@@ -479,5 +510,17 @@ export namespace Path {
     export function auto_describe(step: step): step {
         step.description = auto_description(step)
         return step
+    }
+
+    export function collect_issues(path: augmented): (issue & { step: augmented_step })[] {
+        let accumulator: (issue & { step: augmented_step })[] = []
+
+        for (let step of path.steps) {
+            for (let issue of step.issues) {
+                accumulator.push({...issue, step: step})
+            }
+        }
+
+        return accumulator
     }
 }

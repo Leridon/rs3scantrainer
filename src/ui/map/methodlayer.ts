@@ -118,7 +118,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             if(n.path) {
                 let opaque = opaque_paths.some(o => o == n.path)
 
-                PathingGraphics.renderPath(n.path).setOpacity(opaque ? 1 : 0.2).addTo(this.path_graphics)
+                PathingGraphics.renderPath(n.path).setOpacity(opaque ? 1 : 0).addTo(this.path_graphics)
             }
         })
 

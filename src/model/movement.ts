@@ -363,7 +363,7 @@ export namespace MovementAbilities {
 
         let delta = Vector2.sub(target, position)
 
-        if (Vector2.min_axis(delta) > 10) {
+        if (Vector2.max_axis(delta) > 10) {
             let dir = direction.fromVector(delta)
 
             // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.
@@ -375,7 +375,7 @@ export namespace MovementAbilities {
 
         let delta = Vector2.sub(target, position)
 
-        if (Vector2.min_axis(delta) > 10) {
+        if (Vector2.max_axis(delta) > 10) {
             let dir = direction.fromVector(delta)
 
             // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.

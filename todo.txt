@@ -7,8 +7,6 @@ Immediate next:
 - Fix scrolling in the path editor
 
 
-
-
 Ready for release:
 - [Presentation] reenable walls on the map.
 - [Tooling, Presentation] Subtle Walkable-Overlay.

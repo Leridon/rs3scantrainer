@@ -167,7 +167,6 @@ export class Application {
 
 export let scantrainer: Application
 
-
 export function initialize() {
 
     scantrainer = new Application()

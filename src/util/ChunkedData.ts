@@ -1,4 +1,5 @@
-import {MapCoordinate, Vector2} from "../model/coordinates";
+import {MapCoordinate} from "../model/coordinates";
+import {Vector2} from "./math";
 
 export class ChunkedData<T> {
 

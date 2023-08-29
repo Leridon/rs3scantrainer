@@ -1,9 +1,10 @@
 import {blue_icon, GameMapControl} from "./map";
 import * as leaflet from "leaflet"
-import {MapCoordinate, Vector2} from "../../model/coordinates";
+import {MapCoordinate} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
+import {Vector2} from "../../util/math";
 
 /*
 class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
@@ -76,12 +77,12 @@ class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
             if (tile) {
 
                 this._polygon = leaflet.polyline(
-                    [toLL(this._start), toLL(tile.tile)]
+                    [Vector2.toLatLong(this._start), Vector2.toLatLong(tile.tile)]
                 ).addTo(this.layer)
             } else {
 
                 this._polygon = leaflet.polyline(
-                    [toLL(this._start), toLL(to)]
+                    [Vector2.toLatLong(this._start), Vector2.toLatLong(to)]
                 ).setStyle({
                     color: "red"
                 }).addTo(this.layer)

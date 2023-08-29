@@ -1,9 +1,10 @@
 import * as leaflet from "leaflet"
 import {Path} from "../../model/pathing";
-import {MapCoordinate, toLL, Vector2} from "../../model/coordinates";
+import {MapCoordinate} from "../../model/coordinates";
 import {MovementAbilities} from "../../model/movement";
 import Widget from "../widgets/Widget";
 import {OpacityGroup} from "./layers/OpacityLayer";
+import {Vector2} from "../../util/math";
 
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
@@ -12,7 +13,7 @@ function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.La
         "yellow": "assets/icons/yellowclick.png",
     }
 
-    return leaflet.marker(toLL(coordinate), {
+    return leaflet.marker(Vector2.toLatLong(coordinate), {
         icon: leaflet.icon({
             iconUrl: click_icons[color],
             iconSize: [16, 16],
@@ -28,12 +29,12 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
     let arm1_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(Vector2.sub(from, to)), pi / 4))
     let arm2_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(Vector2.sub(from, to)), -pi / 4))
 
-    let tip = toLL(to)
+    let tip = Vector2.toLatLong(to)
 
     return leaflet.polyline([
-            [toLL(from), toLL(to)],
-            [tip, toLL(Vector2.add(to, arm1_offset))],
-            [tip, toLL(Vector2.add(to, arm2_offset))],
+            [Vector2.toLatLong(from), Vector2.toLatLong(to)],
+            [tip, Vector2.toLatLong(Vector2.add(to, arm1_offset))],
+            [tip, Vector2.toLatLong(Vector2.add(to, arm2_offset))],
         ]
     )
 }
@@ -59,7 +60,7 @@ export namespace PathingGraphics {
                 }
                 break;
             case "teleport":
-                return c(`<img class='text-icon' src='assets/icons/homeport.png'>`)
+                return c(`<img class='text-icon' src='assets/icons/teleports/homeport.png'>`)
             case "interaction":
                 return c(`<img class='text-icon' src='assets/icons/shortcut.png'>`)
             case "redclick":
@@ -104,7 +105,7 @@ export function createStepGraphics(step: Path.step): OpacityGroup {
                     weight: 4
                 }).addTo(layer)
 
-            leaflet.marker(toLL(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
+            leaflet.marker(Vector2.toLatLong(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
                 icon: leaflet.icon({
                     iconUrl: meta[step.ability].icon,
                     iconSize: [24, 24],
@@ -131,7 +132,7 @@ export function createStepGraphics(step: Path.step): OpacityGroup {
             })
 
             leaflet.polyline(
-                lines.map((t) => t.map(toLL)),
+                lines.map((t) => t.map(Vector2.toLatLong)),
                 {
                     color: "#b4b4b4",
                     weight: 3
@@ -147,7 +148,7 @@ export function createStepGraphics(step: Path.step): OpacityGroup {
             break
         }
         case "powerburst": {
-            leaflet.marker(toLL(step.where), {
+            leaflet.marker(Vector2.toLatLong(step.where), {
                 icon: leaflet.icon({
                     iconUrl: "assets/icons/accel.png",
                     iconSize: [16, 16],

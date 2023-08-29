@@ -1,14 +1,12 @@
 import Widget from "../widgets/Widget";
-import Collapsible from "../widgets/modals/Collapsible";
 import ScanEditPanel from "./ScanEditPanel";
-
 import * as leaflet from "leaflet"
-import {toLL} from "../../model/coordinates";
 import Checkbox from "../widgets/Checkbox";
 import {ScanEquivalenceClasses} from "../../model/scans/scans";
 import {ScanTree} from "../../model/scans/ScanTree";
 import assumedRange = ScanTree.assumedRange;
 import LightButton from "../widgets/LightButton";
+import {Vector2} from "../../util/math";
 
 export default class ScanTools extends Widget {
     equivalence_classes: {
@@ -23,7 +21,7 @@ export default class ScanTools extends Widget {
             .on("click", () => {
                 let bounds = leaflet.latLngBounds([])
 
-                this.parent.clue.solution.candidates.forEach((c) => bounds.extend(toLL(c)))
+                this.parent.clue.solution.candidates.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
 
                 bounds.pad(0.1)
 
@@ -36,7 +34,7 @@ export default class ScanTools extends Widget {
                 let bounds = leaflet.latLngBounds([])
 
                 this.parent.clue.solution.candidates.forEach((c) => {
-                    bounds.extend(toLL({
+                    bounds.extend(Vector2.toLatLong({
                         x: c.x,
                         y: (c.y < 6400 ? c.y + 6400 : c.y - 6400)
                     }))

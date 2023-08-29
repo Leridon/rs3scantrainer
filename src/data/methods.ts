@@ -1,12 +1,12 @@
 import {indirected, method} from "../model/methods";
 
 
+/* ts-ignore */
 let raw: (method & indirected)[] = [
     {
         "areas": [
             {
                 "name": "A",
-                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2412,
@@ -15,12 +15,12 @@ let raw: (method & indirected)[] = [
                     "botright": {
                         "x": 2412,
                         "y": 4434,
-                    }
+                    },
+                    "level": 0
                 }
             },
             {
                 "name": "B",
-                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2410,
@@ -29,12 +29,12 @@ let raw: (method & indirected)[] = [
                     "botright": {
                         "x": 2410,
                         "y": 4436,
-                    }
+                    },
+                    "level": 0
                 }
             },
             {
                 "name": "C",
-                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2420,
@@ -43,12 +43,12 @@ let raw: (method & indirected)[] = [
                     "botright": {
                         "x": 2420,
                         "y": 4444,
-                    }
+                    },
+                    "level": 0
                 }
             },
             {
                 "name": "D",
-                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2409,
@@ -57,12 +57,12 @@ let raw: (method & indirected)[] = [
                     "botright": {
                         "x": 2409,
                         "y": 4455,
-                    }
+                    },
+                    "level": 0
                 }
             },
             {
                 "name": "E",
-                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2398,
@@ -71,12 +71,12 @@ let raw: (method & indirected)[] = [
                     "botright": {
                         "x": 2398,
                         "y": 4444,
-                    }
+                    },
+                    "level": 0
                 }
             },
             {
                 "name": "F",
-                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2445,
@@ -85,12 +85,12 @@ let raw: (method & indirected)[] = [
                     "botright": {
                         "x": 2447,
                         "y": 4429
-                    }
+                    },
+                    "level": 0
                 }
             },
             {
                 "name": "G",
-                "level": 0,
                 "area": {
                     "topleft": {
                         "x": 2405,
@@ -99,7 +99,8 @@ let raw: (method & indirected)[] = [
                     "botright": {
                         "x": 2405,
                         "y": 4381,
-                    }
+                    },
+                    "level": 0
                 }
             }
         ],
@@ -171,7 +172,8 @@ let raw: (method & indirected)[] = [
                                                                 "botright": {
                                                                     "x": 2415,
                                                                     "y": 4377
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     },
@@ -213,7 +215,8 @@ let raw: (method & indirected)[] = [
                                                                 "botright": {
                                                                     "x": 2421,
                                                                     "y": 4380
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     },
@@ -255,7 +258,8 @@ let raw: (method & indirected)[] = [
                                                                 "botright": {
                                                                     "x": 2424,
                                                                     "y": 4371
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     }
@@ -293,13 +297,12 @@ let raw: (method & indirected)[] = [
                                                     "topleft": {
                                                         "x": 2405,
                                                         "y": 4381,
-                                                        "level": 0
                                                     },
                                                     "botright": {
                                                         "x": 2405,
                                                         "y": 4381,
-                                                        "level": 0
-                                                    }
+                                                    },
+                                                    "level": 0
                                                 }
                                             }
                                         }
@@ -353,7 +356,8 @@ let raw: (method & indirected)[] = [
                                                     "botright": {
                                                         "x": 2469,
                                                         "y": 4438
-                                                    }
+                                                    },
+                                                    "level": 0
                                                 }
                                             }
                                         }
@@ -407,7 +411,8 @@ let raw: (method & indirected)[] = [
                                                     "botright": {
                                                         "x": 2458,
                                                         "y": 4442
-                                                    }
+                                                    },
+                                                    "level": 0
                                                 }
                                             }
                                         },
@@ -449,7 +454,8 @@ let raw: (method & indirected)[] = [
                                                     "botright": {
                                                         "x": 2469,
                                                         "y": 4438
-                                                    }
+                                                    },
+                                                    "level": 0
                                                 }
                                             }
                                         }
@@ -491,7 +497,8 @@ let raw: (method & indirected)[] = [
                                         "botright": {
                                             "x": 2447,
                                             "y": 4429
-                                        }
+                                        },
+                                        "level": 0
                                     }
                                 }
                             }
@@ -557,7 +564,8 @@ let raw: (method & indirected)[] = [
                                                     "botright": {
                                                         "x": 2454,
                                                         "y": 4470
-                                                    }
+                                                    },
+                                                    "level": 0
                                                 }
                                             }
                                         }
@@ -631,7 +639,8 @@ let raw: (method & indirected)[] = [
                                                                             "botright": {
                                                                                 "x": 2378,
                                                                                 "y": 4409
-                                                                            }
+                                                                            },
+                                                                            "level": 0
                                                                         }
                                                                     }
                                                                 }
@@ -689,7 +698,8 @@ let raw: (method & indirected)[] = [
                                                                             "botright": {
                                                                                 "x": 2373,
                                                                                 "y": 4466
-                                                                            }
+                                                                            },
+                                                                            "level": 0
                                                                         }
                                                                     }
                                                                 }
@@ -731,13 +741,12 @@ let raw: (method & indirected)[] = [
                                                                 "topleft": {
                                                                     "x": 2409,
                                                                     "y": 4455,
-                                                                    "level": 0
                                                                 },
                                                                 "botright": {
                                                                     "x": 2409,
                                                                     "y": 4455,
-                                                                    "level": 0
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     }
@@ -803,7 +812,8 @@ let raw: (method & indirected)[] = [
                                                                             "botright": {
                                                                                 "x": 2405,
                                                                                 "y": 4405
-                                                                            }
+                                                                            },
+                                                                            "level": 0
                                                                         }
                                                                     }
                                                                 },
@@ -849,7 +859,8 @@ let raw: (method & indirected)[] = [
                                                                             "botright": {
                                                                                 "x": 2390,
                                                                                 "y": 4404
-                                                                            }
+                                                                            },
+                                                                            "level": 0
                                                                         }
                                                                     }
                                                                 }
@@ -915,7 +926,8 @@ let raw: (method & indirected)[] = [
                                                                                         "botright": {
                                                                                             "x": 2381,
                                                                                             "y": 4420
-                                                                                        }
+                                                                                        },
+                                                                                        "level": 0
                                                                                     }
                                                                                 }
                                                                             }
@@ -973,7 +985,8 @@ let raw: (method & indirected)[] = [
                                                                                         "botright": {
                                                                                             "x": 2386,
                                                                                             "y": 4446
-                                                                                        }
+                                                                                        },
+                                                                                        "level": 0
                                                                                     }
                                                                                 }
                                                                             }
@@ -1015,13 +1028,12 @@ let raw: (method & indirected)[] = [
                                                                             "topleft": {
                                                                                 "x": 2398,
                                                                                 "y": 4444,
-                                                                                "level": 0
                                                                             },
                                                                             "botright": {
                                                                                 "x": 2398,
                                                                                 "y": 4444,
-                                                                                "level": 0
-                                                                            }
+                                                                            },
+                                                                            "level": 0
                                                                         }
                                                                     }
                                                                 }
@@ -1079,7 +1091,8 @@ let raw: (method & indirected)[] = [
                                                                             "botright": {
                                                                                 "x": 2418,
                                                                                 "y": 4469
-                                                                            }
+                                                                            },
+                                                                            "level": 0
                                                                         }
                                                                     }
                                                                 },
@@ -1125,7 +1138,8 @@ let raw: (method & indirected)[] = [
                                                                             "botright": {
                                                                                 "x": 2403,
                                                                                 "y": 4465
-                                                                            }
+                                                                            },
+                                                                            "level": 0
                                                                         }
                                                                     }
                                                                 }
@@ -1199,13 +1213,12 @@ let raw: (method & indirected)[] = [
                                                                 "topleft": {
                                                                     "x": 2409,
                                                                     "y": 4455,
-                                                                    "level": 0
                                                                 },
                                                                 "botright": {
                                                                     "x": 2409,
                                                                     "y": 4455,
-                                                                    "level": 0
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     }
@@ -1263,7 +1276,8 @@ let raw: (method & indirected)[] = [
                                                                 "botright": {
                                                                     "x": 2411,
                                                                     "y": 4459
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     },
@@ -1309,7 +1323,8 @@ let raw: (method & indirected)[] = [
                                                                 "botright": {
                                                                     "x": 2440,
                                                                     "y": 4459
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     },
@@ -1355,7 +1370,8 @@ let raw: (method & indirected)[] = [
                                                                 "botright": {
                                                                     "x": 2442,
                                                                     "y": 4427
-                                                                }
+                                                                },
+                                                                "level": 0
                                                             }
                                                         }
                                                     }
@@ -1417,7 +1433,8 @@ let raw: (method & indirected)[] = [
                                                     "botright": {
                                                         "x": 2420,
                                                         "y": 4444,
-                                                    }
+                                                    },
+                                                    "level": 0
                                                 }
                                             }
                                         }
@@ -1475,7 +1492,8 @@ let raw: (method & indirected)[] = [
                                                     "botright": {
                                                         "x": 2397,
                                                         "y": 4456
-                                                    }
+                                                    },
+                                                    "level": 0
                                                 }
                                             }
                                         }
@@ -1535,13 +1553,12 @@ let raw: (method & indirected)[] = [
                                         "topleft": {
                                             "x": 2410,
                                             "y": 4436,
-                                            "level": 0
                                         },
                                         "botright": {
                                             "x": 2410,
                                             "y": 4436,
-                                            "level": 0
-                                        }
+                                        },
+                                        "level": 0
                                     }
                                 }
                             }
@@ -1611,7 +1628,8 @@ let raw: (method & indirected)[] = [
                                         "botright": {
                                             "x": 2407,
                                             "y": 4427
-                                        }
+                                        },
+                                        "level": 0
                                     }
                                 }
                             },
@@ -1684,7 +1702,8 @@ let raw: (method & indirected)[] = [
                                         "botright": {
                                             "x": 2430,
                                             "y": 4430
-                                        }
+                                        },
+                                        "level": 0
                                     }
                                 }
                             },
@@ -1742,7 +1761,8 @@ let raw: (method & indirected)[] = [
                                         "botright": {
                                             "x": 2418,
                                             "y": 4443
-                                        }
+                                        },
+                                        "level": 0
                                     }
                                 }
                             },
@@ -1867,7 +1887,8 @@ let raw: (method & indirected)[] = [
                                         "botright": {
                                             "x": 2401,
                                             "y": 4440
-                                        }
+                                        },
+                                        "level": 0
                                     }
                                 }
                             }
@@ -1909,7 +1930,8 @@ let raw: (method & indirected)[] = [
                             "botright": {
                                 "x": 2412,
                                 "y": 4434,
-                            }
+                            },
+                            "level": 0
                         }
                     }
                 }

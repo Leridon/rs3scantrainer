@@ -63,7 +63,7 @@ export default class AreaWidget extends Widget<{
 
         interaction.events.on("changed", (a) => {
             this.value.area = a
-            this.value.level = this.layer.getMap().floor
+            this.value.area.level = this.layer.getMap().floor
 
             this.edit_panel.area.topleft.x.val(a.topleft.x)
             this.edit_panel.area.topleft.y.val(a.topleft.y)
@@ -159,7 +159,7 @@ export default class AreaWidget extends Widget<{
                         this.startRedraw()
                     })
             },
-            floor: this.createInputfield(() => this.value.level, (v) => this.value.level = v).attr({"min": 0, "max": 3})
+            floor: this.createInputfield(() => this.value.area.level, (v) => this.value.area.level = v).attr({"min": 0, "max": 3})
         }
 
         // This section is proof that I need to learn React...

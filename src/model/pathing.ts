@@ -1,10 +1,11 @@
-import {Box, MapCoordinate, Vector2} from "./coordinates";
+import {MapCoordinate, MapRectangle} from "./coordinates";
 import {direction, MovementAbilities, PlayerPosition} from "./movement";
 import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "../data/teleport_data";
-import {full_teleport_id} from "./teleports";
+import {full_teleport_id, Teleports} from "./teleports";
+import {Vector2} from "../util/math";
 
 
 export namespace Path {
@@ -126,7 +127,7 @@ export namespace Path {
 
     export type raw = {
         start_state?: movement_state,   // Useful for movement trees, where a path depends on a previous state
-        target?: Box
+        target?: MapRectangle
         description?: string,
         steps: step[],
     }
@@ -401,7 +402,7 @@ export namespace Path {
                     break;
             }
 
-            if ((i == path.steps.length - 1 && path.target && (!state.position.tile || !Box.contains(path.target, state.position.tile)))) {
+            if ((i == path.steps.length - 1 && path.target && (!state.position.tile || !MapRectangle.contains(path.target, state.position.tile)))) {
                 augmented.issues.push("Path does not end in target area")
             }
 
@@ -429,7 +430,7 @@ export namespace Path {
             case "run":
                 return `Run ${step.waypoints.length} tiles`
             case "teleport":
-                return `Teleport TODO`
+                return `Teleport`
             case "interaction":
                 return "Use entrance/shortcut";
             case "redclick":
@@ -440,5 +441,43 @@ export namespace Path {
         }
 
         return "MISSING"
+    }
+
+    export function auto_description(step: step): string {
+        if (step.type === "orientation") {
+            return `Face ${direction.toString(step.direction)}`
+        } else if (step.type === "ability") {
+            let dir = direction.toString(direction.fromVector(Vector2.sub(step.to, step.from)))
+
+            switch (step.ability) {
+                case "surge":
+                    return `{{surge}} ${dir}`;
+                case "dive":
+                    return "{{dive}} ${dir}"
+                case "escape":
+                    return "{{escape}} ${dir}"
+                case "barge":
+                    return "{{barge}} ${dir}"
+            }
+        } else if (step.type === "run") {
+            return `Run ${step.waypoints.length} tiles`
+        } else if (step.type === "teleport") {
+            let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
+
+            if (teleport.variant && teleport.variant.name) return `Teleport to ${teleport.variant.name}`
+            else if (teleport.sub.name) return `Teleport to ${teleport.sub.name}`
+            else return `Teleport with ${teleport.group.name}`
+        } else if (step.type === "interaction") {
+            return "Use entrance/shortcut"; // TODO:
+        } else if (step.type === "redclick") {
+            return "Redclick" // TODO:
+        } else if (step.type === "powerburst") {
+            return "Use {{icon accel}}"
+        }
+    }
+
+    export function auto_describe(step: step): step {
+        step.description = auto_description(step)
+        return step
     }
 }

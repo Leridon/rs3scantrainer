@@ -3,7 +3,6 @@ import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
 import {ScanTree} from "../../model/scans/ScanTree";
 import {modal} from "../widgets/modal";
-import {box_center, toPoint} from "../../model/coordinates";
 import {util} from "../../util/util";
 import * as leaflet from "leaflet"
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
@@ -22,6 +21,8 @@ import shorten_integer_list = util.shorten_integer_list;
 import {createStepGraphics, PathingGraphics} from "./path_graphics";
 import {Path} from "../../model/pathing";
 import Order = util.Order;
+import {MapRectangle} from "../../model/coordinates";
+import {Vector2} from "../../util/math";
 
 export default class ScanTreeMethodLayer extends ScanLayer {
     private readonly root: Promise<augmented_decision_tree>
@@ -34,24 +35,24 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         //1. If no children: All Candidates
         if (this.node.children.length == 0)
-            this.node.remaining_candidates.map(toPoint).forEach((c) => bounds.extend(c))
+            this.node.remaining_candidates.map(Vector2.toPoint).forEach((c) => bounds.extend(c))
 
         //2. All children that are leafs in the augmented tree (i.e. spots directly reached from here)
         this.node.children.filter(c => c.value.is_leaf)
-            .map(c => c.value.remaining_candidates.map(toPoint).forEach(spot => bounds.extend(spot)))
+            .map(c => c.value.remaining_candidates.map(Vector2.toPoint).forEach(spot => bounds.extend(spot)))
 
         //4. "Where"
         if (this.node.scan_spot) {
-            bounds.extend(toPoint(this.node.scan_spot.area.topleft))
-            bounds.extend(toPoint(this.node.scan_spot.area.botright))
+            bounds.extend(Vector2.toPoint(this.node.scan_spot.area.topleft))
+            bounds.extend(Vector2.toPoint(this.node.scan_spot.area.botright))
         }
 
         // 5. parent.where if not far away
         if (this.node.parent && this.node.parent.node.scan_spot) {
             let o = leaflet.bounds([])
 
-            o.extend(toPoint(this.node.parent.node.scan_spot.area.topleft))
-            o.extend(toPoint(this.node.parent.node.scan_spot.area.botright))
+            o.extend(Vector2.toPoint(this.node.parent.node.scan_spot.area.topleft))
+            o.extend(Vector2.toPoint(this.node.parent.node.scan_spot.area.botright))
 
             if (o.getCenter().distanceTo(bounds.getCenter()) < 60) {
                 bounds.extend(o)
@@ -85,15 +86,11 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         if (this.node.parent && this.node.parent.node.scan_spot) relevant_areas.push(this.node.parent.node.scan_spot);
 
         if (node.scan_spot) {
-            this.getMap().setFloor(node.scan_spot.level)
+            this.getMap().setFloor(node.scan_spot.area.level)
 
-            let c = box_center(node.scan_spot.area)
+            let c = MapRectangle.center(node.scan_spot.area)
 
-            this.setMarker({
-                x: c.x,
-                y: c.y,
-                level: node.scan_spot.level,
-            }, false, false)
+            this.setMarker(c, false, false)
         } else {
             this.getMap().setFloor(Math.min(...node.remaining_candidates.map((c) => c.level)))
 

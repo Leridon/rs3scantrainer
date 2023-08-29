@@ -24,8 +24,11 @@ import surge2 = MovementAbilities.surge2;
 import escape2 = MovementAbilities.escape2;
 import {Path} from "../../model/pathing";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
-import {boxPolygon, tilePolygon} from "../../model/coordinates";
-import {featureGroup} from "leaflet";
+import TeleportSelect from "../pathedit/TeleportSelect";
+import {Teleports} from "../../model/teleports";
+import {teleport_data} from "../../data/teleport_data";
+import Checkbox from "../widgets/Checkbox";
+import {boxPolygon, tilePolygon} from "../map/polygon_helpers";
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -75,7 +78,10 @@ class StepEditWidget extends Widget<{
         props.header("Description")
 
         props.row(
-            new TemplateStringEdit(scantrainer.template_resolver)
+            new TemplateStringEdit({
+                resolver: scantrainer.template_resolver,
+                generator: () => Path.auto_description(this.value.raw) // TODO
+            })
                 .setValue(value.raw.description)
                 .on("changed", (v) => {
                     this.value.raw.description = v
@@ -218,6 +224,35 @@ class StepEditWidget extends Widget<{
 
                 break
             case "teleport":
+                let current = Teleports.find(teleport_data.getAllFlattened(), this.value.raw.id)
+
+                props.named("Teleport", new TeleportSelect().setValue(current)
+                    .on("selection_changed", v => {
+                        (this.value.raw as Path.step_teleport).id = v.id
+                        this.emit("changed", this.value.raw)
+                    }))
+
+                props.named("Override?", new Checkbox()
+                    .setValue(this.value.raw.spot_override != null)
+                    .on("changed", v => {
+
+                        if (v) (this.value.raw as Path.step_teleport).spot_override = {x: 0, y: 0, level: 0}
+                        else (this.value.raw as Path.step_teleport).spot_override = undefined
+
+                        this.emit("changed", this.value.raw)
+                    })
+                )
+
+                if (this.value.raw.spot_override) {
+                    props.named("Coordinates", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.spot_override)
+                        .on("changed", (c) => {
+                            (this.value.raw as Path.step_teleport).spot_override = c
+                            this.emit("changed", this.value.raw)
+                        })
+                    )
+                }
+
+                break
 
             // TODO: Override
             //      - Teleport
@@ -232,6 +267,10 @@ class StepEditWidget extends Widget<{
 
 
         this.updatePreview()
+    }
+
+    render() {
+
     }
 
     _preview: leaflet.Layer = null
@@ -289,13 +328,13 @@ class ControlWidget extends Widget<{
                         let res = await surge2(this.augmented.post_state.position)
 
                         if (res) {
-                            this.value.steps.push({
+                            this.value.steps.push(Path.auto_describe({
                                 type: "ability",
                                 ability: "surge",
                                 description: "Use {{surge}}",
                                 from: this.augmented.post_state.position?.tile,
                                 to: res.tile
-                            })
+                            }))
 
                             await this.update()
 
@@ -306,7 +345,7 @@ class ControlWidget extends Widget<{
                     let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "surge")
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
-                        this.value.steps.push(s)
+                        this.value.steps.push(Path.auto_describe(s))
                         this.update()
                     })
                     interaction.activate()
@@ -318,13 +357,13 @@ class ControlWidget extends Widget<{
                         let res = await escape2(this.augmented.post_state.position)
 
                         if (res) {
-                            this.value.steps.push({
+                            this.value.steps.push(Path.auto_describe({
                                 type: "ability",
                                 ability: "escape",
                                 description: "Use {{escape}}",
                                 from: this.augmented.post_state.position?.tile,
                                 to: res.tile
-                            })
+                            }))
 
                             await this.update()
 
@@ -336,7 +375,7 @@ class ControlWidget extends Widget<{
                     let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "escape")
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
-                        this.value.steps.push(s)
+                        this.value.steps.push(Path.auto_describe(s))
                         this.update()
                     })
                     interaction.activate()
@@ -348,7 +387,7 @@ class ControlWidget extends Widget<{
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
 
                     interaction.events.on("done", (s) => {
-                        this.value.steps.push(s)
+                        this.value.steps.push(Path.auto_describe(s))
                         this.update()
                     })
                     interaction.activate()
@@ -358,7 +397,7 @@ class ControlWidget extends Widget<{
                     let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "barge")
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
-                        this.value.steps.push(s)
+                        this.value.steps.push(Path.auto_describe(s))
                         this.update()
                     })
                     interaction.activate()
@@ -368,23 +407,36 @@ class ControlWidget extends Widget<{
                     let interaction = new DrawRunInteraction(this.parent.map.getActiveLayer())
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
-                        this.value.steps.push(s)
+                        this.value.steps.push(Path.auto_describe(s))
                         this.update()
                     })
                     interaction.activate()
                 })
 
             new MediumImageButton('assets/icons/teleports/homeport.png').appendTo(add_buttons)
+                .on("click", () => {
+                        this.value.steps.push(Path.auto_describe({
+                            description: "Teleport",
+                            type: "teleport",
+                            id: {
+                                group: "home",
+                                sub: "lumbridge"
+                            }
+                        }))
+
+                        this.update()
+                    }
+                )
             new MediumImageButton('assets/icons/redclick.png').appendTo(add_buttons)
                 .on("click", () => {
                     new SelectTileInteraction(this.parent.map.getActiveLayer())
                         .tapEvents((e) => e.on("selected", (t) => {
-                            this.value.steps.push({
+                            this.value.steps.push(Path.auto_describe({
                                 type: "redclick",
                                 description: "",
                                 where: t,
                                 how: Path.InteractionType.GENERIC
-                            })
+                            }))
 
                             this.update()
                         })).activate()
@@ -393,21 +445,21 @@ class ControlWidget extends Widget<{
             new MediumImageButton('assets/icons/accel.png').appendTo(add_buttons)
                 .on("click", () => {
                     if (this.augmented.post_state.position?.tile) {
-                        this.value.steps.push({
+                        this.value.steps.push(Path.auto_describe({
                             type: "powerburst",
                             description: "Use a {{icon accel}}",
                             where: this.augmented.post_state.position.tile
-                        })
+                        }))
 
                         this.update()
                     } else {
                         new SelectTileInteraction(this.parent.map.getActiveLayer())
                             .tapEvents((e) => e.on("selected", (t) => {
-                                this.value.steps.push({
+                                this.value.steps.push(Path.auto_describe({
                                     type: "powerburst",
                                     description: "Use a {{icon accel}}",
                                     where: t
-                                })
+                                }))
 
                                 this.update()
                             })).activate()
@@ -419,7 +471,7 @@ class ControlWidget extends Widget<{
 
                     new SelectTileInteraction(this.parent.map.getActiveLayer())
                         .tapEvents((e) => e.on("selected", (t) => {
-                            this.value.steps.push({
+                            this.value.steps.push(Path.auto_describe({
                                 type: "interaction",
                                 ticks: 1,
                                 description: "",
@@ -429,7 +481,7 @@ class ControlWidget extends Widget<{
                                     tile: {x: 0, y: 0, level: 0}
                                 },
                                 how: Path.InteractionType.GENERIC
-                            })
+                            }))
 
                             this.update()
                         })).activate()
@@ -437,11 +489,11 @@ class ControlWidget extends Widget<{
 
             new MediumImageButton('assets/icons/compass.png').appendTo(add_buttons)
                 .on("click", () => {
-                    this.value.steps.push({
+                    this.value.steps.push(Path.auto_describe({
                         type: "orientation",
                         description: `Face ${direction.toString(1)}`,
                         direction: 1
-                    })
+                    }))
 
                     this.update()
                 })

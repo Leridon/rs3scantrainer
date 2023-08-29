@@ -1,6 +1,6 @@
 import LayerInteraction from "./LayerInteraction";
 import {ActiveLayer} from "../activeLayer";
-import {MapCoordinate, tilePolygon, Vector2} from "../../../model/coordinates";
+import {MapCoordinate} from "../../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {HostedMapData, move, MovementAbilities} from "../../../model/movement";
@@ -8,6 +8,8 @@ import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../path_graphics";
 import {capitalize} from "lodash";
 import {Path} from "../../../model/pathing";
+import {tilePolygon} from "../polygon_helpers";
+import {Vector2} from "../../../util/math";
 
 export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
     "done": Path.step_ability,

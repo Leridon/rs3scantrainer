@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet";
-import {boxPolygon, MapCoordinate, Vector2} from "../../../model/coordinates";
+import {MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
 import {blue_icon, GameMapControl,} from "../map";
@@ -19,6 +19,8 @@ import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import SimpleClickInteraction from "../interactions/SimpleClickInteraction";
 import {TileMarker} from "../TileMarker";
 import {ActiveOpacityGroup, OpacityGroup} from "./OpacityLayer";
+import {Vector2} from "../../../util/math";
+import {boxPolygon} from "../polygon_helpers";
 
 
 export class SpotPolygon extends ActiveOpacityGroup {
@@ -196,14 +198,14 @@ export class ScanLayer extends ActiveLayer {
 
     setSpotOrder(ordering: MapCoordinate[]) {
         this.markers.forEach((m) => {
-            let i = ordering.findIndex((s) => Vector2.eq(m.getSpot(), s))
+            let i = ordering.findIndex((s) => MapCoordinate.eq(m.getSpot(), s))
 
             if (i >= 0) m.withLabel((i + 1).toString(), "spot-number-on-map", [0, 10])
             else m.removeLabel()
         })
 
         this.complement_markers.forEach((m) => {
-            let i = ordering.findIndex((s) => Vector2.eq(m.getSpot(), complementSpot(s)))
+            let i = ordering.findIndex((s) => MapCoordinate.eq(m.getSpot(), complementSpot(s)))
 
             if (i >= 0) m.withLabel((i + 1).toString(), "spot-number-on-map", [0, 10])
             else m.removeLabel()

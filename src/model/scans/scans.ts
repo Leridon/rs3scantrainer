@@ -1,10 +1,11 @@
 import * as leaflet from "leaflet";
-import {areaToPolygon, Box, clampInto, MapCoordinate, Vector2} from "../coordinates";
+import {MapCoordinate, MapRectangle} from "../coordinates";
 import {Raster} from "../../util/raster";
 import {rangeRight} from "lodash";
 import {ScanTree} from "./ScanTree";
-import ScanSpot = ScanTree.ScanSpot;
 import {util} from "../../util/util";
+import {Rectangle, Vector2} from "../../util/math";
+import {areaToPolygon} from "../../ui/map/polygon_helpers";
 
 export class EquivalenceClass {
     public information_gain: number
@@ -199,15 +200,13 @@ export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: numbe
 }
 
 function distance(a: Vector2, b: Vector2): number {
-    let d_x = Math.abs(a.x - b.x)
-    let d_y = Math.abs(a.y - b.y)
-    return Math.max(d_x, d_y)
+    return Vector2.max_axis(Vector2.sub(a, b))
 }
 
-export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): Pulse[] {
-    let pulses: Pulse[] = null
+export function area_pulse(spot: MapCoordinate, area: MapRectangle, range: number): Pulse[] {
+    let pulses: Pulse[]
 
-    let max = get_pulse(spot, clampInto(spot, area.area), range).pulse
+    let max = get_pulse(spot, MapRectangle.clampInto(spot, area), range).pulse
 
     // This breaks if areas are so large they cover both cases. But in that case: Wtf are you doing?
     if (max == 1) {
@@ -215,7 +214,7 @@ export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): 
 
         let complement_spot = complementSpot(spot)
 
-        if (spot.level != area.level || distance(complement_spot, clampInto(complement_spot, area.area)) <= (range + 15)) {
+        if (spot.level != area.level || distance(complement_spot, Rectangle.clampInto(complement_spot, area)) <= (range + 15)) {
             // Any tile in area triggers different level
             pulses.push({
                 pulse: 1,
@@ -223,8 +222,8 @@ export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): 
             })
         }
 
-        if ((distance(complement_spot, area.area.topleft) > (range + 15)
-                || distance(complement_spot, area.area.botright) > (range + 15))
+        if ((distance(complement_spot, area.topleft) > (range + 15)
+                || distance(complement_spot, area.botright) > (range + 15))
             && spot.level == area.level
         ) { // Any tile in area does not trigger different level
             pulses.push({
@@ -233,12 +232,9 @@ export function area_pulse(spot: MapCoordinate, area: ScanSpot, range: number): 
             })
         }
     } else {
-        let tl = area.area.topleft
-        let br = area.area.botright
-
         let min = Math.min(
-            get_pulse(spot, tl, range).pulse,
-            get_pulse(spot, br, range).pulse,
+            get_pulse(spot, MapRectangle.tl(area), range).pulse,
+            get_pulse(spot, MapRectangle.br(area), range).pulse,
         )
 
         pulses = rangeRight(min, max + 1, 1).map((p: 1 | 2 | 3) => {

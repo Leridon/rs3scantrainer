@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet"
-import {toLL} from "../../model/coordinates";
 import {flat_teleport} from "../../model/teleports";
+import {Vector2} from "../../util/math";
 
 class TeleportIcon extends leaflet.Icon {
     constructor(public options: leaflet.IconOptions & { teleport: flat_teleport }) {
@@ -37,7 +37,7 @@ export class TeleportLayer extends leaflet.FeatureGroup {
         super()
 
         for (let tele of teleports) {
-            leaflet.marker(toLL(tele.spot), {
+            leaflet.marker(Vector2.toLatLong(tele.spot), {
                 icon: TeleportIcon.fromTeleport(tele)
             }).addTo(this)
         }

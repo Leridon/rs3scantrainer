@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet"
-import {Vector2} from "../../../model/coordinates";
 import {PolylineOptions} from "leaflet";
+import {Vector2} from "../../../util/math";
 
 /**
  *  File: Graticule.ts

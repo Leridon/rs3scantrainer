@@ -1,10 +1,8 @@
-import {Box, clampInto, MapCoordinate, tilePolygon, Vector2} from "./coordinates";
-import min_axis = Vector2.max_axis;
-import {Raster} from "../util/raster";
+import {MapCoordinate} from "./coordinates";
 import {ChunkedData} from "../util/ChunkedData";
-import {stat} from "fs";
-import {data} from "jquery";
 import * as lodash from "lodash"
+import {Rectangle, Vector2} from "../util/math";
+import {Rect} from "@alt1/base";
 
 type TileMovementData = number
 
@@ -145,7 +143,7 @@ export namespace direction {
         // TODO: Clamping probably isnt correct and also weird.
 
         // Clamp vector into bounds
-        let v2 = clampInto(v, {
+        let v2 = Rectangle.clampInto(v, {
             topleft: {x: -11, y: 11},
             botright: {x: 11, y: -11},
         })
@@ -305,7 +303,7 @@ export namespace MovementAbilities {
 
         let dia = Vector2.sign(Vector2.sub(target, position))
 
-        let bound = Box.from(position, target)
+        let bound = Rectangle.from(position, target)
 
         let choices: { delta: Vector2, dir: direction }[] = []
 
@@ -332,7 +330,7 @@ export namespace MovementAbilities {
             for (let choice of choices) {
                 let candidate = move(position, choice.delta)
 
-                if (Box.contains(bound, candidate) && (await canMove(data, position, choice.dir))) {
+                if (Rectangle.contains(bound, candidate) && (await canMove(data, position, choice.dir))) {
                     next = candidate
                     break
                 }
@@ -365,7 +363,7 @@ export namespace MovementAbilities {
 
         let delta = Vector2.sub(target, position)
 
-        if (min_axis(delta) > 10) {
+        if (Vector2.min_axis(delta) > 10) {
             let dir = direction.fromVector(delta)
 
             // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.
@@ -377,7 +375,7 @@ export namespace MovementAbilities {
 
         let delta = Vector2.sub(target, position)
 
-        if (min_axis(delta) > 10) {
+        if (Vector2.min_axis(delta) > 10) {
             let dir = direction.fromVector(delta)
 
             // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.

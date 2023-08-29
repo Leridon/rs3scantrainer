@@ -649,6 +649,22 @@ video {
     color: var(--ctr-scanspot-color)
 }
 
+/** template string edit  **/
+
+.ctr-template-string-edit {
+    display: flex;
+    flex-direction: column;
+}
+
+.ctr-template-string-edit-input-row {
+    display: flex;
+}
+
+
+.ctr-template-string-edit-input-row > input {
+    flex: 2;
+}
+
 /*Classes for custom components*/
 
 .lcss-button:not(.enabled) {

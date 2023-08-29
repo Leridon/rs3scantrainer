@@ -8,10 +8,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers of Hild and Penda's house in Burthorpe.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2914,
-                "y": 3522
-            }
+            "coordinates": {"x": 2914, "y": 3522, "level": 0}
         }
     },
     {
@@ -21,10 +18,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in the shed just north of east Ardougne.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2618,
-                "y": 3347
-            }
+            "coordinates": {"x": 2618, "y": 3347, "level": 0}
         }
     },
     {
@@ -34,10 +28,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers found upstairs in the Westernmost Inn of East Ardougne.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2575,
-                "y": 3324
-            },
+            "coordinates": {"x": 2575, "y": 3324, "level": 0},
             "answer": "Search the drawers upstairs"
         }
     },
@@ -48,10 +39,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in the upstairs of a house in Catherby.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2808,
-                "y": 3453
-            }
+            "coordinates": {"x": 2808, "y": 3453, "level": 0}
         }
     },
     {
@@ -61,10 +49,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers upstairs of houses in eastern part of Falador.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3048,
-                "y": 3354
-            },
+            "coordinates": {"x": 3048, "y": 3354, "level": 0},
             "answer": "The drawers are found on the top floor of this building."
         }
     },
@@ -75,10 +60,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Hans.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3221,
-                "y": 3219
-            },
+            "coordinates": {"x": 3221, "y": 3219, "level": 0},
             "answer": "Hans walks in cicles around the castle."
         }
     },
@@ -89,10 +71,7 @@ export let clues: ClueStep[] = [
         "id": 7,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3378,
-                "y": 3445
-            },
+            "coordinates": {"x": 3378, "y": 3445, "level": 0},
             "answer": "<b>Emote:</b> Beckon, then bow or curtsy<br><b>Items:</b> Pointed red and black snelm, Snakeskin boots, Iron pickaxe"
         }
     },
@@ -103,10 +82,7 @@ export let clues: ClueStep[] = [
         "id": 8,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3204,
-                "y": 3168
-            },
+            "coordinates": {"x": 3204, "y": 3168, "level": 0},
             "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Bronze dagger, Iron full helm, Gold ring"
         }
     },
@@ -117,10 +93,7 @@ export let clues: ClueStep[] = [
         "id": 9,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3240,
-                "y": 3609
-            },
+            "coordinates": {"x": 3240, "y": 3609, "level": 0},
             "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Bronze platelegs, Iron platebody, Blue d'hide vambraces"
         }
     },
@@ -131,10 +104,7 @@ export let clues: ClueStep[] = [
         "id": 10,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3025,
-                "y": 3702
-            },
+            "coordinates": {"x": 3025, "y": 3702, "level": 0},
             "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Iron square shield, Blue dragonhide vambraces, Iron pickaxe"
         }
     },
@@ -145,10 +115,7 @@ export let clues: ClueStep[] = [
         "id": 14,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2607,
-                "y": 3274
-            },
+            "coordinates": {"x": 2607, "y": 3274, "level": 0},
             "answer": "Zookeeper<br><b>Question solution:<b> 40 (+1 after Eagles Peak quest, +1 after Hunt for Red Raktuber)"
         }
     },
@@ -159,10 +126,7 @@ export let clues: ClueStep[] = [
         "id": 17,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2793,
-                "y": 3065
-            },
+            "coordinates": {"x": 2793, "y": 3065, "level": 0},
             "answer": "Gabooty<br><b>Question solution:</b> 11"
         }
     },
@@ -173,10 +137,7 @@ export let clues: ClueStep[] = [
         "id": 18,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3103,
-                "y": 3511
-            },
+            "coordinates": {"x": 3103, "y": 3511, "level": 0},
             "answer": "Moldark, Emissary of Zamorak<br><b>Question solution:</b> 7"
         }
     },
@@ -187,10 +148,7 @@ export let clues: ClueStep[] = [
         "id": 19,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3222,
-                "y": 3473
-            },
+            "coordinates": {"x": 3222, "y": 3473, "level": 0},
             "answer": "King Roald<br><b>Question solution:</b> 24"
         }
     },
@@ -201,10 +159,7 @@ export let clues: ClueStep[] = [
         "id": 20,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3288,
-                "y": 3238
-            },
+            "coordinates": {"x": 3288, "y": 3238, "level": 0},
             "answer": "Cam the Camel"
         }
     },
@@ -215,10 +170,7 @@ export let clues: ClueStep[] = [
         "id": 21,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3209,
-                "y": 3214
-            },
+            "coordinates": {"x": 3209, "y": 3214, "level": 0},
             "answer": "Cook<br><b>Question solution:</b> 7"
         }
     },
@@ -229,10 +181,7 @@ export let clues: ClueStep[] = [
         "id": 22,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3270,
-                "y": 3182
-            },
+            "coordinates": {"x": 3270, "y": 3182, "level": 0},
             "answer": "Karim<br><b>Question solution:</b> 5"
         }
     },
@@ -243,10 +192,7 @@ export let clues: ClueStep[] = [
         "id": 23,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3221,
-                "y": 3218
-            },
+            "coordinates": {"x": 3221, "y": 3218, "level": 0},
             "answer": "Hans"
         }
     },
@@ -257,10 +203,7 @@ export let clues: ClueStep[] = [
         "id": 24,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2859,
-                "y": 3580
-            },
+            "coordinates": {"x": 2859, "y": 3580, "level": 0},
             "answer": "Sabbot (Found inside the marked cave)"
         }
     },
@@ -271,10 +214,7 @@ export let clues: ClueStep[] = [
         "id": 25,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3292,
-                "y": 3240
-            },
+            "coordinates": {"x": 3292, "y": 3240, "level": 0},
             "answer": "Cam the Camel"
         }
     },
@@ -285,10 +225,7 @@ export let clues: ClueStep[] = [
         "id": 26,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3058,
-                "y": 3492
-            },
+            "coordinates": {"x": 3058, "y": 3492, "level": 0},
             "answer": "Talk to Abbot Langley."
         }
     },
@@ -299,10 +236,7 @@ export let clues: ClueStep[] = [
         "id": 27,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3087,
-                "y": 3469
-            },
+            "coordinates": {"x": 3087, "y": 3469, "level": 0},
             "answer": "Dig by the yew tree."
         }
     },
@@ -313,10 +247,7 @@ export let clues: ClueStep[] = [
         "id": 28,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3489,
-                "y": 3288
-            },
+            "coordinates": {"x": 3489, "y": 3288, "level": 0},
             "answer": "Dig in the center of the town."
         }
     },
@@ -327,10 +258,7 @@ export let clues: ClueStep[] = [
         "id": 29,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3227,
-                "y": 3395
-            },
+            "coordinates": {"x": 3227, "y": 3395, "level": 0},
             "answer": "You have to kill a guard dog to find the key, Guard dogs in Ardougne will do. After that you can search the locked drawers upstairs in the bar marked on the map."
         }
     },
@@ -341,10 +269,7 @@ export let clues: ClueStep[] = [
         "id": 30,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2957,
-                "y": 3514
-            },
+            "coordinates": {"x": 2957, "y": 3514, "level": 0},
             "answer": "Talk to General Bentnoze."
         }
     },
@@ -355,10 +280,7 @@ export let clues: ClueStep[] = [
         "id": 31,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3014,
-                "y": 3223
-            },
+            "coordinates": {"x": 3014, "y": 3223, "level": 0},
             "answer": "Talk to Gerrant."
         }
     },
@@ -369,10 +291,7 @@ export let clues: ClueStep[] = [
         "id": 32,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2672,
-                "y": 3417
-            },
+            "coordinates": {"x": 2672, "y": 3417, "level": 0},
             "answer": "Search the haystack."
         }
     },
@@ -383,10 +302,7 @@ export let clues: ClueStep[] = [
         "id": 34,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2611,
-                "y": 3306
-            },
+            "coordinates": {"x": 2611, "y": 3306, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -397,10 +313,7 @@ export let clues: ClueStep[] = [
         "id": 35,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2611,
-                "y": 3305
-            },
+            "coordinates": {"x": 2611, "y": 3305, "level": 0},
             "answer": "Searchs the crates on the first floor."
         }
     },
@@ -411,10 +324,7 @@ export let clues: ClueStep[] = [
         "id": 39,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2185,
-                "y": 3291
-            },
+            "coordinates": {"x": 2185, "y": 3291, "level": 0},
             "answer": "Speak to Lord Iorwerth. (Located in the Elf Camp before Plague's end.)"
         }
     },
@@ -1330,10 +1240,7 @@ export let clues: ClueStep[] = [
         "id": 40,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2458,
-                "y": 3181
-            },
+            "coordinates": {"x": 2458, "y": 3181, "level": 0},
             "answer": "Search the marked crate."
         }
     },
@@ -2249,10 +2156,7 @@ export let clues: ClueStep[] = [
         "id": 41,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2617,
-                "y": 3077
-            },
+            "coordinates": {"x": 2617, "y": 3077, "level": 0},
             "answer": "Dig at the marked spot (reachable inside the building)."
         }
     },
@@ -3168,10 +3072,7 @@ export let clues: ClueStep[] = [
         "id": 42,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2725,
-                "y": 3340
-            },
+            "coordinates": {"x": 2725, "y": 3340, "level": 0},
             "answer": "Dig just south-east of the northern table."
         }
     },
@@ -4087,10 +3988,7 @@ export let clues: ClueStep[] = [
         "id": 43,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2488,
-                "y": 3308
-            },
+            "coordinates": {"x": 2488, "y": 3308, "level": 0},
             "answer": "Dig at the marked spot."
         }
     },
@@ -5006,10 +4904,7 @@ export let clues: ClueStep[] = [
         "id": 44,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2565,
-                "y": 3247
-            },
+            "coordinates": {"x": 2565, "y": 3247, "level": 0},
             "answer": "Search the crates behind the clocktower."
         }
     },
@@ -5925,10 +5820,7 @@ export let clues: ClueStep[] = [
         "id": 45,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2658,
-                "y": 3489
-            },
+            "coordinates": {"x": 2658, "y": 3489, "level": 0},
             "answer": "Search the crate."
         }
     },
@@ -6844,10 +6736,7 @@ export let clues: ClueStep[] = [
         "id": 46,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3026,
-                "y": 3630
-            },
+            "coordinates": {"x": 3026, "y": 3630, "level": 0},
             "answer": "Search the crate in the castle courtyard."
         }
     },
@@ -7763,10 +7652,7 @@ export let clues: ClueStep[] = [
         "id": 47,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3312,
-                "y": 3528
-            },
+            "coordinates": {"x": 3312, "y": 3528, "level": 0},
             "answer": "Search the crate at the marked location."
         }
     },
@@ -8682,10 +8568,7 @@ export let clues: ClueStep[] = [
         "id": 48,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2455,
-                "y": 3229
-            },
+            "coordinates": {"x": 2455, "y": 3229, "level": 0},
             "answer": "Dig behind the altar."
         }
     },
@@ -9601,10 +9484,7 @@ export let clues: ClueStep[] = [
         "id": 49,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3102,
-                "y": 3133
-            },
+            "coordinates": {"x": 3102, "y": 3133, "level": 0},
             "answer": "Dig east of the large rock."
         }
     },
@@ -10520,10 +10400,7 @@ export let clues: ClueStep[] = [
         "id": 50,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2613,
-                "y": 3483
-            },
+            "coordinates": {"x": 2613, "y": 3483, "level": 0},
             "answer": "Dig in front of the door."
         }
     },
@@ -11439,10 +11316,7 @@ export let clues: ClueStep[] = [
         "id": 51,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2923,
-                "y": 3210
-            },
+            "coordinates": {"x": 2923, "y": 3210, "level": 0},
             "answer": "Dig at the marked location."
         }
     },
@@ -12358,10 +12232,7 @@ export let clues: ClueStep[] = [
         "id": 52,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2537,
-                "y": 3867
-            },
+            "coordinates": {"x": 2537, "y": 3867, "level": 0},
             "answer": "Dig 2 north and 1 west of the sign post."
         }
     },
@@ -13277,10 +13148,7 @@ export let clues: ClueStep[] = [
         "id": 53,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2649,
-                "y": 3232
-            },
+            "coordinates": {"x": 2649, "y": 3232, "level": 0},
             "answer": "Dig just south of the gazing face"
         }
     },
@@ -14196,10 +14064,7 @@ export let clues: ClueStep[] = [
         "id": 54,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3044,
-                "y": 3399
-            },
+            "coordinates": {"x": 3044, "y": 3399, "level": 0},
             "answer": "Dig west of the tree."
         }
     },
@@ -15115,10 +14980,7 @@ export let clues: ClueStep[] = [
         "id": 55,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2971,
-                "y": 3414
-            },
+            "coordinates": {"x": 2971, "y": 3414, "level": 0},
             "answer": "Dig at the marked location"
         }
     },
@@ -16034,10 +15896,7 @@ export let clues: ClueStep[] = [
         "id": 56,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3290,
-                "y": 3373
-            },
+            "coordinates": {"x": 3290, "y": 3373, "level": 0},
             "answer": "Dig at the marked location, just north-west of where the fence ends."
         }
     },
@@ -16953,10 +16812,7 @@ export let clues: ClueStep[] = [
         "id": 57,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2665,
-                "y": 3562
-            },
+            "coordinates": {"x": 2665, "y": 3562, "level": 0},
             "answer": "Dig at the marked location."
         }
     },
@@ -17872,10 +17728,7 @@ export let clues: ClueStep[] = [
         "id": 58,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2906,
-                "y": 3296
-            },
+            "coordinates": {"x": 2906, "y": 3296, "level": 0},
             "answer": "Dig at the marked location."
         }
     },
@@ -18791,10 +18644,7 @@ export let clues: ClueStep[] = [
         "id": 59,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3021,
-                "y": 3914
-            },
+            "coordinates": {"x": 3021, "y": 3914, "level": 0},
             "answer": "Dig between the three vents"
         }
     },
@@ -19710,10 +19560,7 @@ export let clues: ClueStep[] = [
         "id": 60,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2579,
-                "y": 3597
-            },
+            "coordinates": {"x": 2579, "y": 3597, "level": 0},
             "answer": "Dig at the end of the path."
         }
     },
@@ -20629,10 +20476,7 @@ export let clues: ClueStep[] = [
         "id": 61,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3432,
-                "y": 3268
-            },
+            "coordinates": {"x": 3432, "y": 3268, "level": 0},
             "answer": "Dig at the marked spot. (The clue doesn't match the location very well.)"
         }
     },
@@ -21548,10 +21392,7 @@ export let clues: ClueStep[] = [
         "id": 62,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3093,
-                "y": 3227
-            },
+            "coordinates": {"x": 3093, "y": 3227, "level": 0},
             "answer": "Dig at the marked location."
         }
     },
@@ -22467,10 +22308,7 @@ export let clues: ClueStep[] = [
         "id": 63,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3166,
-                "y": 3360
-            },
+            "coordinates": {"x": 3166, "y": 3360, "level": 0},
             "answer": "Dig at the marked location."
         }
     },
@@ -22481,10 +22319,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates outside the bank in the north of east-ardougne",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2619,
-                "y": 3338
-            }
+            "coordinates": {"x": 2619, "y": 3338, "level": 0}
         }
     },
     {
@@ -22494,10 +22329,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in a house in Catherby.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2832,
-                "y": 3447
-            }
+            "coordinates": {"x": 2832, "y": 3447, "level": 0}
         }
     },
     {
@@ -22507,10 +22339,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in the chicken coop in the farm north of Port Sarim.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3020,
-                "y": 3292
-            }
+            "coordinates": {"x": 3020, "y": 3292, "level": 0}
         }
     },
     {
@@ -22520,10 +22349,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Hans to solve the clue.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3222,
-                "y": 3219
-            }
+            "coordinates": {"x": 3222, "y": 3219, "level": 0}
         }
     },
     {
@@ -22533,10 +22359,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers above the shops in Varrock.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3203,
-                "y": 3416
-            },
+            "coordinates": {"x": 3203, "y": 3416, "level": 0},
             "answer": "The drawers are located upstairs"
         }
     },
@@ -22547,10 +22370,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers found upstairs in the houses of East Ardougne.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2574,
-                "y": 3325
-            }
+            "coordinates": {"x": 2574, "y": 3325, "level": 0}
         }
     },
     {
@@ -22560,10 +22380,7 @@ export let clues: ClueStep[] = [
         "clue": "Search chests found in the upstairs of shops in Port Sarim.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3014,
-                "y": 3206
-            }
+            "coordinates": {"x": 3014, "y": 3206, "level": 0}
         }
     },
     {
@@ -22573,10 +22390,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers on the first floor of a building overlooking Ardougne market.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2655,
-                "y": 3322
-            },
+            "coordinates": {"x": 2655, "y": 3322, "level": 0},
             "answer": "The drawers are found upstairs."
         }
     },
@@ -22587,10 +22401,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in Ivy's house in Taverley.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2916,
-                "y": 3448
-            }
+            "coordinates": {"x": 2916, "y": 3448, "level": 0}
         }
     },
     {
@@ -22600,10 +22411,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in Canifis.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3507,
-                "y": 3498
-            }
+            "coordinates": {"x": 3507, "y": 3498, "level": 0}
         }
     },
     {
@@ -22613,10 +22421,7 @@ export let clues: ClueStep[] = [
         "clue": "Search for a crate on the ground floor of a house in Seers' Village.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2700,
-                "y": 3471
-            }
+            "coordinates": {"x": 2700, "y": 3471, "level": 0}
         }
     },
     {
@@ -22626,10 +22431,7 @@ export let clues: ClueStep[] = [
         "clue": "Search through chests found in the upstairs of houses in eastern Falador.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3035,
-                "y": 3364
-            },
+            "coordinates": {"x": 3035, "y": 3364, "level": 0},
             "answer": "The chests are upstairs."
         }
     },
@@ -22640,10 +22442,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers of houses in Burthorpe.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2929,
-                "y": 3570
-            }
+            "coordinates": {"x": 2929, "y": 3570, "level": 0}
         }
     },
     {
@@ -22653,10 +22452,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the chests in the Dwarven Mine.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3019,
-                "y": 3450
-            },
+            "coordinates": {"x": 3019, "y": 3450, "level": 0},
             "answer": "The chests are located south of the anvils, by the ranging shop."
         }
     },
@@ -22667,10 +22463,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in a house in Draynor Village.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3098,
-                "y": 3277
-            }
+            "coordinates": {"x": 3098, "y": 3277, "level": 0}
         }
     },
     {
@@ -22680,10 +22473,7 @@ export let clues: ClueStep[] = [
         "clue": "Search for a crate in Varrock Palace.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3223,
-                "y": 3493
-            }
+            "coordinates": {"x": 3223, "y": 3493, "level": 0}
         }
     },
     {
@@ -22693,10 +22483,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the boxes in the house in Al Kharid with racks of silk.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3290,
-                "y": 3203
-            }
+            "coordinates": {"x": 3290, "y": 3203, "level": 0}
         }
     },
     {
@@ -22706,10 +22493,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the boxes in the house near the south entrance of Varrock.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3203,
-                "y": 3385
-            }
+            "coordinates": {"x": 3203, "y": 3385, "level": 0}
         }
     },
     {
@@ -22719,10 +22503,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates near a cart in Varrock.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3225,
-                "y": 3452
-            }
+            "coordinates": {"x": 3225, "y": 3452, "level": 0}
         }
     },
     {
@@ -22732,10 +22513,7 @@ export let clues: ClueStep[] = [
         "clue": "Look in the ground floor crates of houses in Falador.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3029,
-                "y": 3355
-            }
+            "coordinates": {"x": 3029, "y": 3355, "level": 0}
         }
     },
     {
@@ -22745,10 +22523,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in Draynor Manor.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3108,
-                "y": 3363
-            },
+            "coordinates": {"x": 3108, "y": 3363, "level": 0},
             "answer": "The crates are located on the top floor."
         }
     },
@@ -22759,10 +22534,7 @@ export let clues: ClueStep[] = [
         "clue": "Search for a crate in a building in Hemenster.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2637,
-                "y": 3454
-            }
+            "coordinates": {"x": 2637, "y": 3454, "level": 0}
         }
     },
     {
@@ -22772,10 +22544,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in yard of Citharede Abbey.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3416,
-                "y": 3158
-            }
+            "coordinates": {"x": 3416, "y": 3158, "level": 0}
         }
     },
     {
@@ -22785,10 +22554,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to the staff of Sinclair Mansion.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2734,
-                "y": 3581
-            },
+            "coordinates": {"x": 2734, "y": 3581, "level": 0},
             "answer": "Talk to Louisa"
         }
     },
@@ -22799,10 +22565,7 @@ export let clues: ClueStep[] = [
         "clue": "Search in the south-east corner of the Artisan Dwarves' workshop in Falador.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3060,
-                "y": 3334
-            },
+            "coordinates": {"x": 3060, "y": 3334, "level": 0},
             "answer": "Search the crates"
         }
     },
@@ -22813,10 +22576,7 @@ export let clues: ClueStep[] = [
         "clue": "Search through some drawers in the upstairs of a house in Rimmington.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2966,
-                "y": 3216
-            },
+            "coordinates": {"x": 2966, "y": 3216, "level": 0},
             "answer": "The drawers are upstairs."
         }
     },
@@ -22827,10 +22587,7 @@ export let clues: ClueStep[] = [
         "clue": "Search upstairs in the houses of Seers' Village for some drawers.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2714,
-                "y": 3471
-            }
+            "coordinates": {"x": 2714, "y": 3471, "level": 0}
         }
     },
     {
@@ -22840,10 +22597,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in a house in Yanille that has a piano.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2597,
-                "y": 3105
-            }
+            "coordinates": {"x": 2597, "y": 3105, "level": 0}
         }
     },
     {
@@ -22853,10 +22607,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in the ground floor of a shop in Yanille.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2571,
-                "y": 3084
-            }
+            "coordinates": {"x": 2571, "y": 3084, "level": 0}
         }
     },
     {
@@ -22866,10 +22617,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Donovan, the family handyman.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2737,
-                "y": 3581
-            },
+            "coordinates": {"x": 2737, "y": 3581, "level": 0},
             "answer": "Donovan can be found upstairs."
         }
     },
@@ -22880,10 +22628,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the boxes in one of the tents in Al Kharid.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3307,
-                "y": 3207
-            }
+            "coordinates": {"x": 3307, "y": 3207, "level": 0}
         }
     },
     {
@@ -22893,10 +22638,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crate near a cart in Port Khazard.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2661,
-                "y": 3149
-            }
+            "coordinates": {"x": 2661, "y": 3149, "level": 0}
         }
     },
     {
@@ -22906,10 +22648,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Brimstail.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2404,
-                "y": 3421
-            },
+            "coordinates": {"x": 2404, "y": 3421, "level": 0},
             "answer": "There is an entrance to Brimstail's underground home at the marked location.<br><b>Question solution:</b> 6859"
         }
     },
@@ -22920,10 +22659,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Roavar.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3494,
-                "y": 3474
-            }
+            "coordinates": {"x": 3494, "y": 3474, "level": 0}
         }
     },
     {
@@ -22933,10 +22669,7 @@ export let clues: ClueStep[] = [
         "clue": "Dig near some giant mushrooms behind the Grand Tree.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2463,
-                "y": 3499
-            }
+            "coordinates": {"x": 2463, "y": 3499, "level": 0}
         }
     },
     {
@@ -22946,10 +22679,7 @@ export let clues: ClueStep[] = [
         "clue": "Search a barrel outside the Pick and Lute inn, in Taverley.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2886,
-                "y": 3449
-            }
+            "coordinates": {"x": 2886, "y": 3449, "level": 0}
         }
     },
     {
@@ -22959,10 +22689,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in the house at the north end of the East Ardougne Market.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2658,
-                "y": 3324
-            }
+            "coordinates": {"x": 2658, "y": 3324, "level": 0}
         }
     },
     {
@@ -22972,10 +22699,7 @@ export let clues: ClueStep[] = [
         "clue": "Search a barrel outside the mill, in Taverley.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2893,
-                "y": 3420
-            }
+            "coordinates": {"x": 2893, "y": 3420, "level": 0}
         }
     },
     {
@@ -22985,10 +22709,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Gaius in Burthorpe.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2926,
-                "y": 3548
-            }
+            "coordinates": {"x": 2926, "y": 3548, "level": 0}
         }
     },
     {
@@ -22998,10 +22719,7 @@ export let clues: ClueStep[] = [
         "clue": "Search a barrel east of Challenge Mistress Fara, in Burthorpe.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2912,
-                "y": 3530
-            }
+            "coordinates": {"x": 2912, "y": 3530, "level": 0}
         }
     },
     {
@@ -23011,10 +22729,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Arhein in Catherby.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2804,
-                "y": 3431
-            }
+            "coordinates": {"x": 2804, "y": 3431, "level": 0}
         }
     },
     {
@@ -23024,10 +22739,7 @@ export let clues: ClueStep[] = [
         "clue": "Talk to the bartender of the Rusty Anchor in Port Sarim.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3047,
-                "y": 3258
-            }
+            "coordinates": {"x": 3047, "y": 3258, "level": 0}
         }
     },
     {
@@ -23037,10 +22749,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in Horvik's armoury.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3229,
-                "y": 3434
-            }
+            "coordinates": {"x": 3229, "y": 3434, "level": 0}
         }
     },
     {
@@ -23050,10 +22759,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Ulizius.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3444,
-                "y": 3460
-            }
+            "coordinates": {"x": 3444, "y": 3460, "level": 0}
         }
     },
     {
@@ -23063,10 +22769,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the boxes in the Goblin house near Lumbridge.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3247,
-                "y": 3245
-            }
+            "coordinates": {"x": 3247, "y": 3245, "level": 0}
         }
     },
     {
@@ -23076,10 +22779,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in Falador's chainmail shop.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2970,
-                "y": 3311
-            }
+            "coordinates": {"x": 2970, "y": 3311, "level": 0}
         }
     },
     {
@@ -23089,10 +22789,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the chests in Al Kharid palace.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3301,
-                "y": 3165
-            }
+            "coordinates": {"x": 3301, "y": 3165, "level": 0}
         }
     },
     {
@@ -23102,10 +22799,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates just outside the armour shop in East Ardougne.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2654,
-                "y": 3299
-            }
+            "coordinates": {"x": 2654, "y": 3299, "level": 0}
         }
     },
     {
@@ -23115,10 +22809,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Hajedy.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2773,
-                "y": 3215
-            }
+            "coordinates": {"x": 2773, "y": 3215, "level": 0}
         }
     },
     {
@@ -23128,10 +22819,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in East Ardougne's general store.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2615,
-                "y": 3292
-            }
+            "coordinates": {"x": 2615, "y": 3292, "level": 0}
         }
     },
     {
@@ -23141,10 +22829,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Ellis in Al Kharid.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3275,
-                "y": 3195
-            }
+            "coordinates": {"x": 3275, "y": 3195, "level": 0}
         }
     },
     {
@@ -23154,10 +22839,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the chest in the left-hand tower of Camelot Castle.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2749,
-                "y": 3495
-            }
+            "coordinates": {"x": 2749, "y": 3495, "level": 0}
         }
     },
     {
@@ -23167,10 +22849,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the chest in the Duke of Lumbridge's bedroom.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3209,
-                "y": 3220
-            },
+            "coordinates": {"x": 3209, "y": 3220, "level": 0},
             "answer": "The Duke's bedroom is located one floor above the kitchen."
         }
     },
@@ -23181,10 +22860,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates near the Lumbridge Market.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3192,
-                "y": 3258
-            }
+            "coordinates": {"x": 3192, "y": 3258, "level": 0}
         }
     },
     {
@@ -23194,10 +22870,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Kangai Mau.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2793,
-                "y": 3183
-            }
+            "coordinates": {"x": 2793, "y": 3183, "level": 0}
         }
     },
     {
@@ -23207,10 +22880,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Doric, who lives north of Falador.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2958,
-                "y": 3442
-            }
+            "coordinates": {"x": 2958, "y": 3442, "level": 0}
         }
     },
     {
@@ -23220,10 +22890,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to a referee.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2386,
-                "y": 3490
-            },
+            "coordinates": {"x": 2386, "y": 3490, "level": 0},
             "answer": "Speak to the gnome ball referee, the answer to his math question is 5096."
         }
     },
@@ -23234,10 +22901,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers upstairs in the bank to the East of Varrock.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3254,
-                "y": 3421
-            },
+            "coordinates": {"x": 3254, "y": 3421, "level": 0},
             "answer": "The drawers are located upstairs."
         }
     },
@@ -23248,10 +22912,7 @@ export let clues: ClueStep[] = [
         "clue": "Talk to Zeke in Al Kharid.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3287,
-                "y": 3188
-            }
+            "coordinates": {"x": 3287, "y": 3188, "level": 0}
         }
     },
     {
@@ -23261,10 +22922,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to the bartender of the Blue Moon Inn in Varrock.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3225,
-                "y": 3400
-            }
+            "coordinates": {"x": 3225, "y": 3400, "level": 0}
         }
     },
     {
@@ -23274,10 +22932,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crate in the left-hand tower of Lumbridge castle.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3228,
-                "y": 3213
-            }
+            "coordinates": {"x": 3228, "y": 3213, "level": 0}
         }
     },
     {
@@ -23287,10 +22942,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in one of Gertrude's bedrooms.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3155,
-                "y": 3406
-            }
+            "coordinates": {"x": 3155, "y": 3406, "level": 0}
         }
     },
     {
@@ -23300,10 +22952,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Hazelmere.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2678,
-                "y": 3087
-            },
+            "coordinates": {"x": 2678, "y": 3087, "level": 0},
             "answer": "Talk to Hazelmere<br><b>Question solution:</b> 6859"
         }
     },
@@ -23314,10 +22963,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers in Catherby's Archery Shop.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2827,
-                "y": 3456
-            }
+            "coordinates": {"x": 2827, "y": 3456, "level": 0}
         }
     },
     {
@@ -23327,10 +22973,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the drawers upstairs in Falador's shield shop.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2973,
-                "y": 3386
-            }
+            "coordinates": {"x": 2973, "y": 3386, "level": 0}
         }
     },
     {
@@ -23340,10 +22983,7 @@ export let clues: ClueStep[] = [
         "clue": "Talk to the Squire in the White Knights' castle in Falador.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2973,
-                "y": 3342
-            }
+            "coordinates": {"x": 2973, "y": 3342, "level": 0}
         }
     },
     {
@@ -23353,10 +22993,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates of Falador's general store.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2959,
-                "y": 3386
-            }
+            "coordinates": {"x": 2959, "y": 3386, "level": 0}
         }
     },
     {
@@ -23366,10 +23003,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in the Barbarian Village helmet shop.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3075,
-                "y": 3430
-            }
+            "coordinates": {"x": 3075, "y": 3430, "level": 0}
         }
     },
     {
@@ -23379,10 +23013,7 @@ export let clues: ClueStep[] = [
         "clue": "Search the crates in the Port Sarim fishing shop.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3014,
-                "y": 3224
-            }
+            "coordinates": {"x": 3014, "y": 3224, "level": 0}
         }
     },
     {
@@ -23392,10 +23023,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Sir Kay in Camelot Castle.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2760,
-                "y": 3499
-            }
+            "coordinates": {"x": 2760, "y": 3499, "level": 0}
         }
     },
     {
@@ -23405,10 +23033,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to Ned in Draynor Village.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3100,
-                "y": 3257
-            }
+            "coordinates": {"x": 3100, "y": 3257, "level": 0}
         }
     },
     {
@@ -23418,10 +23043,7 @@ export let clues: ClueStep[] = [
         "clue": "Speak to the Challenge Mistress in Burthorpe.",
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2886,
-                "y": 3530
-            }
+            "coordinates": {"x": 2886, "y": 3530, "level": 0}
         }
     },
     {
@@ -23431,10 +23053,7 @@ export let clues: ClueStep[] = [
         "id": 139,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3057,
-                "y": 3491
-            },
+            "coordinates": {"x": 3057, "y": 3491, "level": 0},
             "answer": "Talk to Abbot Langley."
         }
     },
@@ -23445,10 +23064,7 @@ export let clues: ClueStep[] = [
         "id": 140,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3014,
-                "y": 3227
-            },
+            "coordinates": {"x": 3014, "y": 3227, "level": 0},
             "answer": "talk to Gerrant."
         }
     },
@@ -23459,10 +23075,7 @@ export let clues: ClueStep[] = [
         "id": 141,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3358,
-                "y": 3345
-            },
+            "coordinates": {"x": 3358, "y": 3345, "level": 0},
             "answer": "Speak to an examiner."
         }
     },
@@ -23473,10 +23086,7 @@ export let clues: ClueStep[] = [
         "id": 142,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2521,
-                "y": 3496
-            },
+            "coordinates": {"x": 2521, "y": 3496, "level": 0},
             "answer": "Search the boxes upstairs."
         }
     },
@@ -23493,10 +23103,7 @@ export let clues: ClueStep[] = [
                     "name": "Dig spot",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2133,
-                            "y": 5162
-                        },
+                        "coordinates": {"x": 2133, "y": 5162, "level": 0},
                         "answer": "Dig by the little pond on top of mountain."
                     }
                 },
@@ -23505,10 +23112,7 @@ export let clues: ClueStep[] = [
                     "name": "Boat",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 3678,
-                            "y": 3538
-                        },
+                        "coordinates": {"x": 3678, "y": 3538, "level": 0},
                         "answer": "Talk to Pirate Pete to get to Braindeath Island. Dig by the little pond on top of the northern mountain. (The dungeoneering skillcape will teleport you nearby - option 8, Braindeath Island)"
                     }
                 }
@@ -23522,10 +23126,7 @@ export let clues: ClueStep[] = [
         "id": 144,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3134,
-                "y": 2802
-            },
+            "coordinates": {"x": 3134, "y": 2802, "level": 0},
             "answer": "Talk to Hamid."
         }
     },
@@ -23536,10 +23137,7 @@ export let clues: ClueStep[] = [
         "id": 145,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3396,
-                "y": 2916
-            },
+            "coordinates": {"x": 3396, "y": 2916, "level": 0},
             "answer": "Dig by the two cacti."
         }
     },
@@ -23550,10 +23148,7 @@ export let clues: ClueStep[] = [
         "id": 146,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2474,
-                "y": 3428
-            },
+            "coordinates": {"x": 2474, "y": 3428, "level": 0},
             "answer": "Talk to any gnome trainer."
         }
     },
@@ -23570,10 +23165,7 @@ export let clues: ClueStep[] = [
                     "name": "Location",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 3041,
-                            "y": 9820
-                        },
+                        "coordinates": {"x": 3041, "y": 9820, "level": 0},
                         "answer": "Search the cart"
                     }
                 },
@@ -23582,10 +23174,7 @@ export let clues: ClueStep[] = [
                     "name": "Entrance",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 3019,
-                            "y": 3450
-                        },
+                        "coordinates": {"x": 3019, "y": 3450, "level": 0},
                         "answer": "Search the cart at the end of the track going east in the Dwarven Mine."
                     }
                 }
@@ -23599,10 +23188,7 @@ export let clues: ClueStep[] = [
         "id": 148,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2702,
-                "y": 3407
-            },
+            "coordinates": {"x": 2702, "y": 3407, "level": 0},
             "answer": "Search the bookcases on the first floor."
         }
     },
@@ -23613,10 +23199,7 @@ export let clues: ClueStep[] = [
         "id": 149,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3095,
-                "y": 3152
-            },
+            "coordinates": {"x": 3095, "y": 3152, "level": 0},
             "answer": "Search the bookcases."
         }
     },
@@ -23627,10 +23210,7 @@ export let clues: ClueStep[] = [
         "id": 150,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2489,
-                "y": 3490
-            },
+            "coordinates": {"x": 2489, "y": 3490, "level": 0},
             "answer": "Talk to Heckel Funch on the first level of the grand tree."
         }
     },
@@ -23641,10 +23221,7 @@ export let clues: ClueStep[] = [
         "id": 151,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2340,
-                "y": 3185
-            },
+            "coordinates": {"x": 2340, "y": 3185, "level": 0},
             "answer": "Search the big crates."
         }
     },
@@ -23661,10 +23238,7 @@ export let clues: ClueStep[] = [
                     "name": "Dig spot",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2832,
-                            "y": 9586
-                        },
+                        "coordinates": {"x": 2832, "y": 9586, "level": 0},
                         "answer": "Dig under the red spiders eggs."
                     }
                 },
@@ -23673,10 +23247,7 @@ export let clues: ClueStep[] = [
                     "name": "Cave entrance",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2857,
-                            "y": 3168
-                        },
+                        "coordinates": {"x": 2857, "y": 3168, "level": 0},
                         "answer": "Enter the cave and dig under the red spiders eggs."
                     }
                 }
@@ -23690,10 +23261,7 @@ export let clues: ClueStep[] = [
         "id": 153,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3479,
-                "y": 3090
-            },
+            "coordinates": {"x": 3479, "y": 3090, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -23704,10 +23272,7 @@ export let clues: ClueStep[] = [
         "id": 154,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3160,
-                "y": 9905
-            },
+            "coordinates": {"x": 3160, "y": 9905, "level": 0},
             "answer": "Dig next to the cauldron near the Moss Giants"
         }
     },
@@ -23718,10 +23283,7 @@ export let clues: ClueStep[] = [
         "id": 155,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2969,
-                "y": 2974
-            },
+            "coordinates": {"x": 2969, "y": 2974, "level": 0},
             "answer": "Dig by the fire."
         }
     },
@@ -23732,10 +23294,7 @@ export let clues: ClueStep[] = [
         "id": 156,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2599,
-                "y": 3266
-            },
+            "coordinates": {"x": 2599, "y": 3266, "level": 0},
             "answer": "Dig by the torch."
         }
     },
@@ -23746,10 +23305,7 @@ export let clues: ClueStep[] = [
         "id": 157,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2519,
-                "y": 3593
-            },
+            "coordinates": {"x": 2519, "y": 3593, "level": 0},
             "answer": "Dig on the small shell."
         }
     },
@@ -23766,10 +23322,7 @@ export let clues: ClueStep[] = [
                     "name": "Entrance",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2569,
-                            "y": 3122
-                        },
+                        "coordinates": {"x": 2569, "y": 3122, "level": 0},
                         "answer": "Go into the dungeon, then cross the ledge and pray at the altar to fall down. (Failing to cross the ledge will have the same result.) Now search the crate by the stairs."
                     }
                 },
@@ -23778,10 +23331,7 @@ export let clues: ClueStep[] = [
                     "name": "Altar",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2571,
-                            "y": 9500
-                        },
+                        "coordinates": {"x": 2571, "y": 9500, "level": 0},
                         "answer": "Go into the dungeon, then cross the ledge and pray at the altar to fall down. (Failing to cross the ledge will have the same result.) Now search the crate by the stairs."
                     }
                 },
@@ -23790,10 +23340,7 @@ export let clues: ClueStep[] = [
                     "name": "Location",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2576,
-                            "y": 9583
-                        },
+                        "coordinates": {"x": 2576, "y": 9583, "level": 0},
                         "answer": "Search the crate."
                     }
                 }
@@ -23807,10 +23354,7 @@ export let clues: ClueStep[] = [
         "id": 159,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2668,
-                "y": 3240
-            },
+            "coordinates": {"x": 2668, "y": 3240, "level": 0},
             "answer": "Search the drawers upstairs."
         }
     },
@@ -23821,10 +23365,7 @@ export let clues: ClueStep[] = [
         "id": 160,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2577,
-                "y": 3465
-            },
+            "coordinates": {"x": 2577, "y": 3465, "level": 0},
             "answer": "Search the boxes."
         }
     },
@@ -23841,10 +23382,7 @@ export let clues: ClueStep[] = [
                     "name": "Location",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 3219,
-                            "y": 9617
-                        },
+                        "coordinates": {"x": 3219, "y": 9617, "level": 0},
                         "answer": "Search the crates in the basement."
                     }
                 },
@@ -23853,10 +23391,7 @@ export let clues: ClueStep[] = [
                     "name": "Entrance",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 3209,
-                            "y": 3216
-                        },
+                        "coordinates": {"x": 3209, "y": 3216, "level": 0},
                         "answer": "Search the crates in the basement."
                     }
                 }
@@ -23870,10 +23405,7 @@ export let clues: ClueStep[] = [
         "id": 162,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3176,
-                "y": 2987
-            },
+            "coordinates": {"x": 3176, "y": 2987, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -23884,10 +23416,7 @@ export let clues: ClueStep[] = [
         "id": 163,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2710,
-                "y": 3498
-            },
+            "coordinates": {"x": 2710, "y": 3498, "level": 0},
             "answer": "Search the crates on the first level of the elemental workshop, east of the hatch."
         }
     },
@@ -23898,10 +23427,7 @@ export let clues: ClueStep[] = [
         "id": 164,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2562,
-                "y": 3323
-            },
+            "coordinates": {"x": 2562, "y": 3323, "level": 0},
             "answer": "Search the drawers."
         }
     },
@@ -23912,10 +23438,7 @@ export let clues: ClueStep[] = [
         "id": 165,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3084,
-                "y": 3257
-            },
+            "coordinates": {"x": 3084, "y": 3257, "level": 0},
             "answer": "Dig under the southern window of Aggie's house."
         }
     },
@@ -23926,10 +23449,7 @@ export let clues: ClueStep[] = [
         "id": 166,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3189,
-                "y": 3433
-            },
+            "coordinates": {"x": 3189, "y": 3433, "level": 0},
             "answer": "Dig by the gates in the cellar."
         }
     },
@@ -23940,10 +23460,7 @@ export let clues: ClueStep[] = [
         "id": 167,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2648,
-                "y": 3661
-            },
+            "coordinates": {"x": 2648, "y": 3661, "level": 0},
             "answer": "Search the crates"
         }
     },
@@ -23954,10 +23471,7 @@ export let clues: ClueStep[] = [
         "id": 168,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2848,
-                "y": 3501
-            },
+            "coordinates": {"x": 2848, "y": 3501, "level": 0},
             "answer": "Talk to Captain Bleemadge"
         }
     },
@@ -23968,10 +23482,7 @@ export let clues: ClueStep[] = [
         "id": 169,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3222,
-                "y": 3218
-            },
+            "coordinates": {"x": 3222, "y": 3218, "level": 0},
             "answer": "Talk to Hans."
         }
     },
@@ -23982,10 +23493,7 @@ export let clues: ClueStep[] = [
         "id": 170,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3208,
-                "y": 3214
-            },
+            "coordinates": {"x": 3208, "y": 3214, "level": 0},
             "answer": "Search the drawers on the first floor of the castle, near the spinning wheel."
         }
     },
@@ -23996,10 +23504,7 @@ export let clues: ClueStep[] = [
         "id": 171,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3203,
-                "y": 3472
-            },
+            "coordinates": {"x": 3203, "y": 3472, "level": 0},
             "answer": "Talk to Sir Prysin."
         }
     },
@@ -24010,10 +23515,7 @@ export let clues: ClueStep[] = [
         "id": 172,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3203,
-                "y": 3472
-            },
+            "coordinates": {"x": 3203, "y": 3472, "level": 0},
             "answer": "Talk to Sir Prysin."
         }
     },
@@ -24024,10 +23526,7 @@ export let clues: ClueStep[] = [
         "id": 173,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3166,
-                "y": 3307
-            },
+            "coordinates": {"x": 3166, "y": 3307, "level": 0},
             "answer": "Search the crates on the top floor."
         }
     },
@@ -24038,10 +23537,7 @@ export let clues: ClueStep[] = [
         "id": 174,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3218,
-                "y": 3434
-            },
+            "coordinates": {"x": 3218, "y": 3434, "level": 0},
             "answer": "Talk to Wilough"
         }
     },
@@ -24052,10 +23548,7 @@ export let clues: ClueStep[] = [
         "id": 175,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3068,
-                "y": 3516
-            },
+            "coordinates": {"x": 3068, "y": 3516, "level": 0},
             "answer": "Talk to Oziach."
         }
     },
@@ -24066,10 +23559,7 @@ export let clues: ClueStep[] = [
         "id": 176,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3087,
-                "y": 3469
-            },
+            "coordinates": {"x": 3087, "y": 3469, "level": 0},
             "answer": "Dig by the yew tree."
         }
     },
@@ -24080,10 +23570,7 @@ export let clues: ClueStep[] = [
         "id": 177,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3087,
-                "y": 3469
-            },
+            "coordinates": {"x": 3087, "y": 3469, "level": 0},
             "answer": "Dig by the yew tree."
         }
     },
@@ -24094,10 +23581,7 @@ export let clues: ClueStep[] = [
         "id": 178,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2818,
-                "y": 3353
-            },
+            "coordinates": {"x": 2818, "y": 3353, "level": 0},
             "answer": "Search the drawers."
         }
     },
@@ -24108,10 +23592,7 @@ export let clues: ClueStep[] = [
         "id": 179,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2611,
-                "y": 3305
-            },
+            "coordinates": {"x": 2611, "y": 3305, "level": 0},
             "answer": "Search the crate upstairs."
         }
     },
@@ -24122,10 +23603,7 @@ export let clues: ClueStep[] = [
         "id": 180,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3028,
-                "y": 3217
-            },
+            "coordinates": {"x": 3028, "y": 3217, "level": 0},
             "answer": "Talk to Captain Tobias."
         }
     },
@@ -24136,10 +23614,7 @@ export let clues: ClueStep[] = [
         "id": 181,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3257,
-                "y": 3487
-            },
+            "coordinates": {"x": 3257, "y": 3487, "level": 0},
             "answer": "Kill a monk in the monastery south of ardougne for a key, then search the chests."
         }
     },
@@ -24150,10 +23625,7 @@ export let clues: ClueStep[] = [
         "id": 182,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3376,
-                "y": 3274
-            },
+            "coordinates": {"x": 3376, "y": 3274, "level": 0},
             "answer": "Speak to Jeed."
         }
     },
@@ -24164,10 +23636,7 @@ export let clues: ClueStep[] = [
         "id": 183,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3057,
-                "y": 3498
-            },
+            "coordinates": {"x": 3057, "y": 3498, "level": 0},
             "answer": "Kill a Monk of Zamorak in the Chaos Temple near the Goblin Village to get a key, then search the drawers."
         }
     },
@@ -24178,10 +23647,7 @@ export let clues: ClueStep[] = [
         "id": 184,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3113,
-                "y": 3152
-            },
+            "coordinates": {"x": 3113, "y": 3152, "level": 0},
             "answer": "Kill a Spellwisp north west of the tower to get a key, then search the cupboard on the second floor."
         }
     },
@@ -24192,10 +23658,7 @@ export let clues: ClueStep[] = [
         "id": 185,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2800,
-                "y": 3076
-            },
+            "coordinates": {"x": 2800, "y": 3076, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -24206,10 +23669,7 @@ export let clues: ClueStep[] = [
         "id": 186,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2773,
-                "y": 3172
-            },
+            "coordinates": {"x": 2773, "y": 3172, "level": 0},
             "answer": "Search the crate."
         }
     },
@@ -24220,10 +23680,7 @@ export let clues: ClueStep[] = [
         "id": 187,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2574,
-                "y": 3322
-            },
+            "coordinates": {"x": 2574, "y": 3322, "level": 0},
             "answer": "Kill a guard dog get obtain a key, then search the drawers upstairs."
         }
     },
@@ -24234,10 +23691,7 @@ export let clues: ClueStep[] = [
         "id": 188,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2765,
-                "y": 3274
-            },
+            "coordinates": {"x": 2765, "y": 3274, "level": 0},
             "answer": "Search the crate. (Talk to Holgart or Jeb in Witchaven to get to the Fishing Platform.)"
         }
     },
@@ -24248,10 +23702,7 @@ export let clues: ClueStep[] = [
         "id": 189,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2399,
-                "y": 4470
-            },
+            "coordinates": {"x": 2399, "y": 4470, "level": 0},
             "answer": "Search the crates"
         }
     },
@@ -24262,10 +23713,7 @@ export let clues: ClueStep[] = [
         "id": 190,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3362,
-                "y": 3305
-            },
+            "coordinates": {"x": 3362, "y": 3305, "level": 0},
             "answer": "Search the bookcases on the top floor."
         }
     },
@@ -24276,10 +23724,7 @@ export let clues: ClueStep[] = [
         "id": 191,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3498,
-                "y": 3507
-            },
+            "coordinates": {"x": 3498, "y": 3507, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -24290,10 +23735,7 @@ export let clues: ClueStep[] = [
         "id": 192,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2525,
-                "y": 3437
-            },
+            "coordinates": {"x": 2525, "y": 3437, "level": 0},
             "answer": "Search the hay bales."
         }
     },
@@ -24304,10 +23746,7 @@ export let clues: ClueStep[] = [
         "id": 193,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2906,
-                "y": 3188
-            },
+            "coordinates": {"x": 2906, "y": 3188, "level": 0},
             "answer": "Search the crate."
         }
     },
@@ -24318,10 +23757,7 @@ export let clues: ClueStep[] = [
         "id": 194,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2930,
-                "y": 3550
-            },
+            "coordinates": {"x": 2930, "y": 3550, "level": 0},
             "answer": "Pickpocket Penda (in the south-western most house) to get a key, then search the marked drawers."
         }
     },
@@ -24332,10 +23768,7 @@ export let clues: ClueStep[] = [
         "id": 195,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2710,
-                "y": 3479
-            },
+            "coordinates": {"x": 2710, "y": 3479, "level": 0},
             "answer": "Kill a chicken to get the key, then search the drawers."
         }
     },
@@ -24346,10 +23779,7 @@ export let clues: ClueStep[] = [
         "id": 196,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2519,
-                "y": 3259
-            },
+            "coordinates": {"x": 2519, "y": 3259, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -24360,10 +23790,7 @@ export let clues: ClueStep[] = [
         "id": 197,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2656,
-                "y": 3159
-            },
+            "coordinates": {"x": 2656, "y": 3159, "level": 0},
             "answer": "Dig in front of the door."
         }
     },
@@ -24374,10 +23801,7 @@ export let clues: ClueStep[] = [
         "id": 198,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3279,
-                "y": 2786
-            },
+            "coordinates": {"x": 3279, "y": 2786, "level": 0},
             "answer": "Search the boxes"
         }
     },
@@ -24388,10 +23812,7 @@ export let clues: ClueStep[] = [
         "id": 199,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3358,
-                "y": 2971
-            },
+            "coordinates": {"x": 3358, "y": 2971, "level": 0},
             "answer": "Dig next to the well."
         }
     },
@@ -24402,10 +23823,7 @@ export let clues: ClueStep[] = [
         "id": 200,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3356,
-                "y": 3434
-            },
+            "coordinates": {"x": 3356, "y": 3434, "level": 0},
             "answer": "Go down the winch and search the north-western sacks."
         }
     },
@@ -24416,10 +23834,7 @@ export let clues: ClueStep[] = [
         "id": 201,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2671,
-                "y": 3438
-            },
+            "coordinates": {"x": 2671, "y": 3438, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -24430,10 +23845,7 @@ export let clues: ClueStep[] = [
         "id": 202,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2514,
-                "y": 3040
-            },
+            "coordinates": {"x": 2514, "y": 3040, "level": 0},
             "answer": "Dig between the rocks."
         }
     },
@@ -24444,10 +23856,7 @@ export let clues: ClueStep[] = [
         "id": 203,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2809,
-                "y": 3165
-            },
+            "coordinates": {"x": 2809, "y": 3165, "level": 0},
             "answer": "Kill a pirate to get a key, then search the drawers upstairs."
         }
     },
@@ -24458,10 +23867,7 @@ export let clues: ClueStep[] = [
         "id": 204,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2999,
-                "y": 3110
-            },
+            "coordinates": {"x": 2999, "y": 3110, "level": 0},
             "answer": "Dig on top of the starfish on the south-eastern end of Mudskipper point."
         }
     },
@@ -24472,10 +23878,7 @@ export let clues: ClueStep[] = [
         "id": 205,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3288,
-                "y": 3022
-            },
+            "coordinates": {"x": 3288, "y": 3022, "level": 0},
             "answer": "Search the crate by the cart."
         }
     },
@@ -24486,10 +23889,7 @@ export let clues: ClueStep[] = [
         "id": 206,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3356,
-                "y": 3508
-            },
+            "coordinates": {"x": 3356, "y": 3508, "level": 0},
             "answer": "Dig inside the little building."
         }
     },
@@ -24500,10 +23900,7 @@ export let clues: ClueStep[] = [
         "id": 207,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3644,
-                "y": 3494
-            },
+            "coordinates": {"x": 3644, "y": 3494, "level": 0},
             "answer": "Dig by the mushroom south of the bridge."
         }
     },
@@ -24514,10 +23911,7 @@ export let clues: ClueStep[] = [
         "id": 208,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2812,
-                "y": 3161
-            },
+            "coordinates": {"x": 2812, "y": 3161, "level": 0},
             "answer": "Search the cupboard."
         }
     },
@@ -24528,10 +23922,7 @@ export let clues: ClueStep[] = [
         "id": 209,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3355,
-                "y": 3349
-            },
+            "coordinates": {"x": 3355, "y": 3349, "level": 0},
             "answer": "Kill a barbarian in Barbarian Village to get a key, then search the chest under the red dragon head."
         }
     },
@@ -24542,10 +23933,7 @@ export let clues: ClueStep[] = [
         "id": 210,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2691,
-                "y": 3508
-            },
+            "coordinates": {"x": 2691, "y": 3508, "level": 0},
             "answer": "Search the large crate."
         }
     },
@@ -24556,10 +23944,7 @@ export let clues: ClueStep[] = [
         "id": 211,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2509,
-                "y": 3642
-            },
+            "coordinates": {"x": 2509, "y": 3642, "level": 0},
             "answer": "Kill a Fremennik market guard to get the key, then search the drawers on the first floor of the Lighthouse."
         }
     },
@@ -24570,10 +23955,7 @@ export let clues: ClueStep[] = [
         "id": 212,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2616,
-                "y": 3206
-            },
+            "coordinates": {"x": 2616, "y": 3206, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -24584,10 +23966,7 @@ export let clues: ClueStep[] = [
         "id": 213,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2594,
-                "y": 3104
-            },
+            "coordinates": {"x": 2594, "y": 3104, "level": 0},
             "answer": "Kill the man downstairs to get a key, then search the chest upstairs."
         }
     },
@@ -24598,10 +23977,7 @@ export let clues: ClueStep[] = [
         "id": 214,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2697,
-                "y": 3283
-            },
+            "coordinates": {"x": 2697, "y": 3283, "level": 0},
             "answer": "Search the chests at the start of the dungeon."
         }
     },
@@ -24612,10 +23988,7 @@ export let clues: ClueStep[] = [
         "id": 215,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2399,
-                "y": 3354
-            },
+            "coordinates": {"x": 2399, "y": 3354, "level": 0},
             "answer": "Search the boxes."
         }
     },
@@ -24626,10 +23999,7 @@ export let clues: ClueStep[] = [
         "id": 216,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3169,
-                "y": 3887
-            },
+            "coordinates": {"x": 3169, "y": 3887, "level": 0},
             "answer": "Dig between the mushrooms."
         }
     },
@@ -24640,10 +24010,7 @@ export let clues: ClueStep[] = [
         "id": 217,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3177,
-                "y": 2916
-            },
+            "coordinates": {"x": 3177, "y": 2916, "level": 0},
             "answer": "Dig one square west of the north-eastern wheel barrow"
         }
     },
@@ -24654,10 +24021,7 @@ export let clues: ClueStep[] = [
         "id": 218,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2439,
-                "y": 3163
-            },
+            "coordinates": {"x": 2439, "y": 3163, "level": 0},
             "answer": "Search the crates, you need to go through the tunnels underground the get here."
         }
     },
@@ -24668,10 +24032,7 @@ export let clues: ClueStep[] = [
         "id": 219,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3154,
-                "y": 3924
-            },
+            "coordinates": {"x": 3154, "y": 3924, "level": 0},
             "answer": "Dig by the lever."
         }
     },
@@ -24682,10 +24043,7 @@ export let clues: ClueStep[] = [
         "id": 220,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2614,
-                "y": 3325
-            },
+            "coordinates": {"x": 2614, "y": 3325, "level": 0},
             "answer": "Kill a ardougne guard to get a key, then search the drawers on the first floor."
         }
     },
@@ -24696,10 +24054,7 @@ export let clues: ClueStep[] = [
         "id": 221,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3235,
-                "y": 3675
-            },
+            "coordinates": {"x": 3235, "y": 3675, "level": 0},
             "answer": "Dig under the crossbow."
         }
     },
@@ -24710,10 +24065,7 @@ export let clues: ClueStep[] = [
         "id": 222,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2991,
-                "y": 3177
-            },
+            "coordinates": {"x": 2991, "y": 3177, "level": 0},
             "answer": "Dig on the west side of the church."
         }
     },
@@ -24724,10 +24076,7 @@ export let clues: ClueStep[] = [
         "id": 223,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2589,
-                "y": 3880
-            },
+            "coordinates": {"x": 2589, "y": 3880, "level": 0},
             "answer": "Dig by the crossroads."
         }
     },
@@ -24738,10 +24087,7 @@ export let clues: ClueStep[] = [
         "id": 224,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2834,
-                "y": 2990
-            },
+            "coordinates": {"x": 2834, "y": 2990, "level": 0},
             "answer": "Search the bookcase."
         }
     },
@@ -24752,10 +24098,7 @@ export let clues: ClueStep[] = [
         "id": 225,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3613,
-                "y": 3489
-            },
+            "coordinates": {"x": 3613, "y": 3489, "level": 0},
             "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Nothing equipped"
         }
     },
@@ -24766,10 +24109,7 @@ export let clues: ClueStep[] = [
         "id": 226,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2795,
-                "y": 3672
-            },
+            "coordinates": {"x": 2795, "y": 3672, "level": 0},
             "answer": "<b>Emote:</b> Laugh<br><b>Items:</b> Rune full helm, Blue d'hide chaps, Fire battlestaff"
         }
     },
@@ -24780,10 +24120,7 @@ export let clues: ClueStep[] = [
         "id": 227,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2849,
-                "y": 3500
-            },
+            "coordinates": {"x": 2849, "y": 3500, "level": 0},
             "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Mithril platelegs, Ring of life, Rune hatchet"
         }
     },
@@ -24794,10 +24131,7 @@ export let clues: ClueStep[] = [
         "id": 228,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2921,
-                "y": 3164
-            },
+            "coordinates": {"x": 2921, "y": 3164, "level": 0},
             "answer": "<b>Emote:</b> Salute<br><b>Items:</b> Diamond ring, Amulet of power, nothing on your chest and legs"
         }
     },
@@ -24808,10 +24142,7 @@ export let clues: ClueStep[] = [
         "id": 229,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3294,
-                "y": 2779
-            },
+            "coordinates": {"x": 3294, "y": 2779, "level": 0},
             "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Ring of life, Uncharged amulet of glory, Adamant 2h sword"
         }
     },
@@ -24822,10 +24153,7 @@ export let clues: ClueStep[] = [
         "id": 230,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2585,
-                "y": 3423
-            },
+            "coordinates": {"x": 2585, "y": 3423, "level": 0},
             "answer": "<b>Emote:</b> Raspberry<br><b>Items:</b> Elemental shield, Blue dragonhide chaps, Rune warhammer"
         }
     },
@@ -24836,10 +24164,7 @@ export let clues: ClueStep[] = [
         "id": 231,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2852,
-                "y": 2953
-            },
+            "coordinates": {"x": 2852, "y": 2953, "level": 0},
             "answer": "<b>Emote:</b> Blow kiss<br><b>Items:</b> Splitbark helmet, Mud pie, Rune platebody"
         }
     },
@@ -24850,10 +24175,7 @@ export let clues: ClueStep[] = [
         "id": 232,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2509,
-                "y": 3641
-            },
+            "coordinates": {"x": 2509, "y": 3641, "level": 0},
             "answer": "<b>Emote:</b> Bow or curtsy<br><b>Items:</b> Blue dragonhide body, Blue dragonhide vambraces, <b>no</b> jewellery"
         }
     },
@@ -24864,10 +24186,7 @@ export let clues: ClueStep[] = [
         "id": 233,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2845,
-                "y": 3174
-            },
+            "coordinates": {"x": 2845, "y": 3174, "level": 0},
             "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Fire cape, Toktz-ket-xil, Spork<br>(Inside the TzHaar City, southwest of the market square)"
         }
     },
@@ -24878,10 +24197,7 @@ export let clues: ClueStep[] = [
         "id": 234,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3424,
-                "y": 3544
-            },
+            "coordinates": {"x": 3424, "y": 3544, "level": 0},
             "answer": "<b>Emote:</b> Headbang<br><b>Items:</b> Imp-hide hood, Prifddinian musician's robe top, Amulet of magic"
         }
     },
@@ -24892,10 +24208,7 @@ export let clues: ClueStep[] = [
         "id": 235,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3036,
-                "y": 3733
-            },
+            "coordinates": {"x": 3036, "y": 3733, "level": 0},
             "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Iron square shield, Blue dragon vambraces, Iron pickaxe"
         }
     },
@@ -24906,10 +24219,7 @@ export let clues: ClueStep[] = [
         "id": 236,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3674,
-                "y": 3497
-            },
+            "coordinates": {"x": 3674, "y": 3497, "level": 0},
             "answer": "<b>Emote:</b> Laugh<br><b>Items:</b> Iban's staff, Ghostly cloak, Cavalier"
         }
     },
@@ -24920,10 +24230,7 @@ export let clues: ClueStep[] = [
         "id": 237,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3814,
-                "y": 3530
-            },
+            "coordinates": {"x": 3814, "y": 3530, "level": 0},
             "answer": "<b>Emote:</b> Raspberry<br><b>Items:</b> any Dragon mask, Dragon Rider amulet, Dragon defender"
         }
     },
@@ -24934,10 +24241,7 @@ export let clues: ClueStep[] = [
         "id": 238,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3172,
-                "y": 2710
-            },
+            "coordinates": {"x": 3172, "y": 2710, "level": 0},
             "answer": "<b>Emote:</b> Wave<br><b>Items:</b> Asylum surgeon's ring, Scabaras mask"
         }
     },
@@ -24948,10 +24252,7 @@ export let clues: ClueStep[] = [
         "id": 239,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3052,
-                "y": 3505
-            },
+            "coordinates": {"x": 3052, "y": 3505, "level": 0},
             "answer": "<b>Emote:</b> Jig<br><b>Items:</b> Holy cithara, Saradomin's murmur, Ring of devotion"
         }
     },
@@ -24962,10 +24263,7 @@ export let clues: ClueStep[] = [
         "id": 240,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2404,
-                "y": 3370
-            },
+            "coordinates": {"x": 2404, "y": 3370, "level": 0},
             "answer": "<b>Emote:</b> Bow or curtsy<br><b>Items:</b> Enhanced yaktwee stick, Dagon-hai hat, Amulet of ranging"
         }
     },
@@ -24976,10 +24274,7 @@ export let clues: ClueStep[] = [
         "id": 241,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2187,
-                "y": 3412
-            },
+            "coordinates": {"x": 2187, "y": 3412, "level": 0},
             "answer": "<b>Emote:</b> Think<br><b>Items:</b> Ancient staff, Prifddinian worker's trousers, Berserker ring"
         }
     },
@@ -24990,10 +24285,7 @@ export let clues: ClueStep[] = [
         "id": 242,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3195,
-                "y": 3253
-            },
+            "coordinates": {"x": 3195, "y": 3253, "level": 0},
             "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Demon slayer gloves, any Boater, Cape of legends"
         }
     },
@@ -25004,10 +24296,7 @@ export let clues: ClueStep[] = [
         "id": 243,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3241,
-                "y": 3612
-            },
+            "coordinates": {"x": 3241, "y": 3612, "level": 0},
             "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Bronze platelegs, Iron platebody, Blue dragonhide vambraces"
         }
     },
@@ -25018,10 +24307,7 @@ export let clues: ClueStep[] = [
         "id": 244,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2998,
-                "y": 3441
-            },
+            "coordinates": {"x": 2998, "y": 3441, "level": 0},
             "answer": "<b>Emote:</b> Idea<br><b>Items:</b> Lab coat top, Lab coat legs, Staff of light"
         }
     },
@@ -25032,10 +24318,7 @@ export let clues: ClueStep[] = [
         "id": 245,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3053,
-                "y": 3247
-            },
+            "coordinates": {"x": 3053, "y": 3247, "level": 0},
             "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Dark bow, Infinity boots, Culinaromancer gloves 10"
         }
     },
@@ -25046,10 +24329,7 @@ export let clues: ClueStep[] = [
         "id": 246,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2276,
-                "y": 3330
-            },
+            "coordinates": {"x": 2276, "y": 3330, "level": 0},
             "answer": "<b>Emote:</b> Salute<br><b>Items:</b> <b>Nothing</b><br>(Requires any level 99 not all)"
         }
     },
@@ -25060,10 +24340,7 @@ export let clues: ClueStep[] = [
         "id": 247,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3578,
-                "y": 3528
-            },
+            "coordinates": {"x": 3578, "y": 3528, "level": 0},
             "answer": "Enter the grave marked on the map, then run north-west until you find an ladder, this will take you to the island where you can do the emote.<br><b>Emote:</b> Panic, then wave<br><b>Items:</b> Mithril plateskirt, Maple shieldbow, <b>no</b> boots"
         }
     },
@@ -25074,10 +24351,7 @@ export let clues: ClueStep[] = [
         "id": 248,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3304,
-                "y": 3123
-            },
+            "coordinates": {"x": 3304, "y": 3123, "level": 0},
             "answer": "<b>Emote: Jig, then bow or curtsy</b> <br><b>Items:</b> Pointed blue snail helmet, Air staff"
         }
     },
@@ -25088,10 +24362,7 @@ export let clues: ClueStep[] = [
         "id": 249,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2442,
-                "y": 3160
-            },
+            "coordinates": {"x": 2442, "y": 3160, "level": 0},
             "answer": "After doing the quest you can use a rope shortcut under the bridge to get there.<br><b>Emotes:</b> Think, then twirl<br><b>Items:</b> Mithril chainbody, Green dragonhide chaps, Ruby amulet"
         }
     },
@@ -25102,10 +24373,7 @@ export let clues: ClueStep[] = [
         "id": 250,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3105,
-                "y": 3421
-            },
+            "coordinates": {"x": 3105, "y": 3421, "level": 0},
             "answer": "<b>Emotes:</b> Twirl, then salute<br><b>Items:</b> Iron hatchet, Steel kiteshield, Mithril full helm"
         }
     },
@@ -25116,10 +24384,7 @@ export let clues: ClueStep[] = [
         "id": 251,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2612,
-                "y": 3093
-            },
+            "coordinates": {"x": 2612, "y": 3093, "level": 0},
             "answer": "<b>Emotes:</b> Jump for joy, then jig<br><b>Items:</b> Iron crossbow, Adamant med helmet, Snakeskin chaps"
         }
     },
@@ -25130,10 +24395,7 @@ export let clues: ClueStep[] = [
         "id": 252,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3492,
-                "y": 3491
-            },
+            "coordinates": {"x": 3492, "y": 3491, "level": 0},
             "answer": "<b>Emotes:</b> Dance, then bow or curtsy<br><b>Items:</b> Spiny helm, Mithril platelegs, Iron two-handed sword"
         }
     },
@@ -25144,10 +24406,7 @@ export let clues: ClueStep[] = [
         "id": 253,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2548,
-                "y": 3553
-            },
+            "coordinates": {"x": 2548, "y": 3553, "level": 0},
             "answer": "<b>Emotes:</b> Cheer, then Headbang<br><b>Items:</b> Steel platebody, Maple shortbow, Bronze boots"
         }
     },
@@ -25158,10 +24417,7 @@ export let clues: ClueStep[] = [
         "id": 254,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2474,
-                "y": 3419
-            },
+            "coordinates": {"x": 2474, "y": 3419, "level": 0},
             "answer": "<b>Emote:</b> Cry, then 'no' emote<br><b>Items:</b> Green d'hide chaps, Steel kiteshield, Ring of forging"
         }
     },
@@ -25172,10 +24428,7 @@ export let clues: ClueStep[] = [
         "id": 255,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2793,
-                "y": 3067
-            },
+            "coordinates": {"x": 2793, "y": 3067, "level": 0},
             "answer": "<b>Emotes:</b> Beckon, then clap<br><b>Items:</b> Green dragonhide chaps, Ring of duelling, Mithril helm"
         }
     },
@@ -25186,10 +24439,7 @@ export let clues: ClueStep[] = [
         "id": 256,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2529,
-                "y": 3375
-            },
+            "coordinates": {"x": 2529, "y": 3375, "level": 0},
             "answer": "<b>Emotes:</b> Cheer, then angry<br><b>Items:</b> Green Dragonhide Body, Green dragonhide chaps, Steel sq shield"
         }
     },
@@ -25200,10 +24450,7 @@ export let clues: ClueStep[] = [
         "id": 257,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2827,
-                "y": 3456
-            },
+            "coordinates": {"x": 2827, "y": 3456, "level": 0},
             "answer": "<b>Emotes:</b> Cry, then bow or curtsy<br><b>Items:</b> Round red and black snelm, Hard leather body, Unblessed silver sickle"
         }
     },
@@ -25214,10 +24461,7 @@ export let clues: ClueStep[] = [
         "id": 258,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2443,
-                "y": 3089
-            },
+            "coordinates": {"x": 2443, "y": 3089, "level": 0},
             "answer": "<b>Emotes:</b> Yawn, then shrug<br><b>Items:</b> Ruby amulet, Mithril scimitar, Iron sq shield"
         }
     },
@@ -25228,10 +24472,7 @@ export let clues: ClueStep[] = [
         "id": 259,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3159,
-                "y": 3299
-            },
+            "coordinates": {"x": 3159, "y": 3299, "level": 0},
             "answer": "<b>Emote:</b> Think<br><b>Items:</b> Sapphire necklace, Polar camo legs, Oak shortbow"
         }
     },
@@ -25242,10 +24483,7 @@ export let clues: ClueStep[] = [
         "id": 260,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2741,
-                "y": 3536
-            },
+            "coordinates": {"x": 2741, "y": 3536, "level": 0},
             "answer": "<b>Emote:</b> Laugh<br><b>Items:</b> Leather cowl, Amulet of strength, Iron scimitar"
         }
     },
@@ -25256,10 +24494,7 @@ export let clues: ClueStep[] = [
         "id": 261,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3371,
-                "y": 3500
-            },
+            "coordinates": {"x": 3371, "y": 3500, "level": 0},
             "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Bronze platelegs, Steel pickaxe Steel helm"
         }
     },
@@ -25270,10 +24505,7 @@ export let clues: ClueStep[] = [
         "id": 262,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2676,
-                "y": 3170
-            },
+            "coordinates": {"x": 2676, "y": 3170, "level": 0},
             "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Nothing equipped"
         }
     },
@@ -25284,10 +24516,7 @@ export let clues: ClueStep[] = [
         "id": 263,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2607,
-                "y": 3283
-            },
+            "coordinates": {"x": 2607, "y": 3283, "level": 0},
             "answer": "<b>Emote:</b> Raspberry<br><b>Items:</b> Studded body, Bronze platelegs, Mud pie"
         }
     },
@@ -25298,10 +24527,7 @@ export let clues: ClueStep[] = [
         "id": 264,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3102,
-                "y": 3201
-            },
+            "coordinates": {"x": 3102, "y": 3201, "level": 0},
             "answer": "<b>Emote:</b> Clap<br><b>Items:</b> Iron helm, Emerald ring, Leather gloves"
         }
     },
@@ -25312,10 +24538,7 @@ export let clues: ClueStep[] = [
         "id": 265,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2954,
-                "y": 3240
-            },
+            "coordinates": {"x": 2954, "y": 3240, "level": 0},
             "answer": "<b>Emote:</b> Twirl<br><b>Items:</b> Sapphire ring, Yellow flowers, Leather chaps"
         }
     },
@@ -25326,10 +24549,7 @@ export let clues: ClueStep[] = [
         "id": 266,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2762,
-                "y": 3402
-            },
+            "coordinates": {"x": 2762, "y": 3402, "level": 0},
             "answer": "<b>Emote:</b> Raspberry, then raspberry again<br><b>Items:</b>Studded leather coif, Iron platebody, Leather gloves"
         }
     },
@@ -25340,10 +24560,7 @@ export let clues: ClueStep[] = [
         "id": 267,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3043,
-                "y": 3236
-            },
+            "coordinates": {"x": 3043, "y": 3236, "level": 0},
             "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Studded leather coif, Steel plateskirt, Sapphire necklace"
         }
     },
@@ -25354,10 +24571,7 @@ export let clues: ClueStep[] = [
         "id": 268,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2994,
-                "y": 3116
-            },
+            "coordinates": {"x": 2994, "y": 3116, "level": 0},
             "answer": "<b>Emote:</b> Wave<br><b>Items:</b> Gold ring, Leather chaps, Steel mace"
         }
     },
@@ -25368,10 +24582,7 @@ export let clues: ClueStep[] = [
         "id": 269,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2974,
-                "y": 3236
-            },
+            "coordinates": {"x": 2974, "y": 3236, "level": 0},
             "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Gold necklace, Gold ring, Bronze spear"
         }
     },
@@ -25382,10 +24593,7 @@ export let clues: ClueStep[] = [
         "id": 270,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3357,
-                "y": 3345
-            },
+            "coordinates": {"x": 3357, "y": 3345, "level": 0},
             "answer": "<b>Emote:</b> Clap<br><b>Items:</b> Ruby amulet, Blue flowers, Leather gloves"
         }
     },
@@ -25396,10 +24604,7 @@ export let clues: ClueStep[] = [
         "id": 271,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3211,
-                "y": 3494
-            },
+            "coordinates": {"x": 3211, "y": 3494, "level": 0},
             "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Holy symbol, Leather vambraces, Iron warhammer"
         }
     },
@@ -25410,10 +24615,7 @@ export let clues: ClueStep[] = [
         "id": 272,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3046,
-                "y": 3376
-            },
+            "coordinates": {"x": 3046, "y": 3376, "level": 0},
             "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Steel full helm, Steel platebody, Iron plateskirt"
         }
     },
@@ -25424,10 +24626,7 @@ export let clues: ClueStep[] = [
         "id": 273,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3091,
-                "y": 3337
-            },
+            "coordinates": {"x": 3091, "y": 3337, "level": 0},
             "answer": "<b>Emote:</b> Twirl<br><b>Items:</b> Iron platebody, Studded chaps, Bronze full helm"
         }
     },
@@ -25438,10 +24637,7 @@ export let clues: ClueStep[] = [
         "id": 274,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2758,
-                "y": 3444
-            },
+            "coordinates": {"x": 2758, "y": 3444, "level": 0},
             "answer": "<b>Emote:</b> Jump for joy<br><b>Items:</b> Iron boots, Unholy symbol, Steel hatchet"
         }
     },
@@ -25452,10 +24648,7 @@ export let clues: ClueStep[] = [
         "id": 275,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3298,
-                "y": 3297
-            },
+            "coordinates": {"x": 3298, "y": 3297, "level": 0},
             "answer": "<b>Emote:</b> Headbang<br><b>Items:</b> Polar Camo Top, Leather Gloves, Leather Boots"
         }
     },
@@ -25466,10 +24659,7 @@ export let clues: ClueStep[] = [
         "id": 276,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2729,
-                "y": 3349
-            },
+            "coordinates": {"x": 2729, "y": 3349, "level": 0},
             "answer": "<b>Emote:</b> bow or curtsy<br><b>Items:</b> Iron platelegs, Emerald amulet, Oak shieldbow"
         }
     },
@@ -25480,10 +24670,7 @@ export let clues: ClueStep[] = [
         "id": 277,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2893,
-                "y": 3569
-            },
+            "coordinates": {"x": 2893, "y": 3569, "level": 0},
             "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Nothing equiped"
         }
     },
@@ -25494,10 +24681,7 @@ export let clues: ClueStep[] = [
         "id": 278,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3109,
-                "y": 3294
-            },
+            "coordinates": {"x": 3109, "y": 3294, "level": 0},
             "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Iron chainbody, Sapphire ring, Shieldbow"
         }
     },
@@ -25508,10 +24692,7 @@ export let clues: ClueStep[] = [
         "id": 279,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2614,
-                "y": 3385
-            },
+            "coordinates": {"x": 2614, "y": 3385, "level": 0},
             "answer": "<b>Emote:</b> Jig<br><b>Items:</b> Sapphire amulet, Emerald ring, Bronze chainbody"
         }
     },
@@ -25522,10 +24703,7 @@ export let clues: ClueStep[] = [
         "id": 280,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3321,
-                "y": 3235
-            },
+            "coordinates": {"x": 3321, "y": 3235, "level": 0},
             "answer": "<b>Emote:</b> Bow or curtsy<br><b>Items:</b> Iron chainbody, Leather chaps, Studded leather coif"
         }
     },
@@ -25536,10 +24714,7 @@ export let clues: ClueStep[] = [
         "id": 281,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3304,
-                "y": 3525
-            },
+            "coordinates": {"x": 3304, "y": 3525, "level": 0},
             "answer": "<b>Emote:</b> Cry<br><b>Items:</b> Leather chaps, Bronze hatchet, Hard leather body"
         }
     },
@@ -25550,10 +24725,7 @@ export let clues: ClueStep[] = [
         "id": 282,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2633,
-                "y": 3386
-            },
+            "coordinates": {"x": 2633, "y": 3386, "level": 0},
             "answer": "<b>Emote:</b> Clap<br><b>Items:</b> Emerald ring, Wood camo top, Unenchanted Tiara<br><b>Note:<b> Top floor of the mill"
         }
     },
@@ -25564,10 +24736,7 @@ export let clues: ClueStep[] = [
         "id": 283,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3080,
-                "y": 3250
-            },
+            "coordinates": {"x": 3080, "y": 3250, "level": 0},
             "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Iron kiteshield, Steel longsword, Studded leather chaps"
         }
     },
@@ -25578,10 +24747,7 @@ export let clues: ClueStep[] = [
         "id": 284,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2922,
-                "y": 3482
-            },
+            "coordinates": {"x": 2922, "y": 3482, "level": 0},
             "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Air tiara, Bronze 2h sword, Gold amulet"
         }
     },
@@ -25592,10 +24758,7 @@ export let clues: ClueStep[] = [
         "id": 285,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2948,
-                "y": 3197
-            },
+            "coordinates": {"x": 2948, "y": 3197, "level": 0},
             "answer": "Rommik<br><b>Question solution:</b> 7"
         }
     },
@@ -25606,10 +24769,7 @@ export let clues: ClueStep[] = [
         "id": 287,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3426,
-                "y": 2919
-            },
+            "coordinates": {"x": 3426, "y": 2919, "level": 0},
             "answer": "Shiratti the Custodian"
         }
     },
@@ -25626,10 +24786,7 @@ export let clues: ClueStep[] = [
                     "name": "Location",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2866,
-                            "y": 9877
-                        },
+                        "coordinates": {"x": 2866, "y": 9877, "level": 0},
                         "answer": "Captain Ninto"
                     }
                 },
@@ -25638,10 +24795,7 @@ export let clues: ClueStep[] = [
                     "name": "Entrance",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2879,
-                            "y": 3459
-                        },
+                        "coordinates": {"x": 2879, "y": 3459, "level": 0},
                         "answer": "Captain Ninto (Found in the bar under ground)"
                     }
                 }
@@ -25655,10 +24809,7 @@ export let clues: ClueStep[] = [
         "id": 289,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2341,
-                "y": 3676
-            },
+            "coordinates": {"x": 2341, "y": 3676, "level": 0},
             "answer": "Ramara du Croissant"
         }
     },
@@ -25669,10 +24820,7 @@ export let clues: ClueStep[] = [
         "id": 290,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2396,
-                "y": 3479
-            },
+            "coordinates": {"x": 2396, "y": 3479, "level": 0},
             "answer": "Gnome Coach<br><b>Question solution:<b> 6"
         }
     },
@@ -25683,10 +24831,7 @@ export let clues: ClueStep[] = [
         "id": 291,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2905,
-                "y": 10206
-            },
+            "coordinates": {"x": 2905, "y": 10206, "level": 0},
             "answer": "Riki the sculptor's model (Found just east of the palace in Keldagrim)"
         }
     },
@@ -25697,10 +24842,7 @@ export let clues: ClueStep[] = [
         "id": 292,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3102,
-                "y": 3159
-            },
+            "coordinates": {"x": 3102, "y": 3159, "level": 0},
             "answer": "Professor Onglewip"
         }
     },
@@ -25711,10 +24853,7 @@ export let clues: ClueStep[] = [
         "id": 293,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2809,
-                "y": 3192
-            },
+            "coordinates": {"x": 2809, "y": 3192, "level": 0},
             "answer": "Cap'n Izzy no Beard<br><b>Question solution:</b> 33"
         }
     },
@@ -25725,10 +24864,7 @@ export let clues: ClueStep[] = [
         "id": 294,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3291,
-                "y": 3239
-            },
+            "coordinates": {"x": 3291, "y": 3239, "level": 0},
             "answer": "Cam The Camel"
         }
     },
@@ -25739,10 +24875,7 @@ export let clues: ClueStep[] = [
         "id": 295,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3038,
-                "y": 3192
-            },
+            "coordinates": {"x": 3038, "y": 3192, "level": 0},
             "answer": "Trader Stan"
         }
     },
@@ -25753,10 +24886,7 @@ export let clues: ClueStep[] = [
         "id": 296,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2594,
-                "y": 3085
-            },
+            "coordinates": {"x": 2594, "y": 3085, "level": 0},
             "answer": "Wizard Frumscone (Found in the basement)"
         }
     },
@@ -25767,10 +24897,7 @@ export let clues: ClueStep[] = [
         "id": 297,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2526,
-                "y": 3164
-            },
+            "coordinates": {"x": 2526, "y": 3164, "level": 0},
             "answer": "Bolkoy<br><b>Question solution:</b> 13"
         }
     },
@@ -25781,10 +24908,7 @@ export let clues: ClueStep[] = [
         "id": 298,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2500,
-                "y": 3863
-            },
+            "coordinates": {"x": 2500, "y": 3863, "level": 0},
             "answer": "Queen Sigrid (Found in the other castle before blood runs deep)"
         }
     },
@@ -25795,10 +24919,7 @@ export let clues: ClueStep[] = [
         "id": 299,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2658,
-                "y": 3292
-            },
+            "coordinates": {"x": 2658, "y": 3292, "level": 0},
             "answer": "Zenesha"
         }
     },
@@ -25809,10 +24930,7 @@ export let clues: ClueStep[] = [
         "id": 300,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2444,
-                "y": 3051
-            },
+            "coordinates": {"x": 2444, "y": 3051, "level": 0},
             "answer": "Uglug Nar"
         }
     },
@@ -25823,10 +24941,7 @@ export let clues: ClueStep[] = [
         "id": 301,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3361,
-                "y": 3506
-            },
+            "coordinates": {"x": 3361, "y": 3506, "level": 0},
             "answer": "Odd Old Man"
         }
     },
@@ -25837,10 +24952,7 @@ export let clues: ClueStep[] = [
         "id": 302,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2387,
-                "y": 4468
-            },
+            "coordinates": {"x": 2387, "y": 4468, "level": 0},
             "answer": "Fairy Nuff (North of the bank in Zanaris)"
         }
     },
@@ -25851,10 +24963,7 @@ export let clues: ClueStep[] = [
         "id": 303,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3410,
-                "y": 3330
-            },
+            "coordinates": {"x": 3410, "y": 3330, "level": 0},
             "answer": "Ramokee Skinweaver (all the way at the bottom of the dungeon, on the south side)"
         }
     },
@@ -25865,10 +24974,7 @@ export let clues: ClueStep[] = [
         "id": 304,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3679,
-                "y": 2965
-            },
+            "coordinates": {"x": 3679, "y": 2965, "level": 0},
             "answer": "Brother Tranquility"
         }
     },
@@ -25879,10 +24985,7 @@ export let clues: ClueStep[] = [
         "id": 305,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3679,
-                "y": 2965
-            },
+            "coordinates": {"x": 3679, "y": 2965, "level": 0},
             "answer": "Brother Tranquility"
         }
     },
@@ -25893,10 +24996,7 @@ export let clues: ClueStep[] = [
         "id": 306,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3679,
-                "y": 2965
-            },
+            "coordinates": {"x": 3679, "y": 2965, "level": 0},
             "answer": "Brother Tranquility"
         }
     },
@@ -25907,10 +25007,7 @@ export let clues: ClueStep[] = [
         "id": 307,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 1785,
-                "y": 11953
-            },
+            "coordinates": {"x": 1785, "y": 11953, "level": 0},
             "answer": "Sensei Seaworth (on Tuai Leit)"
         }
     },
@@ -25921,10 +25018,7 @@ export let clues: ClueStep[] = [
         "id": 308,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3390,
-                "y": 3402
-            },
+            "coordinates": {"x": 3390, "y": 3402, "level": 0},
             "answer": "Celia Diggory"
         }
     },
@@ -25935,10 +25029,7 @@ export let clues: ClueStep[] = [
         "id": 309,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3003,
-                "y": 3270
-            },
+            "coordinates": {"x": 3003, "y": 3270, "level": 0},
             "answer": "Malignus mortifer"
         }
     },
@@ -25949,10 +25040,7 @@ export let clues: ClueStep[] = [
         "id": 310,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2347,
-                "y": 3165
-            },
+            "coordinates": {"x": 2347, "y": 3165, "level": 0},
             "answer": "Amaethwr (the farmer)"
         }
     },
@@ -25969,10 +25057,7 @@ export let clues: ClueStep[] = [
                     "name": "Pre-quest",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2569,
-                            "y": 3272
-                        },
+                        "coordinates": {"x": 2569, "y": 3272, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 },
@@ -25981,10 +25066,7 @@ export let clues: ClueStep[] = [
                     "name": "50qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2518,
-                            "y": 3353
-                        },
+                        "coordinates": {"x": 2518, "y": 3353, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 },
@@ -25993,10 +25075,7 @@ export let clues: ClueStep[] = [
                     "name": "100qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2755,
-                            "y": 3647
-                        },
+                        "coordinates": {"x": 2755, "y": 3647, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 },
@@ -26005,10 +25084,7 @@ export let clues: ClueStep[] = [
                     "name": "150qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2860,
-                            "y": 2996
-                        },
+                        "coordinates": {"x": 2860, "y": 2996, "level": 0},
                         "answer": "Philippe Carnillean, top floor of building"
                     }
                 },
@@ -26017,10 +25093,7 @@ export let clues: ClueStep[] = [
                     "name": "200qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 3673,
-                            "y": 3496
-                        },
+                        "coordinates": {"x": 3673, "y": 3496, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 },
@@ -26029,10 +25102,7 @@ export let clues: ClueStep[] = [
                     "name": "250qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 4641,
-                            "y": 5387
-                        },
+                        "coordinates": {"x": 4641, "y": 5387, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 },
@@ -26041,10 +25111,7 @@ export let clues: ClueStep[] = [
                     "name": "300qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2704,
-                            "y": 5364
-                        },
+                        "coordinates": {"x": 2704, "y": 5364, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 },
@@ -26053,10 +25120,7 @@ export let clues: ClueStep[] = [
                     "name": "350qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 2340,
-                            "y": 3675
-                        },
+                        "coordinates": {"x": 2340, "y": 3675, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 },
@@ -26065,10 +25129,7 @@ export let clues: ClueStep[] = [
                     "name": "400qp",
                     "solution": {
                         "type": "simple",
-                        "coordinates": {
-                            "x": 4614,
-                            "y": 5125
-                        },
+                        "coordinates": {"x": 4614, "y": 5125, "level": 0},
                         "answer": "Philippe Carnillean"
                     }
                 }
@@ -26082,10 +25143,7 @@ export let clues: ClueStep[] = [
         "id": 312,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3089,
-                "y": 3254
-            },
+            "coordinates": {"x": 3089, "y": 3254, "level": 0},
             "answer": "Wise Old Man"
         }
     },
@@ -26096,10 +25154,7 @@ export let clues: ClueStep[] = [
         "id": 313,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3253,
-                "y": 3355
-            },
+            "coordinates": {"x": 3253, "y": 3355, "level": 0},
             "answer": "Paul Gower (at the alter of life after the quest, get a disk of returning from the marked chest to get there.)"
         }
     },
@@ -26110,10 +25165,7 @@ export let clues: ClueStep[] = [
         "id": 314,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3198,
-                "y": 6960
-            },
+            "coordinates": {"x": 3198, "y": 6960, "level": 0},
             "answer": "Soothsayer Sybil (next to the Telos entrance in The Heart)"
         }
     },
@@ -26124,10 +25176,7 @@ export let clues: ClueStep[] = [
         "id": 315,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2221,
-                "y": 3300
-            },
+            "coordinates": {"x": 2221, "y": 3300, "level": 0},
             "answer": "Lady Trahaearn"
         }
     },
@@ -26138,10 +25187,7 @@ export let clues: ClueStep[] = [
         "id": 316,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3420,
-                "y": 2938
-            },
+            "coordinates": {"x": 3420, "y": 2938, "level": 0},
             "answer": "Ali The Wise"
         }
     },
@@ -26152,10 +25198,7 @@ export let clues: ClueStep[] = [
         "id": 317,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3108,
-                "y": 3311
-            },
+            "coordinates": {"x": 3108, "y": 3311, "level": 0},
             "answer": "Death"
         }
     },
@@ -26166,10 +25209,7 @@ export let clues: ClueStep[] = [
         "id": 318,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2576,
-                "y": 3333
-            },
+            "coordinates": {"x": 2576, "y": 3333, "level": 0},
             "answer": "Edmond<br><b>Question solution:</b> 3"
         }
     },
@@ -26180,10 +25220,7 @@ export let clues: ClueStep[] = [
         "id": 320,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2883,
-                "y": 3446
-            },
+            "coordinates": {"x": 2883, "y": 3446, "level": 0},
             "answer": "Nails Newton<br><b>Question solution:</b> 10"
         }
     },
@@ -26194,10 +25231,7 @@ export let clues: ClueStep[] = [
         "id": 321,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3401,
-                "y": 3149
-            },
+            "coordinates": {"x": 3401, "y": 3149, "level": 0},
             "answer": "Valerio<br><b>Question solution:</b> 17"
         }
     },
@@ -26208,10 +25242,7 @@ export let clues: ClueStep[] = [
         "id": 322,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2630,
-                "y": 2997
-            },
+            "coordinates": {"x": 2630, "y": 2997, "level": 0},
             "answer": "Fycie (Found inside the marked cave)"
         }
     },
@@ -26222,10 +25253,7 @@ export let clues: ClueStep[] = [
         "id": 323,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3294,
-                "y": 3218
-            },
+            "coordinates": {"x": 3294, "y": 3218, "level": 0},
             "answer": "Jaraah"
         }
     },
@@ -26236,10 +25264,7 @@ export let clues: ClueStep[] = [
         "id": 324,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2859,
-                "y": 3581
-            },
+            "coordinates": {"x": 2859, "y": 3581, "level": 0},
             "answer": "Sabbot (Found in the cave marked on the map)"
         }
     },
@@ -26250,10 +25275,7 @@ export let clues: ClueStep[] = [
         "id": 326,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2408,
-                "y": 3424
-            },
+            "coordinates": {"x": 2408, "y": 3424, "level": 0},
             "answer": "Brimstail (He lives under ground at the marked location)"
         }
     },
@@ -26264,10 +25286,7 @@ export let clues: ClueStep[] = [
         "id": 327,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3209,
-                "y": 3214
-            },
+            "coordinates": {"x": 3209, "y": 3214, "level": 0},
             "answer": "Cook<br><b>Question solution:</b> 7"
         }
     },
@@ -26278,10 +25297,7 @@ export let clues: ClueStep[] = [
         "id": 328,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3014,
-                "y": 3503
-            },
+            "coordinates": {"x": 3014, "y": 3503, "level": 0},
             "answer": "Oracle<br><b>Question solution:</b> 48"
         }
     },
@@ -26292,10 +25308,7 @@ export let clues: ClueStep[] = [
         "id": 329,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2717,
-                "y": 3303
-            },
+            "coordinates": {"x": 2717, "y": 3303, "level": 0},
             "answer": "Caroline<br><b>Question solution:</b> 11 (0 after Salt in the wound quest)"
         }
     },
@@ -26306,10 +25319,7 @@ export let clues: ClueStep[] = [
         "id": 330,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2540,
-                "y": 3168
-            },
+            "coordinates": {"x": 2540, "y": 3168, "level": 0},
             "answer": "King Bolren"
         }
     },
@@ -26320,10 +25330,7 @@ export let clues: ClueStep[] = [
         "id": 331,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3219,
-                "y": 3177
-            },
+            "coordinates": {"x": 3219, "y": 3177, "level": 0},
             "answer": "Ysondria<br><b>Question solution:</b> 8"
         }
     },
@@ -26334,10 +25341,7 @@ export let clues: ClueStep[] = [
         "id": 332,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2659,
-                "y": 3676
-            },
+            "coordinates": {"x": 2659, "y": 3676, "level": 0},
             "answer": "Brundt<br><b>Question solution:<b> 4"
         }
     },
@@ -26348,10 +25352,7 @@ export let clues: ClueStep[] = [
         "id": 334,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2461,
-                "y": 3381
-            },
+            "coordinates": {"x": 2461, "y": 3381, "level": 0},
             "answer": "Femi"
         }
     },
@@ -26362,10 +25363,7 @@ export let clues: ClueStep[] = [
         "id": 335,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3270,
-                "y": 3182
-            },
+            "coordinates": {"x": 3270, "y": 3182, "level": 0},
             "answer": "Karim<br><b>Question solution:</b> 5"
         }
     },
@@ -26376,10 +25374,7 @@ export let clues: ClueStep[] = [
         "id": 336,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2793,
-                "y": 3065
-            },
+            "coordinates": {"x": 2793, "y": 3065, "level": 0},
             "answer": "Gabooty<br><b>Question solution:</b> 11"
         }
     },
@@ -26390,10 +25385,7 @@ export let clues: ClueStep[] = [
         "id": 337,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2938,
-                "y": 3148
-            },
+            "coordinates": {"x": 2938, "y": 3148, "level": 0},
             "answer": "Luthas"
         }
     },
@@ -26404,10 +25396,7 @@ export let clues: ClueStep[] = [
         "id": 338,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2530,
-                "y": 3306
-            },
+            "coordinates": {"x": 2530, "y": 3306, "level": 0},
             "answer": "Recruiter<br><b>Question solution:</b> 20"
         }
     },
@@ -26418,10 +25407,7 @@ export let clues: ClueStep[] = [
         "id": 339,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3103,
-                "y": 3511
-            },
+            "coordinates": {"x": 3103, "y": 3511, "level": 0},
             "answer": "Moldark, Emissary of Zamorak<br><b>Question solution:</b> 7"
         }
     },
@@ -26432,10 +25418,7 @@ export let clues: ClueStep[] = [
         "id": 340,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2947,
-                "y": 3196
-            },
+            "coordinates": {"x": 2947, "y": 3196, "level": 0},
             "answer": "Rommik<br><b>Question solution:</b> 7"
         }
     },
@@ -26446,10 +25429,7 @@ export let clues: ClueStep[] = [
         "id": 341,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3232,
-                "y": 3423
-            },
+            "coordinates": {"x": 3232, "y": 3423, "level": 0},
             "answer": "Lowe"
         }
     },
@@ -26460,10 +25440,7 @@ export let clues: ClueStep[] = [
         "id": 342,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3052,
-                "y": 3375
-            },
+            "coordinates": {"x": 3052, "y": 3375, "level": 0},
             "answer": "Party Pete"
         }
     },
@@ -26474,10 +25451,7 @@ export let clues: ClueStep[] = [
         "id": 343,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3222,
-                "y": 3473
-            },
+            "coordinates": {"x": 3222, "y": 3473, "level": 0},
             "answer": "King Roald<br><b>Question solution:</b> 24"
         }
     },
@@ -29612,10 +28586,7 @@ export let clues: ClueStep[] = [
         "id": 372,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3282,
-                "y": 2676
-            },
+            "coordinates": {"x": 3282, "y": 2676, "level": 0},
             "answer": "Catch a plover bird"
         }
     },
@@ -29626,10 +28597,7 @@ export let clues: ClueStep[] = [
         "id": 373,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2670,
-                "y": 3301
-            },
+            "coordinates": {"x": 2670, "y": 3301, "level": 0},
             "answer": "Steal from the gem stall"
         }
     },
@@ -29640,10 +28608,7 @@ export let clues: ClueStep[] = [
         "id": 374,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2178,
-                "y": 3403
-            },
+            "coordinates": {"x": 2178, "y": 3403, "level": 0},
             "answer": "Complete the Hefin Agility Course."
         }
     },
@@ -29654,10 +28619,7 @@ export let clues: ClueStep[] = [
         "id": 375,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2947,
-                "y": 2957
-            },
+            "coordinates": {"x": 2947, "y": 2957, "level": 0},
             "answer": "Burn a curly root in the Jadinko lair"
         }
     },
@@ -29668,10 +28630,7 @@ export let clues: ClueStep[] = [
         "id": 376,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3255,
-                "y": 3375
-            },
+            "coordinates": {"x": 3255, "y": 3375, "level": 0},
             "answer": "Cut some elder logs"
         }
     },
@@ -29682,10 +28641,7 @@ export let clues: ClueStep[] = [
         "id": 377,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3165,
-                "y": 3493
-            },
+            "coordinates": {"x": 3165, "y": 3493, "level": 0},
             "answer": "Cook a Wild pie (can be done anywhere)"
         }
     },
@@ -29696,10 +28652,7 @@ export let clues: ClueStep[] = [
         "id": 378,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2722,
-                "y": 5256
-            },
+            "coordinates": {"x": 2722, "y": 5256, "level": 0},
             "answer": "Hand in the right component after completing the Dorgesh-Kaan agility course"
         }
     },
@@ -29710,10 +28663,7 @@ export let clues: ClueStep[] = [
         "id": 379,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3812,
-                "y": 3557
-            },
+            "coordinates": {"x": 3812, "y": 3557, "level": 0},
             "answer": "Harvest a radiant memory"
         }
     },
@@ -29724,10 +28674,7 @@ export let clues: ClueStep[] = [
         "id": 380,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2207,
-                "y": 3362
-            },
+            "coordinates": {"x": 2207, "y": 3362, "level": 0},
             "answer": "Activate Light Form prayer inside Prifddinas"
         }
     },
@@ -29738,10 +28685,7 @@ export let clues: ClueStep[] = [
         "id": 381,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3165,
-                "y": 3493
-            },
+            "coordinates": {"x": 3165, "y": 3493, "level": 0},
             "answer": "Burn some magic logs on a bonfire (can be done anywhere)"
         }
     },
@@ -29752,10 +28696,7 @@ export let clues: ClueStep[] = [
         "id": 382,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2186,
-                "y": 3310
-            },
+            "coordinates": {"x": 2186, "y": 3310, "level": 0},
             "answer": "Pickpocket any prifddinas worker"
         }
     },
@@ -29766,10 +28707,7 @@ export let clues: ClueStep[] = [
         "id": 383,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3102,
-                "y": 3157
-            },
+            "coordinates": {"x": 3102, "y": 3157, "level": 0},
             "answer": "Siphon a blood esswraith, blood pool or bloody skulls in the Runespan"
         }
     },
@@ -29780,10 +28718,7 @@ export let clues: ClueStep[] = [
         "id": 384,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3165,
-                "y": 3493
-            },
+            "coordinates": {"x": 3165, "y": 3493, "level": 0},
             "answer": "Craft a black dragonhide body (can be done anywhere)"
         }
     },
@@ -29794,10 +28729,7 @@ export let clues: ClueStep[] = [
         "id": 385,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3165,
-                "y": 3493
-            },
+            "coordinates": {"x": 3165, "y": 3493, "level": 0},
             "answer": "Add a fire rune to a Decorated cooking urn (nr) (can be done anywhere)"
         }
     },
@@ -29808,10 +28740,7 @@ export let clues: ClueStep[] = [
         "id": 386,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3165,
-                "y": 3493
-            },
+            "coordinates": {"x": 3165, "y": 3493, "level": 0},
             "answer": "Cook a raw shark or raw rocktail (can be done anywhere)"
         }
     },
@@ -29822,10 +28751,7 @@ export let clues: ClueStep[] = [
         "id": 387,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2975,
-                "y": 3370
-            },
+            "coordinates": {"x": 2975, "y": 3370, "level": 0},
             "answer": "Smelt a bane bar (can be done at any furnace)"
         }
     },
@@ -29836,10 +28762,7 @@ export let clues: ClueStep[] = [
         "id": 388,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2543,
-                "y": 3326
-            },
+            "coordinates": {"x": 2543, "y": 3326, "level": 0},
             "answer": "Craft a death rune"
         }
     },
@@ -29850,10 +28773,7 @@ export let clues: ClueStep[] = [
         "id": 389,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3643,
-                "y": 3306
-            },
+            "coordinates": {"x": 3643, "y": 3306, "level": 0},
             "answer": "Craft a Blood rune"
         }
     },
@@ -29864,10 +28784,7 @@ export let clues: ClueStep[] = [
         "id": 390,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2190,
-                "y": 3448
-            },
+            "coordinates": {"x": 2190, "y": 3448, "level": 0},
             "answer": "Fully use a cleansing crystal on the corrupted seren stone"
         }
     },
@@ -29878,10 +28795,7 @@ export let clues: ClueStep[] = [
         "id": 391,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3377,
-                "y": 3742
-            },
+            "coordinates": {"x": 3377, "y": 3742, "level": 0},
             "answer": "Catch a charming moth"
         }
     },
@@ -29892,10 +28806,7 @@ export let clues: ClueStep[] = [
         "id": 392,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3165,
-                "y": 3492
-            },
+            "coordinates": {"x": 3165, "y": 3492, "level": 0},
             "answer": "Burn some elder logs (can be done anywhere)"
         }
     },
@@ -29906,10 +28817,7 @@ export let clues: ClueStep[] = [
         "id": 393,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3060,
-                "y": 3376
-            },
+            "coordinates": {"x": 3060, "y": 3376, "level": 0},
             "answer": "Mine concentrated gold rocks in the Living Rock Caverns"
         }
     },
@@ -29920,10 +28828,7 @@ export let clues: ClueStep[] = [
         "id": 394,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2853,
-                "y": 3426
-            },
+            "coordinates": {"x": 2853, "y": 3426, "level": 0},
             "answer": "Catch a great white shark (1/2 chance of catching instead of a normal shark after unlocking the perk in your aquarium.)"
         }
     },
@@ -29934,10 +28839,7 @@ export let clues: ClueStep[] = [
         "id": 395,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3165,
-                "y": 3493
-            },
+            "coordinates": {"x": 3165, "y": 3493, "level": 0},
             "answer": "Mix a Saradomin brew (toadflax+crushed nest, can be done anywhere)"
         }
     },
@@ -29948,10 +28850,7 @@ export let clues: ClueStep[] = [
         "id": 396,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3188,
-                "y": 3427
-            },
+            "coordinates": {"x": 3188, "y": 3427, "level": 0},
             "answer": "Smith a rune helm or full helm (can be done at any anvil)"
         }
     },
@@ -29962,10 +28861,7 @@ export let clues: ClueStep[] = [
         "id": 397,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3164,
-                "y": 3493
-            },
+            "coordinates": {"x": 3164, "y": 3493, "level": 0},
             "answer": "Mix a Zamorak brew (torstol+jangerberries, can be done anywhere)"
         }
     },
@@ -29976,10 +28872,7 @@ export let clues: ClueStep[] = [
         "id": 398,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2855,
-                "y": 3433
-            },
+            "coordinates": {"x": 2855, "y": 3433, "level": 0},
             "answer": "Catch two sharks at once (requires 76 fishing and 76 agility)"
         }
     },
@@ -32607,10 +31500,7 @@ export let clues: ClueStep[] = [
         "id": 401,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2209,
-                "y": 3161
-            },
+            "coordinates": {"x": 2209, "y": 3161, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -32633,10 +31523,7 @@ export let clues: ClueStep[] = [
         "id": 402,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2479,
-                "y": 3158
-            },
+            "coordinates": {"x": 2479, "y": 3158, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32659,10 +31546,7 @@ export let clues: ClueStep[] = [
         "id": 403,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2888,
-                "y": 3154
-            },
+            "coordinates": {"x": 2888, "y": 3154, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32685,10 +31569,7 @@ export let clues: ClueStep[] = [
         "id": 404,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2743,
-                "y": 3151
-            },
+            "coordinates": {"x": 2743, "y": 3151, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32711,10 +31592,7 @@ export let clues: ClueStep[] = [
         "id": 405,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3184,
-                "y": 3150
-            },
+            "coordinates": {"x": 3184, "y": 3150, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32737,10 +31615,7 @@ export let clues: ClueStep[] = [
         "id": 406,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3007,
-                "y": 3144
-            },
+            "coordinates": {"x": 3007, "y": 3144, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32763,10 +31638,7 @@ export let clues: ClueStep[] = [
         "id": 407,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3217,
-                "y": 3188
-            },
+            "coordinates": {"x": 3217, "y": 3188, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32789,10 +31661,7 @@ export let clues: ClueStep[] = [
         "id": 408,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2896,
-                "y": 3119
-            },
+            "coordinates": {"x": 2896, "y": 3119, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32815,10 +31684,7 @@ export let clues: ClueStep[] = [
         "id": 409,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2181,
-                "y": 3206
-            },
+            "coordinates": {"x": 2181, "y": 3206, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -32841,10 +31707,7 @@ export let clues: ClueStep[] = [
         "id": 410,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2697,
-                "y": 3207
-            },
+            "coordinates": {"x": 2697, "y": 3207, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32867,10 +31730,7 @@ export let clues: ClueStep[] = [
         "id": 411,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2679,
-                "y": 3110
-            },
+            "coordinates": {"x": 2679, "y": 3110, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32893,10 +31753,7 @@ export let clues: ClueStep[] = [
         "id": 412,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3360,
-                "y": 3243
-            },
+            "coordinates": {"x": 3360, "y": 3243, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -32919,10 +31776,7 @@ export let clues: ClueStep[] = [
         "id": 413,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2643,
-                "y": 3252
-            },
+            "coordinates": {"x": 2643, "y": 3252, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32945,10 +31799,7 @@ export let clues: ClueStep[] = [
         "id": 414,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3137,
-                "y": 3252
-            },
+            "coordinates": {"x": 3137, "y": 3252, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -32971,10 +31822,7 @@ export let clues: ClueStep[] = [
         "id": 415,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2602,
-                "y": 3063
-            },
+            "coordinates": {"x": 2602, "y": 3063, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -32997,10 +31845,7 @@ export let clues: ClueStep[] = [
         "id": 416,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2875,
-                "y": 3046
-            },
+            "coordinates": {"x": 2875, "y": 3046, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33023,10 +31868,7 @@ export let clues: ClueStep[] = [
         "id": 417,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2887,
-                "y": 3044
-            },
+            "coordinates": {"x": 2887, "y": 3044, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33049,10 +31891,7 @@ export let clues: ClueStep[] = [
         "id": 418,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3168,
-                "y": 3041
-            },
+            "coordinates": {"x": 3168, "y": 3041, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33075,10 +31914,7 @@ export let clues: ClueStep[] = [
         "id": 419,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2849,
-                "y": 3033
-            },
+            "coordinates": {"x": 2849, "y": 3033, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33101,10 +31937,7 @@ export let clues: ClueStep[] = [
         "id": 420,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2542,
-                "y": 3031
-            },
+            "coordinates": {"x": 2542, "y": 3031, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33127,10 +31960,7 @@ export let clues: ClueStep[] = [
         "id": 421,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2581,
-                "y": 3030
-            },
+            "coordinates": {"x": 2581, "y": 3030, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33153,10 +31983,7 @@ export let clues: ClueStep[] = [
         "id": 422,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2848,
-                "y": 3296
-            },
+            "coordinates": {"x": 2848, "y": 3296, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33179,10 +32006,7 @@ export let clues: ClueStep[] = [
         "id": 423,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2961,
-                "y": 3024
-            },
+            "coordinates": {"x": 2961, "y": 3024, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33205,10 +32029,7 @@ export let clues: ClueStep[] = [
         "id": 424,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2339,
-                "y": 3311
-            },
+            "coordinates": {"x": 2339, "y": 3311, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33231,10 +32052,7 @@ export let clues: ClueStep[] = [
         "id": 425,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2583,
-                "y": 2990
-            },
+            "coordinates": {"x": 2583, "y": 2990, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33257,10 +32075,7 @@ export let clues: ClueStep[] = [
         "id": 426,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3440,
-                "y": 3341
-            },
+            "coordinates": {"x": 3440, "y": 3341, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33283,10 +32098,7 @@ export let clues: ClueStep[] = [
         "id": 427,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3179,
-                "y": 3344
-            },
+            "coordinates": {"x": 3179, "y": 3344, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33309,10 +32121,7 @@ export let clues: ClueStep[] = [
         "id": 428,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2763,
-                "y": 2974
-            },
+            "coordinates": {"x": 2763, "y": 2974, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33335,10 +32144,7 @@ export let clues: ClueStep[] = [
         "id": 429,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3138,
-                "y": 2969
-            },
+            "coordinates": {"x": 3138, "y": 2969, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33361,10 +32167,7 @@ export let clues: ClueStep[] = [
         "id": 430,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2924,
-                "y": 2963
-            },
+            "coordinates": {"x": 2924, "y": 2963, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33387,10 +32190,7 @@ export let clues: ClueStep[] = [
         "id": 431,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2383,
-                "y": 3370
-            },
+            "coordinates": {"x": 2383, "y": 3370, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33413,10 +32213,7 @@ export let clues: ClueStep[] = [
         "id": 432,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3430,
-                "y": 3388
-            },
+            "coordinates": {"x": 3430, "y": 3388, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33439,10 +32236,7 @@ export let clues: ClueStep[] = [
         "id": 433,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2896,
-                "y": 3397
-            },
+            "coordinates": {"x": 2896, "y": 3397, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33465,10 +32259,7 @@ export let clues: ClueStep[] = [
         "id": 434,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2920,
-                "y": 3403
-            },
+            "coordinates": {"x": 2920, "y": 3403, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33491,10 +32282,7 @@ export let clues: ClueStep[] = [
         "id": 435,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2632,
-                "y": 3407
-            },
+            "coordinates": {"x": 2632, "y": 3407, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33517,10 +32305,7 @@ export let clues: ClueStep[] = [
         "id": 436,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2838,
-                "y": 2914
-            },
+            "coordinates": {"x": 2838, "y": 2914, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33543,10 +32328,7 @@ export let clues: ClueStep[] = [
         "id": 437,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3441,
-                "y": 3419
-            },
+            "coordinates": {"x": 3441, "y": 3419, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33569,10 +32351,7 @@ export let clues: ClueStep[] = [
         "id": 438,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2950,
-                "y": 2902
-            },
+            "coordinates": {"x": 2950, "y": 2902, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33595,10 +32374,7 @@ export let clues: ClueStep[] = [
         "id": 439,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2775,
-                "y": 2891
-            },
+            "coordinates": {"x": 2775, "y": 2891, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33621,10 +32397,7 @@ export let clues: ClueStep[] = [
         "id": 440,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2387,
-                "y": 3435
-            },
+            "coordinates": {"x": 2387, "y": 3435, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33647,10 +32420,7 @@ export let clues: ClueStep[] = [
         "id": 441,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2363,
-                "y": 3461
-            },
+            "coordinates": {"x": 2363, "y": 3461, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33673,10 +32443,7 @@ export let clues: ClueStep[] = [
         "id": 442,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2512,
-                "y": 3467
-            },
+            "coordinates": {"x": 2512, "y": 3467, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33699,10 +32466,7 @@ export let clues: ClueStep[] = [
         "id": 443,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3005,
-                "y": 3475
-            },
+            "coordinates": {"x": 3005, "y": 3475, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33725,10 +32489,7 @@ export let clues: ClueStep[] = [
         "id": 444,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3443,
-                "y": 3515
-            },
+            "coordinates": {"x": 3443, "y": 3515, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33751,10 +32512,7 @@ export let clues: ClueStep[] = [
         "id": 445,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2416,
-                "y": 3516
-            },
+            "coordinates": {"x": 2416, "y": 3516, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33777,10 +32535,7 @@ export let clues: ClueStep[] = [
         "id": 446,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2919,
-                "y": 3535
-            },
+            "coordinates": {"x": 2919, "y": 3535, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33803,10 +32558,7 @@ export let clues: ClueStep[] = [
         "id": 447,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3091,
-                "y": 3571
-            },
+            "coordinates": {"x": 3091, "y": 3571, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33829,10 +32581,7 @@ export let clues: ClueStep[] = [
         "id": 448,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3113,
-                "y": 3602
-            },
+            "coordinates": {"x": 3113, "y": 3602, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33855,10 +32604,7 @@ export let clues: ClueStep[] = [
         "id": 449,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2735,
-                "y": 3638
-            },
+            "coordinates": {"x": 2735, "y": 3638, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -33881,10 +32627,7 @@ export let clues: ClueStep[] = [
         "id": 450,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2884,
-                "y": 3667
-            },
+            "coordinates": {"x": 2884, "y": 3667, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33907,10 +32650,7 @@ export let clues: ClueStep[] = [
         "id": 451,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2848,
-                "y": 3684
-            },
+            "coordinates": {"x": 2848, "y": 3684, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33933,10 +32673,7 @@ export let clues: ClueStep[] = [
         "id": 452,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2967,
-                "y": 3689
-            },
+            "coordinates": {"x": 2967, "y": 3689, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33959,10 +32696,7 @@ export let clues: ClueStep[] = [
         "id": 453,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3305,
-                "y": 3692
-            },
+            "coordinates": {"x": 3305, "y": 3692, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -33985,10 +32719,7 @@ export let clues: ClueStep[] = [
         "id": 454,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2712,
-                "y": 3732
-            },
+            "coordinates": {"x": 2712, "y": 3732, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34011,10 +32742,7 @@ export let clues: ClueStep[] = [
         "id": 455,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3249,
-                "y": 3739
-            },
+            "coordinates": {"x": 3249, "y": 3739, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34037,10 +32765,7 @@ export let clues: ClueStep[] = [
         "id": 456,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2970,
-                "y": 3749
-            },
+            "coordinates": {"x": 2970, "y": 3749, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34063,10 +32788,7 @@ export let clues: ClueStep[] = [
         "id": 457,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3244,
-                "y": 3792
-            },
+            "coordinates": {"x": 3244, "y": 3792, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34089,10 +32811,7 @@ export let clues: ClueStep[] = [
         "id": 458,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3140,
-                "y": 3804
-            },
+            "coordinates": {"x": 3140, "y": 3804, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34115,10 +32834,7 @@ export let clues: ClueStep[] = [
         "id": 459,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3034,
-                "y": 3805
-            },
+            "coordinates": {"x": 3034, "y": 3805, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34141,10 +32857,7 @@ export let clues: ClueStep[] = [
         "id": 460,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2946,
-                "y": 3819
-            },
+            "coordinates": {"x": 2946, "y": 3819, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34167,10 +32880,7 @@ export let clues: ClueStep[] = [
         "id": 461,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3013,
-                "y": 3846
-            },
+            "coordinates": {"x": 3013, "y": 3846, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34193,10 +32903,7 @@ export let clues: ClueStep[] = [
         "id": 462,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2537,
-                "y": 3881
-            },
+            "coordinates": {"x": 2537, "y": 3881, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "medium",
@@ -34219,10 +32926,7 @@ export let clues: ClueStep[] = [
         "id": 463,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3058,
-                "y": 3884
-            },
+            "coordinates": {"x": 3058, "y": 3884, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34245,10 +32949,7 @@ export let clues: ClueStep[] = [
         "id": 464,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3290,
-                "y": 3889
-            },
+            "coordinates": {"x": 3290, "y": 3889, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34271,10 +32972,7 @@ export let clues: ClueStep[] = [
         "id": 465,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3285,
-                "y": 3943
-            },
+            "coordinates": {"x": 3285, "y": 3943, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34299,7 +32997,8 @@ export let clues: ClueStep[] = [
             "type": "simple",
             "coordinates": {
                 "x": 3159,
-                "y": 3959
+                "y": 3959,
+                "level": 0,
             },
             "answer": "Dig at the indicated spot."
         },
@@ -34323,10 +33022,7 @@ export let clues: ClueStep[] = [
         "id": 467,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3039,
-                "y": 3960
-            },
+            "coordinates": {"x": 3039, "y": 3960, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34349,10 +33045,7 @@ export let clues: ClueStep[] = [
         "id": 468,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 2987,
-                "y": 3963
-            },
+            "coordinates": {"x": 2987, "y": 3963, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",
@@ -34375,10 +33068,7 @@ export let clues: ClueStep[] = [
         "id": 469,
         "solution": {
             "type": "simple",
-            "coordinates": {
-                "x": 3189,
-                "y": 3963
-            },
+            "coordinates": {"x": 3189, "y": 3963, "level": 0},
             "answer": "Dig at the indicated spot."
         },
         "tier": "hard",

@@ -134,7 +134,7 @@ class TreeNodeEdit extends Widget<{
                     }
 
                     props.named("Direction",
-                        new TemplateStringEdit(scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot)))
+                        new TemplateStringEdit({resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot))})
                             .on("changed", (v) => {
                                 p.directions = v
                                 //this.changed(this.value) // TODO:

@@ -1,4 +1,4 @@
-import {Box, MapCoordinate, Vector2} from "../coordinates";
+import {MapCoordinate, MapRectangle} from "../coordinates";
 import {indirected, method_base, resolved} from "../methods";
 import {area_pulse, Pulse} from "./scans";
 import {Modal} from "../../ui/widgets/modal";
@@ -7,15 +7,17 @@ import {util} from "../../util/util";
 import {Path} from "../pathing";
 import * as lodash from "lodash";
 import {TextRendering} from "../../ui/TextRendering";
+import {Rectangle, Vector2} from "../../util/math";
 
 export namespace ScanTree {
 
     import movement_state = Path.movement_state;
 
-    export function dig_area(spot: MapCoordinate): Box {
+    export function dig_area(spot: MapCoordinate): MapRectangle {
         return {
             topleft: {x: spot.x - 1, y: spot.y + 1},
             botright: {x: spot.x + 1, y: spot.y - 1},
+            level: spot.level
         }
     }
 
@@ -23,9 +25,8 @@ export namespace ScanTree {
     import render_digspot = TextRendering.render_digspot;
 
     export type ScanSpot = {
-        name: string,
-        area?: Box,
-        level: number,
+        name: string
+        area: MapRectangle
     }
 
     export type tree = method_base & {
@@ -144,8 +145,6 @@ export namespace ScanTree {
 
             // Propagate movement state to paths/children
             {
-                console.log("Debug")
-                console.log(node.paths)
                 // Find the path to here, and propagate previous state to it.
                 let to_here = node.paths.find(p => p.spot == null)
 
@@ -329,7 +328,7 @@ export namespace ScanTree {
     }
 
     export function narrow_down(candidates: MapCoordinate[], decision: ScanDecision, range: number): MapCoordinate[] {
-        return candidates.filter((s) => area_pulse(s, decision.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
+        return candidates.filter((s) => area_pulse(s, decision.area.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
     }
 
     export function template_resolvers(node: ScanTree.augmented_decision_tree, spot?: MapCoordinate): Record<string, (args: string[]) => string> {

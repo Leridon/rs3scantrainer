@@ -14,7 +14,7 @@ export default class SimpleClickInteraction extends LayerInteraction<ActiveLayer
 
     private _maphooks: leaflet.LeafletEventHandlerFnMap = {
         "click": (e) => {
-            this.handlers.click({x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat)})
+            this.handlers.click({x: Math.round(e.latlng.lng), y: Math.round(e.latlng.lat), level: this.layer.getMap().floor})
         }
     }
 

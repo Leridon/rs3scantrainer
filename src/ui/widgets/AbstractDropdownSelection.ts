@@ -4,6 +4,7 @@ import {createPopper} from '@popperjs/core';
 export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget<{
     "selection_changed": T
 }> {
+    protected input_container: Widget
     private input: Widget
 
     protected dropdown: Widget = null
@@ -12,17 +13,28 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
     private value: T = null
 
-    protected constructor(private options: AbstractDropdownSelection.options<T>, inital_item: T) {
+    protected constructor(protected options: AbstractDropdownSelection.options<T>, inital_item: T) {
         super($("<div class='nisl-selectdropdown'>"));
 
         this.value = inital_item
 
-        this.input = this.constructInput().appendTo(this)
+        this.input_container = c("<div></div>").appendTo(this)
+
+        this.input = this.constructInput()
 
         this.setDropdownItems([inital_item])
     }
 
-    protected abstract constructInput(): Widget
+    protected constructInput(): Widget {
+        return c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
+            .tapRaw((r) => r
+                .on("click", (e) => {
+                    this.openDropdown()
+                })
+            )
+            .append(this.construct(this.value))
+            .appendTo(this.input_container.empty());
+    }
 
     private construct(v: T): Widget {
         return this.options.type_class?.toHTML
@@ -46,6 +58,8 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             this.dropdown.remove()
             this.dropdown = null
         }
+
+        this.constructInput()
     }
 
     _selectableItems: T[] = []
@@ -53,7 +67,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
     setDropdownItems(items: T[]) {
         this._selectableItems = items
 
-        if(this.dropdown) {
+        if (this.dropdown) {
             this.fillDropdown()
 
             if (this._selectableItems.find(i => i == this.highlighted_value) != null) {
@@ -64,8 +78,10 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
     private fillDropdown() {
 
+        this.dropdown.empty()
+
         if (this._selectableItems.length == 0 && !this.options.can_be_null) {
-            c(`<div class="nisl-selectdropdown-options-none">No options available</div>`).appendTo(this.dropdown)
+            c(`<div class="nisl-selectdropdown-options-none">No selection available</div>`).appendTo(this.dropdown)
         }
 
         this.dropdown_rows = this._selectableItems.map((i) =>
@@ -91,28 +107,12 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         if (this.dropdown) return
 
         this.dropdown = c("<div class='nisl-selectdropdown-options' style='z-index: 9999999999' tabindex='0'>").appendTo(AbstractDropdownSelection.getDropdownPane())
-            .tapRaw(r => r
-                .on("keydown", (e) => {
-                    if (e.key == "Enter") this.selectValue(this.highlighted_value)
-
-                    if (e.key == "ArrowDown") {
-                        this.setHighlight(this._selectableItems[Math.min(this._selectableItems.length - 1, this._selectableItems.indexOf(this.highlighted_value) + 1)])
-                    }
-
-                    if (e.key == "ArrowUp") {
-                        this.setHighlight(this._selectableItems[Math.max(0, this._selectableItems.indexOf(this.highlighted_value) - 1)])
-                    }
-                })
-                .on("focusout blur", (e) => {
-                    this.hideDropdown()
-                })
-            )
 
         this.fillDropdown()
 
         this.setHighlight(this.value)
 
-        let instance = createPopper(this.input.container.get()[0], this.dropdown.container.get()[0], {
+        let instance = createPopper(this.input_container.container.get()[0], this.dropdown.container.get()[0], {
             placement: "bottom-start",
             modifiers: [
                 {
@@ -138,7 +138,33 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             ]
         })
 
-        this.dropdown.container.focus() // The deprecation warning here is for a different overload
+        this.onOpen().tapRaw(r => r
+            .attr("tabindex", 0)
+            .on("keydown", (e) => {
+                if (e.key == "Enter") this.selectValue(this.highlighted_value)
+
+                if (e.key == "ArrowDown") {
+                    this.setHighlight(this._selectableItems[Math.min(this._selectableItems.length - 1, this._selectableItems.indexOf(this.highlighted_value) + 1)])
+                }
+
+                if (e.key == "ArrowUp") {
+                    this.setHighlight(this._selectableItems[Math.max(0, this._selectableItems.indexOf(this.highlighted_value) - 1)])
+                }
+            })
+            .on("focusout blur", (e) => {
+                this.hideDropdown()
+            })
+            .focus() // The deprecation warning here is for a different overload
+        )
+    }
+
+    /**
+     * Is called whenever the dropdown is opened. Subclasses can use this to replace the original input by a text input for example.
+     *
+     * @return Must return the focus handler, i.e. the element that receives key events. The dropdown by default.
+     */
+    protected onOpen(): Widget {
+        return this.dropdown
     }
 
     setValue(v: T): this {
@@ -147,6 +173,8 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         this.setHighlight(v)
 
         this.hideDropdown()
+
+        this.constructInput()
 
         this.input.empty().append(this.construct(v))
 

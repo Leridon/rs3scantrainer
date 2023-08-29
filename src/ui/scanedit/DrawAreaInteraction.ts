@@ -1,5 +1,5 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
-import {Box, MapCoordinate} from "../../model/coordinates";
+import {MapCoordinate, MapRectangle} from "../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
@@ -17,13 +17,13 @@ class DrawTopControl extends TopControl {
 
 export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
     events = new TypedEmitter<{
-        "changed": Box,
-        "done": Box
-        "cancelled": Box
+        "changed": MapRectangle,
+        "done": MapRectangle
+        "cancelled": MapRectangle
     }>()
 
     dragstart: MapCoordinate = null
-    last_area: Box = null
+    last_area: MapRectangle = null
 
     constructor(layer: ScanEditLayer) {
         super(layer);
@@ -61,7 +61,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
 
                 this.dragstart = this.layer.getMap().tileFromMouseEvent(e)
 
-                this.last_area = {topleft: this.dragstart, botright: this.layer.getMap().tileFromMouseEvent(e)}
+                this.last_area = {topleft: this.dragstart, botright: this.layer.getMap().tileFromMouseEvent(e), level: this.dragstart.level}
 
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }
@@ -82,7 +82,8 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
                         botright: {
                             x: Math.max(this.dragstart.x, now.x),
                             y: Math.min(this.dragstart.y, now.y),
-                        }
+                        },
+                        level: this.dragstart.level
                     }
 
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))

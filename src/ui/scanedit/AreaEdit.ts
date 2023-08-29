@@ -32,7 +32,7 @@ export default class AreaEdit extends Widget<{
 
         this.add_button = new LightButton("+ Add area")
             .on("click", () => {
-                let w = this.addWidget({name: "New", level: 0, area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}}})
+                let w = this.addWidget({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}, level: 0}})
                     .toggleEdit()
 
                 w.startRedraw().events.on("done", () => {

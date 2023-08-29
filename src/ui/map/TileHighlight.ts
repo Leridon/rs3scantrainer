@@ -1,5 +1,6 @@
 import * as leaflet from "leaflet"
-import {tilePolygon, Vector2} from "../../model/coordinates";
+import {Vector2} from "../../util/math";
+import {tilePolygon} from "./polygon_helpers";
 
 export default class TileHighlight extends leaflet.FeatureGroup {
     _polygon: leaflet.Polygon = null

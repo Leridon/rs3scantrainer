@@ -29,6 +29,8 @@ import {Teleports} from "../../model/teleports";
 import {teleport_data} from "../../data/teleport_data";
 import Checkbox from "../widgets/Checkbox";
 import {boxPolygon, tilePolygon} from "../map/polygon_helpers";
+import {util} from "../../util/util";
+import index = util.index;
 
 class WarningWidget extends Widget {
     constructor(text: string) {
@@ -258,13 +260,9 @@ class StepEditWidget extends Widget<{
             //      - Teleport
         }
 
-        // TODO: Teleport selection/override
         // TODO: Fix scroll events passing through
         // TODO: Add analytics
-        // TODO: Start/End state
         // TODO: Action select
-        // TODO: Make Show JSON/Export/Import functional
-
 
         this.updatePreview()
     }
@@ -535,13 +533,15 @@ class ControlWidget extends Widget<{
     async update() {
         this.augmented = await Path.augment(this.value)
 
-        this.step_widgets.forEach((w) => w.removePreview())
+        this.resetPreviewLayer()
+
         this.step_widgets = []
         this.steps_collapsible.content_container.empty()
 
         if (this.augmented.steps.length == 0) {
             this.steps_collapsible.content_container.text("No steps yet.")
         }
+
 
         for (let step of this.augmented.steps) {
             this.step_widgets.push(
@@ -572,16 +572,24 @@ class ControlWidget extends Widget<{
             )
         }
 
+
         if (this.value.target) boxPolygon(this.value.target)
             .setStyle({
                 color: "yellow"
             })
             .addTo(this._preview_layer)
 
-
         if (this.value?.start_state?.position?.tile) tilePolygon(this.value.start_state.position.tile)
             .setStyle({
                 color: "red"
+            })
+            .addTo(this._preview_layer)
+
+        this.augmented.post_state?.position?.tile
+
+        if (this.augmented.post_state?.position?.tile) tilePolygon(this.augmented.post_state.position.tile)
+            .setStyle({
+                color: "orange"
             })
             .addTo(this._preview_layer)
     }

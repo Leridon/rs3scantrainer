@@ -453,20 +453,20 @@ export namespace Path {
                 case "surge":
                     return `{{surge}} ${dir}`;
                 case "dive":
-                    return "{{dive}} ${dir}"
+                    return `{{dive}} ${dir}`
                 case "escape":
-                    return "{{escape}} ${dir}"
+                    return `{{escape}} ${dir}`
                 case "barge":
-                    return "{{barge}} ${dir}"
+                    return `{{barge}} ${dir}`
             }
         } else if (step.type === "run") {
             return `Run ${step.waypoints.length} tiles`
         } else if (step.type === "teleport") {
             let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
 
-            if (teleport.variant && teleport.variant.name) return `Teleport to ${teleport.variant.name}`
-            else if (teleport.sub.name) return `Teleport to ${teleport.sub.name}`
-            else return `Teleport with ${teleport.group.name}`
+            if (teleport.variant && teleport.variant.name) return `{{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.variant.name}`
+            else if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to  to ${teleport.sub.name}`
+            else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
         } else if (step.type === "interaction") {
             return "Use entrance/shortcut"; // TODO:
         } else if (step.type === "redclick") {

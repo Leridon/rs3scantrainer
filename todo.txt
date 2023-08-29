@@ -1,10 +1,5 @@
 Immediate next:
-- Searchable Dropdown for teleports
 - Dropdown Select + Icons for interaction types
-- Display analytics section
-    - Total time
-    - More? If not, maye display elsewhere
-
 - Display ticks, warnings and errors in path property
 
 - Restyle step header to include icon

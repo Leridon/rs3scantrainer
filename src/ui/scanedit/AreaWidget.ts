@@ -108,11 +108,13 @@ export default class AreaWidget extends Widget<{
             .appendTo(this.main_row.row)
 
         // TODO: This entire thing is pretty hacky and needs a cleanup
+
         this.main_row.info_buttons = new ToggleGroup(Pulse.all.map((c) => {
             return new LightButton(Pulse.meta(c).short)
                 .css2({
                     "padding-left": "0.5em",
                     "padding-right": "0.5em",
+                    "flex-grow": 1
                 })
                 .tooltip(Pulse.meta(c).pretty)
                 .appendTo(this.main_row.row)

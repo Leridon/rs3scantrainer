@@ -72,6 +72,13 @@ export namespace Vector2 {
     export function toPoint(c: Vector2): leaflet.Point {
         return leaflet.point(c.x, c.y)
     }
+
+    export function copy(c: Vector2): Vector2 {
+        return {
+            x: c.x,
+            y: c.y
+        }
+    }
 }
 
 

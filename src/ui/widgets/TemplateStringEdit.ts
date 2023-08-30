@@ -40,8 +40,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
         if (this.options.generator) {
             SmallImageButton.new("assets/icons/regenerate.png")
                 .on("click", () => {
-                    this.value = this.options.generator()
-                    this.renderPreview()
+                    this.setValue(this.options.generator())
                     this.changed(this.value)
                 }).appendTo(this.input_row)
         }

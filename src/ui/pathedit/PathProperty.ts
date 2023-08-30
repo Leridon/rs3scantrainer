@@ -4,12 +4,17 @@ import AbstractEditWidget from "../widgets/AbstractEditWidget";
 import {GameMapControl} from "../map/map";
 import Widget from "../widgets/Widget";
 import {PathingGraphics} from "../map/path_graphics";
+import collect_issues = Path.collect_issues;
+import {IssueWidget} from "../scanedit/PathEditLayer";
+import MovementStateView from "./MovementStateView";
+import {scantrainer} from "../../application";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw, {
     "loaded_to_editor": null,
     "editor_closed": null
 }> {
     summary: Widget
+    issue_container: Widget
     load_button: LightButton
 
     private loaded: boolean = false
@@ -20,8 +25,9 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
         super()
 
         this.summary = c("<div>").appendTo(this)
+        this.issue_container = c("<div>").appendTo(this)
 
-        this.load_button = new LightButton("Load to editor")
+        this.load_button = new LightButton("Edit")
             .css("width", "100%")
             .setEnabled(false).appendTo(this)
             .on("click", async () => {
@@ -54,7 +60,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
         if (this.loaded) {
             this.load_button.setText("Loaded to editor, edit on map")
         } else {
-            this.load_button.setText("Load to editor")
+            this.load_button.setText("Edit")
         }
 
         this.augmented = await Path.augment(this.value)
@@ -66,12 +72,27 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
         }
 
         this.summary.empty()
-        for (let i = 0; i < this.value.steps.length; i++) {
-            if (i != 0) c("<span> - </span>").appendTo(this.summary)
 
-            PathingGraphics.getIcon(this.value.steps[i]).appendTo(this.summary)
+        {
+            c("<span class='nisl-textlink'></span>").text(`T${this.augmented.pre_state.tick}`).appendTo(this.summary)
+                .addTippy(new MovementStateView(this.augmented.pre_state))
+            c("<span>&nbsp;-&nbsp;</span>").appendTo(this.summary)
+            c("<span class='nisl-textlink'></span>").text(`T${this.augmented.post_state.tick}`).appendTo(this.summary)
+                .addTippy(new MovementStateView(this.augmented.post_state))
+            c(`<span>:&nbsp;</span>`).appendTo(this.summary)
+            c(`<span>${scantrainer.template_resolver.resolve(this.value.steps.map(PathingGraphics.templateString).join(" - "))}</span>`).appendTo(this.summary)
         }
-
         if (this.value.steps.length == 0) this.summary.text("Empty path")
+
+        this.issue_container.empty()
+
+        let issues = collect_issues(this.augmented)
+        let errors = issues.filter(i => i.level == 0)
+        let warnings = issues.filter(i => i.level == 1)
+
+        console.log(`Issues: ${issues.length}`)
+
+        if (errors.length > 0) new IssueWidget({level: 0, message: `${errors.length} errors`}).appendTo(this.issue_container)
+        if (warnings.length > 0) new IssueWidget({level: 1, message: `${warnings.length} warninings`}).appendTo(this.issue_container)
     }
 }

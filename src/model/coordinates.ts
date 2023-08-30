@@ -51,6 +51,10 @@ export namespace MapCoordinate {
     export function lift(v: Vector2, level: number): MapCoordinate {
         return {...v, level: level}
     }
+
+    export function toString(coordinate: MapCoordinate): string {
+        return `${coordinate.x}|${coordinate.y}|${coordinate.level}`
+    }
 }
 
 export namespace MapRectangle {

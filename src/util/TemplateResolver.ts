@@ -22,9 +22,11 @@ export default class TemplateResolver {
     }
 
 
-    resolve(template: string): string {
+    resolve(template: string, max_depth: number = 20): string {
         // TODO Critical: The input string needs to be html-escaped since it is user-provided text and can be shared across users!
         //                => Potential for Script-Injection !!!
+
+        if (max_depth <= 0) return template
 
         let begin = template.indexOf("{{")
         let end = template.indexOf("}}")
@@ -40,7 +42,7 @@ export default class TemplateResolver {
 
         let next = template.slice(0, begin) + replacement + template.slice(end + 2)
 
-        return this.resolve(next)
+        return this.resolve(next, max_depth - 1)
     }
 
     copy(): TemplateResolver {

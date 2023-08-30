@@ -6,6 +6,7 @@ import {ScanEditLayer} from "../map/layers/ScanLayer";
 import * as lodash from "lodash"
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import TopControl from "../map/TopControl";
+import {Vector2} from "../../util/math";
 
 class DrawTopControl extends TopControl {
     constructor(private parent: DrawAreaInteraction) {
@@ -61,7 +62,11 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
 
                 this.dragstart = this.layer.getMap().tileFromMouseEvent(e)
 
-                this.last_area = {topleft: this.dragstart, botright: this.layer.getMap().tileFromMouseEvent(e), level: this.dragstart.level}
+                this.last_area = {
+                    topleft: Vector2.copy(this.dragstart),
+                    botright: Vector2.copy(this.layer.getMap().tileFromMouseEvent(e)),
+                    level: this.dragstart.level
+                }
 
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }

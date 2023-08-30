@@ -134,7 +134,19 @@ class TreeNodeEdit extends Widget<{
                     }
 
                     props.named("Direction",
-                        new TemplateStringEdit({resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot))})
+                        new TemplateStringEdit({
+                            resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot)),
+                            generator: () => {
+                                let path_short =
+                                    p.path.steps.length > 0
+                                        ? p.path.steps.map(PathingGraphics.templateString).join(" - ")
+                                        : "Go"
+
+                                let target = "{{target}}"
+
+                                return path_short + " to " + target
+                            }
+                        })
                             .on("changed", (v) => {
                                 p.directions = v
                                 //this.changed(this.value) // TODO:

@@ -1,6 +1,8 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as events from "events";
 import {Browser} from "leaflet";
+import tippy from 'tippy.js';
+
 
 export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
     constructor(public container: JQuery = $("<div>")) {
@@ -86,6 +88,16 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
     tapRaw(f: (j: JQuery) => any): this {
         f(this.container)
+
+        return this
+    }
+
+    addTippy(tooltip: Widget): this {
+        tippy(this.container.get()[0], {
+            content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(tooltip).container.get()[0],
+            arrow: true,
+            delay: [0, 0],
+        })
 
         return this
     }

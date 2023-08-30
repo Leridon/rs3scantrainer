@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet"
 import {Path} from "../../model/pathing";
 import {MapCoordinate} from "../../model/coordinates";
-import {MovementAbilities} from "../../model/movement";
+import {direction, MovementAbilities} from "../../model/movement";
 import Widget from "../widgets/Widget";
 import {OpacityGroup} from "./layers/OpacityLayer";
 import {Vector2} from "../../util/math";
@@ -40,6 +40,26 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
 }
 
 export namespace PathingGraphics {
+
+    import InteractionType = Path.InteractionType;
+
+    export function templateString(step: Path.step): string {
+        switch (step.type) {
+            case "orientation":
+                return `Face ${direction.toString(step.direction)}`
+            case "run":
+                return `{{icon run}} ${step.waypoints.length - 1} tiles`
+            case "ability":
+                return `{{${step.ability}}}`
+            case "teleport":
+                return `{{teleport ${step.id.group} ${step.id.sub}}}`
+            case "powerburst":
+                return `{{icon accel}}`
+            case "interaction":
+            case "redclick":
+                return `{{icon ${InteractionType.meta(step.how).short_icon}}}`
+        }
+    }
 
     export function getIcon(step: Path.step): Widget {
         switch (step.type) {

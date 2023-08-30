@@ -442,8 +442,8 @@ video {
     margin: 3px;
     text-align: center;
     display: inline-block;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     background-color: #FFFFFF19;
     border-radius: 5px;
     cursor: pointer;
@@ -575,14 +575,19 @@ video {
 
 .medium-image-button {
     cursor: pointer;
-    width: 30px;
-    height: 30px;
-    margin: 3px;
+    width: 25px;
+    height: 25px;
+    margin: 2px;
+}
+
+.medium-image-button:not(.enabled) {
+    cursor: not-allowed;
+    filter: brightness(50%);
 }
 
 .medium-image-button > img {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     object-fit: contain;
 }
 
@@ -628,6 +633,7 @@ video {
     margin: 2px 3px;
     text-wrap: normal;
 }
+
 .ctr-step-issue[level="1"] {
     background-color: #42381f;
     color: #fce2a1;
@@ -677,6 +683,64 @@ video {
     line-height: 30px;
     font-weight: bold;
     font-size: 12pt;
+}
+
+/* Cooldown Container */
+
+.ctr-movement-state-view-cooldowns {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+/* Button Container */
+
+.ctr-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ctr-button-container > * {
+    flex-grow: 1;
+    width: calc(33% - 4px);
+    margin: 2px;
+}
+
+/* Buff/Cooldown View */
+.ctr-buff-view {
+    margin: 2px;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border: 1px solid transparent;
+}
+
+.ctr-buff-view > * {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.ctr-buff-view.ctr-buff-view-cooldown > img {
+    filter: brightness(50%);
+}
+
+.ctr-buff-view > div {
+    line-height: 30px;
+    font-weight: bold;
+    color: rgb(206, 213, 135);
+    text-shadow: 1px 1px 0 #000;
+    text-align: center;
+}
+
+.ctr-buff-view.ctr-buff-view-buff {
+    border: 1px solid green;
+}
+
+.ctr-buff-view.ctr-buff-view-debuff {
+    border: 1px solid red;
 }
 
 /* Classes specific to the clue trainer */

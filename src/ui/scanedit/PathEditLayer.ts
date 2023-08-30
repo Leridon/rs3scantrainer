@@ -31,8 +31,9 @@ import Checkbox from "../widgets/Checkbox";
 import {boxPolygon, tilePolygon} from "../map/polygon_helpers";
 import movement_state = Path.movement_state;
 import issue = Path.issue;
+import MovementStateView from "../pathedit/MovementStateView";
 
-class IssueWidget extends Widget {
+export class IssueWidget extends Widget {
     constructor(issue: issue) {
         super($(`<div class='ctr-step-issue'><div class="ctr-step-issue-icon"></div> ${issue.message}</div>`).attr("level", issue.level.toString()));
     }
@@ -53,16 +54,21 @@ class StepEditWidget extends Widget<{
         this.on("changed", () => this.updatePreview())
         this.on("deleted", () => this.removePreview())
 
-        new Widget($("<div class='path-step-edit-header'></div>"))
-            .text(`T${value.pre_state.tick} - T${value.post_state.tick}: ${Path.title(value.raw)}`)
-            .appendTo(this)
-
         {
             let control_row = new Widget().addClass("path-step-edit-widget-control-row").appendTo(this)
 
-            let up = new Button().append($("<div><img src='assets/nis/arrow_up.png' title='Up'> Move up</div>")).appendTo(control_row)
+            let title = c("<div style='font-weight: bold;'></div>").appendTo(control_row)
+
+            c("<span class='nisl-textlink'></span>").text(`T${value.pre_state.tick}`).appendTo(title)
+                .addTippy(new MovementStateView(value.pre_state))
+            c("<span>&nbsp;-&nbsp;</span>").appendTo(title)
+            c("<span class='nisl-textlink'></span>").text(`T${value.post_state.tick}`).appendTo(title)
+                .addTippy(new MovementStateView(value.post_state))
+            c(`<span>: ${Path.title(value.raw)} </span>`).appendTo(title)
+
+            let up = new Button().append($("<div><img src='assets/nis/arrow_up.png' title='Up'> Up</div>")).appendTo(control_row)
                 .on("click", () => this.emit("up", this.value.raw))
-            let down = new Button().append($("<div><img src='assets/nis/arrow_down.png' title='Down'> Move down</div>")).appendTo(control_row)
+            let down = new Button().append($("<div><img src='assets/nis/arrow_down.png' title='Down'> Down</div>")).appendTo(control_row)
                 .on("click", () => this.emit("down", this.value.raw))
 
             new Button().append($("<div><img src='assets/icons/delete.png' title='Delete'> Remove</div>")).appendTo(control_row)
@@ -77,9 +83,7 @@ class StepEditWidget extends Widget<{
 
         let props = new Properties().appendTo(this)
 
-        props.header("Description")
-
-        props.row(
+        props.named("Detail",
             new TemplateStringEdit({
                 resolver: scantrainer.template_resolver,
                 generator: () => Path.auto_description(this.value.raw) // TODO
@@ -297,7 +301,9 @@ class ControlWidget extends Widget<{
 
     steps_collapsible: Collapsible
     step_widgets: StepEditWidget[] = []
+
     add_buttons_container: Widget
+    issue_container: Widget
 
     control: CustomControl
 
@@ -319,31 +325,40 @@ class ControlWidget extends Widget<{
             let controls_collapsible = new Collapsible("Controls").appendTo(this)
             let props = new Properties().appendTo(controls_collapsible.content_container)
 
-            this.add_buttons_container = c("<div style='display: flex; flex-wrap: wrap'>")
+            this.issue_container = c()
+            this.add_buttons_container = c("<div style='display: flex; flex-wrap: wrap; justify-content: center'>")
 
-            props.named("Add Step", this.add_buttons_container)
-            props.row(new LightButton("Autocomplete").tooltip("Hopefully coming soon").setEnabled(false))
-            props.row(new LightButton("Show JSON")
-                .on("click", () => ExportStringModal.do(JSON.stringify(this.value, null, 2))))
-            props.row(new LightButton("Export")
+            props.row(this.issue_container)
+            props.header("Continue with...")
+            props.row(this.add_buttons_container)
+
+            let control_container = c("<div class='ctr-button-container'></div>")
+
+            props.row(control_container)
+
+            new LightButton("Show JSON")
+                .on("click", () => ExportStringModal.do(JSON.stringify(this.value, null, 2)))
+                .appendTo(control_container)
+            new LightButton("Export")
                 .on("click", () => ExportStringModal.do(export_string("path", 0, this.value)))
-            )
-            props.row(new LightButton("Import")
+                .appendTo(control_container)
+            new LightButton("Import")
                 .on("click", async () => {
                     this.value = await ImportStringModal.do((s) => import_string<Path.raw>("path", 0, s))
-                    await this.update()
-                }))
+                    await this.render()
+                })
+                .appendTo(control_container)
 
-            props.row(new LightButton("Save").on("click", () => {
+            new LightButton("Save").on("click", () => {
                 this.emit("saved", this.value)
-            }))
-            props.row(new LightButton("Save and Close").on("click", () => {
+            }).appendTo(control_container)
+            new LightButton("Save & Close").on("click", () => {
                 this.emit("saved", this.value)
                 this.emit("closed", null)
-            }))
-            props.row(new LightButton("Close").on("click", () => {
+            }).appendTo(control_container)
+            new LightButton("Close").on("click", () => {
                 this.emit("closed", null)
-            }))
+            }).appendTo(control_container)
         }
 
         this.container.on("click", (e) => e.stopPropagation())
@@ -352,19 +367,28 @@ class ControlWidget extends Widget<{
 
         this.resetPreviewLayer()
 
-        this.update()
+        this.render()
     }
 
-    async update() {
+    private async render() {
         this.augmented = await Path.augment(this.value)
 
         this.resetPreviewLayer()
+
+        this.issue_container.empty()
+
+        for (let issue of this.augmented.issues) {
+            new IssueWidget(issue).appendTo(this.issue_container)
+        }
 
         this.step_widgets = []
         this.steps_collapsible.content_container.empty()
 
         if (this.augmented.steps.length == 0) {
-            this.steps_collapsible.content_container.text("No steps yet.")
+            c("<div style='text-align: center'></div>").appendTo(this.steps_collapsible.content_container)
+                .append(c("<span>No steps yet.</span>"))
+                .append(c("<span class='nisl-textlink'>&nbsp;Hover to show state.</span>")
+                    .addTippy(new MovementStateView(this.augmented.pre_state)))
         }
 
         // Render add step buttons
@@ -385,7 +409,7 @@ class ControlWidget extends Widget<{
                                 to: res.tile
                             }))
 
-                            await this.update()
+                            await this.render()
 
                             return
                         }
@@ -395,15 +419,15 @@ class ControlWidget extends Widget<{
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(Path.auto_describe(s))
-                        this.update()
+                        this.render()
                     })
                     interaction.activate()
                 })
 
             let surge_cooldown = movement_state.surge_cooldown(this.augmented.post_state)
 
-            if(surge_cooldown > 0) {
-                surge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(surge_cooldown+"t"))
+            if (surge_cooldown > 0) {
+                surge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(surge_cooldown + "t"))
             }
 
             let escape_button = new MediumImageButton('assets/icons/escape.png').appendTo(this.add_buttons_container)
@@ -421,7 +445,7 @@ class ControlWidget extends Widget<{
                                 to: res.tile
                             }))
 
-                            await this.update()
+                            await this.render()
 
                             return
                         }
@@ -432,15 +456,15 @@ class ControlWidget extends Widget<{
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(Path.auto_describe(s))
-                        this.update()
+                        this.render()
                     })
                     interaction.activate()
                 })
 
             let escape_cooldown = movement_state.escape_cooldown(this.augmented.post_state)
 
-            if(escape_cooldown > 0) {
-                escape_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(escape_cooldown+"t"))
+            if (escape_cooldown > 0) {
+                escape_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(escape_cooldown + "t"))
             }
 
             let dive_button = new MediumImageButton('assets/icons/dive.png').appendTo(this.add_buttons_container)
@@ -451,15 +475,15 @@ class ControlWidget extends Widget<{
 
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(Path.auto_describe(s))
-                        this.update()
+                        this.render()
                     })
                     interaction.activate()
                 })
 
             let dive_cooldown = movement_state.dive_cooldown(this.augmented.post_state)
 
-            if(dive_cooldown > 0) {
-                dive_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(dive_cooldown+"t"))
+            if (dive_cooldown > 0) {
+                dive_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(dive_cooldown + "t"))
             }
 
             let barge_button = new MediumImageButton('assets/icons/barge.png').appendTo(this.add_buttons_container)
@@ -468,15 +492,15 @@ class ControlWidget extends Widget<{
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(Path.auto_describe(s))
-                        this.update()
+                        this.render()
                     })
                     interaction.activate()
                 })
 
             let barge_cooldown = movement_state.barge_cooldown(this.augmented.post_state)
 
-            if(barge_cooldown > 0) {
-                barge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(barge_cooldown+"t"))
+            if (barge_cooldown > 0) {
+                barge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(barge_cooldown + "t"))
             }
 
             new MediumImageButton('assets/icons/run.png').appendTo(this.add_buttons_container)
@@ -485,7 +509,7 @@ class ControlWidget extends Widget<{
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.steps.push(Path.auto_describe(s))
-                        this.update()
+                        this.render()
                     })
                     interaction.activate()
                 })
@@ -501,7 +525,7 @@ class ControlWidget extends Widget<{
                             }
                         }))
 
-                        this.update()
+                        this.render()
                     }
                 )
             new MediumImageButton('assets/icons/redclick.png').appendTo(this.add_buttons_container)
@@ -515,7 +539,7 @@ class ControlWidget extends Widget<{
                                 how: Path.InteractionType.GENERIC
                             }))
 
-                            this.update()
+                            this.render()
                         })).activate()
                 })
 
@@ -528,7 +552,7 @@ class ControlWidget extends Widget<{
                             where: this.augmented.post_state.position.tile
                         }))
 
-                        this.update()
+                        this.render()
                     } else {
                         new SelectTileInteraction(this.parent.map.getActiveLayer())
                             .tapEvents((e) => e.on("selected", (t) => {
@@ -538,15 +562,15 @@ class ControlWidget extends Widget<{
                                     where: t
                                 }))
 
-                                this.update()
+                                this.render()
                             })).activate()
                     }
                 })
 
             let accel_cooldown = Math.max(this.augmented.post_state.acceleration_activation_tick + 120 - this.augmented.post_state.tick, 0)
 
-            if(accel_cooldown > 0) {
-                accel_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(accel_cooldown+"t"))
+            if (accel_cooldown > 0) {
+                accel_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(accel_cooldown + "t"))
             }
 
             new MediumImageButton('assets/icons/shortcut.png').appendTo(this.add_buttons_container)
@@ -566,7 +590,7 @@ class ControlWidget extends Widget<{
                                 how: Path.InteractionType.GENERIC
                             }))
 
-                            this.update()
+                            this.render()
                         })).activate()
                 })
 
@@ -578,8 +602,12 @@ class ControlWidget extends Widget<{
                         direction: 1
                     }))
 
-                    this.update()
+                    this.render()
                 })
+
+            new MediumImageButton('assets/icons/regenerate.png').appendTo(this.add_buttons_container)
+                .tooltip("Autocomplete - Hopefully coming soon")
+                .setEnabled(false)
         }
 
         // Render edit widgets for indiviual steps
@@ -588,7 +616,7 @@ class ControlWidget extends Widget<{
                 new StepEditWidget(this, step).appendTo(this.steps_collapsible.content_container)
                     .on("deleted", (step) => {
                         this.value.steps.splice(this.value.steps.indexOf(step), 1)
-                        this.update()
+                        this.render()
                     })
                     .on("up", (step) => {
                         let index = this.value.steps.indexOf(step)
@@ -596,7 +624,7 @@ class ControlWidget extends Widget<{
 
                         if (index != to_index) {
                             this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
-                            this.update()
+                            this.render()
                         }
                     })
                     .on("down", (step) => {
@@ -605,10 +633,10 @@ class ControlWidget extends Widget<{
 
                         if (index != to_index) {
                             this.value.steps.splice(to_index, 0, this.value.steps.splice(index, 1)[0])
-                            this.update()
+                            this.render()
                         }
                     })
-                    .on("changed", () => this.update())
+                    .on("changed", () => this.render())
             )
         }
 

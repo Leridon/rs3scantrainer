@@ -32,14 +32,12 @@ export namespace Path {
          */
     }
 
-    export type interaction_type =
-        "generic" | "chop" | "talk"
-
-    export namespace interaction_type {
-        export function meta(type: InteractionType): { icon_url: string, description: string } {
+    export namespace InteractionType {
+        export function meta(type: InteractionType): { icon_url: string, description: string, short_icon: string } {
             return {
                 icon_url: "assets/icons/accel.png",
-                description: capitalize(type.toString())
+                description: capitalize(type.toString()),
+                short_icon: "accel"
             }
             // TODO: Add real data
         }
@@ -157,6 +155,7 @@ export namespace Path {
         post_state: movement_state,
         raw: raw,
         steps: augmented_step[],
+        issues: issue[]
     }
 
     export type augmented_step = {
@@ -164,7 +163,7 @@ export namespace Path {
         post_state: movement_state,
         raw: Path.step,
         section?: number,
-        issues?: issue[] // 0 = error, 1 = warning
+        issues: issue[] // 0 = error, 1 = warning
     }
 
     export type issue_level = 0 | 1
@@ -175,7 +174,6 @@ export namespace Path {
 
         let start_state = path.start_state ? lodash.cloneDeep(path.start_state) : movement_state.start()
         let state: movement_state = lodash.cloneDeep(start_state)
-
 
         // null positions are a pain, replace with position with unknown tile and direction
         state.position ||= {tile: null, direction: null}
@@ -433,22 +431,25 @@ export namespace Path {
                     break;
             }
 
-            if ((i == path.steps.length - 1 && path.target && (!state.position.tile || !MapRectangle.contains(path.target, state.position.tile)))) {
-                augmented.issues.push({level: 0, message: "Path does not end in target area"})
-            }
 
             augmented.post_state = lodash.cloneDeep(state)
 
             augmented_steps.push(augmented)
         }
 
-        // TODO: Sort issues into warning and errors
+        let post_state = index(augmented_steps, -1)?.post_state || start_state
+        let path_issues: issue[] = []
+
+        if ((path.target && (!state.position.tile || !MapRectangle.contains(path.target, state.position.tile)))) {
+            path_issues.push({level: 0, message: "Path does not end in target area"})
+        }
 
         return {
             pre_state: start_state,
-            post_state: index(augmented_steps, -1)?.post_state || start_state,
+            post_state: post_state,
             raw: path,
             steps: augmented_steps,
+            issues: path_issues
         }
     }
 
@@ -457,17 +458,17 @@ export namespace Path {
             case "orientation":
                 return `Face ${direction.toString(step.direction)}`
             case "ability":
-                return `Ability - ${capitalize(step.ability)}`
+                return `${capitalize(step.ability)}`
             case "run":
-                return `Run ${step.waypoints.length} tiles`
+                return `Run ${step.waypoints.length - 1} tiles`
             case "teleport":
                 return `Teleport`
             case "interaction":
-                return "Use entrance/shortcut";
+                return "Use entrance";
             case "redclick":
                 return "Redclick"
             case "powerburst":
-                return "Use Powerburst of Acceleration"
+                return "Use Powerburst"
 
         }
 
@@ -491,12 +492,12 @@ export namespace Path {
                     return `{{barge}} ${dir}`
             }
         } else if (step.type === "run") {
-            return `Run ${step.waypoints.length} tiles`
+            return `Run ${step.waypoints.length - 1} tiles`
         } else if (step.type === "teleport") {
             let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
 
             if (teleport.variant && teleport.variant.name) return `{{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.variant.name}`
-            else if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to  to ${teleport.sub.name}`
+            else if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.sub.name}`
             else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
         } else if (step.type === "interaction") {
             return "Use entrance/shortcut"; // TODO:
@@ -512,14 +513,18 @@ export namespace Path {
         return step
     }
 
-    export function collect_issues(path: augmented): (issue & { step: augmented_step })[] {
-        let accumulator: (issue & { step: augmented_step })[] = []
+    export function collect_issues(path: augmented): (issue & { step?: augmented_step, path?: augmented })[] {
+        let accumulator: (issue & { step?: augmented_step, path?: augmented })[] = []
 
         for (let step of path.steps) {
             for (let issue of step.issues) {
                 accumulator.push({...issue, step: step})
             }
         }
+
+        accumulator = accumulator.concat(path.issues.map(i => {
+            return {...i, path: path}
+        }))
 
         return accumulator
     }

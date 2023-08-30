@@ -91,7 +91,7 @@ export namespace teleport_data {
                     name: "Watchtower"
                 },
                 {id: "lumbridge", spot: {x: 3220, y: 3245, level: 0}, img: "tele-lum.png", name: "Lumbridge"},
-                {id: "falador", spot: {x: 2966, y: 3381, level: 0}, img: "tele-fal.png", name: "Falador"},
+                {id: "falador", spot: {x: 2965, y: 3379, level: 0}, img: "tele-fal.png", name: "Falador"},
                 {id: "ardougne", spot: {x: 2661, y: 3302, level: 0}, img: "tele-ard.png", name: "Ardougne"},
                 {id: "southfeldiphills", spot: {x: 2414, y: 2847, level: 0}, img: "tele-mob.png", name: "South Feldip Hills"},
                 {id: "taverley", spot: {x: 2910, y: 3421, level: 0}, img: "tele-taverley.png", name: "Taverley"},
@@ -507,7 +507,7 @@ export namespace teleport_data {
             spots: [
                 {id: "watchtower", spot: {x: 2444, y: 3182, level: 0}, code: "1", name: "Watchtower"},
                 {id: "camelot", spot: {x: 2794, y: 3419, level: 0}, code: "2", name: "Camelot"},
-                {id: "falador", spot: {x: 3006, y: 3321, level: 0}, code: "3", name: "Falador"},
+                {id: "falador", spot: {x: 3006, y: 3319, level: 0}, code: "3", name: "Falador"},
                 {id: "ardougne", spot: {x: 2538, y: 3306, level: 0}, code: "4", name: "Ardounge"},
                 {id: "lumbridge", spot: {x: 3170, y: 3199, level: 0}, code: "5", name: "Lumbridge"},
                 {id: "varrock", spot: {x: 3254, y: 3449, level: 0}, code: "6", name: "Varrock"},

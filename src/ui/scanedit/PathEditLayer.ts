@@ -32,6 +32,7 @@ import {boxPolygon, tilePolygon} from "../map/polygon_helpers";
 import movement_state = Path.movement_state;
 import issue = Path.issue;
 import MovementStateView from "../pathedit/MovementStateView";
+import * as lodash from "lodash"
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -694,7 +695,7 @@ export class PathEditor extends TypedEmitter<{
 
         if (!before) await this.emitAsync("active_changed", true)
 
-        this.control = new ControlWidget(this, path)
+        this.control = new ControlWidget(this, lodash.cloneDeep(path))
             .on("saved", async (v) => await options.save_handler(v))
             .on("closed", async () => {
                 await this.reset()

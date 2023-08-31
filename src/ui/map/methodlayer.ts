@@ -1,7 +1,7 @@
 import {ScanLayer, SpotPolygon} from "./layers/ScanLayer";
 import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
-import {ScanTree} from "../../model/scans/ScanTree";
+import {ScanTree, traverse_parents} from "../../model/scans/ScanTree";
 import {modal} from "../widgets/modal";
 import {util} from "../../util/util";
 import * as leaflet from "leaflet"
@@ -114,16 +114,13 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         // Render pathing with appropriate opacity
         this.path_graphics.clearLayers()
 
-        augmented_decision_tree.traverse(node.root, n => {
-            if(n.path) {
-                let opaque = opaque_paths.some(o => o == n.path)
+        if (node.path) PathingGraphics.renderPath(node.path).setOpacity(1).addTo(this.path_graphics)
 
-                PathingGraphics.renderPath(n.path).setOpacity(opaque ? 1 : 0).addTo(this.path_graphics)
+        augmented_decision_tree.traverse_parents(node, n => {
+            if (n.path) {
+                PathingGraphics.renderPath(n.path).setOpacity(0.2).addTo(this.path_graphics)
             }
         })
-
-
-        // TODO: Create step graphics
 
         this.update()
     }

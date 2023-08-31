@@ -15,6 +15,7 @@ Ready for release:
 - Fix floor of Dorgesh Khaan spot E
 - Routes:
     - Zanaris
+    - Falador
 
 
 Planned for next release (b0.4):

@@ -163,6 +163,11 @@ export namespace direction {
             "southwest"
         ][dir]
     }
+
+    export const west = 1
+    export const north = 2
+    export const east = 3
+    export const south = 4
 }
 
 export function move(pos: MapCoordinate, off: Vector2) {

@@ -372,12 +372,15 @@ export namespace Path {
                     break;
                 case "teleport":
 
+                    let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
+
                     // With this implementation, teleports always preserve player orientation.
                     // There are teleports in the game that do not do that, but that's not included in the data I have.
                     if (step.spot_override) state.position.tile = step.spot_override
-                    else state.position.tile = teleport_data.resolveTarget(step.id)
+                    else state.position.tile = teleport.spot
 
-                    state.tick += 1 // TODO: Add teleport and interface times!
+                    state.tick += teleport.menu_ticks
+                    state.tick += teleport.animation_ticks
                     state.targeted_entity = null
 
                     break;

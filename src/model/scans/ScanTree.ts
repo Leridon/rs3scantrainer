@@ -85,6 +85,13 @@ export namespace ScanTree {
 
             node.children.forEach(c => traverse(c.value, f))
         }
+
+        export function traverse_parents(node: augmented_decision_tree, f: (_: augmented_decision_tree) => void): void {
+            if (node.parent == null) return
+
+            f(node.parent.node)
+            traverse_parents(node.parent.node, f)
+        }
     }
 
     export function init_leaf(candidates: MapCoordinate[]): decision_tree {

@@ -2,21 +2,25 @@ import {MapCoordinate} from "./coordinates";
 import {TypedEmitter} from "../skillbertssolver/eventemitter";
 import {teleport_data} from "../data/teleport_data";
 import {valuesIn} from "lodash";
+import {direction} from "./movement";
 
 export type teleport_group = {
-    id: string,
-    name: string,
+    id: string
+    name: string
     img: string | { url: string, width?: number, height?: number }
-    can_be_in_pota?: boolean,
+    can_be_in_pota?: boolean
     spots: teleport_spot[]
 }
 
 export type teleport_spot = {
-    id: string,
-    spot: MapCoordinate | (teleport_variant[]),
-    code?: string,
+    id: string
+    spot: MapCoordinate | (teleport_variant[])
+    facing?: direction
+    code?: string
     has_variants?: boolean
-    name?: string,
+    name?: string
+    menu_ticks: number
+    animation_ticks: number
     img?: string | { url: string, width?: number, height?: number }
 }
 
@@ -31,6 +35,8 @@ export type flat_teleport = {
     group: teleport_group,
     sub: teleport_spot,
     variant?: teleport_variant
+    menu_ticks: number
+    animation_ticks: number
 }
 
 type teleport_settings = {
@@ -151,7 +157,9 @@ export namespace Teleports {
                         hover: hover,
                         group: group,
                         sub: sub,
-                        variant: variant.id ? variant : undefined
+                        variant: variant.id ? variant : undefined,
+                        menu_ticks: sub.menu_ticks,
+                        animation_ticks: sub.animation_ticks,
                     }
 
                     if (group.id == "fairyring") {

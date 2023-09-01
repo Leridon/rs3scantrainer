@@ -1,12 +1,11 @@
 Immediate next:
 - Dropdown Select + Icons for interaction types
-- Display ticks, warnings and errors in path property
 - [Bug] Clicking doesnt work for search selects
 - [Bug] Fix preview layer not being rerendered after saving paths
 - [Bug] Export of path also exports target and start state
 
-- Fix scrolling in the path editor
-
+- [Bug] Mousewheel scrolling in the path editor
+- Make fit include the entire path
 
 Ready for release:
 - [Presentation] reenable walls on the map.
@@ -16,6 +15,7 @@ Ready for release:
 - Routes:
     - Zanaris
     - Falador
+    - Desert
 
 
 Planned for next release (b0.4):

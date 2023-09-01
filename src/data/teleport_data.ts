@@ -1299,7 +1299,7 @@ export namespace teleport_data {
                 {id: "outpost", spot: {x: 2444, y: 3346, level: 0}, code: "2", name: "The Outpost",
                     menu_ticks: 2,
                     animation_ticks: 4},
-                {id: "deserteagle", spot: {x: 3426, y: 3143, level: 0}, code: "3", name: "Desert Eagle's Eyrie",
+                {id: "deserteagle", spot: {x: 3424, y: 3141, level: 0}, code: "3", name: "Desert Eagle's Eyrie",
                     menu_ticks: 2,
                     animation_ticks: 4},
             ]

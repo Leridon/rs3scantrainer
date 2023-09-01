@@ -1,7 +1,7 @@
 import {ScanLayer, SpotPolygon} from "./layers/ScanLayer";
 import {Application, scantrainer} from "../../application";
 import {GameMapControl} from "./map";
-import {ScanTree, traverse_parents} from "../../model/scans/ScanTree";
+import {ScanTree} from "../../model/scans/ScanTree";
 import {modal} from "../widgets/modal";
 import {util} from "../../util/util";
 import * as leaflet from "leaflet"
@@ -121,6 +121,17 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 PathingGraphics.renderPath(n.path).setOpacity(0.2).addTo(this.path_graphics)
             }
         })
+
+        node.children.filter(c => c.value.is_leaf).forEach(c => {
+            PathingGraphics.renderPath(c.value.path).setOpacity(c.key == null ? 1 : 0.5).addTo(this.path_graphics)
+        })
+
+        node.children.filter(c => c.key && c.key.pulse == 3).forEach(c => {
+            c.value.children.forEach(gc => {
+                PathingGraphics.renderPath(gc.value.path).setOpacity(0.3).addTo(this.path_graphics)
+            })
+        })
+
 
         this.update()
     }

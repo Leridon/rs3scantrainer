@@ -287,11 +287,12 @@ export namespace Path {
                         case "surge": {
                             let min = minIndex(state.cooldowns.surge)
 
-                            if (state.cooldowns.surge[min] > state.tick) {
-                                if (state.cooldowns.surge[min] - state.tick <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
-                                    augmented.issues.push({level: 1, message: `Antispam delay. Waiting for ${state.cooldowns.surge[min] - state.tick} ticks.`})
+                            let cd = state.cooldowns.surge[min] - state.tick
+                            if (cd > 0) {
+                                if (cd <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
+                                    augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
-                                    augmented.issues.push({level: 1, message: `Both surge charges are still on cooldown for ${state.cooldowns.surge[min] - state.tick} ticks.`})
+                                    augmented.issues.push({level: cd >= 4 ? 0 : 1, message: `Both surge charges are still on cooldown for ${cd} ticks!`})
 
                                 state.tick = state.cooldowns.surge[min] // Wait for cooldown
                             }
@@ -309,11 +310,12 @@ export namespace Path {
                         case "escape": {
                             let min = minIndex(state.cooldowns.escape)
 
-                            if (state.cooldowns.escape[min] > state.tick) {
-                                if (state.cooldowns.escape[min] - state.tick <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
-                                    augmented.issues.push({level: 1, message: `Antispam delay. Waiting for ${state.cooldowns.escape[min] - state.tick} ticks.`})
+                            let cd = state.cooldowns.escape[min] - state.tick
+                            if (cd > 0) {
+                                if (cd <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
+                                    augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
-                                    augmented.issues.push({level: 1, message: `Both escape charges are still on cooldown for ${state.cooldowns.escape[min] - state.tick} ticks.`})
+                                    augmented.issues.push({level: cd >= 4 ? 0 : 1, message: `Both escape charges are still on cooldown for ${cd} ticks!`})
 
                                 state.tick = state.cooldowns.escape[min] // Wait for cooldown
                             }
@@ -329,8 +331,9 @@ export namespace Path {
                             break
                         }
                         case "dive": {
-                            if (state.cooldowns.dive > state.tick) {
-                                augmented.issues.push({level: 0, message: `Dive is still on cooldown for ${state.cooldowns.dive - state.tick} ticks!`})
+                            let cd = state.cooldowns.dive - state.tick
+                            if (cd > 0) {
+                                augmented.issues.push({level: cd >= 4 ? 0 : 1, message: `Dive is still on cooldown for ${cd} ticks!`})
                                 state.tick = state.cooldowns.dive // Wait for cooldown
                             }
 
@@ -339,8 +342,9 @@ export namespace Path {
                             break
                         }
                         case "barge": {
-                            if (state.cooldowns.barge > state.tick) {
-                                augmented.issues.push({level: 0, message: `Barge is still on cooldown for ${state.cooldowns.barge - state.tick} ticks!`})
+                            let cd = state.cooldowns.dive - state.tick
+                            if (cd > 0) {
+                                augmented.issues.push({level: cd >= 4 ? 0 : 1, message: `Barge is still on cooldown for ${cd} ticks!`})
                                 state.tick = state.cooldowns.barge // Wait for cooldown
                             }
 

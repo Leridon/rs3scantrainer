@@ -39,6 +39,8 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
 
         if (this.options.generator) {
             SmallImageButton.new("assets/icons/regenerate.png")
+                .css("margin-left", "2px")
+                .tooltip("Auto generate")
                 .on("click", () => {
                     this.setValue(this.options.generator())
                     this.changed(this.value)

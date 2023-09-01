@@ -101,6 +101,8 @@ class TreeNodeEdit extends Widget<{
                         }]
                     }
 
+                    // TODO: Handle "Create New" and "Create New from Path"
+
                     // TODO: Make a proper change-interface
                     parent.emit("changed", parent.value)
                     parent.update()

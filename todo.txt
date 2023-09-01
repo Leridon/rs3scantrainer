@@ -3,7 +3,7 @@ Immediate next:
 - [Bug] Clicking doesnt work for search selects
 - [Bug] Fix preview layer not being rerendered after saving paths
 - [Bug] Export of path also exports target and start state
-
+- Make "Create New" and "Create new from Path" functional
 - [Bug] Mousewheel scrolling in the path editor
 - Make fit include the entire path
 
@@ -23,6 +23,7 @@ Planned for next release (b0.4):
     - Model what kinds of actions a path can consist of
     - Define a graphical representation for each one.
     - Add an editor/Unified way to show paths
+- Finish all elite/master scans
 
 
 - [Tooling] Styling pass over the scan editor
@@ -47,7 +48,6 @@ b0.5:
 
 
 RELEASE 1.0
-- Finish all elite/master scans
 - Auto read pulses
 - [Tech] Overlay pathing into the game.
     - If this works, it is HUGE. Idea: Fix Camera distance and height by zooming out and clicking the compass, then calibrate camera transform using a suitable environment, Falador party room might actually be great.

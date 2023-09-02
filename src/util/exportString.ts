@@ -26,6 +26,24 @@ export function export_string<T>(type: string, version: number, value: T): strin
     }))
 }
 
+export function import_object<T>(expected_type: string, expected_version: number, o: {
+    hash: number,
+    value: string
+}): T {
+
+    if (cyrb53(o.value) != o.hash) throw new Error()
+
+    let o2: {
+        type: string,
+        version: number,
+        value: T
+    } = JSON.parse(o.value)
+
+    if (o2.type != expected_type || o2.version != expected_version) throw new Error()
+
+    return o2.value
+}
+
 export function import_string<T>(expected_type: string, expected_version: number, str: string): T {
     let o: {
         hash: number,
@@ -40,7 +58,7 @@ export function import_string<T>(expected_type: string, expected_version: number
         value: T
     } = JSON.parse(o.value)
 
-    if (o2.type != expected_type || o2.version != expected_version)  throw new Error()
+    if (o2.type != expected_type || o2.version != expected_version) throw new Error()
 
     return o2.value
 }

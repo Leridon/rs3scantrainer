@@ -40,13 +40,13 @@ function parseSolution(obj) {
         return parseSimpleSolution(obj);
 }
 function spotsFor(id) {
-    return coordsets.filter(function (e) { return e.clueid == id; }).map(function (e) {
+    return Array.from(coordsets.filter(function (e) { return e.clueid == id; }).map(function (e) {
         return {
             x: e.x,
             y: e.z,
             level: e.level
         };
-    });
+    }));
 }
 var n = 0;
 var _loop_1 = function (obj) {
@@ -152,6 +152,10 @@ for (var _i = 0, original_data_1 = original_data; _i < original_data_1.length; _
     var obj = original_data_1[_i];
     _loop_1(obj);
 }
+console.log("Volcano");
+console.log(JSON.stringify(imported.find(function (c) { return c.id == 367; })));
+console.log("Deep Wilderness");
+console.log(JSON.stringify(imported.find(function (c) { return c.id == 36; })));
 var compass_main = {
     clue: "The compass shows where you need to go.",
     id: 399,
@@ -173,6 +177,8 @@ var compass_arc = {
     type: "compass"
 };
 imported.push(compass_main);
+console.log("Compass");
+console.log(compass_main.solution.candidates.map(function (e) { return JSON.stringify(e); }).join(",\n"));
 imported.push(compass_arc);
 // Extract coordinates from wiki:
 // (\d+) degrees (\d+) minutes (north|south).*\n.*(\d+) degrees (\d+) minutes (east|west).*\n.*tier = (Hard)

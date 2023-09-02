@@ -9,6 +9,7 @@ import {Teleports} from "./model/teleports";
 import {ClueSteps} from "./model/clues";
 import {Methods} from "./data/accessors";
 import {GameMapControl} from "./ui/map/map";
+import {extract_query_function} from "./query_functions";
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -159,6 +160,9 @@ export class Application {
     }
 
     async start() {
+        let query_function = extract_query_function(new URLSearchParams(window.location.search))
+        if (query_function) query_function(this)
+
         if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
     }

@@ -6,6 +6,7 @@ import * as lodash from "lodash"
 import {teleport_data} from "../data/teleport_data";
 import {full_teleport_id, Teleports} from "./teleports";
 import {Vector2} from "../util/math";
+import {export_string, import_string} from "../util/exportString";
 
 
 export namespace Path {
@@ -14,30 +15,25 @@ export namespace Path {
         description: string
     }
 
-    export enum InteractionType {
-        GENERIC = "generic",
-        CHOP = "chop",
-        TALK = "talk"
-
-        /** TODO:
-         * Use Shortcut
-         *  - Different Types
-         * Enter Cave
-         * Exit Cave
-         * Ladder Up
-         * Ladder Down
-         * Open Door
-         * Use Spell on Object
-         *
-         */
-    }
-
     export namespace InteractionType {
-        export function meta(type: InteractionType): { icon_url: string, description: string, short_icon: string } {
+
+        export enum Enum {
+            GENERIC = "generic",
+            CHOP = "chop",
+            TALK = "talk",
+            OPEN = "open",
+            ENTER = "enter",
+            SPELLONENTITY = "spellonentity",
+            AGILITY_OBSTACLE = "climb",
+            CLIMB_DOWN_LADDER = "climbdownladder",
+            CLIMB_UP_LADDER = "climbupladder"
+        }
+
+        export function meta(type: InteractionType.Enum): { icon_url: string, description: string, short_icon: string } {
             return {
-                icon_url: "assets/icons/accel.png",
+                icon_url: "assets/icons/missing_icon.png",
                 description: capitalize(type.toString()),
-                short_icon: "accel"
+                short_icon: "missing_icon"
             }
             // TODO: Add real data
         }
@@ -71,13 +67,13 @@ export namespace Path {
         ticks: number,
         where: MapCoordinate,
         ends_up: PlayerPosition,
-        how: InteractionType
+        how: InteractionType.Enum
     }
 
     export type step_redclick = step_base & {
         type: "redclick",
         where: MapCoordinate,
-        how: InteractionType
+        how: InteractionType.Enum
     }
 
     export type step_powerburst = step_base & {
@@ -146,7 +142,6 @@ export namespace Path {
     export type raw = {
         start_state?: movement_state,   // Useful for movement trees, where a path depends on a previous state
         target?: MapRectangle
-        description?: string,
         steps: step[],
     }
 
@@ -534,5 +529,13 @@ export namespace Path {
         }))
 
         return accumulator
+    }
+
+    export function export_path(p: Path.raw): string {
+        return export_string("path", 0, p.steps)
+    }
+
+    export function import_path(str: string): step[] {
+        return import_string("path", 0, str)
     }
 }

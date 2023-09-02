@@ -308,7 +308,9 @@ class ControlWidget extends Widget<{
 
     control: CustomControl
 
-    constructor(public parent: PathEditor, public value: Path.raw) {
+    constructor(public parent: PathEditor, public value: Path.raw, private options: {
+        save_enabled?: boolean
+    } = {}) {
         super()
 
         this.addClass("path-edit-control")
@@ -337,29 +339,43 @@ class ControlWidget extends Widget<{
 
             props.row(control_container)
 
+
+            new LightButton("Save").on("click", () => {
+                this.emit("saved", this.value)
+            }).setEnabled(this.options.save_enabled).appendTo(control_container)
+            new LightButton("Save & Close").on("click", () => {
+                this.emit("saved", this.value)
+                this.emit("closed", null)
+            }).setEnabled(this.options.save_enabled).appendTo(control_container)
+            new LightButton("Close").on("click", () => {
+                this.emit("closed", null)
+
+            }).appendTo(control_container)
             new LightButton("Show JSON")
-                .on("click", () => ExportStringModal.do(JSON.stringify(this.value, null, 2)))
+                .on("click", () => {
+                    ExportStringModal.do(JSON.stringify(this.value, null, 2))
+                })
                 .appendTo(control_container)
             new LightButton("Export")
-                .on("click", () => ExportStringModal.do(export_string("path", 0, this.value)))
+                .on("click", () => ExportStringModal.do(Path.export_path(this.value)))
                 .appendTo(control_container)
             new LightButton("Import")
                 .on("click", async () => {
-                    this.value = await ImportStringModal.do((s) => import_string<Path.raw>("path", 0, s))
+                    this.value.steps = await ImportStringModal.do((s) => Path.import_path(s))
                     await this.render()
                 })
                 .appendTo(control_container)
 
-            new LightButton("Save").on("click", () => {
-                this.emit("saved", this.value)
-            }).appendTo(control_container)
-            new LightButton("Save & Close").on("click", () => {
-                this.emit("saved", this.value)
-                this.emit("closed", null)
-            }).appendTo(control_container)
-            new LightButton("Close").on("click", () => {
-                this.emit("closed", null)
-            }).appendTo(control_container)
+            new LightButton("Share")
+                .on("click", () => {
+                    let url = window.location.origin + window.location.pathname + "?load_path_editor"
+                    if(this.value.target) url += `&path_target=${encodeURI(JSON.stringify(this.value.target))}`
+                    if(this.value.start_state) url += `&path_start_state=${encodeURI(JSON.stringify(this.value.start_state))}`
+                    url += `&path_steps=${encodeURI(Path.export_path(this.value))}`
+
+                    ExportStringModal.do(url, "Use this link to directly link to this path.")
+                })
+                .appendTo(control_container)
         }
 
         this.container.on("click", (e) => e.stopPropagation())
@@ -537,7 +553,7 @@ class ControlWidget extends Widget<{
                                 type: "redclick",
                                 description: "",
                                 where: t,
-                                how: Path.InteractionType.GENERIC
+                                how: Path.InteractionType.Enum.GENERIC
                             }))
 
                             this.render()
@@ -588,7 +604,7 @@ class ControlWidget extends Widget<{
                                     direction: null,
                                     tile: {x: 0, y: 0, level: 0}
                                 },
-                                how: Path.InteractionType.GENERIC
+                                how: Path.InteractionType.Enum.GENERIC
                             }))
 
                             this.render()
@@ -695,7 +711,9 @@ export class PathEditor extends TypedEmitter<{
 
         if (!before) await this.emitAsync("active_changed", true)
 
-        this.control = new ControlWidget(this, lodash.cloneDeep(path))
+        this.control = new ControlWidget(this, lodash.cloneDeep(path), {
+            save_enabled: options.save_handler != null
+        })
             .on("saved", async (v) => await options.save_handler(v))
             .on("closed", async () => {
                 await this.reset()
@@ -721,7 +739,7 @@ export class PathEditor extends TypedEmitter<{
 
 namespace PathEditor {
     export type options_t = {
-        save_handler: (p: Path.raw) => any,
+        save_handler?: (p: Path.raw) => any,
         close_handler: () => any
     }
 }

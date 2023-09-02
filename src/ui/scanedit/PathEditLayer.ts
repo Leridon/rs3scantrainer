@@ -33,6 +33,7 @@ import movement_state = Path.movement_state;
 import issue = Path.issue;
 import MovementStateView from "../pathedit/MovementStateView";
 import * as lodash from "lodash"
+import SmallImageButton from "../widgets/SmallImageButton";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -67,15 +68,25 @@ class StepEditWidget extends Widget<{
                 .addTippy(new MovementStateView(value.post_state))
             c(`<span>: ${Path.title(value.raw)} </span>`).appendTo(title)
 
-            let up = new Button().append($("<div><img src='assets/nis/arrow_up.png' title='Up'> Up</div>")).appendTo(control_row)
+            c().css("flex-grow", "1").appendTo(control_row)
+
+            SmallImageButton.new("assets/nis/arrow_up.png").appendTo(control_row)
+                .setEnabled(this.parent.value.steps.indexOf(this.value.raw) != 0)
+                .tooltip("Move step up")
                 .on("click", () => this.emit("up", this.value.raw))
-            let down = new Button().append($("<div><img src='assets/nis/arrow_down.png' title='Down'> Down</div>")).appendTo(control_row)
+            SmallImageButton.new("assets/nis/arrow_down.png").appendTo(control_row)
+                .setEnabled(this.parent.value.steps.indexOf(this.value.raw) != this.parent.value.steps.length - 1)
+                .tooltip("Move step down")
                 .on("click", () => this.emit("down", this.value.raw))
 
-            new Button().append($("<div><img src='assets/icons/delete.png' title='Delete'> Remove</div>")).appendTo(control_row)
+            SmallImageButton.new("assets/icons/delete.png").appendTo(control_row)
                 .on("click", () => this.emit("deleted", this.value.raw))
-            up.setEnabled(this.parent.value.steps.indexOf(this.value.raw) != 0)
-            down.setEnabled(this.parent.value.steps.indexOf(this.value.raw) != this.parent.value.steps.length - 1)
+
+            SmallImageButton.new("assets/icons/fullscreen.png").appendTo(control_row)
+                .on("click", () => {
+                    // TODO: Zoom to step
+                })
+                .setEnabled(false)
         }
 
         let issues = c().addClass("step-edit-issues").appendTo(this)
@@ -721,6 +732,9 @@ export class PathEditor extends TypedEmitter<{
             })
 
         this.map.map.addControl(this.control.control.setPosition("topleft"))
+
+        // TODO: Fit to path
+        // - Target
     }
 
     public async reset() {

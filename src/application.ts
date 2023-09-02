@@ -131,7 +131,7 @@ export class Application {
 
                 if (!tele) return "NULL"
 
-                return `<span style="position: relative"><img class='text-icon' src='assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}' title="${tele.hover}"><div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+                return `<span style="position: relative" title="${tele.hover}"><img class='text-icon' src='assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}' title="${tele.hover}"><div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
             }],
             ["icon", (args) => {
                 return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`

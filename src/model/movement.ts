@@ -2,6 +2,7 @@ import {MapCoordinate} from "./coordinates";
 import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../util/math";
+import * as pako from "pako"
 
 type TileMovementData = number
 
@@ -31,17 +32,25 @@ interface MapData {
 type file = Uint8Array
 
 export class HostedMapData implements MapData {
+
+    meta = {
+        chunks_per_file: 20,
+        chunks_x: 100,
+        chunks_z: 200,
+        chunk_size: 64
+    }
+
     chunks: (file | Promise<file>)[][]
 
-    private async fetch(x: number, z: number, floor: number): Promise<Uint8Array> {
-        let a = await fetch(`map/collision-${x}-${z}-${floor}.bin`)
+    private async fetch(file_x: number, file_z: number, floor: number): Promise<Uint8Array> {
+        let a = await fetch(`map/collision-${file_x}-${file_z}-${floor}.bin`)
 
-        return new Uint8Array(await a.arrayBuffer())
+        return new Uint8Array(await a.arrayBuffer()) // TODO: Inflate
     }
 
     private constructor() {
-        // For every floor (0 to 3), create 200 slots in the data cache.
-        this.chunks = [null, null, null, null].map(() => Array(200))
+        // For every floor (0 to 3), create enough slots in the data cache.
+        this.chunks = [null, null, null, null].map(() => Array(this.meta.chunks_x * this.meta.chunks_z / (this.meta.chunks_per_file * this.meta.chunks_per_file)))
     }
 
     private static _instance: HostedMapData = new HostedMapData()
@@ -53,9 +62,9 @@ export class HostedMapData implements MapData {
     async getTile(coordinate: MapCoordinate): Promise<TileMovementData> {
         let floor = coordinate.level || 0
 
-        let file_x = Math.floor(coordinate.x / (64 * 10))
-        let file_y = Math.floor(coordinate.y / (64 * 10))
-        let file_i = file_y * 10 + file_x
+        let file_x = Math.floor(coordinate.x / (this.meta.chunk_size * this.meta.chunks_per_file))
+        let file_y = Math.floor(coordinate.y / (this.meta.chunk_size * this.meta.chunks_per_file))
+        let file_i = file_y * this.meta.chunks_per_file + file_x
 
         if (!this.chunks[floor][file_i]) {
 
@@ -68,9 +77,9 @@ export class HostedMapData implements MapData {
             })
         }
 
-        let tile_x = coordinate.x % (64 * 10)
-        let tile_y = coordinate.y % (64 * 10)
-        let tile_i = tile_y * 640 + tile_x
+        let tile_x = coordinate.x % (this.meta.chunk_size * this.meta.chunks_per_file)
+        let tile_y = coordinate.y % (this.meta.chunk_size * this.meta.chunks_per_file)
+        let tile_i = tile_y * (this.meta.chunk_size * this.meta.chunks_per_file) + tile_x
 
         return (await this.chunks[floor][file_i])[tile_i]
     }

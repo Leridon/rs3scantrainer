@@ -98,6 +98,10 @@ html, body {
     background: url("assets/icons/imagebuttonbackground.png");
 }
 
+.nissmallimagebutton.disabled {
+    cursor: not-allowed;
+}
+
 .nissmallimagebutton.active {
     background: url("assets/icons/imagebuttonbackground.png");
     background-position-x: 21px;

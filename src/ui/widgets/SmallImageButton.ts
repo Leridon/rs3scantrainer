@@ -1,5 +1,6 @@
 import Widget from "./Widget";
 
+// TODO: Migrate to button class
 export default class SmallImageButton extends Widget<{
     "click": SmallImageButton
 }> {
@@ -11,9 +12,11 @@ export default class SmallImageButton extends Widget<{
         })
     }
 
-    setEnabled(enabled: boolean) {
+    setEnabled(enabled: boolean): this {
         if (enabled) this.container.removeClass("disabled")
         else this.container.addClass("disabled")
+
+        return this
     }
 
     setIcon(icon: string): this {

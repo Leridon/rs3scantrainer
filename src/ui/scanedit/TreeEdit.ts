@@ -52,11 +52,10 @@ class TreeNodeEdit extends Widget<{
             }
         })
 
+        options.push({create_new: true})
+
         if (node.raw?.where_to) options.push({remove: true})
-        else {
-            options.push({create_new: true})
-            options.push({area: null})
-        }
+        else options.push({area: null})
 
         let props = new Properties().appendTo(this)
 

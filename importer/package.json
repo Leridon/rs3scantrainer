@@ -4,6 +4,8 @@
 		"watch": "npm run build -- --watch"
 	},
 	"dependencies": {
-		"@types/node": "^18.16.3"
+		"@types/node": "^18.16.3",
+		"@types/pako": "^2.0.0",
+		"pako": "^2.1.0"
 	}
 }

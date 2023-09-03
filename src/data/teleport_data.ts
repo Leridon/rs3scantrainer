@@ -1055,7 +1055,7 @@ export namespace teleport_data {
                 {id: "legensguild", spot: {x: 2730, y: 3348, level: 0}, code: "7", name: "Legends' Guild",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks},
-                {id: "tearsofguthix", spot: {x: 3250, y: 9518, level: 0}, code: "8", name: "Tears of Guthix",
+                {id: "tearsofguthix", spot: {x: 3250, y: 9518, level: 2}, code: "8", name: "Tears of Guthix",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks},
                 {id: "museum", spot: {x: 3255, y: 3449, level: 0}, code: "9", name: "Varrock Museum",
@@ -1185,7 +1185,7 @@ export namespace teleport_data {
                 {id: "burghderott", spot: {x: 3485, y: 3239, level: 0}, code: "6", name: "Burgh De Rott",
                     menu_ticks: 2,
                     animation_ticks: 4},
-                {id: "tearsofguthix", spot: {x: 3252, y: 9517, level: 0}, code: "7", name: "Tears of Guthix",
+                {id: "tearsofguthix", spot: {x: 3252, y: 9517, level: 2}, code: "7", name: "Tears of Guthix",
                     menu_ticks: 2,
                     animation_ticks: 4},
 

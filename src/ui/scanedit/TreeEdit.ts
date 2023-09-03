@@ -227,6 +227,7 @@ export default class TreeEdit extends Widget<{
                 .on("changed", async () => {
                     await ScanTree.prune_clean_and_propagate(self.parent.value)
                     await self.update()
+                    await self.emit("preview_invalidated", null)
                 })
                 .appendTo(self))
 

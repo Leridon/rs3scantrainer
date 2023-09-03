@@ -93,6 +93,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
         console.log(`Issues: ${issues.length}`)
 
         if (errors.length > 0) new IssueWidget({level: 0, message: `${errors.length} errors`}).appendTo(this.issue_container)
-        if (warnings.length > 0) new IssueWidget({level: 1, message: `${warnings.length} warninings`}).appendTo(this.issue_container)
+        if (warnings.length > 0) new IssueWidget({level: 1, message: `${warnings.length} warnings`}).appendTo(this.issue_container)
     }
 }

@@ -59,15 +59,10 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             }
         }
 
-        leaflet.latLngBounds([
-            [bounds.getTopLeft().y, bounds.getTopLeft().x],
-            [bounds.getBottomRight().y, bounds.getBottomRight().x],
-        ])
+        // 6. The path
+        // TODO: Include path bounds, without augmenting it!
 
-        this.getMap().map.fitBounds(leaflet.latLngBounds([
-            [bounds.getTopLeft().y, bounds.getTopLeft().x],
-            [bounds.getBottomRight().y, bounds.getBottomRight().x],
-        ]).pad(0.1), {
+        this.getMap().map.fitBounds(util.convert_bounds(bounds).pad(0.1), {
             maxZoom: 4,
             animate: true,
         })

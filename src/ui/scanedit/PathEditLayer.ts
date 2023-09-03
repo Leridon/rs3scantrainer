@@ -35,6 +35,8 @@ import MovementStateView from "../pathedit/MovementStateView";
 import * as lodash from "lodash"
 import SmallImageButton from "../widgets/SmallImageButton";
 import {QueryLinks} from "../../query_functions";
+import {OpacityGroup} from "../map/layers/OpacityLayer";
+import {util} from "../../util/util";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -85,9 +87,8 @@ class StepEditWidget extends Widget<{
 
             SmallImageButton.new("assets/icons/fullscreen.png").appendTo(control_row)
                 .on("click", () => {
-                    // TODO: Zoom to step
+                    this.parent.parent.map.map.fitBounds(util.convert_bounds(Path.step_bounds(this.value)), {maxZoom: 4})
                 })
-                .setEnabled(false)
         }
 
         let issues = c().addClass("step-edit-issues").appendTo(this)
@@ -272,9 +273,6 @@ class StepEditWidget extends Widget<{
                 }
 
                 break
-
-            // TODO: Override
-            //      - Teleport
         }
 
         // TODO: Fix scroll events passing through
@@ -288,7 +286,7 @@ class StepEditWidget extends Widget<{
 
     }
 
-    _preview: leaflet.Layer = null
+    _preview: OpacityGroup = null
 
     updatePreview() {
         this.removePreview()
@@ -308,7 +306,7 @@ class ControlWidget extends Widget<{
     saved: Path.raw,
     closed: null
 }> {
-    private augmented: Path.augmented
+    augmented: Path.augmented
 
     _preview_layer: leaflet.FeatureGroup
 
@@ -390,11 +388,9 @@ class ControlWidget extends Widget<{
         this.addClass("nis-map-control")
 
         this.resetPreviewLayer()
-
-        this.render()
     }
 
-    private async render() {
+    public async render(): Promise<this> {
         this.augmented = await Path.augment(this.value)
 
         this.resetPreviewLayer()
@@ -683,6 +679,8 @@ class ControlWidget extends Widget<{
                 color: "orange"
             })
             .addTo(this._preview_layer)
+
+        return this
     }
 
     removePreviewLayer() {
@@ -718,19 +716,18 @@ export class PathEditor extends TypedEmitter<{
 
         if (!before) await this.emitAsync("active_changed", true)
 
-        this.control = new ControlWidget(this, lodash.cloneDeep(path), {
+        this.control = await new ControlWidget(this, lodash.cloneDeep(path), {
             save_enabled: options.save_handler != null
         })
             .on("saved", async (v) => await options.save_handler(v))
             .on("closed", async () => {
                 await this.reset()
                 await this.emitAsync("active_changed", false)
-            })
+            }).render()
 
         this.map.map.addControl(this.control.control.setPosition("topleft"))
 
-        // TODO: Fit to path
-        // - Target
+        this.map.map.fitBounds(util.convert_bounds(Path.path_bounds(this.control.augmented)).pad(0.1), {maxZoom: 4})
     }
 
     public async reset() {

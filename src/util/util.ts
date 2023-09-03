@@ -1,7 +1,7 @@
-import Checks from "../skillbertssolver/typecheck";
+import * as L from "leaflet"
+import * as leaflet from "leaflet";
 
 export namespace util {
-    import arr = Checks.arr;
 
     export function natural_join(a: any[], connector: "and" | "or" = "and"): string {
         if (a.length == 0) return ""
@@ -71,4 +71,10 @@ export namespace util {
         return res
     }
 
+    export function convert_bounds(bounds: L.Bounds): L.LatLngBounds {
+        return leaflet.latLngBounds([
+            [bounds.getTopLeft().y, bounds.getTopLeft().x],
+            [bounds.getBottomRight().y, bounds.getBottomRight().x],
+        ])
+    }
 }

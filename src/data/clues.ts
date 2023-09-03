@@ -1,4 +1,4 @@
-import {ClueStep, ClueType} from "../model/clues";
+import {type ClueStep, type ClueType} from "../model/clues";
 
 export let clues: ClueStep[] = [
     {

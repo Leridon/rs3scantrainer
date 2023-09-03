@@ -81,7 +81,6 @@ export namespace Vector2 {
     }
 }
 
-
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
 export namespace Rectangle {

@@ -49,7 +49,22 @@ c.plugins = [
 ]
 
 c.resolve.fallback = {
-    "timers": false
+    "timers": false,
+    "assert": false,
+    "stream": false,
+    "crypto": false,
+    "util": false,
+    "https": false,
+    "http": false,
+    "tls": false,
+    "net": false,
+    "url": false,
+    "zlib": false,
+    "querystring": false,
+    "fs": false,
+    "path": false,
+    "child_process": false,
+    "os": false,
 }
 
 c.optimization = {

@@ -7,9 +7,10 @@ import {teleport_data} from "../data/teleport_data";
 import {full_teleport_id, Teleports} from "./teleports";
 import {Vector2} from "../util/math";
 import {export_string, import_string} from "../util/exportString";
-
+import * as L from "leaflet"
 
 export namespace Path {
+    import getAllFlattened = teleport_data.getAllFlattened;
     type step_base = {
         type: string,
         description: string
@@ -537,5 +538,63 @@ export namespace Path {
 
     export function import_path(str: string): step[] {
         return import_string("path", 0, str)
+    }
+
+    function tile_bounds(tile: Vector2): L.Bounds {
+        return L.bounds([
+            L.point({x: tile.x - 0.5, y: tile.y - 0.5}),
+            L.point({x: tile.x + 0.5, y: tile.y + 0.5}),
+        ])
+    }
+
+    export function step_bounds(step: augmented_step): L.Bounds {
+
+
+        let bounds = L.bounds([])
+
+        switch (step.raw.type) {
+            case "ability":
+                bounds.extend(tile_bounds(step.raw.from))
+                bounds.extend(tile_bounds(step.raw.to))
+                break
+            case "run":
+                bounds.extend(L.bounds(step.raw.waypoints.map(L.point)))
+                break
+            case "teleport":
+                if (step.raw.spot_override) bounds.extend(L.point(step.raw.spot_override))
+                else {
+                    let teleport = Teleports.find(getAllFlattened(), step.raw.id)
+                    bounds.extend(L.point(teleport.spot))
+                }
+                break
+            case "interaction":
+                bounds.extend(L.point(step.raw.where))
+                bounds.extend(L.point(step.raw.ends_up.tile))
+
+                break;
+            case "redclick":
+                bounds.extend(L.point(step.raw.where))
+                break;
+            case "powerburst":
+                bounds.extend(L.point(step.raw.where))
+                break;
+        }
+
+        // Only include pre and post state if the bounds are empty
+        if (step.pre_state?.position?.tile && bounds.getCenter().distanceTo(L.point(step.pre_state.position.tile)) < 100) bounds.extend(tile_bounds(step.pre_state.position.tile))
+        if (step.post_state?.position?.tile && bounds.getCenter().distanceTo(L.point(step.post_state.position.tile)) < 100) bounds.extend(tile_bounds(step.post_state.position.tile))
+
+        return bounds
+    }
+
+    export function path_bounds(path: augmented): L.Bounds {
+        let bounds = L.bounds([])
+
+        path.steps.forEach(s => bounds.extend(step_bounds(s)))
+
+        if (path.raw.target) bounds.extend(L.point(path.raw.target.topleft)).extend(L.point(path.raw.target.botright))
+        if (path.raw.start_state?.position?.tile && bounds.getCenter().distanceTo(L.point(path.raw.start_state.position.tile)) < 100) bounds.extend(tile_bounds(path.raw.start_state?.position?.tile))
+
+        return bounds
     }
 }

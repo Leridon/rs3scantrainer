@@ -1,13 +1,13 @@
 Immediate next:
-- Dropdown Select + Icons for interaction types
+- Icons for interaction types
 - [Bug] Clicking doesn't work for search selects
-- [Bug] Fix preview layer not being rerendered after saving paths
 - Make "Create New" and "Create new from Path" functional
 - [Bug] Mousewheel scrolling in the path editor
 - Make fit include the entire path
-- Fit path when editor is loaded
-- Enable "fit" button for steps
-- [Bug] I somehow broke collision.
+- [Bug] Drawing scan areas is weird with clicking
+- [Bug] Repath of running disregards start position
+- Better display of pulses when all are different level
+    - Omit DL when the same level counterpart is empty?
 
 Ready for release:
 - [Presentation] reenable walls on the map.

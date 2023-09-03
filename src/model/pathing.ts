@@ -338,7 +338,7 @@ export namespace Path {
                             break
                         }
                         case "barge": {
-                            let cd = state.cooldowns.dive - state.tick
+                            let cd = state.cooldowns.barge - state.tick
                             if (cd > 0) {
                                 augmented.issues.push({level: cd >= 4 ? 0 : 1, message: `Barge is still on cooldown for ${cd} ticks!`})
                                 state.tick = state.cooldowns.barge // Wait for cooldown

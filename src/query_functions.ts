@@ -4,6 +4,7 @@ import {MapRectangle} from "./model/coordinates";
 import {Path} from "./model/pathing";
 import movement_state = Path.movement_state;
 import step = Path.step;
+import {Browser} from "leaflet";
 
 
 function compose<A, B, C>(f: (_: A) => B, g: (_: B) => C): (_: A) => C {
@@ -101,4 +102,20 @@ export function extract_query_function(parameters: URLSearchParams): (_: Applica
     //
 
     return null
+}
+
+export namespace ShareableLinks {
+    function path(){
+        if(window) return window.location.origin + window.location.pathname
+        else return "https://leridon.github.io/cluetrainer-live/"
+    }
+
+    export function to_path(path: Path.raw): string {
+        let url = window.location.origin + window.location.pathname + "?load_path_editor"
+        if(path.target) url += `&path_target=${encodeURI(JSON.stringify(path.target))}`
+        if(path.start_state) url += `&path_start_state=${encodeURI(JSON.stringify(path.start_state))}`
+        url += `&path_steps=${encodeURI(Path.export_path(path))}`
+
+        return url
+    }
 }

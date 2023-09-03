@@ -2,13 +2,12 @@ Immediate next:
 - Dropdown Select + Icons for interaction types
 - [Bug] Clicking doesn't work for search selects
 - [Bug] Fix preview layer not being rerendered after saving paths
-- [Bug] Export of path also exports target and start state
 - Make "Create New" and "Create new from Path" functional
 - [Bug] Mousewheel scrolling in the path editor
 - Make fit include the entire path
 - Fit path when editor is loaded
 - Enable "fit" button for steps
-- [Bug] I somehow broke collision. 
+- [Bug] I somehow broke collision.
 
 Ready for release:
 - [Presentation] reenable walls on the map.

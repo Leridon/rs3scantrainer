@@ -1,6 +1,9 @@
 import {clues} from "./data/clues";
 import {export_string} from "./util/exportString";
 import {type CompassStep} from "./model/clues";
+import * as fs from "fs";
+import Checks from "./skillbertssolver/typecheck";
+import str = Checks.str;
 
 export function export_path(p): string {
     return export_string("path", 0, p.steps)
@@ -28,15 +31,21 @@ function dig_area(spot) {
     }
 }
 
-console.log("Welcome")
+{
+    let compass = clues.find(c => c.id == 399) as CompassStep
 
-let compass = clues.find(c => c.id == 399) as CompassStep
+    let string = ""
+    string += "Compass spots"
+    string += "x,y,floor,link"
 
-compass.solution.candidates.forEach(spot => {
-    let query_link = to_path({
-        target: dig_area(spot),
-        steps: []
+    compass.solution.candidates.forEach(spot => {
+        let query_link = to_path({
+            target: dig_area(spot),
+            steps: []
+        })
+
+        string += `${spot.x}, ${spot.y}, ${spot.level}, ${query_link}\n`
     })
 
-    console.log(`${spot.x}, ${spot.y}, ${spot.level}, ${query_link}`)
-})
+    console.log(string)
+}

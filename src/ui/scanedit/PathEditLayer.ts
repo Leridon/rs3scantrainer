@@ -34,6 +34,7 @@ import issue = Path.issue;
 import MovementStateView from "../pathedit/MovementStateView";
 import * as lodash from "lodash"
 import SmallImageButton from "../widgets/SmallImageButton";
+import {QueryLinks} from "../../query_functions";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -379,12 +380,7 @@ class ControlWidget extends Widget<{
 
             new LightButton("Share")
                 .on("click", () => {
-                    let url = window.location.origin + window.location.pathname + "?load_path_editor"
-                    if(this.value.target) url += `&path_target=${encodeURI(JSON.stringify(this.value.target))}`
-                    if(this.value.start_state) url += `&path_start_state=${encodeURI(JSON.stringify(this.value.start_state))}`
-                    url += `&path_steps=${encodeURI(Path.export_path(this.value))}`
-
-                    ExportStringModal.do(url, "Use this link to directly link to this path.")
+                    ExportStringModal.do(QueryLinks.to_path(this.value), "Use this link to directly link to this path.")
                 })
                 .appendTo(control_container)
         }

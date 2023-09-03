@@ -2,7 +2,6 @@ import * as leaflet from "leaflet";
 import {MapCoordinate, MapRectangle} from "../coordinates";
 import {Raster} from "../../util/raster";
 import {rangeRight} from "lodash";
-import {ScanTree} from "./ScanTree";
 import {util} from "../../util/util";
 import {Rectangle, Vector2} from "../../util/math";
 import {areaToPolygon} from "../../ui/map/polygon_helpers";

@@ -1,6 +1,4 @@
 import {Rectangle, Vector2} from "../util/math";
-import {Path} from "./pathing";
-import {clamp} from "lodash";
 
 export type GieliCoordinates = {
     latitude: {

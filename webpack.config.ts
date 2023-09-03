@@ -17,6 +17,7 @@ config.makeUmd("testpackage", "TEST");
 
 //the name and location of our entry file (the name is used for output and can contain a relative path)
 config.entry("index", "./index.ts");
+config.entry("main", "./main.ts")
 
 //where to put all the stuff
 config.output(outdir);
@@ -24,6 +25,8 @@ config.output(outdir);
 let c = config.toConfig()
 
 const is_production = process.env.NODE_ENV == "production"
+
+if (!is_production) c.devtool = "eval-source-map"
 
 c.plugins = [
     new CopyWebpackPlugin({

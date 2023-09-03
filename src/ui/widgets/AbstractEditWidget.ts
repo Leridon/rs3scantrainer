@@ -6,7 +6,7 @@ import Widget from "./Widget";
  */
 export default abstract class AbstractEditWidget<T, AdditionalEvents extends Record<string, any> = {}> extends Widget<AdditionalEvents & {
     "changed": T
-} > {
+}> {
 
     protected value: T = null
 
@@ -16,7 +16,7 @@ export default abstract class AbstractEditWidget<T, AdditionalEvents extends Rec
 
     protected changed(v: T) {
         this.value = v
-        this.emit("changed", v)
+        this.emit("changed", v as AdditionalEvents["changed"] & T)
     }
 
     public setValue(v: T): this {
@@ -26,7 +26,7 @@ export default abstract class AbstractEditWidget<T, AdditionalEvents extends Rec
         return this
     }
 
-    protected update(): void{
+    protected update(): void {
 
     }
 }

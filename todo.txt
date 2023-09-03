@@ -4,6 +4,7 @@ Immediate next:
 - Make "Create New" and "Create new from Path" functional
 - [Bug] Mousewheel scrolling in the path editor
 - Make fit include the entire path
+- [Bug] Drawing scan areas is weird with clicking
 
 Ready for release:
 - [Presentation] reenable walls on the map.

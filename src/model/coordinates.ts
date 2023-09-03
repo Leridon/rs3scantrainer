@@ -63,8 +63,7 @@ export namespace MapRectangle {
     }
 
     export function clampInto(pos: MapCoordinate, area: MapRectangle): MapCoordinate {
-        if (pos.level != area.level) throw new Error("Internal Error")
-        return lift(Rectangle.clampInto(pos, area), area.level)
+        return lift(Rectangle.clampInto(pos, area), pos.level)
     }
 
     export function tl(rect: MapRectangle): MapCoordinate {

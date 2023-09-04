@@ -5,10 +5,9 @@ import TreeEdit from "./TreeEdit";
 import {ScanStep} from "../../model/clues";
 import {MapCoordinate} from "../../model/coordinates";
 import {indirect, resolve} from "../../model/methods";
-import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
+import {ScanEditLayer} from "../map/layers/ScanLayer";
 import {ScanTree} from "../../model/scans/ScanTree";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
-import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
 import ScanSpot = ScanTree.ScanSpot;
@@ -17,9 +16,7 @@ import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import narrow_down = ScanTree.narrow_down;
 import assumedRange = ScanTree.assumedRange;
 import Collapsible from "../widgets/modals/Collapsible";
-import {ActiveOpacityGroup, OpacityGroup} from "../map/layers/OpacityLayer";
-import * as leaflet from "leaflet";
-import {PathingGraphics} from "../map/path_graphics";
+import {ActiveOpacityGroup} from "../map/layers/OpacityLayer";
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]

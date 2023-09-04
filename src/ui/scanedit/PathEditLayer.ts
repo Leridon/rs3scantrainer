@@ -5,7 +5,6 @@ import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction
 import MediumImageButton from "../widgets/MediumImageButton";
 import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
-import Button from "../widgets/Button";
 import {direction, MovementAbilities} from "../../model/movement";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
@@ -16,7 +15,6 @@ import LightButton from "../widgets/LightButton";
 import Collapsible from "../widgets/modals/Collapsible";
 import DirectionSelect from "../pathedit/DirectionSelect";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
-import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {GameMapControl} from "../map/map";
 import InteractionSelect from "../pathedit/InteractionSelect";
@@ -716,6 +714,8 @@ export class PathEditor extends TypedEmitter<{
 
         if (!before) await this.emitAsync("active_changed", true)
 
+        // TODO: Is the save/load feature really necessary? Or can it auto save each change?
+        //       Possibly toggleable depending on what kind of method is edited
         this.control = await new ControlWidget(this, lodash.cloneDeep(path), {
             save_enabled: options.save_handler != null
         })

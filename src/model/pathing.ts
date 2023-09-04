@@ -6,7 +6,7 @@ import * as lodash from "lodash"
 import {teleport_data} from "../data/teleport_data";
 import {full_teleport_id, Teleports} from "./teleports";
 import {Vector2} from "../util/math";
-import {export_string, import_string} from "../util/exportString";
+import {ExportImport} from "../util/exportString";
 import * as L from "leaflet"
 
 export namespace Path {
@@ -559,11 +559,12 @@ export namespace Path {
     }
 
     export function export_path(p: Path.raw): string {
-        return export_string("path", 0, p.steps)
+        return ExportImport.exp({type: "path", version: 0}, false, true)(p.steps)
+        //return export_string("path", 0, p.steps)
     }
 
     export function import_path(str: string): step[] {
-        return import_string("path", 0, str)
+        return ExportImport.imp<step[]>({expected_type: "path", expected_version: 0})(str)
     }
 
     function tile_bounds(tile: Vector2): L.Bounds {

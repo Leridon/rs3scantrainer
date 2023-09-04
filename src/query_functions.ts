@@ -1,31 +1,17 @@
 import {type Application} from "./application";
-import {import_object} from "./util/exportString";
 import {MapRectangle} from "./model/coordinates";
 import {Path} from "./model/pathing";
 import movement_state = Path.movement_state;
 import step = Path.step;
-import {Browser} from "leaflet";
+import {ExportImport} from "./util/exportString";
+import * as path from "path";
 
-
-function compose<A, B, C>(f: (_: A) => B, g: (_: B) => C): (_: A) => C {
-    return (a: A) => g(f(a))
-}
-
-function is_json_string(s: string): boolean {
-    return ['{', '['].indexOf(s.charAt(0)) >= 0
-}
-
+/*
 function auto_json<T extends object>(import_settings: { expected_type: string, expected_version: number } = null): (par: string) => T {
 
     function decode(s: string): string {
         if (is_json_string(s)) return s
-        else {
-
-            console.log("Decoding:")
-            console.log(s)
-
-            return atob(s)
-        }
+        else return atob(s)
     }
 
     let parser = (par: string): object => {
@@ -52,7 +38,7 @@ function auto_json<T extends object>(import_settings: { expected_type: string, e
     }
 
     return parser as (_: string) => T
-}
+}*/
 
 export function extract_query_function(parameters: URLSearchParams): (_: Application) => any {
     function sarg(name: string, optional: boolean = true): string {
@@ -74,9 +60,9 @@ export function extract_query_function(parameters: URLSearchParams): (_: Applica
 
     try {
         if (parameters.has("load_path_editor")) {
-            let target = arg("path_target", true, auto_json<MapRectangle>())
-            let start_state = arg("path_start_state", true, auto_json<movement_state>())
-            let path = arg("path_steps", true, auto_json<step[]>({expected_type: "path", expected_version: 0})) || []
+            let target = arg("path_target", true, ExportImport.imp<MapRectangle>())
+            let start_state = arg("path_start_state", true, ExportImport.imp<movement_state>())
+            let path = arg("path_steps", true, ExportImport.imp<step[]>({expected_type: "path", expected_version: 0})) || []
 
             return (app: Application) => {
                 app.map.path_editor.load({
@@ -105,6 +91,32 @@ export function extract_query_function(parameters: URLSearchParams): (_: Applica
 }
 
 export namespace QueryLinks {
+    import exp = ExportImport.exp;
+    type Command<T extends Record<string, any>> = {
+        name: string,
+        parser: {
+            [P in keyof T]?: (_: string) => T[P];
+        },
+        do: (_: Application, arg: T) => void
+    }
+
+    let load_path: Command<Path.raw> = {
+        do(_: Application, arg: Path.raw): void {
+        },
+        name: "load_path",
+        parser: {
+            steps: ExportImport.imp<step[]>({expected_type: "path", expected_version: 0}),
+        }
+    }
+
+    function construct_packed<T>(command: Command<T>, arg: T) {
+        return exp(null, true, true)({
+            method: command.name,
+            arg: arg
+        })
+    }
+
+
     function get_path() {
         if (window) return window.location.origin + window.location.pathname
         else return "https://leridon.github.io/rs3scantrainer/"

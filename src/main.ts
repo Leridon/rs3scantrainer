@@ -1,10 +1,6 @@
 import {clues} from "./data/clues";
-import {export_string} from "./util/exportString";
 import {type CompassStep} from "./model/clues";
-import * as fs from "fs";
-import Checks from "./skillbertssolver/typecheck";
-import str = Checks.str;
-
+/*
 export function export_path(p): string {
     return export_string("path", 0, p.steps)
 }
@@ -49,3 +45,4 @@ function dig_area(spot) {
 
     console.log(string)
 }
+*/

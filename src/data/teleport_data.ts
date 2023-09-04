@@ -1738,7 +1738,7 @@ export namespace teleport_data {
                 {id: "stormguard", spot: {x: 2682, y: 3403, level: 0}, code: "6", name: "Stormguard Citadel",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks},
-                {id: "warforge", spot: {x: 2408, y: 2829, level: 0}, code: "7", name: "Warforge",
+                {id: "warforge", spot: {x: 2409, y: 2824, level: 0}, code: "7", name: "Warforge",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks},
                 {id: "orthen", spot: {x: 5456, y: 2339, level: 0}, code: "8", name: "Orthen",

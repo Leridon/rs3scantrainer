@@ -17,6 +17,9 @@ import narrow_down = ScanTree.narrow_down;
 import assumedRange = ScanTree.assumedRange;
 import Collapsible from "../widgets/modals/Collapsible";
 import {ActiveOpacityGroup} from "../map/layers/OpacityLayer";
+import {ExportImport} from "../../util/exportString";
+import imp = ExportImport.imp;
+import exp = ExportImport.exp;
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]
@@ -45,14 +48,14 @@ export default class ScanEditPanel extends Widget<{
 
             $("<div class='lightbutton'>Export</div>")
                 .on("click", () => {
-                    // TODOExportStringModal.do(export_string("scantree", 0, indirect(this.value)), "Copy the string below to share this scan route.")
+                    ExportStringModal.do(exp({type: "scantree", version: 0}, true, true)(indirect(this.value)), "Copy the string below to share this scan route.")
                 })
                 .appendTo(control_row)
 
             $("<div class='lightbutton'>Import</div>")
                 .on("click", () => {
-                    /*TODO ImportStringModal.do((s) => {
-                        let i = import_string<indirect_scan_tree>("scantree", 0, s)
+                    ImportStringModal.do((s) => {
+                        let i = imp<indirect_scan_tree>({expected_type: "scantree", expected_version: 0})(s)
 
                         if (i.clue != this.clue.id) throw new Error("This method is not for the currently loaded clue")
 
@@ -60,7 +63,7 @@ export default class ScanEditPanel extends Widget<{
                     })
                         .then((obj: resolved_scan_tree) => {
                             this.setValue(obj)
-                        })*/
+                        })
                 })
                 .appendTo(control_row)
 

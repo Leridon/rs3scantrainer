@@ -6,10 +6,57 @@ import {Modal} from "./ui/widgets/modal";
 import TemplateResolver from "./util/TemplateResolver";
 import {TeleportLayer} from "./ui/map/teleportlayer";
 import {Teleports} from "./model/teleports";
-import {ClueSteps} from "./model/clues";
+import {ClueSteps, ClueTier, ClueType} from "./model/clues";
 import {Methods} from "./data/accessors";
 import {GameMapControl} from "./ui/map/map";
-import {extract_query_function} from "./query_functions";
+import {QueryLinks} from "./query_functions";
+import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
+import {Path} from "./model/pathing";
+import {ExportImport} from "./util/exportString";
+import OverviewLayer from "./ui/map/layers/OverviewLayer";
+import {clues} from "./data/clues";
+import link = QueryLinks.link;
+
+export namespace ScanTrainerCommands {
+    import Command = QueryLinks.Command;
+    export const load_path: Command<Path.raw> = {
+        name: "load_path",
+        parser: {
+            steps: ExportImport.imp<Path.step[]>({expected_type: "path", expected_version: 0}), // import is idempotent if it's not a serialized payload string
+        },
+        serializer: {},
+        instantiate: (arg: Path.raw) => (app: Application): void => {
+            app.map.path_editor.load(arg, {
+                save_handler: null,
+                close_handler: () => {
+                }
+            })
+        },
+    }
+
+    export const load_overview: Command<{
+        tiers: ClueTier[],
+        types: ClueType[]
+    }> = {
+        name: "load_overview",
+        parser: {
+            tiers: (s: string) => s.split(",") as ClueTier[],
+            types: (s: string) => s.split(",") as ClueType[]
+        },
+        serializer: {
+            tiers: (tiers: ClueTier[]) => tiers.join(","),
+            types: (tiers: ClueType[]) => tiers.join(",")
+        },
+        instantiate: ({tiers, types}) => (app: Application): void => {
+            app.map.setActiveLayer(new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0)))
+        },
+    }
+
+
+    export const index = [
+        load_path, load_overview
+    ]
+}
 
 class BetaNoticeModal extends Modal {
     understand_button: JQuery
@@ -139,6 +186,8 @@ export class Application {
         ]
     ))
 
+    query_commands: {}
+
     startup_settings = new storage.Variable<{
         hide_beta_notice: boolean,
         seen_changelogs: string[]
@@ -160,11 +209,13 @@ export class Application {
     }
 
     async start() {
-        let query_function = extract_query_function(new URLSearchParams(window.location.search))
+        let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
         if (query_function) query_function(this)
 
         if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
+
+        //ExportStringModal.do(link(ScanTrainerCommands.load_overview, {tiers: ["elite"], types: ["compass"]}, false))
     }
 }
 

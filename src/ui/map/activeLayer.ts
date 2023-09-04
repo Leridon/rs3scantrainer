@@ -1,6 +1,6 @@
-import {blue_icon, GameMapControl} from "./map";
+import {blue_icon, type GameMapControl} from "./map";
 import * as leaflet from "leaflet"
-import {MapCoordinate} from "../../model/coordinates";
+import {type MapCoordinate} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";

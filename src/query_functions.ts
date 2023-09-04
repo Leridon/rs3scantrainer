@@ -1,121 +1,108 @@
 import {type Application} from "./application";
-import {import_object} from "./util/exportString";
-import {MapRectangle} from "./model/coordinates";
-import {Path} from "./model/pathing";
-import movement_state = Path.movement_state;
-import step = Path.step;
-import {Browser} from "leaflet";
-
-
-function compose<A, B, C>(f: (_: A) => B, g: (_: B) => C): (_: A) => C {
-    return (a: A) => g(f(a))
-}
-
-function is_json_string(s: string): boolean {
-    return ['{', '['].indexOf(s.charAt(0)) >= 0
-}
-
-function auto_json<T extends object>(import_settings: { expected_type: string, expected_version: number } = null): (par: string) => T {
-
-    function decode(s: string): string {
-        if (is_json_string(s)) return s
-        else {
-
-            console.log("Decoding:")
-            console.log(s)
-
-            return atob(s)
-        }
-    }
-
-    let parser = (par: string): object => {
-        const json_string = decode(par)
-
-        if (!is_json_string(json_string)) throw new Error("Parameter is not a json string")
-
-        return JSON.parse(json_string)
-    }
-
-    if (import_settings) {
-        // Import settings are set, add check for exported object
-
-        parser = compose(parser, (obj: object): T => {
-            if ("hash" in obj && "value" in obj && Object.keys(obj).length == 2) {
-                let exported_object = obj as {
-                    hash: number,
-                    value: string
-                }
-
-                return import_object(import_settings.expected_type, import_settings.expected_version, exported_object)
-            } else return obj as T
-        })
-    }
-
-    return parser as (_: string) => T
-}
-
-export function extract_query_function(parameters: URLSearchParams): (_: Application) => any {
-    function sarg(name: string, optional: boolean = true): string {
-        let parameter = parameters.get(name)
-
-        if (parameter == null) {
-            if (optional) return null
-            else throw new Error(`${name} is missing`)
-        }
-
-        return parameter
-    }
-
-    function arg<T>(name: string, optional: boolean = true, parser: (_: string) => T): T {
-        let parameter = sarg(name, optional)
-
-        return parameter != null ? parser(parameter) : null
-    }
-
-    try {
-        if (parameters.has("load_path_editor")) {
-            let target = arg("path_target", true, auto_json<MapRectangle>())
-            let start_state = arg("path_start_state", true, auto_json<movement_state>())
-            let path = arg("path_steps", true, auto_json<step[]>({expected_type: "path", expected_version: 0})) || []
-
-            return (app: Application) => {
-                app.map.path_editor.load({
-                    target: target,
-                    start_state: start_state,
-                    steps: path
-                }, {
-                    save_handler: null,
-                    close_handler: () => {
-                    }
-                })
-            }
-        }
-    } catch (e) {
-        console.error("Query error:")
-        console.error(e)
-
-        return null
-    }
-
-    // load path editor (target?, start?, path?)
-    // load method
-    //
-
-    return null
-}
+import {ExportImport} from "./util/exportString";
+import * as lodash from "lodash"
+import {identity} from "lodash";
 
 export namespace QueryLinks {
+    export type Command<T extends Record<string, any>> = {
+        name: string,
+        parser: {
+            [P in keyof T]?: (_: string) => T[P];
+        },
+        serializer: {
+            [P in keyof T]?: (_: T[P]) => string;
+        },
+        default: {
+            [P in keyof T]?: T[P];
+        }
+        instantiate: (arg: T) => (_: Application) => void
+    }
+
+    type QueryInvocation<T> = {
+        name: string,
+        arg: T
+    }
+
+    export namespace Commands {
+        export function invocation<T>(command: Command<T>, arg: T): QueryInvocation<T> {
+
+            let cloned_arg = lodash.clone(arg)
+
+            for (let key of Object.keys(command.serializer)) {
+                cloned_arg[key] = (command.serializer[key] || identity)(arg[key])
+            }
+
+            return {
+                name: command.name,
+                arg: cloned_arg
+            }
+        }
+    }
+
+    namespace QueryInvocation {
+        import imp = ExportImport.imp;
+
+        export function toQuery<T>(query: QueryInvocation<T>, compact: boolean = true): URLSearchParams {
+
+            if (compact)
+                return new URLSearchParams({
+                    "ctr_query": exp(null, false, false)(query)
+                })
+            else {
+                let encoded = {
+                    "ctr_query": query.name,
+                }
+
+                for (let key of Object.keys(query.arg)) {
+                    let value = query.arg[key]
+
+                    if (typeof value == "string") encoded[key] = value
+                    else encoded[key] = JSON.stringify(value)
+                }
+
+                return new URLSearchParams(encoded)
+            }
+        }
+
+        export function fromQuery(index: Command<any>[], params: URLSearchParams): QueryInvocation<any> {
+            let query = params.get("ctr_query")
+
+            if (!query) return null
+
+            if (index.find(c => c.name == query)) {
+                return {name: query, arg: Object.fromEntries(params.entries())}
+            } else return imp()(query) as QueryInvocation<any>
+        }
+
+        export function resolve<T>(index: Command<any>[], query: QueryInvocation<T>): (_: Application) => void {
+            let command = (index.find(c => c.name == query.name) as Command<T>)
+
+            let cloned_arg = lodash.clone(query.arg)
+
+            for (let key of Object.keys(command.parser)) {
+                cloned_arg[key] = query.arg[key] == null
+                    ? command.default[key]
+                    : (command.parser[key] || imp)(query.arg[key])
+            }
+
+            return command.instantiate(query.arg)
+        }
+    }
+
+    export function link<T>(command: Command<T>, arg: T, compact: boolean = true): string {
+        return `${get_path()}?${QueryInvocation.toQuery(Commands.invocation(command, arg), compact).toString()}`
+    }
+
+    export function get_from_params(index: Command<any>[], parameters: URLSearchParams): (_: Application) => void {
+        let invocation = QueryInvocation.fromQuery(index, parameters)
+        if (!invocation) return null
+        return QueryInvocation.resolve(index, invocation)
+    }
+
+    import exp = ExportImport.exp;
+
     function get_path() {
         if (window) return window.location.origin + window.location.pathname
         else return "https://leridon.github.io/rs3scantrainer/"
-    }
-
-    export function to_path(path: Path.raw): string {
-        let url = get_path() + "?load_path_editor"
-        if (path.target) url += `&path_target=${encodeURI(JSON.stringify(path.target))}`
-        if (path.start_state) url += `&path_start_state=${encodeURI(JSON.stringify(path.start_state))}`
-        if (path.steps.length > 0) url += `&path_steps=${encodeURI(Path.export_path(path))}`
-
-        return url
     }
 }

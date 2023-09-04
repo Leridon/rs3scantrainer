@@ -5,10 +5,9 @@ import TreeEdit from "./TreeEdit";
 import {ScanStep} from "../../model/clues";
 import {MapCoordinate} from "../../model/coordinates";
 import {indirect, resolve} from "../../model/methods";
-import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
+import {ScanEditLayer} from "../map/layers/ScanLayer";
 import {ScanTree} from "../../model/scans/ScanTree";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
-import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
 import ScanSpot = ScanTree.ScanSpot;
@@ -17,9 +16,10 @@ import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import narrow_down = ScanTree.narrow_down;
 import assumedRange = ScanTree.assumedRange;
 import Collapsible from "../widgets/modals/Collapsible";
-import {ActiveOpacityGroup, OpacityGroup} from "../map/layers/OpacityLayer";
-import * as leaflet from "leaflet";
-import {PathingGraphics} from "../map/path_graphics";
+import {ActiveOpacityGroup} from "../map/layers/OpacityLayer";
+import {ExportImport} from "../../util/exportString";
+import imp = ExportImport.imp;
+import exp = ExportImport.exp;
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]
@@ -48,14 +48,14 @@ export default class ScanEditPanel extends Widget<{
 
             $("<div class='lightbutton'>Export</div>")
                 .on("click", () => {
-                    ExportStringModal.do(export_string("scantree", 0, indirect(this.value)), "Copy the string below to share this scan route.")
+                    ExportStringModal.do(exp({type: "scantree", version: 0}, true, true)(indirect(this.value)), "Copy the string below to share this scan route.")
                 })
                 .appendTo(control_row)
 
             $("<div class='lightbutton'>Import</div>")
                 .on("click", () => {
                     ImportStringModal.do((s) => {
-                        let i = import_string<indirect_scan_tree>("scantree", 0, s)
+                        let i = imp<indirect_scan_tree>({expected_type: "scantree", expected_version: 0})(s)
 
                         if (i.clue != this.clue.id) throw new Error("This method is not for the currently loaded clue")
 

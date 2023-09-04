@@ -5,10 +5,9 @@ import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction
 import MediumImageButton from "../widgets/MediumImageButton";
 import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
-import Button from "../widgets/Button";
 import {direction, MovementAbilities} from "../../model/movement";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
-import {scantrainer} from "../../application";
+import {scantrainer, ScanTrainerCommands} from "../../application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import Properties from "../widgets/Properties";
@@ -16,7 +15,6 @@ import LightButton from "../widgets/LightButton";
 import Collapsible from "../widgets/modals/Collapsible";
 import DirectionSelect from "../pathedit/DirectionSelect";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
-import {export_string, import_string} from "../../util/exportString";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {GameMapControl} from "../map/map";
 import InteractionSelect from "../pathedit/InteractionSelect";
@@ -371,14 +369,23 @@ class ControlWidget extends Widget<{
                 .appendTo(control_container)
             new LightButton("Import")
                 .on("click", async () => {
-                    this.value.steps = await ImportStringModal.do((s) => Path.import_path(s))
+                    let imported = await ImportStringModal.do((s) => Path.import_path(s))
+
+                    console.log("Imported:")
+                    console.log(imported)
+
+                    // Only import target and start_state if it does not exist yet
+                    if (!this.value.target) this.value.target = imported.target
+                    if (!this.value.start_state) this.value.start_state = imported.start_state
+                    this.value.steps = imported.steps
+
                     await this.render()
                 })
                 .appendTo(control_container)
 
             new LightButton("Share")
                 .on("click", () => {
-                    ExportStringModal.do(QueryLinks.to_path(this.value), "Use this link to directly link to this path.")
+                    ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, this.value), "Use this link to directly link to this path.")
                 })
                 .appendTo(control_container)
         }
@@ -707,7 +714,7 @@ export class PathEditor extends TypedEmitter<{
         this.control = null
     }
 
-    public async load(path: Path.raw, options: PathEditor.options_t) {
+    public async load(path: Path.raw, options: PathEditor.options_t = {}) {
         let before = this.current_options != null
 
         await this.reset()
@@ -716,6 +723,8 @@ export class PathEditor extends TypedEmitter<{
 
         if (!before) await this.emitAsync("active_changed", true)
 
+        // TODO: Is the save/load feature really necessary? Or can it auto save each change?
+        //       Possibly toggleable depending on what kind of method is edited
         this.control = await new ControlWidget(this, lodash.cloneDeep(path), {
             save_enabled: options.save_handler != null
         })
@@ -738,7 +747,7 @@ export class PathEditor extends TypedEmitter<{
         }
 
         if (this.current_options) {
-            await this.current_options.close_handler()
+            if (this.current_options.close_handler) await this.current_options.close_handler()
             this.current_options = null
         }
     }
@@ -747,7 +756,7 @@ export class PathEditor extends TypedEmitter<{
 namespace PathEditor {
     export type options_t = {
         save_handler?: (p: Path.raw) => any,
-        close_handler: () => any
+        close_handler?: () => any
     }
 }
 

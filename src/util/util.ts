@@ -77,4 +77,8 @@ export namespace util {
             [bounds.getBottomRight().y, bounds.getBottomRight().x],
         ])
     }
+
+    export function compose<T>(fn1: (a: T) => T, ...fns: Array<(a: T) => T>) {
+        return fns.reduce((prevFn, nextFn) => value => nextFn(prevFn(value)), fn1);
+    }
 }

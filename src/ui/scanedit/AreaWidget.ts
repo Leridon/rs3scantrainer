@@ -8,7 +8,7 @@ import ScanDecision = ScanTree.ScanDecision;
 import Widget from "../widgets/Widget";
 import {Pulse} from "../../model/scans/scans";
 import LightButton from "../widgets/LightButton";
-import {Layer, Polygon} from "leaflet";
+import {Layer} from "leaflet";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 
 let area_name_pattern = /[a-zA-Z_][_a-zA-Z0-9]*/

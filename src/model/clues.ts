@@ -1,7 +1,7 @@
 import {GieliCoordinates, MapCoordinate} from "./coordinates";
 import {clues} from "../data/clues";
 import {Application} from "../application";
-import {ActiveLayer, SimpleMarkerLayer} from "../ui/map/activeLayer";
+import {type ActiveLayer, SimpleMarkerLayer} from "../ui/map/activeLayer";
 import {ScanLayer} from "../ui/map/layers/ScanLayer";
 import {TileMarker} from "../ui/map/TileMarker";
 

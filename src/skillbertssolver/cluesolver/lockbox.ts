@@ -1,8 +1,6 @@
 import * as a1lib from "@alt1/base"
-import * as OCR from "@alt1/ocr/dist/";
 import { webpackImages } from "@alt1/base/dist/imagedetect";
 import { ImgRef } from "@alt1/base";
-import { Grid } from "./towerssolver";
 import { ModalUI } from "./modeluireader";
 
 var imgs = webpackImages({

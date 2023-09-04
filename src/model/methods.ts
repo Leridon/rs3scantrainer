@@ -1,4 +1,4 @@
-import {ClueStep, ScanStep} from "./clues";
+import {ClueStep} from "./clues";
 import {ScanTree} from "./scans/ScanTree";
 import {clues} from "../data/clues";
 

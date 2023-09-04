@@ -1,4 +1,4 @@
-import { ImageDetect, ImageData, ImgRef } from "@alt1/base";
+import { ImageDetect, ImageData } from "@alt1/base";
 import * as a1lib from "@alt1/base";
 import { ModalUI } from "./modeluireader";
 

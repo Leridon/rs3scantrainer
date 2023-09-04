@@ -24914,7 +24914,7 @@ export let clues: ClueStep[] = [
         "id": 295,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3038, "y": 3192, "level": 0},
+            "coordinates": {"x": 3033, "y": 3190, "level": 0},
             "answer": "Trader Stan"
         }
     },

@@ -15,7 +15,6 @@ import {Path} from "./model/pathing";
 import {ExportImport} from "./util/exportString";
 import OverviewLayer from "./ui/map/layers/OverviewLayer";
 import {clues} from "./data/clues";
-import link = QueryLinks.link;
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -24,6 +23,7 @@ export namespace ScanTrainerCommands {
         parser: {
             steps: ExportImport.imp<Path.step[]>({expected_type: "path", expected_version: 0}), // import is idempotent if it's not a serialized payload string
         },
+        default: {},
         serializer: {},
         instantiate: (arg: Path.raw) => (app: Application): void => {
             app.map.path_editor.load(arg, {
@@ -40,8 +40,12 @@ export namespace ScanTrainerCommands {
     }> = {
         name: "load_overview",
         parser: {
-            tiers: (s: string) => s.split(",") as ClueTier[],
+            tiers: (s: string) => s.split(",").map(t => t == "null" ? null : t) as ClueTier[],
             types: (s: string) => s.split(",") as ClueType[]
+        },
+        default: {
+            tiers: ["easy", "medium", "hard", "elite", "master", null],
+            types: ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simple", "skilling"]
         },
         serializer: {
             tiers: (tiers: ClueTier[]) => tiers.join(","),

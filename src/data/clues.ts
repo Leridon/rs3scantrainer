@@ -318,7 +318,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "scan", "clue": "This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces.", "tier": null, "id": 36, "solution": {
+        "type": "scan", "clue": "This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces.", "tier": "elite", "id": 36, "solution": {
             "type": "coordset",
             "candidates": [{"x": 2958, "y": 3917, "level": 0}, {"x": 2979, "y": 3962, "level": 0}, {"x": 2998, "y": 3914, "level": 0}, {
                 "x": 2956,

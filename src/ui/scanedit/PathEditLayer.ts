@@ -556,7 +556,7 @@ class ControlWidget extends Widget<{
                                 type: "redclick",
                                 description: "",
                                 where: t,
-                                how: Path.InteractionType.Enum.GENERIC
+                                how: "generic"
                             }))
 
                             this.render()
@@ -607,7 +607,7 @@ class ControlWidget extends Widget<{
                                     direction: null,
                                     tile: {x: 0, y: 0, level: 0}
                                 },
-                                how: Path.InteractionType.Enum.GENERIC
+                                how: "generic"
                             }))
 
                             this.render()

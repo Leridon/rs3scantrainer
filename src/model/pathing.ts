@@ -16,25 +16,45 @@ export namespace Path {
         description: string
     }
 
+    export type InteractionType =
+        "generic"
+        | "chop"
+        | "talk"
+        | "open"
+        | "enter"
+        | "spellonentity"
+        | "agility_obstacle"
+        | "ladderdown"
+        | "ladderup"
+
     export namespace InteractionType {
 
-        export enum Enum {
-            GENERIC = "generic",
-            CHOP = "chop",
-            TALK = "talk",
-            OPEN = "open",
-            ENTER = "enter",
-            SPELLONENTITY = "spellonentity",
-            AGILITY_OBSTACLE = "climb",
-            CLIMB_DOWN_LADDER = "climbdownladder",
-            CLIMB_UP_LADDER = "climbupladder"
+        export function all(): InteractionType[] {
+            return [
+                "generic", "chop", "talk", "open", "enter", "spellonentity", "agility_obstacle", "ladderdown", "ladderup"
+            ]
         }
 
-        export function meta(type: InteractionType.Enum): { icon_url: string, description: string, short_icon: string } {
-            return {
-                icon_url: "assets/icons/missing_icon.png",
-                description: capitalize(type.toString()),
-                short_icon: "missing_icon"
+        export function meta(type: InteractionType): { icon_url: string, description: string, short_icon: string } {
+            switch (type) {
+                case "generic":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Click", short_icon: "missing_icon"}
+                case "chop":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Chop", short_icon: "missing_icon"}
+                case "talk":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Talk to", short_icon: "missing_icon"}
+                case "open":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Open", short_icon: "missing_icon"}
+                case "enter":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Enter", short_icon: "missing_icon"}
+                case "spellonentity":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Use spell", short_icon: "missing_icon"}
+                case "agility_obstacle":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Use", short_icon: "missing_icon"}
+                case "ladderdown":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Climb up ladder", short_icon: "missing_icon"}
+                case "ladderup":
+                    return {icon_url: "assets/icons/missing_icon.png", description: "Climb down ladder", short_icon: "missing_icon"}
             }
             // TODO: Add real data
         }
@@ -68,13 +88,13 @@ export namespace Path {
         ticks: number,
         where: MapCoordinate,
         ends_up: PlayerPosition,
-        how: InteractionType.Enum
+        how: InteractionType
     }
 
     export type step_redclick = step_base & {
         type: "redclick",
         where: MapCoordinate,
-        how: InteractionType.Enum
+        how: InteractionType
     }
 
     export type step_powerburst = step_base & {
@@ -288,7 +308,10 @@ export namespace Path {
                                 if (cd <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
                                     augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
-                                    augmented.issues.push({level: cd >= 4 ? 0 : 1, message: `Both surge charges are still on cooldown for ${cd} ticks!`})
+                                    augmented.issues.push({
+                                        level: cd >= 4 ? 0 : 1,
+                                        message: `Both surge charges are still on cooldown for ${cd} ticks!`
+                                    })
 
                                 state.tick = state.cooldowns.surge[min] // Wait for cooldown
                             }
@@ -311,7 +334,10 @@ export namespace Path {
                                 if (cd <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
                                     augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
-                                    augmented.issues.push({level: cd >= 4 ? 0 : 1, message: `Both escape charges are still on cooldown for ${cd} ticks!`})
+                                    augmented.issues.push({
+                                        level: cd >= 4 ? 0 : 1,
+                                        message: `Both escape charges are still on cooldown for ${cd} ticks!`
+                                    })
 
                                 state.tick = state.cooldowns.escape[min] // Wait for cooldown
                             }

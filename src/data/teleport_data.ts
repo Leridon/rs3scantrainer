@@ -1274,7 +1274,7 @@ export namespace teleport_data {
                 {id: "crafting", spot: {x: 2934, y: 3291, level: 0}, code: "3", name: "Crafting Guild",
                     menu_ticks: 2,
                     animation_ticks: 4},
-                {id: "cooking", spot: {x: 3144, y: 3443, level: 0}, code: "4", name: "Cooking Guild",
+                {id: "cooking", spot: {x: 3143, y: 3442, level: 0}, code: "4", name: "Cooking Guild",
                     menu_ticks: 2,
                     animation_ticks: 4},
                 {id: "invention", spot: {x: 2997, y: 3436, level: 0}, code: "5", name: "Invention guild",

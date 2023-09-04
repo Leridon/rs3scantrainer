@@ -369,14 +369,23 @@ class ControlWidget extends Widget<{
                 .appendTo(control_container)
             new LightButton("Import")
                 .on("click", async () => {
-                    this.value.steps = await ImportStringModal.do((s) => Path.import_path(s))
+                    let imported = await ImportStringModal.do((s) => Path.import_path(s))
+
+                    console.log("Imported:")
+                    console.log(imported)
+
+                    // Only import target and start_state if it does not exist yet
+                    if(!this.value.target) this.value.target = imported.target
+                    if(!this.value.start_state) this.value.start_state = imported.start_state
+                    this.value.steps = imported.steps
+
                     await this.render()
                 })
                 .appendTo(control_container)
 
             new LightButton("Share")
                 .on("click", () => {
-                    ExportStringModal.do(QueryLinks.to_path(this.value), "Use this link to directly link to this path.")
+                    ExportStringModal.do(QueryLinks.link(QueryLinks.Commands.load_path, this.value), "Use this link to directly link to this path.")
                 })
                 .appendTo(control_container)
         }

@@ -559,12 +559,12 @@ export namespace Path {
     }
 
     export function export_path(p: Path.raw): string {
-        return ExportImport.exp({type: "path", version: 0}, false, true)(p.steps)
+        return ExportImport.exp({type: "path", version: 0}, false, true)(p)
         //return export_string("path", 0, p.steps)
     }
 
-    export function import_path(str: string): step[] {
-        return ExportImport.imp<step[]>({expected_type: "path", expected_version: 0})(str)
+    export function import_path(str: string): Path.raw {
+        return ExportImport.imp<Path.raw>({expected_type: "path", expected_version: 0})(str)
     }
 
     function tile_bounds(tile: Vector2): L.Bounds {
@@ -575,8 +575,6 @@ export namespace Path {
     }
 
     export function step_bounds(step: augmented_step): L.Bounds {
-
-
         let bounds = L.bounds([])
 
         switch (step.raw.type) {

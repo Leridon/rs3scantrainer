@@ -45,13 +45,13 @@ export default class ScanEditPanel extends Widget<{
 
             $("<div class='lightbutton'>Export</div>")
                 .on("click", () => {
-                    ExportStringModal.do(export_string("scantree", 0, indirect(this.value)), "Copy the string below to share this scan route.")
+                    // TODOExportStringModal.do(export_string("scantree", 0, indirect(this.value)), "Copy the string below to share this scan route.")
                 })
                 .appendTo(control_row)
 
             $("<div class='lightbutton'>Import</div>")
                 .on("click", () => {
-                    ImportStringModal.do((s) => {
+                    /*TODO ImportStringModal.do((s) => {
                         let i = import_string<indirect_scan_tree>("scantree", 0, s)
 
                         if (i.clue != this.clue.id) throw new Error("This method is not for the currently loaded clue")
@@ -60,7 +60,7 @@ export default class ScanEditPanel extends Widget<{
                     })
                         .then((obj: resolved_scan_tree) => {
                             this.setValue(obj)
-                        })
+                        })*/
                 })
                 .appendTo(control_row)
 

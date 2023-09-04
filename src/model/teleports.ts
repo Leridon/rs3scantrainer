@@ -1,7 +1,6 @@
 import {MapCoordinate} from "./coordinates";
 import {TypedEmitter} from "../skillbertssolver/eventemitter";
 import {teleport_data} from "../data/teleport_data";
-import {valuesIn} from "lodash";
 import {direction} from "./movement";
 
 export type teleport_group = {

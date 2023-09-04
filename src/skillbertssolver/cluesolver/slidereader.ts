@@ -1,6 +1,4 @@
-import { ImageDetect, ImgRefCtx, ImgRef } from "@alt1/base";
-import * as a1lib from "@alt1/base";
-import { imageDataFromBase64 } from "@alt1/base/dist/imagedetect";
+import { ImgRef } from "@alt1/base";
 import * as defs from "./slidetiles";
 import * as oldlib from "./oldlib";
 

@@ -18,7 +18,7 @@ import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import SimpleClickInteraction from "../interactions/SimpleClickInteraction";
 import {TileMarker} from "../TileMarker";
-import {ActiveOpacityGroup, OpacityGroup} from "./OpacityLayer";
+import {ActiveOpacityGroup} from "./OpacityLayer";
 import {Vector2} from "../../../util/math";
 import {boxPolygon} from "../polygon_helpers";
 

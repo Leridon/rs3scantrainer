@@ -1,6 +1,6 @@
-import {clues} from "./data/clues";
+/*import {clues} from "./data/clues";
 import {type CompassStep} from "./model/clues";
-/*
+
 export function export_path(p): string {
     return export_string("path", 0, p.steps)
 }

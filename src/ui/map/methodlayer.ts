@@ -18,7 +18,7 @@ import {TextRendering} from "../TextRendering";
 import render_digspot = TextRendering.render_digspot;
 import natural_join = util.natural_join;
 import shorten_integer_list = util.shorten_integer_list;
-import {createStepGraphics, PathingGraphics} from "./path_graphics";
+import {PathingGraphics} from "./path_graphics";
 import {Path} from "../../model/pathing";
 import Order = util.Order;
 import {MapRectangle} from "../../model/coordinates";

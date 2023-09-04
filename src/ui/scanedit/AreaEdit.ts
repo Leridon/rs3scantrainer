@@ -1,14 +1,12 @@
 import Widget from "../widgets/Widget";
 import AreaWidget from "./AreaWidget";
-import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
+import {ScanEditLayer} from "../map/layers/ScanLayer";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "../../model/scans/ScanTree";
 import ScanSpot = ScanTree.ScanSpot;
 import ScanDecision = ScanTree.ScanDecision;
-import Collapsible from "../widgets/modals/Collapsible";
 import LightButton from "../widgets/LightButton";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
-import {Layer, Polygon} from "leaflet";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],

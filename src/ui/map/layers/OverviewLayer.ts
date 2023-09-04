@@ -49,8 +49,7 @@ export default class OverviewLayer extends ActiveLayer {
                             steps: [],
                             target: dig_area(spot)
                         }, {})
-                    })
-                )
+                    }))
 
                 Widget.wrap($(marker.marker.getElement())).addTippy(props, {
                     interactive: true,

@@ -1,6 +1,6 @@
 import {deflate, inflate} from "pako";
 import {base64ToBytes, bytesToBase64} from "byte-base64";
-import {has, identity} from "lodash";
+import {identity} from "lodash";
 import {util} from "./util";
 
 // Simple hash function

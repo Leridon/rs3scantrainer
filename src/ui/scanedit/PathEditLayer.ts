@@ -7,7 +7,7 @@ import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {createStepGraphics} from "../map/path_graphics";
 import {direction, MovementAbilities} from "../../model/movement";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
-import {scantrainer} from "../../application";
+import {scantrainer, ScanTrainerCommands} from "../../application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import Properties from "../widgets/Properties";
@@ -385,7 +385,7 @@ class ControlWidget extends Widget<{
 
             new LightButton("Share")
                 .on("click", () => {
-                    ExportStringModal.do(QueryLinks.link(QueryLinks.Commands.load_path, this.value), "Use this link to directly link to this path.")
+                    ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, this.value), "Use this link to directly link to this path.")
                 })
                 .appendTo(control_container)
         }

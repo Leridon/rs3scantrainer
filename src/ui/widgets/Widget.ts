@@ -1,7 +1,7 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as events from "events";
 import {Browser} from "leaflet";
-import tippy from 'tippy.js';
+import * as tippy from 'tippy.js';
 
 
 export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
@@ -92,11 +92,12 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    addTippy(tooltip: Widget): this {
-        tippy(this.container.get()[0], {
+    addTippy(tooltip: Widget, options: Partial<tippy.Props> = {}): this {
+        tippy.default(this.container.get()[0], {
+            ...options,
             content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(tooltip).container.get()[0],
             arrow: true,
-            delay: [0, 0],
+            delay: 1,
         })
 
         return this

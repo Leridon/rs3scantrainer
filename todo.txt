@@ -82,6 +82,8 @@ Unscheduled:
 - Assign clue tiers to remaining clues
 - Figure out how to handle clues with different solutions depending on game progress.
 - Google Maps like layout for a slimmer experience? Make the map be the center of everything
+- Landing areas for non-static teleports, show better metadata on tooltip/hover
+- Properly model clue solution types with more details
 
 Rechecked
 - Lumbdridge

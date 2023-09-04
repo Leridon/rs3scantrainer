@@ -375,8 +375,8 @@ class ControlWidget extends Widget<{
                     console.log(imported)
 
                     // Only import target and start_state if it does not exist yet
-                    if(!this.value.target) this.value.target = imported.target
-                    if(!this.value.start_state) this.value.start_state = imported.start_state
+                    if (!this.value.target) this.value.target = imported.target
+                    if (!this.value.start_state) this.value.start_state = imported.start_state
                     this.value.steps = imported.steps
 
                     await this.render()
@@ -714,7 +714,7 @@ export class PathEditor extends TypedEmitter<{
         this.control = null
     }
 
-    public async load(path: Path.raw, options: PathEditor.options_t) {
+    public async load(path: Path.raw, options: PathEditor.options_t = {}) {
         let before = this.current_options != null
 
         await this.reset()
@@ -747,7 +747,7 @@ export class PathEditor extends TypedEmitter<{
         }
 
         if (this.current_options) {
-            await this.current_options.close_handler()
+            if (this.current_options.close_handler) await this.current_options.close_handler()
             this.current_options = null
         }
     }
@@ -756,7 +756,7 @@ export class PathEditor extends TypedEmitter<{
 namespace PathEditor {
     export type options_t = {
         save_handler?: (p: Path.raw) => any,
-        close_handler: () => any
+        close_handler?: () => any
     }
 }
 

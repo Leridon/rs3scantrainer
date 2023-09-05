@@ -17318,6 +17318,11 @@ let raw: (method & indirected)[] = [
                                                                                     "y": 9554,
                                                                                     "level": 0
                                                                                 },
+                                                                                "starts": {
+                                                                                    "x": 3221,
+                                                                                    "y": 9552,
+                                                                                    "level": 0
+                                                                                },
                                                                                 "ends_up": {
                                                                                     "direction": 2,
                                                                                     "tile": {
@@ -17380,6 +17385,11 @@ let raw: (method & indirected)[] = [
                                                                     "type": "interaction",
                                                                     "ticks": 1,
                                                                     "description": "{{icon cursor_enter}} Tunnel",
+                                                                    "starts": {
+                                                                        "x": 3219,
+                                                                        "y": 9531,
+                                                                        "level": 2
+                                                                    },
                                                                     "where": {
                                                                         "x": 3219,
                                                                         "y": 9533,

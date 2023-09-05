@@ -609,6 +609,7 @@ class ControlWidget extends Widget<{
                                 type: "interaction",
                                 ticks: 1,
                                 description: "",
+                                starts: this.augmented.post_state?.position?.tile || t,
                                 where: t,
                                 ends_up: {
                                     direction: null,

@@ -202,7 +202,13 @@ class StepEditWidget extends Widget<{
                     }))
                 )
 
-                props.named("Where", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.where))
+                props.named("Starts", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.starts))
+                    .on("changed", (c) => {
+                        (this.value.raw as Path.step_interact).starts = c
+                        this.emit("changed", this.value.raw)
+                    })
+
+                props.named("Click", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.where))
                     .on("changed", (c) => {
                         (this.value.raw as Path.step_interact).where = c
                         this.emit("changed", this.value.raw)

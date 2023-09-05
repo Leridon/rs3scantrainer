@@ -49,7 +49,7 @@ export namespace PathingGraphics {
             case "orientation":
                 return `Face ${direction.toString(step.direction)}`
             case "run":
-                return `{{icon run}} ${step.waypoints.length - 1} tiles`
+                return `{{icon run}}`
             case "ability":
                 return `{{${step.ability}}}`
             case "teleport":

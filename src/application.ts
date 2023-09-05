@@ -15,9 +15,14 @@ import {Path} from "./model/pathing";
 import {ExportImport} from "./util/exportString";
 import OverviewLayer from "./ui/map/layers/OverviewLayer";
 import {clues} from "./data/clues";
+import {ScanTree} from "./model/scans/ScanTree";
+import {resolve} from "./model/methods";
+import methods from "./data/methods";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
+    import exp = ExportImport.exp;
+    import imp = ExportImport.imp;
     export const load_path: Command<Path.raw> = {
         name: "load_path",
         parser: {
@@ -56,9 +61,27 @@ export namespace ScanTrainerCommands {
         },
     }
 
+    export const load_method: Command<{
+        method: ScanTree.indirect_scan_tree
+    }> = {
+        name: "load_method",
+        parser: {
+           // method: (a) => imp<ScanTree.indirect_scan_tree>({expected_type: "scantree", expected_version: 0})(a)
+        },
+        default: {},
+        serializer: {
+           // method: (a) => exp({type: "scantree", version: 0}, true, true)(a)
+        },
+        instantiate: ({method}) => (app: Application): void => {
+            let resolved = resolve(method)
+
+            app.sidepanels.clue_panel.clue(resolved.clue).showMethod(resolved)
+        },
+    }
+
 
     export const index = [
-        load_path, load_overview
+        load_path, load_overview, load_method
     ]
 }
 

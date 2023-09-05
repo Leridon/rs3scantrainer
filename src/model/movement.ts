@@ -3,6 +3,7 @@ import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../util/math";
 import * as pako from "pako"
+import {Raster} from "../util/raster";
 
 type TileMovementData = number
 
@@ -309,6 +310,18 @@ export namespace PathFinder {
 export namespace MovementAbilities {
     export type movement_ability = "surge" | "dive" | "escape" | "barge"
 
+    /*
+    type r = {
+        origin: MapCoordinate,
+        raster: Raster<{
+            reachable?: boolean
+        }>
+    }
+
+    async function fill_raster(data: MapData,
+                               state: Raster<any>
+    )*/
+
     async function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
         // This function does not respect any max distances and expects the caller to handle that.
 
@@ -372,7 +385,7 @@ export namespace MovementAbilities {
         return null
     }
 
-    export async function dive(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+    export async function dive(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
 
         let delta = Vector2.sub(target, position)
 
@@ -384,36 +397,15 @@ export namespace MovementAbilities {
         } else return dive_internal(data, position, target);
     }
 
-    export async function dive2(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
-
-        let delta = Vector2.sub(target, position)
-
-        if (Vector2.max_axis(delta) > 10) {
-            let dir = direction.fromVector(delta)
-
-            // This ignores the fact that dive is always consumed, even if diving a distance of 0 tiles.
-            return await dive_far_internal(data, position, dir, 10)
-        } else return dive_internal(data, position, target);
+    export async function barge(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
+        return dive(position, target, data) // Barge is the same logic as dive
     }
 
-    export async function barge(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
-        return dive(data, position, target) // Barge is the same logic as dive
-    }
-
-    export async function barge2(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
-        return dive(data, position, target) // Barge is the same logic as dive
-    }
-
-
-    export async function surge(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
+    export async function surge(position: PlayerPosition, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
         return dive_far_internal(data, position.tile, position.direction, 10)
     }
 
-    export async function surge2(position: PlayerPosition, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
-        return dive_far_internal(data, position.tile, position.direction, 10)
-    }
-
-    export async function escape(data: MapData, position: PlayerPosition): Promise<PlayerPosition | null> {
+    export async function escape(position: PlayerPosition, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
         let res = await dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
 
         if (!res) return null
@@ -423,26 +415,16 @@ export namespace MovementAbilities {
         }
     }
 
-
-    export async function escape2(position: PlayerPosition, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
-        let res = await dive_far_internal(data, position.tile, direction.invert(position.direction), 7)
-
-        if (res) res.direction = direction.invert(res.direction)
-
-        return res
-    }
-
     export async function generic(data: MapData, ability: movement_ability, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
         switch (ability) {
             case "surge":
-                return surge(data, {tile: position, direction: direction.fromVector(Vector2.sub(target, position))});
+                return surge({tile: position, direction: direction.fromVector(Vector2.sub(target, position))}, data);
             case "dive":
-                return dive(data, position, target);
+                return dive(position, target, data);
             case "escape":
-                return escape(data, {tile: position, direction: direction.fromVector(Vector2.sub(position, target))});
+                return escape({tile: position, direction: direction.fromVector(Vector2.sub(position, target))}, data);
             case "barge":
-                return barge(data, position, target);
-
+                return barge(position, target, data);
         }
     }
 

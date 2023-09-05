@@ -5,6 +5,7 @@ import {direction, MovementAbilities} from "../../model/movement";
 import Widget from "../widgets/Widget";
 import {OpacityGroup} from "./layers/OpacityLayer";
 import {Vector2} from "../../util/math";
+import InteractionType = Path.InteractionType;
 
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
@@ -48,7 +49,7 @@ export namespace PathingGraphics {
             case "orientation":
                 return `Face ${direction.toString(step.direction)}`
             case "run":
-                return `{{icon run}} ${step.waypoints.length - 1} tiles`
+                return `{{icon run}}`
             case "ability":
                 return `{{${step.ability}}}`
             case "teleport":
@@ -179,7 +180,23 @@ export function createStepGraphics(step: Path.step): OpacityGroup {
             break
         }
         case "interaction":
-        // TODO:
+            arrow(step.starts, step.ends_up.tile)
+                .setStyle({
+                    color: "#069334",
+                    weight: 4,
+                    dashArray: '10, 10'
+                }).addTo(layer)
+
+            leaflet.marker(Vector2.toLatLong(step.where), {
+                icon: leaflet.icon({
+                    iconUrl: InteractionType.meta(step.how).icon_url,
+                    iconSize: [28, 31],
+                    iconAnchor: [14, 16],
+                }),
+                interactive: false
+            }).addTo(layer)
+
+            break
         case "orientation":
         default:
     }

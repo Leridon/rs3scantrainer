@@ -1765,7 +1765,7 @@ export namespace teleport_data {
                 {id: "atcha", spot: {x: 2962, y: 3347, level: 0}, code: "9,7", name: "Collectors - Sir Atcha",
                     menu_ticks: 2,
                     animation_ticks: default_teleport_ticks},
-                {id: "soran", spot: {x: 3182, y: 3418, level: 0}, code: "9,8", name: "Collectors - Soran",
+                {id: "soran", spot: {x: 3181, y: 3417, level: 0}, code: "9,8", name: "Collectors - Soran",
                     menu_ticks: 2,
                     animation_ticks: default_teleport_ticks},
                 {id: "velucia", spot: {x: 3342, y: 3384, level: 0}, code: "9,9", name: "Collectors - Velucia",

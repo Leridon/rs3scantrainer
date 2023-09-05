@@ -81,4 +81,8 @@ export namespace util {
     export function compose<T>(fn1: (a: T) => T, ...fns: Array<(a: T) => T>) {
         return fns.reduce((prevFn, nextFn) => value => nextFn(prevFn(value)), fn1);
     }
+
+    export function swap<A, B>(a: A, b: B): [B, A] {
+        return [b, a]
+    }
 }

@@ -6,10 +6,15 @@ import {LeafletMouseEvent} from "leaflet";
 import {HostedMapData, move, MovementAbilities} from "../../../model/movement";
 import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../path_graphics";
-import {capitalize} from "lodash";
+import {capitalize, identity} from "lodash";
 import {Path} from "../../../model/pathing";
 import {tilePolygon} from "../polygon_helpers";
 import {Vector2} from "../../../util/math";
+import Properties from "../../widgets/Properties";
+import Checkbox from "../../widgets/Checkbox";
+import {util} from "../../../util/util";
+import swap = util.swap;
+
 
 export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
     "done": Path.step_ability,
@@ -21,17 +26,40 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
     _possibility_overlay: leaflet.FeatureGroup = null
 
     _dive_target: MapCoordinate = null
-    _dive_land_up: MapCoordinate = null
     _dive_preview: leaflet.Layer = null
+
+    _previewed: {
+        from: MapCoordinate,
+        to: MapCoordinate
+    }
 
     instruction_div: JQuery
     reset_button: LightButton
     cancel_button: LightButton
 
-    constructor(layer: ActiveLayer, private ability: MovementAbilities.movement_ability) {
+    constructor(layer: ActiveLayer, private ability: MovementAbilities.movement_ability,
+                private reverse: boolean = false) {
         super(layer)
 
         this.instruction_div = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
+
+        c("<div style='display: flex'></div>")
+            .append(new Checkbox().on("changed", v => {
+                this.reverse = v
+
+                if (this._possibility_overlay) {
+                    this._overlay_position = null
+                    this._possibility_overlay.remove()
+                    this._possibility_overlay = null
+                    this.update_overlay(this.start_position)
+                }
+                if (this._dive_preview) {
+                    this._dive_preview.remove()
+                    this._dive_preview = null
+                }
+            }))
+            .append(c().text("Reverse"))
+            .appendTo(this.getTopControl().container)
 
         let control_row = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
 
@@ -72,15 +100,22 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
 
         this._possibility_overlay = leaflet.featureGroup()
 
+
+
         for (let dx = -10; dx <= 10; dx++) {
             for (let dy = -10; dy <= 10; dy++) {
 
                 if (dx != 0 || dy != 0) {
+
+                    let [from, to] = this.fromTo(p, move(p, {x: dx, y: dy}))
+
+                    let works = (await MovementAbilities.dive(from, to))
+
                     tilePolygon(Vector2.add(p, {x: dx, y: dy}))
                         .setStyle({
                             fillOpacity: 0.5,
                             stroke: false,
-                            fillColor: (await MovementAbilities.dive(HostedMapData.get(), p, move(p, {x: dx, y: dy}))) ? "green" : "red"
+                            fillColor: works ? "green" : "red"
                         })
                         .addTo(this._possibility_overlay)
                 }
@@ -108,28 +143,34 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
             return
         }
 
-        let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position, p)
+        let [from, to] = this.fromTo(this.start_position, p)
 
-        if (res != null && MapCoordinate.eq2(this._dive_land_up, res?.tile)) return
-        this._dive_land_up = res?.tile
+        if (this._previewed
+            && MapCoordinate.eq2(this._previewed.to, to)
+            && MapCoordinate.eq2(this._previewed.from, from)) return
+
+        let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
+
+        this._previewed = {
+            from: from,
+            to: to,
+        }
 
         if (this._dive_preview) {
             this._dive_preview.remove()
             this._dive_preview = null
         }
 
-        if (!this.start_position || !p) return
-
         if (res) {
             this._dive_preview = createStepGraphics({
                 type: "ability",
                 ability: this.ability,
                 description: "",
-                from: this.start_position,
+                from: this._previewed.from,
                 to: res.tile
             }).addTo(this.layer)
         } else {
-            this._dive_preview = arrow(this.start_position, p).setStyle({
+            this._dive_preview = arrow(this._previewed.from, this._previewed.to).setStyle({
                 weight: 3,
                 color: "red"
             }).addTo(this.layer)
@@ -158,6 +199,11 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         this.layer.getMap().map.on(this._maphooks)
     }
 
+    private fromTo(a: MapCoordinate, b: MapCoordinate): [MapCoordinate, MapCoordinate] {
+        if (this.reverse) return [b, a]
+        else return [a, b]
+    }
+
     _maphooks: leaflet.LeafletEventHandlerFnMap = {
 
         "click": async (e: LeafletMouseEvent) => {
@@ -170,14 +216,17 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
                 await this.update_overlay(this.start_position)
                 this.updateInstructions()
             } else {
-                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position, tile)
+
+                let [from, to] = this.fromTo(this.start_position, tile)
+
+                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
 
                 if (res) {
                     this.events.emit("done", {
                         type: "ability",
                         ability: this.ability,
                         description: `Use {{${this.ability}}}`,
-                        from: this.start_position,
+                        from: from,
                         to: res.tile
                     })
 

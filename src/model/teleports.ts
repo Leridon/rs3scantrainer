@@ -142,7 +142,7 @@ export namespace Teleports {
                     let hover = group.name || sub.name
                     if (group.name && sub.name) hover = `${group.name} - ${sub.name}`
 
-                    if (variant.name) hover += `- ${variant.name}`
+                    if (variant.name) hover += ` - ${variant.name}`
 
                     let flat: flat_teleport = {
                         id: {

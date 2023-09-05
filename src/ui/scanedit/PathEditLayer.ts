@@ -18,8 +18,6 @@ import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {GameMapControl} from "../map/map";
 import InteractionSelect from "../pathedit/InteractionSelect";
-import surge2 = MovementAbilities.surge2;
-import escape2 = MovementAbilities.escape2;
 import {Path} from "../../model/pathing";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import TeleportSelect from "../pathedit/TeleportSelect";
@@ -35,6 +33,8 @@ import SmallImageButton from "../widgets/SmallImageButton";
 import {QueryLinks} from "../../query_functions";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import {util} from "../../util/util";
+import surge = MovementAbilities.surge;
+import escape = MovementAbilities.escape;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -202,7 +202,13 @@ class StepEditWidget extends Widget<{
                     }))
                 )
 
-                props.named("Where", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.where))
+                props.named("Starts", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.starts))
+                    .on("changed", (c) => {
+                        (this.value.raw as Path.step_interact).starts = c
+                        this.emit("changed", this.value.raw)
+                    })
+
+                props.named("Click", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.where))
                     .on("changed", (c) => {
                         (this.value.raw as Path.step_interact).where = c
                         this.emit("changed", this.value.raw)
@@ -425,7 +431,7 @@ class ControlWidget extends Widget<{
             let surge_button = new MediumImageButton('assets/icons/surge.png').appendTo(this.add_buttons_container)
                 .on("click", async () => {
                     if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
-                        let res = await surge2(this.augmented.post_state.position)
+                        let res = await surge(this.augmented.post_state.position)
 
                         if (res) {
                             this.value.steps.push(Path.auto_describe({
@@ -461,7 +467,7 @@ class ControlWidget extends Widget<{
                 .on("click", async () => {
 
                     if (this.augmented.post_state.position?.tile != null && this.augmented.post_state.position?.direction != null) {
-                        let res = await escape2(this.augmented.post_state.position)
+                        let res = await escape(this.augmented.post_state.position)
 
                         if (res) {
                             this.value.steps.push(Path.auto_describe({
@@ -609,6 +615,7 @@ class ControlWidget extends Widget<{
                                 type: "interaction",
                                 ticks: 1,
                                 description: "",
+                                starts: this.augmented.post_state?.position?.tile || t,
                                 where: t,
                                 ends_up: {
                                     direction: null,

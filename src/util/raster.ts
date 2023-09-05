@@ -1,12 +1,13 @@
 import {Rectangle} from "./math";
-
 export class Raster<T> {
     public data: T[]
     size: { x: number, y: number }
 
-    constructor(public bounds: Rectangle,) {
+    constructor(public bounds: Rectangle, fill: () => T = null) {
         this.size = {x: bounds.botright.x - bounds.topleft.x + 1, y: bounds.topleft.y - bounds.botright.y + 1}
         this.data = new Array(this.size.x * this.size.y)
+
+        if (fill) this.data = this.data.map(() => fill())
     }
 
     xyToI(tile: { x: number, y: number }) {

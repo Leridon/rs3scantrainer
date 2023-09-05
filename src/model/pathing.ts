@@ -26,35 +26,48 @@ export namespace Path {
         | "agility_obstacle"
         | "ladderdown"
         | "ladderup"
+        | "read"
+        | "fish"
+        | "search"
+        | "attack"
 
     export namespace InteractionType {
 
         export function all(): InteractionType[] {
             return [
-                "generic", "chop", "talk", "open", "enter", "spellonentity", "agility_obstacle", "ladderdown", "ladderup"
+                "generic", "chop", "talk", "open", "enter", "spellonentity", "agility_obstacle", "ladderdown", "ladderup",
+                "read", "fish", "search", "attack"
             ]
         }
 
         export function meta(type: InteractionType): { icon_url: string, description: string, short_icon: string } {
             switch (type) {
                 case "generic":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Click", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_generic.png", description: "Click", short_icon: "cursor_generic"}
                 case "chop":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Chop", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_chop.png", description: "Chop", short_icon: "cursor_chop"}
                 case "talk":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Talk to", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"}
                 case "open":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Open", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"}
                 case "enter":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Enter", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"}
                 case "spellonentity":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Use spell", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_spell.png", description: "Use spell", short_icon: "cursor_spell"}
                 case "agility_obstacle":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Use", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"}
                 case "ladderdown":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Climb up ladder", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb up ladder", short_icon: "cursor_ladderdown"}
                 case "ladderup":
-                    return {icon_url: "assets/icons/missing_icon.png", description: "Climb down ladder", short_icon: "missing_icon"}
+                    return {icon_url: "assets/icons/cursor_ladderup.png", description: "Climb down ladder", short_icon: "cursor_ladderup"}
+                case "read":
+                    return {icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"}
+                case "fish":
+                    return {icon_url: "assets/icons/cursor_fish.png", description: "Fish", short_icon: "cursor_fish"}
+                case "search":
+                    return {icon_url: "assets/icons/cursor_search.png", description: "Search", short_icon: "cursor_search"}
+                case "attack":
+                    return {icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"}
             }
             // TODO: Add real data
         }
@@ -87,6 +100,7 @@ export namespace Path {
         type: "interaction",
         ticks: number,
         where: MapCoordinate,
+        starts: MapCoordinate,
         ends_up: PlayerPosition,
         how: InteractionType
     }
@@ -252,7 +266,7 @@ export namespace Path {
 
                             switch (step.ability) {
                                 case "surge": {
-                                    let res = await MovementAbilities.surge2(assumed_pos)
+                                    let res = await MovementAbilities.surge(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Surge target does not match where it would end up!"})
@@ -260,7 +274,7 @@ export namespace Path {
                                     break
                                 }
                                 case "escape": {
-                                    let res = await MovementAbilities.escape2(assumed_pos)
+                                    let res = await MovementAbilities.escape(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Escape target does not match where it would end up!"})
@@ -268,7 +282,7 @@ export namespace Path {
                                     break
                                 }
                                 case "dive": {
-                                    let res = await MovementAbilities.dive2(assumed_pos.tile, step.to)
+                                    let res = await MovementAbilities.dive(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Dive target can't be reached!"})
@@ -276,7 +290,7 @@ export namespace Path {
                                     break
                                 }
                                 case "barge": {
-                                    let res = await MovementAbilities.barge2(assumed_pos.tile, step.to)
+                                    let res = await MovementAbilities.barge(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Barge target can't be reached!"})

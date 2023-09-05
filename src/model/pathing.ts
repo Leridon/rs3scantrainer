@@ -252,7 +252,7 @@ export namespace Path {
 
                             switch (step.ability) {
                                 case "surge": {
-                                    let res = await MovementAbilities.surge2(assumed_pos)
+                                    let res = await MovementAbilities.surge(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Surge target does not match where it would end up!"})
@@ -260,7 +260,7 @@ export namespace Path {
                                     break
                                 }
                                 case "escape": {
-                                    let res = await MovementAbilities.escape2(assumed_pos)
+                                    let res = await MovementAbilities.escape(assumed_pos)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Escape target does not match where it would end up!"})
@@ -268,7 +268,7 @@ export namespace Path {
                                     break
                                 }
                                 case "dive": {
-                                    let res = await MovementAbilities.dive2(assumed_pos.tile, step.to)
+                                    let res = await MovementAbilities.dive(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Dive target can't be reached!"})
@@ -276,7 +276,7 @@ export namespace Path {
                                     break
                                 }
                                 case "barge": {
-                                    let res = await MovementAbilities.barge2(assumed_pos.tile, step.to)
+                                    let res = await MovementAbilities.barge(assumed_pos.tile, step.to)
 
                                     if (!res || !MapCoordinate.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Barge target can't be reached!"})

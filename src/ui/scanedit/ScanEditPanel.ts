@@ -20,6 +20,9 @@ import {ActiveOpacityGroup} from "../map/layers/OpacityLayer";
 import {ExportImport} from "../../util/exportString";
 import imp = ExportImport.imp;
 import exp = ExportImport.exp;
+import {ScanTrainerCommands} from "../../application";
+import {QueryLinks} from "../../query_functions";
+import Commands = QueryLinks.Commands;
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]
@@ -48,7 +51,10 @@ export default class ScanEditPanel extends Widget<{
 
             $("<div class='lightbutton'>Export</div>")
                 .on("click", () => {
-                    ExportStringModal.do(exp({type: "scantree", version: 0}, true, true)(indirect(this.value)), "Copy the string below to share this scan route.")
+                    ExportStringModal.do(exp({
+                        type: "scantree",
+                        version: 0
+                    }, true, true)(indirect(this.value)), "Copy the string below to share this scan route.")
                 })
                 .appendTo(control_row)
 
@@ -71,7 +77,13 @@ export default class ScanEditPanel extends Widget<{
                 .on("click", () => {
 
                     // It's the year 2023 and TypeScript/Webpac can't deal with ciruclar dependent files. What the actual fuck.
-                    this.layer.app.sidepanels.clue_panel.method(this.value)
+                    this.layer.app.sidepanels.clue_panel.showMethod(this.value)
+                })
+                .appendTo(control_row)
+
+            $("<div class='lightbutton'>Share</div>")
+                .on("click", () => {
+                    ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_method, {method: indirect(this.value)}), "The link below is a direct link to this method.")
                 })
                 .appendTo(control_row)
         }

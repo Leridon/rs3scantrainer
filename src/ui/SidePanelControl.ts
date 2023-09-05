@@ -14,6 +14,7 @@ function createMethodLayer(method: method & resolved<ClueStep>) {
     }
 }
 
+// This module is a literal pile of shit and needs refactoring as soon as there is anything that needs to be changed
 export class CluePanel {
     selected_clue: ClueStep = null
 
@@ -21,13 +22,29 @@ export class CluePanel {
     }
 
     selectClue(clue: ClueStep) {
+        if (this.selected_clue && this.selected_clue.id == clue.id) return this
+
+        this.clue(clue)
+
+        if (!clue) return
+
+        let methods = scantrainer.data.methods.forStep(clue)
+
+        // TODO: Handle more than 1 method
+        if (methods.length > 0) this.showMethod(methods[0])
+        //this.parent.app.howtotabs.map.setActiveLayer(createMethodLayer(methods[0]))
+        else this.showSolution()
+
+    }
+
+    clue(clue: ClueStep): this {
         if (clue == null) {
             this.panel.hide()
             this.parent.methods_panel.setModal(null)
-            return
+            return this
         }
 
-        if (this.selected_clue && this.selected_clue.id == clue.id) return
+        if (this.selected_clue && this.selected_clue.id == clue.id) return this
 
         this.selected_clue = clue
 
@@ -49,22 +66,22 @@ export class CluePanel {
         // Ignore solution panels for now
         this.parent.solution_panel.hide()
 
-        let methods = scantrainer.data.methods.forStep(clue)
-
-        // TODO: Handle more than 1 method
-        if (methods.length > 0) {
-            this.method(methods[0])
-            //this.parent.app.howtotabs.map.setActiveLayer(createMethodLayer(methods[0]))
-        } else {
-            this.parent.app.map.setActiveLayer(getSolutionLayer(clue, this.parent.app))
-
-            this.parent.methods_panel.hide()
-        }
+        return this
     }
 
-    method(method){
+    showSolution(): this {
+        this.parent.app.map.setActiveLayer(getSolutionLayer(this.selected_clue, this.parent.app))
+
+        this.parent.methods_panel.hide()
+
+        return this
+    }
+
+    showMethod(method): this {
         // This stupid function is necessary to work around the stupid pile of shit that is Javascript Modules.
         this.parent.app.map.setActiveLayer(createMethodLayer(method))
+
+        return this
     }
 }
 

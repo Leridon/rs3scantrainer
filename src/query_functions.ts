@@ -46,7 +46,7 @@ export namespace QueryLinks {
 
             if (compact)
                 return new URLSearchParams({
-                    "ctr_query": exp(null, false, false)(query)
+                    "ctr_query": exp(null, true, false)(query)
                 })
             else {
                 let encoded = {

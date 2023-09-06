@@ -1555,10 +1555,10 @@ export namespace teleport_data {
                 {id: "south", spot: {x: 2722, y: 5264, level: 0}, name: "South", code: "2",
                     menu_ticks: 1,
                     animation_ticks: 11},
-                {id: "east", spot: {x: 2735, y: 5307, level: 0}, name: "East", code: "3",
+                {id: "east", spot: {x: 2735, y: 5307, level: 1}, name: "East", code: "3",
                     menu_ticks: 1,
                     animation_ticks: 11},
-                {id: "west", spot: {x: 2700, y: 5308, level: 0}, name: "West", code: "4",
+                {id: "west", spot: {x: 2700, y: 5308, level: 1}, name: "West", code: "4",
                     menu_ticks: 1,
                     animation_ticks: 11},
             ]

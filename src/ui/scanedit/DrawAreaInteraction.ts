@@ -2,7 +2,7 @@ import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {MapCoordinate, MapRectangle} from "../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {ScanEditLayer} from "../map/layers/ScanLayer";
+import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import * as lodash from "lodash"
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import TopControl from "../map/TopControl";
@@ -26,6 +26,8 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
     dragstart: MapCoordinate = null
     last_area: MapRectangle = null
 
+    _preview_polygon: SpotPolygon = null
+
     constructor(layer: ScanEditLayer) {
         super(layer);
     }
@@ -33,6 +35,8 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
     cancel() {
         this.layer.getMap().map.off(this._maphooks)
         this.layer.getMap().map.dragging.enable()
+
+        if (this._preview_polygon) this._preview_polygon.remove()
     }
 
     start() {
@@ -40,9 +44,28 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
         this.layer.getMap().map.dragging.disable()
     }
 
+    update_preview() {
+        if (this._preview_polygon) this._preview_polygon.remove()
+
+        this._preview_polygon = new SpotPolygon({name: "", area: this.last_area}).addTo(this.layer)
+    }
+
     _maphooks: leaflet.LeafletEventHandlerFnMap = {
 
         "click": (e: LeafletMouseEvent) => {
+            // Capture and consume the click event so it does not get sent to the default interaction
+
+            leaflet.DomEvent.stopPropagation(e)
+
+            if (this.dragstart) {
+                leaflet.DomEvent.stopPropagation(e)
+
+                this.events.emit("done", lodash.cloneDeep(this.last_area))
+
+                this.layer.cancelInteraction()
+            }
+        },
+        "mouseup": (e: LeafletMouseEvent) => {
             // Capture and consume the click event so it does not get sent to the default interaction
 
             leaflet.DomEvent.stopPropagation(e)
@@ -68,6 +91,8 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
                     level: this.dragstart.level
                 }
 
+                this.update_preview()
+
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }
         },
@@ -90,6 +115,8 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
                         },
                         level: this.dragstart.level
                     }
+
+                this.update_preview()
 
                 this.events.emit("changed", lodash.cloneDeep(this.last_area))
             }

@@ -7,6 +7,7 @@ import ScanSpot = ScanTree.ScanSpot;
 import ScanDecision = ScanTree.ScanDecision;
 import LightButton from "../widgets/LightButton";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
+import DrawAreaInteraction from "./DrawAreaInteraction";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],
@@ -29,25 +30,33 @@ export default class AreaEdit extends Widget<{
         this.areas = []
 
         this.add_button = new LightButton("+ Add area")
-            .on("click", () => {
-                let w = this.addWidget({name: "New", area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}, level: 0}})
-                    .toggleEdit()
-
-                w.startRedraw().events.on("done", () => {
-                    (w.edit_panel.name[0] as HTMLInputElement).select()
-
-                    this.emit("changed", this.value)
-                })
-
-                this.value.push(w.value)
-                this.emit("changed", this.value)
-            })
+            .on("click", () => this.create_new_area())
             .appendTo(c("<div style='text-align: center'></div>").appendTo(this))
 
         this.update()
     }
 
-    private update() {
+    public async create_new_area(): Promise<ScanSpot> {
+        return new Promise(resolve => {
+            let interaction = new DrawAreaInteraction(this.layer)
+
+            interaction.events.on("done", (v) => {
+                let area = {name: "New", area: v}
+
+                this.value.push(area)
+
+                let w = this.addWidget(area).toggleEdit()
+
+                this.emit("changed", this.value)
+
+                resolve(w.value)
+            })
+
+            interaction.activate()
+        })
+    }
+
+    public update() {
         this.areas.forEach((a) => a.remove())
         this.areas = []
         this.value.forEach((a) => this.addWidget(a))

@@ -173,12 +173,12 @@ class StepEditWidget extends Widget<{
             case "run":
                 props.row(new LightButton("Repath")
                     .on("click", () => {
-                        let s = this.value.raw as Path.step_ability
+                        let s = this.value.raw as Path.step_run
 
                         if (this._preview) this._preview.remove()
 
                         new DrawRunInteraction(this.parent.parent.map.getActiveLayer())
-                            .setStartPosition(s.from)
+                            .setStartPosition(s.waypoints[0])
                             .tapEvents((e) => {
                                 e
                                     .on("done", (new_s) => {

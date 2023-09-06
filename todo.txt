@@ -12,6 +12,7 @@ Immediate next:
 - Coordinate Property styling broken
 - [Bug] Template resolver hangs for some inputs
 - Cancel for Draw Area
+- [Bug] Preview doesn't hide on "Create New from Path"
 
 Ready for release:
 - [Presentation] reenable walls on the map.

@@ -58,9 +58,9 @@ export namespace Path {
                 case "agility_obstacle":
                     return {icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"}
                 case "ladderdown":
-                    return {icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb up ladder", short_icon: "cursor_ladderdown"}
+                    return {icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"}
                 case "ladderup":
-                    return {icon_url: "assets/icons/cursor_ladderup.png", description: "Climb down ladder", short_icon: "cursor_ladderup"}
+                    return {icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"}
                 case "read":
                     return {icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"}
                 case "fish":

@@ -24,6 +24,15 @@ export namespace ScanTree {
     import shorten_integer_list = util.shorten_integer_list;
     import render_digspot = TextRendering.render_digspot;
 
+    // There is world in which this type isn't needed and scan trees are just a tree of paths.
+    // There are some drawbacks in this idea, so for now it stays how it is.
+    //  - pro: Would make sections that are like "check the remaining spots" simpler
+    //  - pro: Cleaner implementation as a whole
+    //  - con: People are used to the format
+    //  - con: Would maybe exclude the ability to mark area with leeway
+    //  - con: Having dedicated areas incentivizes to make keep the tree simple instead of having a million decision points
+    //  - con: How would that work with non-deterministic paths/teleports?
+
     export type ScanSpot = {
         name: string
         area: MapRectangle
@@ -117,8 +126,12 @@ export namespace ScanTree {
             if (node == null || candidates.length == 0) return null
 
             // Prune dead and create missing branches
-            if (node.where_to) {
+            let area = tree.areas.find((a) => a.name == node.where_to)
+
+            if (area) {
                 let area = tree.areas.find((a) => a.name == node.where_to)
+
+                if (!area) node.where_to = null
 
                 // Update children to remove all dead branches and add missing branches
                 node.children =
@@ -139,6 +152,7 @@ export namespace ScanTree {
                     directions: "Move to {{target}}"
                 }]
             } else {
+                node.where_to = null
                 node.children = []  // Nodes without a "where_to" can never have children nodes, only paths
 
                 // Create a new leaf as a template to get missing paths from

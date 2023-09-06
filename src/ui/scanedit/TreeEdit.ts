@@ -22,6 +22,7 @@ import Order = util.Order;
 import {PathingGraphics} from "../map/path_graphics";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import {Layer} from "leaflet";
+import ScanSpot = ScanTree.ScanSpot;
 
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree
@@ -43,6 +44,7 @@ class TreeNodeEdit extends Widget<{
         type T = {
             remove?: boolean,
             create_new?: boolean,
+            create_new_from_path?: boolean,
             area?: string
         }
 
@@ -53,6 +55,7 @@ class TreeNodeEdit extends Widget<{
         })
 
         options.push({create_new: true})
+        options.push({create_new_from_path: true})
 
         if (node.raw?.where_to) options.push({remove: true})
         else options.push({area: null})
@@ -65,39 +68,60 @@ class TreeNodeEdit extends Widget<{
                 null_value: null,
                 type_class: {
                     toHTML(v: T): Widget {
-                        if (v.remove) return c("<div>Remove</div>")
-                        if (v.create_new) return c("<div>Create New</div>")
+                        if (v.remove) return c("<div>- Remove</div>")
+                        if (v.create_new) return c("<div>+ Create New</div>")
+                        if (v.create_new_from_path) return c("<div>+ Create New from Path</div>")
                         else return c("<div></div>").text(v.area || " - ")
                     }
                 }
             }, options)
-                .on("selection_changed", (s) => {
+                .on("selection_changed", async (s) => {
                     if (s.remove) {
                         Object.assign(node.raw, ScanTree.init_leaf(node.remaining_candidates))
+                    } else if (s.create_new) {
+                        let area = await this.parent.parent.areas.create_new_area()
+
+                        this.setTarget(area)
+                    } else if (s.create_new_from_path) {
+
+                        // Jfc this is bad and needs a cleaner implementation/interface
+                        let start_state = this.node?.parent?.node?.path
+                            ? (await Path.augment(this.node?.parent?.node?.path)).post_state
+                            : Path.movement_state.start()
+
+                        this.parent.parent.layer.getMap().path_editor.load({
+                            start_state: start_state, steps: []
+                        }, {
+                            save_handler: async v => {
+
+                                let aug = await Path.augment(v)
+
+                                if (!aug.post_state?.position?.tile) return
+
+                                let area: ScanSpot = {
+                                    name: "New", area: {
+                                        level: aug.post_state.position.tile.level,
+                                        topleft: {x: aug.post_state.position.tile.x, y: aug.post_state.position.tile.y},
+                                        botright: {x: aug.post_state.position.tile.x, y: aug.post_state.position.tile.y},
+                                    }
+                                }
+
+                                this.parent.parent.value.areas.push(area)
+
+                                this.parent.parent.areas.update()
+                                this.parent.parent.areas.areas.find(a => a.value == area)?.toggleEdit()
+
+                                this.parent.parent.areas.emit("changed", this.parent.parent.value.areas)
+
+                                this.setTarget(area)
+
+                                this.parent.parent.layer.getMap().path_editor.reset()
+                            },
+                        })
                     } else if (s.area != node.raw.where_to) {
                         let area = parent.parent.value.areas.find((a) => a.name == s.area)
 
-                        let narrowing = spot_narrowing(node.remaining_candidates, area, assumedRange(parent.parent.value))
-
-                        for (let child of narrowing) {
-                            if (child.narrowed_candidates.length == 0) continue
-
-                            node.raw.children.push({
-                                key: child.pulse,
-                                value: ScanTree.init_leaf(child.narrowed_candidates)
-                            })
-                        }
-
-                        node.raw.where_to = s.area
-
-                        node.raw.paths = [{
-                            directions: "Move to {{target}}",
-                            path: {
-                                start_state: Path.movement_state.start(),
-                                steps: [],
-                                target: area.area
-                            }
-                        }]
+                        this.setTarget(area)
                     }
 
                     // TODO: Handle "Create New" and "Create New from Path"
@@ -170,6 +194,30 @@ class TreeNodeEdit extends Widget<{
                     )
                 })
         }
+    }
+
+    private setTarget(target: ScanSpot) {
+        let narrowing = spot_narrowing(this.node.remaining_candidates, target, assumedRange(this.parent.parent.value))
+
+        for (let child of narrowing) {
+            if (child.narrowed_candidates.length == 0) continue
+
+            this.node.raw.children.push({
+                key: child.pulse,
+                value: ScanTree.init_leaf(child.narrowed_candidates)
+            })
+        }
+
+        this.node.raw.where_to = target.name
+
+        this.node.raw.paths = [{
+            directions: "Move to {{target}}",
+            path: {
+                start_state: Path.movement_state.start(),
+                steps: [],
+                target: target.area
+            }
+        }]
     }
 
     preview_polyons: Layer[] = null

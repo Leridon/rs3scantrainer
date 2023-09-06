@@ -61,6 +61,9 @@ export default class AreaWidget extends Widget<{
 
         this.edit_panel.area.redraw_button.text("Drawing...")
 
+        let active = this.preview_polyon.isActive()
+        this.preview_polyon.setOpacity(0)
+
         interaction.events.on("changed", (a) => {
             this.value.area = a
             this.value.area.level = this.layer.getMap().floor
@@ -75,6 +78,8 @@ export default class AreaWidget extends Widget<{
 
         interaction.events.on("done", (a) => {
             if (this.main_row.info_buttons.value() != null) this.emit("decision_changed", this.getActiveDecision())
+
+            this.preview_polyon.setActive(active)
 
             this.edit_panel.area.redraw_button.text("Draw on map")
         })
@@ -226,7 +231,7 @@ export default class AreaWidget extends Widget<{
         this.main_row.info_buttons.setValue(decision ? Pulse.hash(decision) : null)
     }
 
-    preview_polyon: Layer = null
+    preview_polyon: SpotPolygon = null
 
     updatePreview(layer: OpacityGroup) {
         this.preview_polyon =  new SpotPolygon(this.value).addTo(layer)

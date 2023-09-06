@@ -7,6 +7,7 @@ import {PathFinder} from "../../../model/movement";
 import LightButton from "../../widgets/LightButton";
 import {createStepGraphics} from "../path_graphics";
 import {Path} from "../../../model/pathing";
+import Widget from "../../widgets/Widget";
 
 export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
     "done": Path.step_run,
@@ -14,14 +15,14 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
 }> {
     pathfinding_state: PathFinder.state = null
 
-    instruction_div: JQuery
+    instruction_div: Widget
     reset_button: LightButton
     cancel_button: LightButton
 
     constructor(layer: ActiveLayer) {
         super(layer)
 
-        this.instruction_div = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
+        this.instruction_div = c("<div style='text-align: center'>").appendTo(this.getTopControl().container)
 
         let control_row = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
 
@@ -100,7 +101,10 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
             }
         }
 
-        if (this.pathfinding_state && to && !MapCoordinate.eq2(this.last_previewed_to, to)) {
+        if (!this.pathfinding_state) {
+            this.instruction_div.empty()
+            this.instruction_div.text(`Click where you want to start running.`)
+        } else if (to && !MapCoordinate.eq2(this.last_previewed_to, to)) {
             let path = await PathFinder.find(this.pathfinding_state, to)
 
             if (this._preview) {
@@ -115,18 +119,17 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
                     waypoints: path
                 }).addTo(this.layer)
             }
+
+            this.instruction_div.empty()
+            this.instruction_div.append(c().text(`Running from ${this.pathfinding_state.start.x} | ${this.pathfinding_state.start.y}.`))
+            this.instruction_div.append(c().text(`Currently selected path: ${path.length - 1} tiles/${Math.ceil((path.length - 1) / 2)} ticks.`))
+            this.instruction_div.append(c().text(`Click map to confirm.`))
         }
 
         this.last_previewed_to = to
 
         this.reset_button.setVisible(!!this.pathfinding_state)
 
-        //
-        if (!this.pathfinding_state) {
-            this.instruction_div.text(`Click where you want to start running.`)
-        } else {
-            this.instruction_div.html(`Running from ${this.pathfinding_state.start.x} | ${this.pathfinding_state.start.y}.<br> Click where to run to.`)
-        }
 
         //let path = await PathFinder.pathFinder(HostedMapData.get(), this._start, this._to)
         /*let path = await PathFinder.find(PathFinder.init_djikstra(this._start), this._to)

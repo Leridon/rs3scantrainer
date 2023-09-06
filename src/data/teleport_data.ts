@@ -504,7 +504,7 @@ export namespace teleport_data {
                     animation_ticks: 5
                 },
                 {
-                    id: "maxguild", spot: {x: 2276, y: 3313, level: 1}, img: "max.png", name: "Max guild",
+                    id: "maxguild", spot: {x: 2276, y: 3313, level: 1}, img: "max.png", name: "Max guild",  // TODO: Garden variant
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
@@ -657,42 +657,42 @@ export namespace teleport_data {
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "amlodd", spot: {x: 2156, y: 3382, level: 1}, name: "Amlodd", code: "3",
+                    id: "amlodd", spot: {x: 2155, y: 3383, level: 1}, name: "Amlodd", code: "3",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "cadarn", spot: {x: 2262, y: 3338, level: 1}, name: "Cadarn", code: "4",
+                    id: "cadarn", spot: {x: 2261, y: 3339, level: 1}, name: "Cadarn", code: "4",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "cwrys", spot: {x: 2261, y: 3382, level: 1}, name: "Cwrys", code: "5",
+                    id: "crwys", spot: {x: 2261, y: 3383, level: 1}, name: "Crwys", code: "5",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "hefin", spot: {x: 2187, y: 3410, level: 1}, name: "Hefin", code: "6",
+                    id: "hefin", spot: {x: 2186, y: 3411, level: 1}, name: "Hefin", code: "6",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "iorwerth", spot: {x: 2186, y: 3310, level: 1}, name: "Iorwerth", code: "7",
+                    id: "iorwerth", spot: {x: 2185, y: 3311, level: 1}, name: "Iorwerth", code: "7",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "Ithell", spot: {x: 2156, y: 3338, level: 1}, name: "Ithell", code: "8",
+                    id: "Ithell", spot: {x: 2155, y: 3339, level: 1}, name: "Ithell", code: "8",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "Meilyr", spot: {x: 2231, y: 3410, level: 1}, name: "Meilyr", code: "9",
+                    id: "Meilyr", spot: {x: 2230, y: 3411, level: 1}, name: "Meilyr", code: "9",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "Trahaearn", spot: {x: 2232, y: 3310, level: 1}, name: "Trahaearn", code: "0",
+                    id: "Trahaearn", spot: {x: 2231, y: 3311, level: 1}, name: "Trahaearn", code: "0",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
@@ -752,7 +752,7 @@ export namespace teleport_data {
                 {id: "poisonwaste", spot: {x: 2337, y: 3109, level: 0}, name: "Poison Waste", code: "9",
                     menu_ticks: 1,
                     animation_ticks: 7},
-                {id: "prifddinas", spot: {x: 2272, y: 3371, level: 1}, name: "Prifddinas", code: "0",
+                {id: "prifddinas", spot: {x: 2275, y: 3371, level: 1}, name: "Prifddinas", code: "0",
                     menu_ticks: 1,
                     animation_ticks: 7},
 
@@ -1459,7 +1459,7 @@ export namespace teleport_data {
                 {id: "treegnomevillage", spot: {x: 2495, y: 3192, level: 0}, name: "Tree Gnome Village", code: "7",
                     menu_ticks: 1,
                     animation_ticks: 3},
-                {id: "prifddinas", spot: {x: 2208, y: 3446, level: 0}, name: "Prifddinas", code: "8",
+                {id: "prifddinas", spot: {x: 2208, y: 3445, level: 0}, name: "Prifddinas", code: "8",
                     menu_ticks: 1,
                     animation_ticks: 3},
                 {id: "tualeit", spot: {x: 1774, y: 11919, level: 0}, name: "Tua Leit", code: "9",
@@ -1609,7 +1609,7 @@ export namespace teleport_data {
                 {id: "yewvarrock", spot: {x: 3208, y: 3502, level: 0}, code: "5,4", name: "Yew Trees - Varrock Palace",
                     menu_ticks: 2,
                     animation_ticks: default_teleport_ticks},
-                {id: "yewcrwys", spot: {x: 2261, y: 3388, level: 0}, code: "5,5", name: "Yew Trees - Crwys sector",
+                {id: "yewcrwys", spot: {x: 2261, y: 3385, level: 0}, code: "5,5", name: "Yew Trees - Crwys sector",
                     menu_ticks: 2,
                     animation_ticks: default_teleport_ticks},
                 {id: "magicranging", spot: {x: 2693, y: 3428, level: 0}, code: "6,1", name: "Magic Trees - East Ranging Guild",

@@ -30,13 +30,14 @@ export namespace Path {
         | "fish"
         | "search"
         | "attack"
+        | "craft"
 
     export namespace InteractionType {
 
         export function all(): InteractionType[] {
             return [
                 "generic", "chop", "talk", "open", "enter", "spellonentity", "agility_obstacle", "ladderdown", "ladderup",
-                "read", "fish", "search", "attack"
+                "read", "fish", "search", "attack", "craft"
             ]
         }
 
@@ -68,6 +69,8 @@ export namespace Path {
                     return {icon_url: "assets/icons/cursor_search.png", description: "Search", short_icon: "cursor_search"}
                 case "attack":
                     return {icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"}
+                case "craft":
+                    return {icon_url: "assets/icons/cursor_craft.png", description: "Craft at", short_icon: "cursor_craft"}
             }
             // TODO: Add real data
         }

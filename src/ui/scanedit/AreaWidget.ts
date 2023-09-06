@@ -170,17 +170,13 @@ export default class AreaWidget extends Widget<{
         }
 
         // This section is proof that I need to learn React...
-        $("<div class='head'>General</div>").appendTo(this.edit_panel.container)
-
         $("<div class='row'>")
             .append($("<div class='col-2 property'>Name</div>"))
             .append($("<div class='col-10'>").append(this.edit_panel.name))
             .appendTo(this.edit_panel.container)
 
-        $("<div class='head'>Area</div>").appendTo(this.edit_panel.container)
-
         $("<div class='row'>")
-            .append($("<div class='col-2 property'></div>"))
+            .append($("<div class='col-2 property'>Area</div>"))
             .append($("<div class='col-5 property' style='text-align: center'>x</div>"))
             .append($("<div class='col-5 property' style='text-align: center'>y</div>"))
             .appendTo(this.edit_panel.container)

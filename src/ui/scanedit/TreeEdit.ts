@@ -115,6 +115,10 @@ class TreeNodeEdit extends Widget<{
 
                                 this.setTarget(area)
 
+                                let p = this.node.raw.paths.find(p => p.spot == null)
+                                if(p) p.path = v
+                                else this.node.raw.paths.push({spot: null, path: v, directions: "Go to {{target}}"})
+
                                 this.parent.parent.layer.getMap().path_editor.reset()
                             },
                         })

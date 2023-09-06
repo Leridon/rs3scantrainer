@@ -1,23 +1,26 @@
 Immediate next:
-- Icons for interaction types
 - [Bug] Clicking doesn't work for search selects
-- Make "Create New" and "Create new from Path" functional
 - [Bug] Mousewheel scrolling in the path editor
 - Make fit include the entire path
-- [Bug] Drawing scan areas is weird with clicking
-- [Bug] Repath of running disregards start position
 - Better display of pulses when all are different level
     - Omit DL when the same level counterpart is empty?
+- Display timing in spot view
+- Identify scan spots by id instead of by name
+- Include icon of interaction for redclick graphics
+- Anonymous/Hidden areas?
+- Autoname areas
+- Coordinate Property styling broken
+- [Bug] Template resolver hangs for some inputs
+- Cancel for Draw Area
 
 Ready for release:
 - [Presentation] reenable walls on the map.
 - [Tooling, Presentation] Subtle Walkable-Overlay.
 - [Tooling] Add a permanent tile highlight when moving the mouse over the map
+- Lumbridge Caves: A, B and C are at floor 2, not 0. Check whether that checks out ingame
 - Fix floor of Dorgesh Khaan spot E
-- Routes:
-    - Zanaris
-    - Falador
-    - Desert
+- Update Deep Wildy Scan/Wilderness Crater
+- Update compass spots from rsmv
 
 
 Planned for next release (b0.4):
@@ -34,10 +37,7 @@ Planned for next release (b0.4):
     - Scale information gain down when zoomed out
 
 - "Add to Alt1 button" at the top when in browser
-- Lumbridge Caves: A, B and C are at floor 2, not 0. Check whether that checks out ingame
 - Have a way to directly link to a given clue and its method with query parameters.
-- Update Deep Wildy Scan/Wilderness Crater
-- Update compass spots from rsmv
 -
 
 b0.5:

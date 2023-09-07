@@ -221,7 +221,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
 
         let link_html = node.parent.kind
-            ? Pulse.meta(node.parent.kind).pretty // TODO: Make this depend on the siblings to avoid redundant "different level"
+            ? Pulse.pretty_with_context(node.parent.kind, node.parent.node.children.map(c => c.key))
             : resolver.resolve(`Spot {{digspot ${spotNumber(node.raw_root, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
 
         if (depth == 0) {

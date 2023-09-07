@@ -307,6 +307,23 @@ export namespace Pulse {
         }
     }
 
+    export function pretty_with_context(type: Pulse, context: Pulse[]): string {
+        let pretty = ["Single", "Double", "Triple"][type.pulse - 1]
+
+        // Use the full word when it's not "different level"
+        if (!type.different_level) {
+            if (util.count(context, (p => p.different_level)) == context.length - 1) return "Too far" // Is the only non-different level
+            else return pretty
+        } else {
+            let counterpart_exists = context.some(p => p.pulse == type.pulse && !p.different_level)
+
+            if (!counterpart_exists) return pretty // If the non-different level counterpart does not exist, just use the pretty string
+
+            if (util.count(context, (p => p.different_level)) == 1) return "Different level" // Is the only different level
+            else return `Different Level (${pretty})`
+        }
+    }
+
     export function compare(a: Pulse, b: Pulse): number {
         return natural_order(hash(a), hash(b))
     }

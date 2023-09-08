@@ -85,4 +85,8 @@ export namespace util {
     export function swap<A, B>(a: A, b: B): [B, A] {
         return [b, a]
     }
+
+    export function count<A>(a: A[], p: (_: A) => boolean): number {
+        return a.reduce((x, y) => x + (p(y) ? 1 : 0), 0)
+    }
 }

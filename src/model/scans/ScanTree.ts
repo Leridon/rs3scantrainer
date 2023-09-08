@@ -49,6 +49,21 @@ export namespace ScanTree {
     export type resolved_scan_tree = tree & resolved<ScanStep>
     export type indirect_scan_tree = tree & indirected
 
+    /**
+     * @deprecated mark as deprecated to flag accidental use of draft type
+     */
+    type DRAFT_new_decision_tree = {
+        area?: ScanSpot,
+        path: Path.raw
+        children: {
+            key: {
+                pulse: Pulse,
+                spot: MapCoordinate
+            } | null,
+            value: decision_tree
+        }[]
+    }
+
     export type decision_tree = {
         paths: {
             spot?: MapCoordinate,
@@ -56,7 +71,6 @@ export namespace ScanTree {
             path: Path.raw
         }[],
         where_to: string,
-        why?: string,
         children: {
             key: Pulse | null,
             value: decision_tree

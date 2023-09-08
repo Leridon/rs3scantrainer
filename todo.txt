@@ -1,11 +1,8 @@
 Immediate next:
-- [Bug] Clicking doesn't work for search selects
-- [Bug] Mousewheel scrolling in the path editor
-- Make fit include the entire path
-- Better display of pulses when all are different level
-    - Omit DL when the same level counterpart is empty?
-- Display timing in spot view
 - Identify scan spots by id instead of by name
+- [Bug] Clicking doesn't work for search selects
+- Make fit include the entire path
+- Display timing in spot view
 - Include icon of interaction for redclick graphics
 - Anonymous/Hidden areas?
 - Autoname areas
@@ -14,8 +11,9 @@ Immediate next:
 - Cancel for Draw Area
 - [Bug] Preview doesn't hide on "Create New from Path"
 - Autosort for path edit
-- Index of available entrances/shortcuts on the map
 - Custom context menu on the map
+- [Bug] Mousewheel scrolling in the path editor
+- Index of available entrances/shortcuts on the map
 
 Ready for release:
 - [Presentation] reenable walls on the map.

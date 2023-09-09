@@ -1,3 +1,5 @@
+// The above line prevents type checking for the entire file and should only be used to filter errors messages during development!
+
 import {indirected, method} from "../model/methods";
 
 
@@ -8,6 +10,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 2412,
@@ -22,6 +25,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 2410,
@@ -36,6 +40,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "topleft": {
                         "x": 2420,
@@ -50,6 +55,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "topleft": {
                         "x": 2409,
@@ -64,6 +70,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "topleft": {
                         "x": 2398,
@@ -78,6 +85,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 2445,
@@ -92,6 +100,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "topleft": {
                         "x": 2405,
@@ -108,7 +117,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 361,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -116,7 +125,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "F",
+                        "scan_spot_id": 6,
                         "children": [
                             {
                                 "key": {
@@ -124,7 +133,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "children": [
                                         {
                                             "key": {
@@ -132,7 +141,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -482,7 +491,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -665,7 +674,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -1039,7 +1048,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -1047,7 +1056,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -1146,7 +1155,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -1154,7 +1163,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -1162,7 +1171,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -1536,7 +1545,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -1914,7 +1923,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -1922,7 +1931,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -2567,7 +2576,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "E",
+                                                            "scan_spot_id": 5,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -2575,7 +2584,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -2776,7 +2785,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -2996,7 +3005,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -3342,7 +3351,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -3800,7 +3809,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -4001,7 +4010,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -4522,6 +4531,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 2963,
@@ -4536,6 +4546,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 2964,
@@ -4550,6 +4561,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "topleft": {
                         "x": 2958,
@@ -4564,6 +4576,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "topleft": {
                         "x": 2955,
@@ -4578,6 +4591,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "topleft": {
                         "x": 2950,
@@ -4592,6 +4606,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 3016,
@@ -4606,6 +4621,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "topleft": {
                         "x": 3042,
@@ -4620,6 +4636,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+                "id": 8,
                 "area": {
                     "topleft": {
                         "x": 2942,
@@ -4636,7 +4653,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 364,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -4644,7 +4661,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -4652,7 +4669,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "F",
+                                    "scan_spot_id": 6,
                                     "children": [
                                         {
                                             "key": {
@@ -4660,7 +4677,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "G",
+                                                "scan_spot_id": 7,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -4668,7 +4685,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -4895,7 +4912,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -5432,7 +5449,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -5814,7 +5831,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "H",
+                                    "scan_spot_id": 8,
                                     "children": [
                                         {
                                             "key": {
@@ -5822,7 +5839,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -5982,7 +5999,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -6561,7 +6578,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -6569,7 +6586,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -6577,7 +6594,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -6645,7 +6662,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -6653,7 +6670,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -6736,7 +6753,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "E",
+                                                            "scan_spot_id": 5,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -6744,7 +6761,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -6827,7 +6844,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -7277,7 +7294,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -7788,7 +7805,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -8354,6 +8371,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 3423,
@@ -8368,6 +8386,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 3411,
@@ -8382,6 +8401,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "topleft": {
                         "x": 3421,
@@ -8396,6 +8416,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "topleft": {
                         "x": 3431,
@@ -8410,6 +8431,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "I",
+                "id": 9,
                 "area": {
                     "topleft": {
                         "x": 3451,
@@ -8424,6 +8446,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "J",
+                "id": 10,
                 "area": {
                     "topleft": {
                         "x": 3422,
@@ -8438,6 +8461,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "topleft": {
                         "x": 3423,
@@ -8452,6 +8476,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 3424,
@@ -8466,6 +8491,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "topleft": {
                         "x": 3412,
@@ -8480,6 +8506,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+                "id": 8,
                 "area": {
                     "topleft": {
                         "x": 3412,
@@ -8494,6 +8521,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "K",
+                "id": 11,
                 "area": {
                     "topleft": {
                         "x": 3402,
@@ -8508,6 +8536,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "L",
+                "id": 12,
                 "area": {
                     "topleft": {
                         "x": 3475,
@@ -8524,7 +8553,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 349,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -8532,7 +8561,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -8540,7 +8569,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "E",
+                                    "scan_spot_id": 5,
                                     "children": [
                                         {
                                             "key": {
@@ -8548,7 +8577,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "F",
+                                                "scan_spot_id": 6,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -8556,7 +8585,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "L",
+                                                            "scan_spot_id": 12,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -8564,7 +8593,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -8932,7 +8961,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -9229,7 +9258,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -9482,7 +9511,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "F",
+                                                "scan_spot_id": 6,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -9490,7 +9519,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "G",
+                                                            "scan_spot_id": 7,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -9498,7 +9527,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "L",
+                                                                        "scan_spot_id": 12,
                                                                         "children": [
                                                                             {
                                                                                 "key": {
@@ -9506,7 +9535,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": null,
+                                                                                    "scan_spot_id": null,
                                                                                     "children": [],
                                                                                     "paths": [
                                                                                         {
@@ -9700,7 +9729,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "H",
+                                                                        "scan_spot_id": 8,
                                                                         "children": [
                                                                             {
                                                                                 "key": {
@@ -9708,7 +9737,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": "K",
+                                                                                    "scan_spot_id": 11,
                                                                                     "children": [
                                                                                         {
                                                                                             "key": {
@@ -9716,7 +9745,7 @@ let raw: (method & indirected)[] = [
                                                                                                 "different_level": false
                                                                                             },
                                                                                             "value": {
-                                                                                                "where_to": null,
+                                                                                                "scan_spot_id": null,
                                                                                                 "children": [],
                                                                                                 "paths": [
                                                                                                     {
@@ -9835,7 +9864,7 @@ let raw: (method & indirected)[] = [
                                                                                                 "different_level": false
                                                                                             },
                                                                                             "value": {
-                                                                                                "where_to": null,
+                                                                                                "scan_spot_id": null,
                                                                                                 "children": [],
                                                                                                 "paths": [
                                                                                                     {
@@ -9976,7 +10005,7 @@ let raw: (method & indirected)[] = [
                                                                                                 "different_level": false
                                                                                             },
                                                                                             "value": {
-                                                                                                "where_to": null,
+                                                                                                "scan_spot_id": null,
                                                                                                 "children": [],
                                                                                                 "paths": [
                                                                                                     {
@@ -10246,7 +10275,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": null,
+                                                                                    "scan_spot_id": null,
                                                                                     "children": [],
                                                                                     "paths": [
                                                                                         {
@@ -10444,7 +10473,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -10772,7 +10801,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -11172,7 +11201,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -12217,7 +12246,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -12487,7 +12516,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -12495,7 +12524,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "I",
+                                    "scan_spot_id": 9,
                                     "children": [
                                         {
                                             "key": {
@@ -12503,7 +12532,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -12623,7 +12652,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -12845,7 +12874,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -12853,7 +12882,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "J",
+                                                "scan_spot_id": 10,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -12861,7 +12890,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -13197,7 +13226,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -13205,7 +13234,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -13363,7 +13392,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -13912,7 +13941,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -14325,7 +14354,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -14646,7 +14675,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -15302,7 +15331,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -16591,6 +16620,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 3249,
@@ -16605,6 +16635,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 3224,
@@ -16619,6 +16650,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "topleft": {
                         "x": 3218,
@@ -16633,6 +16665,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "topleft": {
                         "x": 3226,
@@ -16647,6 +16680,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "topleft": {
                         "x": 3220,
@@ -16661,6 +16695,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 3220,
@@ -16677,7 +16712,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 362,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -16685,7 +16720,7 @@ let raw: (method & indirected)[] = [
                         "different_level": true
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -16693,7 +16728,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": true
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -16701,7 +16736,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": true
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -16709,7 +16744,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -17050,7 +17085,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -17058,7 +17093,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -17210,7 +17245,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -17541,7 +17576,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": true
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -17726,7 +17761,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": true
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -17934,7 +17969,7 @@ let raw: (method & indirected)[] = [
                         "different_level": true
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -18107,6 +18142,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 3211,
@@ -18121,6 +18157,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 3223,
@@ -18135,6 +18172,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "topleft": {
                         "x": 3233,
@@ -18149,6 +18187,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "topleft": {
                         "x": 3180,
@@ -18163,6 +18202,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "I",
+                "id": 9,
                 "area": {
                     "topleft": {
                         "x": 3210,
@@ -18177,6 +18217,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "topleft": {
                         "x": 3242,
@@ -18191,6 +18232,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "topleft": {
                         "x": 3254,
@@ -18205,6 +18247,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 3243,
@@ -18219,6 +18262,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+                "id": 8,
                 "area": {
                     "topleft": {
                         "x": 3162,
@@ -18233,6 +18277,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "J",
+                "id": 10,
                 "area": {
                     "topleft": {
                         "x": 3164,
@@ -18249,7 +18294,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 351,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -18257,7 +18302,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -18265,7 +18310,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": [
                                         {
                                             "key": {
@@ -18273,7 +18318,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "E",
+                                                "scan_spot_id": 5,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -18281,7 +18326,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "H",
+                                                            "scan_spot_id": 8,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -18289,7 +18334,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "J",
+                                                                        "scan_spot_id": 10,
                                                                         "children": [
                                                                             {
                                                                                 "key": {
@@ -18297,7 +18342,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": null,
+                                                                                    "scan_spot_id": null,
                                                                                     "children": [],
                                                                                     "paths": [
                                                                                         {
@@ -18492,7 +18537,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": null,
+                                                                                    "scan_spot_id": null,
                                                                                     "children": [],
                                                                                     "paths": [
                                                                                         {
@@ -18727,7 +18772,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -18858,7 +18903,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -19035,7 +19080,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -19043,7 +19088,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -19320,7 +19365,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -19616,7 +19661,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -20051,7 +20096,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "I",
+                                    "scan_spot_id": 9,
                                     "children": [
                                         {
                                             "key": {
@@ -20059,7 +20104,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -20194,7 +20239,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -20810,7 +20855,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -20818,7 +20863,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "children": [
                                         {
                                             "key": {
@@ -20826,7 +20871,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -20945,7 +20990,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -21160,7 +21205,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -21168,7 +21213,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -21353,7 +21398,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -21436,7 +21481,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -21656,7 +21701,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -22038,7 +22083,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -22609,6 +22654,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 3597,
@@ -22623,6 +22669,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 3587,
@@ -22637,6 +22684,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "topleft": {
                         "x": 3583,
@@ -22651,6 +22699,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "topleft": {
                         "x": 3591,
@@ -22665,6 +22714,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "topleft": {
                         "x": 3607,
@@ -22679,6 +22729,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 3567,
@@ -22693,6 +22744,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "topleft": {
                         "x": 3554,
@@ -22707,6 +22759,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+                "id": 8,
                 "area": {
                     "topleft": {
                         "x": 3539,
@@ -22723,7 +22776,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 359,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -22731,7 +22784,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -22739,7 +22792,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "F",
+                                    "scan_spot_id": 6,
                                     "children": [
                                         {
                                             "key": {
@@ -22747,7 +22800,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "G",
+                                                "scan_spot_id": 7,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -22755,7 +22808,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -22934,7 +22987,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "H",
+                                                            "scan_spot_id": 8,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -22942,7 +22995,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -23078,7 +23131,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -23520,7 +23573,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "G",
+                                                "scan_spot_id": 7,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -23528,7 +23581,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -23709,7 +23762,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -23979,7 +24032,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -24198,7 +24251,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -24418,7 +24471,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -24426,7 +24479,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "E",
+                                    "scan_spot_id": 5,
                                     "children": [
                                         {
                                             "key": {
@@ -24434,7 +24487,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -24625,7 +24678,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -24854,7 +24907,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -24862,7 +24915,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -25083,7 +25136,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -25091,7 +25144,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -25308,7 +25361,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -25487,7 +25540,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -25744,7 +25797,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -25992,7 +26045,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -26482,6 +26535,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 2229,
@@ -26496,6 +26550,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 2221,
@@ -26510,6 +26565,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "level": 1,
                     "topleft": {
@@ -26524,6 +26580,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "topleft": {
                         "x": 2259,
@@ -26538,6 +26595,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "level": 1,
                     "topleft": {
@@ -26552,6 +26610,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 2228,
@@ -26566,6 +26625,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "level": 1,
                     "topleft": {
@@ -26582,7 +26642,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 368,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -26590,7 +26650,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "E",
+                        "scan_spot_id": 5,
                         "children": [
                             {
                                 "key": {
@@ -26598,7 +26658,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "children": [
                                         {
                                             "key": {
@@ -26606,7 +26666,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -26614,7 +26674,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -26919,7 +26979,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -27097,7 +27157,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "F",
+                                    "scan_spot_id": 6,
                                     "children": [
                                         {
                                             "key": {
@@ -27105,7 +27165,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -27545,7 +27605,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -28112,7 +28172,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -28120,7 +28180,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": [
                                         {
                                             "key": {
@@ -28128,7 +28188,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -28521,7 +28581,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -28529,7 +28589,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -28939,7 +28999,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -29972,7 +30032,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -30362,6 +30422,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "Anywhere",
+                "id": 0,
                 "area": {
                     "topleft": {
                         "x": 3157,
@@ -30376,6 +30437,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 2696,
@@ -30390,6 +30452,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "level": 1,
                     "topleft": {
@@ -30404,6 +30467,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+                "id": 8,
                 "area": {
                     "topleft": {
                         "x": 2701,
@@ -30418,6 +30482,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "I",
+                "id": 9,
                 "area": {
                     "topleft": {
                         "x": 2700,
@@ -30432,6 +30497,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "J",
+                "id": 10,
                 "area": {
                     "level": 1,
                     "topleft": {
@@ -30446,6 +30512,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -30460,6 +30527,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -30474,6 +30542,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "topleft": {
                         "x": 2712,
@@ -30488,6 +30557,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -30502,6 +30572,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "topleft": {
                         "x": 2713,
@@ -30516,6 +30587,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "K",
+                "id": 11,
                 "area": {
                     "topleft": {
                         "x": 2713,
@@ -30532,7 +30604,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 365,
         "root": {
-            "where_to": "Anywhere",
+            "scan_spot_id": 0,
             "children": [
                 {
                     "key": {
@@ -30540,7 +30612,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "A",
+                        "scan_spot_id": 1,
                         "children": [
                             {
                                 "key": {
@@ -30548,7 +30620,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -30556,7 +30628,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "E",
+                                                "scan_spot_id": 5,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -30564,7 +30636,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": true
                                                         },
                                                         "value": {
-                                                            "where_to": "K",
+                                                            "scan_spot_id": 11,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -30572,7 +30644,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -30686,7 +30758,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -31037,7 +31109,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": true
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -31340,7 +31412,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -31348,7 +31420,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -31538,7 +31610,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -31895,7 +31967,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "B",
+                                    "scan_spot_id": 2,
                                     "children": [
                                         {
                                             "key": {
@@ -31903,7 +31975,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -32134,7 +32206,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -32343,7 +32415,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -32953,7 +33025,7 @@ let raw: (method & indirected)[] = [
                         "different_level": true
                     },
                     "value": {
-                        "where_to": "F",
+                        "scan_spot_id": 6,
                         "children": [
                             {
                                 "key": {
@@ -32961,7 +33033,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "I",
+                                    "scan_spot_id": 9,
                                     "children": [
                                         {
                                             "key": {
@@ -32969,7 +33041,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "J",
+                                                "scan_spot_id": 10,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -32977,7 +33049,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -33151,7 +33223,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -33354,7 +33426,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "J",
+                                                "scan_spot_id": 10,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -33362,7 +33434,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -33542,7 +33614,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -33746,7 +33818,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -33935,7 +34007,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "children": [
                                         {
                                             "key": {
@@ -33943,7 +34015,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "H",
+                                                "scan_spot_id": 8,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -33951,7 +34023,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -34060,7 +34132,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -34275,7 +34347,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -34439,7 +34511,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -34844,6 +34916,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+                "id": 1,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -34858,6 +34931,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+                "id": 2,
                 "area": {
                     "topleft": {
                         "x": 2328,
@@ -34872,6 +34946,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+                "id": 3,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -34886,6 +34961,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+                "id": 4,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -34900,6 +34976,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+                "id": 5,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -34914,6 +34991,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+                "id": 6,
                 "area": {
                     "topleft": {
                         "x": 2356,
@@ -34928,6 +35006,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+                "id": 7,
                 "area": {
                     "level": 0,
                     "topleft": {
@@ -34944,7 +35023,7 @@ let raw: (method & indirected)[] = [
         "assumes_meerkats": true,
         "clue": 355,
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -34952,7 +35031,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "C",
+                        "scan_spot_id": 3,
                         "children": [
                             {
                                 "key": {
@@ -34960,7 +35039,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": [
                                         {
                                             "key": {
@@ -34968,7 +35047,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -35403,7 +35482,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "E",
+                                                "scan_spot_id": 5,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -35411,7 +35490,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": null,
+                                                            "scan_spot_id": null,
                                                             "children": [],
                                                             "paths": [
                                                                 {
@@ -35637,7 +35716,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -35645,7 +35724,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "G",
+                                                                        "scan_spot_id": 7,
                                                                         "children": [
                                                                             {
                                                                                 "key": {
@@ -35653,7 +35732,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": null,
+                                                                                    "scan_spot_id": null,
                                                                                     "children": [],
                                                                                     "paths": [
                                                                                         {
@@ -35797,7 +35876,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": null,
+                                                                                    "scan_spot_id": null,
                                                                                     "children": [],
                                                                                     "paths": [
                                                                                         {
@@ -36069,7 +36148,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -36210,7 +36289,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": null,
+                                                                        "scan_spot_id": null,
                                                                         "children": [],
                                                                         "paths": [
                                                                             {
@@ -36699,7 +36778,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": [
                                         {
                                             "key": {
@@ -36707,7 +36786,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -36903,7 +36982,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": null,
+                                                "scan_spot_id": null,
                                                 "children": [],
                                                 "paths": [
                                                     {
@@ -37540,7 +37619,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -37548,7 +37627,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -37739,7 +37818,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": null,
+                                    "scan_spot_id": null,
                                     "children": [],
                                     "paths": [
                                         {
@@ -38084,7 +38163,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": null,
+                        "scan_spot_id": null,
                         "children": [],
                         "paths": [
                             {
@@ -38595,6 +38674,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38609,6 +38689,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38623,6 +38704,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38637,6 +38719,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38651,6 +38734,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38665,6 +38749,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38679,6 +38764,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38693,6 +38779,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+"id": 8,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -38957,31 +39044,31 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "why": "",
             "children": [
                 {
                     "key": {pulse: 2, different_level: false},
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "why": "",
                         "children": [
                             {
                                 "key": {pulse: 2, different_level: false},
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "why": "",
                                     "children": [
                                         {
                                             "key": {pulse: 2, different_level: false},
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "why": "",
                                                 "children": [
                                                     {
                                                         "key": {pulse: 2, different_level: false},
                                                         "value": {
-                                                            "where_to": "E",
+                                                            "scan_spot_id": 5,
                                                             "why": "",
                                                             "children": []
                                                         }
@@ -38998,23 +39085,23 @@ let raw: (method & indirected)[] = [
                 {
                     "key": {pulse: 1, different_level: false},
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "why": "",
                         "children": [
                             {
                                 "key": {pulse: 1, different_level: false},
                                 "value": {
-                                    "where_to": "F",
+                                    "scan_spot_id": 6,
                                     "children": [
                                         {
                                             "key": {pulse: 2, different_level: false},
                                             "value": {
-                                                "where_to": "G",
+                                                "scan_spot_id": 7,
                                                 "children": [
                                                     {
                                                         "key": {pulse: 2, different_level: false},
                                                         "value": {
-                                                            "where_to": "H",
+                                                            "scan_spot_id": 8,
                                                             "children": []
                                                         }
                                                     }
@@ -39034,6 +39121,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "area": {
                     "topleft": {
                         "x": 2939,
@@ -39048,6 +39136,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39062,6 +39151,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39076,6 +39166,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39090,6 +39181,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39104,6 +39196,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39349,41 +39442,41 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {pulse: 1, different_level: false},
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {pulse: 1, different_level: false},
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {pulse: 2, different_level: false},
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": []
                                             }
                                         },
                                         {
                                             "key": {pulse: 1, different_level: false},
                                             "value": {
-                                                "where_to": "E",
+                                                "scan_spot_id": 5,
                                                 "children": [
                                                     {
                                                         "key": {pulse: 1, different_level: false},
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": []
                                                         }
                                                     },
                                                     {
                                                         "key": {pulse: 2, different_level: false},
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": []
                                                         }
                                                     }
@@ -39399,7 +39492,7 @@ let raw: (method & indirected)[] = [
                 {
                     "key": {pulse: 2, different_level: false},
                     "value": {
-                        "where_to": "C",
+                        "scan_spot_id": 3,
                         "children": []
                     }
                 }
@@ -39598,6 +39691,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39612,6 +39706,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39626,6 +39721,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39640,6 +39736,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39654,6 +39751,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39668,6 +39766,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39682,6 +39781,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -39969,19 +40069,19 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "why": "",
             "children": [
                 {
                     "key": {pulse: 1, different_level: false},
                     "value": {
-                        "where_to": "F",
+                        "scan_spot_id": 6,
                         "why": "",
                         "children": [
                             {
                                 "key": {pulse: 1, different_level: false},
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "why": "",
                                     "children": []
                                 }
@@ -39992,19 +40092,19 @@ let raw: (method & indirected)[] = [
                 {
                     "key": {pulse: 2, different_level: false},
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "why": "",
                         "children": [
                             {
                                 "key": {pulse: 2, different_level: false},
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "why": "",
                                     "children": [
                                         {
                                             "key": {pulse: 1, different_level: false},
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "why": "",
                                                 "children": []
                                             }
@@ -40012,13 +40112,13 @@ let raw: (method & indirected)[] = [
                                         {
                                             "key": {pulse: 2, different_level: false},
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "why": "",
                                                 "children": [
                                                     {
                                                         "key": {pulse: 2, different_level: false},
                                                         "value": {
-                                                            "where_to": "E",
+                                                            "scan_spot_id": 5,
                                                             "why": "",
                                                             "children": []
                                                         }
@@ -40163,6 +40263,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40177,6 +40278,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40191,6 +40293,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40205,6 +40308,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40219,6 +40323,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40233,6 +40338,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40247,6 +40353,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40261,6 +40368,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+"id": 8,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40551,7 +40659,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "why": "",
             "children": [
                 {
@@ -40560,7 +40668,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "why": "",
                         "children": [
                             {
@@ -40569,7 +40677,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "why": "",
                                     "children": []
                                 }
@@ -40580,7 +40688,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "why": "",
                                     "children": []
                                 }
@@ -40594,7 +40702,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "why": "",
                         "children": [
                             {
@@ -40603,7 +40711,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "why": "",
                                     "children": [
                                         {
@@ -40612,7 +40720,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "E",
+                                                "scan_spot_id": 5,
                                                 "why": "",
                                                 "children": [
                                                     {
@@ -40621,7 +40729,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "why": "",
                                                             "children": []
                                                         }
@@ -40632,7 +40740,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "H",
+                                                            "scan_spot_id": 8,
                                                             "why": "",
                                                             "children": []
                                                         }
@@ -40653,6 +40761,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40667,6 +40776,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40681,6 +40791,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40695,6 +40806,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40709,6 +40821,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40723,6 +40836,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40737,6 +40851,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -40898,37 +41013,37 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {pulse: 1, different_level: false},
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {pulse: 1, different_level: false},
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {pulse: 1, different_level: false},
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {pulse: 1, different_level: false},
                                                         "value": {
-                                                            "where_to": "E",
+                                                            "scan_spot_id": 5,
                                                             "children": [
                                                                 {
                                                                     "key": {pulse: 1, different_level: false},
                                                                     "value": {
-                                                                        "where_to": "F",
+                                                                        "scan_spot_id": 6,
                                                                         "children": [
                                                                             {
                                                                                 "key": {pulse: 1, different_level: false},
                                                                                 "value": {
-                                                                                    "where_to": "G",
+                                                                                    "scan_spot_id": 7,
                                                                                     "children": []
                                                                                 }
                                                                             }
@@ -41162,6 +41277,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41176,6 +41292,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41190,6 +41307,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41204,6 +41322,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41218,6 +41337,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41232,6 +41352,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41549,19 +41670,19 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "why": "",
             "children": [
                 {
                     "key": {pulse: 2, different_level: false},
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "why": "",
                         "children": [
                             {
                                 "key": {pulse: 2, different_level: false},
                                 "value": {
-                                    "where_to": "F",
+                                    "scan_spot_id": 6,
                                     "children": []
                                 }
                             }
@@ -41571,19 +41692,19 @@ let raw: (method & indirected)[] = [
                 {
                     "key": {pulse: 1, different_level: false},
                     "value": {
-                        "where_to": "C",
+                        "scan_spot_id": 3,
                         "why": "",
                         "children": [
                             {
                                 "key": {pulse: 2, different_level: false},
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "why": "",
                                     "children": [
                                         {
                                             "key": {pulse: 2, different_level: false},
                                             "value": {
-                                                "where_to": "E",
+                                                "scan_spot_id": 5,
                                                 "why": "",
                                                 "children": []
                                             }
@@ -41601,6 +41722,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41615,6 +41737,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41629,6 +41752,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41643,6 +41767,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41657,6 +41782,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41671,6 +41797,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41685,6 +41812,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -41994,7 +42122,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -42002,7 +42130,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -42010,7 +42138,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -42018,7 +42146,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -42026,7 +42154,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "E",
+                                                            "scan_spot_id": 5,
                                                             "children": []
                                                         }
                                                     }
@@ -42039,7 +42167,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": []
                                             }
                                         }
@@ -42055,7 +42183,7 @@ let raw: (method & indirected)[] = [
                         "different_level": true
                     },
                     "value": {
-                        "where_to": "F",
+                        "scan_spot_id": 6,
                         "children": [
                             {
                                 "key": {
@@ -42063,7 +42191,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "children": []
                                 }
                             }
@@ -42218,6 +42346,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42232,6 +42361,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42246,6 +42376,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42260,6 +42391,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42274,6 +42406,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 1,
                 "area": {
                     "topleft": {
@@ -42288,6 +42421,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 1,
                 "area": {
                     "topleft": {
@@ -42302,6 +42436,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 1,
                 "area": {
                     "topleft": {
@@ -42316,6 +42451,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+"id": 8,
                 "level": 1,
                 "area": {
                     "topleft": {
@@ -42330,6 +42466,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "I",
+"id": 9,
                 "level": 1,
                 "area": {
                     "topleft": {
@@ -42630,7 +42767,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "A",
+                        "scan_spot_id": 1,
                         "children": [
                             {
                                 "key": {
@@ -42638,7 +42775,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "B",
+                                    "scan_spot_id": 2,
                                     "children": []
                                 }
                             },
@@ -42648,7 +42785,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -42656,7 +42793,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -42664,7 +42801,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "E",
+                                                            "scan_spot_id": 5,
                                                             "children": []
                                                         }
                                                     }
@@ -42683,7 +42820,7 @@ let raw: (method & indirected)[] = [
                         "different_level": true
                     },
                     "value": {
-                        "where_to": "F",
+                        "scan_spot_id": 6,
                         "children": [
                             {
                                 "key": {
@@ -42691,7 +42828,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "G",
+                                    "scan_spot_id": 7,
                                     "children": [
                                         {
                                             "key": {
@@ -42699,7 +42836,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "H",
+                                                "scan_spot_id": 8,
                                                 "children": []
                                             }
                                         }
@@ -42712,7 +42849,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "H",
+                                    "scan_spot_id": 8,
                                     "children": [
                                         {
                                             "key": {
@@ -42720,7 +42857,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "I",
+                                                "scan_spot_id": 9,
                                                 "children": []
                                             }
                                         }
@@ -42840,6 +42977,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42854,6 +42992,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42868,6 +43007,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42882,6 +43022,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42896,6 +43037,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42910,6 +43052,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42924,6 +43067,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42938,6 +43082,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+"id": 8,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42952,6 +43097,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "I",
+"id": 9,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42966,6 +43112,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "J",
+"id": 10,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -42980,6 +43127,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "K",
+"id": 11,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43382,7 +43530,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -43390,7 +43538,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -43398,7 +43546,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": []
                                 }
                             }
@@ -43411,7 +43559,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "D",
+                        "scan_spot_id": 4,
                         "children": [
                             {
                                 "key": {
@@ -43419,7 +43567,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "E",
+                                    "scan_spot_id": 5,
                                     "children": []
                                 }
                             },
@@ -43429,7 +43577,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "F",
+                                    "scan_spot_id": 6,
                                     "children": [
                                         {
                                             "key": {
@@ -43437,7 +43585,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "G",
+                                                "scan_spot_id": 7,
                                                 "children": []
                                             }
                                         },
@@ -43447,7 +43595,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "H",
+                                                "scan_spot_id": 8,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -43455,7 +43603,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "I",
+                                                            "scan_spot_id": 9,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -43463,7 +43611,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "J",
+                                                                        "scan_spot_id": 10,
                                                                         "children": []
                                                                     }
                                                                 }
@@ -43476,7 +43624,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "K",
+                                                            "scan_spot_id": 11,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -43484,7 +43632,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "L",
+                                                                        "scan_spot_id": 12,
                                                                         "children": []
                                                                     }
                                                                 }
@@ -43670,6 +43818,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43684,6 +43833,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43698,6 +43848,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43712,6 +43863,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43726,6 +43878,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43740,6 +43893,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43754,6 +43908,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43768,6 +43923,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+"id": 8,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43782,6 +43938,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "I",
+"id": 9,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43796,6 +43953,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "J",
+"id": 10,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -43810,6 +43968,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "K",
+"id": 11,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44168,7 +44327,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -44176,7 +44335,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": []
                     }
                 },
@@ -44186,7 +44345,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "C",
+                        "scan_spot_id": 3,
                         "children": [
                             {
                                 "key": {
@@ -44194,7 +44353,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": [
                                         {
                                             "key": {
@@ -44202,7 +44361,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "E",
+                                                "scan_spot_id": 5,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -44210,7 +44369,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": []
                                                         }
                                                     }
@@ -44223,7 +44382,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "G",
+                                                "scan_spot_id": 7,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -44231,7 +44390,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "H",
+                                                            "scan_spot_id": 8,
                                                             "children": [
                                                                 {
                                                                     "key": {
@@ -44239,7 +44398,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "I",
+                                                                        "scan_spot_id": 9,
                                                                         "children": [
                                                                             {
                                                                                 "key": {
@@ -44247,7 +44406,7 @@ let raw: (method & indirected)[] = [
                                                                                     "different_level": false
                                                                                 },
                                                                                 "value": {
-                                                                                    "where_to": "J",
+                                                                                    "scan_spot_id": 10,
                                                                                     "children": [
                                                                                         {
                                                                                             "key": {
@@ -44255,7 +44414,7 @@ let raw: (method & indirected)[] = [
                                                                                                 "different_level": false
                                                                                             },
                                                                                             "value": {
-                                                                                                "where_to": "K",
+                                                                                                "scan_spot_id": 11,
                                                                                                 "children": []
                                                                                             }
                                                                                         }
@@ -44271,7 +44430,7 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "where_to": "K",
+                                                                        "scan_spot_id": 11,
                                                                         "children": []
                                                                     }
                                                                 }
@@ -44290,7 +44449,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": []
                                 }
                             }
@@ -44437,6 +44596,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44451,6 +44611,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44465,6 +44626,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44479,6 +44641,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44493,6 +44656,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44507,6 +44671,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44779,7 +44944,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -44787,7 +44952,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -44795,7 +44960,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -44803,7 +44968,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": []
                                             }
                                         }
@@ -44816,7 +44981,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": []
                                 }
                             }
@@ -44829,7 +44994,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -44837,7 +45002,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "E",
+                                    "scan_spot_id": 5,
                                     "children": [
                                         {
                                             "key": {
@@ -44845,7 +45010,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "F",
+                                                "scan_spot_id": 6,
                                                 "children": []
                                             }
                                         },
@@ -44855,7 +45020,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "F",
+                                                "scan_spot_id": 6,
                                                 "children": []
                                             }
                                         }
@@ -44980,6 +45145,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -44994,6 +45160,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45008,6 +45175,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45022,6 +45190,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45036,6 +45205,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45326,7 +45496,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -45334,7 +45504,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": []
                     }
                 },
@@ -45344,7 +45514,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "C",
+                        "scan_spot_id": 3,
                         "children": [
                             {
                                 "key": {
@@ -45352,7 +45522,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": []
                                 }
                             },
@@ -45362,7 +45532,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "D",
+                                    "scan_spot_id": 4,
                                     "children": [
                                         {
                                             "key": {
@@ -45370,7 +45540,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "B",
+                                                "scan_spot_id": 2,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -45378,7 +45548,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": []
                                                         }
                                                     },
@@ -45388,7 +45558,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "F",
+                                                            "scan_spot_id": 6,
                                                             "children": []
                                                         }
                                                     }
@@ -45516,6 +45686,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45530,6 +45701,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45544,6 +45716,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45558,6 +45731,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45572,6 +45746,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "H",
+"id": 8,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45586,6 +45761,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "E",
+"id": 5,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45600,6 +45776,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "F",
+"id": 6,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -45614,6 +45791,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "G",
+"id": 7,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -46208,7 +46386,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -46216,7 +46394,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -46224,7 +46402,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -46232,7 +46410,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": []
                                             }
                                         }
@@ -46248,7 +46426,7 @@ let raw: (method & indirected)[] = [
                         "different_level": false
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -46256,7 +46434,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "E",
+                                    "scan_spot_id": 5,
                                     "children": [
                                         {
                                             "key": {
@@ -46264,7 +46442,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "H",
+                                                "scan_spot_id": 8,
                                                 "children": []
                                             }
                                         },
@@ -46274,7 +46452,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "F",
+                                                "scan_spot_id": 6,
                                                 "children": [
                                                     {
                                                         "key": {
@@ -46282,7 +46460,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "H",
+                                                            "scan_spot_id": 8,
                                                             "children": []
                                                         }
                                                     },
@@ -46292,7 +46470,7 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "where_to": "G",
+                                                            "scan_spot_id": 7,
                                                             "children": []
                                                         }
                                                     }
@@ -46570,6 +46748,7 @@ let raw: (method & indirected)[] = [
         "areas": [
             {
                 "name": "A",
+"id": 1,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -46584,6 +46763,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "B",
+"id": 2,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -46598,6 +46778,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "D",
+"id": 4,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -46612,6 +46793,7 @@ let raw: (method & indirected)[] = [
             },
             {
                 "name": "C",
+"id": 3,
                 "level": 0,
                 "area": {
                     "topleft": {
@@ -46805,7 +46987,7 @@ let raw: (method & indirected)[] = [
             }
         ],
         "root": {
-            "where_to": "A",
+            "scan_spot_id": 1,
             "children": [
                 {
                     "key": {
@@ -46813,7 +46995,7 @@ let raw: (method & indirected)[] = [
                         "different_level": true
                     },
                     "value": {
-                        "where_to": "B",
+                        "scan_spot_id": 2,
                         "children": [
                             {
                                 "key": {
@@ -46821,7 +47003,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": [
                                         {
                                             "key": {
@@ -46829,7 +47011,7 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "where_to": "D",
+                                                "scan_spot_id": 4,
                                                 "children": []
                                             }
                                         }
@@ -46842,7 +47024,7 @@ let raw: (method & indirected)[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "where_to": "C",
+                                    "scan_spot_id": 3,
                                     "children": []
                                 }
                             }

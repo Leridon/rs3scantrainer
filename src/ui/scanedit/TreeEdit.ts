@@ -45,19 +45,19 @@ class TreeNodeEdit extends Widget<{
             remove?: boolean,
             create_new?: boolean,
             create_new_from_path?: boolean,
-            area?: string
+            area?: ScanSpot
         }
 
-        let options: T[] = parent.parent.value.areas.map(a => {
-            return {
-                area: a.name
-            }
-        })
+        let options: T[] = parent.parent.value.areas
+            .filter(a => a.name.length > 0)
+            .map(a => {
+                return {area: a}
+            })
 
         options.push({create_new: true})
         options.push({create_new_from_path: true})
 
-        if (node.raw?.where_to) options.push({remove: true})
+        if (node.raw?.scan_spot_id != null) options.push({remove: true})
         else options.push({area: null})
 
         let props = new Properties().appendTo(this)
@@ -71,7 +71,7 @@ class TreeNodeEdit extends Widget<{
                         if (v.remove) return c("<div>- Remove</div>")
                         if (v.create_new) return c("<div>+ Create New</div>")
                         if (v.create_new_from_path) return c("<div>+ Create New from Path</div>")
-                        else return c("<div></div>").text(v.area || " - ")
+                        else return c("<div></div>").text(v.area.name || " - ")
                     }
                 }
             }, options)
@@ -98,15 +98,12 @@ class TreeNodeEdit extends Widget<{
 
                                 if (!aug.post_state?.position?.tile) return
 
-                                let area: ScanSpot = {
-                                    name: "New", area: {
+                                let area: ScanSpot = ScanTree.createNewSpot(this.parent.parent.value,  {
                                         level: aug.post_state.position.tile.level,
                                         topleft: {x: aug.post_state.position.tile.x, y: aug.post_state.position.tile.y},
                                         botright: {x: aug.post_state.position.tile.x, y: aug.post_state.position.tile.y},
-                                    }
-                                }
+                                    })
 
-                                this.parent.parent.value.areas.push(area)
 
                                 this.parent.parent.areas.update()
                                 this.parent.parent.areas.areas.find(a => a.value == area)?.toggleEdit()
@@ -116,26 +113,22 @@ class TreeNodeEdit extends Widget<{
                                 this.setTarget(area)
 
                                 let p = this.node.raw.paths.find(p => p.spot == null)
-                                if(p) p.path = v
+                                if (p) p.path = v
                                 else this.node.raw.paths.push({spot: null, path: v, directions: "Go to {{target}}"})
 
                                 this.parent.parent.layer.getMap().path_editor.reset()
                             },
                         })
-                    } else if (s.area != node.raw.where_to) {
-                        let area = parent.parent.value.areas.find((a) => a.name == s.area)
-
-                        this.setTarget(area)
+                    } else if (s.area.id != node.raw.scan_spot_id) {
+                        this.setTarget(s.area)
                     }
-
-                    // TODO: Handle "Create New" and "Create New from Path"
 
                     // TODO: Make a proper change-interface
                     parent.emit("changed", parent.value)
                     parent.update()
                 })
 
-            dropdown.setValue({area: node.raw?.where_to})
+            dropdown.setValue({area: node.scan_spot})
 
             props.named("Move to", dropdown);
         }
@@ -212,7 +205,7 @@ class TreeNodeEdit extends Widget<{
             })
         }
 
-        this.node.raw.where_to = target.name
+        this.node.raw.scan_spot_id = target.id
 
         this.node.raw.paths = [{
             directions: "Move to {{target}}",

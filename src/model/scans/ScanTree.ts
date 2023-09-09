@@ -55,7 +55,7 @@ export namespace ScanTree {
      */
     type DRAFT_new_decision_tree = {
         area?: ScanSpot,
-        path: Path.raw
+        path: Path.step[]
         children: {
             key: {
                 pulse: Pulse,
@@ -67,10 +67,10 @@ export namespace ScanTree {
 
     /**
      * TODO: Plan: How to potentially transition to the above draft while always having a better state than before
-     *  1. Make scan spots be identified by id
-     *  2. Allow scan spots to be anonymous (empty name)
-     *  3. Allow nodes to not have a scan spot at all
-     *  4. Outsource spot children into leaf nodes.
+     *  1. (Done) Make scan spots be identified by id
+     *  2. (Done) Allow scan spots to be anonymous (empty name)
+     *  3. Outsource spot children into leaf nodes, make path be an immediate member
+     *  4. Allow nodes to not have a scan spot at all
      */
 
     export type decision_tree = {

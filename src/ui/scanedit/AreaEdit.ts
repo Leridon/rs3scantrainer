@@ -41,15 +41,13 @@ export default class AreaEdit extends Widget<{
             let interaction = new DrawAreaInteraction(this.layer)
 
             interaction.events.on("done", (v) => {
-                let area = {name: "New", area: v}
+                let area = ScanTree.createNewSpot(this.parent.value, v)
 
-                this.value.push(area)
-
-                let w = this.addWidget(area).toggleEdit()
+                this.addWidget(area).toggleEdit()
 
                 this.emit("changed", this.value)
 
-                resolve(w.value)
+                resolve(area)
             })
 
             interaction.activate()

@@ -34,6 +34,7 @@ export namespace ScanTree {
     //  - con: How would that work with non-deterministic paths/teleports?
 
     export type ScanSpot = {
+        id: number,
         name: string
         area: MapRectangle
     }
@@ -54,7 +55,7 @@ export namespace ScanTree {
      */
     type DRAFT_new_decision_tree = {
         area?: ScanSpot,
-        path: Path.raw
+        path: Path.step[]
         children: {
             key: {
                 pulse: Pulse,
@@ -64,13 +65,21 @@ export namespace ScanTree {
         }[]
     }
 
+    /**
+     * TODO: Plan: How to potentially transition to the above draft while always having a better state than before
+     *  1. (Done) Make scan spots be identified by id
+     *  2. (Done) Allow scan spots to be anonymous (empty name)
+     *  3. Outsource spot children into leaf nodes, make path be an immediate member
+     *  4. Allow nodes to not have a scan spot at all
+     */
+
     export type decision_tree = {
         paths: {
             spot?: MapCoordinate,
             directions: string,
             path: Path.raw
         }[],
-        where_to: string,
+        scan_spot_id: number | null,
         children: {
             key: Pulse | null,
             value: decision_tree
@@ -119,7 +128,7 @@ export namespace ScanTree {
 
     export function init_leaf(candidates: MapCoordinate[]): decision_tree {
         return {
-            where_to: null,
+            scan_spot_id: null,
             children: [],
             paths: candidates.map(c => {
                 return {
@@ -140,12 +149,12 @@ export namespace ScanTree {
             if (node == null || candidates.length == 0) return null
 
             // Prune dead and create missing branches
-            let area = tree.areas.find((a) => a.name == node.where_to)
+            let area = tree.areas.find((a) => a.id == node.scan_spot_id)
 
             if (area) {
-                let area = tree.areas.find((a) => a.name == node.where_to)
+                let area = tree.areas.find((a) => a.id == node.scan_spot_id)
 
-                if (!area) node.where_to = null
+                if (!area) node.scan_spot_id = null
 
                 // Update children to remove all dead branches and add missing branches
                 node.children =
@@ -166,7 +175,7 @@ export namespace ScanTree {
                     directions: "Move to {{target}}"
                 }]
             } else {
-                node.where_to = null
+                node.scan_spot_id = null
                 node.children = []  // Nodes without a "where_to" can never have children nodes, only paths
 
                 // Create a new leaf as a template to get missing paths from
@@ -188,13 +197,13 @@ export namespace ScanTree {
                 if (to_here) {
                     to_here.path.start_state = lodash.cloneDeep(pre_state)
                     to_here.path.start_state.tick += 1 // Simulate a waiting tick between steps
-                    to_here.path.target = tree.areas.find((a) => a.name == node.where_to).area
+                    to_here.path.target = tree.areas.find((a) => a.id == node.scan_spot_id).area
 
                     let ap = await Path.augment(to_here.path)
 
                     // Propagate post_state to all children
                     if (node.children.length > 0) {
-                        let area = tree.areas.find((a) => a.name == node.where_to)
+                        let area = tree.areas.find((a) => a.id == node.scan_spot_id)
 
                         for (const c of node.children) {
                             await helper(c.value, narrow_down(candidates, {area: area, ping: c.key}, assumedRange(tree)), lodash.cloneDeep(ap.post_state))
@@ -259,8 +268,8 @@ export namespace ScanTree {
             // For triples with more than one candidate, inherit the parent's spot, TODO: Is this sensible?
             if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.scan_spot = parent.node.scan_spot
 
-            if (node.where_to != null) {
-                t.scan_spot = tree.areas.find((a) => a.name == node.where_to)
+            if (node.scan_spot_id != null) {
+                t.scan_spot = tree.areas.find((a) => a.id == node.scan_spot_id)
 
                 let path = node.paths.find((p) => p.spot == null)
 
@@ -331,6 +340,26 @@ export namespace ScanTree {
         await prune_clean_and_propagate(tree)
 
         return helper(tree.root, null, 0, tree.clue.solution.candidates, []);
+    }
+
+    export function getSpotById(tree: ScanTree.tree, id: number): ScanSpot {
+        return tree.areas.find(a => a.id == id)
+    }
+
+    export function createNewSpot(tree: ScanTree.tree, area: MapRectangle): ScanSpot {
+        for (let i: number = 0; i < 1000; i++) {
+            if (!tree.areas.some(a => a.id == i)) {
+                let a = {
+                    id: i,
+                    name: "New",
+                    area: area
+                }
+
+                tree.areas.push(a)
+
+                return a
+            }
+        }
     }
 
     export class ScanExplanationModal extends Modal {

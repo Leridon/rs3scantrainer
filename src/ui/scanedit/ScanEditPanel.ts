@@ -125,6 +125,8 @@ export default class ScanEditPanel extends Widget<{
                 this.emit("candidates_changed", this.candidates)
             })
             .on("renamed", async (e) => {
+                /*// This is old code from when scan spots were identified by name and is no longer necessary now that they are identified by an id
+
                 function tree_renamer(node: ScanTree.decision_tree) {
                     if (!node) return
 
@@ -133,7 +135,7 @@ export default class ScanEditPanel extends Widget<{
                     node.children.forEach((c) => tree_renamer(c.value))
                 }
 
-                tree_renamer(this.value.root)
+                tree_renamer(this.value.root)*/
 
                 await this.tree_edit.update()
 

@@ -1240,7 +1240,7 @@ export namespace teleport_data {
         }, {
             id: "ringofwealth", name: "Ring of Wealth", img: "jewellry_ringofwealth.png", can_be_in_pota: true,
             spots: [
-                {id: "miscellania", spot: {x: 2508, y: 3862, level: 0}, code: "1", name: "Miscellania",
+                {id: "miscellania", spot: {x: 2508, y: 3862, level: 1}, code: "1", name: "Miscellania",
                     menu_ticks: 2,
                     animation_ticks: 4},
                 {id: "grandexchange", spot: {x: 3162, y: 3463, level: 0}, code: "2", name: "Grand Exchange",

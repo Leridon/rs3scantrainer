@@ -23125,7 +23125,7 @@ export let clues: ClueStep[] = [
         "id": 142,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 2521, "y": 3496, "level": 0},
+            "coordinates": {"x": 2521, "y": 3496, "level": 1},
             "answer": "Search the boxes upstairs."
         }
     },
@@ -23249,7 +23249,7 @@ export let clues: ClueStep[] = [
         "id": 150,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 2489, "y": 3490, "level": 0},
+            "coordinates": {"x": 2489, "y": 3490, "level": 1},
             "answer": "Talk to Heckel Funch on the first level of the grand tree."
         }
     },

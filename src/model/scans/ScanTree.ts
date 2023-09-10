@@ -73,6 +73,17 @@ export namespace ScanTree {
      *  4. Allow nodes to not have a scan spot at all
      */
 
+    type child_key = {
+        pulse: Pulse,
+        spot?: MapCoordinate
+    }
+
+    namespace child_key {
+        export function equals(a: child_key, b: child_key): boolean {
+            return Pulse.equals(a.pulse, b.pulse) && a.spot == b.spot
+        }
+    }
+
     export type decision_tree = {
         path: Path.raw
         scan_spot_id: number | null,
@@ -135,6 +146,10 @@ export namespace ScanTree {
         return {
             scan_spot_id: null,
             children: [],
+            path: {
+                steps: []
+            },
+            /*
             paths: candidates.map(c => {
                 return {
                     spot: c,
@@ -145,7 +160,7 @@ export namespace ScanTree {
                         target: dig_area(c)
                     }
                 }
-            })
+            })*/
         }
     }
 
@@ -167,7 +182,6 @@ export namespace ScanTree {
             let area = await target_area(tree, node)
 
             if (area) {
-
                 if (!area) node.scan_spot_id = null
 
                 // Update children to remove all dead branches and add missing branches
@@ -175,33 +189,42 @@ export namespace ScanTree {
                     spot_narrowing(candidates, area, assumedRange(tree))
                         .filter(n => n.narrowed_candidates.length > 0)
                         .map(n => {
-                            return node.children.find(c => Pulse.equals(n.pulse, c.key))
+                            let key: child_key = {
+                                pulse: n.pulse,
+                                spot: n.pulse.pulse == 3 ? n.narrowed_candidates[0] : undefined
+                            }
+
+                            return node.children.find(c => child_key.equals(key, c.key))
                                 || {
-                                    key: n.pulse,
+                                    key: key,
                                     value: init_leaf(n.narrowed_candidates)
                                 }
                         })
 
+                // TODO: If only 1 child, something is (probably?) wrong
+
                 // Branches with a set area only contain one path: The one to the area.
-                node.paths = [node.paths.find(p => p.spot == null) || {
+                /*node.paths = [node.paths.find(p => p.spot == null) || {
                     path: {start_state: movement_state.start(), steps: []},
                     spot: null,
                     directions: "Move to {{target}}"
-                }]
+                }]*/
             } else {
                 // There is no area at all and the path tree is essentially broken
                 // TODO: What to do now? Just stop?
 
-                node.scan_spot_id = null
-                node.children = []  // Nodes without a "where_to" can never have children nodes, only paths
+                node.children = []
+                // Without a target area, children can not exist
+                // TODO: What to do about inherited target areas from parent node?
 
+                /*
                 // Create a new leaf as a template to get missing paths from
                 let raw_leaf = init_leaf(candidates)
 
                 node.paths = candidates.map(c =>
                     node.paths.find(p => MapCoordinate.eq2(p.spot, c)) ||
                     raw_leaf.paths.find(p => MapCoordinate.eq2(p.spot, c))
-                )
+                )*/
             }
 
             // Propagate movement state to paths/children
@@ -410,8 +433,8 @@ export namespace ScanTree {
         })
     }
 
-    export function narrow_down(candidates: MapCoordinate[], decision: ScanInformation, range: number): MapCoordinate[] {
-        return candidates.filter((s) => area_pulse(s, decision.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
+    export function narrow_down(candidates: MapCoordinate[], information: ScanInformation, range: number): MapCoordinate[] {
+        return candidates.filter((s) => area_pulse(s, information.area, range).some((p2) => Pulse.equals(information.ping, p2)))
     }
 
     export function template_resolvers(node: ScanTree.augmented_decision_tree, spot?: MapCoordinate): Record<string, (args: string[]) => string> {

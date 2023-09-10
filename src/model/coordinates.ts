@@ -77,6 +77,14 @@ export namespace MapRectangle {
     export function center(rect: MapRectangle): MapCoordinate {
         return lift(Rectangle.center(rect), rect.level)
     }
+
+    export function fromTile(tile: MapCoordinate): MapRectangle {
+        return {
+            level: tile.level,
+            topleft: {x: tile.x, y: tile.y},
+            botright: {x: tile.x, y: tile.y},
+        }
+    }
 }
 
 export type Area = { tiles: MapCoordinate[] }

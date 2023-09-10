@@ -1,6 +1,7 @@
+// @ts-nocheck
 // The above line prevents type checking for the entire file and should only be used to filter errors messages during development!
 
-import {indirected, method} from "../model/methods";
+import {type indirected, type method} from "../model/methods";
 
 
 /* ts-ignore */

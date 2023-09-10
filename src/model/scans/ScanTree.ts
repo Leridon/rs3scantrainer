@@ -59,8 +59,8 @@ export namespace ScanTree {
         children: {
             key: {
                 pulse: Pulse,
-                spot: MapCoordinate
-            } | null,
+                spot?: MapCoordinate
+            },
             value: decision_tree
         }[]
     }
@@ -74,14 +74,13 @@ export namespace ScanTree {
      */
 
     export type decision_tree = {
-        paths: {
-            spot?: MapCoordinate,
-            directions: string,
-            path: Path.raw
-        }[],
+        path: Path.raw
         scan_spot_id: number | null,
         children: {
-            key: Pulse | null,
+            key: {
+                pulse: Pulse,
+                spot?: MapCoordinate
+            },
             value: decision_tree
         }[]
     }
@@ -90,7 +89,13 @@ export namespace ScanTree {
         raw: decision_tree,
         raw_root: tree,
         root: augmented_decision_tree,
-        parent: { node: augmented_decision_tree, kind: Pulse },
+        parent: {
+            node: augmented_decision_tree,
+            kind: {
+                pulse: Pulse,
+                spot?: MapCoordinate
+            }
+        },
         is_leaf?: boolean,
         scan_spot?: ScanSpot,
         leaf_spot?: MapCoordinate,
@@ -98,7 +103,7 @@ export namespace ScanTree {
         directions: string,
         depth: number,
         remaining_candidates: MapCoordinate[],
-        decisions: ScanDecision[],
+        decisions: ScanInformation[],
         children: {
             key: Pulse,
             value: augmented_decision_tree
@@ -144,15 +149,24 @@ export namespace ScanTree {
         }
     }
 
+    export async function target_area(tree: ScanTree.tree, node: ScanTree.decision_tree): Promise<MapRectangle | null> {
+        if (node.scan_spot_id != null) return ScanTree.getSpotById(tree, node.scan_spot_id).area
+
+        let tile = (await Path.augment(node.path)).post_state?.position?.tile
+        if (!tile) return null
+
+        return MapRectangle.fromTile(tile)
+
+    }
+
     export async function prune_clean_and_propagate(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.tree> {
         async function helper(node: decision_tree, candidates: MapCoordinate[], pre_state: Path.movement_state): Promise<void> {
             if (node == null || candidates.length == 0) return null
 
             // Prune dead and create missing branches
-            let area = tree.areas.find((a) => a.id == node.scan_spot_id)
+            let area = await target_area(tree, node)
 
             if (area) {
-                let area = tree.areas.find((a) => a.id == node.scan_spot_id)
 
                 if (!area) node.scan_spot_id = null
 
@@ -175,6 +189,9 @@ export namespace ScanTree {
                     directions: "Move to {{target}}"
                 }]
             } else {
+                // There is no area at all and the path tree is essentially broken
+                // TODO: What to do now? Just stop?
+
                 node.scan_spot_id = null
                 node.children = []  // Nodes without a "where_to" can never have children nodes, only paths
 
@@ -188,6 +205,7 @@ export namespace ScanTree {
             }
 
             // Propagate movement state to paths/children
+            // TODO: Potentially, with the refactor, this section is not needed anymore
             {
                 // Find the path to here, and propagate previous state to it.
                 let to_here = node.paths.find(p => p.spot == null)
@@ -246,7 +264,7 @@ export namespace ScanTree {
             parent: { node: augmented_decision_tree, kind: Pulse },
             depth: number,
             remaining_candidates: MapCoordinate[],
-            decisions: ScanDecision[],
+            decisions: ScanInformation[],
         ): Promise<augmented_decision_tree> {
 
             let t: augmented_decision_tree = {
@@ -368,18 +386,19 @@ export namespace ScanTree {
         }
     }
 
-    export type ScanDecision = {
-        area: ScanSpot,
+    export type ScanInformation = {
+        area: MapRectangle,
         ping: Pulse
     }
 
-    export namespace ScanDecision {
-        export function toString(decision: ScanDecision) {
-            return `${decision.area.name}${Pulse.meta(decision.ping).shorted}`
+    export namespace ScanInformation {
+        export function toString(decision: ScanInformation) {
+            return "TODO" // TODO:
+            //return `${decision.area.name}${Pulse.meta(decision.ping).shorted}`
         }
     }
 
-    export function spot_narrowing(candidates: MapCoordinate[], area: ScanSpot, range: number): {
+    export function spot_narrowing(candidates: MapCoordinate[], area: MapRectangle, range: number): {
         pulse: Pulse,
         narrowed_candidates: MapCoordinate[]
     }[] {
@@ -391,8 +410,8 @@ export namespace ScanTree {
         })
     }
 
-    export function narrow_down(candidates: MapCoordinate[], decision: ScanDecision, range: number): MapCoordinate[] {
-        return candidates.filter((s) => area_pulse(s, decision.area.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
+    export function narrow_down(candidates: MapCoordinate[], decision: ScanInformation, range: number): MapCoordinate[] {
+        return candidates.filter((s) => area_pulse(s, decision.area, range).some((p2) => Pulse.equals(decision.ping, p2)))
     }
 
     export function template_resolvers(node: ScanTree.augmented_decision_tree, spot?: MapCoordinate): Record<string, (args: string[]) => string> {

@@ -9,7 +9,7 @@ import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import augmented_decision_tree = ScanTree.augmented_decision_tree;
 import ScanExplanationModal = ScanTree.ScanExplanationModal;
 import augment = ScanTree.augment;
-import ScanDecision = ScanTree.ScanDecision;
+import ScanDecision = ScanTree.ScanInformation;
 import template_resolvers = ScanTree.template_resolvers;
 import spotNumber = ScanTree.spotNumber;
 import {Pulse} from "../../model/scans/scans";

@@ -4,7 +4,7 @@ import DrawAreaInteraction from "./DrawAreaInteraction";
 import AreaEdit from "./AreaEdit";
 import {ScanTree} from "../../model/scans/ScanTree";
 import ScanSpot = ScanTree.ScanSpot;
-import ScanDecision = ScanTree.ScanDecision;
+import ScanDecision = ScanTree.ScanInformation;
 import Widget from "../widgets/Widget";
 import {Pulse} from "../../model/scans/scans";
 import LightButton from "../widgets/LightButton";

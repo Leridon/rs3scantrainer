@@ -3,7 +3,7 @@ import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "../../model/scans/ScanTree";
 import tree_node = ScanTree.decision_tree;
 import augmented_tree = ScanTree.augmented_decision_tree;
-import ScanDecision = ScanTree.ScanDecision;
+import ScanDecision = ScanTree.ScanInformation;
 import spot_narrowing = ScanTree.spot_narrowing;
 import {MapCoordinate} from "../../model/coordinates";
 import assumedRange = ScanTree.assumedRange;

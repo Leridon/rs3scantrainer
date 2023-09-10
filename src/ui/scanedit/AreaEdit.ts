@@ -4,7 +4,7 @@ import {ScanEditLayer} from "../map/layers/ScanLayer";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "../../model/scans/ScanTree";
 import ScanSpot = ScanTree.ScanSpot;
-import ScanDecision = ScanTree.ScanDecision;
+import ScanDecision = ScanTree.ScanInformation;
 import LightButton from "../widgets/LightButton";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";

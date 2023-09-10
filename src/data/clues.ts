@@ -23565,7 +23565,7 @@ export let clues: ClueStep[] = [
         "id": 173,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3166, "y": 3307, "level": 0},
+            "coordinates": {"x": 3166, "y": 3309, "level": 2},
             "answer": "Search the crates on the top floor."
         }
     },

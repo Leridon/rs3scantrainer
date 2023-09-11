@@ -23426,7 +23426,7 @@ export let clues: ClueStep[] = [
         "id": 162,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3176, "y": 2987, "level": 0},
+            "coordinates": {"x": 3178, "y": 2987, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -24163,7 +24163,7 @@ export let clues: ClueStep[] = [
         "id": 229,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3294, "y": 2779, "level": 0},
+            "coordinates": {"x": 3295, "y": 2784, "level": 0},
             "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Ring of life, Uncharged amulet of glory, Adamant 2h sword"
         }
     },

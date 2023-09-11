@@ -1424,7 +1424,7 @@ export namespace teleport_data {
             spots: [
                 {id: "pyramidpain", spot: {x: 3289, y: 2802, level: 0}, name: "Pyramid Plunder", code: "1",
                     menu_ticks: 1,
-                    animation_ticks: 3},      // TODO: Inside is around 1950 4517
+                    animation_ticks: 3},      // TODO: Inside is around 1942 4499
                 {id: "agility", spot: {x: 3344, y: 2832, level: 0}, name: "Agility Pyramid", code: "2",
                     menu_ticks: 1,
                     animation_ticks: 3},

@@ -3,15 +3,15 @@ import AreaWidget from "./AreaWidget";
 import {ScanEditLayer} from "../map/layers/ScanLayer";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "../../model/scans/ScanTree";
-import ScanSpot = ScanTree.ScanSpot;
-import ScanDecision = ScanTree.ScanInformation;
+import ScanSpot = ScanTree.ScanRegion;
+import ScanInformation = ScanTree.ScanInformation;
 import LightButton from "../widgets/LightButton";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],
-    decisions_changed: ScanDecision[],
+    decisions_changed: ScanInformation[],
     renamed: { old: string, new: string }
 }> {
     area_container: Widget
@@ -60,7 +60,7 @@ export default class AreaEdit extends Widget<{
         this.value.forEach((a) => this.addWidget(a))
     }
 
-    public getDecisions(): ScanDecision[] {
+    public getDecisions(): ScanInformation[] {
         return this.areas.map((a) => a.getActiveDecision()).filter((d) => d != null)
     }
 
@@ -89,7 +89,7 @@ export default class AreaEdit extends Widget<{
         return w
     }
 
-    setDecisions(decisions: ScanDecision[]) {
+    setDecisions(decisions: ScanInformation[]) {
         this.areas.forEach((a) => {
             let d = decisions.find((e) => e.area == a.value)
 

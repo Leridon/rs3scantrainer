@@ -12,7 +12,7 @@ import {ScanTree} from "../../../model/scans/ScanTree";
 import {cloneDeep} from "lodash";
 import {Constants} from "../../../constants";
 import {indirect, resolve} from "../../../model/methods";
-import ScanSpot = ScanTree.ScanSpot;
+import ScanSpot = ScanTree.ScanRegion;
 import tree = ScanTree.tree;
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import indirect_scan_tree = ScanTree.indirect_scan_tree;

@@ -10,7 +10,7 @@ import {ScanTree} from "../../model/scans/ScanTree";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
-import ScanSpot = ScanTree.ScanSpot;
+import ScanRegion = ScanTree.ScanRegion;
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import narrow_down = ScanTree.narrow_down;
@@ -107,7 +107,7 @@ export default class ScanEditPanel extends Widget<{
         })
 
         this.areas
-            .on("changed", async (a: ScanSpot[]) => {
+            .on("changed", async (a: ScanRegion[]) => {
                 this.value.areas = a
 
                 await ScanTree.prune_clean_and_propagate(this.value)

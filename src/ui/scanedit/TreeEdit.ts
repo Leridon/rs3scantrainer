@@ -22,7 +22,7 @@ import Order = util.Order;
 import {PathingGraphics} from "../map/path_graphics";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import {Layer} from "leaflet";
-import ScanSpot = ScanTree.ScanSpot;
+import ScanSpot = ScanTree.ScanRegion;
 
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree

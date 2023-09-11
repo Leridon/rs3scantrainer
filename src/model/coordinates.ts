@@ -79,6 +79,8 @@ export namespace MapRectangle {
     }
 
     export function fromTile(tile: MapCoordinate): MapRectangle {
+        if (!tile) return null
+
         return {
             level: tile.level,
             topleft: {x: tile.x, y: tile.y},

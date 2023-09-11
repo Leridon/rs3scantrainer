@@ -62,7 +62,7 @@ class TreeNodeEdit extends Widget<{
 
         let props = new Properties().appendTo(this)
 
-        if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.kind.pulse != 3)) {
+        if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
             let dropdown = new DropdownSelection<T>({
                 can_be_null: false,
                 null_value: null,
@@ -128,7 +128,7 @@ class TreeNodeEdit extends Widget<{
                     parent.update()
                 })
 
-            dropdown.setValue({area: node.scan_spot})
+            dropdown.setValue({area: node.region})
 
             props.named("Move to", dropdown);
         }
@@ -143,14 +143,14 @@ class TreeNodeEdit extends Widget<{
                 .forEach(p => {
                     {
                         // Create header line for this path segment
-                        let origin = node.parent?.node?.scan_spot
+                        let origin = node.parent?.node?.region
 
                         let header = "Path"
                         if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
                         header += ` to`
 
                         if (p.spot) header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, p.spot)}`
-                        else header += `&nbsp;<span class="ctr-scanspot-inline">${node.scan_spot.name}</span>`
+                        else header += `&nbsp;<span class="ctr-scanspot-inline">${node.region.name}</span>`
 
                         props.header(header)
                     }

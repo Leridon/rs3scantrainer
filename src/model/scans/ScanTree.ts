@@ -87,6 +87,7 @@ export namespace ScanTree {
     export type decision_tree = {
         path: Path.raw
         scan_spot_id: number | null,
+        directions: string,
         children: {
             key: PulseInformation,
             value: decision_tree
@@ -98,17 +99,13 @@ export namespace ScanTree {
         raw_root: tree,
         root: augmented_decision_tree,
         parent: {
+            key: PulseInformation
             node: augmented_decision_tree,
-            kind: {
-                pulse: Pulse,
-                spot?: MapCoordinate
-            }
         },
-        is_leaf?: boolean,
-        scan_spot?: ScanRegion,
-        leaf_spot?: MapCoordinate,
+        //is_leaf?: boolean,
+        region?: ScanRegion,
+        //leaf_spot?: MapCoordinate,
         path: Path.raw,
-        directions: string,
         depth: number,
         remaining_candidates: MapCoordinate[],
         decisions: ScanInformation[],
@@ -143,21 +140,10 @@ export namespace ScanTree {
         return {
             scan_spot_id: null,
             children: [],
+            directions: "Missing directions",
             path: {
                 steps: []
             },
-            /*
-            paths: candidates.map(c => {
-                return {
-                    spot: c,
-                    directions: "Dig at {{target}}",
-                    path: {
-                        steps: [],
-                        start_state: Path.movement_state.start(), // The real start state is propagated from the parent and done elsewhere
-                        target: dig_area(c)
-                    }
-                }
-            })*/
         }
     }
 
@@ -165,15 +151,6 @@ export namespace ScanTree {
         if (node.scan_spot_id == null) return null
 
         return ScanTree.getRegionById(tree, node.scan_spot_id)
-    }
-
-    export async function target_area(tree: ScanTree.tree, node: ScanTree.decision_tree): Promise<MapRectangle | null> {
-        if (node.scan_spot_id != null) return ScanTree.getRegionById(tree, node.scan_spot_id).area
-
-        let tile = (await Path.augment(node.path)).post_state?.position?.tile
-        if (!tile) return null
-
-        return MapRectangle.fromTile(tile)
     }
 
     export async function prune_clean_and_propagate(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.tree> {
@@ -186,21 +163,17 @@ export namespace ScanTree {
             let area = region?.area ||
                 MapRectangle.fromTile(augmented_path.post_state?.position?.tile)
 
-            if (!area) {
-                // TODO: What to do about inherited target areas from parent node?
-                node.children = []
-            } else {
-                if (!region) node.scan_spot_id = null
+            if (!region) node.scan_spot_id = null
 
-                // Update children to remove all dead branches and add missing branches
-
-                let pruned_children: {
-                    child: {
-                        key: PulseInformation,
-                        value: decision_tree
-                    },
-                    candidates: MapCoordinate[]
-                }[] = spot_narrowing(candidates, area, assumedRange(tree))
+            // Update children to remove all dead branches and add missing branches
+            let pruned_children: {
+                child: {
+                    key: PulseInformation,
+                    value: decision_tree
+                },
+                candidates: MapCoordinate[]
+            }[] = (!area) ? []
+                : spot_narrowing(candidates, area, assumedRange(tree))
                     .filter(n => n.narrowed_candidates.length > 0)
                     .map(({pulse, narrowed_candidates}) => {
                         return {
@@ -212,73 +185,22 @@ export namespace ScanTree {
                         }
                     })
 
-                node.children = pruned_children.map(c => c.child)
+            // When there is only one child, the current position produces no information at all
+            // So there is no point in adding children, which is why they are removed by this statement
+            if (pruned_children.length == 1) pruned_children = []
 
-                node.children.forEach(c => {
-                    // TODO: Propagate state, recursive call
-                })
-                /*
-                                            let key: PulseInformation = {
-                                                pulse: n.pulse,
-                                                spot: n.pulse.pulse == 3 ? n.narrowed_candidates[0] : undefined
-                                            }
+            node.children = pruned_children.map(c => c.child)
 
-                                            return node.children.find(c => PulseInformation.equals(key, c.key))
-                                                || {
-                                                    key: key,
-                                                    value: init_leaf(n.narrowed_candidates)
-                                                }*/
+            pruned_children.forEach(({child, candidates}) => {
+                // Propagate state recursively
+                let cloned_state = augmented_path.post_state
+                cloned_state.tick += 1 // Assume 1 tick reaction time between steps. Approximation, but may help to make timings and cooldowns more realistic
 
-
-                // Branches with a set area only contain one path: The one to the area.
-                /*node.paths = [node.paths.find(p => p.spot == null) || {
-                    path: {start_state: movement_state.start(), steps: []},
-                    spot: null,
-                    directions: "Move to {{target}}"
-                }]*/
-            }
-
-            // Propagate movement state to paths/children
-            // TODO: Potentially, with the refactor, this section is not needed anymore
-            {
-                // Find the path to here, and propagate previous state to it.
-                let to_here = node.paths.find(p => p.spot == null)
-
-                let fixed_pre_state = pre_state
-
-                if (to_here) {
-                    to_here.path.start_state = lodash.cloneDeep(pre_state)
-                    to_here.path.start_state.tick += 1 // Simulate a waiting tick between steps
-                    to_here.path.target = tree.areas.find((a) => a.id == node.scan_spot_id).area
-
-                    let ap = await Path.augment(to_here.path)
-
-                    // Propagate post_state to all children
-                    if (node.children.length > 0) {
-                        let area = tree.areas.find((a) => a.id == node.scan_spot_id)
-
-                        for (const c of node.children) {
-                            await helper(c.value, narrow_down(candidates, {
-                                area: area,
-                                ping: c.key
-                            }, assumedRange(tree)), lodash.cloneDeep(ap.post_state))
-                        }
-                    }
-
-                    fixed_pre_state = ap.post_state
-                }
-
-                // Set proper target for every other path from here to a dig spot.
-                node.paths.filter(p => p.spot != null).forEach(p => {
-                    p.path.start_state = lodash.cloneDeep(fixed_pre_state)
-                    p.path.start_state.tick += 1 // Simulate a waiting tick between steps
-
-                    p.path.target = dig_area(p.spot)
-                })
-            }
+                helper(child.value, candidates, cloned_state)
+            })
         }
 
-        if (!tree.root) tree.root = init_leaf(tree.clue.solution.candidates)
+        if (!tree.root) tree.root = init_leaf()
 
         await helper(tree.root, tree.clue.solution.candidates, Path.movement_state.start())
 
@@ -298,18 +220,18 @@ export namespace ScanTree {
     export async function augment(tree: resolved_scan_tree): Promise<augmented_decision_tree> {
         async function helper(
             node: decision_tree,
-            parent: { node: augmented_decision_tree, kind: Pulse },
+            parent: { node: augmented_decision_tree, key: PulseInformation },
             depth: number,
             remaining_candidates: MapCoordinate[],
             decisions: ScanInformation[],
         ): Promise<augmented_decision_tree> {
 
             let t: augmented_decision_tree = {
-                directions: null,
+                //directions: null,
                 raw_root: tree,
                 root: null,
                 parent: parent,
-                scan_spot: null,
+                region: null,
                 path: null,
                 raw: node,
                 depth: depth,
@@ -321,10 +243,10 @@ export namespace ScanTree {
             t.root = parent == null ? t : parent.node.root
 
             // For triples with more than one candidate, inherit the parent's spot, TODO: Is this sensible?
-            if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.scan_spot = parent.node.scan_spot
+            if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.region = parent.node.region
 
             if (node.scan_spot_id != null) {
-                t.scan_spot = tree.areas.find((a) => a.id == node.scan_spot_id)
+                t.region = tree.areas.find((a) => a.id == node.scan_spot_id)
 
                 let path = node.paths.find((p) => p.spot == null)
 
@@ -333,7 +255,7 @@ export namespace ScanTree {
                     t.directions = path.directions
                 }
 
-                let narrowing = spot_narrowing(remaining_candidates, t.scan_spot, assumedRange(tree))
+                let narrowing = spot_narrowing(remaining_candidates, t.region, assumedRange(tree))
 
                 // The node is not a leaf node, handle all relevant children
                 for (let child of node.children) {
@@ -345,7 +267,7 @@ export namespace ScanTree {
                             depth + 1,
                             narrowing.find(n => Pulse.equals(n.pulse, child.key)).narrowed_candidates,
                             decisions.concat([{
-                                area: t.scan_spot,
+                                area: t.region,
                                 ping: child.key
                             }])
                         )
@@ -369,7 +291,7 @@ export namespace ScanTree {
                                 directions: p.directions,
                                 is_leaf: true,
                                 leaf_spot: c,
-                                parent: {kind: null, node: t},
+                                parent: {key: null, node: t},
                                 path: p.path,
                                 raw: null,
                                 remaining_candidates: [c],
@@ -468,8 +390,8 @@ export namespace ScanTree {
                     return render_digspot(spotNumber(node.raw_root, node.leaf_spot))
                 } else if (spot) {
                     return render_digspot(spotNumber(node.raw_root, spot))
-                } else if (node.scan_spot) {
-                    return `{{scanarea ${node.scan_spot.name}}}`
+                } else if (node.region) {
+                    return `{{scanarea ${node.region.name}}}`
                 } else {
                     return "{ERROR: No target}"
                 }

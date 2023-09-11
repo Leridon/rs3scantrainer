@@ -42,17 +42,17 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             .map(c => c.value.remaining_candidates.map(Vector2.toPoint).forEach(spot => bounds.extend(spot)))
 
         //4. "Where"
-        if (this.node.scan_spot) {
-            bounds.extend(Vector2.toPoint(this.node.scan_spot.area.topleft))
-            bounds.extend(Vector2.toPoint(this.node.scan_spot.area.botright))
+        if (this.node.region) {
+            bounds.extend(Vector2.toPoint(this.node.region.area.topleft))
+            bounds.extend(Vector2.toPoint(this.node.region.area.botright))
         }
 
         // 5. parent.where if not far away
-        if (this.node.parent && this.node.parent.node.scan_spot) {
+        if (this.node.parent && this.node.parent.node.region) {
             let o = leaflet.bounds([])
 
-            o.extend(Vector2.toPoint(this.node.parent.node.scan_spot.area.topleft))
-            o.extend(Vector2.toPoint(this.node.parent.node.scan_spot.area.botright))
+            o.extend(Vector2.toPoint(this.node.parent.node.region.area.topleft))
+            o.extend(Vector2.toPoint(this.node.parent.node.region.area.botright))
 
             if (o.getCenter().distanceTo(bounds.getCenter()) < 60) {
                 bounds.extend(o)
@@ -77,13 +77,13 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.fit()
 
         let candidates = this.node.remaining_candidates
-        let relevant_areas = this.node.scan_spot ? [this.node.scan_spot] : []
-        if (this.node.parent && this.node.parent.node.scan_spot) relevant_areas.push(this.node.parent.node.scan_spot);
+        let relevant_areas = this.node.region ? [this.node.region] : []
+        if (this.node.parent && this.node.parent.node.region) relevant_areas.push(this.node.parent.node.region);
 
-        if (node.scan_spot) {
-            this.getMap().setFloor(node.scan_spot.area.level)
+        if (node.region) {
+            this.getMap().setFloor(node.region.area.level)
 
-            let c = MapRectangle.center(node.scan_spot.area)
+            let c = MapRectangle.center(node.region.area)
 
             this.setMarker(c, false, false)
         } else {
@@ -195,7 +195,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 .resolve(this.node.directions)
         } else {
             if (this.node.remaining_candidates.length > 1) {
-                if (this.node.parent && this.node.parent.kind.pulse == 3) {
+                if (this.node.parent && this.node.parent.key.pulse == 3) {
                     text = `Which spot of ${natural_join(shorten_integer_list(this.node.remaining_candidates.map(c => spotNumber(this.node.raw_root, c)), render_digspot))}?`
                 } else {
                     text = `No more instructions. Check remaining spots:`
@@ -220,8 +220,8 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             .css("margin-bottom", "3px")
             .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
 
-        let link_html = node.parent.kind
-            ? Pulse.pretty_with_context(node.parent.kind, node.parent.node.children.map(c => c.key))
+        let link_html = node.parent.key
+            ? Pulse.pretty_with_context(node.parent.key, node.parent.node.children.map(c => c.key))
             : resolver.resolve(`Spot {{digspot ${spotNumber(node.raw_root, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
 
         if (depth == 0) {
@@ -244,7 +244,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         } else if (node.children.some(c => c.key == null)) {
             // This node only has synthetic children left
 
-            if (node?.parent?.kind && node.parent.kind.pulse == 3) {
+            if (node?.parent?.key && node.parent.key.pulse == 3) {
                 // Directly link to triple spots
 
                 line.append($("<span>").text("at"))

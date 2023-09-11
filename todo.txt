@@ -63,6 +63,7 @@ RELEASE 1.0
 
 
 Unscheduled:
+- Fade teleport icons when on different level
 - [What] Incorporate jacket/backpack recommmendations
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 - Add a view to see the entire scan tree without having to enter the editor

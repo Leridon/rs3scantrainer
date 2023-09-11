@@ -509,7 +509,7 @@ export namespace teleport_data {
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "skelettalhorror", spot: {x: 3364, y: 3502, level: 0}, img: "skhorror.png", name: "Skeletal Horror",
+                    id: "skelettalhorror", spot: {x: 3362, y: 3503, level: 0}, img: "skhorror.png", name: "Skeletal Horror",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },

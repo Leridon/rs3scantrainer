@@ -363,8 +363,8 @@ export let clues: ClueStep[] = [
         "id": 39,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 2185, "y": 3291, "level": 1},
-            "answer": "Speak to Lord Iorwerth. (Located in the Elf Camp before Plague's end.)"
+            "coordinates": {"x": 2186, "y": 3284, "level": 1},
+            "answer": "Speak to Lord Iorwerth. (Located in the Elf Camp before Plague's end.)" // TODO: Make this a variant
         }
     },
     {

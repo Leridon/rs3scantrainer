@@ -652,10 +652,15 @@ export namespace teleport_data {
             img: "crystal.gif",
             spots: [
                 {
-                    id: "lletya", spot: {x: 2335, y: 3171, level: 1}, name: "Lletya", code: "1",
+                    id: "lletya", spot: {x: 2335, y: 3171, level: 0}, name: "Lletya", code: "1",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },
+                /*{ // TODO: Mourner tunnels
+                    id: "tunnels", spot: {x: 2335, y: 3171, level: 0}, name: "Lletya", code: "1",
+                    menu_ticks: 1,
+                    animation_ticks: default_teleport_ticks
+                },*/
                 {
                     id: "amlodd", spot: {x: 2155, y: 3383, level: 1}, name: "Amlodd", code: "3",
                     menu_ticks: 1,
@@ -1283,7 +1288,7 @@ export namespace teleport_data {
                 {id: "farming", spot: {x: 2646, y: 3355, level: 0}, code: "6", name: "Farming Guild",
                     menu_ticks: 2,
                     animation_ticks: 4},
-                {id: "runecrafting", spot: {x: 3097, y: 3156, level: 0}, code: "7", name: "Runecrafting Guild",
+                {id: "runecrafting", spot: {x: 3102, y: 3152, level: 3}, code: "7", name: "Runecrafting Guild",
                     menu_ticks: 2,
                     animation_ticks: 4},
             ]
@@ -1309,7 +1314,7 @@ export namespace teleport_data {
                 {id: "watchtower", spot: {x: 2444, y: 3182, level: 0}, code: "1", name: "Watchtower",
                     menu_ticks: 1,
                     animation_ticks: 3},
-                {id: "camelot", spot: {x: 2794, y: 3419, level: 0}, code: "2", name: "Camelot",
+                {id: "camelot", spot: {x: 2794, y: 3418, level: 0}, code: "2", name: "Camelot",
                     menu_ticks: 1,
                     animation_ticks: 3},
                 {id: "falador", spot: {x: 3006, y: 3319, level: 0}, code: "3", name: "Falador",
@@ -1318,7 +1323,7 @@ export namespace teleport_data {
                 {id: "ardougne", spot: {x: 2538, y: 3306, level: 0}, code: "4", name: "Ardounge",
                     menu_ticks: 1,
                     animation_ticks: 3},
-                {id: "lumbridge", spot: {x: 3170, y: 3199, level: 0}, code: "5", name: "Lumbridge",
+                {id: "lumbridge", spot: {x: 3168, y: 3199, level: 0}, code: "5", name: "Lumbridge",
                     menu_ticks: 1,
                     animation_ticks: 3},
                 {id: "varrock", spot: {x: 3254, y: 3449, level: 0}, code: "6", name: "Varrock",
@@ -1469,7 +1474,7 @@ export namespace teleport_data {
         }, {
             id: "wickedhood", name: "Wicked hood", img: "wicked.gif",
             spots: [
-                {id: "guild", spot: {x: 3106, y: 3157, level: 3}, name: "Runecrafting Guild",
+                {id: "guild", spot: {x: 3109, y: 3156, level: 3}, name: "Runecrafting Guild",
                     menu_ticks: 2,
                     animation_ticks: 3},
                 {id: "soul", spot: {x: 3087, y: 2697, level: 0}, name: "Soul", code: "Soul",

@@ -75,7 +75,7 @@ export namespace ScanTree {
      *  4. Allow nodes to not have a scan spot at all
      */
 
-    type PulseInformation = Pulse & ({
+    export type PulseInformation = Pulse & ({
         pulse: 3
         spot?: MapCoordinate
     } | { pulse: 1 | 2 })
@@ -84,6 +84,27 @@ export namespace ScanTree {
         export function equals(a: PulseInformation, b: PulseInformation): boolean {
             return Pulse.equals(a, b) && (a.pulse == 3) && (b.pulse == 3) && MapCoordinate.eq2(a?.spot, b.spot)
         }
+    }
+
+    export type scan_tree_old = method_base & {
+        type: "scantree",
+        spot_ordering: MapCoordinate[],
+        assumes_meerkats: boolean,
+        areas: ScanRegion[],
+        root: decision_tree_old
+    }
+
+    export type decision_tree_old = {
+        paths: {
+            spot?: MapCoordinate,
+            directions: string,
+            path: Path.raw
+        }[],
+        scan_spot_id: number | null,
+        children: {
+            key: Pulse | null,
+            value: decision_tree_old
+        }[]
     }
 
     export type decision_tree = {

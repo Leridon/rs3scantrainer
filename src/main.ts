@@ -1,48 +1,87 @@
-/*import {clues} from "./data/clues";
-import {type CompassStep} from "./model/clues";
+import {clues} from "./data/clues";
+import {MapCoordinate} from "./model/coordinates";
+import old_methods from "./data/methods_old";
+import {ScanTree} from "./model/scans/ScanTree";
+import {Path} from "./model/pathing";
+import {keys} from "lodash";
+import {Pulse} from "./model/scans/scans";
+import {indirect, indirected, resolve, resolved} from "./model/methods";
+import {ClueStep, ScanStep} from "./model/clues";
 
-export function export_path(p): string {
-    return export_string("path", 0, p.steps)
+async function translate(tree: ScanTree.scan_tree_old & indirected): Promise<ScanTree.tree & indirected> {
+    console.log("Translate")
+
+    let a: ScanTree.tree & indirected = {
+        clue: tree.clue,
+        type: "scantree",
+        spot_ordering: tree.spot_ordering,
+        assumes_meerkats: tree.assumes_meerkats,
+        areas: tree.areas,
+        root: translate_node(tree.root, null)
+    }
+
+    debugger
+
+    return a
+
+    return indirect(await ScanTree.normalize(resolve<ScanStep, ScanTree.tree>(a)))
 }
 
-function path() {
-    if (window) return window.location.origin + window.location.pathname
-    else return "https://leridon.github.io/rs3scantrainer/"
-}
-
-export function to_path(path): string {
-    let url = "https://leridon.github.io/rs3scantrainer/" + "?load_path_editor"
-    if (path.target) url += `&path_target=${encodeURI(JSON.stringify(path.target))}`
-    if (path.start_state) url += `&path_start_state=${encodeURI(JSON.stringify(path.start_state))}`
-    if (path.steps.length > 0) url += `&path_steps=${encodeURI(export_path(path))}`
-
-    return url
-}
-
-function dig_area(spot) {
+function to_node(p: {
+                     spot?: MapCoordinate,
+                     directions: string,
+                     path: Path.raw
+                 },
+                 parent_key: Pulse): {
+    key: ScanTree.PulseInformation,
+    value: ScanTree.decision_tree
+} {
     return {
-        topleft: {x: spot.x - 1, y: spot.y + 1},
-        botright: {x: spot.x + 1, y: spot.y - 1},
-        level: spot.level
+        key: {
+            pulse: parent_key.pulse, // Should always be 3
+            different_level: parent_key.different_level,
+            spot: p.spot,
+        },
+        value: {
+            path: p.path,
+            scan_spot_id: null,
+            directions: p.directions,
+            children: []
+        }
     }
 }
 
-{
-    let compass = clues.find(c => c.id == 399) as CompassStep
+function translate_node(tree: ScanTree.decision_tree_old, parent_key: Pulse): ScanTree.decision_tree {
+    console.log("trans node")
 
-    let string = ""
-    string += "Compass spots"
-    string += "x,y,floor,link"
-
-    compass.solution.candidates.forEach(spot => {
-        let query_link = to_path({
-            target: dig_area(spot),
-            steps: []
+    return {
+        path: tree.paths.find(p => p.spot == null)?.path || {steps: []},
+        scan_spot_id: tree.scan_spot_id,
+        directions: tree.paths.find(p => p.spot == null)?.directions || "ERROR IN CONVERT",
+        children: tree.children.flatMap(c => {
+            if (c.key.pulse == 3) {
+                return c.value.paths.map(p => to_node(p, c.key))
+            } else {
+                return [{
+                    key: c.key,
+                    value: translate_node(c.value, c.key)
+                }]
+            }
         })
 
-        string += `${spot.x}, ${spot.y}, ${spot.level}, ${query_link}\n`
-    })
-
-    console.log(string)
+        /*  tree.paths.filter(p => p.spot != null && parent_key?.pulse == 3)
+          .map(p => to_node(p, parent_key))
+          .concat(tree.children.map(c => {
+              return {
+                  key: null,
+                  value: translate_node(c.value, c.key)
+              }
+          }))*/
+    }
 }
-*/
+
+export async function makeshift_main(): Promise<string> {
+    let output = ""
+
+    return JSON.stringify(await Promise.all(old_methods.map(async m => await translate(m))), null, 4)
+}

@@ -1,5 +1,7 @@
 Immediate next:
-- Identify scan spots by id instead of by name
+- Convert the methods to the refactored structure (partially done)
+- Fix editor and method view bugs due to the new data structure (Should mostly be straight forward)
+
 - [Bug] Clicking doesn't work for search selects
 - Make fit include the entire path
 - Display timing in spot view

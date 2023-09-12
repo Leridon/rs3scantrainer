@@ -18,6 +18,7 @@ import {clues} from "./data/clues";
 import {ScanTree} from "./model/scans/ScanTree";
 import {resolve} from "./model/methods";
 import methods from "./data/methods";
+import {makeshift_main} from "./main";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -242,7 +243,7 @@ export class Application {
         if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
-        //ExportStringModal.do(link(ScanTrainerCommands.load_overview, {tiers: ["elite"], types: ["compass"]}, false))
+        ExportStringModal.do(await makeshift_main())
     }
 }
 

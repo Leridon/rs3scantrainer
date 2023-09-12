@@ -23252,27 +23252,9 @@ export let clues: ClueStep[] = [
         "tier": "hard",
         "id": 152,
         "solution": {
-            "type": "variants",
-            "variants": [
-                {
-                    "id": "digspot",
-                    "name": "Dig spot",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 2832, "y": 9586, "level": 0},
-                        "answer": "Dig under the red spiders eggs."
-                    }
-                },
-                {
-                    "id": "entrance",
-                    "name": "Cave entrance",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 2857, "y": 3168, "level": 0},
-                        "answer": "Enter the cave and dig under the red spiders eggs."
-                    }
-                }
-            ]
+            "type": "simple",
+            "coordinates": {"x": 2832, "y": 9586, "level": 0},
+            "answer": "Dig under the red spiders eggs."
         }
     },
     {
@@ -23282,7 +23264,7 @@ export let clues: ClueStep[] = [
         "id": 153,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3479, "y": 3090, "level": 0},
+            "coordinates": {"x": 3478, "y": 3091, "level": 0},
             "answer": "Search the crates."
         }
     },
@@ -23304,7 +23286,7 @@ export let clues: ClueStep[] = [
         "id": 155,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 2969, "y": 2974, "level": 0},
+            "coordinates": {"x": 2969, "y": 2975, "level": 0},
             "answer": "Dig by the fire."
         }
     },
@@ -23336,36 +23318,9 @@ export let clues: ClueStep[] = [
         "tier": "hard",
         "id": 158,
         "solution": {
-            "type": "variants",
-            "variants": [
-                {
-                    "id": "entrance",
-                    "name": "Entrance",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 2569, "y": 3122, "level": 0},
-                        "answer": "Go into the dungeon, then cross the ledge and pray at the altar to fall down. (Failing to cross the ledge will have the same result.) Now search the crate by the stairs."
-                    }
-                },
-                {
-                    "id": "entrance",
-                    "name": "Altar",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 2571, "y": 9500, "level": 0},
-                        "answer": "Go into the dungeon, then cross the ledge and pray at the altar to fall down. (Failing to cross the ledge will have the same result.) Now search the crate by the stairs."
-                    }
-                },
-                {
-                    "id": "entrance",
-                    "name": "Location",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 2576, "y": 9583, "level": 0},
-                        "answer": "Search the crate."
-                    }
-                }
-            ]
+            "type": "simple",
+            "coordinates": {"x": 2576, "y": 9583, "level": 0},
+            "answer": "Search the crate."
         }
     },
     {
@@ -23386,7 +23341,7 @@ export let clues: ClueStep[] = [
         "id": 160,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 2577, "y": 3465, "level": 0},
+            "coordinates": {"x": 2576, "y": 3464, "level": 0},
             "answer": "Search the boxes."
         }
     },
@@ -23396,27 +23351,9 @@ export let clues: ClueStep[] = [
         "tier": "hard",
         "id": 161,
         "solution": {
-            "type": "variants",
-            "variants": [
-                {
-                    "id": "cluespot",
-                    "name": "Location",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 3219, "y": 9617, "level": 0},
-                        "answer": "Search the crates in the basement."
-                    }
-                },
-                {
-                    "id": "entrance",
-                    "name": "Entrance",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 3209, "y": 3216, "level": 0},
-                        "answer": "Search the crates in the basement."
-                    }
-                }
-            ]
+            "type": "simple",
+            "coordinates": {"x": 3219, "y": 9617, "level": 0},
+            "answer": "Search the crates in the basement."
         }
     },
     {
@@ -24174,7 +24111,7 @@ export let clues: ClueStep[] = [
         "id": 230,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 2585, "y": 3423, "level": 0},
+            "coordinates": {"x": 2586, "y": 3422, "level": 0},
             "answer": "<b>Emote:</b> Raspberry<br><b>Items:</b> Elemental shield, Blue dragonhide chaps, Rune warhammer"
         }
     },
@@ -24229,7 +24166,7 @@ export let clues: ClueStep[] = [
         "id": 235,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3036, "y": 3733, "level": 0},
+            "coordinates": {"x": 3035, "y": 3732, "level": 0},
             "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Iron square shield, Blue dragon vambraces, Iron pickaxe"
         }
     },
@@ -24317,7 +24254,7 @@ export let clues: ClueStep[] = [
         "id": 243,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3241, "y": 3612, "level": 0},
+            "coordinates": {"x": 3240, "y": 3612, "level": 0},
             "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Bronze platelegs, Iron platebody, Blue dragonhide vambraces"
         }
     },
@@ -24790,7 +24727,7 @@ export let clues: ClueStep[] = [
         "id": 287,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 3426, "y": 2919, "level": 0},
+            "coordinates": {"x": 3426, "y": 2927, "level": 0},
             "answer": "Shiratti the Custodian"
         }
     },
@@ -24874,7 +24811,7 @@ export let clues: ClueStep[] = [
         "id": 293,
         "solution": {
             "type": "simple",
-            "coordinates": {"x": 2809, "y": 3192, "level": 0},
+            "coordinates": {"x": 2807, "y": 3191, "level": 0},
             "answer": "Cap'n Izzy no Beard<br><b>Question solution:</b> 33"
         }
     },

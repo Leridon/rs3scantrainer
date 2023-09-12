@@ -207,9 +207,12 @@ export default class AreaWidget extends Widget<{
     getActiveDecision(): ScanDecision {
         if (this.main_row.info_buttons.value() == null) return null
 
+        let unhashed = Pulse.unhash(this.main_row.info_buttons.value())
+
         return {
-            area: this.value,
-            ping: Pulse.unhash(this.main_row.info_buttons.value())
+            area: this.value.area,
+            pulse: unhashed.pulse,
+            different_level: unhashed.different_level
         }
     }
 

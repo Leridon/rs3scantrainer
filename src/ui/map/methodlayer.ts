@@ -38,8 +38,11 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             this.node.remaining_candidates.map(Vector2.toPoint).forEach((c) => bounds.extend(c))
 
         //2. All children that are leafs in the augmented tree (i.e. spots directly reached from here)
+        /* //TODO: Rethink this, disabled to get the build working again
         this.node.children.filter(c => c.value.is_leaf)
             .map(c => c.value.remaining_candidates.map(Vector2.toPoint).forEach(spot => bounds.extend(spot)))
+
+         */
 
         //4. "Where"
         if (this.node.region) {
@@ -96,12 +99,6 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         this.areas.forEach((p) => p.setActive(relevant_areas.some((a) => a.name == (p.spot().name))))
 
-        let opaque_paths: Path.raw[] = []
-        if (node.path) opaque_paths.push(node.path)
-
-        node.children.forEach(c => {
-            if (c.key == null && c.value.is_leaf && c.value.path) opaque_paths.push(c.value.path)
-        })
 
         // 1. Path here
         // 2. Path to all leaf children
@@ -109,23 +106,25 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         // Render pathing with appropriate opacity
         this.path_graphics.clearLayers()
 
-        if (node.path) PathingGraphics.renderPath(node.path).setOpacity(1).addTo(this.path_graphics)
+        if (node.path) PathingGraphics.renderPath(node.raw.path).setOpacity(1).addTo(this.path_graphics)
 
         augmented_decision_tree.traverse_parents(node, n => {
             if (n.path) {
-                PathingGraphics.renderPath(n.path).setOpacity(0.2).addTo(this.path_graphics)
+                PathingGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.path_graphics)
             }
         })
 
-        node.children.filter(c => c.value.is_leaf).forEach(c => {
-            PathingGraphics.renderPath(c.value.path).setOpacity(c.key == null ? 1 : 0.5).addTo(this.path_graphics)
+        // Children paths to dig spots are rendered wit 0.5
+        node.children.filter(c => c.value.remaining_candidates.length == 1).forEach(c => {
+            PathingGraphics.renderPath(c.value.raw.path).setOpacity(0.5).addTo(this.path_graphics)
         })
 
+        /*
         node.children.filter(c => c.key && c.key.pulse == 3).forEach(c => {
             c.value.children.forEach(gc => {
                 PathingGraphics.renderPath(gc.value.path).setOpacity(0.3).addTo(this.path_graphics)
             })
-        })
+        })*/
 
 
         this.update()
@@ -166,9 +165,10 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
                 if (!node.parent) {
                     text = "Start"
-                } else if (node.is_leaf) {
+                }/* else if (node.remaining_candidates.length == 1) {
                     text = `Spot ${spotNumber(node.raw_root, node.remaining_candidates[0])}`
-                } else {
+                } */ else {
+                    // TODO: implement to string properly,
                     text = ScanDecision.toString(node.information[node.information.length - 1])
                 }
 
@@ -189,10 +189,10 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         let text: string = "INVALID DATA"
 
-        if (this.node.directions) {
+        if (this.node.raw.directions) {
             text = scantrainer.template_resolver
                 .with(template_resolvers(this.node))
-                .resolve(this.node.directions)
+                .resolve(this.node.raw.directions)
         } else {
             if (this.node.remaining_candidates.length > 1) {
                 if (this.node.parent && this.node.parent.key.pulse == 3) {
@@ -235,11 +235,11 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 .on("click", () => this.setNode(node))
         }
 
-        if (node.directions != null) {
+        if (node.raw.directions != null) {
             $("<span>")
                 .html(scantrainer.template_resolver
                     .with(template_resolvers(node))
-                    .resolve(node.directions))
+                    .resolve(node.raw.directions))
                 .appendTo(line)
         } else if (node.children.some(c => c.key == null)) {
             // This node only has synthetic children left

@@ -283,7 +283,7 @@ export class ScanEditLayer extends ScanLayer {
                 areas: [],
                 assumes_meerkats: true,
                 clue: clue.id,
-                root: ScanTree.init_leaf(clue.solution.candidates),
+                root: ScanTree.init_leaf(),
                 spot_ordering: clue.solution.candidates,
                 type: "scantree"
             }

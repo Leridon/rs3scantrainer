@@ -108,6 +108,7 @@ export namespace ScanTree {
         path: Path.augmented,
         depth: number,
         remaining_candidates: MapCoordinate[],
+        //is_leaf?: boolean,
         information: ScanInformation[],
         children: {
             key: Pulse,
@@ -345,8 +346,8 @@ export namespace ScanTree {
     export function template_resolvers(node: ScanTree.augmented_decision_tree, spot?: MapCoordinate): Record<string, (args: string[]) => string> {
         return {
             "target": () => {
-                if (node.is_leaf) {
-                    return render_digspot(spotNumber(node.raw_root, node.leaf_spot))
+                if (node.remaining_candidates.length == 1) {
+                    return render_digspot(spotNumber(node.raw_root, node.remaining_candidates[0]))
                 } else if (spot) {
                     return render_digspot(spotNumber(node.raw_root, spot))
                 } else if (node.region) {

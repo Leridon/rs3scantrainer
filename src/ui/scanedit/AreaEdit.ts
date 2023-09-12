@@ -8,6 +8,7 @@ import ScanInformation = ScanTree.ScanInformation;
 import LightButton from "../widgets/LightButton";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
+import {MapRectangle} from "../../model/coordinates";
 
 export default class AreaEdit extends Widget<{
     changed: ScanSpot[],
@@ -91,9 +92,11 @@ export default class AreaEdit extends Widget<{
 
     setDecisions(decisions: ScanInformation[]) {
         this.areas.forEach((a) => {
-            let d = decisions.find((e) => e.area == a.value)
+            let d = decisions.find((e) => false /*e.area == a.value*/)
 
-            if (d != null) a.setDecision(d.ping)
+            // TODO: This needs to be completely rethought after the refactor
+
+            if (d != null) a.setDecision(d)
             else a.setDecision(null)
         })
 

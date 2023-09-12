@@ -110,7 +110,7 @@ export default class ScanEditPanel extends Widget<{
             .on("changed", async (a: ScanRegion[]) => {
                 this.value.areas = a
 
-                await ScanTree.prune_clean_and_propagate(this.value)
+                await ScanTree.normalize(this.value)
                 await this.tree_edit.update()
 
                 this.updatePreview()

@@ -30,14 +30,14 @@ class TreeNodeEdit extends Widget<{
     constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
         super()
 
-        let decision_path_text = (["Start"].concat(node.decisions.map(d => ScanDecision.toString(d)))).join("/")
+        let decision_path_text = (["Start"].concat(node.information.map(d => ScanDecision.toString(d)))).join("/")
         let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
             (n) => `<span class="ctr-digspot-inline">${n}</span>`
         ), "and")
 
         let header = c(`<div style="overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold"></div>`).appendTo(this)
             .append(c(`<span class='nisl-textlink'>${decision_path_text}: </span>`).tooltip("Load decisions into map")
-                .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.decisions)))
+                .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.information)))
             )
             .append(c(`<span>${node.remaining_candidates.length} Spots, ${spot_text}</span>`))
 
@@ -270,7 +270,7 @@ export default class TreeEdit extends Widget<{
             // Only create edits for real nodes
             if (node.raw) self.children.push(new TreeNodeEdit(self, node, !self.hide_paths)
                 .on("changed", async () => {
-                    await ScanTree.prune_clean_and_propagate(self.parent.value)
+                    await ScanTree.normalize(self.parent.value)
                     await self.update()
                     await self.emit("preview_invalidated", null)
                 })

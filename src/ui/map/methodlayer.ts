@@ -169,7 +169,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                 } else if (node.is_leaf) {
                     text = `Spot ${spotNumber(node.raw_root, node.remaining_candidates[0])}`
                 } else {
-                    text = ScanDecision.toString(node.decisions[node.decisions.length - 1])
+                    text = ScanDecision.toString(node.information[node.information.length - 1])
                 }
 
                 $("<a>").attr("href", "javascript:;")

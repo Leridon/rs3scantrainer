@@ -7,7 +7,8 @@ import {util} from "../../util/util";
 import {Path} from "../pathing";
 import * as lodash from "lodash";
 import {TextRendering} from "../../ui/TextRendering";
-import {Rectangle, Vector2} from "../../util/math";
+import {Vector2} from "../../util/math";
+import * as path from "path";
 
 export namespace ScanTree {
 
@@ -23,6 +24,7 @@ export namespace ScanTree {
 
     import shorten_integer_list = util.shorten_integer_list;
     import render_digspot = TextRendering.render_digspot;
+    import registerStatusDaemon = alt1.registerStatusDaemon;
 
     // There is world in which this type isn't needed and scan trees are just a tree of paths.
     // There are some drawbacks in this idea, so for now it stays how it is.
@@ -102,13 +104,11 @@ export namespace ScanTree {
             key: PulseInformation
             node: augmented_decision_tree,
         },
-        //is_leaf?: boolean,
         region?: ScanRegion,
-        //leaf_spot?: MapCoordinate,
-        path: Path.raw,
+        path: Path.augmented,
         depth: number,
         remaining_candidates: MapCoordinate[],
-        decisions: ScanInformation[],
+        information: ScanInformation[],
         children: {
             key: Pulse,
             value: augmented_decision_tree
@@ -153,7 +153,7 @@ export namespace ScanTree {
         return ScanTree.getRegionById(tree, node.scan_spot_id)
     }
 
-    export async function prune_clean_and_propagate(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.tree> {
+    export async function normalize(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.resolved_scan_tree> {
         async function helper(node: decision_tree, candidates: MapCoordinate[], pre_state: Path.movement_state): Promise<void> {
             node.path.start_state = lodash.cloneDeep(pre_state)
 
@@ -223,7 +223,7 @@ export namespace ScanTree {
             parent: { node: augmented_decision_tree, key: PulseInformation },
             depth: number,
             remaining_candidates: MapCoordinate[],
-            decisions: ScanInformation[],
+            information: ScanInformation[],
         ): Promise<augmented_decision_tree> {
 
             let t: augmented_decision_tree = {
@@ -232,89 +232,48 @@ export namespace ScanTree {
                 root: null,
                 parent: parent,
                 region: null,
-                path: null,
+                path: await Path.augment(node.path),
                 raw: node,
                 depth: depth,
                 remaining_candidates: remaining_candidates,
-                decisions: decisions,
+                information: information,
                 children: []
             }
 
             t.root = parent == null ? t : parent.node.root
+            t.region = get_target_region(tree, node) || {
+                area: MapRectangle.fromTile(t.path.post_state.position.tile),
+                name: "",
+                id: null
+            }
 
-            // For triples with more than one candidate, inherit the parent's spot, TODO: Is this sensible?
-            if (parent && parent.kind.pulse == 3 && remaining_candidates.length > 1) t.region = parent.node.region
-
-            if (node.scan_spot_id != null) {
-                t.region = tree.areas.find((a) => a.id == node.scan_spot_id)
-
-                let path = node.paths.find((p) => p.spot == null)
-
-                if (path) {
-                    t.path = path.path
-                    t.directions = path.directions
-                }
-
-                let narrowing = spot_narrowing(remaining_candidates, t.region, assumedRange(tree))
+            if (node.children.length > 0) {
+                let narrowing = spot_narrowing(remaining_candidates, t.region.area, assumedRange(tree))
 
                 // The node is not a leaf node, handle all relevant children
-                for (let child of node.children) {
-                    t.children.push({
+                node.children.map(async child => {
+                    return {
                         key: child.key,
                         value: await helper(
                             child ? child.value : null,
-                            {node: t, kind: child.key},
+                            {node: t, key: child.key},
                             depth + 1,
                             narrowing.find(n => Pulse.equals(n.pulse, child.key)).narrowed_candidates,
-                            decisions.concat([{
-                                area: t.region,
-                                ping: child.key
+                            information.concat([{
+                                area: t.region.area,
+                                pulse: child.key.pulse,
+                                different_level: child.key.different_level
                             }])
                         )
-                    })
-                }
-            } else {
-                if (remaining_candidates.length > 1) {
-                    t.children = []
 
-                    remaining_candidates.forEach((c) => {
-
-                        let p = node.paths.find((p) => MapCoordinate.eq2(p.spot, c))
-
-                        t.children.push({
-                            key: null,
-                            value: {
-                                children: [],
-                                root: t.root,
-                                decisions: t.decisions,
-                                depth: t.depth + 1,
-                                directions: p.directions,
-                                is_leaf: true,
-                                leaf_spot: c,
-                                parent: {key: null, node: t},
-                                path: p.path,
-                                raw: null,
-                                remaining_candidates: [c],
-                                raw_root: t.raw_root,
-                            }
-                        })
-                    })
-
-                } else {
-                    t.is_leaf = true
-                    t.leaf_spot = remaining_candidates[0]
-
-                    const path = node.paths.find(p => MapCoordinate.eq2(p.spot, t.leaf_spot))
-
-                    t.path = path.path
-                    t.directions = path.directions
-                }
+                    }
+                })
             }
 
             return t
         }
 
-        await prune_clean_and_propagate(tree)
+        tree = await normalize(tree)    // TODO: This is probably something that can (and should) be combined
 
         return helper(tree.root, null, 0, tree.clue.solution.candidates, []);
     }

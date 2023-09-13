@@ -20,8 +20,6 @@ async function translate(tree: ScanTree.scan_tree_old & indirected): Promise<Sca
         root: translate_node(tree.root, null)
     }
 
-    debugger
-
     return a
 
     return indirect(await ScanTree.normalize(resolve<ScanStep, ScanTree.tree>(a)))

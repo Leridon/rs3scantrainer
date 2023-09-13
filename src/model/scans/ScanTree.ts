@@ -82,7 +82,7 @@ export namespace ScanTree {
 
     namespace PulseInformation {
         export function equals(a: PulseInformation, b: PulseInformation): boolean {
-            return Pulse.equals(a, b) && (a.pulse == 3) && (b.pulse == 3) && MapCoordinate.eq2(a?.spot, b.spot)
+            return Pulse.equals(a, b) && !(a.pulse == 3 && (b.pulse == 3) && !MapCoordinate.eq2(a?.spot, b.spot))
         }
     }
 
@@ -273,7 +273,7 @@ export namespace ScanTree {
                 let narrowing = spot_narrowing(remaining_candidates, t.region.area, assumedRange(tree))
 
                 // The node is not a leaf node, handle all relevant children
-                node.children.map(async child => {
+                t.children = await Promise.all(node.children.map(async child => {
                     return {
                         key: child.key,
                         value: await helper(
@@ -289,7 +289,7 @@ export namespace ScanTree {
                         )
 
                     }
-                })
+                }))
             }
 
             return t
@@ -347,7 +347,11 @@ export namespace ScanTree {
             if (p.pulse == 3) {
                 return remaining.map(r => {
                     return {
-                        pulse: p,
+                        pulse: {
+                            pulse: 3,
+                            different_level: p.different_level,
+                            spot: r
+                        },
                         narrowed_candidates: [r]
                     }
                 })
@@ -370,6 +374,7 @@ export namespace ScanTree {
                 if (node.remaining_candidates.length == 1) {
                     return render_digspot(spotNumber(node.raw_root, node.remaining_candidates[0]))
                 } else if (spot) {
+                    // TODO: There's a bug hidden here where is always resolves the same digspot number for all triples
                     return render_digspot(spotNumber(node.raw_root, spot))
                 } else if (node.region) {
                     return `{{scanarea ${node.region.name}}}`

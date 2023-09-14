@@ -2246,12 +2246,12 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
+                                                            "scan_spot_id": null,
+                                                            "children": [],
+                                                            "directions": "Missing directions",
                                                             "path": {
                                                                 "steps": []
-                                                            },
-                                                            "scan_spot_id": null,
-                                                            "directions": "ERROR IN CONVERT",
-                                                            "children": []
+                                                            }
                                                         }
                                                     },
                                                     {
@@ -8438,12 +8438,12 @@ let raw: (method & indirected)[] = [
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
+                                                                        "scan_spot_id": null,
+                                                                        "children": [],
+                                                                        "directions": "Missing directions",
                                                                         "path": {
                                                                             "steps": []
-                                                                        },
-                                                                        "scan_spot_id": null,
-                                                                        "directions": "ERROR IN CONVERT",
-                                                                        "children": []
+                                                                        }
                                                                     }
                                                                 },
                                                                 {
@@ -12811,12 +12811,12 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
+                                                            "scan_spot_id": null,
+                                                            "children": [],
+                                                            "directions": "Missing directions",
                                                             "path": {
                                                                 "steps": []
-                                                            },
-                                                            "scan_spot_id": null,
-                                                            "directions": "ERROR IN CONVERT",
-                                                            "children": []
+                                                            }
                                                         }
                                                     },
                                                     {
@@ -15649,12 +15649,12 @@ let raw: (method & indirected)[] = [
                                                             "different_level": false
                                                         },
                                                         "value": {
+                                                            "scan_spot_id": null,
+                                                            "children": [],
+                                                            "directions": "Missing directions",
                                                             "path": {
                                                                 "steps": []
-                                                            },
-                                                            "scan_spot_id": null,
-                                                            "directions": "ERROR IN CONVERT",
-                                                            "children": []
+                                                            }
                                                         }
                                                     },
                                                     {
@@ -18001,12 +18001,12 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
+                                                "scan_spot_id": null,
+                                                "children": [],
+                                                "directions": "Missing directions",
                                                 "path": {
                                                     "steps": []
-                                                },
-                                                "scan_spot_id": null,
-                                                "directions": "ERROR IN CONVERT",
-                                                "children": []
+                                                }
                                             }
                                         }
                                     ]
@@ -32855,12 +32855,12 @@ let raw: (method & indirected)[] = [
                                                 "different_level": false
                                             },
                                             "value": {
+                                                "scan_spot_id": null,
+                                                "children": [],
+                                                "directions": "Missing directions",
                                                 "path": {
                                                     "steps": []
-                                                },
-                                                "scan_spot_id": null,
-                                                "directions": "ERROR IN CONVERT",
-                                                "children": []
+                                                }
                                             }
                                         },
                                         {

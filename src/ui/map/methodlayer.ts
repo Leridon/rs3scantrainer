@@ -268,7 +268,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     }
 
     generateChildren(node: augmented_decision_tree, depth: number, container: JQuery) {
-        if (depth >= 2) return
+        if (depth >= 1) return
 
         let children = []
 

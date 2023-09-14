@@ -50,18 +50,21 @@ function to_node(p: {
 }
 
 function translate_node(tree: ScanTree.decision_tree_old, parent_key: Pulse): ScanTree.decision_tree {
-    console.log("trans node")
+    if (tree.scan_spot_id == null) {
+        if (tree.paths.length == 1) {
+            let p = tree.paths[0]
 
-    if (tree.children.length == 0 && tree.paths.length == 1) {
-        let p = tree.paths[0]
-
-        return {
-            path: p.path,
-            scan_spot_id: null,
-            directions: p.directions,
-            children: []
+            return {
+                path: p.path,
+                scan_spot_id: null,
+                directions: p.directions,
+                children: []
+            }
+        } else {
+            return ScanTree.init_leaf()
         }
     }
+
 
     return {
         path: tree.paths.find(p => p.spot == null)?.path || {steps: []},
@@ -76,7 +79,7 @@ function translate_node(tree: ScanTree.decision_tree_old, parent_key: Pulse): Sc
                     value: translate_node(c.value, c.key)
                 }]
             }
-        })
+        }).filter(c => c.value != null)
 
         /*  tree.paths.filter(p => p.spot != null && parent_key?.pulse == 3)
           .map(p => to_node(p, parent_key))

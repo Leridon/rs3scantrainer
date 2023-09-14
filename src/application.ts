@@ -243,7 +243,7 @@ export class Application {
         if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
-        //ExportStringModal.do(await makeshift_main())
+        ExportStringModal.do(await makeshift_main())
     }
 }
 

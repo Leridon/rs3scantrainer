@@ -160,7 +160,7 @@ class TreeNodeEdit extends Widget<{
 
             props.named("Direction",
                 new TemplateStringEdit({
-                    resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node, this.node.remaining_candidates[0])),
+                    resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),
                     generator: () => {
                         let path_short =
                             this.node.path.steps.length > 0

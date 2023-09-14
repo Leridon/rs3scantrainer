@@ -52,6 +52,17 @@ function to_node(p: {
 function translate_node(tree: ScanTree.decision_tree_old, parent_key: Pulse): ScanTree.decision_tree {
     console.log("trans node")
 
+    if (tree.children.length == 0 && tree.paths.length == 1) {
+        let p = tree.paths[0]
+
+        return {
+            path: p.path,
+            scan_spot_id: null,
+            directions: p.directions,
+            children: []
+        }
+    }
+
     return {
         path: tree.paths.find(p => p.spot == null)?.path || {steps: []},
         scan_spot_id: tree.scan_spot_id,

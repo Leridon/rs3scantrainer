@@ -280,7 +280,7 @@ export namespace ScanTree {
                             child ? child.value : null,
                             {node: t, key: child.key},
                             depth + 1,
-                            narrowing.find(n => Pulse.equals(n.pulse, child.key)).narrowed_candidates,
+                            narrowing.find(n => PulseInformation.equals(n.pulse, child.key)).narrowed_candidates,
                             information.concat([{
                                 area: t.region.area,
                                 pulse: child.key.pulse,
@@ -296,6 +296,8 @@ export namespace ScanTree {
         }
 
         tree = await normalize(tree)    // TODO: This is probably something that can (and should) be combined
+
+        debugger
 
         return helper(tree.root, null, 0, tree.clue.solution.candidates, []);
     }
@@ -368,14 +370,12 @@ export namespace ScanTree {
         return candidates.filter((s) => area_pulse(s, information.area, range).some((p2) => Pulse.equals(information, p2)))
     }
 
-    export function template_resolvers(node: ScanTree.augmented_decision_tree, spot?: MapCoordinate): Record<string, (args: string[]) => string> {
+    export function template_resolvers(node: ScanTree.augmented_decision_tree): Record<string, (args: string[]) => string> {
         return {
             "target": () => {
                 if (node.remaining_candidates.length == 1) {
-                    return render_digspot(spotNumber(node.raw_root, node.remaining_candidates[0]))
-                } else if (spot) {
                     // TODO: There's a bug hidden here where is always resolves the same digspot number for all triples
-                    return render_digspot(spotNumber(node.raw_root, spot))
+                    return render_digspot(spotNumber(node.raw_root, node.remaining_candidates[0]))
                 } else if (node.region) {
                     return `{{scanarea ${node.region.name}}}`
                 } else {
@@ -385,7 +385,7 @@ export namespace ScanTree {
             "candidates":
                 () => {
                     return util.natural_join(
-                        shorten_integer_list((spot ? [spot] : node.remaining_candidates)
+                        shorten_integer_list(node.remaining_candidates
                                 .map(c => spotNumber(node.raw_root, c)),
                             render_digspot
                         ))

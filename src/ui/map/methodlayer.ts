@@ -99,7 +99,6 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         this.areas.forEach((p) => p.setActive(relevant_areas.some((a) => a.name == (p.spot().name))))
 
-
         // 1. Path here
         // 2. Path to all leaf children
 
@@ -210,7 +209,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         return
     }
 
-    generateList(node: augmented_decision_tree, depth: number, container: JQuery) {
+    generateList(node: augmented_decision_tree, depth: number, container: JQuery): void {
         let resolver = scantrainer.template_resolver.with(template_resolvers(node))
 
         let line = $("<div>")
@@ -267,16 +266,15 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.generateChildren(node, depth + 1, container)
     }
 
-    generateChildren(node: augmented_decision_tree, depth: number, container: JQuery) {
+    generateChildren(node: augmented_decision_tree, depth: number, container: JQuery): void {
         if (depth >= 1) return
 
-        let children = []
+        node.children
+            .filter((e) => e.key.pulse != 3)
+            .sort(Order.comap(Pulse.compare, (a) => a.key))
+            .forEach((e) => this.generateList(e.value, depth, container))
 
-        if (depth == 0) children = children.concat(node.children.filter(c => c.key == null).sort(Order.comap(Order.natural_order, (a) => spotNumber(node.raw_root, a.value.remaining_candidates[0]))))
-
-        children = children.concat(node.children.filter(c => c.key != null).sort(Order.comap(Pulse.compare, (a) => a.key)))
-
-        children.forEach((e) => this.generateList(e.value, depth, container))
+        // TODO: Also output triples in a combined row
     }
 
     deactivate() {

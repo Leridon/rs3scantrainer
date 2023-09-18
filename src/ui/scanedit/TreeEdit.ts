@@ -164,7 +164,7 @@ class TreeNodeEdit extends Widget<{
                     generator: () => {
                         let path_short =
                             this.node.path.steps.length > 0
-                                ? this.node.raw.path.steps.map(PathingGraphics.templateString).join(" - ")
+                                ? this.node.raw.path.map(PathingGraphics.templateString).join(" - ")
                                 : "Go"
 
                         let target = "{{target}}"
@@ -179,18 +179,21 @@ class TreeNodeEdit extends Widget<{
                     .setValue(this.node.raw.directions)
             )
 
-            props.named("Path", new PathProperty(parent.parent.layer.getMap())
-                .on("changed", v => {
-                    this.node.raw.path = v
-                    this.emit("changed", node.raw)
+            props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
+                    target: this.node.path.target,
+                    start_state: this.node.path.pre_state
                 })
-                .on("loaded_to_editor", () => {
-                    this.parent.addToPathEditCounter(1)
-                })
-                .on("editor_closed", () => {
-                    this.parent.addToPathEditCounter(-1)
-                })
-                .setValue(this.node.raw.path)
+                    .on("changed", v => {
+                        this.node.raw.path = v
+                        this.emit("changed", node.raw)
+                    })
+                    .on("loaded_to_editor", () => {
+                        this.parent.addToPathEditCounter(1)
+                    })
+                    .on("editor_closed", () => {
+                        this.parent.addToPathEditCounter(-1)
+                    })
+                    .setValue(this.node.raw.path)
             )
 
             //})
@@ -213,11 +216,7 @@ class TreeNodeEdit extends Widget<{
 
         this.node.raw.directions = "Move to {{target}}"
 
-        this.node.raw.path = {
-            start_state: Path.movement_state.start(),
-            steps: [],
-            target: target.area
-        }
+        this.node.raw.path = []
     }
 
     preview_polyons: Layer[] = null

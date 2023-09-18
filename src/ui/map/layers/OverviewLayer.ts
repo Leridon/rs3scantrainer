@@ -45,10 +45,9 @@ export default class OverviewLayer extends ActiveLayer {
                 props.named("spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
                 props.row(new LightButton("Load path editor")
                     .on("click", () => {
-                        this.map.path_editor.load({
-                            steps: [],
+                        this.map.path_editor.load([], {
                             target: dig_area(spot)
-                        }, {})
+                        })
                     }))
 
                 Widget.wrap($(marker.marker.getElement())).addTippy(props, {

@@ -1,9 +1,8 @@
 import {clues} from "./data/clues";
-import {MapCoordinate} from "./model/coordinates";
+import {MapCoordinate, MapRectangle} from "./model/coordinates";
 import old_methods from "./data/methods_old";
 import {ScanTree} from "./model/scans/ScanTree";
 import {Path} from "./model/pathing";
-import {keys} from "lodash";
 import {Pulse} from "./model/scans/scans";
 import {indirect, indirected, resolve, resolved} from "./model/methods";
 import {ClueStep, ScanStep} from "./model/clues";
@@ -28,7 +27,11 @@ async function translate(tree: ScanTree.scan_tree_old & indirected): Promise<Sca
 function to_node(p: {
                      spot?: MapCoordinate,
                      directions: string,
-                     path: Path.raw
+                     path: {
+                         steps: Path.raw,
+                         target: MapRectangle,
+                         start_state: Path.movement_state
+                     }
                  },
                  parent_key: Pulse): {
     key: ScanTree.PulseInformation,
@@ -41,7 +44,7 @@ function to_node(p: {
             spot: p.spot,
         },
         value: {
-            path: p.path,
+            path: p.path.steps,
             scan_spot_id: null,
             directions: p.directions,
             children: []
@@ -55,7 +58,7 @@ function translate_node(tree: ScanTree.decision_tree_old, parent_key: Pulse): Sc
             let p = tree.paths[0]
 
             return {
-                path: p.path,
+                path: p.path.steps,
                 scan_spot_id: null,
                 directions: p.directions,
                 children: []
@@ -65,9 +68,8 @@ function translate_node(tree: ScanTree.decision_tree_old, parent_key: Pulse): Sc
         }
     }
 
-
     return {
-        path: tree.paths.find(p => p.spot == null)?.path || {steps: []},
+        path: tree.paths.find(p => p.spot == null)?.path.steps || [],
         scan_spot_id: tree.scan_spot_id,
         directions: tree.paths.find(p => p.spot == null)?.directions || "ERROR IN CONVERT",
         children: tree.children.flatMap(c => {

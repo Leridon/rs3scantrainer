@@ -98,7 +98,11 @@ export namespace ScanTree {
         paths: {
             spot?: MapCoordinate,
             directions: string,
-            path: Path.raw
+            path: {
+                steps: Path.raw,
+                target: MapRectangle,
+                start_state: Path.movement_state
+            }
         }[],
         scan_spot_id: number | null,
         children: {
@@ -108,7 +112,7 @@ export namespace ScanTree {
     }
 
     export type decision_tree = {
-        path: Path.raw
+        path: Path.step[]
         scan_spot_id: number | null,
         directions: string,
         children: {
@@ -163,9 +167,7 @@ export namespace ScanTree {
             scan_spot_id: null,
             children: [],
             directions: "Missing directions",
-            path: {
-                steps: []
-            },
+            path: [],
         }
     }
 
@@ -177,10 +179,8 @@ export namespace ScanTree {
 
     export async function normalize(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.resolved_scan_tree> {
         async function helper(node: decision_tree, candidates: MapCoordinate[], pre_state: Path.movement_state): Promise<void> {
-            node.path.start_state = lodash.cloneDeep(pre_state)
-
-            let augmented_path = await Path.augment(node.path)
             let region = get_target_region(tree, node)
+            let augmented_path = await Path.augment(node.path, pre_state, region?.area)
 
             let area = region?.area ||
                 MapRectangle.fromTile(augmented_path.post_state?.position?.tile)
@@ -246,7 +246,10 @@ export namespace ScanTree {
             depth: number,
             remaining_candidates: MapCoordinate[],
             information: ScanInformation[],
+            start_state: Path.movement_state
         ): Promise<augmented_decision_tree> {
+
+            let region = get_target_region(tree, node)
 
             let t: augmented_decision_tree = {
                 //directions: null,
@@ -254,13 +257,16 @@ export namespace ScanTree {
                 root: null,
                 parent: parent,
                 region: null,
-                path: await Path.augment(node.path),
+                path: await Path.augment(node.path, start_state, region?.area),
                 raw: node,
                 depth: depth,
                 remaining_candidates: remaining_candidates,
                 information: information,
                 children: []
             }
+
+            let cloned_state = t.path.post_state
+            cloned_state.tick += 1 // Assume 1 tick reaction time between steps. Approximation, but may help to make timings and cooldowns more realistic
 
             t.root = parent == null ? t : parent.node.root
             t.region = get_target_region(tree, node) || {
@@ -285,7 +291,8 @@ export namespace ScanTree {
                                 area: t.region.area,
                                 pulse: child.key.pulse,
                                 different_level: child.key.different_level
-                            }])
+                            }]),
+                            cloned_state
                         )
 
                     }
@@ -297,9 +304,7 @@ export namespace ScanTree {
 
         tree = await normalize(tree)    // TODO: This is probably something that can (and should) be combined
 
-        debugger
-
-        return helper(tree.root, null, 0, tree.clue.solution.candidates, []);
+        return helper(tree.root, null, 0, tree.clue.solution.candidates, [], movement_state.start());
     }
 
     export function getRegionById(tree: ScanTree.tree, id: number): ScanRegion {

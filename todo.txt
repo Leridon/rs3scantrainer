@@ -1,13 +1,14 @@
 Immediate next:
-- Fix editor and method view bugs due to the new data structure (Should mostly be straight forward)
 - Compact display of triples, synthetic triple node (again)
 - Fix naming of navigation links
+- Highlight incomplete branches in editor
+- Fix Create new from path
+- Autoname areas
 
 - [Bug] Clicking doesn't work for search selects
 - Make fit include the entire path
 - Display timing in spot view
 - Include icon of interaction for redclick graphics
-- Autoname areas
 - Coordinate Property styling broken
 - [Bug] Template resolver hangs for some inputs
 - Cancel for Draw Area

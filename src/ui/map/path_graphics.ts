@@ -91,12 +91,10 @@ export namespace PathingGraphics {
         }
     }
 
-    export function renderPath(path: Path.raw): OpacityGroup {
+    export function renderPath(path: Path.step[]): OpacityGroup {
         let group = new OpacityGroup()
 
-        for (let step of path.steps) {
-            createStepGraphics(step).addTo(group)
-        }
+        for (let step of path) createStepGraphics(step).addTo(group)
 
         return group
     }

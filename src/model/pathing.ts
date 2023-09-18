@@ -177,18 +177,15 @@ export namespace Path {
         }
     }
 
-    export type raw = {
-        start_state?: movement_state,   // Useful for movement trees, where a path depends on a previous state
-        target?: MapRectangle
-        steps: step[],
-    }
+    export type raw = step[]
 
     export type augmented = {
         pre_state: movement_state,
         post_state: movement_state,
         raw: raw,
         steps: augmented_step[],
-        issues: issue[]
+        issues: issue[],
+        target: MapRectangle | null
     }
 
     export type augmented_step = {
@@ -202,17 +199,18 @@ export namespace Path {
     export type issue_level = 0 | 1
     export type issue = { level: issue_level, message: string }
 
-    export async function augment(path: Path.raw): Promise<Path.augmented> {
+    export async function augment(path: Path.step[],
+                                  start_state: movement_state = movement_state.start(),
+                                  target: MapRectangle = null): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
-        let start_state = path.start_state ? lodash.cloneDeep(path.start_state) : movement_state.start()
         let state: movement_state = lodash.cloneDeep(start_state)
 
         // null positions are a pain, replace with position with unknown tile and direction
         state.position ||= {tile: null, direction: null}
 
-        for (let i = 0; i < path.steps.length; i++) {
-            let step = path.steps[i]
+        for (let i = 0; i < path.length; i++) {
+            let step = path[i]
 
             let augmented: augmented_step = {
                 pre_state: lodash.cloneDeep(state),
@@ -435,7 +433,7 @@ export namespace Path {
 
                     break;
                 case "redclick":
-                    let next = path.steps[i + 1] as step_run
+                    let next = path[i + 1] as step_run
 
                     if (next?.type != "run")
                         augmented.issues.push({level: 0, message: "Redclicking is not followed by a run"})
@@ -486,7 +484,7 @@ export namespace Path {
         let post_state = index(augmented_steps, -1)?.post_state || start_state
         let path_issues: issue[] = []
 
-        if ((path.target && (!state.position.tile || !MapRectangle.contains(path.target, state.position.tile)))) {
+        if ((target && (!state.position.tile || !MapRectangle.contains(target, state.position.tile)))) {
             path_issues.push({level: 0, message: "Path does not end in target area"})
         }
 
@@ -495,7 +493,8 @@ export namespace Path {
             post_state: post_state,
             raw: path,
             steps: augmented_steps,
-            issues: path_issues
+            issues: path_issues,
+            target: target
         }
     }
 
@@ -576,12 +575,18 @@ export namespace Path {
     }
 
     export function export_path(p: Path.raw): string {
-        return ExportImport.exp({type: "path", version: 0}, false, true)(p)
-        //return export_string("path", 0, p.steps)
+        return ExportImport.exp({type: "path", version: 1}, true, true)(p)
     }
 
     export function import_path(str: string): Path.raw {
-        return ExportImport.imp<Path.raw>({expected_type: "path", expected_version: 0})(str)
+        return ExportImport.imp<Path.raw>({
+            expected_type: "path", expected_version: 1,
+            migrations: [{
+                from: 0,
+                to: 1,
+                f: (e: unknown) => (e as { steps: Path.step[] }).steps
+            }]
+        })(str)
     }
 
     function tile_bounds(tile: Vector2): L.Bounds {
@@ -634,8 +639,8 @@ export namespace Path {
 
         path.steps.forEach(s => bounds.extend(step_bounds(s)))
 
-        if (path.raw.target) bounds.extend(L.point(path.raw.target.topleft)).extend(L.point(path.raw.target.botright))
-        if (path.raw.start_state?.position?.tile && bounds.getCenter().distanceTo(L.point(path.raw.start_state.position.tile)) < 100) bounds.extend(tile_bounds(path.raw.start_state?.position?.tile))
+        if (path.target) bounds.extend(L.point(path.target.topleft)).extend(L.point(path.target.botright))
+        if (path.pre_state.position?.tile && bounds.getCenter().distanceTo(L.point(path.pre_state.position.tile)) < 100) bounds.extend(tile_bounds(path.pre_state?.position?.tile))
 
         return bounds
     }

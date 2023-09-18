@@ -8,6 +8,7 @@ import collect_issues = Path.collect_issues;
 import {IssueWidget} from "../scanedit/PathEditLayer";
 import MovementStateView from "./MovementStateView";
 import {scantrainer} from "../../application";
+import {MapRectangle} from "../../model/coordinates";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw, {
     "loaded_to_editor": null,
@@ -21,7 +22,10 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
 
     private augmented: Path.augmented
 
-    constructor(map: GameMapControl) {
+    constructor(map: GameMapControl, public options: {
+        target?: MapRectangle,
+        start_state?: Path.movement_state
+    }) {
         super()
 
         this.summary = c("<div>").appendTo(this)
@@ -46,8 +50,9 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
                         await this.update()
 
                         this.emit("editor_closed", null)
-
-                    }
+                    },
+                    start_state: this.options.start_state,
+                    target: this.options.target
                 })
 
                 this.emit("loaded_to_editor", null)
@@ -80,17 +85,15 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             c("<span class='nisl-textlink'></span>").text(`T${this.augmented.post_state.tick}`).appendTo(this.summary)
                 .addTippy(new MovementStateView(this.augmented.post_state))
             c(`<span>:&nbsp;</span>`).appendTo(this.summary)
-            c(`<span>${scantrainer.template_resolver.resolve(this.value.steps.map(PathingGraphics.templateString).join(" - "))}</span>`).appendTo(this.summary)
+            c(`<span>${scantrainer.template_resolver.resolve(this.value.map(PathingGraphics.templateString).join(" - "))}</span>`).appendTo(this.summary)
         }
-        if (this.value.steps.length == 0) this.summary.text("Empty path")
+        if (this.value.length == 0) this.summary.text("Empty path")
 
         this.issue_container.empty()
 
         let issues = collect_issues(this.augmented)
         let errors = issues.filter(i => i.level == 0)
         let warnings = issues.filter(i => i.level == 1)
-
-        console.log(`Issues: ${issues.length}`)
 
         if (errors.length > 0) new IssueWidget({level: 0, message: `${errors.length} errors`}).appendTo(this.issue_container)
         if (warnings.length > 0) new IssueWidget({level: 1, message: `${warnings.length} warnings`}).appendTo(this.issue_container)

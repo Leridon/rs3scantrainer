@@ -1,10 +1,12 @@
 Immediate next:
-- Identify scan spots by id instead of by name
+- Fix editor and method view bugs due to the new data structure (Should mostly be straight forward)
+- Compact display of triples, synthetic triple node (again)
+- Fix naming of navigation links
+
 - [Bug] Clicking doesn't work for search selects
 - Make fit include the entire path
 - Display timing in spot view
 - Include icon of interaction for redclick graphics
-- Anonymous/Hidden areas?
 - Autoname areas
 - Coordinate Property styling broken
 - [Bug] Template resolver hangs for some inputs

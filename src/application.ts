@@ -18,23 +18,35 @@ import {clues} from "./data/clues";
 import {ScanTree} from "./model/scans/ScanTree";
 import {resolve} from "./model/methods";
 import methods from "./data/methods";
+import {makeshift_main} from "./main";
+import {MapRectangle} from "./model/coordinates";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
     import exp = ExportImport.exp;
     import imp = ExportImport.imp;
-    export const load_path: Command<Path.raw> = {
+    export const load_path: Command<{
+        steps: Path.raw,
+        target?: MapRectangle,
+        start_state?: Path.movement_state
+    }> = {
         name: "load_path",
         parser: {
             steps: ExportImport.imp<Path.step[]>({expected_type: "path", expected_version: 0}), // import is idempotent if it's not a serialized payload string
         },
         default: {},
         serializer: {},
-        instantiate: (arg: Path.raw) => (app: Application): void => {
-            app.map.path_editor.load(arg, {
+        instantiate: (arg: {
+            steps: Path.raw,
+            target?: MapRectangle,
+            start_state?: Path.movement_state
+        }) => (app: Application): void => {
+            app.map.path_editor.load(arg.steps, {
                 save_handler: null,
                 close_handler: () => {
-                }
+                },
+                target: arg.target,
+                start_state: arg.start_state
             })
         },
     }
@@ -242,7 +254,7 @@ export class Application {
         if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
-        //ExportStringModal.do(link(ScanTrainerCommands.load_overview, {tiers: ["elite"], types: ["compass"]}, false))
+        ExportStringModal.do(await makeshift_main())
     }
 }
 

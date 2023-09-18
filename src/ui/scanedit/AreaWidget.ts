@@ -3,8 +3,8 @@ import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import AreaEdit from "./AreaEdit";
 import {ScanTree} from "../../model/scans/ScanTree";
-import ScanSpot = ScanTree.ScanSpot;
-import ScanDecision = ScanTree.ScanDecision;
+import ScanSpot = ScanTree.ScanRegion;
+import ScanDecision = ScanTree.ScanInformation;
 import Widget from "../widgets/Widget";
 import {Pulse} from "../../model/scans/scans";
 import LightButton from "../widgets/LightButton";
@@ -207,9 +207,12 @@ export default class AreaWidget extends Widget<{
     getActiveDecision(): ScanDecision {
         if (this.main_row.info_buttons.value() == null) return null
 
+        let unhashed = Pulse.unhash(this.main_row.info_buttons.value())
+
         return {
-            area: this.value,
-            ping: Pulse.unhash(this.main_row.info_buttons.value())
+            area: this.value.area,
+            pulse: unhashed.pulse,
+            different_level: unhashed.different_level
         }
     }
 

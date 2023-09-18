@@ -12,7 +12,7 @@ import {ScanTree} from "../../../model/scans/ScanTree";
 import {cloneDeep} from "lodash";
 import {Constants} from "../../../constants";
 import {indirect, resolve} from "../../../model/methods";
-import ScanSpot = ScanTree.ScanSpot;
+import ScanSpot = ScanTree.ScanRegion;
 import tree = ScanTree.tree;
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import indirect_scan_tree = ScanTree.indirect_scan_tree;
@@ -283,7 +283,7 @@ export class ScanEditLayer extends ScanLayer {
                 areas: [],
                 assumes_meerkats: true,
                 clue: clue.id,
-                root: ScanTree.init_leaf(clue.solution.candidates),
+                root: ScanTree.init_leaf(),
                 spot_ordering: clue.solution.candidates,
                 type: "scantree"
             }

@@ -91,7 +91,7 @@ export namespace ExportImport {
     export function imp<T>(type_info: {
                                expected_type: string,
                                expected_version: number,
-                               //migrations?: { from: number, to: number, f: (_: T) => T }[]
+                               migrations?: ({ from: number, to: number, f: (_: T) => T }[])
                            } = null,
     ): (s: string) => T {
 
@@ -114,12 +114,22 @@ export namespace ExportImport {
         }
         const extract_typed = (o) => {
             if (o?._payload_type == "typed") {
-                console.log("Is typed")
                 let envelop = o as typed_value<T>
 
-                if (type_info && envelop.type != type_info.expected_type || envelop.version != type_info.expected_version) throw new Error()
+                let version = envelop.version
+                let value = envelop.value
 
-                return envelop.value
+                while(type_info?.migrations) {
+                    let migration = type_info.migrations.find((e) => e.from == version)
+                    if(!migration) break
+
+                    value = migration.f(value)
+                    version = migration.to
+                }
+
+                if (type_info && envelop.type != type_info.expected_type || version != type_info.expected_version) throw new Error()
+
+                return value
             }
 
             return o

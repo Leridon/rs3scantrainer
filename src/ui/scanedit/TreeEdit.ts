@@ -3,7 +3,7 @@ import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "../../model/scans/ScanTree";
 import tree_node = ScanTree.decision_tree;
 import augmented_tree = ScanTree.augmented_decision_tree;
-import ScanDecision = ScanTree.ScanDecision;
+import ScanDecision = ScanTree.ScanInformation;
 import spot_narrowing = ScanTree.spot_narrowing;
 import {MapCoordinate} from "../../model/coordinates";
 import assumedRange = ScanTree.assumedRange;
@@ -22,7 +22,7 @@ import Order = util.Order;
 import {PathingGraphics} from "../map/path_graphics";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import {Layer} from "leaflet";
-import ScanSpot = ScanTree.ScanSpot;
+import ScanSpot = ScanTree.ScanRegion;
 
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree
@@ -30,14 +30,14 @@ class TreeNodeEdit extends Widget<{
     constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
         super()
 
-        let decision_path_text = (["Start"].concat(node.decisions.map(d => ScanDecision.toString(d)))).join("/")
+        let decision_path_text = (["Start"].concat(node.information.map(d => ScanDecision.toString(d)))).join("/")
         let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
             (n) => `<span class="ctr-digspot-inline">${n}</span>`
         ), "and")
 
         let header = c(`<div style="overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold"></div>`).appendTo(this)
             .append(c(`<span class='nisl-textlink'>${decision_path_text}: </span>`).tooltip("Load decisions into map")
-                .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.decisions)))
+                .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.information)))
             )
             .append(c(`<span>${node.remaining_candidates.length} Spots, ${spot_text}</span>`))
 
@@ -62,7 +62,7 @@ class TreeNodeEdit extends Widget<{
 
         let props = new Properties().appendTo(this)
 
-        if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.kind.pulse != 3)) {
+        if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
             let dropdown = new DropdownSelection<T>({
                 can_be_null: false,
                 null_value: null,
@@ -77,15 +77,16 @@ class TreeNodeEdit extends Widget<{
             }, options)
                 .on("selection_changed", async (s) => {
                     if (s.remove) {
-                        Object.assign(node.raw, ScanTree.init_leaf(node.remaining_candidates))
+                        Object.assign(node.raw, ScanTree.init_leaf())
                     } else if (s.create_new) {
                         let area = await this.parent.parent.areas.create_new_area()
 
                         this.setTarget(area)
                     } else if (s.create_new_from_path) {
+                        /* // TODO: This entire section may be obsolete
 
                         // Jfc this is bad and needs a cleaner implementation/interface
-                        let start_state = this.node?.parent?.node?.path
+                        let start_state = this.node?.parent?.node?.path.post_state
                             ? (await Path.augment(this.node?.parent?.node?.path)).post_state
                             : Path.movement_state.start()
 
@@ -118,7 +119,7 @@ class TreeNodeEdit extends Widget<{
 
                                 this.parent.parent.layer.getMap().path_editor.reset()
                             },
-                        })
+                        })*/
                     } else if (s.area.id != node.raw.scan_spot_id) {
                         this.setTarget(s.area)
                     }
@@ -128,101 +129,100 @@ class TreeNodeEdit extends Widget<{
                     parent.update()
                 })
 
-            dropdown.setValue({area: node.scan_spot})
+            dropdown.setValue({area: node.region})
 
             props.named("Move to", dropdown);
         }
 
         if (include_paths) {
-            (node.raw?.paths || [])
+            /*(node.raw?.paths || [])
                 .sort(Order.comap(Order.natural_order, (p: {
                     spot?: MapCoordinate,
                     directions: string,
                     path: Path.raw
                 }) => p.spot ? ScanTree.spotNumber(node.raw_root, p.spot) : -1))
-                .forEach(p => {
-                    {
-                        // Create header line for this path segment
-                        let origin = node.parent?.node?.scan_spot
+                .forEach(p => {*/
+            {
+                // Create header line for this path segment
+                let origin = node.parent?.node?.region
 
-                        let header = "Path"
-                        if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
-                        header += ` to`
+                let header = "Path"
+                if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
+                header += ` to`
 
-                        if (p.spot) header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, p.spot)}`
-                        else header += `&nbsp;<span class="ctr-scanspot-inline">${node.scan_spot.name}</span>`
+                if (this.node.remaining_candidates.length == 1)
+                    header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, this.node.remaining_candidates[0])}`
+                else
+                    header += `&nbsp;<span class="ctr-scanspot-inline">${node.region.name}</span>`
 
-                        props.header(header)
+                props.header(header)
+            }
+
+            props.named("Direction",
+                new TemplateStringEdit({
+                    resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),
+                    generator: () => {
+                        let path_short =
+                            this.node.path.steps.length > 0
+                                ? this.node.raw.path.map(PathingGraphics.templateString).join(" - ")
+                                : "Go"
+
+                        let target = "{{target}}"
+
+                        return path_short + " to " + target
                     }
-
-                    props.named("Direction",
-                        new TemplateStringEdit({
-                            resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node, p.spot)),
-                            generator: () => {
-                                let path_short =
-                                    p.path.steps.length > 0
-                                        ? p.path.steps.map(PathingGraphics.templateString).join(" - ")
-                                        : "Go"
-
-                                let target = "{{target}}"
-
-                                return path_short + " to " + target
-                            }
-                        })
-                            .on("changed", (v) => {
-                                p.directions = v
-                                //this.changed(this.value) // TODO:
-                            })
-                            .setValue(p.directions)
-                    )
-
-                    props.named("Path", new PathProperty(parent.parent.layer.getMap())
-                        .on("changed", v => {
-                            p.path = v
-                            this.emit("changed", node.raw)
-                        })
-                        .on("loaded_to_editor", () => {
-                            this.parent.addToPathEditCounter(1)
-                        })
-                        .on("editor_closed", () => {
-                            this.parent.addToPathEditCounter(-1)
-                        })
-                        .setValue(p.path)
-                    )
                 })
+                    .on("changed", (v) => {
+                        this.node.raw.directions = v
+                        //this.changed(this.value) // TODO:
+                    })
+                    .setValue(this.node.raw.directions)
+            )
+
+            props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
+                    target: this.node.path.target,
+                    start_state: this.node.path.pre_state
+                })
+                    .on("changed", v => {
+                        this.node.raw.path = v
+                        this.emit("changed", node.raw)
+                    })
+                    .on("loaded_to_editor", () => {
+                        this.parent.addToPathEditCounter(1)
+                    })
+                    .on("editor_closed", () => {
+                        this.parent.addToPathEditCounter(-1)
+                    })
+                    .setValue(this.node.raw.path)
+            )
+
+            //})
         }
     }
 
     private setTarget(target: ScanSpot) {
-        let narrowing = spot_narrowing(this.node.remaining_candidates, target, assumedRange(this.parent.parent.value))
+        let narrowing = spot_narrowing(this.node.remaining_candidates, target.area, assumedRange(this.parent.parent.value))
 
         for (let child of narrowing) {
             if (child.narrowed_candidates.length == 0) continue
 
             this.node.raw.children.push({
                 key: child.pulse,
-                value: ScanTree.init_leaf(child.narrowed_candidates)
+                value: ScanTree.init_leaf()
             })
         }
 
         this.node.raw.scan_spot_id = target.id
 
-        this.node.raw.paths = [{
-            directions: "Move to {{target}}",
-            path: {
-                start_state: Path.movement_state.start(),
-                steps: [],
-                target: target.area
-            }
-        }]
+        this.node.raw.directions = "Move to {{target}}"
+
+        this.node.raw.path = []
     }
 
     preview_polyons: Layer[] = null
 
     updatePreview(layer: OpacityGroup) {
-        this.preview_polyons = this.node.raw.paths.map(p => {
-            return PathingGraphics.renderPath(p.path).addTo(layer)
-        })
+        return PathingGraphics.renderPath(this.node.raw.path).addTo(layer)
     }
 }
 
@@ -270,7 +270,7 @@ export default class TreeEdit extends Widget<{
             // Only create edits for real nodes
             if (node.raw) self.children.push(new TreeNodeEdit(self, node, !self.hide_paths)
                 .on("changed", async () => {
-                    await ScanTree.prune_clean_and_propagate(self.parent.value)
+                    await ScanTree.normalize(self.parent.value)
                     await self.update()
                     await self.emit("preview_invalidated", null)
                 })

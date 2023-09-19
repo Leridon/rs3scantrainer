@@ -71,7 +71,8 @@ class TreeNodeEdit extends Widget<{
                         if (v.remove) return c("<div>- Remove</div>")
                         if (v.create_new) return c("<div>+ Create New</div>")
                         if (v.create_new_from_path) return c("<div>+ Create New from Path</div>")
-                        else return c("<div></div>").text(v?.area?.name || " - ")
+                        if (!v.area) return c("<div> - </div>")
+                        else return c("<div class='ctr-scanspot-inline'></div>").text(v.area.name)
                     }
                 }
             }, options)
@@ -135,29 +136,6 @@ class TreeNodeEdit extends Widget<{
         }
 
         if (include_paths) {
-            /*(node.raw?.paths || [])
-                .sort(Order.comap(Order.natural_order, (p: {
-                    spot?: MapCoordinate,
-                    directions: string,
-                    path: Path.raw
-                }) => p.spot ? ScanTree.spotNumber(node.raw_root, p.spot) : -1))
-                .forEach(p => {*/
-            {
-                // Create header line for this path segment
-                let origin = node.parent?.node?.region
-
-                let header = "Path"
-                if (origin) header += ` from&nbsp;<span class="ctr-scanspot-inline">${origin.name}</span>`
-                header += ` to`
-
-                if (this.node.remaining_candidates.length == 1)
-                    header += `&nbsp;<span class="ctr-digspot-inline">${ScanTree.spotNumber(parent.parent.value, this.node.remaining_candidates[0])}`
-                else
-                    header += `&nbsp;<span class="ctr-scanspot-inline">${node.region.name}</span>`
-
-                props.header(header)
-            }
-
             props.named("Direction",
                 new TemplateStringEdit({
                     resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),

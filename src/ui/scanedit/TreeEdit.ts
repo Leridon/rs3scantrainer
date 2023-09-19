@@ -30,7 +30,7 @@ class TreeNodeEdit extends Widget<{
     constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
         super()
 
-        let decision_path_text = (["Start"].concat(node.information.map(d => ScanDecision.toString(d)))).join("/")
+        let decision_path_text = ([""].concat(node.information.map(d => ScanDecision.toString(d)))).join("/")
         let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
             (n) => `<span class="ctr-digspot-inline">${n}</span>`
         ), "and")
@@ -71,7 +71,7 @@ class TreeNodeEdit extends Widget<{
                         if (v.remove) return c("<div>- Remove</div>")
                         if (v.create_new) return c("<div>+ Create New</div>")
                         if (v.create_new_from_path) return c("<div>+ Create New from Path</div>")
-                        else return c("<div></div>").text(v.area.name || " - ")
+                        else return c("<div></div>").text(v?.area?.name || " - ")
                     }
                 }
             }, options)

@@ -171,7 +171,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                     text = ScanDecision.toString(node.information[node.information.length - 1])
                 }
 
-                $("<a>").attr("href", "javascript:;")
+                $("<span class='nisl-textlink'>")
                     .on("click", () => this.setNode(node))
                     .text(text)
                     .appendTo($("<li>").addClass("breadcrumb-item").prependTo(list))
@@ -267,12 +267,37 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     }
 
     generateChildren(node: augmented_decision_tree, depth: number, container: JQuery): void {
-        if (depth >= 1) return
+        if (depth >= 2) return
 
         node.children
             .filter((e) => e.key.pulse != 3)
             .sort(Order.comap(Pulse.compare, (a) => a.key))
             .forEach((e) => this.generateList(e.value, depth, container))
+
+        let triples = node.children.filter(e => e.key.pulse == 3)
+
+        if (triples.length > 0) {
+
+            let line = $("<div>")
+                .appendTo(container)
+                .addClass("scantreeline")
+                .css("padding-left", `${(depth) * 18}px`)
+                .css("margin-top", "3px")
+                .css("margin-bottom", "3px")
+                .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
+
+            $("<span>- Triple at </span>").appendTo(line)
+
+            triples
+                .sort(Order.comap(Order.natural_order, (c) => spotNumber(node.raw_root, c.value.remaining_candidates[0])))
+                .forEach((child) => {
+                    new LightButton()
+                        .setHTML(render_digspot(spotNumber(node.raw_root, child.value.remaining_candidates[0])))
+                        .on("click", () => this.setNode(child.value))
+                        .appendTo(line)
+                })
+        }
+
 
         // TODO: Also output triples in a combined row
     }

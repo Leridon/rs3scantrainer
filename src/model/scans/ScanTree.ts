@@ -316,7 +316,7 @@ export namespace ScanTree {
             if (!tree.areas.some(a => a.id == i)) {
                 let a = {
                     id: i,
-                    name: "New",
+                    name: "",
                     area: area
                 }
 

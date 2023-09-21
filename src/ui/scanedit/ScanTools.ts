@@ -17,6 +17,8 @@ export default class ScanTools extends Widget {
     constructor(private parent: ScanEditPanel) {
         super();
 
+        let btn_container = c("<div style='text-align: center'>").appendTo(this.container)
+
         new LightButton("Center on Spots")
             .on("click", () => {
                 let bounds = leaflet.latLngBounds([])
@@ -27,7 +29,7 @@ export default class ScanTools extends Widget {
 
                 this.parent.layer.getMap().map.fitBounds(bounds)
             })
-            .appendTo($("<div style='text-align: center'>").appendTo(this.container))
+            .appendTo(btn_container)
 
         new LightButton("Center on Complement")
             .on("click", () => {
@@ -43,7 +45,7 @@ export default class ScanTools extends Widget {
 
                 this.parent.layer.getMap().map.fitBounds(bounds)
             })
-            .appendTo(c("<div style='text-align: center'>").appendTo(this))
+            .appendTo(btn_container)
 
         c("<div style='font-weight: bold'>Show Equivalence Classes</div>").appendTo(this)
 

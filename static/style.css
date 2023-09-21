@@ -449,7 +449,7 @@ video {
     padding-left: 0.5em;
     padding-right: 0.5em;
     background-color: #FFFFFF19;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
     border: 1px solid grey;
 }
@@ -631,11 +631,9 @@ video {
 .ctr-step-issue[level] {
     border-radius: 3px;
     text-align: left;
-    padding-left: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
     margin: 2px 3px;
     text-wrap: normal;
+    padding: 2px 3px 2px 5px;
 }
 
 .ctr-step-issue[level="1"] {
@@ -649,7 +647,7 @@ video {
 }
 
 .ctr-step-issue[level="1"] > .ctr-step-issue-icon {
-    margin-right: 5px;
+    margin-right: 0;
     display: inline-block;
     width: 12px;
     height: 11px;
@@ -657,7 +655,7 @@ video {
 }
 
 .ctr-step-issue[level="0"] > .ctr-step-issue-icon {
-    margin-right: 5px;
+    margin-right: 0;
     display: inline-block;
     width: 12px;
     height: 12px;

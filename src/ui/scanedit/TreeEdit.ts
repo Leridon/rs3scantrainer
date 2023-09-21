@@ -70,7 +70,7 @@ class TreeNodeEdit extends Widget<{
                     toHTML(v: T): Widget {
                         if (v.remove) return c("<div>- Remove</div>")
                         if (v.create_new) return c("<div>+ Create New</div>")
-                        if (v.create_new_from_path) return c("<div>+ Create New from Path</div>")
+                        if (v.create_new_from_path) return c("<div>+ Create from Path</div>")
                         if (!v.area) return c("<div> - </div>")
                         else return c("<div class='ctr-scanspot-inline'></div>").text(v.area.name)
                     }
@@ -84,7 +84,11 @@ class TreeNodeEdit extends Widget<{
 
                         this.setTarget(area)
                     } else if (s.create_new_from_path) {
+                        // If path exists: Use target
+                        // Else: Start editor and create afterward
+
                         /* // TODO: This entire section may be obsolete
+
 
                         // Jfc this is bad and needs a cleaner implementation/interface
                         let start_state = this.node?.parent?.node?.path.post_state
@@ -132,10 +136,27 @@ class TreeNodeEdit extends Widget<{
 
             dropdown.setValue({area: node.region})
 
-            props.named("Move to", dropdown);
+            props.named("Target", dropdown);
         }
 
         if (include_paths) {
+            props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
+                    target: this.node.path.target,
+                    start_state: this.node.path.pre_state
+                })
+                    .on("changed", v => {
+                        this.node.raw.path = v
+                        this.emit("changed", node.raw)
+                    })
+                    .on("loaded_to_editor", () => {
+                        this.parent.addToPathEditCounter(1)
+                    })
+                    .on("editor_closed", () => {
+                        this.parent.addToPathEditCounter(-1)
+                    })
+                    .setValue(this.node.raw.path)
+            )
+
             props.named("Direction",
                 new TemplateStringEdit({
                     resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),
@@ -155,23 +176,6 @@ class TreeNodeEdit extends Widget<{
                         //this.changed(this.value) // TODO:
                     })
                     .setValue(this.node.raw.directions)
-            )
-
-            props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
-                    target: this.node.path.target,
-                    start_state: this.node.path.pre_state
-                })
-                    .on("changed", v => {
-                        this.node.raw.path = v
-                        this.emit("changed", node.raw)
-                    })
-                    .on("loaded_to_editor", () => {
-                        this.parent.addToPathEditCounter(1)
-                    })
-                    .on("editor_closed", () => {
-                        this.parent.addToPathEditCounter(-1)
-                    })
-                    .setValue(this.node.raw.path)
             )
 
             //})

@@ -339,8 +339,8 @@ export namespace ScanTree {
 
     export namespace ScanInformation {
         export function toString(decision: ScanInformation) {
-            return "TODO" // TODO:
-            //return `${decision.area.name}${Pulse.meta(decision.ping).shorted}`
+            // TODO: Properly reimplement with context
+            return `${Pulse.meta(decision).shorted}`
         }
     }
 

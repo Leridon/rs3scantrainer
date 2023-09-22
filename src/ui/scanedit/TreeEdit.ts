@@ -5,7 +5,7 @@ import tree_node = ScanTree.decision_tree;
 import augmented_tree = ScanTree.augmented_decision_tree;
 import ScanDecision = ScanTree.ScanInformation;
 import spot_narrowing = ScanTree.spot_narrowing;
-import {MapCoordinate} from "../../model/coordinates";
+import {MapCoordinate, MapRectangle} from "../../model/coordinates";
 import assumedRange = ScanTree.assumedRange;
 import {Pulse} from "../../model/scans/scans";
 import {util} from "../../util/util";
@@ -55,6 +55,7 @@ class TreeNodeEdit extends Widget<{
             })
 
         options.push({create_new: true})
+
         options.push({create_new_from_path: true})
 
         if (node.raw?.scan_spot_id != null) options.push({remove: true})
@@ -62,143 +63,95 @@ class TreeNodeEdit extends Widget<{
 
         let props = new Properties().appendTo(this)
 
+        let path_row = c("<div style='display: flex'></div>")
+
+        new PathProperty(parent.parent.layer.getMap(), {
+            target: this.node.path.target,
+            start_state: this.node.path.pre_state
+        })
+            .appendTo(path_row)
+            .on("changed", v => {
+                this.node.raw.path = v
+                this.emit("changed", node.raw)
+            })
+            .on("loaded_to_editor", () => {
+                this.parent.addToPathEditCounter(1)
+            })
+            .on("editor_closed", () => {
+                this.parent.addToPathEditCounter(-1)
+            })
+            .setValue(this.node.raw.path)
+
+
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
-            let dropdown = new DropdownSelection<T>({
-                can_be_null: false,
-                null_value: null,
-                type_class: {
-                    toHTML(v: T): Widget {
-                        if (v.remove) return c("<div>- Remove</div>")
-                        if (v.create_new) return c("<div>+ Create New</div>")
-                        if (v.create_new_from_path) return c("<div>+ Create from Path</div>")
-                        if (!v.area) return c("<div> - </div>")
-                        else return c("<div class='ctr-scanspot-inline'></div>").text(v.area.name)
-                    }
-                }
-            }, options)
-                .on("selection_changed", async (s) => {
-                    if (s.remove) {
-                        Object.assign(node.raw, ScanTree.init_leaf())
-                    } else if (s.create_new) {
-                        let area = await this.parent.parent.areas.create_new_area()
-
-                        this.setTarget(area)
-                    } else if (s.create_new_from_path) {
-                        // If path exists: Use target
-                        // Else: Start editor and create afterward
-
-                        /* // TODO: This entire section may be obsolete
-
-
-                        // Jfc this is bad and needs a cleaner implementation/interface
-                        let start_state = this.node?.parent?.node?.path.post_state
-                            ? (await Path.augment(this.node?.parent?.node?.path)).post_state
-                            : Path.movement_state.start()
-
-                        this.parent.parent.layer.getMap().path_editor.load({
-                            start_state: start_state, steps: []
-                        }, {
-                            save_handler: async v => {
-
-                                let aug = await Path.augment(v)
-
-                                if (!aug.post_state?.position?.tile) return
-
-                                let area: ScanSpot = ScanTree.createNewSpot(this.parent.parent.value,  {
-                                        level: aug.post_state.position.tile.level,
-                                        topleft: {x: aug.post_state.position.tile.x, y: aug.post_state.position.tile.y},
-                                        botright: {x: aug.post_state.position.tile.x, y: aug.post_state.position.tile.y},
-                                    })
-
-
-                                this.parent.parent.areas.update()
-                                this.parent.parent.areas.areas.find(a => a.value == area)?.toggleEdit()
-
-                                this.parent.parent.areas.emit("changed", this.parent.parent.value.areas)
+            c("<div style='display: flex; flex-grow: 1'></div>")
+                .appendTo(path_row)
+                .append(c("<span>Region: </span>"))
+                .append(
+                    new DropdownSelection<T>({
+                        can_be_null: false,
+                        null_value: null,
+                        type_class: {
+                            toHTML(v: T): Widget {
+                                if (v.remove) return c("<div>- Remove</div>")
+                                if (v.create_new) return c("<div>+ New</div>")
+                                if (v.create_new_from_path) return c("<div>+ from Path</div>")
+                                if (!v.area) return c("<div> - </div>")
+                                else return c("<div class='ctr-scanspot-inline'></div>").text(v.area.name)
+                            }
+                        }
+                    }, options)
+                        .css("flex-grow", "1")
+                        .setValue({area: node.region})
+                        .on("selection_changed", async (s) => {
+                            if (s.remove) {
+                                Object.assign(node.raw, ScanTree.init_leaf())
+                            } else if (s.create_new) {
+                                let area = await this.parent.parent.areas.create_new_area()
 
                                 this.setTarget(area)
+                            } else if (s.create_new_from_path) {
+                                this.setTarget(ScanTree.createNewSpot(
+                                    this.node.raw_root,
+                                    MapRectangle.fromTile(this.node.path.post_state.position.tile)))
 
-                                let p = this.node.raw.paths.find(p => p.spot == null)
-                                if (p) p.path = v
-                                else this.node.raw.paths.push({spot: null, path: v, directions: "Go to {{target}}"})
+                            } else if (s.area.id != node.raw.scan_spot_id) {
+                                this.setTarget(s.area)
+                            }
 
-                                this.parent.parent.layer.getMap().path_editor.reset()
-                            },
-                        })*/
-                    } else if (s.area.id != node.raw.scan_spot_id) {
-                        this.setTarget(s.area)
-                    }
-
-                    // TODO: Make a proper change-interface
-                    parent.emit("changed", parent.value)
-                    parent.update()
-                })
-
-            dropdown.setValue({area: node.region})
-
-            props.named("Target", dropdown);
+                            // TODO: Make a proper change-interface
+                            parent.emit("changed", parent.value)
+                            parent.update()
+                        })
+                )
         }
 
-        if (include_paths) {
-            props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
-                    target: this.node.path.target,
-                    start_state: this.node.path.pre_state
+        props.named("Path", path_row);
+
+        props.named("Direction",
+            new TemplateStringEdit({
+                resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),
+                generator: () => {
+                    let path_short =
+                        this.node.path.steps.length > 0
+                            ? this.node.raw.path.map(PathingGraphics.templateString).join(" - ")
+                            : "Go"
+
+                    let target = "{{target}}"
+
+                    return path_short + " to " + target
+                }
+            })
+                .on("changed", (v) => {
+                    this.node.raw.directions = v
+                    //this.changed(this.value) // TODO:
                 })
-                    .on("changed", v => {
-                        this.node.raw.path = v
-                        this.emit("changed", node.raw)
-                    })
-                    .on("loaded_to_editor", () => {
-                        this.parent.addToPathEditCounter(1)
-                    })
-                    .on("editor_closed", () => {
-                        this.parent.addToPathEditCounter(-1)
-                    })
-                    .setValue(this.node.raw.path)
-            )
-
-            props.named("Direction",
-                new TemplateStringEdit({
-                    resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),
-                    generator: () => {
-                        let path_short =
-                            this.node.path.steps.length > 0
-                                ? this.node.raw.path.map(PathingGraphics.templateString).join(" - ")
-                                : "Go"
-
-                        let target = "{{target}}"
-
-                        return path_short + " to " + target
-                    }
-                })
-                    .on("changed", (v) => {
-                        this.node.raw.directions = v
-                        //this.changed(this.value) // TODO:
-                    })
-                    .setValue(this.node.raw.directions)
-            )
-
-            //})
-        }
+                .setValue(this.node.raw.directions)
+        )
     }
 
     private setTarget(target: ScanSpot) {
-        let narrowing = spot_narrowing(this.node.remaining_candidates, target.area, assumedRange(this.parent.parent.value))
-
-        for (let child of narrowing) {
-            if (child.narrowed_candidates.length == 0) continue
-
-            this.node.raw.children.push({
-                key: child.pulse,
-                value: ScanTree.init_leaf()
-            })
-        }
-
         this.node.raw.scan_spot_id = target.id
-
-        this.node.raw.directions = "Move to {{target}}"
-
-        this.node.raw.path = []
     }
 
     preview_polyons: Layer[] = null

@@ -72,11 +72,11 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             let errors = issues.filter(i => i.level == 0)
             let warnings = issues.filter(i => i.level == 1)
 
-            if (errors.length > 0) new IssueWidget({level: 0, message: `${errors.length}`})
+            if (errors.length > 0) new IssueWidget({level: 0, message: ``})
                 .css("margin-top", "0")
                 .css("margin-bottom", "0")
                 .appendTo(content)
-            if (warnings.length > 0) new IssueWidget({level: 1, message: `${warnings.length}`})
+            if (warnings.length > 0) new IssueWidget({level: 1, message: ``})
                 .css("margin-top", "0")
                 .css("margin-bottom", "0")
                 .appendTo(content)
@@ -89,7 +89,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             tooltip.append(new Properties().header("End State"))
             tooltip.append(new MovementStateView(this.augmented.post_state))
 
-            c("<span class='nisl-textlink'></span>").text(`T${this.augmented.pre_state.tick} - T${this.augmented.post_state.tick}`)
+            c("<span class='nisl-textlink'></span>").text(`State`)
                 .appendTo(content)
                 .addTippy(tooltip)
         }

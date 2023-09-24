@@ -178,7 +178,7 @@ export function createStepGraphics(step: Path.step): OpacityGroup {
             break
         }
         case "interaction":
-            arrow(step.starts, step.ends_up.tile)
+            arrow(step.starts, step.ends_up)
                 .setStyle({
                     color: "#069334",
                     weight: 4,

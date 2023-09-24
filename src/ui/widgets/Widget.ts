@@ -1,6 +1,4 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
-import * as events from "events";
-import {Browser} from "leaflet";
 import * as tippy from 'tippy.js';
 
 
@@ -9,6 +7,10 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         super()
 
         if (!container) this.container = $("<div>")
+    }
+
+    raw(): HTMLElement {
+        return this.container.get()[0]
     }
 
     empty(): this {

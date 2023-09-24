@@ -36,6 +36,7 @@ import movement_state = Path.movement_state;
 import issue = Path.issue;
 import surge = MovementAbilities.surge;
 import escape = MovementAbilities.escape;
+import SelectShortcutInteraction from "./SelectShortcutInteraction";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -215,16 +216,16 @@ class StepEditWidget extends Widget<{
                         this.emit("changed", this.value.raw)
                     })
 
-                props.named("Ends up", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.ends_up.tile))
+                props.named("Ends up", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.ends_up))
                     .on("changed", (c) => {
-                        (this.value.raw as Path.step_interact).ends_up.tile = c
+                        (this.value.raw as Path.step_interact).ends_up = c
                         this.emit("changed", this.value.raw)
                     })
 
                 props.named("Facing", new DirectionSelect()
-                    .setValue(this.value.raw.ends_up.direction)
+                    .setValue(this.value.raw.forced_direction)
                     .on("selection_changed", v => {
-                        (this.value.raw as Path.step_interact).ends_up.direction = v
+                        (this.value.raw as Path.step_interact).forced_direction = v
                         this.emit("changed", this.value.raw)
                     })
                 )
@@ -608,6 +609,16 @@ class ControlWidget extends Widget<{
             new MediumImageButton('assets/icons/shortcut.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
 
+                    new SelectShortcutInteraction(this.parent.map.getActiveLayer())
+                        .activate()
+                        .tapEvents(e => e.on("selected", (s) => {
+                            console.log(s)
+
+                            this.value.push(s)
+                            this.render()
+                        }))
+
+                    /*
                     new SelectTileInteraction(this.parent.map.getActiveLayer())
                         .tapEvents((e) => e.on("selected", (t) => {
                             this.value.push(Path.auto_describe({
@@ -624,7 +635,7 @@ class ControlWidget extends Widget<{
                             }))
 
                             this.render()
-                        })).activate()
+                        })).activate()*/
                 })
 
             new MediumImageButton('assets/icons/compass.png').appendTo(this.add_buttons_container)

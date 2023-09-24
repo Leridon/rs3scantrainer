@@ -89,7 +89,9 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             tooltip.append(new Properties().header("End State"))
             tooltip.append(new MovementStateView(this.augmented.post_state))
 
-            c("<span class='nisl-textlink'></span>").text(`State`)
+            c("<span class='nisl-textlink'></span>").text("State")
+                .css("margin-left", "3px")
+                .css("margin-right", "3px")
                 .appendTo(content)
                 .addTippy(tooltip)
         }

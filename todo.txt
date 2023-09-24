@@ -1,8 +1,6 @@
 Immediate next:
 - Fix naming of navigation links
 - Highlight incomplete branches in editor
-- Fix Create new from path
-- Include "Target" in "Path" row
 - Compact TemplateStringEdit
 - Autoname areas
 
@@ -17,7 +15,6 @@ Immediate next:
 - Autosort for path edit
 - Custom context menu on the map
 - [Bug] Mousewheel scrolling in the path editor
-- Index of available entrances/shortcuts on the map
 
 Ready for release:
 - [Presentation] reenable walls on the map.
@@ -27,6 +24,7 @@ Ready for release:
 - Fix floor of Dorgesh Khaan spot E
 - Update Deep Wildy Scan/Wilderness Crater
 - Update compass spots from rsmv
+- Have a way to directly link to a given clue and its method with query parameters.
 
 
 Planned for next release (b0.4):
@@ -38,13 +36,10 @@ Planned for next release (b0.4):
 
 
 - [Tooling] Styling pass over the scan editor
-    - Disable info buttons that leave 0 candidates
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
 
 - "Add to Alt1 button" at the top when in browser
-- Have a way to directly link to a given clue and its method with query parameters.
--
 
 b0.5:
 - Settings modal
@@ -77,14 +72,12 @@ Unscheduled:
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
-- Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
 - Arrow key/enter control for the search.
 - Add puzzle solvers
 - Add methods for remaining clue types.
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat.
 - Locally saved methods
-- Apply information theory and equivalence classes from scans also to compasses.
 - Figure out z-Ordering of layers (need to use panes maybe)
 - Assign clue tiers to remaining clues
 - Figure out how to handle clues with different solutions depending on game progress.

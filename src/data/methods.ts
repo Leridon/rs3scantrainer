@@ -5,6 +5,7 @@ import {type indirected, type method} from "../model/methods";
 
 /* ts-ignore */
 let raw: (method & indirected)[] =[
+    // Zanaris
     {
         "clue": 361,
         "type": "scantree",
@@ -10890,13 +10891,11 @@ let raw: (method & indirected)[] =[
                                                             "level": 2
                                                         },
                                                         "ends_up": {
-                                                            "direction": 8,
-                                                            "tile": {
-                                                                "x": 3226,
-                                                                "y": 9542,
-                                                                "level": 0
-                                                            }
+                                                            "x": 3226,
+                                                            "y": 9542,
+                                                            "level": 0
                                                         },
+                                                        "forced_direction": 8,
                                                         "how": "enter"
                                                     }
                                                 ],
@@ -10952,13 +10951,11 @@ let raw: (method & indirected)[] =[
                                                                         "level": 0
                                                                     },
                                                                     "ends_up": {
-                                                                        "direction": 2,
-                                                                        "tile": {
-                                                                            "x": 3221,
-                                                                            "y": 9556,
-                                                                            "level": 0
-                                                                        }
+                                                                        "x": 3221,
+                                                                        "y": 9556,
+                                                                        "level": 0
                                                                     },
+                                                                    "forced_direction": 2,
                                                                     "how": "generic"
                                                                 }
                                                             ],
@@ -11251,6 +11248,7 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
+    // Varrock
     {
         "clue": 351,
         "type": "scantree",
@@ -12408,14 +12406,12 @@ let raw: (method & indirected)[] =[
                                                                                     "y": 3477,
                                                                                     "level": 0
                                                                                 },
-                                                                                "ends_up": {
-                                                                                    "direction": 2,
-                                                                                    "tile": {
-                                                                                        "x": 3215,
-                                                                                        "y": 3477,
-                                                                                        "level": 0
-                                                                                    }
+                                                                                "ends_up":  {
+                                                                                    "x": 3215,
+                                                                                    "y": 3477,
+                                                                                    "level": 0
                                                                                 },
+                                                                                "forced_direction": 2,
                                                                                 "how": "open"
                                                                             },
                                                                             {
@@ -16698,6 +16694,7 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
+    // Prifddinas
     {
         "clue": 368,
         "type": "scantree",
@@ -17131,13 +17128,11 @@ let raw: (method & indirected)[] =[
                                                                         "level": 1
                                                                     },
                                                                     "ends_up": {
-                                                                        "direction": 7,
-                                                                        "tile": {
-                                                                            "x": 2268,
-                                                                            "y": 3400,
-                                                                            "level": 1
-                                                                        }
+                                                                        "x": 2268,
+                                                                        "y": 3400,
+                                                                        "level": 1
                                                                     },
+                                                                    "forced_direction": 7,
                                                                     "how": "generic"
                                                                 },
                                                                 {
@@ -19581,6 +19576,7 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
+    // Dorgesh Khaan
     {
         "clue": 365,
         "type": "scantree",
@@ -19967,13 +19963,11 @@ let raw: (method & indirected)[] =[
                                                             "level": 0
                                                         },
                                                         "ends_up": {
-                                                            "direction": null,
-                                                            "tile": {
-                                                                "x": 2714,
-                                                                "y": 5281,
-                                                                "level": 1
-                                                            }
+                                                            "x": 2714,
+                                                            "y": 5281,
+                                                            "level": 1
                                                         },
+                                                        "forced_direction": null,
                                                         "how": "ladderup"
                                                     }
                                                 ],
@@ -20002,13 +19996,11 @@ let raw: (method & indirected)[] =[
                                                                         "level": 1
                                                                     },
                                                                     "ends_up": {
-                                                                        "direction": null,
-                                                                        "tile": {
-                                                                            "x": 2714,
-                                                                            "y": 5285,
-                                                                            "level": 0
-                                                                        }
+                                                                        "x": 2714,
+                                                                        "y": 5285,
+                                                                        "level": 0
                                                                     },
+                                                                    "forced_direction": null,
                                                                     "how": "ladderdown"
                                                                 }
                                                             ],
@@ -20339,13 +20331,11 @@ let raw: (method & indirected)[] =[
                                                                         "level": 1
                                                                     },
                                                                     "ends_up": {
-                                                                        "direction": null,
-                                                                        "tile": {
-                                                                            "x": 2714,
-                                                                            "y": 5285,
-                                                                            "level": 0
-                                                                        }
+                                                                        "x": 2714,
+                                                                        "y": 5285,
+                                                                        "level": 0
                                                                     },
+                                                                    "forced_direction": null,
                                                                     "how": "ladderdown"
                                                                 },
                                                                 {
@@ -20526,13 +20516,11 @@ let raw: (method & indirected)[] =[
                                                             "level": 0
                                                         },
                                                         "ends_up": {
-                                                            "direction": null,
-                                                            "tile": {
-                                                                "x": 2714,
-                                                                "y": 5281,
-                                                                "level": 1
-                                                            }
+                                                            "x": 2714,
+                                                            "y": 5281,
+                                                            "level": 1
                                                         },
+                                                        "forced_direction": null,
                                                         "how": "ladderup"
                                                     },
                                                     {
@@ -20550,13 +20538,11 @@ let raw: (method & indirected)[] =[
                                                             "level": 1
                                                         },
                                                         "ends_up": {
-                                                            "direction": null,
-                                                            "tile": {
-                                                                "x": 2714,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            }
+                                                            "x": 2714,
+                                                            "y": 5285,
+                                                            "level": 0
                                                         },
+                                                        "forced_direction": null,
                                                         "how": "ladderdown"
                                                     },
                                                     {
@@ -20698,13 +20684,11 @@ let raw: (method & indirected)[] =[
                                                                         "level": 0
                                                                     },
                                                                     "ends_up": {
-                                                                        "direction": 6,
-                                                                        "tile": {
-                                                                            "x": 2725,
-                                                                            "y": 5292,
-                                                                            "level": 1
-                                                                        }
+                                                                        "x": 2725,
+                                                                        "y": 5292,
+                                                                        "level": 1
                                                                     },
+                                                                    "forced_direction": 6,
                                                                     "how": "ladderup"
                                                                 },
                                                                 {
@@ -20737,13 +20721,11 @@ let raw: (method & indirected)[] =[
                                                                         "level": 1
                                                                     },
                                                                     "ends_up": {
-                                                                        "direction": 2,
-                                                                        "tile": {
-                                                                            "x": 2729,
-                                                                            "y": 5304,
-                                                                            "level": 0
-                                                                        }
+                                                                        "x": 2729,
+                                                                        "y": 5304,
+                                                                        "level": 0
                                                                     },
+                                                                    "forced_direction": 2,
                                                                     "how": "ladderdown"
                                                                 },
                                                                 {
@@ -20973,13 +20955,11 @@ let raw: (method & indirected)[] =[
                                                             "level": 0
                                                         },
                                                         "ends_up": {
-                                                            "direction": 5,
-                                                            "tile": {
-                                                                "x": 2714,
-                                                                "y": 5281,
-                                                                "level": 1
-                                                            }
+                                                            "x": 2714,
+                                                            "y": 5281,
+                                                            "level": 1
                                                         },
+                                                        "forced_direction": 5,
                                                         "how": "ladderup"
                                                     },
                                                     {
@@ -20997,13 +20977,11 @@ let raw: (method & indirected)[] =[
                                                             "level": 1
                                                         },
                                                         "ends_up": {
-                                                            "direction": null,
-                                                            "tile": {
-                                                                "x": 2714,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            }
+                                                            "x": 2714,
+                                                            "y": 5285,
+                                                            "level": 0
                                                         },
+                                                        "forced_direction": null,
                                                         "how": "ladderdown"
                                                     },
                                                     {
@@ -21126,13 +21104,11 @@ let raw: (method & indirected)[] =[
                                                             "level": 0
                                                         },
                                                         "ends_up": {
-                                                            "direction": 3,
-                                                            "tile": {
-                                                                "x": 2738,
-                                                                "y": 5264,
-                                                                "level": 0
-                                                            }
+                                                            "x": 2738,
+                                                            "y": 5264,
+                                                            "level": 0
                                                         },
+                                                        "forced_direction": 3,
                                                         "how": "open"
                                                     },
                                                     {
@@ -21303,13 +21279,11 @@ let raw: (method & indirected)[] =[
                                                 "level": 0
                                             },
                                             "ends_up": {
-                                                "direction": null,
-                                                "tile": {
-                                                    "x": 2723,
-                                                    "y": 5272,
-                                                    "level": 1
-                                                }
+                                                "x": 2723,
+                                                "y": 5272,
+                                                "level": 1
                                             },
+                                            "forced_direction": null,
                                             "how": "ladderup"
                                         },
                                         {
@@ -21327,13 +21301,11 @@ let raw: (method & indirected)[] =[
                                                 "level": 1
                                             },
                                             "ends_up": {
-                                                "direction": null,
-                                                "tile": {
-                                                    "x": 2723,
-                                                    "y": 5276,
-                                                    "level": 0
-                                                }
+                                                "x": 2723,
+                                                "y": 5276,
+                                                "level": 0
                                             },
+                                            "forced_direction": null,
                                             "how": "ladderdown"
                                         },
                                         {
@@ -21495,13 +21467,11 @@ let raw: (method & indirected)[] =[
                                                 "level": 0
                                             },
                                             "ends_up": {
-                                                "direction": null,
-                                                "tile": {
-                                                    "x": 2714,
-                                                    "y": 5281,
-                                                    "level": 1
-                                                }
+                                                "x": 2714,
+                                                "y": 5281,
+                                                "level": 1
                                             },
+                                            "forced_direction": null,
                                             "how": "ladderup"
                                         },
                                         {
@@ -21519,13 +21489,11 @@ let raw: (method & indirected)[] =[
                                                 "level": 1
                                             },
                                             "ends_up": {
-                                                "direction": null,
-                                                "tile": {
-                                                    "x": 2714,
-                                                    "y": 5285,
-                                                    "level": 0
-                                                }
+                                                "x": 2714,
+                                                "y": 5285,
+                                                "level": 0
                                             },
+                                            "forced_direction": null,
                                             "how": "ladderdown"
                                         },
                                         {
@@ -21741,13 +21709,11 @@ let raw: (method & indirected)[] =[
                                                                         "level": 0
                                                                     },
                                                                     "ends_up": {
-                                                                        "direction": 4,
-                                                                        "tile": {
-                                                                            "x": 2722,
-                                                                            "y": 5256,
-                                                                            "level": 1
-                                                                        }
+                                                                        "x": 2722,
+                                                                        "y": 5256,
+                                                                        "level": 1
                                                                     },
+                                                                    "forced_direction": 4,
                                                                     "how": "ladderup"
                                                                 },
                                                                 {
@@ -22610,13 +22576,11 @@ let raw: (method & indirected)[] =[
                                                 "level": 1
                                             },
                                             "ends_up": {
-                                                "direction": 1,
-                                                "tile": {
-                                                    "x": 2699,
-                                                    "y": 5317,
-                                                    "level": 1
-                                                }
+                                                "x": 2699,
+                                                "y": 5317,
+                                                "level": 1
                                             },
+                                            "forced_direction": 1,
                                             "how": "open"
                                         }
                                     ],
@@ -22631,6 +22595,7 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
+    // Piscatoris
     {
         "clue": 355,
         "type": "scantree",
@@ -23783,13 +23748,11 @@ let raw: (method & indirected)[] =[
                                                                                     "level": 0
                                                                                 },
                                                                                 "ends_up": {
-                                                                                    "direction": 4,
-                                                                                    "tile": {
-                                                                                        "x": 2371,
-                                                                                        "y": 3619,
-                                                                                        "level": 0
-                                                                                    }
+                                                                                    "x": 2371,
+                                                                                    "y": 3619,
+                                                                                    "level": 0
                                                                                 },
+                                                                                "forced_direction": 4,
                                                                                 "how": "agility_obstacle"
                                                                             },
                                                                             {

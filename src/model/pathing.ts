@@ -104,7 +104,8 @@ export namespace Path {
         ticks: number,
         where: MapCoordinate,
         starts: MapCoordinate,
-        ends_up: PlayerPosition,
+        ends_up: MapCoordinate,
+        forced_direction: direction
         how: InteractionType
     }
 
@@ -427,7 +428,8 @@ export namespace Path {
                     break;
                 case "interaction":
 
-                    state.position = step.ends_up
+                    state.position.tile = step.ends_up
+                    if (step.forced_direction != null) state.position.direction = step.forced_direction
                     state.tick += step.ticks
                     state.targeted_entity = null
 
@@ -553,7 +555,7 @@ export namespace Path {
         }
     }
 
-    export function auto_describe(step: step): step {
+    export function auto_describe<T extends step>(step: T): T {
         step.description = auto_description(step)
         return step
     }
@@ -616,7 +618,7 @@ export namespace Path {
                 break
             case "interaction":
                 bounds.extend(L.point(step.raw.where))
-                bounds.extend(L.point(step.raw.ends_up.tile))
+                bounds.extend(L.point(step.raw.ends_up))
 
                 break;
             case "redclick":

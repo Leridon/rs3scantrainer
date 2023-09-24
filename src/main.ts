@@ -1,11 +1,9 @@
-import {clues} from "./data/clues";
 import {MapCoordinate, MapRectangle} from "./model/coordinates";
-import old_methods from "./data/methods_old";
 import {ScanTree} from "./model/scans/ScanTree";
 import {Path} from "./model/pathing";
 import {Pulse} from "./model/scans/scans";
 import {indirect, indirected, resolve, resolved} from "./model/methods";
-import {ClueStep, ScanStep} from "./model/clues";
+import {ScanStep} from "./model/clues";
 
 async function translate(tree: ScanTree.scan_tree_old & indirected): Promise<ScanTree.tree & indirected> {
     console.log("Translate")
@@ -97,5 +95,6 @@ function translate_node(tree: ScanTree.decision_tree_old, parent_key: Pulse): Sc
 export async function makeshift_main(): Promise<string> {
     let output = ""
 
-    return JSON.stringify(await Promise.all(old_methods.map(async m => await translate(m))), null, 4)
+    return output
+    // return JSON.stringify(await Promise.all(old_methods.map(async m => await translate(m))), null, 4)
 }

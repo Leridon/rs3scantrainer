@@ -889,3 +889,22 @@ video {
     cursor: pointer;
     color: #0d65e7;
 }
+
+/* Context menu */
+
+.nisl-context-menu {
+    border: 1px solid white;
+    outline: 1px solid rgb(35, 35, 35);
+    background: rgb(10, 29, 38);
+    color: rgb(198, 184, 139);
+    text-shadow: 1px 1px black;
+}
+
+.nisl-context-menu > *:hover {
+    background: rgb(40, 89, 112);
+}
+
+.nisl-context-menu > * {
+    padding-left: 3px;
+    padding-right: 3px;
+}

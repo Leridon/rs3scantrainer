@@ -6,8 +6,13 @@ import {MapCoordinate} from "../../../model/coordinates";
 import type Widget from "../../widgets/Widget";
 
 export default class SelectTileInteraction extends LayerInteraction<ActiveLayer, {
-    "selected": MapCoordinate
+    "selected": MapCoordinate,
+    "cancelled": null
 }> {
+    constructor(layer: ActiveLayer, private text: string = "Click the map to select a tile on the currently selected floor.") {
+        super(layer);
+    }
+
     cancel() {
         this.layer.getMap().map.off(this._maphooks)
     }
@@ -19,7 +24,7 @@ export default class SelectTileInteraction extends LayerInteraction<ActiveLayer,
     override getTopControl(): Widget {
         let c =  super.getTopControl();
 
-        c.text("Click the map to select a tile on the currently selected floor.")
+        c.text(this.text)
 
         return c
     }

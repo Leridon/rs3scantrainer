@@ -116,10 +116,12 @@ export namespace Shortcuts {
             p(door({x: 2415, y: 3823, level: 0}, {x: 2, y: 0}))
         }
 
-
         // Zanaris
         {
             p(portal({topleft: {"x": 1564, "y": 4355}, botright: {"x": 1567, "y": 4355}, level: 0}, {"x": 2453, "y": 4476, "level": 0}))
+
+            p(door({"x": 2469, "y": 4437, "level": 0}, {x: 0, y: 2}))
+            p(door({"x": 2465, "y": 4433, "level": 0}, {x: 2, y: 0}))
         }
 
         return buffer

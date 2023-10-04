@@ -50,6 +50,14 @@ export namespace MapCoordinate {
         return {...v, level: level}
     }
 
+    export function move(pos: MapCoordinate, off: Vector2) {
+        return {
+            x: pos.x + off.x,
+            y: pos.y + off.y,
+            level: pos.level
+        }
+    }
+
     export function toString(coordinate: MapCoordinate): string {
         return `${coordinate.x}|${coordinate.y}|${coordinate.level}`
     }

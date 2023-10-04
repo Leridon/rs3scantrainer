@@ -62,11 +62,11 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
             leaflet.DomEvent.stopPropagation(e)
             e.originalEvent.preventDefault()
 
-            let tile = this.layer.getMap().tileFromMouseEvent(e)
+            let tile = this.layer.getMap().coordinateWithLevel(e)
 
             let menu = new ContextMenu<{
                 shortcut: Shortcuts.shortcut | null,
-            }>(Shortcuts.index.filter(s => Vector2.eq(s.where, tile))
+            }>(Shortcuts.index.filter(s => Vector2.max_axis(Vector2.sub(s.where, tile)) < 0.5)
                 .map(s => ({
                     value: {shortcut: s},
                     widget: c().text(s.name),

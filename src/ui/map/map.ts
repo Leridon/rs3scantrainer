@@ -9,6 +9,10 @@ import {Constants} from "../../constants";
 import PathLayer from "./layers/PathLayer";
 import TileHighlight from "./TileHighlight";
 import {PathEditor} from "../scanedit/PathEditLayer";
+import ContextMenu from "../widgets/ContextMenu";
+import {Shortcuts} from "../../model/shortcuts";
+import {Vector2} from "../../util/math";
+import {Path} from "../../model/pathing";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -181,6 +185,14 @@ export class GameMapControl extends Widget<{
         this.tile_highlight = new TileHighlight({x: 0, y: 0}).addTo(this.map)
         this.map.on("mousemove", (e) => this.tile_highlight.setPosition(this.tileFromMouseEvent(e)))
 
+        this.map.on("contextmenu", async (e) => {
+            e.originalEvent.preventDefault()
+
+            let tile = this.tileFromMouseEvent(e)
+
+            await navigator.clipboard.writeText(JSON.stringify(tile))
+        })
+
 
         this.path_editor = new PathEditor(this)
         /*this.path_editor.load({description: "", steps: [],}, {
@@ -344,6 +356,14 @@ export class GameMapControl extends Widget<{
         return {
             x: Math.round(e.latlng.lng),
             y: Math.round(e.latlng.lat),
+            level: this.floor
+        }
+    }
+
+    coordinateWithLevel(e: leaflet.LeafletMouseEvent): MapCoordinate {
+        return {
+            x: e.latlng.lng,
+            y: e.latlng.lat,
             level: this.floor
         }
     }

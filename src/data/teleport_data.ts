@@ -1991,7 +1991,7 @@ export namespace teleport_data {
                 {id: "red", spot: {x: 2731, y: 9529, level: 0}, name: "Red Dragons", code: "3",
                     menu_ticks: 3,
                     animation_ticks: 3},
-                {id: "black", spot: {x: 2453, y: 4476, level: 0}, name: "Black Dragons", code: "4,1",
+                {id: "black", spot: {x: 1565, y: 4356, level: 0}, name: "Black Dragons", code: "4,1",
                     menu_ticks: 4,
                     animation_ticks: 3},
                 {id: "kbd", spot: {x: 3051, y: 3519, level: 0}, name: "King Black Dragon", code: "4,2",

@@ -1,19 +1,30 @@
 import {MapCoordinate, MapRectangle} from "./coordinates";
 import {direction} from "./movement";
 import {Path} from "./pathing";
-import {Vector2} from "../util/math";
+import {Rectangle, Vector2} from "../util/math";
 import {range} from "lodash";
+import {Browser, rectangle} from "leaflet";
+import {Rect} from "@alt1/base";
+import {ExportImport} from "../util/exportString";
 
 export namespace Shortcuts {
+
+    type shortcut_start = { type: "area", area: MapRectangle } | { type: "tile", tile: MapCoordinate }
+    type shortcut_click = { type: "area", area: MapRectangle, where: "center" | "nearest" } | { type: "tile", tile: MapCoordinate }
+    type shortcut_movement = { type: "offset", offset: Vector2, level: number } | { type: "fixed", target: MapCoordinate }
 
     export type shortcut = {
         name: string,
         ticks: number,
-        where: MapCoordinate,
-        starts: MapCoordinate,
-        ends_up: MapCoordinate,
-        forced_orientation: direction | null
-        how: Path.InteractionType
+        forced_orientation: direction | null,
+        how: Path.InteractionType,
+        start: shortcut_start,
+        click: shortcut_click,
+        movement: shortcut_movement
+    }
+
+    export namespace shortcut {
+        
     }
 
     export function create_index(): shortcut[] {
@@ -27,34 +38,49 @@ export namespace Shortcuts {
         function door(south_west_corner: MapCoordinate, size: Vector2): shortcut[] {
             let hori = size.x > 0
 
-            let click_off = hori ? {x: 0, y: 0.5} : {x: 0.5, y: 0}
-            let iteration_off = hori ? {x: 1, y: 0} : {x: 0, y: 1}
+            let rectangle = MapRectangle.lift(
+                hori
+                    ? Rectangle.from(south_west_corner, Vector2.add(south_west_corner, size, {x: -1, y: 1}))
+                    : Rectangle.from(south_west_corner, Vector2.add(south_west_corner, size, {x: 1, y: -1})),
+                south_west_corner.level)
 
-            let iterations = hori ? size.x : size.y
-
-            return range(0, iterations).flatMap(i => {
-                let south_west = MapCoordinate.move(south_west_corner, Vector2.scale(i, iteration_off))
-                let click = MapCoordinate.move(south_west, click_off)
-                let north_east = MapCoordinate.move(click, click_off)
-
+            if (hori) {
                 return [{
-                    name: hori ? "Cross North" : "Cross East",
+                    name: "Cross North",
                     ticks: 1,
-                    starts: south_west,
-                    where: click,
-                    ends_up: north_east,
-                    forced_orientation: hori ? direction.north : direction.east,
-                    how: "open"
+                    forced_orientation: direction.north,
+                    how: "open",
+                    start: {type: "area", area: MapRectangle.bottom(rectangle)},
+                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    movement: {type: "offset", offset: {x: 0, y: 1}, level: south_west_corner.level},
                 }, {
-                    name: hori ? "Cross South" : "Cross West",
+                    name: "Cross South",
                     ticks: 1,
-                    starts: north_east,
-                    where: click,
-                    ends_up: south_west,
-                    forced_orientation: hori ? direction.south : direction.west,
-                    how: "open"
+                    forced_orientation: direction.south,
+                    how: "open",
+                    start: {type: "area", area: MapRectangle.top(rectangle)},
+                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    movement: {type: "offset", offset: {x: 0, y: -1}, level: south_west_corner.level},
                 }]
-            })
+            } else {
+                return [{
+                    name: "Cross East",
+                    ticks: 1,
+                    forced_orientation: direction.east,
+                    how: "open",
+                    start: {type: "area", area: MapRectangle.left(rectangle)},
+                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    movement: {type: "offset", offset: {x: 1, y: 0}, level: south_west_corner.level},
+                }, {
+                    name: "Cross West",
+                    ticks: 1,
+                    forced_orientation: direction.west,
+                    how: "open",
+                    start: {type: "area", area: MapRectangle.right(rectangle)},
+                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    movement: {type: "offset", offset: {x: -1, y: 0}, level: south_west_corner.level},
+                }]
+            }
         }
 
         function door1V(west: MapCoordinate): shortcut[] {
@@ -66,6 +92,35 @@ export namespace Shortcuts {
         }
 
         function portal(rectangle: MapRectangle, lands: MapCoordinate): shortcut[] {
+            /*
+            let sources: MapCoordinate[] = []
+
+            // Traverse top/bottom
+            let ys = rectangle.topleft.y != rectangle.botright.y ? [rectangle.topleft.y, rectangle.botright.y] : [rectangle.topleft.y]
+
+            for (let x = rectangle.topleft.x; x <= rectangle.botright.x; x++) {
+                ys.forEach(y => {
+                    sources.push({x: x, y: y, level: rectangle.level})
+                })
+            }
+
+            let xs = rectangle.topleft.x != rectangle.botright.x ? [rectangle.topleft.x, rectangle.botright.x] : [rectangle.topleft.x]
+
+            for (let y = rectangle.topleft.y - 1; y <= rectangle.botright.y + 1; y--) {
+                xs.forEach(x => {
+                    sources.push({x: x, y: y, level: rectangle.level})
+                })
+            }
+
+            return sources.map(src => ({
+                name: "Use Portal",
+                ticks: 2,
+                starts: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0),
+                where: MapCoordinate.lift(northern_end, 0),
+                ends_up: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0),
+                forced_orientation: direction.south,
+                how: "agility_obstacle"
+            }))*/
 
             // TODO: Implement
             return []
@@ -76,18 +131,18 @@ export namespace Shortcuts {
                 {
                     name: "Cross South",
                     ticks: 5,
-                    starts: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0),
-                    where: MapCoordinate.lift(northern_end, 0),
-                    ends_up: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0),
+                    start: {type: "tile", tile: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0)},
+                    click: {type: "tile", tile: MapCoordinate.lift(northern_end, 0)},
+                    movement: {type: "fixed", target: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0)},
                     forced_orientation: direction.south,
                     how: "agility_obstacle"
                 },
                 {
                     name: "Cross North",
                     ticks: 5,
-                    starts: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0),
-                    where: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -7}), 0),
-                    ends_up: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0),
+                    start: {type: "tile", tile: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0)},
+                    click: {type: "tile", tile: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -7}), 0)},
+                    movement: {type: "fixed", target: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0)},
                     forced_orientation: direction.north,
                     how: "agility_obstacle"
                 },

@@ -24839,6 +24839,681 @@ let raw: (method & indirected)[] =[
                 }
             ]
         }
-    }
+    },
+    // Fremmenik Isles (WIP)
+    {
+        "areas": [
+            {
+                "id": 0,
+                "name": "A",
+                "area": {
+                    "topleft": {
+                        "x": 2355,
+                        "y": 3848
+                    },
+                    "botright": {
+                        "x": 2355,
+                        "y": 3848
+                    },
+                    "level": 0
+                }
+            },
+            {
+                "id": 1,
+                "name": "B",
+                "area": {
+                    "topleft": {
+                        "x": 2356,
+                        "y": 3854
+                    },
+                    "botright": {
+                        "x": 2356,
+                        "y": 3852
+                    },
+                    "level": 0
+                }
+            }
+        ],
+        "assumes_meerkats": true,
+        "clue": 363,
+        "root": {
+            "scan_spot_id": 0,
+            "children": [
+                {
+                    "key": {
+                        "pulse": 1,
+                        "different_level": false
+                    },
+                    "value": {
+                        "scan_spot_id": null,
+                        "children": [],
+                        "directions": "Missing directions",
+                        "path": []
+                    }
+                },
+                {
+                    "key": {
+                        "pulse": 2,
+                        "different_level": false
+                    },
+                    "value": {
+                        "scan_spot_id": 1,
+                        "children": [
+                            {
+                                "key": {
+                                    "pulse": 1,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "scan_spot_id": null,
+                                    "children": [],
+                                    "directions": "Missing directions",
+                                    "path": []
+                                }
+                            },
+                            {
+                                "key": {
+                                    "pulse": 2,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "scan_spot_id": null,
+                                    "children": [],
+                                    "directions": "Missing directions",
+                                    "path": []
+                                }
+                            },
+                            {
+                                "key": {
+                                    "pulse": 3,
+                                    "different_level": false,
+                                    "spot": {
+                                        "x": 2377,
+                                        "y": 3850,
+                                        "level": 0
+                                    }
+                                },
+                                "value": {
+                                    "scan_spot_id": null,
+                                    "children": [],
+                                    "directions": "Use 2 bridges {{icon shortcut}} to {{target}}",
+                                    "path": [
+                                        {
+                                            "type": "run",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2356,
+                                                    "y": 3852,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2356,
+                                                    "y": 3851,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2356,
+                                                    "y": 3850,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2356,
+                                                    "y": 3849,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2355,
+                                                    "y": 3848,
+                                                    "level": 0
+                                                }
+                                            ],
+                                            "description": "Run 4 tiles"
+                                        },
+                                        {
+                                            "type": "interaction",
+                                            "description": "Cross South",
+                                            "ticks": 5,
+                                            "where": {
+                                                "x": 2355,
+                                                "y": 3847,
+                                                "level": 0
+                                            },
+                                            "starts": {
+                                                "x": 2355,
+                                                "y": 3848,
+                                                "level": 0
+                                            },
+                                            "ends_up": {
+                                                "x": 2355,
+                                                "y": 3839,
+                                                "level": 0
+                                            },
+                                            "forced_direction": 4,
+                                            "how": "agility_obstacle"
+                                        },
+                                        {
+                                            "type": "run",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2355,
+                                                    "y": 3839,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2356,
+                                                    "y": 3838,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2357,
+                                                    "y": 3837,
+                                                    "level": 0
+                                                }
+                                            ],
+                                            "description": "Run 2 tiles"
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "surge",
+                                            "description": "{{surge}} southeast",
+                                            "from": {
+                                                "x": 2357,
+                                                "y": 3837,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2364,
+                                                "y": 3830,
+                                                "level": 0
+                                            }
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "dive",
+                                            "description": "Use {{dive}}",
+                                            "from": {
+                                                "x": 2364,
+                                                "y": 3830,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2374,
+                                                "y": 3835,
+                                                "level": 0
+                                            }
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "surge",
+                                            "description": "{{surge}} northeast",
+                                            "from": {
+                                                "x": 2374,
+                                                "y": 3835,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2378,
+                                                "y": 3839,
+                                                "level": 0
+                                            }
+                                        },
+                                        {
+                                            "type": "interaction",
+                                            "description": "Cross North",
+                                            "ticks": 5,
+                                            "where": {
+                                                "x": 2378,
+                                                "y": 3840,
+                                                "level": 0
+                                            },
+                                            "starts": {
+                                                "x": 2378,
+                                                "y": 3839,
+                                                "level": 0
+                                            },
+                                            "ends_up": {
+                                                "x": 2378,
+                                                "y": 3848,
+                                                "level": 0
+                                            },
+                                            "forced_direction": 2,
+                                            "how": "agility_obstacle"
+                                        },
+                                        {
+                                            "type": "run",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2378,
+                                                    "y": 3848,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2378,
+                                                    "y": 3849,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2377,
+                                                    "y": 3850,
+                                                    "level": 0
+                                                }
+                                            ],
+                                            "description": "Run 2 tiles"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "key": {
+                                    "pulse": 3,
+                                    "different_level": false,
+                                    "spot": {
+                                        "x": 2368,
+                                        "y": 3870,
+                                        "level": 0
+                                    }
+                                },
+                                "value": {
+                                    "scan_spot_id": null,
+                                    "children": [],
+                                    "directions": "{{icon run}} - {{dive}}/{{surge}} to {{target}}",
+                                    "path": [
+                                        {
+                                            "type": "run",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2356,
+                                                    "y": 3852,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2355,
+                                                    "y": 3853,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2354,
+                                                    "y": 3854,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2353,
+                                                    "y": 3855,
+                                                    "level": 0
+                                                }
+                                            ],
+                                            "description": "Run to 2353 | 3855"
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "dive",
+                                            "description": "Use {{dive}}",
+                                            "from": {
+                                                "x": 2353,
+                                                "y": 3855,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2359,
+                                                "y": 3861,
+                                                "level": 0
+                                            }
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "surge",
+                                            "description": "{{surge}} northeast",
+                                            "from": {
+                                                "x": 2359,
+                                                "y": 3861,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2369,
+                                                "y": 3871,
+                                                "level": 0
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "directions": "{{icon run}} to {{target}}",
+                        "path": [
+                            {
+                                "type": "run",
+                                "waypoints": [
+                                    {
+                                        "x": 2355,
+                                        "y": 3848,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2355,
+                                        "y": 3849,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2355,
+                                        "y": 3850,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2355,
+                                        "y": 3851,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2356,
+                                        "y": 3852,
+                                        "level": 0
+                                    }
+                                ],
+                                "description": "Run 4 tiles"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "key": {
+                        "pulse": 3,
+                        "different_level": false,
+                        "spot": {
+                            "x": 2373,
+                            "y": 3834,
+                            "level": 0
+                        }
+                    },
+                    "value": {
+                        "scan_spot_id": null,
+                        "children": [],
+                        "directions": "{{icon cursor_obstacle}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
+                        "path": [
+                            {
+                                "type": "interaction",
+                                "description": "Cross South",
+                                "ticks": 5,
+                                "where": {
+                                    "x": 2355,
+                                    "y": 3847,
+                                    "level": 0
+                                },
+                                "starts": {
+                                    "x": 2355,
+                                    "y": 3848,
+                                    "level": 0
+                                },
+                                "ends_up": {
+                                    "x": 2355,
+                                    "y": 3839,
+                                    "level": 0
+                                },
+                                "forced_direction": 4,
+                                "how": "agility_obstacle"
+                            },
+                            {
+                                "type": "run",
+                                "waypoints": [
+                                    {
+                                        "x": 2355,
+                                        "y": 3839,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2356,
+                                        "y": 3838,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2357,
+                                        "y": 3837,
+                                        "level": 0
+                                    }
+                                ],
+                                "description": "Run 2 tiles"
+                            },
+                            {
+                                "type": "ability",
+                                "ability": "surge",
+                                "description": "{{surge}} southeast",
+                                "from": {
+                                    "x": 2357,
+                                    "y": 3837,
+                                    "level": 0
+                                },
+                                "to": {
+                                    "x": 2364,
+                                    "y": 3830,
+                                    "level": 0
+                                }
+                            },
+                            {
+                                "type": "ability",
+                                "ability": "dive",
+                                "description": "{{dive}} northeast",
+                                "from": {
+                                    "x": 2364,
+                                    "y": 3830,
+                                    "level": 0
+                                },
+                                "to": {
+                                    "x": 2373,
+                                    "y": 3834,
+                                    "level": 0
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "key": {
+                        "pulse": 3,
+                        "different_level": false,
+                        "spot": {
+                            "x": 2354,
+                            "y": 3853,
+                            "level": 0
+                        }
+                    },
+                    "value": {
+                        "scan_spot_id": null,
+                        "children": [],
+                        "directions": "{{dive}} to {{target}}",
+                        "path": [
+                            {
+                                "type": "ability",
+                                "ability": "dive",
+                                "description": "{{dive}} north",
+                                "from": {
+                                    "x": 2355,
+                                    "y": 3848,
+                                    "level": 0
+                                },
+                                "to": {
+                                    "x": 2354,
+                                    "y": 3853,
+                                    "level": 0
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            "directions": "{{teleport naturessentinel arcticpine}} to Pine Trees",
+            "path": [
+                {
+                    "description": "Use {{teleport naturessentinel arcticpine}} to Arctic Pine Trees",
+                    "type": "teleport",
+                    "id": {
+                        "group": "naturessentinel",
+                        "sub": "arcticpine"
+                    }
+                }
+            ]
+        },
+        "spot_ordering": [
+            {
+                "x": 2354,
+                "y": 3790,
+                "level": 0
+            },
+            {
+                "x": 2360,
+                "y": 3799,
+                "level": 0
+            },
+            {
+                "x": 2324,
+                "y": 3808,
+                "level": 0
+            },
+            {
+                "x": 2322,
+                "y": 3787,
+                "level": 0
+            },
+            {
+                "x": 2311,
+                "y": 3801,
+                "level": 0
+            },
+            {
+                "x": 2340,
+                "y": 3803,
+                "level": 0
+            },
+            {
+                "x": 2342,
+                "y": 3809,
+                "level": 0
+            },
+            {
+                "x": 2330,
+                "y": 3829,
+                "level": 0
+            },
+            {
+                "x": 2311,
+                "y": 3835,
+                "level": 0
+            },
+            {
+                "x": 2376,
+                "y": 3800,
+                "level": 0
+            },
+            {
+                "x": 2381,
+                "y": 3789,
+                "level": 0
+            },
+            {
+                "x": 2402,
+                "y": 3789,
+                "level": 0
+            },
+            {
+                "x": 2421,
+                "y": 3792,
+                "level": 0
+            },
+            {
+                "x": 2397,
+                "y": 3801,
+                "level": 0
+            },
+            {
+                "x": 2419,
+                "y": 3833,
+                "level": 0
+            },
+            {
+                "x": 2395,
+                "y": 3812,
+                "level": 0
+            },
+            {
+                "x": 2373,
+                "y": 3834,
+                "level": 0
+            },
+            {
+                "x": 2314,
+                "y": 3851,
+                "level": 0
+            },
+            {
+                "x": 2326,
+                "y": 3866,
+                "level": 0
+            },
+            {
+                "x": 2326,
+                "y": 3850,
+                "level": 0
+            },
+            {
+                "x": 2354,
+                "y": 3853,
+                "level": 0
+            },
+            {
+                "x": 2349,
+                "y": 3880,
+                "level": 0
+            },
+            {
+                "x": 2312,
+                "y": 3894,
+                "level": 0
+            },
+            {
+                "x": 2352,
+                "y": 3892,
+                "level": 0
+            },
+            {
+                "x": 2414,
+                "y": 3848,
+                "level": 0
+            },
+            {
+                "x": 2418,
+                "y": 3870,
+                "level": 0
+            },
+            {
+                "x": 2377,
+                "y": 3850,
+                "level": 0
+            },
+            {
+                "x": 2400,
+                "y": 3870,
+                "level": 0
+            },
+            {
+                "x": 2368,
+                "y": 3870,
+                "level": 0
+            },
+            {
+                "x": 2417,
+                "y": 3893,
+                "level": 0
+            },
+            {
+                "x": 2399,
+                "y": 3888,
+                "level": 0
+            },
+            {
+                "x": 2389,
+                "y": 3899,
+                "level": 0
+            }
+        ],
+        "type": "scantree"
+    },
 ]
 export default raw

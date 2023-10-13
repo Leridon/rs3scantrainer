@@ -1,6 +1,7 @@
 Immediate next:
 - Fix naming of navigation links
 - Highlight incomplete branches in editor
+- Properly handle target where applicable
 - Compact TemplateStringEdit
 - Autoname areas
 

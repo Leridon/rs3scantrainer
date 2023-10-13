@@ -609,7 +609,7 @@ class ControlWidget extends Widget<{
             new MediumImageButton('assets/icons/shortcut.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
 
-                    new SelectShortcutInteraction(this.parent.map.getActiveLayer())
+                    new SelectShortcutInteraction(this.parent.map.getActiveLayer(), this.augmented.post_state.position?.tile)
                         .activate()
                         .tapEvents(e => e.on("selected", (s) => {
                             console.log(s)

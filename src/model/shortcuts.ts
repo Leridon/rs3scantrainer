@@ -2,29 +2,53 @@ import {MapCoordinate, MapRectangle} from "./coordinates";
 import {direction} from "./movement";
 import {Path} from "./pathing";
 import {Rectangle, Vector2} from "../util/math";
-import {range} from "lodash";
-import {Browser, rectangle} from "leaflet";
-import {Rect} from "@alt1/base";
-import {ExportImport} from "../util/exportString";
 
 export namespace Shortcuts {
 
-    type shortcut_start = { type: "area", area: MapRectangle } | { type: "tile", tile: MapCoordinate }
-    type shortcut_click = { type: "area", area: MapRectangle, where: "center" | "nearest" } | { type: "tile", tile: MapCoordinate }
-    type shortcut_movement = { type: "offset", offset: Vector2, level: number } | { type: "fixed", target: MapCoordinate }
+    type start_t = { type: "area", area: MapRectangle } | { type: "tile", tile: MapCoordinate }
+    type click_t = { type: "area", area: MapRectangle, where: "center" | "nearest" } | { type: "tile", tile: MapCoordinate }
+    type movement_t = { type: "offset", offset: Vector2, level: number } | { type: "fixed", target: MapCoordinate }
+
+    export namespace start {
+        export function get(start: start_t, position: MapCoordinate | null): MapCoordinate {
+            if (start.type == "tile") return start.tile
+            else if (start.type == "area") {
+                if (position != null) return MapRectangle.clampInto(position, start.area)
+                else return MapRectangle.tl(start.area)
+            }
+        }
+    }
+
+    export namespace click {
+        export function get(click: click_t, position: MapCoordinate | null): MapCoordinate {
+            if (click.type == "tile") return click.tile
+            else if (click.type == "area") {
+                if (click.where == "nearest" && position != null) return MapRectangle.clampInto(position, click.area)
+                else return MapRectangle.center(click.area)
+            }
+        }
+    }
+
+    export namespace movement {
+        export function get(movement: movement_t, start: MapCoordinate): MapCoordinate {
+            if (movement.type == "fixed") return movement.target
+            else if (movement.type == "offset") return MapCoordinate.lift(Vector2.add(start, movement.offset), movement.level)
+
+        }
+    }
 
     export type shortcut = {
         name: string,
         ticks: number,
         forced_orientation: direction | null,
         how: Path.InteractionType,
-        start: shortcut_start,
-        click: shortcut_click,
-        movement: shortcut_movement
+        start: start_t,
+        click: click_t,
+        movement: movement_t
     }
 
     export namespace shortcut {
-        
+
     }
 
     export function create_index(): shortcut[] {

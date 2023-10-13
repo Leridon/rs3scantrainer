@@ -61,6 +61,14 @@ export namespace MapCoordinate {
     export function toString(coordinate: MapCoordinate): string {
         return `${coordinate.x}|${coordinate.y}|${coordinate.level}`
     }
+
+    export function snap(coordinate: MapCoordinate): MapCoordinate {
+        return {
+            x: Math.round(coordinate.x),
+            y: Math.round(coordinate.y),
+            level: coordinate.level
+        }
+    }
 }
 
 export namespace MapRectangle {

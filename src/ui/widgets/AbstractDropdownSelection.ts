@@ -152,7 +152,9 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
                 }
             })
             .on("focusout", (e) => {
-                if (!(e.originalEvent.relatedTarget instanceof HTMLElement && this.dropdown.container.has(e.originalEvent.relatedTarget).length == 0)) {
+                if (!(e.originalEvent.relatedTarget instanceof HTMLElement)
+                    || (!this.dropdown.container.is(e.originalEvent.relatedTarget) && this.dropdown.container.has(e.originalEvent.relatedTarget).length == 0)
+                ) {
                     this.hideDropdown()
                 }
             })

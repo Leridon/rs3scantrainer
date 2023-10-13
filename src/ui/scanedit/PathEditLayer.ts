@@ -404,7 +404,7 @@ class ControlWidget extends Widget<{
     }
 
     public async render(): Promise<this> {
-        this.augmented = await Path.augment(this.value)
+        this.augmented = await Path.augment(this.value, this.options.start_state, this.options.target)
 
         this.resetPreviewLayer()
 

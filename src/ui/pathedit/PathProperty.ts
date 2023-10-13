@@ -28,13 +28,13 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
     }) {
         super()
 
-        this.render()
+        this.value = []
     }
 
     protected async render() {
         this.empty()
 
-        this.augmented = await Path.augment(this.value)
+        this.augmented = await Path.augment(this.value, this.options.start_state)
 
         let content = c("<div style='display: flex'></div>").appendTo(this)
 

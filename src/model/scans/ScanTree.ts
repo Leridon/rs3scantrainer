@@ -265,7 +265,7 @@ export namespace ScanTree {
                 children: []
             }
 
-            let cloned_state = t.path.post_state
+            let cloned_state = lodash.cloneDeep(t.path.post_state)
             cloned_state.tick += 1 // Assume 1 tick reaction time between steps. Approximation, but may help to make timings and cooldowns more realistic
 
             t.root = parent == null ? t : parent.node.root

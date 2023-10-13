@@ -205,6 +205,8 @@ export namespace Path {
                                   target: MapRectangle = null): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
+        if (path == null) debugger
+
         let state: movement_state = lodash.cloneDeep(start_state)
 
         // null positions are a pain, replace with position with unknown tile and direction

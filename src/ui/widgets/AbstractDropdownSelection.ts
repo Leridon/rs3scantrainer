@@ -151,8 +151,10 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
                     this.setHighlight(this._selectableItems[Math.max(0, this._selectableItems.indexOf(this.highlighted_value) - 1)])
                 }
             })
-            .on("focusout blur", (e) => {
-                this.hideDropdown()
+            .on("focusout", (e) => {
+                if (!(e.originalEvent.relatedTarget instanceof HTMLElement && this.dropdown.container.has(e.originalEvent.relatedTarget).length == 0)) {
+                    this.hideDropdown()
+                }
             })
             .focus() // The deprecation warning here is for a different overload
         )

@@ -5,7 +5,6 @@ Immediate next:
 - Compact TemplateStringEdit
 - Autoname areas
 
-- [Bug] Clicking doesn't work for search selects
 - Make fit include the entire path
 - Display timing in spot view
 - Include icon of interaction for redclick graphics

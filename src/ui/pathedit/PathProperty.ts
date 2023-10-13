@@ -7,12 +7,8 @@ import MovementStateView from "./MovementStateView";
 import {MapRectangle} from "../../model/coordinates";
 import Properties from "../widgets/Properties";
 import SmallImageButton from "../widgets/SmallImageButton";
-import {direction} from "../../model/movement";
-import {scantrainer} from "../../application";
-import {teleport_data} from "../../data/teleport_data";
-import {Teleports} from "../../model/teleports";
-import InteractionType = Path.InteractionType;
 import {PathGraphics} from "../map/path_graphics";
+import Button from "../widgets/inputs/Button";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw, {
     "loaded_to_editor": null,
@@ -22,11 +18,24 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
 
     private augmented: Path.augmented
 
+    private reset_button: Button = null
+    private edit_button: Button = null
+
     constructor(private map: GameMapControl, public options: {
         target?: MapRectangle,
         start_state?: Path.movement_state
     }) {
-        super()
+        super($("<div style='display: flex'></div>"))
+
+        this.container.on("mouseover", () => {
+            if (this.reset_button) this.reset_button.setVisible(true)
+            if (this.edit_button) this.edit_button.setVisible(true)
+        })
+
+        this.container.on("mouseleave", () => {
+            if (this.reset_button) this.reset_button.setVisible(false)
+            if (this.edit_button) this.edit_button.setVisible(false)
+        })
 
         this.value = []
     }
@@ -60,8 +69,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
 
         this.augmented = await Path.augment(this.value, this.options.start_state, this.options.target)
 
-        let content = c("<div style='display: flex'></div>").appendTo(this)
-
         {
             let tooltip = c()
             tooltip.append(new Properties().header("Start State"))
@@ -71,7 +78,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
 
             let preview = c("<div class='ctr-path-property-preview'></div>")
                 .addTippy(tooltip)
-                .appendTo(content)
+                .appendTo(this)
                 .tapRaw(r => r.on("click", async () => await this.edit()))
 
             {
@@ -90,26 +97,31 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             }
 
             {
-                let html = this.augmented.steps.map((step, i) => PathGraphics.asSpan(step.raw)).join("|")
+                let html = this.augmented.steps.length > 0
+                    ? this.augmented.steps.map((step, i) => PathGraphics.asSpan(step.raw)).join("|")
+                    : "Empty path"
 
                 let preview_span = c("<span>").appendTo(preview).container.html(html)
             }
         }
 
-        SmallImageButton.new("assets/icons/edit.png")
+        this.edit_button = SmallImageButton.new("assets/icons/edit.png")
             .css("margin-left", "2px")
-            .setEnabled(!!this.value && !this.loaded)
+            .setEnabled(!this.loaded)
+            .setVisible(false)
             .on("click", async () => await this.edit())
-            .appendTo(content)
+            .appendTo(this)
 
-        SmallImageButton.new("assets/icons/reset.png")
+        this.reset_button = SmallImageButton.new("assets/icons/reset.png")
             .css("margin-left", "2px")
+            .setEnabled(!this.loaded && this.value.length > 0)
+            .setVisible(false)
             .on("click", async () => {
                 this.changed([])
 
                 await this.update()
             })
-            .appendTo(content)
+            .appendTo(this)
 
 
         /*

@@ -70,6 +70,9 @@ export namespace ScanTree {
         }[]
     }
 
+    export type completeness_t = "complete" | "incomplete_children" | "incomplete"
+    export type correctness_t = "correct" | "correct_with_warnings" | "error" | "error_in_children"
+
     export type augmented_decision_tree = {
         raw: decision_tree,
         raw_root: tree,
@@ -87,7 +90,9 @@ export namespace ScanTree {
         children: {
             key: Pulse,
             value: augmented_decision_tree
-        }[]
+        }[],
+        completeness?: completeness_t,
+        correctness?: correctness_t,
     }
 
     export function traverse(tree: decision_tree, f: (_: decision_tree) => void): void {
@@ -185,7 +190,28 @@ export namespace ScanTree {
         return self.spot_ordering.findIndex((s) => Vector2.eq(s, spot)) + 1
     }
 
-    export async function augment(tree: resolved_scan_tree): Promise<augmented_decision_tree> {
+    export function analyze_correctness(tree: augmented_decision_tree): augmented_decision_tree {
+        tree.children.forEach(c => analyze_correctness(c.value))
+
+        let cs = tree.children.map(c => c.value)
+
+        let issues = Path.collect_issues(tree.path)
+
+        if (issues.some(i => i.level == 0)) tree.correctness = "error"
+        else if (cs.some(c => c.correctness == "error" || c.correctness == "error_in_children")) tree.correctness = "error_in_children"
+        else if (issues.some(i => i.level == 1) || cs.some(c => c.correctness == "correct_with_warnings")) tree.correctness = "correct_with_warnings"
+        else tree.correctness = "correct"
+
+        if (tree.remaining_candidates && cs.length == 0) tree.completeness = "incomplete"
+        else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children")) tree.completeness = "incomplete_children"
+        else tree.completeness = "complete"
+
+        return tree
+    }
+
+    export async function augment(tree: resolved_scan_tree, options: {
+        analyze_completeness?: boolean
+    }= {}): Promise<augmented_decision_tree> {
         async function helper(
             node: decision_tree,
             parent: { node: augmented_decision_tree, key: PulseInformation },
@@ -251,7 +277,11 @@ export namespace ScanTree {
 
         tree = await normalize(tree)    // TODO: This is probably something that can (and should) be combined
 
-        return helper(tree.root, null, 0, tree.clue.solution.candidates, [], movement_state.start());
+        let aug_tree = await helper(tree.root, null, 0, tree.clue.solution.candidates, [], movement_state.start())
+
+        if(options.analyze_completeness) aug_tree = analyze_correctness(aug_tree)
+
+        return aug_tree
     }
 
     export class ScanExplanationModal extends Modal {

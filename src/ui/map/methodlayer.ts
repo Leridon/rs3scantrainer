@@ -138,7 +138,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         this.setSpotOrder(scantree.spot_ordering)
 
-        this.areas = scantree.areas.map((s) => new SpotPolygon(s).addTo(this))
+        this.areas = []// TODO: Area polygons! //scantree.areas.map((s) => new SpotPolygon(s).addTo(this))
 
         this.path_graphics = leaflet.featureGroup().addTo(this)
 

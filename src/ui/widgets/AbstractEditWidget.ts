@@ -10,8 +10,8 @@ export default abstract class AbstractEditWidget<T, AdditionalEvents extends Rec
 
     protected value: T = null
 
-    protected constructor() {
-        super();
+    protected constructor(container: JQuery = null) {
+        super(container);
     }
 
     protected changed(v: T) {

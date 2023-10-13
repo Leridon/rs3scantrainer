@@ -104,6 +104,10 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
         return this
     }
+
+    html(): string {
+        return this.raw().outerHTML
+    }
 }
 
 declare global {

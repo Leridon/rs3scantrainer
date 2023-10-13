@@ -73,7 +73,6 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
             let edit_button = SmallImageButton.new("assets/icons/edit.png")
                 .css("margin-left", "2px")
                 .tooltip("Edit")
-                .setEnabled(!!this.options.generator)
                 .on("click", () => {
                     this.startEdit()
                 })

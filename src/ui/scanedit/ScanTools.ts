@@ -1,7 +1,7 @@
 import Widget from "../widgets/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import * as leaflet from "leaflet"
-import Checkbox from "../widgets/Checkbox";
+import Checkbox from "../widgets/inputs/Checkbox";
 import {ScanEquivalenceClasses} from "../../model/scans/scans";
 import {ScanTree} from "../../model/scans/ScanTree";
 import assumedRange = ScanTree.assumedRange;

@@ -20,6 +20,7 @@ import {resolve} from "./model/methods";
 import methods from "./data/methods";
 import {makeshift_main} from "./main";
 import {MapRectangle} from "./model/coordinates";
+import {PathGraphics} from "./ui/map/path_graphics";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -78,11 +79,11 @@ export namespace ScanTrainerCommands {
     }> = {
         name: "load_method",
         parser: {
-           // method: (a) => imp<ScanTree.indirect_scan_tree>({expected_type: "scantree", expected_version: 0})(a)
+            // method: (a) => imp<ScanTree.indirect_scan_tree>({expected_type: "scantree", expected_version: 0})(a)
         },
         default: {},
         serializer: {
-           // method: (a) => exp({type: "scantree", version: 0}, true, true)(a)
+            // method: (a) => exp({type: "scantree", version: 0}, true, true)(a)
         },
         instantiate: ({method}) => (app: Application): void => {
             let resolved = resolve(method)
@@ -217,7 +218,8 @@ export class Application {
 
                 if (!tele) return "NULL"
 
-                return `<span style="position: relative" title="${tele.hover}"><img class='text-icon' src='assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}' title="${tele.hover}"><div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+
+                return PathGraphics.Teleport.asSpan(tele)
             }],
             ["icon", (args) => {
                 return `<img class='text-icon' src='assets/icons/${args[0]}.png'>`
@@ -254,7 +256,7 @@ export class Application {
         if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
-        // ExportStringModal.do(await makeshift_main())
+        //ExportStringModal.do(await makeshift_main())
     }
 }
 

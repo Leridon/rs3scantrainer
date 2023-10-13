@@ -11,7 +11,7 @@ import {Path} from "../../../model/pathing";
 import {tilePolygon} from "../polygon_helpers";
 import {Vector2} from "../../../util/math";
 import Properties from "../../widgets/Properties";
-import Checkbox from "../../widgets/Checkbox";
+import Checkbox from "../../widgets/inputs/Checkbox";
 import {util} from "../../../util/util";
 import swap = util.swap;
 

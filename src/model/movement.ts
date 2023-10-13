@@ -174,6 +174,20 @@ export namespace direction {
         ][dir]
     }
 
+    export function toShortString(dir: direction): string {
+        return [
+            "C",
+            "W",
+            "N",
+            "E",
+            "S",
+            "NW",
+            "NE",
+            "SE",
+            "SW"
+        ][dir]
+    }
+
     export const west = 1
     export const north = 2
     export const east = 3

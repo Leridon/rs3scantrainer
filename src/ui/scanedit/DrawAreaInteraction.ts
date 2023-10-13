@@ -47,7 +47,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
     update_preview() {
         if (this._preview_polygon) this._preview_polygon.remove()
 
-        this._preview_polygon = new SpotPolygon({id: -1, name: "", area: this.last_area}).addTo(this.layer)
+        this._preview_polygon = new SpotPolygon({name: "", area: this.last_area}).addTo(this.layer)
     }
 
     _maphooks: leaflet.LeafletEventHandlerFnMap = {

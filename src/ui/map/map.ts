@@ -353,11 +353,7 @@ export class GameMapControl extends Widget<{
     }
 
     tileFromMouseEvent(e: leaflet.LeafletMouseEvent): MapCoordinate {
-        return {
-            x: Math.round(e.latlng.lng),
-            y: Math.round(e.latlng.lat),
-            level: this.floor
-        }
+        return MapCoordinate.snap(this.coordinateWithLevel(e))
     }
 
     coordinateWithLevel(e: leaflet.LeafletMouseEvent): MapCoordinate {

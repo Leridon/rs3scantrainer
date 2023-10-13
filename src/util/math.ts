@@ -4,10 +4,10 @@ import * as leaflet from "leaflet";
 export type Vector2 = { x: number, y: number }
 
 export namespace Vector2 {
-    export function add(a: Vector2, b: Vector2): Vector2 {
+    export function add(...a: Vector2[]): Vector2 {
         return {
-            x: a.x + b.x,
-            y: a.y + b.y
+            x: a.map(v => v.x).reduce((c, d) => c + d, 0),
+            y: a.map(v => v.y).reduce((c, d) => c + d, 0),
         }
     }
 
@@ -24,6 +24,7 @@ export namespace Vector2 {
             y: v.y * f
         }
     }
+
     export function length(a: Vector2): number {
         return Math.sqrt(a.x * a.x + a.y * a.y)
     }
@@ -124,5 +125,33 @@ export namespace Rectangle {
         let br = leaflet.point(box.botright)
 
         return leaflet.bounds(tl, br)
+    }
+
+    export function left(rect: Rectangle): Rectangle {
+        return {
+            topleft: {x: rect.topleft.x, y: rect.topleft.y},
+            botright: {x: rect.topleft.x, y: rect.botright.y}
+        }
+    }
+
+    export function right(rect: Rectangle): Rectangle {
+        return {
+            topleft: {x: rect.botright.x, y: rect.topleft.y},
+            botright: {x: rect.botright.x, y: rect.botright.y}
+        }
+    }
+
+    export function top(rect: Rectangle): Rectangle {
+        return {
+            topleft: {x: rect.topleft.x, y: rect.topleft.y},
+            botright: {x: rect.botright.x, y: rect.topleft.y}
+        }
+    }
+
+    export function bottom(rect: Rectangle): Rectangle {
+        return {
+            topleft: {x: rect.topleft.x, y: rect.botright.y},
+            botright: {x: rect.botright.x, y: rect.botright.y}
+        }
     }
 }

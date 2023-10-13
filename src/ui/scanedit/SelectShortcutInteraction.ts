@@ -9,6 +9,7 @@ import * as tippy from 'tippy.js';
 import ContextMenu from "../widgets/ContextMenu";
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import Widget from "../widgets/Widget";
+import {MapCoordinate} from "../../model/coordinates";
 
 export default class SelectShortcutInteraction extends LayerInteraction<ActiveLayer, {
     "selected": Path.step_interact,
@@ -18,11 +19,11 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
     shortcuts_layer: OpacityGroup = new OpacityGroup()
     context_menu: tippy.Instance<tippy.Props>
 
-    constructor(layer: ActiveLayer) {
+    constructor(layer: ActiveLayer, private position: MapCoordinate | null) {
         super(layer);
 
         Shortcuts.index.forEach(s => {
-            leaflet.marker(Vector2.toLatLong(s.where), {
+            leaflet.marker(Vector2.toLatLong(Shortcuts.click.get(s.click, null)), {
                 icon: leaflet.icon({
                     iconUrl: Path.InteractionType.meta(s.how).icon_url,
                     iconSize: [28, 31],
@@ -66,7 +67,7 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
 
             let menu = new ContextMenu<{
                 shortcut: Shortcuts.shortcut | null,
-            }>(Shortcuts.index.filter(s => Vector2.max_axis(Vector2.sub(s.where, tile)) < 0.5)
+            }>(Shortcuts.index.filter(s => Vector2.max_axis(Vector2.sub(Shortcuts.click.get(s.click, null), tile)) < 0.5)
                 .map(s => ({
                     value: {shortcut: s},
                     widget: c().text(s.name),
@@ -78,28 +79,36 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
                 .on("cancelled", () => this.context_menu.hide())
                 .on("selected", s => {
 
-                    let short: Path.step_interact =
-                        s.shortcut
-                            ? ({
-                                description: s.shortcut.name,
-                                type: "interaction",
-                                ticks: s.shortcut.ticks,
-                                where: s.shortcut.where,
-                                starts: s.shortcut.starts,
-                                ends_up: s.shortcut.ends_up,
-                                forced_direction: s.shortcut.forced_orientation,
-                                how: s.shortcut.how
-                            })
-                            : Path.auto_describe({
-                                description: "",
-                                type: "interaction",
-                                ticks: s.shortcut.ticks,
-                                where: s.shortcut.where,
-                                starts: s.shortcut.starts,
-                                ends_up: s.shortcut.ends_up,
-                                forced_direction: s.shortcut.forced_orientation,
-                                how: s.shortcut.how
-                            })
+                    let short: Path.step_interact = null
+
+                    if(s.shortcut) {
+
+                        let starts = Shortcuts.start.get(s.shortcut.start, this.position)
+
+                        short = {
+                            type: "interaction",
+                            description: s.shortcut.name,
+                            ticks: s.shortcut.ticks,
+                            where: Shortcuts.click.get(s.shortcut.click, this.position),
+                            starts: starts,
+                            ends_up: Shortcuts.movement.get(s.shortcut.movement, starts),
+                            forced_direction: s.shortcut.forced_orientation,
+                            how: s.shortcut.how
+                        }
+                    } else {
+                        let snapped = MapCoordinate.snap(tile)
+
+                        short = Path.auto_describe({
+                            type: "interaction",
+                            description: "",
+                            ticks: 3,
+                            where: snapped,
+                            starts: snapped,
+                            ends_up: snapped,
+                            forced_direction: null,
+                            how: "generic"
+                        })
+                    }
 
                     this.context_menu.hide()
 

@@ -61,29 +61,37 @@ export namespace MapCoordinate {
     export function toString(coordinate: MapCoordinate): string {
         return `${coordinate.x}|${coordinate.y}|${coordinate.level}`
     }
+
+    export function snap(coordinate: MapCoordinate): MapCoordinate {
+        return {
+            x: Math.round(coordinate.x),
+            y: Math.round(coordinate.y),
+            level: coordinate.level
+        }
+    }
 }
 
 export namespace MapRectangle {
-    import lift = MapCoordinate.lift
+    import lift_tile = MapCoordinate.lift
 
     export function contains(box: MapRectangle, tile: MapCoordinate) {
         return tile.level == box.level && Rectangle.contains(box, tile)
     }
 
     export function clampInto(pos: MapCoordinate, area: MapRectangle): MapCoordinate {
-        return lift(Rectangle.clampInto(pos, area), pos.level)
+        return lift_tile(Rectangle.clampInto(pos, area), pos.level)
     }
 
     export function tl(rect: MapRectangle): MapCoordinate {
-        return lift(rect.topleft, rect.level)
+        return lift_tile(rect.topleft, rect.level)
     }
 
     export function br(rect: MapRectangle): MapCoordinate {
-        return lift(rect.botright, rect.level)
+        return lift_tile(rect.botright, rect.level)
     }
 
     export function center(rect: MapRectangle): MapCoordinate {
-        return lift(Rectangle.center(rect), rect.level)
+        return lift_tile(Rectangle.center(rect), rect.level)
     }
 
     export function fromTile(tile: MapCoordinate): MapRectangle {
@@ -94,6 +102,27 @@ export namespace MapRectangle {
             topleft: {x: tile.x, y: tile.y},
             botright: {x: tile.x, y: tile.y},
         }
+    }
+
+    export function lift(v: Rectangle, level: number): MapRectangle {
+        return {...v, level: level}
+    }
+
+
+    export function left(rect: MapRectangle): MapRectangle {
+        return lift(Rectangle.left(rect), rect.level)
+    }
+
+    export function right(rect: MapRectangle): MapRectangle {
+        return lift(Rectangle.right(rect), rect.level)
+    }
+
+    export function top(rect: MapRectangle): MapRectangle {
+        return lift(Rectangle.top(rect), rect.level)
+    }
+
+    export function bottom(rect: MapRectangle): MapRectangle {
+        return lift(Rectangle.bottom(rect), rect.level)
     }
 }
 

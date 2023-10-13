@@ -104,6 +104,10 @@ export namespace MapRectangle {
         }
     }
 
+    export function isTile(rect: MapRectangle): boolean {
+        return Vector2.eq(rect.topleft, rect.botright)
+    }
+
     export function lift(v: Rectangle, level: number): MapRectangle {
         return {...v, level: level}
     }

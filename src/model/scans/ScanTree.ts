@@ -179,8 +179,10 @@ export namespace ScanTree {
 
     export async function normalize(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.resolved_scan_tree> {
         async function helper(node: decision_tree, candidates: MapCoordinate[], pre_state: Path.movement_state): Promise<void> {
+
             let region = get_target_region(tree, node)
-            let augmented_path = await Path.augment(node.path, pre_state, region?.area)
+
+            let augmented_path = await Path.augment(node.path, pre_state, candidates.length == 1 ? dig_area(candidates[0]) : region?.area)
 
             let area = region?.area ||
                 MapRectangle.fromTile(augmented_path.post_state?.position?.tile)
@@ -251,13 +253,15 @@ export namespace ScanTree {
 
             let region = get_target_region(tree, node)
 
+            let augmented_path = await Path.augment(node.path, start_state, remaining_candidates.length == 1 ? dig_area(remaining_candidates[0]) : region?.area)
+
             let t: augmented_decision_tree = {
                 //directions: null,
                 raw_root: tree,
                 root: null,
                 parent: parent,
                 region: null,
-                path: await Path.augment(node.path, start_state, region?.area),
+                path: augmented_path,
                 raw: node,
                 depth: depth,
                 remaining_candidates: remaining_candidates,

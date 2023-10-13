@@ -1,4 +1,4 @@
-import AbstractEditWidget from "./AbstractEditWidget";
+import AbstractEditWidget from "../AbstractEditWidget";
 
 export default class Checkbox extends AbstractEditWidget<boolean> {
     input: JQuery

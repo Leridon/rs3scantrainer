@@ -194,10 +194,10 @@ export namespace Path {
         post_state: movement_state,
         raw: Path.step,
         section?: number,
-        issues: issue[] // 0 = error, 1 = warning
+        issues: issue[]
     }
 
-    export type issue_level = 0 | 1
+    export type issue_level = 0 | 1 // 0 = error, 1 = warning
     export type issue = { level: issue_level, message: string }
 
     export async function augment(path: Path.step[],

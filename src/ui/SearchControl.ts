@@ -7,7 +7,6 @@ export default class SearchControl {
     private are_controls_visible = true
 
     private search_box =
-
         $("#cluesearchbox")
             .on("input", (e) => {
                 this.update()

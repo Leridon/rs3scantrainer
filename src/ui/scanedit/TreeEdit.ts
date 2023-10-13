@@ -4,25 +4,77 @@ import {ScanTree} from "../../model/scans/ScanTree";
 import tree_node = ScanTree.decision_tree;
 import augmented_tree = ScanTree.augmented_decision_tree;
 import ScanDecision = ScanTree.ScanInformation;
-import spot_narrowing = ScanTree.spot_narrowing;
-import {MapCoordinate, MapRectangle} from "../../model/coordinates";
-import assumedRange = ScanTree.assumedRange;
 import {Pulse} from "../../model/scans/scans";
 import {util} from "../../util/util";
-import {DropdownSelection} from "../widgets/DropdownSelection";
 import Properties from "../widgets/Properties";
 import natural_join = util.natural_join;
-import {Path} from "../../model/pathing";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
-import Checkbox from "../widgets/Checkbox";
 import Order = util.Order;
 import {PathingGraphics} from "../map/path_graphics";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
-import {Layer} from "leaflet";
-import ScanSpot = ScanTree.ScanRegion;
+import Checkbox from "../widgets/inputs/Checkbox";
+import TextField from "../widgets/inputs/TextField";
+import SmallImageButton from "../widgets/SmallImageButton";
+import AbstractEditWidget from "../widgets/AbstractEditWidget";
+import ScanRegion = ScanTree.ScanRegion;
+import {SpotPolygon} from "../map/layers/ScanLayer";
+
+class RegionEdit extends AbstractEditWidget<ScanRegion | null> {
+    constructor() {
+        super($("<div style='display: flex'></div>"));
+
+        this.render()
+    }
+
+    private render() {
+        this.empty()
+
+        let is_defined = !!this.value
+
+        new Checkbox().setValue(is_defined)
+            .on("changed", (v) => {
+                if (v) {
+                    this.changed({
+                        name: "",
+                        area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}, level: 0}
+                    })
+                } else this.changed(null)
+
+                this.render()
+            })
+            .appendTo(this)
+
+        if (is_defined) {
+            new TextField()
+                .setValue(this.value.name)
+                .css("flex-grow", "1")
+                .appendTo(this)
+
+            SmallImageButton.new("assets/icons/edit.png")
+                .css("margin-left", "2px")
+                .on("click", async () => {
+                })
+                .appendTo(this)
+
+            SmallImageButton.new("assets/icons/regenerate.png")
+                .css("margin-left", "2px")
+                .on("click", async () => {
+                })
+                .appendTo(this)
+        }
+    }
+
+    override update() {
+        this.render()
+    }
+}
+
+function render_completeness(completeness: ScanTree.completeness_t): Widget {
+    return c("<span>").text("\u2713")
+}
 
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree
@@ -30,17 +82,20 @@ class TreeNodeEdit extends Widget<{
     constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
         super()
 
-        let decision_path_text = ([""].concat(node.information.map(d => ScanDecision.toString(d)))).join("/")
+        let decision_path_text = "/" + node.information.map(d => ScanDecision.toString(d)).join("/")
         let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
             (n) => `<span class="ctr-digspot-inline">${n}</span>`
         ), "and")
 
-        let header = c(`<div style="overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold"></div>`).appendTo(this)
+        let header = c(`<div style="overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`).appendTo(this)
             .append(c(`<span class='nisl-textlink'>${decision_path_text}: </span>`).tooltip("Load decisions into map")
                 .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.information)))
             )
-            .append(c(`<span>${node.remaining_candidates.length} Spots, ${spot_text}</span>`))
+            .append(c(`<span>${spot_text}</span>`))
+            .append(render_completeness(node.completeness))
 
+
+        /*
         type T = {
             remove?: boolean,
             create_new?: boolean,
@@ -59,17 +114,16 @@ class TreeNodeEdit extends Widget<{
         options.push({create_new_from_path: true})
 
         if (node.raw?.scan_spot_id != null) options.push({remove: true})
-        else options.push({area: null})
+        else options.push({area: null})*/
 
         let props = new Properties().appendTo(this)
 
-        let path_row = c("<div style='display: flex'></div>")
+        //let path_row = c("<div style='display: flex'></div>")
 
-        new PathProperty(parent.parent.layer.getMap(), {
+        let prop = new PathProperty(parent.parent.layer.getMap(), {
             target: this.node.path.target,
             start_state: this.node.path.pre_state
         })
-            .appendTo(path_row)
             .on("changed", v => {
                 this.node.raw.path = v
                 this.emit("changed", node.raw)
@@ -83,50 +137,11 @@ class TreeNodeEdit extends Widget<{
             .setValue(this.node.raw.path)
 
 
+        props.named("Path", prop)
+
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
-            c("<div style='display: flex; flex-grow: 1'></div>")
-                .appendTo(path_row)
-                .append(c("<span>Region: </span>"))
-                .append(
-                    new DropdownSelection<T>({
-                        can_be_null: false,
-                        null_value: null,
-                        type_class: {
-                            toHTML(v: T): Widget {
-                                if (v.remove) return c("<div>- Remove</div>")
-                                if (v.create_new) return c("<div>+ New</div>")
-                                if (v.create_new_from_path) return c("<div>+ from Path</div>")
-                                if (!v.area) return c("<div> - </div>")
-                                else return c("<div class='ctr-scanspot-inline'></div>").text(v.area.name)
-                            }
-                        }
-                    }, options)
-                        .css("flex-grow", "1")
-                        .setValue({area: node.region})
-                        .on("selection_changed", async (s) => {
-                            if (s.remove) {
-                                Object.assign(node.raw, ScanTree.init_leaf())
-                            } else if (s.create_new) {
-                                let area = await this.parent.parent.areas.create_new_area()
-
-                                this.setTarget(area)
-                            } else if (s.create_new_from_path) {
-                                this.setTarget(ScanTree.createNewSpot(
-                                    this.node.raw_root,
-                                    MapRectangle.fromTile(this.node.path.post_state.position.tile)))
-
-                            } else if (s.area.id != node.raw.scan_spot_id) {
-                                this.setTarget(s.area)
-                            }
-
-                            // TODO: Make a proper change-interface
-                            parent.emit("changed", parent.value)
-                            parent.update()
-                        })
-                )
+            props.named("Region", new RegionEdit().setValue(this.node.raw.region))
         }
-
-        props.named("Path", path_row);
 
         props.named("Direction",
             new TemplateStringEdit({
@@ -150,13 +165,13 @@ class TreeNodeEdit extends Widget<{
         )
     }
 
-    private setTarget(target: ScanSpot) {
-        this.node.raw.scan_spot_id = target.id
-    }
-
-    preview_polyons: Layer[] = null
+    region_preview: SpotPolygon = null
 
     updatePreview(layer: OpacityGroup) {
+        if (this.node.raw.region) {
+            this.region_preview = new SpotPolygon(this.node.raw.region).addTo(layer)
+        }
+
         return PathingGraphics.renderPath(this.node.raw.path).addTo(layer)
     }
 }
@@ -188,16 +203,16 @@ export default class TreeEdit extends Widget<{
     children: TreeNodeEdit[] = []
 
     private async renderContent() {
-        let augmented = await ScanTree.augment(this.parent.value)
+        let augmented = await ScanTree.augment(this.parent.value, {analyze_completeness: true})
 
         let self = this
 
-        new Properties().appendTo(this)
+        /*new Properties().appendTo(this)
             .named("Hide Paths?", new Checkbox().setValue(self.hide_paths).on("changed", (v) => {
                 self.hide_paths = v
                 self.update()
                 this.emit("preview_invalidated", null)
-            }))
+            }))*/
 
         this.children = []
 
@@ -239,8 +254,6 @@ export default class TreeEdit extends Widget<{
     }
 
     async updatePreview(layer: OpacityGroup) {
-        console.log(this.children.length)
-
         await this.render_promise
 
         if (!this.hide_paths) this.children.forEach(c => c.updatePreview(layer))

@@ -23,7 +23,7 @@ import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import TeleportSelect from "../pathedit/TeleportSelect";
 import {Teleports} from "../../model/teleports";
 import {teleport_data} from "../../data/teleport_data";
-import Checkbox from "../widgets/Checkbox";
+import Checkbox from "../widgets/inputs/Checkbox";
 import {boxPolygon, tilePolygon} from "../map/polygon_helpers";
 import MovementStateView from "../pathedit/MovementStateView";
 import * as lodash from "lodash"

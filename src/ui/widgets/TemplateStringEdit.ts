@@ -2,6 +2,7 @@ import Widget from "./Widget";
 import TemplateResolver from "../../util/TemplateResolver";
 import AbstractEditWidget from "./AbstractEditWidget";
 import SmallImageButton from "./SmallImageButton";
+import Button from "./inputs/Button";
 
 export default class TemplateStringEdit extends AbstractEditWidget<string> {
 
@@ -11,12 +12,28 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
     preview_container: Widget
 
     instruction_input: Widget = null
+    generate_button: Button = null
+    edit_button: Button = null
 
     constructor(private options: {
         resolver: TemplateResolver,
         generator?: () => string
     }) {
         super()
+
+        this.container.on("mouseover", () => {
+            if (this.edit_mode) return
+
+            if (this.generate_button) this.generate_button.setVisible(true)
+            if (this.edit_button) this.edit_button.setVisible(true)
+        })
+
+        this.container.on("mouseleave", () => {
+            if (this.edit_mode) return
+
+            if (this.generate_button) this.generate_button.setVisible(false)
+            if (this.edit_button) this.edit_button.setVisible(false)
+        })
 
         this.addClass("ctr-template-string-edit")
 
@@ -30,15 +47,14 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
 
         this.main_row = c("<div class='ctr-template-string-edit-input-row'></div>")
 
-        let generate_btn = SmallImageButton.new("assets/icons/regenerate.png")
+        this.generate_button = SmallImageButton.new("assets/icons/regenerate.png")
             .css("margin-left", "2px")
             .tooltip("Auto generate")
             .setEnabled(!!this.options.generator)
             .on("click", () => {
                 this.setValue(this.options.generator())
                 this.changed(this.value)
-            })
-
+            }).setVisible(this.edit_mode)
 
         if (this.edit_mode) {
             this.instruction_input = c("<input type='text' class='nisinput'>")
@@ -64,21 +80,20 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
 
             this.main_row
                 .append(this.instruction_input)
-                .append(generate_btn)
+                .append(this.generate_button)
                 .appendTo(this)
 
-            this.preview_container = c("<div style='padding-left: 5px'>").appendTo(this)
+            this.preview_container = c().appendTo(this)
 
         } else {
-            let edit_button = SmallImageButton.new("assets/icons/edit.png")
+            this.edit_button = SmallImageButton.new("assets/icons/edit.png")
                 .css("margin-left", "2px")
                 .tooltip("Edit")
-                .setEnabled(!!this.options.generator)
                 .on("click", () => {
                     this.startEdit()
-                })
+                }).setVisible(false)
 
-            this.preview_container = c("<span style='padding-left: 5px; cursor: pointer; flex-grow: 1'>")
+            this.preview_container = c("<span style='cursor: pointer; flex-grow: 1'>")
                 .tooltip("Edit")
                 .tapRaw(r => r.on("click", () => {
                     this.startEdit()
@@ -86,8 +101,8 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
 
             this.main_row
                 .append(this.preview_container)
-                .append(edit_button)
-                .append(generate_btn)
+                .append(this.edit_button)
+                .append(this.generate_button)
                 .appendTo(this)
         }
 

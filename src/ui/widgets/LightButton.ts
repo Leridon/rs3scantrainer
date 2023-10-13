@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "./inputs/Button";
 
 export default class LightButton extends Button {
     constructor(text: string = "Button") {

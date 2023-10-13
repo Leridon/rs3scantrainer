@@ -1,4 +1,4 @@
-import Widget from "./Widget";
+import Widget from "../Widget";
 
 export default class Button extends Widget<{
     "click": null

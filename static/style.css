@@ -628,6 +628,8 @@ video {
     border-bottom: 1px dashed var(--nis-col-faded);
 }
 
+/**/
+
 .ctr-step-issue[level] {
     border-radius: 3px;
     text-align: left;
@@ -743,6 +745,15 @@ video {
 
 .ctr-buff-view.ctr-buff-view-debuff {
     border: 1px solid red;
+}
+
+.ctr-path-property-preview {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 /* Classes specific to the clue trainer */

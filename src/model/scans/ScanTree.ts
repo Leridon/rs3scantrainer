@@ -24,7 +24,6 @@ export namespace ScanTree {
 
     import shorten_integer_list = util.shorten_integer_list;
     import render_digspot = TextRendering.render_digspot;
-    import registerStatusDaemon = alt1.registerStatusDaemon;
 
     // There is world in which this type isn't needed and scan trees are just a tree of paths.
     // There are some drawbacks in this idea, so for now it stays how it is.
@@ -36,7 +35,6 @@ export namespace ScanTree {
     //  - con: How would that work with non-deterministic paths/teleports?
 
     export type ScanRegion = {
-        id: number,
         name: string
         area: MapRectangle
     }
@@ -45,35 +43,11 @@ export namespace ScanTree {
         type: "scantree",
         spot_ordering: MapCoordinate[],
         assumes_meerkats: boolean,
-        areas: ScanRegion[],
         root: decision_tree
     }
 
     export type resolved_scan_tree = tree & resolved<ScanStep>
     export type indirect_scan_tree = tree & indirected
-
-    /**
-     * @deprecated mark as deprecated to flag accidental use of draft type
-     */
-    type DRAFT_new_decision_tree = {
-        area?: ScanRegion,
-        path: Path.step[]
-        children: {
-            key: {
-                pulse: Pulse,
-                spot?: MapCoordinate
-            },
-            value: decision_tree
-        }[]
-    }
-
-    /**
-     * TODO: Plan: How to potentially transition to the above draft while always having a better state than before
-     *  1. (Done) Make scan spots be identified by id
-     *  2. (Done) Allow scan spots to be anonymous (empty name)
-     *  3. Outsource spot children into leaf nodes, make path be an immediate member
-     *  4. Allow nodes to not have a scan spot at all
-     */
 
     export type PulseInformation = Pulse & ({
         pulse: 3
@@ -86,40 +60,18 @@ export namespace ScanTree {
         }
     }
 
-    export type scan_tree_old = method_base & {
-        type: "scantree",
-        spot_ordering: MapCoordinate[],
-        assumes_meerkats: boolean,
-        areas: ScanRegion[],
-        root: decision_tree_old
-    }
-
-    export type decision_tree_old = {
-        paths: {
-            spot?: MapCoordinate,
-            directions: string,
-            path: {
-                steps: Path.raw,
-                target: MapRectangle,
-                start_state: Path.movement_state
-            }
-        }[],
-        scan_spot_id: number | null,
-        children: {
-            key: Pulse | null,
-            value: decision_tree_old
-        }[]
-    }
-
     export type decision_tree = {
-        path: Path.step[]
-        scan_spot_id: number | null,
+        path: Path.step[],
+        region?: ScanRegion,
         directions: string,
         children: {
             key: PulseInformation,
             value: decision_tree
         }[]
     }
+
+    export type completeness_t = "complete" | "incomplete_children" | "incomplete"
+    export type correctness_t = "correct" | "correct_with_warnings" | "error" | "error_in_children"
 
     export type augmented_decision_tree = {
         raw: decision_tree,
@@ -138,7 +90,9 @@ export namespace ScanTree {
         children: {
             key: Pulse,
             value: augmented_decision_tree
-        }[]
+        }[],
+        completeness?: completeness_t,
+        correctness?: correctness_t,
     }
 
     export function traverse(tree: decision_tree, f: (_: decision_tree) => void): void {
@@ -164,7 +118,6 @@ export namespace ScanTree {
 
     export function init_leaf(): decision_tree {
         return {
-            scan_spot_id: null,
             children: [],
             directions: "Missing directions",
             path: [],
@@ -172,22 +125,18 @@ export namespace ScanTree {
     }
 
     function get_target_region(tree: ScanTree.tree, node: ScanTree.decision_tree): ScanRegion {
-        if (node.scan_spot_id == null) return null
-
-        return ScanTree.getRegionById(tree, node.scan_spot_id)
+        return node.region
     }
 
     export async function normalize(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.resolved_scan_tree> {
         async function helper(node: decision_tree, candidates: MapCoordinate[], pre_state: Path.movement_state): Promise<void> {
 
-            let region = get_target_region(tree, node)
+            let region = node.region
 
             let augmented_path = await Path.augment(node.path, pre_state, candidates.length == 1 ? dig_area(candidates[0]) : region?.area)
 
             let area = region?.area ||
                 MapRectangle.fromTile(augmented_path.post_state?.position?.tile)
-
-            if (!region) node.scan_spot_id = null
 
             // Update children to remove all dead branches and add missing branches
             let pruned_children: {
@@ -241,7 +190,28 @@ export namespace ScanTree {
         return self.spot_ordering.findIndex((s) => Vector2.eq(s, spot)) + 1
     }
 
-    export async function augment(tree: resolved_scan_tree): Promise<augmented_decision_tree> {
+    export function analyze_correctness(tree: augmented_decision_tree): augmented_decision_tree {
+        tree.children.forEach(c => analyze_correctness(c.value))
+
+        let cs = tree.children.map(c => c.value)
+
+        let issues = Path.collect_issues(tree.path)
+
+        if (issues.some(i => i.level == 0)) tree.correctness = "error"
+        else if (cs.some(c => c.correctness == "error" || c.correctness == "error_in_children")) tree.correctness = "error_in_children"
+        else if (issues.some(i => i.level == 1) || cs.some(c => c.correctness == "correct_with_warnings")) tree.correctness = "correct_with_warnings"
+        else tree.correctness = "correct"
+
+        if (tree.remaining_candidates && cs.length == 0) tree.completeness = "incomplete"
+        else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children")) tree.completeness = "incomplete_children"
+        else tree.completeness = "complete"
+
+        return tree
+    }
+
+    export async function augment(tree: resolved_scan_tree, options: {
+        analyze_completeness?: boolean
+    }= {}): Promise<augmented_decision_tree> {
         async function helper(
             node: decision_tree,
             parent: { node: augmented_decision_tree, key: PulseInformation },
@@ -251,7 +221,7 @@ export namespace ScanTree {
             start_state: Path.movement_state
         ): Promise<augmented_decision_tree> {
 
-            let region = get_target_region(tree, node)
+            let region = node.region
 
             let augmented_path = await Path.augment(node.path, start_state, remaining_candidates.length == 1 ? dig_area(remaining_candidates[0]) : region?.area)
 
@@ -273,10 +243,9 @@ export namespace ScanTree {
             cloned_state.tick += 1 // Assume 1 tick reaction time between steps. Approximation, but may help to make timings and cooldowns more realistic
 
             t.root = parent == null ? t : parent.node.root
-            t.region = get_target_region(tree, node) || {
+            t.region = node.region || {
                 area: MapRectangle.fromTile(t.path.post_state.position.tile),
-                name: "",
-                id: null
+                name: ""
             }
 
             if (node.children.length > 0) {
@@ -308,27 +277,11 @@ export namespace ScanTree {
 
         tree = await normalize(tree)    // TODO: This is probably something that can (and should) be combined
 
-        return helper(tree.root, null, 0, tree.clue.solution.candidates, [], movement_state.start());
-    }
+        let aug_tree = await helper(tree.root, null, 0, tree.clue.solution.candidates, [], movement_state.start())
 
-    export function getRegionById(tree: ScanTree.tree, id: number): ScanRegion {
-        return tree.areas.find(a => a.id == id)
-    }
+        if(options.analyze_completeness) aug_tree = analyze_correctness(aug_tree)
 
-    export function createNewSpot(tree: ScanTree.tree, area: MapRectangle): ScanRegion {
-        for (let i: number = 0; i < 1000; i++) {
-            if (!tree.areas.some(a => a.id == i)) {
-                let a = {
-                    id: i,
-                    name: "",
-                    area: area
-                }
-
-                tree.areas.push(a)
-
-                return a
-            }
-        }
+        return aug_tree
     }
 
     export class ScanExplanationModal extends Modal {

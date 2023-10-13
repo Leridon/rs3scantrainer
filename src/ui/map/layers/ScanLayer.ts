@@ -280,7 +280,6 @@ export class ScanEditLayer extends ScanLayer {
 
         if (tree == null) {
             this.tree = {
-                areas: [],
                 assumes_meerkats: true,
                 clue: clue.id,
                 root: ScanTree.init_leaf(),

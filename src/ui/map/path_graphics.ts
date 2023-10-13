@@ -6,7 +6,55 @@ import Widget from "../widgets/Widget";
 import {OpacityGroup} from "./layers/OpacityLayer";
 import {Vector2} from "../../util/math";
 import InteractionType = Path.InteractionType;
+import {flat_teleport, Teleports} from "../../model/teleports";
+import {teleport_data} from "../../data/teleport_data";
 
+export namespace PathGraphics {
+    type HTMLString = string
+
+    export function text_icon(icon: string, hover: string = ""): HTMLString {
+        return `<img class='text-icon' src='${icon}' title="${hover}">`
+    }
+
+    export namespace Teleport {
+        export function asSpan(tele: flat_teleport): HTMLString {
+            return `<span style="position: relative" title="${tele.hover}">${text_icon(`assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`, tele.hover)}<div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+        }
+    }
+
+    export function asSpan(step: Path.step): HTMLString {
+        switch (step.type) {
+            case "orientation":
+                return text_icon('assets/icons/compass.png') + direction.toShortString(step.direction)
+            case "ability":
+                switch (step.ability) {
+                    case "surge":
+                        return text_icon('assets/icons/surge.png')
+                    case "escape":
+                        return text_icon('assets/icons/escape.png')
+                    case "barge":
+                        return text_icon('assets/icons/barge.png')
+                    case "dive":
+                        return text_icon('assets/icons/dive.png')
+                }
+            case "run":
+                return text_icon('assets/icons/run.png') + (step.waypoints.length - 1)
+            case "teleport":
+                let tele = Teleports.find(teleport_data.getAllFlattened(), step.id)
+
+                if (!tele) return text_icon('assets/teleports/homeport.png')
+
+                return PathGraphics.Teleport.asSpan(tele)
+            case "interaction":
+                return text_icon(InteractionType.meta(step.how).icon_url)
+            case "redclick":
+                return text_icon('assets/icons/redclick.png')
+            case "powerburst":
+                return text_icon('assets/icons/accel.png')
+        }
+    }
+
+}
 
 function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
     const click_icons = {
@@ -65,7 +113,7 @@ export namespace PathingGraphics {
     export function getIcon(step: Path.step): Widget {
         switch (step.type) {
             case "orientation":
-                break;
+                return c(`<img class='text-icon' src='assets/icons/compass.png'>`)
             case "run":
                 return c(`<img class='text-icon' src='assets/icons/run.png'>`)
             case "ability":
@@ -99,7 +147,6 @@ export namespace PathingGraphics {
         return group
     }
 }
-
 
 export function createStepGraphics(step: Path.step): OpacityGroup {
     let layer = new OpacityGroup()

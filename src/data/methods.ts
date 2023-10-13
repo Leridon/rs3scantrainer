@@ -2,10 +2,8 @@
 
 import {type indirected, type method} from "../model/methods";
 
-
 /* ts-ignore */
-let raw: (method & indirected)[] =[
-    // Zanaris
+let raw: (method & indirected)[] = [
     {
         "clue": 361,
         "type": "scantree",
@@ -122,113 +120,6 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
-                "name": "A",
-                "id": 1,
-                "area": {
-                    "topleft": {
-                        "x": 2412,
-                        "y": 4434
-                    },
-                    "botright": {
-                        "x": 2412,
-                        "y": 4434
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 2410,
-                        "y": 4436
-                    },
-                    "botright": {
-                        "x": 2410,
-                        "y": 4436
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "topleft": {
-                        "x": 2420,
-                        "y": 4444
-                    },
-                    "botright": {
-                        "x": 2420,
-                        "y": 4444
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "topleft": {
-                        "x": 2409,
-                        "y": 4455
-                    },
-                    "botright": {
-                        "x": 2409,
-                        "y": 4455
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "topleft": {
-                        "x": 2398,
-                        "y": 4444
-                    },
-                    "botright": {
-                        "x": 2398,
-                        "y": 4444
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 2445,
-                        "y": 4431
-                    },
-                    "botright": {
-                        "x": 2447,
-                        "y": 4429
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "topleft": {
-                        "x": 2405,
-                        "y": 4381
-                    },
-                    "botright": {
-                        "x": 2405,
-                        "y": 4381
-                    },
-                    "level": 0
-                }
-            }
-        ],
         "root": {
             "path": [
                 {
@@ -240,7 +131,20 @@ let raw: (method & indirected)[] =[
                     }
                 }
             ],
-            "scan_spot_id": 1,
+            "region": {
+                "name": "A",
+                "area": {
+                    "topleft": {
+                        "x": 2412,
+                        "y": 4434
+                    },
+                    "botright": {
+                        "x": 2412,
+                        "y": 4434
+                    },
+                    "level": 0
+                }
+            },
             "directions": "{{teleport fairyring AIP}} to {{target}}",
             "children": [
                 {
@@ -259,7 +163,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 6,
+                        "region": {
+                            "name": "F",
+                            "area": {
+                                "topleft": {
+                                    "x": 2445,
+                                    "y": 4431
+                                },
+                                "botright": {
+                                    "x": 2447,
+                                    "y": 4429
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{teleport slayercape chealdar}} to {{target}}",
                         "children": [
                             {
@@ -278,7 +195,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 7,
+                                    "region": {
+                                        "name": "G",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2405,
+                                                "y": 4381
+                                            },
+                                            "botright": {
+                                                "x": 2405,
+                                                "y": 4381
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{teleport wickedhood cosmic}} to {{target}}",
                                     "children": [
                                         {
@@ -309,7 +239,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -399,7 +328,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}}/{{icon run}}/{{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -468,7 +396,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{icon run}} - {{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -607,7 +534,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}}/{{surge}}/{{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -712,7 +638,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}}/{{surge}}/{{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -853,7 +778,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}}/{{surge}}/{{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -890,7 +814,20 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 3 tiles"
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 2410,
+                                    "y": 4436
+                                },
+                                "botright": {
+                                    "x": 2410,
+                                    "y": 4436
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} 2 tiles to {{target}}",
                         "children": [
                             {
@@ -940,7 +877,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "Dig at {{target}}",
                                     "children": []
                                 }
@@ -968,7 +904,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2420,
+                                                "y": 4444
+                                            },
+                                            "botright": {
+                                                "x": 2420,
+                                                "y": 4444
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{dive}} to {{target}}",
                                     "children": [
                                         {
@@ -1010,7 +959,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2409,
+                                                            "y": 4455
+                                                        },
+                                                        "botright": {
+                                                            "x": 2409,
+                                                            "y": 4455
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} 1 north east - {{surge}} to {{target}}",
                                                 "children": [
                                                     {
@@ -1335,7 +1297,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 10 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "Dig at {{target}}",
                                                             "children": []
                                                         }
@@ -1587,7 +1548,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 6 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}}/{{surge}}/{{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -1634,7 +1594,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2409,
+                                                            "y": 4455
+                                                        },
+                                                        "botright": {
+                                                            "x": 2409,
+                                                            "y": 4455
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} 1 north east - {{surge}} to {{target}}",
                                                 "children": [
                                                     {
@@ -1643,10 +1616,9 @@ let raw: (method & indirected)[] =[
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "scan_spot_id": null,
-                                                            "children": [],
+                                                            "path": [],
                                                             "directions": "Missing directions",
-                                                            "path": []
+                                                            "children": []
                                                         }
                                                     },
                                                     {
@@ -1688,7 +1660,20 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 5,
+                                                            "region": {
+                                                                "name": "E",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 2398,
+                                                                        "y": 4444
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 2398,
+                                                                        "y": 4444
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{icon run}} south west - {{surge}} to {{target}}",
                                                             "children": [
                                                                 {
@@ -1840,7 +1825,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}} - {{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -1939,7 +1923,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run to 2385 | 4447"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}}  to {{target}}",
                                                                         "children": []
                                                                     }
@@ -2042,7 +2025,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 7 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} north - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -2137,7 +2119,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run to 2402 | 4466"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -2225,7 +2206,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 4 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}}  - {{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -2366,7 +2346,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 4 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} east - {{surge}} - {{icon run}} north - {{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -2433,7 +2412,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 6 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{teleport slayercape chealdar}} - {{icon run}}  to {{target}}",
                                                 "children": []
                                             }
@@ -2526,7 +2504,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} 4 tiles -  {{surge}} - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -2562,7 +2539,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} to {{target}}",
                         "children": []
                     }
@@ -2631,7 +2607,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} 2 tiles - {{surge}} - {{dive}} to {{target}}",
                         "children": []
                     }
@@ -2664,7 +2639,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} to {{target}}",
                         "children": []
                     }
@@ -2754,7 +2728,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 3 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} -  {{surge}} west - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -2858,10 +2831,19 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
+        "root": {
+            "path": [
+                {
+                    "description": "Use {{teleport normalspellbook falador}} to Falador",
+                    "type": "teleport",
+                    "id": {
+                        "group": "normalspellbook",
+                        "sub": "falador"
+                    }
+                }
+            ],
+            "region": {
                 "name": "A",
-                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 2963,
@@ -2874,124 +2856,6 @@ let raw: (method & indirected)[] =[
                     "level": 0
                 }
             },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 2964,
-                        "y": 3366
-                    },
-                    "botright": {
-                        "x": 2965,
-                        "y": 3365
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "topleft": {
-                        "x": 2958,
-                        "y": 3365
-                    },
-                    "botright": {
-                        "x": 2960,
-                        "y": 3363
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "topleft": {
-                        "x": 2955,
-                        "y": 3365
-                    },
-                    "botright": {
-                        "x": 2956,
-                        "y": 3363
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "topleft": {
-                        "x": 2950,
-                        "y": 3365
-                    },
-                    "botright": {
-                        "x": 2950,
-                        "y": 3363
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 3016,
-                        "y": 3338
-                    },
-                    "botright": {
-                        "x": 3016,
-                        "y": 3338
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "topleft": {
-                        "x": 3042,
-                        "y": 3355
-                    },
-                    "botright": {
-                        "x": 3042,
-                        "y": 3355
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "H",
-                "id": 8,
-                "area": {
-                    "topleft": {
-                        "x": 2942,
-                        "y": 3343
-                    },
-                    "botright": {
-                        "x": 2942,
-                        "y": 3343
-                    },
-                    "level": 0
-                }
-            }
-        ],
-        "root": {
-            "path": [
-                {
-                    "description": "Use {{teleport normalspellbook falador}} to Falador",
-                    "type": "teleport",
-                    "id": {
-                        "group": "normalspellbook",
-                        "sub": "falador"
-                    }
-                }
-            ],
-            "scan_spot_id": 1,
             "directions": "{{teleport normalspellbook falador}} to {{target}}",
             "children": [
                 {
@@ -3043,7 +2907,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 2964,
+                                    "y": 3366
+                                },
+                                "botright": {
+                                    "x": 2965,
+                                    "y": 3365
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -3062,7 +2939,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 6,
+                                    "region": {
+                                        "name": "F",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3016,
+                                                "y": 3338
+                                            },
+                                            "botright": {
+                                                "x": 3016,
+                                                "y": 3338
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{teleport skillsnecklace mining}} to {{target}}",
                                     "children": [
                                         {
@@ -3154,7 +3044,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 7,
+                                                "region": {
+                                                    "name": "G",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3042,
+                                                            "y": 3355
+                                                        },
+                                                        "botright": {
+                                                            "x": 3042,
+                                                            "y": 3355
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} - {{dive}} - {{surge}} to {{target}}",
                                                 "children": [
                                                     {
@@ -3332,7 +3235,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 10 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -3401,7 +3303,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run to 3050 | 3348"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -3541,7 +3442,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 5 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -3638,7 +3538,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 9 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{teleport amuletofnature faladortree}} - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -3720,7 +3619,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -3895,7 +3793,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 17 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}}  - {{surge}} - {{dive}} - {{icon run}}  to {{target}}",
                                                 "children": []
                                             }
@@ -3993,7 +3890,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 3 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 8,
+                                    "region": {
+                                        "name": "H",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2942,
+                                                "y": 3343
+                                            },
+                                            "botright": {
+                                                "x": 2942,
+                                                "y": 3343
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{icon run}} - {{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": [
                                         {
@@ -4104,7 +4014,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 4 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon accel}} - {{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -4233,7 +4142,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 20 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}}  to {{target}}",
                                                 "children": []
                                             }
@@ -4392,7 +4300,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 26 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -4452,7 +4359,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 2964,
+                                    "y": 3366
+                                },
+                                "botright": {
+                                    "x": 2965,
+                                    "y": 3365
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -4499,7 +4419,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 5 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2958,
+                                                "y": 3365
+                                            },
+                                            "botright": {
+                                                "x": 2960,
+                                                "y": 3363
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{icon run}} to {{target}}",
                                     "children": [
                                         {
@@ -4518,7 +4451,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{teleport skillsnecklace mining}} to {{target}}",
                                                 "children": []
                                             }
@@ -4562,7 +4494,20 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 4 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2955,
+                                                            "y": 3365
+                                                        },
+                                                        "botright": {
+                                                            "x": 2956,
+                                                            "y": 3363
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} 4 tiles west to {{target}}",
                                                 "children": [
                                                     {
@@ -4596,7 +4541,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "Dig at {{target}}",
                                                             "children": []
                                                         }
@@ -4650,7 +4594,20 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 6 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 5,
+                                                            "region": {
+                                                                "name": "E",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 2950,
+                                                                        "y": 3365
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 2950,
+                                                                        "y": 3363
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{icon run}} 6 tiles west to {{target}}",
                                                             "children": [
                                                                 {
@@ -4684,7 +4641,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{teleport davesspellbook falador}} - {{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -4835,7 +4791,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 2 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "Dig at {{target}}",
                                                                         "children": []
                                                                     }
@@ -4939,7 +4894,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}}/{{dive}}/{{surge}} to {{target}}",
                                     "children": []
                                 }
@@ -5054,7 +5008,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 6 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{dive}} - {{surge}} to {{target}}",
                                     "children": []
                                 }
@@ -5164,7 +5117,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 6 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{surge}} - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -5200,7 +5152,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} to {{target}}",
                         "children": []
                     }
@@ -5248,7 +5199,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{surge}} - {{dive}} to {{target}}",
                         "children": []
                     }
@@ -5317,7 +5267,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 2 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{surge}} - {{dive}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -5457,7 +5406,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 7 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{surge}}/{{dive}}/{{icon run}} to {{target}}",
                         "children": []
                     }
@@ -5726,188 +5674,6 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
-                "name": "A",
-                "id": 1,
-                "area": {
-                    "topleft": {
-                        "x": 3423,
-                        "y": 3016
-                    },
-                    "botright": {
-                        "x": 3423,
-                        "y": 3016
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 3411,
-                        "y": 3004
-                    },
-                    "botright": {
-                        "x": 3411,
-                        "y": 3004
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "topleft": {
-                        "x": 3421,
-                        "y": 2994
-                    },
-                    "botright": {
-                        "x": 3421,
-                        "y": 2994
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "topleft": {
-                        "x": 3431,
-                        "y": 2984
-                    },
-                    "botright": {
-                        "x": 3431,
-                        "y": 2984
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "I",
-                "id": 9,
-                "area": {
-                    "topleft": {
-                        "x": 3451,
-                        "y": 3024
-                    },
-                    "botright": {
-                        "x": 3451,
-                        "y": 3024
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "J",
-                "id": 10,
-                "area": {
-                    "topleft": {
-                        "x": 3422,
-                        "y": 3036
-                    },
-                    "botright": {
-                        "x": 3422,
-                        "y": 3036
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "topleft": {
-                        "x": 3423,
-                        "y": 3141
-                    },
-                    "botright": {
-                        "x": 3425,
-                        "y": 3139
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 3424,
-                        "y": 3137
-                    },
-                    "botright": {
-                        "x": 3424,
-                        "y": 3137
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "topleft": {
-                        "x": 3412,
-                        "y": 3125
-                    },
-                    "botright": {
-                        "x": 3412,
-                        "y": 3125
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "H",
-                "id": 8,
-                "area": {
-                    "topleft": {
-                        "x": 3412,
-                        "y": 3117
-                    },
-                    "botright": {
-                        "x": 3412,
-                        "y": 3117
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "K",
-                "id": 11,
-                "area": {
-                    "topleft": {
-                        "x": 3402,
-                        "y": 3107
-                    },
-                    "botright": {
-                        "x": 3402,
-                        "y": 3107
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "L",
-                "id": 12,
-                "area": {
-                    "topleft": {
-                        "x": 3475,
-                        "y": 3103
-                    },
-                    "botright": {
-                        "x": 3482,
-                        "y": 3093
-                    },
-                    "level": 0
-                }
-            }
-        ],
         "root": {
             "path": [
                 {
@@ -5919,7 +5685,20 @@ let raw: (method & indirected)[] =[
                     }
                 }
             ],
-            "scan_spot_id": 1,
+            "region": {
+                "name": "A",
+                "area": {
+                    "topleft": {
+                        "x": 3423,
+                        "y": 3016
+                    },
+                    "botright": {
+                        "x": 3423,
+                        "y": 3016
+                    },
+                    "level": 0
+                }
+            },
             "directions": "{{teleport fairyring DLQ}} to {{target}}",
             "children": [
                 {
@@ -5966,7 +5745,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 3411,
+                                    "y": 3004
+                                },
+                                "botright": {
+                                    "x": 3411,
+                                    "y": 3004
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} SW - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -5985,7 +5777,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 5,
+                                    "region": {
+                                        "name": "E",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3423,
+                                                "y": 3141
+                                            },
+                                            "botright": {
+                                                "x": 3425,
+                                                "y": 3139
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{teleport travellersnecklace deserteagle}} - {{icon run}} 6 tiles to {{target}}",
                                     "children": [
                                         {
@@ -6027,7 +5832,20 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run to 3424 | 3137"
                                                     }
                                                 ],
-                                                "scan_spot_id": 6,
+                                                "region": {
+                                                    "name": "F",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3424,
+                                                            "y": 3137
+                                                        },
+                                                        "botright": {
+                                                            "x": 3424,
+                                                            "y": 3137
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": [
                                                     {
@@ -6046,7 +5864,20 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 12,
+                                                            "region": {
+                                                                "name": "L",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 3475,
+                                                                        "y": 3103
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 3482,
+                                                                        "y": 3093
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "Move to {{target}}",
                                                             "children": [
                                                                 {
@@ -6055,10 +5886,9 @@ let raw: (method & indirected)[] =[
                                                                         "different_level": false
                                                                     },
                                                                     "value": {
-                                                                        "scan_spot_id": null,
-                                                                        "children": [],
+                                                                        "path": [],
                                                                         "directions": "Missing directions",
-                                                                        "path": []
+                                                                        "children": []
                                                                     }
                                                                 },
                                                                 {
@@ -6125,7 +5955,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}} E - {{surge}} - {{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -6225,7 +6054,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 4 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}} E - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -6355,7 +6183,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{surge}} - {{icon accel}} - {{surge}}/{{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -6402,7 +6229,20 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run to 3424 | 3137"
                                                     }
                                                 ],
-                                                "scan_spot_id": 6,
+                                                "region": {
+                                                    "name": "F",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3424,
+                                                            "y": 3137
+                                                        },
+                                                        "botright": {
+                                                            "x": 3424,
+                                                            "y": 3137
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": [
                                                     {
@@ -6449,7 +6289,20 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 7,
+                                                            "region": {
+                                                                "name": "G",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 3412,
+                                                                        "y": 3125
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 3412,
+                                                                        "y": 3125
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{icon run}} SW - {{surge}} to {{target}}",
                                                             "children": [
                                                                 {
@@ -6468,7 +6321,20 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": 12,
+                                                                        "region": {
+                                                                            "name": "L",
+                                                                            "area": {
+                                                                                "topleft": {
+                                                                                    "x": 3475,
+                                                                                    "y": 3103
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 3482,
+                                                                                    "y": 3093
+                                                                                },
+                                                                                "level": 0
+                                                                            }
+                                                                        },
                                                                         "directions": "Move to {{target}}",
                                                                         "children": [
                                                                             {
@@ -6499,7 +6365,6 @@ let raw: (method & indirected)[] =[
                                                                                             }
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": null,
                                                                                     "directions": "{{dive}} to {{target}}",
                                                                                     "children": []
                                                                                 }
@@ -6532,7 +6397,6 @@ let raw: (method & indirected)[] =[
                                                                                             }
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": null,
                                                                                     "directions": "{{dive}} to {{target}}",
                                                                                     "children": []
                                                                                 }
@@ -6563,7 +6427,20 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": 8,
+                                                                        "region": {
+                                                                            "name": "H",
+                                                                            "area": {
+                                                                                "topleft": {
+                                                                                    "x": 3412,
+                                                                                    "y": 3117
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 3412,
+                                                                                    "y": 3117
+                                                                                },
+                                                                                "level": 0
+                                                                            }
+                                                                        },
                                                                         "directions": "{{dive}} to {{target}}",
                                                                         "children": [
                                                                             {
@@ -6598,7 +6475,20 @@ let raw: (method & indirected)[] =[
                                                                                             }
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": 11,
+                                                                                    "region": {
+                                                                                        "name": "K",
+                                                                                        "area": {
+                                                                                            "topleft": {
+                                                                                                "x": 3402,
+                                                                                                "y": 3107
+                                                                                            },
+                                                                                            "botright": {
+                                                                                                "x": 3402,
+                                                                                                "y": 3107
+                                                                                            },
+                                                                                            "level": 0
+                                                                                        }
+                                                                                    },
                                                                                     "directions": "{{icon accel}} - {{dive}} to {{target}}",
                                                                                     "children": [
                                                                                         {
@@ -6668,7 +6558,6 @@ let raw: (method & indirected)[] =[
                                                                                                         "description": "Run 2 tiles"
                                                                                                     }
                                                                                                 ],
-                                                                                                "scan_spot_id": null,
                                                                                                 "directions": "{{teleport desertamulet uzer}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                                                                 "children": []
                                                                                             }
@@ -6762,7 +6651,6 @@ let raw: (method & indirected)[] =[
                                                                                                         }
                                                                                                     }
                                                                                                 ],
-                                                                                                "scan_spot_id": null,
                                                                                                 "directions": "{{surge}} - {{dive}} - {{icon run}} W - {{surge}} - {{dive}} to {{target}}",
                                                                                                 "children": []
                                                                                             }
@@ -6825,7 +6713,6 @@ let raw: (method & indirected)[] =[
                                                                                                         }
                                                                                                     }
                                                                                                 ],
-                                                                                                "scan_spot_id": null,
                                                                                                 "directions": "{{surge}} - {{surge}} - {{dive}} to {{target}}",
                                                                                                 "children": []
                                                                                             }
@@ -6888,7 +6775,6 @@ let raw: (method & indirected)[] =[
                                                                                                         }
                                                                                                     }
                                                                                                 ],
-                                                                                                "scan_spot_id": null,
                                                                                                 "directions": "{{dive}} - {{surge}} - {{dive}} to {{target}}",
                                                                                                 "children": []
                                                                                             }
@@ -6984,7 +6870,6 @@ let raw: (method & indirected)[] =[
                                                                                             }
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": null,
                                                                                     "directions": "{{icon accel}} - {{dive}} - {{surge}} - {{icon run}} - {{dive}} to {{target}}",
                                                                                     "children": []
                                                                                 }
@@ -7087,7 +6972,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 2 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -7159,7 +7043,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{dive}} (tricky) - {{icon accel}} - {{surge}} - {{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -7281,7 +7164,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 12 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -7411,7 +7293,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run to 3432 | 3105"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{icon run}} S - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -7453,7 +7334,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -7522,7 +7402,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} East - {{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -7576,7 +7455,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -7645,7 +7523,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} SE - {{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -7714,7 +7591,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} SE - {{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -7762,7 +7638,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -7810,7 +7685,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -7879,7 +7753,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -7972,7 +7845,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{dive}} - {{icon accel}} - {{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -8091,7 +7963,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 12 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{surge}} - {{icon run}} 12 tiles to {{target}}",
                                                 "children": []
                                             }
@@ -8233,7 +8104,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} - {{icon accel}} - {{surge}}/{{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -8285,7 +8155,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 3411,
+                                    "y": 3004
+                                },
+                                "botright": {
+                                    "x": 3411,
+                                    "y": 3004
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} SW - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -8365,7 +8248,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 9,
+                                    "region": {
+                                        "name": "I",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3451,
+                                                "y": 3024
+                                            },
+                                            "botright": {
+                                                "x": 3451,
+                                                "y": 3024
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{dive}} - {{surge}} - {{icon accel}} - {{dive}} - {{surge}} to {{target}}",
                                     "children": [
                                         {
@@ -8436,7 +8332,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} (tricky!)- {{surge}} - {{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -8499,7 +8394,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{dive}} (tricky!)- {{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -8530,7 +8424,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3421,
+                                                "y": 2994
+                                            },
+                                            "botright": {
+                                                "x": 3421,
+                                                "y": 2994
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{dive}} to {{target}}",
                                     "children": [
                                         {
@@ -8631,7 +8538,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 10,
+                                                "region": {
+                                                    "name": "J",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3422,
+                                                            "y": 3036
+                                                        },
+                                                        "botright": {
+                                                            "x": 3422,
+                                                            "y": 3036
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} N - {{surge}} - {{icon accel}} - {{dive}} - {{surge}} - {{surge}} to {{target}}",
                                                 "children": [
                                                     {
@@ -8692,7 +8612,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{surge}} - {{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -8755,7 +8674,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{surge}} - {{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -8786,7 +8704,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3431,
+                                                            "y": 2984
+                                                        },
+                                                        "botright": {
+                                                            "x": 3431,
+                                                            "y": 2984
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{surge}} to {{target}}",
                                                 "children": [
                                                     {
@@ -8895,7 +8826,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{teleport fairyring DLQ}} - {{icon accel}} - {{dive}} - {{surge}} - {{icon run}} NW - {{surge}} - {{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -8906,10 +8836,9 @@ let raw: (method & indirected)[] =[
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "scan_spot_id": null,
-                                                            "children": [],
+                                                            "path": [],
                                                             "directions": "Missing directions",
-                                                            "path": []
+                                                            "children": []
                                                         }
                                                     },
                                                     {
@@ -8990,7 +8919,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 3 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon accel}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -9062,7 +8990,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon accel}} - {{dive}} - {{surge}} - {{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -9155,7 +9082,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 2 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon accel}} - {{surge}} - {{dive}} - {{surge}} to {{target}}",
                                                             "children": []
                                                         }
@@ -9272,7 +9198,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 14 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -9344,7 +9269,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{icon accel}} - {{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -9447,7 +9371,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -9557,7 +9480,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 6 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}}  to {{target}}",
                                     "children": []
                                 }
@@ -9667,7 +9589,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 6 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}}  to {{target}}",
                                     "children": []
                                 }
@@ -9787,7 +9708,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 8 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -9823,7 +9743,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} to {{target}}",
                         "children": []
                     }
@@ -9877,7 +9796,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 2 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -9925,7 +9843,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} - {{surge}} to {{target}}",
                         "children": []
                     }
@@ -10025,7 +9942,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 1 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -10130,7 +10046,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{surge}} - {{dive}} to {{target}}",
                         "children": []
                     }
@@ -10214,7 +10129,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{surge}} - {{surge}} - {{dive}} to {{target}}",
                         "children": []
                     }
@@ -10314,7 +10228,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 4 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{surge}} - {{dive}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -10404,7 +10317,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 2 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{surge}} - {{dive}} - {{icon run}}  to {{target}}",
                         "children": []
                     }
@@ -10488,7 +10400,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{surge}} - {{dive}} - {{surge}} to {{target}}",
                         "children": []
                     }
@@ -10562,10 +10473,19 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
+        "root": {
+            "path": [
+                {
+                    "description": "Use {{teleport gamesnecklace tearsofguthix}} to Tears of Guthix",
+                    "type": "teleport",
+                    "id": {
+                        "group": "gamesnecklace",
+                        "sub": "tearsofguthix"
+                    }
+                }
+            ],
+            "region": {
                 "name": "A",
-                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 3249,
@@ -10578,94 +10498,6 @@ let raw: (method & indirected)[] =[
                     "level": 2
                 }
             },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 3224,
-                        "y": 9531
-                    },
-                    "botright": {
-                        "x": 3242,
-                        "y": 9525
-                    },
-                    "level": 2
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "topleft": {
-                        "x": 3218,
-                        "y": 9531
-                    },
-                    "botright": {
-                        "x": 3220,
-                        "y": 9528
-                    },
-                    "level": 2
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "topleft": {
-                        "x": 3226,
-                        "y": 9542
-                    },
-                    "botright": {
-                        "x": 3226,
-                        "y": 9542
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "topleft": {
-                        "x": 3220,
-                        "y": 9552
-                    },
-                    "botright": {
-                        "x": 3222,
-                        "y": 9552
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 3220,
-                        "y": 9556
-                    },
-                    "botright": {
-                        "x": 3222,
-                        "y": 9556
-                    },
-                    "level": 0
-                }
-            }
-        ],
-        "root": {
-            "path": [
-                {
-                    "description": "Use {{teleport gamesnecklace tearsofguthix}} to Tears of Guthix",
-                    "type": "teleport",
-                    "id": {
-                        "group": "gamesnecklace",
-                        "sub": "tearsofguthix"
-                    }
-                }
-            ],
-            "scan_spot_id": 1,
             "directions": "{{teleport gamesnecklace tearsofguthix}} to {{target}}",
             "children": [
                 {
@@ -10777,7 +10609,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 3224,
+                                    "y": 9531
+                                },
+                                "botright": {
+                                    "x": 3242,
+                                    "y": 9525
+                                },
+                                "level": 2
+                            }
+                        },
                         "directions": "{{dive}} - {{icon run}}  - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -10866,7 +10711,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3218,
+                                                "y": 9531
+                                            },
+                                            "botright": {
+                                                "x": 3220,
+                                                "y": 9528
+                                            },
+                                            "level": 2
+                                        }
+                                    },
                                     "directions": "{{icon run}}  - {{surge}}  to {{target}}",
                                     "children": [
                                         {
@@ -10899,7 +10757,20 @@ let raw: (method & indirected)[] =[
                                                         "how": "enter"
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3226,
+                                                            "y": 9542
+                                                        },
+                                                        "botright": {
+                                                            "x": 3226,
+                                                            "y": 9542
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon cursor_enter}} Tunnel to {{target}}",
                                                 "children": [
                                                     {
@@ -10908,10 +10779,9 @@ let raw: (method & indirected)[] =[
                                                             "different_level": false
                                                         },
                                                         "value": {
-                                                            "scan_spot_id": null,
-                                                            "children": [],
+                                                            "path": [],
                                                             "directions": "Missing directions",
-                                                            "path": []
+                                                            "children": []
                                                         }
                                                     },
                                                     {
@@ -10959,7 +10829,20 @@ let raw: (method & indirected)[] =[
                                                                     "how": "generic"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 6,
+                                                            "region": {
+                                                                "name": "F",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 3220,
+                                                                        "y": 9556
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 3222,
+                                                                        "y": 9556
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{dive}} - {{icon cursor_generic}} to {{target}}",
                                                             "children": [
                                                                 {
@@ -11062,7 +10945,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}} - {{surge}} - {{icon run}}  - {{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -11192,7 +11074,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run to 3210 | 9571"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{surge}}/{{icon run}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -11210,7 +11091,6 @@ let raw: (method & indirected)[] =[
                                             },
                                             "value": {
                                                 "path": [],
-                                                "scan_spot_id": null,
                                                 "directions": "Dig at {{target}}",
                                                 "children": []
                                             }
@@ -11225,7 +11105,6 @@ let raw: (method & indirected)[] =[
                                 },
                                 "value": {
                                     "path": [],
-                                    "scan_spot_id": null,
                                     "directions": "Dig at {{target}}",
                                     "children": []
                                 }
@@ -11240,7 +11119,6 @@ let raw: (method & indirected)[] =[
                     },
                     "value": {
                         "path": [],
-                        "scan_spot_id": null,
                         "directions": "Dig at {{target}}",
                         "children": []
                     }
@@ -11248,7 +11126,6 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
-    // Varrock
     {
         "clue": 351,
         "type": "scantree",
@@ -11375,158 +11252,6 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
-                "name": "A",
-                "id": 1,
-                "area": {
-                    "topleft": {
-                        "x": 3211,
-                        "y": 3435
-                    },
-                    "botright": {
-                        "x": 3213,
-                        "y": 3432
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 3223,
-                        "y": 3424
-                    },
-                    "botright": {
-                        "x": 3224,
-                        "y": 3422
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "topleft": {
-                        "x": 3233,
-                        "y": 3414
-                    },
-                    "botright": {
-                        "x": 3234,
-                        "y": 3412
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "topleft": {
-                        "x": 3180,
-                        "y": 3418
-                    },
-                    "botright": {
-                        "x": 3183,
-                        "y": 3415
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "I",
-                "id": 9,
-                "area": {
-                    "topleft": {
-                        "x": 3210,
-                        "y": 3400
-                    },
-                    "botright": {
-                        "x": 3212,
-                        "y": 3398
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "topleft": {
-                        "x": 3242,
-                        "y": 3418
-                    },
-                    "botright": {
-                        "x": 3244,
-                        "y": 3417
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "topleft": {
-                        "x": 3254,
-                        "y": 3449
-                    },
-                    "botright": {
-                        "x": 3254,
-                        "y": 3449
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 3243,
-                        "y": 3459
-                    },
-                    "botright": {
-                        "x": 3245,
-                        "y": 3459
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "H",
-                "id": 8,
-                "area": {
-                    "topleft": {
-                        "x": 3162,
-                        "y": 3467
-                    },
-                    "botright": {
-                        "x": 3162,
-                        "y": 3467
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "J",
-                "id": 10,
-                "area": {
-                    "topleft": {
-                        "x": 3164,
-                        "y": 3469
-                    },
-                    "botright": {
-                        "x": 3164,
-                        "y": 3469
-                    },
-                    "level": 0
-                }
-            }
-        ],
         "root": {
             "path": [
                 {
@@ -11539,7 +11264,20 @@ let raw: (method & indirected)[] =[
                     }
                 }
             ],
-            "scan_spot_id": 1,
+            "region": {
+                "name": "A",
+                "area": {
+                    "topleft": {
+                        "x": 3211,
+                        "y": 3435
+                    },
+                    "botright": {
+                        "x": 3213,
+                        "y": 3432
+                    },
+                    "level": 0
+                }
+            },
             "directions": "{{teleport normalspellbook varrock}} to {{target}}",
             "children": [
                 {
@@ -11586,7 +11324,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 3223,
+                                    "y": 3424
+                                },
+                                "botright": {
+                                    "x": 3224,
+                                    "y": 3422
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -11627,7 +11378,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 4,
+                                    "region": {
+                                        "name": "D",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3242,
+                                                "y": 3418
+                                            },
+                                            "botright": {
+                                                "x": 3244,
+                                                "y": 3417
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "Move to {{target}}",
                                     "children": [
                                         {
@@ -11646,7 +11410,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 5,
+                                                "region": {
+                                                    "name": "E",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3254,
+                                                            "y": 3449
+                                                        },
+                                                        "botright": {
+                                                            "x": 3254,
+                                                            "y": 3449
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{teleport davesspellbook varrock}} to {{target}}",
                                                 "children": [
                                                     {
@@ -11696,7 +11473,20 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 4 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 8,
+                                                            "region": {
+                                                                "name": "H",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 3162,
+                                                                        "y": 3467
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 3162,
+                                                                        "y": 3467
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{teleport ringofwealth grandexchange}} - {{icon run}} to {{target}}",
                                                             "children": [
                                                                 {
@@ -11728,7 +11518,20 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run to 3164 | 3469"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": 10,
+                                                                        "region": {
+                                                                            "name": "J",
+                                                                            "area": {
+                                                                                "topleft": {
+                                                                                    "x": 3164,
+                                                                                    "y": 3469
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 3164,
+                                                                                    "y": 3469
+                                                                                },
+                                                                                "level": 0
+                                                                            }
+                                                                        },
                                                                         "directions": "{{icon run}} to {{target}}",
                                                                         "children": [
                                                                             {
@@ -11874,7 +11677,6 @@ let raw: (method & indirected)[] =[
                                                                                             }
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": null,
                                                                                     "directions": "Dig at {{target}}",
                                                                                     "children": []
                                                                                 }
@@ -11993,7 +11795,6 @@ let raw: (method & indirected)[] =[
                                                                                             "description": "Run 10 tiles"
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": null,
                                                                                     "directions": "Dig at {{target}}",
                                                                                     "children": []
                                                                                 }
@@ -12080,7 +11881,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 6 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -12128,7 +11928,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{dive}} - {{surge}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -12225,7 +12024,20 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run to 3245 | 3459"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 6,
+                                                            "region": {
+                                                                "name": "F",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 3243,
+                                                                        "y": 3459
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 3245,
+                                                                        "y": 3459
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "Move to {{target}}",
                                                             "children": [
                                                                 {
@@ -12406,7 +12218,7 @@ let raw: (method & indirected)[] =[
                                                                                     "y": 3477,
                                                                                     "level": 0
                                                                                 },
-                                                                                "ends_up":  {
+                                                                                "ends_up": {
                                                                                     "x": 3215,
                                                                                     "y": 3477,
                                                                                     "level": 0
@@ -12451,7 +12263,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 2 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "Dig at {{target}}",
                                                                         "children": []
                                                                     }
@@ -12520,7 +12331,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "Dig at {{target}}",
                                                                         "children": []
                                                                     }
@@ -12537,10 +12347,9 @@ let raw: (method & indirected)[] =[
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "scan_spot_id": null,
-                                                "children": [],
+                                                "path": [],
                                                 "directions": "Missing directions",
-                                                "path": []
+                                                "children": []
                                             }
                                         }
                                     ]
@@ -12615,7 +12424,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 9,
+                                    "region": {
+                                        "name": "I",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3210,
+                                                "y": 3400
+                                            },
+                                            "botright": {
+                                                "x": 3212,
+                                                "y": 3398
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{icon run}} - {{surge}} - {{dive}} to {{target}}",
                                     "children": [
                                         {
@@ -12701,7 +12523,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon accel}} - {{surge}}/{{dive}}/{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -12830,7 +12651,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 20 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -12929,7 +12749,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 14 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -13022,7 +12841,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon accel}} - {{surge}}/{{dive}}/{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -13077,7 +12895,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 3223,
+                                    "y": 3424
+                                },
+                                "botright": {
+                                    "x": 3224,
+                                    "y": 3422
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -13096,7 +12927,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 7,
+                                    "region": {
+                                        "name": "G",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3180,
+                                                "y": 3418
+                                            },
+                                            "botright": {
+                                                "x": 3183,
+                                                "y": 3415
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{teleport archteleport soran}} to {{target}}",
                                     "children": [
                                         {
@@ -13166,7 +13010,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{teleport ringofwealth grandexchange}} - {{dive}} - {{icon run}} - {{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -13199,7 +13042,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -13253,7 +13095,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -13284,7 +13125,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3233,
+                                                "y": 3414
+                                            },
+                                            "botright": {
+                                                "x": 3234,
+                                                "y": 3412
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{surge}} to {{target}}",
                                     "children": [
                                         {
@@ -13420,7 +13274,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run to 3213 | 3461"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{teleport normalspellbook varrock}} - {{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -13456,7 +13309,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{teleport davesspellbook varrock}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -13571,7 +13423,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 10 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -13653,7 +13504,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{surge}} SW - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -13722,7 +13572,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -13770,7 +13619,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{surge}} - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -13893,7 +13741,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 8 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -13962,7 +13809,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{dive}} to {{target}}",
                         "children": []
                     }
@@ -14067,7 +13913,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 2 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{dive}} - {{surge}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -14186,128 +14031,6 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
-                "name": "A",
-                "id": 1,
-                "area": {
-                    "topleft": {
-                        "x": 3597,
-                        "y": 3495
-                    },
-                    "botright": {
-                        "x": 3597,
-                        "y": 3495
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 3587,
-                        "y": 3485
-                    },
-                    "botright": {
-                        "x": 3587,
-                        "y": 3485
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "topleft": {
-                        "x": 3583,
-                        "y": 3482
-                    },
-                    "botright": {
-                        "x": 3583,
-                        "y": 3482
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "topleft": {
-                        "x": 3591,
-                        "y": 3478
-                    },
-                    "botright": {
-                        "x": 3591,
-                        "y": 3478
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "topleft": {
-                        "x": 3607,
-                        "y": 3485
-                    },
-                    "botright": {
-                        "x": 3607,
-                        "y": 3485
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 3567,
-                        "y": 3484
-                    },
-                    "botright": {
-                        "x": 3568,
-                        "y": 3482
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "topleft": {
-                        "x": 3554,
-                        "y": 3478
-                    },
-                    "botright": {
-                        "x": 3555,
-                        "y": 3477
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "H",
-                "id": 8,
-                "area": {
-                    "topleft": {
-                        "x": 3539,
-                        "y": 3473
-                    },
-                    "botright": {
-                        "x": 3539,
-                        "y": 3473
-                    },
-                    "level": 0
-                }
-            }
-        ],
         "root": {
             "path": [
                 {
@@ -14319,7 +14042,20 @@ let raw: (method & indirected)[] =[
                     }
                 }
             ],
-            "scan_spot_id": 1,
+            "region": {
+                "name": "A",
+                "area": {
+                    "topleft": {
+                        "x": 3597,
+                        "y": 3495
+                    },
+                    "botright": {
+                        "x": 3597,
+                        "y": 3495
+                    },
+                    "level": 0
+                }
+            },
             "directions": "{{teleport fairyring ALQ}} to {{target}}",
             "children": [
                 {
@@ -14361,7 +14097,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 3587,
+                                    "y": 3485
+                                },
+                                "botright": {
+                                    "x": 3587,
+                                    "y": 3485
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} SE - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -14402,7 +14151,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 6,
+                                    "region": {
+                                        "name": "F",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3567,
+                                                "y": 3484
+                                            },
+                                            "botright": {
+                                                "x": 3568,
+                                                "y": 3482
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{dive}} - {{surge}} to {{target}}",
                                     "children": [
                                         {
@@ -14484,7 +14246,20 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 12 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": 7,
+                                                "region": {
+                                                    "name": "G",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3554,
+                                                            "y": 3478
+                                                        },
+                                                        "botright": {
+                                                            "x": 3555,
+                                                            "y": 3477
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": [
                                                     {
@@ -14614,7 +14389,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "Dig at {{target}}",
                                                             "children": []
                                                         }
@@ -14718,7 +14492,20 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 16 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 8,
+                                                            "region": {
+                                                                "name": "H",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 3539,
+                                                                        "y": 3473
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 3539,
+                                                                        "y": 3473
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{icon run}} to {{target}}",
                                                             "children": [
                                                                 {
@@ -14805,7 +14592,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "Dig at {{target}}",
                                                                         "children": []
                                                                     }
@@ -14838,7 +14624,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -14917,7 +14702,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}} - {{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -15007,7 +14791,20 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 12 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": 7,
+                                                "region": {
+                                                    "name": "G",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3554,
+                                                            "y": 3478
+                                                        },
+                                                        "botright": {
+                                                            "x": 3555,
+                                                            "y": 3477
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": [
                                                     {
@@ -15139,7 +14936,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} - {{dive}} - {{surge}} to {{target}}",
                                                             "children": []
                                                         }
@@ -15248,7 +15044,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 16 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -15350,7 +15145,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 14 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "Dig at {{target}}",
                                                 "children": []
                                             }
@@ -15447,7 +15241,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 8 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -15494,7 +15287,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 3587,
+                                    "y": 3485
+                                },
+                                "botright": {
+                                    "x": 3587,
+                                    "y": 3485
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon run}} SW - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -15535,7 +15341,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 5,
+                                    "region": {
+                                        "name": "E",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3607,
+                                                "y": 3485
+                                            },
+                                            "botright": {
+                                                "x": 3607,
+                                                "y": 3485
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{dive}} - {{surge}} to {{target}}",
                                     "children": [
                                         {
@@ -15677,7 +15496,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 24 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -15786,7 +15604,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 16 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -15843,7 +15660,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 6 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 3583,
+                                                "y": 3482
+                                            },
+                                            "botright": {
+                                                "x": 3583,
+                                                "y": 3482
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{icon run}} to {{target}}",
                                     "children": [
                                         {
@@ -16015,7 +15845,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run to 3617 | 3511"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -16043,7 +15872,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 3591,
+                                                            "y": 3478
+                                                        },
+                                                        "botright": {
+                                                            "x": 3591,
+                                                            "y": 3478
+                                                        },
+                                                        "level": 0
+                                                    }
+                                                },
                                                 "directions": "{{dive}} to {{target}}",
                                                 "children": [
                                                     {
@@ -16211,7 +16053,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 22 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "Dig at {{target}}",
                                                             "children": []
                                                         }
@@ -16285,7 +16126,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 6 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -16336,7 +16176,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -16384,7 +16223,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -16451,7 +16289,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -16484,7 +16321,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -16551,7 +16387,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{surge}} to {{target}}",
                         "children": []
                     }
@@ -16605,7 +16440,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 2 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -16638,7 +16472,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} to {{target}}",
                         "children": []
                     }
@@ -16686,7 +16519,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} - {{surge}} to {{target}}",
                         "children": []
                     }
@@ -16694,7 +16526,6 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
-    // Prifddinas
     {
         "clue": 368,
         "type": "scantree",
@@ -16791,10 +16622,19 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
+        "root": {
+            "path": [
+                {
+                    "description": "Use {{teleport teleportseed Trahaearn}} to Trahaearn",
+                    "type": "teleport",
+                    "id": {
+                        "group": "teleportseed",
+                        "sub": "Trahaearn"
+                    }
+                }
+            ],
+            "region": {
                 "name": "A",
-                "id": 1,
                 "area": {
                     "topleft": {
                         "x": 2229,
@@ -16807,109 +16647,6 @@ let raw: (method & indirected)[] =[
                     "level": 1
                 }
             },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 2221,
-                        "y": 3298
-                    },
-                    "botright": {
-                        "x": 2221,
-                        "y": 3298
-                    },
-                    "level": 1
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "level": 1,
-                    "topleft": {
-                        "x": 2185,
-                        "y": 3311
-                    },
-                    "botright": {
-                        "x": 2185,
-                        "y": 3311
-                    }
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "topleft": {
-                        "x": 2259,
-                        "y": 3385
-                    },
-                    "botright": {
-                        "x": 2263,
-                        "y": 3381
-                    },
-                    "level": 1
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "level": 1,
-                    "topleft": {
-                        "x": 2155,
-                        "y": 3383
-                    },
-                    "botright": {
-                        "x": 2155,
-                        "y": 3383
-                    }
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 2228,
-                        "y": 3413
-                    },
-                    "botright": {
-                        "x": 2232,
-                        "y": 3409
-                    },
-                    "level": 1
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "level": 1,
-                    "topleft": {
-                        "x": 2158,
-                        "y": 3383
-                    },
-                    "botright": {
-                        "x": 2158,
-                        "y": 3383
-                    }
-                }
-            }
-        ],
-        "root": {
-            "path": [
-                {
-                    "description": "Use {{teleport teleportseed Trahaearn}} to Trahaearn",
-                    "type": "teleport",
-                    "id": {
-                        "group": "teleportseed",
-                        "sub": "Trahaearn"
-                    }
-                }
-            ],
-            "scan_spot_id": 1,
             "directions": "{{teleport teleportseed Trahaearn}} to {{target}}",
             "children": [
                 {
@@ -16928,7 +16665,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 5,
+                        "region": {
+                            "name": "E",
+                            "area": {
+                                "level": 1,
+                                "topleft": {
+                                    "x": 2155,
+                                    "y": 3383
+                                },
+                                "botright": {
+                                    "x": 2155,
+                                    "y": 3383
+                                }
+                            }
+                        },
                         "directions": "{{teleport teleportseed amlodd}} to {{target}}",
                         "children": [
                             {
@@ -16965,7 +16715,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 3 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 7,
+                                    "region": {
+                                        "name": "G",
+                                        "area": {
+                                            "level": 1,
+                                            "topleft": {
+                                                "x": 2158,
+                                                "y": 3383
+                                            },
+                                            "botright": {
+                                                "x": 2158,
+                                                "y": 3383
+                                            }
+                                        }
+                                    },
                                     "directions": "{{icon run}} to {{target}}",
                                     "children": [
                                         {
@@ -16984,7 +16747,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2259,
+                                                            "y": 3385
+                                                        },
+                                                        "botright": {
+                                                            "x": 2263,
+                                                            "y": 3381
+                                                        },
+                                                        "level": 1
+                                                    }
+                                                },
                                                 "directions": "{{teleport teleportseed crwys}} to {{target}}",
                                                 "children": [
                                                     {
@@ -17030,7 +16806,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{surge}} to {{target}}",
                                                             "children": []
                                                         }
@@ -17157,7 +16932,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 2 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{surge}} - {{icon run}} - {{icon cursor_generic}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -17217,7 +16991,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{teleport teleportseed Meilyr}} - {{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -17241,7 +17014,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 6,
+                                    "region": {
+                                        "name": "F",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2228,
+                                                "y": 3413
+                                            },
+                                            "botright": {
+                                                "x": 2232,
+                                                "y": 3409
+                                            },
+                                            "level": 1
+                                        }
+                                    },
                                     "directions": "{{teleport teleportseed Meilyr}} to {{target}}",
                                     "children": [
                                         {
@@ -17441,7 +17227,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 4 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} - {{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -17551,7 +17336,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 4 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -17679,7 +17463,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{surge}} - {{dive}} - {{icon cursor_spell}} - {{icon run}} - {{surge}} to {{target}}",
                                     "children": []
                                 }
@@ -17733,7 +17516,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -17825,7 +17607,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{teleport teleportseed Ithell}} - {{icon cursor_generic}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -17933,7 +17714,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{teleport teleportseed hefin}} - {{icon run}} - {{surge}} - {{icon run}} - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -17995,7 +17775,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 2221,
+                                    "y": 3298
+                                },
+                                "botright": {
+                                    "x": 2221,
+                                    "y": 3298
+                                },
+                                "level": 1
+                            }
+                        },
                         "directions": "{{icon run}} - {{dive}} to {{target}}",
                         "children": [
                             {
@@ -18014,7 +17807,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 4,
+                                    "region": {
+                                        "name": "D",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2259,
+                                                "y": 3385
+                                            },
+                                            "botright": {
+                                                "x": 2263,
+                                                "y": 3381
+                                            },
+                                            "level": 1
+                                        }
+                                    },
                                     "directions": "{{teleport teleportseed crwys}} to {{target}}",
                                     "children": [
                                         {
@@ -18076,7 +17882,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -18277,7 +18082,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -18301,7 +18105,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "level": 1,
+                                            "topleft": {
+                                                "x": 2185,
+                                                "y": 3311
+                                            },
+                                            "botright": {
+                                                "x": 2185,
+                                                "y": 3311
+                                            }
+                                        }
+                                    },
                                     "directions": "{{teleport teleportseed iorwerth}} to {{target}}",
                                     "children": [
                                         {
@@ -18476,7 +18293,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 3 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -18581,7 +18397,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run to 2180 | 3322"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -18805,7 +18620,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 22 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -18976,7 +18790,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 12 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -19191,7 +19004,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon accel}} - {{surge}} - {{dive}} - {{icon run}} - {{surge}} - {{dive}} - {{surge}} to {{target}}",
                                     "children": []
                                 }
@@ -19391,7 +19203,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon accel}} - {{surge}} - {{dive}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -19473,7 +19284,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{surge}} - {{dive}} to {{target}}",
                         "children": []
                     }
@@ -19568,7 +19378,6 @@ let raw: (method & indirected)[] =[
                                 "description": "Run 2 tiles"
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{icon run}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                         "children": []
                     }
@@ -19576,7 +19385,6 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
-    // Dorgesh Khaan
     {
         "clue": 365,
         "type": "scantree",
@@ -19683,10 +19491,10 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
+        "root": {
+            "path": [],
+            "region": {
                 "name": "Anywhere",
-                "id": 0,
                 "area": {
                     "topleft": {
                         "x": 3157,
@@ -19699,175 +19507,6 @@ let raw: (method & indirected)[] =[
                     "level": 0
                 }
             },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 2696,
-                        "y": 5312
-                    },
-                    "botright": {
-                        "x": 2701,
-                        "y": 5300
-                    },
-                    "level": 1
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "level": 1,
-                    "topleft": {
-                        "x": 2701,
-                        "y": 5305
-                    },
-                    "botright": {
-                        "x": 2701,
-                        "y": 5305
-                    }
-                }
-            },
-            {
-                "name": "H",
-                "id": 8,
-                "area": {
-                    "topleft": {
-                        "x": 2701,
-                        "y": 5325
-                    },
-                    "botright": {
-                        "x": 2701,
-                        "y": 5325
-                    },
-                    "level": 1
-                }
-            },
-            {
-                "name": "I",
-                "id": 9,
-                "area": {
-                    "topleft": {
-                        "x": 2700,
-                        "y": 5335
-                    },
-                    "botright": {
-                        "x": 2701,
-                        "y": 5328
-                    },
-                    "level": 1
-                }
-            },
-            {
-                "name": "J",
-                "id": 10,
-                "area": {
-                    "level": 1,
-                    "topleft": {
-                        "x": 2707,
-                        "y": 5343
-                    },
-                    "botright": {
-                        "x": 2707,
-                        "y": 5343
-                    }
-                }
-            },
-            {
-                "name": "A",
-                "id": 1,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2722,
-                        "y": 5264
-                    },
-                    "botright": {
-                        "x": 2722,
-                        "y": 5264
-                    }
-                }
-            },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2726,
-                        "y": 5266
-                    },
-                    "botright": {
-                        "x": 2726,
-                        "y": 5266
-                    }
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "topleft": {
-                        "x": 2712,
-                        "y": 5277
-                    },
-                    "botright": {
-                        "x": 2715,
-                        "y": 5273
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2709,
-                        "y": 5290
-                    },
-                    "botright": {
-                        "x": 2709,
-                        "y": 5290
-                    }
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "topleft": {
-                        "x": 2713,
-                        "y": 5281
-                    },
-                    "botright": {
-                        "x": 2714,
-                        "y": 5281
-                    },
-                    "level": 1
-                }
-            },
-            {
-                "name": "K",
-                "id": 11,
-                "area": {
-                    "topleft": {
-                        "x": 2713,
-                        "y": 5285
-                    },
-                    "botright": {
-                        "x": 2714,
-                        "y": 5285
-                    },
-                    "level": 0
-                }
-            }
-        ],
-        "root": {
-            "path": [],
-            "scan_spot_id": 0,
             "directions": "Start {{target}} on ground floor",
             "children": [
                 {
@@ -19886,7 +19525,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 1,
+                        "region": {
+                            "name": "A",
+                            "area": {
+                                "level": 0,
+                                "topleft": {
+                                    "x": 2722,
+                                    "y": 5264
+                                },
+                                "botright": {
+                                    "x": 2722,
+                                    "y": 5264
+                                }
+                            }
+                        },
                         "directions": "{{teleport spheredorgeshkaan south}} to {{target}}",
                         "children": [
                             {
@@ -19912,7 +19564,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 3,
+                                    "region": {
+                                        "name": "C",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2712,
+                                                "y": 5277
+                                            },
+                                            "botright": {
+                                                "x": 2715,
+                                                "y": 5273
+                                            },
+                                            "level": 0
+                                        }
+                                    },
                                     "directions": "{{dive}} to {{target}}",
                                     "children": [
                                         {
@@ -19971,7 +19636,20 @@ let raw: (method & indirected)[] =[
                                                         "how": "ladderup"
                                                     }
                                                 ],
-                                                "scan_spot_id": 5,
+                                                "region": {
+                                                    "name": "E",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2713,
+                                                            "y": 5281
+                                                        },
+                                                        "botright": {
+                                                            "x": 2714,
+                                                            "y": 5281
+                                                        },
+                                                        "level": 1
+                                                    }
+                                                },
                                                 "directions": " {{icon cursor_ladderup}} stairs to {{target}}",
                                                 "children": [
                                                     {
@@ -20004,7 +19682,20 @@ let raw: (method & indirected)[] =[
                                                                     "how": "ladderdown"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 11,
+                                                            "region": {
+                                                                "name": "K",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 2713,
+                                                                        "y": 5285
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 2714,
+                                                                        "y": 5285
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{icon cursor_ladderdown}} stairs to {{target}}",
                                                             "children": [
                                                                 {
@@ -20069,7 +19760,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{teleport spheredorgeshkaan north}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -20301,7 +19991,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 4 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}} - {{surge}}/{{dive}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -20460,7 +20149,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon cursor_ladderdown}} - {{icon run}}/{{surge}}/{{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -20607,7 +20295,20 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 10 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": 4,
+                                                "region": {
+                                                    "name": "D",
+                                                    "area": {
+                                                        "level": 0,
+                                                        "topleft": {
+                                                            "x": 2709,
+                                                            "y": 5290
+                                                        },
+                                                        "botright": {
+                                                            "x": 2709,
+                                                            "y": 5290
+                                                        }
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} - {{icon cursor_ladderup}} - {{icon cursor_ladderdown}} - {{icon run}} to {{target}}",
                                                 "children": [
                                                     {
@@ -20744,7 +20445,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{surge}} - {{icon cursor_ladderup}} - {{dive}} - {{icon cursor_ladderdown}} - {{surge}} to {{target}}",
                                                             "children": []
                                                         }
@@ -20813,7 +20513,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{surge}} - {{icon run}} - {{surge}} to {{target}}",
                                                             "children": []
                                                         }
@@ -20863,7 +20562,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 2,
+                                    "region": {
+                                        "name": "B",
+                                        "area": {
+                                            "level": 0,
+                                            "topleft": {
+                                                "x": 2726,
+                                                "y": 5266
+                                            },
+                                            "botright": {
+                                                "x": 2726,
+                                                "y": 5266
+                                            }
+                                        }
+                                    },
                                     "directions": "{{icon run}} to {{target}}",
                                     "children": [
                                         {
@@ -21041,7 +20753,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{surge}} - {{surge}} - {{icon cursor_ladderup}} - {{icon cursor_ladderdown}} - {{icon run}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -21127,7 +20838,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{icon run}} - {{icon cursor_open}} - {{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -21163,7 +20873,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -21232,7 +20941,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon run}} - {{surge}} to {{target}}",
                                     "children": []
                                 }
@@ -21330,7 +21038,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon cursor_ladderup}} - {{icon cursor_ladderdown}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -21384,7 +21091,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -21518,7 +21224,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} - {{icon cursor_ladderup}} - {{icon cursor_ladderdown}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -21542,7 +21247,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 6,
+                        "region": {
+                            "name": "F",
+                            "area": {
+                                "topleft": {
+                                    "x": 2696,
+                                    "y": 5312
+                                },
+                                "botright": {
+                                    "x": 2701,
+                                    "y": 5300
+                                },
+                                "level": 1
+                            }
+                        },
                         "directions": "{{teleport spheredorgeshkaan west}} to {{target}}",
                         "children": [
                             {
@@ -21619,7 +21337,20 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": 9,
+                                    "region": {
+                                        "name": "I",
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2700,
+                                                "y": 5335
+                                            },
+                                            "botright": {
+                                                "x": 2701,
+                                                "y": 5328
+                                            },
+                                            "level": 1
+                                        }
+                                    },
                                     "directions": "{{icon run}} - {{surge}} - {{surge}} to {{target}}",
                                     "children": [
                                         {
@@ -21645,7 +21376,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 10,
+                                                "region": {
+                                                    "name": "J",
+                                                    "area": {
+                                                        "level": 1,
+                                                        "topleft": {
+                                                            "x": 2707,
+                                                            "y": 5343
+                                                        },
+                                                        "botright": {
+                                                            "x": 2707,
+                                                            "y": 5343
+                                                        }
+                                                    }
+                                                },
                                                 "directions": "{{dive}} to {{target}}",
                                                 "children": [
                                                     {
@@ -21768,7 +21512,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{teleport spheredorgeshkaan south}} - {{icon cursor_ladderup}} - {{surge}} east - {{dive}} to {{target}}",
                                                             "children": []
                                                         }
@@ -21861,7 +21604,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 2 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{teleport spheredorgeshkaan east}} - {{surge}} - {{dive}} (not earlier!) - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -21892,7 +21634,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 10,
+                                                "region": {
+                                                    "name": "J",
+                                                    "area": {
+                                                        "level": 1,
+                                                        "topleft": {
+                                                            "x": 2707,
+                                                            "y": 5343
+                                                        },
+                                                        "botright": {
+                                                            "x": 2707,
+                                                            "y": 5343
+                                                        }
+                                                    }
+                                                },
                                                 "directions": "{{dive}} to {{target}}",
                                                 "children": [
                                                     {
@@ -22023,7 +21778,6 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon accel}} - {{dive}}/{{surge}} to {{target}}",
                                                             "children": []
                                                         }
@@ -22122,7 +21876,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 14 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -22158,7 +21911,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -22200,7 +21952,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 3 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 7,
+                                    "region": {
+                                        "name": "G",
+                                        "area": {
+                                            "level": 1,
+                                            "topleft": {
+                                                "x": 2701,
+                                                "y": 5305
+                                            },
+                                            "botright": {
+                                                "x": 2701,
+                                                "y": 5305
+                                            }
+                                        }
+                                    },
                                     "directions": "{{icon run}} to {{target}}",
                                     "children": [
                                         {
@@ -22241,7 +22006,20 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": 8,
+                                                "region": {
+                                                    "name": "H",
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2701,
+                                                            "y": 5325
+                                                        },
+                                                        "botright": {
+                                                            "x": 2701,
+                                                            "y": 5325
+                                                        },
+                                                        "level": 1
+                                                    }
+                                                },
                                                 "directions": "{{dive}} - {{surge}} to {{target}}",
                                                 "children": [
                                                     {
@@ -22301,7 +22079,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 6 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{teleport spheredorgeshkaan east}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -22396,7 +22173,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 6 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -22447,7 +22223,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{surge}} to {{target}}",
                                                 "children": []
                                             }
@@ -22529,7 +22304,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -22584,7 +22358,6 @@ let raw: (method & indirected)[] =[
                                             "how": "open"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{icon cursor_open}} to {{target}}",
                                     "children": []
                                 }
@@ -22595,7 +22368,6 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
-    // Piscatoris
     {
         "clue": 355,
         "type": "scantree",
@@ -22732,113 +22504,6 @@ let raw: (method & indirected)[] =[
             }
         ],
         "assumes_meerkats": true,
-        "areas": [
-            {
-                "name": "A",
-                "id": 1,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2319,
-                        "y": 3619
-                    },
-                    "botright": {
-                        "x": 2319,
-                        "y": 3619
-                    }
-                }
-            },
-            {
-                "name": "B",
-                "id": 2,
-                "area": {
-                    "topleft": {
-                        "x": 2328,
-                        "y": 3606
-                    },
-                    "botright": {
-                        "x": 2329,
-                        "y": 3605
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "C",
-                "id": 3,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2331,
-                        "y": 3607
-                    },
-                    "botright": {
-                        "x": 2331,
-                        "y": 3607
-                    }
-                }
-            },
-            {
-                "name": "D",
-                "id": 4,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2345,
-                        "y": 3593
-                    },
-                    "botright": {
-                        "x": 2345,
-                        "y": 3593
-                    }
-                }
-            },
-            {
-                "name": "E",
-                "id": 5,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2347,
-                        "y": 3594
-                    },
-                    "botright": {
-                        "x": 2347,
-                        "y": 3594
-                    }
-                }
-            },
-            {
-                "name": "F",
-                "id": 6,
-                "area": {
-                    "topleft": {
-                        "x": 2356,
-                        "y": 3606
-                    },
-                    "botright": {
-                        "x": 2362,
-                        "y": 3606
-                    },
-                    "level": 0
-                }
-            },
-            {
-                "name": "G",
-                "id": 7,
-                "area": {
-                    "level": 0,
-                    "topleft": {
-                        "x": 2359,
-                        "y": 3604
-                    },
-                    "botright": {
-                        "x": 2359,
-                        "y": 3604
-                    }
-                }
-            }
-        ],
         "root": {
             "path": [
                 {
@@ -22850,7 +22515,20 @@ let raw: (method & indirected)[] =[
                     }
                 }
             ],
-            "scan_spot_id": 1,
+            "region": {
+                "name": "A",
+                "area": {
+                    "level": 0,
+                    "topleft": {
+                        "x": 2319,
+                        "y": 3619
+                    },
+                    "botright": {
+                        "x": 2319,
+                        "y": 3619
+                    }
+                }
+            },
             "directions": "{{teleport fairyring AKQ}} to {{target}}",
             "children": [
                 {
@@ -22897,7 +22575,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 3,
+                        "region": {
+                            "name": "C",
+                            "area": {
+                                "level": 0,
+                                "topleft": {
+                                    "x": 2331,
+                                    "y": 3607
+                                },
+                                "botright": {
+                                    "x": 2331,
+                                    "y": 3607
+                                }
+                            }
+                        },
                         "directions": "{{icon run}} - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -22965,7 +22656,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 4,
+                                    "region": {
+                                        "name": "D",
+                                        "area": {
+                                            "level": 0,
+                                            "topleft": {
+                                                "x": 2345,
+                                                "y": 3593
+                                            },
+                                            "botright": {
+                                                "x": 2345,
+                                                "y": 3593
+                                            }
+                                        }
+                                    },
                                     "directions": "{{icon run}} 2 SE - {{surge}} - {{icon run}} 2 SE to {{target}}",
                                     "children": [
                                         {
@@ -22974,10 +22678,9 @@ let raw: (method & indirected)[] =[
                                                 "different_level": false
                                             },
                                             "value": {
-                                                "scan_spot_id": null,
-                                                "children": [],
+                                                "path": [],
                                                 "directions": "Missing directions",
-                                                "path": []
+                                                "children": []
                                             }
                                         },
                                         {
@@ -23009,7 +22712,20 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 2 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": 5,
+                                                "region": {
+                                                    "name": "E",
+                                                    "area": {
+                                                        "level": 0,
+                                                        "topleft": {
+                                                            "x": 2347,
+                                                            "y": 3594
+                                                        },
+                                                        "botright": {
+                                                            "x": 2347,
+                                                            "y": 3594
+                                                        }
+                                                    }
+                                                },
                                                 "directions": "{{icon run}} to {{target}}",
                                                 "children": [
                                                     {
@@ -23186,7 +22902,6 @@ let raw: (method & indirected)[] =[
                                                                     "description": "Run 28 tiles"
                                                                 }
                                                             ],
-                                                            "scan_spot_id": null,
                                                             "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                             "children": []
                                                         }
@@ -23235,7 +22950,20 @@ let raw: (method & indirected)[] =[
                                                                     }
                                                                 }
                                                             ],
-                                                            "scan_spot_id": 6,
+                                                            "region": {
+                                                                "name": "F",
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 2356,
+                                                                        "y": 3606
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 2362,
+                                                                        "y": 3606
+                                                                    },
+                                                                    "level": 0
+                                                                }
+                                                            },
                                                             "directions": "{{icon run}} - {{dive}} to {{target}}",
                                                             "children": [
                                                                 {
@@ -23267,7 +22995,20 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 2 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": 7,
+                                                                        "region": {
+                                                                            "name": "G",
+                                                                            "area": {
+                                                                                "level": 0,
+                                                                                "topleft": {
+                                                                                    "x": 2359,
+                                                                                    "y": 3604
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 2359,
+                                                                                    "y": 3604
+                                                                                }
+                                                                            }
+                                                                        },
                                                                         "directions": "{{icon run}} 2 tiles south to {{target}}",
                                                                         "children": [
                                                                             {
@@ -23362,7 +23103,6 @@ let raw: (method & indirected)[] =[
                                                                                             }
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": null,
                                                                                     "directions": "{{icon accel}} - {{dive}}/{{surge}} to {{target}}",
                                                                                     "children": []
                                                                                 }
@@ -23518,7 +23258,6 @@ let raw: (method & indirected)[] =[
                                                                                             }
                                                                                         }
                                                                                     ],
-                                                                                    "scan_spot_id": null,
                                                                                     "directions": "{{icon run}} -  {{surge}} - {{icon run}} to {{target}}",
                                                                                     "children": []
                                                                                 }
@@ -23615,7 +23354,6 @@ let raw: (method & indirected)[] =[
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "Dig at {{target}}",
                                                                         "children": []
                                                                     }
@@ -23802,7 +23540,6 @@ let raw: (method & indirected)[] =[
                                                                                 "description": "Run 4 tiles"
                                                                             }
                                                                         ],
-                                                                        "scan_spot_id": null,
                                                                         "directions": "{{icon run}} - {{icon cursor_obstacle}} - {{dive}} - {{icon run}} to {{target}}",
                                                                         "children": []
                                                                     }
@@ -23881,7 +23618,20 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": 4,
+                                    "region": {
+                                        "name": "D",
+                                        "area": {
+                                            "level": 0,
+                                            "topleft": {
+                                                "x": 2345,
+                                                "y": 3593
+                                            },
+                                            "botright": {
+                                                "x": 2345,
+                                                "y": 3593
+                                            }
+                                        }
+                                    },
                                     "directions": "{{icon run}} 2 SE - {{surge}} - {{icon run}} 2 SE to {{target}}",
                                     "children": [
                                         {
@@ -24028,7 +23778,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 22 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -24112,7 +23861,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 8 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -24196,7 +23944,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 8 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                 "children": []
                                             }
@@ -24250,7 +23997,6 @@ let raw: (method & indirected)[] =[
                                                         }
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "{{icon run}} - {{dive}} to {{target}}",
                                                 "children": []
                                             }
@@ -24344,7 +24090,6 @@ let raw: (method & indirected)[] =[
                                                         "description": "Run 10 tiles"
                                                     }
                                                 ],
-                                                "scan_spot_id": null,
                                                 "directions": "Dig at {{target}}",
                                                 "children": []
                                             }
@@ -24414,7 +24159,20 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": 2,
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 2328,
+                                    "y": 3606
+                                },
+                                "botright": {
+                                    "x": 2329,
+                                    "y": 3605
+                                },
+                                "level": 0
+                            }
+                        },
                         "directions": "{{icon cursor_generic}} rabbit hole - {{icon run}} - {{surge}} to {{target}}",
                         "children": [
                             {
@@ -24556,7 +24314,6 @@ let raw: (method & indirected)[] =[
                                             "description": "Run 18 tiles"
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                     "children": []
                                 }
@@ -24604,7 +24361,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{surge}} - {{dive}} to {{target}}",
                                     "children": []
                                 }
@@ -24652,7 +24408,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "Dig at {{target}}",
                                     "children": []
                                 }
@@ -24700,7 +24455,6 @@ let raw: (method & indirected)[] =[
                                             }
                                         }
                                     ],
-                                    "scan_spot_id": null,
                                     "directions": "{{dive}} - {{surge}} to {{target}}",
                                     "children": []
                                 }
@@ -24751,7 +24505,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} - {{surge}} to {{target}}",
                         "children": []
                     }
@@ -24799,7 +24552,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} - {{surge}} to {{target}}",
                         "children": []
                     }
@@ -24832,7 +24584,6 @@ let raw: (method & indirected)[] =[
                                 }
                             }
                         ],
-                        "scan_spot_id": null,
                         "directions": "{{dive}} to {{target}}",
                         "children": []
                     }
@@ -24840,11 +24591,184 @@ let raw: (method & indirected)[] =[
             ]
         }
     },
-    // Fremmenik Isles (WIP)
     {
-        "areas": [
+        "clue": 363,
+        "type": "scantree",
+        "spot_ordering": [
             {
-                "id": 0,
+                "x": 2354,
+                "y": 3790,
+                "level": 0
+            },
+            {
+                "x": 2360,
+                "y": 3799,
+                "level": 0
+            },
+            {
+                "x": 2324,
+                "y": 3808,
+                "level": 0
+            },
+            {
+                "x": 2322,
+                "y": 3787,
+                "level": 0
+            },
+            {
+                "x": 2311,
+                "y": 3801,
+                "level": 0
+            },
+            {
+                "x": 2340,
+                "y": 3803,
+                "level": 0
+            },
+            {
+                "x": 2342,
+                "y": 3809,
+                "level": 0
+            },
+            {
+                "x": 2330,
+                "y": 3829,
+                "level": 0
+            },
+            {
+                "x": 2311,
+                "y": 3835,
+                "level": 0
+            },
+            {
+                "x": 2376,
+                "y": 3800,
+                "level": 0
+            },
+            {
+                "x": 2381,
+                "y": 3789,
+                "level": 0
+            },
+            {
+                "x": 2402,
+                "y": 3789,
+                "level": 0
+            },
+            {
+                "x": 2421,
+                "y": 3792,
+                "level": 0
+            },
+            {
+                "x": 2397,
+                "y": 3801,
+                "level": 0
+            },
+            {
+                "x": 2419,
+                "y": 3833,
+                "level": 0
+            },
+            {
+                "x": 2395,
+                "y": 3812,
+                "level": 0
+            },
+            {
+                "x": 2373,
+                "y": 3834,
+                "level": 0
+            },
+            {
+                "x": 2314,
+                "y": 3851,
+                "level": 0
+            },
+            {
+                "x": 2326,
+                "y": 3866,
+                "level": 0
+            },
+            {
+                "x": 2326,
+                "y": 3850,
+                "level": 0
+            },
+            {
+                "x": 2354,
+                "y": 3853,
+                "level": 0
+            },
+            {
+                "x": 2349,
+                "y": 3880,
+                "level": 0
+            },
+            {
+                "x": 2312,
+                "y": 3894,
+                "level": 0
+            },
+            {
+                "x": 2352,
+                "y": 3892,
+                "level": 0
+            },
+            {
+                "x": 2414,
+                "y": 3848,
+                "level": 0
+            },
+            {
+                "x": 2418,
+                "y": 3870,
+                "level": 0
+            },
+            {
+                "x": 2377,
+                "y": 3850,
+                "level": 0
+            },
+            {
+                "x": 2400,
+                "y": 3870,
+                "level": 0
+            },
+            {
+                "x": 2368,
+                "y": 3870,
+                "level": 0
+            },
+            {
+                "x": 2417,
+                "y": 3893,
+                "level": 0
+            },
+            {
+                "x": 2399,
+                "y": 3888,
+                "level": 0
+            },
+            {
+                "x": 2389,
+                "y": 3899,
+                "level": 0
+            }
+        ],
+        "assumes_meerkats": true,
+        "root": {
+            "path": [
+                {
+                    "description": "Use {{teleport naturessentinel arcticpine}} to Arctic Pine Trees",
+                    "type": "teleport",
+                    "id": {
+                        "group": "naturessentinel",
+                        "sub": "arcticpine"
+                    }
+                }
+            ],
+            "region": {
                 "name": "A",
                 "area": {
                     "topleft": {
@@ -24858,26 +24782,7 @@ let raw: (method & indirected)[] =[
                     "level": 0
                 }
             },
-            {
-                "id": 1,
-                "name": "B",
-                "area": {
-                    "topleft": {
-                        "x": 2356,
-                        "y": 3854
-                    },
-                    "botright": {
-                        "x": 2356,
-                        "y": 3852
-                    },
-                    "level": 0
-                }
-            }
-        ],
-        "assumes_meerkats": true,
-        "clue": 363,
-        "root": {
-            "scan_spot_id": 0,
+            "directions": "{{teleport naturessentinel arcticpine}} to Pine Trees",
             "children": [
                 {
                     "key": {
@@ -24885,10 +24790,9 @@ let raw: (method & indirected)[] =[
                         "different_level": false
                     },
                     "value": {
-                        "scan_spot_id": null,
-                        "children": [],
+                        "path": [],
                         "directions": "Missing directions",
-                        "path": []
+                        "children": []
                     }
                 },
                 {
@@ -24897,7 +24801,54 @@ let raw: (method & indirected)[] =[
                         "different_level": false
                     },
                     "value": {
-                        "scan_spot_id": 1,
+                        "path": [
+                            {
+                                "type": "run",
+                                "waypoints": [
+                                    {
+                                        "x": 2355,
+                                        "y": 3848,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2355,
+                                        "y": 3849,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2355,
+                                        "y": 3850,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2355,
+                                        "y": 3851,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2356,
+                                        "y": 3852,
+                                        "level": 0
+                                    }
+                                ],
+                                "description": "Run 4 tiles"
+                            }
+                        ],
+                        "region": {
+                            "name": "B",
+                            "area": {
+                                "topleft": {
+                                    "x": 2356,
+                                    "y": 3854
+                                },
+                                "botright": {
+                                    "x": 2356,
+                                    "y": 3852
+                                },
+                                "level": 0
+                            }
+                        },
+                        "directions": "{{icon run}} to {{target}}",
                         "children": [
                             {
                                 "key": {
@@ -24905,10 +24856,9 @@ let raw: (method & indirected)[] =[
                                     "different_level": false
                                 },
                                 "value": {
-                                    "scan_spot_id": null,
-                                    "children": [],
+                                    "path": [],
                                     "directions": "Missing directions",
-                                    "path": []
+                                    "children": []
                                 }
                             },
                             {
@@ -24917,10 +24867,9 @@ let raw: (method & indirected)[] =[
                                     "different_level": false
                                 },
                                 "value": {
-                                    "scan_spot_id": null,
-                                    "children": [],
+                                    "path": [],
                                     "directions": "Missing directions",
-                                    "path": []
+                                    "children": []
                                 }
                             },
                             {
@@ -24934,9 +24883,6 @@ let raw: (method & indirected)[] =[
                                     }
                                 },
                                 "value": {
-                                    "scan_spot_id": null,
-                                    "children": [],
-                                    "directions": "Use 2 bridges {{icon shortcut}} to {{target}}",
                                     "path": [
                                         {
                                             "type": "run",
@@ -25100,7 +25046,9 @@ let raw: (method & indirected)[] =[
                                             ],
                                             "description": "Run 2 tiles"
                                         }
-                                    ]
+                                    ],
+                                    "directions": "Use 2 bridges {{icon shortcut}} to {{target}}",
+                                    "children": []
                                 }
                             },
                             {
@@ -25114,9 +25062,6 @@ let raw: (method & indirected)[] =[
                                     }
                                 },
                                 "value": {
-                                    "scan_spot_id": null,
-                                    "children": [],
-                                    "directions": "{{icon run}} - {{dive}}/{{surge}} to {{target}}",
                                     "path": [
                                         {
                                             "type": "run",
@@ -25174,42 +25119,10 @@ let raw: (method & indirected)[] =[
                                                 "level": 0
                                             }
                                         }
-                                    ]
+                                    ],
+                                    "directions": "{{icon run}} - {{dive}}/{{surge}} to {{target}}",
+                                    "children": []
                                 }
-                            }
-                        ],
-                        "directions": "{{icon run}} to {{target}}",
-                        "path": [
-                            {
-                                "type": "run",
-                                "waypoints": [
-                                    {
-                                        "x": 2355,
-                                        "y": 3848,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2355,
-                                        "y": 3849,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2355,
-                                        "y": 3850,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2355,
-                                        "y": 3851,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2356,
-                                        "y": 3852,
-                                        "level": 0
-                                    }
-                                ],
-                                "description": "Run 4 tiles"
                             }
                         ]
                     }
@@ -25225,9 +25138,6 @@ let raw: (method & indirected)[] =[
                         }
                     },
                     "value": {
-                        "scan_spot_id": null,
-                        "children": [],
-                        "directions": "{{icon cursor_obstacle}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
                         "path": [
                             {
                                 "type": "interaction",
@@ -25302,7 +25212,9 @@ let raw: (method & indirected)[] =[
                                     "level": 0
                                 }
                             }
-                        ]
+                        ],
+                        "directions": "{{icon cursor_obstacle}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
+                        "children": []
                     }
                 },
                 {
@@ -25316,9 +25228,6 @@ let raw: (method & indirected)[] =[
                         }
                     },
                     "value": {
-                        "scan_spot_id": null,
-                        "children": [],
-                        "directions": "{{dive}} to {{target}}",
                         "path": [
                             {
                                 "type": "ability",
@@ -25335,185 +25244,14 @@ let raw: (method & indirected)[] =[
                                     "level": 0
                                 }
                             }
-                        ]
-                    }
-                }
-            ],
-            "directions": "{{teleport naturessentinel arcticpine}} to Pine Trees",
-            "path": [
-                {
-                    "description": "Use {{teleport naturessentinel arcticpine}} to Arctic Pine Trees",
-                    "type": "teleport",
-                    "id": {
-                        "group": "naturessentinel",
-                        "sub": "arcticpine"
+                        ],
+                        "directions": "{{dive}} to {{target}}",
+                        "children": []
                     }
                 }
             ]
-        },
-        "spot_ordering": [
-            {
-                "x": 2354,
-                "y": 3790,
-                "level": 0
-            },
-            {
-                "x": 2360,
-                "y": 3799,
-                "level": 0
-            },
-            {
-                "x": 2324,
-                "y": 3808,
-                "level": 0
-            },
-            {
-                "x": 2322,
-                "y": 3787,
-                "level": 0
-            },
-            {
-                "x": 2311,
-                "y": 3801,
-                "level": 0
-            },
-            {
-                "x": 2340,
-                "y": 3803,
-                "level": 0
-            },
-            {
-                "x": 2342,
-                "y": 3809,
-                "level": 0
-            },
-            {
-                "x": 2330,
-                "y": 3829,
-                "level": 0
-            },
-            {
-                "x": 2311,
-                "y": 3835,
-                "level": 0
-            },
-            {
-                "x": 2376,
-                "y": 3800,
-                "level": 0
-            },
-            {
-                "x": 2381,
-                "y": 3789,
-                "level": 0
-            },
-            {
-                "x": 2402,
-                "y": 3789,
-                "level": 0
-            },
-            {
-                "x": 2421,
-                "y": 3792,
-                "level": 0
-            },
-            {
-                "x": 2397,
-                "y": 3801,
-                "level": 0
-            },
-            {
-                "x": 2419,
-                "y": 3833,
-                "level": 0
-            },
-            {
-                "x": 2395,
-                "y": 3812,
-                "level": 0
-            },
-            {
-                "x": 2373,
-                "y": 3834,
-                "level": 0
-            },
-            {
-                "x": 2314,
-                "y": 3851,
-                "level": 0
-            },
-            {
-                "x": 2326,
-                "y": 3866,
-                "level": 0
-            },
-            {
-                "x": 2326,
-                "y": 3850,
-                "level": 0
-            },
-            {
-                "x": 2354,
-                "y": 3853,
-                "level": 0
-            },
-            {
-                "x": 2349,
-                "y": 3880,
-                "level": 0
-            },
-            {
-                "x": 2312,
-                "y": 3894,
-                "level": 0
-            },
-            {
-                "x": 2352,
-                "y": 3892,
-                "level": 0
-            },
-            {
-                "x": 2414,
-                "y": 3848,
-                "level": 0
-            },
-            {
-                "x": 2418,
-                "y": 3870,
-                "level": 0
-            },
-            {
-                "x": 2377,
-                "y": 3850,
-                "level": 0
-            },
-            {
-                "x": 2400,
-                "y": 3870,
-                "level": 0
-            },
-            {
-                "x": 2368,
-                "y": 3870,
-                "level": 0
-            },
-            {
-                "x": 2417,
-                "y": 3893,
-                "level": 0
-            },
-            {
-                "x": 2399,
-                "y": 3888,
-                "level": 0
-            },
-            {
-                "x": 2389,
-                "y": 3899,
-                "level": 0
-            }
-        ],
-        "type": "scantree"
-    },
+        }
+    }
 ]
+
 export default raw

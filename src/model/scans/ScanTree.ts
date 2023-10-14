@@ -100,7 +100,6 @@ export namespace ScanTree {
         path: Path.augmented,
         depth: number,
         remaining_candidates: MapCoordinate[],
-        //is_leaf?: boolean,
         information: ScanInformation[],
         children: {
             key: Pulse,
@@ -108,6 +107,22 @@ export namespace ScanTree {
         }[],
         completeness?: completeness_t,
         correctness?: correctness_t,
+    }
+
+    export namespace augmented {
+        export function collect_parents(node: augmented_decision_tree): augmented_decision_tree[] {
+            if (!node.parent) return [node]
+
+            let par = collect_parents(node.parent.node)
+            par.push(node)
+            return par
+        }
+
+        export function traverse(tree: augmented_decision_tree, f: (_: augmented_decision_tree) => void, include_root: boolean = true): void {
+            if (include_root && tree) f(tree)
+
+            tree.children.forEach(c => traverse(c.value, f, true))
+        }
     }
 
     export function traverse(tree: decision_tree, f: (_: decision_tree) => void): void {

@@ -4,7 +4,6 @@ import {ScanTree} from "../../model/scans/ScanTree";
 import tree_node = ScanTree.decision_tree;
 import augmented_tree = ScanTree.augmented_decision_tree;
 import ScanDecision = ScanTree.ScanInformation;
-import {Pulse} from "../../model/scans/scans";
 import {util} from "../../util/util";
 import Properties from "../widgets/Properties";
 import natural_join = util.natural_join;
@@ -90,7 +89,7 @@ class TreeNodeEdit extends Widget<{
 
     is_collapsed: boolean = false
 
-    constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
+    constructor(private parent: TreeEdit, public node: augmented_tree, include_paths: boolean) {
         super()
 
         this.self_content = c().addClass("ctr-scantreeedit-node")
@@ -121,7 +120,6 @@ class TreeNodeEdit extends Widget<{
 
             this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
                 .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
-
 
             this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
                 .append(this.you_are_here_marker)
@@ -233,40 +231,20 @@ export default class TreeEdit extends Widget<{
         return this.render_promise
     }
 
-    children: TreeNodeEdit[] = []
+    root_widget: TreeNodeEdit = null
 
     private async renderContent() {
         let augmented = await ScanTree.augment(this.parent.value, {analyze_completeness: true})
 
         let self = this
 
-        /*new Properties().appendTo(this)
-            .named("Hide Paths?", new Checkbox().setValue(self.hide_paths).on("changed", (v) => {
-                self.hide_paths = v
-                self.update()
-                this.emit("preview_invalidated", null)
-            }))*/
-
-        this.children = []
-
-        function helper(node: augmented_tree) {
-            // Only create edits for real nodes
-            if (node.raw) self.children.push(new TreeNodeEdit(self, node, !self.hide_paths)
-                .on("changed", async () => {
-                    await ScanTree.normalize(self.parent.value)
-                    await self.update()
-                    await self.emit("preview_invalidated", null)
-                })
-                .appendTo(self))
-            /*
-
-                        node.children
-                            .filter(n => n.key)
-                            .sort(Order.comap(Order.reverse(Pulse.compare), a => a.key))
-                            .forEach(c => helper(c.value))*/
-        }
-
-        helper(augmented)
+        this.root_widget = new TreeNodeEdit(self, augmented, !self.hide_paths)
+            .on("changed", async () => {
+                await ScanTree.normalize(self.parent.value)
+                await self.update()
+                await self.emit("preview_invalidated", null)
+            })
+            .appendTo(self)
     }
 
     setValue(value: tree_node) {
@@ -289,7 +267,29 @@ export default class TreeEdit extends Widget<{
     async updatePreview(layer: OpacityGroup) {
         await this.render_promise
 
-        if (!this.hide_paths) this.children.forEach(c => c.updatePreview(layer))
+        if(this.active) {
+            ScanTree.augmented.collect_parents(this.active.node).forEach(n => {
+                if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
+
+                return PathingGraphics.renderPath(n.raw.path).addTo(layer)
+            })
+
+            ScanTree.augmented.traverse(this.active.node, (n) => {
+                // TODO: Decreasing opacity
+
+
+                if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
+
+                return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
+            }, false)
+        } else {
+
+            ScanTree.augmented.traverse(this.root_widget.node, (n) => {
+                if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
+
+                return PathingGraphics.renderPath(n.raw.path).addTo(layer)
+            }, true)
+        }
     }
 
     active: TreeNodeEdit = null
@@ -298,7 +298,9 @@ export default class TreeEdit extends Widget<{
         if (this.active) this.active.setActive(false)
 
         this.active = node
-        this.active.setActive(true)
+        if (this.active) this.active.setActive(true)
+
+        this.emit("preview_invalidated", null)
 
         // TODO: Update preview
         //      - Path to active node (including regions)

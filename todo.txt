@@ -3,6 +3,7 @@ Immediate next:
 - Autoname areas
 - Reenable region functionality
 - Focus on node ("You are here")
+- Couple equivalence classes to active node
 
 - Make fit include the entire path
 - Display timing in spot view
@@ -14,6 +15,7 @@ Immediate next:
 - Custom context menu on the map
 - [Bug] Mousewheel scrolling in the path editor
 - Hover to highlight path
+- Check out mejs map for transport data
 
 Ready for release:
 - [Presentation] reenable walls on the map.

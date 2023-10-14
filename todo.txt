@@ -13,6 +13,7 @@ Immediate next:
 - Autosort for path edit
 - Custom context menu on the map
 - [Bug] Mousewheel scrolling in the path editor
+- Hover to highlight path
 
 Ready for release:
 - [Presentation] reenable walls on the map.

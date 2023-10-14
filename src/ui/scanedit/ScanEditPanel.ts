@@ -70,7 +70,7 @@ export default class ScanEditPanel extends Widget<{
             $("<div class='lightbutton' title='Open the route in training mode.'>Try</div>")
                 .on("click", () => {
 
-                    // It's the year 2023 and TypeScript/Webpac can't deal with ciruclar dependent files. What the actual fuck.
+                    // It's the year 2023 and TypeScript/Webpack can't properly deal with circular dependent files. What the actual fuck.
                     this.layer.app.sidepanels.clue_panel.showMethod(this.value)
                 })
                 .appendTo(control_row)
@@ -100,8 +100,6 @@ export default class ScanEditPanel extends Widget<{
         this.tree_edit.on("changed", (t) => {
             this.value.root = t
             this.updatePreview()
-        }).on("decisions_loaded", (decisions) => {
-            // TODO: Rework with the "you are here" thingy //this.areas.setDecisions(decisions)
         }).on("preview_invalidated", () => {
             this.updatePreview()
         })

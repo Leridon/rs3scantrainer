@@ -81,8 +81,8 @@ export namespace ScanTree {
             correct_with_warnings: {char: "\u2713", cls: "ctr-semicorrect", desc: "All paths are correct, but some have warnings."},
             error: {char: "\u2715", cls: "ctr-incorrect", desc: "There is an error in this path."},
             error_in_children: {char: "\u2715", cls: "ctr-semiincorrect", desc: "A child path has errors."},
-            incomplete: {char: "\u2715", cls: "ctr-incorrect", desc: "This branch is incomplete."},
-            incomplete_children: {char: "\u2715", cls: "ctr-semiincorrect", desc: "Branch has incomplete children."}
+            incomplete: {char: "?", cls: "ctr-incorrect", desc: "This branch is incomplete."},
+            incomplete_children: {char: "?", cls: "ctr-semiincorrect", desc: "Branch has incomplete children."}
         }
 
         return meta[completeness]

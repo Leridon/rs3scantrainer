@@ -628,6 +628,29 @@ video {
     border-bottom: 1px dashed var(--nis-col-faded);
 }
 
+/* Scan Tree Edit */
+
+.ctr-scantreeedit-node {
+    border-radius: 5px;
+}
+
+.ctr-scantreeedit-node.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ctr-scantreeedit-youarehere {
+    width: 1.3em;
+    height: 1.3em;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ctr-scantreeedit-node.active > * > .ctr-scantreeedit-youarehere {
+    background-image: url("assets/icons/youarehere.png");
+}
+
+
 /**/
 
 .ctr-step-issue[level] {

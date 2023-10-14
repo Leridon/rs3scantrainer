@@ -97,9 +97,13 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             }
 
             {
+                let steps = this.augmented.steps.slice(0, Math.min(this.augmented.steps.length, 4))
+
                 let html = this.augmented.steps.length > 0
-                    ? this.augmented.steps.map((step, i) => PathGraphics.asSpan(step.raw)).join("|")
+                    ? steps.map((step) => PathGraphics.asSpan(step.raw)).join("|")
                     : "Empty path"
+
+                if (steps.length != this.augmented.steps.length) html += " ..."
 
                 let preview_span = c("<span>").appendTo(preview).container.html(html)
             }

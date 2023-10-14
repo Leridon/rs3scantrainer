@@ -80,12 +80,21 @@ function render_completeness(completeness: ScanTree.completeness_t | ScanTree.co
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree
 }> {
+    self_content: Widget
     header: Widget
-    content: Widget
+    body: Widget
+
+    you_are_here_marker: Widget
+
+    child_content: Widget
+
     is_collapsed: boolean = false
 
     constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
         super()
+
+        this.self_content = c().addClass("ctr-scantreeedit-node")
+        this.child_content = c()
 
         {
             let self = this
@@ -99,22 +108,26 @@ class TreeNodeEdit extends Widget<{
                 return `assets/nis/${self.is_collapsed ? "arrow_right" : "arrow_down"}.png`
             }
 
-            let collapse_control = c(`<div style='padding-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
-                .css("padding-left", `${node.depth * 5}px`)
+            let collapse_control = c(`<div style='margin-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
+                .css("margin-left", `${node.depth * 5}px`)
                 .tapRaw(r => r.on("click", () => {
                     this.is_collapsed = !this.is_collapsed
 
                     collapse_control.container.children("img").attr("src", get_ar)
 
-                    this.content.container.animate({
-                        "height": "toggle"
-                    })
+                    this.child_content.setVisible(!this.is_collapsed)
+                    this.body.setVisible(!this.is_collapsed)
                 }))
 
-            this.header = c(`<div style="padding-left: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
+            this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
+                .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
+
+
+            this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
+                .append(this.you_are_here_marker)
                 .append(collapse_control)
                 .append(c(`<span class='nisl-textlink' style="flex-grow: 1">${decision_path_text}: </span>`).tooltip("Load decisions into map")
-                    .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.information)))
+                    .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
                 )
                 .append(c(`<span>${util.plural(node.remaining_candidates.length, "spot")}</span>`)
                     //.addClass(ScanTree.completeness_meta(node.completeness).cls)
@@ -123,9 +136,10 @@ class TreeNodeEdit extends Widget<{
                 .append(render_completeness(node.completeness).css("margin-left", "5px"))
                 .append(render_completeness(node.correctness).css("margin-left", "5px"))
         }
-        this.content = c()
 
-        let props = new Properties().appendTo(this.content)
+        let props = new Properties()
+
+        this.body = props
 
         props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
             target: this.node.path.target,
@@ -169,13 +183,19 @@ class TreeNodeEdit extends Widget<{
         )
 
         this.node.children.forEach(c => {
-            new TreeNodeEdit(parent, c.value, false).appendTo(this.content)
+            new TreeNodeEdit(parent, c.value, false).appendTo(this.child_content)
         })
 
-        this.append(this.header).append(this.content)
+        this
+            .append(this.self_content.append(this.header).append(this.body))
+            .append(this.child_content)
     }
 
     region_preview: SpotPolygon = null
+
+    setActive(v: boolean) {
+        this.self_content.toggleClass("active", v)
+    }
 
     updatePreview(layer: OpacityGroup) {
         if (this.node.raw.region) {
@@ -184,11 +204,14 @@ class TreeNodeEdit extends Widget<{
 
         return PathingGraphics.renderPath(this.node.raw.path).addTo(layer)
     }
+
+    isActive(): boolean {
+        return this == this.parent.active
+    }
 }
 
 export default class TreeEdit extends Widget<{
     changed: tree_node,
-    decisions_loaded: ScanDecision[],
     preview_invalidated: null,
     path_editor_state_changed: boolean,
 }> {
@@ -267,5 +290,21 @@ export default class TreeEdit extends Widget<{
         await this.render_promise
 
         if (!this.hide_paths) this.children.forEach(c => c.updatePreview(layer))
+    }
+
+    active: TreeNodeEdit = null
+
+    setActiveNode(node: TreeNodeEdit) {
+        if (this.active) this.active.setActive(false)
+
+        this.active = node
+        this.active.setActive(true)
+
+        // TODO: Update preview
+        //      - Path to active node (including regions)
+        //      - You are here marker
+        //      - Faded paths from node (including regions)
+        //      - Errors on map?
+        //      - Fade ruled out candidates
     }
 }

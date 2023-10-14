@@ -12,7 +12,6 @@ import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
-import Order = util.Order;
 import {PathingGraphics} from "../map/path_graphics";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import Checkbox from "../widgets/inputs/Checkbox";
@@ -72,55 +71,63 @@ class RegionEdit extends AbstractEditWidget<ScanRegion | null> {
     }
 }
 
-function render_completeness(completeness: ScanTree.completeness_t): Widget {
-    return c("<span>").text("\u2713")
+function render_completeness(completeness: ScanTree.completeness_t | ScanTree.correctness_t): Widget {
+    let {char, cls, desc} = ScanTree.completeness_meta(completeness)
+
+    return c("<span>").addClass(cls).text(char).tooltip(desc)
 }
 
 class TreeNodeEdit extends Widget<{
     "changed": ScanTree.decision_tree
 }> {
+    header: Widget
+    content: Widget
+    is_collapsed: boolean = false
+
     constructor(private parent: TreeEdit, private node: augmented_tree, include_paths: boolean) {
         super()
 
-        let decision_path_text = "/" + node.information.map(d => ScanDecision.toString(d)).join("/")
-        let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
-            (n) => `<span class="ctr-digspot-inline">${n}</span>`
-        ), "and")
+        {
+            let self = this
 
-        let header = c(`<div style="overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`).appendTo(this)
-            .append(c(`<span class='nisl-textlink'>${decision_path_text}: </span>`).tooltip("Load decisions into map")
-                .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.information)))
-            )
-            .append(c(`<span>${spot_text}</span>`))
-            .append(render_completeness(node.completeness))
+            let decision_path_text = "/" + node.information.map(d => ScanDecision.toString(d)).join("/")
+            let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
+                (n) => `<span class="ctr-digspot-inline">${n}</span>`
+            ), "and")
 
+            function get_ar(): string {
+                return `assets/nis/${self.is_collapsed ? "arrow_right" : "arrow_down"}.png`
+            }
 
-        /*
-        type T = {
-            remove?: boolean,
-            create_new?: boolean,
-            create_new_from_path?: boolean,
-            area?: ScanSpot
+            let collapse_control = c(`<div style='padding-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
+                .css("padding-left", `${node.depth * 5}px`)
+                .tapRaw(r => r.on("click", () => {
+                    this.is_collapsed = !this.is_collapsed
+
+                    collapse_control.container.children("img").attr("src", get_ar)
+
+                    this.content.container.animate({
+                        "height": "toggle"
+                    })
+                }))
+
+            this.header = c(`<div style="padding-left: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
+                .append(collapse_control)
+                .append(c(`<span class='nisl-textlink' style="flex-grow: 1">${decision_path_text}: </span>`).tooltip("Load decisions into map")
+                    .tapRaw(r => r.on("click", () => parent.emit("decisions_loaded", node.information)))
+                )
+                .append(c(`<span>${util.plural(node.remaining_candidates.length, "spot")}</span>`)
+                    //.addClass(ScanTree.completeness_meta(node.completeness).cls)
+                    .addTippy(c(`<span>${spot_text}</span>`))
+                )
+                .append(render_completeness(node.completeness).css("margin-left", "5px"))
+                .append(render_completeness(node.correctness).css("margin-left", "5px"))
         }
+        this.content = c()
 
-        let options: T[] = parent.parent.value.areas
-            .filter(a => a.name.length > 0)
-            .map(a => {
-                return {area: a}
-            })
+        let props = new Properties().appendTo(this.content)
 
-        options.push({create_new: true})
-
-        options.push({create_new_from_path: true})
-
-        if (node.raw?.scan_spot_id != null) options.push({remove: true})
-        else options.push({area: null})*/
-
-        let props = new Properties().appendTo(this)
-
-        //let path_row = c("<div style='display: flex'></div>")
-
-        let prop = new PathProperty(parent.parent.layer.getMap(), {
+        props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
             target: this.node.path.target,
             start_state: this.node.path.pre_state
         })
@@ -134,10 +141,7 @@ class TreeNodeEdit extends Widget<{
             .on("editor_closed", () => {
                 this.parent.addToPathEditCounter(-1)
             })
-            .setValue(this.node.raw.path)
-
-
-        props.named("Path", prop)
+            .setValue(this.node.raw.path))
 
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
             props.named("Region", new RegionEdit().setValue(this.node.raw.region))
@@ -163,6 +167,12 @@ class TreeNodeEdit extends Widget<{
                 })
                 .setValue(this.node.raw.directions)
         )
+
+        this.node.children.forEach(c => {
+            new TreeNodeEdit(parent, c.value, false).appendTo(this.content)
+        })
+
+        this.append(this.header).append(this.content)
     }
 
     region_preview: SpotPolygon = null
@@ -187,7 +197,7 @@ export default class TreeEdit extends Widget<{
     render_promise: Promise<void> = null
 
     constructor(public parent: ScanEditPanel, public value: tree_node) {
-        super($("<div class='nisl-alternating'>"))
+        super($("<div>"))   // TODO: Readd nis-alternating?
 
         this.update()
     }
@@ -225,12 +235,12 @@ export default class TreeEdit extends Widget<{
                     await self.emit("preview_invalidated", null)
                 })
                 .appendTo(self))
+            /*
 
-            node.children
-                .filter(n => n.key)
-                .sort(Order.comap(Order.reverse(Pulse.compare), a => a.key))
-                .forEach(c => helper(c.value))
-            return null
+                        node.children
+                            .filter(n => n.key)
+                            .sort(Order.comap(Order.reverse(Pulse.compare), a => a.key))
+                            .forEach(c => helper(c.value))*/
         }
 
         helper(augmented)

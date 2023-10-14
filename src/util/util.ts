@@ -11,6 +11,13 @@ export namespace util {
         return a.slice(0, -1).join(", ") + `, ${connector} ` + a[a.length - 1]
     }
 
+    export function plural(n: number, word: string, postfix: string = "s") : string {
+        let s = `${n} ${word}`
+
+        if(n != 1) return s += postfix
+        return s
+    }
+
     export namespace Order {
 
         export function natural_order(a: number, b: number): number {

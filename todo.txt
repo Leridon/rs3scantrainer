@@ -1,8 +1,8 @@
 Immediate next:
 - Fix naming of navigation links
-- Highlight incomplete branches in editor
-- Properly handle target where applicable
 - Autoname areas
+- Reenable region functionality
+- Focus on node ("You are here")
 
 - Make fit include the entire path
 - Display timing in spot view
@@ -10,7 +10,6 @@ Immediate next:
 - Coordinate Property styling broken
 - [Bug] Template resolver hangs for some inputs
 - Cancel for Draw Area
-- [Bug] Preview doesn't hide on "Create New from Path"
 - Autosort for path edit
 - Custom context menu on the map
 - [Bug] Mousewheel scrolling in the path editor

@@ -671,17 +671,6 @@ video {
     width: 100%;
     height: 100%;
     text-align: center;
-    color: rgba(206, 213, 135);
-    text-shadow: black;
-}
-
-.ctr-cooldown-overlay-shadow {
-    position: absolute;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 100%;
-    text-align: center;
     color: rgb(206, 213, 135);
     text-shadow: 1px 1px 0 #000;
     line-height: 30px;
@@ -785,6 +774,24 @@ video {
 
 .ctr-template-string-edit-input-row > input {
     flex: 2;
+}
+
+/* correctness */
+
+.ctr-correct {
+    color: green;
+}
+
+.ctr-semicorrect {
+    color: #ffcc00;
+}
+
+.ctr-semiincorrect {
+    color: #ff9100;
+}
+
+.ctr-incorrect {
+    color: red;
 }
 
 /*Classes for custom components*/

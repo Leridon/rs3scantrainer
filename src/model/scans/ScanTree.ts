@@ -9,6 +9,7 @@ import * as lodash from "lodash";
 import {TextRendering} from "../../ui/TextRendering";
 import {Vector2} from "../../util/math";
 import * as path from "path";
+import Widget from "../../ui/widgets/Widget";
 
 export namespace ScanTree {
 
@@ -73,6 +74,20 @@ export namespace ScanTree {
     export type completeness_t = "complete" | "incomplete_children" | "incomplete"
     export type correctness_t = "correct" | "correct_with_warnings" | "error" | "error_in_children"
 
+    export function completeness_meta(completeness: ScanTree.completeness_t | ScanTree.correctness_t): { char: string, cls: string, desc: string } {
+        let meta: Record<ScanTree.completeness_t | ScanTree.correctness_t, { char: string, cls: string, desc: string }> = {
+            complete: {char: "\u2713", cls: "ctr-correct", desc: "This ranch is complete."},
+            correct: {char: "\u2713", cls: "ctr-correct", desc: "All paths are correct."},
+            correct_with_warnings: {char: "\u2713", cls: "ctr-semicorrect", desc: "All paths are correct, but some have warnings."},
+            error: {char: "\u2715", cls: "ctr-incorrect", desc: "There is an error in this path."},
+            error_in_children: {char: "\u2715", cls: "ctr-semiincorrect", desc: "A child path has errors."},
+            incomplete: {char: "\u2715", cls: "ctr-incorrect", desc: "This branch is incomplete."},
+            incomplete_children: {char: "\u2715", cls: "ctr-semiincorrect", desc: "Branch has incomplete children."}
+        }
+
+        return meta[completeness]
+    }
+
     export type augmented_decision_tree = {
         raw: decision_tree,
         raw_root: tree,
@@ -122,10 +137,6 @@ export namespace ScanTree {
             directions: "Missing directions",
             path: [],
         }
-    }
-
-    function get_target_region(tree: ScanTree.tree, node: ScanTree.decision_tree): ScanRegion {
-        return node.region
     }
 
     export async function normalize(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.resolved_scan_tree> {
@@ -202,7 +213,7 @@ export namespace ScanTree {
         else if (issues.some(i => i.level == 1) || cs.some(c => c.correctness == "correct_with_warnings")) tree.correctness = "correct_with_warnings"
         else tree.correctness = "correct"
 
-        if (tree.remaining_candidates && cs.length == 0) tree.completeness = "incomplete"
+        if (tree.remaining_candidates.length > 1 && cs.length == 0) tree.completeness = "incomplete"
         else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children")) tree.completeness = "incomplete_children"
         else tree.completeness = "complete"
 
@@ -211,7 +222,7 @@ export namespace ScanTree {
 
     export async function augment(tree: resolved_scan_tree, options: {
         analyze_completeness?: boolean
-    }= {}): Promise<augmented_decision_tree> {
+    } = {}): Promise<augmented_decision_tree> {
         async function helper(
             node: decision_tree,
             parent: { node: augmented_decision_tree, key: PulseInformation },
@@ -279,7 +290,7 @@ export namespace ScanTree {
 
         let aug_tree = await helper(tree.root, null, 0, tree.clue.solution.candidates, [], movement_state.start())
 
-        if(options.analyze_completeness) aug_tree = analyze_correctness(aug_tree)
+        if (options.analyze_completeness) aug_tree = analyze_correctness(aug_tree)
 
         return aug_tree
     }

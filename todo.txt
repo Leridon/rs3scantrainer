@@ -2,8 +2,9 @@ Immediate next:
 - Fix naming of navigation links
 - Autoname areas
 - Reenable region functionality
-- Focus on node ("You are here")
-- Couple equivalence classes to active node
+- Readd preview pathing (again)
+- Add scan range drawing again
+- Reenable spot sorting/numbers on preview
 
 - Make fit include the entire path
 - Display timing in spot view
@@ -15,7 +16,6 @@ Immediate next:
 - Custom context menu on the map
 - [Bug] Mousewheel scrolling in the path editor
 - Hover to highlight path
-- Check out mejs map for transport data
 
 Ready for release:
 - [Presentation] reenable walls on the map.
@@ -63,6 +63,7 @@ RELEASE 1.0
 
 
 Unscheduled:
+- Check out mejs map for transport data
 - Fade teleport icons when on different level
 - [What] Incorporate jacket/backpack recommmendations
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)

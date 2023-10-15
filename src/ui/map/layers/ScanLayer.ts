@@ -5,7 +5,7 @@ import {ImageButton} from "../CustomControl";
 import {blue_icon, GameMapControl,} from "../map";
 import {complementSpot} from "../../../model/scans/scans";
 import {ActiveLayer} from "../activeLayer";
-import {Application} from "../../../application";
+import {Application, scantrainer} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import ScanEditPanel from "../../scanedit/ScanEditPanel";
 import {ScanTree} from "../../../model/scans/ScanTree";
@@ -21,6 +21,7 @@ import {TileMarker} from "../TileMarker";
 import {ActiveOpacityGroup} from "./OpacityLayer";
 import {Vector2} from "../../../util/math";
 import {boxPolygon} from "../polygon_helpers";
+import ScanEditor from "../../scanedit/ScanEditor";
 
 
 export class SpotPolygon extends ActiveOpacityGroup {
@@ -158,10 +159,13 @@ export class ScanLayer extends ActiveLayer {
             return new TileMarker(complementSpot(e)).withMarker().withX("#B21319").addTo(this.complement_layer)
         })
 
-        if (!window.alt1) {  // Only if not Alt1, because is laggs heavily inside
+        if (!window.alt1) {  // Only if not Alt1, because is lags heavily inside
             if (options.show_edit_button && !app.in_alt1)
                 this.addControl(new ImageButton("assets/icons/edit.png", {
-                    "click": (e) => this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, indirect(this.getTree())))
+                    "click": (e) => {
+                        new ScanEditor(this.app, {clue: this.clue, map: this.app.map, initial: this.getTree()}).start()
+                        //this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, indirect(this.getTree())))
+                    }
                 }, {
                     title: "Edit scan route (Advanced)"
                 }).setPosition("topright"))
@@ -267,44 +271,5 @@ export class ScanLayer extends ActiveLayer {
                 this.removeMarker()
             })
         }
-    }
-}
-
-export class ScanEditLayer extends ScanLayer {
-    private edit_panel: ScanEditPanel
-
-    constructor(clue: ScanStep, app: Application, private tree: indirect_scan_tree | null) {
-        super(clue, app, {
-            show_edit_button: false
-        })
-
-        if (tree == null) {
-            this.tree = {
-                assumes_meerkats: true,
-                clue: clue.id,
-                root: ScanTree.init_leaf(),
-                spot_ordering: clue.solution.candidates,
-                type: "scantree"
-            }
-        }
-
-        this.setMeerkats(this.tree.assumes_meerkats)
-    }
-
-    activate(map: GameMapControl) {
-        super.activate(map)
-
-        this.edit_panel = new ScanEditPanel(this, this.clue, resolve<ScanStep, tree>(cloneDeep(this.tree)))
-
-        this.app.sidepanels.methods_panel.showSection("scanedit")
-    }
-
-    deactivate() {
-        this.map.path_editor.reset()
-
-        super.deactivate()
-
-        this.edit_panel.container.empty()
-        this.edit_panel = null
     }
 }

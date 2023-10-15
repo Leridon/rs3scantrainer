@@ -1,10 +1,10 @@
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {MapCoordinate} from "../../model/coordinates";
-import {ScanEditLayer} from "../map/layers/ScanLayer";
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import {TileMarker} from "../map/TileMarker";
 import Widget from "../widgets/Widget";
 import TopControl from "../map/TopControl";
+import {ActiveLayer} from "../map/activeLayer";
 
 class SelectDigSpotsTopControl extends TopControl {
     status: JQuery
@@ -35,14 +35,14 @@ class SelectDigSpotsTopControl extends TopControl {
     }
 
     update(n: number) {
-        this.status.text(`${n}/${this.parent.layer.clue.solution.candidates.length} spots selected.`)
+        //this.status.text(`${n}/${this.parent.layer.clue.solution.candidates.length} spots selected.`)
 
-        if (n == this.parent.layer.clue.solution.candidates.length) this.save_btn.text("Save")
-        else this.save_btn.text("Finish")
+        /*TODO if (n == this.parent.layer.clue.solution.candidates.length) this.save_btn.text("Save")
+        else this.save_btn.text("Finish")*/
     }
 }
 
-export default class SelectDigSpotsInteraction extends LayerInteraction<ScanEditLayer> {
+export default class SelectDigSpotsInteraction extends LayerInteraction<ActiveLayer> {
     events = new TypedEmitter<{
         "changed": MapCoordinate[],
         "done": MapCoordinate[],
@@ -51,7 +51,7 @@ export default class SelectDigSpotsInteraction extends LayerInteraction<ScanEdit
 
     selection: MapCoordinate[]
 
-    constructor(layer: ScanEditLayer) {
+    constructor(layer: ActiveLayer) {
         super(layer);
     }
 
@@ -60,12 +60,12 @@ export default class SelectDigSpotsInteraction extends LayerInteraction<ScanEdit
         this._finished_properly = false
 
         let self = this
-        this.layer.events.on("dig_spot_clicked", self._hook)
+        //this.layer.events.on("dig_spot_clicked", self._hook)
     }
 
     cancel() {
         let self = this
-        this.layer.events.off("dig_spot_clicked", self._hook)
+        //this.layer.events.off("dig_spot_clicked", self._hook)
 
         if (!this._finished_properly) this.events.emit("cancelled", null)
     }

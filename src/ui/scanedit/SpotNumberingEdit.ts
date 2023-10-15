@@ -1,8 +1,9 @@
 import Widget from "../widgets/Widget";
 import {MapCoordinate} from "../../model/coordinates";
-import {ScanEditLayer} from "../map/layers/ScanLayer";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import LightButton from "../widgets/LightButton";
+import ScanEditor from "./ScanEditor";
+import {Observable} from "../../util/Observable";
 
 export default class SpotOrderingWidget extends Widget<{
     changed: MapCoordinate[]
@@ -12,7 +13,9 @@ export default class SpotOrderingWidget extends Widget<{
 
     interaction: SelectDigSpotsInteraction = null
 
-    constructor(private layer: ScanEditLayer,
+    spot_order: Observable<MapCoordinate[]>
+
+    constructor(private parent: ScanEditor,
                 private value: MapCoordinate[]) {
         super()
 
@@ -48,12 +51,14 @@ export default class SpotOrderingWidget extends Widget<{
                 .append(c("<div class='col-3' style='text-align: center'>").text(v.level ?? 0))
                 .appendTo(this.list)
         })
-
-        // Draw ordering on map
-        this.layer.setSpotOrder(this.value)
     }
 
     startSelection(): SelectDigSpotsInteraction {
+        return null
+
+        // TODO: Rethink this section
+
+        /*
         let old_value = this.value
 
         let interaction = new SelectDigSpotsInteraction(this.layer)
@@ -96,6 +101,8 @@ export default class SpotOrderingWidget extends Widget<{
         this.layer.highlightCandidates(this.layer.clue.solution.candidates)
 
         return this.interaction = interaction.activate()
+
+         */
     }
 
     setValue(value: MapCoordinate[]) {

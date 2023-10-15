@@ -19,6 +19,7 @@ import SmallImageButton from "../widgets/SmallImageButton";
 import AbstractEditWidget from "../widgets/AbstractEditWidget";
 import ScanRegion = ScanTree.ScanRegion;
 import {SpotPolygon} from "../map/layers/ScanLayer";
+import {observe} from "../../util/Observable";
 
 class RegionEdit extends AbstractEditWidget<ScanRegion | null> {
     constructor() {
@@ -99,7 +100,7 @@ class TreeNodeEdit extends Widget<{
             let self = this
 
             let decision_path_text = "/" + node.information.map(d => ScanDecision.toString(d)).join("/")
-            let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.value, c)),
+            let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.parent.value, c)),
                 (n) => `<span class="ctr-digspot-inline">${n}</span>`
             ), "and")
 
@@ -139,7 +140,7 @@ class TreeNodeEdit extends Widget<{
 
         this.body = props
 
-        props.named("Path", new PathProperty(parent.parent.layer.getMap(), {
+        props.named("Path", new PathProperty(parent.parent.parent.options.map, {
             target: this.node.path.target,
             start_state: this.node.path.pre_state
         })
@@ -204,13 +205,12 @@ class TreeNodeEdit extends Widget<{
     }
 
     isActive(): boolean {
-        return this == this.parent.active
+        return this == this.parent.active.get()
     }
 }
 
 export default class TreeEdit extends Widget<{
     changed: tree_node,
-    preview_invalidated: null,
     path_editor_state_changed: boolean,
 }> {
     private hide_paths = false
@@ -234,15 +234,14 @@ export default class TreeEdit extends Widget<{
     root_widget: TreeNodeEdit = null
 
     private async renderContent() {
-        let augmented = await ScanTree.augment(this.parent.value, {analyze_completeness: true})
+        let augmented = await ScanTree.augment(this.parent.parent.value, {analyze_completeness: true})
 
         let self = this
 
         this.root_widget = new TreeNodeEdit(self, augmented, !self.hide_paths)
             .on("changed", async () => {
-                await ScanTree.normalize(self.parent.value)
+                await ScanTree.normalize(self.parent.parent.value)
                 await self.update()
-                await self.emit("preview_invalidated", null)
             })
             .appendTo(self)
     }
@@ -267,14 +266,14 @@ export default class TreeEdit extends Widget<{
     async updatePreview(layer: OpacityGroup) {
         await this.render_promise
 
-        if(this.active) {
-            ScanTree.augmented.collect_parents(this.active.node).forEach(n => {
+        if (this.active) {
+            ScanTree.augmented.collect_parents(this.active.get().node).forEach(n => {
                 if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
 
                 return PathingGraphics.renderPath(n.raw.path).addTo(layer)
             })
 
-            ScanTree.augmented.traverse(this.active.node, (n) => {
+            ScanTree.augmented.traverse(this.active.get().node, (n) => {
                 // TODO: Decreasing opacity
 
 
@@ -292,15 +291,13 @@ export default class TreeEdit extends Widget<{
         }
     }
 
-    active: TreeNodeEdit = null
+    active = observe<TreeNodeEdit>(null)
+    active_node = this.active.map(a => a?.node)
 
     setActiveNode(node: TreeNodeEdit) {
-        if (this.active) this.active.setActive(false)
-
-        this.active = node
-        if (this.active) this.active.setActive(true)
-
-        this.emit("preview_invalidated", null)
+        if (this.active.get()) this.active.get().setActive(false)
+        this.active.set(node)
+        if (this.active.get()) this.active.get().setActive(true)
 
         // TODO: Update preview
         //      - Path to active node (including regions)

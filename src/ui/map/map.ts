@@ -13,6 +13,7 @@ import ContextMenu from "../widgets/ContextMenu";
 import {Shortcuts} from "../../model/shortcuts";
 import {Vector2} from "../../util/math";
 import {Path} from "../../model/pathing";
+import {Observable, observe} from "../../util/Observable";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -87,20 +88,20 @@ class FloorControl extends CustomControl {
         this.down = $("<div style='cursor: pointer'><img src='assets/icons/stairdown.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
-                this.parent.setFloor(this.parent.floor - 1)
+                this.parent.setFloor(this.parent.floor.get() - 1)
             })
             .appendTo(this.container)
         this.current = $("<div style='border-left: 1px solid rgb(5, 56, 66); border-right: 1px solid rgb(5, 56, 66); padding-left: 4px; padding-right: 4px; line-height: 20px'>Floor 0</div>").appendTo(this.container)
         this.up = $("<div style='cursor: pointer'><img src='assets/icons/stairup.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
-                this.parent.setFloor(this.parent.floor + 1)
+                this.parent.setFloor(this.parent.floor.get() + 1)
             })
             .appendTo(this.container)
 
         this.container.on("click", (e) => e.stopPropagation())
 
-        parent.on("floorChanged", (f) => this.current.text(`Floor ${f}`))
+        parent.floor.subscribe((f) => this.current.text(`Floor ${f}`))
     }
 }
 
@@ -108,11 +109,11 @@ class FloorControl extends CustomControl {
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.
  */
-export class GameMapControl extends Widget<{
-    floorChanged: number
-}> {
+export class GameMapControl extends Widget<{}> {
     map: leaflet.Map
-    floor: number = 0
+
+    floor: Observable<0 | 1 | 2 | 3> = observe(0)
+
     baseLayers: leaflet.TileLayer[]
     private teleportLayer: TeleportLayer
     private activeLayer: ActiveLayer = null
@@ -248,17 +249,12 @@ export class GameMapControl extends Widget<{
         });*/
 
         new PathLayer([]).setZIndex(20).addTo(this.map)
+
+        this.floor.subscribe(() => this.updateBaseLayers())
     }
 
     setFloor(floor: number) {
-        let old = this.floor
-
-        this.floor = Math.min(3, Math.max(0, floor))
-
-        if (old != this.floor) {
-            this.updateBaseLayers()
-            this.emit("floorChanged", this.floor)
-        }
+        this.floor.set(Math.min(3, Math.max(0, floor)) as 0 | 1 | 2 | 3)
     }
 
     updateBaseLayers() {
@@ -267,7 +263,7 @@ export class GameMapControl extends Widget<{
         let layers: leaflet.TileLayer[] = []
 
         layers.push(new RsBaseTileLayer([
-            {urls: this.geturls(`topdown-${this.floor}/{z}/{x}-{y}.webp`)}
+            {urls: this.geturls(`topdown-${this.floor.get()}/{z}/{x}-{y}.webp`)}
         ], {
             attribution: '<a href="https://runeapps.org/" title="Creator of Alt1 and RuneApps.org">Skillbert</a>',
             tileSize: 512,
@@ -276,8 +272,8 @@ export class GameMapControl extends Widget<{
         }))
 
         layers.push(new RsBaseTileLayer([
-            {to: 2, urls: this.geturls(`walls-${this.floor}/{z}/{x}-{y}.webp`)},
-            {from: 3, to: 3, urls: this.geturls(`walls-${this.floor}/{z}/{x}-{y}.svg`)}
+            {to: 2, urls: this.geturls(`walls-${this.floor.get()}/{z}/{x}-{y}.webp`)},
+            {from: 3, to: 3, urls: this.geturls(`walls-${this.floor.get()}/{z}/{x}-{y}.svg`)}
         ], {
             attribution: '<a href="https://runeapps.org/" title="Creator of Alt1 and RuneApps.org">Skillbert</a>',
             tileSize: 512,
@@ -297,7 +293,7 @@ export class GameMapControl extends Widget<{
                 }))*/
 
         layers.push(new RsBaseTileLayer([
-            {urls: this.geturls(`collision-${this.floor}/{z}/{x}-{y}.png`)}
+            {urls: this.geturls(`collision-${this.floor.get()}/{z}/{x}-{y}.png`)}
         ], {
             tileSize: 512,
             maxNativeZoom: 3,
@@ -360,7 +356,7 @@ export class GameMapControl extends Widget<{
         return {
             x: e.latlng.lng,
             y: e.latlng.lat,
-            level: this.floor
+            level: this.floor.get()
         }
     }
 }

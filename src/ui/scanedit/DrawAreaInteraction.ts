@@ -2,11 +2,12 @@ import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {MapCoordinate, MapRectangle} from "../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {ScanEditLayer, SpotPolygon} from "../map/layers/ScanLayer";
+import {SpotPolygon} from "../map/layers/ScanLayer";
 import * as lodash from "lodash"
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import TopControl from "../map/TopControl";
 import {Vector2} from "../../util/math";
+import {ActiveLayer} from "../map/activeLayer";
 
 class DrawTopControl extends TopControl {
     constructor(private parent: DrawAreaInteraction) {
@@ -16,7 +17,7 @@ class DrawTopControl extends TopControl {
     }
 }
 
-export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer> {
+export default class DrawAreaInteraction extends LayerInteraction<ActiveLayer> {
     events = new TypedEmitter<{
         "changed": MapRectangle,
         "done": MapRectangle
@@ -28,7 +29,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ScanEditLayer>
 
     _preview_polygon: SpotPolygon = null
 
-    constructor(layer: ScanEditLayer) {
+    constructor(layer: ActiveLayer) {
         super(layer);
     }
 

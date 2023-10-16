@@ -95,7 +95,7 @@ export namespace ScanTree {
         parent: {
             key: PulseInformation
             node: augmented_decision_tree,
-        },
+        } | null,
         region?: ScanRegion,
         path: Path.augmented,
         depth: number,
@@ -110,11 +110,13 @@ export namespace ScanTree {
     }
 
     export namespace augmented {
-        export function collect_parents(node: augmented_decision_tree): augmented_decision_tree[] {
-            if (!node.parent) return [node]
+        export function collect_parents(node: augmented_decision_tree, include_node: boolean = true): augmented_decision_tree[] {
+            if (!node) return []
 
-            let par = collect_parents(node.parent.node)
-            par.push(node)
+            let par = collect_parents(node.parent?.node, true)
+
+            if (include_node) par.push(node)
+
             return par
         }
 

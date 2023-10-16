@@ -2,7 +2,7 @@ import Widget from "../widgets/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "../../model/scans/ScanTree";
 import tree_node = ScanTree.decision_tree;
-import augmented_tree = ScanTree.augmented_decision_tree;
+import augmented_decision_tree = ScanTree.augmented_decision_tree;
 import ScanDecision = ScanTree.ScanInformation;
 import {util} from "../../util/util";
 import Properties from "../widgets/Properties";
@@ -12,49 +12,39 @@ import {scantrainer} from "../../application";
 import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "../map/path_graphics";
-import {OpacityGroup} from "../map/layers/OpacityLayer";
-import Checkbox from "../widgets/inputs/Checkbox";
 import TextField from "../widgets/inputs/TextField";
 import SmallImageButton from "../widgets/SmallImageButton";
-import AbstractEditWidget from "../widgets/AbstractEditWidget";
-import ScanRegion = ScanTree.ScanRegion;
 import {SpotPolygon} from "../map/layers/ScanLayer";
 import {observe} from "../../util/Observable";
+import DrawAreaInteraction from "./DrawAreaInteraction";
+import LightButton from "../widgets/LightButton";
 
-class RegionEdit extends AbstractEditWidget<ScanRegion | null> {
-    constructor() {
+class RegionEdit extends Widget {
+    constructor(private parent: TreeNodeEdit) {
         super($("<div style='display: flex'></div>"));
 
         this.render()
     }
 
-    private render() {
+    public render() {
         this.empty()
 
-        let is_defined = !!this.value
-
-        new Checkbox().setValue(is_defined)
-            .on("changed", (v) => {
-                if (v) {
-                    this.changed({
-                        name: "",
-                        area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}, level: 0}
-                    })
-                } else this.changed(null)
-
-                this.render()
-            })
-            .appendTo(this)
+        let is_defined = !!this.parent.node.raw.region
 
         if (is_defined) {
             new TextField()
-                .setValue(this.value.name)
+                .setValue(this.parent.node.raw.region.name)
                 .css("flex-grow", "1")
                 .appendTo(this)
 
             SmallImageButton.new("assets/icons/edit.png")
                 .css("margin-left", "2px")
                 .on("click", async () => {
+
+                    new DrawAreaInteraction(this.parent.parent.parent.parent.layer)
+                        .tapEvents(e => e.on("done", (r) => {
+                            this.parent.node.raw.region.area = r
+                        }))
                 })
                 .appendTo(this)
 
@@ -63,11 +53,18 @@ class RegionEdit extends AbstractEditWidget<ScanRegion | null> {
                 .on("click", async () => {
                 })
                 .appendTo(this)
-        }
-    }
+        } else {
+            new LightButton("Create")
+                .on("click", async () => {
+                    this.parent.node.raw.region = {
+                        name: "",
+                        area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}, level: 0}
+                    }
 
-    override update() {
-        this.render()
+                    await this.parent.parent.cleanTree()
+                })
+                .appendTo(this)
+        }
     }
 }
 
@@ -77,20 +74,24 @@ function render_completeness(completeness: ScanTree.completeness_t | ScanTree.co
     return c("<span>").addClass(cls).text(char).tooltip(desc)
 }
 
-class TreeNodeEdit extends Widget<{
-    "changed": ScanTree.decision_tree
-}> {
+class TreeNodeEdit extends Widget {
     self_content: Widget
     header: Widget
-    body: Widget
+    body: Properties
 
     you_are_here_marker: Widget
 
+    children: TreeNodeEdit[] = []
     child_content: Widget
+    completeness_marker: Widget
+    correctness_marker: Widget
+    region_edit: RegionEdit = null
 
     is_collapsed: boolean = false
 
-    constructor(private parent: TreeEdit, public node: augmented_tree, include_paths: boolean) {
+    region_preview: SpotPolygon = null
+
+    constructor(public parent: TreeEdit, public node: augmented_decision_tree) {
         super()
 
         this.self_content = c().addClass("ctr-scantreeedit-node")
@@ -132,35 +133,21 @@ class TreeNodeEdit extends Widget<{
                     //.addClass(ScanTree.completeness_meta(node.completeness).cls)
                     .addTippy(c(`<span>${spot_text}</span>`))
                 )
-                .append(render_completeness(node.completeness).css("margin-left", "5px"))
-                .append(render_completeness(node.correctness).css("margin-left", "5px"))
         }
 
-        let props = new Properties()
+        this.body = new Properties()
 
-        this.body = props
-
-        props.named("Path", new PathProperty(parent.parent.parent.options.map, {
+        this.body.named("Path", new PathProperty({
             target: this.node.path.target,
-            start_state: this.node.path.pre_state
+            start_state: this.node.path.pre_state,
         })
-            .on("changed", v => {
-                this.node.raw.path = v
-                this.emit("changed", node.raw)
-            })
-            .on("loaded_to_editor", () => {
-                this.parent.addToPathEditCounter(1)
-            })
-            .on("editor_closed", () => {
-                this.parent.addToPathEditCounter(-1)
-            })
             .setValue(this.node.raw.path))
 
         if (node.remaining_candidates.length > 1 && (!node.parent || node.parent.key.pulse != 3)) {
-            props.named("Region", new RegionEdit().setValue(this.node.raw.region))
+            this.region_edit = this.body.named("Region", new RegionEdit(this))
         }
 
-        props.named("Direction",
+        this.body.named("Direction",
             new TemplateStringEdit({
                 resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),
                 generator: () => {
@@ -181,27 +168,41 @@ class TreeNodeEdit extends Widget<{
                 .setValue(this.node.raw.directions)
         )
 
-        this.node.children.forEach(c => {
-            new TreeNodeEdit(parent, c.value, false).appendTo(this.child_content)
-        })
-
         this
             .append(this.self_content.append(this.header).append(this.body))
             .append(this.child_content)
+
+        this.renderValue(node)
     }
 
-    region_preview: SpotPolygon = null
+    renderValue(node: augmented_decision_tree) {
+        this.node = node
+
+        if (this.completeness_marker) this.completeness_marker.remove()
+        if (this.correctness_marker) this.correctness_marker.remove()
+
+        this.header
+            .append(this.completeness_marker = render_completeness(node.completeness).css("margin-left", "5px"))
+            .append(this.correctness_marker = render_completeness(node.correctness).css("margin-left", "5px"))
+
+        this.child_content.empty()
+
+        if(this.region_edit) this.region_edit.render()
+
+        this.node.children.map(child => {
+            let existing = this.children.find(c => c.node.raw == child.value.raw)
+
+            if (existing) {
+                existing.renderValue(child.value)
+                return existing
+            }
+
+            return new TreeNodeEdit(this.parent, child.value)
+        }).forEach(c => c.appendTo(this.child_content))
+    }
 
     setActive(v: boolean) {
         this.self_content.toggleClass("active", v)
-    }
-
-    updatePreview(layer: OpacityGroup) {
-        if (this.node.raw.region) {
-            this.region_preview = new SpotPolygon(this.node.raw.region).addTo(layer)
-        }
-
-        return PathingGraphics.renderPath(this.node.raw.path).addTo(layer)
     }
 
     isActive(): boolean {
@@ -210,89 +211,30 @@ class TreeNodeEdit extends Widget<{
 }
 
 export default class TreeEdit extends Widget<{
-    changed: tree_node,
-    path_editor_state_changed: boolean,
+    changed: tree_node
 }> {
-    private hide_paths = false
-
-    render_promise: Promise<void> = null
-
-    constructor(public parent: ScanEditPanel, public value: tree_node) {
-        super($("<div>"))   // TODO: Readd nis-alternating?
-
-        this.update()
-    }
-
-    async update() {
-        this.empty()
-
-        this.render_promise = this.renderContent()
-
-        return this.render_promise
-    }
-
-    root_widget: TreeNodeEdit = null
-
-    private async renderContent() {
-        let augmented = await ScanTree.augment(this.parent.parent.value, {analyze_completeness: true})
-
-        let self = this
-
-        this.root_widget = new TreeNodeEdit(self, augmented, !self.hide_paths)
-            .on("changed", async () => {
-                await ScanTree.normalize(self.parent.parent.value)
-                await self.update()
-            })
-            .appendTo(self)
-    }
-
-    setValue(value: tree_node) {
-        this.value = value
-        this.update()
-    }
-
-    _pathEditCounter = 0
-
-    addToPathEditCounter(n: number) {
-        let before = this._pathEditCounter > 0
-
-        this._pathEditCounter += n
-
-        let now = this._pathEditCounter > 0
-
-        if (before != now) this.emit("path_editor_state_changed", now)
-    }
-
-    async updatePreview(layer: OpacityGroup) {
-        await this.render_promise
-
-        if (this.active) {
-            ScanTree.augmented.collect_parents(this.active.get().node).forEach(n => {
-                if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
-
-                return PathingGraphics.renderPath(n.raw.path).addTo(layer)
-            })
-
-            ScanTree.augmented.traverse(this.active.get().node, (n) => {
-                // TODO: Decreasing opacity
-
-
-                if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
-
-                return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
-            }, false)
-        } else {
-
-            ScanTree.augmented.traverse(this.root_widget.node, (n) => {
-                if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
-
-                return PathingGraphics.renderPath(n.raw.path).addTo(layer)
-            }, true)
-        }
-    }
+    root_widget: Promise<TreeNodeEdit> = null
 
     active = observe<TreeNodeEdit>(null)
     active_node = this.active.map(a => a?.node)
+
+    constructor(public parent: ScanEditPanel, public value: tree_node) {
+        super()
+
+        this.renderContent()
+    }
+
+    private renderContent() {
+        this.root_widget = ScanTree.augment(this.parent.parent.value, {analyze_completeness: true})
+            .then(augmented => {
+                return new TreeNodeEdit(this, augmented)
+                    .appendTo(this)
+            })
+    }
+
+    public async cleanTree() {
+        (await this.root_widget).renderValue(await ScanTree.augment(await ScanTree.normalize(this.parent.parent.value), {analyze_completeness: true}))
+    }
 
     setActiveNode(node: TreeNodeEdit) {
         if (this.active.get()) this.active.get().setActive(false)
@@ -300,10 +242,7 @@ export default class TreeEdit extends Widget<{
         if (this.active.get()) this.active.get().setActive(true)
 
         // TODO: Update preview
-        //      - Path to active node (including regions)
         //      - You are here marker
-        //      - Faded paths from node (including regions)
         //      - Errors on map?
-        //      - Fade ruled out candidates
     }
 }

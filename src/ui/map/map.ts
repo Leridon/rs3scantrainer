@@ -8,11 +8,7 @@ import Widget from "../widgets/Widget";
 import {Constants} from "../../constants";
 import PathLayer from "./layers/PathLayer";
 import TileHighlight from "./TileHighlight";
-import {PathEditor} from "../scanedit/PathEditLayer";
-import ContextMenu from "../widgets/ContextMenu";
-import {Shortcuts} from "../../model/shortcuts";
-import {Vector2} from "../../util/math";
-import {Path} from "../../model/pathing";
+import {PathEditor} from "../pathedit/PathEditor";
 import {Observable, observe} from "../../util/Observable";
 
 type Layersource = { urls: string[], from?: number, to?: number };

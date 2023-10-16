@@ -765,7 +765,6 @@ video {
     overflow: hidden;
     white-space:nowrap;
     text-overflow: ellipsis;
-    cursor: pointer;
 }
 
 /* Classes specific to the clue trainer */

@@ -43,8 +43,8 @@ export namespace ScanTrainerCommands {
             start_state?: Path.movement_state
         }) => (app: Application): void => {
             app.map.path_editor.load(arg.steps, {
-                save_handler: null,
-                close_handler: () => {
+                commit_handler: null,
+                discard_handler: () => {
                 },
                 target: arg.target,
                 start_state: arg.start_state

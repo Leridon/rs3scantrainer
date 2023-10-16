@@ -25,8 +25,6 @@ export default class ScanEditPanel extends Widget<{
     spot_ordering: SpotOrderingEdit
     tree_edit: TreeEdit
 
-    private preview_layer: ActiveOpacityGroup
-
     candidates: MapCoordinate[]
 
     constructor(public parent: ScanEditor) {
@@ -92,15 +90,10 @@ export default class ScanEditPanel extends Widget<{
 
         this.spot_ordering.on("changed", (v: MapCoordinate[]) => {
             this.parent.value.spot_ordering = v
-            this.tree_edit.update()
         })
 
         this.tree_edit.on("changed", (t) => {
             this.parent.value.root = t
-        })
-
-        this.parent.options.map.path_editor.on("active_changed", v => {
-            this.preview_layer.setActive(!v)
         })
     }
 }

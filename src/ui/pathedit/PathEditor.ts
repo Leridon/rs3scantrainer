@@ -13,19 +13,18 @@ import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import Collapsible from "../widgets/modals/Collapsible";
-import DirectionSelect from "../pathedit/DirectionSelect";
+import DirectionSelect from "./DirectionSelect";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {GameMapControl} from "../map/map";
-import InteractionSelect from "../pathedit/InteractionSelect";
+import InteractionSelect from "./InteractionSelect";
 import {Path} from "../../model/pathing";
-import {TypedEmitter} from "../../skillbertssolver/eventemitter";
-import TeleportSelect from "../pathedit/TeleportSelect";
+import TeleportSelect from "./TeleportSelect";
 import {Teleports} from "../../model/teleports";
 import {teleport_data} from "../../data/teleport_data";
 import Checkbox from "../widgets/inputs/Checkbox";
 import {boxPolygon, tilePolygon} from "../map/polygon_helpers";
-import MovementStateView from "../pathedit/MovementStateView";
+import MovementStateView from "./MovementStateView";
 import * as lodash from "lodash"
 import SmallImageButton from "../widgets/SmallImageButton";
 import {QueryLinks} from "../../query_functions";
@@ -36,7 +35,13 @@ import movement_state = Path.movement_state;
 import issue = Path.issue;
 import surge = MovementAbilities.surge;
 import escape = MovementAbilities.escape;
-import SelectShortcutInteraction from "./SelectShortcutInteraction";
+import SelectShortcutInteraction from "../scanedit/SelectShortcutInteraction";
+import {Observable, observe} from "../../util/Observable";
+import Behaviour from "../../lib/ui/Behaviour";
+import {before} from "lodash";
+import * as path from "path";
+import {TypedEmitter} from "../../skillbertssolver/eventemitter";
+import {FeatureGroup} from "leaflet";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -309,8 +314,8 @@ class StepEditWidget extends Widget<{
 }
 
 class ControlWidget extends Widget<{
-    saved: Path.raw,
-    closed: null
+    committed: Path.raw,
+    discarded: null
 }> {
     augmented: Path.augmented
 
@@ -357,23 +362,24 @@ class ControlWidget extends Widget<{
 
             props.row(control_container)
 
-
-            new LightButton("Save").on("click", () => {
-                this.emit("saved", this.value)
+            new LightButton("Commit").on("click", () => {
+                this.emit("committed", this.value)
             }).setEnabled(this.options.save_enabled).appendTo(control_container)
-            new LightButton("Save & Close").on("click", () => {
+
+            /*new LightButton("Save & Close").on("click", () => {
                 this.emit("saved", this.value)
                 this.emit("closed", null)
-            }).setEnabled(this.options.save_enabled).appendTo(control_container)
-            new LightButton("Close").on("click", () => {
-                this.emit("closed", null)
+            }).setEnabled(this.options.save_enabled).appendTo(control_container)*/
 
+            new LightButton("Discard").on("click", () => {
+                this.emit("discarded", null)
             }).appendTo(control_container)
-            new LightButton("Show JSON")
+
+            /*new LightButton("Show JSON")
                 .on("click", () => {
                     ExportStringModal.do(JSON.stringify(this.value, null, 2))
                 })
-                .appendTo(control_container)
+                .appendTo(control_container)*/
             new LightButton("Export")
                 .on("click", () => ExportStringModal.do(Path.export_path(this.value)))
                 .appendTo(control_container)
@@ -720,11 +726,11 @@ class ControlWidget extends Widget<{
     }
 }
 
-export class PathEditor extends TypedEmitter<{
-    "active_changed": boolean
-}> {
-    control: ControlWidget
-    current_options: PathEditor.options_t = null
+export class PathEditor extends Behaviour {
+    private control: ControlWidget
+    private current_options: PathEditor.options_t = null
+
+    value: Observable<Path.raw> = observe(null)
 
     constructor(public map: GameMapControl) {
         super()
@@ -732,25 +738,21 @@ export class PathEditor extends TypedEmitter<{
     }
 
     public async load(path: Path.raw, options: PathEditor.options_t = {}) {
-        let before = this.current_options != null
-
         await this.reset()
 
         this.current_options = options
 
-        if (!before) await this.emitAsync("active_changed", true)
-
         // TODO: Is the save/load feature really necessary? Or can it auto save each change?
         //       Possibly toggleable depending on what kind of method is edited
         this.control = await new ControlWidget(this, lodash.cloneDeep(path), {
-            save_enabled: options.save_handler != null,
+            save_enabled: options.commit_handler != null,
             start_state: options.start_state,
             target: options.target
         })
-            .on("saved", async (v) => await options.save_handler(v))
-            .on("closed", async () => {
+            .on("committed", async (v) => await options.commit_handler(v))
+            .on("discarded", async () => {
+                this.current_options?.discard_handler()
                 await this.reset()
-                await this.emitAsync("active_changed", false)
             }).render()
 
         this.map.map.addControl(this.control.control.setPosition("topleft"))
@@ -766,16 +768,23 @@ export class PathEditor extends TypedEmitter<{
         }
 
         if (this.current_options) {
-            if (this.current_options.close_handler) await this.current_options.close_handler()
+            //if (this.current_options.discard_handler) await this.current_options.discard_handler()
             this.current_options = null
         }
+    }
+
+    protected begin() {
+    }
+
+    protected end() {
+        this.reset()
     }
 }
 
 namespace PathEditor {
     export type options_t = {
-        save_handler?: (p: Path.raw) => any,
-        close_handler?: () => any,
+        commit_handler?: (p: Path.raw) => any,
+        discard_handler?: () => any,
         target?: MapRectangle,
         start_state?: movement_state
     }

@@ -17,13 +17,11 @@ class DrawTopControl extends TopControl {
     }
 }
 
-export default class DrawAreaInteraction extends LayerInteraction<ActiveLayer> {
-    events = new TypedEmitter<{
-        "changed": MapRectangle,
-        "done": MapRectangle
-        "cancelled": MapRectangle
-    }>()
-
+export default class DrawAreaInteraction extends LayerInteraction<ActiveLayer, {
+    "changed": MapRectangle,
+    "done": MapRectangle
+    "cancelled": MapRectangle
+}> {
     dragstart: MapCoordinate = null
     last_area: MapRectangle = null
 

@@ -49,8 +49,11 @@ export class Observable<T> extends TypedEmitter<{
         return this
     }
 
-    subscribe(handler: (new_value: T, old: T) => any): this {
+    subscribe(handler: (new_value: T, old: T) => any, trigger_once: boolean = false): this {
         this.on("changed", (o) => handler(o.new, o.old))
+
+        if (trigger_once) handler(this.value, undefined)
+
         return this
     }
 
@@ -65,4 +68,16 @@ export class Observable<T> extends TypedEmitter<{
 
 export function observe<T>(v: T): Observable<T> {
     return new Observable<T>(v)
+}
+
+type ex<T> = T extends Observable<infer U> ? U : never
+
+export function observe_combined<T extends Record<string, Observable<any>>>(o: T): Observable<{ [key in keyof T]?: T[key] extends Observable<infer U> ? U : never }> {
+    let obs: Observable<{ [key in keyof T]?: T[key] extends Observable<infer U> ? U : never }> = observe({})
+
+    for (let key in o) {
+        o[key].subscribe(v => obs.update(observed => observed[key] = v), true)
+    }
+
+    return obs
 }

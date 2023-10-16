@@ -2,7 +2,7 @@ import {Path} from "../../model/pathing";
 import AbstractEditWidget from "../widgets/AbstractEditWidget";
 import {GameMapControl} from "../map/map";
 import collect_issues = Path.collect_issues;
-import {IssueWidget} from "../scanedit/PathEditLayer";
+import {IssueWidget, PathEditor} from "./PathEditor";
 import MovementStateView from "./MovementStateView";
 import {MapRectangle} from "../../model/coordinates";
 import Properties from "../widgets/Properties";
@@ -21,35 +21,40 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
     private reset_button: Button = null
     private edit_button: Button = null
 
-    constructor(private map: GameMapControl, public options: {
+    constructor(public options: {
         target?: MapRectangle,
-        start_state?: Path.movement_state
+        start_state?: Path.movement_state,
+        editor?: PathEditor
     }) {
         super($("<div style='display: flex'></div>"))
 
-        this.container.on("mouseover", () => {
-            if (this.reset_button) this.reset_button.setVisible(true)
-            if (this.edit_button) this.edit_button.setVisible(true)
-        })
+        if (this.options.editor) {
+            this.container.on("mouseover", () => {
+                if (this.reset_button) this.reset_button.setVisible(true)
+                if (this.edit_button) this.edit_button.setVisible(true)
+            })
 
-        this.container.on("mouseleave", () => {
-            if (this.reset_button) this.reset_button.setVisible(false)
-            if (this.edit_button) this.edit_button.setVisible(false)
-        })
+            this.container.on("mouseleave", () => {
+                if (this.reset_button) this.reset_button.setVisible(false)
+                if (this.edit_button) this.edit_button.setVisible(false)
+            })
+        }
 
         this.value = []
     }
 
     private async edit() {
+        if (!this.options.editor) return
+
         this.loaded = true
         await this.update()
 
-        this.map.path_editor.load(this.value, {
-            save_handler: async v => {
+        this.options.editor.load(this.value, {
+            commit_handler: async v => {
                 this.value = v
                 await this.update()
             },
-            close_handler: async () => {
+            discard_handler: async () => {
                 this.loaded = false
                 this.changed(this.value)
 
@@ -80,6 +85,8 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
                 .addTippy(tooltip)
                 .appendTo(this)
                 .tapRaw(r => r.on("click", async () => await this.edit()))
+
+            if (this.options.editor) preview.css("cursor", "pointer")
 
             {
                 let issues = collect_issues(this.augmented)
@@ -126,24 +133,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
                 await this.update()
             })
             .appendTo(this)
-
-
-        /*
-        {
-            let tooltip = c()
-            tooltip.append(new Properties().header("Start State"))
-            tooltip.append(new MovementStateView(this.augmented.pre_state))
-            tooltip.append(new Properties().header("End State"))
-            tooltip.append(new MovementStateView(this.augmented.post_state))
-
-            c("<span class='nisl-textlink'></span>").text("State")
-                .css("margin-left", "3px")
-                .css("margin-right", "3px")
-                .appendTo(content)
-                .addTippy(tooltip)
-        }
-
-         */
     }
 
     protected async update() {

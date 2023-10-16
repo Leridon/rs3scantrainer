@@ -17,6 +17,9 @@ import {TileMarker} from "../map/TileMarker";
 import {complementSpot} from "../../model/scans/scans";
 import {Vector2} from "../../util/math";
 import {type Application} from "../../application";
+import {SpotPolygon} from "../map/layers/ScanLayer";
+import {PathingGraphics} from "../map/path_graphics";
+import {PathEditor} from "../pathedit/PathEditor";
 
 class ScanEditLayerLight extends ActiveLayer {
 
@@ -131,6 +134,8 @@ class PreviewLayerControl extends Behaviour<ScanEditor> {
         complement: TileMarker[]
     }
 
+    private path_layer: OpacityGroup = null
+
     protected begin() {
         this.layer = new OpacityGroup().addTo(this.parent.layer)
 
@@ -155,6 +160,37 @@ class PreviewLayerControl extends Behaviour<ScanEditor> {
             this.markers.spots.forEach((m) => m.setActive(spots.some((c) => Vector2.eq(c, m.getSpot()))))
             this.markers.complement.forEach((m) => m.setActive(spots.some((c) => Vector2.eq(complementSpot(c), m.getSpot()))))
         })
+
+        // Render path preview
+        this.parent.panel.tree_edit.active.subscribe(async (a) => {
+            let layer = new OpacityGroup()
+
+            if (a) {
+                ScanTree.augmented.collect_parents(a.node, false).forEach(n => {
+                    if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
+
+                    return PathingGraphics.renderPath(n.raw.path).addTo(layer)
+                })
+
+                ScanTree.augmented.traverse(a.node, (n) => {
+                    // TODO: Decreasing opacity
+
+                    if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
+
+                    return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
+                }, false)
+            } else {
+                ScanTree.augmented.traverse((await this.parent.panel.tree_edit.root_widget).node, (n) => {
+                    if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
+
+                    return PathingGraphics.renderPath(n.raw.path).addTo(layer)
+                }, true)
+            }
+
+            if (this.path_layer) this.path_layer.remove()
+
+            this.path_layer = layer.addTo(this.layer)
+        }, true)
     }
 
     protected end() {
@@ -172,6 +208,7 @@ export default class ScanEditor extends Behaviour {
 
     equivalence_classes: EquivalenceClassHandling
     preview_layer: PreviewLayerControl
+    path_editor: PathEditor
 
     constructor(private app: Application,
                 public readonly options: {
@@ -183,6 +220,7 @@ export default class ScanEditor extends Behaviour {
 
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling())
         this.preview_layer = this.withSub(new PreviewLayerControl())
+        this.path_editor = this.withSub(new PathEditor(this.options.map))
     }
 
     begin() {
@@ -205,9 +243,24 @@ export default class ScanEditor extends Behaviour {
         this.candidates = this.panel.tree_edit.active
             .map(n => n ? n.node.remaining_candidates : this.options.clue.solution.candidates)
 
-        // Handle change in remaining candidates
-        this.candidates.subscribe((candidates) => {
+        this.panel.tree_edit.active_node.subscribe(async node => {
+            if (node) {
 
+                await this.path_editor.load(node.path.raw, {
+                    target: node.path.target,
+                    start_state: node.path.pre_state,
+                    discard_handler: () => {
+                        this.panel.tree_edit.setActiveNode(null)
+                    },
+                    commit_handler: (p) => {
+                        node.raw.path = p
+
+                        this.panel.tree_edit.cleanTree()
+                    }
+                })
+            } else {
+                await this.path_editor.reset()
+            }
         })
     }
 

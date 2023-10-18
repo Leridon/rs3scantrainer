@@ -18,6 +18,7 @@ import {SpotPolygon} from "../map/layers/ScanLayer";
 import {observe} from "../../util/Observable";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import LightButton from "../widgets/LightButton";
+import {Pulse} from "../../model/scans/scans";
 
 class RegionEdit extends Widget {
     constructor(private parent: TreeNodeEdit) {
@@ -44,7 +45,8 @@ class RegionEdit extends Widget {
                     new DrawAreaInteraction(this.parent.parent.parent.parent.layer)
                         .tapEvents(e => e.on("done", (r) => {
                             this.parent.node.raw.region.area = r
-                        }))
+                            this.parent.parent.cleanTree()
+                        })).activate()
                 })
                 .appendTo(this)
 
@@ -121,13 +123,19 @@ class TreeNodeEdit extends Widget {
                 }))
 
             this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
-                .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
+                .tapRaw(r => r.on("click", () => {
+                    console.log("click")
+                    this.parent.setActiveNode(this.isActive() ? null : this)
+                }))
 
             this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
                 .append(this.you_are_here_marker)
                 .append(collapse_control)
                 .append(c(`<span class='nisl-textlink' style="flex-grow: 1">${decision_path_text}: </span>`).tooltip("Load decisions into map")
-                    .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
+                    .tapRaw(r => r.on("click", () => {
+                        console.log("click")
+                        this.parent.setActiveNode(this.isActive() ? null : this)
+                    }))
                 )
                 .append(c(`<span>${util.plural(node.remaining_candidates.length, "spot")}</span>`)
                     //.addClass(ScanTree.completeness_meta(node.completeness).cls)
@@ -185,11 +193,13 @@ class TreeNodeEdit extends Widget {
             .append(this.completeness_marker = render_completeness(node.completeness).css("margin-left", "5px"))
             .append(this.correctness_marker = render_completeness(node.correctness).css("margin-left", "5px"))
 
-        this.child_content.empty()
 
-        if(this.region_edit) this.region_edit.render()
+        this.children.forEach(c => c.detach())
 
-        this.node.children.map(child => {
+        if (this.region_edit) this.region_edit.render()
+
+        this.children = this.node.children.map(child => {
+
             let existing = this.children.find(c => c.node.raw == child.value.raw)
 
             if (existing) {
@@ -198,7 +208,9 @@ class TreeNodeEdit extends Widget {
             }
 
             return new TreeNodeEdit(this.parent, child.value)
-        }).forEach(c => c.appendTo(this.child_content))
+        })
+
+        this.children.forEach(c => c.appendTo(this.child_content))
     }
 
     setActive(v: boolean) {

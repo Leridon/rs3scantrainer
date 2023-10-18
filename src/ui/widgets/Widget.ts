@@ -56,6 +56,11 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
+    detach(): this {
+        this.container.detach()
+        return this
+    }
+
     addClass(cls: string): this {
         this.container.addClass(cls)
         return this

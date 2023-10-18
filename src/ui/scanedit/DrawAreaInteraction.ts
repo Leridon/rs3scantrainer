@@ -1,4 +1,3 @@
-import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {MapCoordinate, MapRectangle} from "../../model/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";

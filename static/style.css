@@ -763,7 +763,12 @@ video {
     display: flex;
     flex-grow: 1;
     overflow: hidden;
-    white-space:nowrap;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ctr-select-box {
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
@@ -894,6 +899,9 @@ video {
     border: 1px solid #514949;
     font-family: sans-serif;
     font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap
 }
 
 .nisl-selectdropdown-options {

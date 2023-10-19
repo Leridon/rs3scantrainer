@@ -162,35 +162,46 @@ class PreviewLayerControl extends Behaviour<ScanEditor> {
         })
 
         // Render path preview
-        this.parent.panel.tree_edit.active.subscribe(async (a) => {
-            let layer = new OpacityGroup()
+        this.parent.panel.tree_edit.active.subscribe(() => this.updatePreview(), true)
+        this.parent.panel.tree_edit.on("preview_invalid", () => this.updatePreview())
+    }
 
-            if (a) {
-                ScanTree.augmented.collect_parents(a.node, false).forEach(n => {
-                    if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
+    private async updatePreview() {
+        let a = this.parent.panel.tree_edit.active_node.get()
 
-                    return PathingGraphics.renderPath(n.raw.path).addTo(layer)
-                })
+        let layer = new OpacityGroup()
 
-                ScanTree.augmented.traverse(a.node, (n) => {
-                    // TODO: Decreasing opacity
+        if (a) {
+            for (const n of ScanTree.augmented.collect_parents(a, false)) {
+                if (n.raw.region) {
+                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new SpotPolygon(n.raw.region).addTo(layer)
+                }
 
-                    if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
-
-                    return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
-                }, false)
-            } else {
-                ScanTree.augmented.traverse((await this.parent.panel.tree_edit.root_widget).node, (n) => {
-                    if (n.raw.region) new SpotPolygon(n.raw.region).addTo(layer)
-
-                    return PathingGraphics.renderPath(n.raw.path).addTo(layer)
-                }, true)
+                PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
-            if (this.path_layer) this.path_layer.remove()
+            ScanTree.augmented.traverse(a, async (n) => {
+                // TODO: Decreasing opacity
 
-            this.path_layer = layer.addTo(this.layer)
-        }, true)
+                if (n.raw.region) {
+                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new SpotPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
+                }
+
+                return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
+            }, false)
+        } else {
+            ScanTree.augmented.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
+                if (n.raw.region) {
+                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new SpotPolygon(n.raw.region).addTo(layer)
+                }
+
+                return PathingGraphics.renderPath(n.raw.path).addTo(layer)
+            }, true)
+        }
+
+        if (this.path_layer) this.path_layer.remove()
+
+        this.path_layer = layer.addTo(this.layer)
     }
 
     protected end() {
@@ -260,6 +271,26 @@ export default class ScanEditor extends Behaviour {
                 })
             } else {
                 await this.path_editor.reset()
+            }
+        })
+
+        this.panel.tree_edit.on("region_changed", async (node) => {
+            console.log("event")
+            if (node.raw == this.panel.tree_edit.active_node.get().raw) {
+                console.log("event2")
+
+                await this.path_editor.load(node.path.raw, {
+                    target: node.path.target,
+                    start_state: node.path.pre_state,
+                    discard_handler: () => {
+                        this.panel.tree_edit.setActiveNode(null)
+                    },
+                    commit_handler: (p) => {
+                        node.raw.path = p
+
+                        this.panel.tree_edit.cleanTree()
+                    }
+                })
             }
         })
     }

@@ -47,6 +47,9 @@ export class SpotPolygon extends ActiveOpacityGroup {
         if (this.polygon) {
             this.polygon.remove()
             this.polygon = null
+
+            this.label.remove()
+            this.label = null
         }
 
         this.polygon = boxPolygon(this._spot.area)

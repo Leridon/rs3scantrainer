@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet"
-import {Layer, LayerOptions} from "leaflet";
+import {Layer, LayerGroup, LayerOptions, Map} from "leaflet";
 
 export class OpacityGroup extends leaflet.FeatureGroup {
 
@@ -44,7 +44,6 @@ export class OpacityGroup extends leaflet.FeatureGroup {
 
         return this
     }
-
 
     private children: {
         layer: leaflet.Layer,
@@ -93,7 +92,7 @@ export class OpacityGroup extends leaflet.FeatureGroup {
 export class ActiveOpacityGroup extends OpacityGroup {
     private active: boolean = true
 
-    constructor(private active_opacity: number, private inactive_opacity: number) {
+    constructor(public active_opacity: number, public inactive_opacity: number) {
         super();
     }
 

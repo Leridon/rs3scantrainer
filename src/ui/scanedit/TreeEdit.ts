@@ -1,7 +1,7 @@
 import Widget from "../widgets/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "../../model/scans/ScanTree";
-import tree_node = ScanTree.decision_tree;
+import decision_tree = ScanTree.decision_tree;
 import augmented_decision_tree = ScanTree.augmented_decision_tree;
 import ScanDecision = ScanTree.ScanInformation;
 import {util} from "../../util/util";
@@ -18,13 +18,18 @@ import {SpotPolygon} from "../map/layers/ScanLayer";
 import {observe} from "../../util/Observable";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import LightButton from "../widgets/LightButton";
-import {Pulse} from "../../model/scans/scans";
+import {MapRectangle} from "../../model/coordinates";
 
 class RegionEdit extends Widget {
     constructor(private parent: TreeNodeEdit) {
         super($("<div style='display: flex'></div>"));
 
         this.render()
+    }
+
+    private async sendChange() {
+        await this.parent.parent.cleanTree()
+        this.parent.parent.emit("region_changed", this.parent.node)
     }
 
     public render() {
@@ -35,35 +40,67 @@ class RegionEdit extends Widget {
         if (is_defined) {
             new TextField()
                 .setValue(this.parent.node.raw.region.name)
+                .on("hint", (v) => {
+                    this.parent.node.raw.region.name = v
+                    this.parent.region_preview.setSpot(this.parent.node.raw.region)
+                })
                 .css("flex-grow", "1")
                 .appendTo(this)
 
             SmallImageButton.new("assets/icons/edit.png")
                 .css("margin-left", "2px")
                 .on("click", async () => {
-
                     new DrawAreaInteraction(this.parent.parent.parent.parent.layer)
-                        .tapEvents(e => e.on("done", (r) => {
-                            this.parent.node.raw.region.area = r
-                            this.parent.parent.cleanTree()
-                        })).activate()
+                        .tapEvents(e => e
+                            .on("done", (r) => {
+                                this.parent.node.raw.region.area = r
+                                this.sendChange()
+                            })
+                            .on("started", () => {
+                                this.parent.region_preview.setOpacity(0)
+                            })
+                            .on("stopped", () => {
+                                this.parent.region_preview
+                                    .setOpacity(this.parent.region_preview.isActive()
+                                        ? this.parent.region_preview.active_opacity
+                                        : this.parent.region_preview.inactive_opacity)
+                            })
+                        ).activate()
                 })
                 .appendTo(this)
 
             SmallImageButton.new("assets/icons/regenerate.png")
                 .css("margin-left", "2px")
                 .on("click", async () => {
+                    this.parent.node.raw.region.area = MapRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
+                    this.sendChange()
                 })
+                .setEnabled(this.parent.node.path.steps.length > 0 && !!this.parent.node.path.post_state?.position?.tile)
                 .appendTo(this)
         } else {
             new LightButton("Create")
                 .on("click", async () => {
-                    this.parent.node.raw.region = {
-                        name: "",
-                        area: {topleft: {x: 0, y: 0}, botright: {x: 0, y: 0}, level: 0}
-                    }
+                    if (this.parent.node.path.steps.length > 0 && this.parent.node.path.post_state?.position?.tile) {
+                        let area = MapRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
 
-                    await this.parent.parent.cleanTree()
+                        this.parent.node.raw.region = {
+                            name: "",
+                            area: area
+                        }
+
+                        this.sendChange()
+                    } else {
+                        new DrawAreaInteraction(this.parent.parent.parent.parent.layer)
+                            .tapEvents(e => e
+                                .on("done", (r) => {
+                                    this.parent.node.raw.region = {
+                                        name: "",
+                                        area: r
+                                    }
+                                    this.sendChange()
+                                })
+                            ).activate()
+                    }
                 })
                 .appendTo(this)
         }
@@ -88,6 +125,7 @@ class TreeNodeEdit extends Widget {
     completeness_marker: Widget
     correctness_marker: Widget
     region_edit: RegionEdit = null
+    path_property: PathProperty = null
 
     is_collapsed: boolean = false
 
@@ -145,7 +183,7 @@ class TreeNodeEdit extends Widget {
 
         this.body = new Properties()
 
-        this.body.named("Path", new PathProperty({
+        this.path_property = this.body.named("Path", new PathProperty({
             target: this.node.path.target,
             start_state: this.node.path.pre_state,
         })
@@ -193,13 +231,15 @@ class TreeNodeEdit extends Widget {
             .append(this.completeness_marker = render_completeness(node.completeness).css("margin-left", "5px"))
             .append(this.correctness_marker = render_completeness(node.correctness).css("margin-left", "5px"))
 
-
         this.children.forEach(c => c.detach())
 
         if (this.region_edit) this.region_edit.render()
 
-        this.children = this.node.children.map(child => {
+        this.path_property.options.target = this.node.region?.area
+        this.path_property.options.start_state = this.node.path.pre_state
+        this.path_property.setValue(this.node.path.raw)
 
+        this.children = this.node.children.map(child => {
             let existing = this.children.find(c => c.node.raw == child.value.raw)
 
             if (existing) {
@@ -223,14 +263,15 @@ class TreeNodeEdit extends Widget {
 }
 
 export default class TreeEdit extends Widget<{
-    changed: tree_node
+    preview_invalid: null,
+    region_changed: ScanTree.augmented_decision_tree
 }> {
     root_widget: Promise<TreeNodeEdit> = null
 
     active = observe<TreeNodeEdit>(null)
     active_node = this.active.map(a => a?.node)
 
-    constructor(public parent: ScanEditPanel, public value: tree_node) {
+    constructor(public parent: ScanEditPanel, public value: decision_tree) {
         super()
 
         this.renderContent()
@@ -246,6 +287,20 @@ export default class TreeEdit extends Widget<{
 
     public async cleanTree() {
         (await this.root_widget).renderValue(await ScanTree.augment(await ScanTree.normalize(this.parent.parent.value), {analyze_completeness: true}))
+
+        this.emit("preview_invalid", null)
+    }
+
+    public async getNode(node: ScanTree.augmented_decision_tree): Promise<TreeNodeEdit> {
+        let path = ScanTree.augmented.collect_parents(node)
+
+        let edit = await this.root_widget
+
+        for (let i = 1; i < path.length; i++) {
+            edit = edit.children.find(c => c.node.raw == path[i].raw)
+        }
+
+        return edit
     }
 
     setActiveNode(node: TreeNodeEdit) {

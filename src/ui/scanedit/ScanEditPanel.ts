@@ -91,9 +91,5 @@ export default class ScanEditPanel extends Widget<{
         this.spot_ordering.on("changed", (v: MapCoordinate[]) => {
             this.parent.value.spot_ordering = v
         })
-
-        this.tree_edit.on("changed", (t) => {
-            this.parent.value.root = t
-        })
     }
 }

@@ -117,11 +117,13 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         this.map.setTopControl(this.interaction.getTopControl())
 
         this.interaction.start()
+        this.interaction.events.emit("started", null)
     }
 
     cancelInteraction() {
         if (this.interaction) {
             this.interaction.cancel()
+            this.interaction.events.emit("stopped", null)
             this.interaction = null
 
             this.map.setTopControl(null)

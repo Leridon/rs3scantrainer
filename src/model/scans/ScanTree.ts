@@ -120,7 +120,7 @@ export namespace ScanTree {
             return par
         }
 
-        export function traverse(tree: augmented_decision_tree, f: (_: augmented_decision_tree) => void, include_root: boolean = true): void {
+        export function traverse(tree: augmented_decision_tree, f: (_: augmented_decision_tree) => any, include_root: boolean = true): void {
             if (include_root && tree) f(tree)
 
             tree.children.forEach(c => traverse(c.value, f, true))

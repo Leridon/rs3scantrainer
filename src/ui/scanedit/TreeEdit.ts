@@ -77,6 +77,14 @@ class RegionEdit extends Widget {
                 })
                 .setEnabled(this.parent.node.path.steps.length > 0 && !!this.parent.node.path.post_state?.position?.tile)
                 .appendTo(this)
+
+            SmallImageButton.new("assets/icons/delete.png")
+                .css("margin-left", "2px")
+                .on("click", async () => {
+                    this.parent.node.raw.region = null
+                    this.sendChange()
+                })
+                .appendTo(this)
         } else {
             new LightButton("Create")
                 .on("click", async () => {
@@ -235,7 +243,7 @@ class TreeNodeEdit extends Widget {
 
         if (this.region_edit) this.region_edit.render()
 
-        this.path_property.options.target = this.node.region?.area
+        this.path_property.options.target = this.node.path.target
         this.path_property.options.start_state = this.node.path.pre_state
         this.path_property.setValue(this.node.path.raw)
 

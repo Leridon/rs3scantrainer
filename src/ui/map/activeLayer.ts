@@ -1,98 +1,13 @@
-import {blue_icon, type GameMapControl} from "./map";
+import {blue_icon, GameMap, type GameMapWidget} from "./map";
 import * as leaflet from "leaflet"
 import {type MapCoordinate} from "../../model/coordinates";
 import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import {Vector2} from "../../util/math";
+import GameLayer from "./GameLayer";
 
-/*
-class DrawDiveInteraction extends LayerInteraction<ActiveLayer> {
-    _start: MapCoordinate = null
-    _to: MapCoordinate = null
-
-    constructor(layer: ActiveLayer) {
-        super(layer);
-    }
-
-    cancel() {
-        this.layer.getMap().map.off(this._maphooks)
-        this.layer.getMap().map.dragging.enable()
-    }
-
-    start() {
-        this.layer.getMap().map.on(this._maphooks)
-        this.layer.getMap().map.dragging.disable()
-    }
-
-    _maphooks: leaflet.LeafletEventHandlerFnMap = {
-
-        "click": async (e: LeafletMouseEvent) => {
-            // Capture and consume the click event so it does not get sent to the default interaction
-
-            leaflet.DomEvent.stopPropagation(e)
-
-            if (this._start) {
-                leaflet.DomEvent.stopPropagation(e)
-
-                let now = this.layer.getMap().tileFromMouseEvent(e)
-
-                await this.update(now)
-
-                this._start = null
-            }
-        },
-
-        "mousedown": async (e: LeafletMouseEvent) => {
-            if (!this._start) {
-                leaflet.DomEvent.stopPropagation(e)
-
-                this._start = this.layer.getMap().tileFromMouseEvent(e)
-            }
-        },
-
-        "mousemove": async (e: LeafletMouseEvent) => {
-
-            if (this._start) {
-                leaflet.DomEvent.stopPropagation(e)
-
-                let now = this.layer.getMap().tileFromMouseEvent(e)
-
-                await this.update(now)
-            }
-        },
-    }
-
-    _polygon: leaflet.Polyline = null
-
-    async update(to: MapCoordinate) {
-        if (!this._to || !Vector2.eq(to, this._to)) {
-            this._to = to
-
-            let tile = await dive(HostedMapData.get(), this._start, to)
-            //let tile = await movement.escape(HostedMapData.get(), {tile: this._start, direction: movement.direction.fromVector(Vector2.sub(to, this._start))})
-
-            if (this._polygon) this._polygon.remove()
-
-            if (tile) {
-
-                this._polygon = leaflet.polyline(
-                    [Vector2.toLatLong(this._start), Vector2.toLatLong(tile.tile)]
-                ).addTo(this.layer)
-            } else {
-
-                this._polygon = leaflet.polyline(
-                    [Vector2.toLatLong(this._start), Vector2.toLatLong(to)]
-                ).setStyle({
-                    color: "red"
-                }).addTo(this.layer)
-            }
-        }
-    }
-}*/
-
-export class ActiveLayer extends leaflet.FeatureGroup {
-    protected map: GameMapControl = null
+export class ActiveLayer extends GameLayer {
     private controls: leaflet.Control[] = []
     protected interaction: LayerInteraction<ActiveLayer>
 
@@ -100,21 +15,17 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         super()
     }
 
-    getMap(): GameMapControl {
-        return this.map
-    }
-
     setInteraction(interaction: LayerInteraction<ActiveLayer>) {
         if (this.interaction) {
             this.interaction.cancel()
             this.interaction = null
 
-            this.map.setTopControl(null)
+            this.getMap().setTopControl(null)
         }
 
         this.interaction = interaction
 
-        this.map.setTopControl(this.interaction.getTopControl())
+        this.getMap().setTopControl(this.interaction.getTopControl())
 
         this.interaction.start()
         this.interaction.events.emit("started", null)
@@ -126,7 +37,7 @@ export class ActiveLayer extends leaflet.FeatureGroup {
             this.interaction.events.emit("stopped", null)
             this.interaction = null
 
-            this.map.setTopControl(null)
+            this.getMap().setTopControl(null)
 
             let de = this.loadDefaultInteraction()
 
@@ -137,7 +48,7 @@ export class ActiveLayer extends leaflet.FeatureGroup {
     public addControl(control: leaflet.Control) {
         this.controls.push(control)
 
-        if (this.map) this.map.map.addControl(control)
+        this.getMap()?.addControl(control)
     }
 
     private _tilemarker: TileMarker = null
@@ -176,23 +87,23 @@ export class ActiveLayer extends leaflet.FeatureGroup {
         }
     }
 
-    activate(map: GameMapControl) {
-        this.map = map
+    activate(map: GameMap) {
+        this.parent = map
 
         let de = this.loadDefaultInteraction()
 
         de.activate()
 
-        this.controls.forEach((e) => e.addTo(map.map))
+        this.controls.forEach((e) => e.addTo(map))
     }
 
     deactivate() {
         this.interaction.cancel()
         this.interaction = null
 
-        this.map.setTopControl(null)
+        this.getMap().setTopControl(null)
 
-        this.map = null
+        this.parent = null
 
         this.controls.forEach((e) => e.remove())
     }

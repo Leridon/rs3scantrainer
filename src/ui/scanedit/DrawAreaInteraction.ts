@@ -31,15 +31,15 @@ export default class DrawAreaInteraction extends LayerInteraction<ActiveLayer, {
     }
 
     cancel() {
-        this.layer.getMap().map.off(this._maphooks)
-        this.layer.getMap().map.dragging.enable()
+        this.layer.getMap().off(this._maphooks)
+        this.layer.getMap().dragging.enable()
 
         if (this._preview_polygon) this._preview_polygon.remove()
     }
 
     start() {
-        this.layer.getMap().map.on(this._maphooks)
-        this.layer.getMap().map.dragging.disable()
+        this.layer.getMap().on(this._maphooks)
+        this.layer.getMap().dragging.disable()
     }
 
     update_preview() {

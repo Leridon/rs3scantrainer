@@ -8,7 +8,7 @@ type InteractionEvents<events extends Record<string, any>> = events & {
     "stopped": null
 }
 
-export default abstract class LayerInteraction<T extends ActiveLayer, events extends Record<string, any>> {
+export default abstract class LayerInteraction<T extends ActiveLayer, events extends Record<string, any> = {}> {
     public events = new TypedEmitter<InteractionEvents<events>>()
 
     private is_active: boolean

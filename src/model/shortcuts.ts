@@ -1,4 +1,4 @@
-import {MapCoordinate, MapRectangle} from "./coordinates";
+import {floor_t, MapCoordinate, MapRectangle} from "./coordinates";
 import {direction} from "./movement";
 import {Path} from "./pathing";
 import {Rectangle, Vector2} from "../util/math";
@@ -7,7 +7,7 @@ export namespace Shortcuts {
 
     type start_t = { type: "area", area: MapRectangle } | { type: "tile", tile: MapCoordinate }
     type click_t = { type: "area", area: MapRectangle, where: "center" | "nearest" } | { type: "tile", tile: MapCoordinate }
-    type movement_t = { type: "offset", offset: Vector2, level: number } | { type: "fixed", target: MapCoordinate }
+    type movement_t = { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }
 
     export namespace start {
         export function get(start: start_t, position: MapCoordinate | null): MapCoordinate {

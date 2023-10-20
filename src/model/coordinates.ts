@@ -1,5 +1,7 @@
 import {Rectangle, Vector2} from "../util/math";
 
+export type floor_t = 0 | 1 | 2 | 3
+
 export type GieliCoordinates = {
     latitude: {
         degrees: number,
@@ -30,11 +32,11 @@ export namespace GieliCoordinates {
 }
 
 export type MapCoordinate = Vector2 & {
-    level: number
+    level: floor_t
 }
 
 export type MapRectangle = Rectangle & {
-    level: number
+    level: floor_t
 }
 
 export namespace MapCoordinate {
@@ -46,7 +48,7 @@ export namespace MapCoordinate {
         return a == b || (a != null && b != null && eq(a, b))
     }
 
-    export function lift(v: Vector2, level: number): MapCoordinate {
+    export function lift(v: Vector2, level: floor_t): MapCoordinate {
         return {...v, level: level}
     }
 
@@ -108,7 +110,7 @@ export namespace MapRectangle {
         return Vector2.eq(rect.topleft, rect.botright)
     }
 
-    export function lift(v: Rectangle, level: number): MapRectangle {
+    export function lift(v: Rectangle, level: floor_t): MapRectangle {
         return {...v, level: level}
     }
 

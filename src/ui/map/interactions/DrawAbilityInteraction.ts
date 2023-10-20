@@ -192,11 +192,11 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         if (this._possibility_overlay) this._possibility_overlay.remove()
         if (this._dive_preview) this._dive_preview.remove()
 
-        this.layer.getMap().map.off(this._maphooks)
+        this.layer.getMap().off(this._maphooks)
     }
 
     start() {
-        this.layer.getMap().map.on(this._maphooks)
+        this.layer.getMap().on(this._maphooks)
     }
 
     private fromTo(a: MapCoordinate, b: MapCoordinate): [MapCoordinate, MapCoordinate] {

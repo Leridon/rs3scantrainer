@@ -8,6 +8,7 @@ import * as tippy from "tippy.js";
 import LightButton from "../../widgets/LightButton";
 import {ScanTree} from "../../../model/scans/ScanTree";
 import dig_area = ScanTree.dig_area;
+import {PathEditor} from "../../pathedit/PathEditor";
 
 export default class OverviewLayer extends ActiveLayer {
     constructor(private clues: ClueStep[]) {
@@ -45,7 +46,7 @@ export default class OverviewLayer extends ActiveLayer {
                 props.named("spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
                 props.row(new LightButton("Load path editor")
                     .on("click", () => {
-                        this.map.path_editor.load([], {
+                        new PathEditor(this.getMap()).load([], {
                             target: dig_area(spot)
                         })
                     }))

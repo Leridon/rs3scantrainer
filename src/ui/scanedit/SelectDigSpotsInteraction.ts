@@ -42,13 +42,11 @@ class SelectDigSpotsTopControl extends TopControl {
     }
 }
 
-export default class SelectDigSpotsInteraction extends LayerInteraction<ActiveLayer> {
-    events = new TypedEmitter<{
-        "changed": MapCoordinate[],
-        "done": MapCoordinate[],
-        "cancelled": null
-    }>()
-
+export default class SelectDigSpotsInteraction extends LayerInteraction<ActiveLayer,{
+    "changed": MapCoordinate[],
+    "done": MapCoordinate[],
+    "cancelled": null
+}> {
     selection: MapCoordinate[]
 
     constructor(layer: ActiveLayer) {

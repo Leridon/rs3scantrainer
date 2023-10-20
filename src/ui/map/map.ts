@@ -1,17 +1,21 @@
 import * as leaflet from "leaflet";
 import {TeleportLayer} from "./teleportlayer";
-import {MapCoordinate} from "../../model/coordinates";
+import {floor_t, MapCoordinate} from "../../model/coordinates";
 import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
 import Graticule from "./layers/Graticule";
 import Widget from "../widgets/Widget";
 import {Constants} from "../../constants";
-import PathLayer from "./layers/PathLayer";
 import TileHighlight from "./TileHighlight";
-import {PathEditor} from "../pathedit/PathEditor";
 import {Observable, observe} from "../../util/Observable";
+import GameLayer, {GameMapContextMenuEvent, GameMapEvent} from "./GameLayer";
+import ContextMenu from "../widgets/ContextMenu";
 
 type Layersource = { urls: string[], from?: number, to?: number };
+
+function clamp_floor(n: number): floor_t {
+    return Math.max(0, Math.min(3, n)) as floor_t
+}
 
 class RsBaseTileLayer extends leaflet.TileLayer {
     constructor(private readonly zoomurls: Layersource[],
@@ -78,20 +82,20 @@ class FloorControl extends CustomControl {
     down: JQuery
     current: JQuery
 
-    constructor(private parent: GameMapControl) {
+    constructor(private parent: GameMap) {
         super($("<div style='display: flex' class='nis-map-control'>"), {});
 
         this.down = $("<div style='cursor: pointer'><img src='assets/icons/stairdown.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
-                this.parent.setFloor(this.parent.floor.get() - 1)
+                this.parent.floor.set(clamp_floor(this.parent.floor.get() - 1))
             })
             .appendTo(this.container)
         this.current = $("<div style='border-left: 1px solid rgb(5, 56, 66); border-right: 1px solid rgb(5, 56, 66); padding-left: 4px; padding-right: 4px; line-height: 20px'>Floor 0</div>").appendTo(this.container)
         this.up = $("<div style='cursor: pointer'><img src='assets/icons/stairup.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
-                this.parent.setFloor(this.parent.floor.get() + 1)
+                this.parent.floor.set(clamp_floor(this.parent.floor.get() + 1))
             })
             .appendTo(this.container)
 
@@ -105,118 +109,75 @@ class FloorControl extends CustomControl {
  * This map class wraps a leaflet map view and provides features needed for the solver.
  * Map data is sourced from Skillbert's amazing runeapps.org.
  */
-export class GameMapControl extends Widget<{}> {
-    map: leaflet.Map
+function getCRS(): leaflet.CRS {
+    const chunkoffset = {
+        x: 16,
+        z: 16
+    }
 
-    floor: Observable<0 | 1 | 2 | 3> = observe(0)
+    const mapsize = {
+        x: 100,
+        z: 200
+    }
 
-    baseLayers: leaflet.TileLayer[]
+    const chunksize = 64;
+
+    let crs = leaflet.CRS.Simple;
+
+    //add 0.5 to so coords are center of tile
+    // @ts-ignore
+    crs.transformation = leaflet.transformation(
+        1, chunkoffset.x + 0.5,
+        -1, mapsize.z * chunksize + -1 * (chunkoffset.z + 0.5)
+    );
+
+    return crs
+}
+
+export class GameMap extends leaflet.Map {
+    floor: Observable<floor_t> = observe(0)
+
+    container: JQuery
     private teleportLayer: TeleportLayer
     private activeLayer: ActiveLayer = null
     private top_control_container: Widget
     private tile_highlight: TileHighlight
 
-    public path_editor: PathEditor
+    private baseLayers: leaflet.TileLayer[]
 
-    // Hardcoded
-    private mapid: number = 4
-
-    backupUrl(filename: string, version: number) {
-        return `https://runeapps.org/node/map/getnamed?mapid=${this.mapid}&version=${version}&file=${filename}`;
-    }
-
-    geturls(filename: string) {
-        return [
-            `https://runeapps.org/s3/map${this.mapid}/live/${filename}`,
-            this.backupUrl(filename, Constants.map_version),
-        ];
-    }
-
-    private getCRS(): leaflet.CRS {
-        const chunkoffset = {
-            x: 16,
-            z: 16
-        }
-
-        const mapsize = {
-            x: 100,
-            z: 200
-        }
-
-        const chunksize = 64;
-
-        let crs = leaflet.CRS.Simple;
-        //add 0.5 to so coords are center of tile
-        // @ts-ignore
-        crs.transformation = leaflet.transformation(
-            1, chunkoffset.x + 0.5,
-            -1, mapsize.z * chunksize + -1 * (chunkoffset.z + 0.5)
-        );
-
-        return crs
-    }
-
-
-    constructor(container: JQuery) {
-        super(container)
-
-        this.map = leaflet.map(container.get()[0], {
-            crs: this.getCRS(),
+    constructor(element: HTMLElement) {
+        super(element, {
+            crs: getCRS(),
             zoomSnap: 0.25,
             minZoom: -5,
             maxZoom: 7,
             zoomControl: false,
+            dragging: true,
             doubleClickZoom: false,
             attributionControl: true
-        }).setView([3200, 3000], 0);
+        });
 
-        /*$(this.map.attributionControl.getContainer())
-            .addClass("nis-map-control")
-            .removeClass("leaflet-control-attribution")*/
+        this.container = $(element)
 
-        this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(container.children(".leaflet-control-container")))
+        this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(this.container.children(".leaflet-control-container")))
         this.top_control_container.container.on("click", (e) => e.stopPropagation())
 
-        this.map.addControl(new FloorControl(this).setPosition("bottomleft"))
+        this.addControl(new FloorControl(this).setPosition("bottomleft"))
 
-        this.tile_highlight = new TileHighlight({x: 0, y: 0}).addTo(this.map)
-        this.map.on("mousemove", (e) => this.tile_highlight.setPosition(this.tileFromMouseEvent(e)))
+        this.tile_highlight = new TileHighlight({x: 0, y: 0}).addTo(this)
+        this.on("mousemove", (e) => this.tile_highlight.setPosition(this.tileFromMouseEvent(e)))
 
-        this.map.on("contextmenu", async (e) => {
-            e.originalEvent.preventDefault()
+        this.on("contextmenu", async (e) => {
+            let event = this.event(new GameMapContextMenuEvent(), (l) => (e) => l.eventContextMenu(e))
 
-            let tile = this.tileFromMouseEvent(e)
-
-            await navigator.clipboard.writeText(JSON.stringify(tile))
+            new ContextMenu(event.entries)
+                .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
         })
 
+        // Set a default active layer
+        this.setActiveLayer(new ActiveLayer())
 
-        this.path_editor = new PathEditor(this)
-        /*this.path_editor.load({description: "", steps: [],}, {
-            save_handler: () => {
-            }
-        })*/
-
-
-        /*
-        let e1 = new CustomControl($("<div class='nis-map-control'><img src='assets/icons/teleports/homeport.png'></div>")
-            .on("click", () => {
-                    if (e1.container.children("img").hasClass("nis-inactive")) e1.container.children("img").removeClass("nis-inactive")
-                    else e1.container.children("img").addClass("nis-inactive")
-                }
-            ))
-            .setPosition("bottomleft").addTo(this.map)
-
-        let e2 = new CustomControl($("<div  class='nis-map-control'><img src='assets/icons/walls.png'></div>")
-            .on("click", () => {
-                    if (e2.container.children("img").hasClass("nis-inactive")) e2.container.children("img").removeClass("nis-inactive")
-                    else e2.container.children("img").addClass("nis-inactive")
-                }
-            ))
-            .setPosition("bottomleft").addTo(this.map)*/
-
-        this.updateBaseLayers()
-
+        // Add subtle gridlines
         new Graticule({
             intervals: [
                 {min_zoom: -Infinity, interval: 64},
@@ -232,34 +193,35 @@ export class GameMapControl extends Widget<{}> {
             }
         })
             .setZIndex(10)
-            .addTo(this.map)
+            .addTo(this)
 
-        // Set a default active layer
-        this.setActiveLayer(new ActiveLayer())
-
-        /*fetch(this.backupUrl("versions.json", 0), {mode: "cors"}).then(async (q) => {
-            let content: { versions: { version: number, build: number, date: number, source: string }[] } = await q.json();
-            this.version = content.versions[0].version;
-
-            this.updateBaseLayers()
-        });*/
-
-        new PathLayer([]).setZIndex(20).addTo(this.map)
+        this.updateBaseLayers()
 
         this.floor.subscribe(() => this.updateBaseLayers())
     }
 
-    setFloor(floor: number) {
-        this.floor.set(Math.min(3, Math.max(0, floor)) as 0 | 1 | 2 | 3)
-    }
+    private updateBaseLayers() {
+        // Hardcoded
+        const mapid = 4
 
-    updateBaseLayers() {
+        function backupUrl(filename: string, version: number) {
+            return `https://runeapps.org/node/map/getnamed?mapid=${mapid}&version=${version}&file=${filename}`;
+        }
+
+        function geturls(filename: string) {
+            return [
+                `https://runeapps.org/s3/map${mapid}/live/${filename}`,
+                backupUrl(filename, Constants.map_version),
+            ];
+        }
+
         if (Constants.map_version == 0) return
 
         let layers: leaflet.TileLayer[] = []
 
+        // Rendered Top Down Layer
         layers.push(new RsBaseTileLayer([
-            {urls: this.geturls(`topdown-${this.floor.get()}/{z}/{x}-{y}.webp`)}
+            {urls: geturls(`topdown-${this.floor.get()}/{z}/{x}-{y}.webp`)}
         ], {
             attribution: '<a href="https://runeapps.org/" title="Creator of Alt1 and RuneApps.org">Skillbert</a>',
             tileSize: 512,
@@ -267,9 +229,10 @@ export class GameMapControl extends Widget<{}> {
             minZoom: -5
         }))
 
+        // Walls SVG Layer
         layers.push(new RsBaseTileLayer([
-            {to: 2, urls: this.geturls(`walls-${this.floor.get()}/{z}/{x}-{y}.webp`)},
-            {from: 3, to: 3, urls: this.geturls(`walls-${this.floor.get()}/{z}/{x}-{y}.svg`)}
+            {to: 2, urls: geturls(`walls-${this.floor.get()}/{z}/{x}-{y}.webp`)},
+            {from: 3, to: 3, urls: geturls(`walls-${this.floor.get()}/{z}/{x}-{y}.svg`)}
         ], {
             attribution: '<a href="https://runeapps.org/" title="Creator of Alt1 and RuneApps.org">Skillbert</a>',
             tileSize: 512,
@@ -277,19 +240,9 @@ export class GameMapControl extends Widget<{}> {
             minZoom: -5
         }))
 
-        //layers.push(new CollisionLayer(this.floor))
-        /*
-                layers.push(new RsBaseTileLayer([
-                    {urls: [`map/overlay-46-52-${this.floor}.png?x={x}&y={y}`]},
-                ], {
-                    tileSize: 64,
-                    maxNativeZoom: 0,
-                    minZoom: -5,
-                    className: "map-pixellayer"
-                }))*/
-
+        // Filtered Collision Layer
         layers.push(new RsBaseTileLayer([
-            {urls: this.geturls(`collision-${this.floor.get()}/{z}/{x}-{y}.png`)}
+            {urls: geturls(`collision-${this.floor.get()}/{z}/{x}-{y}.png`)}
         ], {
             tileSize: 512,
             maxNativeZoom: 3,
@@ -306,7 +259,7 @@ export class GameMapControl extends Widget<{}> {
 
         this.baseLayers = layers
 
-        layers.forEach((l) => l.addTo(this.map))
+        layers.forEach((l) => l.addTo(this))
     }
 
     setTeleportLayer(layer: TeleportLayer): this {
@@ -314,7 +267,7 @@ export class GameMapControl extends Widget<{}> {
 
         this.teleportLayer = layer
 
-        layer.addTo(this.map).setZIndex(100)
+        layer.addTo(this).setZIndex(100)
 
         return this
     }
@@ -335,7 +288,7 @@ export class GameMapControl extends Widget<{}> {
 
         this.activeLayer = layer
 
-        this.activeLayer.addTo(this.map)
+        this.activeLayer.addTo(this)
 
         this.activeLayer.activate(this)
     }
@@ -354,5 +307,47 @@ export class GameMapControl extends Widget<{}> {
             y: e.latlng.lat,
             level: this.floor.get()
         }
+    }
+
+    private event<T extends GameMapEvent>(event: T, h: (_: GameLayer) => (_: T) => any): T {
+
+        function getLayers(l: leaflet.Map | leaflet.LayerGroup) {
+            let accu: leaflet.Layer[] = []
+
+            l.eachLayer(c => accu.push(c))
+
+            return accu
+        }
+
+        function propagate(l: GameLayer) {
+            if (!l) return;
+
+            h(l)(event)
+            if (event.isHandled) return
+
+            for (let lay of getLayers(l)) {
+                if (lay instanceof GameLayer) propagate(lay)
+            }
+        }
+
+        propagate(this.activeLayer)
+
+        return event
+    }
+
+}
+
+export class GameMapWidget extends Widget<{}> {
+    map: GameMap
+
+    constructor(container: JQuery) {
+        super(container)
+
+        this.map = new GameMap(container.get()[0])
+            .setView([3200, 3000], 0);
+
+        /*$(this.map.attributionControl.getContainer())
+            .addClass("nis-map-control")
+            .removeClass("leaflet-control-attribution")*/
     }
 }

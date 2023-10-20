@@ -1,6 +1,6 @@
 import {Path} from "../../model/pathing";
 import AbstractEditWidget from "../widgets/AbstractEditWidget";
-import {GameMapControl} from "../map/map";
+import {GameMapWidget} from "../map/map";
 import collect_issues = Path.collect_issues;
 import {IssueWidget, PathEditor} from "./PathEditor";
 import MovementStateView from "./MovementStateView";

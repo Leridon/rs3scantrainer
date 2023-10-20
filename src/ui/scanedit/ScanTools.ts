@@ -23,7 +23,7 @@ export default class ScanTools extends Widget {
 
                 bounds.pad(0.1)
 
-                this.parent.parent.options.map.map.fitBounds(bounds)
+                this.parent.parent.options.map.fitBounds(bounds)
             })
             .appendTo(btn_container)
 
@@ -39,7 +39,7 @@ export default class ScanTools extends Widget {
                 })
                 bounds.pad(0.1)
 
-                this.parent.parent.options.map.map.fitBounds(bounds)
+                this.parent.parent.options.map.fitBounds(bounds)
             })
             .appendTo(btn_container)
 

@@ -1,6 +1,6 @@
 import {ScanLayer, SpotPolygon} from "./layers/ScanLayer";
 import {Application, scantrainer} from "../../application";
-import {GameMapControl} from "./map";
+import {GameMap, GameMapWidget} from "./map";
 import {ScanTree} from "../../model/scans/ScanTree";
 import {modal} from "../widgets/modal";
 import {util} from "../../util/util";
@@ -21,7 +21,7 @@ import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "./path_graphics";
 import {Path} from "../../model/pathing";
 import Order = util.Order;
-import {MapRectangle} from "../../model/coordinates";
+import {floor_t, MapRectangle} from "../../model/coordinates";
 import {Vector2} from "../../util/math";
 
 export default class ScanTreeMethodLayer extends ScanLayer {
@@ -65,7 +65,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         // 6. The path
         // TODO: Include path bounds, without augmenting it!
 
-        this.getMap().map.fitBounds(util.convert_bounds(bounds).pad(0.1), {
+        this.getMap().fitBounds(util.convert_bounds(bounds).pad(0.1), {
             maxZoom: 4,
             animate: true,
         })
@@ -84,13 +84,13 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         if (this.node.parent && this.node.parent.node.region) relevant_areas.push(this.node.parent.node.region);
 
         if (node.region) {
-            this.getMap().setFloor(node.region.area.level)
+            this.getMap().floor.set(node.region.area.level)
 
             let c = MapRectangle.center(node.region.area)
 
             this.setMarker(c, false, false)
         } else {
-            this.getMap().setFloor(Math.min(...node.remaining_candidates.map((c) => c.level)))
+            this.getMap().floor.set(Math.min(...node.remaining_candidates.map((c) => c.level)) as floor_t)
 
             this.removeMarker()
         }
@@ -145,7 +145,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.setMeerkats(scantree.assumes_meerkats)
     }
 
-    public async activate(map: GameMapControl) {
+    public async activate(map: GameMap) {
         super.activate(map);
 
         this.app.sidepanels.methods_panel.setModal(modal("modal-scantree-method-explanation", ScanExplanationModal))

@@ -1,5 +1,5 @@
 import Widget from "./Widget";
-import {MapCoordinate} from "../../model/coordinates";
+import {floor_t, MapCoordinate} from "../../model/coordinates";
 import {ActiveLayer} from "../map/activeLayer";
 import SmallImageButton from "./SmallImageButton";
 import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
@@ -35,7 +35,7 @@ export default class MapCoordinateEdit extends Widget<{
         Widget.wrap($("<div> | </div>")).appendTo(this)
         this.floor = Widget.wrap($("<input type='number' class='nisinput' min='0' max='3' style='max-width: 50pt'>")).appendTo(this)
         this.floor.container.on("input", () => {
-            this.value.level = Number(this.floor.container.val())
+            this.value.level = Number(this.floor.container.val()) as floor_t
             this.emit("changed", this.value)
         })
 

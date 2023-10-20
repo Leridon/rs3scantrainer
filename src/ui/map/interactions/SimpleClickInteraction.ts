@@ -19,11 +19,11 @@ export default class SimpleClickInteraction extends LayerInteraction<ActiveLayer
     }
 
     cancel() {
-        this.layer.getMap().map.off(this._maphooks)
+        this.layer.getMap().off(this._maphooks)
     }
 
     start() {
-        this.layer.getMap().map.on(this._maphooks)
+        this.layer.getMap().on(this._maphooks)
     }
 
     getTopControl(): Widget {

@@ -6,7 +6,7 @@ import {Vector2} from "../../util/math";
 import {Path} from "../../model/pathing";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
 import * as tippy from 'tippy.js';
-import ContextMenu from "../widgets/ContextMenu";
+import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import Widget from "../widgets/Widget";
 import {MapCoordinate} from "../../model/coordinates";
@@ -44,12 +44,12 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
     }
 
     override start() {
-        this.layer.getMap().map.on(this._maphooks)
+        this.layer.getMap().on(this._maphooks)
         this.shortcuts_layer.addTo(this.layer)
     }
 
     override cancel() {
-        this.layer.getMap().map.off(this._maphooks)
+        this.layer.getMap().off(this._maphooks)
         this.shortcuts_layer.remove()
     }
 
@@ -65,7 +65,21 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
 
             let tile = this.layer.getMap().coordinateWithLevel(e)
 
-            let menu = new ContextMenu<{
+            new ContextMenu(
+                Shortcuts.index
+                    .filter(s => Vector2.max_axis(Vector2.sub(Shortcuts.click.get(s.click, null), tile)) < 0.5)
+                    .map(s => {
+                        return {
+                            type: "basic",
+                            text: s.name,
+                            handler: () => {
+                            },
+                        } as MenuEntry
+                    })
+            ).show(this.layer.getMap().container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
+
+            /*
+            let menu = new ContextMenuWidget<{
                 shortcut: Shortcuts.shortcut | null,
             }>(Shortcuts.index.filter(s => Vector2.max_axis(Vector2.sub(Shortcuts.click.get(s.click, null), tile)) < 0.5)
                 .map(s => ({
@@ -81,7 +95,7 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
 
                     let short: Path.step_interact = null
 
-                    if(s.shortcut) {
+                    if (s.shortcut) {
 
                         let starts = Shortcuts.start.get(s.shortcut.start, this.position)
 
@@ -125,10 +139,10 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
                     bottom: e.originalEvent.clientY,
                     left: e.originalEvent.clientX,
                     right: e.originalEvent.clientX,
-                }) as ClientRect /* typing of tippy is terrible*/,
+                }) as ClientRect // typing of tippy is terrible,
             });
 
-            this.context_menu.show()
+            this.context_menu.show()*/
         }
     }
 }

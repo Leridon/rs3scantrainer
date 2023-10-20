@@ -948,7 +948,15 @@ video {
     text-shadow: 1px 1px black;
 }
 
-.nisl-context-menu > *:hover {
+.nisl-context-menu-header {
+    background: black;
+}
+
+.nisl-context-menu-entry {
+    cursor: pointer;
+}
+
+.nisl-context-menu-entry:hover {
     background: rgb(40, 89, 112);
 }
 

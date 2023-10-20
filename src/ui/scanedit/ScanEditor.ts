@@ -1,4 +1,4 @@
-import {GameMapControl} from "../map/map";
+import {GameMap, GameMapWidget} from "../map/map";
 import {ScanStep, SetSolution} from "../../model/clues";
 import {Observable, observe} from "../../util/Observable";
 import {MapCoordinate} from "../../model/coordinates";
@@ -20,9 +20,17 @@ import {type Application} from "../../application";
 import {SpotPolygon} from "../map/layers/ScanLayer";
 import {PathingGraphics} from "../map/path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
+import {GameMapContextMenuEvent} from "../map/GameLayer";
 
 class ScanEditLayerLight extends ActiveLayer {
+    override eventContextMenu(event: GameMapContextMenuEvent) {
+        console.log("Hello")
 
+        event.add({
+            type: "basic", text: "Scan Editor lives", handler: () => {
+            }
+        })
+    }
 }
 
 function render_equivalence_classes(ecs: ScanEquivalenceClasses): leaflet.FeatureGroup {
@@ -224,7 +232,7 @@ export default class ScanEditor extends Behaviour {
     constructor(private app: Application,
                 public readonly options: {
                     clue: ScanStep,
-                    map: GameMapControl,
+                    map: GameMap,
                     initial?: resolved_scan_tree
                 }) {
         super();

@@ -16,7 +16,7 @@ import Collapsible from "../widgets/modals/Collapsible";
 import DirectionSelect from "./DirectionSelect";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
-import {GameMapControl} from "../map/map";
+import {GameMap, GameMapWidget} from "../map/map";
 import InteractionSelect from "./InteractionSelect";
 import {Path} from "../../model/pathing";
 import TeleportSelect from "./TeleportSelect";
@@ -92,7 +92,7 @@ class StepEditWidget extends Widget<{
 
             SmallImageButton.new("assets/icons/fullscreen.png").appendTo(control_row)
                 .on("click", () => {
-                    this.parent.parent.map.map.fitBounds(util.convert_bounds(Path.step_bounds(this.value)), {maxZoom: 4})
+                    this.parent.parent.map.fitBounds(util.convert_bounds(Path.step_bounds(this.value)), {maxZoom: 4})
                 })
         }
 
@@ -722,7 +722,7 @@ class ControlWidget extends Widget<{
 
     resetPreviewLayer() {
         this.removePreviewLayer()
-        this._preview_layer = leaflet.featureGroup().addTo(this.parent.map.map)
+        this._preview_layer = leaflet.featureGroup().addTo(this.parent.map)
     }
 }
 
@@ -732,7 +732,7 @@ export class PathEditor extends Behaviour {
 
     value: Observable<Path.raw> = observe(null)
 
-    constructor(public map: GameMapControl) {
+    constructor(public map: GameMap) {
         super()
         this.control = null
     }
@@ -755,9 +755,9 @@ export class PathEditor extends Behaviour {
                 await this.reset()
             }).render()
 
-        this.map.map.addControl(this.control.control.setPosition("topleft"))
+        this.map.addControl(this.control.control.setPosition("topleft"))
 
-        this.map.map.fitBounds(util.convert_bounds(Path.path_bounds(this.control.augmented)).pad(0.1), {maxZoom: 4})
+        this.map.fitBounds(util.convert_bounds(Path.path_bounds(this.control.augmented)).pad(0.1), {maxZoom: 4})
     }
 
     public async reset() {

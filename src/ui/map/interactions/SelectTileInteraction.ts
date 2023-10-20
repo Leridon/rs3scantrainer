@@ -14,11 +14,11 @@ export default class SelectTileInteraction extends LayerInteraction<ActiveLayer,
     }
 
     cancel() {
-        this.layer.getMap().map.off(this._maphooks)
+        this.layer.getMap().off(this._maphooks)
     }
 
     start() {
-        this.layer.getMap().map.on(this._maphooks)
+        this.layer.getMap().on(this._maphooks)
     }
 
     override getTopControl(): Widget {

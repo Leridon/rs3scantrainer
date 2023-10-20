@@ -2,7 +2,7 @@ import * as leaflet from "leaflet";
 import {MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
-import {blue_icon, GameMapControl,} from "../map";
+import {blue_icon, GameMap, GameMapWidget,} from "../map";
 import {complementSpot} from "../../../model/scans/scans";
 import {ActiveLayer} from "../activeLayer";
 import {Application, scantrainer} from "../../../application";
@@ -166,7 +166,7 @@ export class ScanLayer extends ActiveLayer {
             if (options.show_edit_button && !app.in_alt1)
                 this.addControl(new ImageButton("assets/icons/edit.png", {
                     "click": (e) => {
-                        new ScanEditor(this.app, {clue: this.clue, map: this.app.map, initial: this.getTree()}).start()
+                        new ScanEditor(this.app, {clue: this.clue, map: this.app.map.map, initial: this.getTree()}).start()
                         //this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, indirect(this.getTree())))
                     }
                 }, {
@@ -219,12 +219,12 @@ export class ScanLayer extends ActiveLayer {
         })
     }
 
-    activate(map: GameMapControl) {
+    activate(map: GameMap) {
         super.activate(map);
 
-        map.map.fitBounds(this.marker_layer.getBounds().pad(0.1), {maxZoom: 4})
+        map.fitBounds(this.marker_layer.getBounds().pad(0.1), {maxZoom: 4})
 
-        map.setFloor(Math.min(...this.clue.solution.candidates.map((c) => c.level)))
+        map.floor.set(Math.min(...this.clue.solution.candidates.map((c) => c.level)) as 0 | 1 | 2 | 3)
     }
 
     highlightedCandidates(): MapCoordinate[] {

@@ -41,13 +41,13 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
     last_previewed_to: MapCoordinate = null
 
     cancel() {
-        this.layer.getMap().map.off(this._maphooks)
+        this.layer.getMap().off(this._maphooks)
 
         if (this._preview) this._preview.remove()
     }
 
     start() {
-        this.layer.getMap().map.on(this._maphooks)
+        this.layer.getMap().on(this._maphooks)
     }
 
     setStartPosition(pos: MapCoordinate): this {

@@ -8,7 +8,7 @@ import {TeleportLayer} from "./ui/map/teleportlayer";
 import {Teleports} from "./model/teleports";
 import {ClueSteps, ClueTier, ClueType} from "./model/clues";
 import {Methods} from "./data/accessors";
-import {GameMapControl} from "./ui/map/map";
+import {GameMapWidget} from "./ui/map/map";
 import {QueryLinks} from "./query_functions";
 import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {Path} from "./model/pathing";
@@ -21,6 +21,7 @@ import methods from "./data/methods";
 import {makeshift_main} from "./main";
 import {MapRectangle} from "./model/coordinates";
 import {PathGraphics} from "./ui/map/path_graphics";
+import {PathEditor} from "./ui/pathedit/PathEditor";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -42,7 +43,9 @@ export namespace ScanTrainerCommands {
             target?: MapRectangle,
             start_state?: Path.movement_state
         }) => (app: Application): void => {
-            app.map.path_editor.load(arg.steps, {
+            // TODO: Fix the PathEditor behaviour stuff
+
+            new PathEditor(app.map.map).start().load(arg.steps, {
                 commit_handler: null,
                 discard_handler: () => {
                 },
@@ -70,7 +73,7 @@ export namespace ScanTrainerCommands {
             types: (tiers: ClueType[]) => tiers.join(",")
         },
         instantiate: ({tiers, types}) => (app: Application): void => {
-            app.map.setActiveLayer(new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0)))
+            app.map.map.setActiveLayer(new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0)))
         },
     }
 
@@ -191,7 +194,7 @@ export class Application {
     in_alt1: boolean = !!window.alt1
 
     menubar = new MenuBarControl(this)
-    map = new GameMapControl($("#map"))
+    map = new GameMapWidget($("#map"))
     sidepanels = new SidePanelControl(this)
 
     data = {
@@ -242,10 +245,10 @@ export class Application {
     about_modal = new AboutModal("modal-about", this)
 
     constructor() {
-        this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+        this.map.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
 
         this.data.teleports.on("refreshed", (t) => {
-            this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+            this.map.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
         })
     }
 

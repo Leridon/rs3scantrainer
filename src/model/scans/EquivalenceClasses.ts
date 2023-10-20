@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet";
-import {MapCoordinate} from "../coordinates";
+import {floor_t, MapCoordinate} from "../coordinates";
 import {Raster} from "../../util/raster";
 import {get_pulse, Pulse} from "./scans";
 
@@ -59,7 +59,7 @@ export type ScanEquivalenceClassOptions = {
     candidates: MapCoordinate[],
     range: number,
     complement: boolean,
-    floor: number
+    floor: floor_t
 }
 
 export class ScanEquivalenceClasses {

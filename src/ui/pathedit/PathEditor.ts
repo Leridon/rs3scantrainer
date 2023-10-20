@@ -42,6 +42,7 @@ import {before} from "lodash";
 import * as path from "path";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import {FeatureGroup} from "leaflet";
+import GameLayer, {GameMapContextMenuEvent} from "../map/GameLayer";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -623,25 +624,6 @@ class ControlWidget extends Widget<{
                             this.value.push(s)
                             this.render()
                         }))
-
-                    /*
-                    new SelectTileInteraction(this.parent.map.getActiveLayer())
-                        .tapEvents((e) => e.on("selected", (t) => {
-                            this.value.push(Path.auto_describe({
-                                type: "interaction",
-                                ticks: 1,
-                                description: "",
-                                starts: this.augmented.post_state?.position?.tile || t,
-                                where: t,
-                                ends_up: {
-                                    direction: null,
-                                    tile: {x: 0, y: 0, level: 0}
-                                },
-                                how: "generic"
-                            }))
-
-                            this.render()
-                        })).activate()*/
                 })
 
             new MediumImageButton('assets/icons/compass.png').appendTo(this.add_buttons_container)
@@ -726,6 +708,15 @@ class ControlWidget extends Widget<{
     }
 }
 
+class PathEditorGameLayer extends GameLayer {
+    eventContextMenu(event: GameMapContextMenuEvent) {
+        event.add({type: "basic", text: "Run Here", handler: () => { }})
+        event.add({type: "basic", text: "Red Click", handler: () => { }})
+
+        // TODO: Shortcuts
+    }
+}
+
 export class PathEditor extends Behaviour {
     private control: ControlWidget
     private current_options: PathEditor.options_t = null
@@ -742,8 +733,6 @@ export class PathEditor extends Behaviour {
 
         this.current_options = options
 
-        // TODO: Is the save/load feature really necessary? Or can it auto save each change?
-        //       Possibly toggleable depending on what kind of method is edited
         this.control = await new ControlWidget(this, lodash.cloneDeep(path), {
             save_enabled: options.commit_handler != null,
             start_state: options.start_state,

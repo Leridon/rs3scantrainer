@@ -10,6 +10,8 @@ export default abstract class Behaviour<T extends Behaviour<any> = Behaviour<any
 
         sub.parent = this
 
+        if (this._started) sub.start()
+
         return sub
     }
 
@@ -28,7 +30,7 @@ export default abstract class Behaviour<T extends Behaviour<any> = Behaviour<any
     stop() {
         this.children.forEach(c => c.stop())
 
-        this.end()
+        if (this._started) this.end()
     }
 
     protected abstract begin()

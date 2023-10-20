@@ -1,7 +1,6 @@
 import Widget from "./Widget";
 import * as tippy from "tippy.js";
 import {Vector2} from "../../util/math";
-import {ExportImport} from "../../util/exportString";
 
 export type MenuEntry = {
     type: "basic",
@@ -35,7 +34,7 @@ export default class ContextMenu extends Widget {
                 }))
         })
 
-        c().text("Cancel")
+        c().text("Cancel").addClass("nisl-context-menu-entry")
             .appendTo(this)
             .tapRaw(r => r.on("click", () => this.cancel()))
     }

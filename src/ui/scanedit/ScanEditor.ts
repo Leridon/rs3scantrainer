@@ -1,5 +1,5 @@
-import {GameMap, GameMapWidget} from "../map/map";
-import {ScanStep, SetSolution} from "../../model/clues";
+import {GameMap} from "../map/map";
+import {ScanStep} from "../../model/clues";
 import {Observable, observe} from "../../util/Observable";
 import {MapCoordinate} from "../../model/coordinates";
 import ScanEditPanel from "./ScanEditPanel";
@@ -24,49 +24,8 @@ import {GameMapContextMenuEvent} from "../map/GameLayer";
 
 class ScanEditLayerLight extends ActiveLayer {
     override eventContextMenu(event: GameMapContextMenuEvent) {
-        console.log("Hello")
-
-        event.add({
-            type: "basic", text: "Scan Editor lives", handler: () => {
-            }
-        })
+        event.add({type: "basic", text: "Set Marker", handler: () => {}})
     }
-}
-
-function render_equivalence_classes(ecs: ScanEquivalenceClasses): leaflet.FeatureGroup {
-    let layer = leaflet.featureGroup()
-
-    ecs.equivalence_classes.map((c) => {
-        let color = Math.abs(c.information_gain - ecs.max_information) < 0.01
-            ? "blue"
-            : `rgb(${255 * (1 - (c.information_gain / ecs.max_information))}, ${255 * c.information_gain / ecs.max_information}, 0)`
-
-        let polygon = leaflet.featureGroup()
-
-        areaToPolygon(
-            ecs.raster,
-            (p: EquivalenceClass) => p.id == c.id,
-            c.area[0]
-        ).setStyle({
-            color: "black",
-            opacity: 1,
-            weight: 3,
-            fillOpacity: 0.25,
-            fillColor: color
-        }).addTo(polygon)
-
-        leaflet.marker(polygon.getBounds().getCenter(), {
-            icon: leaflet.divIcon({
-                iconSize: [50, 20],
-                className: "equivalence-class-information",
-                html: `${c.information_gain.toFixed(2)}b`,
-            }),
-        }).addTo(polygon)
-
-        return polygon
-    }).forEach(p => layer.addLayer(p))
-
-    return layer
 }
 
 type T = {
@@ -77,6 +36,42 @@ type T = {
 class EquivalenceClassHandling extends Behaviour<ScanEditor> {
     equivalence_classes: T[] = []
 
+    private render_equivalence_classes(ecs: ScanEquivalenceClasses): leaflet.FeatureGroup {
+        let layer = leaflet.featureGroup()
+
+        ecs.equivalence_classes.map((c) => {
+            let color = Math.abs(c.information_gain - ecs.max_information) < 0.01
+                ? "blue"
+                : `rgb(${255 * (1 - (c.information_gain / ecs.max_information))}, ${255 * c.information_gain / ecs.max_information}, 0)`
+
+            let polygon = leaflet.featureGroup()
+
+            areaToPolygon(
+                ecs.raster,
+                (p: EquivalenceClass) => p.id == c.id,
+                c.area[0]
+            ).setStyle({
+                color: "black",
+                opacity: 1,
+                weight: 3,
+                fillOpacity: 0.25,
+                fillColor: color
+            }).addTo(polygon)
+
+            leaflet.marker(polygon.getBounds().getCenter(), {
+                icon: leaflet.divIcon({
+                    iconSize: [50, 20],
+                    className: "equivalence-class-information",
+                    html: `${c.information_gain.toFixed(2)}b`,
+                }),
+            }).addTo(polygon)
+
+            return polygon
+        }).forEach(p => layer.addLayer(p))
+
+        return layer
+    }
+
     protected begin() {
         let self = this
 
@@ -84,7 +79,7 @@ class EquivalenceClassHandling extends Behaviour<ScanEditor> {
                        visibility: Observable<boolean>
         ): T {
             let options = observe(o)
-            let layer = options.map(o => lazy(() => render_equivalence_classes(new ScanEquivalenceClasses(o))))
+            let layer = options.map(o => lazy(() => self.render_equivalence_classes(new ScanEquivalenceClasses(o))))
 
             layer.subscribe((l, old) => {
                 if (old.hasValue()) self.parent.layer.removeLayer(old.get())

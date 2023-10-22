@@ -1,4 +1,4 @@
-import {GameMap} from "../map/map";
+import {blue_icon, GameMap} from "../map/map";
 import {ScanStep} from "../../model/clues";
 import {Observable, observe} from "../../util/Observable";
 import {MapCoordinate} from "../../model/coordinates";
@@ -17,14 +17,46 @@ import {TileMarker} from "../map/TileMarker";
 import {complementSpot} from "../../model/scans/scans";
 import {Vector2} from "../../util/math";
 import {type Application} from "../../application";
-import {SpotPolygon} from "../map/layers/ScanLayer";
+import {ScanRadiusTileMarker, SpotPolygon} from "../map/layers/ScanLayer";
 import {PathingGraphics} from "../map/path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
-import {GameMapContextMenuEvent} from "../map/GameLayer";
+import {GameMapClickEvent, GameMapContextMenuEvent} from "../map/GameLayer";
 
 class ScanEditLayerLight extends ActiveLayer {
+
+    constructor(private editor: ScanEditor) {
+        super();
+    }
+
     override eventContextMenu(event: GameMapContextMenuEvent) {
-        event.add({type: "basic", text: "Set Marker", handler: () => {}})
+        event.onPre(() => {
+            if (MapCoordinate.eq2(event.tile(), this._tilemarker?.getSpot())) event.add({type: "basic", text: "Remove Marker", handler: () => this.removeMarker()})
+            else event.add({type: "basic", text: "Set Marker", handler: () => this.setMarker(event.tile())})
+        })
+    }
+
+    override eventClick(event: GameMapClickEvent) {
+        event.onPost(() => {
+            if (MapCoordinate.eq2(event.tile(), this._tilemarker?.getSpot())) this.removeMarker()
+            else this.setMarker(event.tile())
+        })
+    }
+
+    public setMarker(spot: MapCoordinate, include_marker: boolean = true, removeable: boolean = true) {
+        this.removeMarker()
+
+        let is_complement = Math.floor(spot.y / 6400) != Math.floor(this.editor.value.clue.solution.candidates[0].y / 6400)
+
+        this._tilemarker = new ScanRadiusTileMarker(spot, assumedRange(this.editor.value), is_complement).addTo(this)
+
+        if (include_marker) this._tilemarker.withX("white").withMarker(blue_icon)
+
+        if (removeable) {
+            this._tilemarker.on("click", (e) => {
+                leaflet.DomEvent.stopPropagation(e)
+                this.removeMarker()
+            })
+        }
     }
 }
 
@@ -207,8 +239,7 @@ class PreviewLayerControl extends Behaviour<ScanEditor> {
         this.path_layer = layer.addTo(this.layer)
     }
 
-    protected end() {
-    }
+    protected end() { }
 
 }
 
@@ -232,9 +263,10 @@ export default class ScanEditor extends Behaviour {
                 }) {
         super();
 
+        this.layer = new ScanEditLayerLight(this)
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling())
         this.preview_layer = this.withSub(new PreviewLayerControl())
-        this.path_editor = this.withSub(new PathEditor(this.options.map))
+        this.path_editor = this.withSub(new PathEditor(this.layer))
     }
 
     begin() {
@@ -246,7 +278,6 @@ export default class ScanEditor extends Behaviour {
             type: "scantree"
         }
 
-        this.layer = new ScanEditLayerLight()
         this.panel = new ScanEditPanel(this)
 
         // Take control of main map interactions
@@ -260,7 +291,7 @@ export default class ScanEditor extends Behaviour {
         this.panel.tree_edit.active_node.subscribe(async node => {
             if (node) {
 
-                await this.path_editor.load(node.path.raw, {
+                this.path_editor.load(node.path.raw, {
                     target: node.path.target,
                     start_state: node.path.pre_state,
                     discard_handler: () => {
@@ -273,14 +304,12 @@ export default class ScanEditor extends Behaviour {
                     }
                 })
             } else {
-                await this.path_editor.reset()
+                this.path_editor.reset()
             }
         })
 
         this.panel.tree_edit.on("region_changed", async (node) => {
-            console.log("event")
             if (node.raw == this.panel.tree_edit.active_node.get().raw) {
-                console.log("event2")
 
                 await this.path_editor.load(node.path.raw, {
                     target: node.path.target,

@@ -170,7 +170,6 @@ class TreeNodeEdit extends Widget {
 
             this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
                 .tapRaw(r => r.on("click", () => {
-                    console.log("click")
                     this.parent.setActiveNode(this.isActive() ? null : this)
                 }))
 
@@ -179,7 +178,6 @@ class TreeNodeEdit extends Widget {
                 .append(collapse_control)
                 .append(c(`<span class='nisl-textlink' style="flex-grow: 1">${decision_path_text}: </span>`).tooltip("Load decisions into map")
                     .tapRaw(r => r.on("click", () => {
-                        console.log("click")
                         this.parent.setActiveNode(this.isActive() ? null : this)
                     }))
                 )

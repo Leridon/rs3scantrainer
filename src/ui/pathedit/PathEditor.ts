@@ -41,7 +41,7 @@ import Behaviour from "../../lib/ui/Behaviour";
 import {before} from "lodash";
 import * as path from "path";
 import {TypedEmitter} from "../../skillbertssolver/eventemitter";
-import {FeatureGroup} from "leaflet";
+import {FeatureGroup, Handler} from "leaflet";
 import GameLayer, {GameMapContextMenuEvent} from "../map/GameLayer";
 
 export class IssueWidget extends Widget {
@@ -93,7 +93,7 @@ class StepEditWidget extends Widget<{
 
             SmallImageButton.new("assets/icons/fullscreen.png").appendTo(control_row)
                 .on("click", () => {
-                    this.parent.parent.map.fitBounds(util.convert_bounds(Path.step_bounds(this.value)), {maxZoom: 4})
+                    this.parent.parent.game_layer.getMap().fitBounds(util.convert_bounds(Path.step_bounds(this.value)), {maxZoom: 4})
                 })
         }
 
@@ -117,13 +117,13 @@ class StepEditWidget extends Widget<{
 
         switch (this.value.raw.type) {
             case "ability":
-                props.named("From", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.from))
+                props.named("From", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.from))
                     .on("changed", (c) => {
                         (this.value.raw as Path.step_ability).from = c
                         this.emit("changed", this.value.raw)
                     })
 
-                props.named("To", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.to))
+                props.named("To", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.to))
                     .on("changed", (c) => {
                         (this.value.raw as Path.step_ability).to = c
                         this.emit("changed", this.value.raw)
@@ -135,7 +135,7 @@ class StepEditWidget extends Widget<{
 
                         if (this._preview) this._preview.remove()
 
-                        new DrawAbilityInteraction(this.parent.parent.map.getActiveLayer(), s.ability)
+                        new DrawAbilityInteraction(this.parent.parent.game_layer.getMap().getActiveLayer(), s.ability)
                             .setStartPosition(s.from)
                             .tapEvents((e) => {
                                 e
@@ -154,7 +154,7 @@ class StepEditWidget extends Widget<{
                 break;
             case "redclick":
 
-                props.named("Where", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.where))
+                props.named("Where", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.where))
                     .on("changed", (c) => {
                         (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
                         this.emit("changed", this.value.raw)
@@ -170,7 +170,7 @@ class StepEditWidget extends Widget<{
                 break
             case "powerburst":
 
-                props.named("Where", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.where))
+                props.named("Where", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.where))
                     .on("changed", (c) => {
                         (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
                         this.emit("changed", this.value.raw)
@@ -185,7 +185,7 @@ class StepEditWidget extends Widget<{
 
                         if (this._preview) this._preview.remove()
 
-                        new DrawRunInteraction(this.parent.parent.map.getActiveLayer())
+                        new DrawRunInteraction(this.parent.parent.game_layer.getMap().getActiveLayer())
                             .setStartPosition(s.waypoints[0])
                             .tapEvents((e) => {
                                 e
@@ -210,19 +210,19 @@ class StepEditWidget extends Widget<{
                     }))
                 )
 
-                props.named("Starts", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.starts))
+                props.named("Starts", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.starts))
                     .on("changed", (c) => {
                         (this.value.raw as Path.step_interact).starts = c
                         this.emit("changed", this.value.raw)
                     })
 
-                props.named("Click", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.where))
+                props.named("Click", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.where))
                     .on("changed", (c) => {
                         (this.value.raw as Path.step_interact).where = c
                         this.emit("changed", this.value.raw)
                     })
 
-                props.named("Ends up", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.ends_up))
+                props.named("Ends up", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.ends_up))
                     .on("changed", (c) => {
                         (this.value.raw as Path.step_interact).ends_up = c
                         this.emit("changed", this.value.raw)
@@ -276,7 +276,7 @@ class StepEditWidget extends Widget<{
                 )
 
                 if (this.value.raw.spot_override) {
-                    props.named("Coordinates", new MapCoordinateEdit(this.parent.parent.map.getActiveLayer(), this.value.raw.spot_override)
+                    props.named("Coordinates", new MapCoordinateEdit(this.parent.parent.game_layer.getMap().getActiveLayer(), this.value.raw.spot_override)
                         .on("changed", (c) => {
                             (this.value.raw as Path.step_teleport).spot_override = c
                             this.emit("changed", this.value.raw)
@@ -292,10 +292,6 @@ class StepEditWidget extends Widget<{
         // TODO: Action select
 
         this.updatePreview()
-    }
-
-    render() {
-
     }
 
     _preview: OpacityGroup = null
@@ -455,7 +451,7 @@ class ControlWidget extends Widget<{
                         }
                     }
 
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "surge")
+                    let interaction = new DrawAbilityInteraction(this.parent.game_layer.getMap().getActiveLayer(), "surge")
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.push(Path.auto_describe(s))
@@ -492,7 +488,7 @@ class ControlWidget extends Widget<{
                     }
 
 
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "escape")
+                    let interaction = new DrawAbilityInteraction(this.parent.game_layer.getMap().getActiveLayer(), "escape")
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.push(Path.auto_describe(s))
@@ -509,7 +505,7 @@ class ControlWidget extends Widget<{
 
             let dive_button = new MediumImageButton('assets/icons/dive.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "dive")
+                    let interaction = new DrawAbilityInteraction(this.parent.game_layer.getMap().getActiveLayer(), "dive")
 
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
 
@@ -528,7 +524,7 @@ class ControlWidget extends Widget<{
 
             let barge_button = new MediumImageButton('assets/icons/barge.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
-                    let interaction = new DrawAbilityInteraction(this.parent.map.getActiveLayer(), "barge")
+                    let interaction = new DrawAbilityInteraction(this.parent.game_layer.getMap().getActiveLayer(), "barge")
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.push(Path.auto_describe(s))
@@ -545,7 +541,7 @@ class ControlWidget extends Widget<{
 
             new MediumImageButton('assets/icons/run.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
-                    let interaction = new DrawRunInteraction(this.parent.map.getActiveLayer())
+                    let interaction = new DrawRunInteraction(this.parent.game_layer.getMap().getActiveLayer())
                     if (this.augmented.post_state.position?.tile) interaction.setStartPosition(this.augmented.post_state.position?.tile)
                     interaction.events.on("done", (s) => {
                         this.value.push(Path.auto_describe(s))
@@ -570,7 +566,7 @@ class ControlWidget extends Widget<{
                 )
             new MediumImageButton('assets/icons/redclick.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
-                    new SelectTileInteraction(this.parent.map.getActiveLayer())
+                    new SelectTileInteraction(this.parent.game_layer.getMap().getActiveLayer())
                         .tapEvents((e) => e.on("selected", (t) => {
                             this.value.push(Path.auto_describe({
                                 type: "redclick",
@@ -594,7 +590,7 @@ class ControlWidget extends Widget<{
 
                         this.render()
                     } else {
-                        new SelectTileInteraction(this.parent.map.getActiveLayer())
+                        new SelectTileInteraction(this.parent.game_layer.getMap().getActiveLayer())
                             .tapEvents((e) => e.on("selected", (t) => {
                                 this.value.push(Path.auto_describe({
                                     type: "powerburst",
@@ -616,7 +612,7 @@ class ControlWidget extends Widget<{
             new MediumImageButton('assets/icons/shortcut.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
 
-                    new SelectShortcutInteraction(this.parent.map.getActiveLayer(), this.augmented.post_state.position?.tile)
+                    new SelectShortcutInteraction(this.parent.game_layer.getMap().getActiveLayer(), this.augmented.post_state.position?.tile)
                         .activate()
                         .tapEvents(e => e.on("selected", (s) => {
                             console.log(s)
@@ -704,56 +700,76 @@ class ControlWidget extends Widget<{
 
     resetPreviewLayer() {
         this.removePreviewLayer()
-        this._preview_layer = leaflet.featureGroup().addTo(this.parent.map)
+        this._preview_layer = leaflet.featureGroup().addTo(this.parent.game_layer)
     }
 }
 
 class PathEditorGameLayer extends GameLayer {
-    eventContextMenu(event: GameMapContextMenuEvent) {
-        event.add({type: "basic", text: "Run Here", handler: () => { }})
-        event.add({type: "basic", text: "Red Click", handler: () => { }})
+    constructor(private editor: PathEditor) {
+        super();
+    }
 
-        // TODO: Shortcuts
+    eventContextMenu(event: GameMapContextMenuEvent) {
+        console.log("Received")
+
+        event.onPost(() => {
+            if (this.editor.isActive()) {
+                event.add({type: "basic", text: "Run Here", handler: () => { }})
+                event.add({type: "basic", text: "Red Click", handler: () => { }})
+                // TODO: Shortcuts
+            }
+        })
+
     }
 }
 
 export class PathEditor extends Behaviour {
-    private control: ControlWidget
+    private control: Promise<ControlWidget>
     private current_options: PathEditor.options_t = null
+    private handler_layer: PathEditorGameLayer = null
 
     value: Observable<Path.raw> = observe(null)
 
-    constructor(public map: GameMap) {
+    constructor(public game_layer: GameLayer) {
         super()
         this.control = null
+
+        this.handler_layer = new PathEditorGameLayer(this).addTo(game_layer)
     }
 
     public async load(path: Path.raw, options: PathEditor.options_t = {}) {
-        await this.reset()
+        this.reset()
 
         this.current_options = options
 
-        this.control = await new ControlWidget(this, lodash.cloneDeep(path), {
+        this.control = new ControlWidget(this, lodash.cloneDeep(path), {
             save_enabled: options.commit_handler != null,
             start_state: options.start_state,
             target: options.target
         })
-            .on("committed", async (v) => await options.commit_handler(v))
-            .on("discarded", async () => {
+            .on("committed", (v) => options.commit_handler(v))
+            .on("discarded", () => {
                 this.current_options?.discard_handler()
-                await this.reset()
+                this.reset()
             }).render()
 
-        this.map.addControl(this.control.control.setPosition("topleft"))
+        this.game_layer.getMap().addControl((await this.control).control.setPosition("topleft"))
 
-        this.map.fitBounds(util.convert_bounds(Path.path_bounds(this.control.augmented)).pad(0.1), {maxZoom: 4})
+        this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds((await this.control).augmented)).pad(0.1), {maxZoom: 4})
     }
 
-    public async reset() {
+    public reset() {
         if (this.control) {
-            this.control.resetPreviewLayer()
-            this.control.remove()
+            this.control.then(a => {
+                a.resetPreviewLayer()
+                a.remove()
+            })
             this.control = null
+        }
+
+        if (this.handler_layer) {
+            this.handler_layer.remove()
+            this.handler_layer = null
         }
 
         if (this.current_options) {
@@ -762,11 +778,14 @@ export class PathEditor extends Behaviour {
         }
     }
 
-    protected begin() {
-    }
+    protected begin() { }
 
     protected end() {
         this.reset()
+    }
+
+    isActive(): boolean {
+        return !!this.current_options
     }
 }
 

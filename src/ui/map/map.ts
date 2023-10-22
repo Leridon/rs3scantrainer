@@ -8,7 +8,7 @@ import Widget from "../widgets/Widget";
 import {Constants} from "../../constants";
 import TileHighlight from "./TileHighlight";
 import {Observable, observe} from "../../util/Observable";
-import GameLayer, {GameMapContextMenuEvent, GameMapEvent} from "./GameLayer";
+import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent, GameMapEvent} from "./GameLayer";
 import ContextMenu from "../widgets/ContextMenu";
 
 type Layersource = { urls: string[], from?: number, to?: number };
@@ -168,10 +168,14 @@ export class GameMap extends leaflet.Map {
         this.on("mousemove", (e) => this.tile_highlight.setPosition(this.tileFromMouseEvent(e)))
 
         this.on("contextmenu", async (e) => {
-            let event = this.event(new GameMapContextMenuEvent(), (l) => (e) => l.eventContextMenu(e))
+            let event = this.event(new GameMapContextMenuEvent(this, e, this.coordinateWithLevel(e)), (l) => (e) => l.eventContextMenu(e))
 
             new ContextMenu(event.entries)
                 .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
+        })
+
+        this.on("click", (e) => {
+            this.event(new GameMapClickEvent(this, e, this.coordinateWithLevel(e)), (l) => (e) => l.eventClick(e))
         })
 
         // Set a default active layer
@@ -322,12 +326,19 @@ export class GameMap extends leaflet.Map {
         function propagate(l: GameLayer) {
             if (!l) return;
 
+            event.propagation_state.phase = "pre"
             h(l)(event)
-            if (event.isHandled) return
 
-            for (let lay of getLayers(l)) {
-                if (lay instanceof GameLayer) propagate(lay)
+            if (!event.propagation_state.trickle_stopped && !event.propagation_state.trickle_stopped_immediate) {
+                for (let lay of getLayers(l)) if (lay instanceof GameLayer) propagate(lay)
             }
+
+            if (event.propagation_state.trigger_post_order) {
+                event.propagation_state.phase = "post"
+                h(l)(event)
+            }
+
+            event.propagation_state.trickle_stopped_immediate = false
         }
 
         propagate(this.activeLayer)

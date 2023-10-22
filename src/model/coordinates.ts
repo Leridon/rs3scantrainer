@@ -44,8 +44,8 @@ export namespace MapCoordinate {
         return Vector2.eq(a, b) && a.level == b.level
     }
 
-    export function eq2(a: MapCoordinate, b: MapCoordinate) {
-        return a == b || (a != null && b != null && eq(a, b))
+    export function eq2(a: MapCoordinate | null, b: MapCoordinate | null) {
+        return a != null && b != null && ( a == b || eq(a, b))
     }
 
     export function lift(v: Vector2, level: floor_t): MapCoordinate {

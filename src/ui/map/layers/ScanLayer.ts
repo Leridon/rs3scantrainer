@@ -2,20 +2,15 @@ import * as leaflet from "leaflet";
 import {MapCoordinate} from "../../../model/coordinates";
 import {ScanStep, SetSolution} from "../../../model/clues";
 import {ImageButton} from "../CustomControl";
-import {blue_icon, GameMap, GameMapWidget,} from "../map";
+import {blue_icon, GameMap} from "../map";
 import {complementSpot} from "../../../model/scans/scans";
 import {ActiveLayer} from "../activeLayer";
-import {Application, scantrainer} from "../../../application";
+import {Application} from "../../../application";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import ScanEditPanel from "../../scanedit/ScanEditPanel";
 import {ScanTree} from "../../../model/scans/ScanTree";
-import {cloneDeep} from "lodash";
 import {Constants} from "../../../constants";
-import {indirect, resolve} from "../../../model/methods";
 import ScanSpot = ScanTree.ScanRegion;
-import tree = ScanTree.tree;
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
-import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import SimpleClickInteraction from "../interactions/SimpleClickInteraction";
 import {TileMarker} from "../TileMarker";
 import {ActiveOpacityGroup} from "./OpacityLayer";
@@ -76,7 +71,7 @@ export class SpotPolygon extends ActiveOpacityGroup {
     }
 }
 
-class ScanRadiusTileMarker extends TileMarker {
+export class ScanRadiusTileMarker extends TileMarker {
     range_polygon: leaflet.FeatureGroup
 
     constructor(spot: MapCoordinate, private range: number, private is_complement: boolean) {
@@ -181,22 +176,6 @@ export class ScanLayer extends ActiveLayer {
         this._meerkats = value
         if (this.tile_marker) this.tile_marker.setRange(this.clue.range + (value ? 5 : 0))
         if (this.complement_tile_marker) this.complement_tile_marker.setRange(this.clue.range + (value ? 5 : 0))
-    }
-
-    override loadDefaultInteraction() {
-        let self = this
-
-        return new SimpleClickInteraction(this, {
-            "click": (p: MapCoordinate) => {
-                if ((self.tile_marker && Vector2.eq(p, self.tile_marker.getSpot()))
-                    || (self.complement_tile_marker && Vector2.eq(p, self.complement_tile_marker.getSpot()))) {
-                    console.log("Removing 1")
-                    self.removeMarker()
-                } else {
-                    self.setMarker(p)
-                }
-            }
-        })
     }
 
     getTree(): resolved_scan_tree {

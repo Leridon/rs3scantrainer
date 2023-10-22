@@ -9,7 +9,7 @@ import GameLayer from "./GameLayer";
 
 export class ActiveLayer extends GameLayer {
     private controls: leaflet.Control[] = []
-    protected interaction: LayerInteraction<ActiveLayer>
+    protected interaction: LayerInteraction<ActiveLayer> = null
 
     constructor() {
         super()
@@ -38,10 +38,6 @@ export class ActiveLayer extends GameLayer {
             this.interaction = null
 
             this.getMap().setTopControl(null)
-
-            let de = this.loadDefaultInteraction()
-
-            de.activate()
         }
     }
 
@@ -51,25 +47,7 @@ export class ActiveLayer extends GameLayer {
         this.getMap()?.addControl(control)
     }
 
-    private _tilemarker: TileMarker = null
-
-    private abc: leaflet.FeatureGroup = null
-
-    loadDefaultInteraction(): LayerInteraction<ActiveLayer> {
-        let self = this
-
-        return new SimpleClickInteraction(this, {
-            "click": async (p) => {
-                if (self.abc) self.abc.remove()
-
-                self.abc = leaflet.featureGroup().addTo(self)
-
-                if (self._tilemarker && Vector2.eq(p, self._tilemarker.getSpot())) {
-                    self.removeMarker()
-                } else self.setMarker(p)
-            }
-        })
-    }
+    protected _tilemarker: TileMarker = null
 
     setMarker(spot: MapCoordinate) {
         this.removeMarker()
@@ -90,16 +68,14 @@ export class ActiveLayer extends GameLayer {
     activate(map: GameMap) {
         this.parent = map
 
-        let de = this.loadDefaultInteraction()
-
-        de.activate()
-
         this.controls.forEach((e) => e.addTo(map))
     }
 
     deactivate() {
-        this.interaction.cancel()
-        this.interaction = null
+        if(this.interaction) {
+            this.interaction.cancel()
+            this.interaction = null
+        }
 
         this.getMap().setTopControl(null)
 

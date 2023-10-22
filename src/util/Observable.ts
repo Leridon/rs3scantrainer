@@ -35,6 +35,11 @@ export class Observable<T> extends TypedEmitter<{
         return this
     }
 
+    setAsync(v: Promise<T>): this {
+        v.then(val => this.set(val))
+        return this
+    }
+
     get(): T {
         return this.value
     }
@@ -61,6 +66,14 @@ export class Observable<T> extends TypedEmitter<{
         let derived = new Observable<U>(f(this.value), {read_only: true})
 
         this.subscribe((v) => derived._set(f(v)))
+
+        return derived
+    }
+
+    async mapAsync<U>(f: (v: T) => Promise<U>): Promise<Observable<U>> {
+        let derived = new Observable<U>(await f(this.value), {read_only: true})
+
+        this.subscribe(async (v) => derived._set(await f(v)))
 
         return derived
     }

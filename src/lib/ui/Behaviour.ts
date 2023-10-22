@@ -33,7 +33,35 @@ export default abstract class Behaviour<T extends Behaviour<any> = Behaviour<any
         if (this._started) this.end()
     }
 
+    isActive(): boolean {
+        return this._started
+    }
+
     protected abstract begin()
 
     protected abstract end()
+}
+
+export class SingleBehaviour<T extends Behaviour<any> = Behaviour<any>> extends Behaviour<T> {
+    private behaviour: Behaviour<T> = null
+
+    protected begin() {
+        if (this.behaviour) this.behaviour.start()
+    }
+
+    protected end() {
+        if (this.behaviour) this.behaviour.stop()
+    }
+
+    set(behaviour: T): this {
+        if (this.behaviour) {
+            if (this.behaviour.isActive()) this.behaviour.stop()
+        }
+
+        this.behaviour = behaviour
+
+        if (this.behaviour && this.isActive()) this.behaviour.start()
+
+        return this
+    }
 }

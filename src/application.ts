@@ -22,6 +22,9 @@ import {makeshift_main} from "./main";
 import {MapRectangle} from "./model/coordinates";
 import {PathGraphics} from "./ui/map/path_graphics";
 import {PathEditor} from "./ui/pathedit/PathEditor";
+import Behaviour, {SingleBehaviour} from "./lib/ui/Behaviour";
+import {Map} from "leaflet";
+import {URLSearchParams} from "url";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -45,13 +48,14 @@ export namespace ScanTrainerCommands {
         }) => (app: Application): void => {
             // TODO: Fix the PathEditor behaviour stuff
 
+            /*
             new PathEditor(app.map.map).start().load(arg.steps, {
                 commit_handler: null,
                 discard_handler: () => {
                 },
                 target: arg.target,
                 start_state: arg.start_state
-            })
+            })*/
         },
     }
 
@@ -190,12 +194,14 @@ class AboutModal extends Modal {
     }
 }
 
-export class Application {
+export class Application extends Behaviour {
     in_alt1: boolean = !!window.alt1
 
     menubar = new MenuBarControl(this)
     map = new GameMapWidget($("#map"))
     sidepanels = new SidePanelControl(this)
+
+    behaviour = new SingleBehaviour()
 
     data = {
         teleports: new Teleports({
@@ -207,7 +213,7 @@ export class Application {
         methods: new Methods()
     }
 
-    template_resolver = new TemplateResolver(new Map(
+    template_resolver = new TemplateResolver(new Map<string, (args: string[]) => string>(
         [
             ["surge", () => "<img class='text-icon' src='assets/icons/surge.png' title='Surge'>"],
             ["dive", () => "<img class='text-icon' src='assets/icons/dive.png' title='Dive'>"],
@@ -245,6 +251,8 @@ export class Application {
     about_modal = new AboutModal("modal-about", this)
 
     constructor() {
+        super()
+
         this.map.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
 
         this.data.teleports.on("refreshed", (t) => {
@@ -252,7 +260,7 @@ export class Application {
         })
     }
 
-    async start() {
+    protected async begin() {
         let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
         if (query_function) query_function(this)
 
@@ -260,6 +268,11 @@ export class Application {
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
         //ExportStringModal.do(await makeshift_main())
+
+        return this
+    }
+
+    protected end() {
     }
 }
 

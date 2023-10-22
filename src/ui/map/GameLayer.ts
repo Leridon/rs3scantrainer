@@ -47,6 +47,20 @@ export class GameMapClickEvent extends GameMapEvent {
     }
 }
 
+export class GameMapTileHoverEvent extends GameMapEvent {
+
+    constructor(map: GameMap,
+                public originalEvent: leaflet.LeafletMouseEvent,
+                public coordinates: MapCoordinate
+    ) {
+        super(map);
+    }
+
+    tile() {
+        return MapCoordinate.snap(this.coordinates)
+    }
+}
+
 export class GameMapContextMenuEvent extends GameMapEvent {
     entries: MenuEntry[] = []
 
@@ -106,4 +120,5 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
     eventClick(event: GameMapClickEvent) {}
 
+    eventHover(event: GameMapTileHoverEvent) {}
 }

@@ -205,6 +205,7 @@ export namespace Path {
                                   target: MapRectangle = null): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
+        if (!start_state) start_state = movement_state.start()
 
         let state: movement_state = lodash.cloneDeep(start_state)
 

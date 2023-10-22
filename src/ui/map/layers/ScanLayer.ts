@@ -11,7 +11,6 @@ import {ScanTree} from "../../../model/scans/ScanTree";
 import {Constants} from "../../../constants";
 import ScanSpot = ScanTree.ScanRegion;
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
-import SimpleClickInteraction from "../interactions/SimpleClickInteraction";
 import {TileMarker} from "../TileMarker";
 import {ActiveOpacityGroup} from "./OpacityLayer";
 import {Vector2} from "../../../util/math";
@@ -161,7 +160,8 @@ export class ScanLayer extends ActiveLayer {
             if (options.show_edit_button && !app.in_alt1)
                 this.addControl(new ImageButton("assets/icons/edit.png", {
                     "click": (e) => {
-                        new ScanEditor(this.app, {clue: this.clue, map: this.app.map.map, initial: this.getTree()}).start()
+                        this.app.behaviour.set(new ScanEditor(this.app, {clue: this.clue, map: this.app.map.map, initial: this.getTree()}))
+
                         //this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, indirect(this.getTree())))
                     }
                 }, {

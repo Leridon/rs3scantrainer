@@ -8,7 +8,7 @@ import Widget from "../widgets/Widget";
 import {Constants} from "../../constants";
 import TileHighlight from "./TileHighlight";
 import {Observable, observe} from "../../util/Observable";
-import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent, GameMapEvent} from "./GameLayer";
+import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent, GameMapEvent, GameMapTileHoverEvent} from "./GameLayer";
 import ContextMenu from "../widgets/ContextMenu";
 
 type Layersource = { urls: string[], from?: number, to?: number };
@@ -134,16 +134,30 @@ function getCRS(): leaflet.CRS {
     return crs
 }
 
+class TileHighlightLayer extends GameLayer {
+    private tile_highlight: TileHighlight = new TileHighlight({x: 0, y: 0}).addTo(this)
+
+    eventHover(event: GameMapTileHoverEvent) {
+        event.onPre(() => {
+            this.tile_highlight.setPosition(event.tile())
+        })
+    }
+}
+
 export class GameMap extends leaflet.Map {
     floor: Observable<floor_t> = observe(0)
 
     container: JQuery
     private teleportLayer: TeleportLayer
+
+    private main_layer: GameLayer
+
     private activeLayer: ActiveLayer = null
     private top_control_container: Widget
-    private tile_highlight: TileHighlight
 
     private baseLayers: leaflet.TileLayer[]
+
+    private _lastHoveredTile: MapCoordinate = null
 
     constructor(element: HTMLElement) {
         super(element, {
@@ -159,13 +173,13 @@ export class GameMap extends leaflet.Map {
 
         this.container = $(element)
 
+        this.main_layer = new GameLayer().addTo(this)
+        new TileHighlightLayer().addTo(this.main_layer)
+
         this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(this.container.children(".leaflet-control-container")))
         this.top_control_container.container.on("click", (e) => e.stopPropagation())
 
         this.addControl(new FloorControl(this).setPosition("bottomleft"))
-
-        this.tile_highlight = new TileHighlight({x: 0, y: 0}).addTo(this)
-        this.on("mousemove", (e) => this.tile_highlight.setPosition(this.tileFromMouseEvent(e)))
 
         this.on("contextmenu", async (e) => {
             let event = this.event(new GameMapContextMenuEvent(this, e, this.coordinateWithLevel(e)), (l) => (e) => l.eventContextMenu(e))
@@ -176,6 +190,15 @@ export class GameMap extends leaflet.Map {
 
         this.on("click", (e) => {
             this.event(new GameMapClickEvent(this, e, this.coordinateWithLevel(e)), (l) => (e) => l.eventClick(e))
+        })
+
+        this.on("mousemove", (e) => {
+            let t = this.coordinateWithLevel(e)
+
+            if(!MapCoordinate.eq2(t, this._lastHoveredTile)){
+                this._lastHoveredTile = t
+                this.event(new GameMapTileHoverEvent(this, e, t), (l) => (e) => l.eventHover(e))
+            }
         })
 
         // Set a default active layer
@@ -292,7 +315,7 @@ export class GameMap extends leaflet.Map {
 
         this.activeLayer = layer
 
-        this.activeLayer.addTo(this)
+        this.activeLayer.addTo(this.main_layer)
 
         this.activeLayer.activate(this)
     }
@@ -341,7 +364,7 @@ export class GameMap extends leaflet.Map {
             event.propagation_state.trickle_stopped_immediate = false
         }
 
-        propagate(this.activeLayer)
+        propagate(this.main_layer)
 
         return event
     }
@@ -356,9 +379,5 @@ export class GameMapWidget extends Widget<{}> {
 
         this.map = new GameMap(container.get()[0])
             .setView([3200, 3000], 0);
-
-        /*$(this.map.attributionControl.getContainer())
-            .addClass("nis-map-control")
-            .removeClass("leaflet-control-attribution")*/
     }
 }

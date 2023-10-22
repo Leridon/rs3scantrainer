@@ -1,16 +1,16 @@
 import {ClueStep, getSolutionLayer, pretty} from "../model/clues";
 import {Constants} from "../constants";
 import {Modal} from "./widgets/modal";
-import {Application, scantrainer} from "../application";
+import {Application} from "../application";
 import {method, resolved} from "../model/methods";
 import {ScanTree} from "../model/scans/ScanTree";
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import ScanTreeMethodLayer from "./map/methodlayer";
 
-function createMethodLayer(method: method & resolved<ClueStep>) {
+function createMethodLayer(method: method & resolved<ClueStep>, app: Application) {
     switch (method.type) {
         case "scantree":
-            return new ScanTreeMethodLayer(method as resolved_scan_tree, scantrainer)
+            return new ScanTreeMethodLayer(method as resolved_scan_tree, app)
     }
 }
 
@@ -28,13 +28,12 @@ export class CluePanel {
 
         if (!clue) return
 
-        let methods = scantrainer.data.methods.forStep(clue)
+        let methods = this.parent.app.data.methods.forStep(clue)
 
         // TODO: Handle more than 1 method
         if (methods.length > 0) this.showMethod(methods[0])
         //this.parent.app.howtotabs.map.setActiveLayer(createMethodLayer(methods[0]))
         else this.showSolution()
-
     }
 
     clue(clue: ClueStep): this {
@@ -79,7 +78,7 @@ export class CluePanel {
 
     showMethod(method): this {
         // This stupid function is necessary to work around the stupid pile of shit that is Javascript Modules.
-        this.parent.app.map.map.setActiveLayer(createMethodLayer(method))
+        this.parent.app.map.map.setActiveLayer(createMethodLayer(method, this.parent.app))
 
         return this
     }

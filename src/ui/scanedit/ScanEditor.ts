@@ -255,7 +255,7 @@ export default class ScanEditor extends Behaviour {
     preview_layer: PreviewLayerControl
     path_editor: PathEditor
 
-    constructor(private app: Application,
+    constructor(public app: Application,
                 public readonly options: {
                     clue: ScanStep,
                     map: GameMap,

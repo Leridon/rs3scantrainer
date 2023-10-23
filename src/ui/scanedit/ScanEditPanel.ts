@@ -10,11 +10,10 @@ import ScanTools from "./ScanTools";
 import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import Collapsible from "../widgets/modals/Collapsible";
-import {ActiveOpacityGroup} from "../map/layers/OpacityLayer";
 import {ExportImport} from "../../util/exportString";
 import imp = ExportImport.imp;
 import exp = ExportImport.exp;
-import {scantrainer, ScanTrainerCommands} from "../../application";
+import {ScanTrainerCommands} from "../../application";
 import {QueryLinks} from "../../query_functions";
 import ScanEditor from "./ScanEditor";
 
@@ -67,7 +66,7 @@ export default class ScanEditPanel extends Widget<{
                 .on("click", () => {
 
                     // It's the year 2023 and TypeScript/Webpack can't properly deal with circular dependent files. What the actual fuck.
-                    scantrainer.sidepanels.clue_panel.showMethod(this.parent.value)
+                    this.parent.app.sidepanels.clue_panel.showMethod(this.parent.value)
                 })
                 .appendTo(control_row)
 

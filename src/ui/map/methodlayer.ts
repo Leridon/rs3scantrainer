@@ -19,7 +19,6 @@ import render_digspot = TextRendering.render_digspot;
 import natural_join = util.natural_join;
 import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "./path_graphics";
-import {Path} from "../../model/pathing";
 import Order = util.Order;
 import {floor_t, MapRectangle} from "../../model/coordinates";
 import {Vector2} from "../../util/math";
@@ -297,7 +296,6 @@ export default class ScanTreeMethodLayer extends ScanLayer {
                         .appendTo(line)
                 })
         }
-
 
         // TODO: Also output triples in a combined row
     }

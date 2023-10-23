@@ -19,7 +19,7 @@ export default class OverviewLayer extends ActiveLayer {
             spot: MapCoordinate,
             marker: TileMarker
         }[] = clues.flatMap(clue =>
-            // It's 2023 and switch there's still no expression-level switch or pattern matching
+            // It's 2023 and there's still no expression-level switch or pattern matching
             ((solution: Solution): MapCoordinate[] => {
                 switch (solution.type) {
                     case "simple":

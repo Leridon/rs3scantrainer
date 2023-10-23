@@ -1,7 +1,18 @@
-export default abstract class Behaviour<T extends Behaviour<any> = Behaviour<any>> {
+/*
+    - Does every Behaviour have a parent? YES, except roots
+    - Does every Behaviour connect to the application in some way? YES, via its parents.
+    - Ressources used by the behaviour must be available via its constructor OR via its parent
+    - Is the parent set on construction or on start()?
 
-    protected parent: T = null
-    protected children: Behaviour<any>[] = []
+ */
+
+export default abstract class Behaviour<
+    root_type extends Behaviour<any, any> = Behaviour<any, any>,
+    parent_type extends Behaviour<any, any> = Behaviour<root_type, any>
+> {
+
+    protected parent: parent_type = null
+    protected children: Behaviour<this>[] = []
 
     private _started = false
 

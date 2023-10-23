@@ -227,7 +227,6 @@ export class Application extends Behaviour {
 
                 if (!tele) return "NULL"
 
-
                 return PathGraphics.Teleport.asSpan(tele)
             }],
             ["icon", (args) => {

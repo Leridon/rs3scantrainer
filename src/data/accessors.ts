@@ -1,6 +1,6 @@
 import methods from "./methods";
-import {ClueStep} from "../model/clues";
-import {indirected, method, resolve, resolved} from "../model/methods";
+import {ClueStep} from "lib/runescape/clues";
+import {indirected, method, resolve, resolved} from "../trainer/model/methods";
 
 
 export class Methods {

@@ -1,5 +1,5 @@
 import ClueScrollReader from "./cluesolver/cluereader";
-import {ClueStep} from "../model/clues";
+import {ClueStep} from "lib/runescape/clues";
 import {ImgRef} from "@alt1/base";
 
 export class ClueReader {

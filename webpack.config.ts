@@ -24,9 +24,7 @@ config.output(outdir);
 
 let c = config.toConfig()
 
-const is_production = process.env.NODE_ENV == "production"
-
-if (!is_production) c.devtool = "eval-source-map"
+function mode() : "prod" | "dev" {return "dev"}
 
 c.plugins = [
     new CopyWebpackPlugin({
@@ -67,8 +65,15 @@ c.resolve.fallback = {
     "os": false,
 }
 
+c.resolve.modules = [
+    path.resolve('./node_modules'),
+    path.resolve('./src')
+]
+
 c.optimization = {
-    minimize: is_production
+    minimize: mode() == "prod"
 }
+
+c.mode = (mode() == "prod") ? "production" : "development"
 
 export default c

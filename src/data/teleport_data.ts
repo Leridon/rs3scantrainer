@@ -1,6 +1,6 @@
-import {flat_teleport, full_teleport_id, teleport_group, Teleports} from "../model/teleports";
-import {MapCoordinate} from "../model/coordinates";
-import {direction} from "../model/movement";
+import {flat_teleport, full_teleport_id, teleport_group, Teleports} from "lib/runescape/teleports";
+import {MapCoordinate} from "lib/runescape/coordinates";
+import {direction} from "lib/runescape/movement";
 
 export namespace teleport_data {
     const default_teleport_ticks: number = 3 // Shadow rip

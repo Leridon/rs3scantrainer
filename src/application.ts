@@ -10,21 +10,15 @@ import {ClueSteps, ClueTier, ClueType} from "./model/clues";
 import {Methods} from "./data/accessors";
 import {GameMapWidget} from "./ui/map/map";
 import {QueryLinks} from "./query_functions";
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {Path} from "./model/pathing";
 import {ExportImport} from "./util/exportString";
 import OverviewLayer from "./ui/map/layers/OverviewLayer";
 import {clues} from "./data/clues";
 import {ScanTree} from "./model/scans/ScanTree";
 import {resolve} from "./model/methods";
-import methods from "./data/methods";
-import {makeshift_main} from "./main";
 import {MapRectangle} from "./model/coordinates";
 import {PathGraphics} from "./ui/map/path_graphics";
-import {PathEditor} from "./ui/pathedit/PathEditor";
 import Behaviour, {SingleBehaviour} from "./lib/ui/Behaviour";
-import {Map} from "leaflet";
-import {URLSearchParams} from "url";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;

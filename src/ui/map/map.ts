@@ -150,7 +150,7 @@ export class GameMap extends leaflet.Map {
     container: JQuery
     private teleportLayer: TeleportLayer
 
-    private main_layer: GameLayer
+    public main_layer: GameLayer
 
     private activeLayer: ActiveLayer = null
     private top_control_container: Widget

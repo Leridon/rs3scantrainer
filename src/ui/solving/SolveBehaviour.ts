@@ -5,7 +5,7 @@ import {ClueStep} from "../../model/clues";
 import {ScanTree} from "../../model/scans/ScanTree";
 import augmented_decision_tree = ScanTree.augmented_decision_tree;
 
-export class SolveScanSubBehaviour extends Behaviour<SolveBehaviour> {
+export class SolveScanSubBehaviour extends Behaviour {
     protected begin() {
     }
 
@@ -19,7 +19,7 @@ export class SolveScanSubBehaviour extends Behaviour<SolveBehaviour> {
     }
 }
 
-export default class SolveBehaviour extends Behaviour<Application> {
+export default class SolveBehaviour extends Behaviour {
     constructor(m: method & resolved<ClueStep>) {
         super();
 

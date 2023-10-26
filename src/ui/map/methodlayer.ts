@@ -188,7 +188,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         let text: string = "INVALID DATA"
 
         if (this.node.raw.directions) {
-            text = scantrainer.template_resolver
+            text = this.app.template_resolver
                 .with(template_resolvers(this.node))
                 .resolve(this.node.raw.directions)
         } else {
@@ -209,7 +209,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     }
 
     generateList(node: augmented_decision_tree, depth: number, container: JQuery): void {
-        let resolver = scantrainer.template_resolver.with(template_resolvers(node))
+        let resolver = this.app.template_resolver.with(template_resolvers(node))
 
         let line = $("<div>")
             .addClass("scantreeline")
@@ -235,7 +235,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         if (node.raw.directions != null) {
             $("<span>")
-                .html(scantrainer.template_resolver
+                .html(this.app.template_resolver
                     .with(template_resolvers(node))
                     .resolve(node.raw.directions))
                 .appendTo(line)

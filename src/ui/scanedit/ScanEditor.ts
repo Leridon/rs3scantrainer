@@ -65,8 +65,10 @@ type T = {
     layer: Observable<Lazy<leaflet.FeatureGroup>>
 }
 
-class EquivalenceClassHandling extends Behaviour<ScanEditor> {
+class EquivalenceClassHandling extends Behaviour {
     equivalence_classes: T[] = []
+
+    constructor(private parent: ScanEditor) {super();}
 
     private render_equivalence_classes(ecs: ScanEquivalenceClasses): leaflet.FeatureGroup {
         let layer = leaflet.featureGroup()
@@ -161,13 +163,15 @@ class EquivalenceClassHandling extends Behaviour<ScanEditor> {
     }
 }
 
-class PreviewLayerControl extends Behaviour<ScanEditor> {
+class PreviewLayerControl extends Behaviour {
     private layer: OpacityGroup
 
     private markers: {
         spots: TileMarker[],
         complement: TileMarker[]
     }
+
+    constructor(public parent: ScanEditor) {super();}
 
     private path_layer: OpacityGroup = null
 
@@ -264,8 +268,8 @@ export default class ScanEditor extends Behaviour {
         super();
 
         this.layer = new ScanEditLayerLight(this)
-        this.equivalence_classes = this.withSub(new EquivalenceClassHandling())
-        this.preview_layer = this.withSub(new PreviewLayerControl())
+        this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
+        this.preview_layer = this.withSub(new PreviewLayerControl(this))
         this.path_editor = this.withSub(new PathEditor(this.layer))
     }
 

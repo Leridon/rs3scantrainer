@@ -2,24 +2,17 @@
     - Does every Behaviour have a parent? YES, except roots
     - Does every Behaviour connect to the application in some way? YES, via its parents.
     - Ressources used by the behaviour must be available via its constructor OR via its parent
-    - Is the parent set on construction or on start()?
+    - Is the parent set on construction or on start()? Construction
 
  */
 
-export default abstract class Behaviour<
-    root_type extends Behaviour<any, any> = Behaviour<any, any>,
-    parent_type extends Behaviour<any, any> = Behaviour<root_type, any>
-> {
-
-    protected parent: parent_type = null
-    protected children: Behaviour<this>[] = []
+export default abstract class Behaviour {
+    private _subBehaviours: Behaviour[] = []
 
     private _started = false
 
-    withSub<T extends Behaviour<any>>(sub: T): T {
-        this.children.push(sub)
-
-        sub.parent = this
+    withSub<T extends Behaviour>(sub: T): T {
+        this._subBehaviours.push(sub)
 
         if (this._started) sub.start()
 
@@ -33,13 +26,13 @@ export default abstract class Behaviour<
 
         this.begin()
 
-        this.children.forEach(c => c.start())
+        this._subBehaviours.forEach(c => c.start())
 
         return this
     }
 
     stop() {
-        this.children.forEach(c => c.stop())
+        this._subBehaviours.forEach(c => c.stop())
 
         if (this._started) this.end()
     }
@@ -53,8 +46,8 @@ export default abstract class Behaviour<
     protected abstract end()
 }
 
-export class SingleBehaviour<T extends Behaviour<any> = Behaviour<any>> extends Behaviour<T> {
-    private behaviour: Behaviour<T> = null
+export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour {
+    private behaviour: Behaviour = null
 
     protected begin() {
         if (this.behaviour) this.behaviour.start()

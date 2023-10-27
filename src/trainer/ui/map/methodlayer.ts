@@ -1,16 +1,13 @@
 import {ScanLayer, SpotPolygon} from "./layers/ScanLayer";
-import {Application, scantrainer} from "trainer/application";
-import {GameMap, GameMapWidget} from "./map";
+import {Application} from "trainer/application";
+import {GameMap} from "./map";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import {modal} from "../widgets/modal";
+import {Modal, modal} from "../widgets/modal";
 import {util} from "../../../lib/util/util";
 import * as leaflet from "leaflet"
-import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import augmented_decision_tree = ScanTree.augmented_decision_tree;
-import ScanExplanationModal = ScanTree.ScanExplanationModal;
 import augment = ScanTree.augment;
 import ScanDecision = ScanTree.ScanInformation;
-import template_resolvers = ScanTree.template_resolvers;
 import spotNumber = ScanTree.spotNumber;
 import LightButton from "../widgets/LightButton";
 import {TextRendering} from "../TextRendering";
@@ -23,6 +20,37 @@ import {floor_t, MapRectangle} from "lib/runescape/coordinates";
 import {Vector2} from "lib/math/Vector";
 import {Scans} from "lib/runescape/clues/scans";
 import Pulse = Scans.Pulse;
+import {SolvingMethods} from "../../model/methods";
+import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
+
+export function scan_tree_template_resolvers(node: ScanTree.augmented_decision_tree): Record<string, (args: string[]) => string> {
+    return {
+        "target": () => {
+            if (node.remaining_candidates.length == 1) {
+                // TODO: There's a bug hidden here where is always resolves the same digspot number for all triples
+                return render_digspot(spotNumber(node.raw_root, node.remaining_candidates[0]))
+            } else if (node.region) {
+                return `{{scanarea ${node.region.name}}}`
+            } else {
+                return "{ERROR: No target}"
+            }
+        },
+        "candidates":
+            () => {
+                return util.natural_join(
+                    shorten_integer_list(node.remaining_candidates
+                            .map(c => spotNumber(node.raw_root, c)),
+                        render_digspot
+                    ))
+            }
+    }
+}
+
+export class ScanExplanationModal extends Modal {
+    protected hidden() {
+        ($("#pingexplanationvideo").get(0) as HTMLVideoElement).pause();
+    }
+}
 
 export default class ScanTreeMethodLayer extends ScanLayer {
     private readonly root: Promise<augmented_decision_tree>
@@ -71,7 +99,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         })
     }
 
-    getTree(): resolved_scan_tree {
+    getTree(): ScanTreeWithClue {
         return this.scantree;
     }
 
@@ -129,7 +157,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.update()
     }
 
-    constructor(private scantree: resolved_scan_tree, app: Application) {
+    constructor(private scantree: ScanTreeWithClue, app: Application) {
         super(scantree.clue, app, {
             show_edit_button: true
         });
@@ -190,7 +218,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         if (this.node.raw.directions) {
             text = this.app.template_resolver
-                .with(template_resolvers(this.node))
+                .with(scan_tree_template_resolvers(this.node))
                 .resolve(this.node.raw.directions)
         } else {
             if (this.node.remaining_candidates.length > 1) {
@@ -210,7 +238,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
     }
 
     generateList(node: augmented_decision_tree, depth: number, container: JQuery): void {
-        let resolver = this.app.template_resolver.with(template_resolvers(node))
+        let resolver = this.app.template_resolver.with(scan_tree_template_resolvers(node))
 
         let line = $("<div>")
             .addClass("scantreeline")
@@ -237,7 +265,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         if (node.raw.directions != null) {
             $("<span>")
                 .html(this.app.template_resolver
-                    .with(template_resolvers(node))
+                    .with(scan_tree_template_resolvers(node))
                     .resolve(node.raw.directions))
                 .appendTo(line)
         } else if (node.children.some(c => c.key == null)) {

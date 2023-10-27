@@ -1,6 +1,5 @@
 import {Path} from "lib/runescape/pathing";
 import AbstractEditWidget from "../widgets/AbstractEditWidget";
-import {GameMapWidget} from "../map/map";
 import collect_issues = Path.collect_issues;
 import {IssueWidget, PathEditor} from "./PathEditor";
 import MovementStateView from "./MovementStateView";

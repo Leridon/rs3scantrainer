@@ -1,11 +1,10 @@
-// The above line prevents type checking for the entire file and should only be used to filter errors messages during development!
-
-import {type indirected, type method} from "../trainer/model/methods";
+import {SolvingMethods} from "../trainer/model/methods";
+import Method = SolvingMethods.Method;
 
 /* ts-ignore */
-let raw: (method & indirected)[] = [
+let raw: Method[] = [
     {
-        "clue": 361,
+        "clue_id": 361,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -2736,7 +2735,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 364,
+        "clue_id": 364,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -5414,7 +5413,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 349,
+        "clue_id": 349,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -10408,7 +10407,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 362,
+        "clue_id": 362,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -11127,7 +11126,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 351,
+        "clue_id": 351,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -13921,7 +13920,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 359,
+        "clue_id": 359,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -16527,7 +16526,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 368,
+        "clue_id": 368,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -19386,7 +19385,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 365,
+        "clue_id": 365,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -22369,7 +22368,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 355,
+        "clue_id": 355,
         "type": "scantree",
         "spot_ordering": [
             {
@@ -24592,7 +24591,7 @@ let raw: (method & indirected)[] = [
         }
     },
     {
-        "clue": 363,
+        "clue_id": 363,
         "type": "scantree",
         "spot_ordering": [
             {

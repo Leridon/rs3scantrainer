@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet"
-import {Layer, LayerGroup, LayerOptions, Map} from "leaflet";
+import {Layer, LayerOptions} from "leaflet";
 
 export class OpacityGroup extends leaflet.FeatureGroup {
 

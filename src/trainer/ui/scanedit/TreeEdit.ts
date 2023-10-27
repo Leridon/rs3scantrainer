@@ -19,6 +19,7 @@ import {observe} from "lib/properties/Observable";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import LightButton from "../widgets/LightButton";
 import {MapRectangle} from "lib/runescape/coordinates";
+import {scan_tree_template_resolvers} from "../map/methodlayer";
 
 class RegionEdit extends Widget {
     constructor(private parent: TreeNodeEdit) {
@@ -201,7 +202,7 @@ class TreeNodeEdit extends Widget {
 
         this.body.named("Direction",
             new TemplateStringEdit({
-                resolver: scantrainer.template_resolver.with(ScanTree.template_resolvers(node)),
+                resolver: scantrainer.template_resolver.with(scan_tree_template_resolvers(node)),
                 generator: () => {
                     let path_short =
                         this.node.path.steps.length > 0

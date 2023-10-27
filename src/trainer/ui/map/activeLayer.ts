@@ -1,10 +1,8 @@
-import {blue_icon, GameMap, type GameMapWidget} from "./map";
+import {blue_icon, GameMap} from "./map";
 import * as leaflet from "leaflet"
 import {type MapCoordinate} from "lib/runescape/coordinates";
-import SimpleClickInteraction from "./interactions/SimpleClickInteraction";
 import LayerInteraction from "./interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
-import {Vector2} from "lib/math/Vector";
 import GameLayer from "./GameLayer";
 
 export class ActiveLayer extends GameLayer {

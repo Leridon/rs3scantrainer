@@ -17,7 +17,6 @@ config.makeUmd("testpackage", "TEST");
 
 //the name and location of our entry file (the name is used for output and can contain a relative path)
 config.entry("index", "./index.ts");
-config.entry("main", "./main.ts")
 
 //where to put all the stuff
 config.output(outdir);

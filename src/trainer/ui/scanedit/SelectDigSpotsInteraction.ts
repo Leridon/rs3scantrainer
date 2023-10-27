@@ -1,4 +1,3 @@
-import {TypedEmitter} from "skillbertssolver/eventemitter";
 import {MapCoordinate} from "lib/runescape/coordinates";
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import {TileMarker} from "../map/TileMarker";

@@ -4,7 +4,6 @@ import {Observable, observe} from "lib/properties/Observable";
 import {MapCoordinate} from "lib/runescape/coordinates";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import Behaviour from "../../../lib/ui/Behaviour";
 import {ActiveLayer} from "../map/activeLayer";
 import assumedRange = ScanTree.assumedRange;
@@ -21,6 +20,10 @@ import {PathingGraphics} from "../map/path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
 import {GameMapClickEvent, GameMapContextMenuEvent} from "../map/GameLayer";
 import {Scans} from "lib/runescape/clues/scans";
+import {SolvingMethods} from "../../model/methods";
+
+
+import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 
 class ScanEditLayerLight extends ActiveLayer {
 
@@ -248,7 +251,7 @@ class PreviewLayerControl extends Behaviour {
 }
 
 export default class ScanEditor extends Behaviour {
-    public value: resolved_scan_tree
+    public value: ScanTreeWithClue
 
     layer: ScanEditLayerLight
     panel: ScanEditPanel
@@ -263,18 +266,19 @@ export default class ScanEditor extends Behaviour {
                 public readonly options: {
                     clue: ScanStep,
                     map: GameMap,
-                    initial?: resolved_scan_tree
+                    initial?: ScanTreeWithClue
                 }) {
         super();
 
         this.layer = new ScanEditLayerLight(this)
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
-        this.path_editor = this.withSub(new PathEditor(this.layer))
+        this.path_editor = this.withSub(new PathEditor(this.layer, this.app.template_resolver))
     }
 
     begin() {
         this.value = this.options.initial ?? {
+            clue_id: this.options.clue.id,
             assumes_meerkats: true,
             clue: this.options.clue,
             root: ScanTree.init_leaf(),

@@ -1,9 +1,10 @@
 import Behaviour from "../../../lib/ui/Behaviour";
 import {type Application} from "trainer/application";
-import {resolved, method} from "../../model/methods";
-import {ClueStep} from "lib/runescape/clues";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import augmented_decision_tree = ScanTree.augmented_decision_tree;
+import {Observable, observe} from "../../../lib/properties/Observable";
+import {SolvingMethods} from "../../model/methods";
+import MethodWithClue = SolvingMethods.MethodWithClue;
 
 export class SolveScanSubBehaviour extends Behaviour {
     protected begin() {
@@ -20,15 +21,17 @@ export class SolveScanSubBehaviour extends Behaviour {
 }
 
 export default class SolveBehaviour extends Behaviour {
-    constructor(private parent: Application, m: method & resolved<ClueStep>) {
+    method: Observable<MethodWithClue> = observe(null)
+
+    constructor(private parent: Application) {
         super();
 
-        if (m.type == "scantree") {
-            this.withSub(new SolveScanSubBehaviour())
-        }
+        this.method.subscribe(m => {
+            if (m.type == "scantree") {
+                this.withSub(new SolveScanSubBehaviour())
+            }
+        })
     }
-
-    setMethod(m: method & resolved<ClueStep>) { }
 
     protected begin() {
         // TODO:

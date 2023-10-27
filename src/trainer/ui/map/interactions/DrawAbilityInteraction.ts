@@ -6,14 +6,13 @@ import {LeafletMouseEvent} from "leaflet";
 import {HostedMapData, move, MovementAbilities} from "lib/runescape/movement";
 import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../path_graphics";
-import {capitalize, identity} from "lodash";
+import {capitalize} from "lodash";
 import {Path} from "lib/runescape/pathing";
 import {tilePolygon} from "../polygon_helpers";
 import {Vector2} from "lib/math/Vector";
-import Properties from "../../widgets/Properties";
 import Checkbox from "../../../../lib/ui/controls/Checkbox";
 import {util} from "../../../../lib/util/util";
-import swap = util.swap;
+
 
 
 export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {

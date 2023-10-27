@@ -2,13 +2,9 @@ import Widget from "../widgets/Widget";
 import SpotOrderingEdit from "./SpotNumberingEdit";
 import TreeEdit from "./TreeEdit";
 import {MapCoordinate} from "lib/runescape/coordinates";
-import {indirect, resolve} from "../../model/methods";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
-import resolved_scan_tree = ScanTree.resolved_scan_tree;
-import indirect_scan_tree = ScanTree.indirect_scan_tree;
 import Collapsible from "../widgets/modals/Collapsible";
 import {ExportImport} from "../../../lib/util/exportString";
 import imp = ExportImport.imp;
@@ -16,6 +12,12 @@ import exp = ExportImport.exp;
 import {ScanTrainerCommands} from "trainer/application";
 import {QueryLinks} from "trainer/query_functions";
 import ScanEditor from "./ScanEditor";
+import {omit, without} from "lodash";
+import {SolvingMethods} from "../../model/methods";
+import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
+import withoutClue = SolvingMethods.withoutClue;
+import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
+import withClue = SolvingMethods.withClue;
 
 export default class ScanEditPanel extends Widget<{
     "candidates_changed": MapCoordinate[]
@@ -34,7 +36,7 @@ export default class ScanEditPanel extends Widget<{
 
             $("<div class='lightbutton'>Show JSON</div>")
                 .on("click", () => {
-                    ExportStringModal.do(JSON.stringify(indirect(this.parent.value), null, 2))
+                    ExportStringModal.do(JSON.stringify(withoutClue(this.parent.value), null, 2))
                 })
                 .appendTo(control_row)
 
@@ -43,20 +45,20 @@ export default class ScanEditPanel extends Widget<{
                     ExportStringModal.do(exp({
                         type: "scantree",
                         version: 0
-                    }, true, true)(indirect(this.parent.value)), "Copy the string below to share this scan route.")
+                    }, true, true)(withoutClue(this.parent.value)), "Copy the string below to share this scan route.")
                 })
                 .appendTo(control_row)
 
             $("<div class='lightbutton'>Import</div>")
                 .on("click", () => {
                     ImportStringModal.do((s) => {
-                        let i = imp<indirect_scan_tree>({expected_type: "scantree", expected_version: 0})(s)
+                        let i = imp<ScanTreeMethod>({expected_type: "scantree", expected_version: 0})(s)
 
-                        if (i.clue != this.parent.options.clue.id) throw new Error("This method is not for the currently loaded clue")
+                        if (i.clue_id != this.parent.options.clue.id) throw new Error("This method is not for the currently loaded clue")
 
-                        return resolve(i)
+                        return withClue(i, this.parent.options.clue)
                     })
-                        .then((obj: resolved_scan_tree) => {
+                        .then((obj: ScanTreeWithClue) => {
                             // TODO: Reimplement import/set value
                         })
                 })
@@ -72,7 +74,7 @@ export default class ScanEditPanel extends Widget<{
 
             $("<div class='lightbutton'>Share</div>")
                 .on("click", () => {
-                    ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_method, {method: indirect(this.parent.value)}), "The link below is a direct link to this method.")
+                    ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_method, {method: omit(this.parent.value, "clue")}), "The link below is a direct link to this method.")
                 })
                 .appendTo(control_row)
         }

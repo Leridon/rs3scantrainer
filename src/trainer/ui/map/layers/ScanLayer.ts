@@ -9,13 +9,14 @@ import {TypedEmitter} from "skillbertssolver/eventemitter";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Constants} from "trainer/constants";
 import ScanSpot = ScanTree.ScanRegion;
-import resolved_scan_tree = ScanTree.resolved_scan_tree;
 import {TileMarker} from "../TileMarker";
 import {ActiveOpacityGroup} from "./OpacityLayer";
 import {Vector2} from "lib/math/Vector";
 import {boxPolygon} from "../polygon_helpers";
 import ScanEditor from "../../scanedit/ScanEditor";
 import {Scans} from "lib/runescape/clues/scans";
+import {SolvingMethods} from "../../../model/methods";
+import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 
 
 export class SpotPolygon extends ActiveOpacityGroup {
@@ -178,7 +179,7 @@ export class ScanLayer extends ActiveLayer {
         if (this.complement_tile_marker) this.complement_tile_marker.setRange(this.clue.range + (value ? 5 : 0))
     }
 
-    getTree(): resolved_scan_tree {
+    getTree(): ScanTreeWithClue {
         return null
     }
 

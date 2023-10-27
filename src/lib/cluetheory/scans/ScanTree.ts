@@ -1,54 +1,32 @@
 import {MapCoordinate, MapRectangle} from "lib/runescape/coordinates";
-import {indirected, method_base, resolved} from "../../../trainer/model/methods";
-import {Modal} from "trainer/ui/widgets/modal";
-import {ScanStep} from "lib/runescape/clues";
-import {util} from "../../util/util";
 import {Path} from "lib/runescape/pathing";
-import * as lodash from "lodash";
-import {TextRendering} from "trainer/ui/TextRendering";
 import {Vector2} from "lib/math/Vector";
 import {Scans} from "lib/runescape/clues/scans";
+import * as lodash from "lodash";
+import {Clues, ScanStep} from "../../runescape/clues";
 
 export namespace ScanTree {
     import Pulse = Scans.Pulse;
 
     import movement_state = Path.movement_state;
 
-    export function dig_area(spot: MapCoordinate): MapRectangle {
-        return {
-            topleft: {x: spot.x - 1, y: spot.y + 1},
-            botright: {x: spot.x + 1, y: spot.y - 1},
-            level: spot.level
-        }
-    }
-
-    import shorten_integer_list = util.shorten_integer_list;
-    import render_digspot = TextRendering.render_digspot;
     import area_pulse = Scans.area_pulse;
-
-    // There is world in which this type isn't needed and scan trees are just a tree of paths.
-    // There are some drawbacks in this idea, so for now it stays how it is.
-    //  - pro: Would make sections that are like "check the remaining spots" simpler
-    //  - pro: Cleaner implementation as a whole
-    //  - con: People are used to the format
-    //  - con: Would maybe exclude the ability to mark area with leeway
-    //  - con: Having dedicated areas incentivizes to make keep the tree simple instead of having a million decision points
-    //  - con: How would that work with non-deterministic paths/teleports?
+    import digSpotArea = Clues.digSpotArea;
 
     export type ScanRegion = {
         name: string
         area: MapRectangle
     }
 
-    export type tree = method_base & {
-        type: "scantree",
+    export type ScanTree = {
         spot_ordering: MapCoordinate[],
         assumes_meerkats: boolean,
         root: decision_tree
     }
 
-    export type resolved_scan_tree = tree & resolved<ScanStep>
-    export type indirect_scan_tree = tree & indirected
+    export type TreeWithClue = ScanTree & {
+        clue: ScanStep
+    }
 
     export type PulseInformation = Scans.Pulse & ({
         pulse: 3
@@ -91,7 +69,7 @@ export namespace ScanTree {
 
     export type augmented_decision_tree = {
         raw: decision_tree,
-        raw_root: tree,
+        raw_root: ScanTree,
         root: augmented_decision_tree,
         parent: {
             key: PulseInformation
@@ -157,12 +135,12 @@ export namespace ScanTree {
         }
     }
 
-    export async function normalize(tree: ScanTree.resolved_scan_tree): Promise<ScanTree.resolved_scan_tree> {
+    export async function normalize(tree: TreeWithClue): Promise<TreeWithClue> {
         async function helper(node: decision_tree, candidates: MapCoordinate[], pre_state: Path.movement_state): Promise<void> {
 
             let region = node.region
 
-            let augmented_path = await Path.augment(node.path, pre_state, candidates.length == 1 ? dig_area(candidates[0]) : region?.area)
+            let augmented_path = await Path.augment(node.path, pre_state, candidates.length == 1 ? digSpotArea(candidates[0]) : region?.area)
 
             let area = region?.area ||
                 MapRectangle.fromTile(augmented_path.post_state?.position?.tile)
@@ -209,13 +187,13 @@ export namespace ScanTree {
         return tree
     }
 
-    export function assumedRange(tree: resolved_scan_tree): number {
+    export function assumedRange(tree: TreeWithClue): number {
         let r = tree.clue.range
         if (tree.assumes_meerkats) r += 5;
         return r
     }
 
-    export function spotNumber(self: ScanTree.tree, spot: MapCoordinate): number {
+    export function spotNumber(self: ScanTree.ScanTree, spot: MapCoordinate): number {
         return self.spot_ordering.findIndex((s) => Vector2.eq(s, spot)) + 1
     }
 
@@ -238,7 +216,7 @@ export namespace ScanTree {
         return tree
     }
 
-    export async function augment(tree: resolved_scan_tree, options: {
+    export async function augment(tree: TreeWithClue, options: {
         analyze_completeness?: boolean
     } = {}): Promise<augmented_decision_tree> {
         async function helper(
@@ -252,7 +230,7 @@ export namespace ScanTree {
 
             let region = node.region
 
-            let augmented_path = await Path.augment(node.path, start_state, remaining_candidates.length == 1 ? dig_area(remaining_candidates[0]) : region?.area)
+            let augmented_path = await Path.augment(node.path, start_state, remaining_candidates.length == 1 ? digSpotArea(remaining_candidates[0]) : region?.area)
 
             let t: augmented_decision_tree = {
                 //directions: null,
@@ -313,12 +291,6 @@ export namespace ScanTree {
         return aug_tree
     }
 
-    export class ScanExplanationModal extends Modal {
-        protected hidden() {
-            ($("#pingexplanationvideo").get(0) as HTMLVideoElement).pause();
-        }
-    }
-
     export type ScanInformation = PulseInformation & {
         area: MapRectangle
     }
@@ -359,28 +331,5 @@ export namespace ScanTree {
 
     export function narrow_down(candidates: MapCoordinate[], information: ScanInformation, range: number): MapCoordinate[] {
         return candidates.filter((s) => area_pulse(s, information.area, range).some((p2) => Pulse.equals(information, p2)))
-    }
-
-    export function template_resolvers(node: ScanTree.augmented_decision_tree): Record<string, (args: string[]) => string> {
-        return {
-            "target": () => {
-                if (node.remaining_candidates.length == 1) {
-                    // TODO: There's a bug hidden here where is always resolves the same digspot number for all triples
-                    return render_digspot(spotNumber(node.raw_root, node.remaining_candidates[0]))
-                } else if (node.region) {
-                    return `{{scanarea ${node.region.name}}}`
-                } else {
-                    return "{ERROR: No target}"
-                }
-            },
-            "candidates":
-                () => {
-                    return util.natural_join(
-                        shorten_integer_list(node.remaining_candidates
-                                .map(c => spotNumber(node.raw_root, c)),
-                            render_digspot
-                        ))
-                }
-        }
     }
 }

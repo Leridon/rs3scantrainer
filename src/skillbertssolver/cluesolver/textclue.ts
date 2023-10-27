@@ -3,7 +3,7 @@ import * as OCR from "@alt1/ocr";
 import * as oldlib from "./oldlib";
 import {coldiff} from "../oldlib";
 import {ModalUI} from "./modeluireader";
-import {ClueType, ScanStep} from "lib/runescape/clues";
+import {ScanStep} from "lib/runescape/clues";
 import {byType} from "data/clues";
 
 var cluefont = require("./fonts/cluefont.fontmeta.json.js");

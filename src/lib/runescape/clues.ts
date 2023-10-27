@@ -1,4 +1,14 @@
-import {GieliCoordinates, MapCoordinate} from "./coordinates";
+import {GieliCoordinates, MapCoordinate, MapRectangle} from "./coordinates";
+
+export namespace Clues {
+    export function digSpotArea(spot: MapCoordinate): MapRectangle {
+        return {
+            topleft: {x: spot.x - 1, y: spot.y + 1},
+            botright: {x: spot.x + 1, y: spot.y - 1},
+            level: spot.level
+        }
+    }
+}
 
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 

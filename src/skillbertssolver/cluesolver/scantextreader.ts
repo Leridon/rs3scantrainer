@@ -1,7 +1,7 @@
 import * as a1lib from "@alt1/base"
 import * as OCR from "@alt1/ocr";
 import {ImgRef} from "@alt1/base";
-import {ClueType, ScanStep} from "lib/runescape/clues";
+import {ScanStep} from "lib/runescape/clues";
 import {byType} from "data/clues";
 import * as oldlib from "./oldlib";
 

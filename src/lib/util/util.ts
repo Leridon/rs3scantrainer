@@ -96,4 +96,10 @@ export namespace util {
     export function count<A>(a: A[], p: (_: A) => boolean): number {
         return a.reduce((x, y) => x + (p(y) ? 1 : 0), 0)
     }
+
+    /**
+     * This generic type can be used to ensure a defined type is a subtype of another type statically.
+     * I'm 99% percent sure this already exists in some way, but could not find it.
+     */
+    export type ensure_subtype<Supertype, T extends Supertype> = T
 }

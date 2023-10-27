@@ -5,8 +5,8 @@ import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "../lib/util/TemplateResolver";
 import {TeleportLayer} from "trainer/ui/map/teleportlayer";
 import {Teleports} from "lib/runescape/teleports";
-import {ClueIndex, ClueTier, ClueType} from "lib/runescape/clues";
-import {Methods} from "data/accessors";
+import {ClueIndex, ClueTier, ClueType, ScanStep} from "lib/runescape/clues";
+import {MethodIndex} from "data/accessors";
 import {GameMapWidget} from "trainer/ui/map/map";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
@@ -14,15 +14,18 @@ import {ExportImport} from "../lib/util/exportString";
 import OverviewLayer from "trainer/ui/map/layers/OverviewLayer";
 import {clues} from "data/clues";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import {resolve} from "./model/methods";
 import {MapRectangle} from "lib/runescape/coordinates";
 import {PathGraphics} from "trainer/ui/map/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
+import methods from "../data/methods";
+import {SolvingMethods} from "./model/methods";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
-    import exp = ExportImport.exp;
-    import imp = ExportImport.imp;
+    import withClue = SolvingMethods.withClue;
+    import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
+
+
     export const load_path: Command<{
         steps: Path.raw,
         target?: MapRectangle,
@@ -70,23 +73,24 @@ export namespace ScanTrainerCommands {
             types: (tiers: ClueType[]) => tiers.join(",")
         },
         instantiate: ({tiers, types}) => (app: Application): void => {
-            app.map.map.setActiveLayer(new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0)))
+            app.map.map.setActiveLayer(new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app))
         },
     }
 
     export const load_method: Command<{
-        method: ScanTree.indirect_scan_tree
+        method: ScanTreeMethod
     }> = {
         name: "load_method",
         parser: {
-            // method: (a) => imp<ScanTree.indirect_scan_tree>({expected_type: "scantree", expected_version: 0})(a)
+            // method: (a) => imp<ScanTree.ScanTreeMethod>({expected_type: "scantree", expected_version: 0})(a)
         },
         default: {},
         serializer: {
             // method: (a) => exp({type: "scantree", version: 0}, true, true)(a)
         },
         instantiate: ({method}) => (app: Application): void => {
-            let resolved = resolve(method)
+            //let resolved = resolve(method)
+            let resolved = withClue(method, app.data.clues.byId(method.clue_id) as ScanStep)
 
             app.sidepanels.clue_panel.clue(resolved.clue).showMethod(resolved)
         },
@@ -203,7 +207,7 @@ export class Application extends Behaviour {
             variants: []
         }),
         clues: new ClueIndex(clues),
-        methods: new Methods()
+        methods: new MethodIndex(methods)
     }
 
     template_resolver = new TemplateResolver(new Map<string, (args: string[]) => string>(

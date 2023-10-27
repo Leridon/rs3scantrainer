@@ -1,17 +1,17 @@
 import {ActiveLayer} from "../activeLayer";
-import {ClueStep, Solution} from "lib/runescape/clues";
+import {Clues, ClueStep, Solution} from "lib/runescape/clues";
 import Properties from "../../widgets/Properties";
 import {TileMarker} from "../TileMarker";
 import {MapCoordinate} from "lib/runescape/coordinates";
 import Widget from "../../widgets/Widget";
 import * as tippy from "tippy.js";
 import LightButton from "../../widgets/LightButton";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import dig_area = ScanTree.dig_area;
 import {PathEditor} from "trainer/ui/pathedit/PathEditor";
+import {Application} from "../../../application";
+import dig_area = Clues.digSpotArea;
 
 export default class OverviewLayer extends ActiveLayer {
-    constructor(private clues: ClueStep[]) {
+    constructor(private clues: ClueStep[], private app: Application) {
         super();
 
         let spots: {
@@ -46,7 +46,7 @@ export default class OverviewLayer extends ActiveLayer {
                 props.named("spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
                 props.row(new LightButton("Load path editor")
                     .on("click", () => {
-                        new PathEditor(this.getMap().main_layer).load([], {
+                        new PathEditor(this.getMap().main_layer, this.app.template_resolver).load([], {
                             target: dig_area(spot)
                         })
                     }))

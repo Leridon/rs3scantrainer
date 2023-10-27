@@ -47,7 +47,7 @@ export default abstract class Behaviour {
 }
 
 export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour {
-    private behaviour: Behaviour = null
+    private behaviour: T = null
 
     protected begin() {
         if (this.behaviour) this.behaviour.start()
@@ -55,6 +55,10 @@ export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour 
 
     protected end() {
         if (this.behaviour) this.behaviour.stop()
+    }
+
+    get(): T {
+        return this.behaviour
     }
 
     set(behaviour: T): this {

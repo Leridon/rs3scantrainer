@@ -1,19 +1,19 @@
-import methods from "./methods";
 import {ClueStep} from "lib/runescape/clues";
-import {indirected, method, resolve, resolved} from "../trainer/model/methods";
+import {SolvingMethods} from "../trainer/model/methods";
+import Method = SolvingMethods.Method;
+import MethodWithClue = SolvingMethods.MethodWithClue;
 
 
-export class Methods {
-    data: (method & indirected)[]
+export class MethodIndex {
+    constructor(private data: Method[]) { }
 
-    constructor() {
-        this.data = methods
+    forStepId(id: number): Method[] {
+        return this.data.filter((m) => m.clue_id == id)
     }
 
-    forStep(step: ClueStep | number): (method & resolved<any>)[] {
-        if (typeof step != "number") step = step.id
+    forStep<StepT extends ClueStep>(step: StepT): MethodWithClue<Method>[] {
+        // TODO: Only use methods that are actually compatible with this step type
 
-        return this.data.filter((m) => m.clue == step)
-            .map((m) => resolve<ClueStep, method>(m))
+        return this.data.filter((m) => m.clue_id == step.id).map((m) => SolvingMethods.withClue(m, step))
     }
 }

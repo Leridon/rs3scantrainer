@@ -2,15 +2,15 @@ import {ClueStep, ClueType} from "lib/runescape/clues";
 import {Constants} from "trainer/constants";
 import {Modal} from "./widgets/modal";
 import {Application} from "trainer/application";
-import {method, resolved} from "../model/methods";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import resolved_scan_tree = ScanTree.resolved_scan_tree;
+import {SolvingMethods} from "../model/methods";
 import ScanTreeMethodLayer from "./map/methodlayer";
+import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
+import MethodWithClue = SolvingMethods.MethodWithClue;
 
-function createMethodLayer(method: method & resolved<ClueStep>, app: Application) {
+function createMethodLayer(method: MethodWithClue, app: Application) {
     switch (method.type) {
         case "scantree":
-            return new ScanTreeMethodLayer(method as resolved_scan_tree, app)
+            return new ScanTreeMethodLayer(method as ScanTreeWithClue, app)
     }
 }
 
@@ -111,12 +111,10 @@ export class MethodPanel {
 }
 
 export default class SidePanelControl {
-
     public side_panels = $("#sidebar-panels")
     public clue_panel = new CluePanel($("#clue-panel"), this)
     public solution_panel = $("#solution-panel")
     public methods_panel = new MethodPanel($("#method-panel"), this)
-
 
     constructor(public app: Application) {
         this.clue_panel.selectClue(null)

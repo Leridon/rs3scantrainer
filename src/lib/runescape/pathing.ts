@@ -201,6 +201,11 @@ export namespace Path {
     export type issue_level = 0 | 1 // 0 = error, 1 = warning
     export type issue = { level: issue_level, message: string }
 
+    /**
+     * Gets the coordinates where a path ends up, without having to {@link Path.augment} it.
+     * @param path The Path to get the target tile for.
+     * @return The tile, or null if undefined.
+     */
     export function ends_up(path: Path): MapCoordinate {
         for (let i = path.length - 1; i >= 0; i--) {
             let step = path[i]
@@ -221,7 +226,7 @@ export namespace Path {
                     break;
             }
         }
-        
+
         return null
     }
 

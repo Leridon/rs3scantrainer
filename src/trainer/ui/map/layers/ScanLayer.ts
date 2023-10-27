@@ -10,7 +10,7 @@ import {ActiveOpacityGroup, OpacityGroup} from "./OpacityLayer";
 import {boxPolygon} from "../polygon_helpers";
 import {Scans} from "lib/runescape/clues/scans";
 
-import GameLayer from "../GameLayer";
+import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent} from "../GameLayer";
 import {Observable, observe, observe_combined} from "../../../../lib/properties/Observable";
 import complementSpot = Scans.complementSpot;
 
@@ -130,7 +130,7 @@ export class ScanLayer extends GameLayer {
 
     private custom_marker: ScanRadiusMarker = null
 
-    marker_spot: Observable<{ coordinates: MapCoordinate, with_marker: boolean } | null> = observe(null)
+    marker_spot: Observable<{ coordinates: MapCoordinate, with_marker: boolean, click_to_remove: boolean } | null> = observe(null)
     scan_range: Observable<number> = observe(20)
 
     spots: Observable<MapCoordinate[]> = observe([])
@@ -144,17 +144,22 @@ export class ScanLayer extends GameLayer {
         super()
 
         observe_combined({range: this.scan_range, spot: this.marker_spot}).subscribe(({range, spot}) => {
-            this.custom_marker.remove()
-            this.custom_marker = null
+            if (this.custom_marker) {
+                this.custom_marker.remove()
+                this.custom_marker = null
+            }
 
             if (spot) {
                 let is_complement = Math.floor(spot.coordinates.y / 6400) != Math.floor(this.spots.get()[0].y / 6400)
 
-                this.custom_marker = new ScanRadiusMarker(spot.coordinates, range, spot.with_marker, is_complement)
-                    .on("click", (e) => {
+                this.custom_marker = new ScanRadiusMarker(spot.coordinates, range, spot.with_marker, is_complement).addTo(this)
+
+                if (spot.click_to_remove) {
+                    this.custom_marker.on("click", (e) => {
                         leaflet.DomEvent.stopPropagation(e)
                         this.marker_spot.set(null)
-                    }).addTo(this)
+                    })
+                }
             }
         })
 
@@ -163,8 +168,6 @@ export class ScanLayer extends GameLayer {
             this.digSpotMarkers.forEach(m => m.remove())
 
             this.digSpotMarkers = spots.map(s => {
-                console.log("Creating a marker")
-
                 let marker = new ScanDigSpotMarker(s)
                     .setActive(this.active_spots.get().some(a => MapCoordinate.eq(a, s)))
                     .addTo(this)
@@ -208,5 +211,29 @@ export class ScanLayer extends GameLayer {
                     title: "Edit scan route (Advanced)"
                 }).setPosition("topright"))
         }*/
+    }
+
+    eventContextMenu(event: GameMapContextMenuEvent) {
+        event.onPre(() => {
+            if (this.marker_spot.get()?.click_to_remove && MapCoordinate.eq2(event.tile(), this.marker_spot.get()?.coordinates)) {
+                event.add({type: "basic", text: "Remove Marker", handler: () => this.marker_spot.set(null)})
+            } else event.add({
+                type: "basic", text: "Set Marker", handler: () => {
+                    this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
+                }
+            })
+        })
+    }
+
+    eventClick(event: GameMapClickEvent) {
+        event.onPost(() => {
+            if (this.marker_spot.get()?.click_to_remove && MapCoordinate.eq2(event.tile(), this.marker_spot.get()?.coordinates)) {
+                this.marker_spot.set(null)
+            } else {
+                this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
+            }
+
+            event.stopAllPropagation()
+        })
     }
 }

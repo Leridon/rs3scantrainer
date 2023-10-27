@@ -32,6 +32,12 @@ export abstract class GameMapEvent {
     onPost(f: (_: this) => any) {
         this.handleFiltered(e => e.propagation_state.phase == "post", f)
     }
+
+    stopAllPropagation() {
+        this.propagation_state.trickle_stopped = false
+        this.propagation_state.trickle_stopped_immediate = false
+        this.propagation_state.trigger_post_order = false
+    }
 }
 
 export class GameMapClickEvent extends GameMapEvent {
@@ -103,6 +109,13 @@ export default class GameLayer extends leaflet.FeatureGroup {
         this.enabled = v
     }
 
+    remove(): this {
+        if (this.parent) this.parent.removeLayer(this)
+        else super.remove()
+
+        return this
+    }
+
     add(layer: GameLayer) {
         this.addLayer(layer)
 
@@ -111,7 +124,10 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
     addTo(layer: Map | LayerGroup): this {
         if (layer instanceof GameLayer) layer.add(this)
-        else super.addTo(layer)
+        else {
+            if (layer instanceof GameMap) this.parent = layer
+            super.addTo(layer)
+        }
 
         return this
     }

@@ -24,7 +24,7 @@ import {SolvingMethods} from "../../model/methods";
 
 
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
-import AugmentedDecisionTree = ScanTree.Augmentation.AugmentedDecisionTree;
+import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 
 class ScanEditLayerLight extends ActiveLayer {
 
@@ -215,7 +215,7 @@ class PreviewLayerControl extends Behaviour {
         let layer = new OpacityGroup()
 
         if (a) {
-            for (const n of AugmentedDecisionTree.collect_parents(a, false)) {
+            for (const n of AugmentedScanTree.collect_parents(a, false)) {
                 if (n.raw.region) {
                     (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
@@ -223,7 +223,7 @@ class PreviewLayerControl extends Behaviour {
                 PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
-            AugmentedDecisionTree.traverse(a, async (n) => {
+            AugmentedScanTree.traverse(a, async (n) => {
                 // TODO: Decreasing opacity
 
                 if (n.raw.region) {
@@ -233,7 +233,7 @@ class PreviewLayerControl extends Behaviour {
                 return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
             }, false)
         } else {
-            AugmentedDecisionTree.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
+            AugmentedScanTree.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
                 if (n.raw.region) {
                     (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }

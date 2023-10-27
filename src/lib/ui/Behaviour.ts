@@ -64,11 +64,13 @@ export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour 
     set(behaviour: T): this {
         if (this.behaviour) {
             if (this.behaviour.isActive()) this.behaviour.stop()
+            this.behaviour = null
         }
 
-        this.behaviour = behaviour
-
-        if (this.behaviour && this.isActive()) this.behaviour.start()
+        if (behaviour) {
+            this.behaviour = behaviour
+            if (this.isActive()) behaviour.start()
+        }
 
         return this
     }

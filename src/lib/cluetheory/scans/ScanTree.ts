@@ -271,7 +271,7 @@ export namespace ScanTree {
                 if (!node.parent) return "Start"
                 else {
                     let region_name = node.parent.node.region?.name || ""
-                    
+
                     let type = node.parent.key
                     let context = node.parent.node.children.map(c => c.key)
 

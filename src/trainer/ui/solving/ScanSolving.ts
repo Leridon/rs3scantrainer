@@ -26,6 +26,7 @@ import Pulse = Scans.Pulse;
 import Order = util.Order;
 import natural_join = util.natural_join;
 import {OpacityGroup} from "../map/layers/OpacityLayer";
+import assumedRange = ScanTree.assumedRange;
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -163,10 +164,12 @@ class ScanTreeSolvingLayer extends ScanLayer {
 
         this.path_graphics = new OpacityGroup().addTo(this)
 
+
         this.node.subscribe((node, old_node) => {
             if (old_node == null) {
                 this.spots.set(node.root.raw.clue.solution.candidates)
                 this.spot_order.set(node.root.raw.spot_ordering)
+                this.scan_range.set(assumedRange(node.root.raw))
             }
 
             if (node) {

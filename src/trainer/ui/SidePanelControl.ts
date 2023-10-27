@@ -1,124 +1,63 @@
 import {ClueStep, ClueType} from "lib/runescape/clues";
 import {Constants} from "trainer/constants";
-import {Modal} from "./widgets/modal";
 import {Application} from "trainer/application";
-import {SolvingMethods} from "../model/methods";
-import ScanTreeMethodLayer from "./map/methodlayer";
-import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
-import MethodWithClue = SolvingMethods.MethodWithClue;
+import Widget from "./widgets/Widget";
+import {observe} from "../../lib/properties/Observable";
 
-function createMethodLayer(method: MethodWithClue, app: Application) {
-    switch (method.type) {
-        case "scantree":
-            return new ScanTreeMethodLayer(method as ScanTreeWithClue, app)
-    }
-}
-
-// This module is a literal pile of shit and needs refactoring as soon as there is anything that needs to be changed
-export class CluePanel {
-    selected_clue: ClueStep = null
-
-    constructor(private panel: JQuery, private parent: SidePanelControl) {
-    }
-
-    selectClue(clue: ClueStep) {
-        if (this.selected_clue && this.selected_clue.id == clue.id) return this
-
-        this.clue(clue)
-
-        if (!clue) return
-
-        let methods = this.parent.app.data.methods.forStep(clue)
-
-        // TODO: Handle more than 1 method
-        if (methods.length > 0) this.showMethod(methods[0])
-        //this.parent.app.howtotabs.map.setActiveLayer(createMethodLayer(methods[0]))
-        else this.showSolution()
-    }
-
-    clue(clue: ClueStep): this {
-        if (clue == null) {
-            this.panel.hide()
-            this.parent.methods_panel.setModal(null)
-            return this
+export class SidePanel extends Widget {
+    protected ui: {
+        header: {
+            title_span?: Widget,
+            right_corner?: Widget
         }
+    } = {header: {}}
 
-        if (this.selected_clue && this.selected_clue.id == clue.id) return this
+    public title = observe("")
 
-        this.selected_clue = clue
+    constructor() {
+        super();
 
-        $("#clue-panel-title").attr("title", `id ${clue.id}`)
-        $("#cluetext").text(clue.clue)
+        this.addClass("nisl-panel")
 
-        $("#activecluetier")
-            .attr("src", clue.tier ? Constants.icons.tiers[clue.tier] : "")
-            .attr("title", ClueType.pretty(clue.tier))
-        $("#activecluetype")
-            .attr("src", Constants.icons.types[clue.type])
-            .attr("title", ClueType.pretty(clue.type))
+        c("<div style='display: flex'></div>").appendTo(this)
+            .append(this.ui.header.title_span = c("<span class='nisl-panel-title'></span>"))
+            .append(c("<span class='flex-grow-1'></span>"))
+            .append(this.ui.header.right_corner = c("<span></span>"))
 
-        // TODO: Add selection for variant if multiple
-        // TODO: Add selection for method if multiple
-
-        this.panel.show()
-
-        // Ignore solution panels for now
-        this.parent.solution_panel.hide()
-
-        return this
-    }
-
-    showSolution(): this {
-        return this
-
-        // TODO: This is deprecated and only kept while it's used
-    }
-
-    showMethod(method): this {
-        // This stupid function is necessary to work around the stupid pile of shit that is Javascript Modules.
-        this.parent.app.map.map.setActiveLayer(createMethodLayer(method, this.parent.app))
-
-        return this
+        this.title.subscribe(v => this.ui.header.title_span.text(v))
     }
 }
 
-export class MethodPanel {
-    private explanation_modal: Modal = null
-    private explanation_button: JQuery = $("#methodexplanation")
+export class NewCluePanel extends SidePanel {
+    constructor(clue: ClueStep) {
+        super();
 
-    constructor(private panel: JQuery, private parent: SidePanelControl) {
-        this.explanation_button.on("click", () => {
-            this.explanation_modal.show()
-        })
-    }
+        this.title.set("Clue")
 
-    hide() {
-        this.panel.hide()
-    }
+        this.ui.header.right_corner
+            .append(c(`<img class="icon" src='${clue.tier ? Constants.icons.tiers[clue.tier] : ""}' title="${ClueType.pretty(clue.tier)}">`))
+            .append(c(`<img class="icon" src='${Constants.icons.types[clue.type]}' title="${ClueType.pretty(clue.type)}">`))
 
-    setModal(modal: Modal) {
-        this.explanation_modal = modal
 
-        if (modal) this.explanation_button.show()
-        else this.explanation_button.hide()
-    }
-
-    showSection(section: string) {
-        $(".cluemethodcontent").hide()
-        $(`.cluemethodcontent[data-methodsection=${section}]`).show()
-        this.panel.show()
+        this.append(c("<span></span>").text(clue.clue))
     }
 }
 
-export default class SidePanelControl {
-    public side_panels = $("#sidebar-panels")
-    public clue_panel = new CluePanel($("#clue-panel"), this)
-    public solution_panel = $("#solution-panel")
-    public methods_panel = new MethodPanel($("#method-panel"), this)
-
+export default class SidePanelControl extends Widget {
     constructor(public app: Application) {
-        this.clue_panel.selectClue(null)
-        this.solution_panel.hide()
-        this.methods_panel.hide()
+        super($("#sidebar-panels"))
+
+        this.empty()
+    }
+
+    add(panel: SidePanel, ordering: number) {
+        const ORDER_DATA_NAME = "ctr-panel-index"
+
+        panel.container.data(ORDER_DATA_NAME)
+
+        let next = this.container.children().get().map(e => $(e)).find((e: JQuery) => (e.data(ORDER_DATA_NAME) as number) > ordering)
+
+        if (!next) this.append(panel)
+        else panel.container.insertBefore(next)
     }
 }

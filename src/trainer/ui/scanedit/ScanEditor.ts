@@ -15,7 +15,7 @@ import {OpacityGroup} from "../map/layers/OpacityLayer";
 import {TileMarker} from "../map/TileMarker";
 import {Vector2} from "lib/math/Vector";
 import {type Application} from "trainer/application";
-import {ScanRadiusTileMarker, SpotPolygon} from "../map/layers/ScanLayer";
+import {ScanRadiusMarker, ScanRegionPolygon} from "../map/layers/ScanLayer";
 import {PathingGraphics} from "../map/path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
 import {GameMapClickEvent, GameMapContextMenuEvent} from "../map/GameLayer";
@@ -24,6 +24,7 @@ import {SolvingMethods} from "../../model/methods";
 
 
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
+import AugmentedDecisionTree = ScanTree.Augmentation.AugmentedDecisionTree;
 
 class ScanEditLayerLight extends ActiveLayer {
 
@@ -50,7 +51,7 @@ class ScanEditLayerLight extends ActiveLayer {
 
         let is_complement = Math.floor(spot.y / 6400) != Math.floor(this.editor.value.clue.solution.candidates[0].y / 6400)
 
-        this._tilemarker = new ScanRadiusTileMarker(spot, assumedRange(this.editor.value), is_complement).addTo(this)
+        this._tilemarker = new ScanRadiusMarker(spot, assumedRange(this.editor.value), is_complement).addTo(this)
 
         if (include_marker) this._tilemarker.withX("white").withMarker(blue_icon)
 
@@ -214,27 +215,27 @@ class PreviewLayerControl extends Behaviour {
         let layer = new OpacityGroup()
 
         if (a) {
-            for (const n of ScanTree.augmented.collect_parents(a, false)) {
+            for (const n of AugmentedDecisionTree.collect_parents(a, false)) {
                 if (n.raw.region) {
-                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new SpotPolygon(n.raw.region).addTo(layer)
+                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
 
                 PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
-            ScanTree.augmented.traverse(a, async (n) => {
+            AugmentedDecisionTree.traverse(a, async (n) => {
                 // TODO: Decreasing opacity
 
                 if (n.raw.region) {
-                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new SpotPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
+                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
                 }
 
                 return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
             }, false)
         } else {
-            ScanTree.augmented.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
+            AugmentedDecisionTree.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
                 if (n.raw.region) {
-                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new SpotPolygon(n.raw.region).addTo(layer)
+                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
 
                 return PathingGraphics.renderPath(n.raw.path).addTo(layer)

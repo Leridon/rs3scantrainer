@@ -174,6 +174,7 @@ export class GameMap extends leaflet.Map {
         this.container = $(element)
 
         this.main_layer = new GameLayer().addTo(this)
+        
         new TileHighlightLayer().addTo(this.main_layer)
 
         this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(this.container.children(".leaflet-control-container")))
@@ -195,7 +196,7 @@ export class GameMap extends leaflet.Map {
         this.on("mousemove", (e) => {
             let t = this.coordinateWithLevel(e)
 
-            if(!MapCoordinate.eq2(t, this._lastHoveredTile)){
+            if (!MapCoordinate.eq2(t, this._lastHoveredTile)) {
                 this._lastHoveredTile = t
                 this.event(new GameMapTileHoverEvent(this, e, t), (l) => (e) => l.eventHover(e))
             }

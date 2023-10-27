@@ -38,7 +38,7 @@ export default class SolveControl {
     private async try_solve() {
         let clue = await this.clue_reader.find(a1lib.captureHoldFullRs())
 
-        if (clue) this.app.sidepanels.clue_panel.selectClue(clue)
+        if (clue) this.app.solveClue(clue)
     }
 
     private update_autosolve() {

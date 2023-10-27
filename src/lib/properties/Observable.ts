@@ -62,6 +62,21 @@ export class Observable<T> extends TypedEmitter<{
         return this
     }
 
+    bind_to<U extends T>(other: Observable<U>): this {
+        other.subscribe(v => this._set(v))
+
+        this._set(other.get())
+
+        return this
+    }
+
+    bind(other: Observable<T>): this {
+        this.bind_to(other)
+        other.bind_to(this)
+
+        return this
+    }
+
     map<U>(f: (v: T) => U): Observable<U> {
         let derived = new Observable<U>(f(this.value), {read_only: true})
 
@@ -85,8 +100,8 @@ export function observe<T>(v: T): Observable<T> {
 
 type ex<T> = T extends Observable<infer U> ? U : never
 
-export function observe_combined<T extends Record<string, Observable<any>>>(o: T): Observable<{ [key in keyof T]?: T[key] extends Observable<infer U> ? U : never }> {
-    let obs: Observable<{ [key in keyof T]?: T[key] extends Observable<infer U> ? U : never }> = observe({})
+export function observe_combined<T extends Record<string, Observable<any>>>(o: T): Observable<{ [key in keyof T]?: ex<T[key]> }> {
+    let obs: Observable<{ [key in keyof T]?: ex<T[key]> }> = observe({})
 
     for (let key in o) {
         o[key].subscribe(v => obs.update(observed => observed[key] = v), true)

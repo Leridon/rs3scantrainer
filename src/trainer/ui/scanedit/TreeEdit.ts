@@ -1,9 +1,7 @@
 import Widget from "../widgets/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import decision_tree = ScanTree.decision_tree;
-import augmented_decision_tree = ScanTree.augmented_decision_tree;
-import ScanDecision = ScanTree.ScanInformation;
+import decision_tree = ScanTree.ScanTreeNode;
 import {util} from "../../../lib/util/util";
 import Properties from "../widgets/Properties";
 import natural_join = util.natural_join;
@@ -14,12 +12,13 @@ import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "../map/path_graphics";
 import TextField from "../../../lib/ui/controls/TextField";
 import SmallImageButton from "../widgets/SmallImageButton";
-import {SpotPolygon} from "../map/layers/ScanLayer";
+import {ScanRegionPolygon} from "../map/layers/ScanLayer";
 import {observe} from "lib/properties/Observable";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import LightButton from "../widgets/LightButton";
 import {MapRectangle} from "lib/runescape/coordinates";
 import {scan_tree_template_resolvers} from "../map/methodlayer";
+import AugmentedDecisionTree = ScanTree.Augmentation.AugmentedDecisionTree;
 
 class RegionEdit extends Widget {
     constructor(private parent: TreeNodeEdit) {
@@ -43,7 +42,7 @@ class RegionEdit extends Widget {
                 .setValue(this.parent.node.raw.region.name)
                 .on("hint", (v) => {
                     this.parent.node.raw.region.name = v
-                    this.parent.region_preview.setSpot(this.parent.node.raw.region)
+                    this.parent.region_preview.setRegion(this.parent.node.raw.region)
                 })
                 .css("flex-grow", "1")
                 .appendTo(this)
@@ -116,8 +115,8 @@ class RegionEdit extends Widget {
     }
 }
 
-function render_completeness(completeness: ScanTree.completeness_t | ScanTree.correctness_t): Widget {
-    let {char, cls, desc} = ScanTree.completeness_meta(completeness)
+function render_completeness(completeness: ScanTree.Augmentation.completeness_t | ScanTree.Augmentation.correctness_t): Widget {
+    let {char, cls, desc} = ScanTree.Augmentation.completeness_meta(completeness)
 
     return c("<span>").addClass(cls).text(char).tooltip(desc)
 }
@@ -138,9 +137,9 @@ class TreeNodeEdit extends Widget {
 
     is_collapsed: boolean = false
 
-    region_preview: SpotPolygon = null
+    region_preview: ScanRegionPolygon = null
 
-    constructor(public parent: TreeEdit, public node: augmented_decision_tree) {
+    constructor(public parent: TreeEdit, public node: AugmentedDecisionTree) {
         super()
 
         this.self_content = c().addClass("ctr-scantreeedit-node")
@@ -149,7 +148,7 @@ class TreeNodeEdit extends Widget {
         {
             let self = this
 
-            let decision_path_text = "/" + node.information.map(d => ScanDecision.toString(d)).join("/")
+            let decision_path_text = AugmentedDecisionTree.collect_parents(node).map(n => "/" + AugmentedDecisionTree.decision_string(n)).join("")
             let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.parent.value, c)),
                 (n) => `<span class="ctr-digspot-inline">${n}</span>`
             ), "and")
@@ -228,7 +227,7 @@ class TreeNodeEdit extends Widget {
         this.renderValue(node)
     }
 
-    renderValue(node: augmented_decision_tree) {
+    renderValue(node: AugmentedDecisionTree) {
         this.node = node
 
         if (this.completeness_marker) this.completeness_marker.remove()
@@ -271,7 +270,7 @@ class TreeNodeEdit extends Widget {
 
 export default class TreeEdit extends Widget<{
     preview_invalid: null,
-    region_changed: ScanTree.augmented_decision_tree
+    region_changed: AugmentedDecisionTree
 }> {
     root_widget: Promise<TreeNodeEdit> = null
 
@@ -285,7 +284,7 @@ export default class TreeEdit extends Widget<{
     }
 
     private renderContent() {
-        this.root_widget = ScanTree.augment(this.parent.parent.value, {analyze_completeness: true})
+        this.root_widget = ScanTree.Augmentation.augment(this.parent.parent.value, {analyze_completeness: true})
             .then(augmented => {
                 return new TreeNodeEdit(this, augmented)
                     .appendTo(this)
@@ -293,13 +292,13 @@ export default class TreeEdit extends Widget<{
     }
 
     public async cleanTree() {
-        (await this.root_widget).renderValue(await ScanTree.augment(await ScanTree.normalize(this.parent.parent.value), {analyze_completeness: true}))
+        (await this.root_widget).renderValue(await ScanTree.Augmentation.augment(ScanTree.normalize(this.parent.parent.value), {analyze_completeness: true}))
 
         this.emit("preview_invalid", null)
     }
 
-    public async getNode(node: ScanTree.augmented_decision_tree): Promise<TreeNodeEdit> {
-        let path = ScanTree.augmented.collect_parents(node)
+    public async getNode(node: AugmentedDecisionTree): Promise<TreeNodeEdit> {
+        let path = ScanTree.Augmentation.AugmentedDecisionTree.collect_parents(node)
 
         let edit = await this.root_widget
 

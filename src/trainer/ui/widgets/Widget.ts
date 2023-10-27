@@ -26,10 +26,26 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
+    prependTo(widget: Widget | JQuery): this {
+        if (widget instanceof Widget) widget = widget.container
+
+        widget.prepend(this.container)
+
+        return this
+    }
+
     append(widget: Widget | JQuery): this {
         if (widget instanceof Widget) widget = widget.container
 
         this.container.append(widget)
+
+        return this
+    }
+
+    prepend(widget: Widget | JQuery): this {
+        if (widget instanceof Widget) widget = widget.container
+
+        this.container.prepend(widget)
 
         return this
     }
@@ -112,6 +128,11 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
     html(): string {
         return this.raw().outerHTML
+    }
+
+    setInnerHtml(html: string): this {
+        this.container.html(html)
+        return this
     }
 }
 

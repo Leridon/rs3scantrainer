@@ -1,13 +1,10 @@
-import {ScanLayer, SpotPolygon} from "./layers/ScanLayer";
+import {ScanLayer, ScanRegionPolygon} from "./layers/ScanLayer";
 import {Application} from "trainer/application";
 import {GameMap} from "./map";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Modal, modal} from "../widgets/modal";
 import {util} from "../../../lib/util/util";
 import * as leaflet from "leaflet"
-import augmented_decision_tree = ScanTree.augmented_decision_tree;
-import augment = ScanTree.augment;
-import ScanDecision = ScanTree.ScanInformation;
 import spotNumber = ScanTree.spotNumber;
 import LightButton from "../widgets/LightButton";
 import {TextRendering} from "../TextRendering";
@@ -22,8 +19,9 @@ import {Scans} from "lib/runescape/clues/scans";
 import Pulse = Scans.Pulse;
 import {SolvingMethods} from "../../model/methods";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
+import AugmentedDecisionTree = ScanTree.Augmentation.AugmentedDecisionTree;
 
-export function scan_tree_template_resolvers(node: ScanTree.augmented_decision_tree): Record<string, (args: string[]) => string> {
+export function scan_tree_template_resolvers(node: AugmentedDecisionTree): Record<string, (args: string[]) => string> {
     return {
         "target": () => {
             if (node.remaining_candidates.length == 1) {
@@ -53,9 +51,9 @@ export class ScanExplanationModal extends Modal {
 }
 
 export default class ScanTreeMethodLayer extends ScanLayer {
-    private readonly root: Promise<augmented_decision_tree>
-    private node: augmented_decision_tree
-    private areas: SpotPolygon[] = []
+    private readonly root: Promise<AugmentedDecisionTree>
+    private node: AugmentedDecisionTree
+    private areas: ScanRegionPolygon[] = []
     private path_graphics: leaflet.FeatureGroup
 
     private fit() {
@@ -103,7 +101,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         return this.scantree;
     }
 
-    public setNode(node: augmented_decision_tree) {
+    public setNode(node: AugmentedDecisionTree) {
         this.node = node
         this.fit()
 
@@ -135,7 +133,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
 
         if (node.path) PathingGraphics.renderPath(node.raw.path).setOpacity(1).addTo(this.path_graphics)
 
-        augmented_decision_tree.traverse_parents(node, n => {
+        AugmentedDecisionTree.traverse_parents(node, n => {
             if (n.path) {
                 PathingGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.path_graphics)
             }
@@ -162,7 +160,7 @@ export default class ScanTreeMethodLayer extends ScanLayer {
             show_edit_button: true
         });
 
-        this.root = augment(scantree)
+        this.root = ScanTree.Augmentation.augment(scantree)
 
         this.setSpotOrder(scantree.spot_ordering)
 
@@ -181,152 +179,6 @@ export default class ScanTreeMethodLayer extends ScanLayer {
         this.app.sidepanels.methods_panel.showSection("scantree")
 
         this.setNode(await this.root)
-    }
-
-    private update() {
-        {
-            let list = $("#pathview").empty()
-
-            let buildPathNavigation = (node: augmented_decision_tree) => {
-                let text: string
-
-                if (!node.parent) {
-                    text = "Start"
-                }/* else if (node.remaining_candidates.length == 1) {
-                    text = `Spot ${spotNumber(node.raw_root, node.remaining_candidates[0])}`
-                } */ else {
-                    // TODO: implement to string properly,
-                    text = ScanDecision.toString(node.information[node.information.length - 1])
-                }
-
-                $("<span class='nisl-textlink'>")
-                    .on("click", () => this.setNode(node))
-                    .text(text)
-                    .appendTo($("<li>").addClass("breadcrumb-item").prependTo(list))
-
-                if (node.parent) buildPathNavigation(node.parent.node)
-            }
-
-            buildPathNavigation(this.node)
-
-            let last = list.children().last()
-
-            last.text(last.children().first().text()).addClass("active")
-        }
-
-        let text: string = "INVALID DATA"
-
-        if (this.node.raw.directions) {
-            text = this.app.template_resolver
-                .with(scan_tree_template_resolvers(this.node))
-                .resolve(this.node.raw.directions)
-        } else {
-            if (this.node.remaining_candidates.length > 1) {
-                if (this.node.parent && this.node.parent.key.pulse == 3) {
-                    text = `Which spot of ${natural_join(shorten_integer_list(this.node.remaining_candidates.map(c => spotNumber(this.node.raw_root, c)), render_digspot))}?`
-                } else {
-                    text = `No more instructions. Check remaining spots:`
-                }
-            }
-        }
-
-        $("#nextscanstep").html(text)
-
-        this.generateChildren(this.node, 0, $("#scantreeview").empty())
-
-        return
-    }
-
-    generateList(node: augmented_decision_tree, depth: number, container: JQuery): void {
-        let resolver = this.app.template_resolver.with(scan_tree_template_resolvers(node))
-
-        let line = $("<div>")
-            .addClass("scantreeline")
-            .css("padding-left", `${depth * 18}px`)
-            .css("margin-top", "3px")
-            .css("margin-bottom", "3px")
-            .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
-
-        let link_html = node.parent.key
-            ? Pulse.pretty_with_context(node.parent.key, node.parent.node.children.map(c => c.key))
-            : resolver.resolve(`Spot {{digspot ${spotNumber(node.raw_root, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
-
-        if (depth == 0) {
-            new LightButton().on("click", () => this.setNode(node))
-                .setHTML(link_html)
-                .appendTo(line)
-        } else if (depth > 0) {
-            $("<span>- <span class='lightlink'></span>: </span>").appendTo(line)
-                .children("span")
-                .html(link_html)
-                .on("click", () => this.setNode(node))
-        }
-
-        if (node.raw.directions != null) {
-            $("<span>")
-                .html(this.app.template_resolver
-                    .with(scan_tree_template_resolvers(node))
-                    .resolve(node.raw.directions))
-                .appendTo(line)
-        } else if (node.children.some(c => c.key == null)) {
-            // This node only has synthetic children left
-
-            if (node?.parent?.key && node.parent.key.pulse == 3) {
-                // Directly link to triple spots
-
-                line.append($("<span>").text("at"))
-
-                node.children.map(c => c.value)
-                    .sort(Order.comap(Order.natural_order, (c) => spotNumber(node.raw_root, c.remaining_candidates[0])))
-                    .forEach((child) => {
-                        new LightButton()
-                            .setHTML(render_digspot(spotNumber(node.raw_root, child.remaining_candidates[0])))
-                            .on("click", () => this.setNode(child))
-                            .appendTo(line)
-                    })
-            } else {
-                $("<span>No more instructions</span>").appendTo(line)
-            }
-        }
-
-        line.appendTo(container)
-
-        this.generateChildren(node, depth + 1, container)
-    }
-
-    generateChildren(node: augmented_decision_tree, depth: number, container: JQuery): void {
-        if (depth >= 2) return
-
-        node.children
-            .filter((e) => e.key.pulse != 3)
-            .sort(Order.comap(Scans.Pulse.compare, (a) => a.key))
-            .forEach((e) => this.generateList(e.value, depth, container))
-
-        let triples = node.children.filter(e => e.key.pulse == 3)
-
-        if (triples.length > 0) {
-
-            let line = $("<div>")
-                .appendTo(container)
-                .addClass("scantreeline")
-                .css("padding-left", `${(depth) * 18}px`)
-                .css("margin-top", "3px")
-                .css("margin-bottom", "3px")
-                .css("font-size", `${13 /*/ (Math.pow(1.25, depth))*/}px`)
-
-            $("<span>- Triple at </span>").appendTo(line)
-
-            triples
-                .sort(Order.comap(Order.natural_order, (c) => spotNumber(node.raw_root, c.value.remaining_candidates[0])))
-                .forEach((child) => {
-                    new LightButton()
-                        .setHTML(render_digspot(spotNumber(node.raw_root, child.value.remaining_candidates[0])))
-                        .on("click", () => this.setNode(child.value))
-                        .appendTo(line)
-                })
-        }
-
-        // TODO: Also output triples in a combined row
     }
 
     deactivate() {

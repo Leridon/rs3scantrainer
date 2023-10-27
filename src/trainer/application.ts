@@ -5,7 +5,7 @@ import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "../lib/util/TemplateResolver";
 import {TeleportLayer} from "trainer/ui/map/teleportlayer";
 import {Teleports} from "lib/runescape/teleports";
-import {ClueIndex, ClueTier, ClueType, ScanStep} from "lib/runescape/clues";
+import {ClueIndex, ClueStep, ClueTier, ClueType, ScanStep} from "lib/runescape/clues";
 import {MethodIndex} from "data/accessors";
 import {GameMapWidget} from "trainer/ui/map/map";
 import {QueryLinks} from "trainer/query_functions";
@@ -19,6 +19,8 @@ import {PathGraphics} from "trainer/ui/map/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
+import SolveBehaviour from "./ui/solving/SolveBehaviour";
+import MethodWithClue = SolvingMethods.MethodWithClue;
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -92,7 +94,7 @@ export namespace ScanTrainerCommands {
             //let resolved = resolve(method)
             let resolved = withClue(method, app.data.clues.byId(method.clue_id) as ScanStep)
 
-            app.sidepanels.clue_panel.clue(resolved.clue).showMethod(resolved)
+            app.showMethod(resolved)
         },
     }
 
@@ -198,7 +200,7 @@ export class Application extends Behaviour {
     map = new GameMapWidget($("#map"))
     sidepanels = new SidePanelControl(this)
 
-    behaviour = new SingleBehaviour()
+    behaviour = this.withSub(new SingleBehaviour())
 
     data = {
         teleports: new Teleports({
@@ -269,6 +271,23 @@ export class Application extends Behaviour {
     }
 
     protected end() {
+    }
+
+    solveClue(step: ClueStep) {
+        if (!(this.behaviour.get() instanceof SolveBehaviour)) this.behaviour.set(new SolveBehaviour(this));
+
+        let behaviour = this.behaviour.get() as SolveBehaviour
+
+        let methods = this.data.methods.forStep(step)
+
+        if (methods.length > 0) behaviour.setMethod(methods[0])
+        else behaviour.setClue(step)
+    }
+
+    showMethod(method: MethodWithClue) {
+        if (!(this.behaviour.get() instanceof SolveBehaviour)) this.behaviour.set(new SolveBehaviour(this));
+        let behaviour = this.behaviour.get() as SolveBehaviour
+        behaviour.setMethod(method)
     }
 }
 

@@ -21,7 +21,8 @@ export class TileMarker extends ActiveOpacityGroup {
 
         this.marker = leaflet.marker([this.spot.y, this.spot.x], {
             icon: icon || level_markers[this.spot.level],
-            title: `[${this.spot.x}, ${this.spot.y}]`
+            title: `[${this.spot.x}, ${this.spot.y}]`,
+            opacity: this.options.opacity
         }).addTo(this)
 
         return this
@@ -36,7 +37,7 @@ export class TileMarker extends ActiveOpacityGroup {
             offset: offset,
             permanent: true,
             direction: "center",
-            opacity: 1
+            opacity: this.options.opacity
         })
 
         this.bindTooltip(this.label)
@@ -61,7 +62,8 @@ export class TileMarker extends ActiveOpacityGroup {
             ], {
                 color: color,
                 fillColor: color,
-                interactive: false
+                interactive: false,
+                opacity: this.options.opacity
             }
         ).addTo(this)
 

@@ -1,7 +1,6 @@
-import {MapCoordinate, MapRectangle} from "../coordinates";
-import {rangeRight} from "lodash";
+import {MapCoordinate} from "../coordinates";
 import {util} from "../../util/util";
-import {Rectangle, Vector2} from "lib/math/Vector";
+import {Vector2} from "lib/math/Vector";
 
 export namespace Scans {
 
@@ -20,53 +19,8 @@ export namespace Scans {
         }
     }
 
-    function distance(a: Vector2, b: Vector2): number {
-        return Vector2.max_axis(Vector2.sub(a, b))
-    }
-
-    export function area_pulse(spot: MapCoordinate, area: MapRectangle, range: number): Pulse[] {
-        let pulses: Pulse[]
-
-        let max = get_pulse(spot, MapRectangle.clampInto(spot, area), range).pulse
-
-        // This breaks if areas are so large they cover both cases. But in that case: Wtf are you doing?
-        if (max == 1) {
-            pulses = []
-
-            let complement_spot = complementSpot(spot)
-
-            if (spot.level != area.level || distance(complement_spot, Rectangle.clampInto(complement_spot, area)) <= (range + 15)) {
-                // Any tile in area triggers different level
-                pulses.push({
-                    pulse: 1,
-                    different_level: true
-                })
-            }
-
-            if ((distance(complement_spot, area.topleft) > (range + 15)
-                    || distance(complement_spot, area.botright) > (range + 15))
-                && spot.level == area.level
-            ) { // Any tile in area does not trigger different level
-                pulses.push({
-                    pulse: 1,
-                    different_level: false
-                })
-            }
-        } else {
-            let min = Math.min(
-                get_pulse(spot, MapRectangle.tl(area), range).pulse,
-                get_pulse(spot, MapRectangle.br(area), range).pulse,
-            )
-
-            pulses = rangeRight(min, max + 1, 1).map((p: 1 | 2 | 3) => {
-                return {
-                    pulse: p,
-                    different_level: spot.level != area.level
-                }
-            })
-        }
-
-        return pulses
+    export function distance(player_tile: Vector2, dig_tile: Vector2): number {
+        return Vector2.max_axis(Vector2.sub(player_tile, dig_tile))
     }
 
     export type Pulse = {

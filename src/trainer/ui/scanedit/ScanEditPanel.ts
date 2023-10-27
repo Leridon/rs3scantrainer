@@ -12,7 +12,7 @@ import exp = ExportImport.exp;
 import {ScanTrainerCommands} from "trainer/application";
 import {QueryLinks} from "trainer/query_functions";
 import ScanEditor from "./ScanEditor";
-import {omit, without} from "lodash";
+import {omit} from "lodash";
 import {SolvingMethods} from "../../model/methods";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import withoutClue = SolvingMethods.withoutClue;

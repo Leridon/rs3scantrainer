@@ -9,6 +9,8 @@ import {Vector2} from "../math/Vector";
 import {ExportImport} from "../util/exportString";
 import * as L from "leaflet"
 
+export type Path = Path.raw;
+
 export namespace Path {
     import getAllFlattened = teleport_data.getAllFlattened;
     type step_base = {
@@ -122,7 +124,6 @@ export namespace Path {
 
     export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
 
-
     import index = util.index;
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
@@ -199,6 +200,30 @@ export namespace Path {
 
     export type issue_level = 0 | 1 // 0 = error, 1 = warning
     export type issue = { level: issue_level, message: string }
+
+    export function ends_up(path: Path): MapCoordinate {
+        for (let i = path.length - 1; i >= 0; i--) {
+            let step = path[i]
+
+            switch (step.type) {
+                case "ability":
+                    return step.to
+                case "run":
+                    return index(step.waypoints, -1)
+                case "teleport":
+                    if (step.spot_override) return step.spot_override
+                    else return teleport_data.resolveTarget(step.id)
+                case "interaction":
+                    return step.ends_up
+                case "redclick":
+                case "orientation":
+                case "powerburst":
+                    break;
+            }
+        }
+        
+        return null
+    }
 
     export async function augment(path: Path.step[],
                                   start_state: movement_state = movement_state.start(),

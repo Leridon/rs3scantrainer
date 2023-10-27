@@ -1,7 +1,7 @@
 import {MapCoordinate, MapRectangle} from "lib/runescape/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {SpotPolygon} from "../map/layers/ScanLayer";
+import {ScanRegionPolygon} from "../map/layers/ScanLayer";
 import * as lodash from "lodash"
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import TopControl from "../map/TopControl";
@@ -24,7 +24,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ActiveLayer, {
     dragstart: MapCoordinate = null
     last_area: MapRectangle = null
 
-    _preview_polygon: SpotPolygon = null
+    _preview_polygon: ScanRegionPolygon = null
 
     constructor(layer: ActiveLayer) {
         super(layer);
@@ -45,7 +45,7 @@ export default class DrawAreaInteraction extends LayerInteraction<ActiveLayer, {
     update_preview() {
         if (this._preview_polygon) this._preview_polygon.remove()
 
-        this._preview_polygon = new SpotPolygon({name: "", area: this.last_area}).addTo(this.layer)
+        this._preview_polygon = new ScanRegionPolygon({name: "", area: this.last_area}).addTo(this.layer)
     }
 
     _maphooks: leaflet.LeafletEventHandlerFnMap = {

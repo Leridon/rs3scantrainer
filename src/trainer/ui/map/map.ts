@@ -369,7 +369,6 @@ export class GameMap extends leaflet.Map {
 
         return event
     }
-
 }
 
 export class GameMapWidget extends Widget<{}> {

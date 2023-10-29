@@ -6,20 +6,19 @@ import {util} from "../../../lib/util/util";
 import Properties from "../widgets/Properties";
 import natural_join = util.natural_join;
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
-import {scantrainer} from "trainer/application";
 import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "../map/path_graphics";
 import TextField from "../../../lib/ui/controls/TextField";
 import SmallImageButton from "../widgets/SmallImageButton";
-import {ScanRegionPolygon} from "../map/layers/ScanLayer";
+import {ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import {observe} from "lib/properties/Observable";
 import DrawAreaInteraction from "./DrawAreaInteraction";
 import LightButton from "../widgets/LightButton";
 import {MapRectangle} from "lib/runescape/coordinates";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
-import {scan_tree_template_resolvers} from "../solving/ScanSolving";
+import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
 
 class RegionEdit extends Widget {
     constructor(private parent: TreeNodeEdit) {
@@ -116,11 +115,6 @@ class RegionEdit extends Widget {
     }
 }
 
-function render_completeness(completeness: ScanTree.Augmentation.completeness_t | ScanTree.Augmentation.correctness_t): Widget {
-    let {char, cls, desc} = ScanTree.Augmentation.completeness_meta(completeness)
-
-    return c("<span>").addClass(cls).text(char).tooltip(desc)
-}
 
 class TreeNodeEdit extends Widget {
     self_content: Widget
@@ -202,7 +196,7 @@ class TreeNodeEdit extends Widget {
 
         this.body.named("Direction",
             new TemplateStringEdit({
-                resolver: scantrainer.template_resolver.with(scan_tree_template_resolvers(node)),
+                resolver: this.parent.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)),
                 generator: () => {
                     let path_short =
                         this.node.path.steps.length > 0
@@ -233,6 +227,15 @@ class TreeNodeEdit extends Widget {
 
         if (this.completeness_marker) this.completeness_marker.remove()
         if (this.correctness_marker) this.correctness_marker.remove()
+
+        function render_completeness(completeness: ScanTree.Augmentation.completeness_t | ScanTree.Augmentation.correctness_t): Widget {
+            let {char, cls, desc} = ScanTree.Augmentation.completeness_meta(completeness)
+
+            return c("<span>").addClass(cls).text(char).tooltip(desc)
+        }
+
+        if (!node.completeness) console.log(node)
+        if (!node.correctness) console.log(node)
 
         this.header
             .append(this.completeness_marker = render_completeness(node.completeness).css("margin-left", "5px"))

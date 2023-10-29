@@ -1,14 +1,14 @@
 import Behaviour, {SingleBehaviour} from "../../../lib/ui/Behaviour";
 import {type Application} from "trainer/application";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 
 import {observe} from "../../../lib/properties/Observable";
 import {SolvingMethods} from "../../model/methods";
 import MethodWithClue = SolvingMethods.MethodWithClue;
-import {NewCluePanel} from "../SidePanelControl";
+import {CluePanel} from "../SidePanelControl";
 import {ClueStep} from "../../../lib/runescape/clues";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
-import {SolveScanTreeSubBehaviour} from "./ScanSolving";
+import {SolveScanTreeSubBehaviour} from "./scans/ScanSolving";
+import ScanEditor from "../scanedit/ScanEditor";
 
 
 class NoMethodSubBehaviour extends Behaviour {
@@ -23,7 +23,7 @@ export default class SolveBehaviour extends Behaviour {
     private clue = observe<ClueStep | null>(null).equality((a, b) => a?.id == b?.id)
     private method = observe<MethodWithClue | null>(null)
 
-    private clue_panel: NewCluePanel = null
+    private clue_panel: CluePanel = null
 
     private method_subbehaviour = this.withSub(new SingleBehaviour())
 
@@ -37,8 +37,15 @@ export default class SolveBehaviour extends Behaviour {
                     this.clue_panel = null
                 }
 
-                if (clue) {
-                    this.parent.sidepanels.add(this.clue_panel = new NewCluePanel(clue), 0)
+                if (clue && clue.type == "scan") {
+                    this.parent.sidepanels.add(this.clue_panel = new CluePanel(clue, {
+                        edit_handler: this.parent.in_alt1 ? undefined : () => {
+                            this.parent.behaviour.set(new ScanEditor(this.parent, {
+                                clue: clue,
+                                map: this.parent.map.map
+                            }))
+                        }
+                    }), 0)
                 }
             }
         })
@@ -75,5 +82,6 @@ export default class SolveBehaviour extends Behaviour {
     }
 
     protected end() {
+        if (this.clue_panel) this.clue_panel.remove()
     }
 }

@@ -18,10 +18,9 @@ import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import withoutClue = SolvingMethods.withoutClue;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import withClue = SolvingMethods.withClue;
+import {SidePanel} from "../SidePanelControl";
 
-export default class ScanEditPanel extends Widget<{
-    "candidates_changed": MapCoordinate[]
-}> {
+export default class ScanEditPanel extends SidePanel {
     tools: ScanTools
     spot_ordering: SpotOrderingEdit
     tree_edit: TreeEdit
@@ -29,7 +28,9 @@ export default class ScanEditPanel extends Widget<{
     candidates: MapCoordinate[]
 
     constructor(public parent: ScanEditor) {
-        super($(".cluemethodcontent[data-methodsection=scanedit]").empty())
+        super()
+
+        this.title.set("Scan Tree Edit")
 
         {
             let control_row = $("<div style='text-align: center'></div>").appendTo(this.container)
@@ -68,7 +69,7 @@ export default class ScanEditPanel extends Widget<{
                 .on("click", () => {
 
                     // It's the year 2023 and TypeScript/Webpack can't properly deal with circular dependent files. What the actual fuck.
-                    this.parent.app.sidepanels.clue_panel.showMethod(this.parent.value)
+                    this.parent.app.showMethod(this.parent.value)
                 })
                 .appendTo(control_row)
 

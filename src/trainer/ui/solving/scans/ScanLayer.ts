@@ -1,16 +1,16 @@
 import * as leaflet from "leaflet";
-import {MapCoordinate} from "lib/runescape/coordinates";
-import {blue_icon} from "../map";
-import {Application} from "trainer/application";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import {Constants} from "trainer/constants";
+import {MapCoordinate} from "../../../../lib/runescape/coordinates";
+import {blue_icon} from "../../map/map";
+import {Application} from "../../../application";
+import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
+import {Constants} from "../../../constants";
 import ScanRegion = ScanTree.ScanRegion;
-import {TileMarker} from "../TileMarker";
-import {ActiveOpacityGroup, OpacityGroup} from "./OpacityLayer";
-import {boxPolygon} from "../polygon_helpers";
-import {Scans} from "lib/runescape/clues/scans";
+import {TileMarker} from "../../map/TileMarker";
+import {ActiveOpacityGroup, OpacityGroup} from "../../map/layers/OpacityLayer";
+import {boxPolygon} from "../../map/polygon_helpers";
+import {Scans} from "../../../../lib/runescape/clues/scans";
 
-import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent} from "../GameLayer";
+import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent} from "../../map/GameLayer";
 import {Observable, observe, observe_combined} from "../../../../lib/properties/Observable";
 import complementSpot = Scans.complementSpot;
 

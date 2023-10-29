@@ -23,7 +23,6 @@ export class SearchSelection<T extends object | string | number> extends Abstrac
                 .val("")
                 .on("input", () => {
                     let term = search_box.container.val() as string
-                    console.log(`Input: ${term}`)
 
                     let results = fuzzysort.go(term, this.prepared_items, {
                         key: "term",

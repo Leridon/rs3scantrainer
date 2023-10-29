@@ -69,9 +69,9 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
     }
 
     protected async render() {
-        this.empty()
-
         this.augmented = await Path.augment(this.value, this.options.start_state, this.options.target)
+
+        this.empty()
 
         {
             let tooltip = c()

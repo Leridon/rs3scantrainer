@@ -3,6 +3,7 @@ import {Constants} from "trainer/constants";
 import {Application} from "trainer/application";
 import Widget from "./widgets/Widget";
 import {observe} from "../../lib/properties/Observable";
+import SmallImageButton from "./widgets/SmallImageButton";
 
 export class SidePanel extends Widget {
     protected ui: {
@@ -22,17 +23,26 @@ export class SidePanel extends Widget {
         c("<div style='display: flex'></div>").appendTo(this)
             .append(this.ui.header.title_span = c("<span class='nisl-panel-title'></span>"))
             .append(c("<span class='flex-grow-1'></span>"))
-            .append(this.ui.header.right_corner = c("<span></span>"))
+            .append(this.ui.header.right_corner = c("<span style='display: flex'></span>"))
 
         this.title.subscribe(v => this.ui.header.title_span.text(v))
     }
 }
 
-export class NewCluePanel extends SidePanel {
-    constructor(clue: ClueStep) {
+export class CluePanel extends SidePanel {
+    constructor(clue: ClueStep, options: {
+        edit_handler?: (_: ClueStep) => void
+    } = {}) {
         super();
 
         this.title.set("Clue")
+
+        console.log(options)
+
+        if (options.edit_handler) {
+            this.ui.header.right_corner
+                .append(SmallImageButton.new("assets/icons/edit.png").on("click", () => options.edit_handler(clue)))
+        }
 
         this.ui.header.right_corner
             .append(c(`<img class="icon" src='${clue.tier ? Constants.icons.tiers[clue.tier] : ""}' title="${ClueType.pretty(clue.tier)}">`))
@@ -50,7 +60,7 @@ export default class SidePanelControl extends Widget {
         this.empty()
     }
 
-    add(panel: SidePanel, ordering: number) {
+    add(panel: SidePanel, ordering: number): this {
         const ORDER_DATA_NAME = "ctr-panel-index"
 
         panel.container.data(ORDER_DATA_NAME)
@@ -59,5 +69,7 @@ export default class SidePanelControl extends Widget {
 
         if (!next) this.append(panel)
         else panel.container.insertBefore(next)
+
+        return this
     }
 }

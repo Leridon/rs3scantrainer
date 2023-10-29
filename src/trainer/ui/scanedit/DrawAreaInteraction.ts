@@ -1,7 +1,7 @@
 import {MapCoordinate, MapRectangle} from "lib/runescape/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {ScanRegionPolygon} from "../map/layers/ScanLayer";
+import {ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import * as lodash from "lodash"
 import LayerInteraction from "../map/interactions/LayerInteraction";
 import TopControl from "../map/TopControl";

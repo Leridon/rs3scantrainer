@@ -218,9 +218,9 @@ export namespace ScanTree {
 
             if (!tree.state.paths_augmented) throw new TypeError("Trying to analyze a decision tree for correctness without augmented paths!")
 
-            if (!tree.state.completeness_analyzed) {
+            if (!tree.state.correctness_analyzed) {
                 helper(tree.root_node)
-                tree.state.completeness_analyzed = true
+                tree.state.correctness_analyzed = true
             }
 
             return tree
@@ -237,12 +237,15 @@ export namespace ScanTree {
 
                 let cs = node.children.map(c => c.value)
 
-                if (node.remaining_candidates.length > 1 && cs.length == 0) node.completeness = "incomplete"
-                else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children")) node.completeness = "incomplete_children"
-                else node.completeness = "complete"
+                if (node.remaining_candidates.length > 1 && cs.length == 0)
+                    node.completeness = "incomplete"
+                else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children"))
+                    node.completeness = "incomplete_children"
+                else
+                    node.completeness = "complete"
             }
-
             if (!tree.state.completeness_analyzed) {
+                console.log("Analyzing completeness")
                 helper(tree.root_node)
                 tree.state.completeness_analyzed = true
             }

@@ -1,66 +1,29 @@
-import {blue_icon, GameMap} from "../map/map";
+import {GameMap} from "../map/map";
 import {ScanStep} from "lib/runescape/clues";
 import {Observable, observe} from "lib/properties/Observable";
 import {MapCoordinate} from "lib/runescape/coordinates";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import Behaviour from "../../../lib/ui/Behaviour";
-import {ActiveLayer} from "../map/activeLayer";
 import assumedRange = ScanTree.assumedRange;
 import {lazy, Lazy} from "lib/properties/Lazy";
 import * as leaflet from "leaflet";
 import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "lib/cluetheory/scans/EquivalenceClasses";
 import {areaToPolygon} from "../map/polygon_helpers";
 import {OpacityGroup} from "../map/layers/OpacityLayer";
-import {TileMarker} from "../map/TileMarker";
-import {Vector2} from "lib/math/Vector";
 import {type Application} from "trainer/application";
-import {ScanRadiusMarker, ScanRegionPolygon} from "../map/layers/ScanLayer";
+import {ScanLayer, ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import {PathingGraphics} from "../map/path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
-import {GameMapClickEvent, GameMapContextMenuEvent} from "../map/GameLayer";
-import {Scans} from "lib/runescape/clues/scans";
 import {SolvingMethods} from "../../model/methods";
-
-
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
+import {CluePanel} from "../SidePanelControl";
 
-class ScanEditLayerLight extends ActiveLayer {
+class ScanEditLayerLight extends ScanLayer {
 
     constructor(private editor: ScanEditor) {
         super();
-    }
-
-    override eventContextMenu(event: GameMapContextMenuEvent) {
-        event.onPre(() => {
-            if (MapCoordinate.eq2(event.tile(), this._tilemarker?.getSpot())) event.add({type: "basic", text: "Remove Marker", handler: () => this.removeMarker()})
-            else event.add({type: "basic", text: "Set Marker", handler: () => this.setMarker(event.tile())})
-        })
-    }
-
-    override eventClick(event: GameMapClickEvent) {
-        event.onPost(() => {
-            if (MapCoordinate.eq2(event.tile(), this._tilemarker?.getSpot())) this.removeMarker()
-            else this.setMarker(event.tile())
-        })
-    }
-
-    public setMarker(spot: MapCoordinate, include_marker: boolean = true, removeable: boolean = true) {
-        this.removeMarker()
-
-        let is_complement = Math.floor(spot.y / 6400) != Math.floor(this.editor.value.clue.solution.candidates[0].y / 6400)
-
-        this._tilemarker = new ScanRadiusMarker(spot, assumedRange(this.editor.value), is_complement).addTo(this)
-
-        if (include_marker) this._tilemarker.withX("white").withMarker(blue_icon)
-
-        if (removeable) {
-            this._tilemarker.on("click", (e) => {
-                leaflet.DomEvent.stopPropagation(e)
-                this.removeMarker()
-            })
-        }
     }
 }
 
@@ -170,39 +133,12 @@ class EquivalenceClassHandling extends Behaviour {
 class PreviewLayerControl extends Behaviour {
     private layer: OpacityGroup
 
-    private markers: {
-        spots: TileMarker[],
-        complement: TileMarker[]
-    }
-
     constructor(public parent: ScanEditor) {super();}
 
     private path_layer: OpacityGroup = null
 
     protected begin() {
         this.layer = new OpacityGroup().addTo(this.parent.layer)
-
-        this.markers = {
-            spots: [],
-            complement: [],
-        }
-
-        this.markers.spots = this.parent.options.clue.solution.candidates.map((e) => {
-            let m = new TileMarker(e).withMarker().withX("#B21319").addTo(this.layer)
-
-            // m.on("click", (e) => this.events.emit("dig_spot_clicked", m))
-
-            return m
-        })
-
-        this.markers.complement = this.parent.options.clue.solution.candidates.map((e) => {
-            return new TileMarker(Scans.complementSpot(e)).withMarker().withX("#B21319").addTo(this.layer)
-        })
-
-        this.parent.candidates.subscribe(spots => {
-            this.markers.spots.forEach((m) => m.setActive(spots.some((c) => Vector2.eq(c, m.getSpot()))))
-            this.markers.complement.forEach((m) => m.setActive(spots.some((c) => Vector2.eq(Scans.complementSpot(c), m.getSpot()))))
-        })
 
         // Render path preview
         this.parent.panel.tree_edit.active.subscribe(() => this.updatePreview(), true)
@@ -257,21 +193,22 @@ export default class ScanEditor extends Behaviour {
     layer: ScanEditLayerLight
     panel: ScanEditPanel
 
-    candidates: Observable<MapCoordinate[]>
-
     equivalence_classes: EquivalenceClassHandling
     preview_layer: PreviewLayerControl
     path_editor: PathEditor
 
+    candidates: Observable<MapCoordinate[]>
+
     constructor(public app: Application,
                 public readonly options: {
                     clue: ScanStep,
-                    map: GameMap,
+                    map: GameMap, // This is already available via the app, ditch this option?
                     initial?: ScanTreeWithClue
                 }) {
         super();
 
         this.layer = new ScanEditLayerLight(this)
+
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
         this.path_editor = this.withSub(new PathEditor(this.layer, this.app.template_resolver))
@@ -288,14 +225,18 @@ export default class ScanEditor extends Behaviour {
         }
 
         this.panel = new ScanEditPanel(this)
-
-        // Take control of main map interactions
-        this.options.map.setActiveLayer(this.layer)
-
-        this.app.sidepanels.methods_panel.showSection("scanedit")
+        this.app.sidepanels
+            .add(new CluePanel(this.value.clue), 0)
+            .add(this.panel, 1)
 
         this.candidates = this.panel.tree_edit.active
             .map(n => n ? n.node.remaining_candidates : this.options.clue.solution.candidates)
+
+        // Initialize and set the main game layer
+        this.layer.spots.set(this.value.clue.solution.candidates)
+        this.layer.spot_order.set(this.value.spot_ordering)
+        this.layer.active_spots.bind_to(this.candidates)
+        this.options.map.main_layer.add(this.layer)
 
         this.panel.tree_edit.active_node.subscribe(async node => {
             if (node) {
@@ -337,7 +278,7 @@ export default class ScanEditor extends Behaviour {
     }
 
     end() {
+        this.app.sidepanels.empty()
         this.layer.remove()
-        this.panel.remove()
     }
 }

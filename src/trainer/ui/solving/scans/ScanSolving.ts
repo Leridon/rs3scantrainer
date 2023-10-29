@@ -1,32 +1,34 @@
-import {util} from "../../../lib/util/util";
-import {modal, Modal} from "../widgets/modal";
-import {ScanLayer, ScanRegionPolygon} from "../map/layers/ScanLayer";
-import {Observable, observe} from "../../../lib/properties/Observable";
+import {util} from "../../../../lib/util/util";
+import {modal, Modal} from "../../widgets/modal";
+import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
+import {Observable, observe} from "../../../../lib/properties/Observable";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../lib/math/Vector";
-import {floor_t, MapRectangle} from "../../../lib/runescape/coordinates";
-import {PathingGraphics} from "../map/path_graphics";
-import Widget from "../widgets/Widget";
-import TemplateResolver from "../../../lib/util/TemplateResolver";
-import LightButton from "../widgets/LightButton";
-import {Scans} from "../../../lib/runescape/clues/scans";
-import Behaviour from "../../../lib/ui/Behaviour";
-import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
-import SolveBehaviour from "./SolveBehaviour";
-import {SolvingMethods} from "../../model/methods";
+import {Vector2} from "../../../../lib/math/Vector";
+import {floor_t, MapRectangle} from "../../../../lib/runescape/coordinates";
+import {PathingGraphics} from "../../map/path_graphics";
+import Widget from "../../widgets/Widget";
+import TemplateResolver from "../../../../lib/util/TemplateResolver";
+import LightButton from "../../widgets/LightButton";
+import {Scans} from "../../../../lib/runescape/clues/scans";
+import Behaviour from "../../../../lib/ui/Behaviour";
+import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
+import SolveBehaviour from "../SolveBehaviour";
+import {SolvingMethods} from "../../../model/methods";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
-import {TextRendering} from "../TextRendering";
+import {TextRendering} from "../../TextRendering";
 import render_digspot = TextRendering.render_digspot;
 import spotNumber = ScanTree.spotNumber;
 import shorten_integer_list = util.shorten_integer_list;
-import NewMethodPanel from "./MethodPanel";
+import MethodPanel from "../MethodPanel";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import Pulse = Scans.Pulse;
 import Order = util.Order;
 import natural_join = util.natural_join;
-import {OpacityGroup} from "../map/layers/OpacityLayer";
+import {OpacityGroup} from "../../map/layers/OpacityLayer";
 import assumedRange = ScanTree.assumedRange;
+import {ScanStep} from "../../../../lib/runescape/clues";
+import ScanEditor from "../../scanedit/ScanEditor";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -182,15 +184,20 @@ class ScanTreeSolvingLayer extends ScanLayer {
 
 }
 
-class ScanTreeMethodPanel extends NewMethodPanel {
+class ScanTreeMethodPanel extends MethodPanel {
     node: Observable<AugmentedScanTreeNode> = observe(null)
 
     private ui_nav: Widget
     private ui_next_step: Widget
     private ui_tree: Widget
 
-    constructor(private template_resolver: TemplateResolver) {
-        super(modal("modal-scantree-method-explanation", ScanExplanationModal));
+    constructor(private template_resolver: TemplateResolver, options: {
+        edit_handler?: () => any
+    } = {}) {
+        super({
+            explanation_modal: modal("modal-scantree-method-explanation", ScanExplanationModal),
+            edit_handler: () => options.edit_handler()
+        });
 
         this.ui_nav = c(`<nav style='display: inline-block;'></nav>`)
             .css("--bs-breadcrumb-divider", "'>'")
@@ -344,7 +351,15 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
     }
 
     protected begin() {
-        this.parent.parent.sidepanels.add(this.panel = new ScanTreeMethodPanel(this.parent.parent.template_resolver), 2)
+        this.parent.parent.sidepanels.add(this.panel = new ScanTreeMethodPanel(this.parent.parent.template_resolver, {
+            edit_handler: this.parent.parent.in_alt1 ? undefined : () => {
+                this.parent.parent.behaviour.set(new ScanEditor(this.parent.parent, {
+                    clue: this.method.clue,
+                    map: this.parent.parent.map.map,
+                    initial: this.method
+                }))
+            }
+        }), 2)
         this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map.map.main_layer)
 
         this.node.bind(this.panel.node).bind(this.layer.node)

@@ -1,7 +1,7 @@
 import {storage} from "../lib/util/storage";
 import SidePanelControl from "trainer/ui/SidePanelControl";
 import MenuBarControl from "trainer/ui/MenuBarControl";
-import {Modal} from "trainer/ui/widgets/modal";
+import {modal, Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "../lib/util/TemplateResolver";
 import {TeleportLayer} from "./ui/map/layers/TeleportLayer";
 import {Teleports} from "lib/runescape/teleports";
@@ -13,7 +13,6 @@ import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "../lib/util/exportString";
 import OverviewLayer from "trainer/ui/map/layers/OverviewLayer";
 import {clues} from "data/clues";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {MapRectangle} from "lib/runescape/coordinates";
 import {PathGraphics} from "trainer/ui/map/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
@@ -21,6 +20,7 @@ import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
 import SolveBehaviour from "./ui/solving/SolveBehaviour";
 import MethodWithClue = SolvingMethods.MethodWithClue;
+import {PulseReaderModal} from "./pulse_reader/pulsereader";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -266,6 +266,8 @@ export class Application extends Behaviour {
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
         //ExportStringModal.do(await makeshift_main())
+
+        modal("modal-pulse-reader", PulseReaderModal).show()
 
         return this
     }

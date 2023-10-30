@@ -154,4 +154,25 @@ export namespace Rectangle {
             botright: {x: rect.botright.x, y: rect.botright.y}
         }
     }
+
+    export function centered_on(center: Vector2, size: Vector2): Rectangle {
+        return {
+            topleft: {
+                x: center.x - size.x/2,
+                y: center.y + size.y/2,
+            },
+            botright: {
+                x: center.x + size.x/2,
+                y: center.y - size.y/2,
+            },
+        }
+    }
+
+    export function width(rect: Rectangle): number {
+        return Math.abs(rect.botright.x - rect.topleft.x)
+    }
+
+    export function height(rect: Rectangle): number {
+        return Math.abs(rect.topleft.y - rect.botright.y)
+    }
 }

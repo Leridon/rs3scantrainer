@@ -33,7 +33,7 @@ export default class SelectTileInteraction extends LayerInteraction<ActiveLayer,
         "click": async (e: LeafletMouseEvent) => {
             leaflet.DomEvent.stopPropagation(e)
 
-            let tile = this.layer.getMap().tileFromMouseEvent(e)
+            let tile = this.layer.getMap().eventTile(e)
             this.events.emit("selected", tile)
 
             this.deactivate()

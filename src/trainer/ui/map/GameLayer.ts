@@ -37,28 +37,16 @@ export abstract class GameMapEvent {
         this.propagation_state.trickle_stopped = false
         this.propagation_state.trickle_stopped_immediate = false
         this.propagation_state.trigger_post_order = false
+
+        // TODO: Also stop leaflet's propagation?
     }
 }
 
-export class GameMapClickEvent extends GameMapEvent {
+export class GameMapMouseEvent extends GameMapEvent {
     constructor(
         map: GameMap,
         public originalEvent: leaflet.LeafletMouseEvent,
         public coordinates: MapCoordinate) {
-        super(map);
-    }
-
-    tile() {
-        return MapCoordinate.snap(this.coordinates)
-    }
-}
-
-export class GameMapTileHoverEvent extends GameMapEvent {
-
-    constructor(map: GameMap,
-                public originalEvent: leaflet.LeafletMouseEvent,
-                public coordinates: MapCoordinate
-    ) {
         super(map);
     }
 
@@ -134,7 +122,11 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
     eventContextMenu(event: GameMapContextMenuEvent) {}
 
-    eventClick(event: GameMapClickEvent) {}
+    eventClick(event: GameMapMouseEvent) {}
 
-    eventHover(event: GameMapTileHoverEvent) {}
+    eventHover(event: GameMapMouseEvent) {}
+
+    eventMouseUp(event: GameMapMouseEvent) {}
+
+    eventMouseDown(event: GameMapMouseEvent) {}
 }

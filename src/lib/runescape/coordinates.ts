@@ -130,6 +130,12 @@ export namespace MapRectangle {
     export function bottom(rect: MapRectangle): MapRectangle {
         return lift(Rectangle.bottom(rect), rect.level)
     }
+
+    export function from(a: MapCoordinate, b: MapCoordinate): MapRectangle {
+        if(a.level != b.level) throw new TypeError("Level mismatch")
+
+        return lift(Rectangle.from(a, b), a.level)
+    }
 }
 
 export type Area = { tiles: MapCoordinate[] }

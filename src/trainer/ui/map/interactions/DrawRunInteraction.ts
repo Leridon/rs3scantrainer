@@ -63,7 +63,7 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
         "click": async (e: LeafletMouseEvent) => {
             leaflet.DomEvent.stopPropagation(e)
 
-            let tile = this.layer.getMap().tileFromMouseEvent(e)
+            let tile = this.layer.getMap().eventTile(e)
 
             if (!this.pathfinding_state) {
                 this.setStartPosition(tile)
@@ -85,7 +85,7 @@ export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
         },
 
         "mousemove": (e: LeafletMouseEvent) => {
-            let tile = this.layer.getMap().tileFromMouseEvent(e)
+            let tile = this.layer.getMap().eventTile(e)
 
             this.update_preview(tile)
         }

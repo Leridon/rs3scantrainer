@@ -120,7 +120,8 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
             ...options,
             content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(tooltip).container.get()[0],
             arrow: true,
-            delay: 1,
+            animation: false,
+            delay: 0,
         })
 
         return this

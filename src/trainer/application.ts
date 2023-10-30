@@ -3,7 +3,7 @@ import SidePanelControl from "trainer/ui/SidePanelControl";
 import MenuBarControl from "trainer/ui/MenuBarControl";
 import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "../lib/util/TemplateResolver";
-import {TeleportLayer} from "trainer/ui/map/teleportlayer";
+import {TeleportLayer} from "./ui/map/layers/TeleportLayer";
 import {Teleports} from "lib/runescape/teleports";
 import {ClueIndex, ClueStep, ClueTier, ClueType, ScanStep} from "lib/runescape/clues";
 import {MethodIndex} from "data/accessors";

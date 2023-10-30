@@ -208,7 +208,7 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         "click": async (e: LeafletMouseEvent) => {
             leaflet.DomEvent.stopPropagation(e)
 
-            let tile = this.layer.getMap().tileFromMouseEvent(e)
+            let tile = this.layer.getMap().eventTile(e)
 
             if (!this.start_position) {
                 this.start_position = tile
@@ -235,7 +235,7 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         },
 
         "mousemove": async (e: LeafletMouseEvent) => {
-            let tile = this.layer.getMap().tileFromMouseEvent(e)
+            let tile = this.layer.getMap().eventTile(e)
 
             if (!this.start_position) this.update_overlay(tile)
             else this.update_preview(tile)

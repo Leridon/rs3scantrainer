@@ -259,8 +259,7 @@ export default class ScanEditor extends Behaviour {
         })
 
         this.panel.tree_edit.on("region_changed", async (node) => {
-            if (node.raw == this.panel.tree_edit.active_node.get().raw) {
-
+            if (node.raw == this.panel.tree_edit.active_node.get()?.raw) {
                 await this.path_editor.load(node.path.raw, {
                     target: node.path.target,
                     start_state: node.path.pre_state,

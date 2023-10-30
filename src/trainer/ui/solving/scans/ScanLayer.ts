@@ -10,7 +10,7 @@ import {ActiveOpacityGroup, OpacityGroup} from "../../map/layers/OpacityLayer";
 import {boxPolygon} from "../../map/polygon_helpers";
 import {Scans} from "../../../../lib/runescape/clues/scans";
 
-import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent} from "../../map/GameLayer";
+import GameLayer, {GameMapMouseEvent, GameMapContextMenuEvent} from "../../map/GameLayer";
 import {Observable, observe, observe_combined} from "../../../../lib/properties/Observable";
 import complementSpot = Scans.complementSpot;
 
@@ -225,7 +225,7 @@ export class ScanLayer extends GameLayer {
         })
     }
 
-    eventClick(event: GameMapClickEvent) {
+    eventClick(event: GameMapMouseEvent) {
         event.onPost(() => {
             if (this.marker_spot.get()?.click_to_remove && MapCoordinate.eq2(event.tile(), this.marker_spot.get()?.coordinates)) {
                 this.marker_spot.set(null)

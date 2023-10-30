@@ -6,6 +6,7 @@ import * as lodash from "lodash";
 import {Clues, ScanStep} from "../../runescape/clues";
 import {util} from "../../util/util";
 import {ScanTheory} from "./Scans";
+import * as path from "path";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;
@@ -244,6 +245,7 @@ export namespace ScanTree {
                 else
                     node.completeness = "complete"
             }
+
             if (!tree.state.completeness_analyzed) {
                 console.log("Analyzing completeness")
                 helper(tree.root_node)
@@ -333,9 +335,8 @@ export namespace ScanTree {
 
     export function normalize(tree: TreeWithClue): TreeWithClue {
         function helper(node: ScanTreeNode, candidates: MapCoordinate[], last_known_position: MapRectangle) {
-            let region = node.region
 
-            let area = region?.area || MapRectangle.fromTile(Path.ends_up(node.path)) || last_known_position
+            let where = node.region?.area || MapRectangle.fromTile(Path.ends_up(node.path)) || last_known_position
 
             // Update children to remove all dead branches and add missing branches
             let pruned_children: {
@@ -344,9 +345,9 @@ export namespace ScanTree {
                     value: ScanTreeNode
                 },
                 candidates: MapCoordinate[]
-            }[] = (!area) ? []
-                : spot_narrowing(candidates, area, assumedRange(tree))
-                    .filter(n => n.narrowed_candidates.length > 0)
+            }[] = (node.path.length == 0 || !where) ? []
+                : spot_narrowing(candidates, where, assumedRange(tree))
+                    .filter(n => n.narrowed_candidates.length > 0)  // Delete branches that have no candidates left
                     .map(({pulse, narrowed_candidates}) => {
                         return {
                             child: node.children.find(c => PulseInformation.equals(pulse, c.key)) || {
@@ -359,13 +360,13 @@ export namespace ScanTree {
 
             // When there is only one child, the current position produces no information at all
             // So there is no point in adding children, which is why they are removed by this statement
-            if (pruned_children.length == 1) pruned_children = []
+            if (node.path.length == 0) pruned_children = []
 
             node.children = pruned_children.map(c => c.child)
 
             pruned_children.forEach(({child, candidates}) => {
                 // Propagate state recursively
-                helper(child.value, candidates, area)
+                helper(child.value, candidates, where)
             })
         }
 

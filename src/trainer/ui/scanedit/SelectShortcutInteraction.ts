@@ -63,7 +63,7 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
             leaflet.DomEvent.stopPropagation(e)
             e.originalEvent.preventDefault()
 
-            let tile = this.layer.getMap().coordinateWithLevel(e)
+            let tile = this.layer.getMap().eventCoordinate(e)
 
             new ContextMenu(
                 Shortcuts.index

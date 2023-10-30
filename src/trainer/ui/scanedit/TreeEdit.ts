@@ -13,21 +13,54 @@ import TextField from "../../../lib/ui/controls/TextField";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import {observe} from "lib/properties/Observable";
-import DrawAreaInteraction from "./DrawAreaInteraction";
 import LightButton from "../widgets/LightButton";
 import {MapRectangle} from "lib/runescape/coordinates";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
+import {GameMapDragAction} from "../map/map";
+import {ActiveOpacityGroup} from "../map/layers/OpacityLayer";
+import {Layer} from "leaflet";
+
+class DrawRegionAction extends GameMapDragAction {
+    _preview_polygon: Layer = null
+
+    constructor(options: {
+        done_handler: (area: MapRectangle) => any,
+        existing_preview: ActiveOpacityGroup,
+        preview_rendering: (area: MapRectangle) => Layer
+    }) {
+        super();
+
+        this.area.subscribe(({area, committed}) => {
+            if (this._preview_polygon) this._preview_polygon.remove()
+
+            if (committed) {
+                // stopped
+
+                if (options.existing_preview) options.existing_preview
+                    .setOpacity(options.existing_preview.isActive()
+                        ? options.existing_preview.active_opacity
+                        : options.existing_preview.inactive_opacity)
+
+                if (area) options?.done_handler(area)
+            } else if (area) {
+                if (options.existing_preview) options.existing_preview.setOpacity(0)
+
+                this._preview_polygon = options.preview_rendering(area)?.addTo(this)
+            }
+        })
+    }
+}
 
 class RegionEdit extends Widget {
-    constructor(private parent: TreeNodeEdit) {
+    constructor(public parent: TreeNodeEdit) {
         super($("<div style='display: flex'></div>"));
 
         this.render()
     }
 
-    private async sendChange() {
+    async sendChange() {
         await this.parent.parent.cleanTree()
         this.parent.parent.emit("region_changed", this.parent.node)
     }
@@ -50,22 +83,15 @@ class RegionEdit extends Widget {
             SmallImageButton.new("assets/icons/edit.png")
                 .css("margin-left", "2px")
                 .on("click", async () => {
-                    new DrawAreaInteraction(this.parent.parent.parent.parent.layer)
-                        .tapEvents(e => e
-                            .on("done", (r) => {
-                                this.parent.node.raw.region.area = r
-                                this.sendChange()
-                            })
-                            .on("started", () => {
-                                this.parent.region_preview.setOpacity(0)
-                            })
-                            .on("stopped", () => {
-                                this.parent.region_preview
-                                    .setOpacity(this.parent.region_preview.isActive()
-                                        ? this.parent.region_preview.active_opacity
-                                        : this.parent.region_preview.inactive_opacity)
-                            })
-                        ).activate()
+
+                    this.parent.parent.parent.parent.options.map.dragAction.set(new DrawRegionAction({
+                        done_handler: area => {
+                            this.parent.node.raw.region.area = area
+                            this.sendChange()
+                        },
+                        existing_preview: this.parent.region_preview,
+                        preview_rendering: area => new ScanRegionPolygon({name: this.parent.node.raw.region.name, area: area})
+                    }))
                 })
                 .appendTo(this)
 
@@ -98,16 +124,17 @@ class RegionEdit extends Widget {
 
                         this.sendChange()
                     } else {
-                        new DrawAreaInteraction(this.parent.parent.parent.parent.layer)
-                            .tapEvents(e => e
-                                .on("done", (r) => {
-                                    this.parent.node.raw.region = {
-                                        name: "",
-                                        area: r
-                                    }
-                                    this.sendChange()
-                                })
-                            ).activate()
+                        this.parent.parent.parent.parent.options.map.dragAction.set(new DrawRegionAction({
+                            existing_preview: this.parent.region_preview,
+                            preview_rendering: area => new ScanRegionPolygon({name: "", area: area}),
+                            done_handler: area => {
+                                this.parent.node.raw.region = {
+                                    name: "",
+                                    area: area
+                                }
+                                this.sendChange()
+                            }
+                        }))
                     }
                 })
                 .appendTo(this)

@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet";
-import {TeleportLayer} from "./teleportlayer";
-import {floor_t, MapCoordinate} from "lib/runescape/coordinates";
+import {TeleportLayer} from "./layers/TeleportLayer";
+import {floor_t, MapCoordinate, MapRectangle} from "lib/runescape/coordinates";
 import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
 import Graticule from "./layers/Graticule";
@@ -8,8 +8,9 @@ import Widget from "../widgets/Widget";
 import {Constants} from "trainer/constants";
 import TileHighlight from "./TileHighlight";
 import {Observable, observe} from "lib/properties/Observable";
-import GameLayer, {GameMapClickEvent, GameMapContextMenuEvent, GameMapEvent, GameMapTileHoverEvent} from "./GameLayer";
+import GameLayer, {GameMapContextMenuEvent, GameMapEvent, GameMapMouseEvent} from "./GameLayer";
 import ContextMenu from "../widgets/ContextMenu";
+import {MapOptions} from "leaflet";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -105,45 +106,145 @@ class FloorControl extends CustomControl {
     }
 }
 
-/**
- * This map class wraps a leaflet map view and provides features needed for the solver.
- * Map data is sourced from Skillbert's amazing runeapps.org.
- */
-function getCRS(): leaflet.CRS {
-    const chunkoffset = {
-        x: 16,
-        z: 16
-    }
-
-    const mapsize = {
-        x: 100,
-        z: 200
-    }
-
-    const chunksize = 64;
-
-    let crs = leaflet.CRS.Simple;
-
-    //add 0.5 to so coords are center of tile
-    // @ts-ignore
-    crs.transformation = leaflet.transformation(
-        1, chunkoffset.x + 0.5,
-        -1, mapsize.z * chunksize + -1 * (chunkoffset.z + 0.5)
-    );
-
-    return crs
-}
 
 class TileHighlightLayer extends GameLayer {
     private tile_highlight: TileHighlight = new TileHighlight({x: 0, y: 0}).addTo(this)
 
-    eventHover(event: GameMapTileHoverEvent) {
+    eventHover(event: GameMapMouseEvent) {
         event.onPre(() => {
             this.tile_highlight.setPosition(event.tile())
         })
     }
 }
 
+export class GameMapDragAction extends GameLayer {
+    dragstart: MapCoordinate = null
+
+    area: Observable<{ area: MapRectangle, committed: boolean }> = observe({area: null, committed: false})
+
+    constructor() {
+        super();
+    }
+
+    start(tile: MapCoordinate): this {
+        this.dragstart = tile
+
+        return this
+    }
+
+    reset() {
+        this.dragstart = null
+
+        this.area.set({area: null, committed: false})
+    }
+
+    eventMouseDown(event: GameMapMouseEvent) {
+        event.onPre(() => {
+            if (!this.dragstart) {
+                event.stopAllPropagation()
+
+                this.dragstart = event.tile()
+
+                this.preview(MapRectangle.fromTile(event.tile()))
+            }
+        })
+    }
+
+    eventMouseUp(event: GameMapMouseEvent) {
+        event.onPre(() => {
+            if (this.dragstart) {
+                event.stopAllPropagation()
+
+                this.commit(MapRectangle.from(this.dragstart, event.tile()))
+            }
+        })
+    }
+
+    eventClick(event: GameMapMouseEvent) {
+        // Capture and consume the click event, so it does not get sent to the default interaction
+
+        event.onPre(() => {
+            event.stopAllPropagation()
+
+            if (this.dragstart) this.commit(MapRectangle.from(this.dragstart, event.tile()))
+            else this.commit(MapRectangle.fromTile(event.tile()))
+        })
+    }
+
+    eventHover(event: GameMapMouseEvent) {
+        event.onPre(() => {
+            if (this.dragstart) {
+                event.stopAllPropagation()
+
+                this.preview(MapRectangle.from(this.dragstart, event.tile()))
+            }
+        })
+
+    }
+
+    private cancel() {
+        this.commit(null)
+    }
+
+    private commit(area: MapRectangle) {
+        this.area.set({area: area, committed: true})
+        this.end()
+    }
+
+    private preview(area: MapRectangle) {
+        this.area.set({area: area, committed: false})
+    }
+
+    private end() {
+        let t = this.getMap()?.dragAction?.get()
+
+        if (t == this) t.getMap().dragAction.set(null)
+    }
+}
+
+function gameMapOptions(): MapOptions {
+
+    function getCRS(): leaflet.CRS {
+        const chunkoffset = {
+            x: 16,
+            z: 16
+        }
+
+        const mapsize = {
+            x: 100,
+            z: 200
+        }
+
+        const chunksize = 64;
+
+        let crs = leaflet.CRS.Simple;
+
+        //add 0.5 to so coords are center of tile
+        // @ts-ignore
+        crs.transformation = leaflet.transformation(
+            1, chunkoffset.x + 0.5,
+            -1, mapsize.z * chunksize + -1 * (chunkoffset.z + 0.5)
+        );
+
+        return crs
+    }
+
+    return {
+        crs: getCRS(),
+        zoomSnap: 0.25,
+        minZoom: -5,
+        maxZoom: 7,
+        zoomControl: false,
+        dragging: true,
+        doubleClickZoom: false,
+        attributionControl: true
+    }
+}
+
+/**
+ * This map class wraps a leaflet map view and provides features needed for the solver.
+ * Map data is sourced from Skillbert's amazing runeapps.org.
+ */
 export class GameMap extends leaflet.Map {
     floor: Observable<floor_t> = observe(0)
 
@@ -157,24 +258,17 @@ export class GameMap extends leaflet.Map {
 
     private baseLayers: leaflet.TileLayer[]
 
+    public dragAction: Observable<GameMapDragAction> = observe(null)
+
     private _lastHoveredTile: MapCoordinate = null
 
     constructor(element: HTMLElement) {
-        super(element, {
-            crs: getCRS(),
-            zoomSnap: 0.25,
-            minZoom: -5,
-            maxZoom: 7,
-            zoomControl: false,
-            dragging: true,
-            doubleClickZoom: false,
-            attributionControl: true
-        });
+        super(element, gameMapOptions());
 
         this.container = $(element)
 
         this.main_layer = new GameLayer().addTo(this)
-        
+
         new TileHighlightLayer().addTo(this.main_layer)
 
         this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(this.container.children(".leaflet-control-container")))
@@ -182,23 +276,45 @@ export class GameMap extends leaflet.Map {
 
         this.addControl(new FloorControl(this).setPosition("bottomleft"))
 
-        this.on("contextmenu", async (e) => {
-            let event = this.event(new GameMapContextMenuEvent(this, e, this.coordinateWithLevel(e)), (l) => (e) => l.eventContextMenu(e))
+        // Set up all the event handlers to translate into GameMapEvents
+        {
 
-            new ContextMenu(event.entries)
-                .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
-        })
+            this.on("contextmenu", async (e) => {
+                let event = this.event(new GameMapContextMenuEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventContextMenu(e))
 
-        this.on("click", (e) => {
-            this.event(new GameMapClickEvent(this, e, this.coordinateWithLevel(e)), (l) => (e) => l.eventClick(e))
-        })
+                new ContextMenu(event.entries)
+                    .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
+            })
 
-        this.on("mousemove", (e) => {
-            let t = this.coordinateWithLevel(e)
+            this.on("click", (e) => {
+                this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventClick(e))
+            })
 
-            if (!MapCoordinate.eq2(t, this._lastHoveredTile)) {
-                this._lastHoveredTile = t
-                this.event(new GameMapTileHoverEvent(this, e, t), (l) => (e) => l.eventHover(e))
+            this.on("mousemove", (e) => {
+                let t = this.eventCoordinate(e)
+
+                if (!MapCoordinate.eq2(t, this._lastHoveredTile)) {
+                    this._lastHoveredTile = t
+                    this.event(new GameMapMouseEvent(this, e, t), (l) => (e) => l.eventHover(e))
+                }
+            })
+
+            this.on("mouseup", (e) => {
+                this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseUp(e))
+            })
+
+            this.on("mousedown", (e) => {
+                this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseDown(e))
+            })
+        }
+
+        this.dragAction.subscribe((a, old) => {
+            if (old) old.remove()
+
+            if (a == null) this.dragging.enable()
+            else {
+                this.dragging.disable()
+                a.addTo(this.main_layer)
             }
         })
 
@@ -325,11 +441,11 @@ export class GameMap extends leaflet.Map {
         return this.activeLayer
     }
 
-    tileFromMouseEvent(e: leaflet.LeafletMouseEvent): MapCoordinate {
-        return MapCoordinate.snap(this.coordinateWithLevel(e))
+    eventTile(e: leaflet.LeafletMouseEvent): MapCoordinate {
+        return MapCoordinate.snap(this.eventCoordinate(e))
     }
 
-    coordinateWithLevel(e: leaflet.LeafletMouseEvent): MapCoordinate {
+    eventCoordinate(e: leaflet.LeafletMouseEvent): MapCoordinate {
         return {
             x: e.latlng.lng,
             y: e.latlng.lat,

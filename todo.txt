@@ -1,9 +1,7 @@
 Immediate next:
-- Fix naming of navigation links
 - Autoname areas
-- Reenable region functionality
-- Add scan range drawing again
 - Reenable spot sorting/numbers on preview
+- Port UI Elements to GameLayer
 
 - Make fit include the entire path
 - Display timing in spot view

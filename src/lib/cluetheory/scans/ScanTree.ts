@@ -247,7 +247,6 @@ export namespace ScanTree {
             }
 
             if (!tree.state.completeness_analyzed) {
-                console.log("Analyzing completeness")
                 helper(tree.root_node)
                 tree.state.completeness_analyzed = true
             }

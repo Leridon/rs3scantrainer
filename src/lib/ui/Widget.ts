@@ -1,4 +1,4 @@
-import {TypedEmitter} from "skillbertssolver/eventemitter";
+import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as tippy from 'tippy.js';
 
 

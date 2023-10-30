@@ -1,9 +1,9 @@
-import Widget from "./Widget";
+import Widget from "../../../lib/ui/Widget";
 import {floor_t, MapCoordinate} from "lib/runescape/coordinates";
-import {ActiveLayer} from "../map/activeLayer";
+import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
 import SmallImageButton from "./SmallImageButton";
-import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import * as lodash from "lodash"
+import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 
 export default class MapCoordinateEdit extends Widget<{
     "changed": MapCoordinate

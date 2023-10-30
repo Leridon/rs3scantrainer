@@ -1,5 +1,5 @@
-import {ActiveLayer} from "../activeLayer";
-import {GameMap} from "../map";
+import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
+import {GameMap} from "../../../lib/gamemap/GameMap";
 
 export default class ShortcutUtilLayer extends ActiveLayer {
     constructor() {

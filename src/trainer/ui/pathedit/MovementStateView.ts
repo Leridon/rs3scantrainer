@@ -1,4 +1,4 @@
-import Widget from "../widgets/Widget";
+import Widget from "../../../lib/ui/Widget";
 import {Path} from "lib/runescape/pathing";
 import movement_state = Path.movement_state;
 import {MapCoordinate} from "lib/runescape/coordinates";

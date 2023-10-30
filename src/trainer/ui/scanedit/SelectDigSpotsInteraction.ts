@@ -1,9 +1,9 @@
 import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileMarker} from "../../../lib/gamemap/TileMarker";
+import Widget from "../../../lib/ui/Widget";
+import TopControl from "../../../lib/gamemap/TopControl";
+import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
 import LayerInteraction from "../map/interactions/LayerInteraction";
-import {TileMarker} from "../map/TileMarker";
-import Widget from "../widgets/Widget";
-import TopControl from "../map/TopControl";
-import {ActiveLayer} from "../map/activeLayer";
 
 class SelectDigSpotsTopControl extends TopControl {
     status: JQuery

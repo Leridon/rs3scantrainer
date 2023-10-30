@@ -1,8 +1,8 @@
-import type {ActiveLayer} from "../activeLayer";
-import {MapCoordinate} from "lib/runescape/coordinates";
+import type {ActiveLayer} from "../../../../lib/gamemap/activeLayer";
+import {MapCoordinate} from "../../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet";
 import LayerInteraction from "./LayerInteraction";
-import type Widget from "../../widgets/Widget";
+import type Widget from "../../../../lib/ui/Widget";
 
 export default class SimpleClickInteraction extends LayerInteraction<ActiveLayer> {
 

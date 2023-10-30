@@ -1,15 +1,11 @@
 import * as leaflet from "leaflet";
-import {CustomControl} from "../map/CustomControl";
-import Widget from "../widgets/Widget";
-import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
+import Widget from "../../../lib/ui/Widget";
 import MediumImageButton from "../widgets/MediumImageButton";
-import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
-import {createStepGraphics} from "../map/path_graphics";
+import {createStepGraphics} from "../path_graphics";
 import {direction, MovementAbilities} from "lib/runescape/movement";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {ScanTrainerCommands} from "trainer/application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
-import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import Collapsible from "../widgets/modals/Collapsible";
@@ -22,11 +18,10 @@ import TeleportSelect from "./TeleportSelect";
 import {Teleports} from "lib/runescape/teleports";
 import {teleport_data} from "data/teleport_data";
 import Checkbox from "../../../lib/ui/controls/Checkbox";
-import {tilePolygon} from "../map/polygon_helpers";
+import {tilePolygon} from "../polygon_helpers";
 import MovementStateView from "./MovementStateView";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {QueryLinks} from "trainer/query_functions";
-import {OpacityGroup} from "../map/layers/OpacityLayer";
 import {util} from "../../../lib/util/util";
 import {MapRectangle} from "lib/runescape/coordinates";
 import movement_state = Path.movement_state;
@@ -36,11 +31,17 @@ import escape = MovementAbilities.escape;
 import SelectShortcutInteraction from "../scanedit/SelectShortcutInteraction";
 import {Observable, observe} from "lib/properties/Observable";
 import Behaviour from "../../../lib/ui/Behaviour";
-import GameLayer, {GameMapContextMenuEvent} from "../map/GameLayer";
 import {Shortcuts} from "lib/runescape/shortcuts";
 import {Vector2} from "lib/math/Vector";
 import {MenuEntry} from "../widgets/ContextMenu";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
+import { OpacityGroup } from "lib/gamemap/layers/OpacityLayer";
+import { CustomControl } from "lib/gamemap/CustomControl";
+import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
+import GameLayer from "../../../lib/gamemap/GameLayer";
+import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
+import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
+import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -662,6 +663,8 @@ class PathEditorGameLayer extends GameLayer {
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
+        console.log("Event received")
+
         event.onPost(() => {
             if (this.editor.isActive()) {
                 event.add({type: "basic", text: "Run Here", handler: () => { }})
@@ -695,7 +698,6 @@ class PathEditorGameLayer extends GameLayer {
                 // TODO: Shortcuts
             }
         })
-
     }
 }
 
@@ -772,7 +774,6 @@ export class PathEditor extends Behaviour {
         super()
         this.control = null
 
-        this.handler_layer = new PathEditorGameLayer(this).addTo(game_layer)
 
         this.value.augmented.subscribe(aug => {
             if (this.control) this.control.render(aug)
@@ -783,6 +784,8 @@ export class PathEditor extends Behaviour {
         this.reset()
 
         this.current_options = options
+
+        this.handler_layer = new PathEditorGameLayer(this).addTo(this.game_layer)
 
         this.value.setMeta(options.start_state, options.target)
 

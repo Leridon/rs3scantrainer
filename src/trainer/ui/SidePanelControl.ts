@@ -1,7 +1,7 @@
 import {ClueStep, ClueType} from "lib/runescape/clues";
 import {Constants} from "trainer/constants";
 import {Application} from "trainer/application";
-import Widget from "./widgets/Widget";
+import Widget from "../../lib/ui/Widget";
 import {observe} from "../../lib/properties/Observable";
 import SmallImageButton from "./widgets/SmallImageButton";
 

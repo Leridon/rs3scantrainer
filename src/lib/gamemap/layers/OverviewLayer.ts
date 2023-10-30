@@ -1,13 +1,13 @@
 import {ActiveLayer} from "../activeLayer";
-import {Clues, ClueStep, Solution} from "lib/runescape/clues";
-import Properties from "../../widgets/Properties";
+import {Clues, ClueStep, Solution} from "../../runescape/clues";
+import Properties from "../../../trainer/ui/widgets/Properties";
 import {TileMarker} from "../TileMarker";
-import {MapCoordinate} from "lib/runescape/coordinates";
-import Widget from "../../widgets/Widget";
+import {MapCoordinate} from "../../runescape/coordinates";
+import Widget from "../../ui/Widget";
 import * as tippy from "tippy.js";
-import LightButton from "../../widgets/LightButton";
-import {PathEditor} from "trainer/ui/pathedit/PathEditor";
-import {Application} from "../../../application";
+import LightButton from "../../../trainer/ui/widgets/LightButton";
+import {PathEditor} from "../../../trainer/ui/pathedit/PathEditor";
+import {Application} from "../../../trainer/application";
 import dig_area = Clues.digSpotArea;
 
 export default class OverviewLayer extends ActiveLayer {

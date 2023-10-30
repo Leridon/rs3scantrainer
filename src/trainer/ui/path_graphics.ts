@@ -1,13 +1,13 @@
 import * as leaflet from "leaflet"
-import {Path} from "lib/runescape/pathing";
-import {MapCoordinate} from "lib/runescape/coordinates";
-import {direction, MovementAbilities} from "lib/runescape/movement";
-import Widget from "../widgets/Widget";
-import {OpacityGroup} from "./layers/OpacityLayer";
-import {Vector2} from "lib/math/Vector";
+import {Path} from "../../lib/runescape/pathing";
+import {MapCoordinate} from "../../lib/runescape/coordinates";
+import {direction, MovementAbilities} from "../../lib/runescape/movement";
+import Widget from "../../lib/ui/Widget";
+import {OpacityGroup} from "../../lib/gamemap/layers/OpacityLayer";
+import {Vector2} from "../../lib/math/Vector";
 import InteractionType = Path.InteractionType;
-import {flat_teleport, Teleports} from "lib/runescape/teleports";
-import {teleport_data} from "data/teleport_data";
+import {flat_teleport, Teleports} from "../../lib/runescape/teleports";
+import {teleport_data} from "../../data/teleport_data";
 
 export namespace PathGraphics {
     type HTMLString = string

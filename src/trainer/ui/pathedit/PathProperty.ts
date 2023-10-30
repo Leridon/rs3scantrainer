@@ -6,7 +6,7 @@ import MovementStateView from "./MovementStateView";
 import {MapRectangle} from "lib/runescape/coordinates";
 import Properties from "../widgets/Properties";
 import SmallImageButton from "../widgets/SmallImageButton";
-import {PathGraphics} from "../map/path_graphics";
+import {PathGraphics} from "../path_graphics";
 import Button from "../../../lib/ui/controls/Button";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw, {

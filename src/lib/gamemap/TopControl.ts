@@ -1,4 +1,4 @@
-import Widget from "../widgets/Widget";
+import Widget from "../ui/Widget";
 
 export default class TopControl<T extends Record<string, any> = {}> extends Widget<T> {
     constructor(container: JQuery | null = null) {

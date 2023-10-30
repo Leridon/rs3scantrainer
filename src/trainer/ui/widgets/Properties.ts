@@ -1,4 +1,4 @@
-import Widget from "./Widget";
+import Widget from "../../../lib/ui/Widget";
 
 export default class Properties extends Widget {
     constructor() {

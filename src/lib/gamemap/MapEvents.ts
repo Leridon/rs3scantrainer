@@ -1,8 +1,7 @@
-import {MapCoordinate} from "lib/runescape/coordinates";
-import * as leaflet from "leaflet"
-import {GameMap} from "./map";
-import {LayerGroup, Map} from "leaflet";
-import {MenuEntry} from "../widgets/ContextMenu";
+import {GameMap} from "./GameMap";
+import * as leaflet from "leaflet";
+import {MapCoordinate} from "../runescape/coordinates";
+import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
 
 export abstract class GameMapEvent {
     public propagation_state: {
@@ -72,61 +71,4 @@ export class GameMapContextMenuEvent extends GameMapEvent {
     tile() {
         return MapCoordinate.snap(this.coordinates)
     }
-}
-
-export default class GameLayer extends leaflet.FeatureGroup {
-    protected parent: GameMap | GameLayer | null = null
-
-    enabled: boolean
-
-    getMap(): GameMap {
-        if (!this.parent) return null
-        else if (this.parent instanceof GameMap) return this.parent
-        else return this.parent.getMap()
-    }
-
-    enable() {
-        this.setEnabled(true)
-    }
-
-    disable() {
-        this.setEnabled(false)
-    }
-
-    setEnabled(v: boolean) {
-        this.enabled = v
-    }
-
-    remove(): this {
-        if (this.parent) this.parent.removeLayer(this)
-        else super.remove()
-
-        return this
-    }
-
-    add(layer: GameLayer) {
-        this.addLayer(layer)
-
-        layer.parent = this
-    }
-
-    addTo(layer: Map | LayerGroup): this {
-        if (layer instanceof GameLayer) layer.add(this)
-        else {
-            if (layer instanceof GameMap) this.parent = layer
-            super.addTo(layer)
-        }
-
-        return this
-    }
-
-    eventContextMenu(event: GameMapContextMenuEvent) {}
-
-    eventClick(event: GameMapMouseEvent) {}
-
-    eventHover(event: GameMapMouseEvent) {}
-
-    eventMouseUp(event: GameMapMouseEvent) {}
-
-    eventMouseDown(event: GameMapMouseEvent) {}
 }

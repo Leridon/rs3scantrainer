@@ -1,13 +1,13 @@
 import LayerInteraction from "./LayerInteraction";
-import {ActiveLayer} from "../activeLayer";
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {ActiveLayer} from "../../../../lib/gamemap/activeLayer";
+import {MapCoordinate} from "../../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {PathFinder} from "lib/runescape/movement";
+import {PathFinder} from "../../../../lib/runescape/movement";
 import LightButton from "../../widgets/LightButton";
-import {createStepGraphics} from "../path_graphics";
-import {Path} from "lib/runescape/pathing";
-import Widget from "../../widgets/Widget";
+import {createStepGraphics} from "../../path_graphics";
+import {Path} from "../../../../lib/runescape/pathing";
+import Widget from "../../../../lib/ui/Widget";
 
 export default class DrawRunInteraction extends LayerInteraction<ActiveLayer, {
     "done": Path.step_run,

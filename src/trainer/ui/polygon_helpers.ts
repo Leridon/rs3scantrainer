@@ -1,5 +1,5 @@
-import {Raster} from "../../../lib/util/raster";
-import {Rectangle, Vector2} from "lib/math/Vector";
+import {Raster} from "../../lib/util/raster";
+import {Rectangle, Vector2} from "../../lib/math/Vector";
 import * as leaflet from "leaflet";
 
 export function areaToPolygon<T>(raster: Raster<T>,

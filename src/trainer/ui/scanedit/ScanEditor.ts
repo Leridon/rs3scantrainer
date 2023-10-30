@@ -1,4 +1,4 @@
-import {GameMap} from "../map/map";
+import {GameMap} from "../../../lib/gamemap/GameMap";
 import {ScanStep} from "lib/runescape/clues";
 import {Observable, observe} from "lib/properties/Observable";
 import {MapCoordinate} from "lib/runescape/coordinates";
@@ -9,16 +9,16 @@ import assumedRange = ScanTree.assumedRange;
 import {lazy, Lazy} from "lib/properties/Lazy";
 import * as leaflet from "leaflet";
 import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "lib/cluetheory/scans/EquivalenceClasses";
-import {areaToPolygon} from "../map/polygon_helpers";
-import {OpacityGroup} from "../map/layers/OpacityLayer";
+import {areaToPolygon} from "../polygon_helpers";
 import {type Application} from "trainer/application";
 import {ScanLayer, ScanRegionPolygon} from "../solving/scans/ScanLayer";
-import {PathingGraphics} from "../map/path_graphics";
+import {PathingGraphics} from "../path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
 import {SolvingMethods} from "../../model/methods";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {CluePanel} from "../SidePanelControl";
+import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 
 class ScanEditLayerLight extends ScanLayer {
 

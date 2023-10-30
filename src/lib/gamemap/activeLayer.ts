@@ -1,7 +1,7 @@
-import {blue_icon, GameMap} from "./map";
+import {blue_icon, GameMap} from "./GameMap";
 import * as leaflet from "leaflet"
-import {type MapCoordinate} from "lib/runescape/coordinates";
-import LayerInteraction from "./interactions/LayerInteraction";
+import {type MapCoordinate} from "../runescape/coordinates";
+import LayerInteraction from "../../trainer/ui/map/interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import GameLayer from "./GameLayer";
 

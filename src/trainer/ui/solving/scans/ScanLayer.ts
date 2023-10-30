@@ -1,18 +1,19 @@
 import * as leaflet from "leaflet";
 import {MapCoordinate} from "../../../../lib/runescape/coordinates";
-import {blue_icon} from "../../map/map";
+import {blue_icon} from "../../../../lib/gamemap/GameMap";
 import {Application} from "../../../application";
 import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
 import {Constants} from "../../../constants";
 import ScanRegion = ScanTree.ScanRegion;
-import {TileMarker} from "../../map/TileMarker";
-import {ActiveOpacityGroup, OpacityGroup} from "../../map/layers/OpacityLayer";
-import {boxPolygon} from "../../map/polygon_helpers";
+import {TileMarker} from "../../../../lib/gamemap/TileMarker";
+import {ActiveOpacityGroup, OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
+import {boxPolygon} from "../../polygon_helpers";
 import {Scans} from "../../../../lib/runescape/clues/scans";
 
-import GameLayer, {GameMapMouseEvent, GameMapContextMenuEvent} from "../../map/GameLayer";
+import GameLayer from "../../../../lib/gamemap/GameLayer";
 import {Observable, observe, observe_combined} from "../../../../lib/properties/Observable";
 import complementSpot = Scans.complementSpot;
+import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 
 
 export class ScanRegionPolygon extends ActiveOpacityGroup {

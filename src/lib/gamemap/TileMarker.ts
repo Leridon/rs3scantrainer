@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet";
-import {MapCoordinate} from "lib/runescape/coordinates";
-import {blue_icon, green_icon, red_icon, yellow_icon} from "./map";
+import {MapCoordinate} from "../runescape/coordinates";
+import {blue_icon, green_icon, red_icon, yellow_icon} from "./GameMap";
 import {ActiveOpacityGroup} from "./layers/OpacityLayer";
 
 export class TileMarker extends ActiveOpacityGroup {

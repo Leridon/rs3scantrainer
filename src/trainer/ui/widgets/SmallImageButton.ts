@@ -1,4 +1,4 @@
-import Widget from "./Widget";
+import Widget from "../../../lib/ui/Widget";
 
 // TODO: Migrate to button class
 export default class SmallImageButton extends Widget<{

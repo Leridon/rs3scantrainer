@@ -1,8 +1,10 @@
-import * as leaflet from "leaflet"
-import {Vector2} from "lib/math/Vector";
-import {tilePolygon} from "./polygon_helpers";
+import GameLayer from "../GameLayer";
+import * as leaflet from "leaflet";
+import {Vector2} from "../../math/Vector";
+import {tilePolygon} from "../../../trainer/ui/polygon_helpers";
+import {GameMapMouseEvent} from "../MapEvents";
 
-export default class TileHighlight extends leaflet.FeatureGroup {
+export class TileHighlight extends leaflet.FeatureGroup {
     _polygon: leaflet.Polygon = null
 
     constructor(private position: Vector2 = {x: 0, y: 0}) {
@@ -31,5 +33,15 @@ export default class TileHighlight extends leaflet.FeatureGroup {
             color: "#F0780C",
             fillColor: "#F0780C"
         }).addTo(this)
+    }
+}
+
+export default class TileHighlightLayer extends GameLayer {
+    private tile_highlight: TileHighlight = new TileHighlight({x: 0, y: 0}).addTo(this)
+
+    eventHover(event: GameMapMouseEvent) {
+        event.onPre(() => {
+            this.tile_highlight.setPosition(event.tile())
+        })
     }
 }

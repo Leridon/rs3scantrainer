@@ -1,4 +1,4 @@
-import Widget from "./Widget";
+import Widget from "../../../lib/ui/Widget";
 import * as tippy from "tippy.js";
 import {Vector2} from "lib/math/Vector";
 

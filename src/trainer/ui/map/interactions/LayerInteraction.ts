@@ -1,7 +1,7 @@
-import type {ActiveLayer} from "../activeLayer";
-import Widget from "../../widgets/Widget";
-import TopControl from "../TopControl";
-import {TypedEmitter} from "skillbertssolver/eventemitter";
+import type {ActiveLayer} from "../../../../lib/gamemap/activeLayer";
+import Widget from "../../../../lib/ui/Widget";
+import TopControl from "../../../../lib/gamemap/TopControl";
+import {TypedEmitter} from "../../../../skillbertssolver/eventemitter";
 
 type InteractionEvents<events extends Record<string, any>> = events & {
     "started": null,

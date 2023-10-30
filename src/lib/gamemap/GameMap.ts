@@ -1,16 +1,18 @@
 import * as leaflet from "leaflet";
-import {TeleportLayer} from "./layers/TeleportLayer";
-import {floor_t, MapCoordinate, MapRectangle} from "lib/runescape/coordinates";
+import {TeleportLayer} from "./defaultlayers/TeleportLayer";
+import {floor_t, MapCoordinate, MapRectangle} from "../runescape/coordinates";
 import {ActiveLayer} from "./activeLayer";
 import {CustomControl} from "./CustomControl";
-import Graticule from "./layers/Graticule";
-import Widget from "../widgets/Widget";
-import {Constants} from "trainer/constants";
-import TileHighlight from "./TileHighlight";
-import {Observable, observe} from "lib/properties/Observable";
-import GameLayer, {GameMapContextMenuEvent, GameMapEvent, GameMapMouseEvent} from "./GameLayer";
-import ContextMenu from "../widgets/ContextMenu";
+import Graticule from "./defaultlayers/Graticule";
+import Widget from "../ui/Widget";
+import {Constants} from "../../trainer/constants";
+import {Observable, observe} from "../properties/Observable";
+import GameLayer from "./GameLayer";
+import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
 import {MapOptions} from "leaflet";
+import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
+import GameMapDragAction from "./layers/GameMapDragAction";
+import {GameMapContextMenuEvent, GameMapEvent, GameMapMouseEvent} from "./MapEvents";
 
 type Layersource = { urls: string[], from?: number, to?: number };
 
@@ -106,102 +108,6 @@ class FloorControl extends CustomControl {
     }
 }
 
-
-class TileHighlightLayer extends GameLayer {
-    private tile_highlight: TileHighlight = new TileHighlight({x: 0, y: 0}).addTo(this)
-
-    eventHover(event: GameMapMouseEvent) {
-        event.onPre(() => {
-            this.tile_highlight.setPosition(event.tile())
-        })
-    }
-}
-
-export class GameMapDragAction extends GameLayer {
-    dragstart: MapCoordinate = null
-
-    area: Observable<{ area: MapRectangle, committed: boolean }> = observe({area: null, committed: false})
-
-    constructor() {
-        super();
-    }
-
-    start(tile: MapCoordinate): this {
-        this.dragstart = tile
-
-        return this
-    }
-
-    reset() {
-        this.dragstart = null
-
-        this.area.set({area: null, committed: false})
-    }
-
-    eventMouseDown(event: GameMapMouseEvent) {
-        event.onPre(() => {
-            if (!this.dragstart) {
-                event.stopAllPropagation()
-
-                this.dragstart = event.tile()
-
-                this.preview(MapRectangle.fromTile(event.tile()))
-            }
-        })
-    }
-
-    eventMouseUp(event: GameMapMouseEvent) {
-        event.onPre(() => {
-            if (this.dragstart) {
-                event.stopAllPropagation()
-
-                this.commit(MapRectangle.from(this.dragstart, event.tile()))
-            }
-        })
-    }
-
-    eventClick(event: GameMapMouseEvent) {
-        // Capture and consume the click event, so it does not get sent to the default interaction
-
-        event.onPre(() => {
-            event.stopAllPropagation()
-
-            if (this.dragstart) this.commit(MapRectangle.from(this.dragstart, event.tile()))
-            else this.commit(MapRectangle.fromTile(event.tile()))
-        })
-    }
-
-    eventHover(event: GameMapMouseEvent) {
-        event.onPre(() => {
-            if (this.dragstart) {
-                event.stopAllPropagation()
-
-                this.preview(MapRectangle.from(this.dragstart, event.tile()))
-            }
-        })
-
-    }
-
-    private cancel() {
-        this.commit(null)
-    }
-
-    private commit(area: MapRectangle) {
-        this.area.set({area: area, committed: true})
-        this.end()
-    }
-
-    private preview(area: MapRectangle) {
-        this.area.set({area: area, committed: false})
-    }
-
-    private end() {
-        let t = this.getMap()?.dragAction?.get()
-
-        if (t == this) t.getMap().dragAction.set(null)
-    }
-}
-
 function gameMapOptions(): MapOptions {
 
     function getCRS(): leaflet.CRS {
@@ -268,8 +174,7 @@ export class GameMap extends leaflet.Map {
         this.container = $(element)
 
         this.main_layer = new GameLayer().addTo(this)
-
-        new TileHighlightLayer().addTo(this.main_layer)
+            .add(new TileHighlightLayer())
 
         this.top_control_container = Widget.wrap($("<div class='my-leaflet-topcenter'></div>").appendTo(this.container.children(".leaflet-control-container")))
         this.top_control_container.container.on("click", (e) => e.stopPropagation())

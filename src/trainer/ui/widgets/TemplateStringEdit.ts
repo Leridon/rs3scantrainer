@@ -1,4 +1,4 @@
-import Widget from "./Widget";
+import Widget from "../../../lib/ui/Widget";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
 import AbstractEditWidget from "./AbstractEditWidget";
 import SmallImageButton from "./SmallImageButton";

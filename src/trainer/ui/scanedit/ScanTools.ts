@@ -1,4 +1,4 @@
-import Widget from "../widgets/Widget";
+import Widget from "../../../lib/ui/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import * as leaflet from "leaflet"
 import Checkbox from "../../../lib/ui/controls/Checkbox";

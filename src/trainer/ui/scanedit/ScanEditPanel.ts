@@ -1,4 +1,4 @@
-import Widget from "../widgets/Widget";
+import Widget from "../../../lib/ui/Widget";
 import SpotOrderingEdit from "./SpotNumberingEdit";
 import TreeEdit from "./TreeEdit";
 import {MapCoordinate} from "lib/runescape/coordinates";

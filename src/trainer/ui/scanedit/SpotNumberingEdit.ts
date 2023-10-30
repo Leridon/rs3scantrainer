@@ -1,4 +1,4 @@
-import Widget from "../widgets/Widget";
+import Widget from "../../../lib/ui/Widget";
 import {MapCoordinate} from "lib/runescape/coordinates";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import LightButton from "../widgets/LightButton";

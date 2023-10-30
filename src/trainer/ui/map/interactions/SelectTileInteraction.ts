@@ -1,9 +1,9 @@
 import LayerInteraction from "./LayerInteraction";
-import {ActiveLayer} from "../activeLayer";
+import {ActiveLayer} from "../../../../lib/gamemap/activeLayer";
 import * as leaflet from "leaflet";
 import {LeafletMouseEvent} from "leaflet";
-import {MapCoordinate} from "lib/runescape/coordinates";
-import type Widget from "../../widgets/Widget";
+import {MapCoordinate} from "../../../../lib/runescape/coordinates";
+import type Widget from "../../../../lib/ui/Widget";
 
 export default class SelectTileInteraction extends LayerInteraction<ActiveLayer, {
     "selected": MapCoordinate,

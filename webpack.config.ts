@@ -31,6 +31,7 @@ c.plugins = [
             from: path.resolve(__dirname, "./static")
         }]
     }),
+    /*
     new CircularDependencyPlugin({
         exclude: /a\.js|node_modules/,
         // include specific files based on a RegExp
@@ -42,7 +43,7 @@ c.plugins = [
         allowAsyncCycles: true,
         // set the current working directory for displaying module paths
         cwd: process.cwd(),
-    })
+    })*/
 ]
 
 c.resolve.fallback = {

@@ -1,4 +1,4 @@
-import Widget from "trainer/ui/widgets/Widget";
+import Widget from "../Widget";
 
 export default class Button extends Widget<{
     "click": null

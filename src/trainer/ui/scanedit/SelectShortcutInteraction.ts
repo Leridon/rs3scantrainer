@@ -1,15 +1,15 @@
-import {ActiveLayer} from "../map/activeLayer";
+import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
 import * as leaflet from "leaflet"
 import {LeafletMouseEvent} from "leaflet"
 import {Shortcuts} from "lib/runescape/shortcuts";
 import {Vector2} from "lib/math/Vector";
 import {Path} from "lib/runescape/pathing";
-import {OpacityGroup} from "../map/layers/OpacityLayer";
+import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as tippy from 'tippy.js';
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
-import LayerInteraction from "../map/interactions/LayerInteraction";
-import Widget from "../widgets/Widget";
+import Widget from "../../../lib/ui/Widget";
 import {MapCoordinate} from "lib/runescape/coordinates";
+import LayerInteraction from "../map/interactions/LayerInteraction";
 
 export default class SelectShortcutInteraction extends LayerInteraction<ActiveLayer, {
     "selected": Path.step_interact,

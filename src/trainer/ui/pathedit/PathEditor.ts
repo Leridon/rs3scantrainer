@@ -43,6 +43,7 @@ import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {GameMap} from "../../../lib/gamemap/GameMap";
+import PathEditActionBar from "./PathEditActionBar";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -323,9 +324,9 @@ class ControlWidget extends GameMapControl {
             type: "floating"
         })
 
-        this.addClass("path-edit-control")
+        this.content.addClass("path-edit-control")
 
-        this.steps_collapsible = new Collapsible().setTitle("Steps").appendTo(this)
+        this.steps_collapsible = new Collapsible().setTitle("Steps").appendTo(this.content)
 
         this.steps_collapsible.content_container.css2({
             "max-height": "400px",
@@ -333,7 +334,7 @@ class ControlWidget extends GameMapControl {
         })
 
         {
-            let controls_collapsible = new Collapsible("Controls").appendTo(this)
+            let controls_collapsible = new Collapsible("Controls").appendTo(this.content)
             let props = new Properties().appendTo(controls_collapsible.content_container)
 
             this.issue_container = c()
@@ -386,9 +387,9 @@ class ControlWidget extends GameMapControl {
                 .appendTo(control_container)
         }
 
-        this.container.on("click", (e) => e.stopPropagation())
+        this.content.container.on("click", (e) => e.stopPropagation())
 
-        this.addClass("nis-map-control")
+        this.content.addClass("nis-map-control")
 
         this.resetPreviewLayer()
     }
@@ -764,16 +765,16 @@ class PathBuilder extends Observable<Path.raw> {
 }
 
 export class PathEditor extends Behaviour {
-    private control: ControlWidget
+    private control: ControlWidget = null
     current_options: PathEditor.options_t = null
     private handler_layer: PathEditorGameLayer = null
 
     value: PathBuilder = new PathBuilder()
 
+    action_bar: PathEditActionBar
+
     constructor(public game_layer: GameLayer, public template_resolver: TemplateResolver) {
         super()
-        this.control = null
-
 
         this.value.augmented.subscribe(aug => {
             if (this.control) this.control.render(aug)
@@ -791,9 +792,8 @@ export class PathEditor extends Behaviour {
 
         this.value.set(path)
 
-        this.control = new ControlWidget(this)
-
-        this.handler_layer.addControl(this.control)
+        this.control = new ControlWidget(this).addTo(this.handler_layer)
+        this.action_bar = new PathEditActionBar().addTo(this.handler_layer)
 
         this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
     }

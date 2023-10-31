@@ -1034,45 +1034,61 @@ video {
 /* Gapless config */
 .gamemap-ui-layer-tl > .gamemap-ui-control-gapless {
     border-bottom-right-radius: 8px;
+    border-top: 0;
+    border-left: 0;
 }
 .gamemap-ui-layer-tc > .gamemap-ui-control-gapless {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+    border-top: 0;
 }
 .gamemap-ui-layer-tr > .gamemap-ui-control-gapless {
     border-bottom-left-radius: 8px;
+    border-top: 0;
+    border-right: 0;
 }
 .gamemap-ui-layer-bl > .gamemap-ui-control-gapless {
     border-top-right-radius: 8px;
+    border-bottom: 0;
+    border-left: 0;
 }
 .gamemap-ui-layer-bc > .gamemap-ui-control-gapless {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    border-bottom: 0;
 }
 .gamemap-ui-layer-br > .gamemap-ui-control-gapless {
     border-top-left-radius: 8px;
+    border-bottom: 0;
+    border-right: 0;
 }
 .gamemap-ui-layer-lt > .gamemap-ui-control-gapless {
+    border-left: 0;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 .gamemap-ui-layer-lc > .gamemap-ui-control-gapless {
+    border-left: 0;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 .gamemap-ui-layer-lb > .gamemap-ui-control-gapless {
+    border-left: 0;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
 .gamemap-ui-layer-rt > .gamemap-ui-control-gapless {
+    border-right: 0;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }
 .gamemap-ui-layer-rc > .gamemap-ui-control-gapless {
+    border-right: 0;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }
 .gamemap-ui-layer-rb > .gamemap-ui-control-gapless {
+    border-right: 0;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }

@@ -1,4 +1,3 @@
-import * as leaflet from "leaflet"
 import Widget from "../ui/Widget";
 import GameLayer from "./GameLayer";
 import {GameMap} from "./GameMap";
@@ -12,46 +11,44 @@ export namespace GameMapControl {
 
     export type config_t = {
         position: position_t,
-        type: "attached" | "floating",
+        type: "gapless" | "floating",
         no_default_styling?: boolean
     }
 }
 
-export class GameMapControl extends Widget {
+export class GameMapControl extends GameLayer {
     parent: GameLayer | null = null
 
-    constructor(public options: GameMapControl.config_t, container: JQuery = $("<div>")) {
-        super(container)
+    constructor(public config: GameMapControl.config_t,
+                public content: Widget = c()) {
+        super()
 
-        if (!options.no_default_styling)
-            this.addClass("gamemap-ui-control-default-styling")
+        if (!this.config.no_default_styling)
+            this.content.addClass("gamemap-ui-control-default-styling")
 
-        switch (this.options.type) {
-            case "attached":
-                this.addClass("gamemap-ui-control-gapless")
+        switch (this.config.type) {
+            case "gapless":
+                this.content.addClass("gamemap-ui-control-gapless")
                 break;
             case "floating":
-                this.addClass("gamemap-ui-control-floating")
+                this.content.addClass("gamemap-ui-control-floating")
                 break;
         }
 
         // Disable events propagating to the map // TODO: Do I really need this?
-        this.container.on("blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize select submit mousewheel", (e) => e.stopPropagation())
+        this.content.container.on("blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize select submit mousewheel", (e) => e.stopPropagation())
+    }
+    onAdd(map: GameMap) {
+        map.addControl(this)
+
+        return super.onAdd(map)
     }
 
-    override remove(): this {
-        if (this.parent) this.parent.removeControl(this)
-        else super.remove()
 
-        return this
-    }
+    onRemove(map: GameMap): this {
+        this.content.detach()
 
-    onAdd(map: GameMap) { }
-
-    addTo(layer: GameLayer | GameMap): this {
-        layer.addControl(this)
-
-        return this
+        return super.onRemove(map);
     }
 }
 

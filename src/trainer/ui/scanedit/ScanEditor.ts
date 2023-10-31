@@ -236,7 +236,7 @@ export default class ScanEditor extends Behaviour {
         this.layer.spots.set(this.value.clue.solution.candidates)
         this.layer.spot_order.set(this.value.spot_ordering)
         this.layer.active_spots.bind_to(this.candidates)
-        this.options.map.main_layer.add(this.layer)
+        this.options.map.addGameLayer(this.layer)
 
         this.panel.tree_edit.active_node.subscribe(async node => {
             if (node) {

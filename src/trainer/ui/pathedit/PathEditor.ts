@@ -35,13 +35,14 @@ import {Shortcuts} from "lib/runescape/shortcuts";
 import {Vector2} from "lib/math/Vector";
 import {MenuEntry} from "../widgets/ContextMenu";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
-import { OpacityGroup } from "lib/gamemap/layers/OpacityLayer";
-import { CustomControl } from "lib/gamemap/CustomControl";
+import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
+import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
 import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
 import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
+import {GameMap} from "../../../lib/gamemap/GameMap";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -307,7 +308,7 @@ class StepEditWidget extends Widget<{
     }
 }
 
-class ControlWidget extends Widget {
+class ControlWidget extends GameMapControl {
     _preview_layer: leaflet.FeatureGroup
 
     steps_collapsible: Collapsible
@@ -316,14 +317,13 @@ class ControlWidget extends Widget {
     add_buttons_container: Widget
     issue_container: Widget
 
-    control: CustomControl
-
     constructor(public editor: PathEditor) {
-        super()
+        super({
+            position: "left-top",
+            type: "floating"
+        })
 
         this.addClass("path-edit-control")
-
-        this.control = new CustomControl(this.container)
 
         this.steps_collapsible = new Collapsible().setTitle("Steps").appendTo(this)
 
@@ -793,7 +793,7 @@ export class PathEditor extends Behaviour {
 
         this.control = new ControlWidget(this)
 
-        this.game_layer.getMap().addControl(this.control.control.setPosition("topleft"))
+        this.handler_layer.addControl(this.control)
 
         this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
     }

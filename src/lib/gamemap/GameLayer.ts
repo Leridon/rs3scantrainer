@@ -1,15 +1,26 @@
 import * as leaflet from "leaflet"
 import {GameMap} from "./GameMap";
-import {LayerGroup, Map} from "leaflet";
+import {LayerGroup} from "leaflet";
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "./MapEvents";
+import {GameMapControl} from "./GameMapControl";
+import {TileMarker} from "./TileMarker";
 
 export default class GameLayer extends leaflet.FeatureGroup {
-    protected parent: GameMap | GameLayer | null = null
+    private controls: GameMapControl[] = []
+    protected parent: GameLayer | null = null
+    protected map: GameMap | null = null
+
+    constructor() {
+        super();
+        new TileMarker({x: 0, y: 0, level: 0}).withMarker().addTo(this)
+    }
+
+    isRootLayer(): boolean {
+        return this.parent == null
+    }
 
     getMap(): GameMap {
-        if (!this.parent) return null
-        else if (this.parent instanceof GameMap) return this.parent
-        else return this.parent.getMap()
+        return this.map
     }
 
     remove(): this {
@@ -27,14 +38,49 @@ export default class GameLayer extends leaflet.FeatureGroup {
         return this
     }
 
-    addTo(layer: Map | LayerGroup): this {
+    addTo(layer: GameMap | LayerGroup | GameLayer): this {
         if (layer instanceof GameLayer) layer.add(this)
-        else {
-            if (layer instanceof GameMap) this.parent = layer
-            super.addTo(layer)
-        }
+        else if (layer instanceof GameMap) layer.addGameLayer(this)
+        else super.addTo(layer)
 
         return this
+    }
+
+    onAdd(map: GameMap): this {
+        this.map = map
+
+        this.controls.forEach(c => map.addControl(c))
+
+        return super.onAdd(map)
+    }
+
+    onRemove(map: GameMap): this {
+        this.map = null
+
+        this.controls.forEach(c => c.remove())
+
+        return super.onRemove(map);
+    }
+
+    addControl(control: GameMapControl): this {
+        this.controls.push(control)
+        control.parent = this
+
+        if (this.map) this.map.addControl(control)
+
+        return this
+    }
+
+    removeControl(control: GameMapControl) {
+        let i = this.controls.findIndex(c => c == control);
+
+        if (i >= 0) {
+            this.controls.splice(i, 1)
+
+            control.parent = null
+
+            if (this.map) control.remove()
+        }
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {}

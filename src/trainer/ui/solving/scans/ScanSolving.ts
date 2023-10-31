@@ -360,7 +360,7 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
                 }))
             }
         }), 2)
-        this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map.map.main_layer)
+        this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map.map)
 
         this.node.bind(this.panel.node).bind(this.layer.node)
 

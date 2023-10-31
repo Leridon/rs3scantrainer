@@ -1,12 +1,10 @@
 import {blue_icon, GameMap} from "./GameMap";
-import * as leaflet from "leaflet"
 import {type MapCoordinate} from "../runescape/coordinates";
 import LayerInteraction from "../../trainer/ui/map/interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import GameLayer from "./GameLayer";
 
 export class ActiveLayer extends GameLayer {
-    private controls: leaflet.Control[] = []
     protected interaction: LayerInteraction<ActiveLayer> = null
 
     constructor() {
@@ -17,13 +15,9 @@ export class ActiveLayer extends GameLayer {
         if (this.interaction) {
             this.interaction.cancel()
             this.interaction = null
-
-            this.getMap().setTopControl(null)
         }
 
         this.interaction = interaction
-
-        this.getMap().setTopControl(this.interaction.getTopControl())
 
         this.interaction.start()
         this.interaction.events.emit("started", null)
@@ -34,15 +28,7 @@ export class ActiveLayer extends GameLayer {
             this.interaction.cancel()
             this.interaction.events.emit("stopped", null)
             this.interaction = null
-
-            this.getMap().setTopControl(null)
         }
-    }
-
-    public addControl(control: leaflet.Control) {
-        this.controls.push(control)
-
-        this.getMap()?.addControl(control)
     }
 
     protected _tilemarker: TileMarker = null
@@ -64,9 +50,6 @@ export class ActiveLayer extends GameLayer {
     }
 
     activate(map: GameMap) {
-        this.parent = map
-
-        this.controls.forEach((e) => e.addTo(map))
     }
 
     deactivate() {
@@ -75,11 +58,7 @@ export class ActiveLayer extends GameLayer {
             this.interaction = null
         }
 
-        this.getMap().setTopControl(null)
-
         this.parent = null
-
-        this.controls.forEach((e) => e.remove())
     }
 }
 

@@ -46,7 +46,7 @@ export default class OverviewLayer extends ActiveLayer {
                 props.named("spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
                 props.row(new LightButton("Load path editor")
                     .on("click", () => {
-                        new PathEditor(this.getMap().main_layer, this.app.template_resolver).load([], {
+                        new PathEditor(this, this.app.template_resolver).load([], {
                             target: dig_area(spot)
                         })
                     }))

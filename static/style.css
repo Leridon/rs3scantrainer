@@ -500,15 +500,6 @@ video {
     background-color: black;
 }
 
-.nis-map-control {
-    border-radius: 8px;
-    background-color: rgb(10, 31, 41);
-    border: 1px solid rgb(5, 56, 66);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
-    color: var(--nis-col-std);
-    font-size: 10pt;
-}
-
 .nis-collapsible {
     border: 1px solid rgb(52, 67, 74);
     border-top: 1px solid rgb(108, 116, 120);
@@ -901,7 +892,7 @@ video {
     font-size: 13px;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space:nowrap
+    white-space: nowrap
 }
 
 .nisl-selectdropdown-options {
@@ -963,4 +954,138 @@ video {
 .nisl-context-menu > * {
     padding-left: 3px;
     padding-right: 3px;
+}
+
+/*Game Map*/
+
+.gamemap-ui-container > * {
+    z-index: 10000;
+    position: absolute;
+}
+
+/* UI TOP*/
+.gamemap-ui-layer-tl {
+    left: 0;
+    top: 0;
+}
+
+.gamemap-ui-layer-tc {
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0%);
+}
+
+.gamemap-ui-layer-tr {
+    right: 0;
+    top: 0;
+}
+
+/* UI BOTTOM*/
+.gamemap-ui-layer-bl {
+    left: 0;
+    bottom: 0;
+}
+
+.gamemap-ui-layer-bc {
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0%);
+}
+
+.gamemap-ui-layer-br {
+    right: 0;
+    bottom: 0;
+}
+
+/* UI LEFT*/
+.gamemap-ui-layer-lt {
+    left: 0;
+    top: 0;
+}
+
+.gamemap-ui-layer-lc {
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.gamemap-ui-layer-lb {
+    left: 0;
+    bottom: 0;
+}
+
+/* UI RIGHT*/
+.gamemap-ui-layer-rt {
+    right: 0;
+    top: 0;
+}
+
+.gamemap-ui-layer-rc {
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.gamemap-ui-layer-rb {
+    right: 0;
+    bottom: 0;
+}
+
+/* Gapless config */
+.gamemap-ui-layer-tl > .gamemap-ui-control-gapless {
+    border-bottom-right-radius: 8px;
+}
+.gamemap-ui-layer-tc > .gamemap-ui-control-gapless {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.gamemap-ui-layer-tr > .gamemap-ui-control-gapless {
+    border-bottom-left-radius: 8px;
+}
+.gamemap-ui-layer-bl > .gamemap-ui-control-gapless {
+    border-top-right-radius: 8px;
+}
+.gamemap-ui-layer-bc > .gamemap-ui-control-gapless {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.gamemap-ui-layer-br > .gamemap-ui-control-gapless {
+    border-top-left-radius: 8px;
+}
+.gamemap-ui-layer-lt > .gamemap-ui-control-gapless {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.gamemap-ui-layer-lc > .gamemap-ui-control-gapless {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.gamemap-ui-layer-lb > .gamemap-ui-control-gapless {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.gamemap-ui-layer-rt > .gamemap-ui-control-gapless {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.gamemap-ui-layer-rc > .gamemap-ui-control-gapless {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.gamemap-ui-layer-rb > .gamemap-ui-control-gapless {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.gamemap-ui-control-floating {
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.gamemap-ui-control-default-styling {
+    background-color: rgb(10, 31, 41);
+    border: 1px solid rgb(5, 56, 66);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    color: var(--nis-col-std);
+    font-size: 10pt;
 }

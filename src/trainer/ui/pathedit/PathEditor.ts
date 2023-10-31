@@ -40,10 +40,11 @@ import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
-import {DrawAbilityInteraction} from "../map/interactions/DrawAbilityInteraction";
+import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import DrawRunInteraction from "../map/interactions/DrawRunInteraction";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import PathEditActionBar from "./PathEditActionBar";
+import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -134,7 +135,14 @@ class StepEditWidget extends Widget<{
 
                         if (this._preview) this._preview.remove()
 
-                        new DrawAbilityInteraction(this.parent.editor.game_layer.getMap().getActiveLayer(), s.ability)
+                        // FIXME
+                        new DrawAbilityInteraction(s.ability, false, {
+                            done_handler: (new_s) => {
+                                Object.assign(s, new_s)
+                                this.updatePreview()
+                                this.emit("changed", this.value.raw)
+                            })
+                            /*
                             .setStartPosition(s.from)
                             .tapEvents((e) => {
                                 e
@@ -146,170 +154,187 @@ class StepEditWidget extends Widget<{
                                     .on("cancelled", () => {
                                         this._preview.addTo(this.parent._preview_layer)
                                     })
-                            }).activate()
+                            }).activate()*/
                     })
-                )
-
-                break;
-            case "redclick":
-
-                props.named("Where", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.where))
-                    .on("changed", (c) => {
-                        (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
-                        this.emit("changed", this.value.raw)
-                    })
-
-                props.named("Action", new InteractionSelect()
-                    .setValue(this.value.raw.how)
-                    .on("selection_changed", v => {
-                        (this.value.raw as Path.step_interact).how = v
-                        this.emit("changed", this.value.raw)
-                    })
-                )
-                break
-            case "powerburst":
-
-                props.named("Where", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.where))
-                    .on("changed", (c) => {
-                        (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
-                        this.emit("changed", this.value.raw)
-                    })
-
-                break
-
-            case "run":
-                props.row(new LightButton("Repath")
-                    .on("click", () => {
-                        let s = this.value.raw as Path.step_run
-
-                        if (this._preview) this._preview.remove()
-
-                        new DrawRunInteraction(this.parent.editor.game_layer.getMap().getActiveLayer())
-                            .setStartPosition(s.waypoints[0])
-                            .tapEvents((e) => {
-                                e
-                                    .on("done", (new_s) => {
-                                        Object.assign(s, new_s)
-                                        this.updatePreview()
-                                        this.emit("changed", this.value.raw)
-                                    })
-                                    .on("cancelled", () => {
-                                        this._preview.addTo(this.parent._preview_layer)
-                                    })
-                            }).activate()
-                    })
-                )
-                break
-            case "interaction":
-
-                props.named("Ticks", c("<input type='number' class='nisinput' min='0'>")
-                    .tapRaw((c) => c.val((this.value.raw as Path.step_interact).ticks).on("change", () => {
-                        (this.value.raw as Path.step_interact).ticks = Number(c.val())
-                        this.emit("changed", this.value.raw)
-                    }))
-                )
-
-                props.named("Starts", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.starts))
-                    .on("changed", (c) => {
-                        (this.value.raw as Path.step_interact).starts = c
-                        this.emit("changed", this.value.raw)
-                    })
-
-                props.named("Click", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.where))
-                    .on("changed", (c) => {
-                        (this.value.raw as Path.step_interact).where = c
-                        this.emit("changed", this.value.raw)
-                    })
-
-                props.named("Ends up", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.ends_up))
-                    .on("changed", (c) => {
-                        (this.value.raw as Path.step_interact).ends_up = c
-                        this.emit("changed", this.value.raw)
-                    })
-
-                props.named("Facing", new DirectionSelect()
-                    .setValue(this.value.raw.forced_direction)
-                    .on("selection_changed", v => {
-                        (this.value.raw as Path.step_interact).forced_direction = v
-                        this.emit("changed", this.value.raw)
-                    })
-                )
-
-                props.named("Action", new InteractionSelect()
-                    .setValue(this.value.raw.how)
-                    .on("selection_changed", v => {
-                        (this.value.raw as Path.step_interact).how = v
-                        this.emit("changed", this.value.raw)
-                    })
-                )
-
-                break
-            case "orientation":
-                props.named("Facing", new DirectionSelect()
-                    .setValue(this.value.raw.direction)
-                    .on("selection_changed", v => {
-                        (this.value.raw as Path.step_orientation).direction = v
-                        this.emit("changed", this.value.raw)
-                    })
-                )
-
-                break
-            case "teleport":
-                let current = Teleports.find(teleport_data.getAllFlattened(), this.value.raw.id)
-
-                props.named("Teleport", new TeleportSelect().setValue(current)
-                    .on("selection_changed", v => {
-                        (this.value.raw as Path.step_teleport).id = v.id
-                        this.emit("changed", this.value.raw)
-                    }))
-
-                props.named("Override?", new Checkbox()
-                    .setValue(this.value.raw.spot_override != null)
-                    .on("changed", v => {
-
-                        if (v) (this.value.raw as Path.step_teleport).spot_override = {x: 0, y: 0, level: 0}
-                        else (this.value.raw as Path.step_teleport).spot_override = undefined
-
-                        this.emit("changed", this.value.raw)
-                    })
-                )
-
-                if (this.value.raw.spot_override) {
-                    props.named("Coordinates", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.spot_override)
-                        .on("changed", (c) => {
-                            (this.value.raw as Path.step_teleport).spot_override = c
-                            this.emit("changed", this.value.raw)
-                        })
                     )
-                }
 
-                break
+                        break;
+                    case
+                        "redclick"
+                    :
+
+                        props.named("Where", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.where))
+                            .on("changed", (c) => {
+                                (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
+                                this.emit("changed", this.value.raw)
+                            })
+
+                        props.named("Action", new InteractionSelect()
+                            .setValue(this.value.raw.how)
+                            .on("selection_changed", v => {
+                                (this.value.raw as Path.step_interact).how = v
+                                this.emit("changed", this.value.raw)
+                            })
+                        )
+                        break
+                    case
+                        "powerburst"
+                    :
+
+                        props.named("Where", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.where))
+                            .on("changed", (c) => {
+                                (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
+                                this.emit("changed", this.value.raw)
+                            })
+
+                        break
+
+                    case
+                        "run"
+                    :
+                        props.row(new LightButton("Repath")
+                            .on("click", () => {
+                                let s = this.value.raw as Path.step_run
+
+                                if (this._preview) this._preview.remove()
+
+                                new DrawRunInteraction(this.parent.editor.game_layer.getMap().getActiveLayer())
+                                    .setStartPosition(s.waypoints[0])
+                                    .tapEvents((e) => {
+                                        e
+                                            .on("done", (new_s) => {
+                                                Object.assign(s, new_s)
+                                                this.updatePreview()
+                                                this.emit("changed", this.value.raw)
+                                            })
+                                            .on("cancelled", () => {
+                                                this._preview.addTo(this.parent._preview_layer)
+                                            })
+                                    }).activate()
+                            })
+                        )
+                        break
+                    case
+                        "interaction"
+                    :
+
+                        props.named("Ticks", c("<input type='number' class='nisinput' min='0'>")
+                            .tapRaw((c) => c.val((this.value.raw as Path.step_interact).ticks).on("change", () => {
+                                (this.value.raw as Path.step_interact).ticks = Number(c.val())
+                                this.emit("changed", this.value.raw)
+                            }))
+                        )
+
+                        props.named("Starts", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.starts))
+                            .on("changed", (c) => {
+                                (this.value.raw as Path.step_interact).starts = c
+                                this.emit("changed", this.value.raw)
+                            })
+
+                        props.named("Click", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.where))
+                            .on("changed", (c) => {
+                                (this.value.raw as Path.step_interact).where = c
+                                this.emit("changed", this.value.raw)
+                            })
+
+                        props.named("Ends up", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.ends_up))
+                            .on("changed", (c) => {
+                                (this.value.raw as Path.step_interact).ends_up = c
+                                this.emit("changed", this.value.raw)
+                            })
+
+                        props.named("Facing", new DirectionSelect()
+                            .setValue(this.value.raw.forced_direction)
+                            .on("selection_changed", v => {
+                                (this.value.raw as Path.step_interact).forced_direction = v
+                                this.emit("changed", this.value.raw)
+                            })
+                        )
+
+                        props.named("Action", new InteractionSelect()
+                            .setValue(this.value.raw.how)
+                            .on("selection_changed", v => {
+                                (this.value.raw as Path.step_interact).how = v
+                                this.emit("changed", this.value.raw)
+                            })
+                        )
+
+                        break
+                    case
+                        "orientation"
+                    :
+                        props.named("Facing", new DirectionSelect()
+                            .setValue(this.value.raw.direction)
+                            .on("selection_changed", v => {
+                                (this.value.raw as Path.step_orientation).direction = v
+                                this.emit("changed", this.value.raw)
+                            })
+                        )
+
+                        break
+                    case
+                        "teleport"
+                    :
+                        let current = Teleports.find(teleport_data.getAllFlattened(), this.value.raw.id)
+
+                        props.named("Teleport", new TeleportSelect().setValue(current)
+                            .on("selection_changed", v => {
+                                (this.value.raw as Path.step_teleport).id = v.id
+                                this.emit("changed", this.value.raw)
+                            }))
+
+                        props.named("Override?", new Checkbox()
+                            .setValue(this.value.raw.spot_override != null)
+                            .on("changed", v => {
+
+                                if (v) (this.value.raw as Path.step_teleport).spot_override = {x: 0, y: 0, level: 0}
+                                else (this.value.raw as Path.step_teleport).spot_override = undefined
+
+                                this.emit("changed", this.value.raw)
+                            })
+                        )
+
+                        if (this.value.raw.spot_override) {
+                            props.named("Coordinates", new MapCoordinateEdit(this.parent.editor.game_layer.getMap().getActiveLayer(), this.value.raw.spot_override)
+                                .on("changed", (c) => {
+                                    (this.value.raw as Path.step_teleport).spot_override = c
+                                    this.emit("changed", this.value.raw)
+                                })
+                            )
+                        }
+
+                        break
+                    }
+
+                // TODO: Fix scroll events passing through
+                // TODO: Add analytics
+                // TODO: Action select
+
+                this.updatePreview()
         }
 
-        // TODO: Fix scroll events passing through
-        // TODO: Add analytics
-        // TODO: Action select
+        _preview: OpacityGroup = null
 
-        this.updatePreview()
-    }
+        updatePreview()
+        {
+            this.removePreview()
 
-    _preview: OpacityGroup = null
+            this._preview = createStepGraphics(this.value.raw).addTo(this.parent._preview_layer)
+        }
 
-    updatePreview() {
-        this.removePreview()
-
-        this._preview = createStepGraphics(this.value.raw).addTo(this.parent._preview_layer)
-    }
-
-    removePreview() {
-        if (this._preview) {
-            this._preview.remove()
-            this._preview = null
+        removePreview()
+        {
+            if (this._preview) {
+                this._preview.remove()
+                this._preview = null
+            }
         }
     }
-}
 
-class ControlWidget extends GameMapControl {
+    class
+    ControlWidget
+    extends
+    GameMapControl {
     _preview_layer: leaflet.FeatureGroup
 
     steps_collapsible: Collapsible
@@ -416,106 +441,6 @@ class ControlWidget extends GameMapControl {
         // Render add step buttons
         {
             this.add_buttons_container.empty()
-
-            let surge_button = new MediumImageButton('assets/icons/surge.png').appendTo(this.add_buttons_container)
-                .on("click", async () => {
-                    if (augmented.post_state.position?.tile != null && augmented.post_state.position?.direction != null) {
-                        let res = await surge(augmented.post_state.position)
-
-                        if (res) {
-                            this.editor.value.addBack(Path.auto_describe({
-                                type: "ability",
-                                ability: "surge",
-                                description: "Use {{surge}}",
-                                from: augmented.post_state.position?.tile,
-                                to: res.tile
-                            }))
-
-                            return
-                        }
-                    }
-
-                    let interaction = new DrawAbilityInteraction(this.editor.game_layer.getMap().getActiveLayer(), "surge")
-                    if (augmented.post_state.position?.tile) interaction.setStartPosition(augmented.post_state.position?.tile)
-                    interaction.events.on("done", (s) => {
-                        this.editor.value.addBack(Path.auto_describe(s))
-                    })
-                    interaction.activate()
-                })
-
-            let surge_cooldown = movement_state.surge_cooldown(augmented.post_state)
-
-            if (surge_cooldown > 0) {
-                surge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(surge_cooldown + "t"))
-            }
-
-            let escape_button = new MediumImageButton('assets/icons/escape.png').appendTo(this.add_buttons_container)
-                .on("click", async () => {
-
-                    if (augmented.post_state.position?.tile != null && augmented.post_state.position?.direction != null) {
-                        let res = await escape(augmented.post_state.position)
-
-                        if (res) {
-                            this.editor.value.addBack(Path.auto_describe({
-                                type: "ability",
-                                ability: "escape",
-                                description: "Use {{escape}}",
-                                from: augmented.post_state.position?.tile,
-                                to: res.tile
-                            }))
-
-                            return
-                        }
-                    }
-
-
-                    let interaction = new DrawAbilityInteraction(this.editor.game_layer.getMap().getActiveLayer(), "escape")
-                    if (augmented.post_state.position?.tile) interaction.setStartPosition(augmented.post_state.position?.tile)
-                    interaction.events.on("done", (s) => {
-                        this.editor.value.addBack(Path.auto_describe(s))
-                    })
-                    interaction.activate()
-                })
-
-            let escape_cooldown = movement_state.escape_cooldown(augmented.post_state)
-
-            if (escape_cooldown > 0) {
-                escape_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(escape_cooldown + "t"))
-            }
-
-            let dive_button = new MediumImageButton('assets/icons/dive.png').appendTo(this.add_buttons_container)
-                .on("click", () => {
-                    let interaction = new DrawAbilityInteraction(this.editor.game_layer.getMap().getActiveLayer(), "dive")
-
-                    if (augmented.post_state.position?.tile) interaction.setStartPosition(augmented.post_state.position?.tile)
-
-                    interaction.events.on("done", (s) => {
-                        this.editor.value.addBack(Path.auto_describe(s))
-                    })
-                    interaction.activate()
-                })
-
-            let dive_cooldown = movement_state.dive_cooldown(augmented.post_state)
-
-            if (dive_cooldown > 0) {
-                dive_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(dive_cooldown + "t"))
-            }
-
-            let barge_button = new MediumImageButton('assets/icons/barge.png').appendTo(this.add_buttons_container)
-                .on("click", () => {
-                    let interaction = new DrawAbilityInteraction(this.editor.game_layer.getMap().getActiveLayer(), "barge")
-                    if (augmented.post_state.position?.tile) interaction.setStartPosition(augmented.post_state.position?.tile)
-                    interaction.events.on("done", (s) => {
-                        this.editor.value.addBack(Path.auto_describe(s))
-                    })
-                    interaction.activate()
-                })
-
-            let barge_cooldown = movement_state.barge_cooldown(augmented.post_state)
-
-            if (barge_cooldown > 0) {
-                barge_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(barge_cooldown + "t"))
-            }
 
             new MediumImageButton('assets/icons/run.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
@@ -664,8 +589,6 @@ class PathEditorGameLayer extends GameLayer {
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
-        console.log("Event received")
-
         event.onPost(() => {
             if (this.editor.isActive()) {
                 event.add({type: "basic", text: "Run Here", handler: () => { }})
@@ -705,6 +628,7 @@ class PathEditorGameLayer extends GameLayer {
 class PathBuilder extends Observable<Path.raw> {
     public augmented_async: Observable<Promise<Path.augmented>> = observe(null)
     public augmented: Observable<Path.augmented> = observe(null)
+    public post_state: Observable<Path.movement_state>
 
     private start_state: movement_state = null
     private target: MapRectangle = null
@@ -713,6 +637,7 @@ class PathBuilder extends Observable<Path.raw> {
         super([]);
 
         this.subscribe(v => this.augmented_async.set(Path.augment(v, this.start_state, this.target)))
+        this.post_state = this.augmented.map(p => p?.post_state)
         this.augmented_async.subscribe(v => this.augmented.setAsync(v))
     }
 
@@ -773,11 +698,14 @@ export class PathEditor extends Behaviour {
 
     action_bar: PathEditActionBar
 
+    interaction_guard: InteractionGuard
+
     constructor(public game_layer: GameLayer, public template_resolver: TemplateResolver) {
         super()
 
         this.value.augmented.subscribe(aug => {
             if (this.control) this.control.render(aug)
+            if (this.action_bar) this.action_bar.state.set(aug.post_state)
         })
     }
 
@@ -788,12 +716,18 @@ export class PathEditor extends Behaviour {
 
         this.handler_layer = new PathEditorGameLayer(this).addTo(this.game_layer)
 
+        this.interaction_guard = new InteractionGuard().addTo(this.handler_layer)
+
         this.value.setMeta(options.start_state, options.target)
 
         this.value.set(path)
 
         this.control = new ControlWidget(this).addTo(this.handler_layer)
-        this.action_bar = new PathEditActionBar().addTo(this.handler_layer)
+        this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
+
+        this.action_bar.events.on("step_added", (step) => {
+            this.value.addBack(step)
+        })
 
         this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
     }

@@ -1,8 +1,5 @@
-import LayerInteraction from "./LayerInteraction";
-import {ActiveLayer} from "../../../../lib/gamemap/activeLayer";
 import {MapCoordinate} from "../../../../lib/runescape/coordinates";
 import * as leaflet from "leaflet";
-import {LeafletMouseEvent} from "leaflet";
 import {HostedMapData, move, MovementAbilities} from "../../../../lib/runescape/movement";
 import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../../path_graphics";
@@ -11,14 +8,12 @@ import {Path} from "../../../../lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
 import {Vector2} from "../../../../lib/math/Vector";
 import Checkbox from "../../../../lib/ui/controls/Checkbox";
-import {util} from "../../../../lib/util/util";
+import {GameMapControl} from "../../../../lib/gamemap/GameMapControl";
+import Widget from "../../../../lib/ui/Widget";
+import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
+import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
 
-
-
-export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
-    "done": Path.step_ability,
-    "cancelled": null
-}> {
+export class DrawAbilityInteraction extends InteractionLayer {
     private start_position: MapCoordinate = null
 
     _overlay_position: MapCoordinate = null
@@ -32,15 +27,24 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         to: MapCoordinate
     }
 
-    instruction_div: JQuery
+    instruction_div: Widget
     reset_button: LightButton
     cancel_button: LightButton
 
-    constructor(layer: ActiveLayer, private ability: MovementAbilities.movement_ability,
-                private reverse: boolean = false) {
-        super(layer)
+    constructor(private ability: MovementAbilities.movement_ability,
+                private reverse: boolean = false,
+                private config: {
+                    done_handler: (_: Path.step) => void,
+                }
+    ) {
+        super()
 
-        this.instruction_div = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
+        let top_control = new GameMapControl({
+            position: "top-center",
+            type: "gapless"
+        }).addTo(this)
+
+        this.instruction_div = c("<div style='text-align: center'>").appendTo(top_control.content)
 
         c("<div style='display: flex'></div>")
             .append(new Checkbox().on("changed", v => {
@@ -58,14 +62,13 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
                 }
             }))
             .append(c().text("Reverse"))
-            .appendTo(this.getTopControl().container)
+            .appendTo(top_control.content)
 
-        let control_row = $("<div style='text-align: center'>").appendTo(this.getTopControl().container)
+        let control_row = c("<div style='text-align: center'>").appendTo(top_control.content)
 
         this.cancel_button = new LightButton("Cancel")
             .on("click", () => {
-                this.events.emit("cancelled", null)
-                this.deactivate()
+                this.cancel()       // TODO: Is this enough?
             })
             .appendTo(control_row)
 
@@ -100,7 +103,6 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         this._possibility_overlay = leaflet.featureGroup()
 
 
-
         for (let dx = -10; dx <= 10; dx++) {
             for (let dy = -10; dy <= 10; dy++) {
 
@@ -129,7 +131,7 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
             })
             .addTo(this._possibility_overlay)
 
-        this._possibility_overlay.addTo(this.layer)
+        this._possibility_overlay.addTo(this)
     }
 
     private async update_preview(p: MapCoordinate) {
@@ -167,12 +169,12 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
                 description: "",
                 from: this._previewed.from,
                 to: res.tile
-            }).addTo(this.layer)
+            }).addTo(this)
         } else {
             this._dive_preview = arrow(this._previewed.from, this._previewed.to).setStyle({
                 weight: 3,
                 color: "red"
-            }).addTo(this.layer)
+            }).addTo(this)
         }
 
     }
@@ -183,19 +185,8 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         if (!this.start_position) {
             this.instruction_div.text(`Click the start location of the ${this.ability}.`)
         } else {
-            this.instruction_div.html(`${capitalize(this.ability)} from ${this.start_position.x} | ${this.start_position.y}.<br> Click where the ability is targeted.`)
+            this.instruction_div.setInnerHtml(`${capitalize(this.ability)} from ${this.start_position.x} | ${this.start_position.y}.<br> Click where the ability is targeted.`)
         }
-    }
-
-    cancel() {
-        if (this._possibility_overlay) this._possibility_overlay.remove()
-        if (this._dive_preview) this._dive_preview.remove()
-
-        this.layer.getMap().off(this._maphooks)
-    }
-
-    start() {
-        this.layer.getMap().on(this._maphooks)
     }
 
     private fromTo(a: MapCoordinate, b: MapCoordinate): [MapCoordinate, MapCoordinate] {
@@ -203,12 +194,12 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
         else return [a, b]
     }
 
-    _maphooks: leaflet.LeafletEventHandlerFnMap = {
+    eventClick(event: GameMapMouseEvent) {
+        event.onPre(async () => {
 
-        "click": async (e: LeafletMouseEvent) => {
-            leaflet.DomEvent.stopPropagation(e)
+            event.stopAllPropagation()
 
-            let tile = this.layer.getMap().eventTile(e)
+            let tile = event.tile()
 
             if (!this.start_position) {
                 this.start_position = tile
@@ -221,7 +212,7 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
                 let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
 
                 if (res) {
-                    this.events.emit("done", {
+                    this.config.done_handler({
                         type: "ability",
                         ability: this.ability,
                         description: `Use {{${this.ability}}}`,
@@ -229,16 +220,16 @@ export class DrawAbilityInteraction extends LayerInteraction<ActiveLayer, {
                         to: res.tile
                     })
 
-                    this.deactivate()
+                    this.cancel()
                 }
             }
-        },
+        })
+    }
 
-        "mousemove": async (e: LeafletMouseEvent) => {
-            let tile = this.layer.getMap().eventTile(e)
+    eventHover(event: GameMapMouseEvent) {
+        let tile = event.tile()
 
-            if (!this.start_position) this.update_overlay(tile)
-            else this.update_preview(tile)
-        },
+        if (!this.start_position) this.update_overlay(tile)
+        else this.update_preview(tile)
     }
 }

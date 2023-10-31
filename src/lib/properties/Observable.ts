@@ -1,8 +1,9 @@
 import {TypedEmitter} from "skillbertssolver/eventemitter";
+import Property from "./Property";
 
 export class Observable<T> extends TypedEmitter<{
     changed: { new: T, old: T }
-}> {
+}> implements Property<T> {
     private value: T
 
     constructor(initial: T,

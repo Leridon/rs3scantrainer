@@ -36,7 +36,7 @@ export class GameMapControl extends GameLayer {
         }
 
         // Disable events propagating to the map // TODO: Do I really need this?
-        this.content.container.on("blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize select submit mousewheel", (e) => e.stopPropagation())
+        this.content.container.on("contextmenu blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize select submit mousewheel", (e) => e.stopPropagation())
     }
     onAdd(map: GameMap) {
         map.addControl(this)

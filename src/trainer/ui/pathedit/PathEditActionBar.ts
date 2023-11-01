@@ -4,13 +4,12 @@ import Button from "../../../lib/ui/controls/Button";
 import Widget from "../../../lib/ui/Widget";
 import {Path} from "../../../lib/runescape/pathing";
 import movement_state = Path.movement_state;
-import GameLayer from "../../../lib/gamemap/GameLayer";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {MovementAbilities, PlayerPosition} from "../../../lib/runescape/movement";
-import surge = MovementAbilities.surge;
 import {Observable, observe} from "../../../lib/properties/Observable";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
+import DrawRunInteraction from "./interactions/DrawRunInteraction";
 
 class ActionBarButton extends Button {
     constructor(icon: string,
@@ -43,7 +42,7 @@ export default class PathEditActionBar extends GameMapControl {
             type: "gapless"
         });
 
-        if (!this.interaction_guard) this.interaction_guard = new InteractionGuard().addTo(this)
+        if (!this.interaction_guard) this.interaction_guard = new InteractionGuard()
 
         this.state.subscribe((s) => this.render(s), true)
     }
@@ -81,7 +80,7 @@ export default class PathEditActionBar extends GameMapControl {
                 done_handler: (step) => self.events.emit("step_added", step)
             }).setStartPosition(state.position?.tile)
 
-            self.interaction_guard.set(interaction)
+            self.interaction_guard.set(interaction, self)
         }
 
         [
@@ -93,7 +92,16 @@ export default class PathEditActionBar extends GameMapControl {
                 .on("click", async () => await ability_handle({ability: "dive"})),
             new ActionBarButton('assets/icons/barge.png', movement_state.barge_cooldown(state)).tooltip("Barge")
                 .on("click", async () => await ability_handle({ability: "barge"})),
-            new ActionBarButton('assets/icons/run.png').tooltip("Run"),
+            new ActionBarButton('assets/icons/run.png').tooltip("Run")
+                .on("click", async () => {
+
+                    self.interaction_guard.set(
+                        new DrawRunInteraction({done_handler: (step) => self.events.emit("step_added", step)})
+                            .setStartPosition(state.position?.tile),
+                        self
+                    )
+                })
+            ,
             new ActionBarButton('assets/icons/teleports/homeport.png').tooltip("Teleport"),
             new ActionBarButton('assets/icons/redclick.png').tooltip("Redclick"),
             new ActionBarButton('assets/icons/accel.png', Math.max(state.acceleration_activation_tick + 120 - state.tick, 0)).tooltip("Powerburst of Acceleration"),

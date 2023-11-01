@@ -1,18 +1,18 @@
-import Widget from "../../../lib/ui/Widget";
+import Button from "../../../lib/ui/controls/Button";
 
-// TODO: Migrate to button class
-export default class SmallImageButton extends Widget<{
-    "click": SmallImageButton
-}> {
-    constructor(container: JQuery) {
+export default class SmallImageButton extends Button {
+    constructor(container: JQuery = null) {
         super(container)
 
-        container.on("click", () => {
-            if (!this.container.hasClass("disabled")) this.emit("click", this)
-        })
+        if (!container) {
+            this.container.addClass("nissmallimagebutton")
+            this.append(c("<img>"))
+        }
     }
 
     setEnabled(enabled: boolean): this {
+        super.setEnabled(enabled)
+
         if (enabled) this.container.removeClass("disabled")
         else this.container.addClass("disabled")
 
@@ -25,10 +25,6 @@ export default class SmallImageButton extends Widget<{
     }
 
     static new(icon: string) {
-        let btn = new SmallImageButton($("<div class='nissmallimagebutton'><img></div>"))
-
-        btn.setIcon(icon)
-
-        return btn
+        return new SmallImageButton().setIcon(icon)
     }
 }

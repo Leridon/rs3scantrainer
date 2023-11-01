@@ -5,11 +5,12 @@ import Widget from "../../../lib/ui/Widget";
 import {Path} from "../../../lib/runescape/pathing";
 import movement_state = Path.movement_state;
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import {MovementAbilities, PlayerPosition} from "../../../lib/runescape/movement";
+import {direction, MovementAbilities, PlayerPosition} from "../../../lib/runescape/movement";
 import {Observable, observe} from "../../../lib/properties/Observable";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
+import ContextMenu, {Menu} from "../widgets/ContextMenu";
 
 class ActionBarButton extends Button {
     constructor(icon: string,
@@ -106,7 +107,25 @@ export default class PathEditActionBar extends GameMapControl {
             new ActionBarButton('assets/icons/redclick.png').tooltip("Redclick"),
             new ActionBarButton('assets/icons/accel.png', Math.max(state.acceleration_activation_tick + 120 - state.tick, 0)).tooltip("Powerburst of Acceleration"),
             new ActionBarButton('assets/icons/shortcut.png').tooltip("Shortcut"),
-            new ActionBarButton('assets/icons/compass.png', state.position.tile ? -1 : 0).tooltip("Compass"),
+            new ActionBarButton('assets/icons/compass.png', state.position.tile ? -1 : 0).tooltip("Compass")
+                .on("click", (e) => {
+                    let menu: Menu = direction.all.map(d => {
+                        return {
+                            type: "basic",
+                            text: direction.toString(d),
+                            handler: () => {
+                                self.events.emit("step_added", Path.auto_describe({
+                                    type: "orientation",
+                                    description: "",
+                                    direction: d
+                                }))
+                            }
+                        }
+                    })
+
+                    new ContextMenu(menu).showFromEvent(e)
+                })
+            ,
             //new ActionBarButton('assets/icons/regenerate.png'),
         ].forEach(b => this.bar.append(b))
     }

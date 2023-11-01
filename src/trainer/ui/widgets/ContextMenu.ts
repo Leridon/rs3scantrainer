@@ -24,6 +24,10 @@ export default class ContextMenu extends Widget {
 
         c().addClass("nisl-context-menu-header").text("Choose Option").appendTo(this)
 
+        // TODO: Disable wrapping inside of sensible limits
+        // TODO: Allow submenus
+        // TODO: Section dividers
+
         menu.forEach(o => {
             c().addClass("nisl-context-menu-entry").text(o.text).appendTo(this)
                 .tapRaw(r => r.on("click", () => {
@@ -39,7 +43,11 @@ export default class ContextMenu extends Widget {
             .tapRaw(r => r.on("click", () => this.cancel()))
     }
 
-    show(target: HTMLElement, position: Vector2) {
+    showFromEvent(e: JQuery.MouseEventBase): this {
+        return this.show(e.target, {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
+    }
+
+    show(target: HTMLElement, position: Vector2): this {
         if (this.instance) {
             this.instance.destroy()
             this.instance = null
@@ -68,6 +76,8 @@ export default class ContextMenu extends Widget {
         });
 
         this.instance.show()
+
+        return this
     }
 
     cancel() {

@@ -1,10 +1,10 @@
 import Widget from "../Widget";
 
 export default class Button extends Widget<{
-    "click": null
+    "click": JQuery.ClickEvent
 }> {
-    constructor() {
-        super();
+    constructor(container: JQuery = $("<div>")) {
+        super(container);
 
         this.addClass("lcss-button")
 
@@ -13,7 +13,7 @@ export default class Button extends Widget<{
 
             if (!this.container.hasClass("enabled")) return
 
-            this.emit("click", null)
+            this.emit("click", e)
         })
 
         this.setEnabled(true)

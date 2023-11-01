@@ -483,15 +483,6 @@ class ControlWidget extends GameMapControl {
                         }))
                 })
 
-            new MediumImageButton('assets/icons/compass.png').appendTo(this.add_buttons_container)
-                .on("click", () => {
-                    this.editor.value.addBack(Path.auto_describe({
-                        type: "orientation",
-                        description: `Face ${direction.toString(1)}`,
-                        direction: 1
-                    }))
-                })
-
             new MediumImageButton('assets/icons/regenerate.png').appendTo(this.add_buttons_container)
                 .tooltip("Autocomplete - Hopefully coming soon")
                 .setEnabled(false)

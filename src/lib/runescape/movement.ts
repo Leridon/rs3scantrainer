@@ -166,10 +166,10 @@ export namespace direction {
             "north",
             "east",
             "south",
-            "northwest",
-            "northeast",
-            "southeast",
-            "southwest"
+            "north-west",
+            "north-east",
+            "south-east",
+            "south-west"
         ][dir]
     }
 

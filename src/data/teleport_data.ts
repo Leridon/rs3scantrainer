@@ -337,6 +337,7 @@ export namespace teleport_data {
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
+
                 {
                     id: "watchtower",
                     spot: {x: 2548, y: 3115, level: 2},

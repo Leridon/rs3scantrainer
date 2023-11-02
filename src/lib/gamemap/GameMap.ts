@@ -61,8 +61,6 @@ export class GameMap extends leaflet.Map {
 
     private internal_root_layer: GameLayer
 
-    private activeLayer: ActiveLayer = null
-
     private baseLayers: leaflet.TileLayer[]
 
     public dragAction: Observable<GameMapDragAction> = observe(null)
@@ -134,9 +132,6 @@ export class GameMap extends leaflet.Map {
             }
         })
 
-        // Set a default active layer
-        this.setActiveLayer(new ActiveLayer())
-
         // Add subtle gridlines
         new Graticule({
             intervals: [
@@ -158,6 +153,10 @@ export class GameMap extends leaflet.Map {
         this.updateBaseLayers()
 
         this.floor.subscribe(() => this.updateBaseLayers())
+    }
+
+    public getTeleportLayer(): TeleportLayer {
+        return this.teleportLayer
     }
 
     public addGameLayer(layer: GameLayer): this {
@@ -252,25 +251,9 @@ export class GameMap extends leaflet.Map {
         return this
     }
 
-    setActiveLayer(layer: ActiveLayer) {
-        if (this.activeLayer) {
-            this.activeLayer.deactivate()
-            this.activeLayer.remove()
-        }
-
-        this.activeLayer = layer
-
-        this.activeLayer.addTo(this.internal_root_layer)
-
-        this.activeLayer.activate(this)
-    }
-
-    getActiveLayer() {
-        return this.activeLayer
-    }
-
-    eventTile(e: leaflet.LeafletMouseEvent): MapCoordinate {
-        return MapCoordinate.snap(this.eventCoordinate(e))
+    getActiveLayer() : ActiveLayer{
+        // TODO: Remove
+        return new ActiveLayer()
     }
 
     eventCoordinate(e: leaflet.LeafletMouseEvent): MapCoordinate {

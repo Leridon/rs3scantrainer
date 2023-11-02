@@ -33,7 +33,7 @@ class TeleportIcon extends leaflet.Icon {
 
 export class TeleportLayer extends leaflet.FeatureGroup {
 
-    constructor(teleports: flat_teleport[]) {
+    constructor(public teleports: flat_teleport[]) {
         super()
 
         for (let tele of teleports) {

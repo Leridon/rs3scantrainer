@@ -5,6 +5,45 @@ import {Rectangle, Vector2} from "../math/Vector";
 
 export namespace Shortcuts {
 
+    //Shortcuts: From A to B
+    /*
+        Shortcuts:
+            - From A to B
+            - From A* to B
+            - From A* to B* (1 to 1)
+        Doors: A to B, A* to B*
+        Portals: A* to B
+        Stairs/Ladders: A* to B, A* to B*
+
+
+        type: "door" | "entity"
+        Clickable Area: MapRectangle (Entity size)
+        Interaction Area: MapRectangle, where the player can trigger the action from
+        Animation Time: number, ticks until the player can move again
+        Target: Move to specific spot | Offset player position
+
+        Entity Name: string
+        Action Name: string
+
+     */
+
+    export type new_shortcut = ({
+        type: "door",
+        area: MapRectangle,
+        direction: "northsouth" | "eastwest"
+    } | {
+        type: "entity",
+        name: string,
+        clickable_area: MapRectangle,
+        actions: {
+            cursor: Path.InteractionType,
+            interactive_area: MapRectangle,
+            time: number,
+            name: string,
+            movement: { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }
+        }[]
+    }) & { id: number }
+
     type start_t = { type: "area", area: MapRectangle } | { type: "tile", tile: MapCoordinate }
     type click_t = { type: "area", area: MapRectangle, where: "center" | "nearest" } | { type: "tile", tile: MapCoordinate }
     type movement_t = { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }

@@ -15,7 +15,7 @@ import ImportStringModal from "../widgets/modals/ImportStringModal";
 import InteractionSelect from "./InteractionSelect";
 import {Path} from "lib/runescape/pathing";
 import TeleportSelect from "./TeleportSelect";
-import {Teleports} from "lib/runescape/teleports";
+import {full_teleport_id, Teleports} from "lib/runescape/teleports";
 import {teleport_data} from "data/teleport_data";
 import Checkbox from "../../../lib/ui/controls/Checkbox";
 import {tilePolygon} from "../polygon_helpers";
@@ -23,7 +23,7 @@ import MovementStateView from "./MovementStateView";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {QueryLinks} from "trainer/query_functions";
 import {util} from "../../../lib/util/util";
-import {MapRectangle} from "lib/runescape/coordinates";
+import {MapCoordinate, MapRectangle} from "lib/runescape/coordinates";
 import movement_state = Path.movement_state;
 import issue = Path.issue;
 import SelectShortcutInteraction from "../scanedit/SelectShortcutInteraction";
@@ -422,18 +422,6 @@ class ControlWidget extends GameMapControl {
         {
             this.add_buttons_container.empty()
 
-            new MediumImageButton('assets/icons/teleports/homeport.png').appendTo(this.add_buttons_container)
-                .on("click", () => {
-                        this.editor.value.addBack(Path.auto_describe({
-                            description: "Teleport",
-                            type: "teleport",
-                            id: {
-                                group: "home",
-                                sub: "lumbridge"
-                            }
-                        }))
-                    }
-                )
             new MediumImageButton('assets/icons/redclick.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
                     new SelectTileInteraction(this.editor.game_layer.getMap().getActiveLayer())
@@ -446,20 +434,6 @@ class ControlWidget extends GameMapControl {
                             }))
                         })).activate()
                 })
-
-            new MediumImageButton('assets/icons/shortcut.png').appendTo(this.add_buttons_container)
-                .on("click", () => {
-
-                    new SelectShortcutInteraction(this.editor.game_layer.getMap().getActiveLayer(), augmented.post_state.position?.tile)
-                        .activate()
-                        .tapEvents(e => e.on("selected", (s) => {
-                            this.editor.value.addBack(s)
-                        }))
-                })
-
-            new MediumImageButton('assets/icons/regenerate.png').appendTo(this.add_buttons_container)
-                .tooltip("Autocomplete - Hopefully coming soon")
-                .setEnabled(false)
         }
 
         // Render edit widgets for indiviual steps
@@ -535,10 +509,29 @@ class PathEditorGameLayer extends GameLayer {
                     }
                 })
 
-                let tile = this.editor.value.augmented.get().post_state.position.tile || {x: 0, y: 0, level: 0}
+                let tile = event.tile()
+
+                {
+                    let teleports = this.getMap().getTeleportLayer().teleports
+                        .filter(t => Vector2.max_axis(Vector2.sub(t.spot, tile)) < 2)
+
+                    teleports.forEach(t => {
+                        event.add({
+                            type: "basic",
+                            text: `Teleport: ${t.hover}`,
+                            handler: () => {
+                                this.editor.value.addBack(Path.auto_describe({
+                                    type: "teleport",
+                                    description: "",
+                                    id: t.id,
+                                }))
+                            }
+                        })
+                    })
+                }
 
                 event.add(...Shortcuts.index
-                    .filter(s => Vector2.max_axis(Vector2.sub(Shortcuts.click.get(s.click, null), tile)) < 0.5)
+                    .filter(s => Vector2.max_axis(Vector2.sub(Shortcuts.click.get(s.click, null), tile)) < 2)
                     .map(s => {
                         return {
                             type: "basic",

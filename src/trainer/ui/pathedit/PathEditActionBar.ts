@@ -11,6 +11,8 @@ import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
+import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
+import PlacePowerburstInteraction from "./interactions/PlacePowerburstInteraction";
 
 class ActionBarButton extends Button {
     constructor(icon: string,
@@ -101,11 +103,26 @@ export default class PathEditActionBar extends GameMapControl {
                             .setStartPosition(state.position?.tile),
                         self
                     )
-                })
-            ,
+                }),
             new ActionBarButton('assets/icons/teleports/homeport.png').tooltip("Teleport"),
             new ActionBarButton('assets/icons/redclick.png').tooltip("Redclick"),
-            new ActionBarButton('assets/icons/accel.png', Math.max(state.acceleration_activation_tick + 120 - state.tick, 0)).tooltip("Powerburst of Acceleration"),
+            new ActionBarButton('assets/icons/accel.png',
+                Math.max(state.acceleration_activation_tick + 120 - state.tick, 0))
+                .tooltip("Powerburst of Acceleration")
+                .on("click", () => {
+                    if (state.position?.tile) {
+                        this.editor.value.addBack(Path.auto_describe({
+                            type: "powerburst",
+                            description: "",
+                            where: state.position.tile
+                        }))
+                    } else {
+                        self.interaction_guard.set(
+                            new PlacePowerburstInteraction({
+                                done_handler: (step) => self.events.emit("step_added", step)
+                            }), self)
+                    }
+                }),
             new ActionBarButton('assets/icons/shortcut.png').tooltip("Shortcut"),
             new ActionBarButton('assets/icons/compass.png', state.position.tile ? -1 : 0).tooltip("Compass")
                 .on("click", (e) => {

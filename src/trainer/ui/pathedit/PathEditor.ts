@@ -447,32 +447,6 @@ class ControlWidget extends GameMapControl {
                         })).activate()
                 })
 
-            let accel_button = new MediumImageButton('assets/icons/accel.png').appendTo(this.add_buttons_container)
-                .on("click", () => {
-                    if (augmented.post_state.position?.tile) {
-                        this.editor.value.addBack(Path.auto_describe({
-                            type: "powerburst",
-                            description: "Use a {{icon accel}}",
-                            where: augmented.post_state.position.tile
-                        }))
-                    } else {
-                        new SelectTileInteraction(this.editor.game_layer.getMap().getActiveLayer())
-                            .tapEvents((e) => e.on("selected", (t) => {
-                                this.editor.value.addBack(Path.auto_describe({
-                                    type: "powerburst",
-                                    description: "Use a {{icon accel}}",
-                                    where: t
-                                }))
-                            })).activate()
-                    }
-                })
-
-            let accel_cooldown = Math.max(augmented.post_state.acceleration_activation_tick + 120 - augmented.post_state.tick, 0)
-
-            if (accel_cooldown > 0) {
-                accel_button.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(accel_cooldown + "t"))
-            }
-
             new MediumImageButton('assets/icons/shortcut.png').appendTo(this.add_buttons_container)
                 .on("click", () => {
 

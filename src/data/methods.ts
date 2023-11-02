@@ -11259,7 +11259,6 @@ let raw: Method[] = [
                     "id": {
                         "group": "normalspellbook",
                         "sub": "varrock",
-                        "variant": "default"
                     }
                 }
             ],
@@ -13153,7 +13152,6 @@ let raw: Method[] = [
                                                         "id": {
                                                             "group": "normalspellbook",
                                                             "sub": "varrock",
-                                                            "variant": "default"
                                                         }
                                                     },
                                                     {

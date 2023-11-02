@@ -575,8 +575,7 @@ export namespace Path {
         } else if (step.type === "teleport") {
             let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
 
-            if (teleport.variant && teleport.variant.name) return `{{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.variant.name}`
-            else if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.sub.name}`
+             if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.sub.name}`
             else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
         } else if (step.type === "interaction") {
             return "Use entrance/shortcut"; // TODO:

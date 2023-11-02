@@ -13,17 +13,14 @@ export type teleport_group = {
 
 export type teleport_spot = {
     id: string
-    spot: MapCoordinate | (teleport_variant[])
+    spot: MapCoordinate
     facing?: direction
     code?: string
-    has_variants?: boolean
     name?: string
     menu_ticks: number
     animation_ticks: number
     img?: string | { url: string, width?: number, height?: number }
 }
-
-export type teleport_variant = { id: string, name: string, spot: MapCoordinate }
 
 export type flat_teleport = {
     id: full_teleport_id,
@@ -33,7 +30,6 @@ export type flat_teleport = {
     hover?: string,
     group: teleport_group,
     sub: teleport_spot,
-    variant?: teleport_variant
     menu_ticks: number
     animation_ticks: number
 }
@@ -41,8 +37,7 @@ export type flat_teleport = {
 type teleport_settings = {
     variants: {
         id: string,
-        subid: string,
-        variant_id: string
+        subid: string
     }[]
     fairy_ring_favourites: string[],
     potas: {
@@ -55,7 +50,6 @@ type teleport_settings = {
 export type full_teleport_id = {
     group: string,
     sub: string,
-    variant?: string
 }
 
 export class Teleports extends TypedEmitter<{
@@ -93,7 +87,7 @@ export namespace Teleports {
 
     export namespace teleport_id {
         export function equals(a: full_teleport_id, b: full_teleport_id) {
-            return a.group == b.group && a.sub == b.sub && ((!a.variant && !b.variant) || (a.variant == b.variant))
+            return a.group == b.group && a.sub == b.sub
         }
     }
 
@@ -120,59 +114,36 @@ export namespace Teleports {
             let pota_prefix = pota ? `${pota.slots.indexOf(group.id) + 1},` : ""
 
             for (let sub of group.spots) {
+                let hover = group.name || sub.name
+                if (group.name && sub.name) hover = `${group.name} - ${sub.name}`
 
-                let variants: teleport_variant[]
-
-                if (sub.has_variants) {
-                    if (all_variants) variants = sub.spot as { id: string, name: string, spot: MapCoordinate }[]
-                    else {
-                        let vars = sub.spot as { id: string, name: string, spot: MapCoordinate }[]
-
-                        let selected = settings.variants.find((v) => v.id == group.id && v.subid == sub.id)
-
-                        variants = [selected
-                            ? vars.find((v) => v.id == selected.variant_id)
-                            : vars[0]]
-                    }
-                } else {
-                    variants = [{id: undefined, name: "", spot: sub.spot as MapCoordinate}]
+                let flat: flat_teleport = {
+                    id: {
+                        group: group.id,
+                        sub: sub.id,
+                    },
+                    spot: sub.spot,
+                    icon: sub.img || group.img,
+                    code: sub.code,
+                    hover: hover,
+                    group: group,
+                    sub: sub,
+                    menu_ticks: sub.menu_ticks,
+                    animation_ticks: sub.animation_ticks,
                 }
 
-                for (let variant of variants) {
-                    let hover = group.name || sub.name
-                    if (group.name && sub.name) hover = `${group.name} - ${sub.name}`
-
-                    if (variant.name) hover += ` - ${variant.name}`
-
-                    let flat: flat_teleport = {
-                        id: {
-                            group: group.id,
-                            sub: sub.id,
-                            variant: variant.id
-                        },
-                        spot: variant.spot,
-                        icon: sub.img || group.img,
-                        code: sub.code,
-                        hover: hover,
-                        group: group,
-                        sub: sub,
-                        variant: variant.id ? variant : undefined,
-                        menu_ticks: sub.menu_ticks,
-                        animation_ticks: sub.animation_ticks,
-                    }
-
-                    if (group.id == "fairyring") {
-                        let index = settings.fairy_ring_favourites.indexOf(sub.id)
-                        if (index >= 0) flat.code = ((index + 1) % 10).toString()
-                    }
-
-                    if (pota) {
-                        flat.code = pota_prefix + flat.code
-                        flat.icon = `pota_${pota.color}.png`
-                    }
-
-                    data.push(flat)
+                if (group.id == "fairyring") {
+                    let index = settings.fairy_ring_favourites.indexOf(sub.id)
+                    if (index >= 0) flat.code = ((index + 1) % 10).toString()
                 }
+
+                if (pota) {
+                    flat.code = pota_prefix + flat.code
+                    flat.icon = `pota_${pota.color}.png`
+                }
+
+                data.push(flat)
+
             }
         }
 

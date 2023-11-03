@@ -1,10 +1,13 @@
 import GameLayer from "../GameLayer";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
+import {GameMap} from "../GameMap";
+import Checks from "../../../skillbertssolver/typecheck";
+import int = Checks.int;
 
 export class InteractionGuard {
     private interaction: InteractionLayer = null
 
-    set(interaction: InteractionLayer, target: GameLayer): this {
+    set<T extends InteractionLayer>(interaction: T, target: GameLayer): T {
         this.reset()
 
 
@@ -17,15 +20,12 @@ export class InteractionGuard {
             interaction.addTo(target)
         }
 
-        return this
+        return interaction
     }
 
     reset() {
         if (this.interaction) {
-            console.log("Removing")
-            console.log(this.interaction)
             this.interaction._guard = null
-            this.interaction.remove()
             this.interaction.cancel()
         }
 
@@ -39,18 +39,37 @@ export default class InteractionLayer extends GameLayer {
     _guard: InteractionGuard = null
 
     events: TypedEmitter<{
-        "cancelled": InteractionLayer
+        "cancelled": InteractionLayer,
+        "started": InteractionLayer
     }> = new TypedEmitter()
 
-    cancel() {
-        console.log("Cancel")
+    onAdd(map: GameMap): this {
+        super.onAdd(map)
 
-        if (this._guard) this._guard.reset()
-        else this.cancelled()
+        this.events.emit("started", this)
+
+        return this
     }
 
-    onCancel(handler: () => any) {
+    cancel() {
+        if (this._guard) this._guard.reset()
+        this.remove()
+        this.cancelled()
+    }
+
+    handle(event: "cancelled" | "started", handler: (_: InteractionLayer) => void): this {
+        this.events.on(event, handler)
+        return this
+    }
+
+    onEnd(handler: () => any): this {
         this.events.on("cancelled", handler)
+        return this
+    }
+
+    onStart(handler: () => void): this {
+        this.events.on("started", handler)
+        return this
     }
 
     protected cancelled() {

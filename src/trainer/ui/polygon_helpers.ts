@@ -1,6 +1,7 @@
 import {Raster} from "../../lib/util/raster";
 import {Rectangle, Vector2} from "../../lib/math/Vector";
 import * as leaflet from "leaflet";
+import {LatLngExpression} from "leaflet";
 
 export function areaToPolygon<T>(raster: Raster<T>,
                                  f: (T) => boolean,
@@ -166,4 +167,19 @@ export function boxPolygon(tile: Rectangle): leaflet.Polygon {
         {x: tile.botright.x + 0.5, y: tile.botright.y - 0.5},
         {x: tile.topleft.x - 0.5, y: tile.botright.y - 0.5},
     ].map(Vector2.toLatLong))
+}
+
+/**
+ * This function creates a polygon from a rectangle, interpreting the coordinates
+ * as real coordinates instead of tile indices. This means, that a rectangle
+ * where topleft equals botright has a width of zero instead of one.
+ * @param rect
+ */
+export function boxPolygon2(rect: Rectangle): LatLngExpression[] {
+    return [
+        rect.topleft,
+        {x: rect.botright.x, y: rect.topleft.y},
+        rect.botright,
+        {x: rect.topleft.x, y: rect.botright.y},
+    ].map(Vector2.toLatLong)
 }

@@ -27,11 +27,7 @@ export namespace Shortcuts {
 
      */
 
-    export type new_shortcut = ({
-        type: "door",
-        area: MapRectangle,
-        direction: "northsouth" | "eastwest"
-    } | {
+    export type new_shortcut_entity = {
         type: "entity",
         name: string,
         clickable_area: MapRectangle,
@@ -42,7 +38,73 @@ export namespace Shortcuts {
             name: string,
             movement: { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }
         }[]
-    }) & { id: number }
+    }
+
+    export type new_shortcut_door = {
+        type: "door",
+        name: string,
+        area: MapRectangle,
+        direction: "northsouth" | "eastwest"
+    }
+
+    export type new_shortcut = new_shortcut_entity | new_shortcut_door
+
+    export namespace new_shortcut {
+        export function normalize(shortcut: new_shortcut): new_shortcut_entity {
+            if (shortcut.type == "entity") return shortcut
+
+            switch (shortcut.direction) {
+                case "northsouth":
+                    return {
+                        type: "entity",
+                        name: shortcut.name,
+                        clickable_area: {
+                            topleft: Vector2.add(shortcut.area.topleft, {x: -0.5, y: 0}),
+                            botright: Vector2.add(shortcut.area.botright, {x: 0.5, y: 0}),
+                            level: shortcut.area.level
+                        },
+                        actions: [{
+                            cursor: "open",
+                            interactive_area: MapRectangle.left(shortcut.area),
+                            time: 1,
+                            name: "Cross south",
+                            movement: {type: "offset", offset: {x: 0, y: -1}, level: shortcut.area.level}
+                        }, {
+                            cursor: "open",
+                            interactive_area: MapRectangle.right(shortcut.area),
+                            time: 1,
+                            name: "Cross north",
+                            movement: {type: "offset", offset: {x: 0, y: 1}, level: shortcut.area.level}
+                        }]
+                    }
+                case "eastwest":
+                    return {
+                        type: "entity",
+                        name: shortcut.name,
+                        clickable_area: {
+                            topleft: Vector2.add(shortcut.area.topleft, {x: 0, y: 0.5}),
+                            botright: Vector2.add(shortcut.area.botright, {x: 0, y: -0.5}),
+                            level: shortcut.area.level
+                        },
+                        actions: [{
+                            cursor: "open",
+                            interactive_area: MapRectangle.left(shortcut.area),
+                            time: 1,
+                            name: "Cross east",
+                            movement: {type: "offset", offset: {x: 1, y: 0}, level: shortcut.area.level}
+                        }, {
+                            cursor: "open",
+                            interactive_area: MapRectangle.right(shortcut.area),
+                            time: 1,
+                            name: "Cross west",
+                            movement: {type: "offset", offset: {x: -1, y: 0}, level: shortcut.area.level}
+                        }]
+                    }
+            }
+
+
+        }
+    }
 
     type start_t = { type: "area", area: MapRectangle } | { type: "tile", tile: MapCoordinate }
     type click_t = { type: "area", area: MapRectangle, where: "center" | "nearest" } | { type: "tile", tile: MapCoordinate }

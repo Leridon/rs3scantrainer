@@ -13,7 +13,6 @@ import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "../lib/util/exportString";
 import OverviewLayer from "../lib/gamemap/layers/OverviewLayer";
 import {clues} from "data/clues";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {MapRectangle} from "lib/runescape/coordinates";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
@@ -21,6 +20,7 @@ import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
 import SolveBehaviour from "./ui/solving/SolveBehaviour";
 import MethodWithClue = SolvingMethods.MethodWithClue;
+import ShortcutEditBehaviour from "./ui/shortcut_editing/ShortcutEditBehaviour";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -267,7 +267,7 @@ export class Application extends Behaviour {
 
         //ExportStringModal.do(await makeshift_main())
 
-        return this
+        this.behaviour.set(new ShortcutEditBehaviour(this))
     }
 
     protected end() {

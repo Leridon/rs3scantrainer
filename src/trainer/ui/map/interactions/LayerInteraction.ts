@@ -16,18 +16,6 @@ export default abstract class LayerInteraction<T extends ActiveLayer, events ext
     protected constructor(public layer: T) {
     }
 
-    protected top_control: Widget = null
-
-    getTopControl(): Widget {
-        if (!this.top_control) this.top_control = this.constructTopControl()
-
-        return this.top_control
-    }
-
-    protected constructTopControl(): Widget {
-        return new TopControl()
-    }
-
     activate(): this {
         if (!this.is_active) {
             this.layer.setInteraction(this)

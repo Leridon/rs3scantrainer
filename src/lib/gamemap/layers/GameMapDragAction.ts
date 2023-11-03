@@ -1,15 +1,45 @@
-import GameLayer from "../GameLayer";
 import {MapCoordinate, MapRectangle} from "../../runescape/coordinates";
 import {Observable, observe} from "../../properties/Observable";
 import {GameMapMouseEvent} from "../MapEvents";
+import InteractionLayer from "../interaction/InteractionLayer";
+import * as leaflet from "leaflet"
+import {boxPolygon} from "../../../trainer/ui/polygon_helpers";
+import {GameMap} from "../GameMap";
 
-export default class GameMapDragAction extends GameLayer {
+export default class GameMapDragAction extends InteractionLayer {
     dragstart: MapCoordinate = null
+
+    private _preview: leaflet.Layer = null
 
     area: Observable<{ area: MapRectangle, committed: boolean }> = observe({area: null, committed: false})
 
-    constructor() {
+    constructor(public config: {
+        preview_render?: (_: MapRectangle) => leaflet.Layer
+    } = {}) {
         super();
+
+        if (!this.config.preview_render) {
+            this.config.preview_render = (area) => boxPolygon(area)
+        }
+
+        this.area.subscribe(({area, committed}) => {
+            if (this._preview) this._preview.remove()
+
+            if (!committed && area) this._preview = this.config.preview_render(area)?.addTo(this)
+        })
+    }
+
+    onAdd(map: GameMap): this {
+        super.onAdd(map)
+
+        map.dragging.disable()
+        return this
+    }
+
+    onRemove(map: GameMap): this {
+        super.onRemove(map)
+        map.dragging.enable()
+        return this
     }
 
     start(tile: MapCoordinate): this {
@@ -65,25 +95,19 @@ export default class GameMapDragAction extends GameLayer {
                 this.preview(MapRectangle.from(this.dragstart, event.tile()))
             }
         })
-
     }
 
-    private cancel() {
+    cancel() {
+        super.cancel()
+
         this.commit(null)
     }
 
     private commit(area: MapRectangle) {
         this.area.set({area: area, committed: true})
-        this.end()
     }
 
     private preview(area: MapRectangle) {
         this.area.set({area: area, committed: false})
-    }
-
-    private end() {
-        let t = this.getMap()?.dragAction?.get()
-
-        if (t == this) t.getMap().dragAction.set(null)
     }
 }

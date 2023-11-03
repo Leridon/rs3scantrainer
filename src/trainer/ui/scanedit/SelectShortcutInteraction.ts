@@ -53,11 +53,6 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
         this.shortcuts_layer.remove()
     }
 
-    override getTopControl(): Widget {
-        return super.getTopControl()
-            .text("Select a shortcut on the map or click any tile to create a custom one.")
-    }
-
     _maphooks: leaflet.LeafletEventHandlerFnMap = {
         "click": async (e: LeafletMouseEvent) => {
             leaflet.DomEvent.stopPropagation(e)

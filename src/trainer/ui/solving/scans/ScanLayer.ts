@@ -9,12 +9,10 @@ import {TileMarker} from "../../../../lib/gamemap/TileMarker";
 import {ActiveOpacityGroup, OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
 import {boxPolygon} from "../../polygon_helpers";
 import {Scans} from "../../../../lib/runescape/clues/scans";
-
 import GameLayer from "../../../../lib/gamemap/GameLayer";
 import {Observable, observe, observe_combined} from "../../../../lib/properties/Observable";
 import complementSpot = Scans.complementSpot;
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
-
 
 export class ScanRegionPolygon extends ActiveOpacityGroup {
     polygon: leaflet.Polygon

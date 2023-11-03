@@ -1,7 +1,10 @@
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import LightButton from "../widgets/LightButton";
+import Widget from "../../../lib/ui/Widget";
 
 export default class InteractionTopControl extends GameMapControl {
+    body: Widget = null
+
     constructor(public _config: {
         name: String,
         cancel_handler: () => void
@@ -23,5 +26,23 @@ export default class InteractionTopControl extends GameMapControl {
                 this._config.cancel_handler()
             })))
         }
+    }
+
+    setContent(widget: Widget): this {
+        if (this.body) {
+            this.body.remove()
+            this.body = null
+        }
+
+        if (widget) {
+            widget.appendTo(this.content)
+            this.body = widget
+        }
+
+        return this
+    }
+
+    setText(text: string): this {
+        return this.setContent(c().text(text))
     }
 }

@@ -80,6 +80,10 @@ export namespace Vector2 {
             y: c.y
         }
     }
+
+    export function snap(c: Vector2): Vector2 {
+        return {x: Math.round(c.x), y: Math.round(c.y)}
+    }
 }
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
@@ -113,11 +117,14 @@ export namespace Rectangle {
         }
     }
 
-    export function center(box: Rectangle): Vector2 {
-        return {
-            x: Math.round((box.topleft.x + box.botright.x) / 2),
-            y: Math.round((box.topleft.y + box.botright.y) / 2)
+    export function center(box: Rectangle, snap: boolean = true): Vector2 {
+        let c = {
+            x: (box.topleft.x + box.botright.x) / 2,
+            y: (box.topleft.y + box.botright.y) / 2
         }
+
+        if (snap) return Vector2.snap(c)
+        else return c
     }
 
     export function toBounds(box: Rectangle) {
@@ -153,5 +160,13 @@ export namespace Rectangle {
             topleft: {x: rect.topleft.x, y: rect.botright.y},
             botright: {x: rect.botright.x, y: rect.botright.y}
         }
+    }
+
+    export function width(rect: Rectangle): number {
+        return rect.botright.x - rect.topleft.x + 1
+    }
+
+    export function height(rect: Rectangle): number {
+        return rect.topleft.y - rect.botright.y + 1
     }
 }

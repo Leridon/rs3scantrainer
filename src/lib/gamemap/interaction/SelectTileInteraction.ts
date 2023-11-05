@@ -1,6 +1,6 @@
 import {GameMapMouseEvent} from "../MapEvents";
 import {ValueInteraction} from "./ValueInteraction";
-import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "../../runescape/coordinates";
 
 export default class SelectTileInteraction extends ValueInteraction<TileCoordinates> {
     constructor(public config: ValueInteraction.option_t<TileCoordinates> = {}) {

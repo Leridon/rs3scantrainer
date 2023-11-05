@@ -2,10 +2,6 @@ import {GameMapControl} from "../GameMapControl";
 import {floor_t} from "../../runescape/coordinates";
 import {GameMap} from "../GameMap";
 
-function clamp_floor(n: number): floor_t {
-    return Math.max(0, Math.min(3, n)) as floor_t
-}
-
 export default class FloorControl extends GameMapControl {
     up: JQuery
     down: JQuery
@@ -20,14 +16,14 @@ export default class FloorControl extends GameMapControl {
         this.down = $("<div style='cursor: pointer'><img src='assets/icons/stairdown.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
-                this.parent.getMap().floor.set(clamp_floor(this.parent.getMap().floor.get() - 1))
+                this.parent.getMap().floor.set(floor_t.clamp(this.parent.getMap().floor.get() - 1))
             })
             .appendTo(this.content.container)
         this.current = $("<div style='border-left: 1px solid rgb(5, 56, 66); border-right: 1px solid rgb(5, 56, 66); padding-left: 4px; padding-right: 4px; line-height: 20px'>Floor 0</div>").appendTo(this.content.container)
         this.up = $("<div style='cursor: pointer'><img src='assets/icons/stairup.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
-                this.parent.getMap().floor.set(clamp_floor(this.parent.getMap().floor.get() + 1))
+                this.parent.getMap().floor.set(floor_t.clamp((this.parent.getMap().floor.get() + 1))
             })
             .appendTo(this.content.container)
 

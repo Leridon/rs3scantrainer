@@ -1,5 +1,5 @@
-import {clamp} from "lodash";
 import * as leaflet from "leaflet";
+import {Transform} from "./Transform";
 
 export type Vector2 = { x: number, y: number }
 
@@ -83,5 +83,23 @@ export namespace Vector2 {
 
     export function snap(c: Vector2): Vector2 {
         return {x: Math.round(c.x), y: Math.round(c.y)}
+    }
+
+    /**
+     * Transforms a Vector2 by the given transform, interpreting the Vector as a direction.
+     */
+    export function transform(a: Vector2, trans: Transform): Vector2 {
+        let r = Transform.apply(trans, [a.x, a.y, 0])
+
+        return {x: r[0], y: r[1]}
+    }
+
+    /**
+     * Transforms a Vector2 by the given transform, interpreting the Vector as a point in space.
+     */
+    export function transform_point(a: Vector2, trans: Transform): Vector2 {
+        let r = Transform.apply(trans, [a.x, a.y, 1])
+
+        return {x: r[0], y: r[1]}
     }
 }

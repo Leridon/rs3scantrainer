@@ -1,6 +1,7 @@
 import {clamp} from "lodash";
 import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
+import {Transform} from "./Transform";
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
@@ -116,5 +117,12 @@ export namespace Rectangle {
             topleft: Vector2.add(rect.topleft, off),
             botright: Vector2.add(rect.botright, off)
         }
+    }
+
+    export function transform(rect: Rectangle, trans: Transform): Rectangle {
+        return Rectangle.from(
+            Vector2.transform_point(rect.topleft, trans),
+            Vector2.transform_point(rect.botright, trans),
+        )
     }
 }

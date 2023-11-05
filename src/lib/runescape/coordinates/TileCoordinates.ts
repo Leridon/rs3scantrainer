@@ -1,5 +1,6 @@
-import {Vector2} from "../../math";
+import {Transform, Vector2} from "../../math";
 import {floor_t} from "../coordinates";
+import {TileTransform} from "./TileTransform";
 
 
 export type TileCoordinates = Vector2 & {
@@ -7,12 +8,14 @@ export type TileCoordinates = Vector2 & {
 }
 
 export namespace TileCoordinates {
+    import transform_point = Vector2.transform_point;
+
     export function eq(a: TileCoordinates, b: TileCoordinates) {
         return Vector2.eq(a, b) && a.level == b.level
     }
 
     export function eq2(a: TileCoordinates | null, b: TileCoordinates | null) {
-        return a != null && b != null && ( a == b || eq(a, b))
+        return a != null && b != null && (a == b || eq(a, b))
     }
 
     export function lift(v: Vector2, level: floor_t): TileCoordinates {
@@ -37,5 +40,11 @@ export namespace TileCoordinates {
             y: Math.round(coordinate.y),
             level: coordinate.level
         }
+    }
+
+    export function transform(coordinates: TileCoordinates, trans: TileTransform | Transform): TileCoordinates {
+        let norm = TileTransform.normalize(trans)
+
+        return lift(Vector2.transform_point(coordinates, norm.matrix), floor_t.clamp(coordinates.level + norm.level_offset))
     }
 }

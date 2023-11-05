@@ -1,6 +1,7 @@
-import {Rectangle, Vector2} from "../../math";
+import {Rectangle, Transform, Vector2} from "../../math";
 import {floor_t} from "../coordinates";
 import {TileCoordinates} from "./TileCoordinates";
+import {TileTransform} from "./TileTransform";
 
 export type TileRectangle = Rectangle & {
     level: floor_t
@@ -69,7 +70,7 @@ export namespace TileRectangle {
     }
 
     export function from(a: TileCoordinates, b: TileCoordinates): TileRectangle {
-        if(a.level != b.level) throw new TypeError("Level mismatch")
+        if (a.level != b.level) throw new TypeError("Level mismatch")
 
         return lift(Rectangle.from(a, b), a.level)
     }
@@ -82,7 +83,13 @@ export namespace TileRectangle {
         return lift(Rectangle.extendToRect(rect, other), rect.level)
     }
 
-    export function translate(rect: TileRectangle, off: Vector2): TileRectangle{
+    export function translate(rect: TileRectangle, off: Vector2): TileRectangle {
         return lift(Rectangle.translate(rect, off), rect.level)
+    }
+
+    export function transform(rect: TileRectangle, trans: TileTransform | Transform): TileRectangle {
+        let norm = TileTransform.normalize(trans)
+
+        return lift(Rectangle.transform(rect, norm.matrix), floor_t.clamp(rect.level + norm.level_offset))
     }
 }

@@ -1,32 +1,21 @@
 import {MapCoordinate, MapRectangle} from "../../runescape/coordinates";
 import {Observable, observe} from "../../properties/Observable";
 import {GameMapMouseEvent} from "../MapEvents";
-import InteractionLayer from "../interaction/InteractionLayer";
-import * as leaflet from "leaflet"
 import {boxPolygon} from "../../../trainer/ui/polygon_helpers";
 import {GameMap} from "../GameMap";
+import {ValueInteraction} from "./ValueInteraction";
 
-export default class GameMapDragAction extends InteractionLayer {
+export default class GameMapDragAction extends ValueInteraction<MapRectangle> {
     dragstart: MapCoordinate = null
-
-    private _preview: leaflet.Layer = null
 
     area: Observable<{ area: MapRectangle, committed: boolean }> = observe({area: null, committed: false})
 
-    constructor(public config: {
-        preview_render?: (_: MapRectangle) => leaflet.Layer
-    } = {}) {
-        super();
-
-        if (!this.config.preview_render) {
-            this.config.preview_render = (area) => boxPolygon(area)
+    constructor(public config: ValueInteraction.option_t<MapRectangle>) {
+        if (!config.preview_render) {
+            config.preview_render = (area) => boxPolygon(area)
         }
 
-        this.area.subscribe(({area, committed}) => {
-            if (this._preview) this._preview.remove()
-
-            if (!committed && area) this._preview = this.config.preview_render(area)?.addTo(this)
-        })
+        super(config);
     }
 
     onAdd(map: GameMap): this {
@@ -95,34 +84,5 @@ export default class GameMapDragAction extends InteractionLayer {
                 this.preview(MapRectangle.from(this.dragstart, event.tile()))
             }
         })
-    }
-
-    cancel() {
-        if(!this.area.get().committed) this.area.set({area: null, committed: true})
-        super.cancel()
-    }
-
-    private commit(area: MapRectangle) {
-        this.area.set({area: area, committed: true})
-        this.cancel()
-    }
-
-    private preview(area: MapRectangle) {
-        this.area.set({area: area, committed: false})
-    }
-
-    onChange(handler: (_: { area: MapRectangle, committed: boolean }) => any): this {
-        this.area.subscribe(handler)
-        return this
-    }
-
-    onCommit(handler: (_: MapRectangle) => any): this {
-        this.area.subscribe((v) => {if (v.committed && v.area) handler(v.area)})
-        return this
-    }
-
-    onDiscarded(handler: () => any): this {
-        this.area.subscribe((v) => {if (v.committed && !v.area) handler()})
-        return this
     }
 }

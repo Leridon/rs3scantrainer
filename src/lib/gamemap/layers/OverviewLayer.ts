@@ -53,12 +53,9 @@ export default class OverviewLayer extends ActiveLayer {
 
                 Widget.wrap($(marker.marker.getElement())).addTippy(props, {
                     interactive: true,
+                    animation: false,
                     appendTo: () => document.body
                 })
-            })
-
-            tippy.createSingleton(spots.map(m => tippy.default(m.marker.marker.getElement())), {
-                delay: 0,
             })
         })
     }

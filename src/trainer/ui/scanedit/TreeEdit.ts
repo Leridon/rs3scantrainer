@@ -20,34 +20,25 @@ import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
 import {ActiveOpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {Layer} from "leaflet";
-import GameMapDragAction from "../../../lib/gamemap/layers/GameMapDragAction";
+import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
 
 class DrawRegionAction extends GameMapDragAction {
-    _preview_polygon: Layer = null
-
     constructor(options: {
-        done_handler: (area: MapRectangle) => any,
         existing_preview: ActiveOpacityGroup,
         preview_rendering: (area: MapRectangle) => Layer
     }) {
-        super();
+        super({
+            preview_render: options.preview_rendering
+        });
 
         this.area.subscribe(({area, committed}) => {
-            if (this._preview_polygon) this._preview_polygon.remove()
-
             if (committed) {
-                // stopped
-
                 if (options.existing_preview) options.existing_preview
                     .setOpacity(options.existing_preview.isActive()
                         ? options.existing_preview.active_opacity
                         : options.existing_preview.inactive_opacity)
-
-                if (area) options?.done_handler(area)
             } else if (area) {
                 if (options.existing_preview) options.existing_preview.setOpacity(0)
-
-                this._preview_polygon = options.preview_rendering(area)?.addTo(this)
             }
         })
     }
@@ -85,13 +76,14 @@ class RegionEdit extends Widget {
                 .on("click", async () => {
 
                     this.parent.parent.parent.parent.options.map.dragAction.set(new DrawRegionAction({
-                        done_handler: area => {
-                            this.parent.node.raw.region.area = area
-                            this.sendChange()
-                        },
                         existing_preview: this.parent.region_preview,
                         preview_rendering: area => new ScanRegionPolygon({name: this.parent.node.raw.region.name, area: area})
-                    }))
+                    })
+                        .onCommit(area => {
+                            this.parent.node.raw.region.area = area
+                            this.sendChange()
+                        })
+                    )
                 })
                 .appendTo(this)
 
@@ -127,14 +119,15 @@ class RegionEdit extends Widget {
                         this.parent.parent.parent.parent.options.map.dragAction.set(new DrawRegionAction({
                             existing_preview: this.parent.region_preview,
                             preview_rendering: area => new ScanRegionPolygon({name: "", area: area}),
-                            done_handler: area => {
+                        })
+                            .onCommit(area => {
                                 this.parent.node.raw.region = {
                                     name: "",
                                     area: area
                                 }
                                 this.sendChange()
-                            }
-                        }))
+                            })
+                        )
                     }
                 })
                 .appendTo(this)

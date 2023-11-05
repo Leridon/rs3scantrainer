@@ -1,60 +1,62 @@
 import Widget from "../../../lib/ui/Widget";
 import {floor_t, MapCoordinate} from "lib/runescape/coordinates";
-import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
 import SmallImageButton from "./SmallImageButton";
 import * as lodash from "lodash"
-import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
+import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import AbstractEditWidget from "./AbstractEditWidget";
 
-export default class MapCoordinateEdit extends Widget<{
-    "changed": MapCoordinate
-}> {
-
+export default class MapCoordinateEdit extends AbstractEditWidget<MapCoordinate> {
     x: Widget
     y: Widget
     floor: Widget
 
-    constructor(private layer: ActiveLayer, private value: MapCoordinate) {
+    constructor(initial: MapCoordinate,
+                private interaction_f: (coordinate: MapCoordinate) => SelectTileInteraction = null
+    ) {
         super()
 
-        this.value = lodash.clone(value)
+        this.value = lodash.clone(initial)
 
         this.css("display", "flex")
 
-        this.x = Widget.wrap($("<input type='number' class='nisinput' min='0' style='max-width: 50pt'>")).appendTo(this)
+        this.x = c("<input type='number' class='nisinput' min='0' style='max-width: 50pt'>").appendTo(this)
         this.x.container.on("input", () => {
             this.value.x = Number(this.x.container.val())
             this.emit("changed", this.value)
         })
-        Widget.wrap($("<div> | </div>")).appendTo(this)
-        this.y = Widget.wrap($("<input type='number' class='nisinput' min='0' style='max-width: 50pt'>")).appendTo(this)
+        c("<div> | </div>").appendTo(this)
+        this.y = c("<input type='number' class='nisinput' min='0' style='max-width: 50pt'>").appendTo(this)
         this.y.container.on("input", () => {
             this.value.y = Number(this.y.container.val())
             this.emit("changed", this.value)
         })
 
-        Widget.wrap($("<div> | </div>")).appendTo(this)
-        this.floor = Widget.wrap($("<input type='number' class='nisinput' min='0' max='3' style='max-width: 50pt'>")).appendTo(this)
+        c("<div> | </div>").appendTo(this)
+        this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='max-width: 50pt'>").appendTo(this)
         this.floor.container.on("input", () => {
             this.value.level = Number(this.floor.container.val()) as floor_t
             this.emit("changed", this.value)
         })
 
-        if (value) {
-            this.x.container.val(value.x)
-            this.y.container.val(value.y)
-            this.floor.container.val(value.level)
+        if (initial) {
+            this.x.container.val(initial.x)
+            this.y.container.val(initial.y)
+            this.floor.container.val(initial.level)
         }
 
-        if (layer) {
+        if (this.interaction_f) {
             SmallImageButton.new("assets/icons/marker.png").appendTo(this)
-                .on("click", () => new SelectTileInteraction(this.layer)
-                    .tapEvents((e) =>
-                        e.on("selected", (c => {
-                            this.value = c
-                            this.emit("changed", this.value)
-                        }))
-                    )
-                    .activate())
+                .on("click", () =>
+                    this.interaction_f(this.value).onCommit((v) => {
+                        this.value = v
+
+                        this.x.container.val(v.x)
+                        this.y.container.val(v.y)
+                        this.floor.container.val(v.level)
+
+                        this.emit("changed", this.value)
+                    })
+                )
         }
     }
 }

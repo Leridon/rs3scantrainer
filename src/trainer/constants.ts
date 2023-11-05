@@ -26,9 +26,5 @@ export namespace Constants {
     export const colors = {
         dig_spot_number: "gold",
         scan_area: "#00FF21",
-        shortcuts: {
-            interactive_area: "#FFFF00",
-            clickable_area: "#35540f"
-        }
     }
 }

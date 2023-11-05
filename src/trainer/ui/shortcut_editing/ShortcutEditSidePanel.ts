@@ -13,10 +13,13 @@ import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import {DropdownSelection} from "../widgets/DropdownSelection";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../../../lib/math/Vector";
-import {MapCoordinate, MapRectangle} from "../../../lib/runescape/coordinates";
-import GameMapDragAction from "../../../lib/gamemap/layers/GameMapDragAction";
+import {floor_t, MapCoordinate, MapRectangle} from "../../../lib/runescape/coordinates";
+import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
 import {ShortcutViewLayer} from "./ShortcutView";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
+import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import InteractionTopControl from "../map/InteractionTopControl";
+import {DrawOffset} from "./interactions/DrawOffset";
 
 class ShortcutEdit extends Widget<{
     "changed": Shortcuts.new_shortcut,
@@ -76,9 +79,9 @@ class ShortcutEdit extends Widget<{
             props.named("Click-Area",
                 c("<div style='display: flex'></div>")
                     .append(c("<span style='margin-right: 5px;'></span>").text(`${Rectangle.width(v.clickable_area)}x${Rectangle.height(v.clickable_area)} at ${v.clickable_area.topleft.x}|${v.clickable_area.botright.y}`))
+                    .append(c().css("flex-grow", "1"))
                     .append(
                         new LightButton("Select")
-                            .css("flex-grow", "1")
                             .on("click", () => {
                                 this.interaction_guard.set(
                                     new GameMapDragAction({
@@ -92,7 +95,7 @@ class ShortcutEdit extends Widget<{
                                     }).onCommit(a => {
                                         this.value.update(v => (v as Shortcuts.new_shortcut_entity).clickable_area = MapRectangle.extend(a, 0.5))
                                         this.render()
-                                    }).attachTopControl("Selecting clickable area", tc => tc.setText("Click and drag a rectangle around the area that is clickable for this entity."))
+                                    }).attachTopControl(new InteractionTopControl().setName("Selecting clickable area").setText("Click and drag a rectangle around the area that is clickable for this entity."))
                                 )
                             }))
             )
@@ -127,9 +130,9 @@ class ShortcutEdit extends Widget<{
                 props.named("Area",
                     c("<div style='display: flex'></div>")
                         .append(c("<span style='margin-right: 5px;'></span>").text(`${Rectangle.tileWidth(action.interactive_area)}x${Rectangle.tileHeight(action.interactive_area)} at ${action.interactive_area.topleft.x}|${action.interactive_area.botright.y}`))
+                        .append(c().css("flex-grow", "1"))
                         .append(
                             new LightButton("Select")
-                                .css("flex-grow", "1")
                                 .on("click", () => {
                                     this.interaction_guard.set(
                                         new GameMapDragAction({
@@ -141,7 +144,7 @@ class ShortcutEdit extends Widget<{
                                         }).onCommit(a => {
                                             this.value.update(v => action.interactive_area = a)
                                             this.render()
-                                        }).attachTopControl("Selecting interactive area", tc => tc.setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
+                                        }).attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
                                     )
                                 })))
                 props.named("Targeting", new DropdownSelection<"offset" | "fixed">({
@@ -184,12 +187,49 @@ class ShortcutEdit extends Widget<{
 
                 switch (action.movement.type) {
                     case "offset":
-                        props.named("Offset", new LightButton("Draw"))
-                        props.named("Level", new NumberInput(0, 3).setValue(action.movement.level))
+                        props.named("Offset",
+                            c("<div style='display: flex'></div>")
+                                .append(c("<span style='margin-right: 5px;'></span>").text(`${action.movement.offset.x}|${action.movement.offset.y}`))
+                                .append(c().css("flex-grow", "1"))
+                                .append(
+                                    new LightButton("Draw")
+                                        .on("click", () => {
+
+                                            this.interaction_guard.set(
+                                                new DrawOffset()
+                                                    .onCommit((v) => {
+                                                        this.value.update(() => {
+                                                            if (action.movement.type == "offset") action.movement.offset = v.offset
+                                                        })
+                                                        this.render()
+                                                    })
+                                            )
+                                        })
+                                ))
+
+                        props.named("Level", new NumberInput(0, 3).setValue(action.movement.level)
+                            .on("changed", (v) => {
+                                this.value.update(() => {
+                                    if (action.movement.type == "offset") action.movement.level = v as floor_t
+                                })
+                                this.render()
+                            })
+                        )
                         break
 
                     case "fixed":
-                        props.named("Target", new MapCoordinateEdit(null, action.movement.target))
+                        props.named("Target", new MapCoordinateEdit(
+                            action.movement.target,
+                            () => this.interaction_guard.set(new SelectTileInteraction({
+                                    preview_render: (target) => ShortcutViewLayer.render_transport_arrow(Rectangle.center(action.interactive_area, true), target)
+                                }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of this map connection."))
+                            )))
+                            .on("changed", (v) => {
+                                this.value.update(() => {
+                                    if (action.movement.type == "fixed") action.movement.target = v
+                                })
+                                this.render()
+                            })
                         break
                 }
 

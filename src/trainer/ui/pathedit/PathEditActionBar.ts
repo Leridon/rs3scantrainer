@@ -11,7 +11,7 @@ import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
-import SelectTileInteraction from "../map/interactions/SelectTileInteraction";
+import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import PlacePowerburstInteraction from "./interactions/PlacePowerburstInteraction";
 
 class ActionBarButton extends Button {

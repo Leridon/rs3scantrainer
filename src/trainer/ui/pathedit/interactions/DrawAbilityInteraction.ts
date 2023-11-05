@@ -39,6 +39,8 @@ export class DrawAbilityInteraction extends InteractionLayer {
     ) {
         super()
 
+        // TODO: Press shift to force invalid
+
         let top_control = new GameMapControl({
             position: "top-center",
             type: "gapless"

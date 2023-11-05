@@ -1,5 +1,5 @@
 import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
-import GameMapDragAction from "../../../../lib/gamemap/layers/GameMapDragAction";
+import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
 import {MapRectangle} from "../../../../lib/runescape/coordinates";
 import {Shortcuts} from "../../../../lib/runescape/shortcuts";
 import InteractionTopControl from "../../map/InteractionTopControl";

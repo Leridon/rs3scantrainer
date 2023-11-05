@@ -1,4 +1,4 @@
-import GameMapDragAction from "../../../../lib/gamemap/layers/GameMapDragAction";
+import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
 import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {Shortcuts} from "../../../../lib/runescape/shortcuts";

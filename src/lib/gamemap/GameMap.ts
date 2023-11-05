@@ -10,7 +10,7 @@ import GameLayer from "./GameLayer";
 import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
 import {FitBoundsOptions, MapOptions} from "leaflet";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
-import GameMapDragAction from "./layers/GameMapDragAction";
+import GameMapDragAction from "./interaction/GameMapDragAction";
 import {GameMapContextMenuEvent, GameMapEvent, GameMapMouseEvent} from "./MapEvents";
 import {GameMapControl} from "./GameMapControl";
 import BaseTileLayer from "./defaultlayers/BaseTileLayer";

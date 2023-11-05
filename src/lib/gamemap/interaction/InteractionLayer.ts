@@ -58,12 +58,8 @@ export default class InteractionLayer extends GameLayer {
         return this
     }
 
-    attachTopControl(name: String, f: (layer: InteractionTopControl) => any): this {
-        let tc = new InteractionTopControl({name: name, cancel_handler: () => this.cancel()})
-
-        f(tc)
-
-        tc.addTo(this)
+    attachTopControl(tc: InteractionTopControl): this {
+        tc.setCancelHandler(() => this.cancel()).addTo(this)
 
         return this
     }

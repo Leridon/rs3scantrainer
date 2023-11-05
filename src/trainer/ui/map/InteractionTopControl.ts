@@ -1,14 +1,14 @@
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
-import LightButton from "../widgets/LightButton";
 import Widget from "../../../lib/ui/Widget";
 
 export default class InteractionTopControl extends GameMapControl {
+    header_row: Widget = null
     body: Widget = null
 
     constructor(public _config: {
-        name: String,
+        name?: String,
         cancel_handler?: () => void
-    }) {
+    } = {}) {
         super({
             type: "gapless",
             position: "top-center"
@@ -16,13 +16,33 @@ export default class InteractionTopControl extends GameMapControl {
 
         this.content.addClass("ctr-interaction-control")
 
-        let header_row = c("<div class='ctr-interaction-control-header'></div>").appendTo(this.content)
+        this.header_row = c("<div class='ctr-interaction-control-header'></div>").appendTo(this.content)
 
-        header_row.append(c().text(`Active interaction: ${_config.name}`))
-        header_row.append(c("<div style='flex-grow: 1; min-width: 20px'>"))
+        this.renderHeader()
+    }
+
+    public setCancelHandler(f: () => void): this{
+        this._config.cancel_handler = f
+        this.renderHeader()
+
+        return this
+    }
+
+    public setName(name: string): this {
+        this._config.name = name
+        this.renderHeader()
+
+        return this
+    }
+
+    private renderHeader() {
+        this.header_row.empty()
+
+        this.header_row.append(c().text(`Active interaction: ${this._config.name || "Interaction"}`))
+        this.header_row.append(c("<div style='flex-grow: 1; min-width: 20px'>"))
 
         if (this._config.cancel_handler) {
-            header_row.append(c("<div class='ctr-interaction-control-header-close'>&times;</div>").tapRaw(r => r.on("click", () => {
+            this.header_row.append(c("<div class='ctr-interaction-control-header-close'>&times;</div>").tapRaw(r => r.on("click", () => {
                 this._config.cancel_handler()
             })))
         }

@@ -1,11 +1,19 @@
 Immediate next:
 - Shortcut editor:
     - Draw Offset
-    - Select fixed target
     - Copy/Move (rotate, flip actions)
     - Start collapsed
     - Filter by current view
     - Search box (Overriding view filter or on top of it?? Toggle probably)
+    - Detail for door bounds
+
+- Path Editor
+    - Move action bar to generalized interface
+    - Move action buttons to bottom control
+    - Fix "Redraw" for abilities (Shift to force)
+    - Fix "Redraw" for running
+    - "You are here marker"
+    - New Shortcuts via context menu
 
 - Autoname areas
 - Reenable spot sorting/numbers on preview

@@ -1,13 +1,13 @@
 import GameLayer from "../../../lib/gamemap/GameLayer";
-import {new_shortcut_entity_action, Shortcuts} from "../../../lib/runescape/shortcuts";
+import {Shortcuts} from "../../../lib/runescape/shortcuts";
 import * as leaflet from "leaflet";
 import {boxPolygon, boxPolygon2} from "../polygon_helpers";
 import {Constants} from "../../constants";
 import {RenderingUtility} from "../map/RenderingUtility";
-import {Rectangle} from "../../../lib/math/Vector";
+import {Rectangle, Vector2} from "../../../lib/math/Vector";
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {Path} from "../../../lib/runescape/pathing";
-import {LeafletEventHandlerFn} from "leaflet";
+import {arrow} from "../path_graphics";
 
 export class ShortcutViewLayer extends GameLayer {
     previews: ShortcutViewLayer.ShortcutPolygon[]
@@ -38,7 +38,14 @@ export class ShortcutViewLayer extends GameLayer {
 }
 
 export namespace ShortcutViewLayer {
+    export const COLORS = {
+        interactive_area: "#FFFF00",
+        clickable_area: "#35540f"
+    }
+
+
     import InteractionType = Path.InteractionType;
+
     export type ShortcutPolygonConfig = {
         draw_clickable: boolean,
         hidden_actions: Shortcuts.new_shortcut_entity_action[]
@@ -100,8 +107,8 @@ export namespace ShortcutViewLayer {
     export function render_clickable(area: Rectangle, cursor: InteractionType): OpacityGroup {
         return new OpacityGroup()
             .addLayer(leaflet.polygon(boxPolygon2(area), {
-                color: Constants.colors.shortcuts.clickable_area,
-                fillColor: Constants.colors.shortcuts.clickable_area,
+                color: COLORS.clickable_area,
+                fillColor: COLORS.clickable_area,
                 interactive: false,
             }))
             .addLayer(RenderingUtility.interactionMarker(Rectangle.center(area, false), cursor))
@@ -109,9 +116,15 @@ export namespace ShortcutViewLayer {
 
     export function render_interactive_area(area: Rectangle): OpacityGroup {
         return new OpacityGroup().addLayer(boxPolygon(area).setStyle({
-            color: Constants.colors.shortcuts.interactive_area,
-            fillColor: Constants.colors.shortcuts.interactive_area,
+            color: COLORS.interactive_area,
+            fillColor: COLORS.interactive_area,
             interactive: false,
+        }))
+    }
+
+    export function render_transport_arrow(from: Vector2, to: Vector2): OpacityGroup {
+        return new OpacityGroup().addLayer(arrow(from, to).setStyle({
+            color: COLORS.clickable_area
         }))
     }
 }

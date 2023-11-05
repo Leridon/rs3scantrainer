@@ -1,6 +1,5 @@
 Immediate next:
 - Shortcut editor:
-    - Draw Offset
     - Copy/Move (rotate, flip actions)
     - Start collapsed
     - Filter by current view
@@ -18,6 +17,7 @@ Immediate next:
 - Autoname areas
 - Reenable spot sorting/numbers on preview
 - Port UI Elements to GameLayer
+- Dropdown select go out of the viewport and are cut off
 
 - Make fit include the entire path
 - Display timing in spot view

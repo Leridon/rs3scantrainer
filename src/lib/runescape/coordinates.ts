@@ -1,4 +1,5 @@
 import {Rectangle, Vector2} from "../math/Vector";
+import {pad} from "lodash";
 
 export type floor_t = 0 | 1 | 2 | 3
 
@@ -84,6 +85,10 @@ export namespace MapRectangle {
         return lift_tile(Rectangle.clampInto(pos, area), pos.level)
     }
 
+    export function extend(box: MapRectangle, padding: number): MapRectangle {
+        return lift(Rectangle.extend(box, padding), box.level)
+    }
+
     export function tl(rect: MapRectangle): MapCoordinate {
         return lift_tile(rect.topleft, rect.level)
     }
@@ -135,6 +140,14 @@ export namespace MapRectangle {
         if(a.level != b.level) throw new TypeError("Level mismatch")
 
         return lift(Rectangle.from(a, b), a.level)
+    }
+
+    export function extendTo(rect: MapRectangle, tile: Vector2): Rectangle {
+        return lift(Rectangle.extendTo(rect, tile), rect.level)
+    }
+
+    export function extendToRect(rect: MapRectangle, other: Rectangle): MapRectangle {
+        return lift(Rectangle.extendToRect(rect, other), rect.level)
     }
 }
 

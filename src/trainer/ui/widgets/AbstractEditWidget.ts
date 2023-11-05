@@ -1,4 +1,5 @@
 import Widget from "../../../lib/ui/Widget";
+import {Observable, observe} from "../../../lib/properties/Observable";
 
 
 /**
@@ -21,12 +22,12 @@ export default abstract class AbstractEditWidget<T, AdditionalEvents extends Rec
 
     public setValue(v: T): this {
         this.value = v
-        this.update()
+        this.render()
 
         return this
     }
 
-    protected update(): void {
+    protected render(): void {
 
     }
 }

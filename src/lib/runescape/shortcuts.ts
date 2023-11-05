@@ -27,17 +27,19 @@ export namespace Shortcuts {
 
      */
 
+    export type new_shortcut_entity_action = {
+        cursor: Path.InteractionType,
+        interactive_area: MapRectangle,
+        time: number,
+        name: string,
+        movement: { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }
+    }
+
     export type new_shortcut_entity = {
         type: "entity",
         name: string,
         clickable_area: MapRectangle,
-        actions: {
-            cursor: Path.InteractionType,
-            interactive_area: MapRectangle,
-            time: number,
-            name: string,
-            movement: { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }
-        }[]
+        actions: new_shortcut_entity_action[]
     }
 
     export type new_shortcut_door = {
@@ -65,13 +67,13 @@ export namespace Shortcuts {
                         },
                         actions: [{
                             cursor: "open",
-                            interactive_area: MapRectangle.left(shortcut.area),
+                            interactive_area: MapRectangle.top(shortcut.area),
                             time: 1,
                             name: "Cross south",
                             movement: {type: "offset", offset: {x: 0, y: -1}, level: shortcut.area.level}
                         }, {
                             cursor: "open",
-                            interactive_area: MapRectangle.right(shortcut.area),
+                            interactive_area: MapRectangle.bottom(shortcut.area),
                             time: 1,
                             name: "Cross north",
                             movement: {type: "offset", offset: {x: 0, y: 1}, level: shortcut.area.level}
@@ -101,8 +103,22 @@ export namespace Shortcuts {
                         }]
                     }
             }
+        }
 
+        export function bounds(shortcut: new_shortcut): MapRectangle {
+            switch (shortcut.type) {
+                case "entity":
 
+                    let bounds = shortcut.clickable_area
+
+                    shortcut.actions.forEach(a => {
+                        bounds = MapRectangle.extendToRect(bounds, a.interactive_area)
+                    })
+
+                    return bounds
+                case "door":
+                    return shortcut.area
+            }
         }
     }
 

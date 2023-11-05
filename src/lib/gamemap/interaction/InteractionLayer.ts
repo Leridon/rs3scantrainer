@@ -3,13 +3,20 @@ import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {GameMap} from "../GameMap";
 import Checks from "../../../skillbertssolver/typecheck";
 import int = Checks.int;
+import InteractionTopControl from "../../../trainer/ui/map/InteractionTopControl";
 
 export class InteractionGuard {
     private interaction: InteractionLayer = null
+    private default_layer: GameLayer = null
 
-    set<T extends InteractionLayer>(interaction: T, target: GameLayer): T {
+    setDefaultLayer(def: GameLayer): this {
+        this.default_layer = def
+
+        return this
+    }
+
+    set<T extends InteractionLayer>(interaction: T, target: GameLayer = null): T {
         this.reset()
-
 
         if (interaction) {
             if (interaction._guard) interaction._guard.reset()
@@ -17,7 +24,7 @@ export class InteractionGuard {
             this.interaction = interaction
             interaction._guard = this
 
-            interaction.addTo(target)
+            interaction.addTo(target || this.default_layer)
         }
 
         return interaction
@@ -47,6 +54,16 @@ export default class InteractionLayer extends GameLayer {
         super.onAdd(map)
 
         this.events.emit("started", this)
+
+        return this
+    }
+
+    attachTopControl(name: String, f: (layer: InteractionTopControl) => any): this {
+        let tc = new InteractionTopControl({name: name, cancel_handler: () => this.cancel()})
+
+        f(tc)
+
+        tc.addTo(this)
 
         return this
     }

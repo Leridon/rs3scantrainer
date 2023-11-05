@@ -40,7 +40,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
         this.render()
     }
 
-    protected render() {
+    protected render(): void {
         this.empty()
         this.instruction_input = null
         this.preview_container = null
@@ -106,13 +106,10 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
                 .appendTo(this)
         }
 
-        this.renderPreview()
-    }
-
-    protected update() {
         if (this.instruction_input) {
             this.instruction_input.container.val(this.value)
         }
+
         this.renderPreview()
     }
 

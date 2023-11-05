@@ -14,7 +14,7 @@ export default class Checkbox extends AbstractEditWidget<boolean> {
             .appendTo(this.container)
     }
 
-    protected update() {
+    protected render() {
         this.input.prop("checked", this.value);
     }
 }

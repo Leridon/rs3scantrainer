@@ -16,7 +16,7 @@ export default class TextField extends AbstractEditWidget<string, {
             })
     }
 
-    protected update() {
+    protected render() {
         this.container.val(this.value)
     }
 }

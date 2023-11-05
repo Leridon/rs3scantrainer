@@ -98,16 +98,31 @@ export default class GameMapDragAction extends InteractionLayer {
     }
 
     cancel() {
+        if(!this.area.get().committed) this.area.set({area: null, committed: true})
         super.cancel()
-
-        this.commit(null)
     }
 
     private commit(area: MapRectangle) {
         this.area.set({area: area, committed: true})
+        this.cancel()
     }
 
     private preview(area: MapRectangle) {
         this.area.set({area: area, committed: false})
+    }
+
+    onChange(handler: (_: { area: MapRectangle, committed: boolean }) => any): this {
+        this.area.subscribe(handler)
+        return this
+    }
+
+    onCommit(handler: (_: MapRectangle) => any): this {
+        this.area.subscribe((v) => {if (v.committed && v.area) handler(v.area)})
+        return this
+    }
+
+    onDiscarded(handler: () => any): this {
+        this.area.subscribe((v) => {if (v.committed && !v.area) handler()})
+        return this
     }
 }

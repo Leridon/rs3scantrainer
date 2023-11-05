@@ -7,7 +7,7 @@ export default class InteractionTopControl extends GameMapControl {
 
     constructor(public _config: {
         name: String,
-        cancel_handler: () => void
+        cancel_handler?: () => void
     }) {
         super({
             type: "gapless",

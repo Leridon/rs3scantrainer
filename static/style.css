@@ -142,6 +142,7 @@ html, body {
     padding: 5px;
     border: 1px solid #41555F;
     background: #00000030;
+    overflow-x: hidden;
 }
 
 .nisl-panel-title {
@@ -443,7 +444,6 @@ video {
 }
 
 .lightbutton {
-    margin: 3px;
     text-align: center;
     display: inline-block;
     padding-left: 0.5em;
@@ -690,6 +690,19 @@ video {
     line-height: 30px;
     font-weight: bold;
     font-size: 12pt;
+}
+
+.ctr-actionbar-cancel-overlay {
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: red;
+    text-shadow: 1px 1px 0 #000;
+    line-height: 30px;
+    font-size: 20px;
 }
 
 /* Cooldown Container */
@@ -1135,4 +1148,30 @@ video {
     display: inline-block;
     cursor: pointer;
     font-size: 1.3em;
+}
+
+/* Shortcut Edit */
+.ctr-shortcut-edit-panel-results {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.ctr-shortcut-edit-panel-results > *:not(:first-child) {
+    margin-top: 5px
+}
+
+.ctr-shortcut-edit {
+    background-color: #FFFFFF20;
+    border-radius: 5px;
+}
+
+.ctr-shortcut-edit-header {
+    cursor: pointer;
+    display: flex;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.ctr-shortcut-edit-header > *:not(:first-child) {
+    margin-left: 3px;
 }

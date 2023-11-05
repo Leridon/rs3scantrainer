@@ -47,13 +47,14 @@ export namespace ActionBar {
             this.addClass("medium-image-button")
                 .append($(`<img src='${this.icon}'>`))
 
-            if (this.cooldown != 0) {
+            if (this.cooldown != 0 || this._activeInteraction) {
                 this.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>")
                     .text(this.cooldown > 0 ? this.cooldown + "t" : ""))
             }
 
             if (this._activeInteraction) {
-                // TODO: Render X
+                this.css("position", "relative").append(c("<div class='ctr-actionbar-cancel-overlay'></div>")
+                    .text("X"))
             }
         }
     }

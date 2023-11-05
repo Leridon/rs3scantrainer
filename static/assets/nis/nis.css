@@ -24,11 +24,6 @@
     --nis-col-backsub: rgba(0, 0, 0, 0.5);
 }
 
-* {
-    line-height: 21px;
-}
-
-
 .nismainborder {
     position: absolute;
     top: 0px;

@@ -2,7 +2,7 @@ export namespace storage {
     export function get(key: string, def: any = null): any {
         let r = localStorage.getItem(key)
 
-        if (!r) return def
+        if (r == null) return def
         return JSON.parse(r)
     }
 
@@ -26,11 +26,11 @@ export namespace storage {
             set(this.key, value)
         }
 
-        map(f: (type) => (type | void)) {
+        map(f: (_: type) => (type | void)) {
             let old = this.get()
             let n = f(this.get())
 
-            if (n == null) n = old // Assume f changed the value in place instead of constructing a new one
+            if (n == undefined) n = old // Assume f changed the value in place instead of constructing a new one
 
             this.set(n as type)
         }

@@ -5,7 +5,7 @@ import Widget from "../../lib/ui/Widget";
 import {observe} from "../../lib/properties/Observable";
 import SmallImageButton from "./widgets/SmallImageButton";
 
-export class SidePanel extends Widget {
+export class SidePanel<events_t extends Record<string, any> = {}> extends Widget<events_t> {
     protected ui: {
         header: {
             title_span?: Widget,

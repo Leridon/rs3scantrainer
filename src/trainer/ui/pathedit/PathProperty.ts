@@ -8,6 +8,7 @@ import Properties from "../widgets/Properties";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {PathGraphics} from "../path_graphics";
 import Button from "../../../lib/ui/controls/Button";
+import {observe} from "../../../lib/properties/Observable";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw, {
     "loaded_to_editor": null,
@@ -39,25 +40,24 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             })
         }
 
-        this.value = []
     }
 
     private async edit() {
         if (!this.options.editor) return
 
         this.loaded = true
-        await this.update()
+        await this.render()
 
         this.options.editor.load(this.value, {
             commit_handler: async v => {
-                this.value = v
-                await this.update()
+                this.changed(v)
+                await this.render()
             },
             discard_handler: async () => {
                 this.loaded = false
                 this.changed(this.value)
 
-                await this.update()
+                await this.render()
 
                 this.emit("editor_closed", null)
             },
@@ -129,52 +129,8 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
             .on("click", async () => {
                 this.changed([])
 
-                await this.update()
+                await this.render()
             })
             .appendTo(this)
-    }
-
-    protected async update() {
-        await this.render()
-
-        return
-        /*
-                this.load_button.setEnabled(!!this.value && !this.loaded)
-
-                if (this.loaded) {
-                    this.load_button.setText("Loaded to editor, edit on map")
-                } else {
-                    this.load_button.setText("Edit")
-                }
-
-                this.augmented = await Path.augment(this.value)
-
-                if (!!this.value) {
-                    this.load_button.tooltip("Load path into the path editor")
-                } else {
-                    this.load_button.tooltip("Can't load null path into editor")
-                }
-
-                this.summary.empty()
-
-                {
-                    c("<span class='nisl-textlink'></span>").text(`T${this.augmented.pre_state.tick}`).appendTo(this.summary)
-                        .addTippy(new MovementStateView(this.augmented.pre_state))
-                    c("<span>&nbsp;-&nbsp;</span>").appendTo(this.summary)
-                    c("<span class='nisl-textlink'></span>").text(`T${this.augmented.post_state.tick}`).appendTo(this.summary)
-                        .addTippy(new MovementStateView(this.augmented.post_state))
-                    c(`<span>:&nbsp;</span>`).appendTo(this.summary)
-                    c(`<span>${scantrainer.template_resolver.resolve(this.value.map(PathingGraphics.templateString).join(" - "))}</span>`).appendTo(this.summary)
-                }
-                if (this.value.length == 0) this.summary.text("Empty path")
-
-                this.issue_container.empty()
-
-                let issues = collect_issues(this.augmented)
-                let errors = issues.filter(i => i.level == 0)
-                let warnings = issues.filter(i => i.level == 1)
-
-                if (errors.length > 0) new IssueWidget({level: 0, message: `${errors.length} errors`}).appendTo(this.issue_container)
-                if (warnings.length > 0) new IssueWidget({level: 1, message: `${warnings.length} warnings`}).appendTo(this.issue_container)*/
     }
 }

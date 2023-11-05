@@ -1,4 +1,12 @@
 Immediate next:
+- Shortcut editor:
+    - Draw Offset
+    - Select fixed target
+    - Copy/Move (rotate, flip actions)
+    - Start collapsed
+    - Filter by current view
+    - Search box (Overriding view filter or on top of it?? Toggle probably)
+
 - Autoname areas
 - Reenable spot sorting/numbers on preview
 - Port UI Elements to GameLayer

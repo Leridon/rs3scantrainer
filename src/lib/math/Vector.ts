@@ -97,10 +97,10 @@ export namespace Rectangle {
     }
 
     export function contains(box: Rectangle, tile: Vector2) {
-        return box.topleft.x <= tile.x
-            && box.topleft.y >= tile.y
-            && box.botright.x >= tile.x
-            && box.botright.y <= tile.y
+        return box.topleft.x - 0.5 <= tile.x
+            && box.topleft.y + 0.5 >= tile.y
+            && box.botright.x + 0.5 >= tile.x
+            && box.botright.y - 0.5 <= tile.y
     }
 
     export function extend(box: Rectangle, padding: number): Rectangle {
@@ -162,11 +162,36 @@ export namespace Rectangle {
         }
     }
 
-    export function width(rect: Rectangle): number {
+    export function tileWidth(rect: Rectangle): number {
         return rect.botright.x - rect.topleft.x + 1
     }
 
-    export function height(rect: Rectangle): number {
+    export function tileHeight(rect: Rectangle): number {
         return rect.topleft.y - rect.botright.y + 1
+    }
+
+    export function width(rect: Rectangle): number {
+        return rect.botright.x - rect.topleft.x
+    }
+
+    export function height(rect: Rectangle): number {
+        return rect.topleft.y - rect.botright.y
+    }
+
+    export function extendTo(rect: Rectangle, tile: Vector2): Rectangle {
+        return {
+            topleft: {
+                x: Math.min(rect.topleft.x, tile.x),
+                y: Math.max(rect.topleft.y, tile.y)
+            },
+            botright: {
+                x: Math.max(rect.botright.x, tile.x),
+                y: Math.min(rect.botright.y, tile.y)
+            }
+        }
+    }
+
+    export function extendToRect(rect: Rectangle, other: Rectangle): Rectangle {
+        return extendTo(extendTo(rect, other.topleft), other.botright)
     }
 }

@@ -2,8 +2,9 @@ import {GameMap} from "./GameMap";
 import * as leaflet from "leaflet";
 import {TileCoordinates} from "../runescape/coordinates";
 import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
+import {LeafletEvent} from "leaflet";
 
-export abstract class GameMapEvent {
+export abstract class GameMapEvent<LeafletT extends leaflet.LeafletEvent, OriginalT extends Event> {
     public propagation_state: {
         phase: "pre" | "post",
         trickle_stopped_immediate: boolean,
@@ -11,7 +12,10 @@ export abstract class GameMapEvent {
         trigger_post_order: boolean
     }
 
-    protected constructor(public map: GameMap) {
+    protected constructor(public map: GameMap,
+                          public leaflet: LeafletT,
+                          public original: OriginalT
+                          ) {
         this.propagation_state = {
             phase: "pre",
             trickle_stopped_immediate: false,
@@ -33,20 +37,20 @@ export abstract class GameMapEvent {
     }
 
     stopAllPropagation() {
+        this.original.stopPropagation()
+
         this.propagation_state.trickle_stopped = false
         this.propagation_state.trickle_stopped_immediate = false
         this.propagation_state.trigger_post_order = false
-
-        // TODO: Also stop leaflet's propagation?
     }
 }
 
-export class GameMapMouseEvent extends GameMapEvent {
+export class GameMapMouseEvent extends GameMapEvent<leaflet.LeafletMouseEvent, MouseEvent> {
     constructor(
         map: GameMap,
-        public originalEvent: leaflet.LeafletMouseEvent,
+        public leaflet: leaflet.LeafletMouseEvent,
         public coordinates: TileCoordinates) {
-        super(map);
+        super(map, leaflet, leaflet.originalEvent);
     }
 
     tile() {
@@ -54,14 +58,22 @@ export class GameMapMouseEvent extends GameMapEvent {
     }
 }
 
-export class GameMapContextMenuEvent extends GameMapEvent {
+export class GameMapKeyboardEvent extends GameMapEvent<leaflet.LeafletKeyboardEvent, KeyboardEvent> {
+    constructor(
+        map: GameMap,
+        public leaflet: leaflet.LeafletKeyboardEvent) {
+        super(map, leaflet, leaflet.originalEvent);
+    }
+}
+
+export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEvent, MouseEvent> {
     entries: MenuEntry[] = []
 
     constructor(map: GameMap,
-                public originalEvent: leaflet.LeafletMouseEvent,
+                public leaflet: leaflet.LeafletMouseEvent,
                 public coordinates: TileCoordinates
     ) {
-        super(map);
+        super(map, leaflet, leaflet.originalEvent);
     }
 
     add(...entries: MenuEntry[]): void {

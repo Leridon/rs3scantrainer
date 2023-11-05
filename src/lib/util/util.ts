@@ -11,10 +11,10 @@ export namespace util {
         return a.slice(0, -1).join(", ") + `, ${connector} ` + a[a.length - 1]
     }
 
-    export function plural(n: number, word: string, postfix: string = "s") : string {
+    export function plural(n: number, word: string, postfix: string = "s"): string {
         let s = `${n} ${word}`
 
-        if(n != 1) s += postfix
+        if (n != 1) s += postfix
 
         return s
     }
@@ -103,4 +103,8 @@ export namespace util {
      * I'm 99% percent sure this already exists in some way, but could not find it.
      */
     export type ensure_subtype<Supertype, T extends Supertype> = T
+
+    export function signedToString(n: number): string {
+        return `${Math.sign(n) < 0 ? "" : "+"}${n}`
+    }
 }

@@ -34,7 +34,7 @@ export namespace Shortcuts {
         interactive_area: TileRectangle,
         time: number,
         name: string,
-        movement: { type: "offset", offset: Vector2, level_offset: floor_t } | { type: "fixed", target: TileCoordinates }
+        movement: { type: "offset", offset: Vector2, level_offset: number } | { type: "fixed", target: TileCoordinates }
     }
 
     export type new_shortcut_entity = {

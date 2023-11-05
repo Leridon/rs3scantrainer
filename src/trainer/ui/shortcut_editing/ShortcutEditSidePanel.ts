@@ -22,6 +22,7 @@ import InteractionTopControl from "../map/InteractionTopControl";
 import {DrawOffset} from "./interactions/DrawOffset";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {util} from "../../../lib/util/util";
 
 class ShortcutEdit extends Widget<{
     "changed": Shortcuts.new_shortcut,
@@ -144,7 +145,7 @@ class ShortcutEdit extends Widget<{
                                         }).onEnd(() => {
                                             this.associated_preview?.updateConfig(c => c.hidden_actions = c.hidden_actions.filter(x => x != action))
                                         }).onCommit(a => {
-                                            this.value.update(v => action.interactive_area = a)
+                                            this.value.update(() => action.interactive_area = a)
                                             this.render()
                                         }).attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
                                     )
@@ -175,7 +176,10 @@ class ShortcutEdit extends Widget<{
                                         if (action.movement.type == "offset") {
                                             action.movement = {
                                                 type: "fixed",
-                                                target: TileCoordinates.lift(Vector2.add(action.movement.offset, Rectangle.center(action.interactive_area)), action.movement.level_offset)
+                                                target: TileCoordinates.lift(
+                                                    Vector2.add(action.movement.offset, Rectangle.center(action.interactive_area)),
+                                                    floor_t.clamp(action.interactive_area.level + action.movement.level_offset)
+                                                )
                                             }
                                         }
                                     })
@@ -191,7 +195,9 @@ class ShortcutEdit extends Widget<{
                     case "offset":
                         props.named("Offset",
                             c("<div style='display: flex'></div>")
-                                .append(c("<span style='margin-right: 5px;'></span>").text(`${action.movement.offset.x}|${action.movement.offset.y}`))
+                                .append(c("<span style='margin-right: 5px;'></span>")
+                                    .text(`${action.movement.offset.x}|${action.movement.offset.y}, Level ${util.signedToString(action.movement.level_offset)}`)
+                                )
                                 .append(c().css("flex-grow", "1"))
                                 .append(
                                     new LightButton("Draw")
@@ -201,22 +207,16 @@ class ShortcutEdit extends Widget<{
                                                 new DrawOffset()
                                                     .onCommit((v) => {
                                                         this.value.update(() => {
-                                                            if (action.movement.type == "offset") action.movement.offset = v.offset
+                                                            if (action.movement.type == "offset") {
+                                                                action.movement.offset = v.offset
+                                                                action.movement.level_offset = v.level_offset
+                                                            }
                                                         })
                                                         this.render()
                                                     })
                                             )
                                         })
                                 ))
-
-                        props.named("Level", new NumberInput(0, 3).setValue(action.movement.level_offset)
-                            .on("changed", (v) => {
-                                this.value.update(() => {
-                                    if (action.movement.type == "offset") action.movement.level_offset = v as floor_t
-                                })
-                                this.render()
-                            })
-                        )
                         break
 
                     case "fixed":

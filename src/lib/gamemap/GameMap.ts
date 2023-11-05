@@ -11,7 +11,7 @@ import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
 import {FitBoundsOptions, MapOptions} from "leaflet";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
 import GameMapDragAction from "./interaction/GameMapDragAction";
-import {GameMapContextMenuEvent, GameMapEvent, GameMapMouseEvent} from "./MapEvents";
+import {GameMapContextMenuEvent, GameMapEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
 import {GameMapControl} from "./GameMapControl";
 import BaseTileLayer from "./defaultlayers/BaseTileLayer";
 import FloorControl from "./defaultlayers/FloorControl";
@@ -123,6 +123,10 @@ export class GameMap extends leaflet.Map {
 
             this.on("mousedown", (e) => {
                 this.event(new GameMapMouseEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventMouseDown(e))
+            })
+
+            this.on("keydown", (e) => {
+                this.event(new GameMapKeyboardEvent(this, e), l => e => l.eventKeyDown(e))
             })
         }
 
@@ -278,7 +282,7 @@ export class GameMap extends leaflet.Map {
         }
     }
 
-    private event<T extends GameMapEvent>(event: T, h: (_: GameLayer) => (_: T) => any): T {
+    private event<T extends GameMapEvent<any, any>>(event: T, h: (_: GameLayer) => (_: T) => any): T {
 
         function getLayers(l: leaflet.Map | leaflet.LayerGroup) {
             let accu: leaflet.Layer[] = []

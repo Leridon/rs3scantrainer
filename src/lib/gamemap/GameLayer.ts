@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet"
 import {GameMap} from "./GameMap";
 import {LayerGroup} from "leaflet";
-import {GameMapContextMenuEvent, GameMapMouseEvent} from "./MapEvents";
+import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
 import {TileMarker} from "./TileMarker";
 
 export default class GameLayer extends leaflet.FeatureGroup {
@@ -65,4 +65,6 @@ export default class GameLayer extends leaflet.FeatureGroup {
     eventMouseUp(event: GameMapMouseEvent) {}
 
     eventMouseDown(event: GameMapMouseEvent) {}
+
+    eventKeyDown(event: GameMapKeyboardEvent) {}
 }

@@ -6,7 +6,7 @@ import {arrow, createStepGraphics} from "../../path_graphics";
 import {capitalize} from "lodash";
 import {Path} from "../../../../lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
-import {Vector2} from "../../../../lib/math/Vector2";
+import {Vector2} from "../../../../lib/math";
 import Checkbox from "../../../../lib/ui/controls/Checkbox";
 import {GameMapControl} from "../../../../lib/gamemap/GameMapControl";
 import Widget from "../../../../lib/ui/Widget";

@@ -5,7 +5,7 @@ import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "data/teleport_data";
 import {full_teleport_id, Teleports} from "./teleports";
-import {Vector2} from "../math/Vector2";
+import {Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
 import * as L from "leaflet"
 import {TileCoordinates} from "./coordinates/TileCoordinates";

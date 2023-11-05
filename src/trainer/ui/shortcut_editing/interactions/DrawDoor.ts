@@ -2,7 +2,7 @@ import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAc
 import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {Shortcuts} from "../../../../lib/runescape/shortcuts";
-import {Rectangle} from "../../../../lib/math/Vector2";
+import {Rectangle} from "lib/math"
 import {boxPolygon} from "../../polygon_helpers";
 import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
 import ContextMenu from "../../widgets/ContextMenu";

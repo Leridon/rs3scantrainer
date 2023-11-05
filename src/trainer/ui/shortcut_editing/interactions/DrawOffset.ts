@@ -1,5 +1,5 @@
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
-import {Vector2} from "../../../../lib/math/Vector2";
+import {Vector2} from "../../../../lib/math";
 import {arrow} from "../../path_graphics";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";

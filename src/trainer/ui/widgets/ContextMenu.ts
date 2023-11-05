@@ -1,6 +1,6 @@
 import Widget from "../../../lib/ui/Widget";
 import * as tippy from "tippy.js";
-import {Vector2} from "../../../lib/math/Vector2";
+import {Vector2} from "../../../lib/math";
 
 export type MenuEntry = {
     type: "basic",

@@ -1,4 +1,4 @@
-import {Rectangle, Vector2} from "../../math/Vector2";
+import {Rectangle, Vector2} from "../../math";
 import {floor_t} from "../coordinates";
 import {TileCoordinates} from "./TileCoordinates";
 

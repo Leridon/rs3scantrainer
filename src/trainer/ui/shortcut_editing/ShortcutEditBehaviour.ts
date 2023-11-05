@@ -4,7 +4,7 @@ import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import {Shortcuts} from "../../../lib/runescape/shortcuts";
 import {LeafletEventHandlerFn} from "leaflet";
-import {Rectangle} from "../../../lib/math/Vector2";
+import {Rectangle} from "lib/math"
 import {ActionBar} from "../map/ActionBar";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import {storage} from "../../../lib/util/storage";

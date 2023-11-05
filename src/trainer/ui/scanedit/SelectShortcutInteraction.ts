@@ -2,7 +2,7 @@ import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
 import * as leaflet from "leaflet"
 import {LeafletMouseEvent} from "leaflet"
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Vector2} from "../../../lib/math/Vector2";
+import {Vector2} from "../../../lib/math";
 import {Path} from "lib/runescape/pathing";
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as tippy from 'tippy.js';

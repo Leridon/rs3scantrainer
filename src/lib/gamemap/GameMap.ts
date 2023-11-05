@@ -16,7 +16,7 @@ import {GameMapControl} from "./GameMapControl";
 import BaseTileLayer from "./defaultlayers/BaseTileLayer";
 import FloorControl from "./defaultlayers/FloorControl";
 import {Rect} from "@alt1/base";
-import {Rectangle, Vector2} from "../math/Vector2";
+import {Rectangle, Vector2} from "../math";
 import {util} from "../util/util";
 import {TileCoordinates} from "../runescape/coordinates/TileCoordinates";
 import {TileRectangle} from "../runescape/coordinates/TileRectangle";

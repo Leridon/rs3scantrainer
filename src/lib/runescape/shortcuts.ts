@@ -1,7 +1,7 @@
 import {floor_t} from "./coordinates";
 import {direction} from "./movement";
 import {Path} from "./pathing";
-import {Rectangle, Vector2} from "../math/Vector2";
+import {Rectangle, Vector2} from "../math";
 import { TileRectangle } from "./coordinates/TileRectangle";
 import {TileCoordinates} from "./coordinates/TileCoordinates";
 

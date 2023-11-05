@@ -1,6 +1,6 @@
 import {Scans} from "../../runescape/clues/scans";
 import {ScanTree} from "./ScanTree";
-import {Rectangle} from "../../math/Vector2";
+import {Rectangle} from "lib/math"
 import {rangeRight} from "lodash";
 import {TileRectangle} from "../../runescape/coordinates/TileRectangle";
 import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";

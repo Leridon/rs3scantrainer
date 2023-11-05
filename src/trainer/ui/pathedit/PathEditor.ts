@@ -27,7 +27,7 @@ import issue = Path.issue;
 import {Observable, observe} from "lib/properties/Observable";
 import Behaviour from "../../../lib/ui/Behaviour";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Vector2} from "../../../lib/math/Vector2";
+import {Vector2} from "../../../lib/math";
 import {MenuEntry} from "../widgets/ContextMenu";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";

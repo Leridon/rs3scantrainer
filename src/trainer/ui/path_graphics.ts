@@ -4,7 +4,7 @@ import {TileCoordinates} from "../../lib/runescape/coordinates/TileCoordinates";
 import {direction, MovementAbilities} from "../../lib/runescape/movement";
 import Widget from "../../lib/ui/Widget";
 import {OpacityGroup} from "../../lib/gamemap/layers/OpacityLayer";
-import {Vector2} from "../../lib/math/Vector2";
+import {Vector2} from "../../lib/math";
 import InteractionType = Path.InteractionType;
 import {flat_teleport, Teleports} from "../../lib/runescape/teleports";
 import {teleport_data} from "../../data/teleport_data";

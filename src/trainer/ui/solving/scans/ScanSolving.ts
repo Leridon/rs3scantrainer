@@ -3,7 +3,7 @@ import {modal, Modal} from "../../widgets/modal";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
 import {Observable, observe} from "../../../../lib/properties/Observable";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../../lib/math/Vector2";
+import {Vector2} from "../../../../lib/math";
 import {floor_t} from "../../../../lib/runescape/coordinates";
 import {PathingGraphics} from "../../path_graphics";
 import Widget from "../../../../lib/ui/Widget";

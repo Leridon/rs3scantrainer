@@ -1,6 +1,6 @@
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import {Shortcuts} from "../../../../lib/runescape/shortcuts";
-import {Vector2} from "../../../../lib/math/Vector2";
+import {Vector2} from "../../../../lib/math";
 import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
 import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
 

@@ -12,7 +12,7 @@ import NumberInput from "../../../lib/ui/controls/NumberInput";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import {DropdownSelection} from "../widgets/DropdownSelection";
 import * as lodash from "lodash"
-import {Rectangle, Vector2} from "../../../lib/math/Vector2";
+import {Rectangle, Vector2} from "../../../lib/math";
 import {floor_t} from "../../../lib/runescape/coordinates";
 import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
 import {ShortcutViewLayer} from "./ShortcutView";

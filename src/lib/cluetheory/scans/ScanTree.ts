@@ -1,5 +1,5 @@
 import {Path} from "lib/runescape/pathing";
-import {Vector2} from "../../math/Vector2";
+import {Vector2} from "../../math";
 import {Scans} from "lib/runescape/clues/scans";
 import * as lodash from "lodash";
 import {Clues, ScanStep} from "../../runescape/clues";

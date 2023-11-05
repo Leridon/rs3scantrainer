@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../lib/math/Vector";
+import {Vector2} from "../../../lib/math/Vector2";
 import {Path} from "../../../lib/runescape/pathing";
 
 export namespace RenderingUtility {

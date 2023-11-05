@@ -1,7 +1,7 @@
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
-import {Vector2} from "../../../../lib/math/Vector";
+import {Vector2} from "../../../../lib/math/Vector2";
 import {arrow} from "../../path_graphics";
-import {MapCoordinate} from "../../../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
 
@@ -50,5 +50,5 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
 }
 
 export namespace DrawOffset {
-    export type value_t = { origin: MapCoordinate, offset: Vector2 }
+    export type value_t = { origin: TileCoordinates, offset: Vector2 }
 }

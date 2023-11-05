@@ -3,7 +3,7 @@ import ScanEditPanel from "./ScanEditPanel";
 import * as leaflet from "leaflet"
 import Checkbox from "../../../lib/ui/controls/Checkbox";
 import LightButton from "../widgets/LightButton";
-import {Vector2} from "lib/math/Vector";
+import {Vector2} from "../../../lib/math/Vector2";
 import {observe} from "lib/properties/Observable";
 
 export default class ScanTools extends Widget {

@@ -1,8 +1,9 @@
-import {MapCoordinate, MapRectangle} from "../../runescape/coordinates";
 import {Scans} from "../../runescape/clues/scans";
 import {ScanTree} from "./ScanTree";
-import {Rectangle} from "../../math/Vector";
+import {Rectangle} from "../../math/Vector2";
 import {rangeRight} from "lodash";
+import {TileRectangle} from "../../runescape/coordinates/TileRectangle";
+import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
 
 export namespace ScanTheory {
 
@@ -14,19 +15,19 @@ export namespace ScanTheory {
 
     export type PulseInformation = Scans.Pulse & ({
         pulse: 3
-        spot?: MapCoordinate
+        spot?: TileCoordinates
     } | { pulse: 1 | 2 })
 
     export namespace PulseInformation {
 
         export function equals(a: PulseInformation, b: PulseInformation): boolean {
-            return Pulse.equals(a, b) && !(a.pulse == 3 && (b.pulse == 3) && !MapCoordinate.eq2(a?.spot, b.spot))
+            return Pulse.equals(a, b) && !(a.pulse == 3 && (b.pulse == 3) && !TileCoordinates.eq2(a?.spot, b.spot))
         }
     }
 
-    export function spot_narrowing(candidates: MapCoordinate[], area: MapRectangle, range: number): {
+    export function spot_narrowing(candidates: TileCoordinates[], area: TileRectangle, range: number): {
         pulse: PulseInformation,
-        narrowed_candidates: MapCoordinate[]
+        narrowed_candidates: TileCoordinates[]
     }[] {
         return Pulse.all.flatMap((p) => {
             let remaining = narrow_down(candidates, {area: area, pulse: p.pulse, different_level: p.different_level}, range)
@@ -51,10 +52,10 @@ export namespace ScanTheory {
         })
     }
 
-    export function area_pulse(spot: MapCoordinate, area: MapRectangle, range: number): Pulse[] {
+    export function area_pulse(spot: TileCoordinates, area: TileRectangle, range: number): Pulse[] {
         let pulses: Pulse[]
 
-        let max = get_pulse(spot, MapRectangle.clampInto(spot, area), range).pulse
+        let max = get_pulse(spot, TileRectangle.clampInto(spot, area), range).pulse
 
         // This breaks if areas are so large they cover both cases. But in that case: Wtf are you doing?
         if (max == 1) {
@@ -81,8 +82,8 @@ export namespace ScanTheory {
             }
         } else {
             let min = Math.min(
-                get_pulse(spot, MapRectangle.tl(area), range).pulse,
-                get_pulse(spot, MapRectangle.br(area), range).pulse,
+                get_pulse(spot, TileRectangle.tl(area), range).pulse,
+                get_pulse(spot, TileRectangle.br(area), range).pulse,
             )
 
             pulses = rangeRight(min, max + 1, 1).map((p: 1 | 2 | 3) => {
@@ -96,7 +97,7 @@ export namespace ScanTheory {
         return pulses
     }
 
-    export function narrow_down(candidates: MapCoordinate[], information: ScanInformation, range: number): MapCoordinate[] {
+    export function narrow_down(candidates: TileCoordinates[], information: ScanInformation, range: number): TileCoordinates[] {
         return candidates.filter((s) => area_pulse(s, information.area, range).some((p2) => Pulse.equals(information, p2)))
     }
 }

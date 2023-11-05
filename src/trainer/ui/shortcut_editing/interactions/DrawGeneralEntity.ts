@@ -1,6 +1,6 @@
 import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
 import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
-import {MapRectangle} from "../../../../lib/runescape/coordinates";
+import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
 import {Shortcuts} from "../../../../lib/runescape/shortcuts";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {ShortcutViewLayer} from "../ShortcutView";
@@ -30,14 +30,14 @@ export class DrawGeneralEntity extends InteractionLayer {
 }
 
 export namespace DrawGeneralEntity {
-    export function transform(area: MapRectangle): Shortcuts.new_shortcut_entity {
+    export function transform(area: TileRectangle): Shortcuts.new_shortcut_entity {
         return {
             type: "entity",
             name: "Entity",
-            clickable_area: MapRectangle.extend(area, 0.5),
+            clickable_area: TileRectangle.extend(area, 0.5),
             actions: [{
                 cursor: "generic",
-                interactive_area: MapRectangle.extend(area, 1),
+                interactive_area: TileRectangle.extend(area, 1),
                 movement: {type: "offset", offset: {x: 0, y: 0}, level: area.level},
                 name: "Use",
                 time: 3

@@ -194,4 +194,11 @@ export namespace Rectangle {
     export function extendToRect(rect: Rectangle, other: Rectangle): Rectangle {
         return extendTo(extendTo(rect, other.topleft), other.botright)
     }
+
+    export function translate(rect: Rectangle, off: Vector2): Rectangle {
+        return {
+            topleft: Vector2.add(rect.topleft, off),
+            botright: Vector2.add(rect.botright, off)
+        }
+    }
 }

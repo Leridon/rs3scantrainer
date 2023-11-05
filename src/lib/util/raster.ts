@@ -1,4 +1,4 @@
-import {Rectangle} from "../math/Vector";
+import {Rectangle} from "../math/Vector2";
 export class Raster<T> {
     public data: T[]
     size: { x: number, y: number }

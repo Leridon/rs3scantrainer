@@ -1,7 +1,7 @@
 import Widget from "../../../lib/ui/Widget";
 import SpotOrderingEdit from "./SpotNumberingEdit";
 import TreeEdit from "./TreeEdit";
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
@@ -25,7 +25,7 @@ export default class ScanEditPanel extends SidePanel {
     spot_ordering: SpotOrderingEdit
     tree_edit: TreeEdit
 
-    candidates: MapCoordinate[]
+    candidates: TileCoordinates[]
 
     constructor(public parent: ScanEditor) {
         super()
@@ -90,7 +90,7 @@ export default class ScanEditPanel extends SidePanel {
 
         this.candidates = this.parent.options.clue.solution.candidates
 
-        this.spot_ordering.on("changed", (v: MapCoordinate[]) => {
+        this.spot_ordering.on("changed", (v: TileCoordinates[]) => {
             this.parent.value.spot_ordering = v
         })
     }

@@ -1,7 +1,9 @@
-import {floor_t, MapCoordinate, MapRectangle} from "./coordinates";
+import {floor_t} from "./coordinates";
 import {direction} from "./movement";
 import {Path} from "./pathing";
-import {Rectangle, Vector2} from "../math/Vector";
+import {Rectangle, Vector2} from "../math/Vector2";
+import { TileRectangle } from "./coordinates/TileRectangle";
+import {TileCoordinates} from "./coordinates/TileCoordinates";
 
 export namespace Shortcuts {
 
@@ -17,8 +19,8 @@ export namespace Shortcuts {
 
 
         type: "door" | "entity"
-        Clickable Area: MapRectangle (Entity size)
-        Interaction Area: MapRectangle, where the player can trigger the action from
+        Clickable Area: TileRectangle (Entity size)
+        Interaction Area: TileRectangle, where the player can trigger the action from
         Animation Time: number, ticks until the player can move again
         Target: Move to specific spot | Offset player position
 
@@ -29,23 +31,23 @@ export namespace Shortcuts {
 
     export type new_shortcut_entity_action = {
         cursor: Path.InteractionType,
-        interactive_area: MapRectangle,
+        interactive_area: TileRectangle,
         time: number,
         name: string,
-        movement: { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }
+        movement: { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: TileCoordinates }
     }
 
     export type new_shortcut_entity = {
         type: "entity",
         name: string,
-        clickable_area: MapRectangle,
+        clickable_area: TileRectangle,
         actions: new_shortcut_entity_action[]
     }
 
     export type new_shortcut_door = {
         type: "door",
         name: string,
-        area: MapRectangle,
+        area: TileRectangle,
         direction: "northsouth" | "eastwest"
     }
 
@@ -67,13 +69,13 @@ export namespace Shortcuts {
                         },
                         actions: [{
                             cursor: "open",
-                            interactive_area: MapRectangle.top(shortcut.area),
+                            interactive_area: TileRectangle.top(shortcut.area),
                             time: 1,
                             name: "Cross south",
                             movement: {type: "offset", offset: {x: 0, y: -1}, level: shortcut.area.level}
                         }, {
                             cursor: "open",
-                            interactive_area: MapRectangle.bottom(shortcut.area),
+                            interactive_area: TileRectangle.bottom(shortcut.area),
                             time: 1,
                             name: "Cross north",
                             movement: {type: "offset", offset: {x: 0, y: 1}, level: shortcut.area.level}
@@ -90,13 +92,13 @@ export namespace Shortcuts {
                         },
                         actions: [{
                             cursor: "open",
-                            interactive_area: MapRectangle.left(shortcut.area),
+                            interactive_area: TileRectangle.left(shortcut.area),
                             time: 1,
                             name: "Cross east",
                             movement: {type: "offset", offset: {x: 1, y: 0}, level: shortcut.area.level}
                         }, {
                             cursor: "open",
-                            interactive_area: MapRectangle.right(shortcut.area),
+                            interactive_area: TileRectangle.right(shortcut.area),
                             time: 1,
                             name: "Cross west",
                             movement: {type: "offset", offset: {x: -1, y: 0}, level: shortcut.area.level}
@@ -105,14 +107,14 @@ export namespace Shortcuts {
             }
         }
 
-        export function bounds(shortcut: new_shortcut): MapRectangle {
+        export function bounds(shortcut: new_shortcut): TileRectangle {
             switch (shortcut.type) {
                 case "entity":
 
                     let bounds = shortcut.clickable_area
 
                     shortcut.actions.forEach(a => {
-                        bounds = MapRectangle.extendToRect(bounds, a.interactive_area)
+                        bounds = TileRectangle.extendToRect(bounds, a.interactive_area)
                     })
 
                     return bounds
@@ -122,34 +124,34 @@ export namespace Shortcuts {
         }
     }
 
-    type start_t = { type: "area", area: MapRectangle } | { type: "tile", tile: MapCoordinate }
-    type click_t = { type: "area", area: MapRectangle, where: "center" | "nearest" } | { type: "tile", tile: MapCoordinate }
-    type movement_t = { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: MapCoordinate }
+    type start_t = { type: "area", area: TileRectangle } | { type: "tile", tile: TileCoordinates }
+    type click_t = { type: "area", area: TileRectangle, where: "center" | "nearest" } | { type: "tile", tile: TileCoordinates }
+    type movement_t = { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: TileCoordinates }
 
     export namespace start {
-        export function get(start: start_t, position: MapCoordinate | null): MapCoordinate {
+        export function get(start: start_t, position: TileCoordinates | null): TileCoordinates {
             if (start.type == "tile") return start.tile
             else if (start.type == "area") {
-                if (position != null) return MapRectangle.clampInto(position, start.area)
-                else return MapRectangle.tl(start.area)
+                if (position != null) return TileRectangle.clampInto(position, start.area)
+                else return TileRectangle.tl(start.area)
             }
         }
     }
 
     export namespace click {
-        export function get(click: click_t, position: MapCoordinate | null): MapCoordinate {
+        export function get(click: click_t, position: TileCoordinates | null): TileCoordinates {
             if (click.type == "tile") return click.tile
             else if (click.type == "area") {
-                if (click.where == "nearest" && position != null) return MapRectangle.clampInto(position, click.area)
-                else return MapRectangle.center(click.area)
+                if (click.where == "nearest" && position != null) return TileRectangle.clampInto(position, click.area)
+                else return TileRectangle.center(click.area)
             }
         }
     }
 
     export namespace movement {
-        export function get(movement: movement_t, start: MapCoordinate): MapCoordinate {
+        export function get(movement: movement_t, start: TileCoordinates): TileCoordinates {
             if (movement.type == "fixed") return movement.target
-            else if (movement.type == "offset") return MapCoordinate.lift(Vector2.add(start, movement.offset), movement.level)
+            else if (movement.type == "offset") return TileCoordinates.lift(Vector2.add(start, movement.offset), movement.level)
 
         }
     }
@@ -176,10 +178,10 @@ export namespace Shortcuts {
             else buffer.push(value)
         }
 
-        function door(south_west_corner: MapCoordinate, size: Vector2): shortcut[] {
+        function door(south_west_corner: TileCoordinates, size: Vector2): shortcut[] {
             let hori = size.x > 0
 
-            let rectangle = MapRectangle.lift(
+            let rectangle = TileRectangle.lift(
                 hori
                     ? Rectangle.from(south_west_corner, Vector2.add(south_west_corner, size, {x: -1, y: 1}))
                     : Rectangle.from(south_west_corner, Vector2.add(south_west_corner, size, {x: 1, y: -1})),
@@ -191,16 +193,16 @@ export namespace Shortcuts {
                     ticks: 1,
                     forced_orientation: direction.north,
                     how: "open",
-                    start: {type: "area", area: MapRectangle.bottom(rectangle)},
-                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    start: {type: "area", area: TileRectangle.bottom(rectangle)},
+                    click: {type: "tile", tile: TileRectangle.center(rectangle)},
                     movement: {type: "offset", offset: {x: 0, y: 1}, level: south_west_corner.level},
                 }, {
                     name: "Cross South",
                     ticks: 1,
                     forced_orientation: direction.south,
                     how: "open",
-                    start: {type: "area", area: MapRectangle.top(rectangle)},
-                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    start: {type: "area", area: TileRectangle.top(rectangle)},
+                    click: {type: "tile", tile: TileRectangle.center(rectangle)},
                     movement: {type: "offset", offset: {x: 0, y: -1}, level: south_west_corner.level},
                 }]
             } else {
@@ -209,32 +211,32 @@ export namespace Shortcuts {
                     ticks: 1,
                     forced_orientation: direction.east,
                     how: "open",
-                    start: {type: "area", area: MapRectangle.left(rectangle)},
-                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    start: {type: "area", area: TileRectangle.left(rectangle)},
+                    click: {type: "tile", tile: TileRectangle.center(rectangle)},
                     movement: {type: "offset", offset: {x: 1, y: 0}, level: south_west_corner.level},
                 }, {
                     name: "Cross West",
                     ticks: 1,
                     forced_orientation: direction.west,
                     how: "open",
-                    start: {type: "area", area: MapRectangle.right(rectangle)},
-                    click: {type: "tile", tile: MapRectangle.center(rectangle)},
+                    start: {type: "area", area: TileRectangle.right(rectangle)},
+                    click: {type: "tile", tile: TileRectangle.center(rectangle)},
                     movement: {type: "offset", offset: {x: -1, y: 0}, level: south_west_corner.level},
                 }]
             }
         }
 
-        function door1V(west: MapCoordinate): shortcut[] {
+        function door1V(west: TileCoordinates): shortcut[] {
             return door(west, {x: 0, y: 1})
         }
 
-        function door1H(south: MapCoordinate): shortcut[] {
+        function door1H(south: TileCoordinates): shortcut[] {
             return door(south, {x: 1, y: 0})
         }
 
-        function portal(rectangle: MapRectangle, lands: MapCoordinate): shortcut[] {
+        function portal(rectangle: TileRectangle, lands: TileCoordinates): shortcut[] {
             /*
-            let sources: MapCoordinate[] = []
+            let sources: TileCoordinates[] = []
 
             // Traverse top/bottom
             let ys = rectangle.topleft.y != rectangle.botright.y ? [rectangle.topleft.y, rectangle.botright.y] : [rectangle.topleft.y]
@@ -256,9 +258,9 @@ export namespace Shortcuts {
             return sources.map(src => ({
                 name: "Use Portal",
                 ticks: 2,
-                starts: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0),
-                where: MapCoordinate.lift(northern_end, 0),
-                ends_up: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0),
+                starts: TileCoordinates.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0),
+                where: TileCoordinates.lift(northern_end, 0),
+                ends_up: TileCoordinates.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0),
                 forced_orientation: direction.south,
                 how: "agility_obstacle"
             }))*/
@@ -272,18 +274,18 @@ export namespace Shortcuts {
                 {
                     name: "Cross South",
                     ticks: 5,
-                    start: {type: "tile", tile: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0)},
-                    click: {type: "tile", tile: MapCoordinate.lift(northern_end, 0)},
-                    movement: {type: "fixed", target: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0)},
+                    start: {type: "tile", tile: TileCoordinates.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0)},
+                    click: {type: "tile", tile: TileCoordinates.lift(northern_end, 0)},
+                    movement: {type: "fixed", target: TileCoordinates.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0)},
                     forced_orientation: direction.south,
                     how: "agility_obstacle"
                 },
                 {
                     name: "Cross North",
                     ticks: 5,
-                    start: {type: "tile", tile: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0)},
-                    click: {type: "tile", tile: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: -7}), 0)},
-                    movement: {type: "fixed", target: MapCoordinate.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0)},
+                    start: {type: "tile", tile: TileCoordinates.lift(Vector2.add(northern_end, {x: 0, y: -8}), 0)},
+                    click: {type: "tile", tile: TileCoordinates.lift(Vector2.add(northern_end, {x: 0, y: -7}), 0)},
+                    movement: {type: "fixed", target: TileCoordinates.lift(Vector2.add(northern_end, {x: 0, y: 1}), 0)},
                     forced_orientation: direction.north,
                     how: "agility_obstacle"
                 },

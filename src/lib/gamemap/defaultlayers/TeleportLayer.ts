@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet"
 import {flat_teleport} from "../../runescape/teleports";
-import {Vector2} from "../../math/Vector";
+import {Vector2} from "../../math/Vector2";
 
 class TeleportIcon extends leaflet.Icon {
     constructor(public options: leaflet.IconOptions & { teleport: flat_teleport }) {

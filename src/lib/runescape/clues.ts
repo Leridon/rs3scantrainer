@@ -1,7 +1,9 @@
-import {GieliCoordinates, MapCoordinate, MapRectangle} from "./coordinates";
+import {TileCoordinates} from "./coordinates/TileCoordinates";
+import {TileRectangle} from "./coordinates/TileRectangle";
+import {GieliCoordinates} from "./coordinates/GieliCoordinates";
 
 export namespace Clues {
-    export function digSpotArea(spot: MapCoordinate): MapRectangle {
+    export function digSpotArea(spot: TileCoordinates): TileRectangle {
         return {
             topleft: {x: spot.x - 1, y: spot.y + 1},
             botright: {x: spot.x + 1, y: spot.y - 1},
@@ -35,8 +37,8 @@ export type SolutionType = "simple" | "variants" | "coordset"
 type SolutionBase = { type: SolutionType }
 type SolutionVariant = { id: string, name: string, solution: SimpleSolution }
 
-export type SimpleSolution = SolutionBase & { type: "simple", coordinates: MapCoordinate, answer?: string }
-export type SetSolution = SolutionBase & { type: "coordset", candidates: MapCoordinate[] }
+export type SimpleSolution = SolutionBase & { type: "simple", coordinates: TileCoordinates, answer?: string }
+export type SetSolution = SolutionBase & { type: "coordset", candidates: TileCoordinates[] }
 export type VariantSolution = SolutionBase & { type: "variants", variants: SolutionVariant[] }
 
 export type Solution = SimpleSolution | SetSolution | VariantSolution

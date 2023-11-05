@@ -2,13 +2,13 @@ import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
 import * as leaflet from "leaflet"
 import {LeafletMouseEvent} from "leaflet"
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Vector2} from "lib/math/Vector";
+import {Vector2} from "../../../lib/math/Vector2";
 import {Path} from "lib/runescape/pathing";
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as tippy from 'tippy.js';
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import Widget from "../../../lib/ui/Widget";
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import LayerInteraction from "../map/interactions/LayerInteraction";
 
 export default class SelectShortcutInteraction extends LayerInteraction<ActiveLayer, {
@@ -19,7 +19,7 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
     shortcuts_layer: OpacityGroup = new OpacityGroup()
     context_menu: tippy.Instance<tippy.Props>
 
-    constructor(layer: ActiveLayer, private position: MapCoordinate | null) {
+    constructor(layer: ActiveLayer, private position: TileCoordinates | null) {
         super(layer);
 
         Shortcuts.index.forEach(s => {
@@ -105,7 +105,7 @@ export default class SelectShortcutInteraction extends LayerInteraction<ActiveLa
                             how: s.shortcut.how
                         }
                     } else {
-                        let snapped = MapCoordinate.snap(tile)
+                        let snapped = TileCoordinates.snap(tile)
 
                         short = Path.auto_describe({
                             type: "interaction",

@@ -3,7 +3,7 @@ import {GameMap} from "./GameMap";
 import {LayerGroup} from "leaflet";
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "./MapEvents";
 import {TileMarker} from "./TileMarker";
-import {Vector2} from "../math/Vector";
+import {Vector2} from "../math/Vector2";
 import InteractionTopControl from "../../trainer/ui/map/InteractionTopControl";
 
 export default class GameLayer extends leaflet.FeatureGroup {

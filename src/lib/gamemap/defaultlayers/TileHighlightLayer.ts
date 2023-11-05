@@ -1,6 +1,6 @@
 import GameLayer from "../GameLayer";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../math/Vector";
+import {Vector2} from "../../math/Vector2";
 import {tilePolygon} from "../../../trainer/ui/polygon_helpers";
 import {GameMapMouseEvent} from "../MapEvents";
 

@@ -1,12 +1,13 @@
 import * as leaflet from "leaflet";
-import {floor_t, MapCoordinate} from "lib/runescape/coordinates";
+import {floor_t} from "lib/runescape/coordinates";
 import {Raster} from "../../util/raster";
 import {Scans} from "lib/runescape/clues/scans";
+import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
 
 export type ScanProfile = number[]
 
 namespace ScanProfile {
-    export function compute(tile: MapCoordinate, candidates: MapCoordinate[], range: number): ScanProfile {
+    export function compute(tile: TileCoordinates, candidates: TileCoordinates[], range: number): ScanProfile {
         return candidates.map((s) => Scans.Pulse.hash(Scans.get_pulse(tile, s, range)))
     }
 
@@ -56,7 +57,7 @@ export class EquivalenceClass {
 }
 
 export type ScanEquivalenceClassOptions = {
-    candidates: MapCoordinate[],
+    candidates: TileCoordinates[],
     range: number,
     complement: boolean,
     floor: floor_t
@@ -105,7 +106,7 @@ export class ScanEquivalenceClasses {
             for (let col = 0; col < this.raster.size.x; col++) {
                 let index = row * this.raster.size.x + col
 
-                let tile: MapCoordinate = {
+                let tile: TileCoordinates = {
                     x: this.raster.bounds.topleft.x + col,
                     y: this.raster.bounds.botright.y + row,
                     level: this.options.floor

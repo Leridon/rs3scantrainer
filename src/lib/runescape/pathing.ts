@@ -1,13 +1,15 @@
-import {MapCoordinate, MapRectangle} from "./coordinates";
+
 import {direction, MovementAbilities, PlayerPosition} from "./movement";
 import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "data/teleport_data";
 import {full_teleport_id, Teleports} from "./teleports";
-import {Vector2} from "../math/Vector";
+import {Vector2} from "../math/Vector2";
 import {ExportImport} from "../util/exportString";
 import * as L from "leaflet"
+import {TileCoordinates} from "./coordinates/TileCoordinates";
+import {TileRectangle} from "./coordinates/TileRectangle";
 
 export type Path = Path.raw;
 
@@ -86,40 +88,40 @@ export namespace Path {
     export type step_ability = step_base & {
         type: "ability",
         ability: movement_ability,
-        from: MapCoordinate,
-        to: MapCoordinate,
+        from: TileCoordinates,
+        to: TileCoordinates,
     }
 
     export type step_run = step_base & {
         type: "run",
-        waypoints: MapCoordinate[]
+        waypoints: TileCoordinates[]
     }
 
     export type step_teleport = step_base & {
         type: "teleport",
         id: full_teleport_id,
-        spot_override?: MapCoordinate
+        spot_override?: TileCoordinates
     }
 
     export type step_interact = step_base & {
         type: "interaction",
         ticks: number,
-        where: MapCoordinate,
-        starts: MapCoordinate,
-        ends_up: MapCoordinate,
+        where: TileCoordinates,
+        starts: TileCoordinates,
+        ends_up: TileCoordinates,
         forced_direction: direction
         how: InteractionType
     }
 
     export type step_redclick = step_base & {
         type: "redclick",
-        where: MapCoordinate,
+        where: TileCoordinates,
         how: InteractionType
     }
 
     export type step_powerburst = step_base & {
         type: "powerburst",
-        where: MapCoordinate
+        where: TileCoordinates
     }
 
     export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
@@ -139,7 +141,7 @@ export namespace Path {
         },
         acceleration_activation_tick: number,
         position: PlayerPosition,
-        targeted_entity: MapCoordinate,      // The targeted entity is set by redclicking it and can be used to set the player's orientation after running.
+        targeted_entity: TileCoordinates,      // The targeted entity is set by redclicking it and can be used to set the player's orientation after running.
     }
 
     export namespace movement_state {
@@ -187,7 +189,7 @@ export namespace Path {
         raw: raw,
         steps: augmented_step[],
         issues: issue[],
-        target: MapRectangle | null
+        target: TileRectangle | null
     }
 
     export type augmented_step = {
@@ -206,7 +208,7 @@ export namespace Path {
      * @param path The Path to get the target tile for.
      * @return The tile, or null if undefined.
      */
-    export function ends_up(path: Path): MapCoordinate {
+    export function ends_up(path: Path): TileCoordinates {
         for (let i = path.length - 1; i >= 0; i--) {
             let step = path[i]
 
@@ -232,7 +234,7 @@ export namespace Path {
 
     export async function augment(path: Path.step[],
                                   start_state: movement_state = movement_state.start(),
-                                  target: MapRectangle = null): Promise<Path.augmented> {
+                                  target: TileRectangle = null): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
         if (!start_state) start_state = movement_state.start()
@@ -264,7 +266,7 @@ export namespace Path {
                     state.position.direction = step.direction
                     break
                 case "run": {
-                    if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.waypoints[0]))
+                    if (state.position.tile && !TileCoordinates.eq(state.position.tile, step.waypoints[0]))
                         augmented.issues.push({level: 0, message: "Running does not start where the previous step ends!"})
 
                     state.position = {
@@ -284,7 +286,7 @@ export namespace Path {
                 case "ability":
                     // Check whether start and target matches expectations
                     if (state.position) {
-                        if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.from)) {
+                        if (state.position.tile && !TileCoordinates.eq(state.position.tile, step.from)) {
                             augmented.issues.push({level: 0, message: "Ability does not start where the previous step ends!"})
                         } else {
 
@@ -302,7 +304,7 @@ export namespace Path {
                                 case "surge": {
                                     let res = await MovementAbilities.surge(assumed_pos)
 
-                                    if (!res || !MapCoordinate.eq(step.to, res.tile))
+                                    if (!res || !TileCoordinates.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Surge target does not match where it would end up!"})
 
                                     break
@@ -310,7 +312,7 @@ export namespace Path {
                                 case "escape": {
                                     let res = await MovementAbilities.escape(assumed_pos)
 
-                                    if (!res || !MapCoordinate.eq(step.to, res.tile))
+                                    if (!res || !TileCoordinates.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Escape target does not match where it would end up!"})
 
                                     break
@@ -318,7 +320,7 @@ export namespace Path {
                                 case "dive": {
                                     let res = await MovementAbilities.dive(assumed_pos.tile, step.to)
 
-                                    if (!res || !MapCoordinate.eq(step.to, res.tile))
+                                    if (!res || !TileCoordinates.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Dive target can't be reached!"})
 
                                     break
@@ -326,7 +328,7 @@ export namespace Path {
                                 case "barge": {
                                     let res = await MovementAbilities.barge(assumed_pos.tile, step.to)
 
-                                    if (!res || !MapCoordinate.eq(step.to, res.tile))
+                                    if (!res || !TileCoordinates.eq(step.to, res.tile))
                                         augmented.issues.push({level: 0, message: "Barge target can't be reached!"})
 
                                     break
@@ -485,7 +487,7 @@ export namespace Path {
 
                     break;
                 case "powerburst":
-                    if (state.position.tile && !MapCoordinate.eq(state.position.tile, step.where)) {
+                    if (state.position.tile && !TileCoordinates.eq(state.position.tile, step.where)) {
                         augmented.issues.push({level: 0, message: "Position of powerburst does not match where the player is at that point."})
                         state.position.tile = step.where
                     }
@@ -518,7 +520,7 @@ export namespace Path {
         let post_state = index(augmented_steps, -1)?.post_state || start_state
         let path_issues: issue[] = []
 
-        if ((target && (!state.position.tile || !MapRectangle.contains(target, state.position.tile)))) {
+        if ((target && (!state.position.tile || !TileRectangle.contains(target, state.position.tile)))) {
             path_issues.push({level: 0, message: "Path does not end in target area"})
         }
 

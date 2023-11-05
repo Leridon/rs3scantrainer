@@ -21,13 +21,13 @@ import MovementStateView from "./MovementStateView";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {QueryLinks} from "trainer/query_functions";
 import {util} from "../../../lib/util/util";
-import {MapRectangle} from "lib/runescape/coordinates";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import movement_state = Path.movement_state;
 import issue = Path.issue;
 import {Observable, observe} from "lib/properties/Observable";
 import Behaviour from "../../../lib/ui/Behaviour";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Vector2} from "lib/math/Vector";
+import {Vector2} from "../../../lib/math/Vector2";
 import {MenuEntry} from "../widgets/ContextMenu";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
@@ -592,7 +592,7 @@ class PathBuilder extends Observable<Path.raw> {
     public post_state: Observable<Path.movement_state>
 
     private start_state: movement_state = null
-    private target: MapRectangle = null
+    private target: TileRectangle = null
 
     constructor() {
         super([]);
@@ -602,7 +602,7 @@ class PathBuilder extends Observable<Path.raw> {
         this.augmented_async.subscribe(v => this.augmented.setAsync(v))
     }
 
-    setMeta(start_state: movement_state, target: MapRectangle) {
+    setMeta(start_state: movement_state, target: TileRectangle) {
         this.start_state = start_state
         this.target = target
 
@@ -729,7 +729,7 @@ namespace PathEditor {
     export type options_t = {
         commit_handler?: (p: Path.raw) => any,
         discard_handler?: () => any,
-        target?: MapRectangle,
+        target?: TileRectangle,
         start_state?: movement_state
     }
 }

@@ -13,7 +13,7 @@ import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "../lib/util/exportString";
 import OverviewLayer from "../lib/gamemap/layers/OverviewLayer";
 import {clues} from "data/clues";
-import {MapRectangle} from "lib/runescape/coordinates";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import methods from "../data/methods";
@@ -30,7 +30,7 @@ export namespace ScanTrainerCommands {
 
     export const load_path: Command<{
         steps: Path.raw,
-        target?: MapRectangle,
+        target?: TileRectangle,
         start_state?: Path.movement_state
     }> = {
         name: "load_path",
@@ -41,7 +41,7 @@ export namespace ScanTrainerCommands {
         serializer: {},
         instantiate: (arg: {
             steps: Path.raw,
-            target?: MapRectangle,
+            target?: TileRectangle,
             start_state?: Path.movement_state
         }) => (app: Application): void => {
             // TODO: Fix the PathEditor behaviour stuff

@@ -1,5 +1,5 @@
-import {MapCoordinate} from "../runescape/coordinates";
-import {Vector2} from "../math/Vector";
+import {TileCoordinates} from "../runescape/coordinates/TileCoordinates";
+import {Vector2} from "../math/Vector2";
 
 export class ChunkedData<T> {
 
@@ -29,7 +29,7 @@ export namespace ChunkedData {
         y: 200
     }
 
-    export function split(coords: MapCoordinate): ChunkedData.coordinates {
+    export function split(coords: TileCoordinates): ChunkedData.coordinates {
         let c: Vector2 = {
             x: Math.floor(coords.x / ChunkedData.CHUNK_SIZE),
             y: Math.floor(coords.y / ChunkedData.CHUNK_SIZE),
@@ -49,5 +49,5 @@ export namespace ChunkedData {
         }
     }
 
-    export type coordinates = { coords: MapCoordinate, chunk: Vector2, tile: Vector2, chunk_i: number, tile_i: number }
+    export type coordinates = { coords: TileCoordinates, chunk: Vector2, tile: Vector2, chunk_i: number, tile_i: number }
 }

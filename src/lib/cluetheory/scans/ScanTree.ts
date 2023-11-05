@@ -1,12 +1,12 @@
-import {MapCoordinate, MapRectangle} from "lib/runescape/coordinates";
 import {Path} from "lib/runescape/pathing";
-import {Vector2} from "lib/math/Vector";
+import {Vector2} from "../../math/Vector2";
 import {Scans} from "lib/runescape/clues/scans";
 import * as lodash from "lodash";
 import {Clues, ScanStep} from "../../runescape/clues";
 import {util} from "../../util/util";
 import {ScanTheory} from "./Scans";
-import * as path from "path";
+import {TileRectangle} from "../../runescape/coordinates/TileRectangle";
+import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;
@@ -17,11 +17,11 @@ export namespace ScanTree {
 
     export type ScanRegion = {
         name: string
-        area: MapRectangle
+        area: TileRectangle
     }
 
     export type ScanTree = {
-        spot_ordering: MapCoordinate[],
+        spot_ordering: TileCoordinates[],
         assumes_meerkats: boolean,
         root: ScanTreeNode
     }
@@ -61,7 +61,7 @@ export namespace ScanTree {
             region?: ScanRegion,
             path?: Path.augmented,
             depth: number,
-            remaining_candidates: MapCoordinate[],
+            remaining_candidates: TileCoordinates[],
             children: {
                 key: Scans.Pulse,
                 value: AugmentedScanTreeNode
@@ -154,14 +154,14 @@ export namespace ScanTree {
                     key: PulseInformation
                 } | null,
                 depth: number,
-                remaining_candidates: MapCoordinate[],
-                last_known_position: MapRectangle
+                remaining_candidates: TileCoordinates[],
+                last_known_position: TileRectangle
             ): AugmentedScanTreeNode {
                 let t: AugmentedScanTreeNode = {
                     root: root,
                     parent: parent,
                     region: node.region || {
-                        area: MapRectangle.fromTile(Path.ends_up(node.path)) || last_known_position,
+                        area: TileRectangle.fromTile(Path.ends_up(node.path)) || last_known_position,
                         name: ""
                     },
                     raw: node,
@@ -333,9 +333,9 @@ export namespace ScanTree {
     }
 
     export function normalize(tree: TreeWithClue): TreeWithClue {
-        function helper(node: ScanTreeNode, candidates: MapCoordinate[], last_known_position: MapRectangle) {
+        function helper(node: ScanTreeNode, candidates: TileCoordinates[], last_known_position: TileRectangle) {
 
-            let where = node.region?.area || MapRectangle.fromTile(Path.ends_up(node.path)) || last_known_position
+            let where = node.region?.area || TileRectangle.fromTile(Path.ends_up(node.path)) || last_known_position
 
             // Update children to remove all dead branches and add missing branches
             let pruned_children: {
@@ -343,7 +343,7 @@ export namespace ScanTree {
                     key: PulseInformation,
                     value: ScanTreeNode
                 },
-                candidates: MapCoordinate[]
+                candidates: TileCoordinates[]
             }[] = (node.path.length == 0 || !where) ? []
                 : spot_narrowing(candidates, where, assumedRange(tree))
                     .filter(n => n.narrowed_candidates.length > 0)  // Delete branches that have no candidates left
@@ -382,11 +382,11 @@ export namespace ScanTree {
         return r
     }
 
-    export function spotNumber(self: ScanTree.ScanTree, spot: MapCoordinate): number {
+    export function spotNumber(self: ScanTree.ScanTree, spot: TileCoordinates): number {
         return self.spot_ordering.findIndex((s) => Vector2.eq(s, spot)) + 1
     }
 
     export type ScanInformation = PulseInformation & {
-        area: MapRectangle
+        area: TileRectangle
     }
 }

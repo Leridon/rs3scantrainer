@@ -1,5 +1,5 @@
 import type {ActiveLayer} from "../../../../lib/gamemap/activeLayer";
-import {MapCoordinate} from "../../../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
 import LayerInteraction from "./LayerInteraction";
 import type Widget from "../../../../lib/ui/Widget";
@@ -7,7 +7,7 @@ import type Widget from "../../../../lib/ui/Widget";
 export default class SimpleClickInteraction extends LayerInteraction<ActiveLayer> {
 
     constructor(layer: ActiveLayer, private handlers: {
-        "click": (p: MapCoordinate) => void
+        "click": (p: TileCoordinates) => void
     }) {
         super(layer);
     }

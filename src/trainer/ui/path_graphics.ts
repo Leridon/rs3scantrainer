@@ -1,10 +1,10 @@
 import * as leaflet from "leaflet"
 import {Path} from "../../lib/runescape/pathing";
-import {MapCoordinate} from "../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../lib/runescape/coordinates/TileCoordinates";
 import {direction, MovementAbilities} from "../../lib/runescape/movement";
 import Widget from "../../lib/ui/Widget";
 import {OpacityGroup} from "../../lib/gamemap/layers/OpacityLayer";
-import {Vector2} from "../../lib/math/Vector";
+import {Vector2} from "../../lib/math/Vector2";
 import InteractionType = Path.InteractionType;
 import {flat_teleport, Teleports} from "../../lib/runescape/teleports";
 import {teleport_data} from "../../data/teleport_data";
@@ -56,7 +56,7 @@ export namespace PathGraphics {
 
 }
 
-function createX(coordinate: MapCoordinate, color: "red" | "yellow"): leaflet.Layer {
+function createX(coordinate: TileCoordinates, color: "red" | "yellow"): leaflet.Layer {
     const click_icons = {
         "red": "assets/icons/redclick.png",
         "yellow": "assets/icons/yellowclick.png",

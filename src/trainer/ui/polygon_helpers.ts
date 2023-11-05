@@ -1,5 +1,5 @@
 import {Raster} from "../../lib/util/raster";
-import {Rectangle, Vector2} from "../../lib/math/Vector";
+import {Rectangle, Vector2} from "../../lib/math/Vector2";
 import * as leaflet from "leaflet";
 import {LatLngExpression} from "leaflet";
 
@@ -100,8 +100,8 @@ export function areaToPolygon<T>(raster: Raster<T>,
     let startpoint = area.tiles[0]
     while (a({x: startpoint.x - 1, y: startpoint.y})) startpoint = {x: startpoint.x - 1, y: startpoint.y}
 
-    let start: { tile: MapCoordinate, corner: corner } = {tile: startpoint, corner: 0}
-    let current: { tile: MapCoordinate, corner: corner } = {tile: startpoint, corner: 0}
+    let start: { tile: TileCoordinates, corner: corner } = {tile: startpoint, corner: 0}
+    let current: { tile: TileCoordinates, corner: corner } = {tile: startpoint, corner: 0}
 
     function done() {
         return start.tile.x == current.tile.x
@@ -109,7 +109,7 @@ export function areaToPolygon<T>(raster: Raster<T>,
             && start.corner == current.corner;
     }
 
-    let polygon: MapCoordinate[] = [toCoords(current)]
+    let polygon: TileCoordinates[] = [toCoords(current)]
 
     do {
         switch (current.corner) {

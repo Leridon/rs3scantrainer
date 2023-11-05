@@ -1,7 +1,7 @@
 import Widget from "../../../lib/ui/Widget";
 import {Path} from "lib/runescape/pathing";
 import movement_state = Path.movement_state;
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {direction} from "lib/runescape/movement";
 import Properties from "../widgets/Properties";
 
@@ -49,9 +49,9 @@ export default class MovementStateView extends Widget {
         let props = new Properties().appendTo(this)
 
         props.named("Tick", c().text(this.value.tick))
-        if (this.value.position.tile) props.named("Tile", c().text(MapCoordinate.toString(this.value.position.tile)))
+        if (this.value.position.tile) props.named("Tile", c().text(TileCoordinates.toString(this.value.position.tile)))
         if (this.value.position.direction) props.named("Facing", c().text(direction.toString(this.value.position.direction)))
-        if (this.value.targeted_entity) props.named("Targeting", c().text(MapCoordinate.toString(this.value.targeted_entity)))
+        if (this.value.targeted_entity) props.named("Targeting", c().text(TileCoordinates.toString(this.value.targeted_entity)))
         let powerburst_container = props.named("Powerburst", c("<div class='ctr-movement-state-view-cooldowns'></div>"))
         let cooldown_container = props.named("Cooldowns", c("<div class='ctr-movement-state-view-cooldowns'></div>"))
 

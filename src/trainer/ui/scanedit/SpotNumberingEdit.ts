@@ -1,22 +1,22 @@
 import Widget from "../../../lib/ui/Widget";
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import LightButton from "../widgets/LightButton";
 import ScanEditor from "./ScanEditor";
 import {Observable} from "lib/properties/Observable";
 
 export default class SpotOrderingWidget extends Widget<{
-    changed: MapCoordinate[]
+    changed: TileCoordinates[]
 }> {
     list: Widget
     reselect_button: LightButton
 
     interaction: SelectDigSpotsInteraction = null
 
-    spot_order: Observable<MapCoordinate[]>
+    spot_order: Observable<TileCoordinates[]>
 
     constructor(private parent: ScanEditor,
-                private value: MapCoordinate[]) {
+                private value: TileCoordinates[]) {
         super()
 
         this.reselect_button = new LightButton("Select new spot numbering")
@@ -76,7 +76,7 @@ export default class SpotOrderingWidget extends Widget<{
 
                 this.reselect_button.setVisible(true)
 
-                let unaccounted = old_value.filter((c) => !l.some((i) => MapCoordinate.eq(i, c)))
+                let unaccounted = old_value.filter((c) => !l.some((i) => TileCoordinates.eq(i, c)))
 
                 l = l.concat(...unaccounted)
 
@@ -105,7 +105,7 @@ export default class SpotOrderingWidget extends Widget<{
          */
     }
 
-    setValue(value: MapCoordinate[]) {
+    setValue(value: TileCoordinates[]) {
         this.value = value
         this.update()
     }

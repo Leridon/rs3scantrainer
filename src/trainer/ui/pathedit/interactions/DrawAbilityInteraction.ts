@@ -1,4 +1,4 @@
-import {MapCoordinate} from "../../../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
 import {HostedMapData, move, MovementAbilities} from "../../../../lib/runescape/movement";
 import LightButton from "../../widgets/LightButton";
@@ -6,7 +6,7 @@ import {arrow, createStepGraphics} from "../../path_graphics";
 import {capitalize} from "lodash";
 import {Path} from "../../../../lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
-import {Vector2} from "../../../../lib/math/Vector";
+import {Vector2} from "../../../../lib/math/Vector2";
 import Checkbox from "../../../../lib/ui/controls/Checkbox";
 import {GameMapControl} from "../../../../lib/gamemap/GameMapControl";
 import Widget from "../../../../lib/ui/Widget";
@@ -14,17 +14,17 @@ import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
 
 export class DrawAbilityInteraction extends InteractionLayer {
-    private start_position: MapCoordinate = null
+    private start_position: TileCoordinates = null
 
-    _overlay_position: MapCoordinate = null
+    _overlay_position: TileCoordinates = null
     _possibility_overlay: leaflet.FeatureGroup = null
 
-    _dive_target: MapCoordinate = null
+    _dive_target: TileCoordinates = null
     _dive_preview: leaflet.Layer = null
 
     _previewed: {
-        from: MapCoordinate,
-        to: MapCoordinate
+        from: TileCoordinates,
+        to: TileCoordinates
     }
 
     instruction_div: Widget
@@ -81,7 +81,7 @@ export class DrawAbilityInteraction extends InteractionLayer {
         this.updateInstructions()
     }
 
-    setStartPosition(pos: MapCoordinate): this {
+    setStartPosition(pos: TileCoordinates): this {
         this.start_position = pos
 
         this.update_overlay(pos)
@@ -91,10 +91,10 @@ export class DrawAbilityInteraction extends InteractionLayer {
         return this
     }
 
-    private async update_overlay(p: MapCoordinate | null) {
+    private async update_overlay(p: TileCoordinates | null) {
         if (this.ability != "barge" && this.ability != "dive") return
 
-        if (MapCoordinate.eq2(p, this._overlay_position)) return
+        if (TileCoordinates.eq2(p, this._overlay_position)) return
 
         if (this._possibility_overlay) this._possibility_overlay.remove()
 
@@ -136,8 +136,8 @@ export class DrawAbilityInteraction extends InteractionLayer {
         this._possibility_overlay.addTo(this)
     }
 
-    private async update_preview(p: MapCoordinate) {
-        if (MapCoordinate.eq2(p, this._dive_target)) return
+    private async update_preview(p: TileCoordinates) {
+        if (TileCoordinates.eq2(p, this._dive_target)) return
         this._dive_target = p
 
         if (p == null) {
@@ -149,8 +149,8 @@ export class DrawAbilityInteraction extends InteractionLayer {
         let [from, to] = this.fromTo(this.start_position, p)
 
         if (this._previewed
-            && MapCoordinate.eq2(this._previewed.to, to)
-            && MapCoordinate.eq2(this._previewed.from, from)) return
+            && TileCoordinates.eq2(this._previewed.to, to)
+            && TileCoordinates.eq2(this._previewed.from, from)) return
 
         let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
 
@@ -191,7 +191,7 @@ export class DrawAbilityInteraction extends InteractionLayer {
         }
     }
 
-    private fromTo(a: MapCoordinate, b: MapCoordinate): [MapCoordinate, MapCoordinate] {
+    private fromTo(a: TileCoordinates, b: TileCoordinates): [TileCoordinates, TileCoordinates] {
         if (this.reverse) return [b, a]
         else return [a, b]
     }

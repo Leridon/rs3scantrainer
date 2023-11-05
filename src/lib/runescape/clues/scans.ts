@@ -1,10 +1,10 @@
-import {MapCoordinate} from "../coordinates";
+import {TileCoordinates} from "../coordinates/TileCoordinates";
 import {util} from "../../util/util";
-import {Vector2} from "lib/math/Vector";
+import {Vector2} from "../../math/Vector2";
 
 export namespace Scans {
 
-    export function get_pulse(spot: MapCoordinate, tile: MapCoordinate, range: number): Pulse {
+    export function get_pulse(spot: TileCoordinates, tile: TileCoordinates, range: number): Pulse {
         let d = distance(spot, tile)
 
         let p = 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as 1 | 2 | 3
@@ -105,7 +105,7 @@ export namespace Scans {
         }
     }
 
-    export function complementSpot(spot: MapCoordinate) {
+    export function complementSpot(spot: TileCoordinates) {
         return {
             x: spot.x,
             y: (spot.y + 6400) % 12800,

@@ -1,4 +1,4 @@
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import Widget from "../../../lib/ui/Widget";
 import TopControl from "../../../lib/gamemap/TopControl";
@@ -42,11 +42,11 @@ class SelectDigSpotsTopControl extends TopControl {
 }
 
 export default class SelectDigSpotsInteraction extends LayerInteraction<ActiveLayer,{
-    "changed": MapCoordinate[],
-    "done": MapCoordinate[],
+    "changed": TileCoordinates[],
+    "done": TileCoordinates[],
     "cancelled": null
 }> {
-    selection: MapCoordinate[]
+    selection: TileCoordinates[]
 
     constructor(layer: ActiveLayer) {
         super(layer);
@@ -83,7 +83,7 @@ export default class SelectDigSpotsInteraction extends LayerInteraction<ActiveLa
     private _hook = (m: TileMarker) => {
         let s = m.getSpot()
 
-        let i = this.selection.findIndex((e) => MapCoordinate.eq(e, s))
+        let i = this.selection.findIndex((e) => TileCoordinates.eq(e, s))
 
         if (i >= 0) this.selection.splice(i, 1)
         else this.selection.push(s)

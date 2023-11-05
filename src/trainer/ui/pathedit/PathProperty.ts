@@ -3,7 +3,7 @@ import AbstractEditWidget from "../widgets/AbstractEditWidget";
 import collect_issues = Path.collect_issues;
 import {IssueWidget, PathEditor} from "./PathEditor";
 import MovementStateView from "./MovementStateView";
-import {MapRectangle} from "lib/runescape/coordinates";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import Properties from "../widgets/Properties";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {PathGraphics} from "../path_graphics";
@@ -22,7 +22,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
     private edit_button: Button = null
 
     constructor(public options: {
-        target?: MapRectangle,
+        target?: TileRectangle,
         start_state?: Path.movement_state,
         editor?: PathEditor
     }) {

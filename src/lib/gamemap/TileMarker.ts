@@ -1,5 +1,5 @@
 import * as leaflet from "leaflet";
-import {MapCoordinate} from "../runescape/coordinates";
+import {TileCoordinates} from "../runescape/coordinates/TileCoordinates";
 import {blue_icon, green_icon, red_icon, yellow_icon} from "./GameMap";
 import {ActiveOpacityGroup} from "./layers/OpacityLayer";
 
@@ -8,7 +8,7 @@ export class TileMarker extends ActiveOpacityGroup {
     label: leaflet.Tooltip
     x_marks_the_spot: leaflet.Polyline
 
-    constructor(protected spot: MapCoordinate) {
+    constructor(protected spot: TileCoordinates) {
         super(1, 0.2)
 
         this.setOpacity(1)
@@ -70,7 +70,7 @@ export class TileMarker extends ActiveOpacityGroup {
         return this
     }
 
-    getSpot(): MapCoordinate {
+    getSpot(): TileCoordinates {
         return this.spot
     }
 }

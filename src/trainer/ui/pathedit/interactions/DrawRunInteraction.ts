@@ -1,4 +1,4 @@
-import {MapCoordinate} from "../../../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
 import {PathFinder} from "../../../../lib/runescape/movement";
 import LightButton from "../../widgets/LightButton";
@@ -45,9 +45,9 @@ export default class DrawRunInteraction extends InteractionLayer {
 
     }
 
-    last_previewed_to: MapCoordinate = null
+    last_previewed_to: TileCoordinates = null
 
-    setStartPosition(pos: MapCoordinate): this {
+    setStartPosition(pos: TileCoordinates): this {
         if (pos) this.pathfinding_state = PathFinder.init_djikstra(pos)
         else this.pathfinding_state = null
 
@@ -87,8 +87,8 @@ export default class DrawRunInteraction extends InteractionLayer {
 
     _preview: leaflet.Layer = null
 
-    async update_preview(to: MapCoordinate) {
-        if (to == null || !this.pathfinding_state || !MapCoordinate.eq2(this.last_previewed_to, to)) {
+    async update_preview(to: TileCoordinates) {
+        if (to == null || !this.pathfinding_state || !TileCoordinates.eq2(this.last_previewed_to, to)) {
             if (this._preview) {
                 this._preview.remove()
                 this._preview = null
@@ -98,7 +98,7 @@ export default class DrawRunInteraction extends InteractionLayer {
         if (!this.pathfinding_state) {
             this.top_control.instruction_div.empty()
             this.top_control.instruction_div.text(`Click where you want to start running.`)
-        } else if (to && !MapCoordinate.eq2(this.last_previewed_to, to)) {
+        } else if (to && !TileCoordinates.eq2(this.last_previewed_to, to)) {
             let path = await PathFinder.find(this.pathfinding_state, to)
 
             if (this._preview) {

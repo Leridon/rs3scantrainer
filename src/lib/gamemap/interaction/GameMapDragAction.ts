@@ -1,16 +1,17 @@
-import {MapCoordinate, MapRectangle} from "../../runescape/coordinates";
 import {Observable, observe} from "../../properties/Observable";
 import {GameMapMouseEvent} from "../MapEvents";
 import {boxPolygon} from "../../../trainer/ui/polygon_helpers";
 import {GameMap} from "../GameMap";
 import {ValueInteraction} from "./ValueInteraction";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
+import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
 
-export default class GameMapDragAction extends ValueInteraction<MapRectangle> {
-    dragstart: MapCoordinate = null
+export default class GameMapDragAction extends ValueInteraction<TileRectangle> {
+    dragstart: TileCoordinates = null
 
-    area: Observable<{ area: MapRectangle, committed: boolean }> = observe({area: null, committed: false})
+    area: Observable<{ area: TileRectangle, committed: boolean }> = observe({area: null, committed: false})
 
-    constructor(public config: ValueInteraction.option_t<MapRectangle>) {
+    constructor(public config: ValueInteraction.option_t<TileRectangle>) {
         if (!config.preview_render) {
             config.preview_render = (area) => boxPolygon(area)
         }
@@ -31,7 +32,7 @@ export default class GameMapDragAction extends ValueInteraction<MapRectangle> {
         return this
     }
 
-    start(tile: MapCoordinate): this {
+    start(tile: TileCoordinates): this {
         this.dragstart = tile
 
         return this
@@ -50,7 +51,7 @@ export default class GameMapDragAction extends ValueInteraction<MapRectangle> {
 
                 this.dragstart = event.tile()
 
-                this.preview(MapRectangle.fromTile(event.tile()))
+                this.preview(TileRectangle.fromTile(event.tile()))
             }
         })
     }
@@ -60,7 +61,7 @@ export default class GameMapDragAction extends ValueInteraction<MapRectangle> {
             if (this.dragstart) {
                 event.stopAllPropagation()
 
-                this.commit(MapRectangle.from(this.dragstart, event.tile()))
+                this.commit(TileRectangle.from(this.dragstart, event.tile()))
             }
         })
     }
@@ -71,8 +72,8 @@ export default class GameMapDragAction extends ValueInteraction<MapRectangle> {
         event.onPre(() => {
             event.stopAllPropagation()
 
-            if (this.dragstart) this.commit(MapRectangle.from(this.dragstart, event.tile()))
-            else this.commit(MapRectangle.fromTile(event.tile()))
+            if (this.dragstart) this.commit(TileRectangle.from(this.dragstart, event.tile()))
+            else this.commit(TileRectangle.fromTile(event.tile()))
         })
     }
 
@@ -81,7 +82,7 @@ export default class GameMapDragAction extends ValueInteraction<MapRectangle> {
             if (this.dragstart) {
                 event.stopAllPropagation()
 
-                this.preview(MapRectangle.from(this.dragstart, event.tile()))
+                this.preview(TileRectangle.from(this.dragstart, event.tile()))
             }
         })
     }

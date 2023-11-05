@@ -2,7 +2,7 @@ import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLay
 import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {Path} from "../../../../lib/runescape/pathing";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../../lib/math/Vector";
+import {Vector2} from "../../../../lib/math/Vector2";
 import InteractionTopControl from "../../map/InteractionTopControl";
 
 export default class PlacePowerburstInteraction extends InteractionLayer {

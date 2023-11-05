@@ -2,7 +2,7 @@ import {ActiveLayer} from "../activeLayer";
 import {Clues, ClueStep, Solution} from "../../runescape/clues";
 import Properties from "../../../trainer/ui/widgets/Properties";
 import {TileMarker} from "../TileMarker";
-import {MapCoordinate} from "../../runescape/coordinates";
+import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
 import Widget from "../../ui/Widget";
 import * as tippy from "tippy.js";
 import LightButton from "../../../trainer/ui/widgets/LightButton";
@@ -16,11 +16,11 @@ export default class OverviewLayer extends ActiveLayer {
 
         let spots: {
             clue: ClueStep,
-            spot: MapCoordinate,
+            spot: TileCoordinates,
             marker: TileMarker
         }[] = clues.flatMap(clue =>
             // It's 2023 and there's still no expression-level switch or pattern matching
-            ((solution: Solution): MapCoordinate[] => {
+            ((solution: Solution): TileCoordinates[] => {
                 switch (solution.type) {
                     case "simple":
                         return [solution.coordinates]

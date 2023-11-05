@@ -1,5 +1,5 @@
 import {flat_teleport, full_teleport_id, teleport_group, Teleports} from "lib/runescape/teleports";
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {direction} from "lib/runescape/movement";
 
 export namespace teleport_data {
@@ -2830,7 +2830,7 @@ export namespace teleport_data {
 
     let flattened_all: flat_teleport[]
 
-    export function resolveTarget(id: full_teleport_id): MapCoordinate {
+    export function resolveTarget(id: full_teleport_id): TileCoordinates {
         return raw_data
             .find((g) => g.id == id.group)?.spots
             .find((s) => s.id == id.sub)?.spot

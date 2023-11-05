@@ -4,7 +4,7 @@ import * as leaflet from "leaflet";
 import {boxPolygon, boxPolygon2} from "../polygon_helpers";
 import {Constants} from "../../constants";
 import {RenderingUtility} from "../map/RenderingUtility";
-import {Rectangle, Vector2} from "../../../lib/math/Vector";
+import {Rectangle, Vector2} from "../../../lib/math/Vector2";
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {Path} from "../../../lib/runescape/pathing";
 import {arrow} from "../path_graphics";

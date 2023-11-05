@@ -1,6 +1,6 @@
 import {GameMap} from "./GameMap";
 import * as leaflet from "leaflet";
-import {MapCoordinate} from "../runescape/coordinates";
+import {TileCoordinates} from "../runescape/coordinates/TileCoordinates";
 import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
 
 export abstract class GameMapEvent {
@@ -45,12 +45,12 @@ export class GameMapMouseEvent extends GameMapEvent {
     constructor(
         map: GameMap,
         public originalEvent: leaflet.LeafletMouseEvent,
-        public coordinates: MapCoordinate) {
+        public coordinates: TileCoordinates) {
         super(map);
     }
 
     tile() {
-        return MapCoordinate.snap(this.coordinates)
+        return TileCoordinates.snap(this.coordinates)
     }
 }
 
@@ -59,7 +59,7 @@ export class GameMapContextMenuEvent extends GameMapEvent {
 
     constructor(map: GameMap,
                 public originalEvent: leaflet.LeafletMouseEvent,
-                public coordinates: MapCoordinate
+                public coordinates: TileCoordinates
     ) {
         super(map);
     }
@@ -69,6 +69,6 @@ export class GameMapContextMenuEvent extends GameMapEvent {
     }
 
     tile() {
-        return MapCoordinate.snap(this.coordinates)
+        return TileCoordinates.snap(this.coordinates)
     }
 }

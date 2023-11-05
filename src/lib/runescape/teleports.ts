@@ -1,4 +1,4 @@
-import {MapCoordinate} from "./coordinates";
+import {TileCoordinates} from "./coordinates/TileCoordinates";
 import {TypedEmitter} from "skillbertssolver/eventemitter";
 import {teleport_data} from "data/teleport_data";
 import {direction} from "./movement";
@@ -13,7 +13,7 @@ export type teleport_group = {
 
 export type teleport_spot = {
     id: string
-    spot: MapCoordinate
+    spot: TileCoordinates
     facing?: direction
     code?: string
     name?: string
@@ -24,7 +24,7 @@ export type teleport_spot = {
 
 export type flat_teleport = {
     id: full_teleport_id,
-    spot: MapCoordinate,
+    spot: TileCoordinates,
     icon: string | { url: string, width?: number, height?: number },
     code?: string,
     hover?: string,

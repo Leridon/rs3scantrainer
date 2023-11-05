@@ -12,14 +12,16 @@ import NumberInput from "../../../lib/ui/controls/NumberInput";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import {DropdownSelection} from "../widgets/DropdownSelection";
 import * as lodash from "lodash"
-import {Rectangle, Vector2} from "../../../lib/math/Vector";
-import {floor_t, MapCoordinate, MapRectangle} from "../../../lib/runescape/coordinates";
+import {Rectangle, Vector2} from "../../../lib/math/Vector2";
+import {floor_t} from "../../../lib/runescape/coordinates";
 import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
 import {ShortcutViewLayer} from "./ShortcutView";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {DrawOffset} from "./interactions/DrawOffset";
+import {TileRectangle} from "../../../lib/runescape/coordinates/TileRectangle";
+import {TileCoordinates} from "../../../lib/runescape/coordinates/TileCoordinates";
 
 class ShortcutEdit extends Widget<{
     "changed": Shortcuts.new_shortcut,
@@ -93,7 +95,7 @@ class ShortcutEdit extends Widget<{
                                     }).onEnd(() => {
                                         this.associated_preview?.updateConfig(c => c.draw_clickable = true)
                                     }).onCommit(a => {
-                                        this.value.update(v => (v as Shortcuts.new_shortcut_entity).clickable_area = MapRectangle.extend(a, 0.5))
+                                        this.value.update(v => (v as Shortcuts.new_shortcut_entity).clickable_area = TileRectangle.extend(a, 0.5))
                                         this.render()
                                     }).attachTopControl(new InteractionTopControl().setName("Selecting clickable area").setText("Click and drag a rectangle around the area that is clickable for this entity."))
                                 )
@@ -173,7 +175,7 @@ class ShortcutEdit extends Widget<{
                                         if (action.movement.type == "offset") {
                                             action.movement = {
                                                 type: "fixed",
-                                                target: MapCoordinate.lift(Vector2.add(action.movement.offset, Rectangle.center(action.interactive_area)), action.movement.level)
+                                                target: TileCoordinates.lift(Vector2.add(action.movement.offset, Rectangle.center(action.interactive_area)), action.movement.level)
                                             }
                                         }
                                     })
@@ -239,7 +241,7 @@ class ShortcutEdit extends Widget<{
                 .on("click", () => {
                     this.value.update((v: Shortcuts.new_shortcut_entity) => v.actions.push({
                             cursor: v.actions[0]?.cursor || "generic",
-                            interactive_area: MapRectangle.extend(v.clickable_area, 0.5),
+                            interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
                             movement: {type: "offset", offset: {x: 0, y: 0}, level: v.clickable_area.level},
                             name: v.actions[0]?.name || "Use",
                             time: v.actions[0]?.time || 3

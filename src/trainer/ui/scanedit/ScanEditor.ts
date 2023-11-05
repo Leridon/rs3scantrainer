@@ -1,7 +1,7 @@
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {ScanStep} from "lib/runescape/clues";
 import {Observable, observe} from "lib/properties/Observable";
-import {MapCoordinate} from "lib/runescape/coordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import Behaviour from "../../../lib/ui/Behaviour";
@@ -197,7 +197,7 @@ export default class ScanEditor extends Behaviour {
     preview_layer: PreviewLayerControl
     path_editor: PathEditor
 
-    candidates: Observable<MapCoordinate[]>
+    candidates: Observable<TileCoordinates[]>
 
     constructor(public app: Application,
                 public readonly options: {

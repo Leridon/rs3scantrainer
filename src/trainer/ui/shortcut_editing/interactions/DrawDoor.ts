@@ -2,9 +2,9 @@ import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAc
 import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {Shortcuts} from "../../../../lib/runescape/shortcuts";
-import {Rectangle, Vector2} from "../../../../lib/math/Vector";
+import {Rectangle} from "../../../../lib/math/Vector2";
 import {boxPolygon} from "../../polygon_helpers";
-import {MapRectangle} from "../../../../lib/runescape/coordinates";
+import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
 import ContextMenu from "../../widgets/ContextMenu";
 import {ShortcutViewLayer} from "../ShortcutView";
 
@@ -58,7 +58,7 @@ export class DrawDoor extends InteractionLayer {
 }
 
 export namespace DrawDoor {
-    export function shortcutsFromArea(area: MapRectangle): Shortcuts.new_shortcut_door[] {
+    export function shortcutsFromArea(area: TileRectangle): Shortcuts.new_shortcut_door[] {
         let width = Rectangle.tileWidth(area)
         let height = Rectangle.tileHeight(area)
 

@@ -1,11 +1,9 @@
-import InteractionLayer from "./InteractionLayer";
 import {GameMapMouseEvent} from "../MapEvents";
-import {MapCoordinate, MapRectangle} from "../../runescape/coordinates";
-import {Observable, observe} from "../../properties/Observable";
 import {ValueInteraction} from "./ValueInteraction";
+import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
 
-export default class SelectTileInteraction extends ValueInteraction<MapCoordinate> {
-    constructor(public config: ValueInteraction.option_t<MapCoordinate> = {}) {
+export default class SelectTileInteraction extends ValueInteraction<TileCoordinates> {
+    constructor(public config: ValueInteraction.option_t<TileCoordinates> = {}) {
         super(config)
     }
 

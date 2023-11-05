@@ -1,5 +1,5 @@
 import {blue_icon, GameMap} from "./GameMap";
-import {type MapCoordinate} from "../runescape/coordinates";
+import {type TileCoordinates} from "../runescape/coordinates/TileCoordinates";
 import LayerInteraction from "../../trainer/ui/map/interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import GameLayer from "./GameLayer";
@@ -33,7 +33,7 @@ export class ActiveLayer extends GameLayer {
 
     protected _tilemarker: TileMarker = null
 
-    setMarker(spot: MapCoordinate) {
+    setMarker(spot: TileCoordinates) {
         this.removeMarker()
 
         this._tilemarker = new TileMarker(spot)

@@ -1,17 +1,18 @@
 import Widget from "../../../lib/ui/Widget";
-import {floor_t, MapCoordinate} from "lib/runescape/coordinates";
+import {floor_t} from "lib/runescape/coordinates";
 import SmallImageButton from "./SmallImageButton";
 import * as lodash from "lodash"
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import AbstractEditWidget from "./AbstractEditWidget";
+import {TileCoordinates} from "../../../lib/runescape/coordinates/TileCoordinates";
 
-export default class MapCoordinateEdit extends AbstractEditWidget<MapCoordinate> {
+export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinates> {
     x: Widget
     y: Widget
     floor: Widget
 
-    constructor(initial: MapCoordinate,
-                private interaction_f: (coordinate: MapCoordinate) => SelectTileInteraction = null
+    constructor(initial: TileCoordinates,
+                private interaction_f: (coordinate: TileCoordinates) => SelectTileInteraction = null
     ) {
         super()
 

@@ -14,7 +14,7 @@ import SmallImageButton from "../widgets/SmallImageButton";
 import {ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import {observe} from "lib/properties/Observable";
 import LightButton from "../widgets/LightButton";
-import {MapRectangle} from "lib/runescape/coordinates";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
@@ -25,7 +25,7 @@ import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragActio
 class DrawRegionAction extends GameMapDragAction {
     constructor(options: {
         existing_preview: ActiveOpacityGroup,
-        preview_rendering: (area: MapRectangle) => Layer
+        preview_rendering: (area: TileRectangle) => Layer
     }) {
         super({
             preview_render: options.preview_rendering
@@ -90,7 +90,7 @@ class RegionEdit extends Widget {
             SmallImageButton.new("assets/icons/regenerate.png")
                 .css("margin-left", "2px")
                 .on("click", async () => {
-                    this.parent.node.raw.region.area = MapRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
+                    this.parent.node.raw.region.area = TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
                     this.sendChange()
                 })
                 .setEnabled(this.parent.node.path.steps.length > 0 && !!this.parent.node.path.post_state?.position?.tile)
@@ -107,7 +107,7 @@ class RegionEdit extends Widget {
             new LightButton("Create")
                 .on("click", async () => {
                     if (this.parent.node.path.steps.length > 0 && this.parent.node.path.post_state?.position?.tile) {
-                        let area = MapRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
+                        let area = TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
 
                         this.parent.node.raw.region = {
                             name: "",

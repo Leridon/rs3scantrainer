@@ -3,8 +3,8 @@ import {modal, Modal} from "../../widgets/modal";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
 import {Observable, observe} from "../../../../lib/properties/Observable";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../../lib/math/Vector";
-import {floor_t, MapRectangle} from "../../../../lib/runescape/coordinates";
+import {Vector2} from "../../../../lib/math/Vector2";
+import {floor_t} from "../../../../lib/runescape/coordinates";
 import {PathingGraphics} from "../../path_graphics";
 import Widget from "../../../../lib/ui/Widget";
 import TemplateResolver from "../../../../lib/util/TemplateResolver";
@@ -29,6 +29,7 @@ import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
 import assumedRange = ScanTree.assumedRange;
 import {ScanStep} from "../../../../lib/runescape/clues";
 import ScanEditor from "../../scanedit/ScanEditor";
+import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -121,7 +122,7 @@ class ScanTreeSolvingLayer extends ScanLayer {
         if (node.region) {
             this.getMap().floor.set(node.region.area.level)
 
-            let c = MapRectangle.center(node.region.area)
+            let c = TileRectangle.center(node.region.area)
 
             this.marker_spot.set({coordinates: c, with_marker: false, click_to_remove: false})
         } else {

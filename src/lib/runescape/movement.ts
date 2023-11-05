@@ -1,7 +1,7 @@
-import {MapCoordinate} from "./coordinates";
+import {TileCoordinates} from "./coordinates/TileCoordinates";
 import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
-import {Rectangle, Vector2} from "../math/Vector";
+import {Rectangle, Vector2} from "../math/Vector2";
 import * as pako from "pako"
 
 type TileMovementData = number
@@ -15,18 +15,18 @@ namespace TileMovementData {
 }
 
 export type PlayerPosition = {
-    tile: MapCoordinate,
+    tile: TileCoordinates,
     direction: direction
 }
 
 export namespace PlayerPosition {
     export function eq(a: PlayerPosition, b: PlayerPosition) {
-        return MapCoordinate.eq(a.tile, b.tile) && a.direction == b.direction
+        return TileCoordinates.eq(a.tile, b.tile) && a.direction == b.direction
     }
 }
 
 interface MapData {
-    getTile(coordinate: MapCoordinate): Promise<TileMovementData>
+    getTile(coordinate: TileCoordinates): Promise<TileMovementData>
 }
 
 type file = Uint8Array
@@ -59,7 +59,7 @@ export class HostedMapData implements MapData {
         return HostedMapData._instance
     }
 
-    async getTile(coordinate: MapCoordinate): Promise<TileMovementData> {
+    async getTile(coordinate: TileCoordinates): Promise<TileMovementData> {
         let floor = coordinate.level || 0
 
         let file_x = Math.floor(coordinate.x / (this.meta.chunk_size * this.meta.chunks_per_file))
@@ -193,7 +193,7 @@ export namespace direction {
     export const south = 4
 }
 
-export function move(pos: MapCoordinate, off: Vector2) {
+export function move(pos: TileCoordinates, off: Vector2) {
     return {
         x: pos.x + off.x,
         y: pos.y + off.y,
@@ -201,7 +201,7 @@ export function move(pos: MapCoordinate, off: Vector2) {
     }
 }
 
-export async function canMove(data: MapData, pos: MapCoordinate, d: direction): Promise<boolean> {
+export async function canMove(data: MapData, pos: TileCoordinates, d: direction): Promise<boolean> {
     // Data is preprocessed so for every tile there are 8 bit signalling in which directions the player can move.
     return TileMovementData.free(await data.getTile(pos), d)
 }
@@ -210,14 +210,14 @@ export namespace PathFinder {
 
     export type state = {
         data: MapData,
-        start: MapCoordinate,
+        start: TileCoordinates,
         tiles: ChunkedData<{ parent: ChunkedData.coordinates, unreachable?: boolean }>,
         queue: ChunkedData.coordinates[],
         next: number,
         blocked?: boolean
     }
 
-    export function init_djikstra(start: MapCoordinate, data: MapData = HostedMapData.get()): state {
+    export function init_djikstra(start: TileCoordinates, data: MapData = HostedMapData.get()): state {
         let state: state = {
             data: data,
             start: start,
@@ -231,7 +231,7 @@ export namespace PathFinder {
         return state
     }
 
-    async function djikstra2(state: state, target: MapCoordinate, step_limit: number): Promise<void> {
+    async function djikstra2(state: state, target: TileCoordinates, step_limit: number): Promise<void> {
         // This is a typical djikstra algorithm
         // To improve it to A*, it still needs to prefer ortogonal pathing before diagonal pathing like ingame, but I'm not sure how to do that yet.
         // Possibly with a stable priority queue and tile distance as an estimator
@@ -243,7 +243,7 @@ export namespace PathFinder {
         state.blocked = true
 
         // Abstraction to push elements into the queue. Filters out of bounds tiles and tiles that already have a path
-        function push(tile: MapCoordinate, parent: ChunkedData.coordinates) {
+        function push(tile: TileCoordinates, parent: ChunkedData.coordinates) {
             let i = ChunkedData.split(tile)
 
             if (state.tiles.get(i) == null) {
@@ -267,7 +267,7 @@ export namespace PathFinder {
         state.blocked = false
     }
 
-    function get(state: state, tile: ChunkedData.coordinates): MapCoordinate[] {
+    function get(state: state, tile: ChunkedData.coordinates): TileCoordinates[] {
         function helper(i: ChunkedData.coordinates): ChunkedData.coordinates[] {
             let parent = state.tiles.get(i)?.parent
 
@@ -278,7 +278,7 @@ export namespace PathFinder {
             return p
         }
 
-        let p = helper(tile).map((c) => lodash.clone(c.coords as MapCoordinate))
+        let p = helper(tile).map((c) => lodash.clone(c.coords as TileCoordinates))
 
         // TODO: Reduce path to necessary waypoints
         p.forEach(l => l.level = state.start.level)
@@ -286,7 +286,7 @@ export namespace PathFinder {
         return p
     }
 
-    export async function find(state: state, target: MapCoordinate): Promise<MapCoordinate[] | null> {
+    export async function find(state: state, target: TileCoordinates): Promise<TileCoordinates[] | null> {
         if (target.level != state.start.level) return null
 
         let target_i = ChunkedData.split(target)
@@ -325,7 +325,7 @@ export namespace MovementAbilities {
 
     /*
     type r = {
-        origin: MapCoordinate,
+        origin: TileCoordinates,
         raster: Raster<{
             reachable?: boolean
         }>
@@ -335,7 +335,7 @@ export namespace MovementAbilities {
                                state: Raster<any>
     )*/
 
-    async function dive_internal(data: MapData, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+    async function dive_internal(data: MapData, position: TileCoordinates, target: TileCoordinates): Promise<PlayerPosition | null> {
         // This function does not respect any max distances and expects the caller to handle that.
 
         if (position.level != target.level) return null
@@ -364,7 +364,7 @@ export namespace MovementAbilities {
                 direction: dir_if_success
             }
 
-            let next: MapCoordinate = null
+            let next: TileCoordinates = null
 
             for (let choice of choices) {
                 let candidate = move(position, choice.delta)
@@ -381,7 +381,7 @@ export namespace MovementAbilities {
         }
     }
 
-    async function dive_far_internal(data: MapData, start: MapCoordinate, dir: direction, max_distance: number): Promise<PlayerPosition | null> {
+    async function dive_far_internal(data: MapData, start: TileCoordinates, dir: direction, max_distance: number): Promise<PlayerPosition | null> {
         let d = direction.toVector(dir)
 
         /*
@@ -398,7 +398,7 @@ export namespace MovementAbilities {
         return null
     }
 
-    export async function dive(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
+    export async function dive(position: TileCoordinates, target: TileCoordinates, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
 
         let delta = Vector2.sub(target, position)
 
@@ -410,7 +410,7 @@ export namespace MovementAbilities {
         } else return dive_internal(data, position, target);
     }
 
-    export async function barge(position: MapCoordinate, target: MapCoordinate, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
+    export async function barge(position: TileCoordinates, target: TileCoordinates, data: MapData = HostedMapData.get()): Promise<PlayerPosition | null> {
         return dive(position, target, data) // Barge is the same logic as dive
     }
 
@@ -428,7 +428,7 @@ export namespace MovementAbilities {
         }
     }
 
-    export async function generic(data: MapData, ability: movement_ability, position: MapCoordinate, target: MapCoordinate): Promise<PlayerPosition | null> {
+    export async function generic(data: MapData, ability: movement_ability, position: TileCoordinates, target: TileCoordinates): Promise<PlayerPosition | null> {
         switch (ability) {
             case "surge":
                 return surge({tile: position, direction: direction.fromVector(Vector2.sub(target, position))}, data);

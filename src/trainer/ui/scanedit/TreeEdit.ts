@@ -1,15 +1,15 @@
-import Widget from "../../../lib/ui/Widget";
+import Widget from "lib/ui/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import decision_tree = ScanTree.ScanTreeNode;
-import {util} from "../../../lib/util/util";
+import {util} from "lib/util/util";
 import Properties from "../widgets/Properties";
 import natural_join = util.natural_join;
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "../path_graphics";
-import TextField from "../../../lib/ui/controls/TextField";
+import TextField from "lib/ui/controls/TextField";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import {observe} from "lib/properties/Observable";
@@ -18,9 +18,9 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
-import {ActiveOpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
+import {ActiveOpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {Layer} from "leaflet";
-import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
+import GameMapDragAction from "lib/gamemap/interaction/GameMapDragAction";
 
 class DrawRegionAction extends GameMapDragAction {
     constructor(options: {

@@ -8,8 +8,8 @@ import {full_teleport_id, Teleports} from "./teleports";
 import {Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
 import * as L from "leaflet"
-import {TileCoordinates} from "./coordinates/TileCoordinates";
-import {TileRectangle} from "./coordinates/TileRectangle";
+import {TileCoordinates} from "./coordinates";
+import {TileRectangle} from "./coordinates";
 
 export type Path = Path.raw;
 

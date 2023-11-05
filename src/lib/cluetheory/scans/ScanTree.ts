@@ -5,8 +5,8 @@ import * as lodash from "lodash";
 import {Clues, ScanStep} from "../../runescape/clues";
 import {util} from "../../util/util";
 import {ScanTheory} from "./Scans";
-import {TileRectangle} from "../../runescape/coordinates/TileRectangle";
-import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
+import {TileRectangle} from "../../runescape/coordinates";
+import {TileCoordinates} from "../../runescape/coordinates";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;

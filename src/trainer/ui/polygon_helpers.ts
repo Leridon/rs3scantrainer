@@ -1,5 +1,5 @@
-import {Raster} from "../../lib/util/raster";
-import {Rectangle, Vector2} from "../../lib/math";
+import {Raster} from "lib/util/raster";
+import {Rectangle, Vector2} from "lib/math";
 import * as leaflet from "leaflet";
 import {LatLngExpression} from "leaflet";
 

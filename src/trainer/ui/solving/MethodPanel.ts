@@ -1,6 +1,5 @@
 import {SidePanel} from "../SidePanelControl";
 import {Modal} from "../widgets/modal";
-import {ClueStep} from "../../../lib/runescape/clues";
 import SmallImageButton from "../widgets/SmallImageButton";
 
 export default abstract class MethodPanel extends SidePanel {

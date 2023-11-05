@@ -1,5 +1,4 @@
-import Widget from "../../../lib/ui/Widget";
-import {Observable, observe} from "../../../lib/properties/Observable";
+import Widget from "lib/ui/Widget";
 
 
 /**

@@ -1,6 +1,6 @@
-import Widget from "../../../lib/ui/Widget";
-import Button from "../../../lib/ui/controls/Button";
-import InteractionLayer from "../../../lib/gamemap/interaction/InteractionLayer";
+import Widget from "lib/ui/Widget";
+import Button from "lib/ui/controls/Button";
+import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 
 
 export class ActionBar extends Widget {

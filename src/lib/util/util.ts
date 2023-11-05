@@ -14,7 +14,8 @@ export namespace util {
     export function plural(n: number, word: string, postfix: string = "s") : string {
         let s = `${n} ${word}`
 
-        if(n != 1) return s += postfix
+        if(n != 1) s += postfix
+
         return s
     }
 

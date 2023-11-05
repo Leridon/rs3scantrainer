@@ -2,8 +2,8 @@ import {Scans} from "../../runescape/clues/scans";
 import {ScanTree} from "./ScanTree";
 import {Rectangle} from "lib/math"
 import {rangeRight} from "lodash";
-import {TileRectangle} from "../../runescape/coordinates/TileRectangle";
-import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
+import {TileRectangle} from "../../runescape/coordinates";
+import {TileCoordinates} from "../../runescape/coordinates";
 
 export namespace ScanTheory {
 

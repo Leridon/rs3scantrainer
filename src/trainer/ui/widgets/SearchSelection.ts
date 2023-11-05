@@ -1,5 +1,5 @@
 import {AbstractDropdownSelection} from "./AbstractDropdownSelection";
-import Widget from "../../../lib/ui/Widget";
+import Widget from "lib/ui/Widget";
 import * as fuzzysort from "fuzzysort";
 
 export class SearchSelection<T extends object | string | number> extends AbstractDropdownSelection<T> {

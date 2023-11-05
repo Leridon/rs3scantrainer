@@ -1,6 +1,6 @@
-import {TileCoordinates} from "./coordinates/TileCoordinates";
-import {TileRectangle} from "./coordinates/TileRectangle";
-import {GieliCoordinates} from "./coordinates/GieliCoordinates";
+import {TileCoordinates} from "./coordinates";
+import {TileRectangle} from "./coordinates";
+import {GieliCoordinates} from "./coordinates";
 
 export namespace Clues {
     export function digSpotArea(spot: TileCoordinates): TileRectangle {

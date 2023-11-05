@@ -1,27 +1,27 @@
 import {SidePanel} from "../SidePanelControl";
-import Widget from "../../../lib/ui/Widget";
-import {Shortcuts} from "../../../lib/runescape/shortcuts";
+import Widget from "lib/ui/Widget";
+import {Shortcuts} from "lib/runescape/shortcuts";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {ObservableShortcutCollectionBuilder} from "./ShortcutEditBehaviour";
 import Properties from "../widgets/Properties";
-import TextField from "../../../lib/ui/controls/TextField";
+import TextField from "lib/ui/controls/TextField";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import InteractionSelect from "../pathedit/InteractionSelect";
-import NumberInput from "../../../lib/ui/controls/NumberInput";
+import NumberInput from "lib/ui/controls/NumberInput";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import {DropdownSelection} from "../widgets/DropdownSelection";
 import * as lodash from "lodash"
-import {Rectangle, Vector2} from "../../../lib/math";
-import {floor_t} from "../../../lib/runescape/coordinates";
-import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
+import {Rectangle, Vector2} from "lib/math";
+import {floor_t} from "lib/runescape/coordinates";
+import GameMapDragAction from "lib/gamemap/interaction/GameMapDragAction";
 import {ShortcutViewLayer} from "./ShortcutView";
-import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
-import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
+import SelectTileInteraction from "lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {DrawOffset} from "./interactions/DrawOffset";
-import {TileRectangle} from "../../../lib/runescape/coordinates/TileRectangle";
-import {TileCoordinates} from "../../../lib/runescape/coordinates/TileCoordinates";
+import {TileRectangle} from "../../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../../lib/runescape/coordinates";
 
 class ShortcutEdit extends Widget<{
     "changed": Shortcuts.new_shortcut,
@@ -162,7 +162,7 @@ class ShortcutEdit extends Widget<{
                                         if (action.movement.type == "fixed") {
                                             action.movement = {
                                                 type: "offset",
-                                                level: action.movement.target.level,
+                                                level_offset: action.movement.target.level,
                                                 offset: Vector2.sub(action.movement.target, Rectangle.center(action.interactive_area))
                                             }
                                         }
@@ -175,7 +175,7 @@ class ShortcutEdit extends Widget<{
                                         if (action.movement.type == "offset") {
                                             action.movement = {
                                                 type: "fixed",
-                                                target: TileCoordinates.lift(Vector2.add(action.movement.offset, Rectangle.center(action.interactive_area)), action.movement.level)
+                                                target: TileCoordinates.lift(Vector2.add(action.movement.offset, Rectangle.center(action.interactive_area)), action.movement.level_offset)
                                             }
                                         }
                                     })
@@ -209,10 +209,10 @@ class ShortcutEdit extends Widget<{
                                         })
                                 ))
 
-                        props.named("Level", new NumberInput(0, 3).setValue(action.movement.level)
+                        props.named("Level", new NumberInput(0, 3).setValue(action.movement.level_offset)
                             .on("changed", (v) => {
                                 this.value.update(() => {
-                                    if (action.movement.type == "offset") action.movement.level = v as floor_t
+                                    if (action.movement.type == "offset") action.movement.level_offset = v as floor_t
                                 })
                                 this.render()
                             })
@@ -242,7 +242,7 @@ class ShortcutEdit extends Widget<{
                     this.value.update((v: Shortcuts.new_shortcut_entity) => v.actions.push({
                             cursor: v.actions[0]?.cursor || "generic",
                             interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
-                            movement: {type: "offset", offset: {x: 0, y: 0}, level: v.clickable_area.level},
+                            movement: {type: "offset", offset: {x: 0, y: 0}, level_offset: v.clickable_area.level},
                             name: v.actions[0]?.name || "Use",
                             time: v.actions[0]?.time || 3
                         }

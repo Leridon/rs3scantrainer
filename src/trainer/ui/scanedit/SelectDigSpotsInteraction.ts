@@ -1,8 +1,8 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import {TileMarker} from "../../../lib/gamemap/TileMarker";
-import Widget from "../../../lib/ui/Widget";
-import TopControl from "../../../lib/gamemap/TopControl";
-import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
+import {TileMarker} from "lib/gamemap/TileMarker";
+import Widget from "lib/ui/Widget";
+import TopControl from "lib/gamemap/TopControl";
+import {ActiveLayer} from "lib/gamemap/activeLayer";
 import LayerInteraction from "../map/interactions/LayerInteraction";
 
 class SelectDigSpotsTopControl extends TopControl {

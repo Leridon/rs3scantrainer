@@ -1,4 +1,4 @@
-import {Shortcuts} from "../lib/runescape/shortcuts";
+import {Shortcuts} from "lib/runescape/shortcuts";
 
 /* ts-ignore */
 let data: Shortcuts.new_shortcut[] = [

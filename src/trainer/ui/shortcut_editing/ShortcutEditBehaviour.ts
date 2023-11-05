@@ -1,19 +1,19 @@
-import Behaviour from "../../../lib/ui/Behaviour";
+import Behaviour from "lib/ui/Behaviour";
 import {Application} from "../../application";
-import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
-import GameLayer from "../../../lib/gamemap/GameLayer";
-import {Shortcuts} from "../../../lib/runescape/shortcuts";
+import {GameMapControl} from "lib/gamemap/GameMapControl";
+import GameLayer from "lib/gamemap/GameLayer";
+import {Shortcuts} from "lib/runescape/shortcuts";
 import {LeafletEventHandlerFn} from "leaflet";
 import {Rectangle} from "lib/math"
 import {ActionBar} from "../map/ActionBar";
-import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
-import {storage} from "../../../lib/util/storage";
+import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
+import {storage} from "lib/util/storage";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import {Observable, observe} from "../../../lib/properties/Observable";
+import {Observable, observe} from "lib/properties/Observable";
 import ShortcutEditSidePanel from "./ShortcutEditSidePanel";
 import shortcuts from "../../../data/shortcuts";
 import {DrawDoor} from "./interactions/DrawDoor";
-import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
+import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
 import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";
 import {ShortcutViewLayer} from "./ShortcutView";
 

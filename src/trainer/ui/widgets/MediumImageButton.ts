@@ -1,4 +1,4 @@
-import Button from "../../../lib/ui/controls/Button";
+import Button from "lib/ui/controls/Button";
 
 export default class MediumImageButton extends Button {
     constructor(icon: string) {

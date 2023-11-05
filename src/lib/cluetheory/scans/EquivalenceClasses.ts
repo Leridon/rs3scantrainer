@@ -2,7 +2,7 @@ import * as leaflet from "leaflet";
 import {floor_t} from "lib/runescape/coordinates";
 import {Raster} from "../../util/raster";
 import {Scans} from "lib/runescape/clues/scans";
-import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "../../runescape/coordinates";
 
 export type ScanProfile = number[]
 

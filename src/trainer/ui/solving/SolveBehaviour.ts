@@ -1,11 +1,11 @@
-import Behaviour, {SingleBehaviour} from "../../../lib/ui/Behaviour";
+import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {type Application} from "trainer/application";
 
-import {observe} from "../../../lib/properties/Observable";
+import {observe} from "lib/properties/Observable";
 import {SolvingMethods} from "../../model/methods";
 import MethodWithClue = SolvingMethods.MethodWithClue;
 import {CluePanel} from "../SidePanelControl";
-import {ClueStep} from "../../../lib/runescape/clues";
+import {ClueStep} from "lib/runescape/clues";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import {SolveScanTreeSubBehaviour} from "./scans/ScanSolving";
 import ScanEditor from "../scanedit/ScanEditor";

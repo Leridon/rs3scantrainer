@@ -1,5 +1,5 @@
 import {Rectangle, Transform, Vector2} from "../../math";
-import {floor_t} from "../coordinates";
+import {floor_t} from "./index";
 import {TileCoordinates} from "./TileCoordinates";
 import {TileTransform} from "./TileTransform";
 

@@ -1,4 +1,4 @@
-import {TileCoordinates} from "../coordinates/TileCoordinates";
+import {TileCoordinates} from "../coordinates";
 import {util} from "../../util/util";
 import {Vector2} from "../../math";
 

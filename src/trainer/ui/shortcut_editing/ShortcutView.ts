@@ -1,11 +1,11 @@
-import GameLayer from "../../../lib/gamemap/GameLayer";
-import {Shortcuts} from "../../../lib/runescape/shortcuts";
+import GameLayer from "lib/gamemap/GameLayer";
+import {Shortcuts} from "lib/runescape/shortcuts";
 import * as leaflet from "leaflet";
 import {boxPolygon, boxPolygon2} from "../polygon_helpers";
 import {RenderingUtility} from "../map/RenderingUtility";
-import {Rectangle, Vector2} from "../../../lib/math";
-import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
-import {Path} from "../../../lib/runescape/pathing";
+import {Rectangle, Vector2} from "lib/math";
+import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
+import {Path} from "lib/runescape/pathing";
 import {arrow} from "../path_graphics";
 
 export class ShortcutViewLayer extends GameLayer {

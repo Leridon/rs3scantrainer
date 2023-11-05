@@ -1,4 +1,4 @@
-import Widget from "../../../lib/ui/Widget";
+import Widget from "lib/ui/Widget";
 import {createPopper} from '@popperjs/core';
 
 export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget<{

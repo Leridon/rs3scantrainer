@@ -1,5 +1,5 @@
-import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
-import Widget from "../../../lib/ui/Widget";
+import {GameMapControl} from "lib/gamemap/GameMapControl";
+import Widget from "lib/ui/Widget";
 
 export default class InteractionTopControl extends GameMapControl {
     header_row: Widget = null

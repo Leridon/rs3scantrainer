@@ -1,5 +1,5 @@
 import {blue_icon, GameMap} from "./GameMap";
-import {type TileCoordinates} from "../runescape/coordinates/TileCoordinates";
+import {type TileCoordinates} from "../runescape/coordinates";
 import LayerInteraction from "../../trainer/ui/map/interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import GameLayer from "./GameLayer";

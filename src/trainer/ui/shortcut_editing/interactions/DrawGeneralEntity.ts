@@ -1,7 +1,7 @@
-import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
-import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
-import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
-import {Shortcuts} from "../../../../lib/runescape/shortcuts";
+import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
+import GameMapDragAction from "lib/gamemap/interaction/GameMapDragAction";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
+import {Shortcuts} from "lib/runescape/shortcuts";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {ShortcutViewLayer} from "../ShortcutView";
 
@@ -38,7 +38,7 @@ export namespace DrawGeneralEntity {
             actions: [{
                 cursor: "generic",
                 interactive_area: TileRectangle.extend(area, 1),
-                movement: {type: "offset", offset: {x: 0, y: 0}, level: area.level},
+                movement: {type: "offset", offset: {x: 0, y: 0}, level_offset: area.level},
                 name: "Use",
                 time: 3
             }],

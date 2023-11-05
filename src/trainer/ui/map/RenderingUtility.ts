@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../lib/math";
-import {Path} from "../../../lib/runescape/pathing";
+import {Vector2} from "lib/math";
+import {Path} from "lib/runescape/pathing";
 
 export namespace RenderingUtility {
     import InteractionType = Path.InteractionType;

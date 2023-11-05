@@ -1,5 +1,5 @@
 import {Transform, Vector2} from "../../math";
-import {floor_t} from "../coordinates";
+import {floor_t} from "./index";
 import {TileTransform} from "./TileTransform";
 
 
@@ -8,7 +8,7 @@ export type TileCoordinates = Vector2 & {
 }
 
 export namespace TileCoordinates {
-    import transform_point = Vector2.transform_point;
+
 
     export function eq(a: TileCoordinates, b: TileCoordinates) {
         return Vector2.eq(a, b) && a.level == b.level

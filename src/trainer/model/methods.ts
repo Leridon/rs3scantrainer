@@ -1,7 +1,7 @@
 import {ClueStep, ClueType, ScanStep} from "lib/runescape/clues";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Path} from "lib/runescape/pathing";
-import {util} from "../../lib/util/util";
+import {util} from "lib/util/util";
 import {omit} from "lodash";
 
 export namespace SolvingMethods {

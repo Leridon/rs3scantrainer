@@ -1,4 +1,4 @@
-import {TileCoordinates} from "./coordinates/TileCoordinates";
+import {TileCoordinates} from "./coordinates";
 import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "../math";

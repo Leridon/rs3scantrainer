@@ -2,8 +2,8 @@ import {floor_t} from "./coordinates";
 import {direction} from "./movement";
 import {Path} from "./pathing";
 import {Rectangle, Vector2} from "../math";
-import { TileRectangle } from "./coordinates/TileRectangle";
-import {TileCoordinates} from "./coordinates/TileCoordinates";
+import { TileRectangle } from "./coordinates";
+import {TileCoordinates} from "./coordinates";
 
 export namespace Shortcuts {
 
@@ -34,7 +34,7 @@ export namespace Shortcuts {
         interactive_area: TileRectangle,
         time: number,
         name: string,
-        movement: { type: "offset", offset: Vector2, level: floor_t } | { type: "fixed", target: TileCoordinates }
+        movement: { type: "offset", offset: Vector2, level_offset: floor_t } | { type: "fixed", target: TileCoordinates }
     }
 
     export type new_shortcut_entity = {
@@ -72,13 +72,13 @@ export namespace Shortcuts {
                             interactive_area: TileRectangle.top(shortcut.area),
                             time: 1,
                             name: "Cross south",
-                            movement: {type: "offset", offset: {x: 0, y: -1}, level: shortcut.area.level}
+                            movement: {type: "offset", offset: {x: 0, y: -1}, level_offset: shortcut.area.level}
                         }, {
                             cursor: "open",
                             interactive_area: TileRectangle.bottom(shortcut.area),
                             time: 1,
                             name: "Cross north",
-                            movement: {type: "offset", offset: {x: 0, y: 1}, level: shortcut.area.level}
+                            movement: {type: "offset", offset: {x: 0, y: 1}, level_offset: shortcut.area.level}
                         }]
                     }
                 case "eastwest":
@@ -95,13 +95,13 @@ export namespace Shortcuts {
                             interactive_area: TileRectangle.left(shortcut.area),
                             time: 1,
                             name: "Cross east",
-                            movement: {type: "offset", offset: {x: 1, y: 0}, level: shortcut.area.level}
+                            movement: {type: "offset", offset: {x: 1, y: 0}, level_offset: shortcut.area.level}
                         }, {
                             cursor: "open",
                             interactive_area: TileRectangle.right(shortcut.area),
                             time: 1,
                             name: "Cross west",
-                            movement: {type: "offset", offset: {x: -1, y: 0}, level: shortcut.area.level}
+                            movement: {type: "offset", offset: {x: -1, y: 0}, level_offset: shortcut.area.level}
                         }]
                     }
             }

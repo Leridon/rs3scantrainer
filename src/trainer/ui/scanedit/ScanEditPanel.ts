@@ -1,4 +1,3 @@
-import Widget from "../../../lib/ui/Widget";
 import SpotOrderingEdit from "./SpotNumberingEdit";
 import TreeEdit from "./TreeEdit";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
@@ -6,7 +5,7 @@ import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import ScanTools from "./ScanTools";
 import Collapsible from "../widgets/modals/Collapsible";
-import {ExportImport} from "../../../lib/util/exportString";
+import {ExportImport} from "lib/util/exportString";
 import imp = ExportImport.imp;
 import exp = ExportImport.exp;
 import {ScanTrainerCommands} from "trainer/application";

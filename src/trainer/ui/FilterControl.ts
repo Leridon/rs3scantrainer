@@ -1,4 +1,4 @@
-import {storage} from "../../lib/util/storage";
+import {storage} from "lib/util/storage";
 import {ClueStep} from "lib/runescape/clues";
 import {clues} from "data/clues";
 import {Application} from "trainer/application";

@@ -1,13 +1,13 @@
-import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
-import {PathFinder} from "../../../../lib/runescape/movement";
+import {PathFinder} from "lib/runescape/movement";
 import LightButton from "../../widgets/LightButton";
 import {createStepGraphics} from "../../path_graphics";
-import Widget from "../../../../lib/ui/Widget";
-import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
-import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
-import {Path} from "../../../../lib/runescape/pathing";
-import {GameMapControl} from "../../../../lib/gamemap/GameMapControl";
+import Widget from "lib/ui/Widget";
+import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
+import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
+import {Path} from "lib/runescape/pathing";
+import {GameMapControl} from "lib/gamemap/GameMapControl";
 
 export default class DrawRunInteraction extends InteractionLayer {
     pathfinding_state: PathFinder.state = null

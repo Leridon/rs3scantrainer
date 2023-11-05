@@ -1,4 +1,4 @@
-import {TileCoordinates} from "../runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "../runescape/coordinates";
 import {Vector2} from "../math";
 
 export class ChunkedData<T> {

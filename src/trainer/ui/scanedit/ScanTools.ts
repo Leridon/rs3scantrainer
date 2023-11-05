@@ -1,9 +1,9 @@
-import Widget from "../../../lib/ui/Widget";
+import Widget from "lib/ui/Widget";
 import ScanEditPanel from "./ScanEditPanel";
 import * as leaflet from "leaflet"
-import Checkbox from "../../../lib/ui/controls/Checkbox";
+import Checkbox from "lib/ui/controls/Checkbox";
 import LightButton from "../widgets/LightButton";
-import {Vector2} from "../../../lib/math";
+import {Vector2} from "lib/math";
 import {observe} from "lib/properties/Observable";
 
 export default class ScanTools extends Widget {

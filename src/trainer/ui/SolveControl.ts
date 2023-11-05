@@ -1,6 +1,6 @@
 import {Application} from "trainer/application";
 import ToggleButton from "./widgets/togglebutton";
-import {storage} from "../../lib/util/storage";
+import {storage} from "lib/util/storage";
 import {ClueReader} from "skillbertssolver/reader";
 import * as a1lib from "@alt1/base";
 

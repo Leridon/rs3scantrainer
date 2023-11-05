@@ -1,17 +1,17 @@
-import {util} from "../../../../lib/util/util";
+import {util} from "lib/util/util";
 import {modal, Modal} from "../../widgets/modal";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
-import {Observable, observe} from "../../../../lib/properties/Observable";
+import {Observable, observe} from "lib/properties/Observable";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../../lib/math";
-import {floor_t} from "../../../../lib/runescape/coordinates";
+import {Vector2} from "lib/math";
+import {floor_t} from "lib/runescape/coordinates";
 import {PathingGraphics} from "../../path_graphics";
-import Widget from "../../../../lib/ui/Widget";
-import TemplateResolver from "../../../../lib/util/TemplateResolver";
+import Widget from "lib/ui/Widget";
+import TemplateResolver from "lib/util/TemplateResolver";
 import LightButton from "../../widgets/LightButton";
-import {Scans} from "../../../../lib/runescape/clues/scans";
-import Behaviour from "../../../../lib/ui/Behaviour";
-import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
+import {Scans} from "lib/runescape/clues/scans";
+import Behaviour from "lib/ui/Behaviour";
+import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import SolveBehaviour from "../SolveBehaviour";
 import {SolvingMethods} from "../../../model/methods";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
@@ -25,11 +25,10 @@ import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import Pulse = Scans.Pulse;
 import Order = util.Order;
 import natural_join = util.natural_join;
-import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
+import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import assumedRange = ScanTree.assumedRange;
-import {ScanStep} from "../../../../lib/runescape/clues";
 import ScanEditor from "../../scanedit/ScanEditor";
-import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {

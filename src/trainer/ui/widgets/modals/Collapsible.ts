@@ -1,4 +1,4 @@
-import Widget from "../../../../lib/ui/Widget";
+import Widget from "lib/ui/Widget";
 
 
 export default class Collapsible extends Widget {

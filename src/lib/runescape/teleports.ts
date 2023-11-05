@@ -1,4 +1,4 @@
-import {TileCoordinates} from "./coordinates/TileCoordinates";
+import {TileCoordinates} from "./coordinates";
 import {TypedEmitter} from "skillbertssolver/eventemitter";
 import {teleport_data} from "data/teleport_data";
 import {direction} from "./movement";

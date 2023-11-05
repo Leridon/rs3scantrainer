@@ -1,17 +1,16 @@
-import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
+import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {PathEditor} from "./PathEditor";
-import Button from "../../../lib/ui/controls/Button";
-import Widget from "../../../lib/ui/Widget";
-import {Path} from "../../../lib/runescape/pathing";
+import Button from "lib/ui/controls/Button";
+import Widget from "lib/ui/Widget";
+import {Path} from "lib/runescape/pathing";
 import movement_state = Path.movement_state;
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import {direction, MovementAbilities, PlayerPosition} from "../../../lib/runescape/movement";
-import {Observable, observe} from "../../../lib/properties/Observable";
+import {direction, MovementAbilities, PlayerPosition} from "lib/runescape/movement";
+import {Observable, observe} from "lib/properties/Observable";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
-import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
+import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
-import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import PlacePowerburstInteraction from "./interactions/PlacePowerburstInteraction";
 
 class ActionBarButton extends Button {

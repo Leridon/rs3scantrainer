@@ -23,12 +23,11 @@ export default class FloorControl extends GameMapControl {
         this.up = $("<div style='cursor: pointer'><img src='assets/icons/stairup.png' style='width: 20px; padding: 4px'></div>")
             .on("click", (e) => {
                 e.stopPropagation()
-                this.parent.getMap().floor.set(floor_t.clamp((this.parent.getMap().floor.get() + 1))
+                this.parent.getMap().floor.set(floor_t.clamp((this.parent.getMap().floor.get() + 1)))
             })
             .appendTo(this.content.container)
 
         this.content.container.on("click", (e) => e.stopPropagation())
-
     }
 
     onAdd(map: GameMap) {

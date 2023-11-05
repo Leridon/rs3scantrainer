@@ -1,17 +1,17 @@
-import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
-import {HostedMapData, move, MovementAbilities} from "../../../../lib/runescape/movement";
+import {HostedMapData, move, MovementAbilities} from "lib/runescape/movement";
 import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../../path_graphics";
 import {capitalize} from "lodash";
-import {Path} from "../../../../lib/runescape/pathing";
+import {Path} from "lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
-import {Vector2} from "../../../../lib/math";
-import Checkbox from "../../../../lib/ui/controls/Checkbox";
-import {GameMapControl} from "../../../../lib/gamemap/GameMapControl";
-import Widget from "../../../../lib/ui/Widget";
-import {GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
-import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
+import {Vector2} from "lib/math";
+import Checkbox from "lib/ui/controls/Checkbox";
+import {GameMapControl} from "lib/gamemap/GameMapControl";
+import Widget from "lib/ui/Widget";
+import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
+import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 
 export class DrawAbilityInteraction extends InteractionLayer {
     private start_position: TileCoordinates = null

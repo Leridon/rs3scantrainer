@@ -4,7 +4,7 @@ import {boxPolygon} from "../../../trainer/ui/polygon_helpers";
 import {GameMap} from "../GameMap";
 import {ValueInteraction} from "./ValueInteraction";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
-import {TileCoordinates} from "../../runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "../../runescape/coordinates";
 
 export default class GameMapDragAction extends ValueInteraction<TileRectangle> {
     dragstart: TileCoordinates = null

@@ -7,8 +7,7 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import Properties from "../widgets/Properties";
 import SmallImageButton from "../widgets/SmallImageButton";
 import {PathGraphics} from "../path_graphics";
-import Button from "../../../lib/ui/controls/Button";
-import {observe} from "../../../lib/properties/Observable";
+import Button from "lib/ui/controls/Button";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw, {
     "loaded_to_editor": null,

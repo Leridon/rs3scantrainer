@@ -1,10 +1,10 @@
-import GameMapDragAction from "../../../../lib/gamemap/interaction/GameMapDragAction";
-import InteractionLayer from "../../../../lib/gamemap/interaction/InteractionLayer";
+import GameMapDragAction from "lib/gamemap/interaction/GameMapDragAction";
+import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 import InteractionTopControl from "../../map/InteractionTopControl";
-import {Shortcuts} from "../../../../lib/runescape/shortcuts";
+import {Shortcuts} from "lib/runescape/shortcuts";
 import {Rectangle} from "lib/math"
 import {boxPolygon} from "../../polygon_helpers";
-import {TileRectangle} from "../../../../lib/runescape/coordinates/TileRectangle";
+import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import ContextMenu from "../../widgets/ContextMenu";
 import {ShortcutViewLayer} from "../ShortcutView";
 

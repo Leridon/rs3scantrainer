@@ -1,13 +1,12 @@
-import {ActiveLayer} from "../../../lib/gamemap/activeLayer";
+import {ActiveLayer} from "lib/gamemap/activeLayer";
 import * as leaflet from "leaflet"
 import {LeafletMouseEvent} from "leaflet"
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Vector2} from "../../../lib/math";
+import {Vector2} from "lib/math";
 import {Path} from "lib/runescape/pathing";
-import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
+import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import * as tippy from 'tippy.js';
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
-import Widget from "../../../lib/ui/Widget";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import LayerInteraction from "../map/interactions/LayerInteraction";
 

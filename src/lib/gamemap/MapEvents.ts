@@ -1,6 +1,6 @@
 import {GameMap} from "./GameMap";
 import * as leaflet from "leaflet";
-import {TileCoordinates} from "../runescape/coordinates/TileCoordinates";
+import {TileCoordinates} from "../runescape/coordinates";
 import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
 
 export abstract class GameMapEvent {

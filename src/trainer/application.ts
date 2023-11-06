@@ -203,10 +203,9 @@ export class Application extends Behaviour {
     behaviour = this.withSub(new SingleBehaviour())
 
     data = {
-        teleports: new Teleports({
+        teleports: new Teleports.ManagedTeleports({
             fairy_ring_favourites: [],
             potas: [],
-            variants: []
         }),
         clues: new ClueIndex(clues),
         methods: new MethodIndex(methods)

@@ -1,15 +1,15 @@
-import {flat_teleport, full_teleport_id, teleport_group, Teleports} from "lib/runescape/teleports";
+import {Teleports} from "lib/runescape/teleports";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {direction} from "lib/runescape/movement";
 
 export namespace teleport_data {
     const default_teleport_ticks: number = 3 // Shadow rip
 
-    export const raw_data: teleport_group[] = [
+    export const raw_data: Teleports.teleport_group[] = [
         {
             id: "home",
             name: "Lodestone",
-            img: "homeport.png",
+            img: { url: "homeport.png"},
             spots: [
                 {
                     id: "alkharid",
@@ -295,12 +295,12 @@ export namespace teleport_data {
         }, {
             id: "normalspellbook",
             name: "Normal Spellbook",
-            img: "",
+            img: { url: ""},
             spots: [
                 {
                     id: "camelot",
                     spot: {x: 2758, y: 3477, level: 0},
-                    img: "tele-cam.png",
+                    img: { url: "tele-cam.png"},
                     name: "Camelot",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
@@ -308,7 +308,7 @@ export namespace teleport_data {
                 {
                     id: "camelot-seers",
                     spot: {x: 2707, y: 3483, level: 0},
-                    img: "tele-cam-seers.png",
+                    img: { url: "tele-cam-seers.png"},
                     name: "Camelot (Seer's Village)",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
@@ -316,7 +316,7 @@ export namespace teleport_data {
                 {
                     id: "varrock",
                     spot: {x: 3212, y: 3433, level: 0},
-                    img: "tele-var.png",
+                    img: { url: "tele-var.png"},
                     name: "Varrock",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
@@ -324,7 +324,7 @@ export namespace teleport_data {
                 {
                     id: "varrock-ge",
                     spot: {x: 3165, y: 3464, level: 0},
-                    img: "tele-var-ge.png",
+                    img: { url: "tele-var-ge.png"},
                     name: "Varrock (Grand Exchange)",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
@@ -332,7 +332,7 @@ export namespace teleport_data {
                 {
                     id: "varrock-church",
                     spot: {x: 3246, y: 3479, level: 0},
-                    img: "tele-var-church.png",
+                    img: { url: "tele-var-church.png"},
                     name: "Varrock (Church)",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
@@ -341,7 +341,7 @@ export namespace teleport_data {
                 {
                     id: "watchtower",
                     spot: {x: 2548, y: 3115, level: 2},
-                    img: "tele-watch.png",
+                    img: { url: "tele-watch.png"},
                     name: "Watchtower",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
@@ -349,54 +349,54 @@ export namespace teleport_data {
                 {
                     id: "watchtower-yanille",
                     spot: {x: 2574, y: 3090, level: 0},
-                    img: "tele-watch-center.png",
+                    img: { url: "tele-watch-center.png"},
                     name: "Watchtower (Yanille)",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "lumbridge", spot: {x: 3220, y: 3245, level: 0}, img: "tele-lum.png", name: "Lumbridge",
+                    id: "lumbridge", spot: {x: 3220, y: 3245, level: 0}, img: { url: "tele-lum.png"}, name: "Lumbridge",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "falador", spot: {x: 2965, y: 3379, level: 0}, img: "tele-fal.png", name: "Falador",
+                    id: "falador", spot: {x: 2965, y: 3379, level: 0}, img: { url: "tele-fal.png"}, name: "Falador",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "ardougne", spot: {x: 2661, y: 3302, level: 0}, img: "tele-ard.png", name: "Ardougne",
+                    id: "ardougne", spot: {x: 2661, y: 3302, level: 0}, img: { url: "tele-ard.png"}, name: "Ardougne",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "southfeldiphills", spot: {x: 2414, y: 2847, level: 0}, img: "tele-mob.png", name: "South Feldip Hills",
+                    id: "southfeldiphills", spot: {x: 2414, y: 2847, level: 0}, img: { url: "tele-mob.png"}, name: "South Feldip Hills",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "taverley", spot: {x: 2910, y: 3421, level: 0}, img: "tele-taverley.png", name: "Taverley",
+                    id: "taverley", spot: {x: 2910, y: 3421, level: 0}, img: { url: "tele-taverley.png"}, name: "Taverley",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "godwars", spot: {x: 2908, y: 3724, level: 0}, img: "tele-god.png", name: "God Wars",
+                    id: "godwars", spot: {x: 2908, y: 3724, level: 0}, img: { url: "tele-god.png"}, name: "God Wars",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "trollheim", spot: {x: 2881, y: 3669, level: 0}, img: "tele-troll.png", name: "Trollheim",
+                    id: "trollheim", spot: {x: 2881, y: 3669, level: 0}, img: { url: "tele-troll.png"}, name: "Trollheim",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "apeatoll", spot: {x: 2798, y: 2791, level: 0}, img: "tele-ape.png", name: "Ape Atoll",
+                    id: "apeatoll", spot: {x: 2798, y: 2791, level: 0}, img: { url: "tele-ape.png"}, name: "Ape Atoll",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
                     id: "mazcab",
-                    spot: {x: 4317, y: 814, level: 0}, img: "tele-mazcab.png", name: "Mazcab",
+                    spot: {x: 4317, y: 814, level: 0}, img: { url: "tele-mazcab.png"}, name: "Mazcab",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
@@ -404,40 +404,40 @@ export namespace teleport_data {
         }, {
             id: "ancientspellook",
             name: "Ancient Spellbook",
-            img: "",
+            img: { url: ""},
             spots: [
                 {
-                    id: "senntisten", spot: {x: 3379, y: 3402, level: 0}, img: "tele-senntisten.png", name: "Senntisten (Dig site)",
+                    id: "senntisten", spot: {x: 3379, y: 3402, level: 0}, img: { url: "tele-senntisten.png"}, name: "Senntisten (Dig site)",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "kharyll", spot: {x: 3499, y: 3488, level: 0}, img: "tele-kharyrll.png", name: "Kharyrll",
+                    id: "kharyll", spot: {x: 3499, y: 3488, level: 0}, img: { url: "tele-kharyrll.png"}, name: "Kharyrll",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "lassar", spot: {x: 3008, y: 3475, level: 0}, img: "tele-lassar.png", name: "Lassar",
+                    id: "lassar", spot: {x: 3008, y: 3475, level: 0}, img: { url: "tele-lassar.png"}, name: "Lassar",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "dareeyak", spot: {x: 2969, y: 3699, level: 0}, img: "tele-dareeyak.png", name: "Dareeyak",
+                    id: "dareeyak", spot: {x: 2969, y: 3699, level: 0}, img: { url: "tele-dareeyak.png"}, name: "Dareeyak",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "carallaner", spot: {x: 3223, y: 3665, level: 0}, img: "tele-carrallaner.png", name: "Carrallanger",
+                    id: "carallaner", spot: {x: 3223, y: 3665, level: 0}, img: { url: "tele-carrallaner.png"}, name: "Carrallanger",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "annakarl", spot: {x: 3288, y: 3888, level: 0}, img: "tele-annakarl.png", name: "Annakarl",
+                    id: "annakarl", spot: {x: 3288, y: 3888, level: 0}, img: { url: "tele-annakarl.png"}, name: "Annakarl",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "ghorrock", spot: {x: 2979, y: 3877, level: 0}, img: "tele-ghorrock.png", name: "Ghorrock",
+                    id: "ghorrock", spot: {x: 2979, y: 3877, level: 0}, img: { url: "tele-ghorrock.png"}, name: "Ghorrock",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
@@ -445,60 +445,60 @@ export namespace teleport_data {
         }, {
             id: "lunarspellbook",
             name: "Lunar Spellbook",
-            img: "",
+            img: { url: ""},
             spots: [
                 {
-                    id: "moonclan", spot: {x: 2111, y: 3917, level: 0}, img: "tele-moonclan.png", name: "Moonclan",
+                    id: "moonclan", spot: {x: 2111, y: 3917, level: 0}, img: { url: "tele-moonclan.png"}, name: "Moonclan",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "ourania", spot: {x: 2468, y: 3248, level: 0}, img: "tele-ourania.png", name: "Ourania Altar",
+                    id: "ourania", spot: {x: 2468, y: 3248, level: 0}, img: { url: "tele-ourania.png"}, name: "Ourania Altar",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "southfalador", spot: {x: 3057, y: 3311, level: 0}, img: "tele-southfalador.png", name: "South Falador",
+                    id: "southfalador", spot: {x: 3057, y: 3311, level: 0}, img: { url: "tele-southfalador.png"}, name: "South Falador",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "waterbirth", spot: {x: 2548, y: 3758, level: 0}, img: "tele-waterbirth.png", name: "Waterbirth",
+                    id: "waterbirth", spot: {x: 2548, y: 3758, level: 0}, img: { url: "tele-waterbirth.png"}, name: "Waterbirth",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "barbarian", spot: {x: 2542, y: 3570, level: 0}, img: "tele-barbarian.png", name: "Barbarian Outpost",
+                    id: "barbarian", spot: {x: 2542, y: 3570, level: 0}, img: { url: "tele-barbarian.png"}, name: "Barbarian Outpost",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "northardougne", spot: {x: 2670, y: 3375, level: 0}, img: "tele-northardougne.png", name: "North Ardougne",
+                    id: "northardougne", spot: {x: 2670, y: 3375, level: 0}, img: { url: "tele-northardougne.png"}, name: "North Ardougne",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "khazard", spot: {x: 2634, y: 3167, level: 0}, img: "tele-khazard.png", name: "Port Khazard",
+                    id: "khazard", spot: {x: 2634, y: 3167, level: 0}, img: { url: "tele-khazard.png"}, name: "Port Khazard",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "fishing", spot: {x: 2614, y: 3383, level: 0}, img: "tele-fishing.png", name: "Fishing Guild",
+                    id: "fishing", spot: {x: 2614, y: 3383, level: 0}, img: { url: "tele-fishing.png"}, name: "Fishing Guild",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "catherby", spot: {x: 2803, y: 3450, level: 0}, img: "tele-catherby.png", name: "Catherby",
+                    id: "catherby", spot: {x: 2803, y: 3450, level: 0}, img: { url: "tele-catherby.png"}, name: "Catherby",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "iceplateu", spot: {x: 2975, y: 3941, level: 0}, img: "tele-iceplateau.png", name: "Ice Plateau",
+                    id: "iceplateu", spot: {x: 2975, y: 3941, level: 0}, img: { url: "tele-iceplateau.png"}, name: "Ice Plateau",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "trollheim", spot: {x: 2818, y: 3676, level: 0}, img: "tele-trollheim.png", name: "Trollheim",
+                    id: "trollheim", spot: {x: 2818, y: 3676, level: 0}, img: { url: "tele-trollheim.png"}, name: "Trollheim",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
@@ -506,30 +506,30 @@ export namespace teleport_data {
         }, {
             id: "greenteleport",
             name: "Green Teleports",
-            img: "",
+            img: { url: ""},
             spots: [
                 {
-                    id: "monastery", spot: {x: 2606, y: 3217, level: 0}, img: "monastery.png", name: "Kandarin Monastery",
+                    id: "monastery", spot: {x: 2606, y: 3217, level: 0}, img: { url: "monastery.png"}, name: "Kandarin Monastery",
                     menu_ticks: 0,
                     animation_ticks: 5
                 },
                 {
-                    id: "wars", spot: {x: 3294, y: 10127, level: 0}, img: "warsretreat.png", name: "Wars Retreat",
+                    id: "wars", spot: {x: 3294, y: 10127, level: 0}, img: { url: "warsretreat.png"}, name: "Wars Retreat",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "manorfarm", spot: {x: 2670, y: 3372, level: 0}, img: "pof.png", name: "Manor Farm",
+                    id: "manorfarm", spot: {x: 2670, y: 3372, level: 0}, img: { url: "pof.png"}, name: "Manor Farm",
                     menu_ticks: 0,
                     animation_ticks: 5
                 },
                 {
-                    id: "maxguild", spot: {x: 2276, y: 3313, level: 1}, img: "max.png", name: "Max guild",  // TODO: Garden variant
+                    id: "maxguild", spot: {x: 2276, y: 3313, level: 1}, img: { url: "max.png"}, name: "Max guild",  // TODO: Garden variant
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "skelettalhorror", spot: {x: 3362, y: 3503, level: 0}, img: "skhorror.png", name: "Skeletal Horror",
+                    id: "skelettalhorror", spot: {x: 3362, y: 3503, level: 0}, img: { url: "skhorror.png"}, name: "Skeletal Horror",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks
                 },
@@ -537,7 +537,7 @@ export namespace teleport_data {
         }, {
             id: "houseteleports", // house teleport timings assue the spell, tablets are two ticks slower
             name: "House Teleports",
-            img: "modhouse.gif",
+            img: { url: "modhouse.gif"},
             spots: [
                 {
                     id: "rimmington", spot: {x: 2953, y: 3223, level: 0}, name: "Rimmington house", code: "1",
@@ -588,41 +588,41 @@ export namespace teleport_data {
         }, {
             id: "teleportscrolls",  // Timings assume a menu tick from globetrotter gloves
             name: "Teleport Scrolls",
-            img: "",
+            img: { url: ""},
             spots: [
                 {
                     id: "grandexchange",
                     spot: {x: 3160, y: 3458, level: 0},
-                    img: "scroll-grandexchange.png",
+                    img: { url: "scroll-grandexchange.png"},
                     name: "Grand Exchange",
                     code: "1",
                     menu_ticks: 1,
                     animation_ticks: 5
                 },
                 {
-                    id: "banditcamp", spot: {x: 3169, y: 2981, level: 0}, img: "scroll-banditcamp.png", name: "Bandit Camp", code: "2",
+                    id: "banditcamp", spot: {x: 3169, y: 2981, level: 0}, img: { url: "scroll-banditcamp.png"}, name: "Bandit Camp", code: "2",
                     menu_ticks: 1,
                     animation_ticks: 5
                 },
                 {
-                    id: "clocktower", spot: {x: 2593, y: 3253, level: 0}, img: "scroll-clocktower.png", name: "Clocktower", code: "3",
+                    id: "clocktower", spot: {x: 2593, y: 3253, level: 0}, img: { url: "scroll-clocktower.png"}, name: "Clocktower", code: "3",
                     menu_ticks: 1,
                     animation_ticks: 5
                 },
                 {
-                    id: "gutanoth", spot: {x: 2523, y: 3062, level: 0}, img: "scroll-gutanoth.png", name: "Gu'Tanoth", code: "4",
+                    id: "gutanoth", spot: {x: 2523, y: 3062, level: 0}, img: { url: "scroll-gutanoth.png"}, name: "Gu'Tanoth", code: "4",
                     menu_ticks: 1,
                     animation_ticks: 5
                 },
                 {
-                    id: "lighthouse", spot: {x: 2512, y: 3632, level: 0}, img: "scroll-lighthouse.png", name: "Lighthouse", code: "5",
+                    id: "lighthouse", spot: {x: 2512, y: 3632, level: 0}, img: { url: "scroll-lighthouse.png"}, name: "Lighthouse", code: "5",
                     menu_ticks: 1,
                     animation_ticks: 5
                 },
                 {
                     id: "fortforinthry",
                     spot: {x: 3302, y: 3550, level: 0},
-                    img: "scroll-fortforinthry.png",
+                    img: { url: "scroll-fortforinthry.png"},
                     name: "Forintry Teleport",
                     code: "6",
                     menu_ticks: 1,
@@ -631,7 +631,7 @@ export namespace teleport_data {
                 {
                     id: "miscellania",
                     spot: {x: 2514, y: 3862, level: 0},
-                    img: "scroll-miscellania.png",
+                    img: { url: "scroll-miscellania.png"},
                     name: "Miscellania",
                     code: "7",
                     menu_ticks: 1,
@@ -640,7 +640,7 @@ export namespace teleport_data {
                 {
                     id: "phoenixlair",
                     spot: {x: 2293, y: 3620, level: 0},
-                    img: "scroll-phoenixlair.png",
+                    img: { url: "scroll-phoenixlair.png"},
                     name: "Phoenix Lair",
                     code: "8",
                     menu_ticks: 1,
@@ -649,7 +649,7 @@ export namespace teleport_data {
                 {
                     id: "pollnivneach",
                     spot: {x: 3360, y: 2966, level: 0},
-                    img: "scroll-pollnivneach.png",
+                    img: { url: "scroll-pollnivneach.png"},
                     name: "Pollnivneach",
                     code: "9",
                     menu_ticks: 1,
@@ -658,7 +658,7 @@ export namespace teleport_data {
                 {
                     id: "tabwowannai",
                     spot: {x: 2801, y: 3085, level: 0},
-                    img: "scroll-taibwowannai.png",
+                    img: { url: "scroll-taibwowannai.png"},
                     name: "Tai Bwo Wannai",
                     code: "0",
                     menu_ticks: 1,
@@ -669,7 +669,7 @@ export namespace teleport_data {
         }, {
             id: "teleportseed",
             name: "Teleport Seed",
-            img: "crystal.gif",
+            img: { url: "crystal.gif"},
             spots: [
                 {
                     id: "lletya", spot: {x: 2335, y: 3171, level: 0}, name: "Lletya", code: "1",
@@ -725,30 +725,30 @@ export namespace teleport_data {
         }, {
             id: "menaphostablets",
             name: "Menaphos Tablets",
-            img: "",
+            img: { url: ""},
             spots: [
                 {
-                    id: "imperial", spot: {x: 3177, y: 2730, level: 1}, img: "imperialdistrict.gif", name: "Imperial district", code: "1",
+                    id: "imperial", spot: {x: 3177, y: 2730, level: 1}, img: { url: "imperialdistrict.gif"}, name: "Imperial district", code: "1",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks + 2
                 },
                 {
-                    id: "merchant", spot: {x: 3208, y: 2784, level: 1}, img: "merchantdistrict.gif", name: "Merchant district", code: "2",
+                    id: "merchant", spot: {x: 3208, y: 2784, level: 1}, img: { url: "merchantdistrict.gif"}, name: "Merchant district", code: "2",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks + 2
                 },
                 {
-                    id: "port", spot: {x: 3187, y: 2654, level: 1}, img: "portdistrict.gif", name: "Port district", code: "3",
+                    id: "port", spot: {x: 3187, y: 2654, level: 1}, img: { url: "portdistrict.gif"}, name: "Port district", code: "3",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks + 2
                 },
                 {
-                    id: "worker", spot: {x: 3154, y: 2800, level: 1}, img: "workerdistrict.gif", name: "Worker district", code: "4",
+                    id: "worker", spot: {x: 3154, y: 2800, level: 1}, img: { url: "workerdistrict.gif"}, name: "Worker district", code: "4",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks + 2
                 },
                 {
-                    id: "sophanem", spot: {x: 3291, y: 2710, level: 1}, img: "sophanemdungeon.gif", name: "Sophanem Dungeon", code: "5",
+                    id: "sophanem", spot: {x: 3291, y: 2710, level: 1}, img: { url: "sophanemdungeon.gif"}, name: "Sophanem Dungeon", code: "5",
                     menu_ticks: 0,
                     animation_ticks: default_teleport_ticks + 2
                 },
@@ -756,7 +756,7 @@ export namespace teleport_data {
         }, {
             id: "spirittree",
             name: "Spirit Tree",
-            img: "spirittree.png",
+            img: { url: "spirittree.png"},
             spots: [
                 {
                     id: "village", spot: {x: 2542, y: 3168, level: 0}, name: "Tree Gnome Village", code: "1",
@@ -813,7 +813,7 @@ export namespace teleport_data {
         }, {
             id: "fairyring",
             name: "Fairy Ring", // assume favorite for menu times
-            img: "fairyring.gif",
+            img: { url: "fairyring.gif"},
             spots: [
                 {
                     id: "AIP", spot: {x: 2412, y: 4434, level: 0}, code: "", name: "Zanaris",
@@ -1074,7 +1074,7 @@ export namespace teleport_data {
         }, {
             id: "slayercape",
             name: "Slayer Cape",
-            img: "capeslay.png",
+            img: { url: "capeslay.png"},
             spots: [
                 {
                     id: "mandrith", spot: {x: 3050, y: 3953, level: 0}, code: "1", name: "Mandrith",
@@ -1140,7 +1140,7 @@ export namespace teleport_data {
         }, {
             id: "dungcape",
             name: "Dungeoneering Cape",
-            img: "capedung.png",
+            img: { url: "capedung.png"},
             spots: [
                 {
                     id: "edgevilledungeon", spot: {x: 3132, y: 9914, level: 0}, code: "1", name: "Edgeville Dungeon",
@@ -1251,7 +1251,7 @@ export namespace teleport_data {
         }, {
             id: "questcape",
             name: "Quest Cape",
-            img: "capequest.png",
+            img: { url: "capequest.png"},
             spots: [
                 {
                     id: "guthixtemple", spot: {x: 2540, y: 5774, level: 0}, code: "1", name: "Ancient Guthix Temple",
@@ -1307,7 +1307,7 @@ export namespace teleport_data {
         }, {
             id: "sixthage",
             name: "Sixth Age Circuit",
-            img: "sixthagecircuit.png",
+            img: { url: "sixthagecircuit.png"},
             spots: [
                 {
                     id: "shrine", spot: {x: 1928, y: 5987, level: 0}, code: "1", name: "Guthix's Shrine",
@@ -1331,7 +1331,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "desertamulet", name: "Desert Amulet", img: "desertamulet.gif", spots: [
+            id: "desertamulet", name: "Desert Amulet", img: { url: "desertamulet.gif"}, spots: [
                 {
                     id: "nardah", spot: {x: 3434, y: 2914, level: 0}, code: "1", name: "Nardah",
                     menu_ticks: 2,
@@ -1344,7 +1344,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "piratebook", name: "Big book o´piracy", img: "bookopiracy.gif",
+            id: "piratebook", name: "Big book o´piracy", img: { url: "bookopiracy.gif"},
             spots: [
                 {
                     id: "mosleharmless", spot: {x: 3684, y: 2958, level: 0}, code: "1", name: "Mos Le'Harmless",
@@ -1368,7 +1368,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "amuletofglory", name: "Amulet of Glory", img: "jewellry_amuletofglory.png", can_be_in_pota: true,
+            id: "amuletofglory", name: "Amulet of Glory", img: { url: "jewellry_amuletofglory.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "edgeville", spot: {x: 3088, y: 3497, level: 0}, code: "1", name: "Edgeville",
@@ -1392,7 +1392,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "combatbracelet", name: "Combat bracelet", img: "jewellry_combatbracelet.png", can_be_in_pota: true,
+            id: "combatbracelet", name: "Combat bracelet", img: { url: "jewellry_combatbracelet.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "warriors", spot: {x: 2879, y: 3543, level: 0}, code: "1", name: "Warriors' Guild",
@@ -1416,7 +1416,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "digsitependant", name: "Dig Site pendant", img: "jewellry_digsitependant.png", can_be_in_pota: true,
+            id: "digsitependant", name: "Dig Site pendant", img: { url: "jewellry_digsitependant.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "digsite", spot: {x: 3358, y: 3396, level: 0}, code: "1", name: "Digsite",
@@ -1435,7 +1435,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "enlightenedamulet", name: "Enlightened amulet", img: "jewellry_enlightenedamulet.png", can_be_in_pota: true,
+            id: "enlightenedamulet", name: "Enlightened amulet", img: { url: "jewellry_enlightenedamulet.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "nexus", spot: {x: 3216, y: 3182, level: 0}, code: "1", name: "Nexus",
@@ -1454,7 +1454,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "gamesnecklace", name: "Games necklace", img: "jewellry_gamesnecklace.png", can_be_in_pota: true,
+            id: "gamesnecklace", name: "Games necklace", img: { url: "jewellry_gamesnecklace.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "trollinvasion", spot: {x: 2874, y: 3566, level: 0}, code: "1", name: "Troll invasion",
@@ -1494,7 +1494,7 @@ export namespace teleport_data {
 
             ]
         }, {
-            id: "ringofduelling", name: "Ring of duelling", img: "jewellry_duelring.png", can_be_in_pota: true,
+            id: "ringofduelling", name: "Ring of duelling", img: { url: "jewellry_duelring.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "hetsoasis", spot: {x: 3321, y: 3231, level: 0}, code: "1", name: "Het's oasis",
@@ -1511,10 +1511,10 @@ export namespace teleport_data {
                     menu_ticks: 2,
                     animation_ticks: 4
                 },
-                //{ sub: "duel", r: /^Fist of Guthix Ring of duelling/i, n: "Fist of Guthix", x: 2997, z: 3411, img: "duelling.gif", code: "4" },
+                //{ sub: "duel", r: /^Fist of Guthix Ring of duelling/i, n: "Fist of Guthix", x: 2997, z: 3411, img: { url: "duelling.gif"}, code: "4" },
             ]
         }, {
-            id: "ringofrespawn", name: "Ring of respawn", img: "jewellry_ringofrespawn.png", can_be_in_pota: true,
+            id: "ringofrespawn", name: "Ring of respawn", img: { url: "jewellry_ringofrespawn.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "lumbridge", spot: {x: 3221, y: 3219, level: 0}, code: "1", name: "Lumbridge spawn",
@@ -1543,7 +1543,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "ringofslaying", name: "Ring of slaying", img: "jewellry_ringofslaying.png", can_be_in_pota: true,
+            id: "ringofslaying", name: "Ring of slaying", img: { url: "jewellry_ringofslaying.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "sumona", spot: {x: 3362, y: 2992, level: 0}, code: "1", name: "Sumona",
@@ -1563,7 +1563,7 @@ export namespace teleport_data {
                 // Tarns lair
             ]
         }, {
-            id: "ringofwealth", name: "Ring of Wealth", img: "jewellry_ringofwealth.png", can_be_in_pota: true,
+            id: "ringofwealth", name: "Ring of Wealth", img: { url: "jewellry_ringofwealth.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "miscellania", spot: {x: 2508, y: 3862, level: 1}, code: "1", name: "Miscellania",
@@ -1577,7 +1577,7 @@ export namespace teleport_data {
                 }
             ]
         }, {
-            id: "luckofthedwarves", name: "Luck of the Dwarves", img: "luck_of_the_dwarves.png", can_be_in_pota: false,
+            id: "luckofthedwarves", name: "Luck of the Dwarves", img: { url: "luck_of_the_dwarves.png"}, can_be_in_pota: false,
             spots: [
                 {
                     id: "keldagrim", spot: {x: 2858, y: 10200, level: 0}, code: "3", name: "Keldagrim",
@@ -1594,7 +1594,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "skillsnecklace", name: "Skills necklace", img: "jewellry_skillsnecklace.png", can_be_in_pota: true,
+            id: "skillsnecklace", name: "Skills necklace", img: { url: "jewellry_skillsnecklace.png"}, can_be_in_pota: true,
             spots: [
                 {
                     id: "fishing", spot: {x: 2614, y: 3386, level: 0}, code: "1", name: "Fishing Guild",
@@ -1635,7 +1635,7 @@ export namespace teleport_data {
         }, {
             id: "travellersnecklace",
             name: "Traveller's necklace",
-            img: "jewellry_travellersnecklace.png",
+            img: { url: "jewellry_travellersnecklace.png"},
             can_be_in_pota: true,
             spots: [
                 {
@@ -1655,7 +1655,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "davesspellbook", name: "Dave's spellbook", img: "davebook.gif",
+            id: "davesspellbook", name: "Dave's spellbook", img: { url: "davebook.gif"},
             spots: [
                 {
                     id: "watchtower", spot: {x: 2444, y: 3182, level: 0}, code: "1", name: "Watchtower",
@@ -1689,7 +1689,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "drakansmedallion", name: "Drakan's medallion", img: "drakmed.gif",
+            id: "drakansmedallion", name: "Drakan's medallion", img: { url: "drakmed.gif"},
             spots: [
                 {
                     id: "barrows", spot: {x: 3565, y: 3316, level: 0}, code: "1", name: "Barrows",
@@ -1718,7 +1718,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "arcsailing", name: "", img: "sail.png",
+            id: "arcsailing", name: "", img: { url: "sail.png"},
             spots: [
                 {
                     id: "tualeit", spot: {x: 1762, y: 12009, level: 0}, name: "Tua Leit Docks",
@@ -1757,7 +1757,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "arctabs", name: "Arc Journal", img: "arcjournal.png",
+            id: "arctabs", name: "Arc Journal", img: { url: "arcjournal.png"},
             spots: [
                 {
                     id: "sarim", spot: {x: 3052, y: 3247, level: 0}, name: "Port Sarim", code: "1",
@@ -1801,7 +1801,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "quiver", name: "Tirannwn quiver", img: "quiver.gif",
+            id: "quiver", name: "Tirannwn quiver", img: { url: "quiver.gif"},
             spots: [
                 {
                     id: "lletya", spot: {x: 2348, y: 3172, level: 0}, name: "Lletya", code: "1",
@@ -1835,7 +1835,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "sceptreofthegods", name: "Sceptre of the gods", img: "sotg.png",
+            id: "sceptreofthegods", name: "Sceptre of the gods", img: { url: "sotg.png"},
             spots: [
                 {
                     id: "pyramidpain", spot: {x: 3289, y: 2802, level: 0}, name: "Pyramid Plunder", code: "1",
@@ -1859,7 +1859,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "gliders", name: "Gnome gliders", img: "glider.png",
+            id: "gliders", name: "Gnome gliders", img: { url: "glider.png"},
             spots: [
                 {
                     id: "grandtree", spot: {x: 2466, y: 3496, level: 0}, name: "The Grand Tree", code: "1",
@@ -1908,7 +1908,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "wickedhood", name: "Wicked hood", img: "wicked.gif",
+            id: "wickedhood", name: "Wicked hood", img: { url: "wicked.gif"},
             spots: [
                 {
                     id: "guild", spot: {x: 3109, y: 3156, level: 3}, name: "Runecrafting Guild",
@@ -1978,7 +1978,7 @@ export namespace teleport_data {
 
             ]
         }, {
-            id: "balloon", name: "Balloon", img: "balloon.png",
+            id: "balloon", name: "Balloon", img: { url: "balloon.png"},
             spots: [
                 {
                     id: "castlewars", spot: {x: 2463, y: 3109, level: 0}, name: "Castle Wars",
@@ -2012,7 +2012,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "gote", name: "Grace of the Elves (Max Guild Portal)", img: "gote.png",
+            id: "gote", name: "Grace of the Elves (Max Guild Portal)", img: { url: "gote.png"},
             spots: [
                 {
                     id: "overgrownidols", spot: {x: 2950, y: 2976, level: 0}, name: "Overgrown idols",
@@ -2032,7 +2032,7 @@ export namespace teleport_data {
                 // TODO: Other teleports
             ]
         }, {
-            id: "spheredorgeshkaan", name: "Dorgesh-kaan sphere", img: "sphere_dorgeshkaan.png",
+            id: "spheredorgeshkaan", name: "Dorgesh-kaan sphere", img: { url: "sphere_dorgeshkaan.png"},
             spots: [
                 {
                     id: "north", spot: {x: 2719, y: 5350, level: 0}, name: "North", code: "1",
@@ -2056,14 +2056,14 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "spheregoblinvillage", name: "Goblin village sphere", img: "sphere_goblinvillage.png",
+            id: "spheregoblinvillage", name: "Goblin village sphere", img: { url: "sphere_goblinvillage.png"},
             spots: [{
                 id: "goblinvillage", spot: {x: 2957, y: 3503, level: 0},
                 menu_ticks: 1,
                 animation_ticks: 11
             },]
         }, {
-            id: "naturessentinel", name: "Nature's sentinel outfit", img: "sentinel.png",
+            id: "naturessentinel", name: "Nature's sentinel outfit", img: { url: "sentinel.png"},
             spots: [
                 {
                     id: "normalwestvarrock", spot: {x: 3138, y: 3431, level: 0}, code: "1,1", name: "Normal Trees - West Varrock",
@@ -2309,7 +2309,7 @@ export namespace teleport_data {
 
             ]
         }, {
-            id: "archteleport", name: "Archaeology teleport (or outfit)", img: "archteleport.png",
+            id: "archteleport", name: "Archaeology teleport (or outfit)", img: { url: "archteleport.png"},
             spots: [
                 {
                     id: "campus", spot: {x: 3329, y: 3379, level: 0}, code: "1", name: "Archaeology Campus",
@@ -2404,7 +2404,7 @@ export namespace teleport_data {
             ]
         },
         {
-            id: "ringofkinship", name: "Ring of Kinship", img: "ringofkinship.png", spots: [{
+            id: "ringofkinship", name: "Ring of Kinship", img: { url: "ringofkinship.png"}, spots: [{
                 id: "daemonheim", spot: {x: 3449, y: 3701, level: 0},
                 menu_ticks: 1,
                 animation_ticks: 13
@@ -2413,7 +2413,7 @@ export namespace teleport_data {
         {
             id: "witchdoctormask",
             name: "Witchdoctor mask",
-            img: "witchdoctormask.png",
+            img: { url: "witchdoctormask.png"},
             spots: [{
                 id: "herblorehabitat", spot: {x: 2950, y: 2933, level: 0}, name: "Herblore Habitat",
                 menu_ticks: 1,
@@ -2421,7 +2421,7 @@ export namespace teleport_data {
             }]
         },
         {
-            id: "ecctophial", name: "Ectophial", img: "ectophial.png", spots: [{
+            id: "ecctophial", name: "Ectophial", img: { url: "ectophial.png"}, spots: [{
                 id: "ectofunctus", spot: {x: 3660, y: 3521, level: 0},
                 menu_ticks: 0,
                 animation_ticks: 10
@@ -2430,7 +2430,7 @@ export namespace teleport_data {
         {
             id: "explorersring",
             name: "Explorer's ring",
-            img: "explorersring.png",
+            img: { url: "explorersring.png"},
             spots: [{
                 id: "cabbagefield", spot: {x: 3053, y: 3290, level: 0}, name: "Cabbage field",
                 menu_ticks: 1,
@@ -2440,7 +2440,7 @@ export namespace teleport_data {
         {
             id: "karamjagloves",
             name: "Karamja gloves",
-            img: "karamjagloves.gif",
+            img: { url: "karamjagloves.gif"},
             spots: [{
                 id: "gemmine", spot: {x: 2825, y: 2997, level: 0},
                 menu_ticks: 1,
@@ -2450,7 +2450,7 @@ export namespace teleport_data {
         {
             id: "theheart",
             name: "The Heart teleport",
-            img: "theheart.gif",
+            img: { url: "theheart.gif"},
             spots: [{
                 id: "center", spot: {x: 3199, y: 6942, level: 0},
                 menu_ticks: 0,
@@ -2460,7 +2460,7 @@ export namespace teleport_data {
         {
             id: "fremmenikboots",
             name: "Fremmenik sea boots",
-            img: "fremmenikboots.gif",
+            img: { url: "fremmenikboots.gif"},
             spots: [{
                 id: "relekkamarket", spot: {x: 2642, y: 3678, level: 0}, name: "Relekka Market",
                 menu_ticks: 1,
@@ -2470,7 +2470,7 @@ export namespace teleport_data {
         {
             id: "legendscape",
             name: "Legends Cape",
-            img: "legendscape.png",
+            img: { url: "legendscape.png"},
             spots: [{
                 id: "legendsguild", spot: {x: 2728, y: 3348, level: 0},
                 menu_ticks: 1,
@@ -2480,7 +2480,7 @@ export namespace teleport_data {
         {
             id: "archjounal",
             name: "Archaeology journal",
-            img: "archjournal.png",
+            img: { url: "archjournal.png"},
             spots: [{
                 id: "guild", spot: {x: 3334, y: 3379, level: 0},
                 menu_ticks: 1,
@@ -2490,7 +2490,7 @@ export namespace teleport_data {
         {
             id: "skullsceptre",
             name: "Skull Sceptre",
-            img: "skullsceptre.png",
+            img: { url: "skullsceptre.png"},
             spots: [
                 {
                     id: "outside", spot: {x: 3081, y: 3422, level: 0}, code: "1", name: "Outside",
@@ -2522,7 +2522,7 @@ export namespace teleport_data {
         {
             id: "dragonkinlaboratory",
             name: "Dragonking Laboratory teleport",
-            img: "dragonkin.png",
+            img: { url: "dragonkin.png"},
             spots: [{
                 id: "", spot: {x: 3368, y: 3887, level: 0},
                 menu_ticks: 1,
@@ -2530,7 +2530,7 @@ export namespace teleport_data {
             }]
         },
         {
-            id: "wildernessobelisk", name: "Portable obelisk", img: "portableobelisk.png",
+            id: "wildernessobelisk", name: "Portable obelisk", img: { url: "portableobelisk.png"},
             spots: [
                 {
                     id: "13", spot: {x: 3156, y: 3620, level: 0}, code: "1", name: "Level 13",
@@ -2564,7 +2564,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "wildernesssword", name: "Wilderness sword", img: "wildernesssword.png",
+            id: "wildernesssword", name: "Wilderness sword", img: { url: "wildernesssword.png"},
             spots: [
                 {
                     id: "edgeville", spot: {x: 3086, y: 3501, level: 0}, code: "1,1", name: "Edgeville",
@@ -2588,7 +2588,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "lyre", name: "Enchanted lyre", img: "enchantedlyre.png",
+            id: "lyre", name: "Enchanted lyre", img: { url: "enchantedlyre.png"},
             spots: [
                 {
                     id: "relekka", spot: {x: 2651, y: 3689, level: 0}, code: "1", name: "Relekka",
@@ -2627,7 +2627,7 @@ export namespace teleport_data {
                 },
             ]
         }, {
-            id: "charterships", name: "Charter Ships", img: "sail.png",
+            id: "charterships", name: "Charter Ships", img: { url: "sail.png"},
             spots: [
                 {
                     id: "tyras", spot: {x: 2142, y: 3122, level: 0}, name: "Port Tyras",
@@ -2687,7 +2687,7 @@ export namespace teleport_data {
             ]
         },
         {
-            id: "dragontrinkets", name: "Dragon Trinkets", img: "dragontrinkets.png",
+            id: "dragontrinkets", name: "Dragon Trinkets", img: { url: "dragontrinkets.png"},
             spots: [
                 {
                     id: "green", spot: {x: 3303, y: 5468, level: 0}, name: "Green Dragons", code: "1,1",
@@ -2727,7 +2727,7 @@ export namespace teleport_data {
             ]
         },
         {
-            id: "metallicdragontrinkets", name: "Metallic Dragon Trinkets", img: "metallicdragontrinkets.png",
+            id: "metallicdragontrinkets", name: "Metallic Dragon Trinkets", img: { url: "metallicdragontrinkets.png"},
             spots: [
                 {
                     id: "bronze", spot: {x: 2723, y: 9486, level: 0}, name: "Bronze Dragons", code: "1",
@@ -2758,7 +2758,7 @@ export namespace teleport_data {
             ]
         },
         {
-            id: "amuletofnature", name: "Amulet of Nature", img: "amuletofnature.png",
+            id: "amuletofnature", name: "Amulet of Nature", img: { url: "amuletofnature.png"},
             spots: [
                 {
                     id: "draynornightshade", spot: {x: 3086, y: 3353, level: 0}, name: "Nightshade Patch",
@@ -2783,7 +2783,7 @@ export namespace teleport_data {
             ]
         },
         {
-            id: "tokkulzo", name: "TokKul-Zo", img: "tokkulzo.png",
+            id: "tokkulzo", name: "TokKul-Zo", img: { url: "tokkulzo.png"},
             spots: [
                 {
                     id: "plaza", spot: {x: 4672, y: 5155, level: 0}, name: "Main Plaza", code: "1",
@@ -2822,15 +2822,15 @@ export namespace teleport_data {
         // TODO: Slayer masks
     ]
 
-    export function getAllFlattened(): flat_teleport[] {
+    export function getAllFlattened(): Teleports.flat_teleport[] {
         if (!flattened_all) flattened_all = Teleports.flatten(raw_data)
 
         return flattened_all
     }
 
-    let flattened_all: flat_teleport[]
+    let flattened_all: Teleports.flat_teleport[]
 
-    export function resolveTarget(id: full_teleport_id): TileCoordinates {
+    export function resolveTarget(id: Teleports.full_teleport_id): TileCoordinates {
         return raw_data
             .find((g) => g.id == id.group)?.spots
             .find((s) => s.id == id.sub)?.spot

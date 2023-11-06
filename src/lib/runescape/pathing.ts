@@ -4,7 +4,7 @@ import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "data/teleport_data";
-import {full_teleport_id, Teleports} from "./teleports";
+import {Teleports} from "./teleports";
 import {Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
 import * as L from "leaflet"
@@ -99,7 +99,7 @@ export namespace Path {
 
     export type step_teleport = step_base & {
         type: "teleport",
-        id: full_teleport_id,
+        id: Teleports.full_teleport_id,
         spot_override?: TileCoordinates
     }
 

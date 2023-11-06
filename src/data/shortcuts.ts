@@ -1,7 +1,7 @@
 import {Shortcuts} from "lib/runescape/shortcuts";
 
 /* ts-ignore */
-let data: Shortcuts.new_shortcut[] = [
+let data: Shortcuts.shortcut[] = [
     {
         "type": "door",
         "name": "Door",

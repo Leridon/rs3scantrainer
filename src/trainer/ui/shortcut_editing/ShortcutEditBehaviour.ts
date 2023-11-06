@@ -23,7 +23,7 @@ class ShortcutEditGameLayer extends GameLayer {
 
     view: ShortcutViewLayer = null
 
-    constructor(public data: ObservableArray<Shortcuts.new_shortcut & { is_builtin: boolean }>) {
+    constructor(public data: ObservableArray<Shortcuts.shortcut & { is_builtin: boolean }>) {
         super();
 
         let action_bar_control = new GameMapControl({
@@ -41,7 +41,7 @@ class ShortcutEditGameLayer extends GameLayer {
             this.data.value().filter(s => {
                 if (s.value().is_builtin) return false
 
-                return Rectangle.contains(Shortcuts.new_shortcut.bounds(s.value()), event.coordinates)
+                return Rectangle.contains(Shortcuts.bounds(s.value()), event.coordinates)
             }).forEach(s => {
                 event.add({
                     type: "basic",
@@ -108,8 +108,8 @@ class ShortcutEditActionBar extends ActionBar {
 export default class ShortcutEditBehaviour extends Behaviour {
     layer: ShortcutEditGameLayer
 
-    private storage = new storage.Variable<Shortcuts.new_shortcut[]>("local_shortcuts", [])
-    private data: ObservableArray<Shortcuts.new_shortcut & { is_builtin: boolean }>
+    private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", [])
+    private data: ObservableArray<Shortcuts.shortcut & { is_builtin: boolean }>
 
     constructor(public app: Application) {
         super();
@@ -130,7 +130,7 @@ export default class ShortcutEditBehaviour extends Behaviour {
         this.app.sidepanels.add(tap(
                 new ShortcutEditSidePanel(this.data, this.layer.view, this.layer.interActionGuard),
                 e => e.centered.on((s => {
-                    this.layer.getMap().fitView(Shortcuts.new_shortcut.bounds(s), {
+                    this.layer.getMap().fitView(Shortcuts.bounds(s), {
                         maxZoom: 5
                     })
                 })))

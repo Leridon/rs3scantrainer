@@ -27,12 +27,12 @@ import shortcuts from "../../../data/shortcuts";
 import * as assert from "assert";
 
 class ShortcutEdit extends Widget {
-    centered = ewent<Shortcuts.new_shortcut>()
+    centered = ewent<Shortcuts.shortcut>()
 
     private header: Widget
     private body: Widget
 
-    constructor(private value: ObservableArray.ObservableArrayValue<Shortcuts.new_shortcut & { is_builtin: boolean }>,
+    constructor(private value: ObservableArray.ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>,
                 private associated_preview: ShortcutViewLayer.ShortcutPolygon,
                 private interaction_guard: InteractionGuard) {
         super();
@@ -265,9 +265,9 @@ export default class ShortcutEditSidePanel extends SidePanel {
     search_container: Widget
     result_container: Widget
 
-    centered = ewent<Shortcuts.new_shortcut>()
+    centered = ewent<Shortcuts.shortcut>()
 
-    constructor(private data: ObservableArray<Shortcuts.new_shortcut & { is_builtin: boolean }>,
+    constructor(private data: ObservableArray<Shortcuts.shortcut & { is_builtin: boolean }>,
                 private view_layer: ShortcutViewLayer,
                 private interaction_guard: InteractionGuard) {
         super();
@@ -300,7 +300,7 @@ export default class ShortcutEditSidePanel extends SidePanel {
         this.renderResults(this.data.value())
     }
 
-    renderResults(value: ObservableArray.ObservableArrayValue<Shortcuts.new_shortcut & { is_builtin: boolean }>[]) {
+    renderResults(value: ObservableArray.ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>[]) {
         this.result_container.empty()
 
         value.forEach(s => {

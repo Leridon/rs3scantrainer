@@ -1,14 +1,16 @@
 Immediate next:
 - Shortcut editor:
-    - Copy/Move (rotate, flip actions)
     - Start collapsed
+    - Render movement on hover
     - Filter by current view
     - Search box (Overriding view filter or on top of it?? Toggle probably)
     - Detail for door bounds
+    - Forced direction?
 
 - Path Editor
     - Move action bar to generalized interface
     - Move action buttons to bottom control
+    - Move data handling to ObservableArray
     - Fix "Redraw" for abilities (Shift to force)
     - Fix "Redraw" for running
     - "You are here marker"

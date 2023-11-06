@@ -8,7 +8,7 @@ import {observe} from "../../../../lib/reactive";
 
 export class DrawGeneralEntity extends InteractionLayer {
     constructor(public config: {
-        done_handler: (_: Shortcuts.new_shortcut) => void
+        done_handler: (_: Shortcuts.shortcut) => void
     }) {
         super();
 
@@ -31,7 +31,7 @@ export class DrawGeneralEntity extends InteractionLayer {
 }
 
 export namespace DrawGeneralEntity {
-    export function transform(area: TileRectangle): Shortcuts.new_shortcut_entity {
+    export function transform(area: TileRectangle): Shortcuts.entity_shortcut {
         return {
             type: "entity",
             name: "Entity",

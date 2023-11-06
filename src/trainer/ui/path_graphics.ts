@@ -6,7 +6,7 @@ import Widget from "lib/ui/Widget";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {Vector2} from "lib/math";
 import InteractionType = Path.InteractionType;
-import {flat_teleport, Teleports} from "lib/runescape/teleports";
+import {Teleports} from "lib/runescape/teleports";
 import {teleport_data} from "../../data/teleport_data";
 
 export namespace PathGraphics {
@@ -17,7 +17,7 @@ export namespace PathGraphics {
     }
 
     export namespace Teleport {
-        export function asSpan(tele: flat_teleport): HTMLString {
+        export function asSpan(tele: Teleports.flat_teleport): HTMLString {
             return `<span style="position: relative" title="${tele.hover}">${text_icon(`assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`, tele.hover)}<div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
         }
     }

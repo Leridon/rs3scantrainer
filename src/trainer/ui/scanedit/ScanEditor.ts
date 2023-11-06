@@ -19,6 +19,7 @@ import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {CluePanel} from "../SidePanelControl";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
+import shortcuts from "../../../data/shortcuts";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -211,7 +212,10 @@ export default class ScanEditor extends Behaviour {
 
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
-        this.path_editor = this.withSub(new PathEditor(this.layer, this.app.template_resolver))
+        this.path_editor = this.withSub(new PathEditor(this.layer, this.app.template_resolver, {
+            teleports: app.data.teleports.getAll(),
+            shortcuts: shortcuts
+        }))
     }
 
     begin() {

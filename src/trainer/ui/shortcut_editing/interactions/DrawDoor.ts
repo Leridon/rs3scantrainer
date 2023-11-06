@@ -12,7 +12,7 @@ import {observe} from "../../../../lib/reactive";
 export class DrawDoor extends InteractionLayer {
 
     constructor(public config: {
-        done_handler: (_: Shortcuts.new_shortcut_door) => void
+        done_handler: (_: Shortcuts.door_shortcut) => void
     }) {
         super();
 
@@ -59,11 +59,11 @@ export class DrawDoor extends InteractionLayer {
 }
 
 export namespace DrawDoor {
-    export function shortcutsFromArea(area: TileRectangle): Shortcuts.new_shortcut_door[] {
+    export function shortcutsFromArea(area: TileRectangle): Shortcuts.door_shortcut[] {
         let width = Rectangle.tileWidth(area)
         let height = Rectangle.tileHeight(area)
 
-        let options: Shortcuts.new_shortcut_door[] = []
+        let options: Shortcuts.door_shortcut[] = []
 
         if (width == 2) {
             options.push({

@@ -1,9 +1,9 @@
 import * as leaflet from "leaflet"
-import {flat_teleport} from "../../runescape/teleports";
 import {Vector2} from "../../math";
+import {Teleports} from "../../runescape/teleports";
 
 class TeleportIcon extends leaflet.Icon {
-    constructor(public options: leaflet.IconOptions & { teleport: flat_teleport }) {
+    constructor(public options: leaflet.IconOptions & { teleport: Teleports.flat_teleport }) {
         super(options);
     }
 
@@ -23,7 +23,7 @@ class TeleportIcon extends leaflet.Icon {
         return el;
     }
 
-    static fromTeleport(tele: flat_teleport): TeleportIcon {
+    static fromTeleport(tele: Teleports.flat_teleport): TeleportIcon {
         return new TeleportIcon({
             iconUrl: `./assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`,
             teleport: tele
@@ -33,7 +33,7 @@ class TeleportIcon extends leaflet.Icon {
 
 export class TeleportLayer extends leaflet.FeatureGroup {
 
-    constructor(public teleports: flat_teleport[]) {
+    constructor(public teleports: Teleports.flat_teleport[]) {
         super()
 
         for (let tele of teleports) {

@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet";
 import Widget from "lib/ui/Widget";
-import {createStepGraphics} from "../path_graphics";
+import {createStepGraphics, PathGraphics} from "../path_graphics";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import {ScanTrainerCommands} from "trainer/application";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
@@ -27,8 +27,7 @@ import issue = Path.issue;
 import {Observable, observe} from "lib/properties/Observable";
 import Behaviour from "lib/ui/Behaviour";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Vector2} from "lib/math";
-import {MenuEntry} from "../widgets/ContextMenu";
+import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
@@ -40,6 +39,8 @@ import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
 import InteractionTopControl from "../map/InteractionTopControl";
+import {observeArray} from "../../../lib/reactive";
+import {TileCoordinates} from "../../../lib/runescape/coordinates";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -512,75 +513,84 @@ class PathEditorGameLayer extends GameLayer {
     constructor(private editor: PathEditor) {
         super();
 
-        Shortcuts.index.forEach(s => {
-            leaflet.marker(Vector2.toLatLong(Shortcuts.click.get(s.click, null)), {
-                icon: leaflet.icon({
-                    iconUrl: Path.InteractionType.meta(s.how).icon_url,
-                    iconSize: [28, 31],
-                    iconAnchor: [14, 16],
-                }),
-                interactive: false
-            }).addTo(this)
-        })
+        new ShortcutViewLayer(observeArray(editor.data.shortcuts)).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPost(() => {
             if (this.editor.isActive()) {
-                event.add({
+
+                // TODO: Run here/Redclick
+                /*event.add({
                     type: "basic", text: "Run Here", handler: () => {
                     }
                 })
                 event.add({
                     type: "basic", text: "Red Click", handler: () => {
                     }
-                })
-
-                let tile = event.tile()
+                })*/
 
                 {
-                    let teleports = this.getMap().getTeleportLayer().teleports
-                        .filter(t => Vector2.max_axis(Vector2.sub(t.spot, tile)) < 2)
-
-                    teleports.forEach(t => {
-                        event.add({
-                            type: "basic",
-                            text: `Teleport: ${t.hover}`,
-                            handler: () => {
-                                this.editor.value.addBack(Path.auto_describe({
-                                    type: "teleport",
-                                    description: "",
-                                    id: t.id,
-                                }))
-                            }
+                    this.getMap().getTeleportLayer().teleports
+                        .filter(t => Vector2.max_axis(Vector2.sub(t.spot, event.coordinates)) < 2)
+                        .forEach(t => {
+                            event.add({
+                                type: "basic",
+                                text: `Teleport: ${t.hover}`,
+                                handler: () => {
+                                    this.editor.value.addBack(Path.auto_describe({
+                                        type: "teleport",
+                                        description: "",
+                                        id: t.id,
+                                    }))
+                                }
+                            })
                         })
-                    })
                 }
 
-                event.add(...Shortcuts.index
-                    .filter(s => Vector2.max_axis(Vector2.sub(Shortcuts.click.get(s.click, null), tile)) < 2)
-                    .map(s => {
-                        return {
-                            type: "basic",
-                            text: s.name,
-                            handler: () => {
-                                let starts = Shortcuts.start.get(s.start, tile)
+                this.editor.data.shortcuts
+                    .filter(s => Rectangle.contains(Shortcuts.bounds(s), event.coordinates))
+                    .map(Shortcuts.normalize)
+                    .forEach(s => {
+                        s.actions.forEach(a => {
+                            this.editor.value.augmented.get().post_state.position.tile
 
-                                this.editor.value.addBack({
-                                    type: "interaction",
-                                    description: s.name,
-                                    ticks: s.ticks,
-                                    where: Shortcuts.click.get(s.click, tile),
-                                    starts: starts,
-                                    ends_up: Shortcuts.movement.get(s.movement, starts),
-                                    forced_direction: s.forced_orientation,
-                                    how: s.how
-                                })
-                            },
-                        } as MenuEntry
+                            let start = this.editor.value.augmented.get().post_state.position.tile
+                                ? TileRectangle.clampInto(this.editor.value.augmented.get().post_state.position.tile, a.interactive_area)
+                                : TileRectangle.center(a.interactive_area)
+
+                            let ends: TileCoordinates
+
+                            switch (a.movement.type) {
+                                case "fixed":
+                                    ends = a.movement.target
+                                    break;
+                                case "offset":
+                                    ends = TileCoordinates.move(start, a.movement.offset)
+
+                                    ends.level += a.movement.level_offset
+
+                                    break;
+                            }
+
+                            event.add({
+                                type: "basic",
+                                text: a.name,
+                                handler: () => {
+                                    this.editor.value.addBack({
+                                        type: "interaction",
+                                        description: a.name,
+                                        ticks: a.time,
+                                        starts: start,
+                                        where: TileRectangle.center(s.clickable_area, false),
+                                        ends_up: ends,
+                                        forced_direction: null, // TODO:
+                                        how: a.cursor
+                                    })
+                                }
+                            })
+                        })
                     })
-                )
-                // TODO: Shortcuts
             }
         })
     }
@@ -661,7 +671,12 @@ export class PathEditor extends Behaviour {
 
     interaction_guard: InteractionGuard
 
-    constructor(public game_layer: GameLayer, public template_resolver: TemplateResolver) {
+    constructor(public game_layer: GameLayer, public template_resolver: TemplateResolver,
+                public data: {
+                    shortcuts: Shortcuts.shortcut[],
+                    teleports: Teleports.flat_teleport[]
+                }
+    ) {
         super()
 
         this.value.augmented.subscribe(aug => {

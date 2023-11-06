@@ -8,6 +8,7 @@ import LightButton from "../../../trainer/ui/widgets/LightButton";
 import {PathEditor} from "../../../trainer/ui/pathedit/PathEditor";
 import {Application} from "../../../trainer/application";
 import dig_area = Clues.digSpotArea;
+import shortcuts from "../../../data/shortcuts";
 
 export default class OverviewLayer extends ActiveLayer {
     constructor(private clues: ClueStep[], private app: Application) {
@@ -45,7 +46,10 @@ export default class OverviewLayer extends ActiveLayer {
                 props.named("spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
                 props.row(new LightButton("Load path editor")
                     .on("click", () => {
-                        new PathEditor(this, this.app.template_resolver).load([], {
+                        new PathEditor(this, this.app.template_resolver, {
+                            teleports: this.app.data.teleports.getAll(),
+                            shortcuts: shortcuts
+                        }).load([], {
                             target: dig_area(spot)
                         })
                     }))

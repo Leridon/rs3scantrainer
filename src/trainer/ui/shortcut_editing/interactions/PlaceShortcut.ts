@@ -10,12 +10,12 @@ import {ShortcutViewLayer} from "../ShortcutView";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {observe} from "../../../../lib/reactive";
 
-export class PlaceShortcut extends ValueInteraction<Shortcuts.new_shortcut> {
+export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
 
     private transform: TileTransform
     private final_translation_transform: TileTransform
 
-    constructor(private original: Shortcuts.new_shortcut,
+    constructor(private original: Shortcuts.shortcut,
                 private origin: TileCoordinates
     ) {
         super({
@@ -85,7 +85,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.new_shortcut> {
 }
 
 export namespace PlaceShortcut {
-    export function transform(s: Shortcuts.new_shortcut, trans: TileTransform): Shortcuts.new_shortcut {
+    export function transform(s: Shortcuts.shortcut, trans: TileTransform): Shortcuts.shortcut {
         function dir(s: "eastwest" | "northsouth"): "eastwest" | "northsouth" {
             let v = s == "eastwest" ? {x: 1, y: 0} : {x: 0, y: 1}
 

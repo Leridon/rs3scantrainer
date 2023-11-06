@@ -30,8 +30,8 @@ export namespace TileRectangle {
         return lift_tile(rect.botright, rect.level)
     }
 
-    export function center(rect: TileRectangle): TileCoordinates {
-        return lift_tile(Rectangle.center(rect), rect.level)
+    export function center(rect: TileRectangle, snap: boolean = true): TileCoordinates {
+        return lift_tile(Rectangle.center(rect, snap), rect.level)
     }
 
     export function fromTile(tile: TileCoordinates): TileRectangle {

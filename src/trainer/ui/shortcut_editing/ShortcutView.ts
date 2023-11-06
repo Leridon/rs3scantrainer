@@ -12,7 +12,7 @@ import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 export class ShortcutViewLayer extends GameLayer {
     previews: ShortcutViewLayer.ShortcutPolygon[]
 
-    constructor(public data: ObservableArray<Shortcuts.new_shortcut>) {
+    constructor(public data: ObservableArray<Shortcuts.shortcut>) {
         super();
 
         data.array_changed.filtered(s => s.set).on(() => this.render())
@@ -26,7 +26,7 @@ export class ShortcutViewLayer extends GameLayer {
         this.previews = this.data.value().map(s => new ShortcutViewLayer.ShortcutPolygon(s).addTo(this))
     }
 
-    getView(s: ObservableArray.ObservableArrayValue<Shortcuts.new_shortcut>): ShortcutViewLayer.ShortcutPolygon {
+    getView(s: ObservableArray.ObservableArrayValue<Shortcuts.shortcut>): ShortcutViewLayer.ShortcutPolygon {
         return this.previews.find(p => p.data == s)
     }
 }
@@ -48,7 +48,7 @@ export namespace ShortcutViewLayer {
             hidden_actions: []
         })
 
-        constructor(public data: Observable<Shortcuts.new_shortcut>) {
+        constructor(public data: Observable<Shortcuts.shortcut>) {
             super();
 
             this.config.subscribe(() => this.render())
@@ -64,7 +64,7 @@ export namespace ShortcutViewLayer {
         public render() {
             this.clearLayers()
 
-            let shortcut = Shortcuts.new_shortcut.normalize(this.data.value())
+            let shortcut = Shortcuts.normalize(this.data.value())
 
             this.action_areas = shortcut.actions
                 .filter(a => !this.config.value().hidden_actions.includes(a))

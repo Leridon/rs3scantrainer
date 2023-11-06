@@ -1,5 +1,4 @@
-import { ImgRef, RectLike, Rect, ImageDetect } from "@alt1/base";
-import * as a1lib from "@alt1/base";
+import { ImgRef } from "@alt1/base";
 import * as OCR from "@alt1/ocr";
 import { ModalUI } from "./modeluireader";
 

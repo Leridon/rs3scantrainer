@@ -1,4 +1,4 @@
-import { delay, addzeros } from "../oldlib";
+import { delay } from "../oldlib";
 
 var mapw = 5;
 var maph = 5;

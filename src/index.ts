@@ -1,6 +1,6 @@
 //alt1 base libs, provides all the commonly used methods for image matching and capture
 //also gives your editor info about the window.alt1 api
-import {initialize} from "./application";
+import {initialize} from "./trainer/application";
 
 require("bootstrap")
 
@@ -16,4 +16,5 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
     initialize()
 })
+
 

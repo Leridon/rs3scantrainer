@@ -141,13 +141,13 @@ function parseSolution(obj: OriginalClue): SimpleSolution | VariantSolution {
 }
 
 function spotsFor(id: number): Coordinate[] {
-    return coordsets.filter((e) => e.clueid == id).map((e) => {
+    return Array.from(coordsets.filter((e) => e.clueid == id).map((e) => {
             return {
                 x: e.x,
                 y: e.z,
                 level: e.level
             }
-        }
+        })
     )
 }
 
@@ -257,6 +257,11 @@ for (let obj of original_data) {
     }
 }
 
+console.log("Volcano")
+console.log(JSON.stringify(imported.find(c => c.id == 367)))
+console.log("Deep Wilderness")
+console.log(JSON.stringify(imported.find(c => c.id == 36)))
+
 let compass_main: CompassStep = {
     clue: "The compass shows where you need to go.",
     id: 399,
@@ -280,6 +285,9 @@ let compass_arc: CompassStep = {
 }
 
 imported.push(compass_main)
+console.log("Compass")
+console.log(compass_main.solution.candidates.map(e => JSON.stringify(e)).join(",\n"));
+
 imported.push(compass_arc)
 
 

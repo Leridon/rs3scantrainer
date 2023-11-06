@@ -1,0 +1,20 @@
+import AbstractEditWidget from "trainer/ui/widgets/AbstractEditWidget";
+
+export default class Checkbox extends AbstractEditWidget<boolean> {
+    input: JQuery
+
+    constructor() {
+        super()
+
+        this.input = $("<input type='checkbox'>")
+            .on("input", () => {
+                let value = this.input.is(":checked")
+                if (value != this.value) this.changed(value)
+            })
+            .appendTo(this.container)
+    }
+
+    protected render() {
+        this.input.prop("checked", this.value);
+    }
+}

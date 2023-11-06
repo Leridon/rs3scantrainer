@@ -2,8 +2,18 @@
   "compilerOptions": {
     "moduleResolution": "Node",
     "experimentalDecorators": true,
-    "jsx": "react",
-    "noImplicitThis": true
+    "noImplicitThis": true,
+    "target": "es6",
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": ["src"],
   "allowTsInNodeModules": true

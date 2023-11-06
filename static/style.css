@@ -50,6 +50,7 @@ html, body {
 
 #sidebar-panels {
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .split-screen {
@@ -97,6 +98,10 @@ html, body {
     background: url("assets/icons/imagebuttonbackground.png");
 }
 
+.nissmallimagebutton.disabled {
+    cursor: not-allowed;
+}
+
 .nissmallimagebutton.active {
     background: url("assets/icons/imagebuttonbackground.png");
     background-position-x: 21px;
@@ -131,15 +136,16 @@ html, body {
     font-size: 20px;
 }
 
-.panel {
+.nisl-panel {
     margin-top: 2px;
     margin-bottom: 2px;
     padding: 5px;
     border: 1px solid #41555F;
     background: #00000030;
+    overflow-x: hidden;
 }
 
-.paneltitle {
+.nisl-panel-title {
     font-weight: bold;
 }
 
@@ -438,15 +444,14 @@ video {
 }
 
 .lightbutton {
-    margin: 3px;
     text-align: center;
     display: inline-block;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     background-color: #FFFFFF19;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
-    border: 1px solid gray;
+    border: 1px solid grey;
 }
 
 .lightbutton.inactive {
@@ -457,7 +462,7 @@ video {
     background-color: #FFFFFF50;
 }
 
-.lightbutton:hover {
+.lightbutton.enabled:hover {
     background-color: #FFFFFF32;
 }
 
@@ -491,21 +496,8 @@ video {
     height: 1.3em;
 }
 
-.treeview > * {
-    margin-top: 2px;
-}
-
 .leaflet-container {
     background-color: black;
-}
-
-.nis-map-control {
-    border-radius: 8px;
-    background-color: rgb(10, 31, 41);
-    border: 1px solid rgb(5, 56, 66);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
-    color: var(--nis-col-std);
-    font-size: 1em;
 }
 
 .nis-collapsible {
@@ -568,4 +560,619 @@ video {
 
 .nis-map-control-top {
     padding: 5px;
+}
+
+.map-collisionlayer {
+    image-rendering: pixelated;
+    /*filter: grayscale(100%) hue-rotate(0) opacity(0.5)*/
+    filter: brightness(0%) grayscale(100%) opacity(0.3);
+}
+
+.medium-image-button {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    margin: 2px;
+}
+
+.medium-image-button:not(.enabled) {
+    cursor: not-allowed;
+    filter: brightness(50%);
+}
+
+.medium-image-button > img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+}
+
+/* Step Edit Widget*/
+
+.path-edit-control {
+    width: 350px;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.path-step-edit-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.path-step-edit-widget-control-row {
+    display: flex;
+    justify-content: center;
+    line-height: 20px;
+}
+
+.path-step-edit-widget-control-row > div {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.step-edit-component:not(:first-child) {
+    border-top: 2px solid var(--nis-col-faded);
+}
+
+.step-edit-issues {
+    border-bottom: 1px dashed var(--nis-col-faded);
+}
+
+/* Scan Tree Edit */
+
+.ctr-scantreeedit-node {
+    border-radius: 5px;
+}
+
+.ctr-scantreeedit-node.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ctr-scantreeedit-youarehere {
+    width: 1.3em;
+    height: 1.3em;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ctr-scantreeedit-node.active > * > .ctr-scantreeedit-youarehere {
+    background-image: url("assets/icons/youarehere.png");
+}
+
+
+/**/
+
+.ctr-step-issue[level] {
+    border-radius: 3px;
+    text-align: left;
+    margin: 2px 3px;
+    text-wrap: normal;
+    padding: 2px 3px 2px 5px;
+}
+
+.ctr-step-issue[level="1"] {
+    background-color: #42381f;
+    color: #fce2a1;
+}
+
+.ctr-step-issue[level="0"] {
+    background-color: #8f464a;
+    color: #2f2324;
+}
+
+.ctr-step-issue[level="1"] > .ctr-step-issue-icon {
+    margin-right: 0;
+    display: inline-block;
+    width: 12px;
+    height: 11px;
+    background-image: url("assets/icons/warning.png");
+}
+
+.ctr-step-issue[level="0"] > .ctr-step-issue-icon {
+    margin-right: 0;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url("assets/icons/error.png");
+}
+
+.ctr-cooldown-overlay-shadow {
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: rgb(206, 213, 135);
+    text-shadow: 1px 1px 0 #000;
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.ctr-actionbar-cancel-overlay {
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: red;
+    text-shadow: 1px 1px 0 #000;
+    line-height: 30px;
+    font-size: 20px;
+}
+
+/* Cooldown Container */
+
+.ctr-movement-state-view-cooldowns {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+/* Button Container */
+
+.ctr-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ctr-button-container > * {
+    flex-grow: 1;
+    width: calc(33% - 4px);
+    margin: 2px;
+}
+
+/* Buff/Cooldown View */
+.ctr-buff-view {
+    margin: 2px;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border: 1px solid transparent;
+}
+
+.ctr-buff-view > * {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.ctr-buff-view.ctr-buff-view-cooldown > img {
+    filter: brightness(50%);
+}
+
+.ctr-buff-view > div {
+    line-height: 30px;
+    font-weight: bold;
+    color: rgb(206, 213, 135);
+    text-shadow: 1px 1px 0 #000;
+    text-align: center;
+}
+
+.ctr-buff-view.ctr-buff-view-buff {
+    border: 1px solid green;
+}
+
+.ctr-buff-view.ctr-buff-view-debuff {
+    border: 1px solid red;
+}
+
+.ctr-path-property-preview {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ctr-select-box {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Classes specific to the clue trainer */
+
+* {
+    --ctr-digspot-color: gold;
+    --ctr-scanspot-color: #00FF21;
+}
+
+.ctr-digspot-inline {
+    color: var(--ctr-digspot-color)
+}
+
+.ctr-scanspot-inline {
+    color: var(--ctr-scanspot-color)
+}
+
+/** template string edit  **/
+
+.ctr-template-string-edit {
+    display: flex;
+    flex-direction: column;
+    line-height: 21px;
+}
+
+.ctr-template-string-edit-input-row {
+    display: flex;
+}
+
+
+.ctr-template-string-edit-input-row > input {
+    flex: 2;
+}
+
+/* correctness */
+
+.ctr-correct {
+    color: green;
+}
+
+.ctr-semicorrect {
+    color: #ffcc00;
+}
+
+.ctr-semiincorrect {
+    color: #ff9100;
+}
+
+.ctr-incorrect {
+    color: red;
+}
+
+/*Classes for custom components*/
+
+.lcss-button:not(.enabled) {
+    cursor: not-allowed;
+    filter: opacity(0.5) grayscale(100%);
+}
+
+.lcss-button.enabled {
+    cursor: pointer;
+}
+
+/*
+ * nis like extensions
+ */
+
+/** Properties**/
+
+.nisl-properties {
+    font-family: monospace;
+}
+
+.nisl-property-header {
+    text-align: center;
+    font-weight: bold;
+    margin: 2px 3px;
+}
+
+.nisl-property-name {
+    flex: 0 0 auto;
+    width: 20%;
+    font-weight: bold;
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.nisl-property-content {
+    flex: 0 0 auto;
+    width: 80%;
+}
+
+.nisl-property-content > * {
+    width: 100%;
+}
+
+.nisl-property-row {
+    display: flex;
+    margin: 2px 3px;
+}
+
+/*Why do I even need this? Shouldn't flexbox contents auto fill the row if there is no other size limit?*/
+.nisl-property-standalone-row > * {
+    flex: 1;
+}
+
+/** Dropdown select **/
+
+.nisl-selectdropdown {
+    position: relative;
+    overflow: visible;
+}
+
+.nisl-selectdropdown-input {
+    width: 100%;
+    user-select: none;
+    cursor: pointer;
+    height: 20px;
+    color: #B1AFAE;
+    outline: none;
+    position: relative;
+    padding: 0 4px;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #191714, #292222, #100C0C);
+    border: 1px solid #514949;
+    font-family: sans-serif;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.nisl-selectdropdown-options {
+    cursor: pointer;
+    /*position: absolute;
+    z-index: 10000;*/
+}
+
+.nisl-selectdropdown-options > * {
+    padding: 0 4px;
+    background-color: #1D190D;
+}
+
+.nisl-selectdropdown-options-none {
+    font-style: italic;
+}
+
+.nisl-selectdropdown-options > .selected {
+    background-color: #333333FF;
+}
+
+/** Alternating color-list */
+
+.nisl-alternating > *:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nisl-alternating > *:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.nisl-textlink {
+    cursor: pointer;
+    color: #0d65e7;
+}
+
+/* Context menu */
+
+.nisl-context-menu {
+    border: 1px solid white;
+    outline: 1px solid rgb(35, 35, 35);
+    background: rgb(10, 29, 38);
+    color: rgb(198, 184, 139);
+    text-shadow: 1px 1px black;
+}
+
+.nisl-context-menu-header {
+    background: black;
+}
+
+.nisl-context-menu-entry {
+    cursor: pointer;
+}
+
+.nisl-context-menu-entry:hover {
+    background: rgb(40, 89, 112);
+}
+
+.nisl-context-menu > * {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+/*Game Map*/
+
+.gamemap-ui-container > * {
+    z-index: 10000;
+    position: absolute;
+}
+
+/* UI TOP*/
+.gamemap-ui-layer-tl {
+    left: 0;
+    top: 0;
+}
+
+.gamemap-ui-layer-tc {
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0%);
+}
+
+.gamemap-ui-layer-tr {
+    right: 0;
+    top: 0;
+}
+
+/* UI BOTTOM*/
+.gamemap-ui-layer-bl {
+    left: 0;
+    bottom: 0;
+}
+
+.gamemap-ui-layer-bc {
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 0%);
+}
+
+.gamemap-ui-layer-br {
+    right: 0;
+    bottom: 0;
+}
+
+/* UI LEFT*/
+.gamemap-ui-layer-lt {
+    left: 0;
+    top: 0;
+}
+
+.gamemap-ui-layer-lc {
+    left: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.gamemap-ui-layer-lb {
+    left: 0;
+    bottom: 0;
+}
+
+/* UI RIGHT*/
+.gamemap-ui-layer-rt {
+    right: 0;
+    top: 0;
+}
+
+.gamemap-ui-layer-rc {
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.gamemap-ui-layer-rb {
+    right: 0;
+    bottom: 0;
+}
+
+/* Gapless config */
+.gamemap-ui-layer-tl > .gamemap-ui-control-gapless {
+    border-bottom-right-radius: 8px;
+    border-top: 0;
+    border-left: 0;
+}
+
+.gamemap-ui-layer-tc > .gamemap-ui-control-gapless {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top: 0;
+}
+
+.gamemap-ui-layer-tr > .gamemap-ui-control-gapless {
+    border-bottom-left-radius: 8px;
+    border-top: 0;
+    border-right: 0;
+}
+
+.gamemap-ui-layer-bl > .gamemap-ui-control-gapless {
+    border-top-right-radius: 8px;
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.gamemap-ui-layer-bc > .gamemap-ui-control-gapless {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom: 0;
+}
+
+.gamemap-ui-layer-br > .gamemap-ui-control-gapless {
+    border-top-left-radius: 8px;
+    border-bottom: 0;
+    border-right: 0;
+}
+
+.gamemap-ui-layer-lt > .gamemap-ui-control-gapless {
+    border-left: 0;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.gamemap-ui-layer-lc > .gamemap-ui-control-gapless {
+    border-left: 0;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.gamemap-ui-layer-lb > .gamemap-ui-control-gapless {
+    border-left: 0;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.gamemap-ui-layer-rt > .gamemap-ui-control-gapless {
+    border-right: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.gamemap-ui-layer-rc > .gamemap-ui-control-gapless {
+    border-right: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.gamemap-ui-layer-rb > .gamemap-ui-control-gapless {
+    border-right: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.gamemap-ui-control-floating {
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.gamemap-ui-control-default-styling {
+    background-color: rgb(10, 31, 41);
+    border: 1px solid rgb(5, 56, 66);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
+    color: var(--nis-col-std);
+    font-size: 10pt;
+}
+
+
+/* Interaction top control */
+
+.ctr-interaction-control {
+    padding: 5px;
+}
+
+.ctr-interaction-control-header {
+    font-weight: bold;
+    font-size: 1.1em;
+    border-bottom: 1px solid rgb(5, 56, 66);
+    display: flex;
+}
+
+.ctr-interaction-control-header-close {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1.3em;
+}
+
+/* Shortcut Edit */
+.ctr-shortcut-edit-panel-results {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.ctr-shortcut-edit-panel-results > *:not(:first-child) {
+    margin-top: 5px
+}
+
+.ctr-shortcut-edit {
+    background-color: #FFFFFF20;
+    border-radius: 5px;
+}
+
+.ctr-shortcut-edit-header {
+    cursor: pointer;
+    display: flex;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.ctr-shortcut-edit-header > *:not(:first-child) {
+    margin-left: 3px;
 }

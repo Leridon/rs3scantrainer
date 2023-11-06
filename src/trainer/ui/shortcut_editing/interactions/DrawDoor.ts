@@ -7,6 +7,7 @@ import {boxPolygon} from "../../polygon_helpers";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import ContextMenu from "../../widgets/ContextMenu";
 import {ShortcutViewLayer} from "../ShortcutView";
+import {observe} from "../../../../lib/reactive";
 
 export class DrawDoor extends InteractionLayer {
 
@@ -32,7 +33,7 @@ export class DrawDoor extends InteractionLayer {
                             fillColor: "red"
                         })
                 } else {
-                    return new ShortcutViewLayer.ShortcutPolygon().setValue(options[0])
+                    return new ShortcutViewLayer.ShortcutPolygon(observe(options[0]))
                 }
             }
         })

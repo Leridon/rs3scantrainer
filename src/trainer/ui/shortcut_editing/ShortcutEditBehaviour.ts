@@ -8,8 +8,6 @@ import {Rectangle} from "lib/math"
 import {ActionBar} from "../map/ActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {storage} from "lib/util/storage";
-import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
-import {Observable, observe} from "lib/properties/Observable";
 import ShortcutEditSidePanel from "./ShortcutEditSidePanel";
 import shortcuts from "../../../data/shortcuts";
 import {DrawDoor} from "./interactions/DrawDoor";
@@ -17,13 +15,15 @@ import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
 import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";
 import {ShortcutViewLayer} from "./ShortcutView";
 import {PlaceShortcut} from "./interactions/PlaceShortcut";
+import {ObservableArray, observeArray} from "../../../lib/reactive";
+import {tap} from "lodash";
 
 class ShortcutEditGameLayer extends GameLayer {
     interActionGuard: InteractionGuard = new InteractionGuard().setDefaultLayer(this)
 
     view: ShortcutViewLayer = null
 
-    constructor(public data: ObservableShortcutCollectionBuilder) {
+    constructor(public data: ObservableArray<Shortcuts.new_shortcut & { is_builtin: boolean }>) {
         super();
 
         let action_bar_control = new GameMapControl({
@@ -33,46 +33,42 @@ class ShortcutEditGameLayer extends GameLayer {
 
         action_bar_control.content.append(new ShortcutEditActionBar(this))
 
-        this.view = new ShortcutViewLayer().addTo(this)
-
-        data.value.subscribe((value) => {
-            this.view.setValue(value.map(s => s.get()))
-        }, true)
+        this.view = new ShortcutViewLayer(data).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPost(() => {
-            this.data.value.get().filter(s => {
-                if (s.is_builtin) return false
+            this.data.value().filter(s => {
+                if (s.value().is_builtin) return false
 
-                return Rectangle.contains(Shortcuts.new_shortcut.bounds(s.get()), event.coordinates)
+                return Rectangle.contains(Shortcuts.new_shortcut.bounds(s.value()), event.coordinates)
             }).forEach(s => {
                 event.add({
                     type: "basic",
-                    text: `Delete ${s.get().name}`,
-                    handler: () => s.delete()
+                    text: `Delete ${s.value().name}`,
+                    handler: () => s.remove()
                 })
                 event.add({
                     type: "basic",
-                    text: `Copy ${s.get().name}`,
+                    text: `Copy ${s.value().name}`,
                     handler: () => {
-                        this.interActionGuard.set(new PlaceShortcut(s.get(), event.tile())
+                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile())
                             .onCommit(n => {
-                                this.data.add(n)
+                                this.data.add(Object.assign(n, {is_builtin: false}))
                             })
                         )
                     }
                 })
                 event.add({
                     type: "basic",
-                    text: `Move ${s.get().name}`,
+                    text: `Move ${s.value().name}`,
                     handler: () => {
-                        this.interActionGuard.set(new PlaceShortcut(s.get(), event.tile())
+                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile())
                             .onCommit(n => {
-                                s.set(n)
+                                s.set(Object.assign(n, {is_builtin: false}))
                             })
-                            .onStart(() => this.view.getView(s.get()).setOpacity(0))
-                            .onEnd(() => this.view.getView(s.get())?.setOpacity(1))
+                            .onStart(() => this.view.getView(s).setOpacity(0))
+                            .onEnd(() => this.view.getView(s)?.setOpacity(1))
                         )
                     }
                 })
@@ -97,115 +93,48 @@ class ShortcutEditActionBar extends ActionBar {
         super([
             new ActionBar.ActionBarButton("assets/icons/cursor_open.png", 0, () => {
                 return this.layer.interActionGuard.set(new DrawDoor({
-                    done_handler: (step) => layer.data.add(step)
+                    done_handler: (step) => layer.data.add(Object.assign(step, {is_builtin: false}))
                 }))
             }),
             new ActionBar.ActionBarButton("assets/icons/cursor_generic.png", 0, () => {
                 return this.layer.interActionGuard.set(new DrawGeneralEntity({
-                    done_handler: (step) => layer.data.add(step)
+                    done_handler: (step) => layer.data.add(Object.assign(step, {is_builtin: false}))
                 }))
             }),
         ]);
     }
 }
 
-export class ObservableShortcutCollectionBuilder extends TypedEmitter<{
-    "added": Shortcuts.new_shortcut
-}> {
-    value: Observable<ObservableShortcutCollectionBuilder.WrappedValue[]> = observe([])
-
-    private storage = new storage.Variable<Shortcuts.new_shortcut[]>("local_shortcuts", [])
-
-    constructor() {
-        super()
-
-        this.value.subscribe(() => this.save())
-    }
-
-    editBuiltins(): this {
-        this.storage.set(shortcuts)
-        return this.reload(false)
-    }
-
-    reload(include_builtins: boolean): this {
-        let builtins = include_builtins
-            ? shortcuts.map(s => new ObservableShortcutCollectionBuilder.WrappedValue(this, s, true))
-            : []
-
-        let custom = this.storage.get().map(s => new ObservableShortcutCollectionBuilder.WrappedValue(this, s, false))
-
-        this.value.set(builtins.concat(custom))
-
-        return this
-    }
-
-    save(): this {
-        this.storage.set(this.value.get().filter(s => !s.is_builtin).map(s => s.get()))
-
-        return this
-    }
-
-    add(...shortcuts: Shortcuts.new_shortcut[]) {
-        this.value.update((val) => {
-            val.push(...shortcuts.map(s => new ObservableShortcutCollectionBuilder.WrappedValue(this, s, false)))
-        })
-
-        shortcuts.forEach(s => this.emit("added", s))
-    }
-
-    delete(shortcut: Shortcuts.new_shortcut) {
-        this.value.update(val => {
-            let i = val.findIndex(s => s.get() == shortcut)
-
-            if (i >= 0) val.splice(i, 1)
-        })
-    }
-}
-
-export namespace ObservableShortcutCollectionBuilder {
-    export class WrappedValue extends Observable<Shortcuts.new_shortcut> {
-        constructor(private parent: ObservableShortcutCollectionBuilder,
-                    value: Shortcuts.new_shortcut,
-                    public is_builtin: boolean) {
-            super(value, {})
-        }
-
-        update(f: (_: Shortcuts.new_shortcut) => void): void {
-            if (!this.is_builtin) {
-                super.update(f)
-
-                this.parent.save()
-            }
-        }
-
-        delete() {
-            if (!this.is_builtin) {
-                this.parent.delete(this.get())
-            }
-        }
-    }
-}
-
 export default class ShortcutEditBehaviour extends Behaviour {
     layer: ShortcutEditGameLayer
 
-    value = new ObservableShortcutCollectionBuilder().reload(true)
+    private storage = new storage.Variable<Shortcuts.new_shortcut[]>("local_shortcuts", [])
+    private data: ObservableArray<Shortcuts.new_shortcut & { is_builtin: boolean }>
 
     constructor(public app: Application) {
         super();
+
+        this.data = observeArray([].concat(
+            shortcuts.map(s => Object.assign(s, {is_builtin: true})),
+            this.storage.get().map(s => Object.assign(s, {is_builtin: false}))
+        ))
+
+        this.data.changed.on(({value}) => this.storage.set(value.map(v => v.value())))
     }
 
     protected begin() {
-        this.layer = new ShortcutEditGameLayer(this.value)
+        this.layer = new ShortcutEditGameLayer(this.data)
 
         this.app.sidepanels.empty()
 
-        this.app.sidepanels.add(new ShortcutEditSidePanel(this.value, this.layer.view, this.layer.interActionGuard)
-            .on("centered", (s) => {
-                this.layer.getMap().fitView(Shortcuts.new_shortcut.bounds(s), {
-                    maxZoom: 5
-                })
-            }), 0)
+        this.app.sidepanels.add(tap(
+                new ShortcutEditSidePanel(this.data, this.layer.view, this.layer.interActionGuard),
+                e => e.centered.on((s => {
+                    this.layer.getMap().fitView(Shortcuts.new_shortcut.bounds(s), {
+                        maxZoom: 5
+                    })
+                })))
+            , 0)
 
         this.app.map.map.addGameLayer(this.layer)
     }

@@ -1,5 +1,7 @@
 import {Ewent} from "./Ewent";
 import {EwentHandler} from "./EwentHandler";
+import {ObservableArray} from "./ObservableArray";
+import {Observable} from "./Observable";
 
 export * from "./Ewent";
 export * from "./EwentHandler"
@@ -20,4 +22,13 @@ export namespace Reactive {
     }
 
     export type EventMapKey<T extends CombinedEventMap<Record<string, any>>> = T extends CombinedEventMap<infer Q> ? keyof Q : never
+}
+
+
+export function observe<T>(v: T): Observable.Simple<T> {
+    return new Observable.Simple(v)
+}
+
+export function observeArray<T>(v: T[]): ObservableArray<T> {
+    return new ObservableArray<T>().setTo(v)
 }

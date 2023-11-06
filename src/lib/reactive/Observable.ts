@@ -2,7 +2,7 @@ import {ObservableArray} from "./ObservableArray";
 import {Ewent} from "./Ewent";
 
 export interface Observable<T> {
-    changed: Ewent<{ new: T, old: T }>
+    changed: Ewent<{ new: T, old?: T }>
 
     value(): T
 
@@ -19,7 +19,7 @@ export namespace Observable {
         protected _value: T = null
         private equality_f: (a: T, b: T) => boolean = (a, b) => a == b
 
-        changed = new Ewent<{ new: T; old: T }>()
+        changed = new Ewent<{ new: T; old?: T }>()
 
         protected trigger_changed(old_value: T): Promise<any> {
             return this.changed.trigger({new: this._value, old: old_value})
@@ -75,14 +75,6 @@ export namespace Observable {
 
             this._value = v
         }
-    }
-
-    export function observe<T>(v: T): Simple<T> {
-        return new Simple(v)
-    }
-
-    export function observeArray<T>(v: T[]): ObservableArray<T> {
-        // TODO: Implement
     }
 }
 

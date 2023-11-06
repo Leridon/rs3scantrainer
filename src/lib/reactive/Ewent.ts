@@ -12,15 +12,24 @@ export class Ewent<T> {
         }
     }
 
-    public on(handler: (_: T) => any | Promise<any>): EwentHandler<T> {
+    /**
+     * Subscribes a listener to this event.
+     * @return An event handler instance that can be cancelled
+     * @param listener The handler function
+     */
+    public on(listener: (_: T) => any | Promise<any>): EwentHandler<T> {
         this.clean_pass()
 
-        let h = new EwentHandler(handler)
+        let h = new EwentHandler(listener)
         this.handlers.push(h)
 
         return h
     }
 
+    /**
+     * Triggers this event.
+     * @param v
+     */
     public trigger(v: T): Promise<void[]> {
         this.clean_pass()
 

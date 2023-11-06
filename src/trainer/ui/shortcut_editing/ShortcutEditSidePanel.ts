@@ -25,6 +25,7 @@ import {util} from "../../../lib/util/util";
 import {ewent, ObservableArray} from "../../../lib/reactive";
 import shortcuts from "../../../data/shortcuts";
 import * as assert from "assert";
+import Checkbox from "../../../lib/ui/controls/Checkbox";
 
 class ShortcutEdit extends Widget {
     centered = ewent<Shortcuts.shortcut>()
@@ -258,6 +259,8 @@ class ShortcutEdit extends Widget {
         }
 
         this.body = props.appendTo(this)
+
+        this.body.css("display", "none")
     }
 }
 
@@ -289,6 +292,13 @@ export default class ShortcutEditSidePanel extends SidePanel {
                     ExportStringModal.do(JSON.stringify(data.value().filter(s => !s.value().is_builtin).map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
                 })
             )
+            .appendTo(this.search_container)
+
+        c("<div style='display: flex'></div>").append(new TextField().css("flex-grow", "1").setPlaceholder("Search Shortcuts...")).appendTo(this.search_container)
+
+        c("<div style='display: flex'>")
+            .append(new Checkbox().setValue(true))
+            .append(c("<div style='margin-left: 5px;'></div>").text("Only show current viewport"))
             .appendTo(this.search_container)
 
         this.result_container = c().addClass("ctr-shortcut-edit-panel-results").appendTo(this)

@@ -1,6 +1,7 @@
 Immediate next:
 - Shortcut editor:
     - Start collapsed
+    - Shift+Click to place a copy and continue interaction
     - Render movement on hover
     - Filter by current view
     - Search box (Overriding view filter or on top of it?? Toggle probably)
@@ -28,7 +29,6 @@ Immediate next:
 - [Bug] Template resolver hangs for some inputs
 - Cancel for Draw Area
 - Autosort for path edit
-- Custom context menu on the map
 - [Bug] Mousewheel scrolling in the path editor
 - Hover to highlight path
 

@@ -15,6 +15,8 @@ export class ShortcutViewLayer extends GameLayer {
     constructor(public data: ObservableArray<Shortcuts.shortcut>) {
         super();
 
+
+        // TODO: Reuse existing polygons and only create new ones for actually new elements
         data.array_changed.filtered(s => s.set).on(() => this.render())
 
         this.render()

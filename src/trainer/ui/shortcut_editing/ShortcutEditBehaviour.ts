@@ -52,10 +52,8 @@ class ShortcutEditGameLayer extends GameLayer {
                     type: "basic",
                     text: `Copy ${s.value().name}`,
                     handler: () => {
-                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile())
-                            .onCommit(n => {
-                                this.data.add(Object.assign(n, {is_builtin: false}))
-                            })
+                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile(), n => this.data.add(Object.assign(n, {is_builtin: false})))
+                            .onCommit(n => this.data.add(Object.assign(n, {is_builtin: false})))
                         )
                     }
                 })
@@ -63,10 +61,8 @@ class ShortcutEditGameLayer extends GameLayer {
                     type: "basic",
                     text: `Move ${s.value().name}`,
                     handler: () => {
-                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile())
-                            .onCommit(n => {
-                                s.set(Object.assign(n, {is_builtin: false}))
-                            })
+                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile(), n => this.data.add(Object.assign(n, {is_builtin: false})))
+                            .onCommit(n => s.set(Object.assign(n, {is_builtin: false})))
                             .onStart(() => this.view.getView(s).setOpacity(0))
                             .onEnd(() => this.view.getView(s)?.setOpacity(1))
                         )

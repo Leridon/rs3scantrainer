@@ -86,4 +86,6 @@ export namespace ObservableArray {
             this.parent?.remove(this)
         }
     }
+
+    //TODO: Filtered view
 }

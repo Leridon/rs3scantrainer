@@ -9,6 +9,7 @@ import {GameMapKeyboardEvent, GameMapMouseEvent} from "../../../../lib/gamemap/M
 import {ShortcutViewLayer} from "../ShortcutView";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {observe} from "../../../../lib/reactive";
+import {LodashHas} from "lodash/fp";
 
 export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
 
@@ -16,7 +17,8 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
     private final_translation_transform: TileTransform
 
     constructor(private original: Shortcuts.shortcut,
-                private origin: TileCoordinates
+                private origin: TileCoordinates,
+                private copy_handler: (copy: Shortcuts.shortcut) => void = null
     ) {
         super({
             preview_render: (s) => new ShortcutViewLayer.ShortcutPolygon(observe(s))
@@ -32,6 +34,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
                 c("<div style='font-family: monospace; white-space:pre'></div>")
                     .append(c().text(`[R] - Rotate clockwise  | [Shift + R] - Rotate counterclockwise`))
                     .append(c().text(`[F] - Flip Horizontally | [Shift + F] - Flip vertically`))
+                    .append(c().text(`[Click] - Place         ` + (this.copy_handler ? "| [Shift + Click] - Place copy" : "")))
             )
         )
     }
@@ -74,12 +77,23 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
         event.onPre(() => {
             event.stopAllPropagation()
 
-            this.commit(PlaceShortcut.transform(this.original,
-                TileTransform.chain(
-                    TileTransform.translation(event.tile(), event.tile().level),
-                    this.transform
-                )
-            ))
+            this.final_translation_transform = TileTransform.translation(event.tile(), event.tile().level)
+
+            if(event.original.shiftKey){
+                this.copy_handler(PlaceShortcut.transform(this.original,
+                    TileTransform.chain(
+                        this.final_translation_transform,
+                        this.transform
+                    )
+                ))
+            } else {
+                this.commit(PlaceShortcut.transform(this.original,
+                    TileTransform.chain(
+                        TileTransform.translation(event.tile(), event.tile().level),
+                        this.transform
+                    )
+                ))
+            }
         })
     }
 }

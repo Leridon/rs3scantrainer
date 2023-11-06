@@ -1,10 +1,14 @@
 import {TypedEmitter} from "skillbertssolver/eventemitter";
 import Property from "./Property";
+import {Reactive} from "../reactive";
+import Ewent = Reactive.Ewent;
 
 export class Observable<T> extends TypedEmitter<{
     changed: { new: T, old: T }
 }> implements Property<T> {
     private value: T
+
+    changed_e = new Ewent<{new: T, old: T}>()
 
     constructor(initial: T,
                 private options: {
@@ -50,7 +54,7 @@ export class Observable<T> extends TypedEmitter<{
         this.changed(this.value)
     }
 
-    private changed(old_value: T): this {
+    protected changed(old_value: T): this {
         this.emit("changed", {new: this.value, old: old_value})
         return this
     }

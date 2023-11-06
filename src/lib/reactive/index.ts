@@ -1,4 +1,4 @@
-import {Ewent} from "./Ewent";
+import {ewent, Ewent} from "./Ewent";
 import {EwentHandler} from "./EwentHandler";
 import {ObservableArray} from "./ObservableArray";
 import {Observable} from "./Observable";
@@ -13,7 +13,7 @@ export namespace Reactive {
         private events: { [key in keyof T]?: Ewent<T[key]> } = {};
 
         get<K extends keyof T>(k: K): Ewent<T[K]> {
-            return this.events[k] ?? (this.events[k] = new Ewent<T[K]>());
+            return this.events[k] ?? (this.events[k] = ewent<T[K]>());
         }
 
         on<K extends keyof T>(event: K, listener: (v: T[K]) => void): EwentHandler<T[K]> {

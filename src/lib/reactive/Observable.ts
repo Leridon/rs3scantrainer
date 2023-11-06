@@ -1,8 +1,7 @@
-import {ObservableArray} from "./ObservableArray";
-import {Ewent} from "./Ewent";
+import {ewent, Ewent} from "./Ewent";
 
 export interface Observable<T> {
-    changed: Ewent<{ new: T, old?: T }>
+    changed: Ewent<{ value: T, old?: T }>
 
     value(): T
 
@@ -19,10 +18,10 @@ export namespace Observable {
         protected _value: T = null
         private equality_f: (a: T, b: T) => boolean = (a, b) => a == b
 
-        changed = new Ewent<{ new: T; old?: T }>()
+        changed = ewent<{ value: T; old?: T }>()
 
         protected trigger_changed(old_value: T): Promise<any> {
-            return this.changed.trigger({new: this._value, old: old_value})
+            return this.changed.trigger({value: this._value, old: old_value})
         }
 
         protected _set(v: T) {
@@ -45,7 +44,7 @@ export namespace Observable {
         }
 
         subscribe(handler: (new_value: T, old: T) => any, trigger_once: boolean = false): this {
-            this.changed.on((o) => handler(o.new, o.old))
+            this.changed.on((o) => handler(o.value, o.old))
 
             if (trigger_once) handler(this._value, undefined)
 

@@ -2,7 +2,6 @@ import {SidePanel} from "../SidePanelControl";
 import Widget from "lib/ui/Widget";
 import {Shortcuts} from "lib/runescape/shortcuts";
 import SmallImageButton from "../widgets/SmallImageButton";
-import {ObservableShortcutCollectionBuilder} from "./ShortcutEditBehaviour";
 import Properties from "../widgets/Properties";
 import TextField from "lib/ui/controls/TextField";
 import LightButton from "../widgets/LightButton";
@@ -23,15 +22,17 @@ import {DrawOffset} from "./interactions/DrawOffset";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {util} from "../../../lib/util/util";
+import {ewent, ObservableArray} from "../../../lib/reactive";
+import shortcuts from "../../../data/shortcuts";
+import * as assert from "assert";
 
-class ShortcutEdit extends Widget<{
-    "changed": Shortcuts.new_shortcut,
-    "centered": Shortcuts.new_shortcut
-}> {
+class ShortcutEdit extends Widget {
+    centered = ewent<Shortcuts.new_shortcut>()
+
     private header: Widget
     private body: Widget
 
-    constructor(private value: ObservableShortcutCollectionBuilder.WrappedValue,
+    constructor(private value: ObservableArray.ObservableArrayValue<Shortcuts.new_shortcut & { is_builtin: boolean }>,
                 private associated_preview: ShortcutViewLayer.ShortcutPolygon,
                 private interaction_guard: InteractionGuard) {
         super();
@@ -47,30 +48,22 @@ class ShortcutEdit extends Widget<{
         this.associated_preview?.render()
 
         this.header = c("<div class='ctr-shortcut-edit-header'></div>")
-            .append(c().text(this.value.get().name))
+            .append(c().text(this.value.value().name))
             .append(c("<div style='flex-grow: 1'></div>"))
             .append(SmallImageButton.new("assets/icons/fullscreen.png")
-                .on("click", () => {
-                    this.emit("centered", this.value.get())
-                }))
+                .on("click", () => this.centered.trigger(this.value.value())))
             .append(SmallImageButton.new("assets/icons/delete.png")
-                .on("click", () => {
-                    this.value.delete()
-                })
-                .setEnabled(!this.value.is_builtin))
+                .on("click", () => this.value.remove())
+                .setEnabled(!this.value.value().is_builtin))
             .appendTo(this)
-            .tapRaw(r => {
-                r.on("click", () => {
-                    this.body.container.animate({"height": "toggle"})
-                })
-            })
+            .tapRaw(r => r.on("click", () => this.body.container.animate({"height": "toggle"})))
 
         let props = new Properties()
 
-        let v = this.value.get()
+        let v = this.value.value()
 
         props.named("Name", new TextField()
-            .setValue(this.value.get().name)
+            .setValue(v.name)
             .on("changed", v => {
                 this.value.update(o => o.name = v)
                 this.render()
@@ -89,14 +82,19 @@ class ShortcutEdit extends Widget<{
                                 this.interaction_guard.set(
                                     new GameMapDragAction({
                                         preview_render: (area) => {
-                                            return ShortcutViewLayer.render_clickable(Rectangle.extend(area, 0.5), (v as Shortcuts.new_shortcut_entity).actions[0]?.cursor || "generic")
+                                            assert(v.type == "entity")
+
+                                            return ShortcutViewLayer.render_clickable(Rectangle.extend(area, 0.5), v.actions[0]?.cursor || "generic")
                                         }
                                     }).onStart(() => {
-                                        this.associated_preview?.updateConfig(c => c.draw_clickable = false)
+                                        this.associated_preview?.config?.update(c => c.draw_clickable = false)
                                     }).onEnd(() => {
-                                        this.associated_preview?.updateConfig(c => c.draw_clickable = true)
+                                        this.associated_preview?.config?.update(c => c.draw_clickable = true)
                                     }).onCommit(a => {
-                                        this.value.update(v => (v as Shortcuts.new_shortcut_entity).clickable_area = TileRectangle.extend(a, 0.5))
+                                        this.value.update(v => {
+                                            assert(v.type == "entity")
+                                            v.clickable_area = TileRectangle.extend(a, 0.5)
+                                        })
                                         this.render()
                                     }).attachTopControl(new InteractionTopControl().setName("Selecting clickable area").setText("Click and drag a rectangle around the area that is clickable for this entity."))
                                 )
@@ -109,7 +107,10 @@ class ShortcutEdit extends Widget<{
                         .append(c(`<div class='nisl-property-header' style="flex-grow: 1">${action.name}</div>`))
                         .append(SmallImageButton.new("assets/icons/delete.png")
                             .on("click", () => {
-                                this.value.update((v: Shortcuts.new_shortcut_entity) => v.actions.splice(v.actions.indexOf(action), 1))
+                                this.value.update(v => {
+                                    assert(v.type == "entity")
+                                    v.actions.splice(v.actions.indexOf(action), 1)
+                                })
                                 this.render()
                             })))
 
@@ -141,9 +142,9 @@ class ShortcutEdit extends Widget<{
                                         new GameMapDragAction({
                                             preview_render: (area) => ShortcutViewLayer.render_interactive_area(area)
                                         }).onStart(() => {
-                                            this.associated_preview?.updateConfig(c => c.hidden_actions.push(action))
+                                            this.associated_preview?.config?.update(c => c.hidden_actions.push(action))
                                         }).onEnd(() => {
-                                            this.associated_preview?.updateConfig(c => c.hidden_actions = c.hidden_actions.filter(x => x != action))
+                                            this.associated_preview?.config?.update(c => c.hidden_actions = c.hidden_actions.filter(x => x != action))
                                         }).onCommit(a => {
                                             this.value.update(() => action.interactive_area = a)
                                             this.render()
@@ -239,14 +240,18 @@ class ShortcutEdit extends Widget<{
 
             props.row(new LightButton("+ Add Action")
                 .on("click", () => {
-                    this.value.update((v: Shortcuts.new_shortcut_entity) => v.actions.push({
-                            cursor: v.actions[0]?.cursor || "generic",
-                            interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
-                            movement: {type: "offset", offset: {x: 0, y: 0}, level_offset: v.clickable_area.level},
-                            name: v.actions[0]?.name || "Use",
-                            time: v.actions[0]?.time || 3
-                        }
-                    ))
+                    this.value.update(v => {
+                        assert(v.type == "entity")
+
+                        v.actions.push({
+                                cursor: v.actions[0]?.cursor || "generic",
+                                interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
+                                movement: {type: "offset", offset: {x: 0, y: 0}, level_offset: v.clickable_area.level},
+                                name: v.actions[0]?.name || "Use",
+                                time: v.actions[0]?.time || 3
+                            }
+                        )
+                    })
                     this.render()
                 })
             )
@@ -256,13 +261,13 @@ class ShortcutEdit extends Widget<{
     }
 }
 
-export default class ShortcutEditSidePanel extends SidePanel<{
-    "centered": Shortcuts.new_shortcut
-}> {
+export default class ShortcutEditSidePanel extends SidePanel {
     search_container: Widget
     result_container: Widget
 
-    constructor(private data: ObservableShortcutCollectionBuilder,
+    centered = ewent<Shortcuts.new_shortcut>()
+
+    constructor(private data: ObservableArray<Shortcuts.new_shortcut & { is_builtin: boolean }>,
                 private view_layer: ShortcutViewLayer,
                 private interaction_guard: InteractionGuard) {
         super();
@@ -272,34 +277,36 @@ export default class ShortcutEditSidePanel extends SidePanel<{
         c("<div style='text-align: center'></div>")
             .append(new LightButton("Edit Builtins")
                 .on("click", () => {
-                    this.data.editBuiltins()
+                    this.data.setTo(shortcuts.map(s => Object.assign(s, {is_builtin: false})))
                 }))
             .append(new LightButton("Export All")
                 .on("click", () => {
-                    ExportStringModal.do(JSON.stringify(data.value.get().map(v => v.get()), null, 2))
+                    ExportStringModal.do(JSON.stringify(data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
                 })
             )
             .append(new LightButton("Export Local")
                 .on("click", () => {
-                    ExportStringModal.do(JSON.stringify(data.value.get().filter(s => !s.is_builtin).map(v => v.get()), null, 2))
+                    ExportStringModal.do(JSON.stringify(data.value().filter(s => !s.value().is_builtin).map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
                 })
             )
             .appendTo(this.search_container)
 
         this.result_container = c().addClass("ctr-shortcut-edit-panel-results").appendTo(this)
 
-        data.value.subscribe((value) => {
-            this.renderResults(value)
-        }, true)
+        data.array_changed.on(({data}) => {
+            this.renderResults(data)
+        })
+
+        this.renderResults(this.data.value())
     }
 
-    renderResults(value: ObservableShortcutCollectionBuilder.WrappedValue[]) {
+    renderResults(value: ObservableArray.ObservableArrayValue<Shortcuts.new_shortcut & { is_builtin: boolean }>[]) {
         this.result_container.empty()
 
         value.forEach(s => {
-            new ShortcutEdit(s, this.view_layer.getView(s.get()), this.interaction_guard).appendTo(this.result_container).on("centered", (v) => {
-                this.emit("centered", v)
-            })
+            let edit = new ShortcutEdit(s, this.view_layer.getView(s), this.interaction_guard).appendTo(this.result_container)
+
+            edit.centered.on((v) => this.centered.trigger(v))
         })
     }
 }

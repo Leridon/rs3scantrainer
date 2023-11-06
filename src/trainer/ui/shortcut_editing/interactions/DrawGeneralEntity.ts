@@ -4,6 +4,7 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {Shortcuts} from "lib/runescape/shortcuts";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {ShortcutViewLayer} from "../ShortcutView";
+import {observe} from "../../../../lib/reactive";
 
 export class DrawGeneralEntity extends InteractionLayer {
     constructor(public config: {
@@ -18,7 +19,7 @@ export class DrawGeneralEntity extends InteractionLayer {
             .addTo(this)
 
         new GameMapDragAction({
-            preview_render: (area) => new ShortcutViewLayer.ShortcutPolygon().setValue(DrawGeneralEntity.transform(area))
+            preview_render: (area) => new ShortcutViewLayer.ShortcutPolygon(observe(DrawGeneralEntity.transform(area)))
         })
             .onCommit((area) => {
                 this.config.done_handler(DrawGeneralEntity.transform(area))

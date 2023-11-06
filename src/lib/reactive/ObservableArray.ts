@@ -1,18 +1,20 @@
 import {Observable} from "./Observable";
-import {Ewent} from "./Ewent";
+import {ewent} from "./Ewent";
 
 /**
  * The observed value is considered to change when any of its elements change.
  * In addition, there are several events that allow a more detailed view on changes
  */
 export class ObservableArray<T> extends Observable.AbstractObservable<ObservableArray.ObservableArrayValue<T>[]> {
-    element_added = new Ewent<ObservableArray.ObservableArrayValue<T>>()
-    element_removed = new Ewent<ObservableArray.ObservableArrayValue<T>>()
-    element_changed = new Ewent<ObservableArray.ObservableArrayValue<T>>()
-    array_changed = new Ewent<{ order: boolean, set: boolean, data: ObservableArray.ObservableArrayValue<T>[] }>
+    element_added = ewent<ObservableArray.ObservableArrayValue<T>>()
+    element_removed = ewent<ObservableArray.ObservableArrayValue<T>>()
+    element_changed = ewent<ObservableArray.ObservableArrayValue<T>>()
+    array_changed = ewent<{ order: boolean, set: boolean, data: ObservableArray.ObservableArrayValue<T>[] }>()
 
     constructor() {
         super();
+
+        this._value = []
     }
 
     override update(f: (v: ObservableArray.ObservableArrayValue<T>[]) => void) {
@@ -29,7 +31,7 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
         this._value.push(e)
 
         this.element_added.trigger(e)
-        this.changed.trigger({new: this._value})
+        this.changed.trigger({value: this._value})
         this.array_changed.trigger({order: true, set: true, data: this._value})
 
         return e
@@ -42,7 +44,7 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
             let [e] = this._value.splice(i, 1)
 
             this.element_removed.trigger(e)
-            this.changed.trigger({new: this._value})
+            this.changed.trigger({value: this._value})
             this.array_changed.trigger({order: true, set: true, data: this._value})
             e.removed.trigger(e)
         }
@@ -56,7 +58,7 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
         this._value = data.map((e, i) => new ObservableArray.ObservableArrayValue<T>(this, e, i))
 
         this._value.forEach(e => this.element_added.trigger(e))
-        this.changed.trigger({new: this._value})
+        this.changed.trigger({value: this._value})
 
         this.array_changed.trigger({order: true, set: true, data: this._value})
 
@@ -66,7 +68,7 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
 
 export namespace ObservableArray {
     export class ObservableArrayValue<T> extends Observable.Simple<T> {
-        removed = new Ewent<ObservableArrayValue<T>>()
+        removed = ewent<ObservableArrayValue<T>>()
 
         constructor(private parent: ObservableArray<T>,
                     value: T,
@@ -76,7 +78,7 @@ export namespace ObservableArray {
 
             this.changed.on(() => {
                 this.parent.element_changed.trigger(this)
-                this.parent.changed.trigger({new: this.parent.value()})
+                this.parent.changed.trigger({value: this.parent.value()})
             })
         }
 

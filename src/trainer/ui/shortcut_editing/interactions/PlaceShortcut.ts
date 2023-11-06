@@ -8,6 +8,7 @@ import {floor_t} from "lib/runescape/coordinates";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {ShortcutViewLayer} from "../ShortcutView";
 import InteractionTopControl from "../../map/InteractionTopControl";
+import {observe} from "../../../../lib/reactive";
 
 export class PlaceShortcut extends ValueInteraction<Shortcuts.new_shortcut> {
 
@@ -18,9 +19,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.new_shortcut> {
                 private origin: TileCoordinates
     ) {
         super({
-            preview_render: (s) => {
-                return new ShortcutViewLayer.ShortcutPolygon().setValue(s)
-            }
+            preview_render: (s) => new ShortcutViewLayer.ShortcutPolygon(observe(s))
         });
 
         this.transform = TileTransform.translation(Vector2.neg(this.origin), -this.origin.level)

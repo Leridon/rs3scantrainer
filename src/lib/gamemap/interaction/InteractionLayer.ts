@@ -55,7 +55,6 @@ export default class InteractionLayer extends GameLayer {
 
         this.events.emit("started", this)
 
-        console.log("Starting and focussing")
         this.getMap().container.focus()
 
         return this

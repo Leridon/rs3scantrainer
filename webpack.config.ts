@@ -1,5 +1,6 @@
 import alt1chain from "@alt1/webpack";
 import * as path from "path";
+import { ProvidePlugin } from "webpack";
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
@@ -23,7 +24,7 @@ config.output(outdir);
 
 let c = config.toConfig()
 
-function mode() : "prod" | "dev" {return "dev"}
+function mode(): "prod" | "dev" {return "dev"}
 
 c.plugins = [
     new CopyWebpackPlugin({
@@ -31,6 +32,10 @@ c.plugins = [
             from: path.resolve(__dirname, "./static")
         }]
     }),
+    new ProvidePlugin({
+        process: 'process/browser',
+        Buffer: ['buffer', 'Buffer']
+    })
     /*
     new CircularDependencyPlugin({
         exclude: /a\.js|node_modules/,
@@ -48,7 +53,7 @@ c.plugins = [
 
 c.resolve.fallback = {
     "timers": false,
-    "assert": false,
+    "assert": require.resolve("assert"),
     "stream": false,
     "crypto": false,
     "util": false,
@@ -62,7 +67,7 @@ c.resolve.fallback = {
     "fs": false,
     "path": false,
     "child_process": false,
-    "os": false,
+    "os": false
 }
 
 c.resolve.modules = [

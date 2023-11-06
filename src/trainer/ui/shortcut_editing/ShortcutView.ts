@@ -7,32 +7,27 @@ import {Rectangle, Vector2} from "lib/math";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {Path} from "lib/runescape/pathing";
 import {arrow} from "../path_graphics";
+import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 
 export class ShortcutViewLayer extends GameLayer {
     previews: ShortcutViewLayer.ShortcutPolygon[]
 
-    data: Shortcuts.new_shortcut[] = []
-
-    constructor() {
+    constructor(public data: ObservableArray<Shortcuts.new_shortcut>) {
         super();
-    }
 
-    public setValue(data: Shortcuts.new_shortcut[]): this {
-        this.data = data
+        data.array_changed.filtered(s => s.set).on(() => this.render())
 
         this.render()
-
-        return this
     }
 
     private render() {
         this.clearLayers()
 
-        this.previews = this.data.map(s => new ShortcutViewLayer.ShortcutPolygon().setValue(s).addTo(this))
+        this.previews = this.data.value().map(s => new ShortcutViewLayer.ShortcutPolygon(s).addTo(this))
     }
 
-    getView(s: Shortcuts.new_shortcut): ShortcutViewLayer.ShortcutPolygon {
-        return this.previews.find(p => p.value == s)
+    getView(s: ObservableArray.ObservableArrayValue<Shortcuts.new_shortcut>): ShortcutViewLayer.ShortcutPolygon {
+        return this.previews.find(p => p.data == s)
     }
 }
 
@@ -42,64 +37,43 @@ export namespace ShortcutViewLayer {
         clickable_area: "#35540f"
     }
 
-
     import InteractionType = Path.InteractionType;
-
-    export type ShortcutPolygonConfig = {
-        draw_clickable: boolean,
-        hidden_actions: Shortcuts.new_shortcut_entity_action[]
-    }
 
     export class ShortcutPolygon extends OpacityGroup {
         public clickable: OpacityGroup
         public action_areas: OpacityGroup[]
 
-        public value: Shortcuts.new_shortcut = null
-        private config: ShortcutPolygonConfig = {
+        public config = observe({
             draw_clickable: true,
             hidden_actions: []
-        }
+        })
 
-        constructor() {
+        constructor(public data: Observable<Shortcuts.new_shortcut>) {
             super();
-        }
 
-        public setValue(v: Shortcuts.new_shortcut): this {
-            this.value = v
+            this.config.subscribe(() => this.render())
+            data.subscribe(() => this.render())
 
-            this.render()
-
-            return this
-        }
-
-        setConfig(config: ShortcutPolygonConfig): this {
-            this.config = config
-            this.render()
-            return this
-        }
-
-        updateConfig(f: (_: ShortcutPolygonConfig) => void): this {
-            f(this.config)
+            if (data instanceof ObservableArray.ObservableArrayValue<any>) {
+                data.removed.on(() => this.remove())
+            }
 
             this.render()
-
-            return this
         }
 
         public render() {
             this.clearLayers()
 
-            if (this.value) {
-                let shortcut = Shortcuts.new_shortcut.normalize(this.value)
+            let shortcut = Shortcuts.new_shortcut.normalize(this.data.value())
 
-                this.action_areas = shortcut.actions
-                    .filter(a => !this.config.hidden_actions.includes(a))
-                    .map(action => render_interactive_area(action.interactive_area).addTo(this))
+            this.action_areas = shortcut.actions
+                .filter(a => !this.config.value().hidden_actions.includes(a))
+                .map(action => render_interactive_area(action.interactive_area).addTo(this))
 
-                if (this.config.draw_clickable) {
-                    this.clickable = render_clickable(shortcut.clickable_area, shortcut.actions[0]?.cursor || "generic").addTo(this)
-                }
+            if (this.config.value().draw_clickable) {
+                this.clickable = render_clickable(shortcut.clickable_area, shortcut.actions[0]?.cursor || "generic").addTo(this)
             }
+
         }
     }
 

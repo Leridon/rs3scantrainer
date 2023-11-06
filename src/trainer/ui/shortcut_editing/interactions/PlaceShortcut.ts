@@ -1,17 +1,92 @@
 import {ValueInteraction} from "lib/gamemap/interaction/ValueInteraction";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Vector2} from "lib/math";
+import {Transform, Vector2} from "lib/math";
 import {TileRectangle} from "lib/runescape/coordinates";
 import {TileCoordinates} from "lib/runescape/coordinates";
 import {TileTransform} from "lib/runescape/coordinates/TileTransform";
 import {floor_t} from "lib/runescape/coordinates";
+import {GameMapKeyboardEvent, GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
+import {ShortcutViewLayer} from "../ShortcutView";
+import InteractionTopControl from "../../map/InteractionTopControl";
 
 export class PlaceShortcut extends ValueInteraction<Shortcuts.new_shortcut> {
 
+    private transform: TileTransform
+    private final_translation_transform: TileTransform
+
+    constructor(private original: Shortcuts.new_shortcut,
+                private origin: TileCoordinates
+    ) {
+        super({
+            preview_render: (s) => {
+                return new ShortcutViewLayer.ShortcutPolygon().setValue(s)
+            }
+        });
+
+        this.transform = TileTransform.translation(Vector2.neg(this.origin), -this.origin.level)
+        this.final_translation_transform = TileTransform.translation(this.origin, this.origin.level)
+
+        this.updatePreview()
+
+        this.attachTopControl(new InteractionTopControl().setName("Placing Shortcut")
+            .setContent(
+                c("<div style='font-family: monospace; white-space:pre'></div>")
+                    .append(c().text(`[R] - Rotate clockwise  | [Shift + R] - Rotate counterclockwise`))
+                    .append(c().text(`[F] - Flip Horizontally | [Shift + F] - Flip vertically`))
+            )
+        )
+    }
+
+    eventHover(event: GameMapMouseEvent) {
+        event.onPre(() => {
+            this.final_translation_transform = TileTransform.translation(event.tile(), event.tile().level)
+            this.updatePreview()
+        })
+    }
+
+    private updatePreview() {
+        this.preview(PlaceShortcut.transform(this.original,
+            TileTransform.chain(
+                this.final_translation_transform,
+                this.transform
+            )
+        ))
+    }
+
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        event.onPost(() => {
+            if (event.original.key.toLowerCase() == "r") {
+                this.transform = TileTransform.chain(
+                    Transform.rotation(event.original.shiftKey ? 3 : 1),
+                    this.transform
+                )
+                this.updatePreview()
+            } else if (event.original.key.toLowerCase() == "f") {
+                this.transform = TileTransform.chain(
+                    event.original.shiftKey ? Transform.mirror_y() : Transform.mirror_x(),
+                    this.transform
+                )
+                this.updatePreview()
+            }
+        })
+    }
+
+    eventClick(event: GameMapMouseEvent) {
+        event.onPre(() => {
+            event.stopAllPropagation()
+
+            this.commit(PlaceShortcut.transform(this.original,
+                TileTransform.chain(
+                    TileTransform.translation(event.tile(), event.tile().level),
+                    this.transform
+                )
+            ))
+        })
+    }
 }
 
 export namespace PlaceShortcut {
-    function transform(s: Shortcuts.new_shortcut, trans: TileTransform): Shortcuts.new_shortcut {
+    export function transform(s: Shortcuts.new_shortcut, trans: TileTransform): Shortcuts.new_shortcut {
         function dir(s: "eastwest" | "northsouth"): "eastwest" | "northsouth" {
             let v = s == "eastwest" ? {x: 1, y: 0} : {x: 0, y: 1}
 

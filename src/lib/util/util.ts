@@ -107,4 +107,10 @@ export namespace util {
     export function signedToString(n: number): string {
         return `${Math.sign(n) < 0 ? "" : "+"}${n}`
     }
+
+    export function tap<T>(v: T, ...fs: ((_: T) => void)[]): T {
+        fs.forEach(f => f(v))
+
+        return v
+    }
 }

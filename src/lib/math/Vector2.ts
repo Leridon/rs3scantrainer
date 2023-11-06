@@ -18,6 +18,13 @@ export namespace Vector2 {
         }
     }
 
+    export function neg(a: Vector2): Vector2 {
+        return {
+            x: -a.x,
+            y: -a.y
+        }
+    }
+
     export function scale(f: number, v: Vector2): Vector2 {
         return {
             x: v.x * f,
@@ -81,8 +88,8 @@ export namespace Vector2 {
         }
     }
 
-    export function snap(c: Vector2): Vector2 {
-        return {x: Math.round(c.x), y: Math.round(c.y)}
+    export function snap(c: Vector2, grid: number = 1): Vector2 {
+        return {x: Math.round(c.x / grid) * grid, y: Math.round(c.y / grid) * grid}
     }
 
     /**
@@ -100,6 +107,6 @@ export namespace Vector2 {
     export function transform_point(a: Vector2, trans: Transform): Vector2 {
         let r = Transform.apply(trans, [a.x, a.y, 1])
 
-        return {x: r[0], y: r[1]}
+        return snap({x: r[0], y: r[1]}, 0.5)
     }
 }

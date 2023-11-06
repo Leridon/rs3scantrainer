@@ -1,5 +1,6 @@
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import Widget from "lib/ui/Widget";
+import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 
 export default class InteractionTopControl extends GameMapControl {
     header_row: Widget = null
@@ -21,7 +22,7 @@ export default class InteractionTopControl extends GameMapControl {
         this.renderHeader()
     }
 
-    public setCancelHandler(f: () => void): this{
+    public setCancelHandler(f: () => void): this {
         this._config.cancel_handler = f
         this.renderHeader()
 
@@ -42,7 +43,9 @@ export default class InteractionTopControl extends GameMapControl {
         this.header_row.append(c("<div style='flex-grow: 1; min-width: 20px'>"))
 
         if (this._config.cancel_handler) {
-            this.header_row.append(c("<div class='ctr-interaction-control-header-close'>&times;</div>").tapRaw(r => r.on("click", () => {
+            this.header_row.append(c("<div class='ctr-interaction-control-header-close'>&times;</div>")
+                .tooltip("Cancel (Esc)")
+                .tapRaw(r => r.on("click", () => {
                 this._config.cancel_handler()
             })))
         }
@@ -64,5 +67,16 @@ export default class InteractionTopControl extends GameMapControl {
 
     setText(text: string): this {
         return this.setContent(c().text(text))
+    }
+
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        if (this._config.cancel_handler) {
+            event.onPre(() => {
+                if (event.original.key == "Escape") {
+                    event.stopAllPropagation()
+                    this._config.cancel_handler()
+                }
+            })
+        }
     }
 }

@@ -16,6 +16,7 @@ import {DrawDoor} from "./interactions/DrawDoor";
 import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
 import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";
 import {ShortcutViewLayer} from "./ShortcutView";
+import {PlaceShortcut} from "./interactions/PlaceShortcut";
 
 class ShortcutEditGameLayer extends GameLayer {
     interActionGuard: InteractionGuard = new InteractionGuard().setDefaultLayer(this)
@@ -41,18 +42,39 @@ class ShortcutEditGameLayer extends GameLayer {
 
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPost(() => {
-            console.log("context")
-
             this.data.value.get().filter(s => {
                 if (s.is_builtin) return false
 
                 return Rectangle.contains(Shortcuts.new_shortcut.bounds(s.get()), event.coordinates)
             }).forEach(s => {
-                console.log("add")
                 event.add({
                     type: "basic",
                     text: `Delete ${s.get().name}`,
                     handler: () => s.delete()
+                })
+                event.add({
+                    type: "basic",
+                    text: `Copy ${s.get().name}`,
+                    handler: () => {
+                        this.interActionGuard.set(new PlaceShortcut(s.get(), event.tile())
+                            .onCommit(n => {
+                                this.data.add(n)
+                            })
+                        )
+                    }
+                })
+                event.add({
+                    type: "basic",
+                    text: `Move ${s.get().name}`,
+                    handler: () => {
+                        this.interActionGuard.set(new PlaceShortcut(s.get(), event.tile())
+                            .onCommit(n => {
+                                s.set(n)
+                            })
+                            .onStart(() => this.view.getView(s.get()).setOpacity(0))
+                            .onEnd(() => this.view.getView(s.get())?.setOpacity(1))
+                        )
+                    }
                 })
             })
         })
@@ -62,8 +84,10 @@ class ShortcutEditGameLayer extends GameLayer {
 
         // TODO: Filtered render? Or put that in the viewlayer?
         return {
-            "zoomend": () => {},
-            "moveend": () => {}
+            "zoomend": () => {
+            },
+            "moveend": () => {
+            }
         }
     }
 }

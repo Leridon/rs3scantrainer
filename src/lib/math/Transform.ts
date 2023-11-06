@@ -26,8 +26,8 @@ export namespace Transform {
 
     export function translation(offset: Vector2): Transform {
         return [
-            [0, 0, offset.x],
-            [0, 0, offset.y],
+            [1, 0, offset.x],
+            [0, 1, offset.y],
             [0, 0, 1]
         ]
     }
@@ -87,6 +87,14 @@ export namespace Transform {
             mul(row(a, 0), b),
             mul(row(a, 1), b),
             mul(row(a, 2), b),
+        ]
+    }
+
+    export function identity(): Transform {
+        return [
+            [1, 0, 0],
+            [0, 1, 0],
+            [0, 0, 1]
         ]
     }
 }

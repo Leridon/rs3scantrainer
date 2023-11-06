@@ -1,4 +1,4 @@
-import {Transform} from "../../math";
+import {Transform, Vector2} from "../../math";
 import {isArray} from "lodash";
 
 export type TileTransform = {
@@ -18,6 +18,37 @@ export namespace TileTransform {
         return {
             matrix: t,
             level_offset: level_offset
+        }
+    }
+
+    export function mult(a: TileTransform | Transform, b: TileTransform | Transform): TileTransform {
+        let norm_a = normalize(a)
+        let norm_b = normalize(b)
+
+        return lift(Transform.mult(norm_a.matrix, norm_b.matrix), norm_a.level_offset + norm_b.level_offset)
+    }
+
+    export function chain(...transforms: (TileTransform | Transform)[]): TileTransform {
+        let trans = identity()
+
+        for (let transform of transforms) {
+            trans = mult(trans, transform)
+        }
+
+        return trans
+    }
+
+    export function translation(offset: Vector2, level_offset: number): TileTransform {
+        return {
+            matrix: Transform.translation(offset),
+            level_offset: level_offset
+        }
+    }
+
+    export function identity(): TileTransform {
+        return {
+            matrix: Transform.identity(),
+            level_offset: 0
         }
     }
 }

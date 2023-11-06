@@ -102,6 +102,8 @@ export class GameMap extends leaflet.Map {
 
                 new ContextMenu(event.entries)
                     .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
+
+                // TODO: Give focus back to map on exit
             })
 
             this.on("click", (e) => {
@@ -170,7 +172,10 @@ export class GameMap extends leaflet.Map {
     }
 
     getClientPos(coordinates: Vector2): Vector2 {
-        return Vector2.add(this.latLngToContainerPoint(Vector2.toLatLong(coordinates)), {x: this.container.get()[0].getBoundingClientRect().left, y: this.container.get()[0].getBoundingClientRect().top})
+        return Vector2.add(this.latLngToContainerPoint(Vector2.toLatLong(coordinates)), {
+            x: this.container.get()[0].getBoundingClientRect().left,
+            y: this.container.get()[0].getBoundingClientRect().top
+        })
     }
 
     public getTeleportLayer(): TeleportLayer {

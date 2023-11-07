@@ -1,10 +1,8 @@
 Immediate next:
 - Shortcut editor:
-    - Detail for door bounds
     - Forced direction?
     - Render movement (on hover)
-    - Filter by current view
-    - Search box (Overriding view filter or on top of it?? Toggle probably)
+    - Properly support relative and absolute targets
 
 - Path Editor
     - Move action bar to generalized interface

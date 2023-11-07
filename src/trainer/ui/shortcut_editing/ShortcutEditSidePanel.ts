@@ -46,8 +46,6 @@ class ShortcutEdit extends Widget {
     private render() {
         this.empty()
 
-        this.associated_preview?.render()
-
         this.header = c("<div class='ctr-shortcut-edit-header'></div>")
             .append(c().text(this.value.value().name))
             .append(c("<div style='flex-grow: 1'></div>"))

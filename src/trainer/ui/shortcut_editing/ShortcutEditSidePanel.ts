@@ -27,6 +27,7 @@ import shortcuts from "../../../data/shortcuts";
 import * as assert from "assert";
 import Checkbox from "../../../lib/ui/controls/Checkbox";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
+import {DrawDoor} from "./interactions/DrawDoor";
 
 class ShortcutEdit extends Widget {
     centered = ewent<Shortcuts.shortcut>()
@@ -41,13 +42,19 @@ class ShortcutEdit extends Widget {
 
         this.addClass("ctr-shortcut-edit")
 
+        this.header = c().appendTo(this)
+        this.body = c().appendTo(this)
+
+        this.body.css("display", "none")
+
         this.render()
     }
 
     private render() {
-        this.empty()
+        this.header.empty()
+        this.body.empty()
 
-        this.header = c("<div class='ctr-shortcut-edit-header'></div>")
+        c("<div class='ctr-shortcut-edit-header'></div>")
             .append(c().text(this.value.value().name))
             .append(c("<div style='flex-grow: 1'></div>"))
             .append(SmallImageButton.new("assets/icons/fullscreen.png")
@@ -55,7 +62,7 @@ class ShortcutEdit extends Widget {
             .append(SmallImageButton.new("assets/icons/delete.png")
                 .on("click", () => this.value.remove())
                 .setEnabled(!this.value.value().is_builtin))
-            .appendTo(this)
+            .appendTo(this.header)
             .tapRaw(r => r.on("click", () => this.body.container.animate({"height": "toggle"})))
 
         let props = new Properties()
@@ -70,7 +77,39 @@ class ShortcutEdit extends Widget {
             }))
 
         if (v.type == "door") {
-            props.named("Bounds", new LightButton("Draw"))
+            let width = v.direction == "eastwest"
+                ? Rectangle.tileHeight(v.area)
+                : Rectangle.tileWidth(v.area)
+
+            let dir = v.direction == "eastwest"
+                ? "|"
+                : "&#8212;"
+
+            props.named("Bounds",
+                c("<div style='display: flex'></div>")
+                    .append(c("<span style='margin-right: 5px;'></span>").setInnerHtml(`${width} wide ${dir} door at ${v.area.topleft.x}|${v.area.botright.y}`))
+                    .append(c().css("flex-grow", "1"))
+                    .append(
+                        new LightButton("Select")
+                            .on("click", () => {
+                                this.interaction_guard.set(
+                                    new DrawDoor({
+                                        done_handler: (new_v) => {
+                                            this.value.update(() => {
+                                                assert(v.type == "door")
+                                                v.area = new_v.area
+                                                v.direction = new_v.direction
+                                            })
+                                            this.render()
+                                        }
+                                    }).onStart(() => {
+                                        this.associated_preview?.setOpacity(0)
+                                    }).onEnd(() => {
+                                        this.associated_preview?.setOpacity(1)
+                                    }).attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
+                                )
+                            })))
+
         } else {
             props.named("Click-Area",
                 c("<div style='display: flex'></div>")
@@ -257,9 +296,7 @@ class ShortcutEdit extends Widget {
             )
         }
 
-        this.body = props.appendTo(this)
-
-        this.body.css("display", "none")
+        props.appendTo(this.body)
     }
 }
 

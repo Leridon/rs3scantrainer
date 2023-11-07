@@ -115,7 +115,7 @@ export default class ShortcutEditBehaviour extends Behaviour {
             this.storage.get().map(s => Object.assign(s, {is_builtin: false}))
         ))
 
-        this.data.changed.on(({value}) => this.storage.set(value.map(v => v.value())))
+        this.data.changed.on(({value}) => this.storage.set(value.filter(v => !v.value().is_builtin).map(v => v.value())))
     }
 
     protected begin() {

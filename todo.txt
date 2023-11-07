@@ -1,12 +1,10 @@
 Immediate next:
 - Shortcut editor:
-    - Start collapsed
-    - Shift+Click to place a copy and continue interaction
-    - Render movement on hover
-    - Filter by current view
-    - Search box (Overriding view filter or on top of it?? Toggle probably)
     - Detail for door bounds
     - Forced direction?
+    - Render movement (on hover)
+    - Filter by current view
+    - Search box (Overriding view filter or on top of it?? Toggle probably)
 
 - Path Editor
     - Move action bar to generalized interface
@@ -16,6 +14,7 @@ Immediate next:
     - Fix "Redraw" for running
     - "You are here marker"
     - New Shortcuts via context menu
+    - Recover lost icons for the variant teleports
 
 - Autoname areas
 - Reenable spot sorting/numbers on preview

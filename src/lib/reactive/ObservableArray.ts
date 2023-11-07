@@ -1,11 +1,14 @@
 import {Observable} from "./Observable";
-import {ewent} from "./Ewent";
+import {Ewent, ewent} from "./Ewent";
+import {observe} from "./index";
+import {EwentHandlerPool} from "./EwentHandlerPool";
+import ObservableArrayView = ObservableArray.ObservableArrayView;
 
 /**
  * The observed value is considered to change when any of its elements change.
  * In addition, there are several events that allow a more detailed view on changes
  */
-export class ObservableArray<T> extends Observable.AbstractObservable<ObservableArray.ObservableArrayValue<T>[]> {
+export class ObservableArray<T> extends Observable.AbstractObservable<ObservableArray.ObservableArrayValue<T>[]> implements ObservableArrayView<T>{
     element_added = ewent<ObservableArray.ObservableArrayValue<T>>()
     element_removed = ewent<ObservableArray.ObservableArrayValue<T>>()
     element_changed = ewent<ObservableArray.ObservableArrayValue<T>>()
@@ -50,9 +53,14 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
         }
     }
 
+    get(): ObservableArray.ObservableArrayValue<T>[] {
+        return this._value
+    }
+
     setTo(data: T[]): this {
         for (let valueElement of this.value()) {
             valueElement.removed.trigger(valueElement)
+            this.element_removed.trigger(valueElement)
         }
 
         this._value = data.map((e, i) => new ObservableArray.ObservableArrayValue<T>(this, e, i))
@@ -67,6 +75,91 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
 }
 
 export namespace ObservableArray {
+    export interface ObservableArrayView<T> {
+        element_added: Ewent<ObservableArray.ObservableArrayValue<T>>
+        element_removed: Ewent<ObservableArray.ObservableArrayValue<T>>
+        element_changed: Ewent<ObservableArray.ObservableArrayValue<T>>
+
+        get(): ObservableArrayValue<T>[]
+    }
+
+    export class ObservableArrayFilter<T> implements ObservableArrayView<T> {
+        element_added = ewent<ObservableArray.ObservableArrayValue<T>>()
+        element_removed = ewent<ObservableArray.ObservableArrayValue<T>>()
+        element_changed = ewent<ObservableArray.ObservableArrayValue<T>>()
+
+        private cache: ObservableArrayValue<T>[]
+        private filter: Observable<(value: T) => boolean> = observe<(_: T) => boolean>(() => true).equality(() => false)
+        private handler_pool = new EwentHandlerPool()
+
+        constructor(private base: ObservableArrayView<T>) {
+            this.cache = base.get()
+
+            this.base.element_added.on(v => {
+                if (this.filter.value()(v.value())) {
+                    this.cache.push(v)
+                    this.element_added.trigger(v)
+                }
+            }).bindTo(this.handler_pool)
+
+            this.base.element_removed.on(v => {
+                let i = this.cache.indexOf(v)
+                if (i >= 0) {
+                    this.cache.splice(i, 1)
+                    this.element_removed.trigger(v)
+                }
+            })
+
+            this.base.element_changed.on(v => {
+                if (this.filter.value()(v.value())) {
+                    this.element_changed.trigger(v)
+                }
+            })
+
+            this.filter.subscribe((f) => {
+                this.setAndUpdate(this.base.get().filter(v => f(v.value())))
+            })
+        }
+
+        private setAndUpdate(data: ObservableArrayValue<T>[]) {
+            let old = this.cache
+            this.cache = data
+
+            for (let i = 0; i < Math.max(old.length, this.cache.length); i++) {
+                if (old[i] != this.cache[i]) {
+                    if (i < this.cache.length && !old.includes(this.cache[i])) {
+                        this.element_added.trigger(this.cache[i])
+                    }
+
+                    if (i < old.length && !this.cache.includes(old[i])) {
+                        this.element_removed.trigger(this.cache[i])
+                    }
+                }
+            }
+        }
+
+        setFilter(f: (_: T) => boolean): this {
+            this.filter.set(f)
+
+            return this
+        }
+
+        get(): ObservableArrayValue<T>[] {
+            return this.cache
+        }
+
+
+        /**
+         * Disconnects this view from the underlying observable array.
+         * Removes all even hooks to make it garbage collectible.
+         * No further events/changes will be received.
+         */
+        disconnect(): void {
+            this.handler_pool.kill()
+        }
+    }
+
+
     export class ObservableArrayValue<T> extends Observable.Simple<T> {
         removed = ewent<ObservableArrayValue<T>>()
 

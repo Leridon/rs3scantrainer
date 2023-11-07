@@ -120,6 +120,7 @@ export default class ShortcutEditBehaviour extends Behaviour {
 
     protected begin() {
         this.layer = new ShortcutEditGameLayer(this.data)
+        this.app.map.map.addGameLayer(this.layer)
 
         this.app.sidepanels.empty()
 
@@ -131,8 +132,6 @@ export default class ShortcutEditBehaviour extends Behaviour {
                     })
                 })))
             , 0)
-
-        this.app.map.map.addGameLayer(this.layer)
     }
 
     protected end() {

@@ -22,10 +22,11 @@ import {DrawOffset} from "./interactions/DrawOffset";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {util} from "../../../lib/util/util";
-import {ewent, ObservableArray} from "../../../lib/reactive";
+import {ewent, Observable, ObservableArray, observe} from "../../../lib/reactive";
 import shortcuts from "../../../data/shortcuts";
 import * as assert from "assert";
 import Checkbox from "../../../lib/ui/controls/Checkbox";
+import ObservableArrayValue = ObservableArray.ObservableArrayValue;
 
 class ShortcutEdit extends Widget {
     centered = ewent<Shortcuts.shortcut>()
@@ -33,7 +34,7 @@ class ShortcutEdit extends Widget {
     private header: Widget
     private body: Widget
 
-    constructor(private value: ObservableArray.ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>,
+    constructor(public value: ObservableArray.ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>,
                 private associated_preview: ShortcutViewLayer.ShortcutPolygon,
                 private interaction_guard: InteractionGuard) {
         super();
@@ -265,15 +266,28 @@ class ShortcutEdit extends Widget {
 export default class ShortcutEditSidePanel extends SidePanel {
     search_container: Widget
     result_container: Widget
+    viewport_checkbox: Checkbox
 
     centered = ewent<Shortcuts.shortcut>()
+
+    private visible_data_view: Observable<ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>[]>
+    private search_term = observe("")
+
+    widgets: ShortcutEdit[] = []
 
     constructor(private data: ObservableArray<Shortcuts.shortcut & { is_builtin: boolean }>,
                 private view_layer: ShortcutViewLayer,
                 private interaction_guard: InteractionGuard) {
         super();
 
+        observe<(_: Shortcuts.shortcut) => boolean>(() => true).equality(() => false)
+
+        this.view_layer.getMap().viewport.subscribe(() => this.updateVisibleData())
+        this.search_term.subscribe(() => this.updateVisibleData())
+
         this.search_container = c().appendTo(this)
+
+        this.visible_data_view = observe(data.value())
 
         c("<div style='text-align: center'></div>")
             .append(new LightButton("Edit Builtins")
@@ -292,29 +306,48 @@ export default class ShortcutEditSidePanel extends SidePanel {
             )
             .appendTo(this.search_container)
 
-        c("<div style='display: flex'></div>").append(new TextField().css("flex-grow", "1").setPlaceholder("Search Shortcuts...")).appendTo(this.search_container)
+        c("<div style='display: flex'></div>").append(new TextField().css("flex-grow", "1").setPlaceholder("Search Shortcuts...")
+            .on("hint", (v) => this.search_term.set(v))
+        ).appendTo(this.search_container)
 
         c("<div style='display: flex'>")
-            .append(new Checkbox().setValue(true))
+            .append(this.viewport_checkbox = new Checkbox().setValue(true))
             .append(c("<div style='margin-left: 5px;'></div>").text("Only show current viewport"))
             .appendTo(this.search_container)
 
+        this.viewport_checkbox.on("changed", () => this.updateVisibleData())
+
         this.result_container = c().addClass("ctr-shortcut-edit-panel-results").appendTo(this)
 
-        data.array_changed.on(({data}) => {
-            this.renderResults(data)
-        })
+        this.visible_data_view.subscribe(results => {
+            let existing = this.widgets.map(w => ({keep: false, w: w}))
 
-        this.renderResults(this.data.value())
+            this.widgets = results.map(s => {
+                let e = existing.find(e => e.w.value == s)
+
+                if (e) {
+                    e.keep = true
+                    return e.w
+                } else {
+                    let edit = new ShortcutEdit(s, this.view_layer.getView(s), this.interaction_guard).appendTo(this.result_container)
+
+                    edit.centered.on((v) => this.centered.trigger(v))
+
+                    return edit
+                }
+            })
+
+            existing.filter(e => !e.keep).forEach(e => e.w.remove())
+        }, true)
+
+        this.data.array_changed.on(() => this.updateVisibleData())
     }
 
-    renderResults(value: ObservableArray.ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>[]) {
-        this.result_container.empty()
+    private updateVisibleData() {
+        console.log(this.view_layer.getMap().viewport.get())
 
-        value.forEach(s => {
-            let edit = new ShortcutEdit(s, this.view_layer.getView(s), this.interaction_guard).appendTo(this.result_container)
-
-            edit.centered.on((v) => this.centered.trigger(v))
-        })
+        this.visible_data_view.set(this.data.get().filter(s => {
+            return s.value().name.includes(this.search_term.value()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.view_layer.getMap().viewport.get()))
+        }))
     }
 }

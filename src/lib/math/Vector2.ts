@@ -1,5 +1,6 @@
 import * as leaflet from "leaflet";
 import {Transform} from "./Transform";
+import {LatLng} from "leaflet";
 
 export type Vector2 = { x: number, y: number }
 
@@ -75,6 +76,10 @@ export namespace Vector2 {
 
     export function toLatLong(point: Vector2): leaflet.LatLng {
         return leaflet.latLng(point.y, point.x)
+    }
+
+    export function fromLatLong(point: LatLng): Vector2 {
+        return {x: point.lng, y: point.lat}
     }
 
     export function toPoint(c: Vector2): leaflet.Point {

@@ -1,6 +1,7 @@
 import {TileCoordinates} from "../coordinates";
 import {util} from "../../util/util";
 import {Vector2} from "../../math";
+import * as assert from "assert";
 
 export namespace Scans {
 
@@ -9,7 +10,7 @@ export namespace Scans {
 
         let p = 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as 1 | 2 | 3
 
-        if (p > 3) console.log("PANIC")
+        assert(p > 3)
 
         let different_level = spot.level != tile.level || distance(complementSpot(spot), tile) <= range + 15
 

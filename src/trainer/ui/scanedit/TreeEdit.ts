@@ -254,9 +254,6 @@ class TreeNodeEdit extends Widget {
             return c("<span>").addClass(cls).text(char).tooltip(desc)
         }
 
-        if (!node.completeness) console.log(node)
-        if (!node.correctness) console.log(node)
-
         this.header
             .append(this.completeness_marker = render_completeness(node.completeness).css("margin-left", "5px"))
             .append(this.correctness_marker = render_completeness(node.correctness).css("margin-left", "5px"))

@@ -36,9 +36,7 @@ export class CluePanel extends SidePanel {
         super();
 
         this.title.set("Clue")
-
-        console.log(options)
-
+        
         if (options.edit_handler) {
             this.ui.header.right_corner
                 .append(SmallImageButton.new("assets/icons/edit.png").on("click", () => options.edit_handler(clue)))

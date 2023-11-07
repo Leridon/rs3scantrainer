@@ -10,26 +10,24 @@ import {arrow} from "../path_graphics";
 import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 
 export class ShortcutViewLayer extends GameLayer {
-    previews: ShortcutViewLayer.ShortcutPolygon[]
-
     constructor(public data: ObservableArray<Shortcuts.shortcut>) {
         super();
 
+        data.element_added.on(s => {
+            new ShortcutViewLayer.ShortcutPolygon(s).addTo(this)
+        })
 
-        // TODO: Reuse existing polygons and only create new ones for actually new elements
-        data.array_changed.filtered(s => s.set).on(() => this.render())
-
-        this.render()
+        this.renderAll()
     }
 
-    private render() {
+    private renderAll() {
         this.clearLayers()
 
-        this.previews = this.data.value().map(s => new ShortcutViewLayer.ShortcutPolygon(s).addTo(this))
+        this.data.value().map(s => new ShortcutViewLayer.ShortcutPolygon(s).addTo(this))
     }
 
     getView(s: ObservableArray.ObservableArrayValue<Shortcuts.shortcut>): ShortcutViewLayer.ShortcutPolygon {
-        return this.previews.find(p => p.data == s)
+        return this.getLayers().find(v => (v instanceof ShortcutViewLayer.ShortcutPolygon) && v.data == s) as ShortcutViewLayer.ShortcutPolygon
     }
 }
 

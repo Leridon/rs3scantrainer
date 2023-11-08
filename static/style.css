@@ -867,6 +867,7 @@ video {
 .nisl-property-content {
     flex: 0 0 auto;
     width: 80%;
+    display: flex;
 }
 
 .nisl-property-content > * {

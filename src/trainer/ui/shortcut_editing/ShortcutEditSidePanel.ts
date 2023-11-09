@@ -43,14 +43,12 @@ class ShortcutEdit extends Widget {
     constructor(public value: ObservableArray.ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>,
                 private associated_preview: ShortcutViewLayer.ShortcutPolygon,
                 private interaction_guard: InteractionGuard) {
-        super();
+        super(vbox());
 
-        this.addClass("ctr-shortcut-edit")
-
-        this.header = c().appendTo(this)
-        this.body = c().appendTo(this)
-
-        this.body.css("display", "none")
+        this.init(vbox(
+            this.header = vbox(),
+            this.body = vbox().css("display", "none")
+        )).addClass("ctr-shortcut-edit")
 
         value.subscribe(() => this.render(), true)
     }

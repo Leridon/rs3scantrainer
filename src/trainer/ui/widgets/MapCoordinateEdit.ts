@@ -1,10 +1,10 @@
 import Widget from "lib/ui/Widget";
 import {floor_t} from "lib/runescape/coordinates";
-import SmallImageButton from "./SmallImageButton";
 import * as lodash from "lodash"
 import SelectTileInteraction from "lib/gamemap/interaction/SelectTileInteraction";
 import AbstractEditWidget from "./AbstractEditWidget";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {SmallImageButton} from "./SmallImageButton";
 
 export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinates> {
     x: Widget

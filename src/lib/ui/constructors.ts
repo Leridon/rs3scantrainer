@@ -15,6 +15,10 @@ export namespace C {
         return create("<div></div>").append(...content)
     }
 
+    export function spacer(): Widget {
+        return create("<div style='flex-grow: 1'></div>")
+    }
+
     export function span(text: string): Widget {
         return create("<span></span>").text(text)
     }

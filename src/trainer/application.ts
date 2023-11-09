@@ -20,7 +20,7 @@ import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
 import SolveBehaviour from "./ui/solving/SolveBehaviour";
 import MethodWithClue = SolvingMethods.MethodWithClue;
-import ShortcutEditor from "./ui/shortcut_editing/ShortcutEditor";
+import {ShortcutEditor} from "./ui/shortcut_editing/ShortcutEditor";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;

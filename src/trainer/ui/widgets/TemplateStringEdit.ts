@@ -1,8 +1,8 @@
 import Widget from "lib/ui/Widget";
 import TemplateResolver from "lib/util/TemplateResolver";
 import AbstractEditWidget from "./AbstractEditWidget";
-import SmallImageButton from "./SmallImageButton";
 import Button from "lib/ui/controls/Button";
+import {SmallImageButton} from "./SmallImageButton";
 
 export default class TemplateStringEdit extends AbstractEditWidget<string> {
 

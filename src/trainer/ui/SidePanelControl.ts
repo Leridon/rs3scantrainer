@@ -3,7 +3,7 @@ import {Constants} from "trainer/constants";
 import {Application} from "trainer/application";
 import Widget from "lib/ui/Widget";
 import {observe} from "lib/properties/Observable";
-import SmallImageButton from "./widgets/SmallImageButton";
+import {SmallImageButton} from "./widgets/SmallImageButton";
 
 export class SidePanel<events_t extends Record<string, any> = {}> extends Widget<events_t> {
     protected ui: {

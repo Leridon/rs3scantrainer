@@ -1,7 +1,6 @@
 import {SidePanel} from "../SidePanelControl";
 import Widget from "lib/ui/Widget";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import SmallImageButton from "../widgets/SmallImageButton";
 import Properties from "../widgets/Properties";
 import TextField from "lib/ui/controls/TextField";
 import LightButton from "../widgets/LightButton";
@@ -33,6 +32,10 @@ import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
 import vbox = C.vbox;
 import span = C.span;
+import spacer = C.spacer;
+import sibut = SmallImageButton.sibut;
+import {SmallImageButton} from "../widgets/SmallImageButton";
+import {ShortcutEditGameLayer, ShortcutEditor} from "./ShortcutEditor";
 
 class ShortcutEdit extends Widget {
     centered = ewent<Shortcuts.shortcut>()
@@ -40,9 +43,9 @@ class ShortcutEdit extends Widget {
     private header: Widget
     private body: Widget
 
-    constructor(public value: ObservableArray.ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>,
+    constructor(public value: ShortcutEditor.OValue,
                 private associated_preview: ShortcutViewLayer.ShortcutPolygon,
-                private interaction_guard: InteractionGuard) {
+                private edit_layer: ShortcutEditGameLayer) {
         super(vbox());
 
         this.init(vbox(
@@ -57,16 +60,17 @@ class ShortcutEdit extends Widget {
         this.header.empty()
         this.body.empty()
 
-        c("<div class='ctr-shortcut-edit-header'></div>")
-            .append(c().text(this.value.value().name))
-            .append(c("<div style='flex-grow: 1'></div>"))
-            .append(SmallImageButton.new("assets/icons/fullscreen.png")
-                .on("click", () => this.centered.trigger(this.value.value())))
-            .append(SmallImageButton.new("assets/icons/delete.png")
-                .on("click", () => this.value.remove())
-                .setEnabled(!this.value.value().is_builtin))
-            .appendTo(this.header)
+        hbox(
+            span(this.value.value().name),
+            spacer(),
+            sibut("assets/icons/move.png", () => this.edit_layer.startMove(this.value)).setEnabled(!this.value.value().is_builtin),
+            sibut("assets/icons/copy.png", () => this.edit_layer.startPlacement(this.value.value())),
+            sibut("assets/icons/delete.png", () => this.value.remove()).setEnabled(!this.value.value().is_builtin),
+            sibut("assets/icons/fullscreen.png", () => this.centered.trigger(this.value.value())),
+        )
+            .addClass('ctr-shortcut-edit-header')
             .tapRaw(r => r.on("click", () => this.body.container.animate({"height": "toggle"})))
+            .appendTo(this.header)
 
         let props = new Properties()
 
@@ -95,7 +99,7 @@ class ShortcutEdit extends Widget {
                         .append(
                             new LightButton("Select")
                                 .on("click", () => {
-                                    this.interaction_guard.set(
+                                    this.edit_layer.interactionGuard.set(
                                         new DrawDoor({
                                             done_handler: (new_v) => {
                                                 this.value.update(() => {
@@ -122,7 +126,7 @@ class ShortcutEdit extends Widget {
                         .append(
                             new LightButton("Select")
                                 .on("click", () => {
-                                    this.interaction_guard.set(
+                                    this.edit_layer.interactionGuard.set(
                                         new GameMapDragAction({
                                             preview_render: (area) => {
                                                 assert(v.type == "entity")
@@ -178,7 +182,7 @@ class ShortcutEdit extends Widget {
                             .append(
                                 new LightButton("Select")
                                     .on("click", () => {
-                                        this.interaction_guard.set(
+                                        this.edit_layer.interactionGuard.set(
                                             new GameMapDragAction({
                                                 preview_render: (area) => ShortcutViewLayer.render_interactive_area(area)
                                             }).onStart(() => {
@@ -240,8 +244,7 @@ class ShortcutEdit extends Widget {
                                     .append(
                                         new LightButton("Draw")
                                             .on("click", () => {
-
-                                                this.interaction_guard.set(
+                                                this.edit_layer.interactionGuard.set(
                                                     new DrawOffset()
                                                         .onCommit((v) => {
                                                             this.value.update(() => {
@@ -260,7 +263,7 @@ class ShortcutEdit extends Widget {
 
                             target_thing.append(new MapCoordinateEdit(
                                     action.movement.target,
-                                    () => this.interaction_guard.set(new SelectTileInteraction({
+                                    () => this.edit_layer.interactionGuard.set(new SelectTileInteraction({
                                             preview_render: (target) => ShortcutViewLayer.render_transport_arrow(Rectangle.center(action.interactive_area, true), target)
                                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of this map connection."))
                                     )).on("changed", (v) => {
@@ -384,36 +387,34 @@ export default class ShortcutEditSidePanel extends SidePanel {
 
     widgets: ShortcutEdit[] = []
 
-    constructor(private data: ObservableArray<Shortcuts.shortcut & { is_builtin: boolean }>,
-                private view_layer: ShortcutViewLayer,
-                private interaction_guard: InteractionGuard) {
+    constructor(private editor: ShortcutEditor) {
         super();
 
         observe<(_: Shortcuts.shortcut) => boolean>(() => true).equality(() => false)
 
-        this.view_layer.getMap().viewport.subscribe(() => this.updateVisibleData())
+        this.editor.deps.map.viewport.subscribe(() => this.updateVisibleData())
         this.search_term.subscribe(() => this.updateVisibleData())
 
         this.search_container = c().appendTo(this)
 
-        this.visible_data_view = observe(data.value())
+        this.visible_data_view = observe(this.editor.data.value())
 
         c("<div style='text-align: center'></div>")
             .append(new LightButton("Edit Builtins")
                 .on("click", () => {
-                    this.data.setTo(shortcuts.map(s => Object.assign(s, {is_builtin: false})))
+                    this.editor.data.setTo(shortcuts.map(s => Object.assign(s, {is_builtin: false})))
                 }))
             .append(new LightButton("Export All")
                 .on("click", () => {
-                    ExportStringModal.do(JSON.stringify(data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
+                    ExportStringModal.do(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
                 })
             )
             .append(new LightButton("Export Local")
                 .on("click", () => {
-                    ExportStringModal.do(JSON.stringify(data.value().filter(s => !s.value().is_builtin).map(v => (({
-                                                                                                                       is_builtin,
-                                                                                                                       ...rest
-                                                                                                                   }) => rest)(v.value())), null, 2))
+                    ExportStringModal.do(JSON.stringify(this.editor.data.value().filter(s => !s.value().is_builtin).map(v => (({
+                                                                                                                                   is_builtin,
+                                                                                                                                   ...rest
+                                                                                                                               }) => rest)(v.value())), null, 2))
                 })
             )
             .appendTo(this.search_container)
@@ -442,7 +443,7 @@ export default class ShortcutEditSidePanel extends SidePanel {
                     e.keep = true
                     return e.w
                 } else {
-                    let edit = new ShortcutEdit(s, this.view_layer.getView(s), this.interaction_guard).appendTo(this.result_container)
+                    let edit = new ShortcutEdit(s, this.editor.layer.view.getView(s), this.editor.layer).appendTo(this.result_container)
 
                     edit.centered.on((v) => this.centered.trigger(v))
 
@@ -453,12 +454,12 @@ export default class ShortcutEditSidePanel extends SidePanel {
             existing.filter(e => !e.keep).forEach(e => e.w.remove())
         }, true)
 
-        this.data.array_changed.on(() => this.updateVisibleData())
+        this.editor.data.array_changed.on(() => this.updateVisibleData())
     }
 
     private updateVisibleData() {
-        this.visible_data_view.set(this.data.get().filter(s => {
-            return s.value().name.includes(this.search_term.value()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.view_layer.getMap().viewport.get()))
+        this.visible_data_view.set(this.editor.data.get().filter(s => {
+            return s.value().name.includes(this.search_term.value()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.deps.map.viewport.get()))
         }))
     }
 }

@@ -21,8 +21,7 @@
 		"pako": "^2.1.0",
 		"process": "^0.11.10",
 		"timers-browserify": "^2.0.12",
-		"tippy.js": "^6.3.7",
-		"youtube-player": "^5.6.0"
+		"tippy.js": "^6.3.7"
 	},
 	"devDependencies": {
 		"@alt1/imagedata-loader": "^1.0.0-alpha.2",
@@ -33,7 +32,6 @@
 		"@types/lodash": "^4.14.194",
 		"@types/node": "^12.12.54",
 		"@types/webpack": "^5.28.0",
-		"@types/youtube-player": "^5.5.7",
 		"circular-dependency-plugin": "^5.2.2",
 		"copy-webpack-plugin": "^11.0.0",
 		"file-loader": "^5.1.0",

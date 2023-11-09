@@ -23,7 +23,7 @@ import SidePanelControl from "../SidePanelControl";
 import {PathEditor} from "../pathedit/PathEditor";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 
-class ShortcutEditGameLayer extends GameLayer {
+export class ShortcutEditGameLayer extends GameLayer {
     interactionGuard: InteractionGuard = new InteractionGuard().setDefaultLayer(this)
 
     view: ShortcutViewLayer = null
@@ -103,13 +103,13 @@ class ShortcutEditActionBar extends ActionBar {
     }
 }
 
-export default class ShortcutEditor extends Behaviour {
+export class ShortcutEditor extends Behaviour {
     layer: ShortcutEditGameLayer
 
     private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", [])
     public data: ShortcutEditor.Data
 
-    constructor(private deps: {
+    constructor(public deps: {
         map: GameMap,
         sidepanels: SidePanelControl
     }) {
@@ -129,7 +129,7 @@ export default class ShortcutEditor extends Behaviour {
         this.deps.sidepanels.empty()
 
         this.deps.sidepanels.add(tap(
-                new ShortcutEditSidePanel(this.data, this.layer.view, this.layer.interactionGuard),
+                new ShortcutEditSidePanel(this),
                 e => e.centered.on((s => {
                     this.layer.getMap().fitView(Shortcuts.bounds(s), {
                         maxZoom: 5

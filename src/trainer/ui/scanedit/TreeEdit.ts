@@ -10,7 +10,7 @@ import PathProperty from "../pathedit/PathProperty";
 import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "../path_graphics";
 import TextField from "lib/ui/controls/TextField";
-import SmallImageButton from "../widgets/SmallImageButton";
+import {SmallImageButton} from "../widgets/SmallImageButton";
 import {ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import {observe} from "lib/properties/Observable";
 import LightButton from "../widgets/LightButton";

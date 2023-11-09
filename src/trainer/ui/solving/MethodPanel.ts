@@ -1,6 +1,6 @@
 import {SidePanel} from "../SidePanelControl";
 import {Modal} from "../widgets/modal";
-import SmallImageButton from "../widgets/SmallImageButton";
+import {SmallImageButton} from "../widgets/SmallImageButton";
 
 export default abstract class MethodPanel extends SidePanel {
     protected constructor(options: {
@@ -11,7 +11,7 @@ export default abstract class MethodPanel extends SidePanel {
 
         if (options.edit_handler) {
             this.ui.header.right_corner
-                .append(SmallImageButton.new("assets/icons/edit.png").on("click", () => options.edit_handler()))
+                .append(SmallImageButton.sibut("assets/icons/edit.png", () => options.edit_handler()))
         }
 
         if (options.explanation_modal) {

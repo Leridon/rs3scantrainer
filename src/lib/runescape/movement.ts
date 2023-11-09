@@ -1,7 +1,7 @@
 import {TileCoordinates} from "./coordinates";
 import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
-import {Rectangle, Vector2} from "../math";
+import {Rectangle, Transform, Vector2} from "../math";
 import * as pako from "pako"
 
 type TileMovementData = number
@@ -191,6 +191,10 @@ export namespace direction {
     export const north = 2
     export const east = 3
     export const south = 4
+
+    export function transform(direction: direction, transform: Transform): direction {
+        return fromVector(Vector2.transform(toVector(direction), transform))
+    }
 }
 
 export function move(pos: TileCoordinates, off: Vector2) {

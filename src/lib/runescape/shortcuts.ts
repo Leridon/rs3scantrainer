@@ -2,15 +2,20 @@ import {Path} from "./pathing";
 import {Vector2} from "../math";
 import {TileRectangle} from "./coordinates";
 import {TileCoordinates} from "./coordinates";
+import {direction} from "./movement";
 
 export namespace Shortcuts {
+    export type shortcut_orientation_type =
+        { type: "forced", direction: direction, relative: boolean }
+        | { type: "byoffset" } | { type: "toentity" } | { type: "keep" }
+
     export type entity_shortcut_action = {
         cursor: Path.InteractionType,
         interactive_area: TileRectangle,
         time: number,
         name: string,
-        movement: { type: "offset", offset: Vector2, level_offset: number } | { type: "fixed", target: TileCoordinates, relative: boolean },
-        orientation: { type: "forced", direction: direction } | { type: "toentity" } | { type: "keep" }
+        movement: { type: "offset", offset: Vector2 & { level: number } } | { type: "fixed", target: TileCoordinates, relative: boolean },
+        orientation: shortcut_orientation_type
     }
 
     export type entity_shortcut = {
@@ -29,6 +34,12 @@ export namespace Shortcuts {
 
     export type shortcut = entity_shortcut | door_shortcut
 
+    /**
+     * Coalesces all shortcuts into the general entity_shortcut.
+     * More specifically, it transforms door shortcuts into an equivalent {@link entity_shortcut} to allow unified handling across the code base.
+     * Doors are modelled differently in case their handling for pathing is ever changed from the current, hacky variant.
+     * @param shortcut
+     */
     export function normalize(shortcut: shortcut): entity_shortcut {
         if (shortcut.type == "entity") return shortcut
 
@@ -47,13 +58,15 @@ export namespace Shortcuts {
                         interactive_area: TileRectangle.top(shortcut.area),
                         time: 1,
                         name: "Cross south",
-                        movement: {type: "offset", offset: {x: 0, y: -1}, level_offset: shortcut.area.level}
+                        movement: {type: "offset", offset: {x: 0, y: -1, level: 0}},
+                        orientation: {type: "forced", direction: direction.south, relative: true}
                     }, {
                         cursor: "open",
                         interactive_area: TileRectangle.bottom(shortcut.area),
                         time: 1,
                         name: "Cross north",
-                        movement: {type: "offset", offset: {x: 0, y: 1}, level_offset: shortcut.area.level}
+                        movement: {type: "offset", offset: {x: 0, y: 1, level: 0}},
+                        orientation: {type: "forced", direction: direction.north, relative: true}
                     }]
                 }
             case "eastwest":
@@ -70,13 +83,16 @@ export namespace Shortcuts {
                         interactive_area: TileRectangle.left(shortcut.area),
                         time: 1,
                         name: "Cross east",
-                        movement: {type: "offset", offset: {x: 1, y: 0}, level_offset: shortcut.area.level}
+                        movement: {type: "offset", offset: {x: 1, y: 0, level: 0}},
+                        orientation: {type: "forced", direction: direction.east, relative: true}
                     }, {
                         cursor: "open",
                         interactive_area: TileRectangle.right(shortcut.area),
                         time: 1,
                         name: "Cross west",
-                        movement: {type: "offset", offset: {x: -1, y: 0}, level_offset: shortcut.area.level}
+                        movement: {type: "offset", offset: {x: -1, y: 0, level: 0}},
+                        orientation: {type: "forced", direction: direction.west, relative: true}
+
                     }]
                 }
         }

@@ -567,8 +567,7 @@ class PathEditorGameLayer extends GameLayer {
                                     break;
                                 case "offset":
                                     ends = TileCoordinates.move(start, a.movement.offset)
-
-                                    ends.level += a.movement.level_offset
+                                    ends.level += a.movement.offset.level
 
                                     break;
                             }

@@ -1,8 +1,11 @@
 Immediate next:
 - Shortcut editor:
-    - Forced direction?
-    - Render movement (on hover)
-    - Properly support relative and absolute targets
+    - Render movement, arrow on hover?, Finalize coloring
+    - Move, copy buttons on panel
+    - Context menu for targets: Go to origin
+    - Scale shortcut polygons on zoom
+    - Decide on a default orientation type
+    - Revive craft at icon
 
 - Path Editor
     - Move action bar to generalized interface

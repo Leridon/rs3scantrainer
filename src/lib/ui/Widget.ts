@@ -34,10 +34,13 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    append(widget: Widget | JQuery): this {
-        if (widget instanceof Widget) widget = widget.container
+    append(...widget: (Widget | JQuery)[]): this {
+        widget.forEach(w => {
+            if (!w) return
+            if (w instanceof Widget) w = w.container
 
-        this.container.append(widget)
+            this.container.append(w)
+        })
 
         return this
     }

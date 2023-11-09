@@ -19,10 +19,10 @@ export class DrawGeneralEntity extends InteractionLayer {
             .addTo(this)
 
         new GameMapDragAction({
-            preview_render: (area) => new ShortcutViewLayer.ShortcutPolygon(observe(DrawGeneralEntity.transform(area)))
+            preview_render: (area) => new ShortcutViewLayer.ShortcutPolygon(observe(DrawGeneralEntity.create(area)))
         })
             .onCommit((area) => {
-                this.config.done_handler(DrawGeneralEntity.transform(area))
+                this.config.done_handler(DrawGeneralEntity.create(area))
                 this.cancel()
             })
             .onEnd(() => this.cancel())
@@ -31,7 +31,7 @@ export class DrawGeneralEntity extends InteractionLayer {
 }
 
 export namespace DrawGeneralEntity {
-    export function transform(area: TileRectangle): Shortcuts.entity_shortcut {
+    export function create(area: TileRectangle): Shortcuts.entity_shortcut {
         return {
             type: "entity",
             name: "Entity",
@@ -39,10 +39,11 @@ export namespace DrawGeneralEntity {
             actions: [{
                 cursor: "generic",
                 interactive_area: TileRectangle.extend(area, 1),
-                movement: {type: "offset", offset: {x: 0, y: 0}, level_offset: area.level},
+                movement: {type: "offset", offset: {x: 0, y: 0, level: 0}},
                 name: "Use",
-                time: 3
-            }],
+                time: 3,
+                orientation: {type: "keep"}
+            }]
         }
     }
 }

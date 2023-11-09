@@ -4,6 +4,7 @@ import {arrow} from "../../path_graphics";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
+import {TileRectangle} from "../../../../lib/runescape/coordinates";
 
 
 export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
@@ -24,6 +25,8 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
             event.stopAllPropagation()
 
             if (this.value.get().value?.origin == null) {
+                // TODO: Check if in interactible area.
+
                 this.preview({
                     origin: event.tile(),
                     offset: {x: 0, y: 0},

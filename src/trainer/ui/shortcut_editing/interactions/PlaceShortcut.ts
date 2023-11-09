@@ -9,7 +9,7 @@ import {GameMapKeyboardEvent, GameMapMouseEvent} from "../../../../lib/gamemap/M
 import {ShortcutViewLayer} from "../ShortcutView";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {observe} from "../../../../lib/reactive";
-import {LodashHas} from "lodash/fp";
+import {direction} from "../../../../lib/runescape/movement";
 
 export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
 
@@ -79,7 +79,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
 
             this.final_translation_transform = TileTransform.translation(event.tile(), event.tile().level)
 
-            if(event.original.shiftKey){
+            if (event.original.shiftKey) {
                 this.copy_handler(PlaceShortcut.transform(this.original,
                     TileTransform.chain(
                         this.final_translation_transform,
@@ -127,20 +127,48 @@ export namespace PlaceShortcut {
                         movement: (() => {
                             switch (a.movement.type) {
                                 case "fixed":
-                                    return {
-                                        type: "fixed",
-                                        target: TileCoordinates.transform(a.movement.target, trans)
-                                    }
+                                    return (a.movement.relative)
+                                        ? {
+                                            type: "fixed",
+                                            target: TileCoordinates.transform(a.movement.target, trans),
+                                            relative: true
+                                        }
+                                        : {
+                                            type: "fixed",
+                                            target: a.movement.target,
+                                            relative: false
+                                        }
                                 case "offset":
                                     return {
                                         type: "offset",
-                                        offset: Vector2.transform(a.movement.offset, trans.matrix),
-                                        level_offset: floor_t.clamp(a.movement.level_offset + trans.level_offset)
+                                        offset: {...Vector2.snap(Vector2.transform(a.movement.offset, trans.matrix)), level: floor_t.clamp(a.movement.offset.level + trans.level_offset)}
                                     }
                             }
                         })(),
+                        orientation: (() => {
+                            switch (a.orientation.type) {
+                                case "byoffset":
+                                    return {type: "byoffset"}
+                                case "keep":
+                                    return {type: "keep"}
+                                case "toentity":
+                                    return {type: "toentity"}
+                                case "forced":
+                                    return (a.orientation.relative)
+                                        ? {
+                                            type: "forced",
+                                            direction: direction.transform(a.orientation.direction, trans.matrix),
+                                            relative: true
+                                        }
+                                        : {
+                                            type: "forced",
+                                            direction: a.orientation.direction,
+                                            relative: false
+                                        }
+                            }
+                        })(),
                         name: a.name,
-                        time: a.time
+                        time: a.time,
                     }))
                 }
 

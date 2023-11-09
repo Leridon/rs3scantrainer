@@ -1,9 +1,4 @@
 Immediate next:
-- Shortcut editor:
-    - Context menu for targets: Go to origin
-    - Scale shortcut polygons on zoom
-    - Decide on a default orientation type
-    - Revive craft at icon
 
 - Path Editor
     - Move action bar to generalized interface
@@ -13,7 +8,6 @@ Immediate next:
     - Fix "Redraw" for running
     - "You are here marker"
     - New Shortcuts via context menu
-    - Recover lost icons for the variant teleports
 
 - Scan Editor
     - Autoname areas
@@ -39,6 +33,7 @@ Ready for release:
 - Update Deep Wildy Scan/Wilderness Crater
 - Update compass spots from rsmv
 - Have a way to directly link to a given clue and its method with query parameters.
+- Shortcut editor
 
 
 Planned for next release (b0.4):
@@ -47,6 +42,7 @@ Planned for next release (b0.4):
     - Define a graphical representation for each one.
     - Add an editor/Unified way to show paths
 - Finish all elite/master scans
+
 
 
 - [Tooling] Styling pass over the scan editor
@@ -62,8 +58,6 @@ b0.5:
     - Shown depth of scan trees
 - Support for multiple methods
 
-
-
 RELEASE 1.0
 - Auto read pulses
 - [Tech] Overlay pathing into the game.
@@ -76,6 +70,9 @@ RELEASE 1.0
 
 
 Unscheduled:
+- Shortcut editor:
+    - Context menu for targets: Go to origin
+    - Scale shortcut polygons on zoom
 - Check out mejs map for transport data
 - Fade teleport icons when on different level
 - [What] Incorporate jacket/backpack recommmendations

@@ -1,4 +1,3 @@
-
 import {direction, MovementAbilities, PlayerPosition} from "./movement";
 import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
@@ -35,13 +34,17 @@ export namespace Path {
         | "search"
         | "attack"
         | "craft"
+        | "build"
+        | "mine"
+        | "trade"
+        | "use"
 
     export namespace InteractionType {
 
         export function all(): InteractionType[] {
             return [
                 "generic", "chop", "talk", "open", "enter", "spellonentity", "agility_obstacle", "ladderdown", "ladderup",
-                "read", "fish", "search", "attack", "craft"
+                "read", "fish", "search", "attack", "craft", "build", "mine", "trade", "use"
             ]
         }
 
@@ -75,6 +78,14 @@ export namespace Path {
                     return {icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"}
                 case "craft":
                     return {icon_url: "assets/icons/cursor_craft.png", description: "Craft at", short_icon: "cursor_craft"}
+                case "build":
+                    return {icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"}
+                case "mine":
+                    return {icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"}
+                case "trade":
+                    return {icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"}
+                case "use":
+                    return {icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
             }
             // TODO: Add real data
         }
@@ -577,7 +588,7 @@ export namespace Path {
         } else if (step.type === "teleport") {
             let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
 
-             if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.sub.name}`
+            if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.sub.name}`
             else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
         } else if (step.type === "interaction") {
             return "Use entrance/shortcut"; // TODO:

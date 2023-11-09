@@ -39,8 +39,15 @@ import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
 import InteractionTopControl from "../map/InteractionTopControl";
-import {observeArray} from "../../../lib/reactive";
+import {ObservableArray, observeArray} from "../../../lib/reactive";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {C} from "../../../lib/ui/constructors";
+import hbox = C.hbox;
+import span = C.span;
+import spacer = C.spacer;
+import sibut = SmallImageButton.sibut;
+import * as assert from "assert";
+import vbox = C.vbox;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -48,122 +55,124 @@ export class IssueWidget extends Widget {
     }
 }
 
-class StepEditWidget extends Widget<{
-    "changed": Path.step,
-}> {
+class StepEditWidget extends Widget {
 
-    constructor(private parent: ControlWidget, private value: Path.augmented_step) {
+    constructor(private parent: ControlWidget, public value: PathEditor.OValue) {
         super()
 
         this.addClass("step-edit-component")
 
-        this.on("changed", () => this.updatePreview())
-        // TODO this.on("deleted", () => this.removePreview())
+        value.subscribe((v) => {
+            // Here???
+            v.associated_preview = createStepGraphics(v.raw).addTo(this.parent)
+        })
 
+        value.value().augmented.subscribe((v) => {
+            this.render(v)
+        }, true)
+    }
+
+    private render(value: Path.augmented_step) {
+        this.empty()
+
+        // Render header
         {
-            let control_row = new Widget().addClass("path-step-edit-widget-control-row").appendTo(this)
-
-            let title = c("<div style='font-weight: bold;'></div>").appendTo(control_row)
-
-            c("<span class='nisl-textlink'></span>").text(`T${value.pre_state.tick}`).appendTo(title)
-                .addTippy(new MovementStateView(value.pre_state))
-            c("<span>&nbsp;-&nbsp;</span>").appendTo(title)
-            c("<span class='nisl-textlink'></span>").text(`T${value.post_state.tick}`).appendTo(title)
-                .addTippy(new MovementStateView(value.post_state))
-            c(`<span>: ${Path.title(value.raw)} </span>`).appendTo(title)
-
-            c().css("flex-grow", "1").appendTo(control_row)
-
-            SmallImageButton.new("assets/nis/arrow_up.png").appendTo(control_row)
-                .setEnabled(this.parent.editor.value.get().indexOf(this.value.raw) != 0)
-                .tooltip("Move step up")
-                .on("click", () => this.parent.editor.value.moveEarlier(this.value.raw))
-
-            SmallImageButton.new("assets/nis/arrow_down.png").appendTo(control_row)
-                .setEnabled(this.parent.editor.value.get().indexOf(this.value.raw) != this.parent.editor.value.get().length - 1)
-                .tooltip("Move step down")
-                .on("click", () => this.parent.editor.value.moveLater(this.value.raw))
-
-            SmallImageButton.new("assets/icons/delete.png").appendTo(control_row)
-                .on("click", () => this.parent.editor.value.remove(this.value.raw))
-
-            SmallImageButton.new("assets/icons/fullscreen.png").appendTo(control_row)
-                .on("click", () => {
-                    this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Path.step_bounds(this.value)), {maxZoom: 4})
-                })
+            hbox(
+                hbox(
+                    span(`T${value.pre_state.tick}`).addClass('nisl-textlink')
+                        .addTippy(new MovementStateView(value.pre_state)),
+                    c("<span>&nbsp;-&nbsp;</span>"),
+                    c("<span class='nisl-textlink'></span>").text(`T${value.post_state.tick}`)
+                        .addTippy(new MovementStateView(value.post_state)),
+                    c(`<span>: ${Path.title(value.raw)}</span>`)
+                ).css("font-weight", "bold"),
+                spacer(),
+                sibut("assets/nis/arrow_up.png", () => this.parent.editor.value.moveEarlier(value.raw))
+                    .tooltip("Move step up").setEnabled(this.parent.editor.value.get().indexOf(value.raw) != 0),
+                sibut("assets/nis/arrow_down.png", () => this.parent.editor.value.moveLater(value.raw))
+                    .tooltip("Move step down").setEnabled(this.parent.editor.value.get().indexOf(value.raw) != this.parent.editor.value.get().length - 1),
+                sibut("assets/icons/delete.png", () => this.parent.editor.value.remove(value.raw)),
+                sibut("assets/icons/fullscreen.png", () =>
+                    this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Path.step_bounds(value)), {maxZoom: 4}))
+            ).addClass("path-step-edit-widget-control-row").appendTo(this)
         }
 
         let issues = c().addClass("step-edit-issues").appendTo(this)
 
-        this.value.issues.forEach((i) => new IssueWidget(i).appendTo(issues))
+        value.issues.forEach((i) => new IssueWidget(i).appendTo(issues))
 
         let props = new Properties().appendTo(this)
 
         props.named("Detail",
             new TemplateStringEdit({
                 resolver: this.parent.editor.template_resolver,
-                generator: () => Path.auto_description(this.value.raw) // TODO
+                generator: () => Path.auto_description(value.raw) // TODO
             })
                 .setValue(value.raw.description)
-                .on("changed", (v) => {
-                    this.value.raw.description = v
-                    this.emit("changed", this.value.raw)
-                })
+                .on("changed", (v) => this.value.update(o => o.raw.description = v))
         )
 
-        switch (this.value.raw.type) {
+        switch (value.raw.type) {
             case "ability":
-                props.named("From", new MapCoordinateEdit(this.value.raw.from,
-                    () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                            preview_render: (tile) => createStepGraphics({
-                                type: "ability",
-                                description: "",
-                                ability: (this.value.raw as Path.step_ability).ability,
-                                from: tile,
-                                to: (this.value.raw as Path.step_ability).to,
-                            })
-                        }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the start of the ${(this.value.raw as Path.step_ability).ability} by clicking the tile.`))
-                            .onStart(() => this._preview.setOpacity(0))
-                            .onEnd(() => this._preview.setOpacity(1))
-                    )
-                ))
-                    .on("changed", (c) => {
-                        (this.value.raw as Path.step_ability).from = c
-                        this.emit("changed", this.value.raw)
-                    })
+                /* props.named("From", new MapCoordinateEdit(value.raw.from,
+                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
+                             preview_render: (tile) => createStepGraphics({
+                                 type: "ability",
+                                 description: "",
+                                 ability: (value.raw as Path.step_ability).ability,
+                                 from: tile,
+                                 to: (value.raw as Path.step_ability).to,
+                             })
+                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the start of the ${(value.raw as Path.step_ability).ability} by clicking the tile.`))
+                             .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                             .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
+                     )
+                 ))
+                     .on("changed", (c) => {
+                         this.value.update(v => {
+                             assert(v.raw.type == "ability")
+                             v.raw.from =
+                         })
+                         (value.raw as Path.step_ability).from = c
+                         this.emit("changed", value.raw)
+                     })
 
-                props.named("To", new MapCoordinateEdit(this.value.raw.to,
-                    () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                            preview_render: (tile) => createStepGraphics({
-                                type: "ability",
-                                description: "",
-                                ability: (this.value.raw as Path.step_ability).ability,
-                                from: (this.value.raw as Path.step_ability).from,
-                                to: tile,
-                            })
-                        }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the target of the ${(this.value.raw as Path.step_ability).ability} by clicking the tile.`))
-                            .onStart(() => this._preview.setOpacity(0))
-                            .onEnd(() => this._preview.setOpacity(1))
-                    ))
-                    .on("changed", (c) => {
-                        (this.value.raw as Path.step_ability).to = c
-                        this.emit("changed", this.value.raw)
-                    }))
+                 props.named("To", new MapCoordinateEdit(value.raw.to,
+                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
+                             preview_render: (tile) => createStepGraphics({
+                                 type: "ability",
+                                 description: "",
+                                 ability: (value.raw as Path.step_ability).ability,
+                                 from: (value.raw as Path.step_ability).from,
+                                 to: tile,
+                             })
+                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the target of the ${(value.raw as Path.step_ability).ability} by clicking the tile.`))
+                             .onStart(() => this._preview.setOpacity(0))
+                             .onEnd(() => this._preview.setOpacity(1))
+                     ))
+                     .on("changed", (c) => {
+                         (value.raw as Path.step_ability).to = c
+                         this.emit("changed", value.raw)
+                     }))
+
+                 */
 
                 props.row(new LightButton("Redraw")
                     .on("click", () => {
-                        let s = this.value.raw as Path.step_ability
 
-                        if (this._preview) this._preview.remove()
+                        assert(value.raw.type == "ability")
 
                         // FIXME
-                        new DrawAbilityInteraction(s.ability, false, {
+                        new DrawAbilityInteraction(value.raw.ability, false, {
                             done_handler: (new_s) => {
-                                Object.assign(s, new_s)
-                                this.updatePreview()
-                                this.emit("changed", this.value.raw)
+                                Object.assign(value.raw, new_s)
+                                this.emit("changed", value.raw)
                             }
                         })
+                            .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
+
+
                         /*
                         .setStartPosition(s.from)
                         .tapEvents((e) => {
@@ -171,7 +180,7 @@ class StepEditWidget extends Widget<{
                                 .on("done", (new_s) => {
                                     Object.assign(s, new_s)
                                     this.updatePreview()
-                                    this.emit("changed", this.value.raw)
+                                    this.emit("changed", value.raw)
                                 })
                                 .on("cancelled", () => {
                                     this._preview.addTo(this.parent._preview_layer)
@@ -181,36 +190,37 @@ class StepEditWidget extends Widget<{
                 )
 
                 break;
+            /* // TODO: Reenable
             case "redclick":
 
-                props.named("Where", new MapCoordinateEdit(this.value.raw.where,
+                props.named("Where", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
                             preview_render: (tile) => createStepGraphics({
                                 type: "redclick",
                                 description: "",
                                 where: tile,
-                                how: (this.value.raw as Path.step_redclick).how,
+                                how: (value.raw as Path.step_redclick).how,
                             })
                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the redclick by clicking the tile.`))
                             .onStart(() => this._preview.setOpacity(0))
                             .onEnd(() => this._preview.setOpacity(1))
                     ))
                     .on("changed", (c) => {
-                        (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
-                        this.emit("changed", this.value.raw)
+                        (value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
+                        this.emit("changed", value.raw)
                     }))
 
                 props.named("Action", new InteractionSelect()
-                    .setValue(this.value.raw.how)
+                    .setValue(value.raw.how)
                     .on("selection_changed", v => {
-                        (this.value.raw as Path.step_interact).how = v
-                        this.emit("changed", this.value.raw)
+                        (value.raw as Path.step_interact).how = v
+                        this.emit("changed", value.raw)
                     })
                 )
                 break
             case "powerburst":
 
-                props.named("Where", new MapCoordinateEdit(this.value.raw.where,
+                props.named("Where", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
                             preview_render: (tile) => createStepGraphics({
                                 type: "powerburst",
@@ -222,8 +232,8 @@ class StepEditWidget extends Widget<{
                             .onEnd(() => this._preview.setOpacity(1))
                     ))
                     .on("changed", (c) => {
-                        (this.value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
-                        this.emit("changed", this.value.raw)
+                        (value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
+                        this.emit("changed", value.raw)
                     }))
 
                 break
@@ -231,7 +241,7 @@ class StepEditWidget extends Widget<{
             case "run":
                 props.row(new LightButton("Repath")
                     .on("click", () => {
-                        let s = this.value.raw as Path.step_run
+                        let s = value.raw as Path.step_run
 
                         if (this._preview) this._preview.remove()
 
@@ -242,7 +252,7 @@ class StepEditWidget extends Widget<{
                                     .on("done", (new_s) => {
                                         Object.assign(s, new_s)
                                         this.updatePreview()
-                                        this.emit("changed", this.value.raw)
+                                        this.emit("changed", value.raw)
                                     })
                                     .on("cancelled", () => {
                                         this._preview.addTo(this.parent._preview_layer)
@@ -254,100 +264,107 @@ class StepEditWidget extends Widget<{
             case "interaction":
 
                 props.named("Ticks", c("<input type='number' class='nisinput' min='0'>")
-                    .tapRaw((c) => c.val((this.value.raw as Path.step_interact).ticks).on("change", () => {
-                        (this.value.raw as Path.step_interact).ticks = Number(c.val())
-                        this.emit("changed", this.value.raw)
+                    .tapRaw((c) => c.val((value.raw as Path.step_interact).ticks).on("change", () => {
+                        (value.raw as Path.step_interact).ticks = Number(c.val())
+                        this.emit("changed", value.raw)
                     }))
                 )
 
-                props.named("Starts", new MapCoordinateEdit(this.value.raw.starts,
+                props.named("Starts", new MapCoordinateEdit(value.raw.starts,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                        preview_render: (tile) => ShortcutViewLayer.render_transport_arrow(tile, (this.value.raw as Path.step_interact).ends_up)
+                        preview_render: (tile) => ShortcutViewLayer.render_transport_arrow(tile, (value.raw as Path.step_interact).ends_up)
                     }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the start of the transport by clicking a tile.")))
                 ))
                     .on("changed", (c) => {
-                        (this.value.raw as Path.step_interact).starts = c
-                        this.emit("changed", this.value.raw)
+                        (value.raw as Path.step_interact).starts = c
+                        this.emit("changed", value.raw)
                     })
 
-                props.named("Click", new MapCoordinateEdit(this.value.raw.where,
+                props.named("Click", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction()
                         .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select where the shortcut is clicked by clicking a tile.")))
                 ))
                     .on("changed", (c) => {
-                        (this.value.raw as Path.step_interact).where = c
-                        this.emit("changed", this.value.raw)
+                        (value.raw as Path.step_interact).where = c
+                        this.emit("changed", value.raw)
                     })
 
-                props.named("Ends up", new MapCoordinateEdit(this.value.raw.ends_up,
+                props.named("Ends up", new MapCoordinateEdit(value.raw.ends_up,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                        preview_render: (tile) => ShortcutViewLayer.render_transport_arrow((this.value.raw as Path.step_interact).starts, tile)
+                        preview_render: (tile) => ShortcutViewLayer.render_transport_arrow((value.raw as Path.step_interact).starts, tile)
                     }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of the transport by clicking a tile.")))
                 ))
                     .on("changed", (c) => {
-                        (this.value.raw as Path.step_interact).ends_up = c
-                        this.emit("changed", this.value.raw)
+                        (value.raw as Path.step_interact).ends_up = c
+                        this.emit("changed", value.raw)
                     })
 
                 props.named("Facing", new DirectionSelect()
-                    .setValue(this.value.raw.forced_direction)
+                    .setValue(value.raw.forced_direction)
                     .on("selection_changed", v => {
-                        (this.value.raw as Path.step_interact).forced_direction = v
-                        this.emit("changed", this.value.raw)
+                        (value.raw as Path.step_interact).forced_direction = v
+                        this.emit("changed", value.raw)
                     })
                 )
 
                 props.named("Action", new InteractionSelect()
-                    .setValue(this.value.raw.how)
+                    .setValue(value.raw.how)
                     .on("selection_changed", v => {
-                        (this.value.raw as Path.step_interact).how = v
-                        this.emit("changed", this.value.raw)
+                        (value.raw as Path.step_interact).how = v
+                        this.emit("changed", value.raw)
                     })
                 )
 
                 break
             case "orientation":
                 props.named("Facing", new DirectionSelect()
-                    .setValue(this.value.raw.direction)
+                    .setValue(value.raw.direction)
                     .on("selection_changed", v => {
-                        (this.value.raw as Path.step_orientation).direction = v
-                        this.emit("changed", this.value.raw)
+                        (value.raw as Path.step_orientation).direction = v
+                        this.emit("changed", value.raw)
                     })
                 )
 
                 break
+
+            */
             case "teleport":
-                let current = Teleports.find(teleport_data.getAllFlattened(), this.value.raw.id)
+                let current = Teleports.find(teleport_data.getAllFlattened(), value.raw.id)
 
                 props.named("Teleport", new TeleportSelect().setValue(current)
-                    .on("selection_changed", v => {
-                        (this.value.raw as Path.step_teleport).id = v.id
-                        this.emit("changed", this.value.raw)
-                    }))
+                    .on("selection_changed", tele =>
+                        this.value.update((v) => {
+                            assert(v.raw.type == "teleport")
+                            v.raw.id = tele.id
+                        })
+                    ))
 
+                /* // Reenable
                 props.named("Override?", new Checkbox()
-                    .setValue(this.value.raw.spot_override != null)
+                    .setValue(value.raw.spot_override != null)
                     .on("changed", v => {
 
-                        if (v) (this.value.raw as Path.step_teleport).spot_override = {x: 0, y: 0, level: 0}
-                        else (this.value.raw as Path.step_teleport).spot_override = undefined
+                        if (v) (value.raw as Path.step_teleport).spot_override = {x: 0, y: 0, level: 0}
+                        else (value.raw as Path.step_teleport).spot_override = undefined
 
-                        this.emit("changed", this.value.raw)
+                        this.emit("changed", value.raw)
                     })
                 )
 
-                if (this.value.raw.spot_override) {
-                    props.named("Coordinates", new MapCoordinateEdit(this.value.raw.spot_override,
+                if (value.raw.spot_override) {
+                    props.named("Coordinates", new MapCoordinateEdit(value.raw.spot_override,
                             () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
                                 // preview_render: (tile) => {}
                             }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the overriden target of the teleport by clicking a tile.")))
                         )
                             .on("changed", (c) => {
-                                (this.value.raw as Path.step_teleport).spot_override = c
-                                this.emit("changed", this.value.raw)
+                                (value.raw as Path.step_teleport).spot_override = c
+                                this.emit("changed", value.raw)
                             })
                     )
                 }
+
+                 */
 
                 break
         }
@@ -355,35 +372,18 @@ class StepEditWidget extends Widget<{
         // TODO: Fix scroll events passing through
         // TODO: Add analytics
         // TODO: Action select
-
-        this.updatePreview()
-    }
-
-    _preview: OpacityGroup = null
-
-    updatePreview() {
-        this.removePreview()
-
-        this._preview = createStepGraphics(this.value.raw).addTo(this.parent._preview_layer)
-    }
-
-    removePreview() {
-        if (this._preview) {
-            this._preview.remove()
-            this._preview = null
-        }
     }
 }
 
 class ControlWidget extends GameMapControl {
-    _preview_layer: leaflet.FeatureGroup
-
-    steps_collapsible: Collapsible
+    steps_container: Widget
     step_widgets: StepEditWidget[] = []
 
     issue_container: Widget
 
-    constructor(public editor: PathEditor) {
+    constructor(public editor: PathEditor,
+                private data: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }>
+    ) {
         super({
             position: "left-top",
             type: "floating"
@@ -391,13 +391,12 @@ class ControlWidget extends GameMapControl {
 
         this.content.addClass("path-edit-control")
 
-        this.steps_collapsible = new Collapsible().setTitle("Steps").appendTo(this.content)
-
-        this.steps_collapsible.content_container.css2({
+        this.steps_container = vbox().appendTo(this.content).css2({
             "max-height": "400px",
             "overflow-y": "auto",
         })
 
+        /* // TODO: Recover this functionality elsewhere
         {
             let controls_collapsible = new Collapsible("Controls").appendTo(this.content)
             let props = new Properties().appendTo(controls_collapsible.content_container)
@@ -417,7 +416,7 @@ class ControlWidget extends GameMapControl {
             /*new LightButton("Save & Close").on("click", () => {
                 this.emit("saved", this.value)
                 this.emit("closed", null)
-            }).setEnabled(this.options.save_enabled).appendTo(control_container)*/
+            }).setEnabled(this.options.save_enabled).appendTo(control_container)
 
             new LightButton("Discard").on("click", () => {
                 this.editor.current_options?.discard_handler()
@@ -428,7 +427,9 @@ class ControlWidget extends GameMapControl {
                 .on("click", () => {
                     ExportStringModal.do(JSON.stringify(this.value, null, 2))
                 })
-                .appendTo(control_container)*/
+                .appendTo(control_container)
+
+
             new LightButton("Export")
                 .on("click", () => ExportStringModal.do(Path.export_path(this.editor.value.get())))
                 .appendTo(control_container)
@@ -447,65 +448,52 @@ class ControlWidget extends GameMapControl {
                     }), "Use this link to directly link to this path.")
                 })
                 .appendTo(control_container)
-        }
+        }*/
 
-        this.content.container.on("click", (e) => e.stopPropagation())
+        data.subscribe(({path, steps}) => this.render(path, steps))
 
-        this.content.addClass("nis-map-control")
 
-        this.resetPreviewLayer()
+        //this.content.container.on("click", (e) => e.stopPropagation())
+        //this.content.addClass("nis-map-control") // TODO? Need this?
     }
 
-    public render(augmented: Path.augmented) {
-        this.resetPreviewLayer()
+    private render(augmented: Path.augmented, steps: PathEditor.OValue[]) {
+        console.log(`Rendering ${steps.length}`)
 
-        this.issue_container.empty()
+        /*{
+            this.issue_container.empty()
 
-        for (let issue of augmented.issues) {
-            new IssueWidget(issue).appendTo(this.issue_container)
-        }
+            for (let issue of augmented.issues) {
+                new IssueWidget(issue).appendTo(this.issue_container)
+            }
+        }*/
 
-        this.step_widgets = []
-        this.steps_collapsible.content_container.empty()
+        let existing: { widget: StepEditWidget, keep: boolean }[] = this.step_widgets.map(w => ({widget: w, keep: false}))
 
-        if (augmented.steps.length == 0) {
-            c("<div style='text-align: center'></div>").appendTo(this.steps_collapsible.content_container)
+        // Render edit widgets for indiviual steps
+        this.step_widgets = steps.map(step => {
+            let e = existing.find(e => e.widget.value == step)
+
+            if (e) {
+                e.keep = true
+                return e.widget
+            } else {
+                return new StepEditWidget(this, step)
+            }
+        })
+
+        existing.forEach(e => { if (e.keep) e.widget.detach() })
+
+        this.steps_container.empty().append(...this.step_widgets)
+
+        if (steps.length == 0) {
+            c("<div style='text-align: center'></div>").appendTo(this.steps_container)
                 .append(c("<span>No steps yet.</span>"))
                 .append(c("<span class='nisl-textlink'>&nbsp;Hover to show state.</span>")
                     .addTippy(new MovementStateView(augmented.pre_state)))
         }
 
-        // Render edit widgets for indiviual steps
-        for (let step of augmented.steps) {
-            this.step_widgets.push(
-                new StepEditWidget(this, step).appendTo(this.steps_collapsible.content_container)
-                    .on("changed", () => {
-                        this.editor.value.update(() => {})
-                    })
-            )
-        }
-
-        augmented.post_state?.position?.tile
-
-        if (augmented.post_state?.position?.tile) tilePolygon(augmented.post_state.position.tile)
-            .setStyle({
-                color: "orange"
-            })
-            .addTo(this._preview_layer)
-
         return this
-    }
-
-    removePreviewLayer() {
-        if (this._preview_layer) {
-            this._preview_layer.remove()
-            this._preview_layer = null
-        }
-    }
-
-    resetPreviewLayer() {
-        this.removePreviewLayer()
-        this._preview_layer = leaflet.featureGroup().addTo(this.editor.game_layer)
     }
 }
 
@@ -521,14 +509,6 @@ class PathEditorGameLayer extends GameLayer {
             if (this.editor.isActive()) {
 
                 // TODO: Run here/Redclick
-                /*event.add({
-                    type: "basic", text: "Run Here", handler: () => {
-                    }
-                })
-                event.add({
-                    type: "basic", text: "Red Click", handler: () => {
-                    }
-                })*/
 
                 {
                     this.getMap().getTeleportLayer().teleports
@@ -538,11 +518,13 @@ class PathEditorGameLayer extends GameLayer {
                                 type: "basic",
                                 text: `Teleport: ${t.hover}`,
                                 handler: () => {
-                                    this.editor.value.addBack(Path.auto_describe({
-                                        type: "teleport",
-                                        description: "",
-                                        id: t.id,
-                                    }))
+                                    this.editor.value.add({
+                                        raw: Path.auto_describe({
+                                            type: "teleport",
+                                            description: "",
+                                            id: t.id,
+                                        })
+                                    })
                                 }
                             })
                         })
@@ -595,6 +577,7 @@ class PathEditorGameLayer extends GameLayer {
     }
 }
 
+/*
 class PathBuilder extends Observable<Path.raw> {
     public augmented_async: Observable<Promise<Path.augmented>> = observe(null)
     public augmented: Observable<Path.augmented> = observe(null)
@@ -658,19 +641,42 @@ class PathBuilder extends Observable<Path.raw> {
         return this
     }
 }
+*/
+
+
+export class PathBuilder extends ObservableArray<PathEditor.Value> {
+    override add(v: PathEditor.Value): ObservableArray.ObservableArrayValue<PathEditor.Value> {
+        if (!v.augmented) v.augmented = observe(null)
+
+        console.log(v.augmented)
+
+        return super.add(v);
+    }
+
+    override setTo(data: PathEditor.Value[]): this {
+        data.forEach(v => {
+            if (!v.augmented) v.augmented = observe(null)
+        })
+
+        return super.setTo(data)
+    }
+}
+
 
 export class PathEditor extends Behaviour {
     private control: ControlWidget = null
     current_options: PathEditor.options_t = null
     private handler_layer: PathEditorGameLayer = null
 
-    value: PathBuilder = new PathBuilder()
-
     action_bar: PathEditActionBar
 
     interaction_guard: InteractionGuard
 
-    constructor(public game_layer: GameLayer, public template_resolver: TemplateResolver,
+    value: PathEditor.Data
+    augmented_value: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }>
+
+    constructor(public game_layer: GameLayer,
+                public template_resolver: TemplateResolver,
                 public data: {
                     shortcuts: Shortcuts.shortcut[],
                     teleports: Teleports.flat_teleport[]
@@ -678,45 +684,62 @@ export class PathEditor extends Behaviour {
     ) {
         super()
 
-        this.value.augmented.subscribe(aug => {
-            if (this.control) this.control.render(aug)
-            if (this.action_bar) this.action_bar.state.set(aug.post_state)
+        this.handler_layer = new PathEditorGameLayer(this).addTo(this.game_layer)
+
+        this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
+
+        this.value = new PathBuilder()
+        this.augmented_value = observe({path: null, steps: []})
+
+        this.value.array_changed.on(async (v) => {
+            let aug = await Path.augment(v.data.map(s => s.value().raw), this.current_options?.start_state, this.current_options?.target)
+
+            console.log("Augmented, doing stuff")
+
+            for (let i = 0; i < aug.steps.length; i++) {
+                v.data[i].value().augmented?.set(aug.steps[i])
+            }
+
+            this.augmented_value.set({path: aug, steps: v.data})
         })
+
+        this.value.element_added.on(e => this.updatePreview(e))
+        this.value.element_removed.on(e => e.value().associated_preview?.remove())
+        this.value.element_changed.on(e => this.updatePreview(e))
+
+        this.augmented_value.subscribe(({path}) => {
+            if (this.action_bar) this.action_bar.state.set(path.post_state)
+        })
+    }
+
+    private updatePreview(o: PathEditor.OValue) {
+        let value = o.value()
+
+        if (value.associated_preview) {
+            value.associated_preview.remove()
+            value.associated_preview = null
+        }
+
+        value.associated_preview = createStepGraphics(value.raw).addTo(this.handler_layer)
     }
 
     public async load(path: Path.raw, options: PathEditor.options_t = {}) {
         this.reset()
 
+        this.value.setTo(path.map(s => ({raw: s})))
+
         this.current_options = options
 
-        this.handler_layer = new PathEditorGameLayer(this).addTo(this.game_layer)
-
-        this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
-
-        this.value.setMeta(options.start_state, options.target)
-
-        this.value.set(path)
-
-        this.control = new ControlWidget(this).addTo(this.handler_layer)
+        this.control = new ControlWidget(this, this.augmented_value).addTo(this.handler_layer)
         this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
 
-        this.action_bar.events.on("step_added", (step) => {
-            this.value.addBack(step)
-        })
-
-        this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
+        //TODO//this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
     }
 
     public reset() {
         if (this.control) {
-            this.control.resetPreviewLayer()
             this.control.remove()
             this.control = null
-        }
-
-        if (this.handler_layer) {
-            this.handler_layer.remove()
-            this.handler_layer = null
         }
 
         if (this.current_options) {
@@ -739,7 +762,12 @@ export class PathEditor extends Behaviour {
     }
 }
 
-namespace PathEditor {
+export namespace PathEditor {
+
+    export type Value = { raw: Path.step, associated_preview?: OpacityGroup, augmented?: Observable<Path.augmented_step> }
+    export type OValue = ObservableArray.ObservableArrayValue<Value>
+    export type Data = PathBuilder
+
     export type options_t = {
         commit_handler?: (p: Path.raw) => any,
         discard_handler?: () => any,

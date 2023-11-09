@@ -8,6 +8,7 @@ Immediate next:
     - Fix "Redraw" for running
     - "You are here marker"
     - New Shortcuts via context menu
+    - You are here marker scaling in tree view
 
 - Scan Editor
     - Autoname areas

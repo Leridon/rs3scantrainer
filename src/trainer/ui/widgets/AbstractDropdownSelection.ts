@@ -117,11 +117,11 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             modifiers: [
                 {
                     name: 'flip',
-                    enabled: false,
+                    enabled: true,
                 },
                 {
                     name: "preventOverflow",
-                    enabled: false,
+                    enabled: true,
                     options: {
                         boundary: "body",
                         rootBoundary: 'document',

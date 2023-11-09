@@ -141,7 +141,7 @@ export namespace PlaceShortcut {
                                 case "offset":
                                     return {
                                         type: "offset",
-                                        offset: {...Vector2.snap(Vector2.transform(a.movement.offset, trans.matrix)), level: floor_t.clamp(a.movement.offset.level + trans.level_offset)}
+                                        offset: {...Vector2.snap(Vector2.transform(a.movement.offset, trans.matrix)), level:a.movement.offset.level + trans.level_offset}
                                     }
                             }
                         })(),
@@ -151,8 +151,10 @@ export namespace PlaceShortcut {
                                     return {type: "byoffset"}
                                 case "keep":
                                     return {type: "keep"}
-                                case "toentity":
-                                    return {type: "toentity"}
+                                case "toentityafter":
+                                    return {type: "toentityafter"}
+                                case "toentitybefore":
+                                    return {type: "toentitybefore"}
                                 case "forced":
                                     return (a.orientation.relative)
                                         ? {

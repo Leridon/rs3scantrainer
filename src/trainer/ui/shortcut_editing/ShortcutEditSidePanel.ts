@@ -222,7 +222,7 @@ class ShortcutEdit extends Widget {
                                                         Vector2.add(action.movement.offset, Rectangle.center(action.interactive_area)),
                                                         floor_t.clamp(action.interactive_area.level + action.movement.offset.level)
                                                     ),
-                                                    relative: true
+                                                    relative: false
                                                 }
                                             }
                                         })
@@ -304,8 +304,10 @@ class ShortcutEdit extends Widget {
                                 switch (v.type) {
                                     case "byoffset":
                                         return span("By movement vector")
-                                    case "toentity":
-                                        return span("Turn to entity")
+                                    case "toentitybefore":
+                                        return span("Turn to entity (before)")
+                                    case "toentityafter":
+                                        return span("Turn to entity (after)")
                                     case "keep":
                                         return span("Keep previous")
                                     case "forced":
@@ -318,7 +320,8 @@ class ShortcutEdit extends Widget {
                     }, [
                         {type: "keep"},
                         {type: "byoffset"},
-                        {type: "toentity"},
+                        {type: "toentityafter"},
+                        {type: "toentitybefore"},
                     ].concat(direction.all.map(d => ({
                             type: "forced",
                             relative: false,
@@ -365,7 +368,7 @@ class ShortcutEdit extends Widget {
                                     cursor: v.actions[0]?.cursor || "generic",
                                     interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
                                     movement: {type: "offset", offset: {x: 0, y: 0, level: v.clickable_area.level}},
-                                    orientation: {type: "keep"},
+                                    orientation: {type: "byoffset"},
                                     name: v.actions[0]?.name || "Use",
                                     time: v.actions[0]?.time || 3
                                 }

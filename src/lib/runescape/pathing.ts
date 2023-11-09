@@ -38,6 +38,7 @@ export namespace Path {
         | "mine"
         | "trade"
         | "use"
+    // TODO: Smith, Cook
 
     export namespace InteractionType {
 
@@ -87,7 +88,6 @@ export namespace Path {
                 case "use":
                     return {icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
             }
-            // TODO: Add real data
         }
     }
 

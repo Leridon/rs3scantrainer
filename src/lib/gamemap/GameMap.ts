@@ -72,8 +72,6 @@ export class GameMap extends leaflet.Map {
 
     private baseLayers: leaflet.TileLayer[]
 
-    public dragAction: Observable<GameMapDragAction> = observe(null)
-
     private _lastHoveredTile: TileCoordinates = null
 
     constructor(element: HTMLElement) {
@@ -139,16 +137,6 @@ export class GameMap extends leaflet.Map {
             this.on("moveend", () => this.bounds.set(this.getBounds()))
             this.on("zoomend", () => this.bounds.set(this.getBounds()))
         }
-
-        this.dragAction.subscribe((a, old) => {
-            if (old) old.remove()
-
-            if (a == null) this.dragging.enable()
-            else {
-                this.dragging.disable()
-                a.addTo(this.internal_root_layer)
-            }
-        })
 
         // Add subtle gridlines
         new Graticule({
@@ -367,6 +355,7 @@ export namespace GameMap {
             zoomControl: false,
             dragging: true,
             doubleClickZoom: false,
+            boxZoom: false,
             attributionControl: true
         }
     }

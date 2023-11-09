@@ -8,7 +8,8 @@ export namespace Shortcuts {
     export type shortcut_orientation_type =
         { type: "forced", direction: direction, relative: boolean }
         | { type: "byoffset" }
-        | { type: "toentity" }
+        | { type: "toentitybefore" }
+        | { type: "toentityafter" }
         | { type: "keep" }
 
     export type entity_shortcut_action = {

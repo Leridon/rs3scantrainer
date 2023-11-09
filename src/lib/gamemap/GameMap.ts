@@ -1,16 +1,14 @@
 import * as leaflet from "leaflet";
 import {TeleportLayer} from "./defaultlayers/TeleportLayer";
 import {floor_t} from "../runescape/coordinates";
-import {ActiveLayer} from "./activeLayer";
 import Graticule from "./defaultlayers/Graticule";
 import Widget from "../ui/Widget";
 import {Constants} from "../../trainer/constants";
 import {Observable, observe} from "../properties/Observable";
 import GameLayer from "./GameLayer";
 import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
-import {FitBoundsOptions, LatLngBounds, LeafletEventHandlerFn, MapOptions} from "leaflet";
+import {FitBoundsOptions, LatLngBounds, MapOptions} from "leaflet";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
-import GameMapDragAction from "./interaction/GameMapDragAction";
 import {GameMapContextMenuEvent, GameMapEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
 import {GameMapControl} from "./GameMapControl";
 import BaseTileLayer from "./defaultlayers/BaseTileLayer";
@@ -268,11 +266,6 @@ export class GameMap extends leaflet.Map {
         layer.addTo(this).setZIndex(100)
 
         return this
-    }
-
-    getActiveLayer(): ActiveLayer {
-        // TODO: Remove
-        return new ActiveLayer()
     }
 
     eventCoordinate(e: leaflet.LeafletMouseEvent): TileCoordinates {

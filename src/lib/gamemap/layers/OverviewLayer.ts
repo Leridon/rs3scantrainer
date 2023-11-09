@@ -1,4 +1,3 @@
-import {ActiveLayer} from "../activeLayer";
 import {Clues, ClueStep, Solution} from "../../runescape/clues";
 import Properties from "../../../trainer/ui/widgets/Properties";
 import {TileMarker} from "../TileMarker";
@@ -9,8 +8,9 @@ import {PathEditor} from "../../../trainer/ui/pathedit/PathEditor";
 import {Application} from "../../../trainer/application";
 import dig_area = Clues.digSpotArea;
 import shortcuts from "../../../data/shortcuts";
+import GameLayer from "../GameLayer";
 
-export default class OverviewLayer extends ActiveLayer {
+export default class OverviewLayer extends GameLayer {
     constructor(private clues: ClueStep[], private app: Application) {
         super();
 

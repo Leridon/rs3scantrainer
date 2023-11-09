@@ -661,7 +661,6 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
 
 export class PathEditor extends Behaviour {
     private control: ControlWidget = null
-    current_options: PathEditor.options_t = null
     private handler_layer: PathEditorGameLayer = null
 
     action_bar: PathEditActionBar
@@ -676,19 +675,16 @@ export class PathEditor extends Behaviour {
                 public data: {
                     shortcuts: Shortcuts.shortcut[],
                     teleports: Teleports.flat_teleport[]
-                }
+                },
+                private options: PathEditor.options_t
     ) {
         super()
-
-        this.handler_layer = new PathEditorGameLayer(this).addTo(this.game_layer)
-
-        this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
 
         this.value = new PathBuilder()
         this.augmented_value = observe({path: null, steps: []})
 
         this.value.array_changed.on(async (v) => {
-            let aug = await Path.augment(v.data.map(s => s.value().raw), this.current_options?.start_state, this.current_options?.target)
+            let aug = await Path.augment(v.data.map(s => s.value().raw), this.options.start_state, this.options.target)
 
             for (let i = 0; i < aug.steps.length; i++) {
                 v.data[i].value().augmented?.set(aug.steps[i])
@@ -704,6 +700,14 @@ export class PathEditor extends Behaviour {
         this.augmented_value.subscribe(({path}) => {
             if (this.action_bar) this.action_bar.state.set(path.post_state)
         })
+
+        // Set up handler layer, but don't add it anywhere yet.
+        this.handler_layer = new PathEditorGameLayer(this)
+        this.control = new ControlWidget(this, this.augmented_value).addTo(this.handler_layer)
+        this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
+        this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
+        
+        this.value.setTo(options.initial.map(s => ({raw: s})))
     }
 
     private updatePreview(o: PathEditor.OValue) {
@@ -717,42 +721,13 @@ export class PathEditor extends Behaviour {
         value.associated_preview = createStepGraphics(value.raw).addTo(this.handler_layer)
     }
 
-    public async load(path: Path.raw, options: PathEditor.options_t = {}) {
-        this.reset()
-
-        this.value.setTo(path.map(s => ({raw: s})))
-
-        this.current_options = options
-
-        this.control = new ControlWidget(this, this.augmented_value).addTo(this.handler_layer)
-        this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
-
+    protected begin() {
+        this.handler_layer.addTo(this.game_layer)
         //TODO//this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
     }
 
-    public reset() {
-        if (this.control) {
-            this.control.remove()
-            this.control = null
-        }
-
-        if (this.current_options) {
-            //if (this.current_options.discard_handler) await this.current_options.discard_handler()
-            this.current_options = null
-        }
-    }
-
-    protected begin() {
-    }
-
     protected end() {
-        this.reset()
-
-        this.game_layer.remove()
-    }
-
-    isActive(): boolean {
-        return !!this.current_options
+        this.handler_layer.remove()
     }
 }
 
@@ -763,6 +738,7 @@ export namespace PathEditor {
     export type Data = PathBuilder
 
     export type options_t = {
+        initial: Path.raw,
         commit_handler?: (p: Path.raw) => any,
         discard_handler?: () => any,
         target?: TileRectangle,

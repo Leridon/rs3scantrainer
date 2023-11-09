@@ -3,8 +3,11 @@ import {GameMap} from "./GameMap";
 import {LayerGroup} from "leaflet";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
 import {TileMarker} from "./TileMarker";
+import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 
 export default class GameLayer extends leaflet.FeatureGroup {
+    public handler_pool: EwentHandlerPool = new EwentHandlerPool()
+
     protected parent: GameLayer | null = null
     protected map: GameMap | null = null
 
@@ -52,6 +55,8 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
     onRemove(map: GameMap): this {
         this.map = null
+
+        this.handler_pool.kill()
 
         return super.onRemove(map);
     }

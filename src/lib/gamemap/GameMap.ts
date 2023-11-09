@@ -8,7 +8,7 @@ import {Constants} from "../../trainer/constants";
 import {Observable, observe} from "../properties/Observable";
 import GameLayer from "./GameLayer";
 import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
-import {FitBoundsOptions, MapOptions} from "leaflet";
+import {FitBoundsOptions, LatLngBounds, LeafletEventHandlerFn, MapOptions} from "leaflet";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
 import GameMapDragAction from "./interaction/GameMapDragAction";
 import {GameMapContextMenuEvent, GameMapEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
@@ -57,6 +57,11 @@ export const yellow_icon = leaflet.icon({
  */
 export class GameMap extends leaflet.Map {
     floor: Observable<floor_t> = observe(0)
+    private bounds: Observable<LatLngBounds> = observe(null)
+    public viewport = this.bounds.map(s =>
+        s ? Rectangle.extend(Rectangle.from(Vector2.fromLatLong(s.getNorthEast()), Vector2.fromLatLong(s.getSouthWest())), 1)
+            : null
+    )
 
     container: JQuery
     private ui_container: Widget
@@ -130,6 +135,9 @@ export class GameMap extends leaflet.Map {
             this.on("keydown", (e) => {
                 this.event(new GameMapKeyboardEvent(this, e), l => e => l.eventKeyDown(e))
             })
+
+            this.on("moveend", () => this.bounds.set(this.getBounds()))
+            this.on("zoomend", () => this.bounds.set(this.getBounds()))
         }
 
         this.dragAction.subscribe((a, old) => {

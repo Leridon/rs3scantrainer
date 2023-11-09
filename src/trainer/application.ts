@@ -20,7 +20,7 @@ import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
 import SolveBehaviour from "./ui/solving/SolveBehaviour";
 import MethodWithClue = SolvingMethods.MethodWithClue;
-import ShortcutEditBehaviour from "./ui/shortcut_editing/ShortcutEditBehaviour";
+import {ShortcutEditor} from "./ui/shortcut_editing/ShortcutEditor";
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -266,7 +266,10 @@ export class Application extends Behaviour {
 
         //ExportStringModal.do(await makeshift_main())
 
-        this.behaviour.set(new ShortcutEditBehaviour(this))
+        this.behaviour.set(new ShortcutEditor({
+            map: this.map.map,
+            sidepanels: this.sidepanels
+        }))
     }
 
     protected end() {

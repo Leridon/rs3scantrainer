@@ -1,10 +1,10 @@
 import Widget from "lib/ui/Widget";
 import {floor_t} from "lib/runescape/coordinates";
-import SmallImageButton from "./SmallImageButton";
 import * as lodash from "lodash"
 import SelectTileInteraction from "lib/gamemap/interaction/SelectTileInteraction";
 import AbstractEditWidget from "./AbstractEditWidget";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {SmallImageButton} from "./SmallImageButton";
 
 export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinates> {
     x: Widget
@@ -20,20 +20,20 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
 
         this.css("display", "flex")
 
-        this.x = c("<input type='number' class='nisinput' min='0' style='max-width: 50pt'>").appendTo(this)
+        this.x = c("<input type='number' class='nisinput' min='0'>").appendTo(this)
         this.x.container.on("input", () => {
             this.value.x = Number(this.x.container.val())
             this.emit("changed", this.value)
         })
         c("<div> | </div>").appendTo(this)
-        this.y = c("<input type='number' class='nisinput' min='0' style='max-width: 50pt'>").appendTo(this)
+        this.y = c("<input type='number' class='nisinput' min='0'>").appendTo(this)
         this.y.container.on("input", () => {
             this.value.y = Number(this.y.container.val())
             this.emit("changed", this.value)
         })
 
         c("<div> | </div>").appendTo(this)
-        this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='max-width: 50pt'>").appendTo(this)
+        this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='width: 20%'>").appendTo(this)
         this.floor.container.on("input", () => {
             this.value.level = Number(this.floor.container.val()) as floor_t
             this.emit("changed", this.value)

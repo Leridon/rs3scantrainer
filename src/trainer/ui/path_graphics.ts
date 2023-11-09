@@ -75,8 +75,12 @@ function createX(coordinate: TileCoordinates, color: "red" | "yellow"): leaflet.
 const pi = 3.1415
 
 export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
-    let arm1_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(Vector2.sub(from, to)), pi / 4))
-    let arm2_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(Vector2.sub(from, to)), -pi / 4))
+    let off = Vector2.sub(from, to)
+
+    if (Vector2.lengthSquared(off) < 1) return leaflet.polyline([])
+
+    let arm1_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(off), pi / 4))
+    let arm2_offset = Vector2.scale(0.7, Vector2.rotate(Vector2.normalize(off), -pi / 4))
 
     let tip = Vector2.toLatLong(to)
 

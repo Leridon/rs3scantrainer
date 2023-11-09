@@ -3,7 +3,7 @@ import {Constants} from "trainer/constants";
 import {Application} from "trainer/application";
 import Widget from "lib/ui/Widget";
 import {observe} from "lib/properties/Observable";
-import SmallImageButton from "./widgets/SmallImageButton";
+import {SmallImageButton} from "./widgets/SmallImageButton";
 
 export class SidePanel<events_t extends Record<string, any> = {}> extends Widget<events_t> {
     protected ui: {
@@ -36,9 +36,7 @@ export class CluePanel extends SidePanel {
         super();
 
         this.title.set("Clue")
-
-        console.log(options)
-
+        
         if (options.edit_handler) {
             this.ui.header.right_corner
                 .append(SmallImageButton.new("assets/icons/edit.png").on("click", () => options.edit_handler(clue)))

@@ -30,6 +30,11 @@ export namespace Observable {
             if (!this.equality_f(old, this._value)) this.trigger_changed(old)
         }
 
+        equality(f: (a: T, b: T) => boolean): this {
+            this.equality_f = f
+            return this
+        }
+
         value(): T {
             return this._value;
         }

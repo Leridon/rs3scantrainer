@@ -125,4 +125,9 @@ export namespace Rectangle {
             Vector2.transform_point(rect.botright, trans),
         )
     }
+
+    export function overlaps(a: Rectangle, b: Rectangle): boolean {
+        return (a.topleft.x <= b.botright.x && a.botright.x >= b.topleft.x) &&
+            (a.botright.y <= b.topleft.y && a.topleft.y >= b.botright.y)
+    }
 }

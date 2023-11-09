@@ -18,7 +18,7 @@ import {teleport_data} from "data/teleport_data";
 import Checkbox from "lib/ui/controls/Checkbox";
 import {tilePolygon} from "../polygon_helpers";
 import MovementStateView from "./MovementStateView";
-import SmallImageButton from "../widgets/SmallImageButton";
+import {SmallImageButton} from "../widgets/SmallImageButton";
 import {QueryLinks} from "trainer/query_functions";
 import {util} from "lib/util/util";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
@@ -567,8 +567,7 @@ class PathEditorGameLayer extends GameLayer {
                                     break;
                                 case "offset":
                                     ends = TileCoordinates.move(start, a.movement.offset)
-
-                                    ends.level += a.movement.level_offset
+                                    ends.level += a.movement.offset.level
 
                                     break;
                             }

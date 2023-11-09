@@ -26,6 +26,10 @@ export default abstract class AbstractEditWidget<T, AdditionalEvents extends Rec
         return this
     }
 
+    public get(): T {
+        return this.value
+    }
+
     protected render(): void {
 
     }

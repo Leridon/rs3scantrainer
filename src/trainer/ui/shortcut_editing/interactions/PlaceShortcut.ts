@@ -9,6 +9,7 @@ import {GameMapKeyboardEvent, GameMapMouseEvent} from "../../../../lib/gamemap/M
 import {ShortcutViewLayer} from "../ShortcutView";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {observe} from "../../../../lib/reactive";
+import {direction} from "../../../../lib/runescape/movement";
 
 export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
 
@@ -16,7 +17,8 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
     private final_translation_transform: TileTransform
 
     constructor(private original: Shortcuts.shortcut,
-                private origin: TileCoordinates
+                private origin: TileCoordinates,
+                private copy_handler: (copy: Shortcuts.shortcut) => void = null
     ) {
         super({
             preview_render: (s) => new ShortcutViewLayer.ShortcutPolygon(observe(s))
@@ -32,6 +34,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
                 c("<div style='font-family: monospace; white-space:pre'></div>")
                     .append(c().text(`[R] - Rotate clockwise  | [Shift + R] - Rotate counterclockwise`))
                     .append(c().text(`[F] - Flip Horizontally | [Shift + F] - Flip vertically`))
+                    .append(c().text(`[Click] - Place         ` + (this.copy_handler ? "| [Shift + Click] - Place copy" : "")))
             )
         )
     }
@@ -56,7 +59,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
         event.onPost(() => {
             if (event.original.key.toLowerCase() == "r") {
                 this.transform = TileTransform.chain(
-                    Transform.rotation(event.original.shiftKey ? 3 : 1),
+                    Transform.rotation(event.original.shiftKey ? 1 : 3),
                     this.transform
                 )
                 this.updatePreview()
@@ -74,12 +77,23 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
         event.onPre(() => {
             event.stopAllPropagation()
 
-            this.commit(PlaceShortcut.transform(this.original,
-                TileTransform.chain(
-                    TileTransform.translation(event.tile(), event.tile().level),
-                    this.transform
-                )
-            ))
+            this.final_translation_transform = TileTransform.translation(event.tile(), event.tile().level)
+
+            if (event.original.shiftKey) {
+                this.copy_handler(PlaceShortcut.transform(this.original,
+                    TileTransform.chain(
+                        this.final_translation_transform,
+                        this.transform
+                    )
+                ))
+            } else {
+                this.commit(PlaceShortcut.transform(this.original,
+                    TileTransform.chain(
+                        TileTransform.translation(event.tile(), event.tile().level),
+                        this.transform
+                    )
+                ))
+            }
         })
     }
 }
@@ -113,20 +127,48 @@ export namespace PlaceShortcut {
                         movement: (() => {
                             switch (a.movement.type) {
                                 case "fixed":
-                                    return {
-                                        type: "fixed",
-                                        target: TileCoordinates.transform(a.movement.target, trans)
-                                    }
+                                    return (a.movement.relative)
+                                        ? {
+                                            type: "fixed",
+                                            target: TileCoordinates.transform(a.movement.target, trans),
+                                            relative: true
+                                        }
+                                        : {
+                                            type: "fixed",
+                                            target: a.movement.target,
+                                            relative: false
+                                        }
                                 case "offset":
                                     return {
                                         type: "offset",
-                                        offset: Vector2.transform(a.movement.offset, trans.matrix),
-                                        level_offset: floor_t.clamp(a.movement.level_offset + trans.level_offset)
+                                        offset: {...Vector2.snap(Vector2.transform(a.movement.offset, trans.matrix)), level: floor_t.clamp(a.movement.offset.level + trans.level_offset)}
                                     }
                             }
                         })(),
+                        orientation: (() => {
+                            switch (a.orientation.type) {
+                                case "byoffset":
+                                    return {type: "byoffset"}
+                                case "keep":
+                                    return {type: "keep"}
+                                case "toentity":
+                                    return {type: "toentity"}
+                                case "forced":
+                                    return (a.orientation.relative)
+                                        ? {
+                                            type: "forced",
+                                            direction: direction.transform(a.orientation.direction, trans.matrix),
+                                            relative: true
+                                        }
+                                        : {
+                                            type: "forced",
+                                            direction: a.orientation.direction,
+                                            relative: false
+                                        }
+                            }
+                        })(),
                         name: a.name,
-                        time: a.time
+                        time: a.time,
                     }))
                 }
 

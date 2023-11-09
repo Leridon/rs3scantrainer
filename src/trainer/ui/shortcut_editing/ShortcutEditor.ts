@@ -17,13 +17,18 @@ import {ShortcutViewLayer} from "./ShortcutView";
 import {PlaceShortcut} from "./interactions/PlaceShortcut";
 import {ObservableArray, observeArray} from "../../../lib/reactive";
 import {tap} from "lodash";
+import ObservableArrayValue = ObservableArray.ObservableArrayValue;
+import {GameMap} from "../../../lib/gamemap/GameMap";
+import SidePanelControl from "../SidePanelControl";
+import {PathEditor} from "../pathedit/PathEditor";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 
-class ShortcutEditGameLayer extends GameLayer {
-    interActionGuard: InteractionGuard = new InteractionGuard().setDefaultLayer(this)
+export class ShortcutEditGameLayer extends GameLayer {
+    interactionGuard: InteractionGuard = new InteractionGuard().setDefaultLayer(this)
 
     view: ShortcutViewLayer = null
 
-    constructor(public data: ObservableArray<Shortcuts.shortcut & { is_builtin: boolean }>) {
+    constructor(public editor: ShortcutEditor) {
         super();
 
         let action_bar_control = new GameMapControl({
@@ -33,12 +38,12 @@ class ShortcutEditGameLayer extends GameLayer {
 
         action_bar_control.content.append(new ShortcutEditActionBar(this))
 
-        this.view = new ShortcutViewLayer(data).addTo(this)
+        this.view = new ShortcutViewLayer(this.editor.data).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPost(() => {
-            this.data.value().filter(s => {
+            this.editor.data.value().filter(s => {
                 if (s.value().is_builtin) return false
 
                 return Rectangle.contains(Shortcuts.bounds(s.value()), event.coordinates)
@@ -51,67 +56,63 @@ class ShortcutEditGameLayer extends GameLayer {
                 event.add({
                     type: "basic",
                     text: `Copy ${s.value().name}`,
-                    handler: () => {
-                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile())
-                            .onCommit(n => {
-                                this.data.add(Object.assign(n, {is_builtin: false}))
-                            })
-                        )
-                    }
+                    handler: () => this.startPlacement(s.value(), event.tile())
                 })
                 event.add({
                     type: "basic",
                     text: `Move ${s.value().name}`,
-                    handler: () => {
-                        this.interActionGuard.set(new PlaceShortcut(s.value(), event.tile())
-                            .onCommit(n => {
-                                s.set(Object.assign(n, {is_builtin: false}))
-                            })
-                            .onStart(() => this.view.getView(s).setOpacity(0))
-                            .onEnd(() => this.view.getView(s)?.setOpacity(1))
-                        )
-                    }
+                    handler: () => this.startMove(s, event.tile())
                 })
             })
         })
     }
 
-    override getEvents(): { [p: string]: LeafletEventHandlerFn } {
+    startMove(s: ShortcutEditor.OValue, origin: TileCoordinates = null) {
+        if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s.value()))
 
-        // TODO: Filtered render? Or put that in the viewlayer?
-        return {
-            "zoomend": () => {
-            },
-            "moveend": () => {
-            }
-        }
+        this.interactionGuard.set(new PlaceShortcut(s.value(), origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
+            .onCommit(n => s.set(Object.assign(n, {is_builtin: false})))
+            .onStart(() => this.view.getView(s).setOpacity(0))
+            .onEnd(() => this.view.getView(s)?.setOpacity(1))
+        )
+    }
+
+    startPlacement(s: ShortcutEditor.Value, origin: TileCoordinates = null) {
+        if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s))
+
+        this.interactionGuard.set(new PlaceShortcut(s, origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
+            .onCommit(n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
+        )
     }
 }
 
 class ShortcutEditActionBar extends ActionBar {
-    constructor(private layer: ShortcutEditGameLayer) {
+    constructor(private parent_layer: ShortcutEditGameLayer) {
         super([
             new ActionBar.ActionBarButton("assets/icons/cursor_open.png", 0, () => {
-                return this.layer.interActionGuard.set(new DrawDoor({
-                    done_handler: (step) => layer.data.add(Object.assign(step, {is_builtin: false}))
+                return this.parent_layer.interactionGuard.set(new DrawDoor({
+                    done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
                 }))
             }),
             new ActionBar.ActionBarButton("assets/icons/cursor_generic.png", 0, () => {
-                return this.layer.interActionGuard.set(new DrawGeneralEntity({
-                    done_handler: (step) => layer.data.add(Object.assign(step, {is_builtin: false}))
+                return this.parent_layer.interactionGuard.set(new DrawGeneralEntity({
+                    done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
                 }))
             }),
         ]);
     }
 }
 
-export default class ShortcutEditBehaviour extends Behaviour {
+export class ShortcutEditor extends Behaviour {
     layer: ShortcutEditGameLayer
 
     private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", [])
-    private data: ObservableArray<Shortcuts.shortcut & { is_builtin: boolean }>
+    public data: ShortcutEditor.Data
 
-    constructor(public app: Application) {
+    constructor(public deps: {
+        map: GameMap,
+        sidepanels: SidePanelControl
+    }) {
         super();
 
         this.data = observeArray([].concat(
@@ -119,28 +120,32 @@ export default class ShortcutEditBehaviour extends Behaviour {
             this.storage.get().map(s => Object.assign(s, {is_builtin: false}))
         ))
 
-        this.data.changed.on(({value}) => this.storage.set(value.map(v => v.value())))
+        this.data.changed.on(({value}) => this.storage.set(value.filter(v => !v.value().is_builtin).map(v => v.value())))
     }
 
     protected begin() {
-        this.layer = new ShortcutEditGameLayer(this.data)
+        this.layer = new ShortcutEditGameLayer(this).addTo(this.deps.map)
 
-        this.app.sidepanels.empty()
+        this.deps.sidepanels.empty()
 
-        this.app.sidepanels.add(tap(
-                new ShortcutEditSidePanel(this.data, this.layer.view, this.layer.interActionGuard),
+        this.deps.sidepanels.add(tap(
+                new ShortcutEditSidePanel(this),
                 e => e.centered.on((s => {
                     this.layer.getMap().fitView(Shortcuts.bounds(s), {
                         maxZoom: 5
                     })
                 })))
             , 0)
-
-        this.app.map.map.addGameLayer(this.layer)
     }
 
     protected end() {
         this.layer.remove()
-        this.app.sidepanels.empty()
+        this.deps.sidepanels.empty()
     }
+}
+
+export namespace ShortcutEditor {
+    export type Value = Shortcuts.shortcut & { is_builtin: boolean }
+    export type OValue = ObservableArrayValue<Value>
+    export type Data = ObservableArray<Value>
 }

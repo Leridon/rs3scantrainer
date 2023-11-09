@@ -25,6 +25,10 @@ export namespace Ewent {
         private trigger_count: number = 0
         private handlers: EwentHandler<T>[] = []
 
+        // TODO: Save handlers as weak references to allow garbage collection to clear them
+        //      Drawback: Handlers must be saved elsewhere to guarantee their lifetime. Maybe decide on a by-handler basis?
+        //      Can use a handler pool for this, without the need to kill them explicitly
+
         private clean_pass() {
             this.trigger_count += 1
 

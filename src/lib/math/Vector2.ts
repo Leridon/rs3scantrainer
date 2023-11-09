@@ -1,5 +1,6 @@
 import * as leaflet from "leaflet";
 import {Transform} from "./Transform";
+import {LatLng} from "leaflet";
 
 export type Vector2 = { x: number, y: number }
 
@@ -33,7 +34,11 @@ export namespace Vector2 {
     }
 
     export function length(a: Vector2): number {
-        return Math.sqrt(a.x * a.x + a.y * a.y)
+        return Math.sqrt(lengthSquared(a))
+    }
+
+    export function lengthSquared(a: Vector2): number {
+        return a.x * a.x + a.y * a.y
     }
 
     export function normalize(a: Vector2): Vector2 {
@@ -75,6 +80,10 @@ export namespace Vector2 {
 
     export function toLatLong(point: Vector2): leaflet.LatLng {
         return leaflet.latLng(point.y, point.x)
+    }
+
+    export function fromLatLong(point: LatLng): Vector2 {
+        return {x: point.lng, y: point.lat}
     }
 
     export function toPoint(c: Vector2): leaflet.Point {

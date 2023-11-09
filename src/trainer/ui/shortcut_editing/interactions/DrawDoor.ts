@@ -16,6 +16,8 @@ export class DrawDoor extends InteractionLayer {
     }) {
         super();
 
+        // TODO: Shift-Draw to not cancel?
+
         new InteractionTopControl({
             name: "Draw Door",
             cancel_handler: () => this.cancel()
@@ -47,10 +49,13 @@ export class DrawDoor extends InteractionLayer {
                         return {
                             type: "basic",
                             text: s.direction,
-                            handler: () => this.config.done_handler(s)
+                            handler: () => {
+                                this.config.done_handler(s)
+                            }
                         }
                     })).show(this.getMap().container.get()[0], this.getMap().getClientPos(Rectangle.center(area, false)))
                 }
+                // TODO: Only cancel after the context menu is closed
                 this.cancel()
             })
             .onEnd(() => this.cancel())

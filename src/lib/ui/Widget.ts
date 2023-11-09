@@ -3,10 +3,22 @@ import * as tippy from 'tippy.js';
 
 
 export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
-    constructor(public container: JQuery = $("<div>")) {
+    public container: JQuery
+
+    constructor(init: JQuery | Widget = $("<div>")) {
         super()
 
-        if (!container) this.container = $("<div>")
+        if (init instanceof Widget) this.container = init.container
+        else if (!init) this.container = $("<div>")
+        else this.container = init
+    }
+
+    init(init: JQuery | Widget = $("<div>")): this {
+        if (init instanceof Widget) this.container = init.container
+        else if (!init) this.container = $("<div>")
+        else this.container = init
+
+        return this
     }
 
     raw(): HTMLElement {
@@ -34,10 +46,13 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    append(widget: Widget | JQuery): this {
-        if (widget instanceof Widget) widget = widget.container
+    append(...widget: (Widget | JQuery)[]): this {
+        widget.forEach(w => {
+            if (!w) return
+            if (w instanceof Widget) w = w.container
 
-        this.container.append(widget)
+            this.container.append(w)
+        })
 
         return this
     }

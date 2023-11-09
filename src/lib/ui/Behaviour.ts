@@ -6,7 +6,10 @@
 
  */
 
+import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
+
 export default abstract class Behaviour {
+    protected handler_pool: EwentHandlerPool = new EwentHandlerPool()
     private _subBehaviours: Behaviour[] = []
 
     private _started = false
@@ -33,6 +36,8 @@ export default abstract class Behaviour {
 
     stop() {
         this._subBehaviours.forEach(c => c.stop())
+
+        this.handler_pool.kill()
 
         if (this._started) this.end()
     }

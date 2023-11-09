@@ -1,11 +1,9 @@
 Immediate next:
 - Shortcut editor:
-    - Start collapsed
-    - Render movement on hover
-    - Filter by current view
-    - Search box (Overriding view filter or on top of it?? Toggle probably)
-    - Detail for door bounds
-    - Forced direction?
+    - Context menu for targets: Go to origin
+    - Scale shortcut polygons on zoom
+    - Decide on a default orientation type
+    - Revive craft at icon
 
 - Path Editor
     - Move action bar to generalized interface
@@ -15,20 +13,20 @@ Immediate next:
     - Fix "Redraw" for running
     - "You are here marker"
     - New Shortcuts via context menu
+    - Recover lost icons for the variant teleports
 
-- Autoname areas
-- Reenable spot sorting/numbers on preview
-- Port UI Elements to GameLayer
-- Dropdown select go out of the viewport and are cut off
+- Scan Editor
+    - Autoname areas
+    - Reenable spot sorting/numbers on preview
+    - Port UI Elements to GameLayer
+    - Dropdown select go out of the viewport and are cut off
+    - Display timing in spot view
+    - Cancel for Draw Area
 
 - Make fit include the entire path
-- Display timing in spot view
 - Include icon of interaction for redclick graphics
-- Coordinate Property styling broken
 - [Bug] Template resolver hangs for some inputs
-- Cancel for Draw Area
 - Autosort for path edit
-- Custom context menu on the map
 - [Bug] Mousewheel scrolling in the path editor
 - Hover to highlight path
 

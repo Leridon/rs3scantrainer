@@ -10,7 +10,7 @@ export namespace Scans {
 
         let p = 3 - Math.min(2, Math.floor(Math.max(0, (d - 1)) / range)) as 1 | 2 | 3
 
-        assert(p > 3)
+        assert(p >= 1 && p <= 3)
 
         let different_level = spot.level != tile.level || distance(complementSpot(spot), tile) <= range + 15
 

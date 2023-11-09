@@ -89,12 +89,12 @@ export class ShortcutEditGameLayer extends GameLayer {
 class ShortcutEditActionBar extends ActionBar {
     constructor(private parent_layer: ShortcutEditGameLayer) {
         super([
-            new ActionBar.ActionBarButton("assets/icons/cursor_open.png", 0, () => {
+            new ActionBar.ActionBarButton("assets/icons/cursor_open.png",  () => {
                 return this.parent_layer.interactionGuard.set(new DrawDoor({
                     done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
                 }))
             }),
-            new ActionBar.ActionBarButton("assets/icons/cursor_generic.png", 0, () => {
+            new ActionBar.ActionBarButton("assets/icons/cursor_generic.png",  () => {
                 return this.parent_layer.interactionGuard.set(new DrawGeneralEntity({
                     done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
                 }))

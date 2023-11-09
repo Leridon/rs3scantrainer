@@ -1,6 +1,5 @@
 import Widget from "lib/ui/Widget";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import SelectDigSpotsInteraction from "./SelectDigSpotsInteraction";
 import LightButton from "../widgets/LightButton";
 import ScanEditor from "./ScanEditor";
 import {Observable} from "lib/properties/Observable";
@@ -11,14 +10,13 @@ export default class SpotOrderingWidget extends Widget<{
     list: Widget
     reselect_button: LightButton
 
-    interaction: SelectDigSpotsInteraction = null
-
     spot_order: Observable<TileCoordinates[]>
 
     constructor(private parent: ScanEditor,
                 private value: TileCoordinates[]) {
         super()
 
+        /*
         this.reselect_button = new LightButton("Select new spot numbering")
             .on("click", (e) => {
                 if (this.interaction) {
@@ -26,7 +24,7 @@ export default class SpotOrderingWidget extends Widget<{
                     this.interaction = null
                 } else this.startSelection()
             })
-            .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))
+            .appendTo($("<div style='text-align: center'></div>").appendTo(this.container))*/
 
         this.append(this.list = c("<div>"))
 
@@ -51,58 +49,6 @@ export default class SpotOrderingWidget extends Widget<{
                 .append(c("<div class='col-3' style='text-align: center'>").text(v.level ?? 0))
                 .appendTo(this.list)
         })
-    }
-
-    startSelection(): SelectDigSpotsInteraction {
-        return null
-
-        // TODO: Rethink this section
-
-        /*
-        let old_value = this.value
-
-        let interaction = new SelectDigSpotsInteraction(this.layer)
-
-        this.reselect_button.setVisible(false)
-
-        let old_hightlight = this.layer.highlightedCandidates()
-
-        interaction.events
-            .on("changed", (l) => {
-                this.setValue(l)
-            })
-            .on("done", (l) => {
-                this.interaction = null
-
-                this.reselect_button.setVisible(true)
-
-                let unaccounted = old_value.filter((c) => !l.some((i) => TileCoordinates.eq(i, c)))
-
-                l = l.concat(...unaccounted)
-
-                this.setValue(l)
-
-                this.emit("changed", l)
-
-                this.layer.highlightCandidates(old_hightlight)
-            })
-            .on("cancelled", () => {
-                this.interaction = null
-
-                this.reselect_button.setVisible(true)
-
-                this.setValue(old_value)
-
-                this.layer.highlightCandidates(old_hightlight)
-            })
-
-        this.setValue([])
-
-        this.layer.highlightCandidates(this.layer.clue.solution.candidates)
-
-        return this.interaction = interaction.activate()
-
-         */
     }
 
     setValue(value: TileCoordinates[]) {

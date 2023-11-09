@@ -643,6 +643,10 @@ class PathBuilder extends Observable<Path.raw> {
 
 
 export class PathBuilder extends ObservableArray<PathEditor.Value> {
+    create(step: Path.step) {
+        this.add({raw: step})
+    }
+
     override add(v: PathEditor.Value): ObservableArray.ObservableArrayValue<PathEditor.Value> {
         if (!v.augmented) v.augmented = observe(null)
 
@@ -706,7 +710,7 @@ export class PathEditor extends Behaviour {
         this.control = new ControlWidget(this, this.augmented_value).addTo(this.handler_layer)
         this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
-        
+
         this.value.setTo(options.initial.map(s => ({raw: s})))
     }
 

@@ -1,34 +1,12 @@
 import {blue_icon, GameMap} from "./GameMap";
 import {type TileCoordinates} from "../runescape/coordinates";
-import LayerInteraction from "../../trainer/ui/map/interactions/LayerInteraction";
 import {TileMarker} from "./TileMarker";
 import GameLayer from "./GameLayer";
 
 export class ActiveLayer extends GameLayer {
-    protected interaction: LayerInteraction<ActiveLayer> = null
 
     constructor() {
         super()
-    }
-
-    setInteraction(interaction: LayerInteraction<ActiveLayer>) {
-        if (this.interaction) {
-            this.interaction.cancel()
-            this.interaction = null
-        }
-
-        this.interaction = interaction
-
-        this.interaction.start()
-        this.interaction.events.emit("started", null)
-    }
-
-    cancelInteraction() {
-        if (this.interaction) {
-            this.interaction.cancel()
-            this.interaction.events.emit("stopped", null)
-            this.interaction = null
-        }
     }
 
     protected _tilemarker: TileMarker = null
@@ -53,11 +31,6 @@ export class ActiveLayer extends GameLayer {
     }
 
     deactivate() {
-        if(this.interaction) {
-            this.interaction.cancel()
-            this.interaction = null
-        }
-
         this.parent = null
     }
 }

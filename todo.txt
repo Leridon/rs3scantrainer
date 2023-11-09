@@ -1,6 +1,5 @@
 Immediate next:
 - Shortcut editor:
-    - Render movement, arrow on hover?, Finalize coloring
     - Context menu for targets: Go to origin
     - Scale shortcut polygons on zoom
     - Decide on a default orientation type

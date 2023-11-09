@@ -5,12 +5,13 @@ import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {TileRectangle} from "../../../../lib/runescape/coordinates";
+import {ShortcutViewLayer} from "../ShortcutView";
 
 
 export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
-    constructor(config: ValueInteraction.option_t<DrawOffset.value_t> = {}) {
+    constructor(config: ValueInteraction.option_t<DrawOffset.value_t> = {}, private start_area: TileRectangle) {
         if (!config.preview_render) {
-            config.preview_render = ({origin, offset}) => arrow(origin, Vector2.add(origin, offset))
+            config.preview_render = ({origin, offset}) => ShortcutViewLayer.render_transport_arrow(origin, Vector2.add(origin, offset), offset.level)
         }
 
         super(config);
@@ -25,18 +26,16 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
             event.stopAllPropagation()
 
             if (this.value.get().value?.origin == null) {
-                // TODO: Check if in interactible area.
-
-                this.preview({
-                    origin: event.tile(),
-                    offset: {x: 0, y: 0},
-                    level_offset: 0
-                })
+                if (TileRectangle.contains(this.start_area, event.tile())) {
+                    this.preview({
+                        origin: event.tile(),
+                        offset: {x: 0, y: 0, level: 0}
+                    })
+                }
             } else {
                 this.commit({
                     origin: this.value.get().value.origin,
-                    offset: Vector2.sub(event.tile(), this.value.get().value.origin),
-                    level_offset: event.tile().level - this.value.get().value.origin.level
+                    offset: {...Vector2.sub(event.tile(), this.value.get().value.origin), level: event.tile().level - this.value.get().value.origin.level},
                 })
             }
         })
@@ -47,8 +46,7 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
             if (this.value.get().value?.origin != null) {
                 this.preview({
                     origin: this.value.get().value.origin,
-                    offset: Vector2.sub(event.tile(), this.value.get().value.origin),
-                    level_offset: event.tile().level - this.value.get().value.origin.level
+                    offset: {...Vector2.sub(event.tile(), this.value.get().value.origin), level: event.tile().level - this.value.get().value.origin.level},
                 })
             }
         })
@@ -56,5 +54,5 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
 }
 
 export namespace DrawOffset {
-    export type value_t = { origin: TileCoordinates, offset: Vector2, level_offset: number }
+    export type value_t = { origin: TileCoordinates, offset: Vector2 & { level: number } }
 }

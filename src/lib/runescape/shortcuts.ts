@@ -7,14 +7,17 @@ import {direction} from "./movement";
 export namespace Shortcuts {
     export type shortcut_orientation_type =
         { type: "forced", direction: direction, relative: boolean }
-        | { type: "byoffset" } | { type: "toentity" } | { type: "keep" }
+        | { type: "byoffset" }
+        | { type: "toentity" }
+        | { type: "keep" }
 
     export type entity_shortcut_action = {
         cursor: Path.InteractionType,
         interactive_area: TileRectangle,
         time: number,
         name: string,
-        movement: { type: "offset", offset: Vector2 & { level: number } } | { type: "fixed", target: TileCoordinates, relative: boolean },
+        movement: { type: "offset", offset: Vector2 & { level: number } }
+                | { type: "fixed", target: TileCoordinates, relative: boolean },
         orientation: shortcut_orientation_type
     }
 

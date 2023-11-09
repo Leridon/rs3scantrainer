@@ -245,11 +245,13 @@ class ShortcutEdit extends Widget {
                                         new LightButton("Draw")
                                             .on("click", () => {
                                                 this.edit_layer.interactionGuard.set(
-                                                    new DrawOffset()
+                                                    new DrawOffset({}, action.interactive_area)
+                                                        .onStart(() => this.associated_preview?.config?.update(c => c.draw_target = false))
+                                                        .onEnd(() => this.associated_preview?.config?.update(c => c.draw_target = true))
                                                         .onCommit((v) => {
                                                             this.value.update(() => {
                                                                 if (action.movement.type == "offset") {
-                                                                    action.movement.offset = {...v.offset, level: v.level_offset}
+                                                                    action.movement.offset = v.offset
                                                                 }
                                                             })
                                                         })
@@ -264,8 +266,13 @@ class ShortcutEdit extends Widget {
                             target_thing.append(new MapCoordinateEdit(
                                     action.movement.target,
                                     () => this.edit_layer.interactionGuard.set(new SelectTileInteraction({
-                                            preview_render: (target) => ShortcutViewLayer.render_transport_arrow(Rectangle.center(action.interactive_area, true), target)
-                                        }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of this map connection."))
+                                            preview_render: (target) => ShortcutViewLayer
+                                                .render_transport_arrow(Rectangle.center(action.interactive_area, true), target, target.level - action.interactive_area.level)
+                                                .addLayer(ShortcutViewLayer.render_target_circle(target))
+                                        })
+                                            .onStart(() => this.associated_preview?.config?.update(c => c.draw_target = false))
+                                            .onEnd(() => this.associated_preview?.config?.update(c => c.draw_target = true))
+                                            .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of this map connection."))
                                     )).on("changed", (v) => {
                                     this.value.update(() => {
                                         if (action.movement.type == "fixed") action.movement.target = v

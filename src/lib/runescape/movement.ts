@@ -193,7 +193,7 @@ export namespace direction {
     export const south = 4
 
     export function transform(direction: direction, transform: Transform): direction {
-        return fromVector(Vector2.transform(toVector(direction), transform))
+        return fromVector(Vector2.snap(Vector2.transform(toVector(direction), transform)))
     }
 }
 

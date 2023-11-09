@@ -42,7 +42,7 @@ export namespace DrawGeneralEntity {
                 movement: {type: "offset", offset: {x: 0, y: 0, level: 0}},
                 name: "Use",
                 time: 3,
-                orientation: {type: "keep"}
+                orientation: {type: "byoffset"}
             }]
         }
     }

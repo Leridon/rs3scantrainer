@@ -59,7 +59,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
         event.onPost(() => {
             if (event.original.key.toLowerCase() == "r") {
                 this.transform = TileTransform.chain(
-                    Transform.rotation(event.original.shiftKey ? 3 : 1),
+                    Transform.rotation(event.original.shiftKey ? 1 : 3),
                     this.transform
                 )
                 this.updatePreview()

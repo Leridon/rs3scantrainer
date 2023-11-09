@@ -34,7 +34,11 @@ export namespace Vector2 {
     }
 
     export function length(a: Vector2): number {
-        return Math.sqrt(a.x * a.x + a.y * a.y)
+        return Math.sqrt(lengthSquared(a))
+    }
+
+    export function lengthSquared(a: Vector2): number {
+        return a.x * a.x + a.y * a.y
     }
 
     export function normalize(a: Vector2): Vector2 {

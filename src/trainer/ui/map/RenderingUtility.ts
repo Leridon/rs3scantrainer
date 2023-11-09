@@ -12,7 +12,7 @@ export namespace RenderingUtility {
                 iconSize: [28, 31],
                 iconAnchor: [14, 16],
             }),
-            interactive: false
+            interactive: true
         })
     }
 }

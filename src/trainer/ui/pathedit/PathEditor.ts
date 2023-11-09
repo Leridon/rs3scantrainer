@@ -91,7 +91,7 @@ class StepEditWidget extends Widget {
                     .tooltip("Move step up").setEnabled(this.parent.editor.value.get().indexOf(value.raw) != 0),
                 sibut("assets/nis/arrow_down.png", () => this.parent.editor.value.moveLater(value.raw))
                     .tooltip("Move step down").setEnabled(this.parent.editor.value.get().indexOf(value.raw) != this.parent.editor.value.get().length - 1),
-                sibut("assets/icons/delete.png", () => this.parent.editor.value.remove(value.raw)),
+                sibut("assets/icons/delete.png", () => this.value.remove()),
                 sibut("assets/icons/fullscreen.png", () =>
                     this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Path.step_bounds(value)), {maxZoom: 4}))
             ).addClass("path-step-edit-widget-control-row").appendTo(this)
@@ -458,8 +458,6 @@ class ControlWidget extends GameMapControl {
     }
 
     private render(augmented: Path.augmented, steps: PathEditor.OValue[]) {
-        console.log(`Rendering ${steps.length}`)
-
         /*{
             this.issue_container.empty()
 
@@ -648,8 +646,6 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
     override add(v: PathEditor.Value): ObservableArray.ObservableArrayValue<PathEditor.Value> {
         if (!v.augmented) v.augmented = observe(null)
 
-        console.log(v.augmented)
-
         return super.add(v);
     }
 
@@ -693,8 +689,6 @@ export class PathEditor extends Behaviour {
 
         this.value.array_changed.on(async (v) => {
             let aug = await Path.augment(v.data.map(s => s.value().raw), this.current_options?.start_state, this.current_options?.target)
-
-            console.log("Augmented, doing stuff")
 
             for (let i = 0; i < aug.steps.length; i++) {
                 v.data[i].value().augmented?.set(aug.steps[i])

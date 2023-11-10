@@ -1,20 +1,16 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
 import {HostedMapData, move, MovementAbilities} from "lib/runescape/movement";
-import LightButton from "../../widgets/LightButton";
 import {arrow, createStepGraphics} from "../../path_graphics";
-import {capitalize} from "lodash";
 import {Path} from "lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
 import {Vector2} from "lib/math";
-import Checkbox from "lib/ui/controls/Checkbox";
-import {GameMapControl} from "lib/gamemap/GameMapControl";
-import Widget from "lib/ui/Widget";
-import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
-import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
+import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
+import InteractionTopControl from "../../map/InteractionTopControl";
+import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
+import {Observable, observe} from "../../../../lib/reactive";
 
-export class DrawAbilityInteraction extends InteractionLayer {
-    private start_position: TileCoordinates = null
+export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
 
     _overlay_position: TileCoordinates = null
     _possibility_overlay: leaflet.FeatureGroup = null
@@ -27,27 +23,20 @@ export class DrawAbilityInteraction extends InteractionLayer {
         to: TileCoordinates
     }
 
-    instruction_div: Widget
-    reset_button: LightButton
-    cancel_button: LightButton
+    private top_control: InteractionTopControl
 
-    constructor(private ability: MovementAbilities.movement_ability,
-                private reverse: boolean = false,
-                private config: {
-                    done_handler: (_: Path.step) => void,
-                }
-    ) {
-        super()
+    private start_position: Observable<TileCoordinates> = observe(null)
+    private target: Observable<{ tile: TileCoordinates, forced: boolean }> = observe(null)
+    private reverse: Observable<boolean> = observe(false)
 
-        // TODO: Press shift to force invalid
+    constructor(private ability: MovementAbilities.movement_ability) {
+        super({})
 
-        let top_control = new GameMapControl({
-            position: "top-center",
-            type: "gapless"
-        }).addTo(this)
+        this.attachTopControl(this.top_control = new InteractionTopControl().setName(`Drawing ${ability}`))
 
-        this.instruction_div = c("<div style='text-align: center'>").appendTo(top_control.content)
+        // TODO: observe combined for hover/reverse/start to update overlays. Don't use built in preview
 
+        /*
         c("<div style='display: flex'></div>")
             .append(new Checkbox().on("changed", v => {
                 this.reverse = v
@@ -64,29 +53,28 @@ export class DrawAbilityInteraction extends InteractionLayer {
                 }
             }))
             .append(c().text("Reverse"))
-            .appendTo(top_control.content)
+            .appendTo(top_control.content)*/
 
-        let control_row = c("<div style='text-align: center'>").appendTo(top_control.content)
+        this.start_position.subscribe(() => this.updateInstructions(), true)
+    }
 
-        this.cancel_button = new LightButton("Cancel")
-            .on("click", () => {
-                this.cancel()       // TODO: Is this enough?
-            })
-            .appendTo(control_row)
-
-        this.reset_button = new LightButton("Reset Start")
-            .on("click", () => this.setStartPosition(null))
-            .appendTo(control_row)
-
-        this.updateInstructions()
+    updateInstructions() {
+        if (this.start_position.value()) {
+            this.top_control.setContent(
+                c("<div style='font-family: monospace; white-space:pre'></div>")
+                    .append(c().text(`[Click] valid target tile to confirm.`))
+                    .append(c().text(`[Shift + Click] to force any target tile.`))
+            )
+        } else {
+            this.top_control.setContent(
+                c("<div style='font-family: monospace; white-space:pre'></div>")
+                    .append(c().text(`[Click] the origin tile of the ability.`))
+            )
+        }
     }
 
     setStartPosition(pos: TileCoordinates): this {
-        this.start_position = pos
-
-        this.update_overlay(pos)
-        this.update_preview(null)
-        this.updateInstructions()
+        this.start_position.set(pos)
 
         return this
     }
@@ -146,7 +134,7 @@ export class DrawAbilityInteraction extends InteractionLayer {
             return
         }
 
-        let [from, to] = this.fromTo(this.start_position, p)
+        let [from, to] = this.fromTo(this.start_position.value(), p)
 
         if (this._previewed
             && TileCoordinates.eq2(this._previewed.to, to)
@@ -181,57 +169,56 @@ export class DrawAbilityInteraction extends InteractionLayer {
 
     }
 
-    updateInstructions() {
-        this.reset_button.setVisible(!!this.start_position)
-
-        if (!this.start_position) {
-            this.instruction_div.text(`Click the start location of the ${this.ability}.`)
-        } else {
-            this.instruction_div.setInnerHtml(`${capitalize(this.ability)} from ${this.start_position.x} | ${this.start_position.y}.<br> Click where the ability is targeted.`)
-        }
-    }
-
     private fromTo(a: TileCoordinates, b: TileCoordinates): [TileCoordinates, TileCoordinates] {
-        if (this.reverse) return [b, a]
+        if (this.reverse.value()) return [b, a]
         else return [a, b]
     }
 
     eventClick(event: GameMapMouseEvent) {
         event.onPre(async () => {
-
             event.stopAllPropagation()
 
             let tile = event.tile()
 
-            if (!this.start_position) {
-                this.start_position = tile
-                await this.update_overlay(this.start_position)
-                this.updateInstructions()
+            if (!this.start_position.value()) {
+                this.start_position.set(tile)
             } else {
+                let [from, to] = this.fromTo(this.start_position.value(), tile)
 
-                let [from, to] = this.fromTo(this.start_position, tile)
-
-                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
-
-                if (res) {
-                    this.config.done_handler({
+                if (event.original.shiftKey) {
+                    this.commit({
                         type: "ability",
                         ability: this.ability,
                         description: `Use {{${this.ability}}}`,
                         from: from,
-                        to: res.tile
+                        to: to
                     })
+                } else {
+                    let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
 
-                    this.cancel()
+                    if (res) {
+                        this.commit({
+                            type: "ability",
+                            ability: this.ability,
+                            description: `Use {{${this.ability}}}`,
+                            from: from,
+                            to: res.tile
+                        })
+                    }
                 }
+
+
             }
         })
     }
 
     eventHover(event: GameMapMouseEvent) {
-        let tile = event.tile()
+        this.target.set({tile: event.tile(), forced: event.original.shiftKey})
+    }
 
-        if (!this.start_position) this.update_overlay(tile)
-        else this.update_preview(tile)
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        super.eventKeyDown(event);
+
+        // Update force when shift is added
     }
 }

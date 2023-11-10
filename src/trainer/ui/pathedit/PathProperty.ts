@@ -9,10 +9,7 @@ import {SmallImageButton} from "../widgets/SmallImageButton";
 import {PathGraphics} from "../path_graphics";
 import Button from "lib/ui/controls/Button";
 
-export default class PathProperty extends AbstractEditWidget<Path.raw, {
-    "loaded_to_editor": null,
-    "editor_closed": null
-}> {
+export default class PathProperty extends AbstractEditWidget<Path.raw> {
     private loaded: boolean = false
 
     private augmented: Path.augmented
@@ -23,11 +20,11 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
     constructor(public options: {
         target?: TileRectangle,
         start_state?: Path.movement_state,
-        editor?: PathEditor
+        editor_handle?: (_: PathEditor.options_t) => PathEditor
     }) {
         super($("<div style='display: flex'></div>"))
 
-        if (this.options.editor) {
+        if (this.options.editor_handle) {
             this.container.on("mouseover", () => {
                 if (this.reset_button) this.reset_button.setVisible(true)
                 if (this.edit_button) this.edit_button.setVisible(true)
@@ -42,12 +39,13 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
     }
 
     private async edit() {
-        if (!this.options.editor) return
+        if (!this.options.editor_handle) return
 
         this.loaded = true
         await this.render()
 
-        this.options.editor.load(this.value, {
+        this.options.editor_handle({
+            initial: this.value,
             commit_handler: async v => {
                 this.changed(v)
                 await this.render()
@@ -57,14 +55,10 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
                 this.changed(this.value)
 
                 await this.render()
-
-                this.emit("editor_closed", null)
             },
             start_state: this.options.start_state,
             target: this.options.target
         })
-
-        this.emit("loaded_to_editor", null)
     }
 
     protected async render() {
@@ -84,7 +78,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw, {
                 .appendTo(this)
                 .tapRaw(r => r.on("click", async () => await this.edit()))
 
-            if (this.options.editor) preview.css("cursor", "pointer")
+            if (this.options.editor_handle) preview.css("cursor", "pointer")
 
             {
                 let issues = collect_issues(this.augmented)

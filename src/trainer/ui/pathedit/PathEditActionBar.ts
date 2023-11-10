@@ -66,9 +66,9 @@ export default class PathEditActionBar extends GameMapControl {
             }
 
             return self.interaction_guard.set(
-                new DrawAbilityInteraction(opt.ability, false, {
-                    done_handler: (step) => self.editor.value.create(step)
-                }).setStartPosition(self.state.value().position?.tile),
+                new DrawAbilityInteraction(opt.ability)
+                    .onCommit((step) => self.editor.value.create(step))
+                    .setStartPosition(self.state.value().position?.tile),
                 self)
         }
 

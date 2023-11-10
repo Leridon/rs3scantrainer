@@ -681,6 +681,8 @@ export namespace Path {
     }
 
     export function path_bounds(path: augmented): L.Bounds {
+        // TODO: Refactor into using unaugmented paths, return TileRectangle
+
         let bounds = L.bounds([])
 
         path.steps.forEach(s => bounds.extend(step_bounds(s)))

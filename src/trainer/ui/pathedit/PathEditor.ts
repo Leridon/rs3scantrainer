@@ -46,6 +46,8 @@ import spacer = C.spacer;
 import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import vbox = C.vbox;
+import {MovementAbilities} from "../../../lib/runescape/movement";
+import movement_ability = MovementAbilities.movement_ability;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -155,35 +157,19 @@ class StepEditWidget extends Widget {
 
                  */
 
+
+                // TODO: Prettier display like in the shortcut editor
                 props.row(new LightButton("Redraw")
                     .on("click", () => {
-
                         assert(value.raw.type == "ability")
 
-                        // FIXME
-                        new DrawAbilityInteraction(value.raw.ability, false, {
-                            done_handler: (new_s) => {
-                                Object.assign(value.raw, new_s)
-                                this.emit("changed", value.raw)
-                            }
-                        })
+                        this.parent.editor.interaction_guard.set(new DrawAbilityInteraction(value.raw.ability)
+                            .setStartPosition(value.raw.from)
+                            .onCommit(new_s => this.value.update((v) => v.raw = new_s))
                             .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
+                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
 
 
-                        /*
-                        .setStartPosition(s.from)
-                        .tapEvents((e) => {
-                            e
-                                .on("done", (new_s) => {
-                                    Object.assign(s, new_s)
-                                    this.updatePreview()
-                                    this.emit("changed", value.raw)
-                                })
-                                .on("cancelled", () => {
-                                    this._preview.addTo(this.parent._preview_layer)
-                                })
-                        }).activate()*/
                     })
                 )
 
@@ -554,7 +540,7 @@ class PathEditorGameLayer extends GameLayer {
                                 type: "basic",
                                 text: a.name,
                                 handler: () => {
-                                    this.editor.value.addBack({
+                                    this.editor.value.create({
                                         type: "interaction",
                                         description: a.name,
                                         ticks: a.time,
@@ -658,6 +644,47 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
 
         return super.setTo(data)
     }
+
+    augmented_value: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }> = observe({path: null, steps: []})
+    post_state: Observable<movement_state>
+
+    constructor(private meta: {
+        target?: TileRectangle,
+        start_state?: movement_state,
+        preview_layer?: leaflet.LayerGroup
+    } = {}) {
+        super();
+
+        this.post_state = this.augmented_value.map(({path}) => path?.post_state)
+
+        this.array_changed.on(async (v) => {
+            let aug = await Path.augment(v.data.map(s => s.value().raw), this.meta.start_state, this.meta.target)
+
+            for (let i = 0; i < aug.steps.length; i++) {
+                v.data[i].value().augmented?.set(aug.steps[i])
+            }
+
+            this.augmented_value.set({path: aug, steps: v.data})
+        })
+
+        this.element_added.on(e => this.updatePreview(e))
+        this.element_removed.on(e => e.value().associated_preview?.remove())
+        this.element_changed.on(e => this.updatePreview(e))
+    }
+
+    private updatePreview(o: PathEditor.OValue) {
+        let value = o.value()
+
+        if (value.associated_preview) {
+            value.associated_preview.remove()
+            value.associated_preview = null
+        }
+
+        if (this.meta.preview_layer) {
+            value.associated_preview = createStepGraphics(value.raw).addTo(this.meta.preview_layer)
+        }
+    }
+
 }
 
 
@@ -670,7 +697,6 @@ export class PathEditor extends Behaviour {
     interaction_guard: InteractionGuard
 
     value: PathEditor.Data
-    augmented_value: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }>
 
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,
@@ -682,50 +708,29 @@ export class PathEditor extends Behaviour {
     ) {
         super()
 
-        this.value = new PathBuilder()
-        this.augmented_value = observe({path: null, steps: []})
+        // Set up handler layer, but don't add it anywhere yet.
+        this.handler_layer = new PathEditorGameLayer(this)
 
-        this.value.array_changed.on(async (v) => {
-            let aug = await Path.augment(v.data.map(s => s.value().raw), this.options.start_state, this.options.target)
-
-            for (let i = 0; i < aug.steps.length; i++) {
-                v.data[i].value().augmented?.set(aug.steps[i])
-            }
-
-            this.augmented_value.set({path: aug, steps: v.data})
+        this.value = new PathBuilder({
+            target: this.options.target,
+            start_state: this.options.start_state,
+            preview_layer: this.handler_layer
         })
 
-        this.value.element_added.on(e => this.updatePreview(e))
-        this.value.element_removed.on(e => e.value().associated_preview?.remove())
-        this.value.element_changed.on(e => this.updatePreview(e))
-
-        this.augmented_value.subscribe(({path}) => {
+        this.value.augmented_value.subscribe(({path}) => {
             if (this.action_bar) this.action_bar.state.set(path.post_state)
         })
 
-        // Set up handler layer, but don't add it anywhere yet.
-        this.handler_layer = new PathEditorGameLayer(this)
-        this.control = new ControlWidget(this, this.augmented_value).addTo(this.handler_layer)
-        this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
+        this.control = new ControlWidget(this, this.value.augmented_value).addTo(this.handler_layer)
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
+        this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
 
         this.value.setTo(options.initial.map(s => ({raw: s})))
     }
 
-    private updatePreview(o: PathEditor.OValue) {
-        let value = o.value()
-
-        if (value.associated_preview) {
-            value.associated_preview.remove()
-            value.associated_preview = null
-        }
-
-        value.associated_preview = createStepGraphics(value.raw).addTo(this.handler_layer)
-    }
-
     protected begin() {
         this.handler_layer.addTo(this.game_layer)
-        //TODO//this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
+        //this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
     }
 
     protected end() {

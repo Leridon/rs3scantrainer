@@ -1,4 +1,4 @@
-import {clamp} from "lodash";
+import {clamp, identity} from "lodash";
 import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
 import {Transform} from "./Transform";
@@ -8,6 +8,8 @@ export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
 export namespace Rectangle {
     export function from(...points: Vector2[]): Rectangle {
+        points = points.filter(identity)
+
         if (points.length == 0) return null
 
         return {

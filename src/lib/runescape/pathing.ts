@@ -204,7 +204,13 @@ export namespace Path {
     }
 
     export namespace augmented {
+        export function step_bounds(step: augmented_step): Rectangle {
+            return Rectangle.combine(Path.step_bounds(step.raw), Rectangle.from(step.pre_state.position.tile, step.post_state.position.tile))
+        }
 
+        export function bounds(path: Path.augmented): Rectangle {
+            return Rectangle.combine(...path.steps.map(step_bounds), path.target)
+        }
     }
 
     export type augmented_step = {
@@ -639,13 +645,6 @@ export namespace Path {
         })(str)
     }
 
-    function tile_bounds(tile: Vector2): L.Bounds {
-        return L.bounds([
-            L.point({x: tile.x - 0.5, y: tile.y - 0.5}),
-            L.point({x: tile.x + 0.5, y: tile.y + 0.5}),
-        ])
-    }
-
     export function step_bounds(step: step): Rectangle {
         switch (step.type) {
             case "ability":
@@ -667,18 +666,5 @@ export namespace Path {
 
     export function bounds(path: Path.raw): Rectangle {
         return Rectangle.combine(...path.map(step_bounds))
-    }
-
-    export function path_bounds(path: augmented): L.Bounds {
-        // TODO: Refactor into using unaugmented paths, return TileRectangle
-
-        let bounds = L.bounds([])
-
-        path.steps.forEach(s => bounds.extend(step_bounds(s)))
-
-        if (path.target) bounds.extend(L.point(path.target.topleft)).extend(L.point(path.target.botright))
-        if (path.pre_state.position?.tile && bounds.getCenter().distanceTo(L.point(path.pre_state.position.tile)) < 100) bounds.extend(tile_bounds(path.pre_state?.position?.tile))
-
-        return bounds
     }
 }

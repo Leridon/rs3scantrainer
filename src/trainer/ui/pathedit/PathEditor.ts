@@ -77,7 +77,7 @@ class StepEditWidget extends Widget {
 
         // Render header
         {
-            let bounds = Path.step_bounds(value.raw)
+            let bounds = Path.augmented.step_bounds(value)
 
             hbox(
                 hbox(
@@ -688,8 +688,6 @@ export class PathEditor extends Behaviour {
         this.handler_layer.addTo(this.game_layer)
 
         this.game_layer.getMap().container.focus()
-
-        // TODO: Include target/start
 
         let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state.position?.tile), this.options.target)
 

@@ -8,7 +8,6 @@ Immediate next:
     - Revive move up/down
     - Fit on begin
     - New Shortcuts via context menu, new shortcut step kind
-    - Disable "go to step" for orientation
 
 - Scan Editor
     - You are here marker scaling in tree view

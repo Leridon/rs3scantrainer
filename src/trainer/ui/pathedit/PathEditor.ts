@@ -1,30 +1,19 @@
 import * as leaflet from "leaflet";
 import Widget from "lib/ui/Widget";
-import {createStepGraphics, PathGraphics} from "../path_graphics";
+import {createStepGraphics} from "../path_graphics";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
-import {ScanTrainerCommands} from "trainer/application";
-import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
-import Collapsible from "../widgets/modals/Collapsible";
-import DirectionSelect from "./DirectionSelect";
-import ExportStringModal from "../widgets/modals/ExportStringModal";
-import ImportStringModal from "../widgets/modals/ImportStringModal";
-import InteractionSelect from "./InteractionSelect";
 import {Path} from "lib/runescape/pathing";
 import TeleportSelect from "./TeleportSelect";
 import {Teleports} from "lib/runescape/teleports";
 import {teleport_data} from "data/teleport_data";
-import Checkbox from "lib/ui/controls/Checkbox";
-import {tilePolygon} from "../polygon_helpers";
 import MovementStateView from "./MovementStateView";
 import {SmallImageButton} from "../widgets/SmallImageButton";
-import {QueryLinks} from "trainer/query_functions";
 import {util} from "lib/util/util";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import movement_state = Path.movement_state;
 import issue = Path.issue;
-import {Observable, observe} from "lib/properties/Observable";
 import Behaviour from "lib/ui/Behaviour";
 import {Shortcuts} from "lib/runescape/shortcuts";
 import {Rectangle, Vector2} from "lib/math";
@@ -37,7 +26,7 @@ import PathEditActionBar from "./PathEditActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
-import {ObservableArray, observeArray} from "../../../lib/reactive";
+import {Observable, ObservableArray, observe, observeArray} from "../../../lib/reactive";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
@@ -46,7 +35,6 @@ import spacer = C.spacer;
 import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import vbox = C.vbox;
-import {MovementAbilities} from "../../../lib/runescape/movement";
 import * as lodash from "lodash";
 
 export class IssueWidget extends Widget {
@@ -465,10 +453,10 @@ class PathEditorGameLayer extends GameLayer {
                     .map(Shortcuts.normalize)
                     .forEach(s => {
                         s.actions.forEach(a => {
-                            this.editor.value.augmented.get().post_state.position.tile
+                            this.editor.value.augmented_value.value().path.post_state.position.tile
 
-                            let start = this.editor.value.augmented.get().post_state.position.tile
-                                ? TileRectangle.clampInto(this.editor.value.augmented.get().post_state.position.tile, a.interactive_area)
+                            let start = this.editor.value.augmented_value.value().path.post_state.position.tile
+                                ? TileRectangle.clampInto(this.editor.value.augmented_value.value().path.post_state.position.tile, a.interactive_area)
                                 : TileRectangle.center(a.interactive_area)
 
                             let ends: TileCoordinates

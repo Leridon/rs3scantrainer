@@ -39,7 +39,7 @@ export namespace ActionBar {
                 }
             })
 
-            this.render()
+            this.cooldown.subscribe(() => this.render(), true)
         }
 
         private render() {

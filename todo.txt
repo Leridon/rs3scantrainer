@@ -4,10 +4,9 @@ Immediate next:
 
 - Path Editor
     - Fix "Redraw" for running: Set Waypoint, Force ignore obstacles
-    - Redclick interaction
     - "You are here marker"
     - Revive move up/down
-    - New Shortcuts via context menu, new shortcut step kind
+    - New Shortcuts via context menu, new shortcut step kind, nested context menus
 
 - Scan Editor
     - You are here marker scaling in tree view

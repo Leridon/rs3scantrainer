@@ -215,6 +215,16 @@ export function createStepGraphics(step: Path.step): OpacityGroup {
         }
         case "redclick": {
             createX(step.where, "red").addTo(layer)
+
+            leaflet.marker(Vector2.toLatLong(step.where), {
+                icon: leaflet.icon({
+                    iconUrl: InteractionType.meta(step.how).icon_url,
+                    iconSize: [28, 31],
+                    iconAnchor: [4, 1],
+                }),
+                interactive: false
+            }).addTo(layer)
+
             break
         }
         case "powerburst": {

@@ -9,25 +9,22 @@ import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import {Observable, observe} from "../../../../lib/reactive";
+import observe_combined = Observable.observe_combined;
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
-
-    _overlay_position: TileCoordinates = null
     _possibility_overlay: leaflet.FeatureGroup = null
-
-    _dive_target: TileCoordinates = null
-    _dive_preview: leaflet.Layer = null
-
-    _previewed: {
-        from: TileCoordinates,
-        to: TileCoordinates
-    }
+    _preview_arrow: leaflet.Layer = null
 
     private top_control: InteractionTopControl
 
-    private start_position: Observable<TileCoordinates> = observe(null)
-    private target: Observable<{ tile: TileCoordinates, forced: boolean }> = observe(null)
+    private start_position: Observable<TileCoordinates> = observe(null).equality(TileCoordinates.eq2)
+    private current_target: Observable<{
+        tile: TileCoordinates,
+        forced: boolean
+    }> = observe(null).equality((a, b) => TileCoordinates.eq2(a?.tile, b?.tile) && a?.forced == b?.forced)
     private reverse: Observable<boolean> = observe(false)
+
+    private overlay_tile: Observable<TileCoordinates> = observe(null).equality(TileCoordinates.eq2)
 
     constructor(private ability: MovementAbilities.movement_ability) {
         super({})
@@ -35,6 +32,14 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         this.attachTopControl(this.top_control = new InteractionTopControl().setName(`Drawing ${ability}`))
 
         // TODO: observe combined for hover/reverse/start to update overlays. Don't use built in preview
+
+        observe_combined({start: this.start_position, reverse: this.reverse, target: this.current_target}).subscribe(({start, target}) => {
+            this.overlay_tile.set(start || target?.tile)
+
+            this.updateArrow(start, target?.tile, target?.forced)
+        })
+
+        this.overlay_tile.subscribe(tile => this.updateDiveOverlay(tile))
 
         /*
         c("<div style='display: flex'></div>")
@@ -79,30 +84,30 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         return this
     }
 
-    private async update_overlay(p: TileCoordinates | null) {
+    private async updateDiveOverlay(tile: TileCoordinates | null): Promise<void> {
         if (this.ability != "barge" && this.ability != "dive") return
 
-        if (TileCoordinates.eq2(p, this._overlay_position)) return
+        if (this._possibility_overlay) {
+            this._possibility_overlay.remove()
+            this._possibility_overlay = null
+        }
 
-        if (this._possibility_overlay) this._possibility_overlay.remove()
-
-        this._overlay_position = p
-
-        if (p == null) return
+        if (tile == null) return
 
         this._possibility_overlay = leaflet.featureGroup()
 
-
+        // TODO: This desperately needs some optimization. Lots of calculations should be reusable
+        console.log("Calculating overlay")
         for (let dx = -10; dx <= 10; dx++) {
             for (let dy = -10; dy <= 10; dy++) {
 
                 if (dx != 0 || dy != 0) {
 
-                    let [from, to] = this.fromTo(p, move(p, {x: dx, y: dy}))
+                    let [from, to] = this.fromTo(tile, move(tile, {x: dx, y: dy}))
 
                     let works = (await MovementAbilities.dive(from, to))
 
-                    tilePolygon(Vector2.add(p, {x: dx, y: dy}))
+                    tilePolygon(Vector2.add(tile, {x: dx, y: dy}))
                         .setStyle({
                             fillOpacity: 0.5,
                             stroke: false,
@@ -113,7 +118,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
             }
         }
 
-        tilePolygon(p)
+        tilePolygon(tile)
             .setStyle({
                 fillOpacity: 0.5,
                 stroke: false,
@@ -124,49 +129,45 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         this._possibility_overlay.addTo(this)
     }
 
-    private async update_preview(p: TileCoordinates) {
-        if (TileCoordinates.eq2(p, this._dive_target)) return
-        this._dive_target = p
+    private async updateArrow(start: TileCoordinates, hover: TileCoordinates, forced: boolean) {
+        // Calculate the preview that needs to be drawn.
+        let res = await (async (): Promise<{ from: TileCoordinates, to: TileCoordinates, okay: boolean } | null> => {
+            if (!start || !hover) return null
 
-        if (p == null) {
-            this._dive_preview.remove()
-            this._dive_preview = null
-            return
-        }
+            if (forced) return {from: start, to: hover, okay: true}
+            else {
+                let [real_from, real_to] = this.fromTo(start, hover)
 
-        let [from, to] = this.fromTo(this.start_position.value(), p)
+                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, real_from, real_to)
 
-        if (this._previewed
-            && TileCoordinates.eq2(this._previewed.to, to)
-            && TileCoordinates.eq2(this._previewed.from, from)) return
+                return {from: real_from, to: res?.tile || real_to, okay: !!res}
+            }
+        })()
 
-        let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
-
-        this._previewed = {
-            from: from,
-            to: to,
-        }
-
-        if (this._dive_preview) {
-            this._dive_preview.remove()
-            this._dive_preview = null
+        // Remove existing preview
+        if (this._preview_arrow) {
+            this._preview_arrow.remove()
+            this._preview_arrow = null
         }
 
         if (res) {
-            this._dive_preview = createStepGraphics({
-                type: "ability",
-                ability: this.ability,
-                description: "",
-                from: this._previewed.from,
-                to: res.tile
-            }).addTo(this)
-        } else {
-            this._dive_preview = arrow(this._previewed.from, this._previewed.to).setStyle({
-                weight: 3,
-                color: "red"
-            }).addTo(this)
-        }
+            let {from, to, okay} = res
 
+            // Draw the necessary preview
+            this._preview_arrow = (
+                okay ? createStepGraphics({
+                        type: "ability",
+                        ability: this.ability,
+                        description: "",
+                        from: from,
+                        to: to
+                    })
+                    : arrow(from, to).setStyle({
+                        weight: 3,
+                        color: "red"
+                    })
+            ).addTo(this)
+        }
     }
 
     private fromTo(a: TileCoordinates, b: TileCoordinates): [TileCoordinates, TileCoordinates] {
@@ -213,7 +214,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
     }
 
     eventHover(event: GameMapMouseEvent) {
-        this.target.set({tile: event.tile(), forced: event.original.shiftKey})
+        this.current_target.set({tile: event.tile(), forced: event.original.shiftKey})
     }
 
     eventKeyDown(event: GameMapKeyboardEvent) {

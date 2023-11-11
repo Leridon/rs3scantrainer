@@ -42,52 +42,33 @@ export namespace Path {
 
     export namespace InteractionType {
 
-        export function all(): InteractionType[] {
+        export type Meta = { type: InteractionType, icon_url: string, description: string, short_icon: string }
+
+        export function all(): Meta[] {
             return [
-                "generic", "chop", "talk", "open", "enter", "spellonentity", "agility_obstacle", "ladderdown", "ladderup",
-                "read", "fish", "search", "attack", "craft", "build", "mine", "trade", "use"
+                {type: "generic", icon_url: "assets/icons/cursor_generic.png", description: "Click", short_icon: "cursor_generic"},
+                {type: "chop", icon_url: "assets/icons/cursor_chop.png", description: "Chop", short_icon: "cursor_chop"},
+                {type: "talk", icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"},
+                {type: "open", icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"},
+                {type: "enter", icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"},
+                {type: "spellonentity", icon_url: "assets/icons/cursor_spell.png", description: "Use spell", short_icon: "cursor_spell"},
+                {type: "agility_obstacle", icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"},
+                {type: "ladderdown", icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"},
+                {type: "ladderup", icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"},
+                {type: "read", icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"},
+                {type: "fish", icon_url: "assets/icons/cursor_fish.png", description: "Fish", short_icon: "cursor_fish"},
+                {type: "search", icon_url: "assets/icons/cursor_search.png", description: "Search", short_icon: "cursor_search"},
+                {type: "attack", icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"},
+                {type: "craft", icon_url: "assets/icons/cursor_craft.png", description: "Craft at", short_icon: "cursor_craft"},
+                {type: "build", icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"},
+                {type: "mine", icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"},
+                {type: "trade", icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"},
+                {type: "use", icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
             ]
         }
 
-        export function meta(type: InteractionType): { icon_url: string, description: string, short_icon: string } {
-            switch (type) {
-                case "generic":
-                    return {icon_url: "assets/icons/cursor_generic.png", description: "Click", short_icon: "cursor_generic"}
-                case "chop":
-                    return {icon_url: "assets/icons/cursor_chop.png", description: "Chop", short_icon: "cursor_chop"}
-                case "talk":
-                    return {icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"}
-                case "open":
-                    return {icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"}
-                case "enter":
-                    return {icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"}
-                case "spellonentity":
-                    return {icon_url: "assets/icons/cursor_spell.png", description: "Use spell", short_icon: "cursor_spell"}
-                case "agility_obstacle":
-                    return {icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"}
-                case "ladderdown":
-                    return {icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"}
-                case "ladderup":
-                    return {icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"}
-                case "read":
-                    return {icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"}
-                case "fish":
-                    return {icon_url: "assets/icons/cursor_fish.png", description: "Fish", short_icon: "cursor_fish"}
-                case "search":
-                    return {icon_url: "assets/icons/cursor_search.png", description: "Search", short_icon: "cursor_search"}
-                case "attack":
-                    return {icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"}
-                case "craft":
-                    return {icon_url: "assets/icons/cursor_craft.png", description: "Craft at", short_icon: "cursor_craft"}
-                case "build":
-                    return {icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"}
-                case "mine":
-                    return {icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"}
-                case "trade":
-                    return {icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"}
-                case "use":
-                    return {icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
-            }
+        export function meta(type: InteractionType): Meta {
+            return all().find(s => s.type == type)
         }
     }
 

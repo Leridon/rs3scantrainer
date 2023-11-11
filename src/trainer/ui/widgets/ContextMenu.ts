@@ -1,6 +1,7 @@
 import Widget from "lib/ui/Widget";
 import * as tippy from "tippy.js";
 import {Vector2} from "lib/math";
+import {ewent} from "../../../lib/reactive";
 
 export type MenuEntry = {
     type: "basic",
@@ -16,6 +17,10 @@ export type Menu = MenuEntry[]
 
 export default class ContextMenu extends Widget {
     instance: tippy.Instance<tippy.Props>
+
+    private option_selected: boolean = false
+
+    cancelled = ewent()
 
     constructor(menu: Menu) {
         super();
@@ -34,6 +39,7 @@ export default class ContextMenu extends Widget {
             c().addClass("nisl-context-menu-entry").text(o.text).appendTo(this)
                 .tapRaw(r => r.on("click", () => {
                     if (o.type == "basic") {
+                        this.option_selected = true
                         o.handler()
                         this.cancel()
                     }
@@ -62,7 +68,10 @@ export default class ContextMenu extends Widget {
             interactive: true,
             arrow: false,
             offset: [0, 0],
-            animation: false
+            animation: false,
+            onHidden: () => {
+                if (!this.option_selected) this.cancelled.trigger(this)
+            }
         })
 
         this.instance.setProps({
@@ -85,5 +94,10 @@ export default class ContextMenu extends Widget {
     cancel() {
         this.instance.destroy()
         this.instance = null
+    }
+
+    onCancel(f: () => any): this {
+        this.cancelled.on(f)
+        return this
     }
 }

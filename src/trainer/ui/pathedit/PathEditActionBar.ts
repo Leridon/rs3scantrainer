@@ -26,6 +26,7 @@ import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import spacer = C.spacer;
+import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 
 export default class PathEditActionBar extends GameMapControl {
     bar: ActionBar
@@ -110,8 +111,10 @@ export default class PathEditActionBar extends GameMapControl {
                     )
                 }).tooltip("Run"),
                 redclick: new ActionBarButton('assets/icons/redclick.png', () => {
-
-
+                    self.interaction_guard.set(
+                        new PlaceRedClickInteraction()
+                            .onCommit((step) => self.editor.value.create(step))
+                        , self)
                 }).tooltip("Redclick"),
                 powerburst: new ActionBarButton('assets/icons/accel.png', () => {
                         if (self.state.value().position?.tile) {

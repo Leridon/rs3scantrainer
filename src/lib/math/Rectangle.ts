@@ -2,6 +2,7 @@ import {clamp} from "lodash";
 import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
 import {Transform} from "./Transform";
+import {TileCoordinates, TileRectangle} from "../runescape/coordinates";
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
@@ -129,5 +130,12 @@ export namespace Rectangle {
     export function overlaps(a: Rectangle, b: Rectangle): boolean {
         return (a.topleft.x <= b.botright.x && a.botright.x >= b.topleft.x) &&
             (a.botright.y <= b.topleft.y && a.topleft.y >= b.botright.y)
+    }
+
+    export function centeredOn(center: Vector2, radius: number): Rectangle {
+        return {
+            topleft: Vector2.add(center, {x: -radius, y: radius}),
+            botright: Vector2.add(center, {x: radius, y: -radius}),
+        }
     }
 }

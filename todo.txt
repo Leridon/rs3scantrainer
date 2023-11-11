@@ -1,5 +1,7 @@
 Immediate next:
 
+[Bug] In some circumstances, keyboard events don't reach the interaction
+
 - Path Editor
     - Redo DrawAbilityInteraction: Fix redraw, Shift to force, [R] - Reverse
     - Fix "Redraw" for running: Set Waypoint, Force ignore obstacles

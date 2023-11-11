@@ -1,4 +1,5 @@
 import {Rectangle} from "lib/math"
+
 export class Raster<T> {
     public data: T[]
     size: { x: number, y: number }
@@ -11,6 +12,7 @@ export class Raster<T> {
     }
 
     xyToI(tile: { x: number, y: number }) {
+        // TODO: Simplify origin?
         return (tile.y - this.bounds.botright.y) * this.size.x + (tile.x - this.bounds.topleft.x)
     }
 
@@ -19,5 +21,13 @@ export class Raster<T> {
             x: i % this.size.x + this.bounds.topleft.x,
             y: Math.floor(i / this.size.x) + this.bounds.botright.y
         }
+    }
+
+    get(tile: { x: number, y: number }): T {
+        return this.data[this.xyToI(tile)]
+    }
+
+    set(tile: {x: number, y: number}, value: T): void{
+        this.data[this.xyToI(tile)] = value
     }
 }

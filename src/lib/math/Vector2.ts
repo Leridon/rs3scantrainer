@@ -118,4 +118,8 @@ export namespace Vector2 {
 
         return snap({x: r[0], y: r[1]}, 0.5)
     }
+
+    export function abs(a: Vector2): Vector2 {
+        return {x: Math.abs(a.x), y: Math.abs(a.y)}
+    }
 }

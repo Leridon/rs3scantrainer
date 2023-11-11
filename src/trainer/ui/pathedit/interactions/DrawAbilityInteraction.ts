@@ -1,15 +1,18 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
-import {HostedMapData, move, MovementAbilities} from "lib/runescape/movement";
+import {HostedMapData, MovementAbilities} from "lib/runescape/movement";
 import {arrow, createStepGraphics} from "../../path_graphics";
 import {Path} from "lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
-import {Vector2} from "lib/math";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import {Observable, observe} from "../../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
+import possibility_raster = MovementAbilities.possibility_raster;
+import {util} from "../../../../lib/util/util";
+import profile = util.profile;
+import profileAsync = util.profileAsync;
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
     _possibility_overlay: leaflet.FeatureGroup = null
@@ -22,7 +25,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         tile: TileCoordinates,
         forced: boolean
     }> = observe(null).equality((a, b) => TileCoordinates.eq2(a?.tile, b?.tile) && a?.forced == b?.forced)
-    private reverse: Observable<boolean> = observe(false)
 
     private overlay_tile: Observable<TileCoordinates> = observe(null).equality(TileCoordinates.eq2)
 
@@ -31,9 +33,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
         this.attachTopControl(this.top_control = new InteractionTopControl().setName(`Drawing ${ability}`))
 
-        // TODO: observe combined for hover/reverse/start to update overlays. Don't use built in preview
-
-        observe_combined({start: this.start_position, reverse: this.reverse, target: this.current_target}).subscribe(({start, target}) => {
+        observe_combined({start: this.start_position, target: this.current_target}).subscribe(({start, target}) => {
             this.overlay_tile.set(start || target?.tile)
 
             this.updateArrow(start, target?.tile, target?.forced)
@@ -96,16 +96,31 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
         this._possibility_overlay = leaflet.featureGroup()
 
-        // TODO: This desperately needs some optimization. Lots of calculations should be reusable
-        console.log("Calculating overlay")
-        for (let dx = -10; dx <= 10; dx++) {
+        let raster = await possibility_raster(tile)
+
+        for (let x = raster.bounds.topleft.x; x <= raster.bounds.botright.x; x++) {
+            for (let y = raster.bounds.botright.y; y <= raster.bounds.topleft.y; y++) {
+                let works = raster.get({x: x, y: y})
+
+                tilePolygon({x: x, y: y})
+                    .setStyle({
+                        fillOpacity: 0.5,
+                        stroke: false,
+                        fillColor: works ? "green" : "red"
+                    })
+                    .addTo(this._possibility_overlay)
+            }
+        }
+
+        /*for (let dx = -10; dx <= 10; dx++) {
             for (let dy = -10; dy <= 10; dy++) {
 
                 if (dx != 0 || dy != 0) {
 
+
                     let [from, to] = this.fromTo(tile, move(tile, {x: dx, y: dy}))
 
-                    let works = (await MovementAbilities.dive(from, to))
+                    let works = raster.data[raster.xyToI(move(tile, {x: dx, y: dy}))]//(await MovementAbilities.dive(from, to))
 
                     tilePolygon(Vector2.add(tile, {x: dx, y: dy}))
                         .setStyle({
@@ -116,7 +131,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                         .addTo(this._possibility_overlay)
                 }
             }
-        }
+        }*/
 
         tilePolygon(tile)
             .setStyle({
@@ -136,11 +151,9 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
             if (forced) return {from: start, to: hover, okay: true}
             else {
-                let [real_from, real_to] = this.fromTo(start, hover)
+                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, start, hover)
 
-                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, real_from, real_to)
-
-                return {from: real_from, to: res?.tile || real_to, okay: !!res}
+                return {from: start, to: res?.tile || hover, okay: !!res}
             }
         })()
 
@@ -170,11 +183,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         }
     }
 
-    private fromTo(a: TileCoordinates, b: TileCoordinates): [TileCoordinates, TileCoordinates] {
-        if (this.reverse.value()) return [b, a]
-        else return [a, b]
-    }
-
     eventClick(event: GameMapMouseEvent) {
         event.onPre(async () => {
             event.stopAllPropagation()
@@ -184,25 +192,23 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
             if (!this.start_position.value()) {
                 this.start_position.set(tile)
             } else {
-                let [from, to] = this.fromTo(this.start_position.value(), tile)
-
                 if (event.original.shiftKey) {
                     this.commit({
                         type: "ability",
                         ability: this.ability,
                         description: `Use {{${this.ability}}}`,
-                        from: from,
-                        to: to
+                        from: this.start_position.value(),
+                        to: tile
                     })
                 } else {
-                    let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
+                    let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position.value(), tile)
 
                     if (res) {
                         this.commit({
                             type: "ability",
                             ability: this.ability,
                             description: `Use {{${this.ability}}}`,
-                            from: from,
+                            from: this.start_position.value(),
                             to: res.tile
                         })
                     }

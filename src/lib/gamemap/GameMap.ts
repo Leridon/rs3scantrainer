@@ -132,6 +132,10 @@ export class GameMap extends leaflet.Map {
                 this.event(new GameMapKeyboardEvent(this, e), l => e => l.eventKeyDown(e))
             })
 
+            this.on("keyup", (e) => {
+                this.event(new GameMapKeyboardEvent(this, e), l => e => l.eventKeyUp(e))
+            })
+
             this.on("moveend", () => this.bounds.set(this.getBounds()))
             this.on("zoomend", () => this.bounds.set(this.getBounds()))
         }

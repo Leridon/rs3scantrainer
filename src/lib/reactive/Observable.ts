@@ -7,6 +7,7 @@ export interface Observable<T> {
     value(): T
 
     set(v: T): void
+    update(f: (v: T) => void): void
 
     subscribe(handler: (new_value: T, old: T) => any, trigger_once?: boolean): this
 

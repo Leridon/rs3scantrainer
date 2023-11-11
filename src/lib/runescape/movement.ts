@@ -382,8 +382,10 @@ export namespace MovementAbilities {
                 x: delta.x < range,
                 y: delta.y < range
             }
+            // TODO: Potentially replace direct recursions with loops
 
             if (direction.isCardinal(actor.movement)) {
+
                 if (movement_in_range.y && movement_in_range.x && await canMove(HostedMapData.get(), actor.position, actor.movement)) {
                     await handle({
                         position: TileCoordinates.move(actor.position, direction.toVector(actor.movement)),

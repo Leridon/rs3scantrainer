@@ -10,9 +10,6 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import {Observable, observe} from "../../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
 import possibility_raster = MovementAbilities.possibility_raster;
-import {util} from "../../../../lib/util/util";
-import profile = util.profile;
-import profileAsync = util.profileAsync;
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
     _possibility_overlay: leaflet.FeatureGroup = null
@@ -40,25 +37,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
         })
 
         this.overlay_tile.subscribe(tile => this.updateDiveOverlay(tile))
-
-        /*
-        c("<div style='display: flex'></div>")
-            .append(new Checkbox().on("changed", v => {
-                this.reverse = v
-
-                if (this._possibility_overlay) {
-                    this._overlay_position = null
-                    this._possibility_overlay.remove()
-                    this._possibility_overlay = null
-                    this.update_overlay(this.start_position)
-                }
-                if (this._dive_preview) {
-                    this._dive_preview.remove()
-                    this._dive_preview = null
-                }
-            }))
-            .append(c().text("Reverse"))
-            .appendTo(top_control.content)*/
 
         this.start_position.subscribe(() => this.updateInstructions(), true)
     }
@@ -111,27 +89,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                     .addTo(this._possibility_overlay)
             }
         }
-
-        /*for (let dx = -10; dx <= 10; dx++) {
-            for (let dy = -10; dy <= 10; dy++) {
-
-                if (dx != 0 || dy != 0) {
-
-
-                    let [from, to] = this.fromTo(tile, move(tile, {x: dx, y: dy}))
-
-                    let works = raster.data[raster.xyToI(move(tile, {x: dx, y: dy}))]//(await MovementAbilities.dive(from, to))
-
-                    tilePolygon(Vector2.add(tile, {x: dx, y: dy}))
-                        .setStyle({
-                            fillOpacity: 0.5,
-                            stroke: false,
-                            fillColor: works ? "green" : "red"
-                        })
-                        .addTo(this._possibility_overlay)
-                }
-            }
-        }*/
 
         tilePolygon(tile)
             .setStyle({
@@ -213,8 +170,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                         })
                     }
                 }
-
-
             }
         })
     }
@@ -226,6 +181,13 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
     eventKeyDown(event: GameMapKeyboardEvent) {
         super.eventKeyDown(event);
 
-        // Update force when shift is added
+        if (event.original.key == "Shift") this.current_target.update(c => c.forced = true)
+
+    }
+
+    eventKeyUp(event: GameMapKeyboardEvent) {
+        super.eventKeyDown(event);
+
+        if (event.original.key == "Shift") this.current_target.update(c => c.forced = false)
     }
 }

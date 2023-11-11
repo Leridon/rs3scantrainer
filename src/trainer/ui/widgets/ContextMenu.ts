@@ -22,6 +22,8 @@ export default class ContextMenu extends Widget {
 
         this.addClass("nisl-context-menu")
 
+        this.container.on("click", (e) => e.stopPropagation())
+
         c().addClass("nisl-context-menu-header").text("Choose Option").appendTo(this)
 
         // TODO: Disable wrapping inside of sensible limits

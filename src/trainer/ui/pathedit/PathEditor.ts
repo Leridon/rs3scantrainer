@@ -30,7 +30,7 @@ import {Shortcuts} from "lib/runescape/shortcuts";
 import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
-import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
+import {GameMapContextMenuEvent, GameMapKeyboardEvent} from "lib/gamemap/MapEvents";
 import GameLayer from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import PathEditActionBar from "./PathEditActionBar";
@@ -47,7 +47,7 @@ import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import vbox = C.vbox;
 import {MovementAbilities} from "../../../lib/runescape/movement";
-import movement_ability = MovementAbilities.movement_ability;
+import * as lodash from "lodash";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -380,65 +380,10 @@ class ControlWidget extends GameMapControl {
             "overflow-y": "auto",
         })
 
-        /* // TODO: Recover this functionality elsewhere
-        {
-            let controls_collapsible = new Collapsible("Controls").appendTo(this.content)
-            let props = new Properties().appendTo(controls_collapsible.content_container)
+        // TODO: Recover this functionality elsewhere
 
-            this.issue_container = c()
-
-            props.row(this.issue_container)
-
-            let control_container = c("<div class='ctr-button-container'></div>")
-
-            props.row(control_container)
-
-            new LightButton("Commit").on("click", () => {
-                this.editor.current_options.commit_handler(this.editor.value.get())
-            }).setEnabled(!!this.editor.current_options.commit_handler).appendTo(control_container)
-
-            /*new LightButton("Save & Close").on("click", () => {
-                this.emit("saved", this.value)
-                this.emit("closed", null)
-            }).setEnabled(this.options.save_enabled).appendTo(control_container)
-
-            new LightButton("Discard").on("click", () => {
-                this.editor.current_options?.discard_handler()
-                this.editor.reset()
-            }).appendTo(control_container)
-
-            /*new LightButton("Show JSON")
-                .on("click", () => {
-                    ExportStringModal.do(JSON.stringify(this.value, null, 2))
-                })
-                .appendTo(control_container)
-
-
-            new LightButton("Export")
-                .on("click", () => ExportStringModal.do(Path.export_path(this.editor.value.get())))
-                .appendTo(control_container)
-            new LightButton("Import")
-                .on("click", async () => {
-                    this.editor.value.setAsync(ImportStringModal.do((s) => Path.import_path(s)))
-                })
-                .appendTo(control_container)
-
-            new LightButton("Share")
-                .on("click", () => {
-                    ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, {
-                        steps: this.editor.value.get(),
-                        start_state: this.editor.current_options.start_state,
-                        target: this.editor.current_options.target,
-                    }), "Use this link to directly link to this path.")
-                })
-                .appendTo(control_container)
-        }*/
 
         data.subscribe(({path, steps}) => this.render(path, steps))
-
-
-        //this.content.container.on("click", (e) => e.stopPropagation())
-        //this.content.addClass("nis-map-control") // TODO? Need this?
     }
 
     private render(augmented: Path.augmented, steps: PathEditor.OValue[]) {
@@ -557,6 +502,7 @@ class PathEditorGameLayer extends GameLayer {
             }
         })
     }
+
 }
 
 /*
@@ -685,6 +631,13 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         }
     }
 
+    public construct(): Path.raw {
+        return lodash.cloneDeep(this.value().map(s => s.value().raw))
+    }
+
+    public load(p: Path.raw): void {
+        this.setTo(p.map(s => ({raw: lodash.cloneDeep(s)})))
+    }
 }
 
 
@@ -704,7 +657,7 @@ export class PathEditor extends Behaviour {
                     shortcuts: Shortcuts.shortcut[],
                     teleports: Teleports.flat_teleport[]
                 },
-                private options: PathEditor.options_t
+                public options: PathEditor.options_t
     ) {
         super()
 
@@ -725,7 +678,7 @@ export class PathEditor extends Behaviour {
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
         this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
 
-        this.value.setTo(options.initial.map(s => ({raw: s})))
+        this.value.load(options.initial)
     }
 
     protected begin() {
@@ -735,6 +688,20 @@ export class PathEditor extends Behaviour {
 
     protected end() {
         this.handler_layer.remove()
+    }
+
+    discard() {
+        if (this.options.discard_handler) this.options.discard_handler()
+    }
+
+    commit() {
+        this.options.commit_handler(this.value.construct())
+    }
+
+    close() {
+        this.discard()
+
+        this.stop()
     }
 }
 

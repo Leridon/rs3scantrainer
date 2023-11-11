@@ -15,6 +15,17 @@ import surge_cooldown = Path.movement_state.surge_cooldown;
 import escape_cooldown = Path.movement_state.escape_cooldown;
 import barge_cooldown = Path.movement_state.barge_cooldown;
 import dive_cooldown = Path.movement_state.dive_cooldown;
+import Collapsible from "../widgets/modals/Collapsible";
+import Properties from "../widgets/Properties";
+import LightButton from "../widgets/LightButton";
+import ExportStringModal from "../widgets/modals/ExportStringModal";
+import ImportStringModal from "../widgets/modals/ImportStringModal";
+import {QueryLinks} from "../../query_functions";
+import {ScanTrainerCommands} from "../../application";
+import {C} from "../../../lib/ui/constructors";
+import hbox = C.hbox;
+import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
+import spacer = C.spacer;
 
 export default class PathEditActionBar extends GameMapControl {
     bar: ActionBar
@@ -45,93 +56,139 @@ export default class PathEditActionBar extends GameMapControl {
             predictor?: (_: PlayerPosition) => Promise<PlayerPosition> | PlayerPosition
         }
 
-        let self = this
+        this.content.css("padding", "5px")
 
-        async function ability_handle(opt: ability_data): Promise<InteractionLayer> {
-            if (opt.predictor && self.state.value().position?.tile != null && self.state.value().position?.direction != null) {
-                let res = await opt.predictor(self.state.value().position)
+        c("<div class='ctr-interaction-control-header'></div>").appendTo(this.content)
+            .append(c().text(`Path Editor`))
+            .append(spacer())
+            .append(c("<div class='ctr-interaction-control-header-close'>&times;</div>")
+                .tooltip("Close (Esc)")
+                .tapRaw(r => r.on("click", () => {
+                    this.editor.close()
+                })))
 
-                if (res) {
+        // Render action bar
+        {
+            let self = this
 
-                    self.editor.value.create(Path.auto_describe({
-                        type: "ability",
-                        ability: opt.ability,
-                        description: "",
-                        from: self.state.value().position?.tile,
-                        to: res.tile
-                    }))
+            async function ability_handle(opt: ability_data): Promise<InteractionLayer> {
+                if (opt.predictor && self.state.value().position?.tile != null && self.state.value().position?.direction != null) {
+                    let res = await opt.predictor(self.state.value().position)
 
-                    return
+                    if (res) {
+
+                        self.editor.value.create(Path.auto_describe({
+                            type: "ability",
+                            ability: opt.ability,
+                            description: "",
+                            from: self.state.value().position?.tile,
+                            to: res.tile
+                        }))
+
+                        return
+                    }
                 }
-            }
-
-            return self.interaction_guard.set(
-                new DrawAbilityInteraction(opt.ability)
-                    .onCommit((step) => self.editor.value.create(step))
-                    .setStartPosition(self.state.value().position?.tile),
-                self)
-        }
-
-        this.buttons = {
-            surge: new ActionBarButton('assets/icons/surge.png', () => ability_handle({ability: "surge", predictor: MovementAbilities.surge})).tooltip("Surge"),
-            escape: new ActionBarButton('assets/icons/escape.png', () => ability_handle({ability: "escape", predictor: MovementAbilities.escape})).tooltip("Escape"),
-            dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"})).tooltip("Dive"),
-            barge: new ActionBarButton('assets/icons/barge.png', async () => await ability_handle({ability: "barge"})).tooltip("Barge"),
-            run: new ActionBarButton('assets/icons/run.png', () => {
 
                 return self.interaction_guard.set(
-                    new DrawRunInteraction({done_handler: (step) => self.editor.value.create(step)})
+                    new DrawAbilityInteraction(opt.ability)
+                        .onCommit((step) => self.editor.value.create(step))
                         .setStartPosition(self.state.value().position?.tile),
-                    self
-                )
-            }).tooltip("Run"),
-            redclick: new ActionBarButton('assets/icons/redclick.png', () => {}).tooltip("Redclick"),
-            powerburst: new ActionBarButton('assets/icons/accel.png', () => {
-                    if (self.state.value().position?.tile) {
-                        this.editor.value.create(Path.auto_describe({
-                                type: "powerburst",
-                                description: "",
-                                where: self.state.value().position.tile
-                            })
-                        )
-                    } else {
-                        self.interaction_guard.set(
-                            new PlacePowerburstInteraction({
-                                done_handler: (step) => self.editor.value.create(step)
-                            }), self)
-                    }
-                }
-            )
-                .tooltip("Powerburst of Acceleration"),
-            compass: new ActionBarButton('assets/icons/compass.png', (e) => {
-                let menu: Menu = direction.all.map(d => {
-                    return {
-                        type: "basic",
-                        text: direction.toString(d),
-                        handler: () => {
-                            self.editor.value.create(Path.auto_describe({
-                                type: "orientation",
-                                description: "",
-                                direction: d
-                            }))
+                    self)
+            }
+
+            this.buttons = {
+                surge: new ActionBarButton('assets/icons/surge.png', () => ability_handle({ability: "surge", predictor: MovementAbilities.surge})).tooltip("Surge"),
+                escape: new ActionBarButton('assets/icons/escape.png', () => ability_handle({ability: "escape", predictor: MovementAbilities.escape})).tooltip("Escape"),
+                dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"})).tooltip("Dive"),
+                barge: new ActionBarButton('assets/icons/barge.png', async () => await ability_handle({ability: "barge"})).tooltip("Barge"),
+                run: new ActionBarButton('assets/icons/run.png', () => {
+
+                    return self.interaction_guard.set(
+                        new DrawRunInteraction({done_handler: (step) => self.editor.value.create(step)})
+                            .setStartPosition(self.state.value().position?.tile),
+                        self
+                    )
+                }).tooltip("Run"),
+                redclick: new ActionBarButton('assets/icons/redclick.png', () => {}).tooltip("Redclick"),
+                powerburst: new ActionBarButton('assets/icons/accel.png', () => {
+                        if (self.state.value().position?.tile) {
+                            this.editor.value.create(Path.auto_describe({
+                                    type: "powerburst",
+                                    description: "",
+                                    where: self.state.value().position.tile
+                                })
+                            )
+                        } else {
+                            self.interaction_guard.set(
+                                new PlacePowerburstInteraction({
+                                    done_handler: (step) => self.editor.value.create(step)
+                                }), self)
                         }
                     }
-                })
+                )
+                    .tooltip("Powerburst of Acceleration"),
+                compass: new ActionBarButton('assets/icons/compass.png', (e) => {
+                    let menu: Menu = direction.all.map(d => {
+                        return {
+                            type: "basic",
+                            text: direction.toString(d),
+                            handler: () => {
+                                self.editor.value.create(Path.auto_describe({
+                                    type: "orientation",
+                                    description: "",
+                                    direction: d
+                                }))
+                            }
+                        }
+                    })
 
-                new ContextMenu(menu).showFromEvent(e)
-            }).tooltip("Compass")
+                    new ContextMenu(menu).showFromEvent(e)
+                }).tooltip("Compass")
+            }
+
+            this.bar = new ActionBar([
+                this.buttons.surge,
+                this.buttons.escape,
+                this.buttons.dive,
+                this.buttons.barge,
+                this.buttons.run,
+                this.buttons.redclick,
+                this.buttons.powerburst,
+                this.buttons.compass,
+            ]).appendTo(this.content)
         }
 
-        this.bar = new ActionBar([
-            this.buttons.surge,
-            this.buttons.escape,
-            this.buttons.dive,
-            this.buttons.barge,
-            this.buttons.run,
-            this.buttons.redclick,
-            this.buttons.powerburst,
-            this.buttons.compass,
-        ]).appendTo(this.content)
+        // Render buttons
+        {
+            hbox(
+                new LightButton("Commit").on("click", () => {
+                    this.editor.options.commit_handler(this.editor.value.construct())
+                }).setEnabled(!!this.editor.options.commit_handler),
+
+                new LightButton("Discard").on("click", () => {
+                    this.editor.value.load(this.editor.options.initial)
+                    this.editor.options?.discard_handler()
+                }),
+
+                new LightButton("Export")
+                    .on("click", () => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
+
+                new LightButton("Import")
+                    .on("click", async () => {
+                        this.editor.value.load(await ImportStringModal.do((s) => Path.import_path(s)))
+                    }),
+
+                new LightButton("Share")
+                    .on("click", () => {
+                        ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, {
+                            steps: this.editor.value.construct(),
+                            start_state: this.editor.options.start_state,
+                            target: this.editor.options.target,
+                        }), "Use this link to directly link to this path.")
+                    })
+            ).addClass("ctr-button-container")
+                .appendTo(this.content)
+        }
 
         this.state.subscribe((s) => this.render(s), true)
     }
@@ -143,6 +200,20 @@ export default class PathEditActionBar extends GameMapControl {
         this.buttons.dive.cooldown.set(dive_cooldown(state))
         this.buttons.compass.cooldown.set(state.position.tile ? -1 : 0)
         this.buttons.powerburst.cooldown.set(Math.max(state.acceleration_activation_tick + 120 - state.tick, 0))
+    }
+
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        event.onPost(() => {
+            if (event.original.key == "Escape") {
+                event.stopAllPropagation()
+                this.editor.stop()
+            }
+
+            if (event.original.key.toLowerCase() == "s" && event.original.shiftKey) {
+                event.original.preventDefault()
+                this.editor.commit()
+            }
+        })
     }
 }
 

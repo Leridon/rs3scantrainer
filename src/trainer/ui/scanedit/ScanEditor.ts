@@ -223,7 +223,8 @@ export default class ScanEditor extends Behaviour {
             this.app.template_resolver, {
                 teleports: this.app.data.teleports.getAll(),
                 shortcuts: shortcuts
-            }, options))
+            }, options)
+        )
     }
 
     begin() {
@@ -257,9 +258,7 @@ export default class ScanEditor extends Behaviour {
 
                     target: node.path.target,
                     start_state: node.path.pre_state,
-                    discard_handler: () => {
-                        this.panel.tree_edit.setActiveNode(null)
-                    },
+                    discard_handler: () => {},
                     commit_handler: (p) => {
                         node.raw.path = p
 
@@ -273,7 +272,8 @@ export default class ScanEditor extends Behaviour {
 
         this.panel.tree_edit.on("region_changed", async (node) => {
             if (node.raw == this.panel.tree_edit.active_node.get()?.raw) {
-                this.setPathEditor({
+                // TODO: Potentially update target in editor
+                /*this.setPathEditor({
                     initial: node.path.raw,
                     target: node.path.target,
                     start_state: node.path.pre_state,
@@ -285,7 +285,7 @@ export default class ScanEditor extends Behaviour {
 
                         this.panel.tree_edit.cleanTree()
                     }
-                })
+                })*/
             }
         })
     }

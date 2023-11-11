@@ -3,12 +3,15 @@ import Button from "lib/ui/controls/Button";
 import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 import {Observable, observe} from "lib/reactive";
 import {C} from "../../../lib/ui/constructors";
-import hbox = C.hbox;
 
 
 export class ActionBar extends Widget {
     constructor(buttons: ActionBar.ActionBarButton[]) {
-        super(hbox(...buttons));
+        super();
+
+        this.addClass("ctr-actionbar")
+
+        this.append(...buttons)
     }
 }
 

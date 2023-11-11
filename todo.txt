@@ -3,13 +3,14 @@ Immediate next:
 [Bug] In some circumstances, keyboard events don't reach the interaction
 
 - Path Editor
-    - Redo DrawAbilityInteraction: Fix redraw, Shift to force, [R] - Reverse
-    - Fix "Redraw" for running: Set Waypoint, Force ignore obstacles
     - Move action buttons to bottom control
+        - Commit, Discard, Share, Export, Import
+    - Fix "Redraw" for running: Set Waypoint, Force ignore obstacles
     - "You are here marker"
     - Revive move up/down
     - Fit on begin
     - New Shortcuts via context menu, new shortcut step kind
+    - Disable "go to step" for orientation
 
 - Scan Editor
     - You are here marker scaling in tree view

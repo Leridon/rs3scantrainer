@@ -35,7 +35,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
                 if (this.edit_button) this.edit_button.setVisible(false)
             })
         }
-
     }
 
     private async edit() {

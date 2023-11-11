@@ -692,6 +692,11 @@ video {
     font-size: 12pt;
 }
 
+.ctr-actionbar {
+    display: flex;
+    justify-content: center;
+}
+
 .ctr-actionbar-cancel-overlay {
     position: absolute;
     top: 0;
@@ -722,8 +727,6 @@ video {
 }
 
 .ctr-button-container > * {
-    flex-grow: 1;
-    width: calc(33% - 4px);
     margin: 2px;
 }
 

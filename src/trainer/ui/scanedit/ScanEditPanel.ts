@@ -18,6 +18,10 @@ import withoutClue = SolvingMethods.withoutClue;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import withClue = SolvingMethods.withClue;
 import {SidePanel} from "../SidePanelControl";
+import {C} from "../../../lib/ui/constructors";
+import hboxc = C.hboxc;
+import hbox = C.hbox;
+import LightButton from "../widgets/LightButton";
 
 export default class ScanEditPanel extends SidePanel {
     tools: ScanTools
@@ -32,58 +36,52 @@ export default class ScanEditPanel extends SidePanel {
         this.title.set("Scan Tree Edit")
 
         {
-            let control_row = $("<div style='text-align: center'></div>").appendTo(this.container)
+            hbox(
+                new LightButton("Show JSON")
+                    .on("click", () => {
+                        ExportStringModal.do(JSON.stringify(withoutClue(this.parent.value), null, 2))
+                    }),
 
-            $("<div class='lightbutton'>Show JSON</div>")
-                .on("click", () => {
-                    ExportStringModal.do(JSON.stringify(withoutClue(this.parent.value), null, 2))
-                })
-                .appendTo(control_row)
+                new LightButton("Export")
+                    .on("click", () => {
+                        ExportStringModal.do(exp({
+                            type: "scantree",
+                            version: 0
+                        }, true, true)(withoutClue(this.parent.value)), "Copy the string below to share this scan route.")
+                    }),
 
-            $("<div class='lightbutton'>Export</div>")
-                .on("click", () => {
-                    ExportStringModal.do(exp({
-                        type: "scantree",
-                        version: 0
-                    }, true, true)(withoutClue(this.parent.value)), "Copy the string below to share this scan route.")
-                })
-                .appendTo(control_row)
+                new LightButton("Import")
+                    .on("click", () => {
+                        ImportStringModal.do((s) => {
+                            let i = imp<ScanTreeMethod>({expected_type: "scantree", expected_version: 0})(s)
 
-            $("<div class='lightbutton'>Import</div>")
-                .on("click", () => {
-                    ImportStringModal.do((s) => {
-                        let i = imp<ScanTreeMethod>({expected_type: "scantree", expected_version: 0})(s)
+                            if (i.clue_id != this.parent.options.clue.id) throw new Error("This method is not for the currently loaded clue")
 
-                        if (i.clue_id != this.parent.options.clue.id) throw new Error("This method is not for the currently loaded clue")
-
-                        return withClue(i, this.parent.options.clue)
-                    })
-                        .then((obj: ScanTreeWithClue) => {
-                            // TODO: Reimplement import/set value
+                            return withClue(i, this.parent.options.clue)
                         })
-                })
-                .appendTo(control_row)
+                            .then((obj: ScanTreeWithClue) => {
+                                // TODO: Reimplement import/set value
+                            })
+                    }),
 
-            $("<div class='lightbutton' title='Open the route in training mode.'>Try</div>")
-                .on("click", () => {
+                new LightButton("Try")
+                    .tooltip('Open the route in training mode.')
+                    .on("click", () => {
 
-                    // It's the year 2023 and TypeScript/Webpack can't properly deal with circular dependent files. What the actual fuck.
-                    this.parent.app.showMethod(this.parent.value)
-                })
-                .appendTo(control_row)
+                        this.parent.app.showMethod(this.parent.value)
+                    }),
 
-            $("<div class='lightbutton'>Share</div>")
-                .on("click", () => {
-                    ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_method, {method: omit(this.parent.value, "clue")}), "The link below is a direct link to this method.")
-                })
-                .appendTo(control_row)
+                new LightButton("Share")
+                    .on("click", () => {
+                        ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_method, {method: omit(this.parent.value, "clue")}), "The link below is a direct link to this method.")
+                    })
+            ).addClass("ctr-button-container").appendTo(this.container)
         }
 
-        this.tools = new ScanTools(this)
+        this.tools = new ScanTools(this).appendTo(this)
         this.spot_ordering = new SpotOrderingEdit(parent, this.parent.value.spot_ordering)
         this.tree_edit = new TreeEdit(this, this.parent.value.root)
 
-        new Collapsible("Tools", this.tools).addClass("fullwidth-in-panel").appendTo(this)
         new Collapsible("Spot ordering", this.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
         new Collapsible("Movement Tree", this.tree_edit).addClass("fullwidth-in-panel").appendTo(this)
 

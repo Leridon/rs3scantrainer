@@ -7,7 +7,7 @@ export class ValueInteraction<T> extends InteractionLayer {
 
     value: Observable<{ value: T, committed: boolean }> = observe({value: null, committed: false})
 
-    constructor(protected config: ValueInteraction.option_t<T>) {
+    constructor(protected config: ValueInteraction.option_t<T> = {}) {
         super();
 
         if (config.preview_render) {

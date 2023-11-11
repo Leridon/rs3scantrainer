@@ -109,7 +109,10 @@ export default class PathEditActionBar extends GameMapControl {
                         self
                     )
                 }).tooltip("Run"),
-                redclick: new ActionBarButton('assets/icons/redclick.png', () => {}).tooltip("Redclick"),
+                redclick: new ActionBarButton('assets/icons/redclick.png', () => {
+
+
+                }).tooltip("Redclick"),
                 powerburst: new ActionBarButton('assets/icons/accel.png', () => {
                         if (self.state.value().position?.tile) {
                             this.editor.value.create(Path.auto_describe({
@@ -120,9 +123,9 @@ export default class PathEditActionBar extends GameMapControl {
                             )
                         } else {
                             self.interaction_guard.set(
-                                new PlacePowerburstInteraction({
-                                    done_handler: (step) => self.editor.value.create(step)
-                                }), self)
+                                new PlacePowerburstInteraction()
+                                    .onCommit((step) => self.editor.value.create(step))
+                                , self)
                         }
                     }
                 )

@@ -4,9 +4,9 @@ Immediate next:
 
 - Path Editor
     - Fix "Redraw" for running: Set Waypoint, Force ignore obstacles
+    - Redclick interaction
     - "You are here marker"
     - Revive move up/down
-    - Fit on begin
     - New Shortcuts via context menu, new shortcut step kind
 
 - Scan Editor

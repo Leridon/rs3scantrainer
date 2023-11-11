@@ -1,18 +1,39 @@
-import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
-import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {Path} from "lib/runescape/pathing";
 import * as leaflet from "leaflet";
 import {Vector2} from "lib/math";
 import InteractionTopControl from "../../map/InteractionTopControl";
+import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
+import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 
-export default class PlacePowerburstInteraction extends InteractionLayer {
+export default class PlacePowerburstInteraction extends ValueInteraction<Path.step_powerburst> {
 
-    _preview: leaflet.Layer = null
+    constructor() {
+        super({
+            preview_render: (s) => leaflet.marker(Vector2.toLatLong(s.where), {
+                icon: leaflet.icon({
+                    iconUrl: "assets/icons/accel.png",
+                    iconSize: [16, 16],
+                    iconAnchor: [8, 8],
+                }),
+                interactive: false
+            })
+        });
 
-    constructor(private config: {
-        done_handler: (_: Path.step_powerburst) => void
-    }) {
-        super();
+        new SelectTileInteraction()
+            .onCommit((t) => this.commit(Path.auto_describe({
+                type: "powerburst",
+                description: "",
+                where: t
+            })))
+            .onPreview((t) =>
+                this.preview(Path.auto_describe({
+                        type: "powerburst",
+                        description: "",
+                        where: t
+                    })
+                )
+            )
+            .addTo(this)
 
         let control = new InteractionTopControl({
             name: "Placing Powerburst",
@@ -20,37 +41,5 @@ export default class PlacePowerburstInteraction extends InteractionLayer {
         }).addTo(this)
 
         control.content.append(c().text("Click any tile to place the powerburst activation."))
-    }
-
-    eventClick(event: GameMapMouseEvent) {
-        event.onPre(() => {
-            event.stopAllPropagation()
-
-            this.config.done_handler(Path.auto_describe({
-                type: "powerburst",
-                description: "",
-                where: event.tile()
-            }))
-
-            this.cancel()
-        })
-    }
-
-    eventHover(event: GameMapMouseEvent) {
-        event.onPre(() => {
-            if (this._preview) {
-                this._preview.remove()
-                this._preview = null
-            }
-
-            this._preview = leaflet.marker(Vector2.toLatLong(event.tile()), {
-                icon: leaflet.icon({
-                    iconUrl: "assets/icons/accel.png",
-                    iconSize: [16, 16],
-                    iconAnchor: [8, 8],
-                }),
-                interactive: false
-            }).addTo(this)
-        })
     }
 }

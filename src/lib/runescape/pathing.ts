@@ -4,7 +4,7 @@ import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "data/teleport_data";
 import {Teleports} from "./teleports";
-import {Vector2} from "../math";
+import {Rectangle, Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
 import * as L from "leaflet"
 import {TileCoordinates} from "./coordinates";
@@ -201,6 +201,10 @@ export namespace Path {
         steps: augmented_step[],
         issues: issue[],
         target: TileRectangle | null
+    }
+
+    export namespace augmented {
+
     }
 
     export type augmented_step = {
@@ -642,42 +646,27 @@ export namespace Path {
         ])
     }
 
-    export function step_bounds(step: augmented_step): L.Bounds {
-        let bounds = L.bounds([])
-
-        switch (step.raw.type) {
+    export function step_bounds(step: step): Rectangle {
+        switch (step.type) {
             case "ability":
-                bounds.extend(tile_bounds(step.raw.from))
-                bounds.extend(tile_bounds(step.raw.to))
-                break
+                return Rectangle.from(step.from, step.to)
             case "run":
-                bounds.extend(L.bounds(step.raw.waypoints.map(L.point)))
-                break
+                return Rectangle.from(...step.waypoints)
             case "teleport":
-                if (step.raw.spot_override) bounds.extend(L.point(step.raw.spot_override))
-                else {
-                    let teleport = Teleports.find(getAllFlattened(), step.raw.id)
-                    bounds.extend(L.point(teleport.spot))
-                }
-                break
+                if (step.spot_override) return Rectangle.from(step.spot_override)
+                else return Rectangle.from(Teleports.find(getAllFlattened(), step.id).spot)
             case "interaction":
-                bounds.extend(L.point(step.raw.where))
-                bounds.extend(L.point(step.raw.ends_up))
-
-                break;
+                return Rectangle.from(step.where, step.ends_up)
             case "redclick":
-                bounds.extend(L.point(step.raw.where))
-                break;
             case "powerburst":
-                bounds.extend(L.point(step.raw.where))
-                break;
+                return Rectangle.from(step.where)
+            default:
+                return null
         }
+    }
 
-        // Only include pre and post state if the bounds are empty
-        if (step.pre_state?.position?.tile && bounds.getCenter().distanceTo(L.point(step.pre_state.position.tile)) < 100) bounds.extend(tile_bounds(step.pre_state.position.tile))
-        if (step.post_state?.position?.tile && bounds.getCenter().distanceTo(L.point(step.post_state.position.tile)) < 100) bounds.extend(tile_bounds(step.post_state.position.tile))
-
-        return bounds
+    export function bounds(path: Path.raw): Rectangle {
+        return Rectangle.combine(...path.map(step_bounds))
     }
 
     export function path_bounds(path: augmented): L.Bounds {

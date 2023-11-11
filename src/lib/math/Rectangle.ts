@@ -7,10 +7,12 @@ import {TileCoordinates, TileRectangle} from "../runescape/coordinates";
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
 export namespace Rectangle {
-    export function from(a: Vector2, b: Vector2): Rectangle {
+    export function from(...points: Vector2[]): Rectangle {
+        if (points.length == 0) return null
+
         return {
-            topleft: {x: Math.min(a.x, b.x), y: Math.max(a.y, b.y)},
-            botright: {x: Math.max(a.x, b.x), y: Math.min(a.y, b.y)},
+            topleft: {x: Math.min(...points.map(v => v.x)), y: Math.max(...points.map(v => v.y))},
+            botright: {x: Math.max(...points.map(v => v.x)), y: Math.min(...points.map(v => v.y))},
         }
     }
 
@@ -111,6 +113,10 @@ export namespace Rectangle {
 
     export function extendToRect(rect: Rectangle, other: Rectangle): Rectangle {
         return extendTo(extendTo(rect, other.topleft), other.botright)
+    }
+
+    export function combine(...rects: Rectangle[]): Rectangle {
+        return Rectangle.from(...rects.flatMap(r => r ? [r.topleft, r.botright] : []))
     }
 
     export function translate(rect: Rectangle, off: Vector2): Rectangle {

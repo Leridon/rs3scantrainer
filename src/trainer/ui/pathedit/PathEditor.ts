@@ -77,6 +77,8 @@ class StepEditWidget extends Widget {
 
         // Render header
         {
+            let bounds = Path.step_bounds(value.raw)
+
             hbox(
                 hbox(
                     span(`T${value.pre_state.tick}`).addClass('nisl-textlink')
@@ -92,8 +94,9 @@ class StepEditWidget extends Widget {
                 sibut("assets/nis/arrow_down.png", () => this.parent.editor.value.moveLater(value.raw))
                     .tooltip("Move step down").setEnabled(this.parent.editor.value.get().indexOf(value.raw) != this.parent.editor.value.get().length - 1),
                 sibut("assets/icons/delete.png", () => this.value.remove()),
-                sibut("assets/icons/fullscreen.png", () =>
-                    this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Path.step_bounds(value)), {maxZoom: 4}))
+                sibut("assets/icons/fullscreen.png", () => {
+                    this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)), {maxZoom: 4})
+                }).setEnabled(!!bounds)
             ).addClass("path-step-edit-widget-control-row").appendTo(this)
         }
 
@@ -683,7 +686,14 @@ export class PathEditor extends Behaviour {
 
     protected begin() {
         this.handler_layer.addTo(this.game_layer)
-        //this.game_layer.getMap().fitBounds(util.convert_bounds(Path.path_bounds(await this.value.augmented_async.get())).pad(0.1), {maxZoom: 4})
+
+        this.game_layer.getMap().container.focus()
+
+        // TODO: Include target/start
+
+        let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state.position?.tile), this.options.target)
+
+        this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 4})
     }
 
     protected end() {

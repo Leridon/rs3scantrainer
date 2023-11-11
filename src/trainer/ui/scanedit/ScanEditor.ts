@@ -224,6 +224,7 @@ export default class ScanEditor extends Behaviour {
                 teleports: this.app.data.teleports.getAll(),
                 shortcuts: shortcuts
             }, options)
+            .onStop(() => this.panel.tree_edit.setActiveNode(null))
         )
     }
 

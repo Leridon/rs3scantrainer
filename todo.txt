@@ -3,8 +3,6 @@ Immediate next:
 [Bug] In some circumstances, keyboard events don't reach the interaction
 
 - Path Editor
-    - Move action buttons to bottom control
-        - Commit, Discard, Share, Export, Import
     - Fix "Redraw" for running: Set Waypoint, Force ignore obstacles
     - "You are here marker"
     - Revive move up/down

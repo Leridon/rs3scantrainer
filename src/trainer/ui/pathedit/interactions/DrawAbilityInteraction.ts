@@ -47,6 +47,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                 c("<div style='font-family: monospace; white-space:pre'></div>")
                     .append(c().text(`[Click] valid target tile to confirm.`))
                     .append(c().text(`[Shift + Click] to force any target tile.`))
+                    .append(c().text(`[Esc] to reset start tile.`))
             )
         } else {
             this.top_control.setContent(
@@ -179,15 +180,20 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
     }
 
     eventKeyDown(event: GameMapKeyboardEvent) {
-        super.eventKeyDown(event);
+        event.onPre(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => c.forced = true)
 
-        if (event.original.key == "Shift") this.current_target.update(c => c.forced = true)
-
+            if (this.start_position.value() != null && event.original.key == "Escape") {
+                event.stopAllPropagation()
+                this.start_position.set(null)
+            }
+        })
     }
 
     eventKeyUp(event: GameMapKeyboardEvent) {
-        super.eventKeyDown(event);
 
-        if (event.original.key == "Shift") this.current_target.update(c => c.forced = false)
+        event.onPre(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => c.forced = false)
+        })
     }
 }

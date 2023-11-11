@@ -39,8 +39,8 @@ export abstract class GameMapEvent<LeafletT extends leaflet.LeafletEvent, Origin
     stopAllPropagation() {
         this.original.stopPropagation()
 
-        this.propagation_state.trickle_stopped = false
-        this.propagation_state.trickle_stopped_immediate = false
+        this.propagation_state.trickle_stopped = true
+        this.propagation_state.trickle_stopped_immediate = true
         this.propagation_state.trigger_post_order = false
     }
 }

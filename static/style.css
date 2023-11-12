@@ -964,13 +964,31 @@ video {
     cursor: pointer;
 }
 
+/*
 .nisl-context-menu-entry:hover {
+    background: rgb(40, 89, 112);
+}*/
+
+.nisl-context-menu-entry-selected {
     background: rgb(40, 89, 112);
 }
 
 .nisl-context-menu > * {
     padding-left: 3px;
     padding-right: 3px;
+    white-space: nowrap;
+}
+
+.nisl-context-menu-entry-icon-container {
+    max-width: 30px;
+    min-width: 30px;
+    text-align: center;
+    padding-right: 3px;
+    height: 20px;
+}
+
+.nisl-context-menu-entry-icon-container > img {
+    height: 95%;
 }
 
 /*Game Map*/

@@ -28,7 +28,7 @@ export namespace C {
     }
 
     export function span(text: string): Widget {
-        return create("<span></span>").text(text)
+        return create("<span></span>").setInnerHtml(text)
     }
 
 }

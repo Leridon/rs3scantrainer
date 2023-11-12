@@ -111,7 +111,7 @@ export default class PathEditActionBar extends GameMapControl {
                     )
                 }).tooltip("Run"),
                 redclick: new ActionBarButton('assets/icons/redclick.png', () => {
-                    self.interaction_guard.set(
+                    return self.interaction_guard.set(
                         new PlaceRedClickInteraction()
                             .onCommit((step) => self.editor.value.create(step))
                         , self)

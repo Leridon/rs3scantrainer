@@ -71,7 +71,7 @@ namespace open_menu {
 
             if (e.key == "ArrowRight") {
                 if (current.highlight != null && current.underlying[current.highlight].type == "submenu") {
-                    openSubmenu(current)
+                    confirm(current)
                 }
             }
 
@@ -226,6 +226,7 @@ namespace open_menu {
                 offset: [0, 0],
                 animation: false,
                 content: men.root_widget.raw(),
+                maxWidth: "none"
             })
 
         if (!men.parent) {

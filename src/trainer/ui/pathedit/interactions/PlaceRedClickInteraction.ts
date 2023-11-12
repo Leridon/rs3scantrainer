@@ -19,6 +19,7 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
                         return {
                             type: "basic",
                             text: i.description,
+                            icon: i.icon_url,
                             handler: () => {
                                 this.commit(Path.auto_describe({
                                     type: "redclick",

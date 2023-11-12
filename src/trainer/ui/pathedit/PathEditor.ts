@@ -36,6 +36,8 @@ import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import vbox = C.vbox;
 import * as lodash from "lodash";
+import {MenuEntry} from "../widgets/ContextMenu";
+import InteractionType = Path.InteractionType;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -426,7 +428,26 @@ class PathEditorGameLayer extends GameLayer {
         event.onPost(() => {
             if (this.editor.isActive()) {
 
-                // TODO: Run here/Redclick
+                event.add({
+                    type: "submenu",
+                    text: "Redclick",
+                    icon: "assets/icons/redclick.png",
+                    children: InteractionType.all().map((i): MenuEntry => ({
+                        type: "basic",
+                        text: i.description,
+                        icon: i.icon_url,
+                        handler: () => {
+                            this.editor.value.create(Path.auto_describe({
+                                type: "redclick",
+                                description: "",
+                                where: event.tile(),
+                                how: i.type
+                            }))
+                        }
+                    }))
+                })
+
+                // TODO: Run here
 
                 {
                     this.getMap().getTeleportLayer().teleports
@@ -435,6 +456,7 @@ class PathEditorGameLayer extends GameLayer {
                             event.add({
                                 type: "basic",
                                 text: `Teleport: ${t.hover}`,
+                                icon: `assets/icons/teleports/${t.icon.url}`,
                                 handler: () => {
                                     this.editor.value.add({
                                         raw: Path.auto_describe({
@@ -474,7 +496,8 @@ class PathEditorGameLayer extends GameLayer {
 
                             event.add({
                                 type: "basic",
-                                text: a.name,
+                                text: `${s.name}: ${a.name}`,
+                                icon: InteractionType.meta(a.cursor).icon_url,
                                 handler: () => {
                                     this.editor.value.create({
                                         type: "interaction",

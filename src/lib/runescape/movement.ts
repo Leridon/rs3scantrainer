@@ -175,15 +175,15 @@ export namespace direction {
 
     export function toString(dir: direction): string {
         return [
-            "center",
-            "west",
-            "north",
-            "east",
-            "south",
-            "north-west",
-            "north-east",
-            "south-east",
-            "south-west"
+            "Center",
+            "West",
+            "North",
+            "East",
+            "South",
+            "North-West",
+            "North-East",
+            "South-East",
+            "South-West"
         ][dir]
     }
 

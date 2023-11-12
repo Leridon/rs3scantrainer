@@ -22,39 +22,62 @@ class DrawRunInteractionInternal extends ValueInteraction<{
         return segments.flatMap((segment, index) => index == 0 ? segment.tiles : segment.tiles.slice(1))
     })
     private last_position = this.path.map(s => index(s, -1)).equality(TileCoordinates.eq2)
+    private has_start_position = this.last_position.map(p => !!p)
 
     private cached_pathfinding_state = this.last_position.map(p => p ? PathFinder.init_djikstra(p) : null)
 
     private previewed_segment: Observable<{
         target: TileCoordinates,
+        forced: boolean,
         tiles: TileCoordinates[],
         broken: boolean
     }> = observe(null)
+
+    private top_control: InteractionTopControl
 
     constructor() {
         super({
             preview_render: (v) => {
 
-                let preview = createStepGraphics({
-                    type: "run",
-                    waypoints: v.path,
-                    description: ""
-                })
+                if(v) {
 
-                if (v.no_path_to) {
-                    arrow(index(v.path, -1), v.no_path_to).setStyle({
-                        color: "red"
-                    }).addTo(preview)
+                    let preview = createStepGraphics({
+                        type: "run",
+                        waypoints: v.path,
+                        description: ""
+                    })
+
+                    if (v.no_path_to) {
+                        arrow(index(v.path, -1), v.no_path_to).setStyle({
+                            color: "red"
+                        }).addTo(preview)
+                    }
+
+                    return preview
                 }
-
-                return preview
             }
         })
 
         this.attachTopControl(
-            new InteractionTopControl({name: "Drawing Run-Path"})
-                .setContent(c())
+            this.top_control = new InteractionTopControl({name: "Drawing Run-Path"})
         )
+
+        this.has_start_position.subscribe(has => {
+            if (has) {
+                this.top_control.setContent(
+                    c("<div style='font-family: monospace; white-space:pre'></div>")
+                        .append(c().text(`[Click] valid target tile to confirm.`))
+                        .append(c().text(`[Shift + Click] to place a forced waypoint.`))
+                        .append(c().text(`[Ctrl] to ignore all obstacles.`))
+                        .append(c().text(`[R] to remove last waypoint.`))
+                )
+            } else {
+                this.top_control.setContent(
+                    c("<div style='font-family: monospace; white-space:pre'></div>")
+                        .append(c().text(`[Click] any tile to start.`))
+                )
+            }
+        }, true)
 
         observe_combined({segments: this.segments, previewed_segment: this.previewed_segment}).subscribe(({segments, previewed_segment}) => {
             let real_segments = segments.map(s => s.tiles)
@@ -68,6 +91,8 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                     path: waypoints,
                     no_path_to: previewed_segment?.broken ? previewed_segment.target : null
                 })
+            } else {
+                this.preview(null)
             }
         })
     }
@@ -94,14 +119,16 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                         ? PathFinder.idealPath(this.last_position.value(), event.tile())
                         : PathFinder.find(this.getPathFindingState(), event.tile()))
 
-                this.segments.update(w => w.push({tiles: segment}))
-                this.previewed_segment.set(null)
+                if (segment) {
+                    this.segments.update(w => w.push({tiles: segment}))
+                    this.previewed_segment.set(null)
 
-                if (!event.original.shiftKey) {
-                    this.commit({
-                        path: this.path.value(),
-                        no_path_to: null
-                    })
+                    if (!event.original.shiftKey) {
+                        this.commit({
+                            path: this.path.value(),
+                            no_path_to: null
+                        })
+                    }
                 }
             }
         })
@@ -122,6 +149,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
 
             this.previewed_segment.set({
                 target: tile,
+                forced: force,
                 broken: !segment,
                 tiles: segment
             })
@@ -132,15 +160,30 @@ class DrawRunInteractionInternal extends ValueInteraction<{
 
     eventKeyDown(event: GameMapKeyboardEvent) {
         event.onPre(() => {
-            if (event.original.key == "Control" && this.previewed_segment.value())
+            if (event.original.key == "Control" && this.previewed_segment.value()) {
+                event.stopAllPropagation()
                 this.updatePreview(this.previewed_segment.value().target, true)
+            }
         })
     }
 
     eventKeyUp(event: GameMapKeyboardEvent) {
         event.onPre(() => {
-            if (event.original.key == "Control" && this.previewed_segment.value())
+            if (event.original.key == "Control" && this.previewed_segment.value()) {
+                event.stopAllPropagation()
                 this.updatePreview(this.previewed_segment.value().target, false)
+            }
+
+            if (event.original.key.toLowerCase() == "r") {
+                event.stopAllPropagation()
+
+                this.segments.update(s => s.splice(s.length - 1, 1))
+
+                if (this.previewed_segment.value()) {
+                    this.updatePreview(this.previewed_segment.value().target, this.previewed_segment.value().forced)
+                }
+                this.previewed_segment.update(() => {})
+            }
         })
     }
 }

@@ -46,6 +46,8 @@ import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileIn
 import InteractionTopControl from "../map/InteractionTopControl";
 import DirectionSelect from "./DirectionSelect";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
+import {PathFinder} from "../../../lib/runescape/movement";
+import index = util.index;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -190,30 +192,22 @@ class StepEditWidget extends Widget {
                 break
 
             case "run":
-                props.row(new LightButton("Repath")
-                    .on("click", () => {
-                        let s = value.raw as Path.step_run
 
-                        this.parent.editor.interaction_guard.set(new DrawRunInteraction()
-                            .setStartPosition(s.waypoints[0])
-                            .tapEvents((e) => {
-                                e
-                                    .on("done", (new_s) => {
-                                        Object.assign(s, new_s)
-                                        this.updatePreview()
-                                        this.emit("changed", value.raw)
-                                    })
-                                    .on("cancelled", () => {
-                                        this._preview.addTo(this.parent._preview_layer)
-                                    })
+                props.named("Path",
+                    hbox(
+                        span(`${PathFinder.pathLength(value.raw.waypoints)} tile path to ${Vector2.toString(index(value.raw.waypoints, -1))}`),
+                        spacer(),
+                        new LightButton("Edit")
+                            .on("click", () => {
+                                assert(value.raw.type == "run")
+
+                                this.parent.editor.interaction_guard.set(new DrawRunInteraction()
+                                    .setStartPosition(value.raw.waypoints[0])
+                                    .onCommit(new_s => this.value.update((v) => v.raw = new_s))
+                                    .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                                    .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
                             })
-                            .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
-
-                        )
-
-
-                    })
+                    )
                 )
                 break
             /* TODO

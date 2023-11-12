@@ -3,10 +3,9 @@ Immediate next:
 [Bug] In some circumstances, keyboard events don't reach the interaction
 
 - Path Editor
-    - Fix "Redraw" for running: Set Waypoint, Force ignore obstacles
     - "You are here marker"
     - Revive move up/down
-    - New Shortcuts via context menu, new shortcut step kind, nested context menus
+    - New Shortcuts via context menu, new shortcut step kind (copy into path?)
 
 - Scan Editor
     - You are here marker scaling in tree view

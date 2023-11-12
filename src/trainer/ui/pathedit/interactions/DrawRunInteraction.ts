@@ -39,7 +39,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
         super({
             preview_render: (v) => {
 
-                if(v) {
+                if (v) {
 
                     let preview = createStepGraphics({
                         type: "run",
@@ -196,11 +196,11 @@ export default class DrawRunInteraction extends ValueInteraction<Path.step_run> 
 
         this.internal = new DrawRunInteractionInternal()
             .onCommit(v => {
-                this.commit({
+                this.commit(Path.auto_describe({
                     type: "run",
                     description: "",
                     waypoints: v.path
-                })
+                }))
             }).addTo(this)
     }
 

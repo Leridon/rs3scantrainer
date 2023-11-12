@@ -103,9 +103,9 @@ export default class PathEditActionBar extends GameMapControl {
                 dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"})).tooltip("Dive"),
                 barge: new ActionBarButton('assets/icons/barge.png', async () => await ability_handle({ability: "barge"})).tooltip("Barge"),
                 run: new ActionBarButton('assets/icons/run.png', () => {
-
                     return self.interaction_guard.set(
-                        new DrawRunInteraction({done_handler: (step) => self.editor.value.create(step)})
+                        new DrawRunInteraction()
+                            .onCommit(step => self.editor.value.create(step))
                             .setStartPosition(self.state.value().position?.tile),
                         self
                     )

@@ -4,6 +4,7 @@ import * as lodash from "lodash"
 import {Rectangle, Transform, Vector2} from "../math";
 import * as pako from "pako"
 import {Raster} from "../util/raster";
+import {Browser} from "leaflet";
 
 type TileMovementData = number
 
@@ -46,7 +47,7 @@ export class HostedMapData implements MapData {
     private async fetch(file_x: number, file_z: number, floor: number): Promise<Uint8Array> {
         let a = await fetch(`map/collision-${file_x}-${file_z}-${floor}.bin`)
 
-        return new Uint8Array(pako.inflate(await a.arrayBuffer())) // TODO: Inflate
+        return new Uint8Array(pako.inflate(await a.arrayBuffer()))
     }
 
     private constructor() {
@@ -86,9 +87,16 @@ export class HostedMapData implements MapData {
     }
 }
 
+export class ClearMapData implements MapData {
+    getTile(coordinate: TileCoordinates): Promise<TileMovementData> {
+        return Promise.resolve(255);
+    }
+}
+
 export type direction = direction.none | direction.cardinal | direction.ordinal
 
 export namespace direction {
+    import retina = Browser.retina;
     export type cardinal = 1 | 2 | 3 | 4
     export type ordinal = 5 | 6 | 7 | 8
     export type none = 0
@@ -130,7 +138,11 @@ export namespace direction {
     }
 
     export function fromDelta(v: Vector2): direction {
-        return vectors.findIndex((c) => Vector2.eq(c, v)) as direction
+        return [
+            [8, 4, 7],
+            [1, 0, 3],
+            [5, 2, 6],
+        ][v.y + 1][v.x + 1] as direction
     }
 
     export function fromVector(v: Vector2): direction {
@@ -201,6 +213,7 @@ export namespace direction {
         ][dir]
     }
 
+    export const center: none = 0
     export const west: cardinal = 1
     export const north: cardinal = 2
     export const east: cardinal = 3
@@ -312,10 +325,9 @@ export namespace PathFinder {
 
         let p = helper(tile).map((c) => lodash.clone(c.coords as TileCoordinates))
 
-        // TODO: Reduce path to necessary waypoints
         p.forEach(l => l.level = state.start.level)
 
-        return p
+        return cleanWaypoints(p)
     }
 
     export async function find(state: state, target: TileCoordinates): Promise<TileCoordinates[] | null> {
@@ -348,6 +360,55 @@ export namespace PathFinder {
         }
 
         return get(state, target_i)
+    }
+
+    export function idealPath(from: TileCoordinates, to: TileCoordinates): TileCoordinates[] {
+        if (from.level != to.level) return null
+
+        let delta = Vector2.sub(to, from)
+        let abs_delta = Vector2.abs(delta)
+
+        let checkpoint = Vector2.add(from,
+            abs_delta.x >= abs_delta.y
+                ? {x: Math.sign(delta.x) * (abs_delta.x - abs_delta.y), y: 0}
+                : {x: 0, y: Math.sign(delta.y) * (abs_delta.y - abs_delta.x)}
+        )
+
+
+        return [from, TileCoordinates.lift(checkpoint, from.level), to]
+    }
+
+    export function cleanWaypoints(s: TileCoordinates[]): TileCoordinates[] {
+        let new_waypoints: TileCoordinates[] = []
+
+        let last_dir: direction = direction.center
+        let last_non_committed: TileCoordinates = s[0]
+
+        for (let i = 1; i < s.length; i++) {
+            let dir = direction.fromDelta(Vector2.sign(Vector2.sub(s[i], last_non_committed)))
+
+            if (dir != last_dir) {
+                new_waypoints.push(last_non_committed)
+                last_non_committed = s[i]
+                last_dir = dir
+            }
+
+            last_non_committed = s[i]
+        }
+
+        new_waypoints.push(last_non_committed)
+
+        return new_waypoints
+    }
+
+    export function pathLength(s: TileCoordinates[]): number {
+        let distance = 0
+
+        for (let i = 0; i < s.length - 1; i++) {
+            distance += TileCoordinates.distance(s[i], s[i + 1])
+        }
+
+        return distance
     }
 }
 

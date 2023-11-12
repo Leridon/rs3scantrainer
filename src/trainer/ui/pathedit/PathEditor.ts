@@ -194,7 +194,7 @@ class StepEditWidget extends Widget {
                     .on("click", () => {
                         let s = value.raw as Path.step_run
 
-                        this.parent.editor.interaction_guard.set(new DrawRunInteraction(this.parent.editor.game_layer.getMap().getActiveLayer())
+                        this.parent.editor.interaction_guard.set(new DrawRunInteraction()
                             .setStartPosition(s.waypoints[0])
                             .tapEvents((e) => {
                                 e
@@ -409,7 +409,7 @@ class PathEditorGameLayer extends GameLayer {
 
                 event.add({
                     type: "submenu",
-                    text: "Redclick",
+                    text: "Create Redclick",
                     icon: "assets/icons/redclick.png",
                     children: InteractionType.all().map((i): MenuEntry => ({
                         type: "basic",

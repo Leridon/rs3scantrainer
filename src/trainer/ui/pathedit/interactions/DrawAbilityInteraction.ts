@@ -191,7 +191,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
     }
 
     eventKeyUp(event: GameMapKeyboardEvent) {
-
         event.onPre(() => {
             if (event.original.key == "Shift") this.current_target.update(c => c.forced = false)
         })

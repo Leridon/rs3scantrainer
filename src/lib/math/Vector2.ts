@@ -19,6 +19,13 @@ export namespace Vector2 {
         }
     }
 
+    export function ul(a: Vector2, b: Vector2): Vector2 {
+        return {
+            x: a.x * b.x,
+            y: a.y * b.y
+        }
+    }
+
     export function neg(a: Vector2): Vector2 {
         return {
             x: -a.x,

@@ -1,4 +1,4 @@
-import {direction, MovementAbilities, PlayerPosition} from "./movement";
+import {direction, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
 import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
 import * as lodash from "lodash"
@@ -543,7 +543,7 @@ export namespace Path {
             case "ability":
                 return `${capitalize(step.ability)}`
             case "run":
-                return `Run ${step.waypoints.length - 1} tiles`
+                return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
             case "teleport":
                 return `Teleport`
             case "interaction":
@@ -575,7 +575,7 @@ export namespace Path {
                     return `{{barge}} ${dir}`
             }
         } else if (step.type === "run") {
-            return `Run ${step.waypoints.length - 1} tiles`
+            return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
         } else if (step.type === "teleport") {
             let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
 

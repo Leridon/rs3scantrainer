@@ -42,6 +42,10 @@ export namespace TileCoordinates {
         }
     }
 
+    export function distance(a: TileCoordinates, b: TileCoordinates): number {
+        return Vector2.max_axis(Vector2.sub(a, b))
+    }
+
     export function transform(coordinates: TileCoordinates, trans: TileTransform | Transform): TileCoordinates {
         let norm = TileTransform.normalize(trans)
 

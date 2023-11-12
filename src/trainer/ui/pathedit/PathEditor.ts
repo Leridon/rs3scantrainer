@@ -38,6 +38,14 @@ import vbox = C.vbox;
 import * as lodash from "lodash";
 import {MenuEntry} from "../widgets/ContextMenu";
 import InteractionType = Path.InteractionType;
+import {DrawOffset} from "../shortcut_editing/interactions/DrawOffset";
+import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
+import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
+import InteractionSelect from "./InteractionSelect";
+import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import InteractionTopControl from "../map/InteractionTopControl";
+import DirectionSelect from "./DirectionSelect";
+import DrawRunInteraction from "./interactions/DrawRunInteraction";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -107,91 +115,55 @@ class StepEditWidget extends Widget {
 
         switch (value.raw.type) {
             case "ability":
-                /* props.named("From", new MapCoordinateEdit(value.raw.from,
-                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                             preview_render: (tile) => createStepGraphics({
-                                 type: "ability",
-                                 description: "",
-                                 ability: (value.raw as Path.step_ability).ability,
-                                 from: tile,
-                                 to: (value.raw as Path.step_ability).to,
-                             })
-                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the start of the ${(value.raw as Path.step_ability).ability} by clicking the tile.`))
-                             .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                             .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
-                     )
-                 ))
-                     .on("changed", (c) => {
-                         this.value.update(v => {
-                             assert(v.raw.type == "ability")
-                             v.raw.from =
-                         })
-                         (value.raw as Path.step_ability).from = c
-                         this.emit("changed", value.raw)
-                     })
+                props.named("Action",
+                    hbox(
+                        span(`${Vector2.toString(value.raw.from)} to ${Vector2.toString(value.raw.to)}`),
+                        spacer(),
+                        new LightButton("Redraw")
+                            .on("click", () => {
+                                assert(value.raw.type == "ability")
 
-                 props.named("To", new MapCoordinateEdit(value.raw.to,
-                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                             preview_render: (tile) => createStepGraphics({
-                                 type: "ability",
-                                 description: "",
-                                 ability: (value.raw as Path.step_ability).ability,
-                                 from: (value.raw as Path.step_ability).from,
-                                 to: tile,
-                             })
-                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the target of the ${(value.raw as Path.step_ability).ability} by clicking the tile.`))
-                             .onStart(() => this._preview.setOpacity(0))
-                             .onEnd(() => this._preview.setOpacity(1))
-                     ))
-                     .on("changed", (c) => {
-                         (value.raw as Path.step_ability).to = c
-                         this.emit("changed", value.raw)
-                     }))
-
-                 */
-
-
-                // TODO: Prettier display like in the shortcut editor
-                props.row(new LightButton("Redraw")
-                    .on("click", () => {
-                        assert(value.raw.type == "ability")
-
-                        this.parent.editor.interaction_guard.set(new DrawAbilityInteraction(value.raw.ability)
-                            .setStartPosition(value.raw.from)
-                            .onCommit(new_s => this.value.update((v) => v.raw = new_s))
-                            .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
-
-
-                    })
+                                this.parent.editor.interaction_guard.set(new DrawAbilityInteraction(value.raw.ability)
+                                    .setStartPosition(value.raw.from)
+                                    .onCommit(new_s => this.value.update((v) => v.raw = new_s))
+                                    .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                                    .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
+                            })
+                    )
                 )
 
                 break;
-            /* // TODO: Reenable
+
             case "redclick":
 
-                props.named("Where", new MapCoordinateEdit(value.raw.where,
-                    () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                            preview_render: (tile) => createStepGraphics({
-                                type: "redclick",
-                                description: "",
-                                where: tile,
-                                how: (value.raw as Path.step_redclick).how,
+                props.named("Where",
+                    hbox(
+                        span(`${Vector2.toString(value.raw.where)}`),
+                        spacer(),
+                        new LightButton("Move")
+                            .on("click", () => {
+                                assert(value.raw.type == "redclick")
+
+                                this.parent.editor.interaction_guard.set(
+                                    new PlaceRedClickInteraction(value.raw.how)
+                                        .onCommit(new_s => this.value.update((v) => {
+                                            assert(v.raw.type == "redclick")
+                                            v.raw.where = new_s.where
+                                        }))
+                                        .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                                        .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
+                                )
                             })
-                        }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the redclick by clicking the tile.`))
-                            .onStart(() => this._preview.setOpacity(0))
-                            .onEnd(() => this._preview.setOpacity(1))
-                    ))
-                    .on("changed", (c) => {
-                        (value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
-                        this.emit("changed", value.raw)
-                    }))
+                    )
+                )
 
                 props.named("Action", new InteractionSelect()
                     .setValue(value.raw.how)
-                    .on("selection_changed", v => {
-                        (value.raw as Path.step_interact).how = v
-                        this.emit("changed", value.raw)
+                    .on("selection_changed", how => {
+                        this.value.update((v) => {
+                            assert(v.raw.type == "redclick")
+                            v.raw.how = how
+                        })
                     })
                 )
                 break
@@ -205,12 +177,14 @@ class StepEditWidget extends Widget {
                                 where: tile,
                             })
                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the redclick by clicking the tile.`))
-                            .onStart(() => this._preview.setOpacity(0))
-                            .onEnd(() => this._preview.setOpacity(1))
+                            .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
                     ))
                     .on("changed", (c) => {
-                        (value.raw as (Path.step_powerburst | Path.step_redclick)).where = c
-                        this.emit("changed", value.raw)
+                        this.value.update((v) => {
+                            assert(v.raw.type == "powerburst")
+                            v.raw.where = c
+                        })
                     }))
 
                 break
@@ -220,9 +194,7 @@ class StepEditWidget extends Widget {
                     .on("click", () => {
                         let s = value.raw as Path.step_run
 
-                        if (this._preview) this._preview.remove()
-
-                        new DrawRunInteraction(this.parent.editor.game_layer.getMap().getActiveLayer())
+                        this.parent.editor.interaction_guard.set(new DrawRunInteraction(this.parent.editor.game_layer.getMap().getActiveLayer())
                             .setStartPosition(s.waypoints[0])
                             .tapEvents((e) => {
                                 e
@@ -234,10 +206,17 @@ class StepEditWidget extends Widget {
                                     .on("cancelled", () => {
                                         this._preview.addTo(this.parent._preview_layer)
                                     })
-                            }).activate()
+                            })
+                            .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
+
+                        )
+
+
                     })
                 )
                 break
+            /* TODO
             case "interaction":
 
                 props.named("Ticks", c("<input type='number' class='nisinput' min='0'>")
@@ -292,19 +271,19 @@ class StepEditWidget extends Widget {
                     })
                 )
 
-                break
+                break*/
             case "orientation":
                 props.named("Facing", new DirectionSelect()
                     .setValue(value.raw.direction)
-                    .on("selection_changed", v => {
-                        (value.raw as Path.step_orientation).direction = v
-                        this.emit("changed", value.raw)
+                    .on("selection_changed", dir => {
+                        this.value.update((v) => {
+                            assert(v.raw.type == "orientation")
+                            v.raw.direction = dir
+                        })
                     })
                 )
 
-                break
-
-            */
+                break;
             case "teleport":
                 let current = Teleports.find(teleport_data.getAllFlattened(), value.raw.id)
 
@@ -316,7 +295,7 @@ class StepEditWidget extends Widget {
                         })
                     ))
 
-                /* // Reenable
+                /* // TODO: Reenable
                 props.named("Override?", new Checkbox()
                     .setValue(value.raw.spot_override != null)
                     .on("changed", v => {

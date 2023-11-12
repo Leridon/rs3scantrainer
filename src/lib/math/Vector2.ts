@@ -122,4 +122,8 @@ export namespace Vector2 {
     export function abs(a: Vector2): Vector2 {
         return {x: Math.abs(a.x), y: Math.abs(a.y)}
     }
+
+    export function toString(a: Vector2): string {
+        return `${a.x}|${a.y}`
+    }
 }

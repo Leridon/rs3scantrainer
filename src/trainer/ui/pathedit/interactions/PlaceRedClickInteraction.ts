@@ -8,31 +8,41 @@ import InteractionType = Path.InteractionType;
 
 export default class PlaceRedClickInteraction extends ValueInteraction<Path.step_redclick> {
 
-    constructor() {
+    constructor(private interaction_type: InteractionType = null) {
         super({
             preview_render: (s) => createStepGraphics(s)
         });
 
         new SelectTileInteraction()
             .onCommit((t) => {
-                    let menu = InteractionType.all().map((i): MenuEntry => {
-                        return {
-                            type: "basic",
-                            text: i.description,
-                            icon: i.icon_url,
-                            handler: () => {
-                                this.commit(Path.auto_describe({
-                                    type: "redclick",
-                                    description: "",
-                                    where: t,
-                                    how: i.type
-                                }))
-                            }
-                        }
-                    })
+                    if (this.interaction_type != null) {
+                        this.commit(Path.auto_describe({
+                            type: "redclick",
+                            description: "",
+                            where: t,
+                            how: this.interaction_type
+                        }))
+                    } else {
 
-                    new ContextMenu(menu).show(this.getMap().container.get()[0], this.getMap().getClientPos(t))
-                        .onCancel(() => this.cancel())
+                        let menu = InteractionType.all().map((i): MenuEntry => {
+                            return {
+                                type: "basic",
+                                text: i.description,
+                                icon: i.icon_url,
+                                handler: () => {
+                                    this.commit(Path.auto_describe({
+                                        type: "redclick",
+                                        description: "",
+                                        where: t,
+                                        how: i.type
+                                    }))
+                                }
+                            }
+                        })
+
+                        new ContextMenu(menu).show(this.getMap().container.get()[0], this.getMap().getClientPos(t))
+                            .onCancel(() => this.cancel())
+                    }
                 }
             )
             .onPreview((t) =>

@@ -6,6 +6,8 @@ Immediate next:
     - "You are here marker"
     - Revive move up/down
     - New Shortcuts via context menu, new shortcut step kind (copy into path?)
+        - Import builtin shortcut
+        - Create custom shortcut (? Maybe open the shortcut editor for this? Make that edit widet reusable?)
 
 - Scan Editor
     - You are here marker scaling in tree view
@@ -19,19 +21,12 @@ Immediate next:
 - Shortcut editor
     - Actually disable editing for builtins
 
-- Upgrade Context Menus
-    - Rich text (color)
-    - Icons
-    - Hotkeys
-    - Nested Menus
-    - Keyboard navigation
-
-- Make fit include the entire path
-- Include icon of interaction for redclick graphics
-- [Bug] Template resolver hangs for some inputs
-- Autosort for path edit
-- [Bug] Mousewheel scrolling in the path editor
-- Hover to highlight path
+- Other
+    - Make fit include the entire path
+    - Include icon of interaction for redclick graphics
+    - [Bug] Template resolver hangs for some inputs
+    - Autosort for path edit
+    - Hover to highlight path
 
 Ready for release:
 - [Presentation] reenable walls on the map.

@@ -19,7 +19,7 @@ import {Shortcuts} from "lib/runescape/shortcuts";
 import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
-import {GameMapContextMenuEvent, GameMapKeyboardEvent} from "lib/gamemap/MapEvents";
+import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
 import GameLayer from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import PathEditActionBar from "./PathEditActionBar";
@@ -38,7 +38,6 @@ import vbox = C.vbox;
 import * as lodash from "lodash";
 import {MenuEntry} from "../widgets/ContextMenu";
 import InteractionType = Path.InteractionType;
-import {DrawOffset} from "../shortcut_editing/interactions/DrawOffset";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import InteractionSelect from "./InteractionSelect";
@@ -89,10 +88,10 @@ class StepEditWidget extends Widget {
                     c(`<span>: ${Path.title(value.raw)}</span>`)
                 ).css("font-weight", "bold"),
                 spacer(),
-                sibut("assets/nis/arrow_up.png", () => this.parent.editor.value.moveEarlier(value.raw))
-                    .tooltip("Move step up").setEnabled(this.parent.editor.value.get().indexOf(value.raw) != 0),
-                sibut("assets/nis/arrow_down.png", () => this.parent.editor.value.moveLater(value.raw))
-                    .tooltip("Move step down").setEnabled(this.parent.editor.value.get().indexOf(value.raw) != this.parent.editor.value.get().length - 1),
+                sibut("assets/nis/arrow_up.png", () => this.value.move(-1))
+                    .tooltip("Move step up").setEnabled(this.value.index.value() != 0),
+                sibut("assets/nis/arrow_down.png", () => this.value.move(1))
+                    .tooltip("Move step down").setEnabled(this.value.index.value() != this.parent.editor.value.get().length - 1),
                 sibut("assets/icons/delete.png", () => this.value.remove()),
                 sibut("assets/icons/fullscreen.png", () => {
                     this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)), {maxZoom: 4})
@@ -320,7 +319,6 @@ class StepEditWidget extends Widget {
         }
 
         // TODO: Fix scroll events passing through
-        // TODO: Add analytics
         // TODO: Action select
     }
 }

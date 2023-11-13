@@ -4,7 +4,6 @@ Immediate next:
 
 - Path Editor
     - "You are here marker"
-    - Revive move up/down
     - New Shortcuts via context menu, new shortcut step kind (copy into path?)
         - Import builtin shortcut
         - Create custom shortcut (? Maybe open the shortcut editor for this? Make that edit widet reusable?)

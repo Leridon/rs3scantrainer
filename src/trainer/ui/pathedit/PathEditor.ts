@@ -316,20 +316,6 @@ class StepEditWidget extends Widget {
                     )
                 )
 
-                /*
-                if (value.raw.spot_override) {
-                    props.named("Coordinates", new MapCoordinateEdit(value.raw.spot_override,
-                            () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                                // preview_render: (tile) => {}
-                            }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the overriden target of the teleport by clicking a tile.")))
-                        )
-                            .on("changed", (c) => {
-                                (value.raw as Path.step_teleport).spot_override = c
-                                this.emit("changed", value.raw)
-                            })
-                    )
-                }*/
-
                 break
         }
 

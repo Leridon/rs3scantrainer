@@ -6,9 +6,9 @@ import {teleport_data} from "data/teleport_data";
 import {Teleports} from "./teleports";
 import {Rectangle, Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
-import * as L from "leaflet"
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
+import {Shortcuts} from "./shortcuts";
 
 export type Path = Path.raw;
 
@@ -105,6 +105,11 @@ export namespace Path {
         how: InteractionType
     }
 
+    export type step_shortcut = step_base & {
+        type: "shortcut_v2",
+        internal: entity_shortcut
+    }
+
     export type step_redclick = step_base & {
         type: "redclick",
         where: TileCoordinates,
@@ -122,6 +127,7 @@ export namespace Path {
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
     import capitalize = util.capitalize;
+    import entity_shortcut = Shortcuts.entity_shortcut;
 
     export type movement_state = {
         tick: number,

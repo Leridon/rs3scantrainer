@@ -18,23 +18,24 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
 
         this.value = lodash.clone(initial)
 
+        this.container.css("min-width", "0")
         this.css("display", "flex")
 
-        this.x = c("<input type='number' class='nisinput' min='0'>").appendTo(this)
-        this.x.container.on("input", () => {
+        this.x = c("<input type='text' inputmode='numeric' class='nisinput' min='0' style='text-align: right'>").appendTo(this)
+        this.x.container.on("change", () => {
             this.value.x = Number(this.x.container.val())
             this.emit("changed", this.value)
         })
         c("<div> | </div>").appendTo(this)
-        this.y = c("<input type='number' class='nisinput' min='0'>").appendTo(this)
-        this.y.container.on("input", () => {
+        this.y = c("<input type='text' inputmode='numeric' class='nisinput' min='0'>").appendTo(this)
+        this.y.container.on("change", () => {
             this.value.y = Number(this.y.container.val())
             this.emit("changed", this.value)
         })
 
         c("<div> | </div>").appendTo(this)
-        this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='width: 20%'>").appendTo(this)
-        this.floor.container.on("input", () => {
+        this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='width: 30%'>").appendTo(this)
+        this.floor.container.on("change", () => {
             this.value.level = Number(this.floor.container.val()) as floor_t
             this.emit("changed", this.value)
         })
@@ -58,6 +59,7 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
                         this.emit("changed", this.value)
                     })
                 )
+                .css("margin-left", "3px")
         }
     }
 }

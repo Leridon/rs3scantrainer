@@ -47,6 +47,7 @@ import DirectionSelect from "./DirectionSelect";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
+import Checkbox from "../../../lib/ui/controls/Checkbox";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -288,18 +289,34 @@ class StepEditWidget extends Widget {
                         })
                     ))
 
-                /* // TODO: Reenable
-                props.named("Override?", new Checkbox()
-                    .setValue(value.raw.spot_override != null)
-                    .on("changed", v => {
+                props.named("Override",
+                    hbox(
+                        new Checkbox()
+                            .setValue(value.raw.spot_override != null)
+                            .on("changed", enabled => {
+                                this.value.update(v => {
+                                    assert(v.raw.type == "teleport")
 
-                        if (v) (value.raw as Path.step_teleport).spot_override = {x: 0, y: 0, level: 0}
-                        else (value.raw as Path.step_teleport).spot_override = undefined
-
-                        this.emit("changed", value.raw)
-                    })
+                                    if (enabled) v.raw.spot_override = teleport_data.resolveTarget(v.raw.id)
+                                    else v.raw.spot_override = undefined
+                                })
+                            }).css("margin-right", "3px"),
+                        value.raw.spot_override
+                            ? new MapCoordinateEdit(value.raw.spot_override,
+                                () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
+                                    // preview_render: (tile) => {}
+                                }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the overriden target of the teleport by clicking a tile.")))
+                            ).on("changed", (c) => {
+                                this.value.update(v => {
+                                    assert(v.raw.type == "teleport")
+                                    v.raw.spot_override = c
+                                })
+                            })
+                            : null
+                    )
                 )
 
+                /*
                 if (value.raw.spot_override) {
                     props.named("Coordinates", new MapCoordinateEdit(value.raw.spot_override,
                             () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
@@ -311,9 +328,7 @@ class StepEditWidget extends Widget {
                                 this.emit("changed", value.raw)
                             })
                     )
-                }
-
-                 */
+                }*/
 
                 break
         }
@@ -579,6 +594,18 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
     augmented_value: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }> = observe({path: null, steps: []})
     post_state: Observable<movement_state>
 
+    private async updateAugment() {
+        let v = this._value
+
+        let aug = await Path.augment(v.map(s => s.value().raw), this.meta.start_state, this.meta.target)
+
+        for (let i = 0; i < aug.steps.length; i++) {
+            v[i].value().augmented?.set(aug.steps[i])
+        }
+
+        this.augmented_value.set({path: aug, steps: v})
+    }
+
     constructor(private meta: {
         target?: TileRectangle,
         start_state?: movement_state,
@@ -588,15 +615,8 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
 
         this.post_state = this.augmented_value.map(({path}) => path?.post_state)
 
-        this.array_changed.on(async (v) => {
-            let aug = await Path.augment(v.data.map(s => s.value().raw), this.meta.start_state, this.meta.target)
-
-            for (let i = 0; i < aug.steps.length; i++) {
-                v.data[i].value().augmented?.set(aug.steps[i])
-            }
-
-            this.augmented_value.set({path: aug, steps: v.data})
-        })
+        this.element_changed.on(() => this.updateAugment())
+        this.array_changed.on((v) => this.updateAugment())
 
         this.element_added.on(e => this.updatePreview(e))
         this.element_removed.on(e => e.value().associated_preview?.remove())

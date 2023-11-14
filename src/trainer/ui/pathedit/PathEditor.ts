@@ -545,73 +545,6 @@ class PathEditorGameLayer extends GameLayer {
 
 }
 
-/*
-class PathBuilder extends Observable<Path.raw> {
-    public augmented_async: Observable<Promise<Path.augmented>> = observe(null)
-    public augmented: Observable<Path.augmented> = observe(null)
-    public post_state: Observable<Path.movement_state>
-
-    private start_state: movement_state = null
-    private target: TileRectangle = null
-
-    constructor() {
-        super([]);
-
-        this.subscribe(v => this.augmented_async.set(Path.augment(v, this.start_state, this.target)))
-        this.post_state = this.augmented.map(p => p?.post_state)
-        this.augmented_async.subscribe(v => this.augmented.setAsync(v))
-    }
-
-    setMeta(start_state: movement_state, target: TileRectangle) {
-        this.start_state = start_state
-        this.target = target
-
-        this.augmented.setAsync(Path.augment(this.get(), this.start_state, this.target))
-    }
-
-    addBack(step: Path.step): this {
-        this.update(p => p.push(step))
-
-        return this
-    }
-
-    remove(step: Path.step): this {
-        this.update(p => {
-            p.splice(p.indexOf(step), 1)
-        })
-
-        return this
-    }
-
-    moveEarlier(step: Path.step): this {
-        let index = this.get().indexOf(step)
-        let to_index = Math.max(0, index - 1)
-
-        if (index != to_index) {
-            this.update(p => {
-                p.splice(to_index, 0, p.splice(index, 1)[0])
-            })
-        }
-
-        return this
-    }
-
-    moveLater(step: Path.step): this {
-        let index = this.get().indexOf(step)
-        let to_index = Math.min(this.get().length - 1, index + 1)
-
-        if (index != to_index) {
-            this.update(p => {
-                p.splice(to_index, 0, p.splice(index, 1)[0])
-            })
-        }
-
-        return this
-    }
-}
-*/
-
-
 export class PathBuilder extends ObservableArray<PathEditor.Value> {
     create(step: Path.step) {
         this.add({raw: step})
@@ -706,6 +639,8 @@ export class PathEditor extends Behaviour {
     private control: ControlWidget = null
     private handler_layer: PathEditorGameLayer = null
 
+    private you_are_here_marker: leaflet.Layer = null
+
     action_bar: PathEditActionBar
 
     interaction_guard: InteractionGuard
@@ -733,6 +668,24 @@ export class PathEditor extends Behaviour {
 
         this.value.augmented_value.subscribe(({path}) => {
             if (this.action_bar) this.action_bar.state.set(path.post_state)
+        })
+
+        this.value.post_state.subscribe(state => {
+
+            if (this.you_are_here_marker) {
+                this.you_are_here_marker.remove()
+                this.you_are_here_marker = null
+            }
+
+            if (state.position.tile) {
+                this.you_are_here_marker = leaflet.marker(Vector2.toLatLong(state.position.tile), {
+                    icon:leaflet.icon({
+                        iconUrl: "assets/icons/youarehere.png",
+                        iconSize: [25, 25],
+                        iconAnchor: [13, 13],
+                    })
+                }).addTo(this.handler_layer)
+            }
         })
 
         this.control = new ControlWidget(this, this.value.augmented_value).addTo(this.handler_layer)

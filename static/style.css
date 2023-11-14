@@ -639,6 +639,7 @@ video {
 
 .ctr-scantreeedit-node.active > * > .ctr-scantreeedit-youarehere {
     background-image: url("assets/icons/youarehere.png");
+    background-size: contain;
 }
 
 

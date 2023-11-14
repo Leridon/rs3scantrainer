@@ -76,13 +76,13 @@ class RegionEdit extends Widget {
                 .on("click", async () => {
 
                     this.parent.parent.parent.parent.options.map.dragAction.set(new DrawRegionAction({
-                        existing_preview: this.parent.region_preview,
-                        preview_rendering: area => new ScanRegionPolygon({name: this.parent.node.raw.region.name, area: area})
-                    })
-                        .onCommit(area => {
-                            this.parent.node.raw.region.area = area
-                            this.sendChange()
+                            existing_preview: this.parent.region_preview,
+                            preview_rendering: area => new ScanRegionPolygon({name: this.parent.node.raw.region.name, area: area})
                         })
+                            .onCommit(area => {
+                                this.parent.node.raw.region.area = area
+                                this.sendChange()
+                            })
                     )
                 })
                 .appendTo(this)
@@ -117,16 +117,16 @@ class RegionEdit extends Widget {
                         this.sendChange()
                     } else {
                         this.parent.parent.parent.parent.options.map.dragAction.set(new DrawRegionAction({
-                            existing_preview: this.parent.region_preview,
-                            preview_rendering: area => new ScanRegionPolygon({name: "", area: area}),
-                        })
-                            .onCommit(area => {
-                                this.parent.node.raw.region = {
-                                    name: "",
-                                    area: area
-                                }
-                                this.sendChange()
+                                existing_preview: this.parent.region_preview,
+                                preview_rendering: area => new ScanRegionPolygon({name: "", area: area}),
                             })
+                                .onCommit(area => {
+                                    this.parent.node.raw.region = {
+                                        name: "",
+                                        area: area
+                                    }
+                                    this.sendChange()
+                                })
                         )
                     }
                 })
@@ -173,7 +173,7 @@ class TreeNodeEdit extends Widget {
             }
 
             let collapse_control = c(`<div style='margin-right: 5px; cursor: pointer'><img src='${get_ar()}'></div>`)
-                .css("margin-left", `${node.depth * 5}px`)
+                .css("margin-left", `${(node.depth + 1) * 5}px`)
                 .tapRaw(r => r.on("click", () => {
                     this.is_collapsed = !this.is_collapsed
 

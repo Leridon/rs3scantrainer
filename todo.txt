@@ -3,12 +3,11 @@ Immediate next:
 [Bug] In some circumstances, keyboard events don't reach the interaction
 
 - Path Editor
-    - "You are here marker"
     - Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
     - Path-level-issues
 
 - Scan Editor
-    - You are here marker scaling in tree view
+    - Switching between active nodes glitches out
     - Autoname areas
     - Reenable spot sorting/numbers on preview
     - Port UI Elements to GameLayer

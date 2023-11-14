@@ -177,16 +177,24 @@ export class ShortcutEdit extends Widget {
                         .append(
                             new LightButton("Select")
                                 .on("click", () => {
+
                                         this.config.interaction_guard.set(
                                             new GameMapDragAction({
                                                 preview_render: (area) => {
-                                                    assert(v.type == "entity")
+                                                    let copy = lodash.cloneDeep(this.config.value.value())
+                                                    assert(copy.type == "entity")
 
-                                                    return ShortcutViewLayer.render_clickable(Rectangle.extend(area, 0.5), v.actions[0]?.cursor || "generic")
+                                                    copy.clickable_area = TileRectangle.extend(area, 0.5)
+
+                                                    return new ShortcutPolygon(observe(copy))
                                                 }
                                             })
-                                                .onStart(() => this.config.associated_preview?.config?.update(c => c.draw_clickable = false))
-                                                .onEnd(() => this.config.associated_preview?.config?.update(c => c.draw_clickable = true))
+                                                .preview((() => {
+                                                    assert(v.type == "entity");
+                                                    return TileRectangle.extend(v.clickable_area, -0.5)
+                                                })())
+                                                .onStart(() => { this.config.associated_preview?.setOpacity(0) })
+                                                .onEnd(() => this.config.associated_preview?.setOpacity(1))
                                                 .onCommit(a => {
                                                     this.config.value.update(v => {
                                                         assert(v.type == "entity")
@@ -235,12 +243,19 @@ export class ShortcutEdit extends Widget {
                             .append(
                                 new LightButton("Select")
                                     .on("click", () => {
+
                                         this.config.interaction_guard.set(
                                             new GameMapDragAction({
-                                                preview_render: (area) => ShortcutViewLayer.render_interactive_area(area)
+                                                preview_render: (area) => {
+                                                    let copy = lodash.cloneDeep(this.config.value.value())
+                                                    assert(copy.type == "entity")
+                                                    copy.actions[action_i].interactive_area = area
+                                                    return new ShortcutPolygon(observe(copy))
+                                                }
                                             })
-                                                .onStart(() => this.config?.associated_preview?.config?.update(c => c.hidden_actions.push(action)))
-                                                .onEnd(() => this.config?.associated_preview?.config?.update(c => c.hidden_actions = c.hidden_actions.filter(x => x != action)))
+                                                .preview(action.interactive_area)
+                                                .onStart(() => { this.config.associated_preview?.setOpacity(0) })
+                                                .onEnd(() => this.config.associated_preview?.setOpacity(1))
                                                 .onCommit(a => this.config.value.update(() => action.interactive_area = a))
                                                 .attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
                                         )
@@ -296,14 +311,27 @@ export class ShortcutEdit extends Widget {
                                         new LightButton("Draw")
                                             .on("click", () => {
                                                 this.config.interaction_guard.set(
-                                                    new DrawOffset({}, action.interactive_area)
-                                                        .onStart(() => this.config?.associated_preview?.config?.update(c => c.draw_target = false))
-                                                        .onEnd(() => this.config?.associated_preview?.config?.update(c => c.draw_target = true))
+                                                    new DrawOffset({
+                                                        preview_render: (offset) => {
+                                                            let copy = lodash.cloneDeep(this.config.value.value())
+
+                                                            assert(copy.type == "entity")
+                                                            let a = copy.actions[action_i]
+                                                            assert(a.movement.type == "offset")
+                                                            a.movement.offset = offset.offset
+                                                            return new ShortcutPolygon(observe(copy))
+                                                        }
+                                                    }, action.interactive_area)
+                                                        .preview((() => {
+                                                            assert(action.movement.type == "offset")
+                                                            return {origin: TileRectangle.center(action.interactive_area), offset: action.movement.offset}
+                                                        })())
+                                                        .onStart(() => { this.config.associated_preview?.setOpacity(0) })
+                                                        .onEnd(() => this.config.associated_preview?.setOpacity(1))
                                                         .onCommit((v) => {
                                                             this.config.value.update(() => {
-                                                                if (action.movement.type == "offset") {
-                                                                    action.movement.offset = v.offset
-                                                                }
+                                                                assert(action.movement.type == "offset")
+                                                                action.movement.offset = v.offset
                                                             })
                                                         })
                                                 )
@@ -317,16 +345,27 @@ export class ShortcutEdit extends Widget {
                             target_thing.append(new MapCoordinateEdit(
                                     action.movement.target,
                                     () => this.config.interaction_guard.set(new SelectTileInteraction({
-                                            preview_render: (target) => ShortcutViewLayer
-                                                .render_transport_arrow(Rectangle.center(action.interactive_area, true), target, target.level - action.interactive_area.level)
-                                                .addLayer(ShortcutViewLayer.render_target_circle(target))
+                                            preview_render: (target) => {
+                                                let copy = lodash.cloneDeep(this.config.value.value())
+                                                assert(copy.type == "entity")
+                                                let a = copy.actions[action_i]
+                                                assert(a.movement.type == "fixed")
+                                                a.movement.target = target
+
+                                                return new ShortcutPolygon(observe(copy))
+                                            }
                                         })
-                                            .onStart(() => this.config?.associated_preview?.config?.update(c => c.draw_target = false))
-                                            .onEnd(() => this.config?.associated_preview?.config?.update(c => c.draw_target = true))
+                                            .preview((() => {
+                                                assert(action.movement.type == "fixed");
+                                                return action.movement.target
+                                            })())
+                                            .onStart(() => { this.config.associated_preview?.setOpacity(0) })
+                                            .onEnd(() => this.config.associated_preview?.setOpacity(1))
                                             .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of this map connection."))
                                     )).on("changed", (v) => {
                                     this.config.value.update(() => {
-                                        if (action.movement.type == "fixed") action.movement.target = v
+                                        assert(action.movement.type == "fixed")
+                                        action.movement.target = v
                                     })
                                 })
                             )

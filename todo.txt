@@ -4,10 +4,6 @@ Immediate next:
 
 - Path Editor
     - "You are here marker"
-    - New Shortcuts via context menu, new shortcut step kind (copy into path?)
-        - Import builtin shortcut
-        - Create custom shortcut
-            - Rendering
     - Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
     - Path-level-issues
 

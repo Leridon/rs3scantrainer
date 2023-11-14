@@ -1200,3 +1200,13 @@ video {
 input[type=checkbox] + span {
     margin-left: 5px;
 }
+
+.ctr-inactive-overlay {
+    opacity: 0.2;
+    filter: grayscale(0%);
+}
+
+.ctr-inactive-overlay-marker {
+    opacity: 0.6;
+    filter: grayscale(0%);
+}

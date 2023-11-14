@@ -219,62 +219,41 @@ class StepEditWidget extends Widget {
                     )
                 )
                 break
-            /* TODO
             case "interaction":
 
-                props.named("Ticks", c("<input type='number' class='nisinput' min='0'>")
-                    .tapRaw((c) => c.val((value.raw as Path.step_interact).ticks).on("change", () => {
-                        (value.raw as Path.step_interact).ticks = Number(c.val())
-                        this.emit("changed", value.raw)
-                    }))
+                props.named("Deprecated",
+                    new LightButton("Convert")
+                        .on("click", () => {
+                            this.value.update(value => {
+                                assert(value.raw.type == "interaction")
+
+                                value.raw = {
+                                    type: "shortcut_v2",
+                                    description: "",
+                                    assumed_start: value.raw.starts,
+                                    internal: {
+                                        type: "entity",
+                                        name: "Entity",
+                                        clickable_area: TileRectangle.from(value.raw.where),
+                                        actions: [{
+                                            cursor: value.raw.how,
+                                            interactive_area: TileRectangle.from(value.raw.starts),
+                                            movement: {type: "fixed", target: value.raw.ends_up, relative: false},
+                                            name: "Use",
+                                            time: value.raw.ticks,
+                                            orientation: value.raw.forced_direction != null ? {
+                                                type: "forced",
+                                                direction: value.raw.forced_direction,
+                                                relative: false
+                                            } : {type: "keep"}
+                                        }]
+                                    }
+                                }
+                            })
+                        })
                 )
 
-                props.named("Starts", new MapCoordinateEdit(value.raw.starts,
-                    () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                        preview_render: (tile) => ShortcutViewLayer.render_transport_arrow(tile, (value.raw as Path.step_interact).ends_up)
-                    }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the start of the transport by clicking a tile.")))
-                ))
-                    .on("changed", (c) => {
-                        (value.raw as Path.step_interact).starts = c
-                        this.emit("changed", value.raw)
-                    })
-
-                props.named("Click", new MapCoordinateEdit(value.raw.where,
-                    () => this.parent.editor.interaction_guard.set(new SelectTileInteraction()
-                        .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select where the shortcut is clicked by clicking a tile.")))
-                ))
-                    .on("changed", (c) => {
-                        (value.raw as Path.step_interact).where = c
-                        this.emit("changed", value.raw)
-                    })
-
-                props.named("Ends up", new MapCoordinateEdit(value.raw.ends_up,
-                    () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                        preview_render: (tile) => ShortcutViewLayer.render_transport_arrow((value.raw as Path.step_interact).starts, tile)
-                    }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of the transport by clicking a tile.")))
-                ))
-                    .on("changed", (c) => {
-                        (value.raw as Path.step_interact).ends_up = c
-                        this.emit("changed", value.raw)
-                    })
-
-                props.named("Facing", new DirectionSelect()
-                    .setValue(value.raw.forced_direction)
-                    .on("selection_changed", v => {
-                        (value.raw as Path.step_interact).forced_direction = v
-                        this.emit("changed", value.raw)
-                    })
-                )
-
-                props.named("Action", new InteractionSelect()
-                    .setValue(value.raw.how)
-                    .on("selection_changed", v => {
-                        (value.raw as Path.step_interact).how = v
-                        this.emit("changed", value.raw)
-                    })
-                )
-
-                break*/
+                break
 
             case "shortcut_v2": {
                 let body: ShortcutEdit = ShortcutEdit.forSimple(value.raw.internal, this.parent.editor.interaction_guard,
@@ -460,7 +439,7 @@ class PathEditorGameLayer extends GameLayer {
     constructor(private editor: PathEditor) {
         super();
 
-        new ShortcutViewLayer(observeArray(editor.data.shortcuts)).addTo(this)
+        new ShortcutViewLayer(observeArray(editor.data.shortcuts), true).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
@@ -529,47 +508,37 @@ class PathEditorGameLayer extends GameLayer {
                                     }))
                                 }
                             })
-
-
-                            /*
-                            this.editor.value.augmented_value.value().path.post_state.position.tile
-
-                            let start = this.editor.value.augmented_value.value().path.post_state.position.tile
-                                ? TileRectangle.clampInto(this.editor.value.augmented_value.value().path.post_state.position.tile, a.interactive_area)
-                                : TileRectangle.center(a.interactive_area)
-
-                            let ends: TileCoordinates
-
-                            switch (a.movement.type) {
-                                case "fixed":
-                                    ends = a.movement.target
-                                    break;
-                                case "offset":
-                                    ends = TileCoordinates.move(start, a.movement.offset)
-                                    ends.level += a.movement.offset.level
-
-                                    break;
-                            }
-
-                            event.add({
-                                type: "basic",
-                                text: `${s.name}: ${a.name}`,
-                                icon: InteractionType.meta(a.cursor).icon_url,
-                                handler: () => {
-                                    this.editor.value.create({
-                                        type: "interaction",
-                                        description: a.name,
-                                        ticks: a.time,
-                                        starts: start,
-                                        where: TileRectangle.center(s.clickable_area, false),
-                                        ends_up: ends,
-                                        forced_direction: null, // TODO:
-                                        how: a.cursor
-                                    })
-                                }
-                            })*/
                         })
                     })
+
+                event.add({
+                    type: "basic",
+                    text: "Create custom shortcut",
+                    icon: "assets/icons/cursor_generic.png",
+                    handler: () => {
+
+                        let t = this.editor.value.post_state.value()?.position?.tile
+
+                        this.editor.value.create(Path.auto_describe({
+                            type: "shortcut_v2",
+                            assumed_start: t ? TileRectangle.clampInto(t, TileRectangle.extend(TileRectangle.from(event.tile()), 1)) : event.tile(),
+                            description: "",
+                            internal: {
+                                type: "entity",
+                                name: "Entity",
+                                clickable_area: TileRectangle.from(event.tile()),
+                                actions: [{
+                                    cursor: "generic",
+                                    interactive_area: TileRectangle.extend(TileRectangle.from(event.tile()), 1),
+                                    movement: {type: "offset", offset: {x: 0, y: 0, level: 0}},
+                                    name: "Use",
+                                    time: 3,
+                                    orientation: {type: "byoffset"}
+                                }]
+                            }
+                        }))
+                    }
+                })
             }
         })
     }

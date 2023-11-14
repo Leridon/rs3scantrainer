@@ -11,7 +11,7 @@ import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 
 export class ShortcutViewLayer extends GameLayer {
-    constructor(public data: ObservableArray<Shortcuts.shortcut>) {
+    constructor(public data: ObservableArray<Shortcuts.shortcut>, private simplified: boolean = false) {
         super();
 
         data.element_added.on(s => {
@@ -24,7 +24,7 @@ export class ShortcutViewLayer extends GameLayer {
     private renderAll() {
         this.clearLayers()
 
-        this.data.value().map(s => new ShortcutViewLayer.ShortcutPolygon(s).addTo(this))
+        this.data.value().map(s => new ShortcutViewLayer.ShortcutPolygon(s, this.simplified).addTo(this))
     }
 
     getView(s: ObservableArray.ObservableArrayValue<Shortcuts.shortcut>): ShortcutViewLayer.ShortcutPolygon {
@@ -42,18 +42,9 @@ export namespace ShortcutViewLayer {
     import InteractionType = Path.InteractionType;
 
     export class ShortcutPolygon extends OpacityGroup {
-        public config = observe({
-
-            // TODO: Instead of using this to hide parts of the preview, hide the entire preview while editing a part of it, make a copy and render it completely
-            draw_clickable: true,
-            hidden_actions: [],
-            draw_target: true
-        })
-
-        constructor(public data: Observable<Shortcuts.shortcut>) {
+        constructor(public data: Observable<Shortcuts.shortcut>, private simplified: boolean = false) {
             super();
 
-            this.config.subscribe(() => this.render())
             data.subscribe(() => this.render())
 
             if (data instanceof ObservableArray.ObservableArrayValue<any>) {
@@ -72,52 +63,58 @@ export namespace ShortcutViewLayer {
 
             let shortcut = Shortcuts.normalize(this.data.value())
 
-            for (let action of shortcut.actions.filter(a => !this.config.value().hidden_actions.includes(a))) {
+            for (let action of shortcut.actions) {
                 render_interactive_area(action.interactive_area)
                     .setStyle({interactive: true})
                     .addTo(this)
 
-                if (this.config.value().draw_target) {
-                    switch (action.movement.type) {
-                        case "offset":
+                switch (action.movement.type) {
+                    case "offset":
+                        let center = TileRectangle.center(action.interactive_area, true)
+                        let target = Vector2.add(center, action.movement.offset)
+
+                        render_transport_arrow(center, target, action.movement.offset.level).addTo(this)
+                        break;
+
+                    case "fixed":
+                        if (action.movement.relative) {
+
                             let center = TileRectangle.center(action.interactive_area, true)
-                            let target = Vector2.add(center, action.movement.offset)
+                            let target = action.movement.target
 
-                            render_transport_arrow(center, target, action.movement.offset.level).addTo(this)
+                            render_transport_arrow(center, target, target.level - center.level).addTo(this)
                             break;
+                        } else {
+                            render_target_circle(action.movement.target).addTo(this)
+                        }
 
-                        case "fixed":
-                            if (action.movement.relative) {
-
-                                let center = TileRectangle.center(action.interactive_area, true)
-                                let target = action.movement.target
-
-                                render_transport_arrow(center, target, target.level - center.level).addTo(this)
-                                break;
-                            } else {
-                                render_target_circle(action.movement.target).addTo(this)
-                            }
-
-                            break
-                    }
+                        break
                 }
+
             }
 
-            if (this.config.value().draw_clickable) {
-                render_clickable(shortcut.clickable_area, shortcut.actions[0]?.cursor || "generic").addTo(this)
-                    .setStyle({interactive: true})
+            render_clickable(shortcut.clickable_area, shortcut.actions[0]?.cursor || "generic", this.simplified).addTo(this)
+                .setStyle({interactive: true})
+
+            if (this.simplified) {
+                this.setStyle({
+                    className: "ctr-inactive-overlay"
+                })
             }
         }
     }
 
-    export function render_clickable(area: Rectangle, cursor: InteractionType): OpacityGroup {
+    export function render_clickable(area: Rectangle, cursor: InteractionType, simplified: boolean = false): OpacityGroup {
+
+        let marker = RenderingUtility.interactionMarker(Rectangle.center(area, false), cursor, simplified)
+
         return new OpacityGroup()
             .addLayer(leaflet.polygon(boxPolygon2(area), {
                 color: COLORS.clickable_area,
                 fillColor: COLORS.clickable_area,
                 interactive: true
             }))
-            .addLayer(RenderingUtility.interactionMarker(Rectangle.center(area, false), cursor)).setStyle({interactive: true})
+            .addLayer(marker).setStyle({interactive: true})
     }
 
     export function render_interactive_area(area: Rectangle): OpacityGroup {

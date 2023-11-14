@@ -9,6 +9,7 @@ import {ExportImport} from "../util/exportString";
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {Shortcuts} from "./shortcuts";
+import {stat} from "copy-webpack-plugin/types/utils";
 
 export type Path = Path.raw;
 
@@ -107,6 +108,7 @@ export namespace Path {
 
     export type step_shortcut = step_base & {
         type: "shortcut_v2",
+        assumed_start: TileCoordinates,
         internal: entity_shortcut
     }
 
@@ -285,8 +287,7 @@ export namespace Path {
                                 : Vector2.sub(index(step.waypoints, -1), index(step.waypoints, -2)))
                     }
 
-                    // The first waypoint is the start point, so path length is |waypoints| - 1
-                    state.tick += Math.ceil((step.waypoints.length - 1) / 2)
+                    state.tick += Math.ceil(PathFinder.pathLength(step.waypoints) / 2)
 
                     state.targeted_entity = null
                 }
@@ -476,6 +477,53 @@ export namespace Path {
                     state.targeted_entity = null
 
                     break;
+                case "shortcut_v2":
+
+                    let entity = step.internal
+                    let action = entity.actions[0]
+
+                    let in_interactive_area = !state.position.tile || TileRectangle.contains(action.interactive_area, state.position.tile)
+
+                    if (!in_interactive_area) {
+                        augmented.issues.push({level: 0, message: "Player is not in the interactive area for this shortcut!"})
+                    }
+
+                    if (state.position.tile && !TileCoordinates.eq2(state.position.tile, step.assumed_start)) {
+                        augmented.issues.push({level: 0, message: "Ability does not start where the previous step ends!"})
+                    }
+
+                    let start_tile = step.assumed_start
+
+                    switch (action.movement.type) {
+                        case "offset":
+                            state.position.tile = TileCoordinates.move(start_tile, action.movement.offset)
+                            state.position.tile.level += action.movement.offset.level
+                            break;
+                        case "fixed":
+                            state.position.tile = action.movement.target
+                            break;
+                    }
+
+                    switch (action.orientation.type) {
+                        case "byoffset":
+                            state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, start_tile))
+                            break;
+                        case "forced":
+                            state.position.direction = action.orientation.direction
+                            break;
+                        case "toentitybefore":
+                            state.position.direction = direction.fromVector(Vector2.sub(TileRectangle.center(entity.clickable_area), start_tile))
+                            break;
+                        case "toentityafter":
+                            state.position.direction = direction.fromVector(Vector2.sub(TileRectangle.center(entity.clickable_area), state.position.tile))
+                            break;
+                        case "keep":
+                            break;
+                    }
+
+                    state.tick += action.time
+
+                    break
                 case "redclick":
                     let next = path[i + 1] as step_run
 
@@ -553,7 +601,9 @@ export namespace Path {
             case "teleport":
                 return `Teleport`
             case "interaction":
-                return "Use entrance";
+                return "Use entrance (DEPRECATED)";
+            case "shortcut_v2":
+                return `Use entity`
             case "redclick":
                 return "Redclick"
             case "powerburst":
@@ -589,8 +639,10 @@ export namespace Path {
             else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
         } else if (step.type === "interaction") {
             return "Use entrance/shortcut"; // TODO:
+        } else if (step.type == "shortcut_v2") {
+            return `${step.internal.name}: {{icon ${InteractionType.meta(step.internal.actions[0].cursor).short_icon}}} ${step.internal.actions[0].name} `
         } else if (step.type === "redclick") {
-            return "Redclick" // TODO:
+            return `Redclick at ${TileCoordinates.toString(step.where)}` // TODO:
         } else if (step.type === "powerburst") {
             return "Use {{icon accel}}"
         }

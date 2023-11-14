@@ -16,7 +16,7 @@ import movement_state = Path.movement_state;
 import issue = Path.issue;
 import Behaviour from "lib/ui/Behaviour";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Rectangle, Vector2} from "lib/math";
+import {Rectangle, Transform, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
@@ -56,6 +56,17 @@ export class IssueWidget extends Widget {
     }
 }
 
+function needRepairing(state: movement_state, shortcut: Path.step_shortcut): boolean {
+    return state.position.tile
+        && TileRectangle.contains(shortcut.internal.actions[0].interactive_area, state.position.tile)
+        && !TileCoordinates.eq2(state.position.tile, shortcut.assumed_start)
+}
+
+
+function repairShortcutStep(state: movement_state, shortcut: Path.step_shortcut): void {
+    shortcut.assumed_start = state.position.tile
+}
+
 class StepEditWidget extends Widget {
 
     private shortcut_custom_open: boolean = false
@@ -64,11 +75,6 @@ class StepEditWidget extends Widget {
         super()
 
         this.addClass("step-edit-component")
-
-        value.subscribe((v) => {
-            // Here???
-            v.associated_preview = createStepGraphics(v.raw).addTo(this.parent)
-        })
 
         value.value().augmented.subscribe((v) => {
             this.render(v)
@@ -279,10 +285,29 @@ class StepEditWidget extends Widget {
                 if (!this.shortcut_custom_open) body.css("display", "none")
                 else body.config.associated_preview = new ShortcutViewLayer.ShortcutPolygon(body.config.value).addTo(this.value.value().associated_preview)
 
-                props.row(
-                    vbox(
-                        c().text(`${value.raw.internal.name} (Click to customize)`).css("cursor", "pointer")
-                            .tapRaw(r => r.on("click", () => {
+                this.append(body)
+
+                let assumed_start_needs_fixing =
+                    value.pre_state.position.tile
+                    && TileRectangle.contains(value.raw.internal.actions[0].interactive_area, value.pre_state.position.tile)
+                    && !TileCoordinates.eq2(value.pre_state.position.tile, value.raw.assumed_start)
+
+                props.named("Start", hbox(
+                    span(TileCoordinates.toString(value.raw.assumed_start)),
+                    spacer(),
+                    assumed_start_needs_fixing ? new LightButton("Repair").on("click", () => {
+                        this.value.update(v => {
+                            assert(v.raw.type == "shortcut_v2")
+                            v.raw.assumed_start = value.pre_state.position.tile
+                        })
+                    }) : null
+                ))
+
+                props.named("Entity",
+                    hbox(
+                        span(value.raw.internal.name),
+                        spacer(),
+                        sibut("assets/icons/edit.png", () => {
                                 this.shortcut_custom_open = !this.shortcut_custom_open
 
                                 body.container.animate({"height": "toggle"})
@@ -294,16 +319,18 @@ class StepEditWidget extends Widget {
                                     body.config.associated_preview = new ShortcutViewLayer.ShortcutPolygon(body.config.value).addTo(this.value.value().associated_preview)
                                 }
 
-                            })),
-                        body
-                    ).css("max-width", "100%")
+                            }
+                        )
+                    )
                 )
 
                 body.config.value.subscribe(s => {
                     this.value.update(v => {
                         assert(v.raw.type == "shortcut_v2")
+                        assert(s.type == "entity")
 
-                        v.raw.internal = lodash.cloneDeep(s) as Shortcuts.entity_shortcut
+                        v.raw.assumed_start = TileRectangle.clampInto(v.raw.assumed_start, s.actions[0].interactive_area)
+                        v.raw.internal = lodash.cloneDeep(s)
                     })
                 })
             }
@@ -383,11 +410,9 @@ class ControlWidget extends GameMapControl {
         this.content.addClass("path-edit-control")
 
         this.steps_container = vbox().appendTo(this.content).css2({
-            "max-height": "400px",
+            "max-height": "800px",
             "overflow-y": "auto",
         })
-
-        // TODO: Recover this functionality elsewhere
 
 
         data.subscribe(({path, steps}) => this.render(path, steps))
@@ -494,11 +519,14 @@ class PathEditorGameLayer extends GameLayer {
                                 text: `${s.name}: ${a.name}`,
                                 icon: InteractionType.meta(a.cursor).icon_url,
                                 handler: () => {
-                                    this.editor.value.create({
+                                    let t = this.editor.value.post_state.value()?.position?.tile
+
+                                    this.editor.value.create(Path.auto_describe({
                                         type: "shortcut_v2",
+                                        assumed_start: t ? TileRectangle.clampInto(t, s.actions[0].interactive_area) : TileRectangle.center(s.actions[0].interactive_area),
                                         description: "",
                                         internal: lodash.cloneDeep(s)
-                                    })
+                                    }))
                                 }
                             })
 
@@ -664,6 +692,22 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         this.element_added.on(e => this.updatePreview(e))
         this.element_removed.on(e => e.value().associated_preview?.remove())
         this.element_changed.on(e => this.updatePreview(e))
+
+        this.augmented_value.subscribe((v) => {
+            for (let i = 0; i < v.path.steps.length; i++) {
+                let step = v.path.steps[i]
+
+                if (step.raw.type == "shortcut_v2" && needRepairing(step.pre_state, step.raw)) {
+
+                    this._value[i].update((s) => {
+                        assert(s.raw.type == "shortcut_v2")
+                        repairShortcutStep(step.pre_state, s.raw)
+                    })
+
+                    return
+                }
+            }
+        })
     }
 
     private updatePreview(o: PathEditor.OValue) {

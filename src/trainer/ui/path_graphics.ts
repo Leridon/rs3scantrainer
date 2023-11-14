@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet"
 import {Path} from "lib/runescape/pathing";
-import {TileCoordinates} from "../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../lib/runescape/coordinates";
 import {direction, MovementAbilities} from "lib/runescape/movement";
 import Widget from "lib/ui/Widget";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
@@ -249,6 +249,40 @@ export function createStepGraphics(step: Path.step): OpacityGroup {
             leaflet.marker(Vector2.toLatLong(step.where), {
                 icon: leaflet.icon({
                     iconUrl: InteractionType.meta(step.how).icon_url,
+                    iconSize: [28, 31],
+                    iconAnchor: [14, 16],
+                }),
+                interactive: false
+            }).addTo(layer)
+
+            break
+        case "shortcut_v2":
+
+            let start_tile = step.assumed_start
+
+            let entity = step.internal
+            let action = entity.actions[0]
+
+            let ends_up: TileCoordinates = null
+            switch (action.movement.type) {
+                case "offset":
+                    ends_up = TileCoordinates.move(start_tile, action.movement.offset)
+                    break;
+                case "fixed":
+                    ends_up = action.movement.target
+                    break;
+            }
+
+            arrow(step.assumed_start, ends_up)
+                .setStyle({
+                    color: "#069334",
+                    weight: 4,
+                    dashArray: '10, 10'
+                }).addTo(layer)
+
+            leaflet.marker(Vector2.toLatLong(TileRectangle.center(step.internal.clickable_area)), {
+                icon: leaflet.icon({
+                    iconUrl: InteractionType.meta(action.cursor).icon_url,
                     iconSize: [28, 31],
                     iconAnchor: [14, 16],
                 }),

@@ -6,12 +6,10 @@ Immediate next:
     - "You are here marker"
     - New Shortcuts via context menu, new shortcut step kind (copy into path?)
         - Import builtin shortcut
-        - Create custom shortcut (? Maybe open the shortcut editor for this? Make that edit widet reusable?)
-            - Augmentation
+        - Create custom shortcut
             - Rendering
-            - Auto Description
-            - Editor
     - Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
+    - Path-level-issues
 
 - Scan Editor
     - You are here marker scaling in tree view

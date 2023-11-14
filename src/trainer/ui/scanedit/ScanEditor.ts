@@ -160,6 +160,7 @@ class PreviewLayerControl extends Behaviour {
                 PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
+            /*
             AugmentedScanTree.traverse(a, async (n) => {
                 // TODO: Decreasing opacity
 
@@ -168,7 +169,7 @@ class PreviewLayerControl extends Behaviour {
                 }
 
                 return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
-            }, false)
+            }, false)*/
         } else {
             AugmentedScanTree.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
                 if (n.raw.region) {

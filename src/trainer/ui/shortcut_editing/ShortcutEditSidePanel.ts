@@ -18,68 +18,120 @@ import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import SelectTileInteraction from "lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {DrawOffset} from "./interactions/DrawOffset";
-import {TileRectangle} from "../../../lib/runescape/coordinates";
-import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {util} from "../../../lib/util/util";
 import {ewent, Observable, ObservableArray, observe} from "../../../lib/reactive";
 import shortcuts from "../../../data/shortcuts";
 import * as assert from "assert";
 import Checkbox from "../../../lib/ui/controls/Checkbox";
-import ObservableArrayValue = ObservableArray.ObservableArrayValue;
 import {DrawDoor} from "./interactions/DrawDoor";
 import {direction} from "../../../lib/runescape/movement";
 import {C} from "../../../lib/ui/constructors";
+import {SmallImageButton} from "../widgets/SmallImageButton";
+import {ShortcutEditGameLayer, ShortcutEditor} from "./ShortcutEditor";
+import {PlaceShortcut} from "./interactions/PlaceShortcut";
+import ObservableArrayValue = ObservableArray.ObservableArrayValue;
 import hbox = C.hbox;
 import vbox = C.vbox;
 import span = C.span;
 import spacer = C.spacer;
 import sibut = SmallImageButton.sibut;
-import {SmallImageButton} from "../widgets/SmallImageButton";
-import {ShortcutEditGameLayer, ShortcutEditor} from "./ShortcutEditor";
+import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
 
-class ShortcutEdit extends Widget {
-    centered = ewent<Shortcuts.shortcut>()
-
+export class ShortcutEdit extends Widget {
     private header: Widget
     private body: Widget
 
-    constructor(public value: ShortcutEditor.OValue,
-                private associated_preview: ShortcutViewLayer.ShortcutPolygon,
-                private edit_layer: ShortcutEditGameLayer) {
+    constructor(public config: {
+                    value: Observable<Shortcuts.shortcut>,
+                    ovalue?: ShortcutEditor.OValue,
+                    edit_layer?: ShortcutEditGameLayer,
+                    interaction_guard: InteractionGuard,
+                    associated_preview: ShortcutPolygon,
+                    centered_handler: (s: Shortcuts.shortcut) => any,
+                    collapsible: boolean,
+                    single_action?: boolean
+                } = null
+    ) {
         super(vbox());
 
         this.init(vbox(
             this.header = vbox(),
-            this.body = vbox().css("display", "none")
+            this.body = vbox()
         )).addClass("ctr-shortcut-edit")
 
-        value.subscribe(() => this.render(), true)
+        if (this.config.collapsible) this.body.css("display", "none")
+
+        this.config.value.subscribe(() => this.render(), true)
+    }
+
+    static forSimple(shortcut: Shortcuts.shortcut,
+                     guard: InteractionGuard,
+                     centered_handler: (s: Shortcuts.shortcut) => any = null
+    ) {
+        return new ShortcutEdit({
+                value: observe(shortcut),
+                ovalue: null,
+                edit_layer: null,
+                interaction_guard: guard,
+                associated_preview: null,
+                centered_handler: centered_handler,
+                collapsible: false,
+                single_action: true
+            }
+        )
+    }
+
+    static forEditor(shortcut: ShortcutEditor.OValue,
+                     edit_layer: ShortcutEditGameLayer,
+                     centered_handler: (s: Shortcuts.shortcut) => any
+    ): ShortcutEdit {
+        return new ShortcutEdit({
+                value: shortcut,
+                ovalue: shortcut,
+                edit_layer: edit_layer,
+                interaction_guard: edit_layer.interactionGuard,
+                associated_preview: edit_layer.view.getView(shortcut),
+                centered_handler: centered_handler,
+                collapsible: true
+            }
+        )
     }
 
     private render() {
         this.header.empty()
         this.body.empty()
 
-        hbox(
-            span(this.value.value().name),
+        let header = hbox(
+            span(this.config.value.value().name),
             spacer(),
-            sibut("assets/icons/move.png", () => this.edit_layer.startMove(this.value)).setEnabled(!this.value.value().is_builtin),
-            sibut("assets/icons/copy.png", () => this.edit_layer.startPlacement(this.value.value())),
-            sibut("assets/icons/delete.png", () => this.value.remove()).setEnabled(!this.value.value().is_builtin),
-            sibut("assets/icons/fullscreen.png", () => this.centered.trigger(this.value.value())),
+            sibut("assets/icons/move.png", () => {
+                this.config.interaction_guard.set(new PlaceShortcut(this.config.value.value(), TileRectangle.center(Shortcuts.bounds(this.config.value.value())), null)
+                    .onCommit(n => this.config.value.set(Object.assign(n)))
+                    .onStart(() => this.config.associated_preview?.setOpacity(0))
+                    .onEnd(() => this.config.associated_preview?.setOpacity(1))
+                )
+            }).setEnabled(!this.config.ovalue?.value()?.is_builtin),
+            sibut("assets/icons/copy.png", () => this.config.edit_layer.startPlacement(this.config.value.value())).setEnabled(!!this.config.edit_layer),
+            sibut("assets/icons/delete.png", () => this.config.ovalue.remove()).setEnabled(this.config.ovalue && !this.config.ovalue.value().is_builtin),
+            sibut("assets/icons/fullscreen.png", () => this.config.centered_handler(this.config.value.value())).setEnabled(!!this.config.centered_handler),
         )
             .addClass('ctr-shortcut-edit-header')
-            .tapRaw(r => r.on("click", () => this.body.container.animate({"height": "toggle"})))
             .appendTo(this.header)
+
+        if (this.config.collapsible) {
+            header.container.on("click", () => this.body.container.animate({"height": "toggle"}))
+            header.css("cursor", "pointer")
+        }
 
         let props = new Properties()
 
-        let v = this.value.value()
+        let v = this.config.value.value()
 
         props.named("Name", new TextField()
             .setValue(v.name)
             .on("changed", v => {
-                this.value.update(o => o.name = v)
+                this.config.value.update(o => o.name = v)
             }))
 
         switch (v.type) {
@@ -99,20 +151,19 @@ class ShortcutEdit extends Widget {
                         .append(
                             new LightButton("Select")
                                 .on("click", () => {
-                                    this.edit_layer.interactionGuard.set(
+                                    this.config.interaction_guard.set(
                                         new DrawDoor({
                                             done_handler: (new_v) => {
-                                                this.value.update(() => {
+                                                this.config.value.update(() => {
                                                     assert(v.type == "door")
                                                     v.area = new_v.area
                                                     v.direction = new_v.direction
                                                 })
                                             }
-                                        }).onStart(() => {
-                                            this.associated_preview?.setOpacity(0)
-                                        }).onEnd(() => {
-                                            this.associated_preview?.setOpacity(1)
-                                        }).attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
+                                        })
+                                            .onStart(() => { this.config.associated_preview?.setOpacity(0) })
+                                            .onEnd(() => this.config.associated_preview?.setOpacity(1))
+                                            .attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
                                     )
                                 })))
 
@@ -126,34 +177,36 @@ class ShortcutEdit extends Widget {
                         .append(
                             new LightButton("Select")
                                 .on("click", () => {
-                                    this.edit_layer.interactionGuard.set(
-                                        new GameMapDragAction({
-                                            preview_render: (area) => {
-                                                assert(v.type == "entity")
+                                        this.config.interaction_guard.set(
+                                            new GameMapDragAction({
+                                                preview_render: (area) => {
+                                                    assert(v.type == "entity")
 
-                                                return ShortcutViewLayer.render_clickable(Rectangle.extend(area, 0.5), v.actions[0]?.cursor || "generic")
-                                            }
-                                        }).onStart(() => {
-                                            this.associated_preview?.config?.update(c => c.draw_clickable = false)
-                                        }).onEnd(() => {
-                                            this.associated_preview?.config?.update(c => c.draw_clickable = true)
-                                        }).onCommit(a => {
-                                            this.value.update(v => {
-                                                assert(v.type == "entity")
-                                                v.clickable_area = TileRectangle.extend(a, 0.5)
+                                                    return ShortcutViewLayer.render_clickable(Rectangle.extend(area, 0.5), v.actions[0]?.cursor || "generic")
+                                                }
                                             })
-                                        }).attachTopControl(new InteractionTopControl().setName("Selecting clickable area").setText("Click and drag a rectangle around the area that is clickable for this entity."))
-                                    )
-                                }))
+                                                .onStart(() => this.config.associated_preview?.config?.update(c => c.draw_clickable = false))
+                                                .onEnd(() => this.config.associated_preview?.config?.update(c => c.draw_clickable = true))
+                                                .onCommit(a => {
+                                                    this.config.value.update(v => {
+                                                        assert(v.type == "entity")
+                                                        v.clickable_area = TileRectangle.extend(a, 0.5)
+                                                    })
+                                                })
+                                                .attachTopControl(new InteractionTopControl().setName("Selecting clickable area").setText("Click and drag a rectangle around the area that is clickable for this entity."))
+                                        )
+                                    }
+                                ))
                 )
 
-                for (let action of v.actions) {
+                v.actions.forEach((action, action_i) => {
                     props.row(
                         c("<div style='display: flex'></div>")
-                            .append(c(`<div class='nisl-property-header' style="flex-grow: 1">${action.name}</div>`))
+                            .append(c(`<div class='nisl-property-header' style="flex-grow: 1">Action #${action_i + 1}: ${action.name}</div>`))
                             .append(SmallImageButton.new("assets/icons/delete.png")
+                                .setEnabled(!this.config.single_action)
                                 .on("click", () => {
-                                    this.value.update(v => {
+                                    this.config.value.update(v => {
                                         assert(v.type == "entity")
                                         v.actions.splice(v.actions.indexOf(action), 1)
                                     })
@@ -162,18 +215,18 @@ class ShortcutEdit extends Widget {
                     props.named("Name", new TextField()
                         .setValue(action.name)
                         .on("changed", v => {
-                            this.value.update(() => action.name = v)
+                            this.config.value.update(() => action.name = v)
                         }))
 
                     props.named("Cursor", new InteractionSelect()
                         .setValue(action.cursor)
                         .on("selection_changed", (v) => {
-                            this.value.update(() => action.cursor = v)
+                            this.config.value.update(() => action.cursor = v)
                         })
                     )
                     props.named("Ticks", new NumberInput(0, 100)
                         .setValue(action.time)
-                        .on("changed", (v) => this.value.update(() => action.time = v))
+                        .on("changed", (v) => this.config.value.update(() => action.time = v))
                     )
                     props.named("Area",
                         c("<div style='display: flex'></div>")
@@ -182,16 +235,14 @@ class ShortcutEdit extends Widget {
                             .append(
                                 new LightButton("Select")
                                     .on("click", () => {
-                                        this.edit_layer.interactionGuard.set(
+                                        this.config.interaction_guard.set(
                                             new GameMapDragAction({
                                                 preview_render: (area) => ShortcutViewLayer.render_interactive_area(area)
-                                            }).onStart(() => {
-                                                this.associated_preview?.config?.update(c => c.hidden_actions.push(action))
-                                            }).onEnd(() => {
-                                                this.associated_preview?.config?.update(c => c.hidden_actions = c.hidden_actions.filter(x => x != action))
-                                            }).onCommit(a => {
-                                                this.value.update(() => action.interactive_area = a)
-                                            }).attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
+                                            })
+                                                .onStart(() => this.config?.associated_preview?.config?.update(c => c.hidden_actions.push(action)))
+                                                .onEnd(() => this.config?.associated_preview?.config?.update(c => c.hidden_actions = c.hidden_actions.filter(x => x != action)))
+                                                .onCommit(a => this.config.value.update(() => action.interactive_area = a))
+                                                .attachTopControl(new InteractionTopControl().setName("Selecting interactive area").setText("Click and drag a rectangle around the area where this interaction can be triggered from."))
                                         )
                                     })))
                     props.named("Targeting", new DropdownSelection<"offset" | "fixed">({
@@ -203,7 +254,7 @@ class ShortcutEdit extends Widget {
                             .on("selection_changed", (v) => {
                                 switch (v) {
                                     case "offset": {
-                                        this.value.update(() => {
+                                        this.config.value.update(() => {
                                             if (action.movement.type == "fixed") {
                                                 action.movement = {
                                                     type: "offset",
@@ -214,7 +265,7 @@ class ShortcutEdit extends Widget {
                                         break;
                                     }
                                     case "fixed": {
-                                        this.value.update(() => {
+                                        this.config.value.update(() => {
                                             if (action.movement.type == "offset") {
                                                 action.movement = {
                                                     type: "fixed",
@@ -244,12 +295,12 @@ class ShortcutEdit extends Widget {
                                     .append(
                                         new LightButton("Draw")
                                             .on("click", () => {
-                                                this.edit_layer.interactionGuard.set(
+                                                this.config.interaction_guard.set(
                                                     new DrawOffset({}, action.interactive_area)
-                                                        .onStart(() => this.associated_preview?.config?.update(c => c.draw_target = false))
-                                                        .onEnd(() => this.associated_preview?.config?.update(c => c.draw_target = true))
+                                                        .onStart(() => this.config?.associated_preview?.config?.update(c => c.draw_target = false))
+                                                        .onEnd(() => this.config?.associated_preview?.config?.update(c => c.draw_target = true))
                                                         .onCommit((v) => {
-                                                            this.value.update(() => {
+                                                            this.config.value.update(() => {
                                                                 if (action.movement.type == "offset") {
                                                                     action.movement.offset = v.offset
                                                                 }
@@ -265,16 +316,16 @@ class ShortcutEdit extends Widget {
 
                             target_thing.append(new MapCoordinateEdit(
                                     action.movement.target,
-                                    () => this.edit_layer.interactionGuard.set(new SelectTileInteraction({
+                                    () => this.config.interaction_guard.set(new SelectTileInteraction({
                                             preview_render: (target) => ShortcutViewLayer
                                                 .render_transport_arrow(Rectangle.center(action.interactive_area, true), target, target.level - action.interactive_area.level)
                                                 .addLayer(ShortcutViewLayer.render_target_circle(target))
                                         })
-                                            .onStart(() => this.associated_preview?.config?.update(c => c.draw_target = false))
-                                            .onEnd(() => this.associated_preview?.config?.update(c => c.draw_target = true))
+                                            .onStart(() => this.config?.associated_preview?.config?.update(c => c.draw_target = false))
+                                            .onEnd(() => this.config?.associated_preview?.config?.update(c => c.draw_target = true))
                                             .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of this map connection."))
                                     )).on("changed", (v) => {
-                                    this.value.update(() => {
+                                    this.config.value.update(() => {
                                         if (action.movement.type == "fixed") action.movement.target = v
                                     })
                                 })
@@ -283,7 +334,7 @@ class ShortcutEdit extends Widget {
                             target_thing.append(C.hbox(
                                     new Checkbox().setValue(action.movement.relative)
                                         .on("changed", (v) => {
-                                            this.value.update(() => {
+                                            this.config.value.update(() => {
                                                 assert(action.movement.type == "fixed")
                                                 action.movement.relative = v
                                             })
@@ -296,7 +347,6 @@ class ShortcutEdit extends Widget {
 
                             break
                     }
-
 
                     let orientation_dropdown = new DropdownSelection<Shortcuts.shortcut_orientation_type>({
                         type_class: {
@@ -329,7 +379,7 @@ class ShortcutEdit extends Widget {
                         })
                     )) as Shortcuts.shortcut_orientation_type[])
                         .on("selection_changed", (v) => {
-                            this.value.update(() => {
+                            this.config.value.update(() => {
                                 if (v.type == "forced") {
                                     let old_relative = action.orientation.type == "forced"
                                         ? action.orientation.relative
@@ -349,7 +399,7 @@ class ShortcutEdit extends Widget {
                                 ? undefined
                                 : hbox(new Checkbox().setValue(action.orientation.relative)
                                         .on("changed", (v) => {
-                                            this.value.update(() => {
+                                            this.config.value.update(() => {
                                                 assert(action.orientation.type == "forced")
                                                 action.orientation.relative = v
                                             })
@@ -357,31 +407,37 @@ class ShortcutEdit extends Widget {
                                     C.span("Relative to shortcut?").tooltip("If checked, the forced direction will rotate with the shortcut.")
                                 )
                         ))
+                })
+
+                if (!this.config.single_action) {
+                    props.row(vbox(new LightButton("+ Add Action")
+                        .on("click", () => {
+                            this.config.value.update(v => {
+                                assert(v.type == "entity")
+
+                                v.actions.push({
+                                        cursor: v.actions[0]?.cursor || "generic",
+                                        interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
+                                        movement: {type: "offset", offset: {x: 0, y: 0, level: v.clickable_area.level}},
+                                        orientation: {type: "byoffset"},
+                                        name: v.actions[0]?.name || "Use",
+                                        time: v.actions[0]?.time || 3
+                                    }
+                                )
+                            })
+                        })).css("text-align", "center"))
                 }
-
-                props.row(vbox(new LightButton("+ Add Action")
-                    .on("click", () => {
-                        this.value.update(v => {
-                            assert(v.type == "entity")
-
-                            v.actions.push({
-                                    cursor: v.actions[0]?.cursor || "generic",
-                                    interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
-                                    movement: {type: "offset", offset: {x: 0, y: 0, level: v.clickable_area.level}},
-                                    orientation: {type: "byoffset"},
-                                    name: v.actions[0]?.name || "Use",
-                                    time: v.actions[0]?.time || 3
-                                }
-                            )
-                        })
-                    })).css("text-align", "center"))
 
 
                 break;
             }
         }
 
-        props.appendTo(this.body)
+        props
+            .appendTo(this
+
+                .body
+            )
     }
 }
 
@@ -447,17 +503,15 @@ export default class ShortcutEditSidePanel extends SidePanel {
             let existing = this.widgets.map(w => ({keep: false, w: w}))
 
             this.widgets = results.map(s => {
-                let e = existing.find(e => e.w.value == s)
+                let e = existing.find(e => e.w.config.value == s)
 
                 if (e) {
                     e.keep = true
                     return e.w
                 } else {
-                    let edit = new ShortcutEdit(s, this.editor.layer.view.getView(s), this.editor.layer).appendTo(this.result_container)
-
-                    edit.centered.on((v) => this.centered.trigger(v))
-
-                    return edit
+                    return ShortcutEdit.forEditor(s, this.editor.layer,
+                        (v) => this.centered.trigger(v)
+                    ).appendTo(this.result_container)
                 }
             })
 

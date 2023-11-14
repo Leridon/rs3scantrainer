@@ -48,6 +48,7 @@ import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
 import Checkbox from "../../../lib/ui/controls/Checkbox";
+import {ShortcutEdit} from "../shortcut_editing/ShortcutEditSidePanel";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -56,6 +57,8 @@ export class IssueWidget extends Widget {
 }
 
 class StepEditWidget extends Widget {
+
+    private shortcut_custom_open: boolean = false
 
     constructor(private parent: ControlWidget, public value: PathEditor.OValue) {
         super()
@@ -266,6 +269,45 @@ class StepEditWidget extends Widget {
                 )
 
                 break*/
+
+            case "shortcut_v2": {
+                let body: ShortcutEdit = ShortcutEdit.forSimple(value.raw.internal, this.parent.editor.interaction_guard,
+                    (v) => {
+                        this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Shortcuts.bounds(v))), {maxZoom: 4})
+                    })
+
+                if (!this.shortcut_custom_open) body.css("display", "none")
+                else body.config.associated_preview = new ShortcutViewLayer.ShortcutPolygon(body.config.value).addTo(this.value.value().associated_preview)
+
+                props.row(
+                    vbox(
+                        c().text(`${value.raw.internal.name} (Click to customize)`).css("cursor", "pointer")
+                            .tapRaw(r => r.on("click", () => {
+                                this.shortcut_custom_open = !this.shortcut_custom_open
+
+                                body.container.animate({"height": "toggle"})
+
+                                if (body.config.associated_preview) {
+                                    body.config.associated_preview.remove()
+                                    body.config.associated_preview = null
+                                } else {
+                                    body.config.associated_preview = new ShortcutViewLayer.ShortcutPolygon(body.config.value).addTo(this.value.value().associated_preview)
+                                }
+
+                            })),
+                        body
+                    ).css("max-width", "100%")
+                )
+
+                body.config.value.subscribe(s => {
+                    this.value.update(v => {
+                        assert(v.raw.type == "shortcut_v2")
+
+                        v.raw.internal = lodash.cloneDeep(s) as Shortcuts.entity_shortcut
+                    })
+                })
+            }
+                break;
             case "orientation":
                 props.named("Facing", new DirectionSelect()
                     .setValue(value.raw.direction)
@@ -447,6 +489,21 @@ class PathEditorGameLayer extends GameLayer {
                     .map(Shortcuts.normalize)
                     .forEach(s => {
                         s.actions.forEach(a => {
+                            event.add({
+                                type: "basic",
+                                text: `${s.name}: ${a.name}`,
+                                icon: InteractionType.meta(a.cursor).icon_url,
+                                handler: () => {
+                                    this.editor.value.create({
+                                        type: "shortcut_v2",
+                                        description: "",
+                                        internal: lodash.cloneDeep(s)
+                                    })
+                                }
+                            })
+
+
+                            /*
                             this.editor.value.augmented_value.value().path.post_state.position.tile
 
                             let start = this.editor.value.augmented_value.value().path.post_state.position.tile
@@ -482,7 +539,7 @@ class PathEditorGameLayer extends GameLayer {
                                         how: a.cursor
                                     })
                                 }
-                            })
+                            })*/
                         })
                     })
             }

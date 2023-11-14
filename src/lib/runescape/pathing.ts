@@ -121,7 +121,7 @@ export namespace Path {
         where: TileCoordinates
     }
 
-    export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
+    export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst | step_shortcut
 
     import index = util.index;
     import minIndex = util.minIndex;

@@ -20,7 +20,6 @@ import {tap} from "lodash";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import SidePanelControl from "../SidePanelControl";
-import {PathEditor} from "../pathedit/PathEditor";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 
 export class ShortcutEditGameLayer extends GameLayer {
@@ -77,7 +76,7 @@ export class ShortcutEditGameLayer extends GameLayer {
         )
     }
 
-    startPlacement(s: ShortcutEditor.Value, origin: TileCoordinates = null) {
+    startPlacement(s: Shortcuts.shortcut, origin: TileCoordinates = null) {
         if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s))
 
         this.interactionGuard.set(new PlaceShortcut(s, origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))

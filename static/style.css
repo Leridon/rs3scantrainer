@@ -1188,7 +1188,6 @@ video {
 }
 
 .ctr-shortcut-edit-header {
-    cursor: pointer;
     display: flex;
     font-weight: bold;
     padding: 3px;

@@ -201,7 +201,7 @@ class PreviewLayerControl extends Behaviour {
                     (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
 
-                PathingGraphics.renderPath(n.raw.path).addTo(layer);
+                if (n != a) PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
         } else {
@@ -302,6 +302,7 @@ export default class ScanEditor extends Behaviour {
         this.layer.spots.set(this.options.clue.solution.candidates)
         this.layer.spot_order.set(this.builder.tree.spot_ordering)
         this.layer.active_spots.bindTo(this.candidates_at_active_node)
+        this.layer.scan_range.set(assumedRange(this.builder.tree))
         this.options.map.addGameLayer(this.layer)
 
         this.panel.tree_edit.active_node.subscribe(async node => {

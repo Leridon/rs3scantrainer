@@ -502,11 +502,14 @@ class PathEditorGameLayer extends GameLayer {
                                 handler: () => {
                                     let t = this.editor.value.post_state.value()?.position?.tile
 
+                                    let clone = lodash.cloneDeep(s)
+                                    clone.actions = [lodash.cloneDeep(a)]
+
                                     this.editor.value.create(Path.auto_describe({
                                         type: "shortcut_v2",
-                                        assumed_start: t ? TileRectangle.clampInto(t, s.actions[0].interactive_area) : TileRectangle.center(s.actions[0].interactive_area),
+                                        assumed_start: t ? TileRectangle.clampInto(t, a.interactive_area) : TileRectangle.center(a.interactive_area),
                                         description: "",
-                                        internal: lodash.cloneDeep(s)
+                                        internal: clone
                                     }))
                                 }
                             })

@@ -41,13 +41,16 @@ export namespace ScanTree {
     }
 
     export namespace Augmentation {
+        import profileAsync = util.profileAsync;
+        import profile = util.profile;
         export type AugmentedScanTree = {
             raw: TreeWithClue,
             root_node: AugmentedScanTreeNode,
             state: {
                 paths_augmented: boolean
                 completeness_analyzed: boolean
-                correctness_analyzed: boolean
+                correctness_analyzed: boolean,
+                timing_analysis: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[]}[]
             }
         }
 
@@ -143,7 +146,8 @@ export namespace ScanTree {
                 state: {
                     paths_augmented: false,
                     completeness_analyzed: false,
-                    correctness_analyzed: false
+                    correctness_analyzed: false,
+                    timing_analysis: null
                 }
             }
 
@@ -254,10 +258,31 @@ export namespace ScanTree {
             return tree
         }
 
+        export function analyze_timing(tree: AugmentedScanTree): AugmentedScanTree {
+            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[]}[] = tree.raw.clue.solution.candidates.map(c => ({spot: c, timings: []}))
+
+            AugmentedScanTree.traverse(tree.root_node, (node) => {
+                if (node.children.length == 0) {
+                    let complete = node.remaining_candidates.length == 1
+
+                    node.remaining_candidates.forEach(c => {
+                        let t = timings.find(t => TileCoordinates.eq2(t.spot, c))
+
+                        t.timings.push({ticks: node.path.post_state.tick, incomplete: !complete})
+                    })
+                }
+            })
+
+            tree.state.timing_analysis = timings
+
+            return tree
+        }
+
         export async function augment(options: {
             augment_paths?: boolean,
             analyze_correctness?: boolean,
             analyze_completeness?: boolean,
+            analyze_timing?: boolean,
         }, tree: TreeWithClue) {
 
             let augmented = basic_augmentation(tree)
@@ -265,6 +290,7 @@ export namespace ScanTree {
             if (options.augment_paths) await path_augmentation(augmented)
             if (options.analyze_correctness) analyze_correctness(augmented)
             if (options.analyze_completeness) analyze_completeness(augmented)
+            if (options.analyze_timing) analyze_timing(augmented)
 
             return augmented
         }

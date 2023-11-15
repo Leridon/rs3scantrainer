@@ -232,6 +232,18 @@ export namespace Path {
                     else return teleport_data.resolveTarget(step.id)
                 case "interaction":
                     return step.ends_up
+                case "shortcut_v2":
+                    let start_tile = step.assumed_start
+                    let action = step.internal.actions[0]
+
+                    switch (action.movement.type) {
+                        case "offset":
+                            return TileCoordinates.move(start_tile, action.movement.offset)
+                            break;
+                        case "fixed":
+                            return action.movement.target
+                    }
+                    break
                 case "redclick":
                 case "orientation":
                 case "powerburst":

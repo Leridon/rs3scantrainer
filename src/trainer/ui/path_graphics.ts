@@ -47,6 +47,8 @@ export namespace PathGraphics {
                 return PathGraphics.Teleport.asSpan(tele)
             case "interaction":
                 return text_icon(InteractionType.meta(step.how).icon_url)
+            case "shortcut_v2":
+                return text_icon(InteractionType.meta(step.internal.actions[0].cursor).icon_url)
             case "redclick":
                 return text_icon('assets/icons/redclick.png')
             case "powerburst":
@@ -111,6 +113,8 @@ export namespace PathingGraphics {
             case "interaction":
             case "redclick":
                 return `{{icon ${InteractionType.meta(step.how).short_icon}}}`
+            case "shortcut_v2":
+                return `{{icon ${InteractionType.meta(step.internal.actions[0].cursor).short_icon}}}`
         }
     }
 

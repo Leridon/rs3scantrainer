@@ -58,9 +58,7 @@ export default class ScanEditPanel extends SidePanel {
 
                             return withClue(i, this.parent.options.clue)
                         })
-                            .then((obj: ScanTreeWithClue) => {
-                                // TODO: Reimplement import/set value
-                            })
+                            .then((obj: ScanTreeWithClue) => this.parent.builder.set(obj))
                     }),
 
                 new LightButton("Try")

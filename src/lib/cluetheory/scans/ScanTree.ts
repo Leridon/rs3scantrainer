@@ -7,6 +7,7 @@ import {util} from "../../util/util";
 import {ScanTheory} from "./Scans";
 import {TileRectangle} from "../../runescape/coordinates";
 import {TileCoordinates} from "../../runescape/coordinates";
+import Checks from "../../../skillbertssolver/typecheck";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;
@@ -311,34 +312,41 @@ export namespace ScanTree {
         }
 
         export namespace AugmentedScanTree {
+            import int = Checks.int;
+
             export function decision_string(node: AugmentedScanTreeNode): string {
 
-                if (!node.parent) return "Start"
-                else {
-                    let region_name = node.parent.node.region?.name || ""
+                let internal = (() => {
+                    if (!node.parent) return "Start"
+                    else {
+                        let region_name = node.parent.node.region?.name || ""
 
-                    let type = node.parent.key
-                    let context = node.parent.node.children.map(c => c.key)
+                        let type = node.parent.key
+                        let context = node.parent.node.children.map(c => c.key)
 
-                    // Use the full word when it's not "different level"
-                    if (!type.different_level) {
-                        if (util.count(context, (p => p.different_level)) == context.length - 1) {
-                            // Is the only non-different level
-                            if (region_name.length > 0) return `${region_name},Far`
-                            else return "Far"
-                        } else return `${region_name}${type.pulse.toString()}`
-                    } else {
-                        let counterpart_exists = context.some(p => p.pulse == type.pulse && !p.different_level)
+                        // Use the full word when it's not "different level"
+                        if (!type.different_level) {
+                            if (util.count(context, (p => p.different_level)) == context.length - 1) {
+                                // Is the only non-different level
+                                if (region_name.length > 0) return `${region_name},Far`
+                                else return "Far"
+                            } else return `${region_name}${type.pulse.toString()}`
+                        } else {
+                            let counterpart_exists = context.some(p => p.pulse == type.pulse && !p.different_level)
 
-                        if (!counterpart_exists) return type.pulse.toString() // If the non-different level counterpart does not exist, just use the pretty string
+                            if (!counterpart_exists) return type.pulse.toString() // If the non-different level counterpart does not exist, just use the pretty string
 
-                        if (util.count(context, (p => p.different_level)) == 1) {
-                            // Is the only different level
-                            if (region_name.length > 0) return `${region_name},DL`
-                            else return "DL"
-                        } else return `${region_name}${type.pulse}DL`
+                            if (util.count(context, (p => p.different_level)) == 1) {
+                                // Is the only different level
+                                if (region_name.length > 0) return `${region_name},DL`
+                                else return "DL"
+                            } else return `${region_name}${type.pulse}DL`
+                        }
                     }
-                }
+                })()
+
+                if (node.remaining_candidates.length == 1) return `${internal}: Sp. ${spotNumber(node.root.raw, node.remaining_candidates[0])}`
+                else return internal
             }
 
             export function collect_parents(node: AugmentedScanTreeNode, include_node: boolean = true): AugmentedScanTreeNode[] {

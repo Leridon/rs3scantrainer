@@ -22,6 +22,9 @@ import {observe} from "../../../lib/reactive";
 import {ValueInteraction} from "../../../lib/gamemap/interaction/ValueInteraction";
 import ScanRegion = ScanTree.ScanRegion;
 import InteractionTopControl from "../map/InteractionTopControl";
+import {C} from "../../../lib/ui/constructors";
+import span = C.span;
+import spacer = C.spacer;
 
 class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -156,7 +159,22 @@ class TreeNodeEdit extends Widget {
         {
             let self = this
 
-            let decision_path_text = AugmentedScanTree.collect_parents(node).map(n => "/" + AugmentedScanTree.decision_string(n)).join("")
+            let decision_path_text = ""
+
+            let parents = AugmentedScanTree.collect_parents(node)
+
+            const LIMIT = 20
+
+            for (let i = parents.length - 1; i >= 0; i--) {
+                let next = AugmentedScanTree.decision_string(parents[i])
+
+                if (decision_path_text.length + next.length >= LIMIT && i > 0) {
+                    decision_path_text = "..." + decision_path_text
+                    break
+                } else decision_path_text = "/" + next + decision_path_text
+            }
+
+
             let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.parent.builder.tree, c)),
                 (n) => `<span class="ctr-digspot-inline">${n}</span>`
             ), "and")
@@ -177,19 +195,16 @@ class TreeNodeEdit extends Widget {
                 }))
 
             this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
-                .tapRaw(r => r.on("click", () => {
-                    this.parent.setActiveNode(this.isActive() ? null : this)
-                }))
+                .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
 
             this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
                 .append(this.you_are_here_marker)
                 .append(collapse_control)
-                .append(c(`<span class='nisl-textlink' style="flex-grow: 1">${decision_path_text}: </span>`).tooltip("Load decisions into map")
-                    .tapRaw(r => r.on("click", () => {
-                        this.parent.setActiveNode(this.isActive() ? null : this)
-                    }))
+                .append(c(`<span class='nisl-textlink'>${decision_path_text}: </span>`).tooltip("Load decisions into map")
+                    .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
                 )
-                .append(c(`<span>${util.plural(node.remaining_candidates.length, "spot")}</span>`)
+                .append(spacer())
+                .append(span(`${node.remaining_candidates.length}`)
                     //.addClass(ScanTree.completeness_meta(node.completeness).cls)
                     .addTippy(c(`<span>${spot_text}</span>`))
                 )
@@ -293,7 +308,7 @@ export default class TreeEdit extends Widget {
 
         this.parent.parent.builder.augmented.subscribe(async (tree) => {
             if (tree) {
-                if(this.root_widget) this.root_widget.renderValue(tree.root_node)
+                if (this.root_widget) this.root_widget.renderValue(tree.root_node)
                 else this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this)
             }
         }, true)

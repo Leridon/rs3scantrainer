@@ -1,8 +1,5 @@
 Immediate next:
 
-[Bug] In some circumstances, keyboard events don't reach the interaction
-
-
 - Scan Editor
     - New solution for setting spot order
     - [Bug] Weird scaling of active node marker
@@ -15,12 +12,40 @@ Immediate next:
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
     - [Bug] Context Menu and other tooltips are displayed behind controls.
 
+- Scan Trainer
+    - Content
+        - Fremmenik Isles
+        - Ardounge
+        - Brimhaven
+        - Darkmeyer
+        - Dorgesh-aan
+        - Falador
+        - Slayer Dungeon
+        - Haunted Woods
+        - Heart of gielinor
+        - Elven lands
+        - Turtle Islands
+        - Keldagrim
+        - Kharazi Jungle
+        - Swamp Caves
+        - Menaphos
+        - Mos Le' Harmless
+        - Piscatoris
+        - Prif
+        - Taverley Dungeon
+        - Varrock
+        - Deep Wilderness
+        - Wilderness Crater
+        - Zanaris
+
 - Other
+    - [Bug] In some circumstances, keyboard events don't reach the interaction
     - Make fit include the entire path
     - Include icon of interaction for redclick graphics
     - [Bug] Template resolver hangs for some inputs
     - Autosort for path edit
     - Hover to highlight path
+
 
 Ready for release:
 - [Presentation] reenable walls on the map.
@@ -40,8 +65,6 @@ Planned for next release (b0.4):
     - Define a graphical representation for each one.
     - Add an editor/Unified way to show paths
 - Finish all elite/master scans
-
-
 
 - [Tooling] Styling pass over the scan editor
     - Better placement of information marker to guaranteee it's always inside the area.

@@ -195,7 +195,8 @@ class PreviewLayerControl extends Behaviour {
         let layer = new OpacityGroup()
 
         if (a) {
-            for (const n of AugmentedScanTree.collect_parents(a, false)) {
+            for (const n of AugmentedScanTree.collect_parents(a, true)) {
+
                 if (n.raw.region) {
                     (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
@@ -204,7 +205,7 @@ class PreviewLayerControl extends Behaviour {
             }
 
         } else {
-            if(this.parent.panel.tree_edit.root_widget) {
+            if (this.parent.panel.tree_edit.root_widget) {
                 AugmentedScanTree.traverse(this.parent.panel.tree_edit.root_widget.node, async (n) => {
                     if (n.raw.region) {
                         (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)

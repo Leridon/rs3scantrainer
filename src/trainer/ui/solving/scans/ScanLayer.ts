@@ -192,24 +192,6 @@ export class ScanLayer extends GameLayer {
                 m.index.set(i < 0 ? null : i + 1)
             })
         })
-
-        /*
-
-        if (!window.alt1) {  // Only if not Alt1, because is lags heavily inside
-            if (options.show_edit_button && !app.in_alt1)
-                this.addControl(new ImageButton("assets/icons/edit.png", {
-                    "click": (e) => {
-                        this.app.behaviour.set(new ScanEditor(this.app, {clue: this.clue, map: this.app.map.map, initial: this.getTree()}))
-
-                        // TODO: Switch to ScanEditor Behaviour
-
-
-                        //this.map.setActiveLayer(new ScanEditLayer(this.clue, this.app, indirect(this.getTree())))
-                    }
-                }, {
-                    title: "Edit scan route (Advanced)"
-                }).setPosition("topright"))
-        }*/
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {

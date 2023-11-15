@@ -29,6 +29,7 @@ import {Scans} from "../../../lib/runescape/clues/scans";
 import Pulse = Scans.Pulse;
 import * as assert from "assert";
 import Order = util.Order;
+import decision_string = ScanTree.Augmentation.AugmentedScanTree.decision_string;
 
 class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -68,7 +69,10 @@ class RegionEdit extends Widget {
                 .setValue(this.parent.node.raw.region.name)
                 .on("hint", (v) => {
                     this.parent.node.raw.region.name = v
-                    this.parent.region_preview.setRegion(this.parent.node.raw.region)
+                    this.parent.region_preview?.setRegion(this.parent.node.raw.region)
+                })
+                .on("changed", (v) => {
+                    this.parent.parent.parent.parent.builder.setRegion(this.parent.node.raw, {area: this.parent.node.region.area, name: v})
                 })
                 .css("flex-grow", "1")
                 .appendTo(this)
@@ -147,8 +151,10 @@ class TreeNodeEdit extends Widget {
     child_content: Widget
     completeness_marker: Widget
     correctness_marker: Widget
+    description_input: TemplateStringEdit = null
     region_edit: RegionEdit = null
     path_property: PathProperty = null
+    decision_span: Widget = null
 
     is_collapsed: boolean = false
 
@@ -162,23 +168,6 @@ class TreeNodeEdit extends Widget {
 
         {
             let self = this
-
-            let decision_path_text = ""
-
-            let parents = AugmentedScanTree.collect_parents(node)
-
-            const LIMIT = 20
-
-            for (let i = parents.length - 1; i >= 0; i--) {
-                let next = i > 0
-                    ? AugmentedScanTree.decision_string(parents[i])
-                    : ""
-                
-                if (decision_path_text.length + next.length >= LIMIT && i > 0) {
-                    decision_path_text = "..." + decision_path_text
-                    break
-                } else decision_path_text = "/" + next + decision_path_text
-            }
 
 
             let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.parent.builder.tree, c)),
@@ -206,7 +195,7 @@ class TreeNodeEdit extends Widget {
             this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
                 .append(this.you_are_here_marker)
                 .append(collapse_control)
-                .append(c(`<span class='nisl-textlink'>${decision_path_text}: </span>`).tooltip("Load decisions into map")
+                .append(this.decision_span = c(`<span class='nisl-textlink'></span>`).tooltip("Load decisions into map")
                     .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
                 )
                 .append(spacer())
@@ -229,7 +218,7 @@ class TreeNodeEdit extends Widget {
         }
 
         this.body.named("Direction",
-            new TemplateStringEdit({
+            this.description_input = new TemplateStringEdit({
                 resolver: this.parent.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)),
                 generator: () => {
                     let path_short =
@@ -244,7 +233,6 @@ class TreeNodeEdit extends Widget {
             })
                 .on("changed", (v) => {
                     this.node.raw.directions = v
-                    //this.changed(this.value) // TODO:
                 })
                 .setValue(this.node.raw.directions)
         )
@@ -258,6 +246,29 @@ class TreeNodeEdit extends Widget {
 
     renderValue(node: AugmentedScanTreeNode) {
         this.node = node
+
+        this.description_input.setResolver(this.parent.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)))
+
+        {
+            let decision_path_text = ""
+
+            let parents = AugmentedScanTree.collect_parents(node)
+
+            const LIMIT = 20
+
+            for (let i = parents.length - 1; i >= 0; i--) {
+                let next = i > 0
+                    ? AugmentedScanTree.decision_string(parents[i])
+                    : ""
+
+                if (decision_path_text.length + next.length >= LIMIT && i > 0) {
+                    decision_path_text = "..." + decision_path_text
+                    break
+                } else decision_path_text = "/" + next + decision_path_text
+            }
+
+            this.decision_span.text(`${decision_path_text}: `)
+        }
 
         if (this.completeness_marker) this.completeness_marker.remove()
         if (this.correctness_marker) this.correctness_marker.remove()

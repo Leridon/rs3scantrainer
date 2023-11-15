@@ -3,6 +3,8 @@ import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Transform, Vector2} from "../math";
 import * as pako from "pako"
+import {Raster} from "../util/raster";
+import {Browser} from "leaflet";
 
 type TileMovementData = number
 
@@ -45,7 +47,7 @@ export class HostedMapData implements MapData {
     private async fetch(file_x: number, file_z: number, floor: number): Promise<Uint8Array> {
         let a = await fetch(`map/collision-${file_x}-${file_z}-${floor}.bin`)
 
-        return new Uint8Array(pako.inflate(await a.arrayBuffer())) // TODO: Inflate
+        return new Uint8Array(pako.inflate(await a.arrayBuffer()))
     }
 
     private constructor() {
@@ -85,12 +87,23 @@ export class HostedMapData implements MapData {
     }
 }
 
-export type direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+export class ClearMapData implements MapData {
+    getTile(coordinate: TileCoordinates): Promise<TileMovementData> {
+        return Promise.resolve(255);
+    }
+}
+
+export type direction = direction.none | direction.cardinal | direction.ordinal
 
 export namespace direction {
-    export const cardinal: direction[] = [1, 2, 3, 4]
-    export const diagonal: direction[] = [5, 6, 7, 8]
-    export const all: direction[] = [1, 2, 3, 4, 5, 6, 7, 8]
+    import retina = Browser.retina;
+    export type cardinal = 1 | 2 | 3 | 4
+    export type ordinal = 5 | 6 | 7 | 8
+    export type none = 0
+
+    export const cardinals: cardinal[] = [1, 2, 3, 4]
+    export const ordinals: ordinal[] = [5, 6, 7, 8]
+    export const all: (cardinal | ordinal)[] = [1, 2, 3, 4, 5, 6, 7, 8]
 
     const vectors: Vector2[] = [
         {x: 0, y: 0},   // 0 center
@@ -104,9 +117,20 @@ export namespace direction {
         {x: -1, y: -1}, // 8 botleft
     ]
 
+    export function invert(d: cardinal): cardinal
+    export function invert(d: ordinal): ordinal
+    export function invert(d: none): none
+    export function invert(d: direction): direction
     export function invert(d: direction): direction {
-        // Could do something smart here, but a lookup table is easier and faster
         return [0, 3, 4, 1, 2, 7, 8, 5, 6][d] as direction
+    }
+
+    export function isCardinal(dir: direction): dir is cardinal {
+        return dir >= 1 && dir <= 4
+    }
+
+    export function isOrdinal(dir: direction): dir is ordinal {
+        return dir >= 5
     }
 
     export function toVector(d: direction): Vector2 {
@@ -114,12 +138,14 @@ export namespace direction {
     }
 
     export function fromDelta(v: Vector2): direction {
-        return vectors.findIndex((c) => Vector2.eq(c, v)) as direction
+        return [
+            [8, 4, 7],
+            [1, 0, 3],
+            [5, 2, 6],
+        ][v.y + 1][v.x + 1] as direction
     }
 
     export function fromVector(v: Vector2): direction {
-        const E = -1
-
         // There is most likely a better solution, but this is enough for now
         // It's an 23 by 23 box where real click are clamped into.
         const lookup_table = [
@@ -161,15 +187,15 @@ export namespace direction {
 
     export function toString(dir: direction): string {
         return [
-            "center",
-            "west",
-            "north",
-            "east",
-            "south",
-            "north-west",
-            "north-east",
-            "south-east",
-            "south-west"
+            "Center",
+            "West",
+            "North",
+            "East",
+            "South",
+            "North-West",
+            "North-East",
+            "South-East",
+            "South-West"
         ][dir]
     }
 
@@ -187,13 +213,28 @@ export namespace direction {
         ][dir]
     }
 
-    export const west = 1
-    export const north = 2
-    export const east = 3
-    export const south = 4
+    export const center: none = 0
+    export const west: cardinal = 1
+    export const north: cardinal = 2
+    export const east: cardinal = 3
+    export const south: cardinal = 4
+    export const northwest: ordinal = 5
+    export const northeast: ordinal = 6
+    export const southeast: ordinal = 7
+    export const southwest: ordinal = 8
 
     export function transform(direction: direction, transform: Transform): direction {
         return fromVector(Vector2.snap(Vector2.transform(toVector(direction), transform)))
+    }
+
+    export function split(dir: ordinal): [cardinal, cardinal] {
+        return ([
+            [north, west],
+            [north, east],
+            [south, east],
+            [south, west]
+        ] as [cardinal, cardinal][]) [dir - 5]
+
     }
 }
 
@@ -284,10 +325,9 @@ export namespace PathFinder {
 
         let p = helper(tile).map((c) => lodash.clone(c.coords as TileCoordinates))
 
-        // TODO: Reduce path to necessary waypoints
         p.forEach(l => l.level = state.start.level)
 
-        return p
+        return cleanWaypoints(p)
     }
 
     export async function find(state: state, target: TileCoordinates): Promise<TileCoordinates[] | null> {
@@ -304,7 +344,7 @@ export namespace PathFinder {
 
         // Check if the target tile can be reached from any of its direct neighbours
         // If not, do not even search for a path.
-        let reachable_at_all = ([1, 2, 3, 4] as direction[]).some((d) => canMove(state.data, move(target, direction.toVector(d)), direction.invert(d)))
+        let reachable_at_all = direction.cardinals.some((d) => canMove(state.data, move(target, direction.toVector(d)), direction.invert(d)))
 
         if (!reachable_at_all) {
             state.tiles.set(target_i, {parent: null, unreachable: true})
@@ -321,6 +361,55 @@ export namespace PathFinder {
 
         return get(state, target_i)
     }
+
+    export function idealPath(from: TileCoordinates, to: TileCoordinates): TileCoordinates[] {
+        if (from.level != to.level) return null
+
+        let delta = Vector2.sub(to, from)
+        let abs_delta = Vector2.abs(delta)
+
+        let checkpoint = Vector2.add(from,
+            abs_delta.x >= abs_delta.y
+                ? {x: Math.sign(delta.x) * (abs_delta.x - abs_delta.y), y: 0}
+                : {x: 0, y: Math.sign(delta.y) * (abs_delta.y - abs_delta.x)}
+        )
+
+
+        return [from, TileCoordinates.lift(checkpoint, from.level), to]
+    }
+
+    export function cleanWaypoints(s: TileCoordinates[]): TileCoordinates[] {
+        let new_waypoints: TileCoordinates[] = []
+
+        let last_dir: direction = direction.center
+        let last_non_committed: TileCoordinates = s[0]
+
+        for (let i = 1; i < s.length; i++) {
+            let dir = direction.fromDelta(Vector2.sign(Vector2.sub(s[i], last_non_committed)))
+
+            if (dir != last_dir) {
+                new_waypoints.push(last_non_committed)
+                last_non_committed = s[i]
+                last_dir = dir
+            }
+
+            last_non_committed = s[i]
+        }
+
+        new_waypoints.push(last_non_committed)
+
+        return new_waypoints
+    }
+
+    export function pathLength(s: TileCoordinates[]): number {
+        let distance = 0
+
+        for (let i = 0; i < s.length - 1; i++) {
+            distance += TileCoordinates.distance(s[i], s[i + 1])
+        }
+
+        return distance
+    }
 }
 
 
@@ -333,11 +422,93 @@ export namespace MovementAbilities {
         raster: Raster<{
             reachable?: boolean
         }>
-    }
+    }*/
 
-    async function fill_raster(data: MapData,
-                               state: Raster<any>
-    )*/
+    export async function possibility_raster(origin: TileCoordinates): Promise<Raster<boolean>> {
+        const range = 10
+
+        let raster = new Raster<boolean>(Rectangle.centeredOn(origin, 10), () => false)
+
+        type actor = {
+            position: TileCoordinates,
+            movement: direction.ordinal | direction.cardinal
+        }
+
+        async function handle(actor: actor): Promise<void> {
+            raster.set(actor.position, true)
+
+            let delta = Vector2.abs(Vector2.sub(actor.position, origin))
+
+            let movement_in_range = {
+                x: delta.x < range,
+                y: delta.y < range
+            }
+            // TODO: Potentially replace direct recursions with loops
+
+            if (direction.isCardinal(actor.movement)) {
+
+                if (movement_in_range.y && movement_in_range.x && await canMove(HostedMapData.get(), actor.position, actor.movement)) {
+                    await handle({
+                        position: TileCoordinates.move(actor.position, direction.toVector(actor.movement)),
+                        movement: actor.movement
+                    })
+                }
+            } else {
+                let [north_south, east_west] = direction.split(actor.movement)
+
+                if (movement_in_range.x && movement_in_range.y && await canMove(HostedMapData.get(), actor.position, actor.movement)) {
+                    await handle({
+                        position: TileCoordinates.move(actor.position, direction.toVector(actor.movement)),
+                        movement: actor.movement
+                    })
+
+                    // Create vertical mirror actor
+                    if (await canMove(HostedMapData.get(), actor.position, north_south)) {
+                        await handle({
+                            position: TileCoordinates.move(actor.position, direction.toVector(north_south)),
+                            movement: north_south
+                        })
+                    }
+
+                    // Create horizontal mirror actor
+                    if (await canMove(HostedMapData.get(), actor.position, east_west)) {
+                        await handle({
+                            position: TileCoordinates.move(actor.position, direction.toVector(east_west)),
+                            movement: east_west
+                        })
+                    }
+                } else if (movement_in_range.x && await canMove(HostedMapData.get(), actor.position, east_west)) {
+                    await handle({
+                        position: TileCoordinates.move(actor.position, direction.toVector(east_west)),
+                        movement: actor.movement
+                    })
+
+                    // Create vertical mirror actor
+                    if (await canMove(HostedMapData.get(), actor.position, north_south)) {
+                        await handle({
+                            position: TileCoordinates.move(actor.position, direction.toVector(north_south)),
+                            movement: north_south
+                        })
+                    }
+
+                } else if (movement_in_range.y && await canMove(HostedMapData.get(), actor.position, north_south)) {
+                    await handle({
+                        position: TileCoordinates.move(actor.position, direction.toVector(north_south)),
+                        movement: actor.movement
+                    })
+                }
+            }
+        }
+
+        for (let dir of direction.ordinals) {
+            await handle({
+                position: origin,
+                movement: dir
+            })
+        }
+
+        return raster
+    }
 
     async function dive_internal(data: MapData, position: TileCoordinates, target: TileCoordinates): Promise<PlayerPosition | null> {
         // This function does not respect any max distances and expects the caller to handle that.
@@ -360,12 +531,10 @@ export namespace MovementAbilities {
         if (dia.x != 0) choices.push({delta: {x: dia.x, y: 0}, dir: direction.fromDelta({x: dia.x, y: 0})})
         if (dia.y != 0) choices.push({delta: {x: 0, y: dia.y}, dir: direction.fromDelta({x: 0, y: dia.y})})
 
-        let dir_if_success = direction.fromVector(Vector2.sub(target, position))
-
         while (true) {
             if (Vector2.eq(position, target)) return {
                 tile: position,
-                direction: dir_if_success
+                direction: direction.fromVector(Vector2.sub(target, position))
             }
 
             let next: TileCoordinates = null

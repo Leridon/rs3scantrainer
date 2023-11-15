@@ -7,7 +7,7 @@ import {TeleportLayer} from "lib/gamemap/defaultlayers/TeleportLayer";
 import {Teleports} from "lib/runescape/teleports";
 import {ClueIndex, ClueStep, ClueTier, ClueType, ScanStep} from "lib/runescape/clues";
 import {MethodIndex} from "data/accessors";
-import {GameMapWidget} from "lib/gamemap/GameMap";
+import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "lib/util/exportString";
@@ -21,6 +21,24 @@ import {SolvingMethods} from "./model/methods";
 import SolveBehaviour from "./ui/solving/SolveBehaviour";
 import MethodWithClue = SolvingMethods.MethodWithClue;
 import {ShortcutEditor} from "./ui/shortcut_editing/ShortcutEditor";
+import GameLayer from "../lib/gamemap/GameLayer";
+
+
+class SimpleLayerBehaviour extends Behaviour {
+    constructor(private map: GameMap, private layer: GameLayer) {
+        super();
+    }
+
+    protected begin() {
+        this.map.addGameLayer(this.layer)
+    }
+
+    protected end() {
+        this.layer.remove()
+    }
+
+
+}
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
@@ -75,7 +93,7 @@ export namespace ScanTrainerCommands {
             types: (tiers: ClueType[]) => tiers.join(",")
         },
         instantiate: ({tiers, types}) => (app: Application): void => {
-            app.map.map.setActiveLayer(new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app))
+            app.behaviour.set(new SimpleLayerBehaviour(app.map.map, new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app)))
         },
     }
 

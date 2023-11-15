@@ -1,4 +1,5 @@
 import {ewent, Ewent} from "./Ewent";
+import {observe} from "./index";
 
 export interface Observable<T> {
     changed: Ewent<{ value: T, old?: T }>
@@ -6,6 +7,7 @@ export interface Observable<T> {
     value(): T
 
     set(v: T): void
+    update(f: (v: T) => void): void
 
     subscribe(handler: (new_value: T, old: T) => any, trigger_once?: boolean): this
 
@@ -79,6 +81,17 @@ export namespace Observable {
 
             this._value = v
         }
+    }
+
+    type ex<T> = T extends Observable<infer U> ? U : never
+    export function observe_combined<T extends Record<string, Observable<any>>>(o: T): Observable<{ [key in keyof T]?: ex<T[key]> }> {
+        let obs: Simple<{ [key in keyof T]?: ex<T[key]> }> = observe({})
+
+        for (let key in o) {
+            o[key].subscribe(v => obs.update(observed => observed[key] = v), true)
+        }
+
+        return obs
     }
 }
 

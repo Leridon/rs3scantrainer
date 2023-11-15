@@ -1,14 +1,15 @@
-import {direction, MovementAbilities, PlayerPosition} from "./movement";
+import {direction, MovementAbilities, PathFinder, PlayerPosition} from "./movement";
 import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
 import * as lodash from "lodash"
 import {teleport_data} from "data/teleport_data";
 import {Teleports} from "./teleports";
-import {Vector2} from "../math";
+import {Rectangle, Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
-import * as L from "leaflet"
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
+import {Shortcuts} from "./shortcuts";
+import {stat} from "copy-webpack-plugin/types/utils";
 
 export type Path = Path.raw;
 
@@ -42,52 +43,33 @@ export namespace Path {
 
     export namespace InteractionType {
 
-        export function all(): InteractionType[] {
+        export type Meta = { type: InteractionType, icon_url: string, description: string, short_icon: string }
+
+        export function all(): Meta[] {
             return [
-                "generic", "chop", "talk", "open", "enter", "spellonentity", "agility_obstacle", "ladderdown", "ladderup",
-                "read", "fish", "search", "attack", "craft", "build", "mine", "trade", "use"
+                {type: "generic", icon_url: "assets/icons/cursor_generic.png", description: "Click", short_icon: "cursor_generic"},
+                {type: "chop", icon_url: "assets/icons/cursor_chop.png", description: "Chop", short_icon: "cursor_chop"},
+                {type: "talk", icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"},
+                {type: "open", icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"},
+                {type: "enter", icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"},
+                {type: "spellonentity", icon_url: "assets/icons/cursor_spell.png", description: "Use spell", short_icon: "cursor_spell"},
+                {type: "agility_obstacle", icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"},
+                {type: "ladderdown", icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"},
+                {type: "ladderup", icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"},
+                {type: "read", icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"},
+                {type: "fish", icon_url: "assets/icons/cursor_fish.png", description: "Fish", short_icon: "cursor_fish"},
+                {type: "search", icon_url: "assets/icons/cursor_search.png", description: "Search", short_icon: "cursor_search"},
+                {type: "attack", icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"},
+                {type: "craft", icon_url: "assets/icons/cursor_craft.png", description: "Craft at", short_icon: "cursor_craft"},
+                {type: "build", icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"},
+                {type: "mine", icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"},
+                {type: "trade", icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"},
+                {type: "use", icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
             ]
         }
 
-        export function meta(type: InteractionType): { icon_url: string, description: string, short_icon: string } {
-            switch (type) {
-                case "generic":
-                    return {icon_url: "assets/icons/cursor_generic.png", description: "Click", short_icon: "cursor_generic"}
-                case "chop":
-                    return {icon_url: "assets/icons/cursor_chop.png", description: "Chop", short_icon: "cursor_chop"}
-                case "talk":
-                    return {icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"}
-                case "open":
-                    return {icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"}
-                case "enter":
-                    return {icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"}
-                case "spellonentity":
-                    return {icon_url: "assets/icons/cursor_spell.png", description: "Use spell", short_icon: "cursor_spell"}
-                case "agility_obstacle":
-                    return {icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"}
-                case "ladderdown":
-                    return {icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"}
-                case "ladderup":
-                    return {icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"}
-                case "read":
-                    return {icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"}
-                case "fish":
-                    return {icon_url: "assets/icons/cursor_fish.png", description: "Fish", short_icon: "cursor_fish"}
-                case "search":
-                    return {icon_url: "assets/icons/cursor_search.png", description: "Search", short_icon: "cursor_search"}
-                case "attack":
-                    return {icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"}
-                case "craft":
-                    return {icon_url: "assets/icons/cursor_craft.png", description: "Craft at", short_icon: "cursor_craft"}
-                case "build":
-                    return {icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"}
-                case "mine":
-                    return {icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"}
-                case "trade":
-                    return {icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"}
-                case "use":
-                    return {icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
-            }
+        export function meta(type: InteractionType): Meta {
+            return all().find(s => s.type == type)
         }
     }
 
@@ -124,6 +106,12 @@ export namespace Path {
         how: InteractionType
     }
 
+    export type step_shortcut = step_base & {
+        type: "shortcut_v2",
+        assumed_start: TileCoordinates,
+        internal: entity_shortcut
+    }
+
     export type step_redclick = step_base & {
         type: "redclick",
         where: TileCoordinates,
@@ -135,12 +123,13 @@ export namespace Path {
         where: TileCoordinates
     }
 
-    export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst
+    export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst | step_shortcut
 
     import index = util.index;
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
     import capitalize = util.capitalize;
+    import entity_shortcut = Shortcuts.entity_shortcut;
 
     export type movement_state = {
         tick: number,
@@ -201,6 +190,16 @@ export namespace Path {
         steps: augmented_step[],
         issues: issue[],
         target: TileRectangle | null
+    }
+
+    export namespace augmented {
+        export function step_bounds(step: augmented_step): Rectangle {
+            return Rectangle.combine(Path.step_bounds(step.raw), Rectangle.from(step.pre_state.position.tile, step.post_state.position.tile))
+        }
+
+        export function bounds(path: Path.augmented): Rectangle {
+            return Rectangle.combine(...path.steps.map(step_bounds), path.target)
+        }
     }
 
     export type augmented_step = {
@@ -288,8 +287,7 @@ export namespace Path {
                                 : Vector2.sub(index(step.waypoints, -1), index(step.waypoints, -2)))
                     }
 
-                    // The first waypoint is the start point, so path length is |waypoints| - 1
-                    state.tick += Math.ceil((step.waypoints.length - 1) / 2)
+                    state.tick += Math.ceil(PathFinder.pathLength(step.waypoints) / 2)
 
                     state.targeted_entity = null
                 }
@@ -479,6 +477,53 @@ export namespace Path {
                     state.targeted_entity = null
 
                     break;
+                case "shortcut_v2":
+
+                    let entity = step.internal
+                    let action = entity.actions[0]
+
+                    let in_interactive_area = !state.position.tile || TileRectangle.contains(action.interactive_area, state.position.tile)
+
+                    if (!in_interactive_area) {
+                        augmented.issues.push({level: 0, message: "Player is not in the interactive area for this shortcut!"})
+                    }
+
+                    if (state.position.tile && !TileCoordinates.eq2(state.position.tile, step.assumed_start)) {
+                        augmented.issues.push({level: 0, message: "Ability does not start where the previous step ends!"})
+                    }
+
+                    let start_tile = step.assumed_start
+
+                    switch (action.movement.type) {
+                        case "offset":
+                            state.position.tile = TileCoordinates.move(start_tile, action.movement.offset)
+                            state.position.tile.level += action.movement.offset.level
+                            break;
+                        case "fixed":
+                            state.position.tile = action.movement.target
+                            break;
+                    }
+
+                    switch (action.orientation.type) {
+                        case "byoffset":
+                            state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, start_tile))
+                            break;
+                        case "forced":
+                            state.position.direction = action.orientation.direction
+                            break;
+                        case "toentitybefore":
+                            state.position.direction = direction.fromVector(Vector2.sub(TileRectangle.center(entity.clickable_area), start_tile))
+                            break;
+                        case "toentityafter":
+                            state.position.direction = direction.fromVector(Vector2.sub(TileRectangle.center(entity.clickable_area), state.position.tile))
+                            break;
+                        case "keep":
+                            break;
+                    }
+
+                    state.tick += action.time
+
+                    break
                 case "redclick":
                     let next = path[i + 1] as step_run
 
@@ -552,11 +597,13 @@ export namespace Path {
             case "ability":
                 return `${capitalize(step.ability)}`
             case "run":
-                return `Run ${step.waypoints.length - 1} tiles`
+                return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
             case "teleport":
                 return `Teleport`
             case "interaction":
-                return "Use entrance";
+                return "Use entrance (DEPRECATED)";
+            case "shortcut_v2":
+                return `Use entity`
             case "redclick":
                 return "Redclick"
             case "powerburst":
@@ -584,7 +631,7 @@ export namespace Path {
                     return `{{barge}} ${dir}`
             }
         } else if (step.type === "run") {
-            return `Run ${step.waypoints.length - 1} tiles`
+            return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
         } else if (step.type === "teleport") {
             let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
 
@@ -592,8 +639,10 @@ export namespace Path {
             else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
         } else if (step.type === "interaction") {
             return "Use entrance/shortcut"; // TODO:
+        } else if (step.type == "shortcut_v2") {
+            return `${step.internal.name}: {{icon ${InteractionType.meta(step.internal.actions[0].cursor).short_icon}}} ${step.internal.actions[0].name} `
         } else if (step.type === "redclick") {
-            return "Redclick" // TODO:
+            return `Redclick at ${TileCoordinates.toString(step.where)}` // TODO:
         } else if (step.type === "powerburst") {
             return "Use {{icon accel}}"
         }
@@ -635,59 +684,26 @@ export namespace Path {
         })(str)
     }
 
-    function tile_bounds(tile: Vector2): L.Bounds {
-        return L.bounds([
-            L.point({x: tile.x - 0.5, y: tile.y - 0.5}),
-            L.point({x: tile.x + 0.5, y: tile.y + 0.5}),
-        ])
-    }
-
-    export function step_bounds(step: augmented_step): L.Bounds {
-        let bounds = L.bounds([])
-
-        switch (step.raw.type) {
+    export function step_bounds(step: step): Rectangle {
+        switch (step.type) {
             case "ability":
-                bounds.extend(tile_bounds(step.raw.from))
-                bounds.extend(tile_bounds(step.raw.to))
-                break
+                return Rectangle.from(step.from, step.to)
             case "run":
-                bounds.extend(L.bounds(step.raw.waypoints.map(L.point)))
-                break
+                return Rectangle.from(...step.waypoints)
             case "teleport":
-                if (step.raw.spot_override) bounds.extend(L.point(step.raw.spot_override))
-                else {
-                    let teleport = Teleports.find(getAllFlattened(), step.raw.id)
-                    bounds.extend(L.point(teleport.spot))
-                }
-                break
+                if (step.spot_override) return Rectangle.from(step.spot_override)
+                else return Rectangle.from(Teleports.find(getAllFlattened(), step.id).spot)
             case "interaction":
-                bounds.extend(L.point(step.raw.where))
-                bounds.extend(L.point(step.raw.ends_up))
-
-                break;
+                return Rectangle.from(step.where, step.ends_up)
             case "redclick":
-                bounds.extend(L.point(step.raw.where))
-                break;
             case "powerburst":
-                bounds.extend(L.point(step.raw.where))
-                break;
+                return Rectangle.from(step.where)
+            default:
+                return null
         }
-
-        // Only include pre and post state if the bounds are empty
-        if (step.pre_state?.position?.tile && bounds.getCenter().distanceTo(L.point(step.pre_state.position.tile)) < 100) bounds.extend(tile_bounds(step.pre_state.position.tile))
-        if (step.post_state?.position?.tile && bounds.getCenter().distanceTo(L.point(step.post_state.position.tile)) < 100) bounds.extend(tile_bounds(step.post_state.position.tile))
-
-        return bounds
     }
 
-    export function path_bounds(path: augmented): L.Bounds {
-        let bounds = L.bounds([])
-
-        path.steps.forEach(s => bounds.extend(step_bounds(s)))
-
-        if (path.target) bounds.extend(L.point(path.target.topleft)).extend(L.point(path.target.botright))
-        if (path.pre_state.position?.tile && bounds.getCenter().distanceTo(L.point(path.pre_state.position.tile)) < 100) bounds.extend(tile_bounds(path.pre_state?.position?.tile))
-
-        return bounds
+    export function bounds(path: Path.raw): Rectangle {
+        return Rectangle.combine(...path.map(step_bounds))
     }
 }

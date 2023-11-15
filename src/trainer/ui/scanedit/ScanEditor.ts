@@ -4,7 +4,7 @@ import {Observable, observe} from "lib/properties/Observable";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import Behaviour from "lib/ui/Behaviour";
+import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import assumedRange = ScanTree.assumedRange;
 import {lazy, Lazy} from "lib/properties/Lazy";
 import * as leaflet from "leaflet";
@@ -160,6 +160,7 @@ class PreviewLayerControl extends Behaviour {
                 PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
+            /*
             AugmentedScanTree.traverse(a, async (n) => {
                 // TODO: Decreasing opacity
 
@@ -168,7 +169,7 @@ class PreviewLayerControl extends Behaviour {
                 }
 
                 return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
-            }, false)
+            }, false)*/
         } else {
             AugmentedScanTree.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
                 if (n.raw.region) {
@@ -196,7 +197,8 @@ export default class ScanEditor extends Behaviour {
 
     equivalence_classes: EquivalenceClassHandling
     preview_layer: PreviewLayerControl
-    path_editor: PathEditor
+
+    path_editor: SingleBehaviour<PathEditor>
 
     candidates: Observable<TileCoordinates[]>
 
@@ -212,10 +214,19 @@ export default class ScanEditor extends Behaviour {
 
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
-        this.path_editor = this.withSub(new PathEditor(this.layer, this.app.template_resolver, {
-            teleports: app.data.teleports.getAll(),
-            shortcuts: shortcuts
-        }))
+        this.path_editor = this.withSub(new SingleBehaviour<PathEditor>())
+
+
+    }
+
+    private setPathEditor(options: PathEditor.options_t): void {
+        this.path_editor.set(new PathEditor(this.layer,
+            this.app.template_resolver, {
+                teleports: this.app.data.teleports.getAll(),
+                shortcuts: shortcuts
+            }, options)
+            .onStop(() => this.panel.tree_edit.setActiveNode(null))
+        )
     }
 
     begin() {
@@ -244,13 +255,12 @@ export default class ScanEditor extends Behaviour {
 
         this.panel.tree_edit.active_node.subscribe(async node => {
             if (node) {
+                this.setPathEditor({
+                    initial: node.path.raw,
 
-                this.path_editor.load(node.path.raw, {
                     target: node.path.target,
                     start_state: node.path.pre_state,
-                    discard_handler: () => {
-                        this.panel.tree_edit.setActiveNode(null)
-                    },
+                    discard_handler: () => {},
                     commit_handler: (p) => {
                         node.raw.path = p
 
@@ -258,13 +268,15 @@ export default class ScanEditor extends Behaviour {
                     }
                 })
             } else {
-                this.path_editor.reset()
+                this.path_editor.set(null)
             }
         })
 
         this.panel.tree_edit.on("region_changed", async (node) => {
             if (node.raw == this.panel.tree_edit.active_node.get()?.raw) {
-                await this.path_editor.load(node.path.raw, {
+                // TODO: Potentially update target in editor
+                /*this.setPathEditor({
+                    initial: node.path.raw,
                     target: node.path.target,
                     start_state: node.path.pre_state,
                     discard_handler: () => {
@@ -275,7 +287,7 @@ export default class ScanEditor extends Behaviour {
 
                         this.panel.tree_edit.cleanTree()
                     }
-                })
+                })*/
             }
         })
     }

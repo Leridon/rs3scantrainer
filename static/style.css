@@ -639,6 +639,7 @@ video {
 
 .ctr-scantreeedit-node.active > * > .ctr-scantreeedit-youarehere {
     background-image: url("assets/icons/youarehere.png");
+    background-size: contain;
 }
 
 
@@ -692,6 +693,11 @@ video {
     font-size: 12pt;
 }
 
+.ctr-actionbar {
+    display: flex;
+    justify-content: center;
+}
+
 .ctr-actionbar-cancel-overlay {
     position: absolute;
     top: 0;
@@ -722,8 +728,6 @@ video {
 }
 
 .ctr-button-container > * {
-    flex-grow: 1;
-    width: calc(33% - 4px);
     margin: 2px;
 }
 
@@ -961,13 +965,31 @@ video {
     cursor: pointer;
 }
 
+/*
 .nisl-context-menu-entry:hover {
+    background: rgb(40, 89, 112);
+}*/
+
+.nisl-context-menu-entry-selected {
     background: rgb(40, 89, 112);
 }
 
 .nisl-context-menu > * {
     padding-left: 3px;
     padding-right: 3px;
+    white-space: nowrap;
+}
+
+.nisl-context-menu-entry-icon-container {
+    max-width: 30px;
+    min-width: 30px;
+    text-align: center;
+    padding-right: 3px;
+    height: 20px;
+}
+
+.nisl-context-menu-entry-icon-container > img {
+    height: 95%;
 }
 
 /*Game Map*/
@@ -1167,7 +1189,6 @@ video {
 }
 
 .ctr-shortcut-edit-header {
-    cursor: pointer;
     display: flex;
     font-weight: bold;
     padding: 3px;
@@ -1179,4 +1200,14 @@ video {
 
 input[type=checkbox] + span {
     margin-left: 5px;
+}
+
+.ctr-inactive-overlay {
+    opacity: 0.2;
+    filter: grayscale(0%);
+}
+
+.ctr-inactive-overlay-marker {
+    opacity: 0.6;
+    filter: grayscale(0%);
 }

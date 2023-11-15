@@ -4,7 +4,7 @@ import * as leaflet from "leaflet";
 import {LatLngExpression} from "leaflet";
 
 export function areaToPolygon<T>(raster: Raster<T>,
-                                 f: (T) => boolean,
+                                 f: (_: T) => boolean,
                                  s: number) {
     type corner = 0 | 1 | 2 | 3
     type TileCorner = { tile: number, corner: corner }

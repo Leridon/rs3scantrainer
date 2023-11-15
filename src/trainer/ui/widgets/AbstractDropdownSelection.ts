@@ -123,8 +123,8 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
                     name: "preventOverflow",
                     enabled: true,
                     options: {
-                        boundary: "body",
-                        rootBoundary: 'document',
+                        boundary: "viewport",
+                        rootBoundary: 'viewport',
                     }
                 },
                 {

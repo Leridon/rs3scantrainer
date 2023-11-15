@@ -1,15 +1,20 @@
-import {clamp} from "lodash";
+import {clamp, identity} from "lodash";
 import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
 import {Transform} from "./Transform";
+import {TileCoordinates, TileRectangle} from "../runescape/coordinates";
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
 export namespace Rectangle {
-    export function from(a: Vector2, b: Vector2): Rectangle {
+    export function from(...points: Vector2[]): Rectangle {
+        points = points.filter(identity)
+
+        if (points.length == 0) return null
+
         return {
-            topleft: {x: Math.min(a.x, b.x), y: Math.max(a.y, b.y)},
-            botright: {x: Math.max(a.x, b.x), y: Math.min(a.y, b.y)},
+            topleft: {x: Math.min(...points.map(v => v.x)), y: Math.max(...points.map(v => v.y))},
+            botright: {x: Math.max(...points.map(v => v.x)), y: Math.min(...points.map(v => v.y))},
         }
     }
 
@@ -112,6 +117,10 @@ export namespace Rectangle {
         return extendTo(extendTo(rect, other.topleft), other.botright)
     }
 
+    export function combine(...rects: Rectangle[]): Rectangle {
+        return Rectangle.from(...rects.flatMap(r => r ? [r.topleft, r.botright] : []))
+    }
+
     export function translate(rect: Rectangle, off: Vector2): Rectangle {
         return {
             topleft: Vector2.add(rect.topleft, off),
@@ -129,5 +138,12 @@ export namespace Rectangle {
     export function overlaps(a: Rectangle, b: Rectangle): boolean {
         return (a.topleft.x <= b.botright.x && a.botright.x >= b.topleft.x) &&
             (a.botright.y <= b.topleft.y && a.topleft.y >= b.botright.y)
+    }
+
+    export function centeredOn(center: Vector2, radius: number): Rectangle {
+        return {
+            topleft: Vector2.add(center, {x: -radius, y: radius}),
+            botright: Vector2.add(center, {x: radius, y: -radius}),
+        }
     }
 }

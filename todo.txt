@@ -1,28 +1,27 @@
 Immediate next:
 
+[Bug] In some circumstances, keyboard events don't reach the interaction
+
 - Path Editor
-    - Move action bar to generalized interface
-    - Move action buttons to bottom control
-    - Move data handling to ObservableArray
-    - Fix "Redraw" for abilities (Shift to force)
-    - Fix "Redraw" for running
-    - "You are here marker"
-    - New Shortcuts via context menu
+    - Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
 
 - Scan Editor
-    - Autoname areas
-    - Reenable spot sorting/numbers on preview
-    - Port UI Elements to GameLayer
-    - Dropdown select go out of the viewport and are cut off
+    - Switching between active nodes glitches out
     - Display timing in spot view
+    - New solution for setting spot order
+    - Autoname areas
+    - Port UI Elements to GameLayer
     - Cancel for Draw Area
 
-- Make fit include the entire path
-- Include icon of interaction for redclick graphics
-- [Bug] Template resolver hangs for some inputs
-- Autosort for path edit
-- [Bug] Mousewheel scrolling in the path editor
-- Hover to highlight path
+- Shortcut editor
+    - Actually disable editing for builtins
+
+- Other
+    - Make fit include the entire path
+    - Include icon of interaction for redclick graphics
+    - [Bug] Template resolver hangs for some inputs
+    - Autosort for path edit
+    - Hover to highlight path
 
 Ready for release:
 - [Presentation] reenable walls on the map.

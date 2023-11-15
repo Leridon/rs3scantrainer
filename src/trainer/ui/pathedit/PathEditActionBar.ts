@@ -1,136 +1,145 @@
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {PathEditor} from "./PathEditor";
-import Button from "lib/ui/controls/Button";
-import Widget from "lib/ui/Widget";
 import {Path} from "lib/runescape/pathing";
 import movement_state = Path.movement_state;
-import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {direction, MovementAbilities, PlayerPosition} from "lib/runescape/movement";
-import {Observable, observe} from "lib/properties/Observable";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
-import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
+import InteractionLayer, {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
 import PlacePowerburstInteraction from "./interactions/PlacePowerburstInteraction";
-
-class ActionBarButton extends Button {
-    constructor(icon: string,
-                cooldown: number = 0) {
-        super();
-
-        this.addClass("medium-image-button")
-            .append($(`<img src='${icon}'>`))
-
-        if (cooldown != 0) {
-            this.css("position", "relative").append(c("<div class='ctr-cooldown-overlay-shadow'></div>").text(cooldown > 0 ? cooldown + "t" : ""))
-        }
-    }
-}
+import {ActionBar} from "../map/ActionBar";
+import ActionBarButton = ActionBar.ActionBarButton;
+import {Observable, observe} from "lib/reactive";
+import surge_cooldown = Path.movement_state.surge_cooldown;
+import escape_cooldown = Path.movement_state.escape_cooldown;
+import barge_cooldown = Path.movement_state.barge_cooldown;
+import dive_cooldown = Path.movement_state.dive_cooldown;
+import Collapsible from "../widgets/modals/Collapsible";
+import Properties from "../widgets/Properties";
+import LightButton from "../widgets/LightButton";
+import ExportStringModal from "../widgets/modals/ExportStringModal";
+import ImportStringModal from "../widgets/modals/ImportStringModal";
+import {QueryLinks} from "../../query_functions";
+import {ScanTrainerCommands} from "../../application";
+import {C} from "../../../lib/ui/constructors";
+import hbox = C.hbox;
+import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
+import spacer = C.spacer;
+import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 
 export default class PathEditActionBar extends GameMapControl {
-    bar: Widget
+    bar: ActionBar
 
-    events = new TypedEmitter<{
-        step_added: Path.step
-    }>()
+    buttons: {
+        surge: ActionBarButton,
+        escape: ActionBarButton,
+        dive: ActionBarButton,
+        barge: ActionBarButton,
+        run: ActionBarButton,
+        compass: ActionBarButton,
+        redclick: ActionBarButton,
+        powerburst: ActionBarButton,
+    }
 
     state: Observable<movement_state> = observe(movement_state.start())
 
     constructor(private editor: PathEditor,
-                private interaction_guard: InteractionGuard = null
+                private interaction_guard: InteractionGuard
     ) {
         super({
             position: "bottom-center",
             type: "gapless"
         });
 
-        if (!this.interaction_guard) this.interaction_guard = new InteractionGuard()
-
-        this.state.subscribe((s) => this.render(s), true)
-    }
-
-    private render(state: movement_state) {
-        this.content.empty()
-
-        this.bar = c("<div style='display: flex'></div>").appendTo(this.content);
-
         type ability_data = {
             ability: MovementAbilities.movement_ability,
             predictor?: (_: PlayerPosition) => Promise<PlayerPosition> | PlayerPosition
         }
 
-        let self = this
+        this.content.css("padding", "5px")
 
-        async function ability_handle(opt: ability_data) {
-            if (opt.predictor && state.position?.tile != null && state.position?.direction != null) {
-                let res = await opt.predictor(state.position)
+        c("<div class='ctr-interaction-control-header'></div>").appendTo(this.content)
+            .append(c().text(`Path Editor`))
+            .append(spacer())
+            .append(c("<div class='ctr-interaction-control-header-close'>&times;</div>")
+                .tooltip("Close (Esc)")
+                .tapRaw(r => r.on("click", () => {
+                    this.editor.close()
+                })))
 
-                if (res) {
-                    self.events.emit("step_added", Path.auto_describe({
-                        type: "ability",
-                        ability: opt.ability,
-                        description: "",
-                        from: state.position?.tile,
-                        to: res.tile
-                    }))
+        // Render action bar
+        {
+            let self = this
 
-                    return
+            async function ability_handle(opt: ability_data): Promise<InteractionLayer> {
+                if (opt.predictor && self.state.value().position?.tile != null && self.state.value().position?.direction != null) {
+                    let res = await opt.predictor(self.state.value().position)
+
+                    if (res) {
+
+                        self.editor.value.create(Path.auto_describe({
+                            type: "ability",
+                            ability: opt.ability,
+                            description: "",
+                            from: self.state.value().position?.tile,
+                            to: res.tile
+                        }))
+
+                        return
+                    }
                 }
+
+                return self.interaction_guard.set(
+                    new DrawAbilityInteraction(opt.ability)
+                        .onCommit((step) => self.editor.value.create(step))
+                        .setStartPosition(self.state.value().position?.tile),
+                    self)
             }
 
-            let interaction = new DrawAbilityInteraction(opt.ability, false, {
-                done_handler: (step) => self.events.emit("step_added", step)
-            }).setStartPosition(state.position?.tile)
-
-            self.interaction_guard.set(interaction, self)
-        }
-
-        [
-            new ActionBarButton('assets/icons/surge.png', movement_state.surge_cooldown(state)).tooltip("Surge")
-                .on("click", async () => await ability_handle({ability: "surge", predictor: MovementAbilities.surge})),
-            new ActionBarButton('assets/icons/escape.png', movement_state.escape_cooldown(state)).tooltip("Escape")
-                .on("click", async () => await ability_handle({ability: "escape", predictor: MovementAbilities.escape})),
-            new ActionBarButton('assets/icons/dive.png', movement_state.dive_cooldown(state)).tooltip("Dive")
-                .on("click", async () => await ability_handle({ability: "dive"})),
-            new ActionBarButton('assets/icons/barge.png', movement_state.barge_cooldown(state)).tooltip("Barge")
-                .on("click", async () => await ability_handle({ability: "barge"})),
-            new ActionBarButton('assets/icons/run.png').tooltip("Run")
-                .on("click", async () => {
-
-                    self.interaction_guard.set(
-                        new DrawRunInteraction({done_handler: (step) => self.events.emit("step_added", step)})
-                            .setStartPosition(state.position?.tile),
+            this.buttons = {
+                surge: new ActionBarButton('assets/icons/surge.png', () => ability_handle({ability: "surge", predictor: MovementAbilities.surge})).tooltip("Surge"),
+                escape: new ActionBarButton('assets/icons/escape.png', () => ability_handle({ability: "escape", predictor: MovementAbilities.escape})).tooltip("Escape"),
+                dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"})).tooltip("Dive"),
+                barge: new ActionBarButton('assets/icons/barge.png', async () => await ability_handle({ability: "barge"})).tooltip("Barge"),
+                run: new ActionBarButton('assets/icons/run.png', () => {
+                    return self.interaction_guard.set(
+                        new DrawRunInteraction()
+                            .onCommit(step => self.editor.value.create(step))
+                            .setStartPosition(self.state.value().position?.tile),
                         self
                     )
-                }),
-            new ActionBarButton('assets/icons/teleports/homeport.png').tooltip("Teleport"),
-            new ActionBarButton('assets/icons/redclick.png').tooltip("Redclick"),
-            new ActionBarButton('assets/icons/accel.png',
-                Math.max(state.acceleration_activation_tick + 120 - state.tick, 0))
-                .tooltip("Powerburst of Acceleration")
-                .on("click", () => {
-                    if (state.position?.tile) {
-                        this.editor.value.addBack(Path.auto_describe({
-                            type: "powerburst",
-                            description: "",
-                            where: state.position.tile
-                        }))
-                    } else {
-                        self.interaction_guard.set(
-                            new PlacePowerburstInteraction({
-                                done_handler: (step) => self.events.emit("step_added", step)
-                            }), self)
+                }).tooltip("Run"),
+                redclick: new ActionBarButton('assets/icons/redclick.png', () => {
+                    return self.interaction_guard.set(
+                        new PlaceRedClickInteraction()
+                            .onCommit((step) => self.editor.value.create(step))
+                        , self)
+                }).tooltip("Redclick"),
+                powerburst: new ActionBarButton('assets/icons/accel.png', () => {
+                        if (self.state.value().position?.tile) {
+                            this.editor.value.create(Path.auto_describe({
+                                    type: "powerburst",
+                                    description: "",
+                                    where: self.state.value().position.tile
+                                })
+                            )
+                        } else {
+                            self.interaction_guard.set(
+                                new PlacePowerburstInteraction()
+                                    .onCommit((step) => self.editor.value.create(step))
+                                , self)
+                        }
                     }
-                }),
-            new ActionBarButton('assets/icons/shortcut.png').tooltip("Shortcut"),
-            new ActionBarButton('assets/icons/compass.png', state.position.tile ? -1 : 0).tooltip("Compass")
-                .on("click", (e) => {
+                )
+                    .tooltip("Powerburst of Acceleration"),
+                compass: new ActionBarButton('assets/icons/compass.png', (e) => {
                     let menu: Menu = direction.all.map(d => {
                         return {
                             type: "basic",
                             text: direction.toString(d),
                             handler: () => {
-                                self.events.emit("step_added", Path.auto_describe({
+                                self.editor.value.create(Path.auto_describe({
                                     type: "orientation",
                                     description: "",
                                     direction: d
@@ -140,10 +149,77 @@ export default class PathEditActionBar extends GameMapControl {
                     })
 
                     new ContextMenu(menu).showFromEvent(e)
-                })
-            ,
-            //new ActionBarButton('assets/icons/regenerate.png'),
-        ].forEach(b => this.bar.append(b))
+                }).tooltip("Compass")
+            }
+
+            this.bar = new ActionBar([
+                this.buttons.surge,
+                this.buttons.escape,
+                this.buttons.dive,
+                this.buttons.barge,
+                this.buttons.run,
+                this.buttons.redclick,
+                this.buttons.powerburst,
+                this.buttons.compass,
+            ]).appendTo(this.content)
+        }
+
+        // Render buttons
+        {
+            hbox(
+                new LightButton("Commit").on("click", () => {
+                    this.editor.options.commit_handler(this.editor.value.construct())
+                }).setEnabled(!!this.editor.options.commit_handler),
+
+                new LightButton("Discard").on("click", () => {
+                    this.editor.value.load(this.editor.options.initial)
+                    this.editor.options?.discard_handler()
+                }),
+
+                new LightButton("Export")
+                    .on("click", () => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
+
+                new LightButton("Import")
+                    .on("click", async () => {
+                        this.editor.value.load(await ImportStringModal.do((s) => Path.import_path(s)))
+                    }),
+
+                new LightButton("Share")
+                    .on("click", () => {
+                        ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, {
+                            steps: this.editor.value.construct(),
+                            start_state: this.editor.options.start_state,
+                            target: this.editor.options.target,
+                        }), "Use this link to directly link to this path.")
+                    })
+            ).addClass("ctr-button-container")
+                .appendTo(this.content)
+        }
+
+        this.state.subscribe((s) => this.render(s), true)
+    }
+
+    private render(state: movement_state) {
+        this.buttons.surge.cooldown.set(surge_cooldown(state))
+        this.buttons.escape.cooldown.set(escape_cooldown(state))
+        this.buttons.barge.cooldown.set(barge_cooldown(state))
+        this.buttons.dive.cooldown.set(dive_cooldown(state))
+        this.buttons.compass.cooldown.set(state.position.tile ? -1 : 0)
+        this.buttons.powerburst.cooldown.set(Math.max(state.acceleration_activation_tick + 120 - state.tick, 0))
+    }
+
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        event.onPost(() => {
+            if (event.original.key == "Escape") {
+                event.stopAllPropagation()
+                this.editor.stop()
+            }
+
+            if (event.original.key.toLowerCase() == "s" && event.original.shiftKey) {
+                event.original.preventDefault()
+                this.editor.commit()
+            }
+        })
     }
 }
 

@@ -10,6 +10,6 @@ export default class InteractionSelect extends DropdownSelection<Path.Interactio
                     return c(`<div><img style="height: 18px; object-fit: contain; margin-right: 3px" src="${meta.icon_url}" alt="${meta.description}">${meta.description}</div>`)
                 }
             }
-        }, Path.InteractionType.all());
+        }, Path.InteractionType.all().map(i => i.type));
     }
 }

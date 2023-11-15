@@ -72,4 +72,6 @@ export default class GameLayer extends leaflet.FeatureGroup {
     eventMouseDown(event: GameMapMouseEvent) {}
 
     eventKeyDown(event: GameMapKeyboardEvent) {}
+
+    eventKeyUp(event: GameMapKeyboardEvent) {}
 }

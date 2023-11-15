@@ -1,4 +1,3 @@
-import {ActiveLayer} from "../activeLayer";
 import {Clues, ClueStep, Solution} from "../../runescape/clues";
 import Properties from "../../../trainer/ui/widgets/Properties";
 import {TileMarker} from "../TileMarker";
@@ -9,8 +8,9 @@ import {PathEditor} from "../../../trainer/ui/pathedit/PathEditor";
 import {Application} from "../../../trainer/application";
 import dig_area = Clues.digSpotArea;
 import shortcuts from "../../../data/shortcuts";
+import GameLayer from "../GameLayer";
 
-export default class OverviewLayer extends ActiveLayer {
+export default class OverviewLayer extends GameLayer {
     constructor(private clues: ClueStep[], private app: Application) {
         super();
 
@@ -47,11 +47,13 @@ export default class OverviewLayer extends ActiveLayer {
                 props.row(new LightButton("Load path editor")
                     .on("click", () => {
                         new PathEditor(this, this.app.template_resolver, {
-                            teleports: this.app.data.teleports.getAll(),
-                            shortcuts: shortcuts
-                        }).load([], {
-                            target: dig_area(spot)
-                        })
+                                teleports: this.app.data.teleports.getAll(),
+                                shortcuts: shortcuts
+                            }, {
+                                initial: [],
+                                target: dig_area(spot)
+                            }
+                        )
                     }))
 
                 Widget.wrap($(marker.marker.getElement())).addTippy(props, {

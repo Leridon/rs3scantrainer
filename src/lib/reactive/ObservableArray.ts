@@ -1,14 +1,12 @@
 import {Observable} from "./Observable";
-import {Ewent, ewent} from "./Ewent";
+import {ewent} from "./Ewent";
 import {observe} from "./index";
-import {EwentHandlerPool} from "./EwentHandlerPool";
-import ObservableArrayView = ObservableArray.ObservableArrayView;
 
 /**
  * The observed value is considered to change when any of its elements change.
  * In addition, there are several events that allow a more detailed view on changes
  */
-export class ObservableArray<T> extends Observable.AbstractObservable<ObservableArray.ObservableArrayValue<T>[]> implements ObservableArrayView<T>{
+export class ObservableArray<T> extends Observable.AbstractObservable<ObservableArray.ObservableArrayValue<T>[]> {
     element_added = ewent<ObservableArray.ObservableArrayValue<T>>()
     element_removed = ewent<ObservableArray.ObservableArrayValue<T>>()
     element_changed = ewent<ObservableArray.ObservableArrayValue<T>>()
@@ -29,7 +27,9 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
     }
 
     add(v: T): ObservableArray.ObservableArrayValue<T> {
-        let e = new ObservableArray.ObservableArrayValue<T>(this, v, this._value.length)
+        let e = new ObservableArray.ObservableArrayValue<T>(this, v)
+
+        e.index.set(this._value.length)
 
         this._value.push(e)
 
@@ -63,7 +63,11 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
             this.element_removed.trigger(valueElement)
         }
 
-        this._value = data.map((e, i) => new ObservableArray.ObservableArrayValue<T>(this, e, i))
+        this._value = data.map((e, i) => {
+            let n = new ObservableArray.ObservableArrayValue<T>(this, e)
+            n.index.set(i)
+            return n
+        })
 
         this._value.forEach(e => this.element_added.trigger(e))
         this.changed.trigger({value: this._value})
@@ -72,9 +76,30 @@ export class ObservableArray<T> extends Observable.AbstractObservable<Observable
 
         return this
     }
+
+    move(from: number, to: number): this {
+        if (from == to) return this
+
+        let [el] = this._value.splice(from, 1)
+
+        this._value.splice(to, 0, el)
+
+        this.changed.trigger({value: this._value})
+
+        this.array_changed.trigger({order: true, set: false, data: this._value})
+
+        this.updateIndices()
+
+        return this
+    }
+
+    private updateIndices(): void {
+        this._value.forEach((e, i) => e.index.set(i))
+    }
 }
 
 export namespace ObservableArray {
+    /*
     export interface ObservableArrayView<T> {
         element_added: Ewent<ObservableArray.ObservableArrayValue<T>>
         element_removed: Ewent<ObservableArray.ObservableArrayValue<T>>
@@ -153,30 +178,44 @@ export namespace ObservableArray {
          * Disconnects this view from the underlying observable array.
          * Removes all even hooks to make it garbage collectible.
          * No further events/changes will be received.
-         */
+         *
         disconnect(): void {
             this.handler_pool.kill()
         }
     }
-
+*/
 
     export class ObservableArrayValue<T> extends Observable.Simple<T> {
         removed = ewent<ObservableArrayValue<T>>()
+        index = observe(0)
 
-        constructor(private parent: ObservableArray<T>,
+        constructor(public _parent: ObservableArray<T>,
                     value: T,
-                    public index: number
         ) {
             super(value);
 
             this.changed.on(() => {
-                this.parent.element_changed.trigger(this)
-                this.parent.changed.trigger({value: this.parent.value()})
+                this._parent.element_changed.trigger(this)
+                this._parent.changed.trigger({value: this._parent.value()})
             })
         }
 
+        parent(): ObservableArray<T> {
+            return this._parent
+        }
+
         remove(): void {
-            this.parent?.remove(this)
+            this._parent?.remove(this)
+        }
+
+        moveTo(i: number): this {
+            this.parent().move(this.index.value(), i)
+
+            return this
+        }
+
+        move(delta: number): this {
+            return this.moveTo(this.index.value() + delta)
         }
     }
 

@@ -69,10 +69,10 @@ export namespace TileRectangle {
         return lift(Rectangle.bottom(rect), rect.level)
     }
 
-    export function from(a: TileCoordinates, b: TileCoordinates): TileRectangle {
-        if (a.level != b.level) throw new TypeError("Level mismatch")
+    export function from(...points: TileCoordinates[]): TileRectangle {
+        if (new Set(points.map(p => p.level)).size > 1) throw new TypeError("Level mismatch")
 
-        return lift(Rectangle.from(a, b), a.level)
+        return lift(Rectangle.from(...points), points[0].level)
     }
 
     export function extendTo(rect: TileRectangle, tile: Vector2): Rectangle {

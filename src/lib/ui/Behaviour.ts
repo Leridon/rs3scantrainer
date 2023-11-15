@@ -7,12 +7,17 @@
  */
 
 import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
+import {ewent} from "../reactive";
 
 export default abstract class Behaviour {
     protected handler_pool: EwentHandlerPool = new EwentHandlerPool()
     private _subBehaviours: Behaviour[] = []
 
+    public started = ewent<null>()
+    public stopped = ewent<null>()
+
     private _started = false
+    private _starting = false
 
     withSub<T extends Behaviour>(sub: T): T {
         this._subBehaviours.push(sub)
@@ -27,7 +32,11 @@ export default abstract class Behaviour {
 
         this._started = true
 
+        this._starting = true
         this.begin()
+        this._starting = false
+
+        if (this._started) this.started.trigger(null)
 
         this._subBehaviours.forEach(c => c.start())
 
@@ -39,7 +48,11 @@ export default abstract class Behaviour {
 
         this.handler_pool.kill()
 
-        if (this._started) this.end()
+        if (this._started) {
+            this._started = false
+            this.end()
+            if (!this._starting) this.stopped.trigger(null)
+        }
     }
 
     isActive(): boolean {
@@ -49,10 +62,17 @@ export default abstract class Behaviour {
     protected abstract begin()
 
     protected abstract end()
+
+    public onStop(f: () => any): this {
+        this.stopped.on(f)
+        return this
+    }
 }
 
 export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour {
     private behaviour: T = null
+
+    public content_stopped = ewent<T>()
 
     protected begin() {
         if (this.behaviour) this.behaviour.start()
@@ -74,6 +94,9 @@ export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour 
 
         if (behaviour) {
             this.behaviour = behaviour
+
+            behaviour.stopped.on(() => this.content_stopped.trigger(behaviour))
+
             if (this.isActive()) behaviour.start()
         }
 

@@ -7,7 +7,7 @@ export class ValueInteraction<T> extends InteractionLayer {
 
     value: Observable<{ value: T, committed: boolean }> = observe({value: null, committed: false})
 
-    constructor(protected config: ValueInteraction.option_t<T>) {
+    constructor(protected config: ValueInteraction.option_t<T> = {}) {
         super();
 
         if (config.preview_render) {
@@ -29,8 +29,9 @@ export class ValueInteraction<T> extends InteractionLayer {
         this.cancel()
     }
 
-    protected preview(value: T) {
+    preview(value: T): this {
         this.value.set({value: value, committed: false})
+        return this
     }
 
     onChange(handler: (_: { value: T, committed: boolean }) => any): this {

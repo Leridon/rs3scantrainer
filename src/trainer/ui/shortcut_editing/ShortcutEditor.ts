@@ -20,7 +20,6 @@ import {tap} from "lodash";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import SidePanelControl from "../SidePanelControl";
-import {PathEditor} from "../pathedit/PathEditor";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 
 export class ShortcutEditGameLayer extends GameLayer {
@@ -77,7 +76,7 @@ export class ShortcutEditGameLayer extends GameLayer {
         )
     }
 
-    startPlacement(s: ShortcutEditor.Value, origin: TileCoordinates = null) {
+    startPlacement(s: Shortcuts.shortcut, origin: TileCoordinates = null) {
         if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s))
 
         this.interactionGuard.set(new PlaceShortcut(s, origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
@@ -89,12 +88,12 @@ export class ShortcutEditGameLayer extends GameLayer {
 class ShortcutEditActionBar extends ActionBar {
     constructor(private parent_layer: ShortcutEditGameLayer) {
         super([
-            new ActionBar.ActionBarButton("assets/icons/cursor_open.png", 0, () => {
+            new ActionBar.ActionBarButton("assets/icons/cursor_open.png",  () => {
                 return this.parent_layer.interactionGuard.set(new DrawDoor({
                     done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
                 }))
             }),
-            new ActionBar.ActionBarButton("assets/icons/cursor_generic.png", 0, () => {
+            new ActionBar.ActionBarButton("assets/icons/cursor_generic.png",  () => {
                 return this.parent_layer.interactionGuard.set(new DrawGeneralEntity({
                     done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
                 }))

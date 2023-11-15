@@ -1,131 +1,97 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
-import {HostedMapData, move, MovementAbilities} from "lib/runescape/movement";
-import LightButton from "../../widgets/LightButton";
+import {HostedMapData, MovementAbilities} from "lib/runescape/movement";
 import {arrow, createStepGraphics} from "../../path_graphics";
-import {capitalize} from "lodash";
 import {Path} from "lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
-import {Vector2} from "lib/math";
-import Checkbox from "lib/ui/controls/Checkbox";
-import {GameMapControl} from "lib/gamemap/GameMapControl";
-import Widget from "lib/ui/Widget";
-import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
-import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
+import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
+import InteractionTopControl from "../../map/InteractionTopControl";
+import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
+import {Observable, observe} from "../../../../lib/reactive";
+import observe_combined = Observable.observe_combined;
+import possibility_raster = MovementAbilities.possibility_raster;
 
-export class DrawAbilityInteraction extends InteractionLayer {
-    private start_position: TileCoordinates = null
-
-    _overlay_position: TileCoordinates = null
+export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
     _possibility_overlay: leaflet.FeatureGroup = null
+    _preview_arrow: leaflet.Layer = null
 
-    _dive_target: TileCoordinates = null
-    _dive_preview: leaflet.Layer = null
+    private top_control: InteractionTopControl
 
-    _previewed: {
-        from: TileCoordinates,
-        to: TileCoordinates
+    private start_position: Observable<TileCoordinates> = observe(null).equality(TileCoordinates.eq2)
+    private current_target: Observable<{
+        tile: TileCoordinates,
+        forced: boolean
+    }> = observe(null).equality((a, b) => TileCoordinates.eq2(a?.tile, b?.tile) && a?.forced == b?.forced)
+
+    private overlay_tile: Observable<TileCoordinates> = observe(null).equality(TileCoordinates.eq2)
+
+    constructor(private ability: MovementAbilities.movement_ability) {
+        super({})
+
+        this.attachTopControl(this.top_control = new InteractionTopControl().setName(`Drawing ${ability}`))
+
+        observe_combined({start: this.start_position, target: this.current_target}).subscribe(({start, target}) => {
+            this.overlay_tile.set(start || target?.tile)
+
+            this.updateArrow(start, target?.tile, target?.forced)
+        })
+
+        this.overlay_tile.subscribe(tile => this.updateDiveOverlay(tile))
+
+        this.start_position.subscribe(() => this.updateInstructions(), true)
     }
 
-    instruction_div: Widget
-    reset_button: LightButton
-    cancel_button: LightButton
-
-    constructor(private ability: MovementAbilities.movement_ability,
-                private reverse: boolean = false,
-                private config: {
-                    done_handler: (_: Path.step) => void,
-                }
-    ) {
-        super()
-
-        // TODO: Press shift to force invalid
-
-        let top_control = new GameMapControl({
-            position: "top-center",
-            type: "gapless"
-        }).addTo(this)
-
-        this.instruction_div = c("<div style='text-align: center'>").appendTo(top_control.content)
-
-        c("<div style='display: flex'></div>")
-            .append(new Checkbox().on("changed", v => {
-                this.reverse = v
-
-                if (this._possibility_overlay) {
-                    this._overlay_position = null
-                    this._possibility_overlay.remove()
-                    this._possibility_overlay = null
-                    this.update_overlay(this.start_position)
-                }
-                if (this._dive_preview) {
-                    this._dive_preview.remove()
-                    this._dive_preview = null
-                }
-            }))
-            .append(c().text("Reverse"))
-            .appendTo(top_control.content)
-
-        let control_row = c("<div style='text-align: center'>").appendTo(top_control.content)
-
-        this.cancel_button = new LightButton("Cancel")
-            .on("click", () => {
-                this.cancel()       // TODO: Is this enough?
-            })
-            .appendTo(control_row)
-
-        this.reset_button = new LightButton("Reset Start")
-            .on("click", () => this.setStartPosition(null))
-            .appendTo(control_row)
-
-        this.updateInstructions()
+    updateInstructions() {
+        if (this.start_position.value()) {
+            this.top_control.setContent(
+                c("<div style='font-family: monospace; white-space:pre'></div>")
+                    .append(c().text(`[Click] valid target tile to confirm.`))
+                    .append(c().text(`[Shift + Click] to force any target tile.`))
+                    .append(c().text(`[Esc] to reset start tile.`))
+            )
+        } else {
+            this.top_control.setContent(
+                c("<div style='font-family: monospace; white-space:pre'></div>")
+                    .append(c().text(`[Click] the origin tile of the ability.`))
+            )
+        }
     }
 
     setStartPosition(pos: TileCoordinates): this {
-        this.start_position = pos
-
-        this.update_overlay(pos)
-        this.update_preview(null)
-        this.updateInstructions()
+        this.start_position.set(pos)
 
         return this
     }
 
-    private async update_overlay(p: TileCoordinates | null) {
+    private async updateDiveOverlay(tile: TileCoordinates | null): Promise<void> {
         if (this.ability != "barge" && this.ability != "dive") return
 
-        if (TileCoordinates.eq2(p, this._overlay_position)) return
+        if (this._possibility_overlay) {
+            this._possibility_overlay.remove()
+            this._possibility_overlay = null
+        }
 
-        if (this._possibility_overlay) this._possibility_overlay.remove()
-
-        this._overlay_position = p
-
-        if (p == null) return
+        if (tile == null) return
 
         this._possibility_overlay = leaflet.featureGroup()
 
+        let raster = await possibility_raster(tile)
 
-        for (let dx = -10; dx <= 10; dx++) {
-            for (let dy = -10; dy <= 10; dy++) {
+        for (let x = raster.bounds.topleft.x; x <= raster.bounds.botright.x; x++) {
+            for (let y = raster.bounds.botright.y; y <= raster.bounds.topleft.y; y++) {
+                let works = raster.get({x: x, y: y})
 
-                if (dx != 0 || dy != 0) {
-
-                    let [from, to] = this.fromTo(p, move(p, {x: dx, y: dy}))
-
-                    let works = (await MovementAbilities.dive(from, to))
-
-                    tilePolygon(Vector2.add(p, {x: dx, y: dy}))
-                        .setStyle({
-                            fillOpacity: 0.5,
-                            stroke: false,
-                            fillColor: works ? "green" : "red"
-                        })
-                        .addTo(this._possibility_overlay)
-                }
+                tilePolygon({x: x, y: y})
+                    .setStyle({
+                        fillOpacity: 0.5,
+                        stroke: false,
+                        fillColor: works ? "green" : "red"
+                    })
+                    .addTo(this._possibility_overlay)
             }
         }
 
-        tilePolygon(p)
+        tilePolygon(tile)
             .setStyle({
                 fillOpacity: 0.5,
                 stroke: false,
@@ -136,102 +102,97 @@ export class DrawAbilityInteraction extends InteractionLayer {
         this._possibility_overlay.addTo(this)
     }
 
-    private async update_preview(p: TileCoordinates) {
-        if (TileCoordinates.eq2(p, this._dive_target)) return
-        this._dive_target = p
+    private async updateArrow(start: TileCoordinates, hover: TileCoordinates, forced: boolean) {
+        // Calculate the preview that needs to be drawn.
+        let res = await (async (): Promise<{ from: TileCoordinates, to: TileCoordinates, okay: boolean } | null> => {
+            if (!start || !hover) return null
 
-        if (p == null) {
-            this._dive_preview.remove()
-            this._dive_preview = null
-            return
-        }
+            if (forced) return {from: start, to: hover, okay: true}
+            else {
+                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, start, hover)
 
-        let [from, to] = this.fromTo(this.start_position, p)
+                return {from: start, to: res?.tile || hover, okay: !!res}
+            }
+        })()
 
-        if (this._previewed
-            && TileCoordinates.eq2(this._previewed.to, to)
-            && TileCoordinates.eq2(this._previewed.from, from)) return
-
-        let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
-
-        this._previewed = {
-            from: from,
-            to: to,
-        }
-
-        if (this._dive_preview) {
-            this._dive_preview.remove()
-            this._dive_preview = null
+        // Remove existing preview
+        if (this._preview_arrow) {
+            this._preview_arrow.remove()
+            this._preview_arrow = null
         }
 
         if (res) {
-            this._dive_preview = createStepGraphics({
-                type: "ability",
-                ability: this.ability,
-                description: "",
-                from: this._previewed.from,
-                to: res.tile
-            }).addTo(this)
-        } else {
-            this._dive_preview = arrow(this._previewed.from, this._previewed.to).setStyle({
-                weight: 3,
-                color: "red"
-            }).addTo(this)
+            let {from, to, okay} = res
+
+            // Draw the necessary preview
+            this._preview_arrow = (
+                okay ? createStepGraphics({
+                        type: "ability",
+                        ability: this.ability,
+                        description: "",
+                        from: from,
+                        to: to
+                    })
+                    : arrow(from, to).setStyle({
+                        weight: 3,
+                        color: "red"
+                    })
+            ).addTo(this)
         }
-
-    }
-
-    updateInstructions() {
-        this.reset_button.setVisible(!!this.start_position)
-
-        if (!this.start_position) {
-            this.instruction_div.text(`Click the start location of the ${this.ability}.`)
-        } else {
-            this.instruction_div.setInnerHtml(`${capitalize(this.ability)} from ${this.start_position.x} | ${this.start_position.y}.<br> Click where the ability is targeted.`)
-        }
-    }
-
-    private fromTo(a: TileCoordinates, b: TileCoordinates): [TileCoordinates, TileCoordinates] {
-        if (this.reverse) return [b, a]
-        else return [a, b]
     }
 
     eventClick(event: GameMapMouseEvent) {
         event.onPre(async () => {
-
             event.stopAllPropagation()
 
             let tile = event.tile()
 
-            if (!this.start_position) {
-                this.start_position = tile
-                await this.update_overlay(this.start_position)
-                this.updateInstructions()
+            if (!this.start_position.value()) {
+                this.start_position.set(tile)
             } else {
-
-                let [from, to] = this.fromTo(this.start_position, tile)
-
-                let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, from, to)
-
-                if (res) {
-                    this.config.done_handler({
+                if (event.original.shiftKey) {
+                    this.commit({
                         type: "ability",
                         ability: this.ability,
                         description: `Use {{${this.ability}}}`,
-                        from: from,
-                        to: res.tile
+                        from: this.start_position.value(),
+                        to: tile
                     })
+                } else {
+                    let res = await MovementAbilities.generic(HostedMapData.get(), this.ability, this.start_position.value(), tile)
 
-                    this.cancel()
+                    if (res) {
+                        this.commit({
+                            type: "ability",
+                            ability: this.ability,
+                            description: `Use {{${this.ability}}}`,
+                            from: this.start_position.value(),
+                            to: res.tile
+                        })
+                    }
                 }
             }
         })
     }
 
     eventHover(event: GameMapMouseEvent) {
-        let tile = event.tile()
+        this.current_target.set({tile: event.tile(), forced: event.original.shiftKey})
+    }
 
-        if (!this.start_position) this.update_overlay(tile)
-        else this.update_preview(tile)
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        event.onPre(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => c.forced = true)
+
+            if (this.start_position.value() != null && event.original.key == "Escape") {
+                event.stopAllPropagation()
+                this.start_position.set(null)
+            }
+        })
+    }
+
+    eventKeyUp(event: GameMapKeyboardEvent) {
+        event.onPre(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => c.forced = false)
+        })
     }
 }

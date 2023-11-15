@@ -1,143 +1,212 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import * as leaflet from "leaflet";
-import {PathFinder} from "lib/runescape/movement";
-import LightButton from "../../widgets/LightButton";
-import {createStepGraphics} from "../../path_graphics";
-import Widget from "lib/ui/Widget";
-import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
-import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
-import {Path} from "lib/runescape/pathing";
-import {GameMapControl} from "lib/gamemap/GameMapControl";
+import {ClearMapData, PathFinder} from "lib/runescape/movement";
+import {arrow, createStepGraphics} from "../../path_graphics";
+import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
+import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
+import InteractionTopControl from "../../map/InteractionTopControl";
+import {Observable, observe} from "../../../../lib/reactive";
+import {util} from "../../../../lib/util/util";
+import index = util.index;
+import observe_combined = Observable.observe_combined;
+import {Path} from "../../../../lib/runescape/pathing";
 
-export default class DrawRunInteraction extends InteractionLayer {
-    pathfinding_state: PathFinder.state = null
+class DrawRunInteractionInternal extends ValueInteraction<{
+    path: TileCoordinates[],
+    no_path_to: TileCoordinates
+}> {
+    private segments: Observable<{
+        tiles: TileCoordinates[]
+    }[]> = observe([])
 
-    top_control = (new class extends GameMapControl {
-        instruction_div: Widget
-        reset_button: LightButton
-        cancel_button: LightButton
+    private path = this.segments.map(segments => {
+        return segments.flatMap((segment, index) => index == 0 ? segment.tiles : segment.tiles.slice(1))
+    })
+    private last_position = this.path.map(s => index(s, -1)).equality(TileCoordinates.eq2)
+    private has_start_position = this.last_position.map(p => !!p)
 
-        constructor(outer: DrawRunInteraction) {
-            super({
-                position: "top-center",
-                type: "gapless"
-            })
+    private cached_pathfinding_state = this.last_position.map(p => p ? PathFinder.init_djikstra(p) : null)
 
+    private previewed_segment: Observable<{
+        target: TileCoordinates,
+        forced: boolean,
+        tiles: TileCoordinates[],
+        broken: boolean
+    }> = observe(null)
 
-            this.instruction_div = c("<div style='text-align: center'>").appendTo(this.content)
+    private top_control: InteractionTopControl
 
-            let control_row = c("<div style='text-align: center'>").appendTo(this.content)
+    constructor() {
+        super({
+            preview_render: (v) => {
 
-            this.cancel_button = new LightButton("Cancel")
-                .on("click", () => outer.cancel())
-                .appendTo(control_row)
+                if (v) {
 
-            this.reset_button = new LightButton("Reset Start")
-                .on("click", () => outer.setStartPosition(null))
-                .appendTo(control_row)
-        }
-    }(this)).addTo(this)
+                    let preview = createStepGraphics({
+                        type: "run",
+                        waypoints: v.path,
+                        description: ""
+                    })
 
-    constructor(private config: {
-        done_handler: (_: Path.step_run) => void
-    }) {
-        super()
+                    if (v.no_path_to) {
+                        arrow(index(v.path, -1), v.no_path_to).setStyle({
+                            color: "red"
+                        }).addTo(preview)
+                    }
 
+                    return preview
+                }
+            }
+        })
+
+        this.attachTopControl(
+            this.top_control = new InteractionTopControl({name: "Drawing Run-Path"})
+        )
+
+        this.has_start_position.subscribe(has => {
+            if (has) {
+                this.top_control.setContent(
+                    c("<div style='font-family: monospace; white-space:pre'></div>")
+                        .append(c().text(`[Click] valid target tile to confirm.`))
+                        .append(c().text(`[Shift + Click] to place a forced waypoint.`))
+                        .append(c().text(`[Ctrl] to ignore all obstacles.`))
+                        .append(c().text(`[R] to remove last waypoint.`))
+                )
+            } else {
+                this.top_control.setContent(
+                    c("<div style='font-family: monospace; white-space:pre'></div>")
+                        .append(c().text(`[Click] any tile to start.`))
+                )
+            }
+        }, true)
+
+        observe_combined({segments: this.segments, previewed_segment: this.previewed_segment}).subscribe(({segments, previewed_segment}) => {
+            let real_segments = segments.map(s => s.tiles)
+
+            if (previewed_segment && !previewed_segment.broken) real_segments.push(previewed_segment.tiles)
+
+            let waypoints = real_segments.flat()
+
+            if (waypoints.length > 0) {
+                this.preview({
+                    path: waypoints,
+                    no_path_to: previewed_segment?.broken ? previewed_segment.target : null
+                })
+            } else {
+                this.preview(null)
+            }
+        })
     }
 
-    last_previewed_to: TileCoordinates = null
-
     setStartPosition(pos: TileCoordinates): this {
-        if (pos) this.pathfinding_state = PathFinder.init_djikstra(pos)
-        else this.pathfinding_state = null
+        if (pos) this.segments.set([{tiles: [pos]}])
+        else this.segments.set([])
 
-        this.update_preview(null)
         return this
+    }
+
+    private getPathFindingState(): PathFinder.state {
+        return this.cached_pathfinding_state.value()
     }
 
     eventClick(event: GameMapMouseEvent) {
         event.onPre(async () => {
             event.stopAllPropagation()
 
-            let tile = event.tile()
+            if (this.segments.value().length == 0) this.setStartPosition(event.tile())
+            else {
+                let segment =
+                    await (event.original.ctrlKey
+                        ? PathFinder.idealPath(this.last_position.value(), event.tile())
+                        : PathFinder.find(this.getPathFindingState(), event.tile()))
 
-            if (!this.pathfinding_state) {
-                this.setStartPosition(tile)
-                await this.update_preview(null)
-            } else {
-                let path = await PathFinder.find(this.pathfinding_state, tile)
+                if (segment) {
+                    this.segments.update(w => w.push({tiles: segment}))
+                    this.previewed_segment.set(null)
 
-                if (path) {
-                    this.config.done_handler({
-                        type: "run",
-                        waypoints: path,
-                        description: `Run to ${tile.x} | ${tile.y}`
-                    })
-
-                    this.cancel()
-                    return
+                    if (!event.original.shiftKey) {
+                        this.commit({
+                            path: this.path.value(),
+                            no_path_to: null
+                        })
+                    }
                 }
             }
         })
     }
 
     eventHover(event: GameMapMouseEvent) {
-        event.onPre(() => this.update_preview(event.tile()))
+        event.onPre(async () => {
+            this.updatePreview(event.tile(), event.original.ctrlKey)
+        })
     }
 
-    _preview: leaflet.Layer = null
+    private async updatePreview(tile: TileCoordinates, force: boolean) {
+        if (this.last_position.value()) {
+            let segment =
+                await (force
+                    ? PathFinder.idealPath(this.last_position.value(), tile)
+                    : PathFinder.find(this.getPathFindingState(), tile))
 
-    async update_preview(to: TileCoordinates) {
-        if (to == null || !this.pathfinding_state || !TileCoordinates.eq2(this.last_previewed_to, to)) {
-            if (this._preview) {
-                this._preview.remove()
-                this._preview = null
-            }
+            this.previewed_segment.set({
+                target: tile,
+                forced: force,
+                broken: !segment,
+                tiles: segment
+            })
+        } else {
+            this.previewed_segment.set(null)
         }
+    }
 
-        if (!this.pathfinding_state) {
-            this.top_control.instruction_div.empty()
-            this.top_control.instruction_div.text(`Click where you want to start running.`)
-        } else if (to && !TileCoordinates.eq2(this.last_previewed_to, to)) {
-            let path = await PathFinder.find(this.pathfinding_state, to)
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        event.onPre(() => {
+            if (event.original.key == "Control" && this.previewed_segment.value()) {
+                event.stopAllPropagation()
+                this.updatePreview(this.previewed_segment.value().target, true)
+            }
+        })
+    }
 
-            if (this._preview) {
-                this._preview.remove()
-                this._preview = null
+    eventKeyUp(event: GameMapKeyboardEvent) {
+        event.onPre(() => {
+            if (event.original.key == "Control" && this.previewed_segment.value()) {
+                event.stopAllPropagation()
+                this.updatePreview(this.previewed_segment.value().target, false)
             }
 
-            if (path) {
-                this._preview = createStepGraphics({
+            if (event.original.key.toLowerCase() == "r") {
+                event.stopAllPropagation()
+
+                this.segments.update(s => s.splice(s.length - 1, 1))
+
+                if (this.previewed_segment.value()) {
+                    this.updatePreview(this.previewed_segment.value().target, this.previewed_segment.value().forced)
+                }
+                this.previewed_segment.update(() => {})
+            }
+        })
+    }
+}
+
+export default class DrawRunInteraction extends ValueInteraction<Path.step_run> {
+    internal: DrawRunInteractionInternal
+
+    constructor() {
+        super();
+
+        this.internal = new DrawRunInteractionInternal()
+            .onCommit(v => {
+                this.commit(Path.auto_describe({
                     type: "run",
                     description: "",
-                    waypoints: path
-                }).addTo(this)
-            }
+                    waypoints: v.path
+                }))
+            }).addTo(this)
+    }
 
-            this.top_control.instruction_div.empty()
-            this.top_control.instruction_div.append(c().text(`Running from ${this.pathfinding_state.start.x} | ${this.pathfinding_state.start.y}.`))
-            this.top_control.instruction_div.append(c().text(`Currently selected path: ${path.length - 1} tiles/${Math.ceil((path.length - 1) / 2)} ticks.`))
-            this.top_control.instruction_div.append(c().text(`Click map to confirm.`))
-        }
+    setStartPosition(pos: TileCoordinates): this {
+        this.internal.setStartPosition(pos)
 
-        this.last_previewed_to = to
-
-        this.top_control.reset_button.setVisible(!!this.pathfinding_state)
-
-        //let path = await PathFinder.pathFinder(HostedMapData.get(), this._start, this._to)
-        /*let path = await PathFinder.find(PathFinder.init_djikstra(this._start), this._to)
-
-       if (this._preview) {
-           this._preview.remove()
-           this._preview = null
-       }
-
-       if (path) {
-           this._preview = createStepGraphics({
-               type: "run",
-               waypoints: path,
-               description: ""
-           }).addTo(this.layer)
-       }*/
+        return this
     }
 }

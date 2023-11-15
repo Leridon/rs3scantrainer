@@ -19,6 +19,13 @@ export namespace Vector2 {
         }
     }
 
+    export function ul(a: Vector2, b: Vector2): Vector2 {
+        return {
+            x: a.x * b.x,
+            y: a.y * b.y
+        }
+    }
+
     export function neg(a: Vector2): Vector2 {
         return {
             x: -a.x,
@@ -117,5 +124,13 @@ export namespace Vector2 {
         let r = Transform.apply(trans, [a.x, a.y, 1])
 
         return snap({x: r[0], y: r[1]}, 0.5)
+    }
+
+    export function abs(a: Vector2): Vector2 {
+        return {x: Math.abs(a.x), y: Math.abs(a.y)}
+    }
+
+    export function toString(a: Vector2): string {
+        return `${a.x}|${a.y}`
     }
 }

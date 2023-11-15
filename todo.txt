@@ -4,15 +4,13 @@ Immediate next:
 
 - Path Editor
     - Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
-    - Path-level-issues
 
 - Scan Editor
     - Switching between active nodes glitches out
-    - Autoname areas
-    - Reenable spot sorting/numbers on preview
-    - Port UI Elements to GameLayer
-    - Dropdown select go out of the viewport and are cut off
     - Display timing in spot view
+    - New solution for setting spot order
+    - Autoname areas
+    - Port UI Elements to GameLayer
     - Cancel for Draw Area
 
 - Shortcut editor

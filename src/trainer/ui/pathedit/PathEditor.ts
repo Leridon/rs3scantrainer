@@ -388,6 +388,8 @@ class ControlWidget extends GameMapControl {
 
         this.content.addClass("path-edit-control")
 
+        this.issue_container = vbox().appendTo(this.content)
+
         this.steps_container = vbox().appendTo(this.content).css2({
             "max-height": "800px",
             "overflow-y": "auto",
@@ -398,13 +400,13 @@ class ControlWidget extends GameMapControl {
     }
 
     private render(augmented: Path.augmented, steps: PathEditor.OValue[]) {
-        /*{
+        {
             this.issue_container.empty()
 
             for (let issue of augmented.issues) {
                 new IssueWidget(issue).appendTo(this.issue_container)
             }
-        }*/
+        }
 
         let existing: { widget: StepEditWidget, keep: boolean }[] = this.step_widgets.map(w => ({widget: w, keep: false}))
 

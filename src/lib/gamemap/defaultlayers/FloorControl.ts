@@ -35,11 +35,11 @@ export default class FloorControl extends GameMapControl {
     }
 
     private goUp(): void {
-        this.parent.getMap().floor.set(floor_t.clamp((this.parent.getMap().floor.get() + 1)))
+        this.parent.getMap().floor.set(floor_t.clamp((this.parent.getMap().floor.value() + 1)))
     }
 
     private goDown(): void {
-        this.parent.getMap().floor.set(floor_t.clamp((this.parent.getMap().floor.get() - 1)))
+        this.parent.getMap().floor.set(floor_t.clamp((this.parent.getMap().floor.value() - 1)))
     }
 
     onAdd(map: GameMap) {

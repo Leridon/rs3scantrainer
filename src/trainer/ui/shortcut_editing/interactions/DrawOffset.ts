@@ -1,6 +1,5 @@
 import {ValueInteraction} from "lib/gamemap/interaction/ValueInteraction";
 import {Vector2} from "lib/math";
-import {arrow} from "../../path_graphics";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import InteractionTopControl from "../../map/InteractionTopControl";
@@ -25,7 +24,7 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
         event.onPre(() => {
             event.stopAllPropagation()
 
-            if (this.value.get().value?.origin == null) {
+            if (this.value.value().value?.origin == null) {
                 if (TileRectangle.contains(this.start_area, event.tile())) {
                     this.preview({
                         origin: event.tile(),
@@ -34,8 +33,8 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
                 }
             } else {
                 this.commit({
-                    origin: this.value.get().value.origin,
-                    offset: {...Vector2.sub(event.tile(), this.value.get().value.origin), level: event.tile().level - this.value.get().value.origin.level},
+                    origin: this.value.value().value.origin,
+                    offset: {...Vector2.sub(event.tile(), this.value.value().value.origin), level: event.tile().level - this.value.value().value.origin.level},
                 })
             }
         })
@@ -43,10 +42,10 @@ export class DrawOffset extends ValueInteraction<DrawOffset.value_t> {
 
     eventHover(event: GameMapMouseEvent) {
         event.onPre(() => {
-            if (this.value.get().value?.origin != null) {
+            if (this.value.value().value?.origin != null) {
                 this.preview({
-                    origin: this.value.get().value.origin,
-                    offset: {...Vector2.sub(event.tile(), this.value.get().value.origin), level: event.tile().level - this.value.get().value.origin.level},
+                    origin: this.value.value().value.origin,
+                    offset: {...Vector2.sub(event.tile(), this.value.value().value.origin), level: event.tile().level - this.value.value().value.origin.level},
                 })
             }
         })

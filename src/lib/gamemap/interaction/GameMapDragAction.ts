@@ -1,9 +1,9 @@
-import {Observable, observe} from "../../properties/Observable";
 import {GameMapMouseEvent} from "../MapEvents";
 import {GameMap} from "../GameMap";
 import {ValueInteraction} from "./ValueInteraction";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {TileCoordinates} from "../../runescape/coordinates";
+import {Observable, observe} from "lib/reactive";
 
 export default class GameMapDragAction extends ValueInteraction<TileRectangle> {
     dragstart: TileCoordinates = null

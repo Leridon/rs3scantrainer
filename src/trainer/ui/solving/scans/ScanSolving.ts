@@ -1,7 +1,6 @@
 import {util} from "lib/util/util";
 import {modal, Modal} from "../../widgets/modal";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
-import {Observable, observe} from "lib/properties/Observable";
 import * as leaflet from "leaflet";
 import {Vector2} from "lib/math";
 import {floor_t} from "lib/runescape/coordinates";
@@ -29,6 +28,7 @@ import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import assumedRange = ScanTree.assumedRange;
 import ScanEditor from "../../scanedit/ScanEditor";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
+import {Observable, observe} from "../../../../lib/reactive";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -211,7 +211,7 @@ class ScanTreeMethodPanel extends MethodPanel {
     }
 
     private render() {
-        let node = this.node.get()
+        let node = this.node.value()
 
         {
             this.ui_nav.empty()

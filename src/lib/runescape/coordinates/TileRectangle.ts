@@ -2,6 +2,7 @@ import {Rectangle, Transform, Vector2} from "../../math";
 import {floor_t} from "./index";
 import {TileCoordinates} from "./TileCoordinates";
 import {TileTransform} from "./TileTransform";
+import {Rect} from "@alt1/base";
 
 export type TileRectangle = Rectangle & {
     level: floor_t
@@ -28,6 +29,14 @@ export namespace TileRectangle {
 
     export function br(rect: TileRectangle): TileCoordinates {
         return lift_tile(rect.botright, rect.level)
+    }
+
+    export function tr(rect: TileRectangle): TileCoordinates {
+        return lift_tile(Rectangle.topRight(rect), rect.level)
+    }
+
+    export function bl(rect: TileRectangle): TileCoordinates {
+        return lift_tile(Rectangle.bottomLeft(rect), rect.level)
     }
 
     export function center(rect: TileRectangle, snap: boolean = true): TileCoordinates {

@@ -1,5 +1,6 @@
+import * as lodash from "lodash";
 import {ewent, Ewent} from "./Ewent";
-import {observe} from "./index";
+import {EwentHandler, observe} from "./index";
 
 export interface Observable<T> {
     changed: Ewent<{ value: T, old?: T }>
@@ -10,7 +11,9 @@ export interface Observable<T> {
 
     update(f: (v: T) => void): void
 
-    subscribe(handler: (new_value: T, old: T) => any, trigger_once?: boolean): this
+    update2(f: (v: T) => void): void
+
+    subscribe(handler: (new_value: T, old: T) => any, trigger_once?: boolean, handler_f?: (_: EwentHandler<any>) => void): this
 
     map<U>(f: (_: T) => U): Observable.Derived<U, T>
 
@@ -55,8 +58,18 @@ export namespace Observable {
             this.trigger_changed(undefined)
         }
 
-        subscribe(handler: (new_value: T, old: T) => any, trigger_once: boolean = false): this {
-            this.changed.on((o) => handler(o.value, o.old))
+        update2(f: (v: T) => void): void {
+            let old = lodash.cloneDeep(this._value)
+
+            f(this._value)
+
+            if (!this.equality_f(old, this._value)) this.trigger_changed(old)
+        }
+
+        subscribe(handler: (new_value: T, old: T) => any, trigger_once: boolean = false, handler_f: (_: EwentHandler<any>) => void = null): this {
+            let h = this.changed.on((o) => handler(o.value, o.old))
+
+            if (handler_f) handler_f(h)
 
             if (trigger_once) handler(this._value, undefined)
 

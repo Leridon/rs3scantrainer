@@ -110,14 +110,14 @@ class EquivalenceClassHandling extends Behaviour {
             candidates: this.parent.options.clue.solution.candidates,
             range: assumedRange(this.parent.builder.tree),
             complement: false,
-            floor: this.parent.options.map.floor.get()
+            floor: this.parent.options.map.floor.value()
         }, this.parent.panel.tools.normal)
 
         let complement = setup({
             candidates: this.parent.options.clue.solution.candidates,
             range: assumedRange(this.parent.builder.tree),
             complement: true,
-            floor: this.parent.options.map.floor.get()
+            floor: this.parent.options.map.floor.value()
         }, this.parent.panel.tools.complement)
 
         this.equivalence_classes = [normal, complement]

@@ -1,6 +1,6 @@
 import InteractionLayer from "./InteractionLayer";
-import {Observable, observe} from "../../properties/Observable";
 import * as leaflet from "leaflet";
+import {Observable, observe} from "lib/reactive";
 
 export class ValueInteraction<T> extends InteractionLayer {
     private _preview: leaflet.Layer = null
@@ -20,7 +20,7 @@ export class ValueInteraction<T> extends InteractionLayer {
     }
 
     cancel() {
-        if(!this.value.get().committed) this.value.set({value: null, committed: true})
+        if(!this.value.value().committed) this.value.set({value: null, committed: true})
         super.cancel()
     }
 

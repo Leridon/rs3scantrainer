@@ -2,8 +2,8 @@ import {ClueStep, ClueType} from "lib/runescape/clues";
 import {Constants} from "trainer/constants";
 import {Application} from "trainer/application";
 import Widget from "lib/ui/Widget";
-import {observe} from "lib/properties/Observable";
 import {SmallImageButton} from "./widgets/SmallImageButton";
+import {observe} from "../../lib/reactive";
 
 export class SidePanel<events_t extends Record<string, any> = {}> extends Widget<events_t> {
     protected ui: {

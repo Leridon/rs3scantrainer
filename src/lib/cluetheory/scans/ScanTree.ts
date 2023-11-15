@@ -246,7 +246,7 @@ export namespace ScanTree {
                 node.children.forEach(c => helper(c.value))
 
                 let cs = node.children.map(c => c.value)
-                
+
                 node.completeness = "complete"
 
                 if (node.remaining_candidates.length > 1 && cs.length == 0)

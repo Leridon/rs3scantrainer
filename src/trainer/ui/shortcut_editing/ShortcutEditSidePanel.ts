@@ -146,7 +146,7 @@ export class ShortcutEdit extends Widget {
 
                 props.named("Bounds",
                     c("<div style='display: flex'></div>")
-                        .append(c("<span style='margin-right: 5px;'></span>").setInnerHtml(`${width} wide ${dir} door at ${v.area.topleft.x}|${v.area.botright.y}`))
+                        .append(c("<span style='margin-right: 5px;'></span>").setInnerHtml(`${width} wide ${dir} door at ${TileCoordinates.toString(TileRectangle.bl(v.area))}`))
                         .append(c().css("flex-grow", "1"))
                         .append(
                             new LightButton("Select")
@@ -172,7 +172,7 @@ export class ShortcutEdit extends Widget {
             case "entity": {
                 props.named("Click-Area",
                     c("<div style='display: flex'></div>")
-                        .append(c("<span style='margin-right: 5px;'></span>").text(`${Rectangle.width(v.clickable_area)}x${Rectangle.height(v.clickable_area)} at ${v.clickable_area.topleft.x}|${v.clickable_area.botright.y}`))
+                        .append(c("<span style='margin-right: 5px;'></span>").text(`${Rectangle.width(v.clickable_area)}x${Rectangle.height(v.clickable_area)} at ${TileCoordinates.toString(TileRectangle.bl(v.clickable_area))}`))
                         .append(c().css("flex-grow", "1"))
                         .append(
                             new LightButton("Select")
@@ -238,7 +238,7 @@ export class ShortcutEdit extends Widget {
                     )
                     props.named("Area",
                         c("<div style='display: flex'></div>")
-                            .append(c("<span style='margin-right: 5px;'></span>").text(`${Rectangle.tileWidth(action.interactive_area)}x${Rectangle.tileHeight(action.interactive_area)} at ${action.interactive_area.topleft.x}|${action.interactive_area.botright.y}`))
+                            .append(c("<span style='margin-right: 5px;'></span>").text(`${Rectangle.tileWidth(action.interactive_area)}x${Rectangle.tileHeight(action.interactive_area)} at ${TileCoordinates.toString(TileRectangle.bl(action.interactive_area))}`))
                             .append(c().css("flex-grow", "1"))
                             .append(
                                 new LightButton("Select")
@@ -562,7 +562,7 @@ export default class ShortcutEditSidePanel extends SidePanel {
 
     private updateVisibleData() {
         this.visible_data_view.set(this.editor.data.get().filter(s => {
-            return s.value().name.includes(this.search_term.value()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.deps.map.viewport.get()))
+            return s.value().name.includes(this.search_term.value()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.deps.map.viewport.value()))
         }))
     }
 }

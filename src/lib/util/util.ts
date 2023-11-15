@@ -1,7 +1,10 @@
 import * as L from "leaflet"
 import * as leaflet from "leaflet";
+import {ExportImport} from "./exportString";
 
 export namespace util {
+
+    import exp = ExportImport.exp;
 
     export function natural_join(a: any[], connector: "and" | "or" = "and"): string {
         if (a.length == 0) return ""
@@ -121,11 +124,16 @@ export namespace util {
 
         return res
     }
+
     export async function profileAsync<T>(f: () => Promise<T>, name: string = null): Promise<T> {
         console.time(name || f.name)
         let res = await f()
         console.timeEnd(name || f.name)
 
         return res
+    }
+
+    export function avg(...ns: number[]): number {
+        return ns.reduce((a, b) => a + b, 0) / ns.length
     }
 }

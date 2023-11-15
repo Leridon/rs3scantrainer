@@ -1,4 +1,4 @@
-import SpotOrderingEdit from "./SpotNumberingEdit";
+import SpotOrderingEdit from "./SpotOverview";
 import TreeEdit from "./TreeEdit";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
@@ -81,7 +81,7 @@ export default class ScanEditPanel extends SidePanel {
         this.spot_ordering = new SpotOrderingEdit(parent.builder)
         this.tree_edit = new TreeEdit(this, this.parent.builder.tree.root)
 
-        new Collapsible("Spot ordering", this.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
+        new Collapsible("Overview", this.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
         new Collapsible("Movement Tree", this.tree_edit).addClass("fullwidth-in-panel").appendTo(this)
 
         this.candidates = this.parent.options.clue.solution.candidates

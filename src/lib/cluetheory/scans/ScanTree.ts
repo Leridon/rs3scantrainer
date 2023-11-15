@@ -43,6 +43,7 @@ export namespace ScanTree {
     export namespace Augmentation {
         import profileAsync = util.profileAsync;
         import profile = util.profile;
+        import avg = util.avg;
         export type AugmentedScanTree = {
             raw: TreeWithClue,
             root_node: AugmentedScanTreeNode,
@@ -50,7 +51,10 @@ export namespace ScanTree {
                 paths_augmented: boolean
                 completeness_analyzed: boolean
                 correctness_analyzed: boolean,
-                timing_analysis: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[]}[]
+                timing_analysis: {
+                    spots: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[],
+                    average: number,
+                }
             }
         }
 
@@ -259,7 +263,7 @@ export namespace ScanTree {
         }
 
         export function analyze_timing(tree: AugmentedScanTree): AugmentedScanTree {
-            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[]}[] = tree.raw.clue.solution.candidates.map(c => ({spot: c, timings: []}))
+            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[] = tree.raw.clue.solution.candidates.map(c => ({spot: c, timings: [], average: 0}))
 
             AugmentedScanTree.traverse(tree.root_node, (node) => {
                 if (node.children.length == 0) {
@@ -273,7 +277,12 @@ export namespace ScanTree {
                 }
             })
 
-            tree.state.timing_analysis = timings
+            timings.forEach(t => t.average = avg(...t.timings.map(t => t.ticks)))
+
+            tree.state.timing_analysis = {
+                spots: timings,
+                average: avg(...timings.map(t => t.average))
+            }
 
             return tree
         }

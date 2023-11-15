@@ -1,6 +1,5 @@
 import {Observable, observe} from "../../properties/Observable";
 import {GameMapMouseEvent} from "../MapEvents";
-import {boxPolygon} from "../../../trainer/ui/polygon_helpers";
 import {GameMap} from "../GameMap";
 import {ValueInteraction} from "./ValueInteraction";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
@@ -12,10 +11,6 @@ export default class GameMapDragAction extends ValueInteraction<TileRectangle> {
     area: Observable<{ area: TileRectangle, committed: boolean }> = observe({area: null, committed: false})
 
     constructor(public config: ValueInteraction.option_t<TileRectangle>) {
-        if (!config.preview_render) {
-            config.preview_render = (area) => boxPolygon(area)
-        }
-
         super(config);
     }
 

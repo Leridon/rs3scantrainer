@@ -4,12 +4,11 @@ import * as leaflet from "leaflet"
 import Checkbox from "lib/ui/controls/Checkbox";
 import LightButton from "../widgets/LightButton";
 import {Vector2} from "lib/math";
-import {observe} from "lib/properties/Observable";
 import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
-import vbox = C.vbox;
 import hboxc = C.hboxc;
 import centered = C.centered;
+import {observe} from "../../../lib/reactive";
 
 export default class ScanTools extends Widget {
     normal = observe(false)

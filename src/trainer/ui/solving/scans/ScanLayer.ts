@@ -9,9 +9,10 @@ import {ActiveOpacityGroup, OpacityGroup} from "lib/gamemap/layers/OpacityLayer"
 import {boxPolygon} from "../../polygon_helpers";
 import {Scans} from "lib/runescape/clues/scans";
 import GameLayer from "lib/gamemap/GameLayer";
-import {Observable, observe, observe_combined} from "lib/properties/Observable";
 import complementSpot = Scans.complementSpot;
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
+import {Observable, observe} from "lib/reactive";
+import observe_combined = Observable.observe_combined;
 
 export class ScanRegionPolygon extends ActiveOpacityGroup {
     polygon: leaflet.Polygon
@@ -148,7 +149,7 @@ export class ScanLayer extends GameLayer {
             }
 
             if (spot) {
-                let is_complement = Math.floor(spot.coordinates.y / 6400) != Math.floor(this.spots.get()[0].y / 6400)
+                let is_complement = Math.floor(spot.coordinates.y / 6400) != Math.floor(this.spots.value()[0].y / 6400)
 
                 this.custom_marker = new ScanRadiusMarker(spot.coordinates, range, spot.with_marker, is_complement).addTo(this)
 
@@ -167,10 +168,10 @@ export class ScanLayer extends GameLayer {
 
             this.digSpotMarkers = spots.map(s => {
                 let marker = new ScanDigSpotMarker(s)
-                    .setActive(this.active_spots.get().some(a => TileCoordinates.eq(a, s)))
+                    .setActive(this.active_spots.value().some(a => TileCoordinates.eq(a, s)))
                     .addTo(this)
 
-                let i = this.spot_order.get().findIndex((a) => TileCoordinates.eq(a, s))
+                let i = this.spot_order.value().findIndex((a) => TileCoordinates.eq(a, s))
 
                 if (i >= 0) marker.index.set(i + 1)
 
@@ -213,7 +214,7 @@ export class ScanLayer extends GameLayer {
 
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPre(() => {
-            if (this.marker_spot.get()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.get()?.coordinates)) {
+            if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
                 event.add({type: "basic", text: "Remove Marker", handler: () => this.marker_spot.set(null)})
             } else event.add({
                 type: "basic", text: "Set Marker", handler: () => {
@@ -225,7 +226,7 @@ export class ScanLayer extends GameLayer {
 
     eventClick(event: GameMapMouseEvent) {
         event.onPost(() => {
-            if (this.marker_spot.get()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.get()?.coordinates)) {
+            if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
                 this.marker_spot.set(null)
             } else {
                 this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})

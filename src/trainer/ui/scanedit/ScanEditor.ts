@@ -1,6 +1,5 @@
 import {GameMap} from "lib/gamemap/GameMap";
 import {ScanStep} from "lib/runescape/clues";
-import {Observable, observe} from "lib/properties/Observable";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
@@ -21,6 +20,8 @@ import {CluePanel} from "../SidePanelControl";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import shortcuts from "../../../data/shortcuts";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
+import {Observable, observe} from "lib/reactive";
+import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -86,12 +87,12 @@ class EquivalenceClassHandling extends Behaviour {
 
             layer.subscribe((l, old) => {
                 if (old.hasValue()) self.parent.layer.removeLayer(old.get())
-                if (visibility.get()) self.parent.layer.addLayer(l.get())
+                if (visibility.value()) self.parent.layer.addLayer(l.get())
             })
 
             visibility.subscribe(v => {
-                if (v) self.parent.layer.addLayer(layer.get().get())
-                else if (layer.get().hasValue()) self.parent.layer.removeLayer(layer.get().get())
+                if (v) self.parent.layer.addLayer(layer.value().get())
+                else if (layer.value().hasValue()) self.parent.layer.removeLayer(layer.value().get())
             })
 
             return {
@@ -125,7 +126,7 @@ class EquivalenceClassHandling extends Behaviour {
 
     protected end() {
         this.equivalence_classes.forEach(e => {
-            if (e.layer.get().hasValue()) e.layer.get().get().remove()
+            if (e.layer.value().hasValue()) e.layer.value().get().remove()
         })
 
         this.equivalence_classes = []
@@ -148,7 +149,7 @@ class PreviewLayerControl extends Behaviour {
     }
 
     private async updatePreview() {
-        let a = this.parent.panel.tree_edit.active_node.get()
+        let a = this.parent.panel.tree_edit.active_node.value()
 
         let layer = new OpacityGroup()
 
@@ -194,6 +195,7 @@ export default class ScanEditor extends Behaviour {
     public value: ScanTreeWithClue
 
     layer: ScanEditLayerLight
+    interaction_guard: InteractionGuard
     panel: ScanEditPanel
 
     equivalence_classes: EquivalenceClassHandling
@@ -212,12 +214,11 @@ export default class ScanEditor extends Behaviour {
         super();
 
         this.layer = new ScanEditLayerLight(this)
+        this.interaction_guard = new InteractionGuard().setDefaultLayer(this.layer)
 
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
         this.path_editor = this.withSub(new SingleBehaviour<PathEditor>())
-
-
     }
 
     private setPathEditor(node: AugmentedScanTreeNode): void {
@@ -238,7 +239,7 @@ export default class ScanEditor extends Behaviour {
                 }
             })
             .onStop(() => {
-                if (this.panel.tree_edit.active_node.get() == node) this.panel.tree_edit.setActiveNode(null)
+                if (this.panel.tree_edit.active_node.value() == node) this.panel.tree_edit.setActiveNode(null)
             })
         )
     }
@@ -264,7 +265,7 @@ export default class ScanEditor extends Behaviour {
         // Initialize and set the main game layer
         this.layer.spots.set(this.value.clue.solution.candidates)
         this.layer.spot_order.set(this.value.spot_ordering)
-        this.layer.active_spots.bind_to(this.candidates)
+        this.layer.active_spots.bindTo(this.candidates)
         this.options.map.addGameLayer(this.layer)
 
         this.panel.tree_edit.active_node.subscribe(async node => {
@@ -273,7 +274,7 @@ export default class ScanEditor extends Behaviour {
         })
 
         this.panel.tree_edit.on("region_changed", async (node) => {
-            if (node.raw == this.panel.tree_edit.active_node.get()?.raw) {
+            if (node.raw == this.panel.tree_edit.active_node.value()?.raw) {
                 // TODO: Potentially update target in editor
                 /*this.setPathEditor({
                     initial: node.path.raw,

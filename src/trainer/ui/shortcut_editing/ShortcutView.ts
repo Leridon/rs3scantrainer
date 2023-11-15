@@ -7,7 +7,7 @@ import {Rectangle, Vector2} from "lib/math";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {Path} from "lib/runescape/pathing";
 import {arrow} from "../path_graphics";
-import {Observable, ObservableArray, observe} from "../../../lib/reactive";
+import {Observable, ObservableArray} from "../../../lib/reactive";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 
 export class ShortcutViewLayer extends GameLayer {

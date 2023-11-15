@@ -6,9 +6,10 @@ Immediate next:
 - Scan Editor
     - Display timing in spot view
     - New solution for setting spot order
+    - [Bug] Weird scaling of active node marker
     - Autoname areas
     - Port UI Elements to GameLayer
-    - Cancel for Draw Area
+    - Get rid of old observable
 
 - Shortcut editor
     - [Bug] Actually disable editing for builtins

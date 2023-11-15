@@ -7,11 +7,16 @@ export interface Observable<T> {
     value(): T
 
     set(v: T): void
+
     update(f: (v: T) => void): void
 
     subscribe(handler: (new_value: T, old: T) => any, trigger_once?: boolean): this
 
     map<U>(f: (_: T) => U): Observable.Derived<U, T>
+
+    bindTo(other: Observable<T>): this
+
+    bind(other: Observable<T>): this
 }
 
 export namespace Observable {
@@ -61,6 +66,21 @@ export namespace Observable {
         map<U>(f: (_: T) => U): Observable.Derived<U, T> {
             return new Observable.Derived<U, T>(this, f)
         }
+
+        bindTo(other: Observable<T>): this {
+            other.subscribe(v => this._set(v))
+
+            this._set(other.value())
+
+            return this
+        }
+
+        bind(other: Observable<T>): this {
+            this.bindTo(other)
+            other.bindTo(this)
+
+            return this
+        }
     }
 
     export class Derived<T, U> extends AbstractObservable<T> {
@@ -84,6 +104,7 @@ export namespace Observable {
     }
 
     type ex<T> = T extends Observable<infer U> ? U : never
+
     export function observe_combined<T extends Record<string, Observable<any>>>(o: T): Observable<{ [key in keyof T]?: ex<T[key]> }> {
         let obs: Simple<{ [key in keyof T]?: ex<T[key]> }> = observe({})
 

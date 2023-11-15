@@ -24588,6 +24588,7 @@ let raw: Method[] = [
             ]
         }
     },
+    // Neitiznot
     {
         "clue_id": 363,
         "type": "scantree",
@@ -24757,8 +24758,8 @@ let raw: Method[] = [
         "root": {
             "path": [
                 {
-                    "description": "Use {{teleport naturessentinel arcticpine}} to Arctic Pine Trees",
                     "type": "teleport",
+                    "description": "Use {{teleport naturessentinel arcticpine}} to Arctic Pine Trees",
                     "id": {
                         "group": "naturessentinel",
                         "sub": "arcticpine"
@@ -24787,65 +24788,6 @@ let raw: Method[] = [
                         "different_level": false
                     },
                     "value": {
-                        "path": [],
-                        "directions": "Missing directions",
-                        "children": []
-                    }
-                },
-                {
-                    "key": {
-                        "pulse": 2,
-                        "different_level": false
-                    },
-                    "value": {
-                        "path": [
-                            {
-                                "type": "run",
-                                "waypoints": [
-                                    {
-                                        "x": 2355,
-                                        "y": 3848,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2355,
-                                        "y": 3849,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2355,
-                                        "y": 3850,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2355,
-                                        "y": 3851,
-                                        "level": 0
-                                    },
-                                    {
-                                        "x": 2356,
-                                        "y": 3852,
-                                        "level": 0
-                                    }
-                                ],
-                                "description": "Run 4 tiles"
-                            }
-                        ],
-                        "region": {
-                            "name": "B",
-                            "area": {
-                                "topleft": {
-                                    "x": 2356,
-                                    "y": 3854
-                                },
-                                "botright": {
-                                    "x": 2356,
-                                    "y": 3852
-                                },
-                                "level": 0
-                            }
-                        },
-                        "directions": "{{icon run}} to {{target}}",
                         "children": [
                             {
                                 "key": {
@@ -24853,9 +24795,2510 @@ let raw: Method[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "path": [],
-                                    "directions": "Missing directions",
-                                    "children": []
+                                    "children": [
+                                        {
+                                            "key": {
+                                                "pulse": 1,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "children": [
+                                                    {
+                                                        "key": {
+                                                            "pulse": 1,
+                                                            "different_level": false
+                                                        },
+                                                        "value": {
+                                                            "children": [
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 1,
+                                                                        "different_level": false
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 1,
+                                                                                    "different_level": false
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "key": {
+                                                                                                "pulse": 3,
+                                                                                                "different_level": false,
+                                                                                                "spot": {
+                                                                                                    "x": 2354,
+                                                                                                    "y": 3790,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            },
+                                                                                            "value": {
+                                                                                                "children": [],
+                                                                                                "directions": "{{icon run}} to {{target}}",
+                                                                                                "path": [
+                                                                                                    {
+                                                                                                        "type": "run",
+                                                                                                        "description": "Run 24 tiles",
+                                                                                                        "waypoints": [
+                                                                                                            {
+                                                                                                                "x": 2339,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2340,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2341,
+                                                                                                                "y": 3805,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2344,
+                                                                                                                "y": 3805,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2345,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2347,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2352,
+                                                                                                                "y": 3799,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2353,
+                                                                                                                "y": 3799,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2357,
+                                                                                                                "y": 3795,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2357,
+                                                                                                                "y": 3791,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2356,
+                                                                                                                "y": 3791,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2355,
+                                                                                                                "y": 3790,
+                                                                                                                "level": 0
+                                                                                                            }
+                                                                                                        ]
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "key": {
+                                                                                                "pulse": 3,
+                                                                                                "different_level": false,
+                                                                                                "spot": {
+                                                                                                    "x": 2360,
+                                                                                                    "y": 3799,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            },
+                                                                                            "value": {
+                                                                                                "children": [],
+                                                                                                "directions": "{{icon run}} to {{target}}",
+                                                                                                "path": [
+                                                                                                    {
+                                                                                                        "type": "run",
+                                                                                                        "description": "Run 20 tiles",
+                                                                                                        "waypoints": [
+                                                                                                            {
+                                                                                                                "x": 2339,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2340,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2341,
+                                                                                                                "y": 3805,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2344,
+                                                                                                                "y": 3805,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2345,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2347,
+                                                                                                                "y": 3804,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2352,
+                                                                                                                "y": 3799,
+                                                                                                                "level": 0
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "x": 2359,
+                                                                                                                "y": 3799,
+                                                                                                                "level": 0
+                                                                                                            }
+                                                                                                        ]
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        }
+                                                                                    ],
+                                                                                    "directions": "{{surgedive}} - {{icon cursor_open}} Pass Gate - {{surge}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2311,
+                                                                                                "y": 3787,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2314,
+                                                                                                "y": 3793,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} North-East",
+                                                                                            "from": {
+                                                                                                "x": 2314,
+                                                                                                "y": 3793,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2324,
+                                                                                                "y": 3803,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 4 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2324,
+                                                                                                    "y": 3803,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2325,
+                                                                                                    "y": 3803,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2326,
+                                                                                                    "y": 3804,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2328,
+                                                                                                    "y": 3804,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "shortcut_v2",
+                                                                                            "assumed_start": {
+                                                                                                "x": 2328,
+                                                                                                "y": 3804,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "description": "Door: {{icon cursor_open}} Cross east ",
+                                                                                            "internal": {
+                                                                                                "type": "entity",
+                                                                                                "name": "Door",
+                                                                                                "clickable_area": {
+                                                                                                    "topleft": {
+                                                                                                        "x": 2328,
+                                                                                                        "y": 3805.5
+                                                                                                    },
+                                                                                                    "botright": {
+                                                                                                        "x": 2329,
+                                                                                                        "y": 3803.5
+                                                                                                    },
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "cursor": "open",
+                                                                                                        "interactive_area": {
+                                                                                                            "topleft": {
+                                                                                                                "x": 2328,
+                                                                                                                "y": 3805
+                                                                                                            },
+                                                                                                            "botright": {
+                                                                                                                "x": 2328,
+                                                                                                                "y": 3804
+                                                                                                            },
+                                                                                                            "level": 0
+                                                                                                        },
+                                                                                                        "time": 1,
+                                                                                                        "name": "Cross east",
+                                                                                                        "movement": {
+                                                                                                            "type": "offset",
+                                                                                                            "offset": {
+                                                                                                                "x": 1,
+                                                                                                                "y": 0,
+                                                                                                                "level": 0
+                                                                                                            }
+                                                                                                        },
+                                                                                                        "orientation": {
+                                                                                                            "type": "forced",
+                                                                                                            "direction": 3,
+                                                                                                            "relative": true
+                                                                                                        }
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} East",
+                                                                                            "from": {
+                                                                                                "x": 2329,
+                                                                                                "y": 3804,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2339,
+                                                                                                "y": 3804,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        }
+                                                                                    ],
+                                                                                    "region": {
+                                                                                        "name": "",
+                                                                                        "area": {
+                                                                                            "level": 0,
+                                                                                            "topleft": {
+                                                                                                "x": 2339,
+                                                                                                "y": 3804
+                                                                                            },
+                                                                                            "botright": {
+                                                                                                "x": 2339,
+                                                                                                "y": 3804
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 2,
+                                                                                    "different_level": false
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{surgedive}} - {{icon cursor_open}} Pass Gate {{surge}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2311,
+                                                                                                "y": 3787,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2314,
+                                                                                                "y": 3793,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} North-East",
+                                                                                            "from": {
+                                                                                                "x": 2314,
+                                                                                                "y": 3793,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2324,
+                                                                                                "y": 3803,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 4 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2324,
+                                                                                                    "y": 3803,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2325,
+                                                                                                    "y": 3803,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2326,
+                                                                                                    "y": 3804,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2328,
+                                                                                                    "y": 3804,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "shortcut_v2",
+                                                                                            "assumed_start": {
+                                                                                                "x": 2328,
+                                                                                                "y": 3804,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "description": "Door: {{icon cursor_open}} Cross east ",
+                                                                                            "internal": {
+                                                                                                "type": "entity",
+                                                                                                "name": "Door",
+                                                                                                "clickable_area": {
+                                                                                                    "topleft": {
+                                                                                                        "x": 2328,
+                                                                                                        "y": 3805.5
+                                                                                                    },
+                                                                                                    "botright": {
+                                                                                                        "x": 2329,
+                                                                                                        "y": 3803.5
+                                                                                                    },
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "cursor": "open",
+                                                                                                        "interactive_area": {
+                                                                                                            "topleft": {
+                                                                                                                "x": 2328,
+                                                                                                                "y": 3805
+                                                                                                            },
+                                                                                                            "botright": {
+                                                                                                                "x": 2328,
+                                                                                                                "y": 3804
+                                                                                                            },
+                                                                                                            "level": 0
+                                                                                                        },
+                                                                                                        "time": 1,
+                                                                                                        "name": "Cross east",
+                                                                                                        "movement": {
+                                                                                                            "type": "offset",
+                                                                                                            "offset": {
+                                                                                                                "x": 1,
+                                                                                                                "y": 0,
+                                                                                                                "level": 0
+                                                                                                            }
+                                                                                                        },
+                                                                                                        "orientation": {
+                                                                                                            "type": "forced",
+                                                                                                            "direction": 3,
+                                                                                                            "relative": true
+                                                                                                        }
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} East",
+                                                                                            "from": {
+                                                                                                "x": 2329,
+                                                                                                "y": 3804,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2339,
+                                                                                                "y": 3804,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 3,
+                                                                                    "different_level": false,
+                                                                                    "spot": {
+                                                                                        "x": 2322,
+                                                                                        "y": 3787,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{surgedive}} - {{icon cursor_open}} Pass Gate {{surge}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2311,
+                                                                                                "y": 3787,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2314,
+                                                                                                "y": 3792,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} North-East",
+                                                                                            "from": {
+                                                                                                "x": 2314,
+                                                                                                "y": 3792,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2324,
+                                                                                                "y": 3802,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 2 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2324,
+                                                                                                    "y": 3802,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2326,
+                                                                                                    "y": 3802,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "shortcut_v2",
+                                                                                            "assumed_start": {
+                                                                                                "x": 2326,
+                                                                                                "y": 3802,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "description": "Door: {{icon cursor_open}} Cross south ",
+                                                                                            "internal": {
+                                                                                                "type": "entity",
+                                                                                                "name": "Door",
+                                                                                                "clickable_area": {
+                                                                                                    "topleft": {
+                                                                                                        "x": 2325.5,
+                                                                                                        "y": 3802
+                                                                                                    },
+                                                                                                    "botright": {
+                                                                                                        "x": 2326.5,
+                                                                                                        "y": 3801
+                                                                                                    },
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "cursor": "open",
+                                                                                                        "interactive_area": {
+                                                                                                            "topleft": {
+                                                                                                                "x": 2326,
+                                                                                                                "y": 3802
+                                                                                                            },
+                                                                                                            "botright": {
+                                                                                                                "x": 2326,
+                                                                                                                "y": 3802
+                                                                                                            },
+                                                                                                            "level": 0
+                                                                                                        },
+                                                                                                        "time": 1,
+                                                                                                        "name": "Cross south",
+                                                                                                        "movement": {
+                                                                                                            "type": "offset",
+                                                                                                            "offset": {
+                                                                                                                "x": 0,
+                                                                                                                "y": -1,
+                                                                                                                "level": 0
+                                                                                                            }
+                                                                                                        },
+                                                                                                        "orientation": {
+                                                                                                            "type": "forced",
+                                                                                                            "direction": 4,
+                                                                                                            "relative": true
+                                                                                                        }
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} South",
+                                                                                            "from": {
+                                                                                                "x": 2326,
+                                                                                                "y": 3801,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2326,
+                                                                                                "y": 3791,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 4 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2326,
+                                                                                                    "y": 3791,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2322,
+                                                                                                    "y": 3787,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 3,
+                                                                                    "different_level": false,
+                                                                                    "spot": {
+                                                                                        "x": 2311,
+                                                                                        "y": 3801,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{surgedive}} - {{icon run}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 5 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2311,
+                                                                                                    "y": 3787,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2311,
+                                                                                                    "y": 3788,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2312,
+                                                                                                    "y": 3788,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2312,
+                                                                                                    "y": 3789,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2313,
+                                                                                                    "y": 3789,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2313,
+                                                                                                    "y": 3790,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} North",
+                                                                                            "from": {
+                                                                                                "x": 2313,
+                                                                                                "y": 3790,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2313,
+                                                                                                "y": 3798,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2313,
+                                                                                                "y": 3798,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2316,
+                                                                                                "y": 3803,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 6 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2316,
+                                                                                                    "y": 3803,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2312,
+                                                                                                    "y": 3803,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2312,
+                                                                                                    "y": 3802,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2311,
+                                                                                                    "y": 3801,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "directions": "{{teleport lyre neitiznot}} to {{target}}",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "teleport",
+                                                                                "description": "Use {{teleport lyre neitiznot}} to Neitiznot",
+                                                                                "id": {
+                                                                                    "group": "lyre",
+                                                                                    "sub": "neitiznot"
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "region": {
+                                                                            "area": {
+                                                                                "topleft": {
+                                                                                    "x": 2310,
+                                                                                    "y": 3788
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 2311,
+                                                                                    "y": 3785
+                                                                                },
+                                                                                "level": 0
+                                                                            },
+                                                                            "name": "L"
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 2,
+                                                                        "different_level": false
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 3,
+                                                                                    "different_level": false,
+                                                                                    "spot": {
+                                                                                        "x": 2376,
+                                                                                        "y": 3800,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{icon cursor_open}} Pass Gate - {{surge}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 5 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2393,
+                                                                                                    "y": 3800,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2390,
+                                                                                                    "y": 3800,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2389,
+                                                                                                    "y": 3799,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2388,
+                                                                                                    "y": 3799,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "shortcut_v2",
+                                                                                            "assumed_start": {
+                                                                                                "x": 2388,
+                                                                                                "y": 3799,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "description": "Door: {{icon cursor_open}} Cross west ",
+                                                                                            "internal": {
+                                                                                                "type": "entity",
+                                                                                                "name": "Door",
+                                                                                                "clickable_area": {
+                                                                                                    "topleft": {
+                                                                                                        "x": 2387,
+                                                                                                        "y": 3799.5
+                                                                                                    },
+                                                                                                    "botright": {
+                                                                                                        "x": 2388,
+                                                                                                        "y": 3797.5
+                                                                                                    },
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "cursor": "open",
+                                                                                                        "interactive_area": {
+                                                                                                            "topleft": {
+                                                                                                                "x": 2388,
+                                                                                                                "y": 3799
+                                                                                                            },
+                                                                                                            "botright": {
+                                                                                                                "x": 2388,
+                                                                                                                "y": 3798
+                                                                                                            },
+                                                                                                            "level": 0
+                                                                                                        },
+                                                                                                        "time": 1,
+                                                                                                        "name": "Cross west",
+                                                                                                        "movement": {
+                                                                                                            "type": "offset",
+                                                                                                            "offset": {
+                                                                                                                "x": -1,
+                                                                                                                "y": 0,
+                                                                                                                "level": 0
+                                                                                                            }
+                                                                                                        },
+                                                                                                        "orientation": {
+                                                                                                            "type": "forced",
+                                                                                                            "direction": 1,
+                                                                                                            "relative": true
+                                                                                                        }
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} West",
+                                                                                            "from": {
+                                                                                                "x": 2387,
+                                                                                                "y": 3799,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2377,
+                                                                                                "y": 3799,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 3,
+                                                                                    "different_level": false,
+                                                                                    "spot": {
+                                                                                        "x": 2381,
+                                                                                        "y": 3789,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{icon cursor_open}} Pass Gate - {{surge}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 5 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2393,
+                                                                                                    "y": 3800,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2390,
+                                                                                                    "y": 3800,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2389,
+                                                                                                    "y": 3799,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2388,
+                                                                                                    "y": 3799,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "shortcut_v2",
+                                                                                            "assumed_start": {
+                                                                                                "x": 2388,
+                                                                                                "y": 3799,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "description": "Door: {{icon cursor_open}} Cross west ",
+                                                                                            "internal": {
+                                                                                                "type": "entity",
+                                                                                                "name": "Door",
+                                                                                                "clickable_area": {
+                                                                                                    "topleft": {
+                                                                                                        "x": 2387,
+                                                                                                        "y": 3799.5
+                                                                                                    },
+                                                                                                    "botright": {
+                                                                                                        "x": 2388,
+                                                                                                        "y": 3797.5
+                                                                                                    },
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "cursor": "open",
+                                                                                                        "interactive_area": {
+                                                                                                            "topleft": {
+                                                                                                                "x": 2388,
+                                                                                                                "y": 3799
+                                                                                                            },
+                                                                                                            "botright": {
+                                                                                                                "x": 2388,
+                                                                                                                "y": 3798
+                                                                                                            },
+                                                                                                            "level": 0
+                                                                                                        },
+                                                                                                        "time": 1,
+                                                                                                        "name": "Cross west",
+                                                                                                        "movement": {
+                                                                                                            "type": "offset",
+                                                                                                            "offset": {
+                                                                                                                "x": -1,
+                                                                                                                "y": 0,
+                                                                                                                "level": 0
+                                                                                                            }
+                                                                                                        },
+                                                                                                        "orientation": {
+                                                                                                            "type": "forced",
+                                                                                                            "direction": 1,
+                                                                                                            "relative": true
+                                                                                                        }
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 2 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2387,
+                                                                                                    "y": 3799,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2387,
+                                                                                                    "y": 3798,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2386,
+                                                                                                    "y": 3797,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} South-West",
+                                                                                            "from": {
+                                                                                                "x": 2386,
+                                                                                                "y": 3797,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2379,
+                                                                                                "y": 3790,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 2 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2379,
+                                                                                                    "y": 3790,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2380,
+                                                                                                    "y": 3790,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2381,
+                                                                                                    "y": 3789,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "directions": "Missing directions",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 2 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3782,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3783,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2404,
+                                                                                        "y": 3784,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "surge",
+                                                                                "description": "{{surge}} North-East",
+                                                                                "from": {
+                                                                                    "x": 2404,
+                                                                                    "y": 3784,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2414,
+                                                                                    "y": 3794,
+                                                                                    "level": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 2 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2414,
+                                                                                        "y": 3794,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2413,
+                                                                                        "y": 3795,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2413,
+                                                                                        "y": 3796,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "shortcut_v2",
+                                                                                "assumed_start": {
+                                                                                    "x": 2413,
+                                                                                    "y": 3796,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "description": "Door: {{icon cursor_open}} Cross north ",
+                                                                                "internal": {
+                                                                                    "type": "entity",
+                                                                                    "name": "Door",
+                                                                                    "clickable_area": {
+                                                                                        "topleft": {
+                                                                                            "x": 2411.5,
+                                                                                            "y": 3797
+                                                                                        },
+                                                                                        "botright": {
+                                                                                            "x": 2413.5,
+                                                                                            "y": 3796
+                                                                                        },
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    "actions": [
+                                                                                        {
+                                                                                            "cursor": "open",
+                                                                                            "interactive_area": {
+                                                                                                "topleft": {
+                                                                                                    "x": 2412,
+                                                                                                    "y": 3796
+                                                                                                },
+                                                                                                "botright": {
+                                                                                                    "x": 2413,
+                                                                                                    "y": 3796
+                                                                                                },
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "time": 1,
+                                                                                            "name": "Cross north",
+                                                                                            "movement": {
+                                                                                                "type": "offset",
+                                                                                                "offset": {
+                                                                                                    "x": 0,
+                                                                                                    "y": 1,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            },
+                                                                                            "orientation": {
+                                                                                                "type": "forced",
+                                                                                                "direction": 2,
+                                                                                                "relative": true
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 10 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2413,
+                                                                                        "y": 3797,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2412,
+                                                                                        "y": 3798,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2404,
+                                                                                        "y": 3798,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3799,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "dive",
+                                                                                "description": "Use {{dive}}",
+                                                                                "from": {
+                                                                                    "x": 2403,
+                                                                                    "y": 3799,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2393,
+                                                                                    "y": 3800,
+                                                                                    "level": 0
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "region": {
+                                                                            "name": "",
+                                                                            "area": {
+                                                                                "level": 0,
+                                                                                "topleft": {
+                                                                                    "x": 2393,
+                                                                                    "y": 3800
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 2393,
+                                                                                    "y": 3800
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 3,
+                                                                        "different_level": false,
+                                                                        "spot": {
+                                                                            "x": 2402,
+                                                                            "y": 3789,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [],
+                                                                        "directions": "{{icon run}} to {{target}}",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 6 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3782,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3787,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2402,
+                                                                                        "y": 3788,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 3,
+                                                                        "different_level": false,
+                                                                        "spot": {
+                                                                            "x": 2421,
+                                                                            "y": 3792,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [],
+                                                                        "directions": "{{icon run}} - {{surge}}  to {{target}}",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 2 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3782,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2405,
+                                                                                        "y": 3784,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "surge",
+                                                                                "description": "{{surge}} North-East",
+                                                                                "from": {
+                                                                                    "x": 2405,
+                                                                                    "y": 3784,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2415,
+                                                                                    "y": 3794,
+                                                                                    "level": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 6 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2415,
+                                                                                        "y": 3794,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2419,
+                                                                                        "y": 3794,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2421,
+                                                                                        "y": 3792,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 3,
+                                                                        "different_level": false,
+                                                                        "spot": {
+                                                                            "x": 2397,
+                                                                            "y": 3801,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [],
+                                                                        "directions": "{{surge}} - {{icon cursor_open}} Open Gate - {{dive}} to {{target}}",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 2 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3782,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2403,
+                                                                                        "y": 3783,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2404,
+                                                                                        "y": 3784,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "surge",
+                                                                                "description": "{{surge}} North-East",
+                                                                                "from": {
+                                                                                    "x": 2404,
+                                                                                    "y": 3784,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2414,
+                                                                                    "y": 3794,
+                                                                                    "level": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 2 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2414,
+                                                                                        "y": 3794,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2413,
+                                                                                        "y": 3795,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2413,
+                                                                                        "y": 3796,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "shortcut_v2",
+                                                                                "assumed_start": {
+                                                                                    "x": 2413,
+                                                                                    "y": 3796,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "description": "Door: {{icon cursor_open}} Cross north ",
+                                                                                "internal": {
+                                                                                    "type": "entity",
+                                                                                    "name": "Door",
+                                                                                    "clickable_area": {
+                                                                                        "topleft": {
+                                                                                            "x": 2411.5,
+                                                                                            "y": 3797
+                                                                                        },
+                                                                                        "botright": {
+                                                                                            "x": 2413.5,
+                                                                                            "y": 3796
+                                                                                        },
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    "actions": [
+                                                                                        {
+                                                                                            "cursor": "open",
+                                                                                            "interactive_area": {
+                                                                                                "topleft": {
+                                                                                                    "x": 2412,
+                                                                                                    "y": 3796
+                                                                                                },
+                                                                                                "botright": {
+                                                                                                    "x": 2413,
+                                                                                                    "y": 3796
+                                                                                                },
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "time": 1,
+                                                                                            "name": "Cross north",
+                                                                                            "movement": {
+                                                                                                "type": "offset",
+                                                                                                "offset": {
+                                                                                                    "x": 0,
+                                                                                                    "y": 1,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            },
+                                                                                            "orientation": {
+                                                                                                "type": "forced",
+                                                                                                "direction": 2,
+                                                                                                "relative": true
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 6 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2413,
+                                                                                        "y": 3797,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2412,
+                                                                                        "y": 3798,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2407,
+                                                                                        "y": 3798,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "dive",
+                                                                                "description": "Use {{dive}}",
+                                                                                "from": {
+                                                                                    "x": 2407,
+                                                                                    "y": 3798,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2397,
+                                                                                    "y": 3801,
+                                                                                    "level": 0
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            ],
+                                                            "directions": "{{teleport lyre jatizso}} to {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "teleport",
+                                                                    "description": "Use {{teleport lyre jatizso}} to Jatizso",
+                                                                    "id": {
+                                                                        "group": "lyre",
+                                                                        "sub": "jatizso"
+                                                                    }
+                                                                }
+                                                            ],
+                                                            "region": {
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 2403,
+                                                                        "y": 3782
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 2406,
+                                                                        "y": 3781
+                                                                    },
+                                                                    "level": 0
+                                                                },
+                                                                "name": "K"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "key": {
+                                                            "pulse": 2,
+                                                            "different_level": false
+                                                        },
+                                                        "value": {
+                                                            "children": [
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 1,
+                                                                        "different_level": false
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 2,
+                                                                                    "different_level": false
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{icon run}} - {{surgedive}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 2 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2401,
+                                                                                                    "y": 3860,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2402,
+                                                                                                    "y": 3860,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2403,
+                                                                                                    "y": 3859,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} South-East",
+                                                                                            "from": {
+                                                                                                "x": 2403,
+                                                                                                "y": 3859,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2413,
+                                                                                                "y": 3849,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 6 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2413,
+                                                                                                    "y": 3849,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2416,
+                                                                                                    "y": 3849,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2419,
+                                                                                                    "y": 3846,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2419,
+                                                                                                "y": 3846,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2419,
+                                                                                                "y": 3836,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 2 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2419,
+                                                                                                    "y": 3836,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2419,
+                                                                                                    "y": 3834,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 3,
+                                                                                    "different_level": false,
+                                                                                    "spot": {
+                                                                                        "x": 2418,
+                                                                                        "y": 3870,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{surgedive}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} East",
+                                                                                            "from": {
+                                                                                                "x": 2401,
+                                                                                                "y": 3860,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2411,
+                                                                                                "y": 3860,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2411,
+                                                                                                "y": 3860,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2418,
+                                                                                                "y": 3870,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "directions": "{{icon run}}/{{surge}} - {{icon run}} to eastern rocks",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 2 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2375,
+                                                                                        "y": 3867,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2377,
+                                                                                        "y": 3867,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "surge",
+                                                                                "description": "{{surge}} East",
+                                                                                "from": {
+                                                                                    "x": 2377,
+                                                                                    "y": 3867,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2387,
+                                                                                    "y": 3867,
+                                                                                    "level": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 16 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2387,
+                                                                                        "y": 3867,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2391,
+                                                                                        "y": 3867,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2392,
+                                                                                        "y": 3866,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2392,
+                                                                                        "y": 3864,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2396,
+                                                                                        "y": 3860,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2401,
+                                                                                        "y": 3860,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ],
+                                                                        "region": {
+                                                                            "name": "",
+                                                                            "area": {
+                                                                                "level": 0,
+                                                                                "topleft": {
+                                                                                    "x": 2401,
+                                                                                    "y": 3860
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 2401,
+                                                                                    "y": 3860
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 2,
+                                                                        "different_level": false
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 1,
+                                                                                    "different_level": false
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{icon accel}} - {{surgedive}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} West",
+                                                                                            "from": {
+                                                                                                "x": 2374,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2364,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "powerburst",
+                                                                                            "description": "Use {{icon accel}}",
+                                                                                            "where": {
+                                                                                                "x": 2364,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} West",
+                                                                                            "from": {
+                                                                                                "x": 2364,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2354,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2354,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2349,
+                                                                                                "y": 3877,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 2 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2349,
+                                                                                                    "y": 3877,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2349,
+                                                                                                    "y": 3879,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} North",
+                                                                                            "from": {
+                                                                                                "x": 2349,
+                                                                                                "y": 3879,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2349,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2349,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2359,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} East",
+                                                                                            "from": {
+                                                                                                "x": 2359,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2369,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2369,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2379,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} East",
+                                                                                            "from": {
+                                                                                                "x": 2379,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2389,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2389,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2399,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2399,
+                                                                                                "y": 3889,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2408,
+                                                                                                "y": 3887,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "dive",
+                                                                                            "description": "Use {{dive}}",
+                                                                                            "from": {
+                                                                                                "x": 2408,
+                                                                                                "y": 3887,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2417,
+                                                                                                "y": 3893,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "key": {
+                                                                                    "pulse": 2,
+                                                                                    "different_level": false
+                                                                                },
+                                                                                "value": {
+                                                                                    "children": [],
+                                                                                    "directions": "{{icon run}}/{{surge}} to {{target}}",
+                                                                                    "path": [
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 2 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2374,
+                                                                                                    "y": 3867,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2376,
+                                                                                                    "y": 3867,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} East",
+                                                                                            "from": {
+                                                                                                "x": 2376,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2386,
+                                                                                                "y": 3867,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "run",
+                                                                                            "description": "Run 18 tiles",
+                                                                                            "waypoints": [
+                                                                                                {
+                                                                                                    "x": 2386,
+                                                                                                    "y": 3867,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2386,
+                                                                                                    "y": 3866,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2389,
+                                                                                                    "y": 3863,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2393,
+                                                                                                    "y": 3863,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2396,
+                                                                                                    "y": 3860,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2402,
+                                                                                                    "y": 3860,
+                                                                                                    "level": 0
+                                                                                                },
+                                                                                                {
+                                                                                                    "x": 2403,
+                                                                                                    "y": 3859,
+                                                                                                    "level": 0
+                                                                                                }
+                                                                                            ]
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "ability",
+                                                                                            "ability": "surge",
+                                                                                            "description": "{{surge}} South-East",
+                                                                                            "from": {
+                                                                                                "x": 2403,
+                                                                                                "y": 3859,
+                                                                                                "level": 0
+                                                                                            },
+                                                                                            "to": {
+                                                                                                "x": 2413,
+                                                                                                "y": 3849,
+                                                                                                "level": 0
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            }
+                                                                        ],
+                                                                        "directions": "{{icon run}} 1 tile to {{target}}",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "run",
+                                                                                "description": "Run 1 tiles",
+                                                                                "waypoints": [
+                                                                                    {
+                                                                                        "x": 2375,
+                                                                                        "y": 3867,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    {
+                                                                                        "x": 2374,
+                                                                                        "y": 3867,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ],
+                                                                        "region": {
+                                                                            "area": {
+                                                                                "topleft": {
+                                                                                    "x": 2374,
+                                                                                    "y": 3868
+                                                                                },
+                                                                                "botright": {
+                                                                                    "x": 2374,
+                                                                                    "y": 3867
+                                                                                },
+                                                                                "level": 0
+                                                                            },
+                                                                            "name": "J"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ],
+                                                            "directions": "{{icon run}} 2 tiles west to {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 2 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2377,
+                                                                            "y": 3868,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2376,
+                                                                            "y": 3868,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2375,
+                                                                            "y": 3867,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "region": {
+                                                                "area": {
+                                                                    "topleft": {
+                                                                        "x": 2375,
+                                                                        "y": 3868
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 2375,
+                                                                        "y": 3867
+                                                                    },
+                                                                    "level": 0
+                                                                },
+                                                                "name": "I"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "directions": "{{icon run}} - {{dive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 4 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2363,
+                                                                "y": 3864,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2367,
+                                                                "y": 3868,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2367,
+                                                            "y": 3868,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2377,
+                                                            "y": 3868,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ],
+                                                "region": {
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2377,
+                                                            "y": 3868
+                                                        },
+                                                        "botright": {
+                                                            "x": 2377,
+                                                            "y": 3867
+                                                        },
+                                                        "level": 0
+                                                    },
+                                                    "name": "H"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 2,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "children": [
+                                                    {
+                                                        "key": {
+                                                            "pulse": 1,
+                                                            "different_level": false
+                                                        },
+                                                        "value": {
+                                                            "children": [],
+                                                            "directions": "{{surge}} to {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 2 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2357,
+                                                                            "y": 3868,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2359,
+                                                                            "y": 3868,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "type": "ability",
+                                                                    "ability": "surge",
+                                                                    "description": "{{surge}} East",
+                                                                    "from": {
+                                                                        "x": 2359,
+                                                                        "y": 3868,
+                                                                        "level": 0
+                                                                    },
+                                                                    "to": {
+                                                                        "x": 2369,
+                                                                        "y": 3868,
+                                                                        "level": 0
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 30 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2369,
+                                                                            "y": 3868,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2398,
+                                                                            "y": 3868,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2399,
+                                                                            "y": 3869,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "key": {
+                                                            "pulse": 2,
+                                                            "different_level": false
+                                                        },
+                                                        "value": {
+                                                            "children": [
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 2,
+                                                                        "different_level": false
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [],
+                                                                        "directions": "{{surgedive}} to {{target}}",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "surge",
+                                                                                "description": "{{surge}} East",
+                                                                                "from": {
+                                                                                    "x": 2370,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2380,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "dive",
+                                                                                "description": "Use {{dive}}",
+                                                                                "from": {
+                                                                                    "x": 2380,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2390,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "surge",
+                                                                                "description": "{{surge}} East",
+                                                                                "from": {
+                                                                                    "x": 2390,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2400,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "key": {
+                                                                        "pulse": 3,
+                                                                        "different_level": false,
+                                                                        "spot": {
+                                                                            "x": 2389,
+                                                                            "y": 3899,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "value": {
+                                                                        "children": [],
+                                                                        "directions": "{{surgedive}} to {{target}}",
+                                                                        "path": [
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "surge",
+                                                                                "description": "{{surge}} East",
+                                                                                "from": {
+                                                                                    "x": 2370,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2380,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "type": "ability",
+                                                                                "ability": "dive",
+                                                                                "description": "Use {{dive}}",
+                                                                                "from": {
+                                                                                    "x": 2380,
+                                                                                    "y": 3889,
+                                                                                    "level": 0
+                                                                                },
+                                                                                "to": {
+                                                                                    "x": 2389,
+                                                                                    "y": 3899,
+                                                                                    "level": 0
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            ],
+                                                            "directions": "{{surge}} and {{icon run}} to {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "ability",
+                                                                    "ability": "surge",
+                                                                    "description": "{{surge}} North-West",
+                                                                    "from": {
+                                                                        "x": 2357,
+                                                                        "y": 3868,
+                                                                        "level": 0
+                                                                    },
+                                                                    "to": {
+                                                                        "x": 2347,
+                                                                        "y": 3878,
+                                                                        "level": 0
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 30 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2347,
+                                                                            "y": 3878,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2347,
+                                                                            "y": 3885,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2351,
+                                                                            "y": 3889,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2370,
+                                                                            "y": 3889,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "region": {
+                                                                "area": {
+                                                                    "level": 0,
+                                                                    "topleft": {
+                                                                        "x": 2370,
+                                                                        "y": 3889
+                                                                    },
+                                                                    "botright": {
+                                                                        "x": 2370,
+                                                                        "y": 3889
+                                                                    }
+                                                                },
+                                                                "name": "G"
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "directions": "{{dive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2363,
+                                                            "y": 3864,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2357,
+                                                            "y": 3868,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ],
+                                                "region": {
+                                                    "area": {
+                                                        "topleft": {
+                                                            "x": 2357,
+                                                            "y": 3870
+                                                        },
+                                                        "botright": {
+                                                            "x": 2357,
+                                                            "y": 3865
+                                                        },
+                                                        "level": 0
+                                                    },
+                                                    "name": "F"
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "directions": "{{surge}} to {{target}}",
+                                    "path": [
+                                        {
+                                            "type": "run",
+                                            "description": "Run 2 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2351,
+                                                    "y": 3852,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2353,
+                                                    "y": 3854,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "surge",
+                                            "description": "{{surge}} North-East",
+                                            "from": {
+                                                "x": 2353,
+                                                "y": 3854,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2363,
+                                                "y": 3864,
+                                                "level": 0
+                                            }
+                                        }
+                                    ],
+                                    "region": {
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2362,
+                                                "y": 3865
+                                            },
+                                            "botright": {
+                                                "x": 2364,
+                                                "y": 3863
+                                            },
+                                            "level": 0
+                                        },
+                                        "name": "E"
+                                    }
                                 }
                             },
                             {
@@ -24864,9 +27307,1422 @@ let raw: Method[] = [
                                     "different_level": false
                                 },
                                 "value": {
-                                    "path": [],
-                                    "directions": "Missing directions",
-                                    "children": []
+                                    "children": [
+                                        {
+                                            "key": {
+                                                "pulse": 1,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{icon cursor_obstacle}} Cross bridge - {{surgedive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 7 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2354,
+                                                                "y": 3855,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2354,
+                                                                "y": 3849,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2355,
+                                                                "y": 3848,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2355,
+                                                            "y": 3848,
+                                                            "level": 0
+                                                        },
+                                                        "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Rope bridge",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2354.5,
+                                                                    "y": 3847.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2355.5,
+                                                                    "y": 3846.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "agility_obstacle",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2355,
+                                                                            "y": 3848
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2355,
+                                                                            "y": 3848
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "offset",
+                                                                        "offset": {
+                                                                            "x": 0,
+                                                                            "y": -9,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "byoffset"
+                                                                    },
+                                                                    "name": "Walk-across",
+                                                                    "time": 10
+                                                                }
+                                                            ],
+                                                            "is_builtin": true
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2355,
+                                                            "y": 3839,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2345,
+                                                            "y": 3833,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 2 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2345,
+                                                                "y": 3833,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2343,
+                                                                "y": 3833,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} West",
+                                                        "from": {
+                                                            "x": 2343,
+                                                            "y": 3833,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2333,
+                                                            "y": 3833,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} West",
+                                                        "from": {
+                                                            "x": 2333,
+                                                            "y": 3833,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2323,
+                                                            "y": 3833,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 11 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2323,
+                                                                "y": 3833,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2322,
+                                                                "y": 3833,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2321,
+                                                                "y": 3834,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2313,
+                                                                "y": 3834,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2312,
+                                                                "y": 3835,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 2,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "children": [
+                                                    {
+                                                        "key": {
+                                                            "pulse": 2,
+                                                            "different_level": false
+                                                        },
+                                                        "value": {
+                                                            "children": [],
+                                                            "directions": "{{icon run}} and {{surge}} to {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 3 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2351,
+                                                                            "y": 3875,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2350,
+                                                                            "y": 3876,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2350,
+                                                                            "y": 3877,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2349,
+                                                                            "y": 3878,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "type": "ability",
+                                                                    "ability": "surge",
+                                                                    "description": "{{surge}} North-West",
+                                                                    "from": {
+                                                                        "x": 2349,
+                                                                        "y": 3878,
+                                                                        "level": 0
+                                                                    },
+                                                                    "to": {
+                                                                        "x": 2339,
+                                                                        "y": 3888,
+                                                                        "level": 0
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 26 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2339,
+                                                                            "y": 3888,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2318,
+                                                                            "y": 3888,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2313,
+                                                                            "y": 3893,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "key": {
+                                                            "pulse": 3,
+                                                            "different_level": false,
+                                                            "spot": {
+                                                                "x": 2352,
+                                                                "y": 3892,
+                                                                "level": 0
+                                                            }
+                                                        },
+                                                        "value": {
+                                                            "children": [],
+                                                            "directions": "Dig at to {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 2 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2351,
+                                                                            "y": 3875,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2349,
+                                                                            "y": 3877,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 2 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2349,
+                                                                            "y": 3877,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2349,
+                                                                            "y": 3879,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "type": "ability",
+                                                                    "ability": "surge",
+                                                                    "description": "{{surge}} North",
+                                                                    "from": {
+                                                                        "x": 2349,
+                                                                        "y": 3879,
+                                                                        "level": 0
+                                                                    },
+                                                                    "to": {
+                                                                        "x": 2349,
+                                                                        "y": 3889,
+                                                                        "level": 0
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 2 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2349,
+                                                                            "y": 3889,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2351,
+                                                                            "y": 3891,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ],
+                                                "directions": "{{surgedive}} north",
+                                                "path": [
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2354,
+                                                            "y": 3855,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2351,
+                                                            "y": 3865,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} North",
+                                                        "from": {
+                                                            "x": 2351,
+                                                            "y": 3865,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2351,
+                                                            "y": 3875,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ],
+                                                "region": {
+                                                    "name": "",
+                                                    "area": {
+                                                        "level": 0,
+                                                        "topleft": {
+                                                            "x": 2351,
+                                                            "y": 3875
+                                                        },
+                                                        "botright": {
+                                                            "x": 2351,
+                                                            "y": 3875
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "directions": "{{icon run}} 3 tiles north-east",
+                                    "path": [
+                                        {
+                                            "type": "run",
+                                            "description": "Run 3 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2351,
+                                                    "y": 3852,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2354,
+                                                    "y": 3855,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "region": {
+                                        "area": {
+                                            "level": 0,
+                                            "topleft": {
+                                                "x": 2354,
+                                                "y": 3855
+                                            },
+                                            "botright": {
+                                                "x": 2354,
+                                                "y": 3855
+                                            }
+                                        },
+                                        "name": ""
+                                    }
+                                }
+                            }
+                        ],
+                        "directions": "{{icon run}} to {{target}}",
+                        "path": [
+                            {
+                                "type": "run",
+                                "description": "Run 4 tiles",
+                                "waypoints": [
+                                    {
+                                        "x": 2355,
+                                        "y": 3848,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2351,
+                                        "y": 3852,
+                                        "level": 0
+                                    }
+                                ]
+                            }
+                        ],
+                        "region": {
+                            "area": {
+                                "topleft": {
+                                    "x": 2351,
+                                    "y": 3853
+                                },
+                                "botright": {
+                                    "x": 2352,
+                                    "y": 3852
+                                },
+                                "level": 0
+                            },
+                            "name": "D"
+                        }
+                    }
+                },
+                {
+                    "key": {
+                        "pulse": 2,
+                        "different_level": false
+                    },
+                    "value": {
+                        "children": [
+                            {
+                                "key": {
+                                    "pulse": 1,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "children": [
+                                        {
+                                            "key": {
+                                                "pulse": 3,
+                                                "different_level": false,
+                                                "spot": {
+                                                    "x": 2324,
+                                                    "y": 3808,
+                                                    "level": 0
+                                                }
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{dive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2324,
+                                                            "y": 3803,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2324,
+                                                            "y": 3808,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 3,
+                                                "different_level": false,
+                                                "spot": {
+                                                    "x": 2342,
+                                                    "y": 3809,
+                                                    "level": 0
+                                                }
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{icon cursor_open}} Pass gate - {{surgedive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 4 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2324,
+                                                                "y": 3803,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2325,
+                                                                "y": 3803,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2326,
+                                                                "y": 3804,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2328,
+                                                                "y": 3804,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2328,
+                                                            "y": 3804,
+                                                            "level": 0
+                                                        },
+                                                        "description": "Door: {{icon cursor_open}} Cross east ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Door",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2328,
+                                                                    "y": 3805.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2329,
+                                                                    "y": 3803.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "open",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2328,
+                                                                            "y": 3805
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2328,
+                                                                            "y": 3804
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "time": 1,
+                                                                    "name": "Cross east",
+                                                                    "movement": {
+                                                                        "type": "offset",
+                                                                        "offset": {
+                                                                            "x": 1,
+                                                                            "y": 0,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "forced",
+                                                                        "direction": 3,
+                                                                        "relative": true
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} East",
+                                                        "from": {
+                                                            "x": 2329,
+                                                            "y": 3804,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2339,
+                                                            "y": 3804,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2339,
+                                                            "y": 3804,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2341,
+                                                            "y": 3809,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ],
+                                    "directions": "{{teleport lyre neitiznot}}, {{surge}} north-east",
+                                    "path": [
+                                        {
+                                            "type": "teleport",
+                                            "description": "Use {{teleport lyre neitiznot}} to Neitiznot",
+                                            "id": {
+                                                "group": "lyre",
+                                                "sub": "neitiznot"
+                                            }
+                                        },
+                                        {
+                                            "type": "run",
+                                            "description": "Run 8 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2311,
+                                                    "y": 3787,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2311,
+                                                    "y": 3788,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2312,
+                                                    "y": 3788,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2312,
+                                                    "y": 3789,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2313,
+                                                    "y": 3789,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2313,
+                                                    "y": 3792,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2314,
+                                                    "y": 3793,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "surge",
+                                            "description": "{{surge}} North-East",
+                                            "from": {
+                                                "x": 2314,
+                                                "y": 3793,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2324,
+                                                "y": 3803,
+                                                "level": 0
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "key": {
+                                    "pulse": 2,
+                                    "different_level": false
+                                },
+                                "value": {
+                                    "children": [
+                                        {
+                                            "key": {
+                                                "pulse": 1,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{teleport lyre jatizso}} -  {{icon accel}} - {{surgedive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "teleport",
+                                                        "description": "Use {{teleport lyre jatizso}} to Jatizso",
+                                                        "id": {
+                                                            "group": "lyre",
+                                                            "sub": "jatizso"
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 4 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2403,
+                                                                "y": 3782,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2403,
+                                                                "y": 3786,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2403,
+                                                            "y": 3786,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2413,
+                                                            "y": 3796,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2413,
+                                                            "y": 3796,
+                                                            "level": 0
+                                                        },
+                                                        "description": "Door: {{icon cursor_open}} Cross north ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Door",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2411.5,
+                                                                    "y": 3797
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2413.5,
+                                                                    "y": 3796
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "open",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2412,
+                                                                            "y": 3796
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2413,
+                                                                            "y": 3796
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "time": 1,
+                                                                    "name": "Cross north",
+                                                                    "movement": {
+                                                                        "type": "offset",
+                                                                        "offset": {
+                                                                            "x": 0,
+                                                                            "y": 1,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "forced",
+                                                                        "direction": 2,
+                                                                        "relative": true
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "powerburst",
+                                                        "description": "Use {{icon accel}}",
+                                                        "where": {
+                                                            "x": 2413,
+                                                            "y": 3797,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2413,
+                                                            "y": 3797,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2403,
+                                                            "y": 3800,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} West",
+                                                        "from": {
+                                                            "x": 2403,
+                                                            "y": 3800,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2393,
+                                                            "y": 3800,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2393,
+                                                            "y": 3800,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2388,
+                                                            "y": 3799,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2388,
+                                                            "y": 3799,
+                                                            "level": 0
+                                                        },
+                                                        "description": "Door: {{icon cursor_open}} Cross west ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Door",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2387,
+                                                                    "y": 3799.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2388,
+                                                                    "y": 3797.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "open",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2388,
+                                                                            "y": 3799
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2388,
+                                                                            "y": 3798
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "time": 1,
+                                                                    "name": "Cross west",
+                                                                    "movement": {
+                                                                        "type": "offset",
+                                                                        "offset": {
+                                                                            "x": -1,
+                                                                            "y": 0,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "forced",
+                                                                        "direction": 1,
+                                                                        "relative": true
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2387,
+                                                            "y": 3799,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2385,
+                                                            "y": 3809,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2385,
+                                                            "y": 3809,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2395,
+                                                            "y": 3812,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 2,
+                                                "different_level": false
+                                            },
+                                            "value": {
+                                                "children": [
+                                                    {
+                                                        "key": {
+                                                            "pulse": 2,
+                                                            "different_level": false
+                                                        },
+                                                        "value": {
+                                                            "children": [],
+                                                            "directions": "Dig at to {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 9 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2323,
+                                                                            "y": 3853,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2322,
+                                                                            "y": 3852,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2321,
+                                                                            "y": 3852,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2317,
+                                                                            "y": 3848,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2314,
+                                                                            "y": 3848,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "type": "shortcut_v2",
+                                                                    "assumed_start": {
+                                                                        "x": 2314,
+                                                                        "y": 3848,
+                                                                        "level": 0
+                                                                    },
+                                                                    "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
+                                                                    "internal": {
+                                                                        "type": "entity",
+                                                                        "name": "Rope bridge",
+                                                                        "clickable_area": {
+                                                                            "topleft": {
+                                                                                "x": 2313.5,
+                                                                                "y": 3847.5
+                                                                            },
+                                                                            "botright": {
+                                                                                "x": 2314.5,
+                                                                                "y": 3846.5
+                                                                            },
+                                                                            "level": 0
+                                                                        },
+                                                                        "actions": [
+                                                                            {
+                                                                                "cursor": "agility_obstacle",
+                                                                                "interactive_area": {
+                                                                                    "topleft": {
+                                                                                        "x": 2314,
+                                                                                        "y": 3848
+                                                                                    },
+                                                                                    "botright": {
+                                                                                        "x": 2314,
+                                                                                        "y": 3848
+                                                                                    },
+                                                                                    "level": 0
+                                                                                },
+                                                                                "movement": {
+                                                                                    "type": "offset",
+                                                                                    "offset": {
+                                                                                        "x": 0,
+                                                                                        "y": -9,
+                                                                                        "level": 0
+                                                                                    }
+                                                                                },
+                                                                                "orientation": {
+                                                                                    "type": "byoffset"
+                                                                                },
+                                                                                "name": "Walk-across",
+                                                                                "time": 10
+                                                                            }
+                                                                        ],
+                                                                        "is_builtin": true
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "ability",
+                                                                    "ability": "dive",
+                                                                    "description": "Use {{dive}}",
+                                                                    "from": {
+                                                                        "x": 2314,
+                                                                        "y": 3839,
+                                                                        "level": 0
+                                                                    },
+                                                                    "to": {
+                                                                        "x": 2320,
+                                                                        "y": 3836,
+                                                                        "level": 0
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "ability",
+                                                                    "ability": "surge",
+                                                                    "description": "{{surge}} South-East",
+                                                                    "from": {
+                                                                        "x": 2320,
+                                                                        "y": 3836,
+                                                                        "level": 0
+                                                                    },
+                                                                    "to": {
+                                                                        "x": 2328,
+                                                                        "y": 3828,
+                                                                        "level": 0
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 2 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2328,
+                                                                            "y": 3828,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2329,
+                                                                            "y": 3828,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2330,
+                                                                            "y": 3829,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "key": {
+                                                            "pulse": 3,
+                                                            "different_level": false,
+                                                            "spot": {
+                                                                "x": 2314,
+                                                                "y": 3851,
+                                                                "level": 0
+                                                            }
+                                                        },
+                                                        "value": {
+                                                            "children": [],
+                                                            "directions": "Dig at {{target}}",
+                                                            "path": [
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 9 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2323,
+                                                                            "y": 3853,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2322,
+                                                                            "y": 3854,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2317,
+                                                                            "y": 3854,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2314,
+                                                                            "y": 3851,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ],
+                                                "directions": "{{surge}} west",
+                                                "path": [
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 2 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2345,
+                                                                "y": 3863,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2343,
+                                                                "y": 3863,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} West",
+                                                        "from": {
+                                                            "x": 2343,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2333,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2333,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2323,
+                                                            "y": 3853,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ],
+                                                "region": null
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 3,
+                                                "different_level": false,
+                                                "spot": {
+                                                    "x": 2326,
+                                                    "y": 3866,
+                                                    "level": 0
+                                                }
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{surge}} west and {{dive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 2 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2345,
+                                                                "y": 3863,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2343,
+                                                                "y": 3863,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} West",
+                                                        "from": {
+                                                            "x": 2343,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2333,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2333,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2326,
+                                                            "y": 3866,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 3,
+                                                "different_level": false,
+                                                "spot": {
+                                                    "x": 2326,
+                                                    "y": 3850,
+                                                    "level": 0
+                                                }
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{surgedive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2345,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2336,
+                                                            "y": 3859,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} South-West",
+                                                        "from": {
+                                                            "x": 2336,
+                                                            "y": 3859,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2326,
+                                                            "y": 3849,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 3,
+                                                "different_level": false,
+                                                "spot": {
+                                                    "x": 2349,
+                                                    "y": 3880,
+                                                    "level": 0
+                                                }
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{surgedive}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2345,
+                                                            "y": 3863,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2348,
+                                                            "y": 3871,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} North",
+                                                        "from": {
+                                                            "x": 2348,
+                                                            "y": 3871,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2348,
+                                                            "y": 3881,
+                                                            "level": 0
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ],
+                                    "directions": "{{dive}} to {{target}}",
+                                    "path": [
+                                        {
+                                            "type": "run",
+                                            "description": "Run 1 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2356,
+                                                    "y": 3852,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2355,
+                                                    "y": 3853,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "ability",
+                                            "ability": "surge",
+                                            "description": "{{surge}} North-West",
+                                            "from": {
+                                                "x": 2355,
+                                                "y": 3853,
+                                                "level": 0
+                                            },
+                                            "to": {
+                                                "x": 2345,
+                                                "y": 3863,
+                                                "level": 0
+                                            }
+                                        }
+                                    ],
+                                    "region": {
+                                        "area": {
+                                            "topleft": {
+                                                "x": 2343,
+                                                "y": 3864
+                                            },
+                                            "botright": {
+                                                "x": 2347,
+                                                "y": 3860
+                                            },
+                                            "level": 0
+                                        },
+                                        "name": "C"
+                                    }
                                 }
                             },
                             {
@@ -24880,23 +28736,16 @@ let raw: Method[] = [
                                     }
                                 },
                                 "value": {
+                                    "children": [],
+                                    "directions": "{{icon cursor_obstacle}} Cross both bridges to {{target}}",
                                     "path": [
                                         {
                                             "type": "run",
+                                            "description": "Run 4 tiles",
                                             "waypoints": [
                                                 {
                                                     "x": 2356,
                                                     "y": 3852,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2356,
-                                                    "y": 3851,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2356,
-                                                    "y": 3850,
                                                     "level": 0
                                                 },
                                                 {
@@ -24909,33 +28758,65 @@ let raw: Method[] = [
                                                     "y": 3848,
                                                     "level": 0
                                                 }
-                                            ],
-                                            "description": "Run 4 tiles"
+                                            ]
                                         },
                                         {
-                                            "type": "interaction",
-                                            "description": "Cross South",
-                                            "ticks": 5,
-                                            "where": {
-                                                "x": 2355,
-                                                "y": 3847,
-                                                "level": 0
-                                            },
-                                            "starts": {
+                                            "type": "shortcut_v2",
+                                            "assumed_start": {
                                                 "x": 2355,
                                                 "y": 3848,
                                                 "level": 0
                                             },
-                                            "ends_up": {
-                                                "x": 2355,
-                                                "y": 3839,
-                                                "level": 0
-                                            },
-                                            "forced_direction": 4,
-                                            "how": "agility_obstacle"
+                                            "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
+                                            "internal": {
+                                                "type": "entity",
+                                                "name": "Rope bridge",
+                                                "clickable_area": {
+                                                    "topleft": {
+                                                        "x": 2354.5,
+                                                        "y": 3847.5
+                                                    },
+                                                    "botright": {
+                                                        "x": 2355.5,
+                                                        "y": 3846.5
+                                                    },
+                                                    "level": 0
+                                                },
+                                                "actions": [
+                                                    {
+                                                        "cursor": "agility_obstacle",
+                                                        "interactive_area": {
+                                                            "topleft": {
+                                                                "x": 2355,
+                                                                "y": 3848
+                                                            },
+                                                            "botright": {
+                                                                "x": 2355,
+                                                                "y": 3848
+                                                            },
+                                                            "level": 0
+                                                        },
+                                                        "movement": {
+                                                            "type": "offset",
+                                                            "offset": {
+                                                                "x": 0,
+                                                                "y": -9,
+                                                                "level": 0
+                                                            }
+                                                        },
+                                                        "orientation": {
+                                                            "type": "byoffset"
+                                                        },
+                                                        "name": "Walk-across",
+                                                        "time": 10
+                                                    }
+                                                ],
+                                                "is_builtin": true
+                                            }
                                         },
                                         {
                                             "type": "run",
+                                            "description": "Run 2 tiles",
                                             "waypoints": [
                                                 {
                                                     "x": 2355,
@@ -24943,22 +28824,16 @@ let raw: Method[] = [
                                                     "level": 0
                                                 },
                                                 {
-                                                    "x": 2356,
-                                                    "y": 3838,
-                                                    "level": 0
-                                                },
-                                                {
                                                     "x": 2357,
                                                     "y": 3837,
                                                     "level": 0
                                                 }
-                                            ],
-                                            "description": "Run 2 tiles"
+                                            ]
                                         },
                                         {
                                             "type": "ability",
                                             "ability": "surge",
-                                            "description": "{{surge}} southeast",
+                                            "description": "{{surge}} South-East",
                                             "from": {
                                                 "x": 2357,
                                                 "y": 3837,
@@ -24988,7 +28863,7 @@ let raw: Method[] = [
                                         {
                                             "type": "ability",
                                             "ability": "surge",
-                                            "description": "{{surge}} northeast",
+                                            "description": "{{surge}} North-East",
                                             "from": {
                                                 "x": 2374,
                                                 "y": 3835,
@@ -25001,29 +28876,62 @@ let raw: Method[] = [
                                             }
                                         },
                                         {
-                                            "type": "interaction",
-                                            "description": "Cross North",
-                                            "ticks": 5,
-                                            "where": {
-                                                "x": 2378,
-                                                "y": 3840,
-                                                "level": 0
-                                            },
-                                            "starts": {
+                                            "type": "shortcut_v2",
+                                            "assumed_start": {
                                                 "x": 2378,
                                                 "y": 3839,
                                                 "level": 0
                                             },
-                                            "ends_up": {
-                                                "x": 2378,
-                                                "y": 3848,
-                                                "level": 0
-                                            },
-                                            "forced_direction": 2,
-                                            "how": "agility_obstacle"
+                                            "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
+                                            "internal": {
+                                                "type": "entity",
+                                                "name": "Rope bridge",
+                                                "clickable_area": {
+                                                    "topleft": {
+                                                        "x": 2377.5,
+                                                        "y": 3840.5
+                                                    },
+                                                    "botright": {
+                                                        "x": 2378.5,
+                                                        "y": 3839.5
+                                                    },
+                                                    "level": 0
+                                                },
+                                                "actions": [
+                                                    {
+                                                        "cursor": "agility_obstacle",
+                                                        "interactive_area": {
+                                                            "topleft": {
+                                                                "x": 2378,
+                                                                "y": 3839
+                                                            },
+                                                            "botright": {
+                                                                "x": 2378,
+                                                                "y": 3839
+                                                            },
+                                                            "level": 0
+                                                        },
+                                                        "movement": {
+                                                            "type": "offset",
+                                                            "offset": {
+                                                                "x": 0,
+                                                                "y": 9,
+                                                                "level": 0
+                                                            }
+                                                        },
+                                                        "orientation": {
+                                                            "type": "byoffset"
+                                                        },
+                                                        "name": "Walk-across",
+                                                        "time": 10
+                                                    }
+                                                ],
+                                                "is_builtin": true
+                                            }
                                         },
                                         {
                                             "type": "run",
+                                            "description": "Run 2 tiles",
                                             "waypoints": [
                                                 {
                                                     "x": 2378,
@@ -25040,12 +28948,9 @@ let raw: Method[] = [
                                                     "y": 3850,
                                                     "level": 0
                                                 }
-                                            ],
-                                            "description": "Run 2 tiles"
+                                            ]
                                         }
-                                    ],
-                                    "directions": "Use 2 bridges {{icon shortcut}} to {{target}}",
-                                    "children": []
+                                    ]
                                 }
                             },
                             {
@@ -25059,9 +28964,12 @@ let raw: Method[] = [
                                     }
                                 },
                                 "value": {
+                                    "children": [],
+                                    "directions": "Dig at {{target}}",
                                     "path": [
                                         {
                                             "type": "run",
+                                            "description": "Run 3 tiles",
                                             "waypoints": [
                                                 {
                                                     "x": 2356,
@@ -25069,22 +28977,11 @@ let raw: Method[] = [
                                                     "level": 0
                                                 },
                                                 {
-                                                    "x": 2355,
-                                                    "y": 3853,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2354,
-                                                    "y": 3854,
-                                                    "level": 0
-                                                },
-                                                {
                                                     "x": 2353,
                                                     "y": 3855,
                                                     "level": 0
                                                 }
-                                            ],
-                                            "description": "Run to 2353 | 3855"
+                                            ]
                                         },
                                         {
                                             "type": "ability",
@@ -25104,7 +29001,7 @@ let raw: Method[] = [
                                         {
                                             "type": "ability",
                                             "ability": "surge",
-                                            "description": "{{surge}} northeast",
+                                            "description": "{{surge}} North-East",
                                             "from": {
                                                 "x": 2359,
                                                 "y": 3861,
@@ -25116,12 +29013,48 @@ let raw: Method[] = [
                                                 "level": 0
                                             }
                                         }
-                                    ],
-                                    "directions": "{{icon run}} - {{dive}}/{{surge}} to {{target}}",
-                                    "children": []
+                                    ]
                                 }
                             }
-                        ]
+                        ],
+                        "directions": "{{icon run}} to {{target}}",
+                        "path": [
+                            {
+                                "type": "run",
+                                "description": "Run 4 tiles",
+                                "waypoints": [
+                                    {
+                                        "x": 2355,
+                                        "y": 3848,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2355,
+                                        "y": 3851,
+                                        "level": 0
+                                    },
+                                    {
+                                        "x": 2356,
+                                        "y": 3852,
+                                        "level": 0
+                                    }
+                                ]
+                            }
+                        ],
+                        "region": {
+                            "area": {
+                                "topleft": {
+                                    "x": 2356,
+                                    "y": 3854
+                                },
+                                "botright": {
+                                    "x": 2356,
+                                    "y": 3852
+                                },
+                                "level": 0
+                            },
+                            "name": "B"
+                        }
                     }
                 },
                 {
@@ -25135,31 +29068,66 @@ let raw: Method[] = [
                         }
                     },
                     "value": {
+                        "children": [],
+                        "directions": "{{icon cursor_obstacle}} Cross bridge, {{surge}}|{{dive}} to {{target}}",
                         "path": [
                             {
-                                "type": "interaction",
-                                "description": "Cross South",
-                                "ticks": 5,
-                                "where": {
-                                    "x": 2355,
-                                    "y": 3847,
-                                    "level": 0
-                                },
-                                "starts": {
+                                "type": "shortcut_v2",
+                                "assumed_start": {
                                     "x": 2355,
                                     "y": 3848,
                                     "level": 0
                                 },
-                                "ends_up": {
-                                    "x": 2355,
-                                    "y": 3839,
-                                    "level": 0
-                                },
-                                "forced_direction": 4,
-                                "how": "agility_obstacle"
+                                "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
+                                "internal": {
+                                    "type": "entity",
+                                    "name": "Rope bridge",
+                                    "clickable_area": {
+                                        "topleft": {
+                                            "x": 2354.5,
+                                            "y": 3847.5
+                                        },
+                                        "botright": {
+                                            "x": 2355.5,
+                                            "y": 3846.5
+                                        },
+                                        "level": 0
+                                    },
+                                    "actions": [
+                                        {
+                                            "cursor": "agility_obstacle",
+                                            "interactive_area": {
+                                                "topleft": {
+                                                    "x": 2355,
+                                                    "y": 3848
+                                                },
+                                                "botright": {
+                                                    "x": 2355,
+                                                    "y": 3848
+                                                },
+                                                "level": 0
+                                            },
+                                            "movement": {
+                                                "type": "offset",
+                                                "offset": {
+                                                    "x": 0,
+                                                    "y": -9,
+                                                    "level": 0
+                                                }
+                                            },
+                                            "orientation": {
+                                                "type": "byoffset"
+                                            },
+                                            "name": "Walk-across",
+                                            "time": 10
+                                        }
+                                    ],
+                                    "is_builtin": true
+                                }
                             },
                             {
                                 "type": "run",
+                                "description": "Run 2 tiles",
                                 "waypoints": [
                                     {
                                         "x": 2355,
@@ -25167,22 +29135,16 @@ let raw: Method[] = [
                                         "level": 0
                                     },
                                     {
-                                        "x": 2356,
-                                        "y": 3838,
-                                        "level": 0
-                                    },
-                                    {
                                         "x": 2357,
                                         "y": 3837,
                                         "level": 0
                                     }
-                                ],
-                                "description": "Run 2 tiles"
+                                ]
                             },
                             {
                                 "type": "ability",
                                 "ability": "surge",
-                                "description": "{{surge}} southeast",
+                                "description": "{{surge}} South-East",
                                 "from": {
                                     "x": 2357,
                                     "y": 3837,
@@ -25197,7 +29159,7 @@ let raw: Method[] = [
                             {
                                 "type": "ability",
                                 "ability": "dive",
-                                "description": "{{dive}} northeast",
+                                "description": "Use {{dive}}",
                                 "from": {
                                     "x": 2364,
                                     "y": 3830,
@@ -25209,9 +29171,7 @@ let raw: Method[] = [
                                     "level": 0
                                 }
                             }
-                        ],
-                        "directions": "{{icon cursor_obstacle}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
-                        "children": []
+                        ]
                     }
                 },
                 {
@@ -25225,11 +29185,13 @@ let raw: Method[] = [
                         }
                     },
                     "value": {
+                        "children": [],
+                        "directions": "{{dive}} to {{target}}",
                         "path": [
                             {
                                 "type": "ability",
                                 "ability": "dive",
-                                "description": "{{dive}} north",
+                                "description": "Use {{dive}}",
                                 "from": {
                                     "x": 2355,
                                     "y": 3848,
@@ -25241,14 +29203,12 @@ let raw: Method[] = [
                                     "level": 0
                                 }
                             }
-                        ],
-                        "directions": "{{dive}} to {{target}}",
-                        "children": []
+                        ]
                     }
                 }
             ]
         }
-    }
+    },
 ]
 
 export default raw

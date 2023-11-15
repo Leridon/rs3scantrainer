@@ -25,6 +25,10 @@ import InteractionTopControl from "../map/InteractionTopControl";
 import {C} from "../../../lib/ui/constructors";
 import span = C.span;
 import spacer = C.spacer;
+import {Scans} from "../../../lib/runescape/clues/scans";
+import Pulse = Scans.Pulse;
+import * as assert from "assert";
+import Order = util.Order;
 
 class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -166,8 +170,10 @@ class TreeNodeEdit extends Widget {
             const LIMIT = 20
 
             for (let i = parents.length - 1; i >= 0; i--) {
-                let next = AugmentedScanTree.decision_string(parents[i])
-
+                let next = i > 0
+                    ? AugmentedScanTree.decision_string(parents[i])
+                    : ""
+                
                 if (decision_path_text.length + next.length >= LIMIT && i > 0) {
                     decision_path_text = "..." + decision_path_text
                     break
@@ -284,6 +290,16 @@ class TreeNodeEdit extends Widget {
 
             return new TreeNodeEdit(this.parent, child.value)
         })
+            .sort(
+                Order.chain<TreeNodeEdit>(
+                    Order.reverse(Order.comap(Pulse.comp, (a => a.node.parent.key))),
+                    Order.comap(Order.natural_order, (a => {
+                        assert(a.node.parent.key.pulse == 3)
+                        return ScanTree.spotNumber(a.node.root.raw, a.node.parent.key.spot)
+                    }))
+                )
+            )
+
 
         this.children.forEach(c => c.appendTo(this.child_content))
     }

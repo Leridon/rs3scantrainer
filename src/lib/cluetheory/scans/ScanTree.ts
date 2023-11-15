@@ -312,8 +312,6 @@ export namespace ScanTree {
         }
 
         export namespace AugmentedScanTree {
-            import int = Checks.int;
-
             export function decision_string(node: AugmentedScanTreeNode): string {
 
                 let internal = (() => {

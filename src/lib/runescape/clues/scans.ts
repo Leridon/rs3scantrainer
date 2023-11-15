@@ -31,6 +31,7 @@ export namespace Scans {
 
     export namespace Pulse {
         import natural_order = util.Order.natural_order;
+        import Order = util.Order;
         export type hash_t = 0 | 1 | 2 | 3 | 4 | 5
 
         export function hash(pulse: Pulse): hash_t {
@@ -104,6 +105,8 @@ export namespace Scans {
         export function compare(a: Pulse, b: Pulse): number {
             return natural_order(hash(a), hash(b))
         }
+
+        export const comp = Order.comap(natural_order, hash)
     }
 
     export function complementSpot(spot: TileCoordinates) {

@@ -38,6 +38,11 @@ Immediate next:
         - Wilderness Crater
         - Zanaris
 
+Content principles:
+    - Less is more for written instructions, let rendered path speak for itself
+    - Prefer easy to identify target tiles
+
+
 - Other
     - [Bug] In some circumstances, keyboard events don't reach the interaction
     - Make fit include the entire path

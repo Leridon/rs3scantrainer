@@ -2,11 +2,8 @@ Immediate next:
 
 [Bug] In some circumstances, keyboard events don't reach the interaction
 
-- Path Editor
-    - Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
 
 - Scan Editor
-    - Switching between active nodes glitches out
     - Display timing in spot view
     - New solution for setting spot order
     - Autoname areas
@@ -14,7 +11,11 @@ Immediate next:
     - Cancel for Draw Area
 
 - Shortcut editor
-    - Actually disable editing for builtins
+    - [Bug] Actually disable editing for builtins
+
+- Path Editor
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
+    - [Bug] Context Menu and other tooltips are displayed behind controls.
 
 - Other
     - Make fit include the entire path

@@ -20,6 +20,7 @@ import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {CluePanel} from "../SidePanelControl";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import shortcuts from "../../../data/shortcuts";
+import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -219,13 +220,26 @@ export default class ScanEditor extends Behaviour {
 
     }
 
-    private setPathEditor(options: PathEditor.options_t): void {
+    private setPathEditor(node: AugmentedScanTreeNode): void {
         this.path_editor.set(new PathEditor(this.layer,
             this.app.template_resolver, {
                 teleports: this.app.data.teleports.getAll(),
                 shortcuts: shortcuts
-            }, options)
-            .onStop(() => this.panel.tree_edit.setActiveNode(null))
+            }, {
+                initial: node.path.raw,
+
+                target: node.path.target,
+                start_state: node.path.pre_state,
+                discard_handler: () => {},
+                commit_handler: (p) => {
+                    node.raw.path = p
+
+                    this.panel.tree_edit.cleanTree()
+                }
+            })
+            .onStop(() => {
+                if (this.panel.tree_edit.active_node.get() == node) this.panel.tree_edit.setActiveNode(null)
+            })
         )
     }
 
@@ -254,22 +268,8 @@ export default class ScanEditor extends Behaviour {
         this.options.map.addGameLayer(this.layer)
 
         this.panel.tree_edit.active_node.subscribe(async node => {
-            if (node) {
-                this.setPathEditor({
-                    initial: node.path.raw,
-
-                    target: node.path.target,
-                    start_state: node.path.pre_state,
-                    discard_handler: () => {},
-                    commit_handler: (p) => {
-                        node.raw.path = p
-
-                        this.panel.tree_edit.cleanTree()
-                    }
-                })
-            } else {
-                this.path_editor.set(null)
-            }
+            if (node) this.setPathEditor(node)
+            else this.path_editor.set(null)
         })
 
         this.panel.tree_edit.on("region_changed", async (node) => {

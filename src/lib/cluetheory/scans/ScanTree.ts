@@ -250,6 +250,8 @@ export namespace ScanTree {
                     node.completeness = "incomplete"
                 else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children"))
                     node.completeness = "incomplete_children"
+                else if (node.path?.post_state?.position?.tile && !TileRectangle.contains(digSpotArea(node.remaining_candidates[0]), node.path.post_state.position.tile))
+                    node.completeness = "incomplete"
                 else
                     node.completeness = "complete"
             }
@@ -263,11 +265,15 @@ export namespace ScanTree {
         }
 
         export function analyze_timing(tree: AugmentedScanTree): AugmentedScanTree {
-            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[] = tree.raw.clue.solution.candidates.map(c => ({spot: c, timings: [], average: 0}))
+            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[] = tree.raw.clue.solution.candidates.map(c => ({
+                spot: c,
+                timings: [],
+                average: 0
+            }))
 
             AugmentedScanTree.traverse(tree.root_node, (node) => {
                 if (node.children.length == 0) {
-                    let complete = node.remaining_candidates.length == 1
+                    let complete = node.completeness == "complete"
 
                     node.remaining_candidates.forEach(c => {
                         let t = timings.find(t => TileCoordinates.eq2(t.spot, c))
@@ -394,7 +400,7 @@ export namespace ScanTree {
 
             // When there is only one child, the current position produces no information at all
             // So there is no point in adding children, which is why they are removed by this statement
-            if (node.path.length == 0) pruned_children = []
+            if (pruned_children.length == 1) pruned_children = []
 
             node.children = pruned_children.map(c => c.child)
 

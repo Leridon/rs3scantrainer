@@ -233,6 +233,7 @@ export class Application extends Behaviour {
         [
             ["surge", () => "<img class='text-icon' src='assets/icons/surge.png' title='Surge'>"],
             ["dive", () => "<img class='text-icon' src='assets/icons/dive.png' title='Dive'>"],
+            ["surgedive", () => "<img class='text-icon' src='assets/icons/surgedive.png' title='Surge'>"],
             ["bladeddive", () => "<img class='text-icon' src='assets/icons/bladeddive.png' title='Bladed Dive'>"],
             ["escape", () => "<img class='text-icon' src='assets/icons/escape.png' title='Escape'>"],
             ["barge", () => "<img class='text-icon' src='assets/icons/barge.png' title='Barge'>"],

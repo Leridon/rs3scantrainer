@@ -391,7 +391,7 @@ export namespace ScanTree {
                     value: ScanTreeNode
                 },
                 candidates: TileCoordinates[]
-            }[] = (node.path.length == 0 || !where) ? []
+            }[] = !where ? []
                 : spot_narrowing(candidates, where, assumedRange(tree))
                     .filter(n => n.narrowed_candidates.length > 0)  // Delete branches that have no candidates left
                     .map(({pulse, narrowed_candidates}) => {
@@ -406,7 +406,10 @@ export namespace ScanTree {
 
             // When there is only one child, the current position produces no information at all
             // So there is no point in adding children, which is why they are removed by this statement
-            if (pruned_children.length == 1) pruned_children = []
+            if (pruned_children.length == 1) {
+                console.log("Killing children")
+                pruned_children = []
+            }
 
             node.children = pruned_children.map(c => c.child)
 

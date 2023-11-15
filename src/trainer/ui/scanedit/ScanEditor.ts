@@ -20,8 +20,11 @@ import {CluePanel} from "../SidePanelControl";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import shortcuts from "../../../data/shortcuts";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
-import {Observable, observe} from "lib/reactive";
+import {ewent, Observable, observe} from "lib/reactive";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
+import ScanTreeNode = ScanTree.ScanTreeNode;
+import ScanRegion = ScanTree.ScanRegion;
+import {Path} from "../../../lib/runescape/pathing";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -38,7 +41,9 @@ type T = {
 class EquivalenceClassHandling extends Behaviour {
     equivalence_classes: T[] = []
 
-    constructor(private parent: ScanEditor) {super();}
+    constructor(private parent: ScanEditor) {
+        super();
+    }
 
     private render_equivalence_classes(ecs: ScanEquivalenceClasses): leaflet.FeatureGroup {
         let layer = leaflet.featureGroup()
@@ -103,14 +108,14 @@ class EquivalenceClassHandling extends Behaviour {
 
         let normal = setup({
             candidates: this.parent.options.clue.solution.candidates,
-            range: assumedRange(this.parent.value),
+            range: assumedRange(this.parent.builder.tree),
             complement: false,
             floor: this.parent.options.map.floor.get()
         }, this.parent.panel.tools.normal)
 
         let complement = setup({
             candidates: this.parent.options.clue.solution.candidates,
-            range: assumedRange(this.parent.value),
+            range: assumedRange(this.parent.builder.tree),
             complement: true,
             floor: this.parent.options.map.floor.get()
         }, this.parent.panel.tools.complement)
@@ -120,7 +125,7 @@ class EquivalenceClassHandling extends Behaviour {
         this.parent.options.map.floor
             .subscribe(f => this.equivalence_classes.forEach(t => t.options.update(o => o.floor = f)))
 
-        this.parent.candidates
+        this.parent.candidates_at_active_node
             .subscribe(cs => this.equivalence_classes.forEach(t => t.options.update(o => o.candidates = cs)))
     }
 
@@ -130,6 +135,42 @@ class EquivalenceClassHandling extends Behaviour {
         })
 
         this.equivalence_classes = []
+    }
+}
+
+export class ScanTreeBuilder {
+    tree: ScanTreeWithClue = null
+    augmented: Observable<AugmentedScanTree> = observe(null)
+    preview_invalid = ewent()
+
+    constructor() { }
+
+    public async cleanTree() {
+        this.augmented.set(await ScanTree.Augmentation.augment({
+            augment_paths: true,
+            analyze_completeness: true,
+            analyze_correctness: true,
+            analyze_timing: true
+        }, ScanTree.normalize(this.tree)));
+
+        this.preview_invalid.trigger(null)
+    }
+
+    set(tree: ScanTreeWithClue) {
+        this.tree = tree
+        this.cleanTree()
+    }
+
+    setRegion(node: ScanTreeNode, region: ScanRegion) {
+        node.region = region
+
+        this.cleanTree()
+    }
+
+    setPath(node: ScanTreeNode, path: Path.raw) {
+        node.path = path
+
+        this.cleanTree()
     }
 }
 
@@ -145,7 +186,7 @@ class PreviewLayerControl extends Behaviour {
 
         // Render path preview
         this.parent.panel.tree_edit.active.subscribe(() => this.updatePreview(), true)
-        this.parent.panel.tree_edit.on("preview_invalid", () => this.updatePreview())
+        this.parent.builder.preview_invalid.on(() => this.updatePreview())
     }
 
     private async updatePreview() {
@@ -162,24 +203,16 @@ class PreviewLayerControl extends Behaviour {
                 PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
-            /*
-            AugmentedScanTree.traverse(a, async (n) => {
-                // TODO: Decreasing opacity
-
-                if (n.raw.region) {
-                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer).setOpacity(0.3)
-                }
-
-                return PathingGraphics.renderPath(n.raw.path).addTo(layer).setOpacity(0.3)
-            }, false)*/
         } else {
-            AugmentedScanTree.traverse((await this.parent.panel.tree_edit.root_widget).node, async (n) => {
-                if (n.raw.region) {
-                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
-                }
+            if(this.parent.panel.tree_edit.root_widget) {
+                AugmentedScanTree.traverse(this.parent.panel.tree_edit.root_widget.node, async (n) => {
+                    if (n.raw.region) {
+                        (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
+                    }
 
-                return PathingGraphics.renderPath(n.raw.path).addTo(layer)
-            }, true)
+                    return PathingGraphics.renderPath(n.raw.path).addTo(layer)
+                }, true)
+            }
         }
 
         if (this.path_layer) this.path_layer.remove()
@@ -192,7 +225,9 @@ class PreviewLayerControl extends Behaviour {
 }
 
 export default class ScanEditor extends Behaviour {
-    public value: ScanTreeWithClue
+
+    public builder: ScanTreeBuilder
+    candidates_at_active_node: Observable<TileCoordinates[]>
 
     layer: ScanEditLayerLight
     interaction_guard: InteractionGuard
@@ -203,7 +238,6 @@ export default class ScanEditor extends Behaviour {
 
     path_editor: SingleBehaviour<PathEditor>
 
-    candidates: Observable<TileCoordinates[]>
 
     constructor(public app: Application,
                 public readonly options: {
@@ -212,6 +246,8 @@ export default class ScanEditor extends Behaviour {
                     initial?: ScanTreeWithClue
                 }) {
         super();
+
+        this.builder = new ScanTreeBuilder()
 
         this.layer = new ScanEditLayerLight(this)
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.layer)
@@ -233,9 +269,7 @@ export default class ScanEditor extends Behaviour {
                 start_state: node.path.pre_state,
                 discard_handler: () => {},
                 commit_handler: (p) => {
-                    node.raw.path = p
-
-                    this.panel.tree_edit.cleanTree()
+                    this.builder.setPath(node.raw, p)
                 }
             })
             .onStop(() => {
@@ -244,52 +278,34 @@ export default class ScanEditor extends Behaviour {
         )
     }
 
+
     begin() {
-        this.value = this.options.initial ?? {
+        this.builder.set(this.options.initial ?? {
             clue_id: this.options.clue.id,
             assumes_meerkats: true,
             clue: this.options.clue,
             root: ScanTree.init_leaf(),
             spot_ordering: this.options.clue.solution.candidates,
             type: "scantree"
-        }
+        })
 
         this.panel = new ScanEditPanel(this)
         this.app.sidepanels
-            .add(new CluePanel(this.value.clue), 0)
+            .add(new CluePanel(this.options.clue), 0)
             .add(this.panel, 1)
 
-        this.candidates = this.panel.tree_edit.active
+        this.candidates_at_active_node = this.panel.tree_edit.active
             .map(n => n ? n.node.remaining_candidates : this.options.clue.solution.candidates)
 
         // Initialize and set the main game layer
-        this.layer.spots.set(this.value.clue.solution.candidates)
-        this.layer.spot_order.set(this.value.spot_ordering)
-        this.layer.active_spots.bindTo(this.candidates)
+        this.layer.spots.set(this.options.clue.solution.candidates)
+        this.layer.spot_order.set(this.builder.tree.spot_ordering)
+        this.layer.active_spots.bindTo(this.candidates_at_active_node)
         this.options.map.addGameLayer(this.layer)
 
         this.panel.tree_edit.active_node.subscribe(async node => {
             if (node) this.setPathEditor(node)
             else this.path_editor.set(null)
-        })
-
-        this.panel.tree_edit.on("region_changed", async (node) => {
-            if (node.raw == this.panel.tree_edit.active_node.value()?.raw) {
-                // TODO: Potentially update target in editor
-                /*this.setPathEditor({
-                    initial: node.path.raw,
-                    target: node.path.target,
-                    start_state: node.path.pre_state,
-                    discard_handler: () => {
-                        this.panel.tree_edit.setActiveNode(null)
-                    },
-                    commit_handler: (p) => {
-                        node.raw.path = p
-
-                        this.panel.tree_edit.cleanTree()
-                    }
-                })*/
-            }
         })
     }
 

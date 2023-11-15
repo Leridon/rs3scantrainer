@@ -1,19 +1,18 @@
 import Widget from "lib/ui/Widget";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import LightButton from "../widgets/LightButton";
-import ScanEditor from "./ScanEditor";
+import {ScanTreeBuilder} from "./ScanEditor";
 import {Observable} from "lib/properties/Observable";
+import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
+import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 
-export default class SpotOrderingWidget extends Widget<{
-    changed: TileCoordinates[]
-}> {
+export default class SpotOverview extends Widget {
     list: Widget
     reselect_button: LightButton
 
     spot_order: Observable<TileCoordinates[]>
 
-    constructor(private parent: ScanEditor,
-                private value: TileCoordinates[]) {
+    constructor(private builder: ScanTreeBuilder) {
         super()
 
         /*
@@ -28,10 +27,10 @@ export default class SpotOrderingWidget extends Widget<{
 
         this.append(this.list = c("<div>"))
 
-        this.setValue(value)
+        this.builder.augmented.subscribe((tree) => {if(tree) this.update(tree)}, true)
     }
 
-    private update() {
+    private update(tree: AugmentedScanTree) {
         this.list.empty()
 
         c("<div class='row'>")
@@ -41,7 +40,7 @@ export default class SpotOrderingWidget extends Widget<{
             .append(c("<div class='col-3' style='text-align: center'>").text("Floor"))
             .appendTo(this.list)
 
-        this.value.forEach((v, i) => {
+        tree.raw.spot_ordering.forEach((v, i) => {
             c("<div class='row'>")
                 .append(c("<div class='col-3' style='text-align: center'>").text(i + 1))
                 .append(c("<div class='col-3' style='text-align: center'>").text(v.x))
@@ -51,8 +50,4 @@ export default class SpotOrderingWidget extends Widget<{
         })
     }
 
-    setValue(value: TileCoordinates[]) {
-        this.value = value
-        this.update()
-    }
 }

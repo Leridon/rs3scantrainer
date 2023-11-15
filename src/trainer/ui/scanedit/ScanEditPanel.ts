@@ -19,7 +19,6 @@ import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import withClue = SolvingMethods.withClue;
 import {SidePanel} from "../SidePanelControl";
 import {C} from "../../../lib/ui/constructors";
-import hboxc = C.hboxc;
 import hbox = C.hbox;
 import LightButton from "../widgets/LightButton";
 
@@ -39,7 +38,7 @@ export default class ScanEditPanel extends SidePanel {
             hbox(
                 new LightButton("Show JSON")
                     .on("click", () => {
-                        ExportStringModal.do(JSON.stringify(withoutClue(this.parent.value), null, 2))
+                        ExportStringModal.do(JSON.stringify(withoutClue(this.parent.builder.tree), null, 2))
                     }),
 
                 new LightButton("Export")
@@ -47,7 +46,7 @@ export default class ScanEditPanel extends SidePanel {
                         ExportStringModal.do(exp({
                             type: "scantree",
                             version: 0
-                        }, true, true)(withoutClue(this.parent.value)), "Copy the string below to share this scan route.")
+                        }, true, true)(withoutClue(this.parent.builder.tree)), "Copy the string below to share this scan route.")
                     }),
 
                 new LightButton("Import")
@@ -68,27 +67,23 @@ export default class ScanEditPanel extends SidePanel {
                     .tooltip('Open the route in training mode.')
                     .on("click", () => {
 
-                        this.parent.app.showMethod(this.parent.value)
+                        this.parent.app.showMethod(this.parent.builder.tree)
                     }),
 
                 new LightButton("Share")
                     .on("click", () => {
-                        ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_method, {method: omit(this.parent.value, "clue")}), "The link below is a direct link to this method.")
+                        ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_method, {method: omit(this.parent.builder.tree, "clue")}), "The link below is a direct link to this method.")
                     })
             ).addClass("ctr-button-container").appendTo(this.container)
         }
 
         this.tools = new ScanTools(this).appendTo(this)
-        this.spot_ordering = new SpotOrderingEdit(parent, this.parent.value.spot_ordering)
-        this.tree_edit = new TreeEdit(this, this.parent.value.root)
+        this.spot_ordering = new SpotOrderingEdit(parent.builder)
+        this.tree_edit = new TreeEdit(this, this.parent.builder.tree.root)
 
         new Collapsible("Spot ordering", this.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
         new Collapsible("Movement Tree", this.tree_edit).addClass("fullwidth-in-panel").appendTo(this)
 
         this.candidates = this.parent.options.clue.solution.candidates
-
-        this.spot_ordering.on("changed", (v: TileCoordinates[]) => {
-            this.parent.value.spot_ordering = v
-        })
     }
 }

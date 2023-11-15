@@ -114,17 +114,17 @@ export namespace util {
         return v
     }
 
-    export function profile<T>(f: () => T): T {
-        console.time(f.name)
+    export function profile<T>(f: () => T, name: string = null): T {
+        console.time(name || f.name)
         let res = f()
-        console.timeEnd(f.name)
+        console.timeEnd(name || f.name)
 
         return res
     }
-    export async function profileAsync<T>(f: () => Promise<T>): Promise<T> {
-        console.time(f.name)
+    export async function profileAsync<T>(f: () => Promise<T>, name: string = null): Promise<T> {
+        console.time(name || f.name)
         let res = await f()
-        console.timeEnd(f.name)
+        console.timeEnd(name || f.name)
 
         return res
     }

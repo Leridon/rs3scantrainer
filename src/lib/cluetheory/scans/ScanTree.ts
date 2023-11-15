@@ -246,15 +246,13 @@ export namespace ScanTree {
                 node.children.forEach(c => helper(c.value))
 
                 let cs = node.children.map(c => c.value)
+                
+                node.completeness = "complete"
 
                 if (node.remaining_candidates.length > 1 && cs.length == 0)
                     node.completeness = "incomplete"
                 else if (cs.some(c => c.completeness == "incomplete" || c.completeness == "incomplete_children"))
                     node.completeness = "incomplete_children"
-                else if (node.path?.post_state?.position?.tile && !TileRectangle.contains(digSpotArea(node.remaining_candidates[0]), node.path.post_state.position.tile))
-                    node.completeness = "incomplete"
-                else
-                    node.completeness = "complete"
             }
 
             if (!tree.state.completeness_analyzed) {
@@ -407,7 +405,6 @@ export namespace ScanTree {
             // When there is only one child, the current position produces no information at all
             // So there is no point in adding children, which is why they are removed by this statement
             if (pruned_children.length == 1) {
-                console.log("Killing children")
                 pruned_children = []
             }
 

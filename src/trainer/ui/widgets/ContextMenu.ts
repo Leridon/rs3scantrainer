@@ -24,6 +24,7 @@ export type Menu = MenuEntry[]
 
 type context_menu = {
     cancelled: Ewent.Real<context_menu>
+    closed: Ewent.Real<context_menu>
     option_selected?: boolean
 
     menu: Menu
@@ -49,6 +50,7 @@ namespace open_menu {
     export function init(menu: Menu): context_menu {
         let r: context_menu = {
             cancelled: ewent(),
+            closed: ewent(),
             menu: menu,
             root_page: null
         }
@@ -115,6 +117,7 @@ namespace open_menu {
 
     export function cancel(menu: context_menu): void {
         if (!menu.option_selected) menu.cancelled.trigger(menu)
+        menu.closed.trigger(menu)
 
         close(menu.root_page)
     }
@@ -226,7 +229,7 @@ namespace open_menu {
                 offset: [0, 0],
                 animation: false,
                 content: men.root_widget.raw(),
-                maxWidth: "none"
+                maxWidth: "none",
             })
 
         if (!men.parent) {
@@ -275,6 +278,11 @@ export default class ContextMenu {
 
     onCancel(f: () => any): this {
         this.openMenuTree.cancelled.on(f)
+        return this
+    }
+    
+    onClosed(f: () => any): this {
+        this.openMenuTree.closed.on(f)
         return this
     }
 }

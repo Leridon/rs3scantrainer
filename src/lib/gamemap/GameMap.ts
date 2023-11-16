@@ -103,6 +103,9 @@ export class GameMap extends leaflet.Map {
 
                 new ContextMenu(event.entries)
                     .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
+                    .onClosed(() => {
+                        this.container.focus()
+                    })
 
                 // TODO: Give focus back to map on exit
             })

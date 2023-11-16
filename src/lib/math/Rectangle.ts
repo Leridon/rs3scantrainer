@@ -18,11 +18,18 @@ export namespace Rectangle {
         }
     }
 
-    export function contains(box: Rectangle, tile: Vector2) {
+    export function containsTile(box: Rectangle, tile: Vector2) {
         return box.topleft.x - 0.5 <= tile.x
             && box.topleft.y + 0.5 >= tile.y
             && box.botright.x + 0.5 >= tile.x
             && box.botright.y - 0.5 <= tile.y
+    }
+
+    export function contains(box: Rectangle, tile: Vector2) {
+        return box.topleft.x <= tile.x
+            && box.topleft.y >= tile.y
+            && box.botright.x >= tile.x
+            && box.botright.y <= tile.y
     }
 
     export function extend(box: Rectangle, padding: number): Rectangle {

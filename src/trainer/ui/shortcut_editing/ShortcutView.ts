@@ -7,25 +7,24 @@ import {Rectangle, Vector2} from "lib/math";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {arrow} from "../path_graphics";
 import {Observable, ObservableArray, observe} from "../../../lib/reactive";
-import {floor_t, TileRectangle} from "../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {util} from "../../../lib/util/util";
-import profile = util.profile;
 
 export class ShortcutViewLayer extends GameLayer {
     constructor(public data: ObservableArray<Shortcuts.shortcut>, private simplified: boolean = false) {
         super();
 
         data.element_added.on(s => {
-            new ShortcutViewLayer.ShortcutPolygon(s, {type: "regular", draw_arrows: true, from_floor: this.getMap().floor.value()}).addTo(this)
+            new ShortcutViewLayer.ShortcutPolygon(s, {type: "regular", draw_arrows: true, viewed_floor: this.getMap().floor.value()}).addTo(this)
         })
     }
 
     onAdd(map: GameMap): this {
         map.floor.subscribe((floor) => {
             this.eachLayer((l: ShortcutViewLayer.ShortcutPolygon) => {
-                l.style.update2(s => s.from_floor = floor)
+                l.style.update2(s => s.viewed_floor = floor)
             })
         }, false, (h) => this.handler_pool.bind(h))
 
@@ -38,18 +37,15 @@ export class ShortcutViewLayer extends GameLayer {
 
     eventHover(event: GameMapMouseEvent) {
 
-        profile(() => {
-            this.eachLayer((l: ShortcutViewLayer.ShortcutPolygon) => {
-                l.style.update2(s => {
-                    let shortcut = l.data.value()
-                    s.draw_arrows = shortcut.type == "entity" &&
-                        (TileRectangle.contains(shortcut.clickable_area, event.tile())
-                            || shortcut.actions.some(a => TileRectangle.contains(a.interactive_area, event.tile()))
-                        )
-                })
+        this.eachLayer((l: ShortcutViewLayer.ShortcutPolygon) => {
+            l.style.update2(s => {
+                let shortcut = l.data.value()
+                s.draw_arrows = shortcut.type == "entity" &&
+                    (TileRectangle.containsCoords(shortcut.clickable_area, event.tile())
+                        || shortcut.actions.some(a => TileRectangle.contains(a.interactive_area, event.tile()))
+                    )
             })
-        }, "hovering")
-
+        })
     }
 
     private renderAll() {
@@ -58,7 +54,7 @@ export class ShortcutViewLayer extends GameLayer {
         this.data.value().map(s => new ShortcutViewLayer.ShortcutPolygon(s, {
             type: this.simplified ? "simplified" : "regular",
             draw_arrows: false,
-            from_floor: this.getMap().floor.value()
+            viewed_floor: this.getMap().floor.value()
         }).addTo(this))
     }
 
@@ -88,12 +84,12 @@ export namespace ShortcutViewLayer {
         // Regular:
         //      - Marker, click area
         //      - Target tiles: Circle
-        public style = observe<ShortcutPolygon.style_t>(null).equality((a, b) => a?.type == b?.type && a?.draw_arrows == b?.draw_arrows && a?.from_floor == b?.from_floor)
+        public style = observe<ShortcutPolygon.style_t>(null).equality((a, b) => a?.type == b?.type && a?.draw_arrows == b?.draw_arrows && a?.viewed_floor == b?.viewed_floor)
 
         constructor(public data: Observable<Shortcuts.shortcut>, style: ShortcutPolygon.style_t = {
             type: "regular",
             draw_arrows: true,
-            from_floor: null
+            viewed_floor: null
         }) {
             super();
 
@@ -117,22 +113,38 @@ export namespace ShortcutViewLayer {
         public render() {
             this.clearLayers()
 
-            let all_floors = this.style.value().from_floor == null
+            let all_floors = this.style.value().viewed_floor == null
+            let floor = this.style.value().viewed_floor
+
+            function fs(f: floor_t): leaflet.PolylineOptions {
+                if (f < floor) return {
+                    className: "ctr-shortcut-different-level",
+                }
+                else if (f > floor) return {
+                    className: "ctr-shortcut-different-level",
+                    dashArray: "10, 10",
+                }
+                else return {}
+            }
 
             let shortcut = Shortcuts.normalize(this.data.value())
 
-            let index_of_first_action_on_floor = shortcut.actions.findIndex(a => a.interactive_area.level == this.style.value().from_floor)
-            let render_main = all_floors || (index_of_first_action_on_floor >= 0)
+            let index_of_first_action_on_floor = shortcut.actions.findIndex(a => a.interactive_area.level == this.style.value().viewed_floor)
+
+            let render_main = all_floors || (index_of_first_action_on_floor >= 0) || shortcut.clickable_area.level == this.style.value().viewed_floor
 
             for (let action of shortcut.actions) {
 
-                if (all_floors || action.interactive_area.level == this.style.value().from_floor) {
-
+                if (render_main) {
                     boxPolygon(action.interactive_area).setStyle({
                         color: COLORS.interactive_area,
                         fillColor: COLORS.interactive_area,
-                        interactive: true
-                    }).addTo(this)
+                        interactive: true,
+                        fillOpacity: 0.1,
+                        weight: 2
+                    })
+                        .setStyle(fs(action.interactive_area.level))
+                        .addTo(this)
                 }
 
                 switch (action.movement.type) {
@@ -149,13 +161,15 @@ export namespace ShortcutViewLayer {
                         break;
 
                     case "fixed":
-                        if (all_floors || action.movement.target.level == this.style.value().from_floor) {
+                        if (render_main || action.movement.target.level == floor) {
                             leaflet.circle(Vector2.toLatLong(action.movement.target), {
                                 color: COLORS.target_area,
-                                weight: 4,
-                                dashArray: '10, 10',
-                                radius: 0.5
-                            }).addTo(this)
+                                weight: 2,
+                                radius: 0.4,
+                                fillOpacity: 0.1,
+                            })
+                                .setStyle(fs(action.movement.target.level))
+                                .addTo(this)
                         }
 
                         if (this.style.value().draw_arrows) {
@@ -181,6 +195,7 @@ export namespace ShortcutViewLayer {
                 leaflet.polygon(boxPolygon2(shortcut.clickable_area), {
                     color: COLORS.clickable_area,
                     fillColor: COLORS.clickable_area,
+                    fillOpacity: 0.1,
                     interactive: true
                 }).addTo(this)
             }
@@ -197,17 +212,28 @@ export namespace ShortcutViewLayer {
         export type style_t = {
             type: "regular" | "simplified",
             draw_arrows: boolean,
-            from_floor: floor_t
+            draw_arrows2?: { type: "all" } | { type: "forSpot", spot: TileCoordinates }
+            viewed_floor: floor_t
         }
     }
 
     export function render_transport_arrow(from: Vector2, to: Vector2, level_offset: number): OpacityGroup {
-        return new OpacityGroup().addLayer(arrow(from, to).setStyle({
-            color: COLORS.interactive_area,
+        let group = new OpacityGroup().addLayer(arrow(from, to).setStyle({
+            color: COLORS.target_area,
             weight: 4,
-            dashArray: '10, 10'
         })).setStyle({interactive: true})
 
-        // TODO: Level icons
+        if (level_offset != 0) {
+
+            leaflet.marker(Vector2.toLatLong(to), {
+                icon: leaflet.icon({
+                    iconUrl: level_offset < 0 ? "assets/icons/down.png" : "assets/icons/up.png",
+                    iconSize: [14, 16],
+                }),
+                interactive: true
+            }).addTo(group)
+        }
+
+        return group
     }
 }

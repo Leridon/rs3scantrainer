@@ -1,17 +1,17 @@
 Immediate next:
 
 - Shortcut editor
+    - [Bug] Viewport filtering needs to include level
     - [Potential Bug] Copying from a different floor is weird.
     - [Bug] Actually disable editing for builtins
-    - [Bug] Zoom to shortcut does something weird with floors
     - Rightclicking needs to be limited to actually visible shortcuts (maybe get via the view layer?)
-    - [Bug] Hovering is weird with levels and extended areas
+    - Group context menu options into submenus, give icons
+    - [Bug] Move from context menu doesnt hide the old preview
 
 - Scan Editor
     - Update target for path editor when needed
     - New solution for setting spot order
     - Autoname areas
-
 
 - Path Editor
     - [Bug] Escape key cancels the entire editor when redrawing ability
@@ -19,35 +19,35 @@ Immediate next:
     - [Bug] Context Menu and other tooltips are displayed behind controls.
 
 - Scan Trainer
-    - Tech
-        - Better render of in-route teleports
-        - Run graphics are bad on snow background
-        - Spacing in the tree view is bad
-        - Don't fit to origin of teleport
-    - Content
-        - Fremmenik Isles ✓
-        - Dorgesh-Kaan
-        - Ardounge
-        - Brimhaven
-        - Darkmeyer
-        - Falador
-        - Slayer Dungeon
-        - Haunted Woods
-        - Heart of gielinor
-        - Elven lands
-        - Turtle Islands
-        - Keldagrim
-        - Kharazi Jungle
-        - Swamp Caves
-        - Menaphos
-        - Mos Le' Harmless
-        - Piscatoris
-        - Prif
-        - Taverley Dungeon
-        - Varrock
-        - Deep Wilderness
-        - Wilderness Crater
-        - Zanaris
+    - Better render of in-route teleports
+    - Run graphics are bad on snow background
+    - Spacing in the tree view is bad
+    - Don't fit to origin of teleport
+
+- Content
+    - Fremmenik Isles ✓
+    - Dorgesh-Kaan
+    - Ardounge
+    - Brimhaven
+    - Darkmeyer
+    - Falador
+    - Slayer Dungeon
+    - Haunted Woods
+    - Heart of gielinor
+    - Elven lands
+    - Turtle Islands
+    - Keldagrim
+    - Kharazi Jungle
+    - Swamp Caves
+    - Menaphos
+    - Mos Le' Harmless
+    - Piscatoris
+    - Prif
+    - Taverley Dungeon
+    - Varrock
+    - Deep Wilderness
+    - Wilderness Crater
+    - Zanaris
 
 Content principles:
     - Less is more for written instructions, let rendered path speak for itself

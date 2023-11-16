@@ -37,6 +37,8 @@ import span = C.span;
 import spacer = C.spacer;
 import sibut = SmallImageButton.sibut;
 import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
+import hboxc = C.hboxc;
+import tr = TileRectangle.tr;
 
 export class ShortcutEdit extends Widget {
     private header: Widget
@@ -504,24 +506,27 @@ export default class ShortcutEditSidePanel extends SidePanel {
 
         this.visible_data_view = observe(this.editor.data.value())
 
-        c("<div style='text-align: center'></div>")
-            .append(new LightButton("Edit Builtins")
+        hboxc(
+            new LightButton("Edit Builtins")
                 .on("click", () => {
-                    this.editor.data.setTo(shortcuts.map(s => Object.assign(s, {is_builtin: false})))
-                }))
-            .append(new LightButton("Export All")
+                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: false})))
+                }),
+            new LightButton("Export All")
                 .on("click", () => {
                     ExportStringModal.do(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
-                })
-            )
-            .append(new LightButton("Export Local")
+                }),
+            new LightButton("Export Local")
                 .on("click", () => {
                     ExportStringModal.do(JSON.stringify(this.editor.data.value().filter(s => !s.value().is_builtin).map(v => (({
                                                                                                                                    is_builtin,
                                                                                                                                    ...rest
                                                                                                                                }) => rest)(v.value())), null, 2))
-                })
-            )
+                }),
+            new LightButton("Delete Local")
+                .on("click", () => {
+                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
+                }),
+        )
             .appendTo(this.search_container)
 
         c("<div style='display: flex'></div>").append(new TextField().css("flex-grow", "1").setPlaceholder("Search Shortcuts...")

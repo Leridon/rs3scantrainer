@@ -12,6 +12,10 @@ export namespace TileRectangle {
     import lift_tile = TileCoordinates.lift
 
     export function contains(box: TileRectangle, tile: TileCoordinates) {
+        return tile.level == box.level && Rectangle.containsTile(box, tile)
+    }
+
+    export function containsCoords(box: TileRectangle, tile: TileCoordinates) {
         return tile.level == box.level && Rectangle.contains(box, tile)
     }
 

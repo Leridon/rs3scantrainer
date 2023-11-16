@@ -1211,3 +1211,8 @@ input[type=checkbox] + span {
     opacity: 0.6;
     filter: grayscale(0%);
 }
+
+.ctr-shortcut-different-level {
+    opacity: 0.6;
+    filter: grayscale(50%);
+}

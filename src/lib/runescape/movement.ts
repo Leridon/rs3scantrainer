@@ -542,7 +542,7 @@ export namespace MovementAbilities {
             for (let choice of choices) {
                 let candidate = move(position, choice.delta)
 
-                if (Rectangle.contains(bound, candidate) && (await canMove(data, position, choice.dir))) {
+                if (Rectangle.containsTile(bound, candidate) && (await canMove(data, position, choice.dir))) {
                     next = candidate
                     break
                 }

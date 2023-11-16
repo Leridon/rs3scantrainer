@@ -491,7 +491,7 @@ class PathEditorGameLayer extends GameLayer {
                 }
 
                 this.editor.data.shortcuts
-                    .filter(s => Rectangle.contains(Shortcuts.bounds(s), event.coordinates))
+                    .filter(s => Rectangle.containsTile(Shortcuts.bounds(s), event.coordinates))
                     .map(Shortcuts.normalize)
                     .forEach(s => {
                         s.actions.forEach(a => {

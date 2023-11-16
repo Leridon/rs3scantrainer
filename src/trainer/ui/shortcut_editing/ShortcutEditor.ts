@@ -21,6 +21,7 @@ import ObservableArrayValue = ObservableArray.ObservableArrayValue;
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import SidePanelControl from "../SidePanelControl";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import * as lodash from "lodash";
 
 export class ShortcutEditGameLayer extends GameLayer {
     interactionGuard: InteractionGuard = new InteractionGuard().setDefaultLayer(this)
@@ -45,7 +46,7 @@ export class ShortcutEditGameLayer extends GameLayer {
             this.editor.data.value().filter(s => {
                 if (s.value().is_builtin) return false
 
-                return Rectangle.contains(Shortcuts.bounds(s.value()), event.coordinates)
+                return Rectangle.containsTile(Shortcuts.bounds(s.value()), event.coordinates)
             }).forEach(s => {
                 event.add({
                     type: "basic",
@@ -115,7 +116,7 @@ export class ShortcutEditor extends Behaviour {
         super();
 
         this.data = observeArray([].concat(
-            shortcuts.map(s => Object.assign(s, {is_builtin: true})),
+            shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})),
             this.storage.get().map(s => Object.assign(s, {is_builtin: false}))
         ))
 
@@ -130,6 +131,8 @@ export class ShortcutEditor extends Behaviour {
         this.deps.sidepanels.add(tap(
                 new ShortcutEditSidePanel(this),
                 e => e.centered.on((s => {
+                    console.log(Shortcuts.bounds(s))
+
                     this.layer.getMap().fitView(Shortcuts.bounds(s), {
                         maxZoom: 5
                     })

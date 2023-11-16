@@ -1,5 +1,5 @@
 import {Path} from "./pathing";
-import {Vector2} from "../math";
+import {Rectangle, Vector2} from "../math";
 import {TileRectangle} from "./coordinates";
 import {TileCoordinates} from "./coordinates";
 import {direction} from "./movement";
@@ -18,7 +18,7 @@ export namespace Shortcuts {
         time: number,
         name: string,
         movement: { type: "offset", offset: Vector2 & { level: number } }
-                | { type: "fixed", target: TileCoordinates, relative: boolean },
+            | { type: "fixed", target: TileCoordinates, relative: boolean },
         orientation: shortcut_orientation_type
     }
 
@@ -105,13 +105,10 @@ export namespace Shortcuts {
     export function bounds(shortcut: shortcut): TileRectangle {
         switch (shortcut.type) {
             case "entity":
-                let bounds = shortcut.clickable_area
-
-                shortcut.actions.forEach(a => {
-                    bounds = TileRectangle.extendToRect(bounds, a.interactive_area)
-                })
-
-                return bounds
+                return TileRectangle.lift(Rectangle.combine(
+                    shortcut.clickable_area,
+                    ...shortcut.actions.map(a => a.interactive_area)
+                ), shortcut.clickable_area.level)
             case "door":
                 return shortcut.area
         }

@@ -29,7 +29,7 @@ export default class TemplateResolver {
         if (max_depth <= 0) return template
 
         let begin = template.indexOf("{{")
-        let end = template.indexOf("}}")
+        let end = template.indexOf("}}", begin)
 
         if (begin < 0 || end < 0) return template
 

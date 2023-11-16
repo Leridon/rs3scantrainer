@@ -1,12 +1,12 @@
 Immediate next:
 
 - Shortcut editor
+    - Split Search results and property panel so that only one can be open
+        - Rightclick -> Edit to open property panel
     - [Bug] Viewport filtering needs to include level
     - [Potential Bug] Copying from a different floor is weird.
     - [Bug] Actually disable editing for builtins
     - Rightclicking needs to be limited to actually visible shortcuts (maybe get via the view layer?)
-    - Rightclick -> Edit to open property panel
-    - Split Search results and property panel so that only one can be open
     - Scroll Search results
     - Group context menu options into submenus, give icons
     - [Bug] Move from context menu doesnt hide the old preview
@@ -32,9 +32,6 @@ Immediate next:
     - Spacing in the tree view is bad
     - Don't fit to origin of teleport
     - Adjust range polygon colors to ingame colors of pulses
-
-- General
-    - [Bug] Template resolver hangs for some inputs
 
 - Content
     - Fremmenik Isles ✓

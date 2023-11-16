@@ -25,10 +25,15 @@ Immediate next:
     - Implicit run for shortcuts?
 
 - Scan Trainer
+    - Make fit include the entire path
     - Better render of in-route teleports
     - Run graphics are bad on snow background
     - Spacing in the tree view is bad
     - Don't fit to origin of teleport
+    - Adjust range polygon colors to ingame colors of pulses
+
+- General
+    - [Bug] Template resolver hangs for some inputs
 
 - Content
     - Fremmenik Isles ✓
@@ -58,16 +63,6 @@ Immediate next:
 Content principles:
     - Less is more for written instructions, let rendered path speak for itself
     - Prefer easy to identify target tiles
-
-
-- Other
-    - [Bug] In some circumstances, keyboard events don't reach the interaction
-    - Make fit include the entire path
-    - Include icon of interaction for redclick graphics
-    - [Bug] Template resolver hangs for some inputs
-    - Autosort for path edit
-    - Hover to highlight path
-
 
 Ready for release:
 - [Presentation] reenable walls on the map.

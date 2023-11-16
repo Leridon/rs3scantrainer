@@ -23,8 +23,6 @@ import hbox = C.hbox;
 import LightButton from "../widgets/LightButton";
 
 export default class ScanEditPanel extends SidePanel {
-    tools: ScanTools
-    spot_ordering: SpotOrderingEdit
     tree_edit: TreeEdit
 
     candidates: TileCoordinates[]
@@ -75,12 +73,11 @@ export default class ScanEditPanel extends SidePanel {
             ).addClass("ctr-button-container").appendTo(this.container)
         }
 
-        this.tools = new ScanTools(this).appendTo(this)
-        this.spot_ordering = new SpotOrderingEdit(parent.builder)
         this.tree_edit = new TreeEdit(this, this.parent.builder.tree.root)
+            .css("overflow-y", "auto")
 
-        new Collapsible("Overview", this.spot_ordering).addClass("fullwidth-in-panel").appendTo(this)
-        new Collapsible("Movement Tree", this.tree_edit).addClass("fullwidth-in-panel").appendTo(this)
+        //new Collapsible("Movement Tree", this.tree_edit).addClass("fullwidth-in-panel").appendTo(this)
+        this.tree_edit.appendTo(this)
 
         this.candidates = this.parent.options.clue.solution.candidates
     }

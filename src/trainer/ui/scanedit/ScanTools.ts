@@ -1,5 +1,4 @@
 import Widget from "lib/ui/Widget";
-import ScanEditPanel from "./ScanEditPanel";
 import * as leaflet from "leaflet"
 import Checkbox from "lib/ui/controls/Checkbox";
 import LightButton from "../widgets/LightButton";
@@ -9,31 +8,33 @@ import hbox = C.hbox;
 import hboxc = C.hboxc;
 import centered = C.centered;
 import {observe} from "../../../lib/reactive";
+import ScanEditor from "./ScanEditor";
 
 export default class ScanTools extends Widget {
     normal = observe(false)
     complement = observe(false)
 
-    constructor(private parent: ScanEditPanel) {
+    constructor(private editor: ScanEditor) {
         super();
 
         centered(
+            c("<div style='font-weight: bold'>Center On</div>"),
             hbox(
-                new LightButton("Center on Spots")
+                new LightButton("Spots")
                     .on("click", () => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.parent.parent.options.clue.solution.candidates.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
+                        this.editor.options.clue.solution.candidates.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
 
                         bounds.pad(0.1)
 
-                        this.parent.parent.options.map.fitBounds(bounds)
+                        this.editor.options.map.fitBounds(bounds)
                     }),
-                new LightButton("Center on Complement")
+                new LightButton("Complement")
                     .on("click", () => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.parent.parent.options.clue.solution.candidates.forEach((c) => {
+                        this.editor.options.clue.solution.candidates.forEach((c) => {
                             bounds.extend(Vector2.toLatLong({
                                 x: c.x,
                                 y: (c.y < 6400 ? c.y + 6400 : c.y - 6400)
@@ -41,7 +42,7 @@ export default class ScanTools extends Widget {
                         })
                         bounds.pad(0.1)
 
-                        this.parent.parent.options.map.fitBounds(bounds)
+                        this.editor.options.map.fitBounds(bounds)
                     })
             ).addClass("ctr-button-container"),
             c("<div style='font-weight: bold'>Show Equivalence Classes</div>"),

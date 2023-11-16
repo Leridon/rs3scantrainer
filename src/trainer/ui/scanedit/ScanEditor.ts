@@ -25,6 +25,13 @@ import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLaye
 import ScanTreeNode = ScanTree.ScanTreeNode;
 import ScanRegion = ScanTree.ScanRegion;
 import {Path} from "../../../lib/runescape/pathing";
+import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
+import ScanTools from "./ScanTools";
+import {C} from "../../../lib/ui/constructors";
+import vbox = C.vbox;
+import SpotOverview from "./SpotOverview";
+import span = C.span;
+import spacer = C.spacer;
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -111,14 +118,14 @@ class EquivalenceClassHandling extends Behaviour {
             range: assumedRange(this.parent.builder.tree),
             complement: false,
             floor: this.parent.options.map.floor.value()
-        }, this.parent.panel.tools.normal)
+        }, this.parent.tools.normal)
 
         let complement = setup({
             candidates: this.parent.options.clue.solution.candidates,
             range: assumedRange(this.parent.builder.tree),
             complement: true,
             floor: this.parent.options.map.floor.value()
-        }, this.parent.panel.tools.complement)
+        }, this.parent.tools.complement)
 
         this.equivalence_classes = [normal, complement]
 
@@ -233,6 +240,8 @@ export default class ScanEditor extends Behaviour {
     layer: ScanEditLayerLight
     interaction_guard: InteractionGuard
     panel: ScanEditPanel
+    tools: ScanTools
+    overview: SpotOverview
 
     equivalence_classes: EquivalenceClassHandling
     preview_layer: PreviewLayerControl
@@ -291,6 +300,24 @@ export default class ScanEditor extends Behaviour {
         })
 
         this.panel = new ScanEditPanel(this)
+
+        new GameMapControl({
+                position: "top-right",
+                type: "floating"
+            }, vbox(
+                c("<div class='ctr-interaction-control-header'></div>")
+                    .append(c().text(`Scan Tools`))
+                    .append(spacer()),
+                this.tools = new ScanTools(this),
+                c("<div style='text-align: center; font-weight: bold'>Spot Overview</div>"),
+                this.overview = new SpotOverview(this.builder)
+            ).css2({
+                "min-width": "300px",
+                "max-height": "80vh",
+                "padding": "5px"
+            })
+        ).addTo(this.layer)
+
         this.app.sidepanels
             .add(new CluePanel(this.options.clue), 0)
             .add(this.panel, 1)

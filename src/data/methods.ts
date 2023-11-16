@@ -19382,6 +19382,7 @@ let raw: Method[] = [
             ]
         }
     },
+    // Dorgesh Khaan
     {
         "clue_id": 365,
         "type": "scantree",
@@ -19491,7 +19492,6 @@ let raw: Method[] = [
         "root": {
             "path": [],
             "region": {
-                "name": "Anywhere",
                 "area": {
                     "topleft": {
                         "x": 3157,
@@ -19502,9 +19502,10 @@ let raw: Method[] = [
                         "y": 3484
                     },
                     "level": 0
-                }
+                },
+                "name": ""
             },
-            "directions": "Start {{target}} on ground floor",
+            "directions": "Start {{scanarea Anywhere}} on ground floor",
             "children": [
                 {
                     "key": {
@@ -19523,18 +19524,18 @@ let raw: Method[] = [
                             }
                         ],
                         "region": {
-                            "name": "A",
                             "area": {
-                                "level": 0,
                                 "topleft": {
-                                    "x": 2722,
-                                    "y": 5264
+                                    "x": 2721,
+                                    "y": 5267
                                 },
                                 "botright": {
-                                    "x": 2722,
-                                    "y": 5264
-                                }
-                            }
+                                    "x": 2724,
+                                    "y": 5258
+                                },
+                                "level": 0
+                            },
+                            "name": "A"
                         },
                         "directions": "{{teleport spheredorgeshkaan south}} to {{target}}",
                         "children": [
@@ -19546,17 +19547,38 @@ let raw: Method[] = [
                                 "value": {
                                     "path": [
                                         {
+                                            "type": "run",
+                                            "description": "Run 2 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2722,
+                                                    "y": 5264,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2722,
+                                                    "y": 5265,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2721,
+                                                    "y": 5266,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
                                             "type": "ability",
                                             "ability": "dive",
-                                            "description": "{{dive}} northwest",
+                                            "description": "Use {{dive}}",
                                             "from": {
-                                                "x": 2722,
-                                                "y": 5264,
+                                                "x": 2721,
+                                                "y": 5266,
                                                 "level": 0
                                             },
                                             "to": {
                                                 "x": 2714,
-                                                "y": 5274,
+                                                "y": 5276,
                                                 "level": 0
                                             }
                                         }
@@ -19586,17 +19608,8 @@ let raw: Method[] = [
                                                 "path": [
                                                     {
                                                         "type": "run",
+                                                        "description": "Run 1 tiles",
                                                         "waypoints": [
-                                                            {
-                                                                "x": 2714,
-                                                                "y": 5274,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2714,
-                                                                "y": 5275,
-                                                                "level": 0
-                                                            },
                                                             {
                                                                 "x": 2714,
                                                                 "y": 5276,
@@ -19607,30 +19620,61 @@ let raw: Method[] = [
                                                                 "y": 5277,
                                                                 "level": 0
                                                             }
-                                                        ],
-                                                        "description": "Run 3 tiles"
+                                                        ]
                                                     },
                                                     {
-                                                        "type": "interaction",
-                                                        "ticks": 1,
-                                                        "description": "{{icon cursor_ladderup}} stairs",
-                                                        "starts": {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
                                                             "x": 2714,
                                                             "y": 5277,
                                                             "level": 0
                                                         },
-                                                        "where": {
-                                                            "x": 2714,
-                                                            "y": 5279,
-                                                            "level": 0
-                                                        },
-                                                        "ends_up": {
-                                                            "x": 2714,
-                                                            "y": 5281,
-                                                            "level": 1
-                                                        },
-                                                        "forced_direction": null,
-                                                        "how": "ladderup"
+                                                        "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Stairs",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2712.5,
+                                                                    "y": 5280.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2714.5,
+                                                                    "y": 5277.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "ladderup",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2713,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2714,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "fixed",
+                                                                        "target": {
+                                                                            "x": 2713,
+                                                                            "y": 5281,
+                                                                            "level": 1
+                                                                        },
+                                                                        "relative": true
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "toentityafter"
+                                                                    },
+                                                                    "name": "Climb-up",
+                                                                    "time": 2
+                                                                }
+                                                            ]
+                                                        }
                                                     }
                                                 ],
                                                 "region": {
@@ -19647,7 +19691,7 @@ let raw: Method[] = [
                                                         "level": 1
                                                     }
                                                 },
-                                                "directions": " {{icon cursor_ladderup}} stairs to {{target}}",
+                                                "directions": "{{icon cursor_ladderup}} climb stairs to {{target}}",
                                                 "children": [
                                                     {
                                                         "key": {
@@ -19757,7 +19801,7 @@ let raw: Method[] = [
                                                                                 }
                                                                             }
                                                                         ],
-                                                                        "directions": "{{teleport spheredorgeshkaan north}} - {{icon run}} - {{surge}} - {{dive}} to {{target}}",
+                                                                        "directions": "{{teleport spheredorgeshkaan north}} - {{surgedive}} to {{target}}",
                                                                         "children": []
                                                                     }
                                                                 },
@@ -19988,7 +20032,7 @@ let raw: Method[] = [
                                                                                 "description": "Run 4 tiles"
                                                                             }
                                                                         ],
-                                                                        "directions": "{{icon run}} - {{surge}}/{{dive}} to {{target}}",
+                                                                        "directions": "{{icon run}}/{{surgedive}} to {{target}}",
                                                                         "children": []
                                                                     }
                                                                 }
@@ -20003,52 +20047,65 @@ let raw: Method[] = [
                                                         "value": {
                                                             "path": [
                                                                 {
-                                                                    "type": "interaction",
-                                                                    "ticks": 1,
-                                                                    "description": "Use entrance/shortcut",
-                                                                    "starts": {
-                                                                        "x": 2714,
+                                                                    "type": "shortcut_v2",
+                                                                    "assumed_start": {
+                                                                        "x": 2713,
                                                                         "y": 5281,
                                                                         "level": 1
                                                                     },
-                                                                    "where": {
-                                                                        "x": 2714,
-                                                                        "y": 5283,
-                                                                        "level": 1
-                                                                    },
-                                                                    "ends_up": {
-                                                                        "x": 2714,
-                                                                        "y": 5285,
-                                                                        "level": 0
-                                                                    },
-                                                                    "forced_direction": null,
-                                                                    "how": "ladderdown"
+                                                                    "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
+                                                                    "internal": {
+                                                                        "type": "entity",
+                                                                        "name": "Stairs",
+                                                                        "clickable_area": {
+                                                                            "topleft": {
+                                                                                "x": 2712.5,
+                                                                                "y": 5284.5
+                                                                            },
+                                                                            "botright": {
+                                                                                "x": 2714.5,
+                                                                                "y": 5281.5
+                                                                            },
+                                                                            "level": 0
+                                                                        },
+                                                                        "actions": [
+                                                                            {
+                                                                                "cursor": "ladderdown",
+                                                                                "interactive_area": {
+                                                                                    "topleft": {
+                                                                                        "x": 2713,
+                                                                                        "y": 5281
+                                                                                    },
+                                                                                    "botright": {
+                                                                                        "x": 2714,
+                                                                                        "y": 5281
+                                                                                    },
+                                                                                    "level": 1
+                                                                                },
+                                                                                "movement": {
+                                                                                    "type": "fixed",
+                                                                                    "target": {
+                                                                                        "x": 2713,
+                                                                                        "y": 5285,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    "relative": true
+                                                                                },
+                                                                                "orientation": {
+                                                                                    "type": "toentityafter"
+                                                                                },
+                                                                                "name": "Climb-down",
+                                                                                "time": 2
+                                                                            }
+                                                                        ]
+                                                                    }
                                                                 },
                                                                 {
                                                                     "type": "run",
+                                                                    "description": "Run 12 tiles",
                                                                     "waypoints": [
                                                                         {
-                                                                            "x": 2714,
-                                                                            "y": 5285,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
                                                                             "x": 2713,
-                                                                            "y": 5285,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
-                                                                            "x": 2712,
-                                                                            "y": 5285,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
-                                                                            "x": 2711,
-                                                                            "y": 5285,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
-                                                                            "x": 2710,
                                                                             "y": 5285,
                                                                             "level": 0
                                                                         },
@@ -20064,27 +20121,7 @@ let raw: Method[] = [
                                                                         },
                                                                         {
                                                                             "x": 2708,
-                                                                            "y": 5287,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
-                                                                            "x": 2708,
-                                                                            "y": 5288,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
-                                                                            "x": 2708,
                                                                             "y": 5289,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
-                                                                            "x": 2707,
-                                                                            "y": 5290,
-                                                                            "level": 0
-                                                                        },
-                                                                        {
-                                                                            "x": 2706,
-                                                                            "y": 5291,
                                                                             "level": 0
                                                                         },
                                                                         {
@@ -20097,8 +20134,7 @@ let raw: Method[] = [
                                                                             "y": 5293,
                                                                             "level": 0
                                                                         }
-                                                                    ],
-                                                                    "description": "Run to 2705 | 5293"
+                                                                    ]
                                                                 },
                                                                 {
                                                                     "type": "ability",
@@ -20146,7 +20182,7 @@ let raw: Method[] = [
                                                                     }
                                                                 }
                                                             ],
-                                                            "directions": "{{icon cursor_ladderdown}} - {{icon run}}/{{surge}}/{{dive}} to {{target}}",
+                                                            "directions": "{{icon cursor_ladderdown}} - {{icon run}} to fern, {{surgedive}} to {{target}}",
                                                             "children": []
                                                         }
                                                     }
@@ -20162,17 +20198,8 @@ let raw: Method[] = [
                                                 "path": [
                                                     {
                                                         "type": "run",
+                                                        "description": "Run 1 tiles",
                                                         "waypoints": [
-                                                            {
-                                                                "x": 2714,
-                                                                "y": 5274,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2714,
-                                                                "y": 5275,
-                                                                "level": 0
-                                                            },
                                                             {
                                                                 "x": 2714,
                                                                 "y": 5276,
@@ -20183,78 +20210,122 @@ let raw: Method[] = [
                                                                 "y": 5277,
                                                                 "level": 0
                                                             }
-                                                        ],
-                                                        "description": "Run 3 tiles"
+                                                        ]
                                                     },
                                                     {
-                                                        "type": "interaction",
-                                                        "ticks": 1,
-                                                        "description": "{{icon cursor_ladderup}} stairs",
-                                                        "starts": {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
                                                             "x": 2714,
                                                             "y": 5277,
                                                             "level": 0
                                                         },
-                                                        "where": {
-                                                            "x": 2714,
-                                                            "y": 5279,
-                                                            "level": 0
-                                                        },
-                                                        "ends_up": {
-                                                            "x": 2714,
-                                                            "y": 5281,
-                                                            "level": 1
-                                                        },
-                                                        "forced_direction": null,
-                                                        "how": "ladderup"
+                                                        "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Stairs",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2712.5,
+                                                                    "y": 5280.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2714.5,
+                                                                    "y": 5277.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "ladderup",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2713,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2714,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "fixed",
+                                                                        "target": {
+                                                                            "x": 2713,
+                                                                            "y": 5281,
+                                                                            "level": 1
+                                                                        },
+                                                                        "relative": true
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "toentityafter"
+                                                                    },
+                                                                    "name": "Climb-up",
+                                                                    "time": 2
+                                                                }
+                                                            ]
+                                                        }
                                                     },
                                                     {
-                                                        "type": "interaction",
-                                                        "ticks": 1,
-                                                        "description": "{{icon cursor_ladderdown}} stairs",
-                                                        "starts": {
-                                                            "x": 2714,
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2713,
                                                             "y": 5281,
                                                             "level": 1
                                                         },
-                                                        "where": {
-                                                            "x": 2714,
-                                                            "y": 5283,
-                                                            "level": 1
-                                                        },
-                                                        "ends_up": {
-                                                            "x": 2714,
-                                                            "y": 5285,
-                                                            "level": 0
-                                                        },
-                                                        "forced_direction": null,
-                                                        "how": "ladderdown"
+                                                        "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Stairs",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2712.5,
+                                                                    "y": 5284.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2714.5,
+                                                                    "y": 5281.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "ladderdown",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2713,
+                                                                            "y": 5281
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2714,
+                                                                            "y": 5281
+                                                                        },
+                                                                        "level": 1
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "fixed",
+                                                                        "target": {
+                                                                            "x": 2713,
+                                                                            "y": 5285,
+                                                                            "level": 0
+                                                                        },
+                                                                        "relative": true
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "toentityafter"
+                                                                    },
+                                                                    "name": "Climb-down",
+                                                                    "time": 2
+                                                                }
+                                                            ]
+                                                        }
                                                     },
                                                     {
                                                         "type": "run",
+                                                        "description": "Run 9 tiles",
                                                         "waypoints": [
                                                             {
-                                                                "x": 2714,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
                                                                 "x": 2713,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2712,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2711,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2710,
                                                                 "y": 5285,
                                                                 "level": 0
                                                             },
@@ -20270,16 +20341,6 @@ let raw: Method[] = [
                                                             },
                                                             {
                                                                 "x": 2708,
-                                                                "y": 5287,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2708,
-                                                                "y": 5288,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2708,
                                                                 "y": 5289,
                                                                 "level": 0
                                                             },
@@ -20288,8 +20349,7 @@ let raw: Method[] = [
                                                                 "y": 5290,
                                                                 "level": 0
                                                             }
-                                                        ],
-                                                        "description": "Run 10 tiles"
+                                                        ]
                                                     }
                                                 ],
                                                 "region": {
@@ -20368,26 +20428,58 @@ let raw: Method[] = [
                                                                     "description": "Run 2 tiles"
                                                                 },
                                                                 {
-                                                                    "type": "interaction",
-                                                                    "ticks": 1,
-                                                                    "description": "Use entrance/shortcut",
-                                                                    "starts": {
+                                                                    "type": "shortcut_v2",
+                                                                    "assumed_start": {
                                                                         "x": 2721,
                                                                         "y": 5292,
                                                                         "level": 0
                                                                     },
-                                                                    "where": {
-                                                                        "x": 2723,
-                                                                        "y": 5292,
-                                                                        "level": 0
-                                                                    },
-                                                                    "ends_up": {
-                                                                        "x": 2725,
-                                                                        "y": 5292,
-                                                                        "level": 1
-                                                                    },
-                                                                    "forced_direction": 6,
-                                                                    "how": "ladderup"
+                                                                    "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                                                    "internal": {
+                                                                        "type": "entity",
+                                                                        "name": "Stairs",
+                                                                        "clickable_area": {
+                                                                            "topleft": {
+                                                                                "x": 2721.5,
+                                                                                "y": 5293.5
+                                                                            },
+                                                                            "botright": {
+                                                                                "x": 2724.5,
+                                                                                "y": 5291.5
+                                                                            },
+                                                                            "level": 0
+                                                                        },
+                                                                        "actions": [
+                                                                            {
+                                                                                "cursor": "ladderup",
+                                                                                "interactive_area": {
+                                                                                    "topleft": {
+                                                                                        "x": 2721,
+                                                                                        "y": 5293
+                                                                                    },
+                                                                                    "botright": {
+                                                                                        "x": 2721,
+                                                                                        "y": 5292
+                                                                                    },
+                                                                                    "level": 0
+                                                                                },
+                                                                                "movement": {
+                                                                                    "type": "fixed",
+                                                                                    "target": {
+                                                                                        "x": 2725,
+                                                                                        "y": 5292,
+                                                                                        "level": 1
+                                                                                    },
+                                                                                    "relative": true
+                                                                                },
+                                                                                "orientation": {
+                                                                                    "type": "toentityafter"
+                                                                                },
+                                                                                "name": "Climb-up",
+                                                                                "time": 2
+                                                                            }
+                                                                        ]
+                                                                    }
                                                                 },
                                                                 {
                                                                     "type": "ability",
@@ -20405,44 +20497,92 @@ let raw: Method[] = [
                                                                     }
                                                                 },
                                                                 {
-                                                                    "type": "interaction",
-                                                                    "ticks": 1,
-                                                                    "description": "{{icon cursor_ladderdown}} stairs",
-                                                                    "starts": {
+                                                                    "type": "shortcut_v2",
+                                                                    "assumed_start": {
                                                                         "x": 2729,
                                                                         "y": 5300,
                                                                         "level": 1
                                                                     },
-                                                                    "where": {
-                                                                        "x": 2729,
-                                                                        "y": 5302,
-                                                                        "level": 1
-                                                                    },
-                                                                    "ends_up": {
-                                                                        "x": 2729,
-                                                                        "y": 5304,
-                                                                        "level": 0
-                                                                    },
-                                                                    "forced_direction": 2,
-                                                                    "how": "ladderdown"
+                                                                    "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
+                                                                    "internal": {
+                                                                        "type": "entity",
+                                                                        "name": "Stairs",
+                                                                        "clickable_area": {
+                                                                            "topleft": {
+                                                                                "x": 2728.5,
+                                                                                "y": 5303.5
+                                                                            },
+                                                                            "botright": {
+                                                                                "x": 2730.5,
+                                                                                "y": 5300.5
+                                                                            },
+                                                                            "level": 0
+                                                                        },
+                                                                        "actions": [
+                                                                            {
+                                                                                "cursor": "ladderdown",
+                                                                                "interactive_area": {
+                                                                                    "topleft": {
+                                                                                        "x": 2729,
+                                                                                        "y": 5300
+                                                                                    },
+                                                                                    "botright": {
+                                                                                        "x": 2730,
+                                                                                        "y": 5300
+                                                                                    },
+                                                                                    "level": 1
+                                                                                },
+                                                                                "movement": {
+                                                                                    "type": "fixed",
+                                                                                    "target": {
+                                                                                        "x": 2729,
+                                                                                        "y": 5304,
+                                                                                        "level": 0
+                                                                                    },
+                                                                                    "relative": true
+                                                                                },
+                                                                                "orientation": {
+                                                                                    "type": "toentityafter"
+                                                                                },
+                                                                                "name": "Climb-down",
+                                                                                "time": 2
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                },
+                                                                {
+                                                                    "type": "run",
+                                                                    "description": "Run 1 tiles",
+                                                                    "waypoints": [
+                                                                        {
+                                                                            "x": 2729,
+                                                                            "y": 5304,
+                                                                            "level": 0
+                                                                        },
+                                                                        {
+                                                                            "x": 2729,
+                                                                            "y": 5305,
+                                                                            "level": 0
+                                                                        }
+                                                                    ]
                                                                 },
                                                                 {
                                                                     "type": "ability",
                                                                     "ability": "surge",
-                                                                    "description": "{{surge}} north",
+                                                                    "description": "{{surge}} North",
                                                                     "from": {
                                                                         "x": 2729,
-                                                                        "y": 5304,
+                                                                        "y": 5305,
                                                                         "level": 0
                                                                     },
                                                                     "to": {
                                                                         "x": 2729,
-                                                                        "y": 5314,
+                                                                        "y": 5315,
                                                                         "level": 0
                                                                     }
                                                                 }
                                                             ],
-                                                            "directions": "{{surge}} - {{icon cursor_ladderup}} - {{dive}} - {{icon cursor_ladderdown}} - {{surge}} to {{target}}",
+                                                            "directions": "{{surge}} - {{icon cursor_ladderup}} - {{dive}} - {{icon cursor_ladderdown}} -  {{surge}} to {{target}}",
                                                             "children": []
                                                         }
                                                     },
@@ -20510,7 +20650,7 @@ let raw: Method[] = [
                                                                     }
                                                                 }
                                                             ],
-                                                            "directions": "{{surge}} - {{icon run}} - {{surge}} to {{target}}",
+                                                            "directions": "{{surge}} then {{surge}} north to {{target}}",
                                                             "children": []
                                                         }
                                                     }
@@ -20650,79 +20790,119 @@ let raw: Method[] = [
                                                         }
                                                     },
                                                     {
-                                                        "type": "interaction",
-                                                        "ticks": 1,
-                                                        "description": "{{icon cursor_ladderup}} stairs",
-                                                        "starts": {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
                                                             "x": 2714,
                                                             "y": 5277,
                                                             "level": 0
                                                         },
-                                                        "where": {
-                                                            "x": 2714,
-                                                            "y": 5279,
-                                                            "level": 0
-                                                        },
-                                                        "ends_up": {
-                                                            "x": 2714,
-                                                            "y": 5281,
-                                                            "level": 1
-                                                        },
-                                                        "forced_direction": 5,
-                                                        "how": "ladderup"
+                                                        "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Stairs",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2712.5,
+                                                                    "y": 5280.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2714.5,
+                                                                    "y": 5277.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "ladderup",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2713,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2714,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "fixed",
+                                                                        "target": {
+                                                                            "x": 2713,
+                                                                            "y": 5281,
+                                                                            "level": 1
+                                                                        },
+                                                                        "relative": true
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "toentityafter"
+                                                                    },
+                                                                    "name": "Climb-up",
+                                                                    "time": 2
+                                                                }
+                                                            ]
+                                                        }
                                                     },
                                                     {
-                                                        "type": "interaction",
-                                                        "ticks": 1,
-                                                        "description": "{{icon cursor_ladderdown}} stairs",
-                                                        "starts": {
-                                                            "x": 2714,
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2713,
                                                             "y": 5281,
                                                             "level": 1
                                                         },
-                                                        "where": {
-                                                            "x": 2714,
-                                                            "y": 5283,
-                                                            "level": 1
-                                                        },
-                                                        "ends_up": {
-                                                            "x": 2714,
-                                                            "y": 5285,
-                                                            "level": 0
-                                                        },
-                                                        "forced_direction": null,
-                                                        "how": "ladderdown"
+                                                        "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Stairs",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2712.5,
+                                                                    "y": 5284.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2714.5,
+                                                                    "y": 5281.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "ladderdown",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2713,
+                                                                            "y": 5281
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2714,
+                                                                            "y": 5281
+                                                                        },
+                                                                        "level": 1
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "fixed",
+                                                                        "target": {
+                                                                            "x": 2713,
+                                                                            "y": 5285,
+                                                                            "level": 0
+                                                                        },
+                                                                        "relative": true
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "toentityafter"
+                                                                    },
+                                                                    "name": "Climb-down",
+                                                                    "time": 2
+                                                                }
+                                                            ]
+                                                        }
                                                     },
                                                     {
                                                         "type": "run",
+                                                        "description": "Run 7 tiles",
                                                         "waypoints": [
                                                             {
-                                                                "x": 2714,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2715,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2716,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2717,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2718,
-                                                                "y": 5285,
-                                                                "level": 0
-                                                            },
-                                                            {
-                                                                "x": 2719,
+                                                                "x": 2713,
                                                                 "y": 5285,
                                                                 "level": 0
                                                             },
@@ -20731,13 +20911,12 @@ let raw: Method[] = [
                                                                 "y": 5285,
                                                                 "level": 0
                                                             }
-                                                        ],
-                                                        "description": "Run 6 tiles"
+                                                        ]
                                                     },
                                                     {
                                                         "type": "ability",
                                                         "ability": "dive",
-                                                        "description": "{{dive}} northeast",
+                                                        "description": "Use {{dive}}",
                                                         "from": {
                                                             "x": 2720,
                                                             "y": 5285,
@@ -20750,7 +20929,7 @@ let raw: Method[] = [
                                                         }
                                                     }
                                                 ],
-                                                "directions": "{{surge}} - {{surge}} - {{icon cursor_ladderup}} - {{icon cursor_ladderdown}} - {{icon run}} - {{dive}} to {{target}}",
+                                                "directions": "{{surgedive}} to north-west {{icon cursor_ladderup}}/{{icon cursor_ladderdown}} and {{dive}} to {{target}}",
                                                 "children": []
                                             }
                                         },
@@ -20798,31 +20977,64 @@ let raw: Method[] = [
                                                         "description": "Run 1 tiles"
                                                     },
                                                     {
-                                                        "type": "interaction",
-                                                        "ticks": 1,
-                                                        "description": "Use entrance/shortcut",
-                                                        "starts": {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
                                                             "x": 2737,
                                                             "y": 5264,
                                                             "level": 0
                                                         },
-                                                        "where": {
-                                                            "x": 2738,
-                                                            "y": 5264,
-                                                            "level": 0
-                                                        },
-                                                        "ends_up": {
-                                                            "x": 2738,
-                                                            "y": 5264,
-                                                            "level": 0
-                                                        },
-                                                        "forced_direction": 3,
-                                                        "how": "open"
+                                                        "description": "Door: {{icon cursor_open}} Cross east ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Door",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2737,
+                                                                    "y": 5264.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2738,
+                                                                    "y": 5263.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "open",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2737,
+                                                                            "y": 5264
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2737,
+                                                                            "y": 5264
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "time": 1,
+                                                                    "name": "Cross east",
+                                                                    "movement": {
+                                                                        "type": "offset",
+                                                                        "offset": {
+                                                                            "x": 1,
+                                                                            "y": 0,
+                                                                            "level": 0
+                                                                        }
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "forced",
+                                                                        "direction": 3,
+                                                                        "relative": true
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
                                                     },
                                                     {
                                                         "type": "ability",
                                                         "ability": "surge",
-                                                        "description": "{{surge}} east",
+                                                        "description": "{{surge}} East",
                                                         "from": {
                                                             "x": 2738,
                                                             "y": 5264,
@@ -20835,8 +21047,216 @@ let raw: Method[] = [
                                                         }
                                                     }
                                                 ],
-                                                "directions": "{{dive}} - {{icon run}} - {{icon cursor_open}} - {{surge}} to {{target}}",
+                                                "directions": "{{dive}} - {{icon cursor_open}} - {{surge}} to {{target}}",
                                                 "children": []
+                                            }
+                                        },
+                                        {
+                                            "key": {
+                                                "pulse": 3,
+                                                "different_level": false,
+                                                "spot": {
+                                                    "x": 2711,
+                                                    "y": 5284,
+                                                    "level": 0
+                                                }
+                                            },
+                                            "value": {
+                                                "children": [],
+                                                "directions": "{{surgedive}} to north-west {{icon cursor_ladderup}}/{{icon cursor_ladderdown}} to {{target}}",
+                                                "path": [
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 2 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2726,
+                                                                "y": 5266,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2724,
+                                                                "y": 5266,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "surge",
+                                                        "description": "{{surge}} West",
+                                                        "from": {
+                                                            "x": 2724,
+                                                            "y": 5266,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2714,
+                                                            "y": 5266,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "ability",
+                                                        "ability": "dive",
+                                                        "description": "Use {{dive}}",
+                                                        "from": {
+                                                            "x": 2714,
+                                                            "y": 5266,
+                                                            "level": 0
+                                                        },
+                                                        "to": {
+                                                            "x": 2714,
+                                                            "y": 5276,
+                                                            "level": 0
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 1 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2714,
+                                                                "y": 5276,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2714,
+                                                                "y": 5277,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2714,
+                                                            "y": 5277,
+                                                            "level": 0
+                                                        },
+                                                        "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Stairs",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2712.5,
+                                                                    "y": 5280.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2714.5,
+                                                                    "y": 5277.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "ladderup",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2713,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2714,
+                                                                            "y": 5277
+                                                                        },
+                                                                        "level": 0
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "fixed",
+                                                                        "target": {
+                                                                            "x": 2713,
+                                                                            "y": 5281,
+                                                                            "level": 1
+                                                                        },
+                                                                        "relative": true
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "toentityafter"
+                                                                    },
+                                                                    "name": "Climb-up",
+                                                                    "time": 2
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "shortcut_v2",
+                                                        "assumed_start": {
+                                                            "x": 2713,
+                                                            "y": 5281,
+                                                            "level": 1
+                                                        },
+                                                        "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
+                                                        "internal": {
+                                                            "type": "entity",
+                                                            "name": "Stairs",
+                                                            "clickable_area": {
+                                                                "topleft": {
+                                                                    "x": 2712.5,
+                                                                    "y": 5284.5
+                                                                },
+                                                                "botright": {
+                                                                    "x": 2714.5,
+                                                                    "y": 5281.5
+                                                                },
+                                                                "level": 0
+                                                            },
+                                                            "actions": [
+                                                                {
+                                                                    "cursor": "ladderdown",
+                                                                    "interactive_area": {
+                                                                        "topleft": {
+                                                                            "x": 2713,
+                                                                            "y": 5281
+                                                                        },
+                                                                        "botright": {
+                                                                            "x": 2714,
+                                                                            "y": 5281
+                                                                        },
+                                                                        "level": 1
+                                                                    },
+                                                                    "movement": {
+                                                                        "type": "fixed",
+                                                                        "target": {
+                                                                            "x": 2713,
+                                                                            "y": 5285,
+                                                                            "level": 0
+                                                                        },
+                                                                        "relative": true
+                                                                    },
+                                                                    "orientation": {
+                                                                        "type": "toentityafter"
+                                                                    },
+                                                                    "name": "Climb-down",
+                                                                    "time": 2
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "run",
+                                                        "description": "Run 2 tiles",
+                                                        "waypoints": [
+                                                            {
+                                                                "x": 2713,
+                                                                "y": 5285,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2712,
+                                                                "y": 5285,
+                                                                "level": 0
+                                                            },
+                                                            {
+                                                                "x": 2711,
+                                                                "y": 5284,
+                                                                "level": 0
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
                                             }
                                         }
                                     ]
@@ -20887,45 +21307,45 @@ let raw: Method[] = [
                                 "value": {
                                     "path": [
                                         {
+                                            "type": "run",
+                                            "description": "Run 2 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2722,
+                                                    "y": 5264,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2723,
+                                                    "y": 5264,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2724,
+                                                    "y": 5263,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
                                             "type": "ability",
                                             "ability": "dive",
                                             "description": "Use {{dive}}",
                                             "from": {
-                                                "x": 2722,
-                                                "y": 5264,
+                                                "x": 2724,
+                                                "y": 5263,
                                                 "level": 0
                                             },
                                             "to": {
-                                                "x": 2732,
-                                                "y": 5267,
+                                                "x": 2734,
+                                                "y": 5268,
                                                 "level": 0
                                             }
                                         },
                                         {
-                                            "type": "run",
-                                            "waypoints": [
-                                                {
-                                                    "x": 2732,
-                                                    "y": 5267,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2733,
-                                                    "y": 5267,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2734,
-                                                    "y": 5268,
-                                                    "level": 0
-                                                }
-                                            ],
-                                            "description": "Run to 2734 | 5268"
-                                        },
-                                        {
                                             "type": "ability",
                                             "ability": "surge",
-                                            "description": "{{surge}} northeast",
+                                            "description": "{{surge}} North-East",
                                             "from": {
                                                 "x": 2734,
                                                 "y": 5268,
@@ -20938,7 +21358,7 @@ let raw: Method[] = [
                                             }
                                         }
                                     ],
-                                    "directions": "{{dive}} - {{icon run}} - {{surge}} to {{target}}",
+                                    "directions": "{{surgedive}} to {{target}}",
                                     "children": []
                                 }
                             },
@@ -20957,85 +21377,144 @@ let raw: Method[] = [
                                         {
                                             "type": "ability",
                                             "ability": "dive",
-                                            "description": "{{dive}} north",
+                                            "description": "Use {{dive}}",
                                             "from": {
                                                 "x": 2722,
                                                 "y": 5264,
                                                 "level": 0
                                             },
                                             "to": {
-                                                "x": 2723,
+                                                "x": 2722,
                                                 "y": 5268,
                                                 "level": 0
                                             }
                                         },
                                         {
-                                            "type": "interaction",
-                                            "ticks": 1,
-                                            "description": "Use entrance/shortcut",
-                                            "starts": {
-                                                "x": 2723,
+                                            "type": "shortcut_v2",
+                                            "assumed_start": {
+                                                "x": 2722,
                                                 "y": 5268,
                                                 "level": 0
                                             },
-                                            "where": {
-                                                "x": 2723,
-                                                "y": 5270,
-                                                "level": 0
-                                            },
-                                            "ends_up": {
-                                                "x": 2723,
-                                                "y": 5272,
-                                                "level": 1
-                                            },
-                                            "forced_direction": null,
-                                            "how": "ladderup"
+                                            "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                            "internal": {
+                                                "type": "entity",
+                                                "name": "Stairs",
+                                                "clickable_area": {
+                                                    "topleft": {
+                                                        "x": 2721.5,
+                                                        "y": 5271.5
+                                                    },
+                                                    "botright": {
+                                                        "x": 2723.5,
+                                                        "y": 5268.5
+                                                    },
+                                                    "level": 0
+                                                },
+                                                "actions": [
+                                                    {
+                                                        "cursor": "ladderup",
+                                                        "interactive_area": {
+                                                            "topleft": {
+                                                                "x": 2722,
+                                                                "y": 5268
+                                                            },
+                                                            "botright": {
+                                                                "x": 2723,
+                                                                "y": 5268
+                                                            },
+                                                            "level": 0
+                                                        },
+                                                        "movement": {
+                                                            "type": "fixed",
+                                                            "target": {
+                                                                "x": 2722,
+                                                                "y": 5272,
+                                                                "level": 1
+                                                            },
+                                                            "relative": true
+                                                        },
+                                                        "orientation": {
+                                                            "type": "toentityafter"
+                                                        },
+                                                        "name": "Climb-up",
+                                                        "time": 2
+                                                    }
+                                                ]
+                                            }
                                         },
                                         {
-                                            "type": "interaction",
-                                            "ticks": 1,
-                                            "description": "Use entrance/shortcut",
-                                            "starts": {
-                                                "x": 2723,
+                                            "type": "shortcut_v2",
+                                            "assumed_start": {
+                                                "x": 2722,
                                                 "y": 5272,
                                                 "level": 1
                                             },
-                                            "where": {
-                                                "x": 2723,
-                                                "y": 5274,
-                                                "level": 1
-                                            },
-                                            "ends_up": {
-                                                "x": 2723,
-                                                "y": 5276,
-                                                "level": 0
-                                            },
-                                            "forced_direction": null,
-                                            "how": "ladderdown"
+                                            "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
+                                            "internal": {
+                                                "type": "entity",
+                                                "name": "Stairs",
+                                                "clickable_area": {
+                                                    "topleft": {
+                                                        "x": 2721.5,
+                                                        "y": 5275.5
+                                                    },
+                                                    "botright": {
+                                                        "x": 2723.5,
+                                                        "y": 5272.5
+                                                    },
+                                                    "level": 0
+                                                },
+                                                "actions": [
+                                                    {
+                                                        "cursor": "ladderdown",
+                                                        "interactive_area": {
+                                                            "topleft": {
+                                                                "x": 2722,
+                                                                "y": 5272
+                                                            },
+                                                            "botright": {
+                                                                "x": 2723,
+                                                                "y": 5272
+                                                            },
+                                                            "level": 1
+                                                        },
+                                                        "movement": {
+                                                            "type": "fixed",
+                                                            "target": {
+                                                                "x": 2722,
+                                                                "y": 5276,
+                                                                "level": 0
+                                                            },
+                                                            "relative": true
+                                                        },
+                                                        "orientation": {
+                                                            "type": "toentityafter"
+                                                        },
+                                                        "name": "Climb-down",
+                                                        "time": 2
+                                                    }
+                                                ]
+                                            }
                                         },
                                         {
                                             "type": "run",
+                                            "description": "Run 2 tiles",
                                             "waypoints": [
                                                 {
-                                                    "x": 2723,
+                                                    "x": 2722,
                                                     "y": 5276,
                                                     "level": 0
                                                 },
                                                 {
-                                                    "x": 2723,
-                                                    "y": 5277,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2723,
+                                                    "x": 2722,
                                                     "y": 5278,
                                                     "level": 0
                                                 }
-                                            ],
-                                            "description": "Run 2 tiles"
+                                            ]
                                         }
                                     ],
-                                    "directions": "{{dive}} - {{icon cursor_ladderup}} - {{icon cursor_ladderdown}} - {{icon run}} to {{target}}",
+                                    "directions": "{{icon cursor_ladderup}}/{{icon cursor_ladderdown}} Climb stairs {{target}}",
                                     "children": []
                                 }
                             },
@@ -21052,43 +21531,43 @@ let raw: Method[] = [
                                 "value": {
                                     "path": [
                                         {
+                                            "type": "run",
+                                            "description": "Run 2 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2722,
+                                                    "y": 5264,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2722,
+                                                    "y": 5265,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2721,
+                                                    "y": 5266,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
                                             "type": "ability",
                                             "ability": "dive",
-                                            "description": "{{dive}} northwest",
+                                            "description": "Use {{dive}}",
                                             "from": {
-                                                "x": 2722,
-                                                "y": 5264,
+                                                "x": 2721,
+                                                "y": 5266,
                                                 "level": 0
                                             },
                                             "to": {
-                                                "x": 2712,
-                                                "y": 5269,
+                                                "x": 2711,
+                                                "y": 5271,
                                                 "level": 0
                                             }
-                                        },
-                                        {
-                                            "type": "run",
-                                            "waypoints": [
-                                                {
-                                                    "x": 2712,
-                                                    "y": 5269,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2711,
-                                                    "y": 5269,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2711,
-                                                    "y": 5270,
-                                                    "level": 0
-                                                }
-                                            ],
-                                            "description": "Run 2 tiles"
                                         }
                                     ],
-                                    "directions": "{{dive}} - {{icon run}} to {{target}}",
+                                    "directions": "{{dive}} to {{target}}",
                                     "children": []
                                 }
                             },
@@ -21105,108 +21584,169 @@ let raw: Method[] = [
                                 "value": {
                                     "path": [
                                         {
+                                            "type": "run",
+                                            "description": "Run 2 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2722,
+                                                    "y": 5264,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2722,
+                                                    "y": 5265,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2721,
+                                                    "y": 5266,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
                                             "type": "ability",
                                             "ability": "dive",
                                             "description": "Use {{dive}}",
                                             "from": {
-                                                "x": 2722,
-                                                "y": 5264,
-                                                "level": 0
-                                            },
-                                            "to": {
-                                                "x": 2714,
+                                                "x": 2721,
                                                 "y": 5266,
                                                 "level": 0
-                                            }
-                                        },
-                                        {
-                                            "type": "run",
-                                            "waypoints": [
-                                                {
-                                                    "x": 2714,
-                                                    "y": 5266,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2714,
-                                                    "y": 5267,
-                                                    "level": 0
-                                                },
-                                                {
-                                                    "x": 2714,
-                                                    "y": 5268,
-                                                    "level": 0
-                                                }
-                                            ],
-                                            "description": "Run 2 tiles"
-                                        },
-                                        {
-                                            "type": "ability",
-                                            "ability": "surge",
-                                            "description": "{{surge}} north",
-                                            "from": {
-                                                "x": 2714,
-                                                "y": 5268,
-                                                "level": 0
                                             },
                                             "to": {
                                                 "x": 2714,
-                                                "y": 5277,
+                                                "y": 5276,
                                                 "level": 0
                                             }
                                         },
                                         {
-                                            "type": "interaction",
-                                            "ticks": 1,
-                                            "description": "Use entrance/shortcut",
-                                            "starts": {
+                                            "type": "run",
+                                            "description": "Run 1 tiles",
+                                            "waypoints": [
+                                                {
+                                                    "x": 2714,
+                                                    "y": 5276,
+                                                    "level": 0
+                                                },
+                                                {
+                                                    "x": 2714,
+                                                    "y": 5277,
+                                                    "level": 0
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "shortcut_v2",
+                                            "assumed_start": {
                                                 "x": 2714,
                                                 "y": 5277,
                                                 "level": 0
                                             },
-                                            "where": {
-                                                "x": 2714,
-                                                "y": 5279,
-                                                "level": 0
-                                            },
-                                            "ends_up": {
-                                                "x": 2714,
-                                                "y": 5281,
-                                                "level": 1
-                                            },
-                                            "forced_direction": null,
-                                            "how": "ladderup"
+                                            "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                            "internal": {
+                                                "type": "entity",
+                                                "name": "Stairs",
+                                                "clickable_area": {
+                                                    "topleft": {
+                                                        "x": 2712.5,
+                                                        "y": 5280.5
+                                                    },
+                                                    "botright": {
+                                                        "x": 2714.5,
+                                                        "y": 5277.5
+                                                    },
+                                                    "level": 0
+                                                },
+                                                "actions": [
+                                                    {
+                                                        "cursor": "ladderup",
+                                                        "interactive_area": {
+                                                            "topleft": {
+                                                                "x": 2713,
+                                                                "y": 5277
+                                                            },
+                                                            "botright": {
+                                                                "x": 2714,
+                                                                "y": 5277
+                                                            },
+                                                            "level": 0
+                                                        },
+                                                        "movement": {
+                                                            "type": "fixed",
+                                                            "target": {
+                                                                "x": 2713,
+                                                                "y": 5281,
+                                                                "level": 1
+                                                            },
+                                                            "relative": true
+                                                        },
+                                                        "orientation": {
+                                                            "type": "toentityafter"
+                                                        },
+                                                        "name": "Climb-up",
+                                                        "time": 2
+                                                    }
+                                                ]
+                                            }
                                         },
                                         {
-                                            "type": "interaction",
-                                            "ticks": 1,
-                                            "description": "Use entrance/shortcut",
-                                            "starts": {
-                                                "x": 2714,
+                                            "type": "shortcut_v2",
+                                            "assumed_start": {
+                                                "x": 2713,
                                                 "y": 5281,
                                                 "level": 1
                                             },
-                                            "where": {
-                                                "x": 2714,
-                                                "y": 5283,
-                                                "level": 1
-                                            },
-                                            "ends_up": {
-                                                "x": 2714,
-                                                "y": 5285,
-                                                "level": 0
-                                            },
-                                            "forced_direction": null,
-                                            "how": "ladderdown"
+                                            "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
+                                            "internal": {
+                                                "type": "entity",
+                                                "name": "Stairs",
+                                                "clickable_area": {
+                                                    "topleft": {
+                                                        "x": 2712.5,
+                                                        "y": 5284.5
+                                                    },
+                                                    "botright": {
+                                                        "x": 2714.5,
+                                                        "y": 5281.5
+                                                    },
+                                                    "level": 0
+                                                },
+                                                "actions": [
+                                                    {
+                                                        "cursor": "ladderdown",
+                                                        "interactive_area": {
+                                                            "topleft": {
+                                                                "x": 2713,
+                                                                "y": 5281
+                                                            },
+                                                            "botright": {
+                                                                "x": 2714,
+                                                                "y": 5281
+                                                            },
+                                                            "level": 1
+                                                        },
+                                                        "movement": {
+                                                            "type": "fixed",
+                                                            "target": {
+                                                                "x": 2713,
+                                                                "y": 5285,
+                                                                "level": 0
+                                                            },
+                                                            "relative": true
+                                                        },
+                                                        "orientation": {
+                                                            "type": "toentityafter"
+                                                        },
+                                                        "name": "Climb-down",
+                                                        "time": 2
+                                                    }
+                                                ]
+                                            }
                                         },
                                         {
                                             "type": "run",
+                                            "description": "Run 2 tiles",
                                             "waypoints": [
-                                                {
-                                                    "x": 2714,
-                                                    "y": 5285,
-                                                    "level": 0
-                                                },
                                                 {
                                                     "x": 2713,
                                                     "y": 5285,
@@ -21216,12 +21756,16 @@ let raw: Method[] = [
                                                     "x": 2712,
                                                     "y": 5285,
                                                     "level": 0
+                                                },
+                                                {
+                                                    "x": 2711,
+                                                    "y": 5284,
+                                                    "level": 0
                                                 }
-                                            ],
-                                            "description": "Run 2 tiles"
+                                            ]
                                         }
                                     ],
-                                    "directions": "{{dive}} - {{surge}} - {{icon cursor_ladderup}} - {{icon cursor_ladderdown}} - {{icon run}} to {{target}}",
+                                    "directions": "{{dive}} to north-west {{icon cursor_ladderup}}/{{icon cursor_ladderdown}} to {{target}}",
                                     "children": []
                                 }
                             }
@@ -21348,7 +21892,7 @@ let raw: Method[] = [
                                             "level": 1
                                         }
                                     },
-                                    "directions": "{{icon run}} - {{surge}} - {{surge}} to {{target}}",
+                                    "directions": "{{surge}}/{{icon run}} north to {{target}}",
                                     "children": [
                                         {
                                             "key": {
@@ -21436,26 +21980,58 @@ let raw: Method[] = [
                                                                     "description": "Run 4 tiles"
                                                                 },
                                                                 {
-                                                                    "type": "interaction",
-                                                                    "ticks": 1,
-                                                                    "description": "Use entrance/shortcut",
-                                                                    "starts": {
+                                                                    "type": "shortcut_v2",
+                                                                    "assumed_start": {
                                                                         "x": 2722,
                                                                         "y": 5260,
                                                                         "level": 0
                                                                     },
-                                                                    "where": {
-                                                                        "x": 2722,
-                                                                        "y": 5258,
-                                                                        "level": 0
-                                                                    },
-                                                                    "ends_up": {
-                                                                        "x": 2722,
-                                                                        "y": 5256,
-                                                                        "level": 1
-                                                                    },
-                                                                    "forced_direction": 4,
-                                                                    "how": "ladderup"
+                                                                    "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
+                                                                    "internal": {
+                                                                        "type": "entity",
+                                                                        "name": "Stairs",
+                                                                        "clickable_area": {
+                                                                            "topleft": {
+                                                                                "x": 2721.5,
+                                                                                "y": 5259.5
+                                                                            },
+                                                                            "botright": {
+                                                                                "x": 2723.5,
+                                                                                "y": 5257.5
+                                                                            },
+                                                                            "level": 0
+                                                                        },
+                                                                        "actions": [
+                                                                            {
+                                                                                "cursor": "ladderup",
+                                                                                "interactive_area": {
+                                                                                    "topleft": {
+                                                                                        "x": 2722,
+                                                                                        "y": 5260
+                                                                                    },
+                                                                                    "botright": {
+                                                                                        "x": 2723,
+                                                                                        "y": 5260
+                                                                                    },
+                                                                                    "level": 0
+                                                                                },
+                                                                                "movement": {
+                                                                                    "type": "fixed",
+                                                                                    "target": {
+                                                                                        "x": 2722,
+                                                                                        "y": 5256,
+                                                                                        "level": 1
+                                                                                    },
+                                                                                    "relative": true
+                                                                                },
+                                                                                "orientation": {
+                                                                                    "type": "toentityafter"
+                                                                                },
+                                                                                "name": "Climb-up",
+                                                                                "time": 2
+                                                                            }
+                                                                        ]
+                                                                    }
                                                                 },
                                                                 {
                                                                     "type": "run",
@@ -21509,7 +22085,7 @@ let raw: Method[] = [
                                                                     }
                                                                 }
                                                             ],
-                                                            "directions": "{{teleport spheredorgeshkaan south}} - {{icon cursor_ladderup}} - {{surge}} east - {{dive}} to {{target}}",
+                                                            "directions": "{{teleport spheredorgeshkaan south}} - {{icon cursor_ladderup}} Climb stairs to {{target}}",
                                                             "children": []
                                                         }
                                                     },
@@ -21601,7 +22177,7 @@ let raw: Method[] = [
                                                                     "description": "Run 2 tiles"
                                                                 }
                                                             ],
-                                                            "directions": "{{teleport spheredorgeshkaan east}} - {{surge}} - {{dive}} (not earlier!) - {{icon run}} to {{target}}",
+                                                            "directions": "{{teleport spheredorgeshkaan east}} - {{surgedive}}  to {{target}}",
                                                             "children": []
                                                         }
                                                     }
@@ -21775,7 +22351,7 @@ let raw: Method[] = [
                                                                     }
                                                                 }
                                                             ],
-                                                            "directions": "{{icon accel}} - {{dive}}/{{surge}} to {{target}}",
+                                                            "directions": "{{icon accel}} - {{surgedive}} to {{target}}",
                                                             "children": []
                                                         }
                                                     },
@@ -22017,7 +22593,7 @@ let raw: Method[] = [
                                                         "level": 1
                                                     }
                                                 },
-                                                "directions": "{{dive}} - {{surge}} to {{target}}",
+                                                "directions": "{{dive}} and {{surge}} north to {{target}}",
                                                 "children": [
                                                     {
                                                         "key": {
@@ -22170,7 +22746,7 @@ let raw: Method[] = [
                                                                     "description": "Run 6 tiles"
                                                                 }
                                                             ],
-                                                            "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
+                                                            "directions": "{{surge}} to {{target}}",
                                                             "children": []
                                                         }
                                                     }
@@ -22220,7 +22796,7 @@ let raw: Method[] = [
                                                         }
                                                     }
                                                 ],
-                                                "directions": "{{dive}} - {{surge}} to {{target}}",
+                                                "directions": "{{surgedive}} to {{target}}",
                                                 "children": []
                                             }
                                         }
@@ -22301,7 +22877,7 @@ let raw: Method[] = [
                                             "description": "Run 4 tiles"
                                         }
                                     ],
-                                    "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
+                                    "directions": "{{surgedive}} to {{target}}",
                                     "children": []
                                 }
                             },
@@ -22333,26 +22909,59 @@ let raw: Method[] = [
                                             }
                                         },
                                         {
-                                            "type": "interaction",
-                                            "ticks": 1,
-                                            "description": "{{icon cursor_open}} door",
-                                            "starts": {
+                                            "type": "shortcut_v2",
+                                            "assumed_start": {
                                                 "x": 2700,
                                                 "y": 5317,
                                                 "level": 1
                                             },
-                                            "where": {
-                                                "x": 2699,
-                                                "y": 5317,
-                                                "level": 1
-                                            },
-                                            "ends_up": {
-                                                "x": 2699,
-                                                "y": 5317,
-                                                "level": 1
-                                            },
-                                            "forced_direction": 1,
-                                            "how": "open"
+                                            "description": "Door: {{icon cursor_open}} Cross west ",
+                                            "internal": {
+                                                "type": "entity",
+                                                "name": "Door",
+                                                "clickable_area": {
+                                                    "topleft": {
+                                                        "x": 2699,
+                                                        "y": 5317.5
+                                                    },
+                                                    "botright": {
+                                                        "x": 2700,
+                                                        "y": 5316.5
+                                                    },
+                                                    "level": 1
+                                                },
+                                                "actions": [
+                                                    {
+                                                        "cursor": "open",
+                                                        "interactive_area": {
+                                                            "topleft": {
+                                                                "x": 2700,
+                                                                "y": 5317
+                                                            },
+                                                            "botright": {
+                                                                "x": 2700,
+                                                                "y": 5317
+                                                            },
+                                                            "level": 1
+                                                        },
+                                                        "time": 1,
+                                                        "name": "Cross west",
+                                                        "movement": {
+                                                            "type": "offset",
+                                                            "offset": {
+                                                                "x": -1,
+                                                                "y": 0,
+                                                                "level": 0
+                                                            }
+                                                        },
+                                                        "orientation": {
+                                                            "type": "forced",
+                                                            "direction": 1,
+                                                            "relative": true
+                                                        }
+                                                    }
+                                                ]
+                                            }
                                         }
                                     ],
                                     "directions": "{{dive}} - {{icon cursor_open}} to {{target}}",

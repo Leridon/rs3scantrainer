@@ -2891,6 +2891,636 @@ let data: Shortcuts.shortcut[] = [
                 "time": 2
             }
         ]
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2469,
+                "y": 4438
+            },
+            "botright": {
+                "x": 2470,
+                "y": 4437
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2465,
+                "y": 4434
+            },
+            "botright": {
+                "x": 2466,
+                "y": 4433
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2446,
+                "y": 4429
+            },
+            "botright": {
+                "x": 2446,
+                "y": 4428
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2404,
+                "y": 4455
+            },
+            "botright": {
+                "x": 2404,
+                "y": 4454
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2403,
+                "y": 4472
+            },
+            "botright": {
+                "x": 2404,
+                "y": 4472
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2387,
+                "y": 4470
+            },
+            "botright": {
+                "x": 2387,
+                "y": 4469
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2379,
+                "y": 4468
+            },
+            "botright": {
+                "x": 2380,
+                "y": 4468
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2382,
+                "y": 4442
+            },
+            "botright": {
+                "x": 2382,
+                "y": 4441
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "entity",
+        "name": "Jutting wall",
+        "clickable_area": {
+            "topleft": {
+                "x": 2414.5,
+                "y": 4402.5
+            },
+            "botright": {
+                "x": 2415.5,
+                "y": 4401.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2415,
+                        "y": 4403
+                    },
+                    "botright": {
+                        "x": 2415,
+                        "y": 4403
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": 0,
+                        "y": -2,
+                        "level": 0
+                    }
+                },
+                "name": "Use",
+                "time": 3,
+                "orientation": {
+                    "type": "byoffset"
+                }
+            },
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2415,
+                        "y": 4401
+                    },
+                    "botright": {
+                        "x": 2415,
+                        "y": 4401
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": 0,
+                        "y": 2,
+                        "level": 0
+                    }
+                },
+                "orientation": {
+                    "type": "byoffset"
+                },
+                "name": "Use",
+                "time": 3
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Jutting wall",
+        "clickable_area": {
+            "topleft": {
+                "x": 2399.5,
+                "y": 4403.5
+            },
+            "botright": {
+                "x": 2400.5,
+                "y": 4402.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2400,
+                        "y": 4404
+                    },
+                    "botright": {
+                        "x": 2400,
+                        "y": 4404
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": 0,
+                        "y": -2,
+                        "level": 0
+                    }
+                },
+                "orientation": {
+                    "type": "byoffset"
+                },
+                "name": "Use",
+                "time": 3
+            },
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2400,
+                        "y": 4402
+                    },
+                    "botright": {
+                        "x": 2400,
+                        "y": 4402
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": 0,
+                        "y": 2,
+                        "level": 0
+                    }
+                },
+                "orientation": {
+                    "type": "byoffset"
+                },
+                "name": "Use",
+                "time": 3
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Jutting wall",
+        "clickable_area": {
+            "topleft": {
+                "x": 2407.5,
+                "y": 4395.5
+            },
+            "botright": {
+                "x": 2408.5,
+                "y": 4394.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2408,
+                        "y": 4396
+                    },
+                    "botright": {
+                        "x": 2408,
+                        "y": 4396
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": 0,
+                        "y": -2,
+                        "level": 0
+                    }
+                },
+                "orientation": {
+                    "type": "byoffset"
+                },
+                "name": "Use",
+                "time": 3
+            },
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2408,
+                        "y": 4394
+                    },
+                    "botright": {
+                        "x": 2408,
+                        "y": 4394
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": 0,
+                        "y": 2,
+                        "level": 0
+                    }
+                },
+                "orientation": {
+                    "type": "byoffset"
+                },
+                "name": "Use",
+                "time": 3
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Shady Grove",
+        "clickable_area": {
+            "topleft": {
+                "x": 2395.5,
+                "y": 4381.5
+            },
+            "botright": {
+                "x": 2399.5,
+                "y": 4377.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2395,
+                        "y": 4382
+                    },
+                    "botright": {
+                        "x": 2400,
+                        "y": 4377
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2348,
+                        "y": 4386,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Enter",
+                "time": 2,
+                "orientation": {
+                    "type": "toentitybefore"
+                }
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Shady opening",
+        "clickable_area": {
+            "topleft": {
+                "x": 2348.5,
+                "y": 4387.5
+            },
+            "botright": {
+                "x": 2349.5,
+                "y": 4384.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2348,
+                        "y": 4387
+                    },
+                    "botright": {
+                        "x": 2348,
+                        "y": 4385
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2400,
+                        "y": 4379,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Enter",
+                "time": 1
+            }
+        ]
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2468,
+                "y": 4422
+            },
+            "botright": {
+                "x": 2469,
+                "y": 4422
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2479,
+                "y": 4445
+            },
+            "botright": {
+                "x": 2480,
+                "y": 4445
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2482,
+                "y": 4437
+            },
+            "botright": {
+                "x": 2483,
+                "y": 4437
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2487,
+                "y": 4426
+            },
+            "botright": {
+                "x": 2487,
+                "y": 4425
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "entity",
+        "name": "Portal",
+        "clickable_area": {
+            "topleft": {
+                "x": 1562.5,
+                "y": 4355.5
+            },
+            "botright": {
+                "x": 1567.5,
+                "y": 4353.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "enter",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 1563,
+                        "y": 4356
+                    },
+                    "botright": {
+                        "x": 1567,
+                        "y": 4356
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2453,
+                        "y": 4476,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Enter",
+                "time": 2,
+                "orientation": {
+                    "type": "toentityafter"
+                }
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Chicken Shrine",
+        "clickable_area": {
+            "topleft": {
+                "x": 2451.5,
+                "y": 4477.5
+            },
+            "botright": {
+                "x": 2453.5,
+                "y": 4476.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "generic",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2451,
+                        "y": 4478
+                    },
+                    "botright": {
+                        "x": 2454,
+                        "y": 4476
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 1565,
+                        "y": 4356,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Use Raw Chicken",
+                "time": 2,
+                "orientation": {
+                    "type": "toentitybefore"
+                }
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Fairy Ring",
+        "clickable_area": {
+            "topleft": {
+                "x": 2485.5,
+                "y": 4471.5
+            },
+            "botright": {
+                "x": 2486.5,
+                "y": 4470.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "use",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2485,
+                        "y": 4472
+                    },
+                    "botright": {
+                        "x": 2487,
+                        "y": 4470
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 3259,
+                        "y": 3171,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Use",
+                "time": 7,
+                "orientation": {
+                    "type": "toentitybefore"
+                }
+            }
+        ]
     }
 ]
 

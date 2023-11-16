@@ -16,14 +16,16 @@ export class DrawDoor extends InteractionLayer {
     }) {
         super();
 
-        // TODO: Shift-Draw to not cancel?
-
         new InteractionTopControl({
             name: "Draw Door",
             cancel_handler: () => this.cancel()
         }).setText("Draw an area containing all tiles on both sides of the door.")
             .addTo(this)
 
+        this.next()
+    }
+
+    private next() {
         new GameMapDragAction({
             preview_render: (area) => {
                 let options = DrawDoor.shortcutsFromArea(area)
@@ -44,6 +46,7 @@ export class DrawDoor extends InteractionLayer {
 
                 if (options.length == 1) {
                     this.config.done_handler(options[0])
+                    this.next()
                 } else if (options.length > 1) {
                     new ContextMenu(options.map(s => {
                         return {
@@ -54,11 +57,10 @@ export class DrawDoor extends InteractionLayer {
                             }
                         }
                     })).show(this.getMap().container.get()[0], this.getMap().getClientPos(Rectangle.center(area, false)))
+                        .onClosed(() => this.next())
                 }
-                // TODO: Only cancel after the context menu is closed
-                this.cancel()
             })
-            .onEnd(() => this.cancel())
+            .onDiscarded(() => this.next())
             .addTo(this)
     }
 }

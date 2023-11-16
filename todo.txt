@@ -10,11 +10,12 @@ Immediate next:
     - Scroll Search results
     - Group context menu options into submenus, give icons
     - [Bug] Move from context menu doesnt hide the old preview
+    - [Bug] Hovering resets opacity if hidden
 
 - Scan Editor
-    - Move Controls and Overview to top right of map, Remove collapsible from movement tree
     - Update target for path editor when needed
     - New solution for setting spot order (Auto)
+    - Jump to spot button in overview
     - Autoname areas
 
 - Path Editor
@@ -39,11 +40,11 @@ Immediate next:
     - Fremmenik Isles ✓
     - Dorgesh-Kaan ✓
     - Ardounge
+    - Falador
+    - Haunted Woods
     - Brimhaven
     - Darkmeyer
-    - Falador
     - Slayer Dungeon
-    - Haunted Woods
     - Heart of gielinor
     - Elven lands
     - Turtle Islands

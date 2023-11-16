@@ -1,7 +1,7 @@
 import {Shortcuts} from "lib/runescape/shortcuts";
 
 /* ts-ignore */
-let data: Shortcuts.shortcut[] =[
+let data: Shortcuts.shortcut[] = [
     {
         "type": "door",
         "name": "Door",
@@ -1382,1176 +1382,6 @@ let data: Shortcuts.shortcut[] =[
         ]
     },
     {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2721.5,
-                "y": 5270.5
-            },
-            "botright": {
-                "x": 2723.5,
-                "y": 5268.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2722,
-                        "y": 5268
-                    },
-                    "botright": {
-                        "x": 2723,
-                        "y": 5268
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2722,
-                        "y": 5272,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "name": "Climb-up",
-                "time": 2,
-                "orientation": {
-                    "type": "toentityafter"
-                }
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2721.5,
-                "y": 5271.5
-            },
-            "botright": {
-                "x": 2723.5,
-                "y": 5270.5
-            },
-            "level": 1
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2722,
-                        "y": 5272
-                    },
-                    "botright": {
-                        "x": 2723,
-                        "y": 5272
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2722,
-                        "y": 5268,
-                        "level": 0
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2737.5,
-                "y": 5279.5
-            },
-            "botright": {
-                "x": 2739.5,
-                "y": 5277.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2738,
-                        "y": 5277
-                    },
-                    "botright": {
-                        "x": 2739,
-                        "y": 5277
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2738,
-                        "y": 5281,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2712.5,
-                "y": 5279.5
-            },
-            "botright": {
-                "x": 2714.5,
-                "y": 5277.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2713,
-                        "y": 5277
-                    },
-                    "botright": {
-                        "x": 2714,
-                        "y": 5277
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2713,
-                        "y": 5281,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2712.5,
-                "y": 5284.5
-            },
-            "botright": {
-                "x": 2714.5,
-                "y": 5282.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2713,
-                        "y": 5285
-                    },
-                    "botright": {
-                        "x": 2714,
-                        "y": 5285
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2713,
-                        "y": 5281,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2721.5,
-                "y": 5275.5
-            },
-            "botright": {
-                "x": 2723.5,
-                "y": 5273.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2722,
-                        "y": 5276
-                    },
-                    "botright": {
-                        "x": 2723,
-                        "y": 5276
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2722,
-                        "y": 5272,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2728.5,
-                "y": 5303.5
-            },
-            "botright": {
-                "x": 2730.5,
-                "y": 5301.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2729,
-                        "y": 5304
-                    },
-                    "botright": {
-                        "x": 2730,
-                        "y": 5304
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2729,
-                        "y": 5300,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2727.5,
-                "y": 5347.5
-            },
-            "botright": {
-                "x": 2729.5,
-                "y": 5345.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2727,
-                        "y": 5347
-                    },
-                    "botright": {
-                        "x": 2727,
-                        "y": 5346
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2731,
-                        "y": 5346,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2721.5,
-                "y": 5293.5
-            },
-            "botright": {
-                "x": 2723.5,
-                "y": 5291.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2721,
-                        "y": 5293
-                    },
-                    "botright": {
-                        "x": 2721,
-                        "y": 5292
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2725,
-                        "y": 5292,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2710.5,
-                "y": 5294.5
-            },
-            "botright": {
-                "x": 2712.5,
-                "y": 5292.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2713,
-                        "y": 5294
-                    },
-                    "botright": {
-                        "x": 2713,
-                        "y": 5293
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2709,
-                        "y": 5293,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2702.5,
-                "y": 5328.5
-            },
-            "botright": {
-                "x": 2704.5,
-                "y": 5326.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2705,
-                        "y": 5328
-                    },
-                    "botright": {
-                        "x": 2705,
-                        "y": 5327
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2701,
-                        "y": 5327,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2730.5,
-                "y": 5307.5
-            },
-            "botright": {
-                "x": 2732.5,
-                "y": 5305.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2730,
-                        "y": 5307
-                    },
-                    "botright": {
-                        "x": 2730,
-                        "y": 5306
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2734,
-                        "y": 5306,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2721.5,
-                "y": 5273.5
-            },
-            "botright": {
-                "x": 2723.5,
-                "y": 5272.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2722,
-                        "y": 5272
-                    },
-                    "botright": {
-                        "x": 2723,
-                        "y": 5272
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2722,
-                        "y": 5276,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2712.5,
-                "y": 5282.5
-            },
-            "botright": {
-                "x": 2714.5,
-                "y": 5281.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2713,
-                        "y": 5281
-                    },
-                    "botright": {
-                        "x": 2714,
-                        "y": 5281
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2713,
-                        "y": 5285,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2712.5,
-                "y": 5280.5
-            },
-            "botright": {
-                "x": 2714.5,
-                "y": 5279.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2713,
-                        "y": 5281
-                    },
-                    "botright": {
-                        "x": 2714,
-                        "y": 5281
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2713,
-                        "y": 5277,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2737.5,
-                "y": 5280.5
-            },
-            "botright": {
-                "x": 2739.5,
-                "y": 5279.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2738,
-                        "y": 5281
-                    },
-                    "botright": {
-                        "x": 2739,
-                        "y": 5281
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2738,
-                        "y": 5277,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2728.5,
-                "y": 5301.5
-            },
-            "botright": {
-                "x": 2730.5,
-                "y": 5300.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2729,
-                        "y": 5300
-                    },
-                    "botright": {
-                        "x": 2730,
-                        "y": 5300
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2729,
-                        "y": 5304,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2723.5,
-                "y": 5293.5
-            },
-            "botright": {
-                "x": 2724.5,
-                "y": 5291.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2725,
-                        "y": 5293
-                    },
-                    "botright": {
-                        "x": 2725,
-                        "y": 5292
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2721,
-                        "y": 5292,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2732.5,
-                "y": 5307.5
-            },
-            "botright": {
-                "x": 2733.5,
-                "y": 5305.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2734,
-                        "y": 5307
-                    },
-                    "botright": {
-                        "x": 2734,
-                        "y": 5306
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2730,
-                        "y": 5306,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2729.5,
-                "y": 5347.5
-            },
-            "botright": {
-                "x": 2730.5,
-                "y": 5345.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2731,
-                        "y": 5347
-                    },
-                    "botright": {
-                        "x": 2731,
-                        "y": 5346
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2727,
-                        "y": 5346,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2701.5,
-                "y": 5328.5
-            },
-            "botright": {
-                "x": 2702.5,
-                "y": 5326.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2701,
-                        "y": 5328
-                    },
-                    "botright": {
-                        "x": 2701,
-                        "y": 5327
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2705,
-                        "y": 5327,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2701.5,
-                "y": 5306.5
-            },
-            "botright": {
-                "x": 2702.5,
-                "y": 5304.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2701,
-                        "y": 5306
-                    },
-                    "botright": {
-                        "x": 2701,
-                        "y": 5305
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2705,
-                        "y": 5305,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2709.5,
-                "y": 5294.5
-            },
-            "botright": {
-                "x": 2710.5,
-                "y": 5292.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2709,
-                        "y": 5294
-                    },
-                    "botright": {
-                        "x": 2709,
-                        "y": 5293
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2713,
-                        "y": 5293,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2719.5,
-                "y": 5361.5
-            },
-            "botright": {
-                "x": 2721.5,
-                "y": 5360.5
-            },
-            "level": 2
-        },
-        "actions": [
-            {
-                "cursor": "ladderdown",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2720,
-                        "y": 5362
-                    },
-                    "botright": {
-                        "x": 2721,
-                        "y": 5362
-                    },
-                    "level": 1
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2720,
-                        "y": 5358,
-                        "level": 1
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-down",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2719.5,
-                "y": 5360.5
-            },
-            "botright": {
-                "x": 2721.5,
-                "y": 5358.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2720,
-                        "y": 5358
-                    },
-                    "botright": {
-                        "x": 2721,
-                        "y": 5358
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2720,
-                        "y": 5362,
-                        "level": 0
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
-        "type": "entity",
-        "name": "Stairs",
-        "clickable_area": {
-            "topleft": {
-                "x": 2702.5,
-                "y": 5306.5
-            },
-            "botright": {
-                "x": 2704.5,
-                "y": 5304.5
-            },
-            "level": 0
-        },
-        "actions": [
-            {
-                "cursor": "ladderup",
-                "interactive_area": {
-                    "topleft": {
-                        "x": 2705,
-                        "y": 5306
-                    },
-                    "botright": {
-                        "x": 2705,
-                        "y": 5305
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "fixed",
-                    "target": {
-                        "x": 2701,
-                        "y": 5305,
-                        "level": 0
-                    },
-                    "relative": true
-                },
-                "orientation": {
-                    "type": "toentityafter"
-                },
-                "name": "Climb-up",
-                "time": 2
-            }
-        ]
-    },
-    {
         "type": "door",
         "name": "Door",
         "area": {
@@ -2966,6 +1796,736 @@ let data: Shortcuts.shortcut[] =[
             "level": 1
         },
         "direction": "northsouth"
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2712.5,
+                "y": 5280.5
+            },
+            "botright": {
+                "x": 2714.5,
+                "y": 5277.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2713,
+                        "y": 5277
+                    },
+                    "botright": {
+                        "x": 2714,
+                        "y": 5277
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2713,
+                        "y": 5281,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2713,
+                        "y": 5281
+                    },
+                    "botright": {
+                        "x": 2714,
+                        "y": 5281
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2713,
+                        "y": 5277,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2721.5,
+                "y": 5271.5
+            },
+            "botright": {
+                "x": 2723.5,
+                "y": 5268.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2722,
+                        "y": 5268
+                    },
+                    "botright": {
+                        "x": 2723,
+                        "y": 5268
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2722,
+                        "y": 5272,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2722,
+                        "y": 5272
+                    },
+                    "botright": {
+                        "x": 2723,
+                        "y": 5272
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2722,
+                        "y": 5268,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2712.5,
+                "y": 5284.5
+            },
+            "botright": {
+                "x": 2714.5,
+                "y": 5281.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2713,
+                        "y": 5285
+                    },
+                    "botright": {
+                        "x": 2714,
+                        "y": 5285
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2713,
+                        "y": 5281,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2713,
+                        "y": 5281
+                    },
+                    "botright": {
+                        "x": 2714,
+                        "y": 5281
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2713,
+                        "y": 5285,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2737.5,
+                "y": 5280.5
+            },
+            "botright": {
+                "x": 2739.5,
+                "y": 5277.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2738,
+                        "y": 5277
+                    },
+                    "botright": {
+                        "x": 2739,
+                        "y": 5277
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2738,
+                        "y": 5281,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2738,
+                        "y": 5281
+                    },
+                    "botright": {
+                        "x": 2739,
+                        "y": 5281
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2738,
+                        "y": 5277,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2709.5,
+                "y": 5294.5
+            },
+            "botright": {
+                "x": 2712.5,
+                "y": 5292.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2713,
+                        "y": 5294
+                    },
+                    "botright": {
+                        "x": 2713,
+                        "y": 5293
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2709,
+                        "y": 5293,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2709,
+                        "y": 5294
+                    },
+                    "botright": {
+                        "x": 2709,
+                        "y": 5293
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2713,
+                        "y": 5293,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2721.5,
+                "y": 5293.5
+            },
+            "botright": {
+                "x": 2724.5,
+                "y": 5291.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2721,
+                        "y": 5293
+                    },
+                    "botright": {
+                        "x": 2721,
+                        "y": 5292
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2725,
+                        "y": 5292,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2725,
+                        "y": 5293
+                    },
+                    "botright": {
+                        "x": 2725,
+                        "y": 5292
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2721,
+                        "y": 5292,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2701.5,
+                "y": 5328.5
+            },
+            "botright": {
+                "x": 2704.5,
+                "y": 5326.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2705,
+                        "y": 5328
+                    },
+                    "botright": {
+                        "x": 2705,
+                        "y": 5327
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2701,
+                        "y": 5327,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2701,
+                        "y": 5328
+                    },
+                    "botright": {
+                        "x": 2701,
+                        "y": 5327
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2705,
+                        "y": 5327,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2727.5,
+                "y": 5347.5
+            },
+            "botright": {
+                "x": 2730.5,
+                "y": 5345.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2727,
+                        "y": 5347
+                    },
+                    "botright": {
+                        "x": 2727,
+                        "y": 5346
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2731,
+                        "y": 5346,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2731,
+                        "y": 5347
+                    },
+                    "botright": {
+                        "x": 2731,
+                        "y": 5346
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2727,
+                        "y": 5346,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2701.5,
+                "y": 5306.5
+            },
+            "botright": {
+                "x": 2704.5,
+                "y": 5304.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2705,
+                        "y": 5306
+                    },
+                    "botright": {
+                        "x": 2705,
+                        "y": 5305
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2701,
+                        "y": 5305,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2701,
+                        "y": 5306
+                    },
+                    "botright": {
+                        "x": 2701,
+                        "y": 5305
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2705,
+                        "y": 5305,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Stairs",
+        "clickable_area": {
+            "topleft": {
+                "x": 2721.5,
+                "y": 5275.5
+            },
+            "botright": {
+                "x": 2723.5,
+                "y": 5272.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2722,
+                        "y": 5276
+                    },
+                    "botright": {
+                        "x": 2723,
+                        "y": 5276
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2722,
+                        "y": 5272,
+                        "level": 1
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-up",
+                "time": 2
+            },
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2722,
+                        "y": 5272
+                    },
+                    "botright": {
+                        "x": 2723,
+                        "y": 5272
+                    },
+                    "level": 1
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2722,
+                        "y": 5276,
+                        "level": 0
+                    },
+                    "relative": true
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Climb-down",
+                "time": 2
+            }
+        ]
     }
 ]
 

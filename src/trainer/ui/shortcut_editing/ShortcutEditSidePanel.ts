@@ -511,6 +511,13 @@ export default class ShortcutEditSidePanel extends SidePanel {
                 .on("click", () => {
                     this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: false})))
                 }),
+            new LightButton("Delete Local")
+                .on("click", () => {
+                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
+                }),
+        ).addClass("ctr-button-container").appendTo(this.search_container)
+
+        hboxc(
             new LightButton("Export All")
                 .on("click", () => {
                     ExportStringModal.do(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
@@ -522,12 +529,7 @@ export default class ShortcutEditSidePanel extends SidePanel {
                                                                                                                                    ...rest
                                                                                                                                }) => rest)(v.value())), null, 2))
                 }),
-            new LightButton("Delete Local")
-                .on("click", () => {
-                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
-                }),
-        )
-            .appendTo(this.search_container)
+        ).addClass("ctr-button-container").appendTo(this.search_container)
 
         c("<div style='display: flex'></div>").append(new TextField().css("flex-grow", "1").setPlaceholder("Search Shortcuts...")
             .on("hint", (v) => this.search_term.set(v))

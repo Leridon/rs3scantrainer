@@ -104,7 +104,7 @@ class StepEditWidget extends Widget {
                     .tooltip("Move step down").setEnabled(this.value.index.value() != this.parent.editor.value.get().length - 1),
                 sibut("assets/icons/delete.png", () => this.value.remove()),
                 sibut("assets/icons/fullscreen.png", () => {
-                    this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)), {maxZoom: 4})
+                    this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)), {maxZoom: 5})
                 }).setEnabled(!!bounds)
             ).addClass("path-step-edit-widget-control-row").appendTo(this)
         }
@@ -258,7 +258,7 @@ class StepEditWidget extends Widget {
             case "shortcut_v2": {
                 let body: ShortcutEdit = ShortcutEdit.forSimple(value.raw.internal, this.parent.editor.interaction_guard,
                     (v) => {
-                        this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Shortcuts.bounds(v))), {maxZoom: 4})
+                        this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Shortcuts.bounds(v))), {maxZoom: 5})
                     })
 
                 if (!this.shortcut_custom_open) body.css("display", "none")
@@ -707,7 +707,7 @@ export class PathEditor extends Behaviour {
 
         let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state.position?.tile), this.options.target)
 
-        this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 4})
+        this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 5})
     }
 
     protected end() {

@@ -558,6 +558,11 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
     override add(v: PathEditor.Value): ObservableArray.ObservableArrayValue<PathEditor.Value> {
         if (!v.augmented) v.augmented = observe(null)
 
+        if (!v) {
+            console.log("PANIC, adding null to step list")
+            debugger
+        }
+
         return super.add(v);
     }
 
@@ -565,6 +570,11 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         data.forEach(v => {
             if (!v.augmented) v.augmented = observe(null)
         })
+        
+        if (data.some(s => !s)) {
+            console.log("PANIC, adding null to step list")
+            debugger
+        }
 
         return super.setTo(data)
     }
@@ -684,7 +694,7 @@ export class PathEditor extends Behaviour {
 
             if (state.position.tile) {
                 this.you_are_here_marker = leaflet.marker(Vector2.toLatLong(state.position.tile), {
-                    icon:leaflet.icon({
+                    icon: leaflet.icon({
                         iconUrl: "assets/icons/youarehere.png",
                         iconSize: [25, 25],
                         iconAnchor: [13, 13],

@@ -378,9 +378,8 @@ export namespace ScanTree {
     }
 
     export function normalize(tree: TreeWithClue): TreeWithClue {
-        function helper(node: ScanTreeNode, candidates: TileCoordinates[], last_known_position: TileRectangle) {
-
-            let where = node.region?.area || TileRectangle.fromTile(Path.ends_up(node.path)) || last_known_position
+        function helper(node: ScanTreeNode, candidates: TileCoordinates[]) {
+            let where = node.region?.area || TileRectangle.fromTile(Path.ends_up(node.path))
 
             // Update children to remove all dead branches and add missing branches
             let pruned_children: {
@@ -402,6 +401,8 @@ export namespace ScanTree {
                         }
                     })
 
+            debugger
+
             // When there is only one child, the current position produces no information at all
             // So there is no point in adding children, which is why they are removed by this statement
             if (pruned_children.length == 1) {
@@ -412,13 +413,13 @@ export namespace ScanTree {
 
             pruned_children.forEach(({child, candidates}) => {
                 // Propagate state recursively
-                helper(child.value, candidates, where)
+                helper(child.value, candidates)
             })
         }
 
         if (!tree.root) tree.root = init_leaf()
 
-        helper(tree.root, tree.clue.solution.candidates, null)
+        helper(tree.root, tree.clue.solution.candidates)
 
         return tree
     }

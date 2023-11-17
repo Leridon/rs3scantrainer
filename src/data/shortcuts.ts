@@ -3521,6 +3521,1541 @@ let data: Shortcuts.shortcut[] = [
                 }
             }
         ]
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2660,
+                "y": 3294
+            },
+            "botright": {
+                "x": 2660,
+                "y": 3293
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2651,
+                "y": 3302
+            },
+            "botright": {
+                "x": 2652,
+                "y": 3302
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2651,
+                "y": 3312
+            },
+            "botright": {
+                "x": 2652,
+                "y": 3312
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2659,
+                "y": 3320
+            },
+            "botright": {
+                "x": 2659,
+                "y": 3319
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2672,
+                "y": 3308
+            },
+            "botright": {
+                "x": 2673,
+                "y": 3308
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2672,
+                "y": 3301
+            },
+            "botright": {
+                "x": 2673,
+                "y": 3301
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2670,
+                "y": 3291
+            },
+            "botright": {
+                "x": 2671,
+                "y": 3291
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2677,
+                "y": 3289
+            },
+            "botright": {
+                "x": 2678,
+                "y": 3289
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2675,
+                "y": 3285
+            },
+            "botright": {
+                "x": 2675,
+                "y": 3284
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2671,
+                "y": 3281
+            },
+            "botright": {
+                "x": 2671,
+                "y": 3280
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2674,
+                "y": 3315
+            },
+            "botright": {
+                "x": 2674,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2674,
+                "y": 3315
+            },
+            "botright": {
+                "x": 2674,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2674,
+                "y": 3315
+            },
+            "botright": {
+                "x": 2674,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2670,
+                "y": 3320
+            },
+            "botright": {
+                "x": 2670,
+                "y": 3319
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2670,
+                "y": 3320
+            },
+            "botright": {
+                "x": 2670,
+                "y": 3319
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2670,
+                "y": 3320
+            },
+            "botright": {
+                "x": 2670,
+                "y": 3319
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2678,
+                "y": 3325
+            },
+            "botright": {
+                "x": 2679,
+                "y": 3324
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "entity",
+        "name": "Ardounge wall door",
+        "clickable_area": {
+            "topleft": {
+                "x": 2557.5,
+                "y": 3300.5
+            },
+            "botright": {
+                "x": 2558.5,
+                "y": 3298.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "open",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2557,
+                        "y": 3300
+                    },
+                    "botright": {
+                        "x": 2557,
+                        "y": 3299
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": 3,
+                        "y": 0,
+                        "level": 0
+                    }
+                },
+                "name": "Use",
+                "time": 5,
+                "orientation": {
+                    "type": "toentityafter"
+                }
+            },
+            {
+                "cursor": "open",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2559,
+                        "y": 3300
+                    },
+                    "botright": {
+                        "x": 2559,
+                        "y": 3299
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "offset",
+                    "offset": {
+                        "x": -3,
+                        "y": 0,
+                        "level": 0
+                    }
+                },
+                "orientation": {
+                    "type": "toentityafter"
+                },
+                "name": "Use",
+                "time": 5
+            }
+        ]
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2551,
+                "y": 3306
+            },
+            "botright": {
+                "x": 2552,
+                "y": 3306
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2551,
+                "y": 3314
+            },
+            "botright": {
+                "x": 2552,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2551,
+                "y": 3321
+            },
+            "botright": {
+                "x": 2551,
+                "y": 3320
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2546,
+                "y": 3325
+            },
+            "botright": {
+                "x": 2547,
+                "y": 3325
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2551,
+                "y": 3328
+            },
+            "botright": {
+                "x": 2551,
+                "y": 3327
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2541,
+                "y": 3331
+            },
+            "botright": {
+                "x": 2542,
+                "y": 3331
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2531,
+                "y": 3329
+            },
+            "botright": {
+                "x": 2531,
+                "y": 3328
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2512,
+                "y": 3329
+            },
+            "botright": {
+                "x": 2512,
+                "y": 3328
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2518,
+                "y": 3332
+            },
+            "botright": {
+                "x": 2519,
+                "y": 3332
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2499,
+                "y": 3329
+            },
+            "botright": {
+                "x": 2499,
+                "y": 3328
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2506,
+                "y": 3329
+            },
+            "botright": {
+                "x": 2506,
+                "y": 3328
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2502,
+                "y": 3324
+            },
+            "botright": {
+                "x": 2502,
+                "y": 3323
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2508,
+                "y": 3324
+            },
+            "botright": {
+                "x": 2508,
+                "y": 3323
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2515,
+                "y": 3324
+            },
+            "botright": {
+                "x": 2515,
+                "y": 3323
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2510,
+                "y": 3319
+            },
+            "botright": {
+                "x": 2511,
+                "y": 3319
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2510,
+                "y": 3314
+            },
+            "botright": {
+                "x": 2511,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2510,
+                "y": 3309
+            },
+            "botright": {
+                "x": 2511,
+                "y": 3309
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2502,
+                "y": 3309
+            },
+            "botright": {
+                "x": 2503,
+                "y": 3309
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2502,
+                "y": 3314
+            },
+            "botright": {
+                "x": 2503,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2502,
+                "y": 3319
+            },
+            "botright": {
+                "x": 2503,
+                "y": 3319
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2525,
+                "y": 3311
+            },
+            "botright": {
+                "x": 2526,
+                "y": 3310
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2521,
+                "y": 3314
+            },
+            "botright": {
+                "x": 2522,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2521,
+                "y": 3314
+            },
+            "botright": {
+                "x": 2522,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2529,
+                "y": 3314
+            },
+            "botright": {
+                "x": 2530,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2529,
+                "y": 3314
+            },
+            "botright": {
+                "x": 2530,
+                "y": 3314
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2518,
+                "y": 3274
+            },
+            "botright": {
+                "x": 2519,
+                "y": 3274
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2523,
+                "y": 3275
+            },
+            "botright": {
+                "x": 2523,
+                "y": 3274
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2525,
+                "y": 3272
+            },
+            "botright": {
+                "x": 2525,
+                "y": 3271
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2533,
+                "y": 3273
+            },
+            "botright": {
+                "x": 2533,
+                "y": 3272
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2540,
+                "y": 3273
+            },
+            "botright": {
+                "x": 2540,
+                "y": 3272
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2541,
+                "y": 3280
+            },
+            "botright": {
+                "x": 2541,
+                "y": 3279
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2546,
+                "y": 3280
+            },
+            "botright": {
+                "x": 2546,
+                "y": 3279
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2547,
+                "y": 3271
+            },
+            "botright": {
+                "x": 2548,
+                "y": 3271
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2551,
+                "y": 3271
+            },
+            "botright": {
+                "x": 2552,
+                "y": 3271
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2528,
+                "y": 3296
+            },
+            "botright": {
+                "x": 2529,
+                "y": 3295
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2541,
+                "y": 3293
+            },
+            "botright": {
+                "x": 2542,
+                "y": 3292
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "entity",
+        "name": "Manhole",
+        "clickable_area": {
+            "topleft": {
+                "x": 2528.5,
+                "y": 3303.5
+            },
+            "botright": {
+                "x": 2529.5,
+                "y": 3302.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderdown",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2528,
+                        "y": 3304
+                    },
+                    "botright": {
+                        "x": 2530,
+                        "y": 3302
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2514,
+                        "y": 9739,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Climb-down",
+                "time": 4,
+                "orientation": {
+                    "type": "forced",
+                    "relative": true,
+                    "direction": 4
+                }
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Pipe",
+        "clickable_area": {
+            "topleft": {
+                "x": 2513.5,
+                "y": 9738.5
+            },
+            "botright": {
+                "x": 2514.5,
+                "y": 9737.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "ladderup",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2514,
+                        "y": 9739
+                    },
+                    "botright": {
+                        "x": 2514,
+                        "y": 9739
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2529,
+                        "y": 3304,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Cllimb-up",
+                "time": 10,
+                "orientation": {
+                    "type": "forced",
+                    "relative": true,
+                    "direction": 2
+                }
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Mud pile",
+        "clickable_area": {
+            "topleft": {
+                "x": 2518.5,
+                "y": 9760.5
+            },
+            "botright": {
+                "x": 2519.5,
+                "y": 9758.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "agility_obstacle",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2518,
+                        "y": 9760
+                    },
+                    "botright": {
+                        "x": 2518,
+                        "y": 9759
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2566,
+                        "y": 3332,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Climb",
+                "time": 3,
+                "orientation": {
+                    "type": "toentitybefore"
+                }
+            }
+        ]
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2570,
+                "y": 3333
+            },
+            "botright": {
+                "x": 2571,
+                "y": 3333
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2573,
+                "y": 3333
+            },
+            "botright": {
+                "x": 2574,
+                "y": 3333
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2577,
+                "y": 3333
+            },
+            "botright": {
+                "x": 2578,
+                "y": 3333
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2584,
+                "y": 3339
+            },
+            "botright": {
+                "x": 2584,
+                "y": 3338
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2592,
+                "y": 3339
+            },
+            "botright": {
+                "x": 2592,
+                "y": 3338
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2576,
+                "y": 3320
+            },
+            "botright": {
+                "x": 2577,
+                "y": 3320
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2565,
+                "y": 3318
+            },
+            "botright": {
+                "x": 2565,
+                "y": 3317
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2564,
+                "y": 3320
+            },
+            "botright": {
+                "x": 2565,
+                "y": 3320
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2579,
+                "y": 3297
+            },
+            "botright": {
+                "x": 2580,
+                "y": 3296
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2576,
+                "y": 3299
+            },
+            "botright": {
+                "x": 2576,
+                "y": 3298
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2576,
+                "y": 3299
+            },
+            "botright": {
+                "x": 2576,
+                "y": 3298
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2576,
+                "y": 3295
+            },
+            "botright": {
+                "x": 2576,
+                "y": 3294
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2576,
+                "y": 3295
+            },
+            "botright": {
+                "x": 2576,
+                "y": 3294
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2572,
+                "y": 3291
+            },
+            "botright": {
+                "x": 2572,
+                "y": 3290
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2572,
+                "y": 3291
+            },
+            "botright": {
+                "x": 2572,
+                "y": 3290
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2572,
+                "y": 3303
+            },
+            "botright": {
+                "x": 2572,
+                "y": 3302
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2572,
+                "y": 3303
+            },
+            "botright": {
+                "x": 2572,
+                "y": 3302
+            },
+            "level": 0
+        },
+        "direction": "northsouth"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2579,
+                "y": 3307
+            },
+            "botright": {
+                "x": 2580,
+                "y": 3307
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2579,
+                "y": 3307
+            },
+            "botright": {
+                "x": 2580,
+                "y": 3307
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2579,
+                "y": 3286
+            },
+            "botright": {
+                "x": 2580,
+                "y": 3286
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "door",
+        "name": "Door",
+        "area": {
+            "topleft": {
+                "x": 2579,
+                "y": 3286
+            },
+            "botright": {
+                "x": 2580,
+                "y": 3286
+            },
+            "level": 0
+        },
+        "direction": "eastwest"
+    },
+    {
+        "type": "entity",
+        "name": "Lever",
+        "clickable_area": {
+            "topleft": {
+                "x": 2560.5,
+                "y": 3311.5
+            },
+            "botright": {
+                "x": 2561.5,
+                "y": 3310.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "generic",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 2561,
+                        "y": 3311
+                    },
+                    "botright": {
+                        "x": 2561,
+                        "y": 3311
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 3154,
+                        "y": 3924,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "name": "Pull",
+                "time": 10,
+                "orientation": {
+                    "type": "forced",
+                    "relative": false,
+                    "direction": 1
+                }
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Lever",
+        "clickable_area": {
+            "topleft": {
+                "x": 3152.5,
+                "y": 3923.5
+            },
+            "botright": {
+                "x": 3153.5,
+                "y": 3922.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "generic",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 3153,
+                        "y": 3923
+                    },
+                    "botright": {
+                        "x": 3153,
+                        "y": 3923
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 2562,
+                        "y": 3311,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "orientation": {
+                    "type": "forced",
+                    "direction": 1,
+                    "relative": false
+                },
+                "name": "Pull",
+                "time": 10
+            }
+        ]
+    },
+    {
+        "type": "entity",
+        "name": "Lever",
+        "clickable_area": {
+            "topleft": {
+                "x": 3089.5,
+                "y": 3474.5
+            },
+            "botright": {
+                "x": 3090.5,
+                "y": 3473.5
+            },
+            "level": 0
+        },
+        "actions": [
+            {
+                "cursor": "generic",
+                "interactive_area": {
+                    "topleft": {
+                        "x": 3090,
+                        "y": 3474
+                    },
+                    "botright": {
+                        "x": 3090,
+                        "y": 3474
+                    },
+                    "level": 0
+                },
+                "movement": {
+                    "type": "fixed",
+                    "target": {
+                        "x": 3154,
+                        "y": 3924,
+                        "level": 0
+                    },
+                    "relative": false
+                },
+                "orientation": {
+                    "type": "forced",
+                    "direction": 1,
+                    "relative": false
+                },
+                "name": "Pull",
+                "time": 10
+            }
+        ]
     }
 ]
 

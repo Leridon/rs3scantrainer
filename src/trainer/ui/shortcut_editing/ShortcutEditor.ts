@@ -28,7 +28,7 @@ class EditControl extends GameMapControl<ControlWithHeader> {
     private remove_handler: EwentHandler<any> = null
 
     shortcut: Observable<ShortcutEditor.OValue> = observe(null)
-    
+
     constructor(private layer: ShortcutEditGameLayer) {
         super({
                 type: "floating",

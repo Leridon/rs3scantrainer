@@ -1,12 +1,10 @@
 Immediate next:
 
 - Shortcut editor
-    - Split Search results and property panel so that only one can be open
-        - Rightclick -> Edit to open property panel
+    - [Bug] Actually disable editing for builtins
     - [Bug] Viewport filtering needs to include level
     - [Potential Bug] Copying from a different floor is weird.
-    - [Bug] Actually disable editing for builtins
-    - Rightclicking needs to be limited to actually visible shortcuts (maybe get via the view layer?)
+    - (Right)clicking needs to be limited to actually visible shortcuts (maybe get via the view layer?)
     - Scroll Search results
     - Group context menu options into submenus, give icons
     - [Bug] Move from context menu doesnt hide the old preview

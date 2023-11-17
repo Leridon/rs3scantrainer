@@ -171,7 +171,10 @@ namespace open_menu {
                 entry.type == "submenu" ? span("&#x276F;") : null
             ).addClass("nisl-context-menu-entry")
                 .tapRaw(r => r
-                    .on("click", () => confirm(m, i))
+                    .on("click", (e) => {
+                        e.stopPropagation()
+                        confirm(m, i)
+                    })
                     .on("mouseover", () => {
                         highlight(m, i)
                         openSubmenu(m)
@@ -267,7 +270,11 @@ export default class ContextMenu {
     }
 
     showFromEvent(e: JQuery.MouseEventBase): this {
-        return this.show(e.target, {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
+        return this.showFromEvent2(e.originalEvent)
+    }
+
+    showFromEvent2(e: MouseEvent): this {
+        return this.show(e.target as HTMLElement, {x: e.clientX, y: e.clientY})
     }
 
     show(target: HTMLElement, position: Vector2): this {
@@ -280,7 +287,7 @@ export default class ContextMenu {
         this.openMenuTree.cancelled.on(f)
         return this
     }
-    
+
     onClosed(f: () => any): this {
         this.openMenuTree.closed.on(f)
         return this

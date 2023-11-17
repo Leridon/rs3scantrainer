@@ -48,7 +48,7 @@ import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
 import Checkbox from "../../../lib/ui/controls/Checkbox";
-import {ShortcutEdit} from "../shortcut_editing/ShortcutEditSidePanel";
+import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -384,7 +384,7 @@ class ControlWidget extends GameMapControl {
         super({
             position: "left-top",
             type: "floating"
-        })
+        }, c())
 
         this.content.addClass("path-edit-control")
 

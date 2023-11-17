@@ -61,6 +61,16 @@ export class ShortcutViewLayer extends GameLayer {
     getView(s: ObservableArray.ObservableArrayValue<Shortcuts.shortcut>): ShortcutViewLayer.ShortcutPolygon {
         return this.getLayers().find(v => (v instanceof ShortcutViewLayer.ShortcutPolygon) && v.data == s) as ShortcutViewLayer.ShortcutPolygon
     }
+
+    center(s: Shortcuts.shortcut): this {
+        this.getMap().fitView(Shortcuts.bounds(s), {
+            maxZoom: 5,
+        })
+
+        // TODO: Layer
+
+        return this
+    }
 }
 
 export namespace ShortcutViewLayer {

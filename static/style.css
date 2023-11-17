@@ -989,7 +989,7 @@ video {
 }
 
 .nisl-context-menu-entry-icon-container > img {
-    height: 95%;
+    height: 80%;
 }
 
 /*Game Map*/
@@ -1154,20 +1154,25 @@ video {
 }
 
 
-/* Interaction top control */
+/* Control With Header */
 
-.ctr-interaction-control {
-    padding: 5px;
-}
-
-.ctr-interaction-control-header {
+.ctr-map-control-header {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
     font-weight: bold;
     font-size: 1.1em;
     border-bottom: 1px solid rgb(5, 56, 66);
     display: flex;
 }
 
-.ctr-interaction-control-header-close {
+.ctr-map-control-body {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+.ctr-map-control-header-close {
     display: inline-block;
     cursor: pointer;
     font-size: 1.3em;
@@ -1183,9 +1188,18 @@ video {
     margin-top: 5px
 }
 
+.ctr-shortcut-edit-panel-results > *:hover {
+    background-color: #FFFFFF33;
+}
+
+.ctr-shortcut-edit-panel-results > * {
+    cursor: pointer;
+    border: 1px solid #41555F;
+    padding: 3px;
+    user-select: none;
+}
+
 .ctr-shortcut-edit {
-    background-color: #FFFFFF20;
-    border-radius: 5px;
 }
 
 .ctr-shortcut-edit-header {

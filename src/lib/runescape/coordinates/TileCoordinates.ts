@@ -8,8 +8,6 @@ export type TileCoordinates = Vector2 & {
 }
 
 export namespace TileCoordinates {
-
-
     export function eq(a: TileCoordinates, b: TileCoordinates) {
         return Vector2.eq(a, b) && a.level == b.level
     }
@@ -50,5 +48,9 @@ export namespace TileCoordinates {
         let norm = TileTransform.normalize(trans)
 
         return lift(Vector2.transform_point(coordinates, norm.matrix), floor_t.clamp(coordinates.level + norm.level_offset))
+    }
+
+    export function chunk(coords: TileCoordinates): Vector2 {
+        return {x: Math.floor(coords.x / 64), y: Math.floor(coords.y / 64)}
     }
 }

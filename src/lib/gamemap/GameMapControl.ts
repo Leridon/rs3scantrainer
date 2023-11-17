@@ -16,11 +16,11 @@ export namespace GameMapControl {
     }
 }
 
-export class GameMapControl extends GameLayer {
+export class GameMapControl<content_t extends Widget = Widget> extends GameLayer {
     parent: GameLayer | null = null
 
     constructor(public config: GameMapControl.config_t,
-                public content: Widget = c()) {
+                public content: content_t) {
         super()
 
         if (!this.config.no_default_styling)
@@ -38,6 +38,7 @@ export class GameMapControl extends GameLayer {
         // Disable events propagating to the map // TODO: Do I really need this?
         this.content.container.on("contextmenu blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup resize select submit mousewheel", (e) => e.stopPropagation())
     }
+
     onAdd(map: GameMap) {
         map.addControl(this)
 

@@ -27,8 +27,9 @@ import hbox = C.hbox;
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import spacer = C.spacer;
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
+import ControlWithHeader from "../map/ControlWithHeader";
 
-export default class PathEditActionBar extends GameMapControl {
+export default class PathEditActionBar extends GameMapControl<ControlWithHeader> {
     bar: ActionBar
 
     buttons: {
@@ -50,23 +51,12 @@ export default class PathEditActionBar extends GameMapControl {
         super({
             position: "bottom-center",
             type: "gapless"
-        });
+        }, new ControlWithHeader("Path Editor", () => this.editor.close()));
 
         type ability_data = {
             ability: MovementAbilities.movement_ability,
             predictor?: (_: PlayerPosition) => Promise<PlayerPosition> | PlayerPosition
         }
-
-        this.content.css("padding", "5px")
-
-        c("<div class='ctr-interaction-control-header'></div>").appendTo(this.content)
-            .append(c().text(`Path Editor`))
-            .append(spacer())
-            .append(c("<div class='ctr-interaction-control-header-close'>&times;</div>")
-                .tooltip("Close (Esc)")
-                .tapRaw(r => r.on("click", () => {
-                    this.editor.close()
-                })))
 
         // Render action bar
         {
@@ -161,7 +151,7 @@ export default class PathEditActionBar extends GameMapControl {
                 this.buttons.redclick,
                 this.buttons.powerburst,
                 this.buttons.compass,
-            ]).appendTo(this.content)
+            ]).appendTo(this.content.body)
         }
 
         // Render buttons
@@ -193,7 +183,7 @@ export default class PathEditActionBar extends GameMapControl {
                         }), "Use this link to directly link to this path.")
                     })
             ).addClass("ctr-button-container")
-                .appendTo(this.content)
+                .appendTo(this.content.body)
         }
 
         this.state.subscribe((s) => this.render(s), true)
@@ -221,8 +211,4 @@ export default class PathEditActionBar extends GameMapControl {
             }
         })
     }
-}
-
-namespace PathEditorActionBar {
-
 }

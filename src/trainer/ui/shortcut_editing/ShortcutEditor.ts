@@ -1,9 +1,7 @@
 import Behaviour from "lib/ui/Behaviour";
-import {Application} from "../../application";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import GameLayer from "lib/gamemap/GameLayer";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {LeafletEventHandlerFn} from "leaflet";
 import {Rectangle} from "lib/math"
 import {ActionBar} from "../map/ActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
@@ -11,17 +9,63 @@ import {storage} from "lib/util/storage";
 import ShortcutEditSidePanel from "./ShortcutEditSidePanel";
 import shortcuts from "../../../data/shortcuts";
 import {DrawDoor} from "./interactions/DrawDoor";
-import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
+import {GameMapContextMenuEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";
 import {ShortcutViewLayer} from "./ShortcutView";
 import {PlaceShortcut} from "./interactions/PlaceShortcut";
-import {ObservableArray, observeArray} from "../../../lib/reactive";
+import {EwentHandler, Observable, ObservableArray, observe, observeArray} from "../../../lib/reactive";
 import {tap} from "lodash";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import SidePanelControl from "../SidePanelControl";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
+import {ShortcutEdit} from "./ShortcutEdit";
+import ContextMenu, {Menu} from "../widgets/ContextMenu";
+import ControlWithHeader from "../map/ControlWithHeader";
+
+class EditControl extends GameMapControl<ControlWithHeader> {
+    private remove_handler: EwentHandler<any> = null
+
+    shortcut: Observable<ShortcutEditor.OValue> = observe(null)
+    
+    constructor(private layer: ShortcutEditGameLayer) {
+        super({
+                type: "floating",
+                position: "top-left"
+            }, new ControlWithHeader("Shortcut Edit", () => this.shortcut.set(null))
+        );
+
+        this.shortcut.subscribe(v => {
+            this.remove_handler?.remove()
+
+            this.content.setVisible(!!v)
+
+            this.content.body.empty()
+
+            if (v) {
+                this.remove_handler = v.removed.on((v) => {
+                    if (this.shortcut.value() == v) this.shortcut.set(null)
+                    this.remove_handler?.remove()
+                    this.remove_handler = null
+                })
+
+                this.content.body.append(new ShortcutEdit({
+                        value: v,
+                        ovalue: v,
+                        edit_layer: this.layer,
+                        interaction_guard: this.layer.interactionGuard,
+                        associated_preview: this.layer.view.getView(v),
+                        centered_handler: (s) => this.layer.view.center(s),
+                        collapsible: false
+                    }
+                ))
+            }
+        }, true)
+
+        this.content.css("width", "400px")
+    }
+}
 
 export class ShortcutEditGameLayer extends GameLayer {
     interactionGuard: InteractionGuard = new InteractionGuard().setDefaultLayer(this)
@@ -31,38 +75,49 @@ export class ShortcutEditGameLayer extends GameLayer {
     constructor(public editor: ShortcutEditor) {
         super();
 
-        let action_bar_control = new GameMapControl({
+        new GameMapControl({
             type: "gapless",
             position: "bottom-center"
-        }).addTo(this)
-
-        action_bar_control.content.append(new ShortcutEditActionBar(this))
+        }, new ShortcutEditActionBar(editor)).addTo(this)
 
         this.view = new ShortcutViewLayer(this.editor.data).addTo(this)
     }
 
+    eventClick(event: GameMapMouseEvent) {
+        event.onPost(() => {
+            let shortcuts = this.editor.data.value().filter(s => {
+                return !s.value().is_builtin && Rectangle.containsTile(Shortcuts.bounds(s.value()), event.coordinates)
+            })
+
+            if (shortcuts.length == 1) {
+                this.editor.editControl.shortcut.set(shortcuts[0])
+            } else if (shortcuts.length > 1) {
+                new ContextMenu(
+                    shortcuts.map(s => ({
+                        type: "basic", text: ShortcutEditor.nameWithBuiltin(s.value()), handler: () => {
+                            this.editor.editControl.shortcut.set(s)
+                        }
+                    }))
+                ).showFromEvent2(event.original)
+            }
+
+        })
+    }
+
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPost(() => {
-            this.editor.data.value().filter(s => {
-                if (s.value().is_builtin) return false
-
+            let shortcuts = this.editor.data.value().filter(s => {
                 return Rectangle.containsTile(Shortcuts.bounds(s.value()), event.coordinates)
-            }).forEach(s => {
-                event.add({
-                    type: "basic",
-                    text: `Delete ${s.value().name}`,
-                    handler: () => s.remove()
-                })
-                event.add({
-                    type: "basic",
-                    text: `Copy ${s.value().name}`,
-                    handler: () => this.startPlacement(s.value(), event.tile())
-                })
-                event.add({
-                    type: "basic",
-                    text: `Move ${s.value().name}`,
-                    handler: () => this.startMove(s, event.tile())
-                })
+            })
+
+            shortcuts.forEach(s => {
+                let entries = ShortcutEditor.contextMenu(s, this.editor, true, event.tile())
+
+                if (shortcuts.length > 1) {
+                    event.add({type: "submenu", children: entries, text: s.value().name})
+                } else {
+                    event.add(...entries)
+                }
             })
         })
     }
@@ -87,16 +142,19 @@ export class ShortcutEditGameLayer extends GameLayer {
 }
 
 class ShortcutEditActionBar extends ActionBar {
-    constructor(private parent_layer: ShortcutEditGameLayer) {
+    constructor(private editor: ShortcutEditor) {
+
+        // TODO: Portal preset, Stair Preset, Ladder Preset
+
         super([
-            new ActionBar.ActionBarButton("assets/icons/cursor_open.png",  () => {
-                return this.parent_layer.interactionGuard.set(new DrawDoor({
-                    done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
+            new ActionBar.ActionBarButton("assets/icons/cursor_open.png", () => {
+                return this.editor.layer.interactionGuard.set(new DrawDoor({
+                    done_handler: (step) => this.editor.createNew(step)
                 }))
             }),
-            new ActionBar.ActionBarButton("assets/icons/cursor_generic.png",  () => {
-                return this.parent_layer.interactionGuard.set(new DrawGeneralEntity({
-                    done_handler: (step) => this.parent_layer.editor.data.add(Object.assign(step, {is_builtin: false}))
+            new ActionBar.ActionBarButton("assets/icons/cursor_generic.png", () => {
+                return this.editor.layer.interactionGuard.set(new DrawGeneralEntity({
+                    done_handler: (step) => this.editor.createNew(step)
                 }))
             }),
         ]);
@@ -105,6 +163,7 @@ class ShortcutEditActionBar extends ActionBar {
 
 export class ShortcutEditor extends Behaviour {
     layer: ShortcutEditGameLayer
+    editControl: EditControl
 
     private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", [])
     public data: ShortcutEditor.Data
@@ -126,17 +185,13 @@ export class ShortcutEditor extends Behaviour {
     protected begin() {
         this.layer = new ShortcutEditGameLayer(this).addTo(this.deps.map)
 
+        this.editControl = new EditControl(this.layer).addTo(this.layer)
+
         this.deps.sidepanels.empty()
 
         this.deps.sidepanels.add(tap(
                 new ShortcutEditSidePanel(this),
-                e => e.centered.on((s => {
-                    console.log(Shortcuts.bounds(s))
-
-                    this.layer.getMap().fitView(Shortcuts.bounds(s), {
-                        maxZoom: 5
-                    })
-                })))
+                e => e.centered.on((s => this.layer.view.center(s))))
             , 0)
     }
 
@@ -144,10 +199,77 @@ export class ShortcutEditor extends Behaviour {
         this.layer.remove()
         this.deps.sidepanels.empty()
     }
+
+    public createNew(shortcut: Shortcuts.shortcut) {
+        this.editControl.shortcut.set(this.data.add(Object.assign(lodash.cloneDeep(shortcut), {is_builtin: false})))
+    }
 }
 
 export namespace ShortcutEditor {
     export type Value = Shortcuts.shortcut & { is_builtin: boolean }
     export type OValue = ObservableArrayValue<Value>
     export type Data = ObservableArray<Value>
+
+    export function contextMenu(shortcut: OValue,
+                                editor: ShortcutEditor,
+                                center_on_move: boolean,
+                                origin_tile: TileCoordinates = null
+    ): Menu {
+        let editable = !shortcut.value().is_builtin
+
+        let menu: Menu = []
+
+        if (editable) {
+            menu.push({
+                type: "basic",
+                text: `Edit ${shortcut.value().name}`,
+                icon: "assets/icons/edit.png",
+                handler: () => {
+                    editor.editControl.shortcut.set(shortcut)
+                }
+            })
+
+            menu.push({
+                type: "basic",
+                text: `Delete ${shortcut.value().name}`,
+                icon: "assets/icons/delete.png",
+                handler: () => {shortcut.remove()}
+            })
+
+            menu.push({
+                type: "basic",
+                text: `Move ${shortcut.value().name}`,
+                icon: "assets/icons/move.png",
+                handler: () => {
+                    editor.layer.startMove(shortcut, origin_tile)
+                }
+            })
+        }
+
+        menu.push({
+            type: "basic",
+            text: `Copy ${shortcut.value().name}`,
+            icon: "assets/icons/copy.png",
+            handler: () => {
+                editor.layer.startPlacement(shortcut.value(), origin_tile)
+            }
+        })
+
+        if (!origin_tile) {
+            menu.push({
+                type: "basic",
+                text: `Focus on ${shortcut.value().name}`,
+                icon: "assets/icons/fullscreen.png",
+                handler: () => {editor.layer.view.center(shortcut.value())}
+            })
+        }
+
+        return menu
+    }
+
+    export function nameWithBuiltin(value: Value): string {
+        return value.is_builtin
+            ? `${value.name} (builtin)`
+            : value.name
+    }
 }

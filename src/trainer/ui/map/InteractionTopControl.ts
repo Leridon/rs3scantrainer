@@ -1,8 +1,9 @@
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import Widget from "lib/ui/Widget";
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
+import ControlWithHeader from "./ControlWithHeader";
 
-export default class InteractionTopControl extends GameMapControl {
+export default class InteractionTopControl extends GameMapControl<ControlWithHeader> {
     header_row: Widget = null
     body: Widget = null
 
@@ -13,42 +14,23 @@ export default class InteractionTopControl extends GameMapControl {
         super({
             type: "gapless",
             position: "top-center"
-        });
+        }, new ControlWithHeader(`Active interaction: ${_config.name || "Interaction"}`, _config.cancel_handler));
 
         this.content.addClass("ctr-interaction-control")
 
         this.header_row = c("<div class='ctr-interaction-control-header'></div>").appendTo(this.content)
-
-        this.renderHeader()
     }
 
     public setCancelHandler(f: () => void): this {
-        this._config.cancel_handler = f
-        this.renderHeader()
+        this.content.header.close_handler.set(f)
 
         return this
     }
 
     public setName(name: string): this {
-        this._config.name = name
-        this.renderHeader()
+        this.content.header.name.set(name)
 
         return this
-    }
-
-    private renderHeader() {
-        this.header_row.empty()
-
-        this.header_row.append(c().text(`Active interaction: ${this._config.name || "Interaction"}`))
-        this.header_row.append(c("<div style='flex-grow: 1; min-width: 20px'>"))
-
-        if (this._config.cancel_handler) {
-            this.header_row.append(c("<div class='ctr-interaction-control-header-close'>&times;</div>")
-                .tooltip("Cancel (Esc)")
-                .tapRaw(r => r.on("click", () => {
-                this._config.cancel_handler()
-            })))
-        }
     }
 
     setContent(widget: Widget): this {

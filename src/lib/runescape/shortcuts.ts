@@ -114,4 +114,12 @@ export namespace Shortcuts {
         }
     }
 
+    export function position(shortcut: shortcut): TileCoordinates {
+        switch (shortcut.type){
+            case "entity":
+                return TileRectangle.center(shortcut.clickable_area)
+            case "door":
+                return TileRectangle.center(shortcut.area)
+        }
+    }
 }

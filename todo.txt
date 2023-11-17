@@ -9,14 +9,16 @@ Immediate next:
     - Group context menu options into submenus, give icons
     - [Bug] Move from context menu doesnt hide the old preview
     - [Bug] Hovering resets opacity if hidden
+        - Solution: Separate opacity and visibility
 
 - Scan Editor
-    - Update target for path editor when needed
     - New solution for setting spot order (Auto)
+    - Update target for path editor when needed
     - Jump to spot button in overview
     - Autoname areas
 
 - Path Editor
+    - [Bug] There appears to be a way to cause an undefined step to enter the array
     - [Bug] Fit to step/path doesnt include level
     - [Bug] Escape key cancels the entire editor when redrawing ability
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
@@ -189,3 +191,7 @@ or for the second image, it could say something like “dive/surge to B, south o
 also one thing i did remember about is that i think the upstairs portion of dorg was a bit visually confusing (when you option 4 tele to the west) because the map shows upstairs and downstairs
 off top of my head cause im on mobile atm, i think step H was a strip of land that looked like it was right by the bank, so i ended up getting confused if i was supposed to stay upstairs or downstairs for that step
 im not sure if all of the steps relating to dorg orb option4 are upstairs only, but maybe the steps in that table could specify that you would be staying upstairs or noting if/when go downstairs? idk, maybe its a me specific problem
+
+
+WIP Ardounge:
+eyJfcGF5bG9hZF90eXBlIjoiZW52ZWxvcCIsInZhbHVlIjoiZUp6ZFdVdVBvemdRL2l2SVowYmlaVUp5NjEzdDdHa3VNMXJ0WWRTSzNNRkpveENNYk9qWktPSy9yOTJOM1JBS0pqeDZ1bmRQSkpSZFZhNzY2blBaWE5BMkorZVVrWGhibkhPS05rZzlZbVNqK3EvWWthemdsTW8zVDVTTGhHVm80OGpmSkMybCtJSjI4cmxOWXJUeHNXY2pJa1I1b21KN29wUWZTU0hRcHVBbHRSRm5ySGdlL1ppa01hZFN4L2NMT3RLemVwZVhxWkNxWEJ2RnlYNVBwYlRZcHZTSnBtaXpKMUpVTmEwdE4vOWVqZWQwVjhnbFNUL1JsMFNJSkR0WWpaYzJ5a254cU1aV2xYMXR6L3ZGOXZ3K2V6WVMrVXQwLzVGZVlYZGxJem5QOXlJWmtYcWNVNzJ6VTM3dGxPK0VIOGNwejZtZGNxT1A0MVNnbmZLWFQ5LzE4TXVsb0NuTkdTK3NtRHhSSVhLYXBnK01IUzNDWTFZZU1scFZWc0VzT1k3d0F5MnE2bFhkUlJPRVZpRkZNUlU3bnVURk0wbWd2d1MxYnJWd3AvNWxCOFV5aWtzdTZNQlptVXNsN1ZsU0xNb0grVnJQUnMrTDR2VHdiUElpMzFPaW5qcHdrc1pZbnRKOUE0bVJRYUlNNmdNcmVISjRoTVZTbnBHVFd1UHYwczU4Qm5qditkMzBKenVXV2J6TVpCSSt5VnlKVW1ZNVRwNXVTYnVjMWNuNDF6S3pBcXRJVXFwdzk0T2NjNVprYWhQNC9oTGRNQWpyNkdMY0FMZXRwZjZnMU5QU29DRzlWL0xhSmZLUXBFbHhscWIxTDdsOXFTVjFISzJYS3BmNWpaWEY0NmUvcVZENDNYTjIwa2pvc2FjQVpZYjRla2dRdEdyMWpUeUN6YlU4OHZRUWY0UkhLdU05MWZzQ2htdEhZQ3N0UjF5ZFM4WDhyNDdNWU1Zd05GWW4wSFVMNjBLRjJLSkVGSXZCM3BzQit4QUVtcGJxblJQN0kyQS9PcVd3bVZaS3NSNFMrRXVqL1EvU1JUdHNydVZSdUR6SWZLTnlQUVZrTllwSUZsc3R4UDFQMkhROHJCWWcwVW14NmVIS2p0U0ZwRHB5cWhkcnhHYTRneExISkUxRlJuZkhsT3lvdFNmOEpGdXhCUnVvSVFPZlgvNVlmNVlTbkowbXFqM1RORkcxaHRFOVZCTjRRQS9WRXIvMlVKL0JIdXJXdXZSMFR0d0piZkVyM1l5dnpDbWtCcllUNEFtb1hRazloNlRGZllFTnRSdUpLYjZNYnlSdWNBUk8vQnlPOTNCOVFsNTdNeHVKWDlNOXdFRzZMalpZaXJVVWo2RDVHVTB6YUsrTmNoTjkvSWJJZ3EyMGtRWERZRmIzb0pmditwTlo2a1lvZlhSZUdwK3hHeHlCd3d2dXl3czBYKzVnaHhHNjJsOFBLTHpRR1pKaWM4c0FkU2ZZSDVSNllJbnBkSzRIcGRFZ1dZQVp1SWU3ZzA1UFlDb2Z1bGNKc2RNVU45SmJkd2UvemVvT3pOSFFDYWJVM1l5U0d3M3pIdGkwampYd2F2NGp4TlJYVGRFN0ZSTytyZFRDbnYxeDBwWU5xelZHM1o4WlhZcmNZVXN0c0FYZ2tNWFBnVDkzWkF5NW16TlJ4dmhKd3YwdDc2MkhUZHpwaStqck05ZlZ0SnR2cnE5NUZhOEhlVFUwOEhaQVhyMURxc29WRjJ3Wmp5bFg1ejBOMDhDY3psMm5DOVBBZklsdzE0QlVrNVFYQVRVWlJENlVURE4zTmFSNUhRNW83dm04WmFUYXEzQUZTTDA2bHQ0S1dHL1BOeW96Ri94WXBLV09vM3RKU0RQOFRjZk0xUm4yb1N5czhOQmNIV2N2QkxaN0hLMEg0b3dqazMySUdlRnpsNTY3MGl2eW9Bc1VlQU16bXNHKzJ4NmtnWTVtSDhoQ3orV2Rsc0pYMHAxWVFWbkFvWmEycjRTNlg4bXI2bCtsenRhNSIsImNvbXByZXNzZWQiOnRydWUsImhhc2giOjE2NTY3MTE3MDkzNTE5OTd9

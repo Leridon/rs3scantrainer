@@ -161,6 +161,21 @@ export class GameMap extends leaflet.Map {
             .setZIndex(10)
             .addTo(this)
 
+        /*
+        new Graticule({
+            intervals: [
+                {min_zoom: -Infinity, interval: 64},
+            ],
+            lineStyle: {
+                weight: 4,
+                color: '#000000',
+                opacity: 0.5,
+                interactive: false
+            }
+        })
+            .setZIndex(10)
+            .addTo(this)*/
+
         this.updateBaseLayers()
 
         this.floor.subscribe(() => this.updateBaseLayers())

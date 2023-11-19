@@ -11,7 +11,7 @@ import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "lib/util/exportString";
-import OverviewLayer from "lib/gamemap/layers/OverviewLayer";
+import OverviewLayer from "./ui/theorycrafting/OverviewLayer";
 import {clues} from "data/clues";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
@@ -20,11 +20,12 @@ import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
 import SolveBehaviour from "./ui/solving/SolveBehaviour";
 import MethodWithClue = SolvingMethods.MethodWithClue;
-import {ShortcutEditor} from "./ui/shortcut_editing/ShortcutEditor";
 import GameLayer from "../lib/gamemap/GameLayer";
+import MenuBar from "./ui/MenuBar";
+import Widget from "../lib/ui/Widget";
 
 
-class SimpleLayerBehaviour extends Behaviour {
+export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
         super();
     }
@@ -36,15 +37,12 @@ class SimpleLayerBehaviour extends Behaviour {
     protected end() {
         this.layer.remove()
     }
-
-
 }
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
     import withClue = SolvingMethods.withClue;
     import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
-
 
     export const load_path: Command<{
         steps: Path.raw,
@@ -93,7 +91,7 @@ export namespace ScanTrainerCommands {
             types: (tiers: ClueType[]) => tiers.join(",")
         },
         instantiate: ({tiers, types}) => (app: Application): void => {
-            app.behaviour.set(new SimpleLayerBehaviour(app.map.map, new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app)))
+            app.main_behaviour.set(new SimpleLayerBehaviour(app.map, new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app)))
         },
     }
 
@@ -214,11 +212,12 @@ class AboutModal extends Modal {
 export class Application extends Behaviour {
     in_alt1: boolean = !!window.alt1
 
+    main_content: Widget = null
     menubar = new MenuBarControl(this)
-    map = new GameMapWidget($("#map"))
-    sidepanels = new SidePanelControl(this)
+    map_widget: GameMapWidget
+    map: GameMap
 
-    behaviour = this.withSub(new SingleBehaviour())
+    main_behaviour = this.withSub(new SingleBehaviour())
 
     data = {
         teleports: new Teleports.ManagedTeleports({
@@ -252,8 +251,6 @@ export class Application extends Behaviour {
         ]
     ))
 
-    query_commands: {}
-
     startup_settings = new storage.Variable<{
         hide_beta_notice: boolean,
         seen_changelogs: string[]
@@ -268,15 +265,27 @@ export class Application extends Behaviour {
 
     constructor() {
         super()
-
-        this.map.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
-
-        this.data.teleports.on("refreshed", (t) => {
-            this.map.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
-        })
     }
 
     protected async begin() {
+        let container = Widget.wrap($("#main-content"))
+        let map_widget: Widget
+
+        container.append(
+            new MenuBar(this),
+            this.main_content = c("<div style='display: flex; height: 100%; flex-grow: 1'></div>")
+                .append(map_widget = c("<div style='flex-grow: 1; height: 100%'></div>"))
+        )
+
+        this.map_widget = new GameMapWidget(map_widget.container)
+        this.map = this.map_widget.map
+
+        this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+
+        this.data.teleports.on("refreshed", (t) => {
+            this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+        })
+
         let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
         if (query_function) query_function(this)
 
@@ -285,19 +294,16 @@ export class Application extends Behaviour {
 
         //ExportStringModal.do(await makeshift_main())
 
-        this.behaviour.set(new ShortcutEditor({
-            map: this.map.map,
-            sidepanels: this.sidepanels
-        }))
+
     }
 
     protected end() {
     }
 
     solveClue(step: ClueStep) {
-        if (!(this.behaviour.get() instanceof SolveBehaviour)) this.behaviour.set(new SolveBehaviour(this));
+        if (!(this.main_behaviour.get() instanceof SolveBehaviour)) this.main_behaviour.set(new SolveBehaviour(this));
 
-        let behaviour = this.behaviour.get() as SolveBehaviour
+        let behaviour = this.main_behaviour.get() as SolveBehaviour
 
         let methods = this.data.methods.forStep(step)
 
@@ -306,8 +312,8 @@ export class Application extends Behaviour {
     }
 
     showMethod(method: MethodWithClue) {
-        if (!(this.behaviour.get() instanceof SolveBehaviour)) this.behaviour.set(new SolveBehaviour(this));
-        let behaviour = this.behaviour.get() as SolveBehaviour
+        if (!(this.main_behaviour.get() instanceof SolveBehaviour)) this.main_behaviour.set(new SolveBehaviour(this));
+        let behaviour = this.main_behaviour.get() as SolveBehaviour
         behaviour.setMethod(method)
     }
 }

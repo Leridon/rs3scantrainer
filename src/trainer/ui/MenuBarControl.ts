@@ -13,9 +13,5 @@ export default class MenuBarControl {
         this.filter = new FilterControl(app)
         this.search = new SearchControl(app)
         this.solve = new SolveControl(app)
-
-        // Hide for now
-        $("#infobutton").on("click", () => app.about_modal.show())
-        $("#settingsbutton").hide()
     }
 }

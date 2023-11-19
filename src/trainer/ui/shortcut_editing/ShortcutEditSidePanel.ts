@@ -22,8 +22,9 @@ import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import ContextMenu from "../widgets/ContextMenu";
 import {SmallImageButton} from "../widgets/SmallImageButton";
 import sibut = SmallImageButton.sibut;
+import MapSideBar from "../MapSideBar";
 
-export default class ShortcutEditSidePanel extends SidePanel {
+export default class ShortcutEditSidePanel extends MapSideBar {
     search_container: Widget
     result_container: Widget
     viewport_checkbox: Checkbox
@@ -36,11 +37,13 @@ export default class ShortcutEditSidePanel extends SidePanel {
     widgets: ShortcutEdit[] = []
 
     constructor(private editor: ShortcutEditor) {
-        super();
+        super("Transport Editor");
+
+        this.header.close_handler.set(() => editor.stop())
 
         observe<(_: Shortcuts.shortcut) => boolean>(() => true).equality(() => false)
 
-        this.editor.deps.map.viewport.subscribe(() => {if (this.viewport_checkbox.get()) this.updateVisibleData()})
+        this.editor.app.map.viewport.subscribe(() => {if (this.viewport_checkbox.get()) this.updateVisibleData()})
         this.search_term.subscribe(() => this.updateVisibleData())
         this.editor.data.array_changed.on(() => this.updateVisibleData())
 
@@ -140,7 +143,7 @@ export default class ShortcutEditSidePanel extends SidePanel {
 
     private updateVisibleData() {
         this.visible_data_view.set(this.editor.data.get().filter(s => {
-            return s.value().name.toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.deps.map.viewport.value()))
+            return s.value().name.toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.app.map.viewport.value()))
         }))
     }
 }

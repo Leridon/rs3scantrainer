@@ -39,9 +39,9 @@ export default class SolveBehaviour extends Behaviour {
                 if (clue && clue.type == "scan") {
                     this.parent.sidepanels.add(this.clue_panel = new CluePanel(clue, {
                         edit_handler: this.parent.in_alt1 ? undefined : () => {
-                            this.parent.behaviour.set(new ScanEditor(this.parent, {
+                            this.parent.main_behaviour.set(new ScanEditor(this.parent, {
                                 clue: clue,
-                                map: this.parent.map.map
+                                map: this.parent.map
                             }))
                         }
                     }), 0)

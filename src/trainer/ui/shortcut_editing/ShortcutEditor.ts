@@ -23,6 +23,8 @@ import * as lodash from "lodash";
 import {ShortcutEdit} from "./ShortcutEdit";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
 import ControlWithHeader from "../map/ControlWithHeader";
+import {Application} from "../../application";
+import MapSideBar from "../MapSideBar";
 
 class EditControl extends GameMapControl<ControlWithHeader> {
     private remove_handler: EwentHandler<any> = null
@@ -168,10 +170,9 @@ export class ShortcutEditor extends Behaviour {
     private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", [])
     public data: ShortcutEditor.Data
 
-    constructor(public deps: {
-        map: GameMap,
-        sidepanels: SidePanelControl
-    }) {
+    sidebar: ShortcutEditSidePanel
+
+    constructor(public app: Application) {
         super();
 
         this.data = observeArray([].concat(
@@ -183,21 +184,17 @@ export class ShortcutEditor extends Behaviour {
     }
 
     protected begin() {
-        this.layer = new ShortcutEditGameLayer(this).addTo(this.deps.map)
+        this.layer = new ShortcutEditGameLayer(this).addTo(this.app.map)
 
         this.editControl = new EditControl(this.layer).addTo(this.layer)
 
-        this.deps.sidepanels.empty()
-
-        this.deps.sidepanels.add(tap(
-                new ShortcutEditSidePanel(this),
-                e => e.centered.on((s => this.layer.view.center(s))))
-            , 0)
+        this.sidebar = new ShortcutEditSidePanel(this).prependTo(this.app.main_content)
+        this.sidebar.centered.on(s => this.layer.view.center(s))
     }
 
     protected end() {
         this.layer.remove()
-        this.deps.sidepanels.empty()
+        this.sidebar.remove()
     }
 
     public createNew(shortcut: Shortcuts.shortcut) {

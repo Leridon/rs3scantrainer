@@ -1,5 +1,38 @@
 Immediate next:
 
+- Theorycrafter
+    - Search
+    - Filter by Type, Tier
+        - Control Widget on map
+    - Organize methods into content-packs
+        - Name
+        - Author
+        - Description
+        - Imported content-packs are read-only
+    - Show Meta pathing in overview
+    - There needs to be an easy way to copy a method into another pack without copying the entire pack
+        - Open, Save As -> Other pack
+    - Tooltip:
+        - Id
+        - Text
+        - Solution/Coordinates
+        - Methods
+            - Favorite, Edit, Edit Copy
+
+- Solving Behaviour
+    - Search Bar
+    - Solve, Autosolve
+    - Multiple Methods, Preferences
+    - Integrate scan tree as map control instead of sidebar
+
+- Settings Modal
+    - Map Settings: Teleport Preferences
+    - Local Method Packs
+
+- General
+    - [Styling] ControlHeader title and X are not properly aligned
+    - Clean up cursor on map
+
 - Shortcut editor/View
     - [Bug] Actually disable editing for builtins
     - [Bug] Viewport filtering needs to include level
@@ -25,14 +58,17 @@ Immediate next:
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
     - [Bug] Context Menu and other tooltips are displayed behind controls.
     - Implicit run for shortcuts?
+    - [Bug] Path Editor throws an exception when start_state is undefined
+    - Add a way to make it not closeable by the user
 
-- Scan Trainer
+- Scan Tree Viewing
     - Make fit include the entire path
     - Better render of in-route teleports
     - Run graphics are bad on snow background
     - Spacing in the tree view is bad
     - Don't fit to origin of teleport
     - Adjust range polygon colors to ingame colors of pulses
+    - Replace buttons with pulse icons
 
 - Content
     ✓ Fremmenik Isles
@@ -107,10 +143,6 @@ RELEASE 1.0
 
 
 Unscheduled:
-- Shortcut editor:
-    - Context menu for targets: Go to origin
-    - Scale shortcut polygons on zoom
-- Check out mejs map for transport data
 - Fade teleport icons when on different level
 - [What] Incorporate jacket/backpack recommmendations
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
@@ -123,7 +155,6 @@ Unscheduled:
 - Better algorithm to construct polygon for equivalence class (with hole support).
 - Arrow key/enter control for the search.
 - Add puzzle solvers
-- Add methods for remaining clue types.
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat.
 - Locally saved methods
@@ -133,13 +164,8 @@ Unscheduled:
 - Google Maps like layout for a slimmer experience? Make the map be the center of everything
 - Landing areas for non-static teleports, show better metadata on tooltip/hover
 - Properly model clue solution types with more details
-- Map permanent shortcuts/entrances and stuff on the map
 
 Notable feedback to consider:
-
-[23:45]Malinoric: If you're taking feedback, the only problematic locations are places without any buildings as easy reference. Foliage often looks very different between the game visual and what you see on the minimap.
-[23:45]Malinoric: so desert, piscatoris, haunted woods... those places.
-[23:46]Malinoric: kharazi is a particular nightmare, but the positions are a lot more lenient in that case, so it isn't as much of an issue
 
 [03:18]Offline: bit confused, when it says step- (surge), does that mean step and then surge?
 

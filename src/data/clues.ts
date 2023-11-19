@@ -1,3 +1,5 @@
+// @ts-nocheck 
+
 import {type ClueStep, type ClueType} from "lib/runescape/clues";
 
 export let clues: ClueStep[] = [

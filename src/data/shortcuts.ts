@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {Shortcuts} from "lib/runescape/shortcuts";
 
 /* ts-ignore */

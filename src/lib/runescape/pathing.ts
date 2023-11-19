@@ -39,7 +39,7 @@ export namespace Path {
         | "mine"
         | "trade"
         | "use"
-    // TODO: Smith, Cook, Pick lock, Pick up
+    // TODO: Smith, Cook, Pick lock, Pick up, Discover, Archaelogy, Divine
 
     export namespace InteractionType {
 

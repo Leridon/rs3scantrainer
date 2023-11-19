@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {Teleports} from "lib/runescape/teleports";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import {direction} from "lib/runescape/movement";

@@ -19,7 +19,7 @@ export class ControlHeader extends Widget {
 
             this
                 .append(c().text(name))
-                .append(spacer())
+                .append(spacer().css("min-width", "20px"))
 
             if (close_handle) {
                 this.append(c("<div class='ctr-map-control-header-close'>&times;</div>")

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {SolvingMethods} from "../trainer/model/methods";
 import Method = SolvingMethods.Method;
 

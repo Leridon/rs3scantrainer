@@ -353,14 +353,14 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
     protected begin() {
         this.parent.parent.sidepanels.add(this.panel = new ScanTreeMethodPanel(this.parent.parent.template_resolver, {
             edit_handler: this.parent.parent.in_alt1 ? undefined : () => {
-                this.parent.parent.behaviour.set(new ScanEditor(this.parent.parent, {
+                this.parent.parent.main_behaviour.set(new ScanEditor(this.parent.parent, {
                     clue: this.method.clue,
-                    map: this.parent.parent.map.map,
+                    map: this.parent.parent.map,
                     initial: this.method
                 }))
             }
         }), 2)
-        this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map.map)
+        this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map)
 
         this.node.bind(this.panel.node).bind(this.layer.node)
 

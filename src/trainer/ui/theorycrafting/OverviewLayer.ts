@@ -1,14 +1,14 @@
-import {Clues, ClueStep, Solution} from "../../runescape/clues";
-import Properties from "../../../trainer/ui/widgets/Properties";
-import {TileMarker} from "../TileMarker";
-import {TileCoordinates} from "../../runescape/coordinates";
-import Widget from "../../ui/Widget";
-import LightButton from "../../../trainer/ui/widgets/LightButton";
-import {PathEditor} from "../../../trainer/ui/pathedit/PathEditor";
-import {Application} from "../../../trainer/application";
+import {Clues, ClueStep, Solution} from "../../../lib/runescape/clues";
+import Properties from "../widgets/Properties";
+import {TileMarker} from "../../../lib/gamemap/TileMarker";
+import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import Widget from "../../../lib/ui/Widget";
+import LightButton from "../widgets/LightButton";
+import {PathEditor} from "../pathedit/PathEditor";
+import {Application} from "../../application";
 import dig_area = Clues.digSpotArea;
 import shortcuts from "../../../data/shortcuts";
-import GameLayer from "../GameLayer";
+import GameLayer from "../../../lib/gamemap/GameLayer";
 
 export default class OverviewLayer extends GameLayer {
     constructor(private clues: ClueStep[], private app: Application) {

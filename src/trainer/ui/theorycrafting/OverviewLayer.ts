@@ -9,6 +9,7 @@ import {Application} from "../../application";
 import dig_area = Clues.digSpotArea;
 import shortcuts from "../../../data/shortcuts";
 import GameLayer from "../../../lib/gamemap/GameLayer";
+import * as tippy from "tippy.js";
 
 export default class OverviewLayer extends GameLayer {
     constructor(private clues: ClueStep[], private app: Application) {
@@ -38,29 +39,33 @@ export default class OverviewLayer extends GameLayer {
             })
         )
 
+        // Rendering individual markers is slow, potentially faster alternative: https://stackoverflow.com/questions/43015854/large-dataset-of-markers-or-dots-in-leaflet
         this.on("add", () => {
-            spots.forEach(({clue, spot, marker}) => {
+            let instances = spots.map(({clue, spot, marker}) => {
                 let props = new Properties()
-                props.named("id", c().text(clue.id))
-                props.named("clue", c().text(clue.clue))
-                props.named("spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
-                props.row(new LightButton("Load path editor")
-                    .on("click", () => {
-                        new PathEditor(this, this.app.template_resolver, {
-                                teleports: this.app.data.teleports.getAll(),
-                                shortcuts: shortcuts
-                            }, {
-                                initial: [],
-                                target: dig_area(spot)
-                            }
-                        )
-                    }))
+                props.named("Id", c().text(clue.id))
+                props.named("Clue", c().text(clue.clue))
+                props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
 
-                Widget.wrap($(marker.marker.getElement())).addTippy(props, {
+                /*
+                marker.marker.bindTooltip(props.raw(), {
                     interactive: true,
-                    animation: false,
-                    appendTo: () => document.body
+                    direction: "top",
+                })*/
+
+                return tippy.default(marker.marker.getElement(), {
+                    content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
                 })
+            })
+
+            tippy.createSingleton(instances, {
+                interactive: true,
+                interactiveBorder: 20,
+                interactiveDebounce: 0.5,
+                arrow: true,
+                appendTo: () => document.body,
+                delay: 0,
+                animation: false,
             })
         })
     }

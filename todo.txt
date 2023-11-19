@@ -1,14 +1,14 @@
 Immediate next:
 
 - Theorycrafter
-    - Search
-    - Filter by Type, Tier
-        - Control Widget on map
     - Organize methods into content-packs
         - Name
         - Author
         - Description
         - Imported content-packs are read-only
+    - Search
+    - Filter by Type, Tier
+        - Control Widget on map
     - Show Meta pathing in overview
     - There needs to be an easy way to copy a method into another pack without copying the entire pack
         - Open, Save As -> Other pack
@@ -18,6 +18,10 @@ Immediate next:
         - Solution/Coordinates
         - Methods
             - Favorite, Edit, Edit Copy
+
+- Menu Bar
+    - Highlight currently active
+    - Disable when active to prevent unneccessary reloading
 
 - Solving Behaviour
     - Search Bar

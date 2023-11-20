@@ -13,42 +13,41 @@ import * as tippy from "tippy.js";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
-import {SmallImageButton} from "../widgets/SmallImageButton";
+import {SmallImageButton, SmallImageToggleButton} from "../widgets/SmallImageButton";
 import sibut = SmallImageButton.sibut;
 import {storage} from "../../../lib/util/storage";
 import spacer = C.spacer;
 import ControlWithHeader from "../map/ControlWithHeader";
 import {Constants} from "trainer/constants";
 import span = C.span;
+import sitog = SmallImageButton.sitog;
+import {Observable, observe} from "../../../lib/reactive";
+import * as Tippy from "tippy.js"
+import * as leaflet from "leaflet"
+
+type FilterT = {
+    [P in ClueType | ClueTier]?: boolean
+}
+
+namespace FilterT {
+    export function normalize(f: FilterT): FilterT {
+        for (let key of [].concat(ClueType.all, ClueTier.all)) {
+            let old = f[key]
+
+            f[key] = old == undefined || old
+        }
+
+        return f
+    }
+}
 
 class FilterControl extends GameMapControl<ControlWithHeader> {
 
-    private filter = new storage.Variable("preferences/cluefilters",
-        {
-            tiers: {
-                easy: true,
-                medium: true,
-                hard: true,
-                elite: true,
-                master: true
-            },
-            types: {
-                compass: true,
-                coordinates: true,
-                cryptic: true,
-                emote: true,
-                image: true,
-                scan: true,
-                simple: true,
-                skilling: true,
-            }
-        }
+    private stored_filter = new storage.Variable<FilterT>("preferences/cluefilters2",
+        {}
     )
 
-    buttons: {
-        type: { [key: ClueType]: SmallImageButton },
-        tier: { [key: ClueTier]: SmallImageButton },
-    } = {type: {}, tier: {}}
+    public filter: Observable<FilterT> = observe({})
 
     constructor() {
         super({
@@ -56,27 +55,31 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
             position: "top-left"
         }, new ControlWithHeader("Clue Filter"))
 
+        this.filter.set(FilterT.normalize(this.stored_filter.get()))
+
+        this.filter.subscribe(f => {this.stored_filter.set(f)})
+
+        let buttons: {
+            tier: { tier: ClueTier, btn: SmallImageToggleButton }[],
+            type: { type: ClueType, btn: SmallImageToggleButton }[],
+        } = {
+            tier: ClueTier.all.map(t => {
+                return {tier: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])}
+            }),
+            type: ClueType.all.map(t => {
+                return {type: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])}
+            })
+        }
+
         this.content.body.append(
             hbox(
                 span("Tier"),
-                sibut("assets/icons/sealedeasy.png", null),
-                sibut("assets/icons/sealedmedium.png", null),
-                sibut("assets/icons/sealedhard.png", null),
-                sibut("assets/icons/sealedelite.png", null),
-                sibut("assets/icons/sealedmaster.png", null),
+                ...buttons.tier.map(s => s.btn),
                 spacer()
             ).addClass("ctr-filter-control-row"),
             hbox(
                 span("Type"),
-                sibut(Constants.icons.types.simple, null),
-                sibut(Constants.icons.types.cryptic, null),
-                sibut(Constants.icons.types.anagram, null),
-                sibut(Constants.icons.types.emote, null),
-                sibut(Constants.icons.types.coordinates, null),
-                sibut(Constants.icons.types.image, null),
-                sibut(Constants.icons.types.scan, null),
-                sibut(Constants.icons.types.compass, null),
-                sibut(Constants.icons.types.skilling, null),
+                ...buttons.type.map(s => s.btn),
                 spacer()
             ).addClass("ctr-filter-control-row"),
         )
@@ -84,65 +87,85 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
 }
 
 export default class OverviewLayer extends GameLayer {
+    filter: FilterControl
+
+    current_layer: {
+        tippy?: Tippy.Instance,
+        layer?: leaflet.FeatureGroup
+    } = {}
+
     constructor(private clues: ClueStep[], private app: Application) {
         super();
 
-        new FilterControl().addTo(this)
+        this.filter = new FilterControl().addTo(this)
 
-        // TODO: Only render one marker per Scan
-
-        let spots: {
-            clue: ClueStep,
-            spot: TileCoordinates,
-            marker: TileMarker
-        }[] = clues.flatMap(clue =>
-            // It's 2023 and there's still no expression-level switch or pattern matching
-            ((solution: Solution): TileCoordinates[] => {
-                switch (solution.type) {
-                    case "simple":
-                        return [solution.coordinates]
-                    case "variants":
-                        return solution.variants.map(v => v.solution.coordinates)
-                    case "coordset":
-                        return solution.candidates
-                }
-            })(clue.solution).map(s => {
-                return {
-                    clue: clue,
-                    spot: s,
-                    marker: new TileMarker(s).withMarker().addTo(this)
-                }
-            })
-        )
-
-        // Rendering individual markers is slow, potentially faster alternative: https://stackoverflow.com/questions/43015854/large-dataset-of-markers-or-dots-in-leaflet
         this.on("add", () => {
-            let instances = spots.map(({clue, spot, marker}) => {
-                let props = new Properties()
-                props.named("Id", c().text(clue.id))
-                props.named("Clue", c().text(clue.clue))
-                props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
+            this.filter.filter.subscribe(f => {
+                if (this.current_layer.layer) {
+                    this.current_layer.layer.remove()
+                    this.current_layer.layer = null
+                }
 
-                /*
-                marker.marker.bindTooltip(props.raw(), {
-                    interactive: true,
-                    direction: "top",
-                })*/
+                if (this.current_layer.tippy) {
+                    this.current_layer.tippy.destroy()
+                    this.current_layer.tippy = null
+                }
 
-                return tippy.default(marker.marker.getElement(), {
-                    content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
+                let layer = leaflet.featureGroup()
+
+                // TODO: Only render one marker per Scan
+                let spots: {
+                    clue: ClueStep,
+                    spot: TileCoordinates,
+                    marker: TileMarker
+                }[] = clues
+                    .filter(c => f[c.tier] && f[c.type])
+                    .flatMap(clue =>
+                        (() => {
+                            switch (clue.solution.type) {
+                                case "simple":
+                                    return [clue.solution.coordinates]
+                                case "variants":
+                                    return clue.solution.variants.map(v => v.solution.coordinates)
+                                case "coordset":
+                                    return clue.solution.candidates
+                            }
+                        })().map(s => {
+                            return {
+                                clue: clue,
+                                spot: s,
+                                marker: new TileMarker(s).withMarker().addTo(layer)
+                            }
+                        })
+                    )
+
+                // Rendering individual markers is slow, potentially faster alternative: https://stackoverflow.com/questions/43015854/large-dataset-of-markers-or-dots-in-leaflet
+
+                this.current_layer.layer = layer.addTo(this)
+
+                let instances = spots.map(({clue, spot, marker}) => {
+                    let props = new Properties()
+                    props.named("Id", c().text(clue.id))
+                    props.named("Clue", c().text(clue.clue))
+                    props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
+
+                    return tippy.default(marker.marker.getElement(), {
+                        content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
+                    })
                 })
-            })
 
-            tippy.createSingleton(instances, {
-                interactive: true,
-                interactiveBorder: 20,
-                interactiveDebounce: 0.5,
-                arrow: true,
-                appendTo: () => document.body,
-                delay: 0,
-                animation: false,
-            })
+                this.current_layer.tippy = tippy.createSingleton(instances, {
+                    interactive: true,
+                    interactiveBorder: 20,
+                    interactiveDebounce: 0.5,
+                    arrow: true,
+                    appendTo: () => document.body,
+                    delay: 0,
+                    animation: false,
+                })
+            }, true)
         })
+
+
     }
 }

@@ -1,4 +1,5 @@
 import Button from "lib/ui/controls/Button";
+import {Observable, observe} from "../../../lib/reactive";
 
 export class SmallImageButton extends Button {
     constructor(container: JQuery = null) {
@@ -29,11 +30,43 @@ export class SmallImageButton extends Button {
     }
 }
 
+export class SmallImageToggleButton extends SmallImageButton {
+    value: Observable<boolean> = observe(false)
+
+    constructor() {
+        super();
+
+        this.addClass("nisl-small-image-toggle")
+
+        this.onClick(() => {
+            this.value.set(!this.value.value())
+        })
+
+        this.value.subscribe((v) => {
+            this.toggleClass("active", v)
+        })
+    }
+
+    setState(v: boolean): this {
+        this.value.set(v)
+
+        return this
+    }
+}
+
 export namespace SmallImageButton {
     export function sibut(icon: string, handler: (e: JQuery.ClickEvent) => any): SmallImageButton {
-        let but = SmallImageButton.new(icon)
+        let but = new SmallImageButton().setIcon(icon)
 
-        if (handler) but.on("click", handler)
+        if (handler) but.onClick(handler)
+
+        return but
+    }
+
+    export function sitog(icon: string, handler: (v: boolean) => any): SmallImageToggleButton {
+        let but = new SmallImageToggleButton().setIcon(icon)
+
+        if (handler) but.value.subscribe(handler)
 
         return but
     }

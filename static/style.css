@@ -79,16 +79,6 @@ html, body {
     display: block;
 }
 
-.togglebutton {
-    text-align: center;
-    padding: 0;
-    opacity: 0.4;
-}
-
-.togglebutton.active {
-    opacity: 1;
-}
-
 .menubarbutton {
     margin-left: 6px;
     min-width: 21px;
@@ -1280,4 +1270,14 @@ input[type=checkbox] + span {
 
 .ctr-filter-control-row > *:first-child {
     width: 30px;
+}
+
+.nisl-small-image-toggle {
+    text-align: center;
+    padding: 0;
+    opacity: 0.4;
+}
+
+.nisl-small-image-toggle.active {
+    opacity: 1;
 }

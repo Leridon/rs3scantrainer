@@ -1,8 +1,12 @@
 import Widget from "../Widget";
+import {ewent, Ewent} from "../../reactive";
+import {EwentHandlerPool} from "../../reactive/EwentHandlerPool";
 
 export default class Button extends Widget<{
     "click": JQuery.ClickEvent
 }> {
+    clicked = ewent<JQuery.ClickEvent>()
+
     constructor(container: JQuery = $("<div>")) {
         super(container);
 
@@ -13,6 +17,7 @@ export default class Button extends Widget<{
 
             if (!this.container.hasClass("enabled")) return
 
+            this.clicked.trigger(e)
             this.emit("click", e)
         })
 
@@ -21,6 +26,13 @@ export default class Button extends Widget<{
 
     setEnabled(value: boolean): this {
         this.toggleClass("enabled", value)
+        return this
+    }
+
+    onClick(handler: (_: JQuery.ClickEvent) => any, pool: EwentHandlerPool = null): this {
+        let h = this.clicked.on(handler)
+        pool?.bind(h)
+
         return this
     }
 }

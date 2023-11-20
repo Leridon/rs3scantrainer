@@ -2,7 +2,6 @@ html, body, #main-content {
     min-width: 100%;
     margin: 0;
     display: inline-flex;
-    font-family: monospace;
     font-size: 10pt;
 }
 
@@ -1269,4 +1268,16 @@ input[type=checkbox] + span {
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.ctr-filter-control-row {
+    margin-top: 5px;
+}
+
+.ctr-filter-control-row > .nissmallimagebutton:not(:first-child) {
+    margin-left: 5px;
+}
+
+.ctr-filter-control-row > *:first-child {
+    width: 30px;
 }

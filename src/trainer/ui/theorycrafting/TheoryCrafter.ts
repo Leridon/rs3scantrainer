@@ -20,5 +20,7 @@ export default class TheoryCrafter extends Behaviour {
 
     protected end() {
         this.sidebar.remove()
+
+        this.layer.remove()
     }
 }

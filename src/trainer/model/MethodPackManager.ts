@@ -1,8 +1,7 @@
 import {MethodPack} from "./MethodPack";
 import {SolvingMethods} from "./methods";
 import Method = SolvingMethods.Method;
-import {TileCoordinates, TileRectangle} from "../../lib/runescape/coordinates";
-import tr = TileRectangle.tr;
+import {TileCoordinates} from "../../lib/runescape/coordinates";
 
 type M_base = {
     for: number | TileCoordinates,

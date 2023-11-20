@@ -14,14 +14,12 @@ import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
 import {SmallImageButton, SmallImageToggleButton} from "../widgets/SmallImageButton";
-import sibut = SmallImageButton.sibut;
 import {storage} from "../../../lib/util/storage";
 import spacer = C.spacer;
 import ControlWithHeader from "../map/ControlWithHeader";
-import {Constants} from "trainer/constants";
 import span = C.span;
 import sitog = SmallImageButton.sitog;
-import {Observable, observe} from "../../../lib/reactive";
+import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 import * as Tippy from "tippy.js"
 import * as leaflet from "leaflet"
 
@@ -39,15 +37,25 @@ namespace FilterT {
 
         return f
     }
+
+    export function apply(f: FilterT, clue: ClueStep): boolean {
+        return f[clue.type] && f[clue.tier]
+    }
 }
 
 class FilterControl extends GameMapControl<ControlWithHeader> {
 
-    private stored_filter = new storage.Variable<FilterT>("preferences/cluefilters2",
-        {}
-    )
+    private stored_filter = new storage.Variable<FilterT>("preferences/cluefilters2", {})
 
     public filter: Observable<FilterT> = observe({})
+
+    clue_index: boolean[]
+
+    public filtered_clues: ObservableArray<{
+        clue: ClueStep,
+        markers: leaflet.FeatureGroup
+    }> = new ObservableArray<{ clue: ClueStep; markers: leaflet.FeatureGroup }>()
+
 
     constructor() {
         super({
@@ -56,6 +64,14 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
         }, new ControlWithHeader("Clue Filter"))
 
         this.filter.set(FilterT.normalize(this.stored_filter.get()))
+
+        this.filter.subscribe(f => {
+            this.filtered_clues.get().forEach(v => {
+                if (!FilterT.apply(f, v.value().clue)) v.remove()
+
+
+            })
+        })
 
         this.filter.subscribe(f => {this.stored_filter.set(f)})
 
@@ -94,6 +110,12 @@ export default class OverviewLayer extends GameLayer {
         layer?: leaflet.FeatureGroup
     } = {}
 
+    public clue_index: {
+        clue: ClueStep,
+        visible
+        markers: leaflet.FeatureGroup
+    }[]
+
     constructor(private clues: ClueStep[], private app: Application) {
         super();
 
@@ -119,7 +141,7 @@ export default class OverviewLayer extends GameLayer {
                     spot: TileCoordinates,
                     marker: TileMarker
                 }[] = clues
-                    .filter(c => f[c.tier] && f[c.type])
+                    .filter(c => (!c.tier || f[c.tier]) && f[c.type])
                     .flatMap(clue =>
                         (() => {
                             switch (clue.solution.type) {

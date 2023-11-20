@@ -1,8 +1,6 @@
 Immediate next:
 
 - Theorycrafter
-    - Filter by Type, Tier
-        - Control Widget on map
     - Organize methods into content-packs
         - Name
         - Author

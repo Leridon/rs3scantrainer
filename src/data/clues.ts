@@ -15,16 +15,6 @@ export let clues: ClueStep[] = [
     },
     {
         "type": "simple",
-        "id": 1,
-        "tier": null,
-        "clue": "Search the crates in the shed just north of east Ardougne.",
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2618, "y": 3347, "level": 0}
-        }
-    },
-    {
-        "type": "simple",
         "id": 2,
         "tier": "easy",
         "clue": "Search the drawers found upstairs in the Westernmost Inn of East Ardougne.",
@@ -35,41 +25,9 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 3,
-        "tier": null,
-        "clue": "Search the drawers in the upstairs of a house in Catherby.",
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2808, "y": 3453, "level": 0}
-        }
-    },
-    {
-        "type": "simple",
-        "id": 4,
-        "tier": null,
-        "clue": "Search the drawers upstairs of houses in eastern part of Falador.",
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3048, "y": 3354, "level": 0},
-            "answer": "The drawers are found on the top floor of this building."
-        }
-    },
-    {
-        "type": "simple",
-        "id": 6,
-        "tier": null,
-        "clue": "Speak to Hans.",
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3221, "y": 3219, "level": 0},
-            "answer": "Hans walks in cicles around the castle."
-        }
-    },
-    {
         "type": "emote",
         "clue": "Beckon in the Digsite, near the eastern winch. Bow or curtsy before you talk to me. Equip a pointed red and black snelm, snakeskin boots, and an iron pickaxe.",
-        "tier": null,
+        "tier": "medium",
         "id": 7,
         "solution": {
             "type": "simple",
@@ -91,7 +49,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Shrug in the Zamorak temple found in the Eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody, and blue d'hide vambraces",
-        "tier": null,
+        "tier": "hard",
         "id": 9,
         "solution": {
             "type": "simple",
@@ -100,20 +58,9 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "emote",
-        "clue": "Yawn in the rogues' general store. Beware of double agents! Equip an iron square shield, blue dragonhide vambraces, and an iron pickaxe.",
-        "tier": null,
-        "id": 10,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3025, "y": 3702, "level": 0},
-            "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Iron square shield, Blue dragonhide vambraces, Iron pickaxe"
-        }
-    },
-    {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Eek Zero Op",
-        "tier": null,
+        "tier": "medium",
         "id": 14,
         "solution": {
             "type": "simple",
@@ -123,68 +70,13 @@ export let clues: ClueStep[] = [
     },
     {
         "type": "anagram",
-        "clue": "How many buildings in the village?",
-        "tier": null,
-        "id": 17,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2793, "y": 3065, "level": 0},
-            "answer": "Gabooty<br><b>Question solution:</b> 11"
-        }
-    },
-    {
-        "type": "anagram",
-        "clue": "How many bottles are there on the stall to the east of Mr Ex?",
-        "tier": null,
-        "id": 18,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3103, "y": 3511, "level": 0},
-            "answer": "Moldark, Emissary of Zamorak<br><b>Question solution:</b> 7"
-        }
-    },
-    {
-        "type": "anagram",
-        "clue": "How many bookcases are there in the Varrock palace library?",
-        "tier": null,
-        "id": 19,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3222, "y": 3473, "level": 0},
-            "answer": "King Roald<br><b>Question solution:</b> 24"
-        }
-    },
-    {
-        "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Me Am The Calc",
-        "tier": null,
+        "tier": "hard",
         "id": 20,
         "solution": {
             "type": "simple",
             "coordinates": {"x": 3288, "y": 3238, "level": 0},
             "answer": "Cam the Camel"
-        }
-    },
-    {
-        "type": "anagram",
-        "clue": "How many cannons does Lumbridge castle have?",
-        "tier": null,
-        "id": 21,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3209, "y": 3214, "level": 0},
-            "answer": "Cook<br><b>Question solution:</b> 7"
-        }
-    },
-    {
-        "type": "anagram",
-        "clue": "I have 16 kebabs, I eat one myself and share the rest equally between 3 friends. How many do they have each?",
-        "tier": null,
-        "id": 22,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3270, "y": 3182, "level": 0},
-            "answer": "Karim<br><b>Question solution:</b> 5"
         }
     },
     {
@@ -201,23 +93,12 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Stab Ob",
-        "tier": null,
+        "tier": "medium",
         "id": 24,
         "solution": {
             "type": "simple",
             "coordinates": {"x": 2859, "y": 3580, "level": 0},
             "answer": "Sabbot (Found inside the marked cave)"
-        }
-    },
-    {
-        "type": "anagram",
-        "clue": "This anagram reveals who to speak to next: Them Cal Came",
-        "tier": null,
-        "id": 25,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3292, "y": 3240, "level": 0},
-            "answer": "Cam the Camel"
         }
     },
     {
@@ -229,17 +110,6 @@ export let clues: ClueStep[] = [
             "type": "simple",
             "coordinates": {"x": 3058, "y": 3492, "level": 0},
             "answer": "Talk to Abbot Langley."
-        }
-    },
-    {
-        "type": "cryptic",
-        "clue": "Try not to get stung.",
-        "tier": null,
-        "id": 27,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3087, "y": 3469, "level": 0},
-            "answer": "Dig by the yew tree."
         }
     },
     {
@@ -256,7 +126,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Find a bar with a centre fountain in its city. Go upstairs and get changed.",
-        "tier": null,
+        "tier": "medium",
         "id": 29,
         "solution": {
             "type": "simple",
@@ -289,7 +159,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "If you look closely enough, it seems that the archers have lost more than their needles.",
-        "tier": null,
+        "tier": "hard",
         "id": 32,
         "solution": {
             "type": "simple",
@@ -299,19 +169,8 @@ export let clues: ClueStep[] = [
     },
     {
         "type": "cryptic",
-        "clue": "The crate on the ground floor of a church is your next location.",
-        "tier": null,
-        "id": 34,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2611, "y": 3306, "level": 0},
-            "answer": "Search the crates."
-        }
-    },
-    {
-        "type": "cryptic",
         "clue": "The crate in the tower of a church is your next location.",
-        "tier": null,
+        "tier": "medium",
         "id": 35,
         "solution": {
             "type": "simple",
@@ -320,7 +179,11 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "scan", "clue": "This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces.", "tier": "elite", "id": 36, "solution": {
+        "type": "scan",
+        "clue": "This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces.",
+        "tier": "elite",
+        "id": 36,
+        "solution": {
             "type": "coordset",
             "candidates": [{"x": 2958, "y": 3917, "level": 0}, {"x": 2979, "y": 3962, "level": 0}, {"x": 2998, "y": 3914, "level": 0}, {
                 "x": 2956,
@@ -357,7 +220,6 @@ export let clues: ClueStep[] = [
             }]
         }, "range": 25, "scantext": "deepest levels of the Wilderness"
     },
-
     {
         "type": "cryptic",
         "clue": "There is no 'worthier' lord.",
@@ -1277,7 +1139,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "hard",
         "id": 40,
         "solution": {
             "type": "simple",
@@ -2193,7 +2055,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "hard",
         "id": 41,
         "solution": {
             "type": "simple",
@@ -3109,7 +2971,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "hard",
         "id": 42,
         "solution": {
             "type": "simple",
@@ -4025,7 +3887,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "hard",
         "id": 43,
         "solution": {
             "type": "simple",
@@ -4941,7 +4803,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 44,
         "solution": {
             "type": "simple",
@@ -5857,7 +5719,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 45,
         "solution": {
             "type": "simple",
@@ -6773,7 +6635,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "hard",
         "id": 46,
         "solution": {
             "type": "simple",
@@ -7689,7 +7551,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "hard",
         "id": 47,
         "solution": {
             "type": "simple",
@@ -8605,7 +8467,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 48,
         "solution": {
             "type": "simple",
@@ -11353,7 +11215,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 51,
         "solution": {
             "type": "simple",
@@ -12269,7 +12131,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 52,
         "solution": {
             "type": "simple",
@@ -13185,7 +13047,7 @@ export let clues: ClueStep[] = [
             9,
             12
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 53,
         "solution": {
             "type": "simple",
@@ -16849,7 +16711,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 57,
         "solution": {
             "type": "simple",
@@ -17765,7 +17627,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 58,
         "solution": {
             "type": "simple",
@@ -18681,7 +18543,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "hard",
         "id": 59,
         "solution": {
             "type": "simple",
@@ -19597,7 +19459,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 60,
         "solution": {
             "type": "simple",
@@ -20513,7 +20375,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 61,
         "solution": {
             "type": "simple",
@@ -21429,7 +21291,7 @@ export let clues: ClueStep[] = [
             6,
             8
         ],
-        "tier": null,
+        "tier": "medium",
         "id": 62,
         "solution": {
             "type": "simple",
@@ -22407,7 +22269,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 70,
-        "tier": null,
+        "tier": "medium",
         "clue": "Search the drawers found upstairs in the houses of East Ardougne.",
         "solution": {
             "type": "simple",
@@ -22474,16 +22336,6 @@ export let clues: ClueStep[] = [
             "type": "simple",
             "coordinates": {"x": 3035, "y": 3364, "level": 0},
             "answer": "The chests are upstairs."
-        }
-    },
-    {
-        "type": "simple",
-        "id": 77,
-        "tier": null,
-        "clue": "Search the drawers of houses in Burthorpe.",
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2929, "y": 3570, "level": 0}
         }
     },
     {
@@ -22654,7 +22506,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 94,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to Donovan, the family handyman.",
         "solution": {
             "type": "simple",
@@ -22685,7 +22537,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 97,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to Brimstail.",
         "solution": {
             "type": "simple",
@@ -22696,7 +22548,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 98,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to Roavar.",
         "solution": {
             "type": "simple",
@@ -22796,7 +22648,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 109,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to Ulizius.",
         "solution": {
             "type": "simple",
@@ -22846,7 +22698,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 114,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to Hajedy.",
         "solution": {
             "type": "simple",
@@ -22907,7 +22759,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 120,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to Kangai Mau.",
         "solution": {
             "type": "simple",
@@ -22927,7 +22779,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 122,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to a referee.",
         "solution": {
             "type": "simple",
@@ -22989,7 +22841,7 @@ export let clues: ClueStep[] = [
     {
         "type": "simple",
         "id": 128,
-        "tier": null,
+        "tier": "medium",
         "clue": "Speak to Hazelmere.",
         "solution": {
             "type": "simple",
@@ -23570,7 +23422,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "You'll need to look for a city with a central fountain. Look for a locked chest in the city's chapel.",
-        "tier": null,
+        "tier": "medium",
         "id": 181,
         "solution": {
             "type": "simple",
@@ -23592,7 +23444,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "The socks in these drawers are holier than thine, according to the tonsured owners.",
-        "tier": null,
+        "tier": "medium",
         "id": 183,
         "solution": {
             "type": "simple",
@@ -23603,7 +23455,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Probably filled with wizards' socks.",
-        "tier": null,
+        "tier": "medium",
         "id": 184,
         "solution": {
             "type": "simple",
@@ -23614,7 +23466,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "In a village made of bamboo, look for some crates under one of the houses.",
-        "tier": null,
+        "tier": "medium",
         "id": 185,
         "solution": {
             "type": "simple",
@@ -23625,7 +23477,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "The owner of this crate has a hunch that he put more than fish inside.",
-        "tier": null,
+        "tier": "medium",
         "id": 186,
         "solution": {
             "type": "simple",
@@ -23636,7 +23488,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "In a town where the guards are armed with maces, search the upstairs rooms of the public house.",
-        "tier": null,
+        "tier": "medium",
         "id": 187,
         "solution": {
             "type": "simple",
@@ -23647,7 +23499,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Try not to step on any aquatic nasties while searching this crate.",
-        "tier": null,
+        "tier": "medium",
         "id": 188,
         "solution": {
             "type": "simple",
@@ -23658,7 +23510,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "After a hard day of spraying back the vegetation, you mite want to pop to the nearby forge and search the crates.",
-        "tier": null,
+        "tier": "medium",
         "id": 189,
         "solution": {
             "type": "simple",
@@ -23669,7 +23521,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "For any aspiring mage, I'm sure searching this bookcase will be a rewarding experience.",
-        "tier": null,
+        "tier": "medium",
         "id": 190,
         "solution": {
             "type": "simple",
@@ -23680,7 +23532,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "A town with a different sort of night-life is your destination. Search for some crates in one of the houses.",
-        "tier": null,
+        "tier": "medium",
         "id": 191,
         "solution": {
             "type": "simple",
@@ -23691,7 +23543,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Hay! Stop for a bit and admire the scenery, just like the tourism promoter says.",
-        "tier": null,
+        "tier": "medium",
         "id": 192,
         "solution": {
             "type": "simple",
@@ -23702,7 +23554,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "North of the best monkey restaurant on Karamja, look for the centre of the triangle of boats and search there.",
-        "tier": null,
+        "tier": "medium",
         "id": 193,
         "solution": {
             "type": "simple",
@@ -23713,7 +23565,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Go to the village being attacked by trolls and search the drawers in one of the houses.",
-        "tier": null,
+        "tier": "medium",
         "id": 194,
         "solution": {
             "type": "simple",
@@ -23724,7 +23576,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "In a town where everyone has perfect vision, seek some locked drawers in a house that sits opposite a workshop.",
-        "tier": null,
+        "tier": "medium",
         "id": 195,
         "solution": {
             "type": "simple",
@@ -23735,7 +23587,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Being this far north has meant that these crates have escaped being battled over.",
-        "tier": null,
+        "tier": "medium",
         "id": 196,
         "solution": {
             "type": "simple",
@@ -23746,7 +23598,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "After trawling for bars, go to the nearest place to smith them and dig by the door.",
-        "tier": null,
+        "tier": "medium",
         "id": 197,
         "solution": {
             "type": "simple",
@@ -23757,7 +23609,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Sophind yourself some treasure by searching these boxes.",
-        "tier": null,
+        "tier": "medium",
         "id": 198,
         "solution": {
             "type": "simple",
@@ -23768,7 +23620,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Dig here if you are not feeling too well after travelling through the desert. Ali heartily recommends it.",
-        "tier": null,
+        "tier": "medium",
         "id": 199,
         "solution": {
             "type": "simple",
@@ -23779,7 +23631,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "You'll need to have Doug Deep into the distant past to get to these sacks",
-        "tier": null,
+        "tier": "medium",
         "id": 200,
         "solution": {
             "type": "simple",
@@ -23790,7 +23642,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "This crate holds a better reward than a broken arrow.",
-        "tier": null,
+        "tier": "medium",
         "id": 201,
         "solution": {
             "type": "simple",
@@ -23801,7 +23653,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "The rock cakes to the south are definitely more edible than the two rocks I buried the treasure between.",
-        "tier": null,
+        "tier": "medium",
         "id": 202,
         "solution": {
             "type": "simple",
@@ -23812,7 +23664,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Search the upstairs drawers of a house in a village where pirates are known to have a good time.",
-        "tier": null,
+        "tier": "medium",
         "id": 203,
         "solution": {
             "type": "simple",
@@ -23823,7 +23675,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Don't skip here, it's too muddy. You'll feel like a star if you dig here, though.",
-        "tier": null,
+        "tier": "medium",
         "id": 204,
         "solution": {
             "type": "simple",
@@ -23834,7 +23686,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "This crate is mine, all mine, even if it is in the middle of the desert.",
-        "tier": null,
+        "tier": "medium",
         "id": 205,
         "solution": {
             "type": "simple",
@@ -23845,7 +23697,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "The treasure is buried in a small building full of bones. Here's a Hint: It's not near a graveyard.",
-        "tier": null,
+        "tier": "medium",
         "id": 206,
         "solution": {
             "type": "simple",
@@ -23856,7 +23708,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "By the town of the dead, walk south down a rickety bridge, then dig near the spotted fungus.",
-        "tier": null,
+        "tier": "medium",
         "id": 207,
         "solution": {
             "type": "simple",
@@ -23867,7 +23719,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "This cupboard has treasure, pirate pots and corsair cutlery!",
-        "tier": null,
+        "tier": "medium",
         "id": 208,
         "solution": {
             "type": "simple",
@@ -23878,7 +23730,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "The dead, red dragon watches over this chest. He must really dig the view.",
-        "tier": null,
+        "tier": "medium",
         "id": 209,
         "solution": {
             "type": "simple",
@@ -23889,7 +23741,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "This crate clearly marks the end of the line for coal.",
-        "tier": null,
+        "tier": "medium",
         "id": 210,
         "solution": {
             "type": "simple",
@@ -23900,7 +23752,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Go to this building to be illuminated, and check the drawers while you are there.",
-        "tier": null,
+        "tier": "medium",
         "id": 211,
         "solution": {
             "type": "simple",
@@ -23911,7 +23763,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Find a crate close to the monks that like to paaarty!",
-        "tier": null,
+        "tier": "medium",
         "id": 212,
         "solution": {
             "type": "simple",
@@ -23922,7 +23774,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "In a town where wizards are known to gather, search upstairs in a large house to the north.",
-        "tier": null,
+        "tier": "medium",
         "id": 213,
         "solution": {
             "type": "simple",
@@ -23933,7 +23785,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "This temple is rather sluggish. The chest just inside the entrance, however, is filled with goodies.",
-        "tier": null,
+        "tier": "medium",
         "id": 214,
         "solution": {
             "type": "simple",
@@ -23944,7 +23796,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "The gnomes' nearby cart must have collapsed under the weight of all the treasure in these boxes!",
-        "tier": null,
+        "tier": "medium",
         "id": 215,
         "solution": {
             "type": "simple",
@@ -23955,7 +23807,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "46 is my number. My body is the colour of burnt orange and crawls among those with eight. Three mouths I have, yet I cannot eat. My blinking blue eye hides my grave.",
-        "tier": null,
+        "tier": "hard",
         "id": 216,
         "solution": {
             "type": "simple",
@@ -23966,7 +23818,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Brush off the sand and dig in the quarry. There is a wheely handy barrow to the east. Don't worry, it's coal to dig there - in fact, it's all oclay.",
-        "tier": null,
+        "tier": "medium",
         "id": 217,
         "solution": {
             "type": "simple",
@@ -23977,7 +23829,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "Observe: In the crate just North of the stairs leading down, you will find the answer.",
-        "tier": null,
+        "tier": "medium",
         "id": 218,
         "solution": {
             "type": "simple",
@@ -23988,7 +23840,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "If you didn't want to be here and in danger, you should lever things well enough alone.",
-        "tier": null,
+        "tier": "hard",
         "id": 219,
         "solution": {
             "type": "simple",
@@ -23999,7 +23851,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "In a town where thieves steal from stalls, search for some drawers in the upstairs of a house near the bank.",
-        "tier": null,
+        "tier": "medium",
         "id": 220,
         "solution": {
             "type": "simple",
@@ -24010,7 +23862,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "I lie lonely and forgotten in mid wilderness, Where the dead rise from their beds. Feel free to quarrel and wind me up, and dig while you shoot their heads.",
-        "tier": null,
+        "tier": "hard",
         "id": 221,
         "solution": {
             "type": "simple",
@@ -24021,7 +23873,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "While a sea view is nice, it seems this church has not seen visitors in a while. Dig outside the rim of the round window for a reward.",
-        "tier": null,
+        "tier": "medium",
         "id": 222,
         "solution": {
             "type": "simple",
@@ -24032,7 +23884,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "And so on, and so on, and so on. Walking from the land of many unimportant things leads to a choice of paths.",
-        "tier": null,
+        "tier": "hard",
         "id": 223,
         "solution": {
             "type": "simple",
@@ -24043,7 +23895,7 @@ export let clues: ClueStep[] = [
     {
         "type": "cryptic",
         "clue": "This village has a problem with cartloads of the undead. Try checking the bookcase to find the answer.",
-        "tier": null,
+        "tier": "hard",
         "id": 224,
         "solution": {
             "type": "simple",
@@ -24076,7 +23928,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Panic by the pilot on White Wolf Mountain. Beware of double agents! Equip mithril platelegs, a ring of life, and a rune hatchet.",
-        "tier": null,
+        "tier": "hard",
         "id": 227,
         "solution": {
             "type": "simple",
@@ -24296,7 +24148,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Panic by the mausoleum in Morytania. Wave before you speak to me. Equip a mithril plateskirt, a maple shieldbow and no boots.",
-        "tier": null,
+        "tier": "medium",
         "id": 247,
         "solution": {
             "type": "simple",
@@ -24307,7 +24159,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Dance a jig under Shantay's Awning. Bow or curtsy before you talk to me. Equip a pointed blue snail helmet and an air staff.",
-        "tier": null,
+        "tier": "medium",
         "id": 248,
         "solution": {
             "type": "simple",
@@ -24318,7 +24170,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Think under the lens in the Observatory. Twirl before you talk to me. Equip a mithril chainbody, green dragonhide chaps and a ruby amulet.",
-        "tier": null,
+        "tier": "medium",
         "id": 249,
         "solution": {
             "type": "simple",
@@ -24329,7 +24181,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Twirl on the bridge by Barbarian Village. Salute before you talk to me. Equip an iron hatchet, steel kiteshield and a mithril full helmet.",
-        "tier": null,
+        "tier": "medium",
         "id": 250,
         "solution": {
             "type": "simple",
@@ -24340,7 +24192,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Jump for joy in Yanille bank. Dance a jig before you talk to me. Equip an iron crossbow, adamant helmet and snakeskin chaps.",
-        "tier": null,
+        "tier": "medium",
         "id": 251,
         "solution": {
             "type": "simple",
@@ -24351,7 +24203,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Dance in the centre of Canifis. Bow or curtsy before you talk to me. Equip a spiny helmet, mithril platelegs and an iron two-handed sword.",
-        "tier": null,
+        "tier": "medium",
         "id": 252,
         "solution": {
             "type": "simple",
@@ -24362,7 +24214,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Cheer in the Barbarian Agility Arena. Headbang before you talk to me. Equip a steel platebody, maple shortbow and bronze boots.",
-        "tier": null,
+        "tier": "medium",
         "id": 253,
         "solution": {
             "type": "simple",
@@ -24373,7 +24225,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Cry on the platform of the south-west tree in the Gnome Agility Arena. Indicate 'no' before you talk to me. Equip a steel kiteshield, ring of forging and green dragonhide chaps.",
-        "tier": null,
+        "tier": "medium",
         "id": 254,
         "solution": {
             "type": "simple",
@@ -24384,7 +24236,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Beckon in Tai Bwo Wannai. Clap before you talk to me. Equip green dragonhide chaps, a ring of duelling and a mithril helmet.",
-        "tier": null,
+        "tier": "medium",
         "id": 255,
         "solution": {
             "type": "simple",
@@ -24395,7 +24247,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Cheer in the Ogre Pen in the Training Camp. Show you are angry before you talk to me. Equip a green dragonhide body and chaps, and a steel squareshield.",
-        "tier": null,
+        "tier": "medium",
         "id": 256,
         "solution": {
             "type": "simple",
@@ -24406,7 +24258,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Cry in the Catherby archery shop. Bow or curtsy before you talk to me. Equip a round red and black snelm, a hard leather body and an unblessed silver sickle.",
-        "tier": null,
+        "tier": "medium",
         "id": 257,
         "solution": {
             "type": "simple",
@@ -24417,7 +24269,7 @@ export let clues: ClueStep[] = [
     {
         "type": "emote",
         "clue": "Yawn in the Castle Wars lobby. Shrug before you talk to me. Equip a ruby amulet, mithril scimitar and an iron square shield.",
-        "tier": null,
+        "tier": "medium",
         "id": 258,
         "solution": {
             "type": "simple",
@@ -24713,17 +24565,6 @@ export let clues: ClueStep[] = [
     },
     {
         "type": "anagram",
-        "clue": "This anagram reveals who to speak to next: Im Krom",
-        "tier": null,
-        "id": 285,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2948, "y": 3197, "level": 0},
-            "answer": "Rommik<br><b>Question solution:</b> 7"
-        }
-    },
-    {
-        "type": "anagram",
         "clue": "This anagram reveals who to speak to next: I Eat Its Chart Hints Do U",
         "tier": "hard",
         "id": 287,
@@ -24929,28 +24770,6 @@ export let clues: ClueStep[] = [
     },
     {
         "type": "anagram",
-        "clue": "This anagram reveals who to speak to next: He often preaches of REBIRTH OUAINTLY ROT",
-        "tier": null,
-        "id": 304,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3679, "y": 2965, "level": 0},
-            "answer": "Brother Tranquility"
-        }
-    },
-    {
-        "type": "anagram",
-        "clue": "This anagram reveals who to speak to next: He often preaches of REBIRTH NOT RITUALLY",
-        "tier": null,
-        "id": 305,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3679, "y": 2965, "level": 0},
-            "answer": "Brother Tranquility"
-        }
-    },
-    {
-        "type": "anagram",
         "clue": "This anagram reveals who to speak to next: He often preaches of QUIT THY BRINE RAT ROLL",
         "tier": "master",
         "id": 306,
@@ -25110,7 +24929,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW",
-        "tier": null,
+        "tier": "master",
         "id": 313,
         "solution": {
             "type": "simple",
@@ -25165,7 +24984,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Nod med",
-        "tier": null,
+        "tier": "medium",
         "id": 318,
         "solution": {
             "type": "simple",
@@ -25176,7 +24995,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Winston Lane",
-        "tier": null,
+        "tier": "medium",
         "id": 320,
         "solution": {
             "type": "simple",
@@ -25187,7 +25006,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Or A Vile",
-        "tier": null,
+        "tier": "medium",
         "id": 321,
         "solution": {
             "type": "simple",
@@ -25198,7 +25017,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Icy Fe",
-        "tier": null,
+        "tier": "medium",
         "id": 322,
         "solution": {
             "type": "simple",
@@ -25209,7 +25028,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Aha Jar",
-        "tier": null,
+        "tier": "medium",
         "id": 323,
         "solution": {
             "type": "simple",
@@ -25220,7 +25039,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Boast B",
-        "tier": null,
+        "tier": "medium",
         "id": 324,
         "solution": {
             "type": "simple",
@@ -25231,7 +25050,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Bail Trims",
-        "tier": null,
+        "tier": "medium",
         "id": 326,
         "solution": {
             "type": "simple",
@@ -25242,7 +25061,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Ok Co",
-        "tier": null,
+        "tier": "medium",
         "id": 327,
         "solution": {
             "type": "simple",
@@ -25253,7 +25072,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Are Col",
-        "tier": null,
+        "tier": "medium",
         "id": 328,
         "solution": {
             "type": "simple",
@@ -25264,7 +25083,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Arc O Line",
-        "tier": null,
+        "tier": "medium",
         "id": 329,
         "solution": {
             "type": "simple",
@@ -25275,7 +25094,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Goblin Kern",
-        "tier": null,
+        "tier": "medium",
         "id": 330,
         "solution": {
             "type": "simple",
@@ -25286,7 +25105,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Soy Drain",
-        "tier": null,
+        "tier": "medium",
         "id": 331,
         "solution": {
             "type": "simple",
@@ -25297,7 +25116,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Dt Run B",
-        "tier": null,
+        "tier": "medium",
         "id": 332,
         "solution": {
             "type": "simple",
@@ -25308,7 +25127,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Me if",
-        "tier": null,
+        "tier": "medium",
         "id": 334,
         "solution": {
             "type": "simple",
@@ -25319,7 +25138,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: R Ak Mi",
-        "tier": null,
+        "tier": "medium",
         "id": 335,
         "solution": {
             "type": "simple",
@@ -25330,7 +25149,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Got A Boy",
-        "tier": null,
+        "tier": "medium",
         "id": 336,
         "solution": {
             "type": "simple",
@@ -25341,7 +25160,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Halt Us",
-        "tier": null,
+        "tier": "medium",
         "id": 337,
         "solution": {
             "type": "simple",
@@ -25352,7 +25171,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Err Cure It",
-        "tier": null,
+        "tier": "medium",
         "id": 338,
         "solution": {
             "type": "simple",
@@ -25363,7 +25182,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Iz A Ammo Load For Mrs Yakkers",
-        "tier": null,
+        "tier": "medium",
         "id": 339,
         "solution": {
             "type": "simple",
@@ -25374,7 +25193,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Im Krom",
-        "tier": null,
+        "tier": "medium",
         "id": 340,
         "solution": {
             "type": "simple",
@@ -25385,7 +25204,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: El Ow",
-        "tier": null,
+        "tier": "medium",
         "id": 341,
         "solution": {
             "type": "simple",
@@ -25396,7 +25215,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Peaty Pert",
-        "tier": null,
+        "tier": "medium",
         "id": 342,
         "solution": {
             "type": "simple",
@@ -25407,7 +25226,7 @@ export let clues: ClueStep[] = [
     {
         "type": "anagram",
         "clue": "This anagram reveals who to speak to next: Lark In Dog",
-        "tier": null,
+        "tier": "medium",
         "id": 343,
         "solution": {
             "type": "simple",

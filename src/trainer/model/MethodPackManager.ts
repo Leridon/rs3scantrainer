@@ -2,16 +2,17 @@ import {MethodPack} from "./MethodPack";
 import {SolvingMethods} from "./methods";
 import Method = SolvingMethods.Method;
 import {TileCoordinates} from "../../lib/runescape/coordinates";
-import methods from "../../data/methods";
+import KeyValueStore from "../../lib/util/KeyValueStore";
+import {uuid} from "../../oldlib";
+import {ClueIndex} from "../../data/ClueIndex";
 
 type M_base = {
-    for: number | TileCoordinates,
+    for: { clue: number, alternative?: string, spot?: TileCoordinates },
     name: string,
     description: string,
 }
 
 type M = M_base
-
 
 type MethodInPack = {
     id: number,
@@ -23,68 +24,85 @@ type MethodId = {
     method: number
 }
 
-type PackId = {
-    type: "default"
-    id: string
-} | {
-    type: "local",
-    id: number
-}
-
 type Pack = {
+    id: string,
     author: string,
     timestamp: number,
+    name: string,
     description: string,
     methods: MethodInPack[]
 }
 
-type PackWithId = {
+type ActivePack = {
     pack: Pack,
-    id: PackId
+    type: "default" | "local"
 }
 
 type M2 = {
-    pack: Pack,
-    method: MethodInPack,
-    is_favourite: boolean
+    pack: ActivePack,
+    method: MethodInPack
 }
 
 
 let default_scan_method_pack: Pack
 
-class MethodPackManager {
-    private default_packs: PackWithId[]
+export class MethodPackManager {
+    public initialized: Promise<void>
 
-    private packs: Pack[] = []
+    private local_pack_store = KeyValueStore.instance().variable<ActivePack[]>("data/local_methods")
 
-    // Save method packs in indexed db, localstorage is too small
+    private default_packs: ActivePack[]
+    private local_packs: ActivePack[]
+
+    private index: ClueIndex<{ methods: M2[] }>
 
     constructor() {
         this.default_packs = [
-            {id: {type: "default", id: "default-scan-methods"}, pack: default_scan_method_pack}
+            {type: "default", pack: default_scan_method_pack}
         ]
+
+        this.initialized = this.local_pack_store.get().then(v => {this.local_packs = v})
     }
 
-    all(): PackWithId[] {
-        return [...this.default_packs]
+    private save(): Promise<void> {
+        return this.local_pack_store.set(this.local_packs)
     }
 
-    createPack(name: String): Pack {
-        let n: Pack = {
-            id: null,
-            author: "",
-            description: "",
-            timestamp: 0,
-            methods: []
+    private invalidateIndex(): void {
+        this.index.filtered().forEach(c => c.methods = [])
+
+        this.all().forEach(p => {
+            p.pack.methods.forEach(m => {
+                this.index.get(m.method.for.clue).methods.push({
+                    pack: p,
+                    method: m
+                })
+            })
+        })
+    }
+
+    all(): ActivePack[] {
+        return [...this.default_packs, ...this.local_packs]
+    }
+
+    createPack(name: string): ActivePack {
+        let n: ActivePack = {
+            type: "local",
+            pack: {
+                author: "Anonymous",
+                id: uuid(),
+                name: name,
+                description: "",
+                timestamp: null, // TODO
+                methods: []
+            }
         }
 
-        this.packs.push(n)
+        this.local_packs.push(n)
+
+        this.save()
 
         return n
-    }
-
-    importPack(string: string): Pack {
-
     }
 
     copyPack(pack: MethodPack) {
@@ -101,19 +119,9 @@ class MethodPackManager {
 
     deleteMethod(pack_id: string, method_id: string) {}
 
-    getForClue(id: number | TileCoordinates): M2[] {
-        // TODO: Probably best to have an internal index as a lookup table
-        return this.packs.flatMap(p => p.methods.filter(m => id_match(m.method.for, id))
-            .map(m => ({
-                pack: p,
-                method: m,
-                is_favourite: false // TODO
-            }))
-        )
-    }
-}
+    getForClue(id: number, alternantive?: string, coordinates?: TileCoordinates): M2[] {
+        // TODO: Include alternative and coordinates
 
-function id_match(a: number | TileCoordinates, b: number | TileCoordinates): boolean {
-    // TODO!
-    return true
+        return this.index.get(id).methods
+    }
 }

@@ -56,6 +56,10 @@ export default class KeyValueStore {
         })
     }
 
+    variable<T>(key: string): KeyValueStoreVariable<T> {
+        return new KeyValueStoreVariable<T>(this, key)
+    }
+
     static _instance: KeyValueStore = null
 
     static instance(): KeyValueStore {

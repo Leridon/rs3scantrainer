@@ -13,8 +13,8 @@ export class ClueIndex<T extends object = {}> {
         })
     }
 
-    static new<T extends object = {}>(init: () => T) {
-
+    get(id: number): ({ clue: ClueStep } & T) {
+        return this.data[id]
     }
 
     filtered(): ({ clue: ClueStep } & T)[] {

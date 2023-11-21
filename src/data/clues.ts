@@ -1,10 +1,8 @@
-// @ts-nocheck 
-
 import {type ClueStep, type ClueType} from "lib/runescape/clues";
 
 export let clues: ClueStep[] = [
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 0,
         "tier": "easy",
         "clue": "Search the drawers of Hild and Penda's house in Burthorpe.",
@@ -14,7 +12,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 2,
         "tier": "easy",
         "clue": "Search the drawers found upstairs in the Westernmost Inn of East Ardougne.",
@@ -22216,7 +22214,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 65,
         "tier": "easy",
         "clue": "Search the crates outside the bank in the north of east-ardougne",
@@ -22226,7 +22224,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 66,
         "tier": "easy",
         "clue": "Search the drawers in a house in Catherby.",
@@ -22236,7 +22234,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 67,
         "tier": "easy",
         "clue": "Search the crates in the chicken coop in the farm north of Port Sarim.",
@@ -22246,7 +22244,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 68,
         "tier": "easy",
         "clue": "Speak to Hans to solve the clue.",
@@ -22256,7 +22254,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 69,
         "tier": "easy",
         "clue": "Search the drawers above the shops in Varrock.",
@@ -22267,7 +22265,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 70,
         "tier": "medium",
         "clue": "Search the drawers found upstairs in the houses of East Ardougne.",
@@ -22277,7 +22275,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 71,
         "tier": "easy",
         "clue": "Search chests found in the upstairs of shops in Port Sarim.",
@@ -22287,7 +22285,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 72,
         "tier": "easy",
         "clue": "Search the drawers on the first floor of a building overlooking Ardougne market.",
@@ -22298,7 +22296,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 73,
         "tier": "easy",
         "clue": "Search the drawers in Ivy's house in Taverley.",
@@ -22308,7 +22306,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 74,
         "tier": "easy",
         "clue": "Search the crates in Canifis.",
@@ -22318,7 +22316,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 75,
         "tier": "easy",
         "clue": "Search for a crate on the ground floor of a house in Seers' Village.",
@@ -22328,7 +22326,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 76,
         "tier": "easy",
         "clue": "Search through chests found in the upstairs of houses in eastern Falador.",
@@ -22339,7 +22337,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 78,
         "tier": "easy",
         "clue": "Search the chests in the Dwarven Mine.",
@@ -22350,7 +22348,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 79,
         "tier": "easy",
         "clue": "Search the drawers in a house in Draynor Village.",
@@ -22360,7 +22358,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 80,
         "tier": "easy",
         "clue": "Search for a crate in Varrock Palace.",
@@ -22370,7 +22368,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 81,
         "tier": "easy",
         "clue": "Search the boxes in the house in Al Kharid with racks of silk.",
@@ -22380,7 +22378,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 82,
         "tier": "easy",
         "clue": "Search the boxes in the house near the south entrance of Varrock.",
@@ -22390,7 +22388,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 83,
         "tier": "easy",
         "clue": "Search the crates near a cart in Varrock.",
@@ -22400,7 +22398,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 84,
         "tier": "easy",
         "clue": "Look in the ground floor crates of houses in Falador.",
@@ -22410,7 +22408,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 85,
         "tier": "easy",
         "clue": "Search the crates in Draynor Manor.",
@@ -22421,7 +22419,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 86,
         "tier": "easy",
         "clue": "Search for a crate in a building in Hemenster.",
@@ -22431,7 +22429,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 87,
         "tier": "easy",
         "clue": "Search the crates in yard of Citharede Abbey.",
@@ -22441,7 +22439,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 88,
         "tier": "easy",
         "clue": "Speak to the staff of Sinclair Mansion.",
@@ -22452,7 +22450,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 89,
         "tier": "easy",
         "clue": "Search in the south-east corner of the Artisan Dwarves' workshop in Falador.",
@@ -22463,7 +22461,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 90,
         "tier": "easy",
         "clue": "Search through some drawers in the upstairs of a house in Rimmington.",
@@ -22474,7 +22472,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 91,
         "tier": "easy",
         "clue": "Search upstairs in the houses of Seers' Village for some drawers.",
@@ -22484,7 +22482,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 92,
         "tier": "easy",
         "clue": "Search the crates in a house in Yanille that has a piano.",
@@ -22494,7 +22492,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 93,
         "tier": "easy",
         "clue": "Search the drawers in the ground floor of a shop in Yanille.",
@@ -22504,7 +22502,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 94,
         "tier": "medium",
         "clue": "Speak to Donovan, the family handyman.",
@@ -22515,7 +22513,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 95,
         "tier": "easy",
         "clue": "Search the boxes in one of the tents in Al Kharid.",
@@ -22525,7 +22523,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 96,
         "tier": "easy",
         "clue": "Search the crate near a cart in Port Khazard.",
@@ -22535,7 +22533,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 97,
         "tier": "medium",
         "clue": "Speak to Brimstail.",
@@ -22546,7 +22544,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 98,
         "tier": "medium",
         "clue": "Speak to Roavar.",
@@ -22556,7 +22554,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 99,
         "tier": "easy",
         "clue": "Dig near some giant mushrooms behind the Grand Tree.",
@@ -22566,7 +22564,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 100,
         "tier": "easy",
         "clue": "Search a barrel outside the Pick and Lute inn, in Taverley.",
@@ -22576,7 +22574,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 101,
         "tier": "easy",
         "clue": "Search the crates in the house at the north end of the East Ardougne Market.",
@@ -22586,7 +22584,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 102,
         "tier": "easy",
         "clue": "Search a barrel outside the mill, in Taverley.",
@@ -22596,7 +22594,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 103,
         "tier": "easy",
         "clue": "Speak to Gaius in Burthorpe.",
@@ -22606,7 +22604,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 105,
         "tier": "easy",
         "clue": "Search a barrel east of Challenge Mistress Fara, in Burthorpe.",
@@ -22616,7 +22614,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 106,
         "tier": "easy",
         "clue": "Speak to Arhein in Catherby.",
@@ -22626,7 +22624,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 107,
         "tier": "easy",
         "clue": "Talk to the bartender of the Rusty Anchor in Port Sarim.",
@@ -22636,7 +22634,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 108,
         "tier": "easy",
         "clue": "Search the crates in Horvik's armoury.",
@@ -22646,7 +22644,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 109,
         "tier": "medium",
         "clue": "Speak to Ulizius.",
@@ -22656,7 +22654,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 110,
         "tier": "easy",
         "clue": "Search the boxes in the Goblin house near Lumbridge.",
@@ -22666,7 +22664,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 111,
         "tier": "easy",
         "clue": "Search the drawers in Falador's chainmail shop.",
@@ -22676,7 +22674,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 112,
         "tier": "easy",
         "clue": "Search the chests in Al Kharid palace.",
@@ -22686,7 +22684,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 113,
         "tier": "easy",
         "clue": "Search the crates just outside the armour shop in East Ardougne.",
@@ -22696,7 +22694,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 114,
         "tier": "medium",
         "clue": "Speak to Hajedy.",
@@ -22706,7 +22704,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 115,
         "tier": "easy",
         "clue": "Search the crates in East Ardougne's general store.",
@@ -22716,7 +22714,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 116,
         "tier": "easy",
         "clue": "Speak to Ellis in Al Kharid.",
@@ -22726,7 +22724,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 117,
         "tier": "easy",
         "clue": "Search the chest in the left-hand tower of Camelot Castle.",
@@ -22736,7 +22734,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 118,
         "tier": "easy",
         "clue": "Search the chest in the Duke of Lumbridge's bedroom.",
@@ -22747,7 +22745,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 119,
         "tier": "easy",
         "clue": "Search the crates near the Lumbridge Market.",
@@ -22757,7 +22755,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 120,
         "tier": "medium",
         "clue": "Speak to Kangai Mau.",
@@ -22767,7 +22765,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 121,
         "tier": "easy",
         "clue": "Speak to Doric, who lives north of Falador.",
@@ -22777,7 +22775,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 122,
         "tier": "medium",
         "clue": "Speak to a referee.",
@@ -22788,7 +22786,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 123,
         "tier": "easy",
         "clue": "Search the drawers upstairs in the bank to the East of Varrock.",
@@ -22799,7 +22797,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 124,
         "tier": "easy",
         "clue": "Talk to Zeke in Al Kharid.",
@@ -22809,7 +22807,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 125,
         "tier": "easy",
         "clue": "Speak to the bartender of the Blue Moon Inn in Varrock.",
@@ -22819,7 +22817,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 126,
         "tier": "easy",
         "clue": "Search the crate in the left-hand tower of Lumbridge castle.",
@@ -22829,7 +22827,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 127,
         "tier": "easy",
         "clue": "Search the drawers in one of Gertrude's bedrooms.",
@@ -22839,7 +22837,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 128,
         "tier": "medium",
         "clue": "Speak to Hazelmere.",
@@ -22850,7 +22848,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 130,
         "tier": "easy",
         "clue": "Search the drawers in Catherby's Archery Shop.",
@@ -22860,7 +22858,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 131,
         "tier": "easy",
         "clue": "Search the drawers upstairs in Falador's shield shop.",
@@ -22870,7 +22868,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 132,
         "tier": "easy",
         "clue": "Talk to the Squire in the White Knights' castle in Falador.",
@@ -22880,7 +22878,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 133,
         "tier": "easy",
         "clue": "Search the crates of Falador's general store.",
@@ -22890,7 +22888,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 134,
         "tier": "easy",
         "clue": "Search the crates in the Barbarian Village helmet shop.",
@@ -22900,7 +22898,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 135,
         "tier": "easy",
         "clue": "Search the crates in the Port Sarim fishing shop.",
@@ -22910,7 +22908,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 136,
         "tier": "easy",
         "clue": "Speak to Sir Kay in Camelot Castle.",
@@ -22920,7 +22918,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 137,
         "tier": "easy",
         "clue": "Speak to Ned in Draynor Village.",
@@ -22930,7 +22928,7 @@ export let clues: ClueStep[] = [
         }
     },
     {
-        "type": "simple",
+        "type": "simpleclue",
         "id": 138,
         "tier": "easy",
         "clue": "Speak to the Challenge Mistress in Burthorpe.",
@@ -29111,7 +29109,6 @@ export let clues: ClueStep[] = [
                 {"x": 3265, "y": 3270, "level": 0},
                 {"x": 3508, "y": 3673, "level": 0},
                 {"x": 2864, "y": 3589, "level": 0}
-
             ]
         },
         "tier": "elite",

@@ -29,7 +29,7 @@ export type ClueType =
     | "emote"
     | "image"
     | "scan"
-    | "simple"
+    | "simpleclue"
     | "skilling"
 
 export namespace ClueType {
@@ -49,7 +49,7 @@ export namespace ClueType {
             emote: {icon_url: "assets/icons/emotes.png"},
             image: {icon_url: "assets/icons/map.png"},
             scan: {icon_url: "assets/icons/scan.png"},
-            simple: {icon_url: "assets/icons/activeclue.png"},
+            simpleclue: {icon_url: "assets/icons/activeclue.png"},
             skilling: {icon_url: "assets/icons/activeclue.png"}
         }
 
@@ -61,7 +61,7 @@ export namespace ClueType {
         return x.charAt(0).toUpperCase() + x.slice(1);
     }
 
-    export const all: ClueType[] = ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simple", "skilling"]
+    export const all: ClueType[] = ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simpleclue", "skilling"]
 }
 
 export type SolutionType = "simple" | "variants" | "coordset"
@@ -78,7 +78,7 @@ export type Solution = SimpleSolution | SetSolution | VariantSolution
 type StepBase = { id: number, clue: string, tier: ClueTier, type: ClueType, solution?: Solution }
 
 export type SimpleStep = StepBase &
-    { type: "simple", solution: SimpleSolution | VariantSolution }
+    { type: "simpleclue", solution: SimpleSolution | VariantSolution }
 export type EmoteStep = StepBase &
     { type: "emote", solution: SimpleSolution | VariantSolution }
 export type AnagramStep = StepBase &
@@ -117,4 +117,34 @@ export class ClueIndex {
     byId(id: number): ClueStep {
         return this.data.find((s) => s.id == id)
     }
+}
+
+namespace NewClues {
+    export type Challenge =
+        { type: "wizard" } |
+        { type: "slider", id: number } |
+        { type: "celticknot" } |
+        { type: "lockbox" } |
+        { type: "towers" } |
+        { type: "challengescroll", question: string, answers: { answer: string, note?: string }[] }
+
+    export type Sol = Sol.TalkTo | Sol.Dig | Sol.Search
+
+    namespace Sol {
+        export type TalkTo = { type: "talkto", spots: TileRectangle[], npc: string }
+        export type Dig = { type: "dig", spot: TileCoordinates }
+        export type Search = { type: "search", spot: TileCoordinates, key?: { instructions: string, area: TileRectangle } }
+    }
+
+    export type Step = { id: number, text: string, tier: ClueTier, type: ClueType, challenge?: Challenge[] } & (
+        { type: "scan", scantext: string, range: number, spots: TileCoordinates[] } |
+        { type: "compass", spots: TileCoordinates[] } |
+        { type: "skilling", location?: TileRectangle } |
+        { type: "coordinates", coordinates: GieliCoordinates } |
+        { type: "emote", area: TileRectangle, items: string[], emotes: string[], double_agent: boolean } |
+        { type: "map", image: number[], solution: Sol } |
+        { type: "anagram", solution: Sol.TalkTo } |
+        { type: "cryptic", solution: Sol } |
+        { type: "simple", solution: Sol }
+        )
 }

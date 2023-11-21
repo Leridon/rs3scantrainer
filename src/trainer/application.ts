@@ -84,7 +84,7 @@ export namespace ScanTrainerCommands {
         },
         default: {
             tiers: ["easy", "medium", "hard", "elite", "master", null],
-            types: ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simple", "skilling"]
+            types: ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simpleclue", "skilling"]
         },
         serializer: {
             tiers: (tiers: ClueTier[]) => tiers.join(","),

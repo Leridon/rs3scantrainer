@@ -91,7 +91,7 @@ export namespace ScanTrainerCommands {
             types: (tiers: ClueType[]) => tiers.join(",")
         },
         instantiate: ({tiers, types}) => (app: Application): void => {
-            app.main_behaviour.set(new SimpleLayerBehaviour(app.map, new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app)))
+            //TODO app.main_behaviour.set(new SimpleLayerBehaviour(app.map, new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app)))
         },
     }
 

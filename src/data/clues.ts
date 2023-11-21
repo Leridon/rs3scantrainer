@@ -23033,27 +23033,9 @@ export let clues: ClueStep[] = [
         "tier": "hard",
         "id": 147,
         "solution": {
-            "type": "variants",
-            "variants": [
-                {
-                    "id": "cluespot",
-                    "name": "Location",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 3041, "y": 9820, "level": 0},
-                        "answer": "Search the cart"
-                    }
-                },
-                {
-                    "id": "entrance",
-                    "name": "Entrance",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 3019, "y": 3450, "level": 0},
-                        "answer": "Search the cart at the end of the track going east in the Dwarven Mine."
-                    }
-                }
-            ]
+            "type": "simple",
+            "coordinates": {"x": 3041, "y": 9820, "level": 0},
+            "answer": "Search the cart"
         }
     },
     {
@@ -24580,27 +24562,9 @@ export let clues: ClueStep[] = [
         "tier": "hard",
         "id": 288,
         "solution": {
-            "type": "variants",
-            "variants": [
-                {
-                    "id": "cluespot",
-                    "name": "Location",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 2866, "y": 9877, "level": 0},
-                        "answer": "Captain Ninto"
-                    }
-                },
-                {
-                    "id": "entrance",
-                    "name": "Entrance",
-                    "solution": {
-                        "type": "simple",
-                        "coordinates": {"x": 2879, "y": 3459, "level": 0},
-                        "answer": "Captain Ninto (Found in the bar under ground)"
-                    }
-                }
-            ]
+            "type": "simple",
+            "coordinates": {"x": 2866, "y": 9877, "level": 0},
+            "answer": "Captain Ninto"
         }
     },
     {

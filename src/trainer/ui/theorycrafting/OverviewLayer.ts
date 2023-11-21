@@ -1,15 +1,7 @@
-import {Clues, ClueStep, ClueTier, ClueType, Solution} from "../../../lib/runescape/clues";
-import Properties from "../widgets/Properties";
+import {ClueStep, ClueTier, ClueType} from "../../../lib/runescape/clues";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
-import {TileCoordinates} from "../../../lib/runescape/coordinates";
-import Widget from "../../../lib/ui/Widget";
-import LightButton from "../widgets/LightButton";
-import {PathEditor} from "../pathedit/PathEditor";
 import {Application} from "../../application";
-import dig_area = Clues.digSpotArea;
-import shortcuts from "../../../data/shortcuts";
 import GameLayer from "../../../lib/gamemap/GameLayer";
-import * as tippy from "tippy.js";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
@@ -19,9 +11,12 @@ import spacer = C.spacer;
 import ControlWithHeader from "../map/ControlWithHeader";
 import span = C.span;
 import sitog = SmallImageButton.sitog;
-import {Observable, ObservableArray, observe} from "../../../lib/reactive";
-import * as Tippy from "tippy.js"
+import {Observable, observe} from "../../../lib/reactive";
 import * as leaflet from "leaflet"
+import {ClueIndex} from "../../../data/ClueIndex";
+import Properties from "../widgets/Properties";
+import * as tippy from "tippy.js";
+import {TileCoordinates} from "../../../lib/runescape/coordinates";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -44,18 +39,8 @@ namespace FilterT {
 }
 
 class FilterControl extends GameMapControl<ControlWithHeader> {
-
     private stored_filter = new storage.Variable<FilterT>("preferences/cluefilters2", {})
-
     public filter: Observable<FilterT> = observe({})
-
-    clue_index: boolean[]
-
-    public filtered_clues: ObservableArray<{
-        clue: ClueStep,
-        markers: leaflet.FeatureGroup
-    }> = new ObservableArray<{ clue: ClueStep; markers: leaflet.FeatureGroup }>()
-
 
     constructor() {
         super({
@@ -64,14 +49,6 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
         }, new ControlWithHeader("Clue Filter"))
 
         this.filter.set(FilterT.normalize(this.stored_filter.get()))
-
-        this.filter.subscribe(f => {
-            this.filtered_clues.get().forEach(v => {
-                if (!FilterT.apply(f, v.value().clue)) v.remove()
-
-
-            })
-        })
 
         this.filter.subscribe(f => {this.stored_filter.set(f)})
 
@@ -102,81 +79,82 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
     }
 }
 
-export default class OverviewLayer extends GameLayer {
-    filter: FilterControl
+class ClueOverviewMarker extends leaflet.FeatureGroup {
+    private markers: { spot: TileCoordinates, marker: TileMarker }[]
 
-    current_layer: {
-        tippy?: Tippy.Instance,
-        layer?: leaflet.FeatureGroup
-    } = {}
+    tippies: tippy.Instance[] = []
 
-    public clue_index: {
-        clue: ClueStep,
-        visible
-        markers: leaflet.FeatureGroup
-    }[]
-
-    constructor(private clues: ClueStep[], private app: Application) {
+    constructor(private clue: ClueStep) {
         super();
 
-        this.filter = new FilterControl().addTo(this)
+        debugger
+
+        this.markers = (() => {
+            switch (clue.solution.type) {
+                case "simple":
+                    return [clue.solution.coordinates]
+                case "variants":
+                    return clue.solution.variants.map(v => v.solution.coordinates)
+                case "coordset":
+                    return clue.solution.candidates
+            }
+        })().flatMap(s => {
+            return ({spot: s, marker: new TileMarker(s).withMarker().addTo(this)})
+        })
+    }
+
+    createTooltips(): tippy.Instance[] {
+        this.tippies.forEach(t => t.destroy())
+
+        return this.tippies = this.markers.map(({spot, marker}) => {
+            let props = new Properties()
+            props.named("Id", c().text(this.clue.id))
+            props.named("Clue", c().text(this.clue.clue))
+            props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
+
+            return tippy.default(marker.marker.getElement(), {
+                content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
+            })
+        })
+
+    }
+}
+
+export default class OverviewLayer extends GameLayer {
+    filter_control: FilterControl
+
+    public clue_index: ClueIndex<{ marker: ClueOverviewMarker }>
+    singleton_tooltip: tippy.Instance = null
+
+    constructor(private app: Application) {
+        super();
+
+        this.filter_control = new FilterControl().addTo(this)
+
+        this.clue_index = new ClueIndex(() => ({marker: null}))
 
         this.on("add", () => {
-            this.filter.filter.subscribe(f => {
-                if (this.current_layer.layer) {
-                    this.current_layer.layer.remove()
-                    this.current_layer.layer = null
-                }
+            this.filter_control.filter.subscribe((f) => {
+                this.clue_index.filtered().forEach(c => {
+                    let visible = FilterT.apply(f, c.clue)
 
-                if (this.current_layer.tippy) {
-                    this.current_layer.tippy.destroy()
-                    this.current_layer.tippy = null
-                }
-
-                let layer = leaflet.featureGroup()
-
-                // TODO: Only render one marker per Scan
-                let spots: {
-                    clue: ClueStep,
-                    spot: TileCoordinates,
-                    marker: TileMarker
-                }[] = clues
-                    .filter(c => (!c.tier || f[c.tier]) && f[c.type])
-                    .flatMap(clue =>
-                        (() => {
-                            switch (clue.solution.type) {
-                                case "simple":
-                                    return [clue.solution.coordinates]
-                                case "variants":
-                                    return clue.solution.variants.map(v => v.solution.coordinates)
-                                case "coordset":
-                                    return clue.solution.candidates
-                            }
-                        })().map(s => {
-                            return {
-                                clue: clue,
-                                spot: s,
-                                marker: new TileMarker(s).withMarker().addTo(layer)
-                            }
-                        })
-                    )
-
-                // Rendering individual markers is slow, potentially faster alternative: https://stackoverflow.com/questions/43015854/large-dataset-of-markers-or-dots-in-leaflet
-
-                this.current_layer.layer = layer.addTo(this)
-
-                let instances = spots.map(({clue, spot, marker}) => {
-                    let props = new Properties()
-                    props.named("Id", c().text(clue.id))
-                    props.named("Clue", c().text(clue.clue))
-                    props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
-
-                    return tippy.default(marker.marker.getElement(), {
-                        content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
-                    })
+                    if (!visible && c.marker) {
+                        c.marker.remove()
+                        c.marker = null
+                    } else if (visible && !c.marker) {
+                        c.marker = new ClueOverviewMarker(c.clue).addTo(this)
+                    }
                 })
 
-                this.current_layer.tippy = tippy.createSingleton(instances, {
+                let instances = this.clue_index.filtered().filter(c => c.marker)
+                    .flatMap(({marker}) => marker?.createTooltips())
+
+                if (this.singleton_tooltip) {
+                    this.singleton_tooltip.destroy()
+                    this.singleton_tooltip = null
+                }
+
+                this.singleton_tooltip = tippy.createSingleton(instances, {
                     interactive: true,
                     interactiveBorder: 20,
                     interactiveDebounce: 0.5,
@@ -185,6 +163,7 @@ export default class OverviewLayer extends GameLayer {
                     delay: 0,
                     animation: false,
                 })
+
             }, true)
         })
 

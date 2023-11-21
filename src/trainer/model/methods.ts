@@ -1,4 +1,4 @@
-import {ClueStep, ClueType, ScanStep} from "lib/runescape/clues";
+import {Clues, ClueType} from "lib/runescape/clues";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Path} from "lib/runescape/pathing";
 import {util} from "lib/util/util";
@@ -6,6 +6,7 @@ import {omit} from "lodash";
 
 export namespace SolvingMethods {
     import ensure_subtype = util.ensure_subtype;
+    import ScanStep = Clues.ScanStep;
     export type method_kind = "scantree" | "genericpath"
 
     const compatible_clue_steps: Record<method_kind, ClueType[]> = {
@@ -13,9 +14,9 @@ export namespace SolvingMethods {
         genericpath: []
     }
 
-    type method_step_mapping = ensure_subtype<Record<method_kind, ClueStep>, {
+    type method_step_mapping = ensure_subtype<Record<method_kind, Clues.Step>, {
         "scantree": ScanStep,
-        "genericpath": ClueStep
+        "genericpath": Clues.Step
     }>
 
     type ClueStepForMethod<MethodT extends Method> = method_step_mapping[MethodT["type"]]
@@ -46,7 +47,7 @@ export namespace SolvingMethods {
     }
 
     /*
-    export function resolve<U extends ClueStep, T extends method_base>(clue: T & indirected): T & resolved<U> {
+    export function resolve<U extends Clues.Step, T extends method_base>(clue: T & indirected): T & resolved<U> {
         if (clue == null) return null
 
         let copy = lodash.clone(clue) as T & resolved<U>

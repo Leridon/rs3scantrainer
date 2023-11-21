@@ -3,8 +3,9 @@ import * as OCR from "@alt1/ocr";
 import * as oldlib from "./oldlib";
 import {coldiff} from "../oldlib";
 import {ModalUI} from "./modeluireader";
-import {ScanStep} from "lib/runescape/clues";
 import {byType} from "data/clues";
+import {Clues} from "../../lib/runescape/clues";
+import ScanStep = Clues.ScanStep;
 
 var cluefont = require("./fonts/cluefont.fontmeta.json.js");
 

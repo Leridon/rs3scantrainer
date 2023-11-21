@@ -3,7 +3,7 @@ import {type Application} from "trainer/application";
 import {SolvingMethods} from "../../model/methods";
 import MethodWithClue = SolvingMethods.MethodWithClue;
 import {CluePanel} from "../SidePanelControl";
-import {ClueStep} from "lib/runescape/clues";
+import {Clues} from "lib/runescape/clues";
 import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import {SolveScanTreeSubBehaviour} from "./scans/ScanSolving";
 import ScanEditor from "../scanedit/ScanEditor";
@@ -19,7 +19,7 @@ class NoMethodSubBehaviour extends Behaviour {
 }
 
 export default class SolveBehaviour extends Behaviour {
-    private clue = observe<ClueStep | null>(null).equality((a, b) => a?.id == b?.id)
+    private clue = observe<Clues.Step | null>(null).equality((a, b) => a?.id == b?.id)
     private method = observe<MethodWithClue | null>(null)
 
     private clue_panel: CluePanel = null
@@ -37,6 +37,7 @@ export default class SolveBehaviour extends Behaviour {
                 }
 
                 if (clue && clue.type == "scan") {
+                    /*// TODO
                     this.parent.sidepanels.add(this.clue_panel = new CluePanel(clue, {
                         edit_handler: this.parent.in_alt1 ? undefined : () => {
                             this.parent.main_behaviour.set(new ScanEditor(this.parent, {
@@ -44,7 +45,7 @@ export default class SolveBehaviour extends Behaviour {
                                 map: this.parent.map
                             }))
                         }
-                    }), 0)
+                    }), 0)*/
                 }
             }
         })
@@ -64,7 +65,7 @@ export default class SolveBehaviour extends Behaviour {
         })
     }
 
-    setClue(clue: ClueStep) {
+    setClue(clue: Clues.Step) {
         this.clue.set(clue)
         this.method.set(null)
     }

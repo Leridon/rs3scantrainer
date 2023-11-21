@@ -79,6 +79,6 @@ export default class ScanEditPanel extends SidePanel {
         //new Collapsible("Movement Tree", this.tree_edit).addClass("fullwidth-in-panel").appendTo(this)
         this.tree_edit.appendTo(this)
 
-        this.candidates = this.parent.options.clue.solution.candidates
+        this.candidates = this.parent.options.clue.spots
     }
 }

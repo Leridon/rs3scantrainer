@@ -31,7 +31,7 @@ import * as assert from "assert";
 import Order = util.Order;
 import decision_string = ScanTree.Augmentation.AugmentedScanTree.decision_string;
 
-class DrawRegionAction extends ValueInteraction<ScanRegion> {
+export class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
         super({
             preview_render: region => new ScanRegionPolygon(region)

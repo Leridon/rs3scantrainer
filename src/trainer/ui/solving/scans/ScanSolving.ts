@@ -169,7 +169,7 @@ class ScanTreeSolvingLayer extends ScanLayer {
 
         this.node.subscribe((node, old_node) => {
             if (old_node == null) {
-                this.spots.set(node.root.raw.clue.solution.candidates)
+                this.spots.set(node.root.raw.clue.spots)
                 this.spot_order.set(node.root.raw.spot_ordering)
                 this.scan_range.set(assumedRange(node.root.raw))
             }
@@ -351,6 +351,7 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
     }
 
     protected begin() {
+        /*//TODO
         this.parent.parent.sidepanels.add(this.panel = new ScanTreeMethodPanel(this.parent.parent.template_resolver, {
             edit_handler: this.parent.parent.in_alt1 ? undefined : () => {
                 this.parent.parent.main_behaviour.set(new ScanEditor(this.parent.parent, {
@@ -359,7 +360,8 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
                     initial: this.method
                 }))
             }
-        }), 2)
+        }), 2)*/
+
         this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map)
 
         this.node.bind(this.panel.node).bind(this.layer.node)

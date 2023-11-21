@@ -1,18 +1,15 @@
 import {storage} from "lib/util/storage";
-import SidePanelControl from "trainer/ui/SidePanelControl";
 import MenuBarControl from "trainer/ui/MenuBarControl";
 import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {TeleportLayer} from "lib/gamemap/defaultlayers/TeleportLayer";
 import {Teleports} from "lib/runescape/teleports";
-import {ClueIndex, ClueStep, ClueTier, ClueType, ScanStep} from "lib/runescape/clues";
+import {Clues, ClueTier, ClueType} from "lib/runescape/clues";
 import {MethodIndex} from "data/accessors";
 import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "lib/util/exportString";
-import OverviewLayer from "./ui/theorycrafting/OverviewLayer";
-import {clues} from "data/clues";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
@@ -23,6 +20,9 @@ import MethodWithClue = SolvingMethods.MethodWithClue;
 import GameLayer from "../lib/gamemap/GameLayer";
 import MenuBar from "./ui/MenuBar";
 import Widget from "../lib/ui/Widget";
+import {PathEditor} from "./ui/pathedit/PathEditor";
+import shortcuts from "../data/shortcuts";
+import TheoryCrafter from "./ui/theorycrafting/TheoryCrafter";
 
 
 export class SimpleLayerBehaviour extends Behaviour {
@@ -84,7 +84,7 @@ export namespace ScanTrainerCommands {
         },
         default: {
             tiers: ["easy", "medium", "hard", "elite", "master", null],
-            types: ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simpleclue", "skilling"]
+            types: ["anagram", "compass", "coordinates", "cryptic", "emote", "map", "scan", "simple", "skilling"]
         },
         serializer: {
             tiers: (tiers: ClueTier[]) => tiers.join(","),
@@ -108,9 +108,9 @@ export namespace ScanTrainerCommands {
         },
         instantiate: ({method}) => (app: Application): void => {
             //let resolved = resolve(method)
-            let resolved = withClue(method, app.data.clues.byId(method.clue_id) as ScanStep)
+            //let resolved = withClue(method, app.data.clues.byId(method.clue_id) as ScanStep)
 
-            app.showMethod(resolved)
+            //app.showMethod(resolved)
         },
     }
 
@@ -224,7 +224,6 @@ export class Application extends Behaviour {
             fairy_ring_favourites: [],
             potas: [],
         }),
-        clues: new ClueIndex(clues),
         methods: new MethodIndex(methods)
     }
 
@@ -294,13 +293,14 @@ export class Application extends Behaviour {
 
         //ExportStringModal.do(await makeshift_main())
 
+        this.main_behaviour.set(new TheoryCrafter(this))
 
     }
 
     protected end() {
     }
 
-    solveClue(step: ClueStep) {
+    solveClue(step: Clues.Step) {
         if (!(this.main_behaviour.get() instanceof SolveBehaviour)) this.main_behaviour.set(new SolveBehaviour(this));
 
         let behaviour = this.main_behaviour.get() as SolveBehaviour

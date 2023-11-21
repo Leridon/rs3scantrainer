@@ -1,4 +1,4 @@
-import {ClueStep, ClueTier, ClueType} from "../../../lib/runescape/clues";
+import {Clues, ClueTier, ClueType} from "../../../lib/runescape/clues";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {Application} from "../../application";
 import GameLayer from "../../../lib/gamemap/GameLayer";
@@ -16,7 +16,20 @@ import * as leaflet from "leaflet"
 import {ClueIndex} from "../../../data/ClueIndex";
 import Properties from "../widgets/Properties";
 import * as tippy from "tippy.js";
-import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
+import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
+import {ActionBar} from "../map/ActionBar";
+import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
+import vbox = C.vbox;
+import TextField from "../../../lib/ui/controls/TextField";
+import Widget from "../../../lib/ui/Widget";
+import LightButton from "../widgets/LightButton";
+import {boxPolygon, tilePolygon} from "../polygon_helpers";
+import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
+import {DrawRegionAction} from "../scanedit/TreeEdit";
+import {Util} from "leaflet";
+import InteractionTopControl from "../map/InteractionTopControl";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -33,7 +46,7 @@ namespace FilterT {
         return f
     }
 
-    export function apply(f: FilterT, clue: ClueStep): boolean {
+    export function apply(f: FilterT, clue: Clues.Step): boolean {
         return f[clue.type] && f[clue.tier]
     }
 }
@@ -84,19 +97,30 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 
     tippies: tippy.Instance[] = []
 
-    constructor(private clue: ClueStep) {
+    constructor(private clue: Clues.Step) {
         super();
 
-        debugger
+        this.markers = [];
 
         this.markers = (() => {
-            switch (clue.solution.type) {
+            switch (clue.type) {
+                case "anagram":
                 case "simple":
-                    return [clue.solution.coordinates]
-                case "variants":
-                    return clue.solution.variants.map(v => v.solution.coordinates)
-                case "coordset":
-                    return clue.solution.candidates
+                case "cryptic":
+                case "map":
+                    return (() => {
+                        switch (clue.solution?.type) {
+                            case "talkto":
+                                return [TileRectangle.center(clue.solution.spots[0])]
+                            case "dig":
+                            case "search":
+                                return [clue.solution.spot]
+                            default:
+                                return []
+                        }
+                    })()
+                default:
+                    return []
             }
         })().flatMap(s => {
             return ({spot: s, marker: new TileMarker(s).withMarker().addTo(this)})
@@ -109,7 +133,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         return this.tippies = this.markers.map(({spot, marker}) => {
             let props = new Properties()
             props.named("Id", c().text(this.clue.id))
-            props.named("Clue", c().text(this.clue.clue))
+            props.named("Text", c().text(this.clue.text))
             props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
 
             return tippy.default(marker.marker.getElement(), {
@@ -117,6 +141,98 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             })
         })
 
+    }
+}
+
+class UtilityLayer extends GameLayer {
+
+    preview: leaflet.Layer
+
+    guard: InteractionGuard
+
+    output: Widget
+    value: string
+
+    constructor() {
+        super();
+
+        this.guard = new InteractionGuard().setDefaultLayer(this)
+
+        let control = new ControlWithHeader("Utility", () => this.remove())
+
+        control.body.append(
+            vbox(
+                new ActionBar([
+                    new ActionBar.ActionBarButton("assets/icons/cursor_generic.png", () => {
+                        this.startSelectTile()
+                    }),
+                    new ActionBar.ActionBarButton("assets/icons/cursor_use.png", () => {
+                        this.startSelectArea()
+                    }),
+                ]),
+                hbox(
+                    this.output = c(),
+                    spacer(),
+                    new LightButton("Copy").onClick(() => {
+                        if (this.value) navigator.clipboard.writeText(this.value)
+                    })
+                )
+            )
+        )
+
+        this.add(new GameMapControl({
+            type: "gapless",
+            position: "bottom-center"
+        }, control))
+    }
+
+    private setLayer(l: leaflet.Layer) {
+        if (this.preview) {
+            this.preview.remove()
+            this.preview = null
+        }
+
+        this.preview = l.addTo(this)
+    }
+
+    private setValue(s: object) {
+        this.value = JSON.stringify(s)
+        if (this.value) navigator.clipboard.writeText(this.value)
+        this.output.text(this.value)
+    }
+
+    private startSelectTile() {
+        let i = new SelectTileInteraction()
+
+        i.add(new InteractionTopControl({
+            name: "Select tile", cancel_handler: () => i.cancel()
+        }).setText("Click a tile"))
+
+        this.guard.set(i
+            .onCommit((t) => {
+                this.setLayer(tilePolygon(t))
+
+                this.setValue(t)
+            }))
+    }
+
+    private startSelectArea() {
+        this.guard.set(new DrawRegionAction(""))
+            .onCommit((a) => {
+                this.setLayer(boxPolygon(a.area))
+
+                this.setValue(a.area)
+            })
+    }
+
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        event.onPost(() => {
+            if (event.original.key.toLowerCase() == "t") {
+                this.startSelectTile()
+            } else if (event.original.key.toLowerCase() == "a") {
+                this.startSelectArea()
+            }
+        })
     }
 }
 
@@ -128,6 +244,8 @@ export default class OverviewLayer extends GameLayer {
 
     constructor(private app: Application) {
         super();
+
+        this.add(new UtilityLayer())
 
         this.filter_control = new FilterControl().addTo(this)
 
@@ -166,7 +284,5 @@ export default class OverviewLayer extends GameLayer {
 
             }, true)
         })
-
-
     }
 }

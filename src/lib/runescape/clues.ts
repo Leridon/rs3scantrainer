@@ -1,8 +1,6 @@
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {GieliCoordinates} from "./coordinates";
-import {ExportImport} from "../util/exportString";
-import exp = ExportImport.exp;
 
 export namespace Clues {
     export function digSpotArea(spot: TileCoordinates): TileRectangle {
@@ -17,7 +15,6 @@ export namespace Clues {
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
 export namespace ClueTier {
-
     export const all: ClueTier[] = ["easy", "medium", "hard", "elite", "master"]
 }
 
@@ -27,9 +24,9 @@ export type ClueType =
     | "coordinates"
     | "cryptic"
     | "emote"
-    | "image"
+    | "map"
     | "scan"
-    | "simpleclue"
+    | "simple"
     | "skilling"
 
 export namespace ClueType {
@@ -47,11 +44,13 @@ export namespace ClueType {
             coordinates: {icon_url: "assets/icons/sextant.png"},
             cryptic: {icon_url: "assets/icons/activeclue.png"},
             emote: {icon_url: "assets/icons/emotes.png"},
-            image: {icon_url: "assets/icons/map.png"},
+            map: {icon_url: "assets/icons/map.png"},
             scan: {icon_url: "assets/icons/scan.png"},
-            simpleclue: {icon_url: "assets/icons/activeclue.png"},
+            simple: {icon_url: "assets/icons/activeclue.png"},
             skilling: {icon_url: "assets/icons/activeclue.png"}
         }
+
+        if (!lut[x]) debugger
 
         return lut[x]
     }
@@ -61,65 +60,10 @@ export namespace ClueType {
         return x.charAt(0).toUpperCase() + x.slice(1);
     }
 
-    export const all: ClueType[] = ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simpleclue", "skilling"]
+    export const all: ClueType[] = ["anagram", "compass", "coordinates", "cryptic", "emote", "map", "scan", "simple", "skilling"]
 }
 
-export type SolutionType = "simple" | "variants" | "coordset"
-
-type SolutionBase = { type: SolutionType }
-type SolutionVariant = { id: string, name: string, solution: SimpleSolution }
-
-export type SimpleSolution = SolutionBase & { type: "simple", coordinates: TileCoordinates, answer?: string }
-export type SetSolution = SolutionBase & { type: "coordset", candidates: TileCoordinates[] }
-export type VariantSolution = SolutionBase & { type: "variants", variants: SolutionVariant[] }
-
-export type Solution = SimpleSolution | SetSolution | VariantSolution
-
-type StepBase = { id: number, clue: string, tier: ClueTier, type: ClueType, solution?: Solution }
-
-export type SimpleStep = StepBase &
-    { type: "simpleclue", solution: SimpleSolution | VariantSolution }
-export type EmoteStep = StepBase &
-    { type: "emote", solution: SimpleSolution | VariantSolution }
-export type AnagramStep = StepBase &
-    { type: "anagram", solution: SimpleSolution | VariantSolution }
-export type ImageStep = StepBase &
-    { type: "image", image: number[], solution: SimpleSolution | VariantSolution }
-export type CrypticStep = StepBase &
-    { type: "cryptic", solution: SimpleSolution | VariantSolution }
-export type CoordinateStep = StepBase &
-    { type: "coordinates", solution: SimpleSolution, coordinates: GieliCoordinates }    // TODO: Remove solution since it's redundant
-export type SkillingStep = StepBase &
-    { type: "skilling", solution: SimpleSolution | VariantSolution }
-export type CompassStep = StepBase &
-    { type: "compass", solution: SetSolution }
-export type ScanStep = StepBase &
-    { type: "scan", scantext: string, range: number, solution: SetSolution }
-
-export type ClueStep =
-    SimpleStep
-    | ScanStep
-    | EmoteStep
-    | AnagramStep
-    | ImageStep
-    | CrypticStep
-    | CompassStep
-    | CoordinateStep
-    | SkillingStep
-
-export class ClueIndex {
-    constructor(private data: ClueStep[]) { }
-
-    all(): ClueStep[] {
-        return this.data
-    }
-
-    byId(id: number): ClueStep {
-        return this.data.find((s) => s.id == id)
-    }
-}
-
-namespace NewClues {
+export namespace Clues {
     export type Challenge =
         { type: "wizard" } |
         { type: "slider", id: number } |
@@ -136,7 +80,22 @@ namespace NewClues {
         export type Search = { type: "search", spot: TileCoordinates, key?: { instructions: string, area: TileRectangle } }
     }
 
-    export type Step = { id: number, text: string, tier: ClueTier, type: ClueType, challenge?: Challenge[] } & (
+
+    type StepShared = {
+        id: number,
+        type: ClueType,
+        tier: ClueTier,
+        text: string,
+        challenge?: Challenge[]
+    }
+
+    export type Step = {
+        id: number,
+        type: ClueType,
+        tier: ClueTier,
+        text: string,
+        challenge?: Challenge[]
+    } & (
         { type: "scan", scantext: string, range: number, spots: TileCoordinates[] } |
         { type: "compass", spots: TileCoordinates[] } |
         { type: "skilling", location?: TileRectangle } |
@@ -147,4 +106,7 @@ namespace NewClues {
         { type: "cryptic", solution: Sol } |
         { type: "simple", solution: Sol }
         )
+
+    export type ScanStep = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }
+
 }

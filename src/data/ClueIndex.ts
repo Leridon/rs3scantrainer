@@ -1,9 +1,9 @@
-import {ClueStep} from "../lib/runescape/clues";
+import {Clues} from "../lib/runescape/clues";
 import {clues} from "./clues";
 import {Lazy} from "../lib/properties/Lazy";
 
 export class ClueIndex<T extends object = {}> {
-    private data: ({ clue: ClueStep } & T)[]
+    private data: ({ clue: Clues.Step } & T)[]
 
     constructor(init: () => T) {
         this.data = Array(ClueIndex.max_id.get())
@@ -13,11 +13,11 @@ export class ClueIndex<T extends object = {}> {
         })
     }
 
-    get(id: number): ({ clue: ClueStep } & T) {
+    get(id: number): ({ clue: Clues.Step } & T) {
         return this.data[id]
     }
 
-    filtered(): ({ clue: ClueStep } & T)[] {
+    filtered(): ({ clue: Clues.Step } & T)[] {
         return this.data.filter(c => !!c)
     }
 

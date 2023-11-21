@@ -1,5 +1,4 @@
 import {GameMap} from "lib/gamemap/GameMap";
-import {ScanStep} from "lib/runescape/clues";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
@@ -32,6 +31,7 @@ import vbox = C.vbox;
 import SpotOverview from "./SpotOverview";
 import span = C.span;
 import spacer = C.spacer;
+import {Clues} from "../../../lib/runescape/clues";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -114,14 +114,14 @@ class EquivalenceClassHandling extends Behaviour {
         }
 
         let normal = setup({
-            candidates: this.parent.options.clue.solution.candidates,
+            candidates: this.parent.options.clue.spots,
             range: assumedRange(this.parent.builder.tree),
             complement: false,
             floor: this.parent.options.map.floor.value()
         }, this.parent.tools.normal)
 
         let complement = setup({
-            candidates: this.parent.options.clue.solution.candidates,
+            candidates: this.parent.options.clue.spots,
             range: assumedRange(this.parent.builder.tree),
             complement: true,
             floor: this.parent.options.map.floor.value()
@@ -251,7 +251,7 @@ export default class ScanEditor extends Behaviour {
 
     constructor(public app: Application,
                 public readonly options: {
-                    clue: ScanStep,
+                    clue: Clues.ScanStep,
                     map: GameMap, // This is already available via the app, ditch this option?
                     initial?: ScanTreeWithClue
                 }) {
@@ -295,7 +295,7 @@ export default class ScanEditor extends Behaviour {
             assumes_meerkats: true,
             clue: this.options.clue,
             root: ScanTree.init_leaf(),
-            spot_ordering: this.options.clue.solution.candidates,
+            spot_ordering: this.options.clue.spots,
             type: "scantree"
         })
 
@@ -318,15 +318,16 @@ export default class ScanEditor extends Behaviour {
             })
         ).addTo(this.layer)
 
+        /* // TODO
         this.app.sidepanels
             .add(new CluePanel(this.options.clue), 0)
-            .add(this.panel, 1)
+            .add(this.panel, 1)*/
 
         this.candidates_at_active_node = this.panel.tree_edit.active
-            .map(n => n ? n.node.remaining_candidates : this.options.clue.solution.candidates)
+            .map(n => n ? n.node.remaining_candidates : this.options.clue.spots)
 
         // Initialize and set the main game layer
-        this.layer.spots.set(this.options.clue.solution.candidates)
+        this.layer.spots.set(this.options.clue.spots)
         this.layer.spot_order.set(this.builder.tree.spot_ordering)
         this.layer.active_spots.bindTo(this.candidates_at_active_node)
         this.layer.scan_range.set(assumedRange(this.builder.tree))
@@ -339,7 +340,7 @@ export default class ScanEditor extends Behaviour {
     }
 
     end() {
-        this.app.sidepanels.empty()
+        // TODO this.app.sidepanels.empty()
         this.layer.remove()
     }
 }

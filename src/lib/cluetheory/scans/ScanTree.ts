@@ -2,12 +2,11 @@ import {Path} from "lib/runescape/pathing";
 import {Vector2} from "../../math";
 import {Scans} from "lib/runescape/clues/scans";
 import * as lodash from "lodash";
-import {Clues, ScanStep} from "../../runescape/clues";
+import {Clues} from "../../runescape/clues";
 import {util} from "../../util/util";
 import {ScanTheory} from "./Scans";
 import {TileRectangle} from "../../runescape/coordinates";
 import {TileCoordinates} from "../../runescape/coordinates";
-import Checks from "../../../skillbertssolver/typecheck";
 
 export namespace ScanTree {
     import movement_state = Path.movement_state;
@@ -15,6 +14,7 @@ export namespace ScanTree {
     import digSpotArea = Clues.digSpotArea;
     import PulseInformation = ScanTheory.PulseInformation;
     import spot_narrowing = ScanTheory.spot_narrowing;
+    import ScanStep = Clues.ScanStep;
 
     export type ScanRegion = {
         name: string
@@ -200,7 +200,7 @@ export namespace ScanTree {
                 return t
             }
 
-            root.root_node = helper(tree.root, null, 0, tree.clue.solution.candidates, null)
+            root.root_node = helper(tree.root, null, 0, tree.clue.spots, null)
 
 
             return root
@@ -264,7 +264,7 @@ export namespace ScanTree {
         }
 
         export function analyze_timing(tree: AugmentedScanTree): AugmentedScanTree {
-            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[] = tree.raw.clue.solution.candidates.map(c => ({
+            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[] = tree.raw.clue.spots.map(c => ({
                 spot: c,
                 timings: [],
                 average: 0
@@ -419,7 +419,7 @@ export namespace ScanTree {
 
         if (!tree.root) tree.root = init_leaf()
 
-        helper(tree.root, tree.clue.solution.candidates)
+        helper(tree.root, tree.clue.spots)
 
         return tree
     }

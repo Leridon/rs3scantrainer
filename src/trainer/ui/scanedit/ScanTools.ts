@@ -24,7 +24,7 @@ export default class ScanTools extends Widget {
                     .on("click", () => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.editor.options.clue.solution.candidates.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
+                        this.editor.options.clue.spots.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
 
                         bounds.pad(0.1)
 
@@ -34,7 +34,7 @@ export default class ScanTools extends Widget {
                     .on("click", () => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.editor.options.clue.solution.candidates.forEach((c) => {
+                        this.editor.options.clue.spots.forEach((c) => {
                             bounds.extend(Vector2.toLatLong({
                                 x: c.x,
                                 y: (c.y < 6400 ? c.y + 6400 : c.y - 6400)

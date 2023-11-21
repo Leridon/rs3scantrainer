@@ -16,7 +16,7 @@ export namespace Constants {
             "coordinates": "assets/icons/sextant.png",
             "cryptic": "assets/icons/activeclue.png",
             "emote": "assets/icons/emotes.png",
-            "image": "assets/icons/map.png",
+            "map": "assets/icons/map.png",
             "scan": "assets/icons/scan.png",
             "simple": "assets/icons/activeclue.png",
             "skilling": "assets/icons/activeclue.png"

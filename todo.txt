@@ -1,5 +1,8 @@
 Immediate next:
 
+- Data
+    - Move clue data into the new, more detailled format
+
 - Theorycrafter
     - Organize methods into content-packs
         - Name

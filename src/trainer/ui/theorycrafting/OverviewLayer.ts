@@ -30,6 +30,7 @@ import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragActio
 import {DrawRegionAction} from "../scanedit/TreeEdit";
 import {Util} from "leaflet";
 import InteractionTopControl from "../map/InteractionTopControl";
+import {Rectangle, Vector2} from "../../../lib/math";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -113,6 +114,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                             case "talkto":
 
                                 // TODO: Render area as well, as well as variants
+                                if (!clue.solution.spots) return []
 
                                 return [TileRectangle.center(clue.solution.spots[0])]
                             case "dig":
@@ -136,7 +138,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         return this.tippies = this.markers.map(({spot, marker}) => {
             let props = new Properties()
             props.named("Id", c().text(this.clue.id))
-            props.named("Text", c().text(this.clue.text))
+            props.named("Text", c().text(this.clue.text[0]))
             props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
 
             return tippy.default(marker.marker.getElement(), {
@@ -155,6 +157,7 @@ class UtilityLayer extends GameLayer {
 
     output: Widget
     value: string
+    chunk_in: TextField
 
     constructor() {
         super();
@@ -178,6 +181,20 @@ class UtilityLayer extends GameLayer {
                     spacer(),
                     new LightButton("Copy").onClick(() => {
                         if (this.value) navigator.clipboard.writeText(this.value)
+                    })
+                ),
+                hbox(
+                    this.chunk_in = new TextField(),
+                    spacer(),
+                    new LightButton("Jump").onClick(() => {
+                        let [cx, cy, ...rest] = this.chunk_in.get().split(new RegExp("[^0-9]"))
+                            .map(e => e.trim())
+                            .filter(e => e.length > 0)
+                            .map(e => Number(e))
+
+                        Vector2.mul({x: cx, y: cy}, {x: 64, y: 64})
+
+                        this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: cx * 64, y: cy * 64}, {x: cx * 64 + 63, y: cy * 64 + 63}), 0))
                     })
                 )
             )

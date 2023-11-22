@@ -114,7 +114,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Bail Trims"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2408, "y": 3424, "level": 0},
+                "spots": [{"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}],
                 "npc": "Brimstail (He lives under ground at the marked location)"
             }
         },
@@ -275,7 +275,8 @@ namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "How many rocks in the Rimmington mine cannot be used to make bronze?", "answers": [{"answer": 7}]}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2947, "y": 3196, "level": 0},
+                "npc": "Rommik",
+                "spots": [{"topleft": {"x": 2945, "y": 3199}, "botright": {"x": 2950, "y": 3193}, "level": 0}],
             }
         },
         {
@@ -285,7 +286,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: El Ow"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3232, "y": 3423, "level": 0},
+                "spots": [{"topleft": {"x": 3230, "y": 3422}, "botright": {"x": 3236, "y": 3420}, "level": 0}],
                 "npc": "Lowe"
             }
         },
@@ -296,7 +297,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Peaty Pert"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3052, "y": 3375, "level": 0},
+                "spots": [{"topleft": {"x": 3048, "y": 3378}, "botright": {"x": 3054, "y": 3372}, "level": 0}],
                 "npc": "Party Pete"
             }
         },
@@ -308,17 +309,23 @@ namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "How many bookcases are there in the Varrock Palace library?", "answers": [{"answer": 24}]}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3222, "y": 3473, "level": 0},
+                "npc": "King Roald",
+                "spots": [{"topleft": {"x": 3217, "y": 3478}, "botright": {"x": 3224, "y": 3471}, "level": 0}],
             }
         },
         {
             "id": 20,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Me Am The Calc"],
+            "text": [
+                "This anagram reveals who to speak to next: Me Am The Calc",
+                "This anagram reveals who to speak to next: Ace Match Elm",
+                "This anagram reveals who to speak to next: The Cal Came",
+            ],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3288, "y": 3238, "level": 0},
+                "spots": [{"topleft":{"x":3284,"y":3241},"botright":{"x":3294,"y":3234},"level":0}],
                 "npc": "Cam the Camel"
             }
         },
@@ -327,6 +334,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: I Eat Its Chart Hints Do U"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3426, "y": 2927, "level": 0},
@@ -338,6 +346,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: An Paint Tonic"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2866, "y": 9877, "level": 0},
@@ -349,6 +358,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: Arr! So I am a crust, and?"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2341, "y": 3676, "level": 0},
@@ -360,7 +370,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: C On Game Hoc"],
-            "challenge": [{type: "challengescroll", question: "How many gnomes on the gnome ball field have red patches on their uniforms?", answers: [{answer: 6}]}],
+            "challenge": [{"type": "challengescroll", "question": "How many gnomes on the gnome ball field have red patches on their uniforms?", "answers": [{"answer": 6}]}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2396, "y": 3479, "level": 0},
@@ -371,6 +381,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: He Do Pose. It Is Cultrrl, Mk?"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2905, "y": 10206, "level": 0},
@@ -382,6 +393,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: Profs Lose Wrong Pie"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3102, "y": 3159, "level": 0},
@@ -393,21 +405,10 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: O Birdz A Zany En Pc"],
-            "challenge": [{type: "challengescroll", question: "How many banana trees are there in the plantation?", answers: [{answer: 33}]}],
+            "challenge": [{"type": "challengescroll", "question": "How many banana trees are there in the plantation?", "answers": [{"answer": 33}]}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2807, "y": 3191, "level": 0},
-            }
-        },
-        {
-            "id": 294,
-            "type": "anagram",
-            "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Ace Match Elm"],
-            "solution": {
-                "type": "talkto",
-                "spot": {"x": 3291, "y": 3239, "level": 0},
-                "npc": "Cam The Camel"
             }
         },
         {
@@ -415,6 +416,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: Red Art Tans"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3033, "y": 3190, "level": 0},
@@ -426,6 +428,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: Or Zinc Fumes Ward"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2594, "y": 3085, "level": 0},
@@ -448,6 +451,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: Sequin Dirge"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2500, "y": 3863, "level": 0},
@@ -459,6 +463,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: A Zen She"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2658, "y": 3292, "level": 0},
@@ -470,6 +475,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: Gulag Run"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2444, "y": 3051, "level": 0},
@@ -481,6 +487,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: Land Doomd"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3361, "y": 3506, "level": 0},
@@ -492,6 +499,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "hard",
             "text": ["This anagram reveals who to speak to next: I Faffy Run"],
+            "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2387, "y": 4468, "level": 0},
@@ -525,6 +533,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "master",
             "text": ["This anagram reveals who to speak to next: They seek spirits O EASTERN WISHES"],
+            "challenge": [{"type": "towers"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 1785, "y": 11953, "level": 0},
@@ -536,6 +545,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "master",
             "text": ["This anagram reveals who to speak to next: This lady wants me to find ancient scrolls ERGO I DIG CLAY"],
+            "challenge": [{"type": "towers"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3390, "y": 3402, "level": 0},
@@ -547,6 +557,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "master",
             "text": ["This anagram reveals who to speak to next: Master of the elements, he may REIGN US IF IMMORTAL"],
+            "challenge": [{"type": "lockbox"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3003, "y": 3270, "level": 0},
@@ -558,6 +569,7 @@ namespace clue_data {
             "type": "anagram",
             "tier": "master",
             "text": ["This anagram reveals who to speak to next: If distracted from their work AH; WET ARM"],
+            "challenge": [{"type": "lockbox"}],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2347, "y": 3165, "level": 0},
@@ -723,6 +735,8 @@ namespace clue_data {
             }
         }
     ]
+
+    
     export const compass: Clues.Compass[] = [
         {
             "id": 399,
@@ -6550,9 +6564,9 @@ namespace clue_data {
      * Caroline (changes locations after quest)
      * Malignus Mortifier
      * Philippe Carnillean
-     * Saboot before/after Death Plateu
+     * Sabbot before/after Death Plateu
      * Brother Tranquility (Mos Le Harmless and Harmony)
-     *
+     * Queen Sigrid (before and after quest)
      */
 }
 

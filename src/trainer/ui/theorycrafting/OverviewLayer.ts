@@ -111,6 +111,9 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                     return (() => {
                         switch (clue.solution?.type) {
                             case "talkto":
+
+                                // TODO: Render area as well, as well as variants
+
                                 return [TileRectangle.center(clue.solution.spots[0])]
                             case "dig":
                             case "search":

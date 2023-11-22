@@ -299,23 +299,19 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 100,
-        "tier": "easy",
+        "id": 100, "type": "simple", "tier": "easy",
         "text": "Search a barrel outside the Pick and Lute inn, in Taverley.",
         "solution": {
-            "type": "simple",
+            "type": "search",
             "spot": {"x": 2886, "y": 3449, "level": 0}
         }
     },
     {
-        "type": "simple",
-        "id": 101,
-        "tier": "easy",
+        "id": 101, "type": "simple", "tier": "easy",
         "text": "Search the crates in the house at the north end of the East Ardougne Market.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2658, "y": 3324, "level": 0}
+            "type": "search",
+            "spot": {"x": 2658, "y": 3323, "level": 0}
         }
     },
     {
@@ -439,13 +435,11 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 115,
-        "tier": "easy",
+        "id": 115, "type": "simple", "tier": "easy",
         "text": "Search the crates in East Ardougne's general store.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2615, "y": 3292, "level": 0}
+            "type": "search",
+            "spot": {"x": 2615, "y": 3291, "level": 0}
         }
     },
     {
@@ -459,34 +453,27 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 117,
-        "tier": "easy",
+        "id": 117, "type": "simple", "tier": "easy",
         "text": "Search the chest in the left-hand tower of Camelot Castle.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2749, "y": 3495, "level": 0}
+            "type": "search",
+            "spot": {"x": 2748, "y": 3495, "level": 2}
         }
     },
     {
-        "type": "simple",
-        "id": 118,
-        "tier": "easy",
+        "id": 118, "type": "simple", "tier": "easy",
         "text": "Search the chest in the Duke of Lumbridge's bedroom.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3209, "y": 3220, "level": 0},
-            "answer": "The Duke's bedroom is located one floor above the kitchen."
+            "type": "search",
+            "spot": {"x": 3209, "y": 3218, "level": 1},
         }
     },
     {
-        "type": "simple",
-        "id": 119,
-        "tier": "easy",
+        "id": 119, "type": "simple", "tier": "easy",
         "text": "Search the crates near the Lumbridge Market.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3192, "y": 3258, "level": 0}
+            "type": "search",
+            "spot": {"x": 3192, "y": 3257, "level": 0}
         }
     },
     {
@@ -521,14 +508,11 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 123,
-        "tier": "easy",
+        "id": 123, "type": "simple", "tier": "easy",
         "text": "Search the drawers upstairs in the bank to the East of Varrock.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3254, "y": 3421, "level": 0},
-            "answer": "The drawers are located upstairs."
+            "type": "search",
+            "spot": {"x": 3250, "y": 3420, "level": 1},
         }
     },
     {
@@ -552,23 +536,19 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 126,
-        "tier": "easy",
+        "id": 126, "type": "simple", "tier": "easy",
         "text": "Search the crate in the left-hand tower of Lumbridge castle.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3228, "y": 3213, "level": 0}
+            "type": "search",
+            "spot": {"x": 3228, "y": 3212, "level": 1}
         }
     },
     {
-        "type": "simple",
-        "id": 127,
-        "tier": "easy",
+        "id": 127, "type": "simple", "tier": "easy",
         "text": "Search the drawers in one of Gertrude's bedrooms.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3155, "y": 3406, "level": 0}
+            "type": "search",
+            "spot": {"x": 3156, "y": 3406, "level": 0}
         }
     },
     {
@@ -583,23 +563,23 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
         "id": 130,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the drawers in Catherby's Archery Shop.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2827, "y": 3456, "level": 0}
+            "type": "search",
+            "spot": {"x": 2828, "y": 3457, "level": 0}
         }
     },
     {
-        "type": "simple",
         "id": 131,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the drawers upstairs in Falador's shield shop.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2973, "y": 3386, "level": 0}
+            "type": "search",
+            "spot": {"x": 2971, "y": 3386, "level": 1}
         }
     },
     {
@@ -613,13 +593,13 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
         "id": 133,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the crates of Falador's general store.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2959, "y": 3386, "level": 0}
+            "type": "search",
+            "spot": {"x": 2955, "y": 3390, "level": 0}
         }
     },
     {
@@ -628,18 +608,18 @@ export let clues: Clues.Step[] = [
         "tier": "easy",
         "text": "Search the crates in the Barbarian Village helmet shop.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3075, "y": 3430, "level": 0}
+            "type": "search",
+            "spot": {"x": 3073, "y": 3430, "level": 0}
         }
     },
     {
-        "type": "simple",
         "id": 135,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the crates in the Port Sarim fishing shop.",
         "solution": {
             "type": "simple",
-            "spot": {"x": 3014, "y": 3224, "level": 0}
+            "spot": {"x":3012,"y":3222,"level":0}
         }
     },
     {

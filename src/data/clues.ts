@@ -6,7 +6,7 @@ namespace clue_data {
             "id": 23,
             "type": "anagram",
             "tier": null,
-            "text": "This anagram reveals who to speak to next: Snah",
+            "text": ["This anagram reveals who to speak to next: Snah"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3221, "y": 3218, "level": 0},
@@ -17,7 +17,7 @@ namespace clue_data {
             "id": 14,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Eek Zero Op",
+            "text": ["This anagram reveals who to speak to next: Eek Zero Op"],
             "challenge": [{
                 "type": "challengescroll", "question": "How many animals are in the Ardougne Zoo?", "answers": [
                     {"answer": 40, "note": "Before Eagles' Peak and Hunt for Red Raktuber"},
@@ -39,7 +39,10 @@ namespace clue_data {
             "id": 24,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Stab Ob",
+            "text": [
+                "This anagram reveals who to speak to next: Stab Ob",
+                "This anagram reveals who to speak to next: Boast B"
+            ],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2859, "y": 3580, "level": 0},
@@ -50,7 +53,7 @@ namespace clue_data {
             "id": 318,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Nod med",
+            "text": ["This anagram reveals who to speak to next: Nod med"],
             "challenge": [{"type": "challengescroll", "question": "How many pigeon cages are there around the back of Jerico's house?", "answers": [{"answer": 3}]}],
             "solution": {
                 "type": "talkto",
@@ -62,7 +65,7 @@ namespace clue_data {
             "id": 320,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Winston Lane",
+            "text": ["This anagram reveals who to speak to next: Winston Lane"],
             "challenge": [{"type": "challengescroll", "question": "How many tables are there in the Pick and Lute Inn?", "answers": [{"answer": 10}]}],
             "solution": {
                 "type": "talkto",
@@ -74,7 +77,7 @@ namespace clue_data {
             "id": 321,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Or A Vile",
+            "text": ["This anagram reveals who to speak to next: Or A Vile"],
             "challenge": [{"type": "challengescroll", "question": "How many windows look out into the Citharede Abbey courtyard?", "answers": [{"answer": 17}]}],
             "solution": {
                 "type": "talkto",
@@ -86,7 +89,7 @@ namespace clue_data {
             "id": 322,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Icy Fe",
+            "text": ["This anagram reveals who to speak to next: Icy Fe"],
             "solution": {
                 "type": "talkto",
                 "npc": "Fycie",
@@ -97,7 +100,7 @@ namespace clue_data {
             "id": 323,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Aha Jar",
+            "text": ["This anagram reveals who to speak to next: Aha Jar"],
             "solution": {
                 "type": "talkto",
                 "npc": "Jaraah",
@@ -105,21 +108,10 @@ namespace clue_data {
             }
         },
         {
-            "id": 324,
-            "type": "anagram",
-            "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Boast B",
-            "solution": {
-                "type": "talkto",
-                "spot": {"x": 2859, "y": 3581, "level": 0},
-                "npc": "Sabbot (Found in the cave marked on the map)"
-            }
-        },
-        {
             "id": 326,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Bail Trims",
+            "text": ["This anagram reveals who to speak to next: Bail Trims"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2408, "y": 3424, "level": 0},
@@ -130,7 +122,7 @@ namespace clue_data {
             "id": 327,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Ok Co",
+            "text": ["This anagram reveals who to speak to next: Ok Co"],
             "challenge": [{"type": "challengescroll", "question": "How many cannons does Lumbridge Castle have?", "answers": [{"answer": 7}]}],
             "solution": {
                 "type": "talkto",
@@ -142,7 +134,7 @@ namespace clue_data {
             "id": 328,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Are Col",
+            "text": ["This anagram reveals who to speak to next: Are Col"],
             "challenge": [{"type": "challengescroll", "question": "If x is 15 and y is 3, what is 3x + y? ", "answers": [{"answer": 48}]}],
             "solution": {
                 "type": "talkto",
@@ -154,7 +146,7 @@ namespace clue_data {
             "id": 329,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Arc O Line",
+            "text": ["This anagram reveals who to speak to next: Arc O Line"],
             "challenge": [{
                 "type": "challengescroll", "question": "How many fishermen are there on the Fishing Platform?", "answers": [
                     {"answer": 11, "note": "Before Salt in the Wound"},
@@ -170,7 +162,7 @@ namespace clue_data {
             "id": 330,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Goblin Kern",
+            "text": ["This anagram reveals who to speak to next: Goblin Kern"],
             "solution": {
                 "type": "talkto",
                 "spots": [{"topleft": {"x": 2540, "y": 3171}, "botright": {"x": 2542, "y": 3167}, "level": 0}],
@@ -181,7 +173,7 @@ namespace clue_data {
             "id": 331,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Soy Drain",
+            "text": ["This anagram reveals who to speak to next: Soy Drain"],
             "challenge": [{"type": "challengescroll", "question": "How many ore rocks are there in the nearby copper and tin mine?", "answers": [{"answer": 8}]}],
             "solution": {
                 "type": "talkto",
@@ -193,7 +185,7 @@ namespace clue_data {
             "id": 332,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Dt Run B",
+            "text": ["This anagram reveals who to speak to next: Dt Run B"],
             "challenge": [{type: "challengescroll", question: "How many people are waiting for the next bard to perform?", answers: [{answer: 4}]}],
             "solution": {
                 "type": "talkto",
@@ -205,7 +197,7 @@ namespace clue_data {
             "id": 334,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Me if",
+            "text": ["This anagram reveals who to speak to next: Me if"],
             "solution": {
                 "type": "talkto",
                 "spots": [{"topleft": {"x": 2457, "y": 3382}, "botright": {"x": 2461, "y": 3380}, "level": 0}],
@@ -216,7 +208,7 @@ namespace clue_data {
             "id": 335,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: R Ak Mi",
+            "text": ["This anagram reveals who to speak to next: R Ak Mi"],
             "challenge": [{
                 "type": "challengescroll",
                 "question": "I have 16 kebabs, I eat one myself and share the rest equally between 3 friends. How many do they have each?",
@@ -232,7 +224,7 @@ namespace clue_data {
             "id": 336,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Got A Boy",
+            "text": ["This anagram reveals who to speak to next: Got A Boy"],
             "challenge": [{"type": "challengescroll", "question": "How many buildings are in the village?", "answers": [{"answer": 11}]}],
             "solution": {
                 "type": "talkto",
@@ -244,7 +236,7 @@ namespace clue_data {
             "id": 337,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Halt Us",
+            "text": ["This anagram reveals who to speak to next: Halt Us"],
             "solution": {
                 "type": "talkto",
                 "spots": [{"topleft": {"x": 2935, "y": 3156}, "botright": {"x": 2941, "y": 3152}, "level": 0}],
@@ -255,7 +247,7 @@ namespace clue_data {
             "id": 338,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Err Cure It",
+            "text": ["This anagram reveals who to speak to next: Err Cure It"],
             "challenge": [{"type": "challengescroll", "question": "How many houses have a cross on the door?", "answers": [{"answer": 20}]}],
             "solution": {
                 "type": "talkto",
@@ -267,7 +259,7 @@ namespace clue_data {
             "id": 339,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Iz A Ammo Load For Mrs Yakkers",
+            "text": ["This anagram reveals who to speak to next: Iz A Ammo Load For Mrs Yakkers"],
             "challenge": [{"type": "challengescroll", "question": "How many bottles are there on the stall to the east of Mr Ex?", "answers": [{"answer": 7}]}],
             "solution": {
                 "type": "talkto",
@@ -279,7 +271,7 @@ namespace clue_data {
             "id": 340,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Im Krom",
+            "text": ["This anagram reveals who to speak to next: Im Krom"],
             "challenge": [{"type": "challengescroll", "question": "How many rocks in the Rimmington mine cannot be used to make bronze?", "answers": [{"answer": 7}]}],
             "solution": {
                 "type": "talkto",
@@ -290,7 +282,7 @@ namespace clue_data {
             "id": 341,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: El Ow",
+            "text": ["This anagram reveals who to speak to next: El Ow"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3232, "y": 3423, "level": 0},
@@ -301,7 +293,7 @@ namespace clue_data {
             "id": 342,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Peaty Pert",
+            "text": ["This anagram reveals who to speak to next: Peaty Pert"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3052, "y": 3375, "level": 0},
@@ -312,7 +304,7 @@ namespace clue_data {
             "id": 343,
             "type": "anagram",
             "tier": "medium",
-            "text": "This anagram reveals who to speak to next: Lark In Dog",
+            "text": ["This anagram reveals who to speak to next: Lark In Dog"],
             "challenge": [{"type": "challengescroll", "question": "How many bookcases are there in the Varrock Palace library?", "answers": [{"answer": 24}]}],
             "solution": {
                 "type": "talkto",
@@ -323,7 +315,7 @@ namespace clue_data {
             "id": 20,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Me Am The Calc",
+            "text": ["This anagram reveals who to speak to next: Me Am The Calc"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3288, "y": 3238, "level": 0},
@@ -334,7 +326,7 @@ namespace clue_data {
             "id": 287,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: I Eat Its Chart Hints Do U",
+            "text": ["This anagram reveals who to speak to next: I Eat Its Chart Hints Do U"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3426, "y": 2927, "level": 0},
@@ -345,7 +337,7 @@ namespace clue_data {
             "id": 288,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: An Paint Tonic",
+            "text": ["This anagram reveals who to speak to next: An Paint Tonic"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2866, "y": 9877, "level": 0},
@@ -356,7 +348,7 @@ namespace clue_data {
             "id": 289,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Arr! So I am a crust, and?",
+            "text": ["This anagram reveals who to speak to next: Arr! So I am a crust, and?"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2341, "y": 3676, "level": 0},
@@ -367,7 +359,7 @@ namespace clue_data {
             "id": 290,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: C On Game Hoc",
+            "text": ["This anagram reveals who to speak to next: C On Game Hoc"],
             "challenge": [{type: "challengescroll", question: "How many gnomes on the gnome ball field have red patches on their uniforms?", answers: [{answer: 6}]}],
             "solution": {
                 "type": "talkto",
@@ -378,7 +370,7 @@ namespace clue_data {
             "id": 291,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: He Do Pose. It Is Cultrrl, Mk?",
+            "text": ["This anagram reveals who to speak to next: He Do Pose. It Is Cultrrl, Mk?"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2905, "y": 10206, "level": 0},
@@ -389,7 +381,7 @@ namespace clue_data {
             "id": 292,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Profs Lose Wrong Pie",
+            "text": ["This anagram reveals who to speak to next: Profs Lose Wrong Pie"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3102, "y": 3159, "level": 0},
@@ -400,7 +392,7 @@ namespace clue_data {
             "id": 293,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: O Birdz A Zany En Pc",
+            "text": ["This anagram reveals who to speak to next: O Birdz A Zany En Pc"],
             "challenge": [{type: "challengescroll", question: "How many banana trees are there in the plantation?", answers: [{answer: 33}]}],
             "solution": {
                 "type": "talkto",
@@ -411,7 +403,7 @@ namespace clue_data {
             "id": 294,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Ace Match Elm",
+            "text": ["This anagram reveals who to speak to next: Ace Match Elm"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3291, "y": 3239, "level": 0},
@@ -422,7 +414,7 @@ namespace clue_data {
             "id": 295,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Red Art Tans",
+            "text": ["This anagram reveals who to speak to next: Red Art Tans"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3033, "y": 3190, "level": 0},
@@ -433,7 +425,7 @@ namespace clue_data {
             "id": 296,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Or Zinc Fumes Ward",
+            "text": ["This anagram reveals who to speak to next: Or Zinc Fumes Ward"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2594, "y": 3085, "level": 0},
@@ -444,7 +436,7 @@ namespace clue_data {
             "id": 297,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: By Look",
+            "text": ["This anagram reveals who to speak to next: By Look"],
             "challenge": [{"type": "challengescroll", "question": "How many flowers are there in the clearing below this platform?", "answers": [{"answer": 13}]}],
             "solution": {
                 "type": "talkto",
@@ -455,7 +447,7 @@ namespace clue_data {
             "id": 298,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Sequin Dirge",
+            "text": ["This anagram reveals who to speak to next: Sequin Dirge"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2500, "y": 3863, "level": 0},
@@ -466,7 +458,7 @@ namespace clue_data {
             "id": 299,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: A Zen She",
+            "text": ["This anagram reveals who to speak to next: A Zen She"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2658, "y": 3292, "level": 0},
@@ -477,7 +469,7 @@ namespace clue_data {
             "id": 300,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Gulag Run",
+            "text": ["This anagram reveals who to speak to next: Gulag Run"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2444, "y": 3051, "level": 0},
@@ -488,7 +480,7 @@ namespace clue_data {
             "id": 301,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: Land Doomd",
+            "text": ["This anagram reveals who to speak to next: Land Doomd"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3361, "y": 3506, "level": 0},
@@ -499,7 +491,7 @@ namespace clue_data {
             "id": 302,
             "type": "anagram",
             "tier": "hard",
-            "text": "This anagram reveals who to speak to next: I Faffy Run",
+            "text": ["This anagram reveals who to speak to next: I Faffy Run"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2387, "y": 4468, "level": 0},
@@ -510,7 +502,7 @@ namespace clue_data {
             "id": 303,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: An exile that isn't wholly free WE IRK OVER NA.",
+            "text": ["This anagram reveals who to speak to next: An exile that isn't wholly free WE IRK OVER NA."],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3410, "y": 3330, "level": 0},
@@ -521,7 +513,7 @@ namespace clue_data {
             "id": 306,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: He often preaches of QUIT THY BRINE RAT ROLL",
+            "text": ["This anagram reveals who to speak to next: He often preaches of QUIT THY BRINE RAT ROLL"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3679, "y": 2965, "level": 0},
@@ -532,7 +524,7 @@ namespace clue_data {
             "id": 307,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: They seek spirits O EASTERN WISHES",
+            "text": ["This anagram reveals who to speak to next: They seek spirits O EASTERN WISHES"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 1785, "y": 11953, "level": 0},
@@ -543,7 +535,7 @@ namespace clue_data {
             "id": 308,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: This lady wants me to find ancient scrolls ERGO I DIG CLAY",
+            "text": ["This anagram reveals who to speak to next: This lady wants me to find ancient scrolls ERGO I DIG CLAY"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3390, "y": 3402, "level": 0},
@@ -554,7 +546,7 @@ namespace clue_data {
             "id": 309,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: Master of the elements, he may REIGN US IF IMMORTAL",
+            "text": ["This anagram reveals who to speak to next: Master of the elements, he may REIGN US IF IMMORTAL"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3003, "y": 3270, "level": 0},
@@ -565,7 +557,7 @@ namespace clue_data {
             "id": 310,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: If distracted from their work AH; WET ARM",
+            "text": ["This anagram reveals who to speak to next: If distracted from their work AH; WET ARM"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2347, "y": 3165, "level": 0},
@@ -576,7 +568,7 @@ namespace clue_data {
             "id": 311,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE",
+            "text": ["This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE"],
             "solution": {
                 "type": "variants",
                 "variants": [
@@ -668,7 +660,7 @@ namespace clue_data {
             "id": 312,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: In his youth, this adventurer was a WINSCME LAD",
+            "text": ["This anagram reveals who to speak to next: In his youth, this adventurer was a WINSCME LAD"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3089, "y": 3254, "level": 0},
@@ -679,7 +671,7 @@ namespace clue_data {
             "id": 313,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW",
+            "text": ["This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3253, "y": 3355, "level": 0},
@@ -690,7 +682,7 @@ namespace clue_data {
             "id": 314,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: Age allows a new perspective in this vital place TABOO RISES SHYLY",
+            "text": ["This anagram reveals who to speak to next: Age allows a new perspective in this vital place TABOO RISES SHYLY"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3198, "y": 6960, "level": 0},
@@ -701,7 +693,7 @@ namespace clue_data {
             "id": 315,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: With her age, it's no surprise to HEAR A LADY RANT",
+            "text": ["This anagram reveals who to speak to next: With her age, it's no surprise to HEAR A LADY RANT"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 2221, "y": 3300, "level": 0},
@@ -712,7 +704,7 @@ namespace clue_data {
             "id": 316,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: He claimed to be a human scholar but I SAW THE LIE",
+            "text": ["This anagram reveals who to speak to next: He claimed to be a human scholar but I SAW THE LIE"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3420, "y": 2938, "level": 0},
@@ -723,7 +715,7 @@ namespace clue_data {
             "id": 317,
             "type": "anagram",
             "tier": "master",
-            "text": "This anagram reveals who to speak to next: His job leaves him kind of HATED",
+            "text": ["This anagram reveals who to speak to next: His job leaves him kind of HATED"],
             "solution": {
                 "type": "talkto",
                 "spot": {"x": 3108, "y": 3311, "level": 0},
@@ -736,7 +728,7 @@ namespace clue_data {
             "id": 399,
             "type": "compass",
             "tier": "elite",
-            "text": "The compass shows where you need to go.",
+            "text": ["The compass shows where you need to go."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -1233,7 +1225,7 @@ namespace clue_data {
             "id": 400,
             "type": "compass",
             "tier": "master",
-            "text": "The compass shows where you need to go on the arc.",
+            "text": ["The compass shows where you need to go on the arc."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -1277,7 +1269,7 @@ namespace clue_data {
             "id": 402,
             "type": "coordinates",
             "tier": "medium",
-            "text": "00 degrees 05 minutes south,01 degrees 13 minutes east",
+            "text": ["00 degrees 05 minutes south,01 degrees 13 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1300,7 +1292,7 @@ namespace clue_data {
             "id": 403,
             "type": "coordinates",
             "tier": "medium",
-            "text": "00 degrees 13 minutes south,14 degrees 00 minutes east",
+            "text": ["00 degrees 13 minutes south,14 degrees 00 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1323,7 +1315,7 @@ namespace clue_data {
             "id": 404,
             "type": "coordinates",
             "tier": "medium",
-            "text": "00 degrees 18 minutes south,09 degrees 28 minutes east",
+            "text": ["00 degrees 18 minutes south,09 degrees 28 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1346,7 +1338,7 @@ namespace clue_data {
             "id": 405,
             "type": "coordinates",
             "tier": "medium",
-            "text": "00 degrees 20 minutes south,23 degrees 15 minutes east",
+            "text": ["00 degrees 20 minutes south,23 degrees 15 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1369,7 +1361,7 @@ namespace clue_data {
             "id": 406,
             "type": "coordinates",
             "tier": "medium",
-            "text": "00 degrees 31 minutes south,17 degrees 43 minutes east",
+            "text": ["00 degrees 31 minutes south,17 degrees 43 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1392,7 +1384,7 @@ namespace clue_data {
             "id": 407,
             "type": "coordinates",
             "tier": "medium",
-            "text": "00 degrees 50 minutes north,24 degrees 16 minutes east",
+            "text": ["00 degrees 50 minutes north,24 degrees 16 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1415,7 +1407,7 @@ namespace clue_data {
             "id": 408,
             "type": "coordinates",
             "tier": "medium",
-            "text": "01 degrees 18 minutes south,14 degrees 15 minutes east",
+            "text": ["01 degrees 18 minutes south,14 degrees 15 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 1,
@@ -1438,7 +1430,7 @@ namespace clue_data {
             "id": 410,
             "type": "coordinates",
             "tier": "medium",
-            "text": "01 degrees 26 minutes north,08 degrees 01 minutes east",
+            "text": ["01 degrees 26 minutes north,08 degrees 01 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 1,
@@ -1461,7 +1453,7 @@ namespace clue_data {
             "id": 411,
             "type": "coordinates",
             "tier": "medium",
-            "text": "01 degrees 35 minutes south,07 degrees 28 minutes east",
+            "text": ["01 degrees 35 minutes south,07 degrees 28 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 1,
@@ -1484,7 +1476,7 @@ namespace clue_data {
             "id": 413,
             "type": "coordinates",
             "tier": "medium",
-            "text": "02 degrees 50 minutes north,06 degrees 20 minutes east",
+            "text": ["02 degrees 50 minutes north,06 degrees 20 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 2,
@@ -1507,7 +1499,7 @@ namespace clue_data {
             "id": 414,
             "type": "coordinates",
             "tier": "medium",
-            "text": "02 degrees 50 minutes north,21 degrees 46 minutes east",
+            "text": ["02 degrees 50 minutes north,21 degrees 46 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 2,
@@ -1530,7 +1522,7 @@ namespace clue_data {
             "id": 416,
             "type": "coordinates",
             "tier": "medium",
-            "text": "03 degrees 35 minutes south,13 degrees 35 minutes east",
+            "text": ["03 degrees 35 minutes south,13 degrees 35 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 3,
@@ -1553,7 +1545,7 @@ namespace clue_data {
             "id": 419,
             "type": "coordinates",
             "tier": "medium",
-            "text": "04 degrees 00 minutes south,12 degrees 46 minutes east",
+            "text": ["04 degrees 00 minutes south,12 degrees 46 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -1576,7 +1568,7 @@ namespace clue_data {
             "id": 422,
             "type": "coordinates",
             "tier": "medium",
-            "text": "04 degrees 13 minutes north,12 degrees 45 minutes east",
+            "text": ["04 degrees 13 minutes north,12 degrees 45 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -1599,7 +1591,7 @@ namespace clue_data {
             "id": 425,
             "type": "coordinates",
             "tier": "medium",
-            "text": "05 degrees 20 minutes south,04 degrees 28 minutes east",
+            "text": ["05 degrees 20 minutes south,04 degrees 28 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 5,
@@ -1622,7 +1614,7 @@ namespace clue_data {
             "id": 427,
             "type": "coordinates",
             "tier": "medium",
-            "text": "05 degrees 43 minutes north,23 degrees 05 minutes east",
+            "text": ["05 degrees 43 minutes north,23 degrees 05 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 5,
@@ -1645,7 +1637,7 @@ namespace clue_data {
             "id": 431,
             "type": "coordinates",
             "tier": "medium",
-            "text": "06 degrees 31 minutes north,01 degrees 46 minutes west",
+            "text": ["06 degrees 31 minutes north,01 degrees 46 minutes west"],
             "coordinates": {
                 "latitude": {
                     "degrees": 6,
@@ -1668,7 +1660,7 @@ namespace clue_data {
             "id": 432,
             "type": "coordinates",
             "tier": "medium",
-            "text": "07 degrees 05 minutes north,30 degrees 56 minutes east",
+            "text": ["07 degrees 05 minutes north,30 degrees 56 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -1691,7 +1683,7 @@ namespace clue_data {
             "id": 434,
             "type": "coordinates",
             "tier": "medium",
-            "text": "07 degrees 33 minutes north,15 degrees 00 minutes east",
+            "text": ["07 degrees 33 minutes north,15 degrees 00 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -1714,7 +1706,7 @@ namespace clue_data {
             "id": 440,
             "type": "coordinates",
             "tier": "medium",
-            "text": "08 degrees 33 minutes north,01 degrees 39 minutes west",
+            "text": ["08 degrees 33 minutes north,01 degrees 39 minutes west"],
             "coordinates": {
                 "latitude": {
                     "degrees": 8,
@@ -1737,7 +1729,7 @@ namespace clue_data {
             "id": 442,
             "type": "coordinates",
             "tier": "medium",
-            "text": "09 degrees 33 minutes north,02 degrees 15 minutes east",
+            "text": ["09 degrees 33 minutes north,02 degrees 15 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 9,
@@ -1760,7 +1752,7 @@ namespace clue_data {
             "id": 443,
             "type": "coordinates",
             "tier": "medium",
-            "text": "09 degrees 48 minutes north,17 degrees 39 minutes east",
+            "text": ["09 degrees 48 minutes north,17 degrees 39 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 9,
@@ -1783,7 +1775,7 @@ namespace clue_data {
             "id": 444,
             "type": "coordinates",
             "tier": "medium",
-            "text": "11 degrees 03 minutes north,31 degrees 20 minutes east",
+            "text": ["11 degrees 03 minutes north,31 degrees 20 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 11,
@@ -1806,7 +1798,7 @@ namespace clue_data {
             "id": 445,
             "type": "coordinates",
             "tier": "medium",
-            "text": "11 degrees 05 minutes north,00 degrees 45 minutes west",
+            "text": ["11 degrees 05 minutes north,00 degrees 45 minutes west"],
             "coordinates": {
                 "latitude": {
                     "degrees": 11,
@@ -1829,7 +1821,7 @@ namespace clue_data {
             "id": 446,
             "type": "coordinates",
             "tier": "medium",
-            "text": "11 degrees 41 minutes north,14 degrees 58 minutes east",
+            "text": ["11 degrees 41 minutes north,14 degrees 58 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 11,
@@ -1852,7 +1844,7 @@ namespace clue_data {
             "id": 449,
             "type": "coordinates",
             "tier": "medium",
-            "text": "14 degrees 54 minutes north,09 degrees 13 minutes east",
+            "text": ["14 degrees 54 minutes north,09 degrees 13 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 14,
@@ -1875,7 +1867,7 @@ namespace clue_data {
             "id": 462,
             "type": "coordinates",
             "tier": "medium",
-            "text": "22 degrees 30 minutes north,03 degrees 01 minutes east",
+            "text": ["22 degrees 30 minutes north,03 degrees 01 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 22,
@@ -1898,7 +1890,7 @@ namespace clue_data {
             "id": 401,
             "type": "coordinates",
             "tier": "hard",
-            "text": "00 degrees 00 minutes north,07 degrees 13 minutes west",
+            "text": ["00 degrees 00 minutes north,07 degrees 13 minutes west"],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1921,7 +1913,7 @@ namespace clue_data {
             "id": 409,
             "type": "coordinates",
             "tier": "hard",
-            "text": "01 degrees 24 minutes north,08 degrees 05 minutes west",
+            "text": ["01 degrees 24 minutes north,08 degrees 05 minutes west"],
             "coordinates": {
                 "latitude": {
                     "degrees": 1,
@@ -1944,7 +1936,7 @@ namespace clue_data {
             "id": 412,
             "type": "coordinates",
             "tier": "hard",
-            "text": "02 degrees 33 minutes north,28 degrees 45 minutes east",
+            "text": ["02 degrees 33 minutes north,28 degrees 45 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 2,
@@ -1967,7 +1959,7 @@ namespace clue_data {
             "id": 415,
             "type": "coordinates",
             "tier": "hard",
-            "text": "03 degrees 03 minutes south,05 degrees 03 minutes east",
+            "text": ["03 degrees 03 minutes south,05 degrees 03 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 3,
@@ -1990,7 +1982,7 @@ namespace clue_data {
             "id": 417,
             "type": "coordinates",
             "tier": "hard",
-            "text": "03 degrees 39 minutes south,13 degrees 58 minutes east",
+            "text": ["03 degrees 39 minutes south,13 degrees 58 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 3,
@@ -2013,7 +2005,7 @@ namespace clue_data {
             "id": 418,
             "type": "coordinates",
             "tier": "hard",
-            "text": "03 degrees 45 minutes south,22 degrees 45 minutes east",
+            "text": ["03 degrees 45 minutes south,22 degrees 45 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 3,
@@ -2036,7 +2028,7 @@ namespace clue_data {
             "id": 420,
             "type": "coordinates",
             "tier": "hard",
-            "text": "04 degrees 03 minutes south,03 degrees 11 minutes east",
+            "text": ["04 degrees 03 minutes south,03 degrees 11 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2059,7 +2051,7 @@ namespace clue_data {
             "id": 421,
             "type": "coordinates",
             "tier": "hard",
-            "text": "04 degrees 05 minutes south,04 degrees 24 minutes east",
+            "text": ["04 degrees 05 minutes south,04 degrees 24 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2082,7 +2074,7 @@ namespace clue_data {
             "id": 423,
             "type": "coordinates",
             "tier": "hard",
-            "text": "04 degrees 16 minutes south,16 degrees 16 minutes east",
+            "text": ["04 degrees 16 minutes south,16 degrees 16 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2105,7 +2097,7 @@ namespace clue_data {
             "id": 424,
             "type": "coordinates",
             "tier": "hard",
-            "text": "04 degrees 41 minutes north,03 degrees 09 minutes west",
+            "text": ["04 degrees 41 minutes north,03 degrees 09 minutes west"],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2128,7 +2120,7 @@ namespace clue_data {
             "id": 426,
             "type": "coordinates",
             "tier": "hard",
-            "text": "05 degrees 37 minutes north,31 degrees 15 minutes east",
+            "text": ["05 degrees 37 minutes north,31 degrees 15 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 5,
@@ -2151,7 +2143,7 @@ namespace clue_data {
             "id": 428,
             "type": "coordinates",
             "tier": "hard",
-            "text": "05 degrees 50 minutes south,10 degrees 05 minutes east",
+            "text": ["05 degrees 50 minutes south,10 degrees 05 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 5,
@@ -2174,7 +2166,7 @@ namespace clue_data {
             "id": 429,
             "type": "coordinates",
             "tier": "hard",
-            "text": "06 degrees 00 minutes south,21 degrees 48 minutes east",
+            "text": ["06 degrees 00 minutes south,21 degrees 48 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 6,
@@ -2197,7 +2189,7 @@ namespace clue_data {
             "id": 430,
             "type": "coordinates",
             "tier": "hard",
-            "text": "06 degrees 11 minutes south,15 degrees 07 minutes east",
+            "text": ["06 degrees 11 minutes south,15 degrees 07 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 6,
@@ -2220,7 +2212,7 @@ namespace clue_data {
             "id": 433,
             "type": "coordinates",
             "tier": "hard",
-            "text": "07 degrees 22 minutes north,14 degrees 15 minutes east",
+            "text": ["07 degrees 22 minutes north,14 degrees 15 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -2243,7 +2235,7 @@ namespace clue_data {
             "id": 435,
             "type": "coordinates",
             "tier": "hard",
-            "text": "07 degrees 41 minutes north,06 degrees 00 minutes east",
+            "text": ["07 degrees 41 minutes north,06 degrees 00 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -2266,7 +2258,7 @@ namespace clue_data {
             "id": 436,
             "type": "coordinates",
             "tier": "hard",
-            "text": "07 degrees 43 minutes south,12 degrees 26 minutes east",
+            "text": ["07 degrees 43 minutes south,12 degrees 26 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -2289,7 +2281,7 @@ namespace clue_data {
             "id": 437,
             "type": "coordinates",
             "tier": "hard",
-            "text": "08 degrees 03 minutes north,31 degrees 16 minutes east",
+            "text": ["08 degrees 03 minutes north,31 degrees 16 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 8,
@@ -2312,7 +2304,7 @@ namespace clue_data {
             "id": 438,
             "type": "coordinates",
             "tier": "hard",
-            "text": "08 degrees 05 minutes south,15 degrees 56 minutes east",
+            "text": ["08 degrees 05 minutes south,15 degrees 56 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 8,
@@ -2335,7 +2327,7 @@ namespace clue_data {
             "id": 439,
             "type": "coordinates",
             "tier": "hard",
-            "text": "08 degrees 26 minutes south,10 degrees 28 minutes east",
+            "text": ["08 degrees 26 minutes south,10 degrees 28 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 8,
@@ -2358,7 +2350,7 @@ namespace clue_data {
             "id": 441,
             "type": "coordinates",
             "tier": "hard",
-            "text": "09 degrees 22 minutes north,02 degrees 24 minutes west",
+            "text": ["09 degrees 22 minutes north,02 degrees 24 minutes west"],
             "coordinates": {
                 "latitude": {
                     "degrees": 9,
@@ -2381,7 +2373,7 @@ namespace clue_data {
             "id": 447,
             "type": "coordinates",
             "tier": "hard",
-            "text": "12 degrees 48 minutes north,20 degrees 20 minutes east",
+            "text": ["12 degrees 48 minutes north,20 degrees 20 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 12,
@@ -2404,7 +2396,7 @@ namespace clue_data {
             "id": 448,
             "type": "coordinates",
             "tier": "hard",
-            "text": "13 degrees 46 minutes north,21 degrees 01 minutes east",
+            "text": ["13 degrees 46 minutes north,21 degrees 01 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 13,
@@ -2427,7 +2419,7 @@ namespace clue_data {
             "id": 450,
             "type": "coordinates",
             "tier": "hard",
-            "text": "15 degrees 48 minutes north,13 degrees 52 minutes east",
+            "text": ["15 degrees 48 minutes north,13 degrees 52 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 15,
@@ -2450,7 +2442,7 @@ namespace clue_data {
             "id": 451,
             "type": "coordinates",
             "tier": "hard",
-            "text": "16 degrees 20 minutes north,12 degrees 45 minutes east",
+            "text": ["16 degrees 20 minutes north,12 degrees 45 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 16,
@@ -2473,7 +2465,7 @@ namespace clue_data {
             "id": 452,
             "type": "coordinates",
             "tier": "hard",
-            "text": "16 degrees 30 minutes north,16 degrees 28 minutes east",
+            "text": ["16 degrees 30 minutes north,16 degrees 28 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 16,
@@ -2496,7 +2488,7 @@ namespace clue_data {
             "id": 453,
             "type": "coordinates",
             "tier": "hard",
-            "text": "16 degrees 35 minutes north,27 degrees 01 minutes east",
+            "text": ["16 degrees 35 minutes north,27 degrees 01 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 16,
@@ -2519,7 +2511,7 @@ namespace clue_data {
             "id": 454,
             "type": "coordinates",
             "tier": "hard",
-            "text": "17 degrees 50 minutes north,08 degrees 30 minutes east",
+            "text": ["17 degrees 50 minutes north,08 degrees 30 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 17,
@@ -2542,7 +2534,7 @@ namespace clue_data {
             "id": 455,
             "type": "coordinates",
             "tier": "hard",
-            "text": "18 degrees 03 minutes north,25 degrees 16 minutes east",
+            "text": ["18 degrees 03 minutes north,25 degrees 16 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 18,
@@ -2565,7 +2557,7 @@ namespace clue_data {
             "id": 456,
             "type": "coordinates",
             "tier": "hard",
-            "text": "18 degrees 22 minutes north,16 degrees 33 minutes east",
+            "text": ["18 degrees 22 minutes north,16 degrees 33 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 18,
@@ -2588,7 +2580,7 @@ namespace clue_data {
             "id": 457,
             "type": "coordinates",
             "tier": "hard",
-            "text": "19 degrees 43 minutes north,25 degrees 07 minutes east",
+            "text": ["19 degrees 43 minutes north,25 degrees 07 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 19,
@@ -2611,7 +2603,7 @@ namespace clue_data {
             "id": 458,
             "type": "coordinates",
             "tier": "hard",
-            "text": "20 degrees 05 minutes north,21 degrees 52 minutes east",
+            "text": ["20 degrees 05 minutes north,21 degrees 52 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 20,
@@ -2634,7 +2626,7 @@ namespace clue_data {
             "id": 459,
             "type": "coordinates",
             "tier": "hard",
-            "text": "20 degrees 07 minutes north,18 degrees 33 minutes east",
+            "text": ["20 degrees 07 minutes north,18 degrees 33 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 20,
@@ -2657,7 +2649,7 @@ namespace clue_data {
             "id": 460,
             "type": "coordinates",
             "tier": "hard",
-            "text": "20 degrees 33 minutes north,15 degrees 48 minutes east",
+            "text": ["20 degrees 33 minutes north,15 degrees 48 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 20,
@@ -2680,7 +2672,7 @@ namespace clue_data {
             "id": 461,
             "type": "coordinates",
             "tier": "hard",
-            "text": "21 degrees 24 minutes north,17 degrees 54 minutes east",
+            "text": ["21 degrees 24 minutes north,17 degrees 54 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 21,
@@ -2703,7 +2695,7 @@ namespace clue_data {
             "id": 463,
             "type": "coordinates",
             "tier": "hard",
-            "text": "22 degrees 35 minutes north,19 degrees 18 minutes east",
+            "text": ["22 degrees 35 minutes north,19 degrees 18 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 22,
@@ -2726,7 +2718,7 @@ namespace clue_data {
             "id": 464,
             "type": "coordinates",
             "tier": "hard",
-            "text": "22 degrees 45 minutes north,26 degrees 33 minutes east",
+            "text": ["22 degrees 45 minutes north,26 degrees 33 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 22,
@@ -2749,7 +2741,7 @@ namespace clue_data {
             "id": 465,
             "type": "coordinates",
             "tier": "hard",
-            "text": "24 degrees 26 minutes north,26 degrees 24 minutes east",
+            "text": ["24 degrees 26 minutes north,26 degrees 24 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 24,
@@ -2772,7 +2764,7 @@ namespace clue_data {
             "id": 466,
             "type": "coordinates",
             "tier": "hard",
-            "text": "24 degrees 56 minutes north,22 degrees 28 minutes east",
+            "text": ["24 degrees 56 minutes north,22 degrees 28 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 24,
@@ -2795,7 +2787,7 @@ namespace clue_data {
             "id": 467,
             "type": "coordinates",
             "tier": "hard",
-            "text": "24 degrees 58 minutes north,18 degrees 43 minutes east",
+            "text": ["24 degrees 58 minutes north,18 degrees 43 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 24,
@@ -2818,7 +2810,7 @@ namespace clue_data {
             "id": 468,
             "type": "coordinates",
             "tier": "hard",
-            "text": "25 degrees 03 minutes north,17 degrees 05 minutes east",
+            "text": ["25 degrees 03 minutes north,17 degrees 05 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 25,
@@ -2841,7 +2833,7 @@ namespace clue_data {
             "id": 469,
             "type": "coordinates",
             "tier": "hard",
-            "text": "25 degrees 03 minutes north,23 degrees 24 minutes east",
+            "text": ["25 degrees 03 minutes north,23 degrees 24 minutes east"],
             "coordinates": {
                 "latitude": {
                     "degrees": 25,
@@ -2866,7 +2858,7 @@ namespace clue_data {
             "id": 26,
             "type": "cryptic",
             "tier": null,
-            "text": "'A bag belt only?' he asked his balding brothers",
+            "text": ["'A bag belt only?' he asked his balding brothers"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3058, "y": 3492, "level": 0},
@@ -2877,7 +2869,7 @@ namespace clue_data {
             "id": 31,
             "type": "cryptic",
             "tier": null,
-            "text": "If a man carried my burden, he would break his back. I am not rich, but leave silver in my track. Speak to the keeper of my trail.",
+            "text": ["If a man carried my burden, he would break his back. I am not rich, but leave silver in my track. Speak to the keeper of my trail."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3014, "y": 3223, "level": 0},
@@ -2888,7 +2880,7 @@ namespace clue_data {
             "id": 179,
             "type": "cryptic",
             "tier": "easy",
-            "text": "A crate found in the tower of a church is your next location.",
+            "text": ["A crate found in the tower of a church is your next location."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2611, "y": 3305, "level": 0},
@@ -2899,7 +2891,7 @@ namespace clue_data {
             "id": 180,
             "type": "cryptic",
             "tier": "easy",
-            "text": "One of the sailors in Port Sarim is your next destination.",
+            "text": ["One of the sailors in Port Sarim is your next destination."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3028, "y": 3217, "level": 0},
@@ -2910,7 +2902,7 @@ namespace clue_data {
             "id": 182,
             "type": "cryptic",
             "tier": "easy",
-            "text": "Someone watching Het's Oasis is your next destination.",
+            "text": ["Someone watching Het's Oasis is your next destination."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3376, "y": 3274, "level": 0},
@@ -2921,7 +2913,7 @@ namespace clue_data {
             "id": 29,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Find a bar with a centre fountain in its city. Go upstairs and get changed.",
+            "text": ["Find a bar with a centre fountain in its city. Go upstairs and get changed."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3227, "y": 3395, "level": 0},
@@ -2932,7 +2924,7 @@ namespace clue_data {
             "id": 35,
             "type": "cryptic",
             "tier": "medium",
-            "text": "A crate in the tower of a church is your next location.",
+            "text": ["A crate in the tower of a church is your next location."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2612, "y": 3306, "level": 1}
@@ -2942,7 +2934,7 @@ namespace clue_data {
             "id": 181,
             "type": "cryptic",
             "tier": "medium",
-            "text": "You'll need to look for a city with a central fountain. Look for a locked chest in the city's chapel.",
+            "text": ["You'll need to look for a city with a central fountain. Look for a locked chest in the city's chapel."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3257, "y": 3487, "level": 0},
@@ -2953,7 +2945,7 @@ namespace clue_data {
             "id": 183,
             "type": "cryptic",
             "tier": "medium",
-            "text": "The socks in these drawers are holier than thine, according to the tonsured owners.",
+            "text": ["The socks in these drawers are holier than thine, according to the tonsured owners."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3057, "y": 3498, "level": 0},
@@ -2964,7 +2956,7 @@ namespace clue_data {
             "id": 184,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Probably filled with wizards' socks.",
+            "text": ["Probably filled with wizards' socks."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3113, "y": 3152, "level": 0},
@@ -2975,7 +2967,7 @@ namespace clue_data {
             "id": 185,
             "type": "cryptic",
             "tier": "medium",
-            "text": "In a village made of bamboo, look for some crates under one of the houses.",
+            "text": ["In a village made of bamboo, look for some crates under one of the houses."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2800, "y": 3076, "level": 0},
@@ -2986,7 +2978,7 @@ namespace clue_data {
             "id": 186,
             "type": "cryptic",
             "tier": "medium",
-            "text": "The owner of this crate has a hunch that he put more than fish inside.",
+            "text": ["The owner of this crate has a hunch that he put more than fish inside."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2773, "y": 3172, "level": 0},
@@ -2997,7 +2989,7 @@ namespace clue_data {
             "id": 187,
             "type": "cryptic",
             "tier": "medium",
-            "text": "In a town where the guards are armed with maces, search the upstairs rooms of the public house.",
+            "text": ["In a town where the guards are armed with maces, search the upstairs rooms of the public house."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2574, "y": 3322, "level": 0},
@@ -3008,7 +3000,7 @@ namespace clue_data {
             "id": 188,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Try not to step on any aquatic nasties while searching this crate.",
+            "text": ["Try not to step on any aquatic nasties while searching this crate."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2765, "y": 3274, "level": 0},
@@ -3019,7 +3011,7 @@ namespace clue_data {
             "id": 189,
             "type": "cryptic",
             "tier": "medium",
-            "text": "After a hard day of spraying back the vegetation, you mite want to pop to the nearby forge and search the crates.",
+            "text": ["After a hard day of spraying back the vegetation, you mite want to pop to the nearby forge and search the crates."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2399, "y": 4470, "level": 0},
@@ -3030,7 +3022,7 @@ namespace clue_data {
             "id": 190,
             "type": "cryptic",
             "tier": "medium",
-            "text": "For any aspiring mage, I'm sure searching this bookcase will be a rewarding experience.",
+            "text": ["For any aspiring mage, I'm sure searching this bookcase will be a rewarding experience."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3362, "y": 3305, "level": 0},
@@ -3041,7 +3033,7 @@ namespace clue_data {
             "id": 191,
             "type": "cryptic",
             "tier": "medium",
-            "text": "A town with a different sort of night-life is your destination. Search for some crates in one of the houses.",
+            "text": ["A town with a different sort of night-life is your destination. Search for some crates in one of the houses."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3498, "y": 3507, "level": 0},
@@ -3052,7 +3044,7 @@ namespace clue_data {
             "id": 192,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Hay! Stop for a bit and admire the scenery, just like the tourism promoter says.",
+            "text": ["Hay! Stop for a bit and admire the scenery, just like the tourism promoter says."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2525, "y": 3437, "level": 0},
@@ -3063,7 +3055,7 @@ namespace clue_data {
             "id": 193,
             "type": "cryptic",
             "tier": "medium",
-            "text": "North of the best monkey restaurant on Karamja, look for the centre of the triangle of boats and search there.",
+            "text": ["North of the best monkey restaurant on Karamja, look for the centre of the triangle of boats and search there."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2906, "y": 3188, "level": 0},
@@ -3074,7 +3066,7 @@ namespace clue_data {
             "id": 194,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Go to the village being attacked by trolls and search the drawers in one of the houses.",
+            "text": ["Go to the village being attacked by trolls and search the drawers in one of the houses."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2930, "y": 3550, "level": 0},
@@ -3085,7 +3077,7 @@ namespace clue_data {
             "id": 195,
             "type": "cryptic",
             "tier": "medium",
-            "text": "In a town where everyone has perfect vision, seek some locked drawers in a house that sits opposite a workshop.",
+            "text": ["In a town where everyone has perfect vision, seek some locked drawers in a house that sits opposite a workshop."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2710, "y": 3479, "level": 0},
@@ -3096,7 +3088,7 @@ namespace clue_data {
             "id": 196,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Being this far north has meant that these crates have escaped being battled over.",
+            "text": ["Being this far north has meant that these crates have escaped being battled over."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2519, "y": 3259, "level": 0},
@@ -3107,7 +3099,7 @@ namespace clue_data {
             "id": 197,
             "type": "cryptic",
             "tier": "medium",
-            "text": "After trawling for bars, go to the nearest place to smith them and dig by the door.",
+            "text": ["After trawling for bars, go to the nearest place to smith them and dig by the door."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2656, "y": 3159, "level": 0},
@@ -3118,7 +3110,7 @@ namespace clue_data {
             "id": 198,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Sophind yourself some treasure by searching these boxes.",
+            "text": ["Sophind yourself some treasure by searching these boxes."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3279, "y": 2786, "level": 0},
@@ -3129,7 +3121,7 @@ namespace clue_data {
             "id": 199,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Dig here if you are not feeling too well after travelling through the desert. Ali heartily recommends it.",
+            "text": ["Dig here if you are not feeling too well after travelling through the desert. Ali heartily recommends it."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3358, "y": 2971, "level": 0},
@@ -3140,7 +3132,7 @@ namespace clue_data {
             "id": 200,
             "type": "cryptic",
             "tier": "medium",
-            "text": "You'll need to have Doug Deep into the distant past to get to these sacks",
+            "text": ["You'll need to have Doug Deep into the distant past to get to these sacks"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3356, "y": 3434, "level": 0},
@@ -3151,7 +3143,7 @@ namespace clue_data {
             "id": 201,
             "type": "cryptic",
             "tier": "medium",
-            "text": "This crate holds a better reward than a broken arrow.",
+            "text": ["This crate holds a better reward than a broken arrow."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2671, "y": 3438, "level": 0},
@@ -3162,7 +3154,7 @@ namespace clue_data {
             "id": 202,
             "type": "cryptic",
             "tier": "medium",
-            "text": "The rock cakes to the south are definitely more edible than the two rocks I buried the treasure between.",
+            "text": ["The rock cakes to the south are definitely more edible than the two rocks I buried the treasure between."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2514, "y": 3040, "level": 0},
@@ -3173,7 +3165,7 @@ namespace clue_data {
             "id": 203,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Search the upstairs drawers of a house in a village where pirates are known to have a good time.",
+            "text": ["Search the upstairs drawers of a house in a village where pirates are known to have a good time."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2809, "y": 3165, "level": 0},
@@ -3184,7 +3176,7 @@ namespace clue_data {
             "id": 204,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Don't skip here, it's too muddy. You'll feel like a star if you dig here, though.",
+            "text": ["Don't skip here, it's too muddy. You'll feel like a star if you dig here, though."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2999, "y": 3110, "level": 0},
@@ -3195,7 +3187,7 @@ namespace clue_data {
             "id": 205,
             "type": "cryptic",
             "tier": "medium",
-            "text": "This crate is mine, all mine, even if it is in the middle of the desert.",
+            "text": ["This crate is mine, all mine, even if it is in the middle of the desert."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3288, "y": 3022, "level": 0},
@@ -3206,7 +3198,7 @@ namespace clue_data {
             "id": 206,
             "type": "cryptic",
             "tier": "medium",
-            "text": "The treasure is buried in a small building full of bones. Here's a Hint: It's not near a graveyard.",
+            "text": ["The treasure is buried in a small building full of bones. Here's a Hint: It's not near a graveyard."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3356, "y": 3508, "level": 0},
@@ -3217,7 +3209,7 @@ namespace clue_data {
             "id": 207,
             "type": "cryptic",
             "tier": "medium",
-            "text": "By the town of the dead, walk south down a rickety bridge, then dig near the spotted fungus.",
+            "text": ["By the town of the dead, walk south down a rickety bridge, then dig near the spotted fungus."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3644, "y": 3494, "level": 0},
@@ -3228,7 +3220,7 @@ namespace clue_data {
             "id": 208,
             "type": "cryptic",
             "tier": "medium",
-            "text": "This cupboard has treasure, pirate pots and corsair cutlery!",
+            "text": ["This cupboard has treasure, pirate pots and corsair cutlery!"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2812, "y": 3161, "level": 0},
@@ -3239,7 +3231,7 @@ namespace clue_data {
             "id": 209,
             "type": "cryptic",
             "tier": "medium",
-            "text": "The dead, red dragon watches over this chest. He must really dig the view.",
+            "text": ["The dead, red dragon watches over this chest. He must really dig the view."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3355, "y": 3349, "level": 0},
@@ -3250,7 +3242,7 @@ namespace clue_data {
             "id": 210,
             "type": "cryptic",
             "tier": "medium",
-            "text": "This crate clearly marks the end of the line for coal.",
+            "text": ["This crate clearly marks the end of the line for coal."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2691, "y": 3508, "level": 0},
@@ -3261,7 +3253,7 @@ namespace clue_data {
             "id": 211,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Go to this building to be illuminated, and check the drawers while you are there.",
+            "text": ["Go to this building to be illuminated, and check the drawers while you are there."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2509, "y": 3642, "level": 0},
@@ -3272,7 +3264,7 @@ namespace clue_data {
             "id": 212,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Find a crate close to the monks that like to paaarty!",
+            "text": ["Find a crate close to the monks that like to paaarty!"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2616, "y": 3206, "level": 0},
@@ -3283,7 +3275,7 @@ namespace clue_data {
             "id": 213,
             "type": "cryptic",
             "tier": "medium",
-            "text": "In a town where wizards are known to gather, search upstairs in a large house to the north.",
+            "text": ["In a town where wizards are known to gather, search upstairs in a large house to the north."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2594, "y": 3104, "level": 0},
@@ -3294,7 +3286,7 @@ namespace clue_data {
             "id": 214,
             "type": "cryptic",
             "tier": "medium",
-            "text": "This temple is rather sluggish. The chest just inside the entrance, however, is filled with goodies.",
+            "text": ["This temple is rather sluggish. The chest just inside the entrance, however, is filled with goodies."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2697, "y": 3283, "level": 0},
@@ -3305,7 +3297,7 @@ namespace clue_data {
             "id": 215,
             "type": "cryptic",
             "tier": "medium",
-            "text": "The gnomes' nearby cart must have collapsed under the weight of all the treasure in these boxes!",
+            "text": ["The gnomes' nearby cart must have collapsed under the weight of all the treasure in these boxes!"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2399, "y": 3354, "level": 0},
@@ -3316,7 +3308,7 @@ namespace clue_data {
             "id": 217,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Brush off the sand and dig in the quarry. There is a wheely handy barrow to the east. Don't worry, it's coal to dig there - in fact, it's all oclay.",
+            "text": ["Brush off the sand and dig in the quarry. There is a wheely handy barrow to the east. Don't worry, it's coal to dig there - in fact, it's all oclay."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3177, "y": 2916, "level": 0},
@@ -3327,7 +3319,7 @@ namespace clue_data {
             "id": 218,
             "type": "cryptic",
             "tier": "medium",
-            "text": "Observe: In the crate just North of the stairs leading down, you will find the answer.",
+            "text": ["Observe: In the crate just North of the stairs leading down, you will find the answer."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2439, "y": 3163, "level": 0},
@@ -3338,7 +3330,7 @@ namespace clue_data {
             "id": 220,
             "type": "cryptic",
             "tier": "medium",
-            "text": "In a town where thieves steal from stalls, search for some drawers in the upstairs of a house near the bank.",
+            "text": ["In a town where thieves steal from stalls, search for some drawers in the upstairs of a house near the bank."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2614, "y": 3325, "level": 0},
@@ -3349,7 +3341,7 @@ namespace clue_data {
             "id": 222,
             "type": "cryptic",
             "tier": "medium",
-            "text": "While a sea view is nice, it seems this church has not seen visitors in a while. Dig outside the rim of the round window for a reward.",
+            "text": ["While a sea view is nice, it seems this church has not seen visitors in a while. Dig outside the rim of the round window for a reward."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2991, "y": 3177, "level": 0},
@@ -3360,7 +3352,7 @@ namespace clue_data {
             "id": 28,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Covered in shadows, the centre of the circle is where you will find the answer.",
+            "text": ["Covered in shadows, the centre of the circle is where you will find the answer."],
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3489, "y": 3288, "level": 0}
@@ -3370,7 +3362,7 @@ namespace clue_data {
             "id": 30,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Generally speaking, his nose was very bent",
+            "text": ["Generally speaking, his nose was very bent"],
             "solution": {
                 "type": "talkto",
                 "npc": "General Bentnoze",
@@ -3396,7 +3388,7 @@ namespace clue_data {
             "id": 32,
             "type": "cryptic",
             "tier": "hard",
-            "text": "If you look closely enough, it seems that the archers have lost more than their needles.",
+            "text": ["If you look closely enough, it seems that the archers have lost more than their needles."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2671, "y": 3416, "level": 0}
@@ -3406,7 +3398,7 @@ namespace clue_data {
             "id": 39,
             "type": "cryptic",
             "tier": "hard",
-            "text": "There is no 'worthier' lord.",
+            "text": ["There is no 'worthier' lord."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2186, "y": 3284, "level": 1},
@@ -3417,7 +3409,7 @@ namespace clue_data {
             "id": 139,
             "type": "cryptic",
             "tier": "hard",
-            "text": "I am head of the abbey with a cold breeze from the west.",
+            "text": ["I am head of the abbey with a cold breeze from the west."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3057, "y": 3491, "level": 0},
@@ -3428,7 +3420,7 @@ namespace clue_data {
             "id": 140,
             "type": "cryptic",
             "tier": "hard",
-            "text": "My name's a tirade, fishing is my trade, by the docks is where my fortune is made.",
+            "text": ["My name's a tirade, fishing is my trade, by the docks is where my fortune is made."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3014, "y": 3227, "level": 0},
@@ -3439,7 +3431,7 @@ namespace clue_data {
             "id": 141,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Often sought out by scholars of histories past, find me where words of wisdom speak volumes.",
+            "text": ["Often sought out by scholars of histories past, find me where words of wisdom speak volumes."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3358, "y": 3345, "level": 0},
@@ -3450,7 +3442,7 @@ namespace clue_data {
             "id": 142,
             "type": "cryptic",
             "tier": "hard",
-            "text": "A great view: watch the rapidly drying hides get splashed. Check the box you are sitting on.",
+            "text": ["A great view: watch the rapidly drying hides get splashed. Check the box you are sitting on."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2521, "y": 3496, "level": 1},
@@ -3461,7 +3453,7 @@ namespace clue_data {
             "id": 143,
             "type": "cryptic",
             "tier": "hard",
-            "text": "You will need to wash the old ash off of your spade when you dig here, but the only water nearby is stagnant.",
+            "text": ["You will need to wash the old ash off of your spade when you dig here, but the only water nearby is stagnant."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2133, "y": 5162, "level": 0},
@@ -3472,7 +3464,7 @@ namespace clue_data {
             "id": 144,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Identify the back of this over-acting brother. (He's a long way from home.)",
+            "text": ["Identify the back of this over-acting brother. (He's a long way from home.)"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3134, "y": 2802, "level": 0},
@@ -3483,7 +3475,7 @@ namespace clue_data {
             "id": 145,
             "type": "cryptic",
             "tier": "hard",
-            "text": "As you desert this town, keep an eye out for a set of spines that could ruin nearby rugs: dig carefully around the greenery.",
+            "text": ["As you desert this town, keep an eye out for a set of spines that could ruin nearby rugs: dig carefully around the greenery."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3396, "y": 2916, "level": 0},
@@ -3494,7 +3486,7 @@ namespace clue_data {
             "id": 146,
             "type": "cryptic",
             "tier": "hard",
-            "text": "'Small Shoe.' Often found with rod on mushroom.",
+            "text": ["'Small Shoe.' Often found with rod on mushroom."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2474, "y": 3428, "level": 0},
@@ -3505,7 +3497,7 @@ namespace clue_data {
             "id": 147,
             "type": "cryptic",
             "tier": "hard",
-            "text": "It seems to have reached the end of the line, and it's still empty.",
+            "text": ["It seems to have reached the end of the line, and it's still empty."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3041, "y": 9820, "level": 0},
@@ -3516,7 +3508,7 @@ namespace clue_data {
             "id": 148,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Read 'How to Breed Scorpions' By O.W. Thathurt.",
+            "text": ["Read 'How to Breed Scorpions' By O.W. Thathurt."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2702, "y": 3407, "level": 0},
@@ -3527,7 +3519,7 @@ namespace clue_data {
             "id": 149,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Probably filled with books on magic.",
+            "text": ["Probably filled with books on magic."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3095, "y": 3152, "level": 0},
@@ -3538,7 +3530,7 @@ namespace clue_data {
             "id": 150,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Citric cellar.",
+            "text": ["Citric cellar."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2489, "y": 3490, "level": 1},
@@ -3549,7 +3541,7 @@ namespace clue_data {
             "id": 151,
             "type": "cryptic",
             "tier": "hard",
-            "text": "I'm sure they will let ya buy some things here, as long as you are in good 'ealth.",
+            "text": ["I'm sure they will let ya buy some things here, as long as you are in good 'ealth."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2340, "y": 3185, "level": 0},
@@ -3560,7 +3552,7 @@ namespace clue_data {
             "id": 152,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Mine was the strangest birth under the sun. I left the crimson sack. Yet life had not begun. Entered the world and yet was seen by none.",
+            "text": ["Mine was the strangest birth under the sun. I left the crimson sack. Yet life had not begun. Entered the world and yet was seen by none."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2832, "y": 9586, "level": 0},
@@ -3571,7 +3563,7 @@ namespace clue_data {
             "id": 153,
             "type": "cryptic",
             "tier": "hard",
-            "text": "His head might be hollow, but the crates nearby are filled with surprises.",
+            "text": ["His head might be hollow, but the crates nearby are filled with surprises."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3478, "y": 3091, "level": 0},
@@ -3582,7 +3574,7 @@ namespace clue_data {
             "id": 154,
             "type": "cryptic",
             "tier": "hard",
-            "text": "My giant guardians below the market streets would be fans of rock and roll, if only they could grab hold of it. Dig near my purple smoke!",
+            "text": ["My giant guardians below the market streets would be fans of rock and roll, if only they could grab hold of it. Dig near my purple smoke!"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3160, "y": 9905, "level": 0},
@@ -3593,7 +3585,7 @@ namespace clue_data {
             "id": 155,
             "type": "cryptic",
             "tier": "hard",
-            "text": "You can cook food on me, but don't cook any foodles - That would just be wrong.",
+            "text": ["You can cook food on me, but don't cook any foodles - That would just be wrong."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2969, "y": 2975, "level": 0},
@@ -3604,7 +3596,7 @@ namespace clue_data {
             "id": 156,
             "type": "cryptic",
             "tier": "hard",
-            "text": "The beasts to my east snap claws and tails. The rest to my west can slide and eat fish. The force to my north will jump and they'll wail, Come dig by my fire and make a wish.",
+            "text": ["The beasts to my east snap claws and tails. The rest to my west can slide and eat fish. The force to my north will jump and they'll wail, Come dig by my fire and make a wish."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2599, "y": 3266, "level": 0},
@@ -3615,7 +3607,7 @@ namespace clue_data {
             "id": 157,
             "type": "cryptic",
             "tier": "hard",
-            "text": "You don't need to go hopping mad - or take steps - to get to this treasure: just be totally shellfish.",
+            "text": ["You don't need to go hopping mad - or take steps - to get to this treasure: just be totally shellfish."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2519, "y": 3593, "level": 0},
@@ -3626,7 +3618,7 @@ namespace clue_data {
             "id": 158,
             "type": "cryptic",
             "tier": "hard",
-            "text": "When you get tired of fighting, go deep, deep down until you need an antidote.",
+            "text": ["When you get tired of fighting, go deep, deep down until you need an antidote."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2576, "y": 9583, "level": 0},
@@ -3637,7 +3629,7 @@ namespace clue_data {
             "id": 159,
             "type": "cryptic",
             "tier": "hard",
-            "text": "'Throat mage seeks companionship. Seek answers inside my furniture if interested.'",
+            "text": ["'Throat mage seeks companionship. Seek answers inside my furniture if interested.'"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2668, "y": 3240, "level": 0},
@@ -3648,7 +3640,7 @@ namespace clue_data {
             "id": 160,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Must be full of railings",
+            "text": ["Must be full of railings"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2576, "y": 3464, "level": 0},
@@ -3659,7 +3651,7 @@ namespace clue_data {
             "id": 161,
             "type": "cryptic",
             "tier": "hard",
-            "text": "You will need to under-cook to solve this one.",
+            "text": ["You will need to under-cook to solve this one."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3219, "y": 9617, "level": 0},
@@ -3670,7 +3662,7 @@ namespace clue_data {
             "id": 162,
             "type": "cryptic",
             "tier": "hard",
-            "text": "The cheapest water for miles around, but they react badly to religious icons.",
+            "text": ["The cheapest water for miles around, but they react badly to religious icons."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3178, "y": 2987, "level": 0},
@@ -3681,7 +3673,7 @@ namespace clue_data {
             "id": 163,
             "type": "cryptic",
             "tier": "hard",
-            "text": "You have all of the elements available to solve this clue. Fortunately you do not have to go as far as to stand in a draft.",
+            "text": ["You have all of the elements available to solve this clue. Fortunately you do not have to go as far as to stand in a draft."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2710, "y": 3498, "level": 0},
@@ -3692,7 +3684,7 @@ namespace clue_data {
             "id": 164,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Try not to let yourself be dazzled when you search these drawers.",
+            "text": ["Try not to let yourself be dazzled when you search these drawers."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2562, "y": 3323, "level": 0},
@@ -3703,7 +3695,7 @@ namespace clue_data {
             "id": 165,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Aggie I see, Lonely and southern I feel, I am neither inside nor outside the house, yet no house would be complete without me. The treasure lies beneath me!",
+            "text": ["Aggie I see, Lonely and southern I feel, I am neither inside nor outside the house, yet no house would be complete without me. The treasure lies beneath me!"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3084, "y": 3257, "level": 0},
@@ -3714,7 +3706,7 @@ namespace clue_data {
             "id": 166,
             "type": "cryptic",
             "tier": "hard",
-            "text": "I am a token of the greatest love. I have no beginning or end. My eye is red, I can fit like a glove. Go to the place where it's money they lend, And dig by the gate to be my friend.",
+            "text": ["I am a token of the greatest love. I have no beginning or end. My eye is red, I can fit like a glove. Go to the place where it's money they lend, And dig by the gate to be my friend."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3189, "y": 3433, "level": 0},
@@ -3725,7 +3717,7 @@ namespace clue_data {
             "id": 167,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Navigating to this crate will be a trial.",
+            "text": ["Navigating to this crate will be a trial."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2648, "y": 3661, "level": 0},
@@ -3736,7 +3728,7 @@ namespace clue_data {
             "id": 168,
             "type": "cryptic",
             "tier": "hard",
-            "text": "This aviator is at the peak of his profession.",
+            "text": ["This aviator is at the peak of his profession."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2848, "y": 3501, "level": 0},
@@ -3747,7 +3739,7 @@ namespace clue_data {
             "id": 169,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Snah? I feel all confused, like one of those cakes.",
+            "text": ["Snah? I feel all confused, like one of those cakes."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3222, "y": 3218, "level": 0},
@@ -3758,7 +3750,7 @@ namespace clue_data {
             "id": 170,
             "type": "cryptic",
             "tier": "hard",
-            "text": "My home is grey, and made of stone, A castle with a search for a meal. Hidden in some drawers I am, across from a wooden wheel.",
+            "text": ["My home is grey, and made of stone, A castle with a search for a meal. Hidden in some drawers I am, across from a wooden wheel."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3208, "y": 3214, "level": 0},
@@ -3769,7 +3761,7 @@ namespace clue_data {
             "id": 171,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Surprising? I bet he is...",
+            "text": ["Surprising? I bet he is..."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3203, "y": 3472, "level": 0},
@@ -3780,7 +3772,7 @@ namespace clue_data {
             "id": 172,
             "type": "cryptic",
             "tier": "hard",
-            "text": "I bet he is...",
+            "text": ["I bet he is..."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3203, "y": 3472, "level": 0},
@@ -3791,7 +3783,7 @@ namespace clue_data {
             "id": 173,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Four blades I have, yet draw no blood, Still I turn my prey to powder. If you are brave, come search my roof, It is there my blades are louder.",
+            "text": ["Four blades I have, yet draw no blood, Still I turn my prey to powder. If you are brave, come search my roof, It is there my blades are louder."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3166, "y": 3309, "level": 2},
@@ -3802,7 +3794,7 @@ namespace clue_data {
             "id": 174,
             "type": "cryptic",
             "tier": "hard",
-            "text": "My name is like a tree, yet it is spelt with a 'g'. Come see the fur which is right near me.",
+            "text": ["My name is like a tree, yet it is spelt with a 'g'. Come see the fur which is right near me."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3218, "y": 3434, "level": 0},
@@ -3813,7 +3805,7 @@ namespace clue_data {
             "id": 175,
             "type": "cryptic",
             "tier": "hard",
-            "text": "A strange little man who sells armour only to those who've proven themselves to be unafraid of dragons.",
+            "text": ["A strange little man who sells armour only to those who've proven themselves to be unafraid of dragons."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3068, "y": 3516, "level": 0},
@@ -3824,7 +3816,7 @@ namespace clue_data {
             "id": 176,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Come to the evil ledge, Yew know yew want to. Try not to get stung.",
+            "text": ["Come to the evil ledge, Yew know yew want to. Try not to get stung."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3087, "y": 3469, "level": 0},
@@ -3835,7 +3827,7 @@ namespace clue_data {
             "id": 177,
             "type": "cryptic",
             "tier": "hard",
-            "text": "Come to the Try not to get stung.",
+            "text": ["Come to the Try not to get stung."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3087, "y": 3469, "level": 0},
@@ -3846,7 +3838,7 @@ namespace clue_data {
             "id": 178,
             "type": "cryptic",
             "tier": "hard",
-            "text": "When no weapons are at hand, then is the time to reflect. In Saradomin's name, redemption draws closer.",
+            "text": ["When no weapons are at hand, then is the time to reflect. In Saradomin's name, redemption draws closer."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2818, "y": 3353, "level": 0},
@@ -3857,7 +3849,7 @@ namespace clue_data {
             "id": 216,
             "type": "cryptic",
             "tier": "hard",
-            "text": "46 is my number. My body is the colour of burnt orange and crawls among those with eight. Three mouths I have, yet I cannot eat. My blinking blue eye hides my grave.",
+            "text": ["46 is my number. My body is the colour of burnt orange and crawls among those with eight. Three mouths I have, yet I cannot eat. My blinking blue eye hides my grave."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3169, "y": 3887, "level": 0},
@@ -3868,7 +3860,7 @@ namespace clue_data {
             "id": 219,
             "type": "cryptic",
             "tier": "hard",
-            "text": "If you didn't want to be here and in danger, you should lever things well enough alone.",
+            "text": ["If you didn't want to be here and in danger, you should lever things well enough alone."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3154, "y": 3924, "level": 0},
@@ -3879,7 +3871,7 @@ namespace clue_data {
             "id": 221,
             "type": "cryptic",
             "tier": "hard",
-            "text": "I lie lonely and forgotten in mid wilderness, Where the dead rise from their beds. Feel free to quarrel and wind me up, and dig while you shoot their heads.",
+            "text": ["I lie lonely and forgotten in mid wilderness, Where the dead rise from their beds. Feel free to quarrel and wind me up, and dig while you shoot their heads."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3235, "y": 3675, "level": 0},
@@ -3890,7 +3882,7 @@ namespace clue_data {
             "id": 223,
             "type": "cryptic",
             "tier": "hard",
-            "text": "And so on, and so on, and so on. Walking from the land of many unimportant things leads to a choice of paths.",
+            "text": ["And so on, and so on, and so on. Walking from the land of many unimportant things leads to a choice of paths."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2589, "y": 3880, "level": 0},
@@ -3901,7 +3893,7 @@ namespace clue_data {
             "id": 224,
             "type": "cryptic",
             "tier": "hard",
-            "text": "This village has a problem with cartloads of the undead. Try checking the bookcase to find the answer.",
+            "text": ["This village has a problem with cartloads of the undead. Try checking the bookcase to find the answer."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2834, "y": 2990, "level": 0},
@@ -3914,7 +3906,7 @@ namespace clue_data {
             "id": 8,
             "type": "emote",
             "tier": "easy",
-            "text": "Dance in the shack in Lumbridge Swamp. Equip a bronze dagger, iron full helm and a gold ring.",
+            "text": ["Dance in the shack in Lumbridge Swamp. Equip a bronze dagger, iron full helm and a gold ring."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3204, "y": 3168, "level": 0},
@@ -3925,7 +3917,7 @@ namespace clue_data {
             "id": 259,
             "type": "emote",
             "tier": "easy",
-            "text": "Think in the middle of the wheat field by the Lumbridge mill. Equip a sapphire necklace, polar camo legs and an oak shortbow.",
+            "text": ["Think in the middle of the wheat field by the Lumbridge mill. Equip a sapphire necklace, polar camo legs and an oak shortbow."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3159, "y": 3299, "level": 0},
@@ -3936,7 +3928,7 @@ namespace clue_data {
             "id": 260,
             "type": "emote",
             "tier": "easy",
-            "text": "Laugh at the crossroads south of Sinclair Mansion. Equip a leather cowl, amulet of strength and iron scimitar.",
+            "text": ["Laugh at the crossroads south of Sinclair Mansion. Equip a leather cowl, amulet of strength and iron scimitar."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2741, "y": 3536, "level": 0},
@@ -3947,7 +3939,7 @@ namespace clue_data {
             "id": 261,
             "type": "emote",
             "tier": "easy",
-            "text": "Panic in the limestone mine. Equip bronze platelegs, a steel pickaxe and a steel helmet.",
+            "text": ["Panic in the limestone mine. Equip bronze platelegs, a steel pickaxe and a steel helmet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3371, "y": 3500, "level": 0},
@@ -3958,7 +3950,7 @@ namespace clue_data {
             "id": 262,
             "type": "emote",
             "tier": "easy",
-            "text": "Panic on the pier where you catch the Fishing Trawler. Have nothing equipped at all when you do.",
+            "text": ["Panic on the pier where you catch the Fishing Trawler. Have nothing equipped at all when you do."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2676, "y": 3170, "level": 0},
@@ -3969,7 +3961,7 @@ namespace clue_data {
             "id": 263,
             "type": "emote",
             "tier": "easy",
-            "text": "Blow a raspberry at the monkey cage in Ardougne Zoo. Equip a studded leather body, bronze platelegs and a mud pie.",
+            "text": ["Blow a raspberry at the monkey cage in Ardougne Zoo. Equip a studded leather body, bronze platelegs and a mud pie."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2607, "y": 3283, "level": 0},
@@ -3980,7 +3972,7 @@ namespace clue_data {
             "id": 264,
             "type": "emote",
             "tier": "easy",
-            "text": "Clap on the causeway to the Wizards' Tower. Equip an iron helmet, emerald ring and leather gloves.",
+            "text": ["Clap on the causeway to the Wizards' Tower. Equip an iron helmet, emerald ring and leather gloves."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3102, "y": 3201, "level": 0},
@@ -3991,7 +3983,7 @@ namespace clue_data {
             "id": 265,
             "type": "emote",
             "tier": "easy",
-            "text": "Twirl at the crossroads north of Rimmington. Equip a Sapphire ring, yellow flowers and leather chaps.",
+            "text": ["Twirl at the crossroads north of Rimmington. Equip a Sapphire ring, yellow flowers and leather chaps."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2954, "y": 3240, "level": 0},
@@ -4002,7 +3994,7 @@ namespace clue_data {
             "id": 266,
             "type": "emote",
             "tier": "easy",
-            "text": "Blow raspberries outside the entrance to Keep Le Faye. Equip a studded leather coif, iron platebody and leather gloves.",
+            "text": ["Blow raspberries outside the entrance to Keep Le Faye. Equip a studded leather coif, iron platebody and leather gloves."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2762, "y": 3402, "level": 0},
@@ -4013,7 +4005,7 @@ namespace clue_data {
             "id": 267,
             "type": "emote",
             "tier": "easy",
-            "text": "Cheer for the monks at Port Sarim. Equip a studded leather coif, steel plateskirt and a sapphire necklace.",
+            "text": ["Cheer for the monks at Port Sarim. Equip a studded leather coif, steel plateskirt and a sapphire necklace."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3043, "y": 3236, "level": 0},
@@ -4024,7 +4016,7 @@ namespace clue_data {
             "id": 268,
             "type": "emote",
             "tier": "easy",
-            "text": "Wave on Mudskipper Point. Equip a gold ring, leather chaps and a steel mace.",
+            "text": ["Wave on Mudskipper Point. Equip a gold ring, leather chaps and a steel mace."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2994, "y": 3116, "level": 0},
@@ -4035,7 +4027,7 @@ namespace clue_data {
             "id": 269,
             "type": "emote",
             "tier": "easy",
-            "text": "Shrug in the mine near Rimmington. Equip a gold necklace, gold ring and a bronze spear.",
+            "text": ["Shrug in the mine near Rimmington. Equip a gold necklace, gold ring and a bronze spear."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2974, "y": 3236, "level": 0},
@@ -4046,7 +4038,7 @@ namespace clue_data {
             "id": 270,
             "type": "emote",
             "tier": "easy",
-            "text": "Clap in the main exam room of the Exam Centre. Equip a ruby amulet, blue flowers and leather gloves.",
+            "text": ["Clap in the main exam room of the Exam Centre. Equip a ruby amulet, blue flowers and leather gloves."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3357, "y": 3345, "level": 0},
@@ -4057,7 +4049,7 @@ namespace clue_data {
             "id": 271,
             "type": "emote",
             "tier": "easy",
-            "text": "Yawn in Varrock Palace library. Equip a holy symbol, leather vambraces and an iron warhammer.",
+            "text": ["Yawn in Varrock Palace library. Equip a holy symbol, leather vambraces and an iron warhammer."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3211, "y": 3494, "level": 0},
@@ -4068,7 +4060,7 @@ namespace clue_data {
             "id": 272,
             "type": "emote",
             "tier": "easy",
-            "text": "Dance in the Party Room. Equip a steel full helmet, steel platebody and an iron plateskirt.",
+            "text": ["Dance in the Party Room. Equip a steel full helmet, steel platebody and an iron plateskirt."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3046, "y": 3376, "level": 0},
@@ -4079,7 +4071,7 @@ namespace clue_data {
             "id": 273,
             "type": "emote",
             "tier": "easy",
-            "text": "Twirl in Draynor Manor by the fountain. Equip an iron platebody, studded chaps and a bronze full helm.",
+            "text": ["Twirl in Draynor Manor by the fountain. Equip an iron platebody, studded chaps and a bronze full helm."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3091, "y": 3337, "level": 0},
@@ -4090,7 +4082,7 @@ namespace clue_data {
             "id": 274,
             "type": "emote",
             "tier": "easy",
-            "text": "Jump for joy at the beehives. Equip iron boots, an unholy symbol and a steel hatchet.",
+            "text": ["Jump for joy at the beehives. Equip iron boots, an unholy symbol and a steel hatchet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2758, "y": 3444, "level": 0},
@@ -4101,7 +4093,7 @@ namespace clue_data {
             "id": 275,
             "type": "emote",
             "tier": "easy",
-            "text": "Headbang in the mine north of Al-kharid. Equip a Polar Camo Top, Leather Gloves and Leather Boots.",
+            "text": ["Headbang in the mine north of Al-kharid. Equip a Polar Camo Top, Leather Gloves and Leather Boots."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3298, "y": 3297, "level": 0},
@@ -4112,7 +4104,7 @@ namespace clue_data {
             "id": 276,
             "type": "emote",
             "tier": "easy",
-            "text": "Bow or curtsy outside the entrance to the Legends' Guild. Equip iron platelegs, an emerald amulet and an oak shieldbow.",
+            "text": ["Bow or curtsy outside the entrance to the Legends' Guild. Equip iron platelegs, an emerald amulet and an oak shieldbow."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2729, "y": 3349, "level": 0},
@@ -4123,7 +4115,7 @@ namespace clue_data {
             "id": 277,
             "type": "emote",
             "tier": "easy",
-            "text": "Cheer in the centre of the Burthorpe Games Room. Have nothing equipped at all when you do.",
+            "text": ["Cheer in the centre of the Burthorpe Games Room. Have nothing equipped at all when you do."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2893, "y": 3569, "level": 0},
@@ -4134,7 +4126,7 @@ namespace clue_data {
             "id": 278,
             "type": "emote",
             "tier": "easy",
-            "text": "Dance at the crossroads north of Draynor. Equip an iron chainbody, sapphire ring and a shieldbow.",
+            "text": ["Dance at the crossroads north of Draynor. Equip an iron chainbody, sapphire ring and a shieldbow."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3109, "y": 3294, "level": 0},
@@ -4145,7 +4137,7 @@ namespace clue_data {
             "id": 279,
             "type": "emote",
             "tier": "easy",
-            "text": "Dance a jig by the entrance to the Fishing Guild. Equip an emerald ring, sapphire amulet, and a bronze chainbody.",
+            "text": ["Dance a jig by the entrance to the Fishing Guild. Equip an emerald ring, sapphire amulet, and a bronze chainbody."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2614, "y": 3385, "level": 0},
@@ -4156,7 +4148,7 @@ namespace clue_data {
             "id": 280,
             "type": "emote",
             "tier": "easy",
-            "text": "Bow or curtsy at the entrance to Het's Oasis. Equip an iron chainbody, leather chaps and a studded leather coif.",
+            "text": ["Bow or curtsy at the entrance to Het's Oasis. Equip an iron chainbody, leather chaps and a studded leather coif."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3321, "y": 3235, "level": 0},
@@ -4167,7 +4159,7 @@ namespace clue_data {
             "id": 281,
             "type": "emote",
             "tier": "easy",
-            "text": "Cry outside the south gates of Fort Forinthry. Equip a hard leather body, leather chaps and a bronze hatchet.",
+            "text": ["Cry outside the south gates of Fort Forinthry. Equip a hard leather body, leather chaps and a bronze hatchet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3304, "y": 3525, "level": 0},
@@ -4178,7 +4170,7 @@ namespace clue_data {
             "id": 282,
             "type": "emote",
             "tier": "easy",
-            "text": "Clap on the top level of the mill north of East Ardougne. Equip an emerald ring, wood camo top and an unenchanted tiara.",
+            "text": ["Clap on the top level of the mill north of East Ardougne. Equip an emerald ring, wood camo top and an unenchanted tiara."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2633, "y": 3386, "level": 0},
@@ -4189,7 +4181,7 @@ namespace clue_data {
             "id": 283,
             "type": "emote",
             "tier": "easy",
-            "text": "Yawn in Draynor Marketplace. Equip an iron kiteshield, steel longsword and studded leather chaps.",
+            "text": ["Yawn in Draynor Marketplace. Equip an iron kiteshield, steel longsword and studded leather chaps."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3080, "y": 3250, "level": 0},
@@ -4200,7 +4192,7 @@ namespace clue_data {
             "id": 284,
             "type": "emote",
             "tier": "easy",
-            "text": "Cheer at the Druids' Circle. Equip an air tiara, bronze two-handed sword and a gold amulet.",
+            "text": ["Cheer at the Druids' Circle. Equip an air tiara, bronze two-handed sword and a gold amulet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2922, "y": 3482, "level": 0},
@@ -4211,7 +4203,7 @@ namespace clue_data {
             "id": 7,
             "type": "emote",
             "tier": "medium",
-            "text": "Beckon in the Digsite, near the eastern winch. Bow or curtsy before you talk to me. Equip a pointed red and black snelm, snakeskin boots, and an iron pickaxe.",
+            "text": ["Beckon in the Digsite, near the eastern winch. Bow or curtsy before you talk to me. Equip a pointed red and black snelm, snakeskin boots, and an iron pickaxe."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3378, "y": 3445, "level": 0},
@@ -4222,7 +4214,7 @@ namespace clue_data {
             "id": 247,
             "type": "emote",
             "tier": "medium",
-            "text": "Panic by the mausoleum in Morytania. Wave before you speak to me. Equip a mithril plateskirt, a maple shieldbow and no boots.",
+            "text": ["Panic by the mausoleum in Morytania. Wave before you speak to me. Equip a mithril plateskirt, a maple shieldbow and no boots."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3578, "y": 3528, "level": 0},
@@ -4233,7 +4225,7 @@ namespace clue_data {
             "id": 248,
             "type": "emote",
             "tier": "medium",
-            "text": "Dance a jig under Shantay's Awning. Bow or curtsy before you talk to me. Equip a pointed blue snail helmet and an air staff.",
+            "text": ["Dance a jig under Shantay's Awning. Bow or curtsy before you talk to me. Equip a pointed blue snail helmet and an air staff."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3304, "y": 3123, "level": 0},
@@ -4244,7 +4236,7 @@ namespace clue_data {
             "id": 249,
             "type": "emote",
             "tier": "medium",
-            "text": "Think under the lens in the Observatory. Twirl before you talk to me. Equip a mithril chainbody, green dragonhide chaps and a ruby amulet.",
+            "text": ["Think under the lens in the Observatory. Twirl before you talk to me. Equip a mithril chainbody, green dragonhide chaps and a ruby amulet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2442, "y": 3160, "level": 0},
@@ -4255,7 +4247,7 @@ namespace clue_data {
             "id": 250,
             "type": "emote",
             "tier": "medium",
-            "text": "Twirl on the bridge by Barbarian Village. Salute before you talk to me. Equip an iron hatchet, steel kiteshield and a mithril full helmet.",
+            "text": ["Twirl on the bridge by Barbarian Village. Salute before you talk to me. Equip an iron hatchet, steel kiteshield and a mithril full helmet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3105, "y": 3421, "level": 0},
@@ -4266,7 +4258,7 @@ namespace clue_data {
             "id": 251,
             "type": "emote",
             "tier": "medium",
-            "text": "Jump for joy in Yanille bank. Dance a jig before you talk to me. Equip an iron crossbow, adamant helmet and snakeskin chaps.",
+            "text": ["Jump for joy in Yanille bank. Dance a jig before you talk to me. Equip an iron crossbow, adamant helmet and snakeskin chaps."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2612, "y": 3093, "level": 0},
@@ -4277,7 +4269,7 @@ namespace clue_data {
             "id": 252,
             "type": "emote",
             "tier": "medium",
-            "text": "Dance in the centre of Canifis. Bow or curtsy before you talk to me. Equip a spiny helmet, mithril platelegs and an iron two-handed sword.",
+            "text": ["Dance in the centre of Canifis. Bow or curtsy before you talk to me. Equip a spiny helmet, mithril platelegs and an iron two-handed sword."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3492, "y": 3491, "level": 0},
@@ -4288,7 +4280,7 @@ namespace clue_data {
             "id": 253,
             "type": "emote",
             "tier": "medium",
-            "text": "Cheer in the Barbarian Agility Arena. Headbang before you talk to me. Equip a steel platebody, maple shortbow and bronze boots.",
+            "text": ["Cheer in the Barbarian Agility Arena. Headbang before you talk to me. Equip a steel platebody, maple shortbow and bronze boots."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2548, "y": 3553, "level": 0},
@@ -4299,7 +4291,7 @@ namespace clue_data {
             "id": 254,
             "type": "emote",
             "tier": "medium",
-            "text": "Cry on the platform of the south-west tree in the Gnome Agility Arena. Indicate 'no' before you talk to me. Equip a steel kiteshield, ring of forging and green dragonhide chaps.",
+            "text": ["Cry on the platform of the south-west tree in the Gnome Agility Arena. Indicate 'no' before you talk to me. Equip a steel kiteshield, ring of forging and green dragonhide chaps."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2474, "y": 3419, "level": 0},
@@ -4310,7 +4302,7 @@ namespace clue_data {
             "id": 255,
             "type": "emote",
             "tier": "medium",
-            "text": "Beckon in Tai Bwo Wannai. Clap before you talk to me. Equip green dragonhide chaps, a ring of duelling and a mithril helmet.",
+            "text": ["Beckon in Tai Bwo Wannai. Clap before you talk to me. Equip green dragonhide chaps, a ring of duelling and a mithril helmet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2793, "y": 3067, "level": 0},
@@ -4321,7 +4313,7 @@ namespace clue_data {
             "id": 256,
             "type": "emote",
             "tier": "medium",
-            "text": "Cheer in the Ogre Pen in the Training Camp. Show you are angry before you talk to me. Equip a green dragonhide body and chaps, and a steel squareshield.",
+            "text": ["Cheer in the Ogre Pen in the Training Camp. Show you are angry before you talk to me. Equip a green dragonhide body and chaps, and a steel squareshield."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2529, "y": 3375, "level": 0},
@@ -4332,7 +4324,7 @@ namespace clue_data {
             "id": 257,
             "type": "emote",
             "tier": "medium",
-            "text": "Cry in the Catherby archery shop. Bow or curtsy before you talk to me. Equip a round red and black snelm, a hard leather body and an unblessed silver sickle.",
+            "text": ["Cry in the Catherby archery shop. Bow or curtsy before you talk to me. Equip a round red and black snelm, a hard leather body and an unblessed silver sickle."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2827, "y": 3456, "level": 0},
@@ -4343,7 +4335,7 @@ namespace clue_data {
             "id": 258,
             "type": "emote",
             "tier": "medium",
-            "text": "Yawn in the Castle Wars lobby. Shrug before you talk to me. Equip a ruby amulet, mithril scimitar and an iron square shield.",
+            "text": ["Yawn in the Castle Wars lobby. Shrug before you talk to me. Equip a ruby amulet, mithril scimitar and an iron square shield."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2443, "y": 3089, "level": 0},
@@ -4354,7 +4346,7 @@ namespace clue_data {
             "id": 9,
             "type": "emote",
             "tier": "hard",
-            "text": "Shrug in the Zamorak temple found in the Eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody, and blue d'hide vambraces",
+            "text": ["Shrug in the Zamorak temple found in the Eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody, and blue d'hide vambraces"],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3240, "y": 3609, "level": 0},
@@ -4365,7 +4357,7 @@ namespace clue_data {
             "id": 225,
             "type": "emote",
             "tier": "hard",
-            "text": "Panic in the heart of the Haunted Woods. Beware of double agents! Have no items equipped when you do.",
+            "text": ["Panic in the heart of the Haunted Woods. Beware of double agents! Have no items equipped when you do."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3613, "y": 3489, "level": 0},
@@ -4376,7 +4368,7 @@ namespace clue_data {
             "id": 226,
             "type": "emote",
             "tier": "hard",
-            "text": "Laugh in the Jokul's tent in the Mountain Camp. Beware of double agents! Equip a rune full helmet, blue dragonhide chaps and a fire battlestaff.",
+            "text": ["Laugh in the Jokul's tent in the Mountain Camp. Beware of double agents! Equip a rune full helmet, blue dragonhide chaps and a fire battlestaff."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2795, "y": 3672, "level": 0},
@@ -4387,7 +4379,7 @@ namespace clue_data {
             "id": 227,
             "type": "emote",
             "tier": "hard",
-            "text": "Panic by the pilot on White Wolf Mountain. Beware of double agents! Equip mithril platelegs, a ring of life, and a rune hatchet.",
+            "text": ["Panic by the pilot on White Wolf Mountain. Beware of double agents! Equip mithril platelegs, a ring of life, and a rune hatchet."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2849, "y": 3500, "level": 0},
@@ -4398,7 +4390,7 @@ namespace clue_data {
             "id": 228,
             "type": "emote",
             "tier": "hard",
-            "text": "Salute in the banana plantation. Beware of double agents! Equip a diamond ring, amulet of power and nothing on your chest and legs.",
+            "text": ["Salute in the banana plantation. Beware of double agents! Equip a diamond ring, amulet of power and nothing on your chest and legs."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2921, "y": 3164, "level": 0},
@@ -4409,7 +4401,7 @@ namespace clue_data {
             "id": 229,
             "type": "emote",
             "tier": "hard",
-            "text": "Dance at the cat-doored pyramid in Sophanem. Beware of double agents! Equip a ring of life, an amulet of glory and an adamant two-handed sword.",
+            "text": ["Dance at the cat-doored pyramid in Sophanem. Beware of double agents! Equip a ring of life, an amulet of glory and an adamant two-handed sword."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3295, "y": 2784, "level": 0},
@@ -4420,7 +4412,7 @@ namespace clue_data {
             "id": 230,
             "type": "emote",
             "tier": "hard",
-            "text": "Blow a raspberry in the Fishing Guild bank. Beware of double agents! Equip an elemental shield, blue dragonhide chaps and a rune warhammer.",
+            "text": ["Blow a raspberry in the Fishing Guild bank. Beware of double agents! Equip an elemental shield, blue dragonhide chaps and a rune warhammer."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2586, "y": 3422, "level": 0},
@@ -4431,7 +4423,7 @@ namespace clue_data {
             "id": 231,
             "type": "emote",
             "tier": "hard",
-            "text": "Blow a kiss between the tables in Shilo Village bank. Beware of double agents! Equip a splitbark helm, mud pie and rune platebody.",
+            "text": ["Blow a kiss between the tables in Shilo Village bank. Beware of double agents! Equip a splitbark helm, mud pie and rune platebody."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2852, "y": 2953, "level": 0},
@@ -4442,7 +4434,7 @@ namespace clue_data {
             "id": 232,
             "type": "emote",
             "tier": "hard",
-            "text": "Bow or curtsy at the top of the lighthouse. Beware of double agents! Equip a blue dragonhide body, blue dragonhide vambraces and no jewellery.",
+            "text": ["Bow or curtsy at the top of the lighthouse. Beware of double agents! Equip a blue dragonhide body, blue dragonhide vambraces and no jewellery."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2509, "y": 3641, "level": 2},
@@ -4453,7 +4445,7 @@ namespace clue_data {
             "id": 235,
             "type": "emote",
             "tier": "hard",
-            "text": "Yawn near the Wilderness Bandit camp obelisk. Beware of double agents! Equip an iron square shield, blue dragon vambraces and an iron pickaxe.",
+            "text": ["Yawn near the Wilderness Bandit camp obelisk. Beware of double agents! Equip an iron square shield, blue dragon vambraces and an iron pickaxe."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3035, "y": 3732, "level": 0},
@@ -4464,7 +4456,7 @@ namespace clue_data {
             "id": 243,
             "type": "emote",
             "tier": "hard",
-            "text": "Shrug in the Zamorak temple, found in the eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody and blue dragonhide vambraces.",
+            "text": ["Shrug in the Zamorak temple, found in the eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody and blue dragonhide vambraces."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3240, "y": 3612, "level": 0},
@@ -4475,7 +4467,7 @@ namespace clue_data {
             "id": 233,
             "type": "emote",
             "tier": "master",
-            "text": "Cheer by the sulphur pit in the TzHaar City. Beware of double agents! Equip a fire cape, a Toktz-ket-xil and a spork.",
+            "text": ["Cheer by the sulphur pit in the TzHaar City. Beware of double agents! Equip a fire cape, a Toktz-ket-xil and a spork."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2845, "y": 3174, "level": 0},
@@ -4486,7 +4478,7 @@ namespace clue_data {
             "id": 234,
             "type": "emote",
             "tier": "master",
-            "text": "Headbang inside the Slayer Tower. Beware of double agents! Equip an imp-hide hood, a Prifddinian musician's robe top and an amulet of magic.",
+            "text": ["Headbang inside the Slayer Tower. Beware of double agents! Equip an imp-hide hood, a Prifddinian musician's robe top and an amulet of magic."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3424, "y": 3544, "level": 0},
@@ -4497,7 +4489,7 @@ namespace clue_data {
             "id": 236,
             "type": "emote",
             "tier": "master",
-            "text": "Dare to laugh in the Green Ghost inn at Port Phasmatys. Beware of double agents! Equip an Iban's staff, a ghostly cloak and a cavalier.",
+            "text": ["Dare to laugh in the Green Ghost inn at Port Phasmatys. Beware of double agents! Equip an Iban's staff, a ghostly cloak and a cavalier."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3674, "y": 3497, "level": 0},
@@ -4508,7 +4500,7 @@ namespace clue_data {
             "id": 237,
             "type": "emote",
             "tier": "master",
-            "text": "Blow a Raspberry at the celestial dragons on Dragontooth Isle. Beware of double agents! Equip a dragon mask, a Dragon Rider amulet and a dragon defender.",
+            "text": ["Blow a Raspberry at the celestial dragons on Dragontooth Isle. Beware of double agents! Equip a dragon mask, a Dragon Rider amulet and a dragon defender."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3814, "y": 3530, "level": 0},
@@ -4519,7 +4511,7 @@ namespace clue_data {
             "id": 238,
             "type": "emote",
             "tier": "master",
-            "text": "Wave in front of the entrance to the Grand Library of Menaphos. Beware of double agents! Equip an asylum surgeon's ring and the Scabaras mask.",
+            "text": ["Wave in front of the entrance to the Grand Library of Menaphos. Beware of double agents! Equip an asylum surgeon's ring and the Scabaras mask."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3172, "y": 2710, "level": 0},
@@ -4530,7 +4522,7 @@ namespace clue_data {
             "id": 239,
             "type": "emote",
             "tier": "master",
-            "text": "Jig in the Edgeville Monastery garden. Beware of double agents! Equip a holy cithara, Saradomin's murmur and a ring of devotion.",
+            "text": ["Jig in the Edgeville Monastery garden. Beware of double agents! Equip a holy cithara, Saradomin's murmur and a ring of devotion."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3052, "y": 3505, "level": 0},
@@ -4541,7 +4533,7 @@ namespace clue_data {
             "id": 240,
             "type": "emote",
             "tier": "master",
-            "text": "Bow or curtsy at the charm sprite hunter area. Beware of double agents! Equip an enhanced yaktwee stick, a Dagon-hai hat and an amulet of ranging.",
+            "text": ["Bow or curtsy at the charm sprite hunter area. Beware of double agents! Equip an enhanced yaktwee stick, a Dagon-hai hat and an amulet of ranging."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2404, "y": 3370, "level": 0},
@@ -4552,7 +4544,7 @@ namespace clue_data {
             "id": 241,
             "type": "emote",
             "tier": "master",
-            "text": "Think in the Hefin district of Prifddinas. Beware of double agents! Equip an ancient staff, Prifddinian worker's trousers and a berserker ring.",
+            "text": ["Think in the Hefin district of Prifddinas. Beware of double agents! Equip an ancient staff, Prifddinian worker's trousers and a berserker ring."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2187, "y": 3412, "level": 0},
@@ -4563,7 +4555,7 @@ namespace clue_data {
             "id": 242,
             "type": "emote",
             "tier": "master",
-            "text": "Shrug in the Lumbridge Fishing Supplies shop. Beware of double agents! Equip demon slayer gloves, a boater and the cape of legends.",
+            "text": ["Shrug in the Lumbridge Fishing Supplies shop. Beware of double agents! Equip demon slayer gloves, a boater and the cape of legends."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3195, "y": 3253, "level": 0},
@@ -4574,7 +4566,7 @@ namespace clue_data {
             "id": 244,
             "type": "emote",
             "tier": "master",
-            "text": "Have an idea inside the Invention Guild. Beware of double agents! Equip a lab coat top, lab coat legs and a staff of light.",
+            "text": ["Have an idea inside the Invention Guild. Beware of double agents! Equip a lab coat top, lab coat legs and a staff of light."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2998, "y": 3441, "level": 0},
@@ -4585,7 +4577,7 @@ namespace clue_data {
             "id": 245,
             "type": "emote",
             "tier": "master",
-            "text": "Dance on an Uncharted Isle. Beware of double agents! Equip a dark bow, some infinity boots and culinaromancer gloves 10.",
+            "text": ["Dance on an Uncharted Isle. Beware of double agents! Equip a dark bow, some infinity boots and culinaromancer gloves 10."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3053, "y": 3247, "level": 0},
@@ -4596,7 +4588,7 @@ namespace clue_data {
             "id": 246,
             "type": "emote",
             "tier": "master",
-            "text": "Salute in the Max Guild Garden. Beware of double agents! Have no items equipped when you do.",
+            "text": ["Salute in the Max Guild Garden. Beware of double agents! Have no items equipped when you do."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2276, "y": 3330, "level": 0},
@@ -4609,7 +4601,7 @@ namespace clue_data {
             "id": 49,
             "type": "map",
             "tier": "easy",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 74, 167, 26, 77, -17, 6, 8, 26, 77, -18, 8, 10, 25, 78, -17, 6, 7, 26, 80, -14, 5, 6, 25, 77, -15, 7, 8, 26, 77, -17, 7, 9, 26, 77, -18, 6, 8, 25, 80, -20, 7, 9, 25, 86, -19, 7, 8, 25, 82, -20, 6, 7, 26, 82, -18, 5, 6, 26, 82, -20, 4, 6, 25, 82, -19, 5, 7, 25, 85, -20, 6, 7, 26, 81, -21, 8, 10, 26, 78, -17, 7, 9, 25, 76, -21, 7, 9, 25, 79, -18, 5, 7, 26, 81, -15, 6, 8, 26, 79, -16, 7, 8, 26, 77, -19, 7, 8, 25, 78, -20, 6, 7, 24, 79, -15, 15, 20, 25, 80, -20, 8, 12, 26, 81, -11, 13, 17, 26, 79, -5, 18, 21, 26, 80, -15, 12, 17, 25, 79, -22, 5, 7, 25, 83, -23, 7, 8, 26, 80, -21, 6, 8, 25, 77, -19, 8, 10, 26, 78, -21, 6, 8, 26, 78, -20, 6, 7, 25, 82, -17, 5, 7, 26, 79, -20, 6, 7, 26, 77, -16, 10, 12, 26, 79, -18, 9, 14, 26, 64, 37, 40, 52, 26, 69, 24, 45, 56, 26, 68, 26, 41, 50, 26, 67, 40, 55, 67, 26, 67, 33, 52, 62, 26, 79, -20, 5, 7, 26, 80, -23, 6, 7, 26, 80, -22, 7, 8, 25, 78, -20, 5, 6, 25, 78, -20, 6, 8, 25, 77, -20, 4, 5, 26, 80, -19, 6, 8, 27, 71, 14, 39, 47, 26, 69, 17, 35, 46, 26, 68, 34, 60, 72, 26, 61, 43, 53, 66, 25, 64, 44, 68, 82, 26, 64, 32, 51, 62, 26, 72, 0, 26, 35, 27, 69, 18, 26, 36, 26, 80, -18, 6, 8, 25, 79, -22, 6, 8, 26, 79, -23, 5, 6, 25, 78, -17, 8, 10, 26, 78, -21, 6, 8, 25, 78, -22, 5, 6, 25, 76, -8, 20, 24, 27, 67, 27, 43, 50, 26, 69, 12, 34, 43, 27, 64, 38, 66, 77, 27, 57, 60, 53, 63, 27, 59, 66, 71, 84, 27, 59, 51, 64, 79, 26, 62, 42, 52, 61, 27, 74, -5, 16, 21, 25, 80, -18, 5, 6, 26, 81, -22, 6, 7, 26, 80, -25, 6, 7, 26, 77, -23, 5, 7, 25, 81, -21, 6, 7, 26, 78, -25, 6, 7, 26, 75, -9, 19, 25, 26, 61, 40, 57, 67, 27, 62, 37, 62, 72, 26, 59, 56, 60, 73, 26, 54, 44, 25, 33, 26, 55, 44, 31, 38, 26, 58, 60, 73, 89, 26, 64, 28, 48, 67, 27, 69, 24, 31, 43, 26, 80, -19, 5, 6, 26, 81, -22, 5, 6, 25, 80, -23, 6, 7, 26, 77, -23, 7, 9, 26, 78, -26, 7, 8, 25, 80, -23, 6, 8, 27, 67, 24, 48, 57, 27, 56, 69, 62, 80, 27, 58, 47, 64, 79, 26, 56, 45, 40, 46, 26, 53, 55, 40, 48, 26, 53, 46, 25, 30, 25, 60, 41, 42, 52, 27, 58, 61, 61, 76, 26, 70, 24, 30, 40, 25, 82, -16, 8, 9, 25, 80, -22, 5, 6, 26, 79, -24, 6, 7, 26, 79, -18, 6, 8, 26, 78, -26, 6, 7, 26, 78, -23, 6, 8, 25, 74, -7, 17, 21, 26, 64, 32, 40, 52, 27, 58, 52, 67, 84, 27, 58, 46, 42, 52, 26, 54, 44, 25, 29, 26, 55, 46, 19, 22, 26, 59, 51, 53, 64, 26, 59, 63, 66, 81, 26, 71, 14, 24, 32, 25, 83, -17, 6, 7, 26, 79, -23, 6, 7, 26, 81, -23, 6, 8, 26, 79, -16, 5, 6, 25, 80, -19, 6, 8, 26, 82, -22, 6, 8, 26, 80, -11, 12, 15, 26, 70, 4, 27, 33, 27, 59, 44, 64, 78, 27, 61, 40, 56, 69, 26, 57, 57, 71, 85, 26, 59, 54, 55, 67, 26, 60, 50, 66, 80, 26, 62, 46, 56, 70, 26, 76, -10, 12, 18, 26, 81, -18, 4, 6, 25, 79, -19, 5, 6, 26, 79, -24, 5, 6, 25, 81, -15, 7, 10, 25, 80, -17, 8, 10, 26, 81, -19, 6, 8, 25, 80, -11, 12, 14, 25, 74, -2, 16, 20, 26, 67, 20, 30, 38, 26, 63, 38, 51, 57, 26, 59, 55, 100, 119, 26, 60, 52, 71, 87, 26, 63, 37, 50, 59, 25, 73, -5, 19, 24, 26, 74, -21, 8, 10, 26, 79, -21, 4, 5, 26, 80, -22, 5, 7, 27, 77, -25, 5, 7, 26, 82, -15, 6, 8, 26, 82, -18, 7, 8, 25, 82, -16, 8, 10, 25, 80, -16, 8, 10, 26, 79, -11, 11, 13, 25, 80, -14, 10, 13, 25, 81, -11, 10, 13, 25, 77, 4, 22, 28, 26, 76, -6, 18, 24, 26, 77, -21, 9, 11, 26, 76, -20, 10, 12, 27, 77, -25, 6, 7, 26, 80, -21, 6, 8, 26, 79, -25, 6, 7, 27, 77, -27, 5, 7, 25, 84, -13, 9, 11, 24, 84, -15, 8, 10, 24, 85, -14, 9, 11, 25, 84, -12, 7, 9, 25, 84, -13, 7, 9, 25, 83, -14, 10, 12, 24, 84, -14, 8, 10, 25, 85, -16, 10, 12, 26, 80, -23, 6, 8, 26, 78, -24, 6, 8, 26, 77, -26, 6, 7, 27, 78, -26, 5, 6, 26, 80, -21, 6, 7, 26, 78, -25, 6, 8, 27, 76, -26, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4621,7 +4613,7 @@ namespace clue_data {
             "id": 50,
             "type": "map",
             "tier": "easy",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 175, 26, 77, -9, 6, 8, 26, 77, -10, 8, 10, 25, 78, -9, 6, 7, 26, 79, -1, 15, 19, 25, 77, -7, 7, 10, 26, 77, -9, 7, 9, 26, 77, -10, 6, 8, 25, 80, -12, 7, 9, 25, 86, -11, 7, 8, 25, 82, -12, 6, 7, 26, 82, -10, 5, 6, 26, 82, -12, 4, 6, 25, 82, -11, 5, 7, 25, 85, -12, 6, 7, 26, 81, -13, 8, 10, 26, 78, -9, 7, 9, 25, 76, -13, 7, 9, 25, 79, -10, 5, 14, 27, 70, 41, 40, 50, 26, 71, 37, 48, 59, 26, 77, -10, 9, 14, 25, 78, -12, 6, 7, 24, 80, -13, 6, 8, 25, 80, -14, 5, 7, 26, 84, -10, 5, 6, 26, 83, -8, 6, 8, 26, 82, -12, 6, 10, 27, 70, 16, 52, 59, 25, 83, -15, 7, 8, 26, 80, -13, 6, 8, 25, 77, -11, 8, 10, 26, 78, -13, 6, 8, 26, 78, -12, 6, 16, 26, 72, 36, 34, 42, 27, 70, 35, 45, 50, 26, 79, -12, 5, 7, 26, 80, -13, 5, 6, 26, 80, -12, 6, 8, 25, 79, -13, 7, 8, 26, 79, -12, 5, 7, 26, 81, -9, 6, 7, 27, 71, 17, 45, 51, 26, 76, -6, 22, 31, 26, 80, -15, 6, 7, 26, 80, -14, 7, 8, 25, 78, -12, 5, 6, 25, 78, -12, 6, 8, 25, 77, -12, 4, 9, 27, 69, 41, 39, 52, 27, 70, 38, 46, 57, 26, 80, -11, 8, 14, 27, 73, 17, 57, 64, 25, 80, -15, 10, 17, 24, 80, -10, 7, 8, 25, 78, -5, 21, 24, 26, 77, -3, 24, 27, 27, 71, 16, 41, 50, 27, 70, 21, 50, 61, 25, 79, -14, 6, 8, 26, 79, -15, 5, 6, 25, 78, -9, 8, 10, 26, 78, -13, 6, 8, 25, 78, -14, 5, 6, 26, 69, 41, 55, 61, 27, 75, 15, 40, 46, 27, 76, 9, 22, 26, 26, 79, -13, 13, 17, 28, 68, 18, 64, 76, 26, 77, -1, 25, 37, 26, 74, 22, 71, 89, 25, 75, 13, 66, 85, 27, 72, 21, 55, 87, 27, 71, 21, 57, 64, 26, 81, -14, 6, 7, 26, 80, -17, 6, 7, 26, 77, -15, 5, 7, 25, 81, -13, 6, 7, 26, 78, -17, 6, 7, 26, 70, 32, 31, 44, 26, 75, -4, 22, 38, 26, 68, 37, 40, 53, 27, 70, 17, 57, 66, 26, 77, 2, 45, 58, 26, 74, 6, 43, 68, 26, 70, 42, 108, 131, 25, 76, 0, 39, 50, 27, 78, -3, 24, 30, 27, 70, 28, 61, 85, 26, 81, -13, 6, 10, 25, 80, -15, 6, 7, 26, 77, -15, 7, 9, 26, 78, -18, 7, 8, 25, 80, -15, 6, 8, 27, 72, 19, 26, 31, 26, 72, 22, 53, 59, 27, 68, 42, 51, 63, 28, 67, 21, 58, 66, 25, 76, -11, 15, 22, 26, 77, 4, 43, 49, 25, 81, -9, 8, 10, 26, 79, -8, 8, 10, 26, 80, 9, 41, 46, 26, 78, 5, 36, 45, 25, 80, -13, 5, 9, 26, 79, -16, 6, 7, 26, 79, -10, 6, 8, 26, 78, -18, 6, 7, 26, 78, -15, 6, 8, 26, 72, 37, 27, 31, 27, 72, 53, 36, 45, 27, 68, 60, 53, 62, 27, 77, -7, 27, 32, 26, 79, 1, 45, 48, 26, 79, 7, 41, 47, 26, 80, -10, 7, 9, 25, 82, -8, 6, 8, 26, 78, 9, 43, 51, 25, 82, -7, 7, 12, 26, 79, -15, 6, 7, 26, 81, -15, 6, 8, 26, 79, -8, 5, 6, 25, 80, -11, 6, 8, 26, 82, -14, 6, 8, 26, 79, 4, 21, 27, 27, 72, 23, 41, 49, 27, 72, 7, 35, 42, 27, 66, 41, 62, 71, 26, 81, -13, 7, 11, 26, 78, 8, 50, 55, 26, 78, 4, 41, 47, 26, 78, 5, 42, 48, 27, 73, 18, 60, 76, 27, 75, 8, 27, 34, 25, 79, -11, 5, 6, 26, 79, -16, 5, 6, 25, 81, -7, 7, 10, 25, 80, -9, 8, 10, 26, 81, -11, 6, 8, 25, 81, 1, 18, 23, 26, 71, 36, 46, 56, 26, 79, -11, 6, 7, 25, 75, 9, 31, 37, 26, 66, 49, 58, 70, 26, 72, 23, 21, 25, 26, 72, 15, 26, 31, 25, 78, -10, 9, 16, 27, 67, 13, 48, 58, 27, 70, 17, 51, 57, 26, 80, -14, 5, 7, 27, 77, -17, 5, 7, 26, 82, -7, 6, 8, 26, 82, -10, 7, 8, 25, 82, -8, 8, 10, 25, 80, -7, 9, 14, 26, 80, -5, 12, 18, 25, 81, -10, 6, 8, 25, 83, -8, 8, 10, 25, 82, -5, 12, 19, 26, 77, 5, 29, 38, 27, 73, 13, 42, 52, 27, 66, 47, 59, 70, 27, 70, 16, 24, 30, 26, 78, -8, 18, 24, 26, 79, -17, 6, 7, 27, 77, -19, 5, 7, 25, 84, -5, 9, 11, 24, 84, -7, 8, 10, 24, 85, -6, 9, 11, 25, 84, -4, 7, 9, 25, 84, -5, 7, 9, 25, 83, -6, 10, 12, 24, 84, -6, 8, 10, 25, 85, -8, 10, 12, 26, 80, -15, 6, 8, 26, 78, -16, 6, 8, 26, 77, -17, 6, 12, 27, 72, 8, 37, 46, 26, 77, 0, 20, 25, 26, 78, -17, 6, 8, 27, 76, -18, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4633,7 +4625,7 @@ namespace clue_data {
             "id": 54,
             "type": "map",
             "tier": "easy",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 182, 26, 77, -2, 6, 8, 26, 77, -3, 8, 10, 25, 78, -2, 6, 7, 26, 80, 1, 5, 6, 25, 77, 0, 7, 8, 26, 77, -2, 7, 9, 26, 77, -3, 6, 8, 25, 80, -5, 7, 9, 25, 86, -4, 7, 8, 25, 82, -5, 6, 7, 26, 82, -3, 5, 6, 26, 82, -5, 4, 6, 25, 82, -4, 5, 7, 25, 85, -5, 6, 7, 26, 81, -6, 8, 10, 26, 78, -2, 7, 9, 25, 76, -6, 7, 9, 25, 79, -3, 5, 7, 26, 79, 7, 14, 19, 26, 78, 1, 10, 15, 28, 68, 28, 53, 60, 26, 77, -3, 9, 14, 24, 80, -6, 6, 8, 25, 80, -7, 5, 7, 26, 84, -3, 5, 6, 26, 83, -1, 6, 8, 26, 82, -5, 5, 6, 25, 79, -7, 5, 7, 25, 83, -8, 7, 8, 26, 80, -6, 6, 8, 25, 77, -4, 8, 10, 26, 78, -6, 6, 8, 26, 78, -5, 6, 7, 26, 75, 16, 31, 42, 27, 78, 1, 13, 17, 26, 77, -1, 15, 18, 26, 80, -5, 7, 14, 26, 78, 13, 56, 65, 25, 78, -1, 19, 28, 26, 79, -5, 5, 7, 26, 81, -2, 6, 7, 26, 79, -3, 5, 6, 26, 79, -5, 5, 7, 26, 80, -8, 6, 7, 26, 80, -7, 7, 8, 25, 78, -5, 5, 6, 25, 78, -5, 6, 8, 25, 77, -5, 4, 5, 26, 81, -5, 4, 6, 27, 79, 7, 41, 44, 26, 79, 0, 22, 26, 26, 81, 8, 45, 53, 25, 80, -9, 6, 8, 24, 79, 9, 38, 46, 26, 76, 15, 68, 74, 26, 76, 12, 46, 53, 26, 78, 0, 7, 11, 26, 80, -3, 6, 8, 25, 79, -7, 6, 8, 26, 79, -8, 5, 6, 25, 78, -2, 8, 10, 26, 78, -6, 6, 8, 25, 78, -7, 5, 6, 25, 80, -5, 6, 8, 27, 78, 11, 67, 75, 26, 78, -3, 15, 18, 26, 75, 2, 20, 23, 26, 64, 24, 38, 43, 25, 75, 3, 18, 23, 26, 77, -5, 11, 21, 25, 76, -1, 12, 20, 27, 77, 13, 54, 61, 25, 80, -3, 5, 6, 26, 81, -7, 6, 7, 26, 80, -10, 6, 7, 26, 77, -8, 5, 7, 25, 81, -6, 6, 7, 26, 78, -10, 6, 7, 26, 78, 0, 37, 43, 26, 64, 28, 39, 48, 26, 75, 0, 18, 22, 26, 68, 26, 28, 37, 26, 75, 1, 17, 20, 26, 69, 5, 30, 35, 26, 68, 63, 130, 157, 27, 66, 33, 65, 83, 27, 78, 11, 43, 49, 28, 70, 25, 50, 54, 26, 81, -7, 5, 6, 25, 80, -8, 6, 7, 26, 77, -8, 7, 9, 26, 78, -11, 7, 8, 25, 80, -8, 6, 8, 26, 78, -6, 8, 12, 26, 77, -6, 6, 8, 26, 70, 3, 21, 29, 26, 78, -9, 6, 14, 25, 76, -5, 11, 15, 26, 78, -4, 8, 12, 25, 75, 12, 21, 29, 26, 79, 0, 8, 16, 26, 80, 18, 48, 56, 25, 80, 8, 28, 31, 25, 80, -7, 5, 6, 26, 79, -9, 6, 7, 26, 79, -3, 6, 8, 26, 78, -11, 6, 7, 26, 78, -8, 6, 8, 25, 78, 3, 29, 39, 26, 76, 8, 49, 63, 27, 77, -6, 14, 33, 27, 79, 6, 53, 60, 26, 79, 6, 41, 48, 26, 78, 6, 17, 21, 26, 70, 19, 21, 28, 26, 79, 17, 69, 78, 26, 80, 1, 7, 12, 25, 83, -2, 6, 7, 26, 79, -8, 6, 7, 26, 81, -8, 6, 8, 26, 79, -1, 5, 6, 25, 80, -4, 6, 8, 26, 82, -7, 6, 8, 26, 82, -2, 9, 11, 26, 79, -3, 12, 16, 27, 75, 1, 24, 31, 28, 68, 18, 46, 55, 26, 78, 10, 41, 52, 25, 78, 11, 43, 48, 26, 78, 11, 51, 59, 25, 80, -2, 6, 10, 26, 80, -3, 4, 5, 26, 81, -3, 4, 6, 25, 79, -4, 5, 6, 26, 79, -9, 5, 6, 25, 81, 0, 7, 10, 25, 80, -2, 8, 10, 26, 81, -4, 6, 8, 25, 82, 4, 22, 25, 25, 78, 14, 39, 45, 26, 77, 12, 41, 46, 26, 76, 17, 55, 65, 26, 79, -1, 11, 20, 25, 79, -5, 6, 7, 26, 78, -5, 6, 7, 26, 78, 6, 38, 46, 26, 74, 10, 44, 49, 26, 78, 8, 39, 42, 26, 80, -7, 5, 7, 27, 77, -10, 5, 7, 26, 82, 0, 6, 8, 26, 82, -3, 7, 8, 25, 82, -1, 8, 10, 25, 80, 1, 12, 17, 26, 81, 0, 7, 14, 25, 81, 0, 12, 16, 25, 82, 4, 29, 32, 25, 81, 15, 46, 57, 26, 79, 10, 41, 49, 27, 77, 11, 53, 58, 26, 77, 0, 26, 37, 27, 76, -7, 17, 21, 26, 80, -6, 6, 8, 26, 79, -10, 6, 7, 27, 77, -12, 5, 7, 25, 84, 2, 9, 11, 24, 84, 0, 8, 10, 24, 85, 1, 9, 11, 25, 84, 3, 7, 9, 25, 84, 2, 7, 9, 25, 83, 1, 10, 12, 24, 84, 1, 8, 10, 25, 85, -1, 10, 12, 26, 80, -8, 6, 8, 26, 78, -9, 6, 8, 26, 77, -11, 6, 7, 27, 78, -11, 5, 6, 26, 80, -6, 6, 7, 26, 78, -10, 6, 8, 27, 76, -11, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4645,7 +4637,7 @@ namespace clue_data {
             "id": 55,
             "type": "map",
             "tier": "easy",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -4, 7, 9, 26, 77, -5, 6, 8, 25, 80, -7, 7, 9, 25, 86, -6, 7, 8, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -7, 4, 6, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -5, 5, 7, 26, 81, -2, 6, 8, 26, 77, 4, 21, 28, 27, 71, 14, 32, 44, 25, 78, -7, 6, 7, 24, 80, -8, 6, 8, 26, 76, 2, 24, 29, 27, 75, 21, 31, 38, 26, 83, -3, 6, 8, 27, 76, 10, 24, 28, 25, 79, -9, 6, 10, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -7, 6, 10, 27, 74, 20, 44, 51, 26, 80, -7, 5, 6, 26, 79, -7, 5, 8, 26, 78, -2, 16, 21, 26, 80, -7, 6, 8, 25, 79, -8, 7, 9, 26, 75, 3, 19, 29, 26, 81, -4, 6, 7, 27, 69, 24, 48, 52, 26, 78, -4, 11, 15, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -7, 4, 5, 26, 79, -3, 14, 18, 27, 81, -8, 6, 7, 26, 80, -8, 6, 8, 26, 75, 14, 49, 54, 27, 69, 25, 44, 51, 24, 79, -1, 15, 19, 25, 78, -3, 12, 16, 26, 78, -4, 7, 9, 26, 78, -2, 7, 9, 26, 80, -5, 6, 8, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 25, 78, -9, 5, 6, 25, 80, -3, 18, 22, 28, 71, 20, 56, 60, 26, 80, -8, 6, 8, 26, 81, -11, 5, 7, 25, 48, 31, 77, 85, 25, 64, 10, 29, 35, 27, 70, 19, 51, 57, 25, 77, -5, 6, 9, 27, 79, -3, 7, 9, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 9, 26, 77, 17, 71, 86, 26, 74, 17, 75, 86, 26, 78, -8, 10, 16, 25, 80, -10, 7, 8, 21, 36, 35, 49, 58, 23, 38, 37, 42, 51, 25, 78, -7, 7, 8, 25, 78, -7, 11, 16, 26, 76, 0, 16, 21, 26, 78, 13, 52, 60, 26, 81, -8, 5, 11, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 26, 77, -2, 18, 27, 26, 75, 14, 66, 73, 27, 75, 15, 69, 87, 26, 77, 3, 44, 57, 24, 51, 34, 135, 153, 25, 52, 34, 63, 80, 26, 75, 32, 85, 97, 26, 76, 23, 58, 67, 26, 79, 26, 71, 88, 26, 80, 21, 62, 73, 25, 80, -3, 20, 24, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 78, -10, 6, 8, 27, 71, 17, 48, 53, 26, 77, -6, 12, 17, 27, 77, 6, 52, 63, 27, 79, 9, 46, 59, 26, 80, -7, 6, 14, 26, 72, 14, 94, 107, 26, 74, 25, 67, 86, 26, 78, 28, 77, 89, 26, 79, 13, 44, 52, 25, 83, -4, 6, 7, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 80, 0, 19, 23, 28, 66, 33, 62, 69, 27, 76, -14, 6, 7, 27, 75, 10, 58, 66, 26, 81, -8, 7, 8, 25, 75, 3, 26, 27, 26, 78, 15, 51, 59, 25, 80, -4, 7, 10, 26, 80, -5, 5, 8, 26, 76, 3, 21, 24, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -6, 6, 8, 26, 77, 14, 31, 37, 25, 78, 3, 21, 27, 28, 66, 32, 60, 65, 25, 79, 1, 17, 26, 26, 78, 16, 57, 64, 26, 78, 12, 51, 57, 26, 77, 7, 40, 49, 25, 77, -3, 10, 13, 26, 69, 2, 23, 29, 25, 72, 4, 27, 28, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, -3, 8, 10, 25, 77, 3, 22, 27, 26, 81, -3, 7, 8, 27, 72, 21, 44, 52, 25, 83, -3, 8, 10, 26, 81, 20, 59, 69, 26, 79, 11, 44, 53, 26, 78, -10, 5, 6, 26, 78, -11, 5, 6, 27, 73, -5, 16, 19, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 80, 9, 29, 41, 24, 84, -1, 8, 10, 25, 83, 11, 44, 53, 26, 80, -10, 6, 8, 26, 78, -11, 6, 8, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4657,7 +4649,7 @@ namespace clue_data {
             "id": 56,
             "type": "map",
             "tier": "easy",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 181, 26, 77, -3, 6, 8, 26, 77, -4, 8, 10, 25, 78, -3, 6, 7, 26, 80, 0, 5, 6, 25, 77, -1, 7, 8, 26, 77, -3, 7, 9, 26, 77, -4, 6, 8, 25, 80, -6, 7, 9, 25, 86, -5, 7, 8, 25, 79, 12, 39, 46, 26, 79, 10, 36, 43, 26, 82, -6, 4, 6, 25, 82, -5, 5, 7, 25, 85, -6, 6, 7, 26, 81, -7, 8, 10, 26, 78, -3, 7, 9, 25, 76, -7, 7, 9, 25, 79, -4, 5, 7, 26, 81, -1, 6, 8, 26, 79, -2, 7, 8, 26, 78, -6, 7, 8, 25, 78, -6, 6, 7, 24, 80, -7, 6, 8, 25, 80, -8, 5, 7, 26, 77, 25, 58, 68, 26, 77, 21, 54, 64, 26, 82, -6, 5, 6, 25, 79, -8, 5, 7, 25, 83, -9, 7, 8, 26, 80, -7, 6, 8, 25, 77, -5, 8, 10, 26, 78, -7, 6, 8, 26, 78, -6, 6, 7, 25, 82, -3, 5, 7, 26, 80, -6, 5, 6, 26, 79, -6, 5, 7, 26, 72, 9, 49, 55, 26, 71, 16, 95, 106, 25, 73, 6, 43, 49, 26, 71, 11, 50, 56, 26, 79, -1, 9, 13, 26, 79, -4, 5, 6, 26, 79, -6, 5, 7, 26, 80, -9, 6, 7, 26, 80, -8, 7, 8, 25, 78, -6, 5, 6, 25, 78, -6, 6, 8, 25, 77, -6, 4, 5, 26, 81, -6, 4, 6, 27, 81, -6, 9, 13, 26, 80, -7, 6, 8, 25, 76, 9, 48, 58, 25, 73, 10, 34, 53, 24, 74, 7, 19, 27, 25, 78, -5, 6, 8, 26, 77, 3, 23, 27, 26, 78, -1, 7, 9, 26, 80, -4, 6, 8, 25, 79, -8, 6, 8, 26, 79, -9, 5, 6, 25, 78, -3, 8, 10, 26, 78, -7, 6, 8, 25, 78, -8, 5, 6, 25, 80, -6, 6, 7, 27, 77, 13, 43, 49, 26, 77, 3, 87, 97, 26, 69, 16, 54, 74, 26, 63, 24, 39, 51, 25, 74, 7, 23, 31, 26, 64, 26, 36, 40, 25, 75, 12, 42, 48, 27, 79, -2, 7, 9, 25, 80, -4, 5, 6, 26, 81, -8, 6, 7, 26, 80, -11, 6, 7, 26, 77, -9, 5, 7, 25, 81, -7, 6, 7, 26, 78, -11, 6, 7, 26, 79, -8, 6, 8, 26, 75, 10, 43, 49, 26, 66, 17, 46, 53, 26, 70, 12, 60, 84, 26, 72, 7, 85, 103, 26, 76, -7, 10, 19, 25, 78, -6, 7, 8, 25, 76, 9, 50, 58, 27, 79, -5, 7, 11, 26, 80, -5, 5, 6, 26, 81, -8, 5, 6, 25, 80, -9, 6, 7, 26, 77, -9, 7, 9, 26, 78, -12, 7, 8, 25, 80, -9, 6, 8, 26, 78, -7, 7, 9, 26, 75, 10, 44, 51, 26, 65, 16, 39, 46, 26, 76, -6, 16, 25, 25, 76, -6, 15, 21, 26, 64, 31, 91, 107, 25, 71, 21, 31, 35, 26, 79, -1, 8, 12, 26, 79, 16, 73, 82, 25, 82, -1, 8, 11, 25, 80, -8, 5, 6, 26, 79, -10, 6, 7, 26, 79, -4, 6, 8, 26, 78, -12, 6, 7, 26, 78, -9, 6, 8, 25, 78, -5, 8, 9, 26, 76, 7, 43, 49, 27, 78, -11, 5, 7, 27, 70, 15, 25, 31, 26, 69, 17, 53, 62, 26, 79, 1, 14, 18, 26, 80, -4, 7, 9, 25, 82, -2, 6, 8, 26, 79, 3, 17, 28, 26, 80, 14, 23, 27, 26, 79, -9, 6, 7, 26, 81, -9, 6, 8, 26, 79, -2, 5, 6, 25, 80, -5, 6, 8, 26, 82, -8, 6, 8, 26, 82, -3, 9, 11, 26, 77, 7, 47, 55, 27, 76, -9, 11, 19, 27, 74, -2, 20, 24, 26, 71, 16, 23, 26, 25, 80, -5, 6, 7, 25, 76, 2, 17, 20, 26, 71, 16, 26, 32, 26, 75, 10, 28, 38, 26, 79, 12, 22, 25, 25, 79, -5, 5, 6, 26, 79, -10, 5, 6, 25, 81, -1, 7, 10, 25, 80, -3, 8, 10, 26, 81, -5, 6, 8, 25, 83, -2, 8, 10, 25, 80, -3, 6, 7, 26, 76, 15, 68, 78, 25, 79, -2, 10, 18, 26, 79, -6, 5, 7, 25, 79, -6, 6, 7, 26, 69, 16, 22, 26, 25, 61, 35, 46, 55, 26, 71, 5, 29, 41, 26, 77, 8, 23, 26, 26, 80, -8, 5, 7, 27, 77, -11, 5, 7, 26, 82, -1, 6, 8, 26, 82, -4, 7, 8, 25, 82, -2, 8, 10, 25, 80, -3, 7, 9, 26, 81, -2, 7, 8, 25, 81, -4, 6, 8, 26, 80, 16, 46, 54, 26, 80, 16, 43, 49, 26, 78, 11, 42, 49, 27, 75, 15, 42, 56, 27, 74, 14, 42, 55, 27, 75, 11, 47, 52, 26, 79, -1, 16, 20, 26, 79, -11, 6, 7, 27, 77, -13, 5, 7, 25, 84, 1, 9, 11, 24, 84, -1, 8, 10, 24, 85, 0, 9, 11, 25, 84, 2, 7, 9, 25, 84, 1, 7, 9, 25, 83, 0, 10, 12, 24, 84, 0, 8, 10, 25, 85, -2, 10, 12, 26, 80, -9, 6, 8, 26, 78, -10, 6, 8, 26, 77, -12, 6, 7, 27, 78, -12, 5, 6, 26, 80, -7, 6, 7, 26, 78, -11, 6, 8, 27, 76, -12, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4669,7 +4661,7 @@ namespace clue_data {
             "id": 63,
             "type": "map",
             "tier": "easy",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 177, 26, 77, -7, 6, 8, 26, 77, -8, 8, 10, 25, 78, -7, 6, 7, 26, 80, -4, 5, 6, 25, 77, -5, 7, 8, 26, 77, -7, 7, 10, 26, 77, -8, 6, 8, 25, 80, -10, 7, 9, 25, 86, -9, 7, 8, 25, 82, -10, 6, 7, 26, 82, -8, 5, 6, 26, 82, -10, 4, 9, 25, 82, -9, 5, 7, 25, 85, -10, 6, 7, 26, 81, -11, 8, 10, 26, 78, -7, 7, 9, 25, 76, -11, 7, 9, 25, 79, -8, 5, 7, 26, 81, -5, 6, 8, 27, 75, 7, 28, 36, 29, 62, 37, 59, 69, 25, 77, -9, 7, 12, 27, 66, 32, 55, 62, 25, 80, -12, 5, 7, 26, 84, -8, 5, 7, 26, 72, 13, 38, 45, 26, 68, 17, 39, 46, 25, 79, -11, 6, 11, 25, 83, -13, 7, 8, 26, 80, -11, 6, 8, 25, 77, -9, 8, 10, 26, 78, -11, 6, 8, 26, 78, -10, 6, 7, 26, 81, -5, 10, 15, 28, 64, 34, 51, 60, 27, 75, -3, 19, 23, 26, 80, -11, 5, 6, 26, 75, 2, 30, 34, 25, 76, -4, 18, 22, 26, 75, -1, 22, 28, 26, 66, 27, 28, 37, 25, 62, 29, 31, 39, 26, 75, -2, 16, 19, 26, 80, -13, 6, 7, 26, 80, -12, 7, 8, 25, 78, -10, 5, 6, 25, 78, -10, 6, 8, 25, 77, -10, 4, 5, 26, 81, -10, 4, 6, 27, 80, -8, 11, 14, 26, 80, -11, 6, 8, 25, 84, -11, 7, 9, 25, 77, -6, 19, 23, 24, 65, 27, 33, 39, 25, 72, 4, 20, 28, 26, 78, -7, 7, 9, 26, 77, -3, 9, 16, 26, 80, -8, 6, 8, 25, 79, -12, 6, 8, 26, 79, -13, 5, 6, 25, 78, -7, 8, 10, 26, 78, -11, 6, 8, 25, 78, -12, 5, 6, 25, 80, -10, 6, 7, 26, 80, -10, 6, 7, 26, 80, -11, 6, 8, 26, 81, -14, 5, 7, 26, 77, -16, 5, 7, 26, 71, 9, 21, 24, 26, 71, 5, 21, 24, 25, 77, -8, 6, 8, 27, 79, -6, 7, 9, 25, 80, -8, 5, 6, 26, 81, -12, 6, 7, 26, 80, -15, 6, 7, 26, 77, -13, 5, 7, 25, 81, -11, 6, 7, 26, 78, -15, 6, 7, 26, 79, -11, 7, 13, 29, 63, 33, 40, 53, 26, 78, -14, 5, 6, 25, 79, -2, 31, 40, 26, 79, -13, 7, 11, 26, 76, -12, 7, 8, 25, 78, -10, 7, 8, 25, 78, -11, 7, 9, 27, 79, -9, 7, 9, 26, 80, -9, 5, 6, 26, 81, -12, 5, 6, 25, 80, -13, 6, 7, 26, 77, -13, 7, 9, 26, 78, -16, 7, 8, 25, 80, -13, 6, 8, 26, 78, -11, 7, 11, 26, 70, 9, 41, 53, 26, 66, 11, 127, 130, 26, 71, 30, 106, 124, 26, 73, 9, 25, 31, 26, 75, 4, 21, 25, 25, 81, -6, 9, 14, 26, 79, -6, 8, 10, 26, 82, -4, 7, 8, 25, 82, -6, 8, 9, 25, 80, -12, 5, 6, 26, 79, -14, 6, 7, 26, 79, -8, 6, 8, 26, 78, -16, 6, 7, 26, 76, -4, 24, 29, 26, 69, 30, 49, 60, 26, 77, -10, 9, 16, 27, 69, 23, 44, 54, 27, 71, 29, 50, 60, 26, 77, 9, 33, 41, 26, 75, 19, 35, 40, 26, 70, 33, 53, 63, 26, 73, 27, 40, 49, 26, 80, -5, 7, 11, 25, 83, -7, 6, 7, 26, 79, -13, 6, 7, 26, 81, -13, 6, 8, 26, 79, -6, 5, 6, 25, 80, -9, 6, 8, 26, 82, -12, 6, 8, 26, 81, -1, 18, 26, 26, 69, 32, 61, 71, 27, 73, -3, 24, 31, 27, 75, -4, 22, 29, 27, 64, 50, 74, 86, 26, 67, 41, 63, 75, 26, 75, 7, 28, 35, 26, 77, 6, 26, 34, 27, 67, 56, 56, 63, 26, 72, 35, 39, 47, 25, 79, -9, 5, 6, 26, 79, -14, 5, 6, 25, 81, -5, 7, 10, 25, 80, -7, 8, 10, 26, 80, -7, 12, 18, 25, 83, -6, 8, 13, 25, 80, -7, 6, 7, 26, 79, -9, 6, 7, 25, 78, 0, 21, 28, 26, 66, 45, 75, 92, 26, 66, 36, 77, 87, 26, 72, 19, 46, 55, 25, 79, -10, 5, 6, 27, 70, 33, 27, 31, 26, 75, 19, 35, 55, 26, 80, -12, 5, 7, 27, 77, -15, 5, 7, 26, 82, -5, 6, 8, 26, 82, -8, 7, 8, 25, 80, 4, 17, 21, 26, 70, 34, 52, 61, 27, 71, 33, 47, 54, 26, 71, 31, 52, 61, 25, 81, 4, 28, 39, 25, 83, -6, 7, 21, 26, 80, -6, 14, 29, 26, 71, 22, 44, 54, 26, 68, 30, 58, 66, 27, 68, 32, 41, 52, 26, 74, 24, 27, 33, 26, 79, -15, 6, 7, 27, 77, -17, 5, 7, 25, 84, -3, 9, 11, 24, 84, -5, 8, 10, 24, 85, -4, 9, 11, 25, 84, -2, 7, 9, 25, 84, -3, 7, 9, 25, 82, 2, 16, 21, 25, 75, 26, 24, 30, 25, 74, 34, 28, 42, 26, 72, 25, 26, 36, 26, 76, -6, 15, 21, 26, 77, -16, 6, 7, 27, 78, -16, 5, 6, 26, 80, -11, 6, 7, 26, 78, -15, 6, 8, 27, 76, -16, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4681,7 +4673,7 @@ namespace clue_data {
             "id": 44,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 174, 26, 77, -10, 6, 8, 26, 77, -11, 8, 10, 25, 78, -10, 6, 7, 26, 80, -7, 5, 6, 25, 77, -8, 7, 8, 26, 77, -10, 7, 9, 26, 77, -9, 10, 15, 25, 76, 11, 21, 24, 26, 76, 29, 24, 34, 26, 79, 2, 18, 23, 26, 82, -11, 5, 6, 26, 82, -13, 4, 6, 25, 82, -12, 5, 7, 25, 85, -13, 6, 7, 26, 81, -14, 8, 10, 26, 78, -10, 7, 9, 25, 76, -14, 7, 9, 25, 79, -11, 5, 7, 26, 81, -8, 6, 8, 26, 79, -9, 7, 8, 26, 76, -3, 17, 22, 27, 69, 41, 63, 74, 25, 76, 18, 74, 92, 25, 78, -2, 29, 55, 26, 76, 29, 55, 63, 26, 74, 33, 50, 60, 26, 74, 26, 23, 33, 26, 71, 26, 23, 34, 26, 82, -10, 18, 23, 26, 80, -14, 6, 8, 25, 77, -12, 8, 10, 26, 78, -14, 6, 8, 26, 78, -13, 6, 7, 25, 82, -10, 5, 7, 27, 77, 14, 42, 51, 27, 71, 36, 52, 64, 26, 79, -7, 13, 28, 26, 70, 33, 48, 59, 26, 70, 39, 54, 70, 26, 76, 5, 33, 41, 26, 80, -1, 49, 55, 26, 78, 1, 27, 48, 26, 73, 17, 40, 66, 26, 79, -9, 15, 19, 26, 80, -15, 7, 8, 25, 78, -13, 5, 6, 25, 78, -13, 6, 8, 25, 77, -13, 4, 5, 26, 77, 4, 21, 25, 27, 72, 46, 79, 102, 27, 79, 6, 45, 51, 26, 81, 5, 36, 42, 26, 72, 17, 24, 29, 24, 80, -11, 7, 12, 26, 69, 36, 52, 60, 27, 70, 38, 60, 67, 27, 68, 40, 70, 81, 26, 72, 26, 29, 35, 25, 78, -12, 10, 13, 26, 79, -16, 5, 6, 25, 78, -10, 8, 10, 26, 78, -14, 6, 8, 25, 78, -15, 5, 8, 26, 72, 37, 58, 70, 27, 78, 8, 36, 55, 27, 74, 18, 51, 58, 27, 69, 41, 65, 75, 26, 75, -6, 17, 21, 26, 76, 24, 76, 94, 27, 75, 24, 85, 107, 25, 76, 5, 45, 55, 27, 79, -9, 7, 9, 25, 80, -11, 5, 6, 26, 81, -15, 6, 7, 26, 80, -18, 6, 7, 26, 77, -16, 5, 7, 25, 81, -14, 6, 7, 26, 75, 5, 39, 45, 26, 75, 11, 38, 44, 26, 73, 13, 44, 57, 26, 75, 4, 45, 54, 25, 80, -15, 7, 11, 26, 78, -1, 44, 52, 26, 76, -10, 14, 24, 26, 77, -8, 16, 25, 26, 76, 24, 85, 104, 27, 79, -12, 7, 9, 26, 80, -12, 5, 6, 26, 81, -15, 5, 6, 25, 80, -16, 6, 7, 26, 77, -16, 7, 9, 26, 78, -19, 7, 8, 25, 80, -16, 6, 8, 26, 78, -14, 7, 9, 27, 67, 43, 61, 72, 26, 76, -15, 11, 16, 28, 64, 25, 36, 42, 27, 71, 26, 70, 80, 26, 78, -13, 7, 9, 25, 81, -10, 8, 10, 26, 77, 16, 60, 70, 26, 82, -7, 7, 8, 25, 82, -9, 8, 9, 25, 80, -15, 5, 6, 26, 79, -17, 6, 7, 26, 79, -11, 6, 8, 26, 78, -19, 6, 7, 26, 78, -16, 6, 8, 26, 71, 22, 49, 60, 26, 73, 11, 24, 30, 27, 77, -17, 7, 18, 31, 55, 80, 41, 58, 28, 71, 47, 75, 84, 26, 79, 12, 53, 58, 26, 78, 8, 43, 48, 26, 79, 17, 56, 66, 26, 80, -8, 7, 15, 25, 83, -10, 6, 7, 26, 79, -16, 6, 7, 26, 81, -16, 6, 8, 26, 79, -9, 5, 6, 25, 80, -12, 6, 8, 26, 79, -3, 25, 32, 26, 69, 38, 48, 58, 26, 79, -15, 6, 8, 27, 76, -20, 6, 7, 27, 75, 4, 53, 60, 26, 79, 8, 47, 55, 26, 78, 10, 44, 51, 26, 78, 7, 43, 48, 26, 78, 11, 48, 57, 26, 78, 13, 50, 64, 26, 81, -11, 4, 6, 25, 79, -12, 5, 6, 26, 79, -17, 5, 6, 25, 81, -8, 7, 10, 25, 80, -10, 8, 10, 26, 79, -5, 15, 20, 25, 82, -6, 13, 16, 25, 80, -10, 6, 7, 26, 79, -12, 6, 7, 26, 78, 8, 44, 50, 26, 79, -8, 20, 27, 26, 76, 26, 89, 99, 26, 78, -13, 6, 7, 26, 77, 7, 43, 49, 26, 75, 3, 44, 49, 26, 79, -14, 4, 5, 26, 80, -15, 5, 7, 27, 77, -18, 5, 7, 26, 82, -8, 6, 8, 26, 82, -11, 7, 8, 25, 82, -9, 8, 10, 25, 80, -10, 7, 9, 26, 81, -9, 7, 8, 25, 81, -11, 6, 8, 26, 81, 10, 44, 49, 26, 81, 14, 53, 60, 26, 79, 6, 44, 49, 26, 77, 8, 54, 62, 27, 76, 4, 48, 57, 27, 75, 6, 63, 69, 26, 80, -14, 6, 8, 26, 79, -18, 6, 7, 27, 77, -20, 5, 7, 25, 84, -6, 9, 11, 24, 84, -8, 8, 10, 24, 85, -7, 9, 11, 25, 84, -5, 7, 9, 25, 84, -6, 7, 9, 25, 83, -7, 10, 12, 24, 84, -7, 8, 10, 25, 84, -5, 23, 27, 26, 80, -16, 6, 8, 26, 78, -13, 20, 24, 26, 77, -12, 29, 33, 27, 78, -19, 5, 6, 26, 80, -14, 6, 7, 26, 78, -18, 6, 8, 27, 76, -19, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4693,7 +4685,7 @@ namespace clue_data {
             "id": 45,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -1, 18, 23, 26, 76, -2, 13, 17, 25, 80, -6, 10, 14, 25, 85, -3, 11, 15, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -5, 10, 15, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -5, 5, 7, 26, 81, -2, 6, 8, 26, 79, -3, 7, 8, 26, 79, 7, 49, 56, 28, 68, 31, 57, 67, 25, 77, 7, 24, 37, 26, 77, 2, 21, 27, 27, 77, 14, 42, 50, 26, 82, 7, 37, 46, 28, 77, 20, 52, 65, 25, 79, -9, 5, 7, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -7, 6, 7, 26, 80, 2, 15, 22, 27, 76, 5, 24, 30, 28, 74, 21, 58, 66, 26, 80, 4, 40, 49, 26, 79, -3, 11, 18, 25, 78, -5, 14, 18, 27, 73, 23, 57, 66, 26, 81, 4, 32, 40, 26, 76, 5, 24, 34, 26, 77, -1, 17, 21, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -7, 4, 5, 26, 81, -7, 4, 7, 27, 81, -7, 8, 10, 26, 78, -2, 21, 24, 27, 81, 20, 56, 65, 26, 79, -3, 19, 24, 24, 80, -5, 7, 8, 26, 80, 7, 37, 41, 27, 74, 13, 28, 33, 27, 77, 3, 17, 21, 27, 74, 16, 42, 46, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 26, 77, -6, 13, 17, 27, 74, 18, 41, 50, 27, 76, 8, 28, 33, 26, 80, -8, 6, 8, 26, 80, 8, 45, 56, 26, 77, -12, 6, 12, 25, 79, -7, 6, 8, 27, 77, 16, 52, 59, 25, 75, -1, 13, 20, 27, 79, -3, 7, 10, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 7, 26, 78, -6, 13, 18, 26, 75, -3, 21, 27, 27, 75, 4, 28, 34, 26, 82, 12, 54, 62, 26, 80, 3, 32, 48, 27, 78, 6, 48, 63, 27, 77, 26, 82, 94, 26, 74, 6, 24, 33, 28, 74, 12, 27, 33, 26, 80, -6, 5, 7, 26, 81, -9, 5, 6, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 27, 73, 8, 30, 41, 26, 76, -4, 14, 17, 27, 74, -3, 21, 28, 26, 80, 0, 39, 46, 25, 77, -9, 8, 11, 26, 79, 7, 55, 61, 26, 83, 22, 51, 62, 26, 77, 4, 25, 32, 26, 79, 8, 25, 34, 25, 82, -2, 8, 9, 25, 80, -9, 5, 6, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 77, -9, 9, 13, 27, 74, 10, 32, 37, 27, 74, 7, 31, 37, 27, 74, 2, 31, 37, 27, 82, 1, 44, 51, 26, 81, -2, 23, 31, 26, 81, 2, 21, 31, 26, 81, 7, 48, 55, 26, 76, 15, 36, 42, 26, 80, -2, 7, 9, 26, 81, 1, 14, 18, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 81, -1, 15, 19, 26, 78, -5, 20, 23, 27, 76, -11, 14, 18, 28, 72, 10, 35, 41, 26, 82, 2, 33, 39, 28, 71, 41, 70, 80, 28, 73, 31, 47, 54, 26, 77, 8, 20, 25, 26, 80, -5, 5, 8, 27, 76, 10, 28, 34, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -6, 6, 9, 26, 77, 15, 43, 48, 25, 80, -1, 14, 17, 28, 73, 16, 35, 41, 26, 76, 8, 33, 40, 27, 76, 7, 26, 35, 29, 69, 45, 56, 64, 29, 76, 37, 44, 52, 26, 74, 9, 32, 36, 28, 71, 12, 39, 43, 26, 79, -8, 4, 5, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, -3, 8, 10, 26, 78, 3, 17, 28, 27, 77, 11, 27, 34, 26, 80, -1, 13, 16, 26, 82, 0, 14, 19, 27, 77, 14, 29, 38, 26, 79, 0, 14, 22, 28, 74, 9, 27, 33, 27, 77, -7, 13, 17, 27, 75, -6, 22, 25, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 83, -1, 10, 12, 24, 84, -1, 8, 10, 25, 83, 1, 18, 26, 26, 80, -10, 6, 8, 26, 76, -5, 22, 27, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4705,7 +4697,7 @@ namespace clue_data {
             "id": 48,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [25, 89, 175, 26, 77, -9, 6, 8, 26, 77, -10, 8, 10, 25, 78, -9, 6, 7, 26, 80, -6, 5, 6, 25, 77, -7, 7, 8, 26, 77, -9, 7, 9, 26, 76, -7, 23, 36, 25, 78, -1, 47, 58, 25, 86, -11, 7, 8, 25, 82, -12, 6, 7, 26, 82, -10, 5, 6, 26, 82, -12, 4, 6, 25, 82, -11, 5, 7, 25, 85, -12, 6, 7, 26, 81, -13, 8, 10, 26, 78, -9, 7, 9, 25, 76, -13, 7, 9, 25, 79, -10, 5, 7, 26, 81, -7, 6, 8, 26, 79, -8, 7, 8, 26, 78, -12, 7, 8, 26, 77, 4, 50, 68, 24, 106, 29, 45, 59, 25, 84, 3, 43, 50, 26, 83, -8, 11, 14, 26, 83, -8, 6, 8, 26, 82, -12, 5, 6, 25, 79, -14, 5, 7, 25, 83, -15, 7, 8, 26, 80, -13, 6, 8, 25, 77, -11, 8, 10, 26, 78, -13, 6, 8, 26, 78, -12, 6, 7, 25, 82, -9, 5, 7, 26, 80, -12, 5, 6, 27, 79, -1, 47, 54, 26, 80, -11, 8, 19, 25, 112, 35, 47, 55, 25, 91, 10, 33, 41, 26, 79, -12, 5, 7, 26, 81, -9, 6, 7, 26, 79, -10, 5, 6, 26, 79, -12, 5, 7, 26, 80, -15, 6, 7, 26, 80, -14, 7, 8, 25, 78, -12, 5, 6, 25, 78, -12, 6, 8, 25, 77, -12, 4, 5, 26, 81, -12, 4, 6, 27, 81, -10, 17, 24, 27, 81, 3, 43, 54, 25, 104, 12, 31, 36, 22, 200, 55, 4, 6, 22, 187, 54, 17, 24, 25, 83, 3, 27, 46, 26, 78, -9, 7, 9, 26, 78, -7, 7, 9, 26, 80, -10, 6, 8, 25, 79, -14, 6, 8, 26, 79, -15, 5, 6, 25, 78, -9, 8, 10, 26, 78, -13, 6, 8, 25, 78, -14, 5, 6, 25, 80, -12, 6, 7, 27, 72, 18, 107, 132, 27, 79, 6, 60, 70, 25, 100, 14, 28, 32, 22, 187, 63, 2, 3, 22, 188, 62, 2, 3, 24, 129, 44, 55, 60, 25, 77, -10, 6, 10, 27, 79, -8, 7, 9, 25, 80, -10, 5, 6, 26, 81, -14, 6, 7, 26, 80, -17, 6, 7, 26, 77, -15, 5, 7, 25, 81, -13, 6, 7, 26, 78, -17, 6, 7, 26, 79, -14, 6, 8, 26, 72, 1, 46, 59, 26, 78, -1, 40, 45, 26, 83, 3, 45, 52, 24, 124, 46, 83, 95, 22, 171, 67, 13, 22, 22, 181, 66, 3, 4, 23, 126, 39, 46, 53, 27, 79, -10, 8, 13, 26, 80, -11, 5, 6, 26, 81, -14, 5, 6, 25, 80, -15, 6, 7, 26, 77, -15, 7, 9, 26, 78, -18, 7, 8, 25, 80, -15, 6, 8, 26, 78, -13, 7, 9, 26, 77, -13, 6, 8, 26, 77, 0, 41, 47, 26, 78, -1, 41, 46, 26, 72, 20, 101, 114, 23, 136, 58, 31, 42, 22, 171, 73, 2, 3, 22, 167, 67, 9, 12, 25, 90, 9, 42, 47, 25, 82, -8, 8, 9, 25, 80, -14, 5, 6, 26, 79, -16, 6, 7, 26, 79, -10, 6, 8, 26, 78, -18, 6, 7, 26, 78, -15, 6, 8, 25, 78, -11, 8, 9, 26, 81, -8, 18, 26, 27, 77, 1, 61, 71, 26, 89, 9, 51, 61, 26, 89, 8, 38, 44, 25, 93, 12, 32, 38, 23, 150, 58, 37, 47, 24, 115, 21, 19, 24, 26, 80, -7, 7, 9, 25, 83, -9, 6, 7, 26, 79, -15, 6, 7, 26, 81, -15, 6, 8, 26, 79, -8, 5, 6, 25, 80, -11, 6, 8, 26, 82, -14, 6, 8, 26, 82, -9, 9, 11, 24, 128, 27, 29, 36, 24, 111, 69, 98, 116, 24, 118, 58, 81, 98, 25, 105, 17, 32, 38, 26, 80, 18, 82, 92, 26, 80, 0, 24, 37, 26, 80, 1, 20, 33, 26, 78, -1, 47, 61, 26, 81, -9, 4, 7, 25, 79, -11, 5, 6, 26, 79, -16, 5, 6, 25, 81, -7, 7, 10, 25, 80, -9, 8, 10, 26, 81, -11, 6, 8, 25, 83, -8, 8, 10, 25, 95, 8, 29, 34, 22, 181, 58, 18, 27, 22, 186, 58, 16, 24, 25, 92, 8, 32, 40, 26, 80, 13, 65, 77, 26, 78, -9, 13, 16, 25, 79, -12, 5, 6, 27, 71, 2, 56, 70, 26, 79, -13, 4, 5, 26, 80, -14, 5, 7, 27, 77, -17, 5, 7, 26, 82, -7, 6, 8, 26, 82, -10, 7, 8, 25, 82, -8, 8, 10, 25, 80, -9, 7, 9, 26, 80, -6, 17, 22, 25, 88, 27, 105, 116, 25, 96, 11, 28, 33, 25, 83, -8, 7, 9, 26, 81, -12, 6, 7, 26, 76, -4, 52, 59, 27, 75, -3, 49, 64, 27, 77, -18, 5, 6, 26, 80, -13, 6, 8, 26, 79, -17, 6, 7, 27, 77, -19, 5, 7, 25, 84, -5, 9, 11, 24, 84, -7, 8, 10, 24, 85, -6, 9, 11, 25, 84, -4, 7, 9, 25, 84, -5, 7, 9, 25, 81, -1, 21, 24, 24, 84, -6, 8, 10, 25, 85, -8, 10, 12, 26, 80, -15, 6, 8, 26, 77, -14, 11, 14, 26, 76, -16, 10, 14, 27, 78, -18, 5, 6, 26, 80, -13, 6, 7, 26, 78, -17, 6, 8, 27, 76, -18, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4717,7 +4709,7 @@ namespace clue_data {
             "id": 51,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 178, 26, 77, -6, 6, 8, 26, 77, -7, 8, 10, 25, 78, -6, 6, 7, 26, 80, -1, 8, 13, 26, 73, 17, 36, 44, 26, 77, -6, 7, 12, 26, 77, -7, 6, 8, 25, 80, -9, 7, 9, 25, 86, -8, 7, 8, 25, 82, -9, 6, 7, 26, 82, -7, 5, 6, 26, 82, -9, 4, 6, 25, 82, -8, 5, 7, 25, 85, -9, 6, 7, 26, 81, -10, 8, 10, 26, 78, -6, 7, 9, 25, 76, -10, 7, 9, 25, 79, -7, 5, 7, 26, 81, -3, 8, 11, 27, 73, 22, 22, 27, 27, 68, 47, 65, 76, 25, 78, -9, 6, 8, 26, 71, 19, 49, 53, 27, 71, 21, 55, 61, 26, 84, -7, 5, 6, 26, 83, -5, 6, 8, 26, 82, -9, 5, 6, 25, 79, -11, 5, 7, 25, 83, -12, 7, 8, 26, 80, -10, 6, 8, 25, 77, -8, 8, 10, 26, 78, -10, 6, 8, 26, 78, -9, 6, 7, 25, 82, -6, 5, 7, 26, 80, -9, 5, 6, 26, 76, 8, 19, 25, 27, 74, 29, 55, 64, 26, 77, 0, 27, 30, 27, 69, 22, 54, 66, 26, 76, 3, 27, 34, 26, 81, -6, 6, 7, 26, 79, -7, 5, 6, 26, 79, -9, 5, 7, 26, 80, -12, 6, 7, 26, 80, -11, 7, 8, 25, 78, -9, 5, 6, 25, 78, -9, 6, 8, 25, 77, -9, 4, 5, 26, 81, -9, 4, 6, 27, 81, -10, 6, 7, 26, 80, -10, 6, 8, 26, 75, 29, 35, 46, 25, 77, 7, 35, 46, 27, 67, 30, 53, 68, 27, 68, 25, 56, 62, 26, 78, -6, 7, 9, 26, 78, -4, 7, 9, 26, 80, -7, 6, 8, 25, 79, -11, 6, 8, 26, 79, -12, 5, 6, 25, 78, -6, 8, 10, 26, 78, -10, 6, 8, 25, 78, -11, 5, 6, 25, 80, -9, 6, 7, 26, 80, -9, 6, 7, 26, 80, -10, 6, 8, 26, 79, -3, 20, 27, 27, 71, 28, 42, 47, 26, 78, -7, 11, 14, 26, 78, -10, 6, 8, 25, 77, -7, 6, 8, 27, 79, -5, 7, 9, 25, 80, -7, 5, 6, 26, 81, -11, 6, 7, 26, 80, -14, 6, 7, 26, 77, -12, 5, 7, 25, 81, -10, 6, 7, 26, 78, -14, 6, 8, 26, 78, -3, 43, 48, 26, 76, -4, 42, 46, 26, 78, -13, 5, 6, 26, 72, 38, 60, 69, 26, 78, 2, 32, 40, 27, 75, 13, 48, 62, 25, 77, -7, 12, 21, 25, 78, -10, 7, 17, 27, 79, -8, 7, 18, 26, 80, -8, 5, 14, 26, 81, -11, 5, 6, 25, 80, -12, 6, 7, 26, 77, -12, 7, 9, 26, 78, -15, 7, 8, 25, 80, -12, 6, 8, 26, 78, -10, 7, 9, 26, 77, -10, 6, 8, 26, 75, -7, 17, 24, 26, 70, 36, 44, 51, 25, 76, 5, 42, 52, 26, 77, 4, 22, 42, 26, 79, 25, 42, 71, 26, 78, 15, 25, 41, 26, 80, 16, 25, 40, 26, 80, 26, 56, 71, 25, 80, -11, 5, 6, 26, 79, -13, 6, 7, 26, 79, -7, 6, 8, 26, 78, -15, 6, 7, 26, 78, -12, 6, 8, 25, 78, -8, 8, 11, 26, 78, -11, 6, 10, 27, 76, 0, 21, 26, 27, 74, 26, 40, 45, 26, 70, 62, 123, 140, 26, 77, 31, 58, 73, 26, 80, -2, 14, 21, 25, 82, -5, 6, 8, 26, 80, 2, 23, 29, 26, 80, 23, 60, 76, 26, 79, -12, 6, 7, 26, 81, -12, 6, 8, 26, 79, -5, 5, 6, 25, 80, -8, 6, 8, 26, 82, -11, 7, 9, 26, 82, 1, 43, 47, 26, 79, -3, 41, 46, 27, 76, -7, 44, 51, 27, 69, 39, 63, 75, 26, 81, -7, 14, 25, 26, 78, 12, 43, 49, 26, 78, 11, 42, 48, 26, 79, 13, 42, 48, 26, 79, 12, 41, 46, 26, 79, 13, 43, 48, 25, 79, -8, 5, 6, 26, 79, -13, 5, 6, 25, 81, -4, 7, 10, 25, 80, -6, 8, 10, 26, 81, -8, 6, 8, 25, 83, -5, 8, 10, 25, 80, -6, 6, 7, 26, 79, -8, 6, 7, 25, 77, 6, 17, 20, 26, 70, 40, 44, 55, 26, 70, 41, 56, 65, 26, 71, 28, 39, 45, 26, 75, 9, 31, 38, 26, 76, -14, 4, 5, 27, 72, 14, 33, 39, 26, 79, -8, 13, 17, 27, 77, -14, 5, 7, 26, 82, -4, 6, 8, 26, 82, -7, 7, 8, 25, 82, -5, 8, 10, 25, 80, -6, 7, 9, 26, 81, -5, 7, 8, 25, 81, -4, 18, 21, 25, 82, 5, 53, 58, 25, 83, -1, 23, 26, 26, 81, -9, 6, 9, 26, 76, 0, 20, 24, 27, 70, 24, 31, 41, 27, 68, 38, 59, 65, 26, 68, 35, 68, 79, 26, 79, -14, 6, 7, 27, 77, -16, 5, 7, 25, 84, -2, 9, 11, 24, 84, -4, 8, 10, 24, 85, -3, 9, 11, 25, 84, -1, 7, 9, 25, 84, -2, 7, 9, 25, 83, -3, 10, 12, 24, 84, -3, 8, 10, 25, 85, -5, 10, 12, 26, 80, -12, 6, 8, 26, 78, -13, 6, 8, 26, 77, -15, 6, 7, 27, 78, -15, 5, 6, 26, 72, 21, 29, 39, 26, 75, 4, 32, 38, 27, 76, -15, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4729,7 +4721,7 @@ namespace clue_data {
             "id": 52,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 79, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -4, 7, 9, 26, 77, -5, 6, 8, 25, 80, -7, 7, 9, 25, 86, -6, 7, 8, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -7, 4, 6, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -3, 11, 16, 26, 81, 2, 13, 21, 26, 79, -3, 7, 8, 26, 78, -7, 7, 8, 25, 78, -7, 6, 7, 25, 80, 6, 26, 32, 27, 78, 17, 33, 38, 26, 84, -5, 5, 6, 26, 83, -3, 6, 12, 27, 80, 14, 34, 42, 25, 79, -9, 5, 7, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -4, 17, 23, 26, 81, 13, 52, 58, 27, 79, 7, 43, 49, 27, 78, 5, 24, 29, 27, 78, 15, 31, 35, 26, 80, 3, 22, 32, 26, 78, 18, 39, 46, 26, 79, -7, 5, 7, 26, 80, 0, 16, 22, 27, 75, 42, 62, 67, 26, 79, -7, 5, 7, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -3, 11, 25, 27, 79, 12, 42, 57, 27, 80, 9, 56, 63, 27, 79, 3, 25, 34, 26, 80, 19, 41, 48, 25, 80, -11, 6, 8, 24, 80, -5, 7, 8, 25, 78, -6, 6, 8, 26, 78, -4, 7, 9, 26, 78, -2, 7, 9, 26, 80, -5, 6, 8, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 25, 78, -9, 5, 6, 26, 79, 22, 62, 83, 26, 80, -7, 6, 7, 26, 80, -8, 6, 8, 26, 81, -11, 5, 7, 26, 77, -6, 18, 23, 26, 78, 8, 27, 32, 26, 78, -8, 6, 8, 25, 77, -5, 6, 8, 27, 79, -3, 7, 9, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 7, 26, 78, 21, 63, 85, 26, 77, -10, 6, 7, 27, 77, 15, 42, 49, 25, 77, 18, 59, 73, 26, 73, 35, 98, 119, 27, 75, 28, 45, 52, 25, 78, -7, 7, 8, 25, 78, -8, 7, 9, 27, 79, -6, 7, 9, 26, 80, -6, 5, 6, 26, 81, -9, 5, 6, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 27, 77, 16, 62, 75, 26, 76, 13, 60, 66, 28, 75, 36, 64, 73, 26, 77, 2, 31, 47, 25, 61, 31, 149, 169, 26, 78, -7, 7, 9, 25, 81, -4, 8, 10, 26, 79, -2, 8, 17, 27, 78, 26, 36, 40, 26, 79, 17, 32, 36, 25, 80, -9, 5, 6, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 78, -10, 6, 8, 26, 77, 10, 44, 50, 26, 78, 5, 41, 48, 27, 78, -12, 5, 7, 27, 81, -11, 6, 11, 26, 61, 31, 157, 169, 26, 70, 17, 120, 144, 26, 77, 5, 48, 70, 29, 75, 55, 54, 72, 26, 79, 9, 28, 34, 26, 82, 5, 25, 31, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 81, 18, 60, 66, 26, 78, 11, 62, 69, 27, 76, -14, 6, 7, 27, 77, -12, 6, 8, 26, 79, -2, 16, 24, 26, 68, 33, 99, 138, 26, 68, 26, 83, 124, 26, 79, 17, 57, 66, 26, 79, 9, 39, 44, 26, 80, 6, 34, 37, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -4, 9, 16, 26, 81, 25, 67, 86, 26, 79, 17, 50, 59, 26, 78, 20, 59, 78, 25, 80, -4, 11, 17, 26, 79, 14, 67, 75, 26, 78, 10, 46, 59, 26, 76, 11, 53, 66, 25, 79, -7, 5, 6, 26, 76, -12, 4, 5, 26, 79, -8, 4, 5, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, 2, 22, 28, 26, 80, 5, 30, 36, 26, 81, -3, 7, 10, 26, 80, 12, 48, 53, 26, 82, 13, 48, 53, 25, 83, -3, 7, 10, 26, 80, 8, 41, 48, 26, 78, 1, 36, 44, 26, 77, 0, 38, 46, 27, 77, -13, 5, 6, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 83, -1, 10, 12, 24, 84, -1, 8, 10, 25, 85, -3, 10, 12, 26, 80, -10, 6, 9, 26, 78, -11, 6, 8, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4741,7 +4733,7 @@ namespace clue_data {
             "id": 53,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [29, 69, 156, 28, 75, -7, 8, 11, 31, 64, 7, 30, 34, 28, 75, -3, 10, 14, 29, 74, -1, 15, 19, 28, 74, -2, 29, 36, 27, 67, -8, 36, 44, 27, 66, -29, 16, 19, 25, 72, -27, 43, 49, 26, 73, -28, 19, 25, 27, 73, -11, 37, 43, 30, 72, 10, 48, 57, 29, 79, -2, 6, 9, 28, 78, 13, 32, 37, 28, 79, 15, 36, 41, 29, 77, 13, 37, 42, 29, 76, -4, 9, 12, 28, 75, -8, 10, 12, 28, 77, -7, 8, 11, 30, 74, 2, 23, 29, 28, 64, -7, 34, 41, 27, 69, -33, 15, 19, 26, 72, -34, 13, 17, 25, 72, -25, 38, 45, 27, 72, -12, 38, 45, 28, 80, -8, 10, 13, 31, 70, 18, 36, 41, 29, 79, -1, 6, 8, 26, 59, 24, 32, 38, 25, 51, 16, 10, 11, 26, 56, 27, 31, 37, 28, 75, -7, 10, 15, 30, 71, -2, 17, 21, 29, 74, -3, 14, 19, 31, 68, 15, 43, 50, 29, 67, 0, 46, 54, 28, 62, -27, 16, 20, 27, 66, -29, 15, 20, 27, 68, -17, 26, 31, 28, 77, -7, 29, 37, 33, 66, 16, 31, 39, 29, 78, 1, 6, 7, 29, 77, 1, 6, 9, 25, 56, 28, 34, 40, 25, 51, 15, 8, 10, 26, 54, 26, 33, 40, 28, 66, 12, 23, 30, 30, 64, 10, 29, 33, 29, 71, 4, 21, 26, 30, 75, 1, 15, 20, 29, 80, -5, 13, 18, 28, 78, -6, 28, 33, 27, 82, -14, 21, 26, 27, 77, -20, 11, 14, 27, 77, -10, 10, 13, 30, 65, 6, 31, 37, 29, 76, -2, 10, 12, 29, 76, 0, 9, 13, 27, 61, 25, 47, 54, 26, 56, 21, 36, 42, 27, 59, 24, 53, 61, 28, 75, -3, 13, 17, 28, 67, 6, 18, 22, 31, 60, 11, 35, 42, 31, 63, 8, 34, 44, 29, 75, -2, 14, 18, 29, 77, -10, 11, 13, 28, 77, -16, 9, 12, 28, 74, -19, 9, 12, 30, 69, -3, 20, 26, 30, 69, 3, 25, 31, 28, 76, -1, 7, 9, 29, 75, -3, 11, 15, 28, 78, -5, 6, 8, 29, 77, -6, 11, 16, 31, 69, 3, 20, 25, 30, 72, -2, 18, 24, 31, 66, 11, 35, 42, 28, 66, 1, 19, 24, 32, 59, 10, 40, 46, 32, 63, 7, 27, 33, 29, 74, -6, 13, 18, 29, 47, 19, 73, 78, 29, 75, -8, 14, 18, 30, 71, -3, 22, 26, 31, 66, 12, 33, 40, 30, 71, 5, 26, 32, 32, 66, 7, 25, 29, 30, 69, 3, 20, 26, 31, 67, 3, 22, 28, 30, 71, 1, 24, 31, 31, 67, 10, 35, 40, 31, 66, 1, 44, 51, 29, 72, -6, 22, 28, 29, 67, 5, 25, 32, 29, 65, 11, 23, 30, 29, 66, 7, 21, 25, 21, 80, 6, 68, 78, 31, 64, 5, 26, 33, 32, 65, 14, 36, 44, 30, 72, 10, 26, 31, 33, 61, 15, 38, 41, 29, 79, 2, 8, 9, 29, 74, 6, 19, 22, 29, 75, -2, 15, 20, 30, 74, -1, 18, 24, 28, 76, -7, 13, 18, 32, 66, 8, 38, 46, 29, 70, -1, 28, 35, 30, 68, 9, 32, 40, 30, 72, 1, 20, 25, 29, 75, -6, 11, 17, 29, 67, 12, 10, 16, 29, 76, -3, 12, 16, 31, 67, 11, 55, 61, 29, 70, 4, 38, 46, 29, 76, 1, 19, 23, 29, 80, 6, 21, 27, 28, 82, 6, 26, 32, 31, 69, 9, 31, 36, 33, 67, 11, 34, 44, 28, 77, -4, 9, 12, 28, 77, -5, 16, 21, 32, 68, 8, 40, 48, 28, 79, -7, 11, 13, 29, 78, -8, 11, 16, 28, 65, 10, 49, 56, 26, 54, 19, 36, 42, 26, 59, 21, 40, 46, 29, 70, 15, 44, 60, 29, 74, 4, 22, 33, 29, 73, 8, 47, 54, 29, 61, -6, 37, 46, 29, 57, -8, 31, 39, 28, 79, 1, 28, 34, 29, 71, -7, 27, 32, 29, 76, 3, 16, 21, 32, 64, 10, 29, 37, 32, 70, 10, 24, 28, 28, 79, -5, 10, 12, 27, 68, 15, 40, 47, 25, 52, 12, 11, 15, 25, 53, 12, 30, 35, 25, 51, 16, 16, 20, 26, 56, 25, 41, 49, 29, 78, -1, 13, 19, 28, 63, -7, 34, 42, 27, 68, -38, 13, 17, 27, 67, -31, 19, 24, 28, 74, -2, 49, 56, 29, 78, -10, 27, 32, 32, 65, 11, 25, 31, 29, 76, -1, 14, 22, 28, 75, 1, 23, 29, 28, 77, -4, 10, 12, 28, 67, 16, 33, 39, 25, 52, 15, 11, 13, 26, 68, -13, 39, 47, 25, 54, 14, 30, 35, 26, 54, 27, 33, 41, 29, 78, 0, 12, 19, 29, 62, -6, 39, 48, 28, 70, -40, 10, 13, 27, 73, -36, 11, 14, 28, 68, -36, 19, 23, 29, 63, -36, 17, 21, 28, 80, 1, 12, 16, 28, 80, -1, 10, 13, 28, 78, 4, 17, 22, 32, 65, 16, 31, 39, 29, 70, 20, 49, 59, 25, 53, 23, 16, 23, 24, 51, 22, 10, 13, 24, 51, 21, 11, 14, 27, 62, 27, 48, 58, 29, 78, -1, 12, 18, 29, 62, -8, 43, 54, 28, 71, -41, 9, 12, 27, 74, -37, 7, 9, 27, 72, -40, 8, 10, 28, 70, -42, 9, 12],
             "solution": {
                 "type": "simple",
@@ -4753,7 +4745,7 @@ namespace clue_data {
             "id": 57,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 174, 26, 77, -10, 6, 8, 26, 77, -11, 8, 10, 25, 78, -10, 6, 7, 26, 80, -7, 5, 6, 25, 77, -8, 7, 8, 26, 77, -10, 7, 9, 26, 77, -11, 6, 8, 25, 80, -10, 16, 21, 25, 82, 3, 18, 23, 25, 82, -13, 6, 7, 26, 82, -11, 6, 9, 26, 82, -13, 4, 6, 25, 82, -12, 5, 7, 25, 85, -13, 6, 7, 26, 81, -14, 8, 10, 26, 78, -10, 7, 9, 25, 76, -14, 7, 9, 25, 79, -11, 5, 7, 27, 78, 13, 34, 42, 27, 73, 31, 117, 134, 26, 75, 2, 53, 67, 25, 78, -13, 6, 7, 24, 80, -14, 6, 12, 26, 68, 42, 63, 73, 26, 82, -6, 28, 32, 26, 81, 1, 47, 54, 26, 82, -12, 11, 14, 25, 79, -15, 5, 7, 25, 83, -16, 7, 8, 26, 80, -14, 6, 8, 25, 77, -12, 8, 10, 26, 78, -14, 6, 8, 26, 78, -13, 6, 7, 30, 62, 72, 35, 44, 29, 64, 63, 41, 46, 27, 74, 18, 106, 120, 27, 69, 21, 62, 68, 26, 77, -2, 23, 27, 26, 74, 13, 38, 46, 26, 71, 31, 49, 58, 26, 80, -9, 8, 12, 26, 79, -8, 15, 21, 26, 79, -13, 5, 9, 26, 80, -16, 6, 7, 26, 80, -15, 7, 8, 25, 78, -13, 5, 6, 25, 78, -13, 6, 8, 25, 77, -13, 4, 5, 26, 77, 15, 40, 49, 27, 78, 15, 49, 56, 27, 75, 16, 95, 110, 27, 75, 32, 50, 58, 27, 69, 21, 65, 77, 26, 71, 18, 44, 51, 25, 76, 2, 27, 39, 27, 69, 34, 42, 54, 26, 77, -2, 28, 34, 26, 79, -3, 39, 44, 25, 79, -15, 6, 8, 26, 79, -16, 5, 6, 25, 78, -10, 8, 10, 26, 78, -14, 6, 8, 25, 78, -15, 5, 6, 25, 80, -13, 6, 7, 28, 69, 19, 56, 60, 27, 72, 35, 126, 141, 31, 59, 84, 11, 22, 28, 70, 32, 44, 52, 26, 75, -4, 27, 33, 26, 78, -14, 6, 9, 26, 68, 32, 54, 64, 27, 73, 17, 26, 35, 26, 78, 1, 19, 22, 26, 80, -9, 12, 17, 26, 80, -18, 6, 7, 26, 77, -16, 5, 7, 25, 81, -14, 6, 7, 26, 78, -18, 6, 7, 27, 73, 4, 25, 30, 26, 74, -4, 29, 44, 26, 74, 14, 81, 104, 25, 75, 21, 50, 60, 26, 79, -12, 15, 24, 26, 66, 48, 121, 141, 25, 74, 9, 42, 55, 25, 78, -14, 7, 9, 27, 75, 10, 35, 43, 26, 73, 20, 35, 41, 26, 80, -10, 13, 18, 25, 80, -16, 6, 7, 26, 77, -16, 7, 9, 26, 78, -19, 7, 8, 25, 80, -13, 11, 15, 27, 70, 14, 54, 65, 26, 76, -12, 8, 12, 27, 72, 14, 111, 128, 26, 75, 4, 74, 91, 25, 77, -16, 7, 9, 27, 70, 16, 45, 57, 25, 79, -1, 21, 31, 28, 70, 22, 52, 60, 27, 71, 22, 46, 52, 25, 82, -9, 8, 9, 25, 80, -15, 5, 6, 26, 79, -17, 6, 7, 26, 79, -11, 6, 8, 26, 78, -19, 6, 7, 26, 78, -15, 7, 12, 26, 65, 46, 61, 72, 26, 78, -15, 6, 8, 27, 78, -18, 5, 7, 27, 78, 4, 62, 80, 26, 76, 19, 93, 114, 26, 73, 21, 71, 86, 26, 77, 11, 70, 84, 26, 76, 13, 71, 86, 27, 70, 18, 49, 57, 26, 78, 4, 22, 31, 26, 79, -16, 6, 7, 26, 81, -16, 6, 8, 26, 79, -9, 5, 6, 25, 80, -12, 6, 8, 26, 82, -15, 6, 8, 26, 76, 14, 26, 33, 27, 68, 35, 54, 66, 27, 74, -3, 34, 42, 27, 77, -17, 9, 13, 27, 70, 22, 54, 69, 26, 78, 3, 28, 54, 27, 71, 21, 42, 67, 28, 67, 42, 110, 136, 26, 77, 3, 42, 57, 26, 80, -9, 6, 10, 25, 79, -12, 5, 6, 26, 79, -17, 5, 6, 25, 81, -8, 7, 10, 25, 80, -10, 8, 10, 26, 81, -12, 6, 8, 25, 83, -8, 11, 19, 25, 78, 1, 29, 42, 26, 68, 37, 36, 48, 26, 71, 29, 52, 63, 26, 76, -2, 29, 37, 25, 79, -12, 6, 10, 27, 66, 24, 54, 70, 26, 72, 12, 54, 79, 26, 73, 5, 62, 76, 26, 79, -14, 4, 5, 26, 80, -15, 5, 7, 27, 77, -18, 5, 7, 26, 82, -8, 6, 8, 26, 82, -11, 7, 8, 25, 82, -9, 8, 10, 25, 79, -5, 19, 29, 26, 80, -3, 22, 31, 25, 81, -10, 7, 13, 25, 79, 9, 23, 31, 26, 69, 38, 44, 54, 26, 81, -13, 6, 7, 26, 74, -5, 29, 38, 26, 76, -6, 30, 46, 27, 74, -1, 61, 72, 26, 80, -14, 6, 8, 26, 79, -18, 6, 7, 27, 77, -20, 5, 7, 25, 84, -6, 9, 11, 24, 84, -8, 8, 10, 24, 85, -7, 9, 11, 25, 84, -5, 7, 9, 25, 84, -6, 7, 9, 25, 83, -7, 10, 12, 24, 84, -7, 8, 10, 25, 81, 2, 25, 30, 26, 80, -16, 6, 8, 26, 78, -17, 6, 8, 26, 77, -19, 6, 7, 27, 78, -19, 5, 6, 26, 80, -14, 6, 7, 26, 78, -18, 6, 8, 27, 76, -19, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4765,7 +4757,7 @@ namespace clue_data {
             "id": 58,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 177, 26, 77, -7, 6, 8, 26, 77, -8, 8, 10, 25, 78, -7, 6, 7, 26, 80, -4, 5, 6, 25, 77, -5, 7, 8, 26, 73, 14, 37, 43, 26, 77, -8, 6, 9, 25, 80, -10, 7, 9, 25, 86, -9, 7, 8, 25, 82, -10, 6, 7, 26, 82, -8, 5, 6, 26, 82, -10, 4, 6, 25, 82, -9, 5, 7, 25, 85, -10, 6, 7, 26, 81, -11, 8, 10, 26, 78, -7, 7, 9, 25, 76, -11, 7, 9, 25, 79, -8, 5, 7, 26, 81, -5, 6, 8, 26, 79, -6, 7, 10, 26, 73, 14, 24, 31, 26, 72, 23, 45, 56, 26, 72, 18, 49, 60, 29, 69, 29, 67, 78, 26, 78, 4, 18, 23, 26, 72, 19, 26, 30, 26, 82, -10, 5, 7, 25, 79, -12, 5, 7, 25, 83, -13, 7, 8, 26, 80, -11, 6, 8, 25, 77, -9, 8, 10, 26, 78, -11, 6, 8, 26, 78, -10, 6, 7, 26, 82, -2, 27, 31, 26, 79, -2, 39, 45, 26, 79, -10, 8, 11, 26, 71, 32, 46, 56, 26, 75, 11, 32, 42, 26, 73, 8, 40, 45, 26, 79, -10, 5, 7, 26, 75, 7, 22, 25, 26, 70, 16, 24, 28, 26, 79, -10, 5, 7, 26, 80, -13, 6, 7, 26, 80, -12, 7, 8, 25, 78, -10, 5, 6, 25, 78, -10, 6, 8, 25, 77, -10, 4, 5, 26, 81, -10, 4, 6, 27, 81, -11, 6, 7, 26, 80, -11, 6, 8, 25, 84, -10, 11, 18, 26, 69, 38, 43, 54, 24, 80, -8, 7, 8, 27, 71, 18, 52, 58, 29, 69, 26, 60, 67, 26, 78, -5, 7, 9, 26, 80, -8, 6, 8, 25, 79, -12, 6, 8, 26, 79, -13, 5, 6, 25, 78, -7, 8, 10, 26, 78, -11, 6, 8, 25, 78, -12, 5, 6, 25, 80, -10, 6, 7, 26, 80, -9, 10, 14, 26, 80, -11, 6, 9, 26, 78, 19, 40, 49, 27, 69, 45, 60, 76, 26, 74, 23, 52, 62, 27, 75, 0, 25, 31, 26, 72, 12, 30, 43, 28, 73, 12, 29, 37, 26, 79, -4, 12, 15, 26, 81, -12, 6, 7, 26, 80, -15, 6, 7, 26, 77, -13, 5, 7, 25, 81, -11, 6, 7, 26, 78, -15, 6, 7, 26, 79, -7, 24, 28, 26, 77, -5, 32, 40, 26, 77, 6, 27, 33, 26, 78, 13, 42, 50, 26, 74, 30, 57, 68, 27, 73, 24, 39, 49, 26, 74, 27, 51, 61, 25, 78, -10, 13, 18, 29, 70, 26, 58, 69, 26, 80, -9, 5, 6, 26, 81, -12, 5, 6, 25, 80, -13, 6, 7, 26, 77, -13, 7, 9, 26, 78, -16, 7, 8, 25, 80, -13, 6, 8, 26, 78, -11, 7, 9, 26, 77, -11, 6, 8, 26, 74, 23, 24, 36, 26, 77, 8, 43, 68, 25, 74, 33, 102, 122, 27, 74, 38, 59, 68, 26, 74, 37, 49, 63, 26, 78, 2, 20, 27, 26, 81, -3, 9, 12, 25, 82, -6, 8, 9, 25, 80, -12, 5, 6, 26, 79, -14, 6, 7, 26, 79, -8, 6, 8, 26, 78, -16, 6, 7, 26, 78, -13, 6, 8, 25, 78, -9, 8, 9, 26, 78, -12, 6, 7, 27, 77, 13, 24, 36, 27, 79, 8, 40, 54, 26, 76, 9, 38, 49, 26, 76, 22, 39, 45, 26, 71, 38, 38, 45, 25, 77, 16, 33, 40, 26, 80, -5, 7, 9, 25, 83, -7, 6, 7, 26, 79, -13, 6, 7, 26, 81, -13, 6, 8, 26, 79, -6, 5, 6, 25, 80, -9, 6, 8, 26, 82, -12, 6, 8, 26, 82, -7, 9, 11, 26, 79, -12, 6, 8, 27, 76, -16, 7, 10, 27, 75, 33, 63, 74, 26, 69, 18, 25, 35, 26, 72, 32, 43, 50, 26, 76, 19, 33, 46, 26, 77, 22, 44, 54, 26, 80, -8, 4, 5, 26, 81, -8, 4, 6, 25, 79, -9, 5, 6, 26, 79, -14, 5, 6, 25, 81, -5, 7, 10, 25, 80, -7, 8, 10, 26, 81, -9, 6, 8, 25, 83, -5, 12, 22, 25, 80, 1, 30, 42, 26, 79, -2, 36, 43, 25, 80, -2, 17, 23, 27, 79, 27, 58, 65, 25, 79, -6, 12, 19, 27, 69, 44, 59, 70, 26, 72, 27, 38, 52, 27, 71, 32, 52, 63, 26, 79, -9, 7, 13, 26, 80, -12, 5, 7, 27, 77, -15, 5, 7, 26, 82, -5, 6, 8, 26, 82, -8, 7, 8, 25, 82, -6, 8, 10, 26, 80, -2, 16, 24, 26, 81, -6, 7, 10, 25, 81, -6, 6, 14, 25, 83, -6, 8, 10, 26, 75, 39, 54, 60, 26, 81, -10, 6, 7, 26, 77, -2, 23, 31, 27, 68, 33, 46, 56, 27, 77, -13, 8, 14, 26, 80, -11, 6, 8, 26, 79, -15, 6, 7, 27, 77, -17, 5, 7, 25, 84, -3, 9, 11, 24, 84, -5, 8, 10, 24, 85, -4, 9, 11, 25, 84, -2, 7, 9, 25, 84, -3, 7, 9, 25, 83, -4, 10, 12, 24, 84, -4, 8, 10, 25, 80, 17, 26, 37, 26, 80, -9, 13, 20, 26, 78, -14, 6, 8, 26, 72, 11, 41, 46, 27, 78, -16, 5, 6, 26, 80, -11, 6, 7, 26, 78, -15, 6, 8, 27, 76, -16, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4777,7 +4769,7 @@ namespace clue_data {
             "id": 60,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 176, 26, 77, -8, 6, 8, 26, 77, -9, 8, 10, 25, 78, -8, 6, 7, 26, 80, -5, 5, 6, 25, 77, -6, 7, 8, 26, 77, -8, 7, 9, 26, 77, -9, 6, 8, 25, 80, -11, 7, 9, 25, 86, -10, 7, 8, 25, 82, -11, 6, 7, 26, 82, -9, 5, 6, 26, 82, -11, 4, 6, 25, 82, -10, 5, 7, 25, 85, -11, 6, 7, 26, 81, -12, 8, 10, 26, 78, -8, 7, 9, 25, 76, -12, 7, 9, 25, 79, -9, 5, 7, 26, 81, -6, 6, 8, 26, 79, -7, 7, 8, 26, 77, -10, 8, 14, 26, 70, 28, 44, 58, 25, 72, 30, 64, 71, 26, 73, 18, 54, 62, 26, 76, 23, 45, 52, 26, 73, 31, 51, 59, 26, 81, -9, 8, 12, 26, 76, -1, 28, 33, 25, 83, -14, 7, 8, 26, 80, -12, 6, 8, 25, 77, -10, 8, 10, 26, 78, -12, 6, 8, 26, 78, -11, 6, 7, 25, 82, -8, 5, 7, 26, 77, 2, 61, 69, 26, 79, -11, 5, 7, 26, 78, -4, 15, 33, 26, 80, -11, 6, 8, 25, 79, -11, 8, 14, 26, 78, 0, 47, 63, 26, 75, 21, 109, 126, 27, 68, 55, 71, 88, 27, 64, 69, 100, 113, 26, 80, -14, 6, 7, 26, 80, -13, 7, 8, 25, 78, -11, 5, 6, 25, 78, -11, 6, 8, 25, 77, -11, 4, 5, 26, 81, -11, 4, 6, 27, 78, 4, 61, 78, 26, 76, 13, 101, 117, 27, 71, 29, 85, 99, 25, 79, -2, 52, 62, 25, 77, 17, 108, 129, 27, 69, 29, 67, 89, 26, 72, 15, 36, 40, 26, 68, 41, 58, 69, 26, 73, 22, 33, 45, 25, 78, -12, 7, 13, 26, 79, -14, 5, 6, 25, 78, -8, 8, 10, 26, 78, -12, 6, 8, 25, 78, -13, 5, 6, 25, 77, -2, 23, 32, 27, 72, 13, 33, 43, 26, 79, -8, 18, 29, 27, 74, 19, 66, 93, 27, 69, 29, 128, 153, 26, 78, -3, 20, 32, 26, 74, -2, 31, 38, 25, 75, -1, 21, 27, 27, 70, 35, 52, 59, 25, 80, -9, 5, 6, 26, 81, -13, 6, 7, 26, 80, -16, 6, 7, 26, 77, -14, 5, 7, 25, 81, -12, 6, 7, 26, 77, -11, 14, 17, 26, 75, 0, 23, 30, 26, 76, -11, 9, 12, 26, 78, -15, 5, 6, 26, 79, -4, 42, 58, 26, 74, 14, 113, 133, 26, 76, -12, 9, 16, 26, 68, 30, 52, 61, 26, 68, 36, 62, 71, 27, 75, 14, 33, 41, 26, 80, -9, 7, 10, 26, 81, -13, 5, 6, 25, 80, -14, 6, 7, 26, 77, -14, 7, 9, 26, 78, -17, 7, 8, 25, 80, -13, 9, 13, 27, 68, 33, 58, 66, 26, 67, 34, 58, 65, 26, 74, 4, 55, 64, 26, 75, 17, 110, 132, 25, 77, -12, 7, 13, 26, 77, -6, 17, 26, 26, 67, 48, 59, 71, 26, 68, 42, 61, 71, 26, 80, 1, 34, 40, 25, 81, 1, 40, 45, 25, 80, -13, 6, 9, 26, 79, -15, 6, 7, 26, 79, -9, 6, 8, 26, 78, -17, 6, 7, 26, 78, -14, 6, 8, 25, 73, 10, 24, 29, 26, 68, 30, 52, 62, 26, 69, 41, 106, 120, 27, 77, 9, 47, 64, 26, 71, 27, 54, 62, 26, 69, 39, 52, 60, 26, 72, 19, 54, 71, 27, 65, 51, 65, 79, 26, 78, 1, 16, 23, 25, 83, -8, 6, 7, 26, 79, -14, 6, 7, 26, 81, -14, 6, 8, 26, 79, -7, 5, 6, 25, 80, -10, 6, 8, 26, 82, -13, 6, 8, 26, 68, 45, 61, 71, 26, 79, -13, 6, 8, 27, 76, -18, 6, 7, 27, 68, 35, 66, 77, 26, 78, 3, 18, 22, 25, 79, -7, 11, 15, 26, 72, 24, 34, 44, 26, 72, 25, 35, 44, 26, 80, -9, 4, 5, 26, 81, -9, 4, 6, 25, 79, -10, 5, 6, 26, 79, -15, 5, 6, 25, 81, -6, 7, 10, 25, 80, -8, 8, 10, 26, 81, -10, 6, 8, 26, 69, 44, 56, 65, 25, 78, 2, 26, 36, 26, 75, 13, 37, 44, 26, 74, 20, 25, 33, 26, 78, -5, 30, 35, 26, 78, -2, 44, 52, 26, 78, -10, 9, 12, 25, 79, -11, 5, 6, 26, 76, -16, 4, 5, 26, 79, -12, 4, 5, 26, 80, -13, 5, 7, 27, 77, -16, 5, 7, 26, 82, -6, 6, 8, 26, 82, -9, 7, 8, 25, 82, -7, 8, 10, 25, 79, -3, 13, 17, 27, 71, 31, 35, 45, 26, 71, 37, 46, 56, 25, 83, -5, 10, 15, 25, 83, -7, 7, 9, 26, 81, -11, 6, 7, 26, 78, -13, 11, 13, 26, 76, -6, 45, 50, 27, 75, -7, 51, 58, 26, 79, -7, 25, 29, 26, 79, -16, 6, 7, 27, 77, -18, 5, 7, 25, 84, -4, 9, 11, 24, 84, -6, 8, 10, 24, 85, -5, 9, 11, 25, 84, -3, 7, 9, 25, 84, -4, 7, 9, 25, 83, -5, 10, 12, 24, 84, -5, 8, 10, 25, 85, -7, 10, 12, 26, 80, -14, 6, 8, 26, 78, -15, 6, 8, 26, 77, -17, 6, 7, 27, 78, -17, 5, 6, 26, 80, -12, 6, 7, 26, 78, -16, 6, 8, 27, 76, -17, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4789,7 +4781,7 @@ namespace clue_data {
             "id": 61,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 76, 169, 26, 77, -15, 6, 8, 26, 77, -16, 8, 10, 25, 78, -15, 6, 8, 26, 80, -12, 5, 7, 25, 77, -13, 7, 9, 26, 77, -5, 24, 30, 26, 77, -16, 7, 12, 25, 79, -1, 32, 36, 25, 86, -17, 8, 12, 26, 79, 2, 31, 38, 26, 82, -16, 5, 6, 26, 81, 2, 27, 32, 25, 82, -16, 6, 10, 25, 85, -18, 6, 7, 26, 81, -19, 8, 10, 26, 78, -15, 7, 9, 25, 76, -19, 7, 9, 25, 78, -5, 27, 33, 26, 76, 20, 38, 47, 26, 79, -14, 7, 8, 27, 73, 28, 58, 67, 26, 78, -11, 41, 49, 25, 75, 25, 47, 56, 25, 80, -20, 6, 10, 26, 77, 28, 54, 65, 26, 83, -10, 26, 31, 26, 77, 13, 36, 43, 26, 78, -9, 17, 20, 25, 83, -21, 7, 8, 26, 80, -19, 6, 8, 25, 77, -17, 8, 10, 26, 78, -19, 6, 8, 26, 78, -18, 6, 7, 26, 76, 28, 47, 58, 29, 70, 17, 111, 128, 26, 78, -6, 15, 21, 26, 75, 27, 62, 71, 26, 76, 22, 49, 57, 25, 79, -18, 7, 9, 26, 74, 30, 54, 71, 26, 80, -7, 28, 39, 26, 77, 6, 35, 43, 26, 78, -1, 17, 20, 26, 80, -21, 6, 7, 26, 80, -20, 7, 8, 25, 78, -18, 5, 6, 25, 78, -18, 6, 8, 25, 77, -18, 4, 5, 27, 73, 31, 58, 68, 30, 68, 29, 137, 164, 27, 75, -3, 43, 57, 25, 84, -19, 7, 9, 25, 80, -18, 18, 23, 24, 80, -6, 17, 22, 26, 73, 28, 62, 73, 27, 70, 20, 39, 49, 26, 74, 20, 43, 53, 28, 72, 18, 94, 103, 25, 79, -20, 6, 8, 26, 79, -21, 5, 6, 25, 78, -15, 8, 10, 26, 78, -19, 6, 8, 26, 75, 11, 51, 60, 25, 79, -1, 46, 70, 29, 68, 46, 105, 135, 29, 73, 8, 73, 95, 26, 79, -9, 28, 42, 26, 75, 13, 30, 40, 25, 79, -14, 13, 18, 27, 73, 26, 60, 68, 26, 73, 27, 52, 58, 27, 76, 19, 47, 63, 30, 67, 32, 146, 175, 26, 79, -14, 21, 29, 26, 80, -23, 6, 7, 26, 77, -21, 5, 7, 25, 81, -19, 6, 7, 26, 76, 0, 20, 23, 26, 76, 4, 37, 49, 27, 74, 24, 53, 66, 31, 63, 36, 154, 186, 28, 68, 22, 91, 115, 26, 69, 2, 51, 59, 26, 64, 5, 106, 112, 26, 67, 3, 43, 54, 25, 78, -19, 7, 9, 27, 79, -16, 7, 12, 29, 68, 25, 132, 163, 28, 73, 8, 74, 91, 25, 80, -21, 6, 7, 26, 77, -21, 7, 9, 26, 78, -24, 7, 8, 26, 79, 2, 18, 23, 27, 77, 0, 41, 56, 27, 74, 26, 50, 57, 30, 65, 24, 142, 169, 28, 62, 36, 137, 171, 25, 72, -5, 92, 103, 26, 78, -18, 7, 9, 25, 70, 4, 38, 50, 26, 78, -12, 15, 22, 26, 81, -10, 14, 21, 27, 77, 5, 66, 86, 28, 70, 18, 102, 121, 26, 79, -22, 6, 7, 26, 79, -16, 6, 8, 26, 78, -24, 6, 8, 26, 75, 25, 62, 74, 26, 77, 8, 57, 73, 29, 66, 43, 121, 138, 31, 65, 30, 158, 188, 28, 68, 51, 152, 189, 28, 70, 20, 113, 138, 26, 79, -8, 21, 36, 26, 70, 3, 40, 50, 29, 69, 26, 116, 140, 29, 70, 23, 116, 134, 27, 75, 13, 90, 110, 28, 73, -1, 54, 70, 26, 81, -21, 6, 8, 26, 79, -14, 5, 6, 25, 80, -17, 6, 8, 26, 82, -17, 12, 18, 26, 76, 29, 57, 65, 28, 73, 5, 75, 98, 31, 64, 29, 148, 191, 31, 65, 30, 147, 187, 30, 67, 31, 147, 178, 28, 70, 17, 102, 116, 26, 64, 14, 134, 150, 29, 68, 24, 119, 144, 30, 66, 32, 141, 176, 30, 67, 30, 142, 169, 25, 79, -16, 6, 10, 26, 79, -22, 5, 6, 25, 81, -13, 7, 10, 25, 80, -15, 8, 10, 26, 81, -17, 6, 8, 26, 78, 25, 35, 52, 25, 79, -11, 16, 24, 28, 70, 18, 114, 128, 29, 67, 28, 132, 157, 30, 66, 33, 148, 183, 26, 75, -6, 36, 51, 26, 69, 1, 26, 42, 28, 71, 10, 87, 112, 29, 67, 15, 103, 134, 28, 71, 10, 80, 106, 26, 80, -20, 5, 8, 27, 77, -23, 5, 7, 26, 82, -13, 6, 8, 26, 82, -16, 7, 8, 25, 82, -8, 20, 31, 26, 76, 22, 25, 39, 26, 81, -14, 7, 8, 25, 81, -16, 6, 8, 25, 83, -14, 8, 10, 25, 83, -13, 8, 13, 27, 75, 1, 66, 78, 26, 68, -4, 36, 46, 26, 67, -2, 31, 41, 28, 74, -9, 52, 68, 27, 76, -4, 56, 67, 26, 79, -23, 6, 7, 27, 77, -25, 5, 7, 25, 84, -11, 9, 11, 24, 84, -13, 8, 10, 24, 84, -9, 13, 18, 25, 83, -7, 11, 14, 25, 84, -11, 7, 9, 25, 83, -12, 10, 12, 24, 84, -12, 8, 10, 25, 85, -14, 10, 12, 27, 75, -1, 72, 81, 26, 78, -22, 7, 11, 26, 76, -23, 8, 12, 27, 78, -24, 5, 6, 26, 80, -19, 6, 7, 26, 78, -23, 6, 8, 27, 76, -24, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4801,7 +4793,7 @@ namespace clue_data {
             "id": 62,
             "type": "map",
             "tier": "medium",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 79, 3, 17, 23, 25, 77, -2, 7, 8, 26, 77, -4, 7, 9, 26, 77, -5, 6, 8, 25, 80, -7, 7, 9, 25, 86, -6, 7, 8, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -7, 4, 6, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -5, 5, 7, 26, 73, 28, 35, 45, 27, 70, 36, 58, 67, 26, 78, -7, 7, 8, 26, 77, -3, 10, 14, 24, 80, -6, 9, 14, 25, 80, -9, 5, 7, 26, 84, -5, 5, 6, 26, 83, -3, 6, 8, 26, 82, -7, 5, 6, 25, 79, -9, 5, 7, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -7, 6, 7, 25, 82, -4, 5, 7, 27, 75, 12, 21, 27, 27, 69, 38, 64, 74, 27, 73, 15, 33, 37, 27, 74, 14, 28, 41, 27, 73, 13, 23, 28, 29, 69, 32, 43, 53, 26, 75, 9, 90, 103, 26, 74, 6, 34, 43, 26, 74, 4, 16, 18, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -7, 4, 5, 26, 81, -7, 4, 6, 27, 81, -8, 6, 7, 26, 75, 12, 22, 29, 26, 71, 41, 68, 80, 25, 78, -3, 20, 29, 26, 71, 20, 47, 51, 26, 73, 10, 49, 64, 26, 74, 4, 38, 41, 26, 66, 25, 25, 28, 26, 66, 29, 25, 28, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 25, 78, -9, 5, 6, 25, 80, -7, 6, 8, 26, 80, 1, 41, 50, 26, 80, -6, 16, 21, 26, 78, 1, 17, 21, 27, 68, 41, 68, 78, 26, 78, -1, 19, 29, 29, 66, 39, 78, 98, 25, 71, 8, 79, 80, 27, 77, 2, 32, 41, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 7, 26, 79, -8, 10, 19, 26, 77, -6, 9, 16, 26, 78, -10, 5, 11, 25, 80, -10, 7, 8, 26, 77, 0, 17, 22, 27, 69, 41, 60, 73, 26, 73, 5, 30, 34, 25, 76, -3, 20, 32, 27, 72, 8, 48, 63, 26, 78, 0, 52, 58, 26, 81, -9, 5, 6, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 26, 78, -8, 7, 9, 26, 77, -8, 6, 8, 26, 76, -11, 7, 8, 26, 78, -13, 6, 8, 26, 76, -3, 23, 28, 27, 58, 62, 41, 54, 27, 74, 31, 68, 82, 28, 72, 25, 39, 46, 26, 77, 25, 76, 91, 25, 80, 13, 60, 75, 25, 80, -9, 5, 6, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 78, -10, 6, 8, 25, 78, -6, 8, 13, 26, 78, -6, 23, 33, 27, 78, -8, 29, 42, 27, 81, -11, 7, 14, 26, 81, -8, 6, 7, 26, 78, 11, 23, 27, 26, 72, 31, 41, 48, 25, 78, 5, 17, 25, 25, 77, 25, 68, 78, 25, 81, 9, 38, 44, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 82, -2, 15, 24, 26, 79, -4, 16, 26, 27, 76, -9, 12, 19, 27, 77, -6, 17, 30, 26, 81, -8, 7, 8, 25, 80, -6, 7, 14, 26, 68, 44, 40, 52, 25, 80, -4, 6, 7, 26, 80, -5, 4, 5, 26, 81, -5, 4, 6, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -6, 6, 8, 25, 83, -3, 8, 10, 25, 80, -4, 6, 7, 26, 79, -6, 6, 7, 25, 80, -5, 7, 12, 26, 79, -7, 5, 7, 25, 79, -7, 6, 7, 26, 68, 43, 57, 64, 25, 79, -7, 5, 6, 26, 76, -12, 4, 5, 26, 79, -8, 4, 5, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, -3, 8, 10, 25, 80, -4, 7, 9, 26, 81, -3, 7, 8, 25, 81, -3, 14, 16, 26, 83, 6, 44, 52, 25, 83, 1, 24, 28, 26, 81, -7, 6, 7, 27, 69, 37, 42, 53, 26, 76, -1, 19, 28, 27, 77, -13, 5, 6, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 83, -1, 10, 12, 24, 84, -1, 8, 10, 25, 85, -3, 10, 12, 26, 80, -10, 6, 8, 26, 77, -7, 13, 17, 26, 73, 11, 35, 42, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4813,7 +4805,7 @@ namespace clue_data {
             "id": 40,
             "type": "map",
             "tier": "hard",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 185, 26, 77, 1, 6, 8, 26, 77, 0, 8, 10, 25, 78, 1, 6, 7, 26, 80, 4, 5, 6, 25, 77, 3, 7, 8, 26, 76, 5, 14, 20, 26, 73, 14, 19, 23, 25, 80, -2, 7, 9, 25, 86, -1, 7, 8, 25, 82, -2, 6, 7, 26, 82, 0, 5, 6, 26, 82, -2, 4, 6, 25, 82, 1, 13, 18, 25, 85, -2, 6, 7, 26, 81, -3, 8, 10, 26, 78, 1, 7, 9, 25, 76, -3, 7, 9, 25, 79, 0, 5, 7, 26, 81, 3, 6, 8, 27, 74, 18, 22, 27, 27, 74, 12, 24, 31, 27, 69, 25, 37, 53, 24, 80, -3, 6, 8, 25, 80, -4, 5, 7, 26, 84, 0, 5, 6, 26, 83, 2, 6, 8, 26, 81, 6, 18, 27, 26, 77, 12, 44, 55, 25, 83, -5, 7, 8, 26, 80, -3, 6, 8, 25, 77, -1, 8, 10, 26, 78, -3, 6, 8, 26, 78, -2, 6, 7, 25, 82, 1, 5, 7, 27, 71, 23, 40, 55, 27, 76, 6, 14, 25, 26, 76, 9, 17, 22, 28, 69, 35, 47, 61, 26, 75, 9, 26, 30, 26, 77, 20, 45, 51, 26, 76, 34, 59, 65, 26, 76, 21, 42, 47, 26, 79, -2, 5, 7, 26, 80, -5, 6, 7, 26, 80, -4, 7, 8, 25, 78, -2, 5, 6, 25, 78, -2, 6, 8, 25, 77, -2, 4, 5, 26, 81, -2, 4, 16, 29, 65, 50, 64, 76, 26, 79, 0, 15, 19, 26, 77, 17, 33, 38, 26, 72, 17, 34, 53, 25, 75, 33, 61, 73, 26, 76, 23, 46, 51, 26, 76, 21, 43, 49, 26, 75, 23, 43, 48, 26, 80, 0, 6, 8, 25, 79, -4, 6, 8, 26, 79, -5, 5, 6, 25, 78, 1, 8, 10, 26, 78, -3, 6, 8, 25, 78, -4, 5, 6, 25, 80, 1, 12, 34, 27, 75, 30, 47, 58, 27, 76, 25, 43, 49, 26, 78, 16, 38, 44, 26, 77, -8, 5, 7, 26, 75, 33, 60, 66, 26, 76, 13, 35, 39, 26, 73, 33, 65, 69, 27, 76, 22, 42, 49, 25, 80, 0, 5, 7, 26, 81, -4, 6, 7, 26, 80, -7, 6, 7, 26, 77, -5, 5, 7, 25, 81, -3, 6, 7, 26, 78, -7, 6, 7, 26, 76, 19, 60, 68, 26, 74, 18, 46, 55, 26, 78, -6, 5, 6, 26, 77, 20, 48, 54, 26, 78, 0, 15, 18, 26, 76, -4, 7, 8, 25, 78, -2, 7, 8, 25, 78, -3, 7, 9, 27, 78, 3, 12, 17, 26, 78, 16, 58, 63, 26, 81, -4, 5, 6, 25, 80, -5, 6, 7, 26, 77, -5, 7, 9, 26, 78, -8, 7, 8, 25, 80, -5, 6, 8, 27, 74, 25, 67, 78, 29, 62, 62, 86, 108, 29, 54, 71, 50, 60, 28, 67, 52, 65, 73, 26, 74, 21, 48, 54, 26, 78, -2, 7, 9, 25, 81, 1, 8, 10, 26, 79, 2, 8, 10, 26, 82, 4, 7, 8, 25, 82, 2, 8, 9, 25, 80, -4, 5, 6, 26, 79, -6, 6, 7, 26, 79, 0, 6, 8, 26, 78, -8, 6, 7, 26, 78, -5, 6, 8, 25, 78, 3, 14, 23, 27, 71, 45, 91, 106, 29, 57, 85, 72, 82, 28, 70, 52, 53, 61, 26, 79, 9, 28, 35, 26, 81, 2, 7, 9, 26, 79, 4, 20, 28, 26, 78, 29, 49, 54, 26, 78, 22, 37, 43, 25, 83, 1, 6, 7, 26, 79, -5, 6, 7, 26, 81, -5, 6, 8, 26, 79, 2, 5, 6, 25, 80, -1, 6, 8, 26, 82, -4, 6, 8, 26, 82, 1, 9, 11, 26, 77, 14, 42, 51, 27, 75, -1, 6, 29, 27, 76, 0, 6, 30, 26, 81, 0, 7, 18, 25, 80, -1, 6, 7, 26, 74, 47, 57, 83, 26, 77, 25, 43, 48, 26, 77, 21, 42, 47, 26, 81, 0, 4, 6, 25, 79, -1, 5, 6, 26, 79, -6, 5, 6, 25, 81, 3, 7, 10, 25, 80, 1, 8, 10, 26, 81, -1, 6, 8, 25, 83, 2, 8, 10, 25, 80, 1, 6, 7, 26, 79, -1, 6, 7, 25, 80, 0, 7, 8, 26, 79, -2, 5, 7, 25, 79, -2, 6, 7, 26, 76, 12, 24, 41, 25, 79, -2, 5, 6, 26, 74, 15, 43, 48, 26, 79, -3, 4, 5, 26, 80, -4, 5, 7, 27, 77, -7, 5, 7, 26, 82, 3, 6, 8, 26, 82, 0, 7, 8, 25, 82, 2, 8, 10, 25, 80, 1, 7, 9, 26, 81, 2, 7, 8, 25, 81, 1, 7, 12, 28, 70, 40, 53, 60, 25, 83, 2, 7, 9, 26, 81, -2, 6, 7, 27, 75, 24, 40, 51, 27, 75, 23, 43, 49, 27, 76, 4, 25, 30, 26, 80, -3, 6, 8, 26, 79, -7, 6, 7, 27, 77, -9, 5, 7, 25, 84, 5, 9, 11, 24, 84, 3, 8, 10, 24, 85, 4, 9, 11, 25, 84, 6, 7, 9, 25, 84, 5, 7, 9, 25, 83, 4, 10, 12, 24, 79, 16, 33, 38, 25, 85, 2, 10, 12, 26, 80, -5, 6, 8, 26, 78, -6, 6, 8, 26, 77, -8, 6, 7, 27, 78, -8, 5, 6, 26, 80, -3, 6, 7, 26, 78, -7, 6, 8, 27, 76, -8, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4825,7 +4817,7 @@ namespace clue_data {
             "id": 41,
             "type": "map",
             "tier": "hard",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 176, 26, 77, -8, 6, 8, 26, 77, -9, 8, 10, 25, 78, -8, 6, 7, 26, 80, -5, 5, 6, 25, 77, -6, 7, 8, 26, 76, 2, 28, 32, 26, 77, -9, 6, 8, 25, 79, -2, 25, 29, 25, 84, -1, 21, 25, 26, 80, -1, 22, 26, 26, 82, -9, 5, 6, 26, 82, -11, 4, 6, 25, 82, -10, 5, 7, 25, 85, -11, 6, 7, 26, 81, -12, 8, 10, 26, 78, -8, 7, 9, 25, 76, -12, 7, 9, 25, 79, -9, 5, 7, 26, 81, -6, 6, 8, 26, 79, -7, 7, 8, 26, 76, 7, 41, 47, 26, 76, 3, 43, 49, 25, 77, 11, 55, 61, 26, 76, 15, 43, 49, 26, 79, 19, 42, 47, 26, 79, 3, 17, 22, 26, 81, -9, 7, 13, 25, 79, -13, 5, 7, 25, 83, -14, 7, 8, 26, 80, -12, 6, 8, 25, 77, -10, 8, 10, 26, 78, -12, 6, 8, 26, 78, -11, 6, 7, 25, 82, -8, 5, 7, 26, 80, -11, 5, 6, 26, 77, 0, 37, 48, 26, 79, -5, 18, 28, 26, 80, -11, 6, 8, 26, 76, 17, 44, 50, 26, 76, 18, 42, 47, 27, 70, 21, 35, 48, 26, 75, 3, 17, 27, 26, 79, -11, 5, 7, 26, 80, -14, 6, 7, 26, 80, -13, 7, 8, 25, 78, -11, 5, 6, 25, 78, -11, 6, 8, 25, 77, -11, 4, 5, 26, 81, -11, 4, 6, 27, 81, -12, 6, 10, 26, 79, -1, 43, 48, 26, 81, 5, 51, 62, 25, 79, -1, 42, 52, 25, 77, 19, 43, 49, 26, 75, 19, 43, 48, 26, 78, -8, 7, 9, 26, 78, -6, 7, 9, 26, 80, -9, 6, 8, 25, 79, -13, 6, 8, 26, 79, -14, 5, 6, 25, 78, -8, 8, 10, 26, 78, -12, 6, 8, 26, 77, -5, 28, 32, 25, 78, 3, 45, 54, 27, 77, 13, 66, 80, 26, 80, -12, 6, 8, 26, 81, -15, 5, 7, 26, 75, 6, 66, 83, 26, 75, 21, 50, 60, 27, 75, 17, 43, 49, 25, 77, -9, 6, 8, 27, 79, -7, 7, 9, 28, 67, 31, 61, 66, 26, 81, -13, 6, 7, 26, 80, -16, 6, 7, 26, 77, -14, 5, 7, 25, 81, -12, 6, 7, 26, 78, -16, 6, 7, 26, 77, 1, 44, 50, 26, 75, 4, 51, 60, 26, 76, 0, 45, 55, 26, 78, 4, 47, 63, 27, 63, 56, 110, 137, 28, 68, 34, 67, 81, 26, 74, 17, 43, 49, 25, 78, -12, 7, 9, 27, 79, -10, 7, 9, 26, 76, -1, 23, 26, 26, 81, -13, 5, 6, 25, 80, -14, 6, 7, 26, 77, -14, 7, 9, 26, 78, -17, 7, 8, 25, 79, -7, 27, 42, 26, 76, 1, 41, 68, 26, 77, -12, 6, 29, 26, 75, -6, 30, 61, 26, 76, 4, 60, 99, 25, 67, 38, 121, 160, 26, 73, 20, 70, 82, 26, 76, 22, 55, 61, 26, 79, -7, 8, 10, 26, 82, -5, 7, 8, 25, 82, -7, 8, 9, 25, 80, -13, 5, 6, 26, 79, -15, 6, 7, 26, 79, -9, 6, 8, 26, 78, -17, 6, 7, 26, 75, 8, 41, 46, 26, 72, 43, 64, 71, 27, 71, 45, 63, 70, 27, 71, 43, 63, 71, 27, 73, 44, 64, 72, 27, 73, 45, 62, 69, 26, 75, 31, 72, 84, 26, 77, 7, 32, 48, 25, 74, 23, 34, 39, 26, 72, 24, 34, 40, 26, 73, 31, 47, 54, 26, 79, -14, 6, 7, 26, 81, -14, 6, 8, 26, 79, -7, 5, 6, 25, 80, -10, 6, 8, 27, 74, 8, 34, 48, 28, 71, 24, 64, 76, 27, 76, -3, 27, 35, 27, 76, -18, 6, 7, 27, 74, -5, 18, 22, 26, 78, -1, 18, 23, 25, 80, -10, 6, 7, 26, 66, 50, 64, 74, 26, 75, 10, 21, 25, 26, 76, 7, 24, 32, 26, 80, -4, 9, 14, 25, 79, -10, 5, 6, 26, 79, -15, 5, 6, 25, 81, -6, 7, 10, 25, 80, -8, 8, 10, 26, 80, -8, 10, 14, 26, 71, 22, 61, 76, 26, 72, 15, 45, 52, 27, 73, 6, 27, 31, 26, 76, 2, 28, 32, 26, 73, 7, 29, 35, 26, 70, 32, 59, 70, 26, 72, 20, 33, 44, 25, 79, -9, 15, 18, 26, 74, -5, 50, 59, 26, 79, -9, 21, 23, 26, 80, -13, 5, 7, 27, 77, -16, 5, 7, 26, 82, -6, 6, 8, 26, 82, -9, 7, 8, 25, 82, -7, 8, 10, 25, 80, -8, 7, 9, 26, 81, -7, 7, 10, 27, 69, 24, 53, 61, 26, 77, 18, 42, 50, 26, 69, 46, 65, 77, 26, 74, 16, 26, 32, 26, 77, -6, 43, 47, 26, 76, -4, 52, 59, 27, 77, -13, 21, 25, 26, 80, -12, 6, 8, 26, 79, -16, 6, 7, 27, 77, -18, 5, 7, 25, 84, -4, 9, 11, 24, 84, -6, 8, 10, 24, 85, -5, 9, 11, 25, 84, -3, 7, 9, 25, 84, -4, 7, 9, 25, 79, 13, 39, 46, 25, 76, 25, 30, 36, 25, 83, -1, 17, 23, 26, 80, -14, 6, 8, 26, 78, -15, 6, 8, 26, 77, -17, 6, 7, 27, 78, -17, 5, 6, 26, 80, -12, 6, 7, 26, 78, -16, 6, 8, 27, 76, -17, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4837,7 +4829,7 @@ namespace clue_data {
             "id": 42,
             "type": "map",
             "tier": "hard",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 176, 26, 77, -8, 6, 8, 26, 77, -9, 8, 10, 25, 78, -8, 6, 7, 26, 80, -5, 5, 6, 25, 77, -6, 7, 8, 26, 77, -8, 7, 9, 26, 77, -9, 6, 8, 25, 79, 0, 22, 26, 26, 81, 19, 40, 46, 25, 82, -11, 6, 7, 26, 82, -9, 5, 6, 26, 82, -11, 4, 6, 25, 82, -10, 5, 7, 25, 85, -11, 6, 7, 26, 81, -12, 8, 10, 26, 78, -8, 7, 9, 25, 76, -12, 7, 9, 25, 79, -9, 5, 9, 26, 76, 21, 67, 79, 27, 71, 43, 116, 133, 26, 70, 34, 99, 115, 26, 75, 2, 34, 47, 26, 70, 43, 40, 46, 31, 58, 88, 8, 17, 26, 81, 4, 27, 34, 27, 72, 24, 58, 62, 26, 76, 25, 60, 65, 26, 74, 17, 52, 57, 25, 83, -14, 7, 8, 26, 80, -12, 6, 8, 25, 77, -10, 8, 10, 26, 78, -12, 6, 8, 26, 78, -11, 6, 7, 27, 73, 35, 38, 43, 31, 59, 87, 12, 19, 27, 76, 9, 33, 46, 26, 72, 36, 101, 118, 26, 72, 38, 80, 113, 26, 72, 48, 76, 95, 26, 79, -11, 5, 7, 26, 78, -2, 20, 23, 26, 72, 34, 56, 68, 27, 70, 44, 75, 89, 26, 80, -14, 6, 7, 26, 80, -13, 7, 8, 25, 78, -11, 5, 6, 25, 78, -11, 6, 8, 25, 77, -10, 5, 12, 27, 74, 32, 55, 63, 27, 70, 64, 76, 87, 26, 80, -9, 10, 19, 27, 72, 21, 59, 66, 25, 76, 8, 41, 57, 25, 72, 43, 88, 105, 26, 71, 39, 99, 111, 27, 71, 41, 92, 113, 27, 71, 44, 111, 127, 26, 78, 4, 29, 35, 25, 79, -13, 6, 8, 26, 79, -14, 5, 6, 25, 78, -8, 8, 10, 26, 78, -12, 6, 8, 26, 73, 16, 40, 45, 31, 58, 87, 4, 5, 27, 73, 27, 41, 48, 28, 68, 23, 64, 70, 26, 79, -10, 17, 20, 26, 77, -17, 5, 7, 25, 79, -11, 6, 8, 26, 78, -12, 6, 8, 25, 77, -9, 6, 11, 28, 69, 23, 45, 55, 26, 79, -5, 14, 17, 26, 81, -13, 6, 7, 26, 80, -16, 6, 7, 26, 77, -14, 5, 7, 25, 81, -12, 6, 7, 26, 78, -14, 10, 14, 26, 71, 46, 78, 89, 26, 76, -8, 17, 24, 28, 68, 18, 60, 66, 25, 80, -14, 7, 8, 26, 74, -2, 26, 36, 27, 68, 9, 44, 64, 25, 78, -11, 7, 10, 25, 78, -12, 7, 9, 27, 78, -8, 12, 16, 26, 80, -10, 5, 6, 26, 81, -13, 5, 6, 25, 80, -14, 6, 7, 26, 77, -14, 7, 9, 26, 78, -17, 7, 8, 25, 80, -14, 6, 8, 26, 78, -12, 7, 9, 26, 77, -12, 6, 8, 26, 73, -6, 30, 33, 26, 78, -17, 6, 8, 26, 70, 4, 31, 34, 26, 68, 14, 30, 38, 25, 80, -5, 11, 18, 26, 79, -7, 8, 10, 26, 82, -5, 7, 8, 25, 82, -7, 8, 9, 25, 80, -13, 5, 6, 26, 79, -15, 6, 7, 26, 79, -9, 6, 8, 26, 78, -17, 6, 7, 26, 78, -14, 6, 8, 25, 78, -10, 8, 9, 26, 78, -13, 6, 7, 27, 78, -16, 5, 7, 27, 81, -15, 6, 8, 26, 77, 5, 72, 84, 26, 76, 22, 66, 81, 25, 73, 21, 79, 92, 25, 82, -7, 6, 8, 26, 80, -6, 7, 9, 26, 78, 8, 34, 37, 27, 72, 5, 31, 40, 26, 81, -14, 6, 8, 26, 79, -7, 5, 6, 25, 80, -10, 6, 8, 26, 82, -13, 6, 8, 26, 82, -8, 9, 11, 26, 75, 4, 90, 103, 27, 76, -14, 33, 39, 27, 77, -16, 6, 12, 26, 79, 4, 28, 64, 25, 76, 13, 42, 63, 25, 72, 23, 81, 93, 25, 80, -8, 6, 7, 26, 78, -3, 15, 20, 26, 80, -7, 9, 12, 25, 78, -8, 8, 11, 26, 79, -15, 5, 6, 25, 81, -6, 7, 10, 25, 80, -8, 8, 10, 26, 81, -10, 6, 8, 25, 83, -7, 8, 10, 25, 77, 0, 25, 29, 26, 79, -10, 6, 7, 25, 76, 2, 76, 88, 26, 78, 1, 25, 46, 25, 79, -11, 6, 7, 26, 78, -11, 6, 7, 25, 79, -11, 5, 6, 27, 68, 7, 43, 46, 26, 78, -8, 12, 16, 26, 80, -13, 5, 7, 27, 77, -16, 5, 7, 26, 82, -6, 6, 8, 26, 82, -9, 7, 8, 25, 82, -7, 8, 10, 25, 80, -8, 7, 9, 26, 81, -7, 7, 8, 25, 81, -9, 6, 8, 26, 77, 8, 31, 43, 26, 74, 17, 45, 71, 26, 81, -11, 6, 7, 26, 78, -14, 5, 6, 26, 78, -15, 5, 6, 27, 77, -17, 5, 6, 26, 80, -12, 6, 8, 26, 79, -16, 6, 7, 27, 77, -18, 5, 7, 25, 84, -4, 9, 11, 24, 84, -6, 8, 10, 24, 85, -5, 9, 11, 25, 84, -3, 7, 9, 25, 84, -4, 7, 9, 25, 83, -5, 10, 12, 24, 76, 14, 34, 37, 25, 74, 17, 41, 45, 26, 80, -14, 6, 8, 26, 78, -15, 6, 8, 26, 77, -17, 6, 7, 27, 78, -17, 5, 6, 26, 80, -12, 6, 7, 26, 78, -16, 6, 8, 27, 76, -17, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4849,7 +4841,7 @@ namespace clue_data {
             "id": 43,
             "type": "map",
             "tier": "hard",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 79, 181, 26, 77, -3, 6, 8, 26, 77, -4, 8, 10, 25, 78, -3, 6, 7, 26, 80, 0, 5, 6, 25, 77, -1, 7, 8, 26, 77, -3, 7, 9, 26, 77, -4, 6, 8, 25, 80, -6, 7, 9, 25, 86, -5, 7, 8, 25, 82, -6, 6, 7, 26, 82, -4, 5, 6, 26, 82, -6, 4, 6, 25, 82, -5, 5, 7, 25, 85, -6, 6, 7, 26, 81, -7, 8, 10, 26, 78, -3, 7, 9, 25, 76, -7, 7, 9, 25, 79, -4, 5, 7, 26, 81, -1, 6, 8, 26, 77, 15, 40, 44, 26, 75, 18, 73, 81, 26, 75, 15, 43, 50, 25, 77, 18, 62, 82, 25, 77, 13, 43, 49, 26, 78, 32, 78, 87, 26, 80, 15, 44, 49, 26, 79, 16, 63, 68, 25, 79, -8, 5, 7, 25, 83, -9, 7, 8, 26, 80, -7, 6, 8, 25, 77, -5, 8, 10, 26, 78, -7, 6, 8, 26, 78, -6, 6, 7, 25, 82, -3, 5, 7, 26, 78, 4, 37, 41, 27, 75, 21, 67, 75, 26, 77, 14, 43, 49, 26, 76, 24, 53, 72, 26, 77, 7, 44, 50, 26, 76, 25, 75, 87, 26, 79, 8, 38, 43, 26, 76, 21, 67, 73, 26, 79, -6, 5, 7, 26, 80, -9, 6, 7, 26, 80, -8, 7, 8, 25, 78, -6, 5, 6, 25, 78, -6, 6, 8, 25, 77, -6, 4, 5, 26, 81, -6, 4, 6, 27, 81, -7, 6, 7, 26, 80, -7, 6, 8, 25, 84, -7, 7, 9, 25, 80, -10, 6, 8, 24, 80, -4, 7, 8, 25, 78, -5, 6, 8, 26, 78, -3, 7, 9, 26, 78, -1, 7, 9, 26, 80, -4, 6, 8, 25, 79, -8, 6, 8, 26, 79, -9, 5, 6, 25, 78, -3, 8, 10, 26, 78, -7, 6, 8, 25, 78, -8, 5, 6, 25, 80, -6, 6, 7, 26, 80, -6, 6, 7, 26, 80, -7, 6, 8, 26, 81, -10, 5, 7, 26, 77, -12, 5, 7, 25, 79, -6, 6, 8, 26, 78, -7, 6, 8, 25, 77, -4, 6, 8, 27, 79, -2, 7, 9, 25, 80, -4, 5, 6, 26, 81, -8, 6, 7, 26, 80, -11, 6, 7, 26, 77, -9, 5, 7, 25, 81, -7, 6, 7, 26, 78, -11, 6, 7, 26, 79, -8, 6, 8, 26, 75, 13, 70, 76, 26, 76, 10, 59, 65, 25, 80, -9, 7, 8, 26, 76, 15, 58, 81, 26, 74, 7, 56, 61, 25, 77, -6, 8, 15, 25, 66, 65, 155, 190, 27, 77, 13, 53, 64, 26, 80, -5, 5, 6, 26, 81, -8, 5, 6, 25, 80, -9, 6, 7, 26, 77, -9, 7, 9, 26, 78, -12, 7, 8, 25, 80, -9, 6, 8, 26, 78, -7, 7, 9, 26, 75, 8, 47, 53, 26, 75, 5, 49, 56, 26, 78, -12, 6, 8, 26, 75, 6, 27, 53, 26, 76, 9, 46, 52, 25, 81, -3, 8, 10, 26, 77, 9, 25, 49, 26, 81, 5, 21, 28, 25, 82, -2, 8, 9, 25, 80, -8, 5, 6, 26, 79, -10, 6, 7, 26, 79, -4, 6, 8, 26, 78, -12, 6, 7, 26, 78, -9, 6, 8, 25, 78, -5, 8, 9, 26, 75, 17, 58, 80, 27, 75, 12, 56, 75, 27, 81, -10, 6, 8, 26, 78, 14, 35, 70, 26, 78, 17, 50, 65, 26, 80, -4, 7, 9, 26, 79, 18, 35, 67, 26, 78, 17, 52, 65, 25, 83, -3, 6, 7, 26, 79, -9, 6, 7, 26, 81, -9, 6, 8, 26, 79, -2, 5, 6, 25, 80, -5, 6, 8, 26, 82, -8, 6, 8, 26, 82, -3, 9, 11, 26, 77, 6, 46, 53, 27, 75, 2, 48, 53, 27, 77, -11, 6, 8, 26, 80, 3, 23, 40, 25, 79, 3, 31, 34, 25, 80, -6, 5, 7, 26, 79, 7, 21, 38, 26, 79, 3, 25, 28, 26, 81, -4, 4, 6, 25, 79, -5, 5, 6, 26, 79, -10, 5, 6, 25, 81, -1, 7, 10, 25, 80, -3, 8, 10, 26, 81, -5, 6, 8, 25, 83, -2, 8, 10, 26, 77, 21, 67, 76, 26, 76, 17, 61, 69, 25, 80, -4, 7, 8, 26, 76, 20, 60, 86, 26, 77, 10, 49, 56, 26, 78, -6, 6, 7, 26, 75, 21, 57, 84, 26, 74, 6, 50, 57, 26, 79, -7, 4, 5, 26, 80, -8, 5, 7, 27, 77, -11, 5, 7, 26, 82, -1, 6, 8, 26, 82, -4, 7, 8, 25, 82, -2, 8, 10, 25, 80, -3, 7, 9, 27, 79, 12, 50, 54, 26, 79, 11, 46, 52, 25, 83, -2, 8, 10, 26, 81, 11, 29, 51, 26, 79, 8, 46, 54, 26, 78, -9, 5, 6, 26, 76, 5, 30, 53, 27, 75, 4, 47, 55, 26, 80, -7, 6, 8, 26, 79, -11, 6, 7, 27, 77, -13, 5, 7, 25, 84, 1, 9, 11, 24, 84, -1, 8, 10, 24, 85, 0, 9, 11, 25, 84, 2, 7, 9, 25, 84, 1, 7, 9, 25, 83, 1, 10, 17, 24, 84, 0, 8, 10, 25, 85, -2, 10, 12, 26, 80, -8, 6, 13, 26, 78, -10, 6, 8, 26, 77, -12, 6, 7, 27, 78, -11, 5, 12, 26, 80, -7, 6, 7, 26, 78, -11, 6, 8, 27, 76, -12, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4861,7 +4853,7 @@ namespace clue_data {
             "id": 46,
             "type": "map",
             "tier": "hard",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 170, 26, 77, -14, 6, 8, 26, 77, -15, 8, 10, 25, 78, -14, 6, 7, 26, 80, -11, 5, 6, 25, 77, -12, 7, 8, 26, 77, -14, 7, 9, 26, 77, -15, 10, 13, 25, 80, -17, 9, 11, 25, 86, -16, 7, 8, 25, 82, -17, 6, 7, 26, 82, -15, 5, 10, 26, 82, -16, 6, 10, 25, 82, -16, 5, 7, 25, 85, -17, 6, 7, 26, 81, -18, 8, 10, 26, 78, -14, 7, 9, 25, 76, -18, 7, 9, 25, 79, -15, 5, 7, 26, 75, 14, 31, 39, 27, 67, 37, 58, 66, 26, 67, 28, 35, 49, 26, 68, 27, 57, 69, 25, 72, 22, 56, 69, 26, 71, 27, 55, 66, 26, 73, 21, 23, 32, 27, 69, 43, 58, 68, 27, 67, 42, 58, 68, 26, 77, -11, 14, 18, 25, 83, -20, 7, 8, 26, 80, -18, 6, 8, 25, 77, -16, 8, 10, 26, 78, -18, 6, 8, 26, 78, -17, 6, 7, 27, 69, 38, 58, 66, 27, 78, 2, 37, 43, 27, 75, 17, 60, 74, 26, 76, 16, 55, 72, 26, 77, 1, 30, 37, 26, 77, -5, 20, 36, 26, 74, 22, 63, 78, 26, 78, 12, 45, 50, 26, 74, 13, 38, 50, 26, 74, 6, 20, 24, 26, 80, -20, 6, 7, 26, 80, -19, 7, 8, 25, 78, -17, 5, 6, 25, 78, -17, 6, 8, 25, 77, -17, 4, 5, 27, 69, 32, 48, 55, 27, 79, 8, 44, 49, 26, 80, -18, 6, 8, 26, 80, 16, 56, 64, 26, 78, 3, 45, 51, 25, 78, 7, 42, 48, 26, 75, 14, 46, 53, 26, 77, -2, 25, 28, 27, 69, 33, 52, 63, 26, 77, -1, 19, 22, 25, 79, -19, 6, 8, 26, 79, -20, 5, 6, 25, 78, -14, 8, 10, 26, 78, -18, 6, 8, 25, 78, -19, 5, 6, 26, 71, 27, 32, 49, 27, 76, 13, 52, 66, 27, 76, 11, 49, 57, 27, 76, 22, 67, 77, 26, 75, 1, 44, 50, 26, 77, 6, 42, 48, 27, 73, 24, 67, 83, 26, 74, 19, 54, 60, 27, 70, 30, 51, 60, 26, 77, 1, 20, 24, 26, 81, -19, 6, 7, 26, 80, -22, 6, 7, 26, 77, -20, 5, 7, 25, 81, -18, 6, 7, 26, 78, -17, 17, 21, 27, 71, 25, 47, 56, 26, 76, -9, 24, 33, 26, 76, 3, 44, 50, 26, 78, 3, 44, 50, 26, 79, -21, 7, 8, 26, 76, -19, 7, 8, 26, 76, 6, 44, 62, 26, 76, 5, 26, 39, 27, 72, 15, 37, 42, 26, 76, 0, 18, 21, 26, 81, -19, 5, 6, 25, 80, -20, 6, 7, 26, 77, -20, 7, 9, 26, 78, -23, 7, 8, 25, 79, -15, 17, 21, 27, 68, 39, 60, 74, 26, 76, -12, 15, 23, 26, 74, 3, 47, 53, 29, 58, 46, 57, 65, 28, 66, 32, 47, 52, 26, 78, -17, 7, 9, 25, 78, 9, 45, 67, 26, 77, 10, 27, 37, 26, 77, 7, 33, 40, 26, 73, 17, 21, 24, 25, 80, -19, 5, 6, 26, 79, -21, 6, 7, 26, 79, -15, 6, 8, 26, 78, -23, 6, 7, 26, 78, -20, 6, 8, 26, 67, 34, 54, 66, 26, 75, 8, 51, 57, 27, 75, 9, 50, 58, 29, 60, 52, 60, 69, 28, 70, 37, 50, 58, 26, 78, 9, 42, 48, 27, 75, 26, 66, 77, 26, 78, 16, 43, 53, 26, 78, 7, 29, 56, 26, 70, 32, 27, 41, 26, 79, -20, 6, 7, 26, 81, -20, 6, 8, 26, 79, -13, 5, 6, 25, 80, -16, 6, 8, 26, 82, -19, 6, 8, 26, 71, 33, 49, 56, 26, 76, 6, 45, 51, 27, 76, -24, 6, 7, 27, 74, 13, 51, 64, 26, 78, 5, 32, 49, 26, 77, 7, 31, 48, 26, 76, 13, 45, 53, 25, 80, -14, 6, 7, 26, 77, 9, 31, 48, 26, 69, 36, 55, 61, 25, 79, -16, 5, 6, 26, 79, -21, 5, 6, 25, 81, -12, 7, 10, 25, 80, -14, 8, 10, 26, 81, -16, 6, 8, 26, 71, 33, 53, 60, 26, 78, 3, 34, 40, 26, 77, 8, 43, 49, 26, 78, 5, 42, 56, 26, 79, -17, 5, 7, 25, 79, -17, 6, 15, 26, 77, 5, 40, 46, 26, 76, 6, 41, 47, 26, 74, -8, 26, 40, 26, 67, 38, 56, 65, 26, 80, -19, 5, 7, 27, 77, -22, 5, 7, 26, 82, -12, 6, 8, 26, 82, -15, 7, 8, 25, 82, -13, 8, 10, 26, 74, 10, 25, 32, 27, 70, 33, 52, 59, 26, 72, 29, 53, 60, 26, 70, 39, 42, 58, 26, 70, 39, 56, 70, 27, 69, 35, 42, 68, 27, 67, 32, 56, 64, 27, 68, 28, 57, 64, 27, 70, 18, 37, 48, 26, 78, -10, 14, 19, 26, 79, -22, 6, 7, 27, 77, -24, 5, 7, 25, 84, -10, 9, 11, 24, 84, -12, 8, 10, 24, 85, -11, 9, 11, 25, 84, -9, 7, 9, 25, 84, -10, 7, 9, 25, 83, -11, 10, 12, 24, 84, -11, 8, 10, 25, 84, -8, 21, 32, 26, 80, -13, 25, 35, 26, 78, -21, 6, 11, 26, 77, -23, 6, 7, 27, 78, -23, 5, 6, 26, 80, -18, 6, 7, 26, 78, -22, 6, 8, 27, 76, -23, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4873,7 +4865,7 @@ namespace clue_data {
             "id": 47,
             "type": "map",
             "tier": "hard",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 77, 176, 26, 77, -7, 6, 8, 26, 77, -9, 8, 10, 25, 78, -8, 6, 7, 26, 80, -5, 5, 6, 25, 77, -6, 7, 8, 26, 77, -8, 7, 9, 26, 77, -9, 6, 8, 25, 80, -11, 7, 9, 25, 86, -10, 7, 8, 25, 83, -11, 6, 7, 26, 81, -9, 5, 7, 26, 82, -11, 5, 6, 25, 82, -10, 5, 7, 25, 85, -11, 6, 7, 26, 81, -12, 8, 10, 26, 78, 0, 35, 41, 26, 75, 12, 89, 102, 25, 79, -8, 6, 11, 26, 81, -6, 6, 8, 26, 79, -7, 7, 8, 26, 77, -10, 7, 8, 26, 78, -11, 6, 7, 24, 80, -11, 6, 8, 25, 80, -14, 5, 7, 26, 84, -9, 5, 6, 26, 83, -7, 6, 7, 26, 82, -11, 5, 6, 26, 79, -3, 33, 42, 26, 82, 3, 64, 77, 26, 81, -9, 15, 21, 25, 77, -9, 8, 10, 26, 78, -2, 39, 49, 27, 78, 15, 75, 88, 26, 81, 17, 68, 77, 27, 80, 14, 68, 76, 27, 78, 13, 69, 77, 26, 80, -2, 33, 37, 26, 80, -11, 6, 8, 26, 79, 5, 55, 62, 26, 78, 22, 87, 102, 27, 80, 23, 85, 97, 27, 79, 18, 68, 77, 27, 79, 14, 72, 85, 26, 67, 11, 51, 64, 26, 69, 2, 24, 27, 25, 78, -11, 5, 6, 25, 78, -11, 6, 8, 26, 77, -11, 4, 6, 26, 81, -11, 5, 6, 27, 81, -12, 6, 7, 26, 80, -12, 7, 8, 25, 84, -12, 7, 8, 25, 81, -15, 6, 8, 25, 63, 14, 32, 39, 25, 67, 39, 95, 108, 26, 75, 18, 71, 86, 26, 78, -3, 13, 18, 32, 75, 41, 44, 51, 28, 73, 17, 44, 52, 26, 79, -14, 5, 6, 25, 78, -8, 8, 9, 26, 78, -12, 6, 8, 25, 78, -12, 5, 6, 25, 80, -12, 6, 7, 26, 80, -11, 6, 7, 26, 80, -12, 6, 8, 26, 81, -15, 5, 7, 26, 77, -17, 5, 7, 25, 79, -11, 6, 12, 27, 34, 39, 19, 23, 25, 55, 19, 18, 21, 27, 79, -1, 17, 24, 31, 74, 44, 40, 48, 28, 78, 14, 37, 42, 26, 80, -15, 6, 7, 26, 77, -13, 5, 7, 25, 81, -12, 6, 7, 26, 78, -16, 6, 7, 26, 79, -13, 6, 8, 26, 77, -13, 6, 8, 26, 78, -15, 5, 6, 26, 80, 0, 25, 37, 26, 78, -4, 27, 36, 26, 76, -12, 10, 16, 28, 21, 56, 7, 11, 27, 35, 38, 17, 20, 27, 79, -10, 7, 9, 26, 81, 2, 22, 28, 28, 81, 12, 42, 49, 27, 80, 4, 30, 35, 26, 77, -14, 7, 8, 26, 78, -16, 7, 8, 25, 80, -14, 6, 8, 26, 78, -13, 7, 9, 26, 77, -12, 6, 8, 26, 72, -8, 15, 19, 27, 76, 6, 40, 53, 26, 76, 10, 49, 55, 26, 78, -11, 7, 9, 26, 54, 15, 17, 20, 27, 70, 12, 32, 38, 26, 82, 5, 22, 28, 25, 82, -6, 7, 10, 32, 73, 50, 42, 53, 31, 73, 41, 45, 53, 26, 77, 8, 53, 58, 27, 76, 3, 31, 50, 26, 77, 4, 25, 40, 26, 77, 0, 25, 31, 27, 78, 3, 23, 31, 27, 71, 16, 34, 54, 28, 78, 23, 67, 80, 27, 78, 11, 46, 54, 26, 67, 9, 29, 33, 25, 80, -8, 10, 17, 33, 73, 49, 29, 36, 33, 70, 53, 28, 36, 25, 83, -3, 10, 17, 26, 80, 2, 32, 37, 27, 82, 0, 30, 40, 27, 78, 16, 46, 53, 26, 78, 11, 48, 57, 27, 78, 15, 48, 65, 27, 78, 26, 48, 72, 27, 78, 10, 24, 43, 27, 76, -11, 16, 27, 27, 77, -16, 6, 8, 26, 78, 12, 48, 54, 25, 68, 5, 15, 18, 26, 55, 16, 18, 21, 28, 78, 31, 46, 51, 30, 78, 34, 52, 58, 26, 81, -8, 5, 6, 25, 79, -10, 5, 6, 26, 79, -15, 5, 6, 25, 81, -6, 8, 10, 25, 80, -8, 9, 11, 26, 81, -10, 6, 8, 25, 83, -8, 8, 11, 25, 80, -1, 10, 25, 26, 78, 7, 25, 35, 26, 76, 19, 54, 65, 26, 77, 13, 45, 51, 26, 60, 11, 17, 20, 26, 43, 28, 15, 19, 26, 79, -4, 16, 23, 26, 77, -6, 19, 23, 26, 79, -12, 4, 5, 26, 80, -13, 5, 7, 27, 77, -16, 5, 7, 26, 82, -6, 6, 8, 26, 81, -9, 7, 8, 25, 82, -7, 8, 10, 25, 80, -8, 7, 9, 26, 81, -7, 7, 8, 25, 81, -8, 6, 8, 26, 80, 20, 43, 50, 26, 80, 16, 44, 49, 26, 81, -11, 6, 7, 26, 79, -14, 5, 6, 26, 78, -14, 5, 6, 27, 77, -17, 5, 6, 26, 79, -12, 6, 7, 26, 79, -16, 6, 7, 27, 77, -18, 6, 7, 25, 84, -4, 8, 10, 25, 84, -6, 9, 11, 24, 84, -5, 10, 12, 25, 83, -4, 7, 8, 25, 84, -5, 6, 8, 25, 83, -5, 10, 12, 25, 81, 20, 44, 50, 26, 83, 19, 40, 46, 26, 81, -14, 6, 8, 26, 78, -16, 6, 8, 26, 77, -17, 6, 7, 27, 78, -17, 5, 6, 26, 79, -12, 6, 7, 26, 78, -16, 6, 8, 27, 76, -17, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4885,7 +4877,7 @@ namespace clue_data {
             "id": 59,
             "type": "map",
             "tier": "hard",
-            "text": "The map shows where to go.",
+            "text": ["The map shows where to go."],
             "map": [26, 78, 184, 26, 77, 0, 6, 8, 26, 77, -1, 8, 10, 25, 78, 0, 6, 7, 26, 79, 8, 24, 32, 26, 77, 4, 10, 20, 26, 77, 0, 7, 9, 26, 77, -1, 6, 8, 25, 80, -3, 7, 9, 25, 86, -2, 7, 8, 25, 82, -3, 6, 7, 26, 82, -1, 5, 6, 26, 82, -3, 4, 6, 25, 82, -2, 5, 7, 25, 85, -3, 6, 7, 26, 81, -4, 8, 10, 26, 78, 0, 7, 9, 25, 76, -4, 7, 9, 25, 79, -1, 5, 7, 26, 75, 19, 61, 68, 26, 78, 4, 18, 25, 26, 78, -3, 7, 8, 25, 78, -3, 6, 7, 24, 80, -4, 6, 8, 25, 80, -5, 5, 7, 26, 84, -1, 5, 6, 26, 83, 1, 6, 8, 26, 82, -3, 5, 6, 25, 79, -5, 5, 7, 25, 83, -6, 7, 8, 26, 80, -4, 6, 8, 25, 77, -2, 8, 10, 26, 78, -4, 6, 8, 26, 78, -3, 6, 7, 25, 82, 0, 5, 7, 26, 80, -3, 5, 6, 26, 79, -3, 5, 7, 26, 80, -4, 5, 6, 26, 80, -3, 6, 8, 25, 79, -4, 7, 8, 26, 79, -3, 5, 7, 26, 81, 0, 6, 7, 26, 79, -1, 5, 6, 26, 79, -3, 5, 7, 26, 80, -6, 6, 7, 26, 80, -5, 7, 8, 25, 78, -3, 5, 6, 25, 78, -3, 6, 8, 25, 77, -3, 4, 5, 26, 81, -3, 4, 6, 27, 81, -4, 6, 7, 26, 80, 0, 14, 19, 25, 84, -2, 12, 17, 25, 80, -7, 6, 8, 24, 80, -1, 7, 8, 25, 78, -2, 6, 8, 26, 78, 0, 7, 9, 26, 78, 2, 7, 9, 26, 80, -1, 6, 8, 25, 79, -5, 6, 8, 26, 79, -6, 5, 6, 25, 78, 0, 8, 10, 26, 78, -4, 6, 8, 25, 78, -5, 5, 6, 25, 80, -3, 6, 7, 26, 80, -3, 6, 7, 25, 58, 36, 42, 47, 25, 63, 27, 36, 41, 26, 77, -9, 5, 7, 25, 79, -3, 6, 8, 26, 77, -3, 11, 22, 25, 77, -1, 6, 8, 27, 79, 1, 8, 12, 26, 76, 19, 96, 103, 26, 81, -5, 6, 7, 26, 80, -8, 6, 7, 26, 77, -6, 5, 7, 25, 81, -4, 6, 7, 26, 78, -8, 6, 7, 26, 79, -5, 6, 8, 26, 77, -6, 6, 7, 26, 78, -7, 5, 6, 25, 80, -4, 14, 23, 25, 71, 61, 122, 141, 26, 63, 20, 42, 55, 24, 46, 101, 37, 51, 25, 76, 0, 13, 20, 27, 79, -2, 7, 9, 26, 77, 5, 20, 23, 26, 81, -5, 5, 6, 25, 80, -6, 6, 7, 26, 77, -6, 7, 9, 26, 78, -9, 7, 8, 25, 80, -6, 6, 8, 26, 78, -4, 7, 9, 26, 77, -4, 6, 8, 26, 76, -7, 7, 8, 26, 78, -8, 7, 13, 25, 75, 15, 38, 47, 25, 63, 22, 31, 41, 23, 47, 47, 22, 26, 26, 71, 13, 22, 27, 26, 82, 3, 7, 8, 25, 82, 1, 8, 9, 25, 80, -5, 5, 6, 26, 79, -7, 6, 7, 26, 79, -1, 6, 8, 26, 78, -9, 6, 7, 26, 78, -6, 6, 8, 25, 78, -2, 8, 9, 26, 78, -5, 6, 7, 27, 78, -8, 5, 7, 27, 81, -7, 6, 8, 26, 81, -4, 6, 7, 26, 81, 1, 7, 9, 26, 80, -1, 7, 9, 25, 82, 1, 6, 8, 26, 80, 2, 7, 9, 25, 83, 0, 6, 7, 26, 79, -6, 6, 7, 26, 81, -6, 6, 8, 26, 79, 1, 5, 6, 25, 80, -2, 6, 8, 26, 82, -5, 6, 8, 26, 82, 0, 9, 11, 26, 79, -5, 6, 8, 27, 76, -10, 6, 7, 27, 77, -8, 6, 11, 24, 53, 58, 59, 66, 25, 79, -1, 7, 13, 25, 80, -3, 5, 7, 25, 80, 0, 6, 7, 26, 80, -1, 4, 5, 26, 81, -1, 4, 6, 25, 79, -2, 5, 6, 26, 79, -7, 5, 6, 25, 81, 2, 7, 10, 25, 80, 0, 8, 10, 26, 81, -2, 6, 8, 25, 83, 1, 8, 10, 25, 80, 0, 6, 7, 26, 79, -2, 6, 7, 25, 80, -1, 7, 11, 25, 70, 11, 21, 25, 25, 78, -2, 7, 11, 26, 78, -3, 6, 7, 25, 79, -3, 5, 6, 26, 76, -8, 4, 5, 26, 79, -4, 4, 5, 26, 80, -5, 5, 7, 27, 77, -8, 5, 7, 26, 82, 2, 6, 8, 26, 82, -1, 7, 8, 25, 82, 1, 8, 10, 25, 80, 0, 7, 9, 26, 80, 5, 25, 33, 26, 77, 17, 76, 86, 25, 83, 1, 8, 10, 25, 83, 1, 7, 9, 26, 81, -3, 6, 7, 26, 78, -6, 5, 6, 26, 78, -7, 5, 6, 27, 77, -9, 5, 6, 26, 80, -4, 6, 8, 26, 79, -8, 6, 7, 27, 77, -10, 5, 7, 25, 84, 4, 9, 11, 24, 84, 2, 8, 10, 24, 85, 3, 9, 11, 25, 84, 5, 7, 9, 25, 84, 4, 7, 9, 25, 81, 8, 18, 24, 24, 84, 3, 8, 10, 25, 85, 1, 10, 12, 26, 80, -6, 6, 8, 26, 78, -7, 6, 8, 26, 77, -9, 6, 7, 27, 78, -9, 5, 6, 26, 80, -4, 6, 7, 26, 78, -8, 6, 8, 27, 76, -9, 6, 8],
             "solution": {
                 "type": "simple",
@@ -4899,7 +4891,7 @@ namespace clue_data {
             "id": 36,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces.",
+            "text": ["This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -4951,7 +4943,7 @@ namespace clue_data {
             "id": 349,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the desert, east of the Elid and north of Nardah. Orb scan range: 27 paces.",
+            "text": ["This scroll will work in the desert, east of the Elid and north of Nardah. Orb scan range: 27 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5015,7 +5007,7 @@ namespace clue_data {
             "id": 350,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in Isafdar and Lletya. Orb scan range: 22 paces.",
+            "text": ["This scroll will work in Isafdar and Lletya. Orb scan range: 22 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5057,7 +5049,7 @@ namespace clue_data {
             "id": 351,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work within the walls of Varrock and the Grand Exchange Orb scan range: 16 paces",
+            "text": ["This scroll will work within the walls of Varrock and the Grand Exchange Orb scan range: 16 paces"],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5094,7 +5086,7 @@ namespace clue_data {
             "id": 352,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work within the walls of East or West Ardougne. Orb scan range: 22 paces.",
+            "text": ["This scroll will work within the walls of East or West Ardougne. Orb scan range: 22 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5135,7 +5127,7 @@ namespace clue_data {
             "id": 353,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work within the dwarven city of Keldagrim. Orb scan range: 11 paces.",
+            "text": ["This scroll will work within the dwarven city of Keldagrim. Orb scan range: 11 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5166,7 +5158,7 @@ namespace clue_data {
             "id": 354,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in Menaphos. Orb scan range: 30 paces",
+            "text": ["This scroll will work in Menaphos. Orb scan range: 30 paces"],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5200,7 +5192,7 @@ namespace clue_data {
             "id": 355,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the Piscatoris Hunter Area. Orb scan range: 14 paces.",
+            "text": ["This scroll will work in the Piscatoris Hunter Area. Orb scan range: 14 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5239,7 +5231,7 @@ namespace clue_data {
             "id": 356,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in Brimhaven Dungeon. Orb scan range: 14 paces.",
+            "text": ["This scroll will work in Brimhaven Dungeon. Orb scan range: 14 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5294,7 +5286,7 @@ namespace clue_data {
             "id": 357,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in Taverley Dungeon. Orb scan range: 22 paces.",
+            "text": ["This scroll will work in Taverley Dungeon. Orb scan range: 22 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5332,7 +5324,7 @@ namespace clue_data {
             "id": 358,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work on the faraway island of Mos Le'Harmless. Orb scan range: 27 paces.",
+            "text": ["This scroll will work on the faraway island of Mos Le'Harmless. Orb scan range: 27 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5377,7 +5369,7 @@ namespace clue_data {
             "id": 359,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work within the Haunted Woods. Orb scan range: 11 paces.",
+            "text": ["This scroll will work within the Haunted Woods. Orb scan range: 11 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5411,7 +5403,7 @@ namespace clue_data {
             "id": 360,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the Kharazi Jungle. Orb scan range: 14 paces.",
+            "text": ["This scroll will work in the Kharazi Jungle. Orb scan range: 14 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5450,7 +5442,7 @@ namespace clue_data {
             "id": 361,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the city of Zanaris. Orb scan range: 16 paces.",
+            "text": ["This scroll will work in the city of Zanaris. Orb scan range: 16 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5485,7 +5477,7 @@ namespace clue_data {
             "id": 362,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the dark and damp caves below Lumbridge Swamp. Orb scan range: 11 paces.",
+            "text": ["This scroll will work in the dark and damp caves below Lumbridge Swamp. Orb scan range: 11 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5510,7 +5502,7 @@ namespace clue_data {
             "id": 363,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work on the Fremennik Isles of Jatizso and Neitiznot. Orb scan range: 16 paces.",
+            "text": ["This scroll will work on the Fremennik Isles of Jatizso and Neitiznot. Orb scan range: 16 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5555,7 +5547,7 @@ namespace clue_data {
             "id": 364,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work within the walls of Falador. Orb scan range: 22 paces.",
+            "text": ["This scroll will work within the walls of Falador. Orb scan range: 22 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5586,7 +5578,7 @@ namespace clue_data {
             "id": 365,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the cave goblin city of Dorgesh-Kaan. Orb scan range: 16 paces.",
+            "text": ["This scroll will work in the cave goblin city of Dorgesh-Kaan. Orb scan range: 16 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5619,7 +5611,7 @@ namespace clue_data {
             "id": 366,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the Fremennik Slayer Dungeons. Orb scan range: 16 paces.",
+            "text": ["This scroll will work in the Fremennik Slayer Dungeons. Orb scan range: 16 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5651,7 +5643,7 @@ namespace clue_data {
             "id": 367,
             "type": "scan",
             "tier": "elite",
-            "text": "This scroll will work in the crater of the Wilderness volcano. Orb scan range: 11 paces.",
+            "text": ["This scroll will work in the crater of the Wilderness volcano. Orb scan range: 11 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5683,7 +5675,7 @@ namespace clue_data {
             "id": 368,
             "type": "scan",
             "tier": "master",
-            "text": "This scroll will work in the elven city of Prifddinas. Orb scan range: 30 paces.",
+            "text": ["This scroll will work in the elven city of Prifddinas. Orb scan range: 30 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5714,7 +5706,7 @@ namespace clue_data {
             "id": 369,
             "type": "scan",
             "tier": "master",
-            "text": "This scroll will work in the vampyre city of Darkmeyer. Orb scan range: 16 paces.",
+            "text": ["This scroll will work in the vampyre city of Darkmeyer. Orb scan range: 16 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5744,7 +5736,7 @@ namespace clue_data {
             "id": 370,
             "type": "scan",
             "tier": "master",
-            "text": "This scroll will work on The Islands That Once Were Turtles. Orb scan range: 27 paces.",
+            "text": ["This scroll will work on The Islands That Once Were Turtles. Orb scan range: 27 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5776,7 +5768,7 @@ namespace clue_data {
             "id": 371,
             "type": "scan",
             "tier": "master",
-            "text": "This scroll will work in the the Heart of Gielinor. Orb scan range: 49 paces.",
+            "text": ["This scroll will work in the the Heart of Gielinor. Orb scan range: 49 paces."],
             "solution": {
                 "type": "coordset",
                 "candidates": [
@@ -5817,7 +5809,7 @@ namespace clue_data {
             "id": 0,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers of Hild and Penda's house in Burthorpe.",
+            "text": ["Search the drawers of Hild and Penda's house in Burthorpe."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2914, "y": 3521, "level": 0}
@@ -5827,7 +5819,7 @@ namespace clue_data {
             "id": 2,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers found upstairs in the Westernmost Inn of East Ardougne.",
+            "text": ["Search the drawers found upstairs in the Westernmost Inn of East Ardougne."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2575, "y": 3326, "level": 1}
@@ -5837,7 +5829,7 @@ namespace clue_data {
             "id": 65,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates outside the bank in the north of east-ardougne",
+            "text": ["Search the crates outside the bank in the north of east-ardougne"],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2620, "y": 3336, "level": 0}
@@ -5847,7 +5839,7 @@ namespace clue_data {
             "id": 66,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers in a house in Catherby.",
+            "text": ["Search the drawers in a house in Catherby."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2830, "y": 3448, "level": 0}
@@ -5857,7 +5849,7 @@ namespace clue_data {
             "id": 67,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in the chicken coop in the farm north of Port Sarim.",
+            "text": ["Search the crates in the chicken coop in the farm north of Port Sarim."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3018, "y": 3287, "level": 0}
@@ -5867,7 +5859,7 @@ namespace clue_data {
             "id": 68,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to Hans to solve the clue.",
+            "text": ["Speak to Hans to solve the clue."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3222, "y": 3219, "level": 0}
@@ -5877,7 +5869,7 @@ namespace clue_data {
             "id": 69,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers above the shops in Varrock.",
+            "text": ["Search the drawers above the shops in Varrock."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3206, "y": 3419, "level": 1}
@@ -5887,7 +5879,7 @@ namespace clue_data {
             "id": 71,
             "type": "simple",
             "tier": "easy",
-            "text": "Search chests found in the upstairs of shops in Port Sarim.",
+            "text": ["Search chests found in the upstairs of shops in Port Sarim."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3016, "y": 3205, "level": 1}
@@ -5897,7 +5889,7 @@ namespace clue_data {
             "id": 72,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers on the first floor of a building overlooking Ardougne market.",
+            "text": ["Search the drawers on the first floor of a building overlooking Ardougne market."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2655, "y": 3323, "level": 1}
@@ -5907,7 +5899,7 @@ namespace clue_data {
             "id": 73,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers in Ivy's house in Taverley.",
+            "text": ["Search the drawers in Ivy's house in Taverley."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2914, "y": 3448, "level": 0}
@@ -5917,7 +5909,7 @@ namespace clue_data {
             "id": 74,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in Canifis.",
+            "text": ["Search the crates in Canifis."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2914, "y": 3448, "level": 0}
@@ -5927,7 +5919,7 @@ namespace clue_data {
             "id": 75,
             "type": "simple",
             "tier": "easy",
-            "text": "Search for a crate on the ground floor of a house in Seers' Village.",
+            "text": ["Search for a crate on the ground floor of a house in Seers' Village."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2699, "y": 3470, "level": 0}
@@ -5937,7 +5929,7 @@ namespace clue_data {
             "id": 76,
             "type": "simple",
             "tier": "easy",
-            "text": "Search through chests found in the upstairs of houses in eastern Falador.",
+            "text": ["Search through chests found in the upstairs of houses in eastern Falador."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3041, "y": 3364, "level": 1}
@@ -5947,7 +5939,7 @@ namespace clue_data {
             "id": 78,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the chests in the Dwarven Mine.",
+            "text": ["Search the chests in the Dwarven Mine."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3000, "y": 9798, "level": 0}
@@ -5957,7 +5949,7 @@ namespace clue_data {
             "id": 79,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers in a house in Draynor Village.",
+            "text": ["Search the drawers in a house in Draynor Village."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3097, "y": 3277, "level": 0}
@@ -5967,7 +5959,7 @@ namespace clue_data {
             "id": 80,
             "type": "simple",
             "tier": "easy",
-            "text": "Search for a crate in Varrock Palace.",
+            "text": ["Search for a crate in Varrock Palace."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3224, "y": 3492, "level": 0}
@@ -5977,7 +5969,7 @@ namespace clue_data {
             "id": 81,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the boxes in the house in Al Kharid with racks of silk.",
+            "text": ["Search the boxes in the house in Al Kharid with racks of silk."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3289, "y": 3202, "level": 0}
@@ -5987,7 +5979,7 @@ namespace clue_data {
             "id": 82,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the boxes in the house near the south entrance of Varrock.",
+            "text": ["Search the boxes in the house near the south entrance of Varrock."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3203, "y": 3384, "level": 0}
@@ -5997,7 +5989,7 @@ namespace clue_data {
             "id": 83,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates near a cart in Varrock.",
+            "text": ["Search the crates near a cart in Varrock."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3226, "y": 3452, "level": 0}
@@ -6007,7 +5999,7 @@ namespace clue_data {
             "id": 84,
             "type": "simple",
             "tier": "easy",
-            "text": "Look in the ground floor crates of houses in Falador.",
+            "text": ["Look in the ground floor crates of houses in Falador."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3029, "y": 3355, "level": 0}
@@ -6017,7 +6009,7 @@ namespace clue_data {
             "id": 85,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in Draynor Manor.",
+            "text": ["Search the crates in Draynor Manor."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3106, "y": 3369, "level": 2}
@@ -6027,7 +6019,7 @@ namespace clue_data {
             "id": 86,
             "type": "simple",
             "tier": "easy",
-            "text": "Search for a crate in a building in Hemenster.",
+            "text": ["Search for a crate in a building in Hemenster."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2636, "y": 3453, "level": 0}
@@ -6037,7 +6029,7 @@ namespace clue_data {
             "id": 87,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in yard of Citharede Abbey.",
+            "text": ["Search the crates in yard of Citharede Abbey."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3415, "y": 3158, "level": 0}
@@ -6047,7 +6039,7 @@ namespace clue_data {
             "id": 88,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to the staff of Sinclair Mansion.",
+            "text": ["Speak to the staff of Sinclair Mansion."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2734, "y": 3581, "level": 0},
@@ -6058,7 +6050,7 @@ namespace clue_data {
             "id": 89,
             "type": "simple",
             "tier": "easy",
-            "text": "Search in the south-east corner of the Artisan Dwarves' workshop in Falador.",
+            "text": ["Search in the south-east corner of the Artisan Dwarves' workshop in Falador."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3060, "y": 3334, "level": 0}
@@ -6068,7 +6060,7 @@ namespace clue_data {
             "id": 90,
             "type": "simple",
             "tier": "easy",
-            "text": "Search through some drawers in the upstairs of a house in Rimmington.",
+            "text": ["Search through some drawers in the upstairs of a house in Rimmington."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2970, "y": 3213, "level": 1}
@@ -6078,7 +6070,7 @@ namespace clue_data {
             "id": 91,
             "type": "simple",
             "tier": "easy",
-            "text": "Search upstairs in the houses of Seers' Village for some drawers.",
+            "text": ["Search upstairs in the houses of Seers' Village for some drawers."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2716, "y": 3471, "level": 1}
@@ -6088,7 +6080,7 @@ namespace clue_data {
             "id": 92,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in a house in Yanille that has a piano.",
+            "text": ["Search the crates in a house in Yanille that has a piano."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2598, "y": 3105, "level": 0}
@@ -6098,7 +6090,7 @@ namespace clue_data {
             "id": 93,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers in the ground floor of a shop in Yanille.",
+            "text": ["Search the drawers in the ground floor of a shop in Yanille."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2570, "y": 3085, "level": 0}
@@ -6108,7 +6100,7 @@ namespace clue_data {
             "id": 95,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the boxes in one of the tents in Al Kharid.",
+            "text": ["Search the boxes in one of the tents in Al Kharid."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3308, "y": 3206, "level": 0}
@@ -6118,7 +6110,7 @@ namespace clue_data {
             "id": 96,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crate near a cart in Port Khazard.",
+            "text": ["Search the crate near a cart in Port Khazard."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2660, "y": 3149, "level": 0}
@@ -6128,7 +6120,7 @@ namespace clue_data {
             "id": 99,
             "type": "simple",
             "tier": "easy",
-            "text": "Dig near some giant mushrooms behind the Grand Tree.",
+            "text": ["Dig near some giant mushrooms behind the Grand Tree."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2463, "y": 3499, "level": 0}
@@ -6138,7 +6130,7 @@ namespace clue_data {
             "id": 100,
             "type": "simple",
             "tier": "easy",
-            "text": "Search a barrel outside the Pick and Lute inn, in Taverley.",
+            "text": ["Search a barrel outside the Pick and Lute inn, in Taverley."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2886, "y": 3449, "level": 0}
@@ -6148,7 +6140,7 @@ namespace clue_data {
             "id": 101,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in the house at the north end of the East Ardougne Market.",
+            "text": ["Search the crates in the house at the north end of the East Ardougne Market."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2658, "y": 3323, "level": 0}
@@ -6158,7 +6150,7 @@ namespace clue_data {
             "id": 102,
             "type": "simple",
             "tier": "easy",
-            "text": "Search a barrel outside the mill, in Taverley.",
+            "text": ["Search a barrel outside the mill, in Taverley."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2894, "y": 3418, "level": 0}
@@ -6168,7 +6160,7 @@ namespace clue_data {
             "id": 103,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to Gaius in Burthorpe.",
+            "text": ["Speak to Gaius in Burthorpe."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2926, "y": 3548, "level": 0}
@@ -6178,7 +6170,7 @@ namespace clue_data {
             "id": 105,
             "type": "simple",
             "tier": "easy",
-            "text": "Search a barrel east of Challenge Mistress Fara, in Burthorpe.",
+            "text": ["Search a barrel east of Challenge Mistress Fara, in Burthorpe."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2912, "y": 3530, "level": 0}
@@ -6188,7 +6180,7 @@ namespace clue_data {
             "id": 106,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to Arhein in Catherby.",
+            "text": ["Speak to Arhein in Catherby."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2804, "y": 3431, "level": 0}
@@ -6198,7 +6190,7 @@ namespace clue_data {
             "id": 107,
             "type": "simple",
             "tier": "easy",
-            "text": "Talk to the bartender of the Rusty Anchor in Port Sarim.",
+            "text": ["Talk to the bartender of the Rusty Anchor in Port Sarim."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3047, "y": 3258, "level": 0}
@@ -6208,7 +6200,7 @@ namespace clue_data {
             "id": 108,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in Horvik's armoury.",
+            "text": ["Search the crates in Horvik's armoury."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3228, "y": 3433, "level": 0}
@@ -6218,7 +6210,7 @@ namespace clue_data {
             "id": 110,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the boxes in the Goblin house near Lumbridge.",
+            "text": ["Search the boxes in the Goblin house near Lumbridge."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3247, "y": 3244, "level": 0}
@@ -6228,7 +6220,7 @@ namespace clue_data {
             "id": 111,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers in Falador's chainmail shop.",
+            "text": ["Search the drawers in Falador's chainmail shop."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2969, "y": 3311, "level": 0}
@@ -6238,7 +6230,7 @@ namespace clue_data {
             "id": 112,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the chests in Al Kharid palace.",
+            "text": ["Search the chests in Al Kharid palace."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3301, "y": 3164, "level": 0}
@@ -6248,7 +6240,7 @@ namespace clue_data {
             "id": 113,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates just outside the armour shop in East Ardougne.",
+            "text": ["Search the crates just outside the armour shop in East Ardougne."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2654, "y": 3299, "level": 0}
@@ -6258,7 +6250,7 @@ namespace clue_data {
             "id": 115,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in East Ardougne's general store.",
+            "text": ["Search the crates in East Ardougne's general store."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2615, "y": 3291, "level": 0}
@@ -6268,7 +6260,7 @@ namespace clue_data {
             "id": 116,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to Ellis in Al Kharid.",
+            "text": ["Speak to Ellis in Al Kharid."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3275, "y": 3195, "level": 0}
@@ -6278,7 +6270,7 @@ namespace clue_data {
             "id": 117,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the chest in the left-hand tower of Camelot Castle.",
+            "text": ["Search the chest in the left-hand tower of Camelot Castle."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2748, "y": 3495, "level": 2}
@@ -6288,7 +6280,7 @@ namespace clue_data {
             "id": 118,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the chest in the Duke of Lumbridge's bedroom.",
+            "text": ["Search the chest in the Duke of Lumbridge's bedroom."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3209, "y": 3218, "level": 1}
@@ -6298,7 +6290,7 @@ namespace clue_data {
             "id": 119,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates near the Lumbridge Market.",
+            "text": ["Search the crates near the Lumbridge Market."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3192, "y": 3257, "level": 0}
@@ -6308,7 +6300,7 @@ namespace clue_data {
             "id": 121,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to Doric, who lives north of Falador.",
+            "text": ["Speak to Doric, who lives north of Falador."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2958, "y": 3442, "level": 0}
@@ -6318,7 +6310,7 @@ namespace clue_data {
             "id": 123,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers upstairs in the bank to the East of Varrock.",
+            "text": ["Search the drawers upstairs in the bank to the East of Varrock."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3250, "y": 3420, "level": 1}
@@ -6328,7 +6320,7 @@ namespace clue_data {
             "id": 124,
             "type": "simple",
             "tier": "easy",
-            "text": "Talk to Zeke in Al Kharid.",
+            "text": ["Talk to Zeke in Al Kharid."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3287, "y": 3188, "level": 0}
@@ -6338,7 +6330,7 @@ namespace clue_data {
             "id": 125,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to the bartender of the Blue Moon Inn in Varrock.",
+            "text": ["Speak to the bartender of the Blue Moon Inn in Varrock."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3225, "y": 3400, "level": 0}
@@ -6348,7 +6340,7 @@ namespace clue_data {
             "id": 126,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crate in the left-hand tower of Lumbridge castle.",
+            "text": ["Search the crate in the left-hand tower of Lumbridge castle."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3228, "y": 3212, "level": 1}
@@ -6358,7 +6350,7 @@ namespace clue_data {
             "id": 127,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers in one of Gertrude's bedrooms.",
+            "text": ["Search the drawers in one of Gertrude's bedrooms."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3156, "y": 3406, "level": 0}
@@ -6368,7 +6360,7 @@ namespace clue_data {
             "id": 130,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers in Catherby's Archery Shop.",
+            "text": ["Search the drawers in Catherby's Archery Shop."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2828, "y": 3457, "level": 0}
@@ -6378,7 +6370,7 @@ namespace clue_data {
             "id": 131,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the drawers upstairs in Falador's shield shop.",
+            "text": ["Search the drawers upstairs in Falador's shield shop."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2971, "y": 3386, "level": 1}
@@ -6388,7 +6380,7 @@ namespace clue_data {
             "id": 132,
             "type": "simple",
             "tier": "easy",
-            "text": "Talk to the Squire in the White Knights' castle in Falador.",
+            "text": ["Talk to the Squire in the White Knights' castle in Falador."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2973, "y": 3342, "level": 0}
@@ -6398,7 +6390,7 @@ namespace clue_data {
             "id": 133,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates of Falador's general store.",
+            "text": ["Search the crates of Falador's general store."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 2955, "y": 3390, "level": 0}
@@ -6408,7 +6400,7 @@ namespace clue_data {
             "id": 134,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in the Barbarian Village helmet shop.",
+            "text": ["Search the crates in the Barbarian Village helmet shop."],
             "solution": {
                 "type": "search",
                 "spot": {"x": 3073, "y": 3430, "level": 0}
@@ -6418,7 +6410,7 @@ namespace clue_data {
             "id": 135,
             "type": "simple",
             "tier": "easy",
-            "text": "Search the crates in the Port Sarim fishing shop.",
+            "text": ["Search the crates in the Port Sarim fishing shop."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3012, "y": 3222, "level": 0}
@@ -6428,7 +6420,7 @@ namespace clue_data {
             "id": 136,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to Sir Kay in Camelot Castle.",
+            "text": ["Speak to Sir Kay in Camelot Castle."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2760, "y": 3499, "level": 0}
@@ -6438,7 +6430,7 @@ namespace clue_data {
             "id": 137,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to Ned in Draynor Village.",
+            "text": ["Speak to Ned in Draynor Village."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3100, "y": 3257, "level": 0}
@@ -6448,7 +6440,7 @@ namespace clue_data {
             "id": 138,
             "type": "simple",
             "tier": "easy",
-            "text": "Speak to the Challenge Mistress in Burthorpe.",
+            "text": ["Speak to the Challenge Mistress in Burthorpe."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2886, "y": 3530, "level": 0}
@@ -6458,7 +6450,7 @@ namespace clue_data {
             "id": 94,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to Donovan, the family handyman.",
+            "text": ["Speak to Donovan, the family handyman."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2737, "y": 3581, "level": 0},
@@ -6469,7 +6461,7 @@ namespace clue_data {
             "id": 97,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to Brimstail.",
+            "text": ["Speak to Brimstail."],
             "challenge": [{"type": "challengescroll", "question": "What is 19 to the power of 3?", "answers": [{"answer": 6859}]}],
             "solution": {
                 "type": "simple",
@@ -6480,7 +6472,7 @@ namespace clue_data {
             "id": 98,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to Roavar.",
+            "text": ["Speak to Roavar."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3494, "y": 3474, "level": 0}
@@ -6490,7 +6482,7 @@ namespace clue_data {
             "id": 109,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to Ulizius.",
+            "text": ["Speak to Ulizius."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3444, "y": 3460, "level": 0}
@@ -6500,7 +6492,7 @@ namespace clue_data {
             "id": 114,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to Hajedy.",
+            "text": ["Speak to Hajedy."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2773, "y": 3215, "level": 0}
@@ -6510,7 +6502,7 @@ namespace clue_data {
             "id": 120,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to Kangai Mau.",
+            "text": ["Speak to Kangai Mau."],
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2793, "y": 3183, "level": 0}
@@ -6520,8 +6512,8 @@ namespace clue_data {
             "id": 122,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to a referee.",
-            "challenge": [{"type": "challengescroll", "question": "What is 57 x 89 + 23?", "answers": [{"answer": 5096}]}]
+            "text": ["Speak to a referee."],
+            "challenge": [{"type": "challengescroll", "question": "What is 57 x 89 + 23?", "answers": [{"answer": 5096}]}],
             "solution": {
                 "type": "talkto",
                 "npc": "Gnome ball referee",
@@ -6542,7 +6534,7 @@ namespace clue_data {
             "id": 128,
             "type": "simple",
             "tier": "medium",
-            "text": "Speak to Hazelmere.",
+            "text": ["Speak to Hazelmere."],
             "challenge": [{"type": "challengescroll", "question": "What is 19 to the power of 3?", "answers": [{"answer": 6859}]}],
             "solution": {
                 "type": "simple",

@@ -85,7 +85,7 @@ export namespace Clues {
         id: number,
         type: ClueType,
         tier: ClueTier,
-        text: string,
+        text: string[],
         challenge?: Challenge[]
     }
 

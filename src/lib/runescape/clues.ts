@@ -75,6 +75,7 @@ export namespace Clues {
     export type Solution = Solution.TalkTo | Solution.Dig | Solution.Search
 
     namespace Solution {
+        // The area for npcs should include all tiles they can be talked to from, so one tile bigger than their wander range
         export type TalkTo = { type: "talkto", spots: TileRectangle[], npc: string }
         export type Dig = { type: "dig", spot: TileCoordinates }
         export type Search = { type: "search", spot: TileCoordinates, key?: { instructions: string, area: TileRectangle } }

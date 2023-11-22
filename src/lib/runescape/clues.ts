@@ -72,14 +72,13 @@ export namespace Clues {
         { type: "towers" } |
         { type: "challengescroll", question: string, answers: { answer: number, note?: string }[] }
 
-    export type Sol = Sol.TalkTo | Sol.Dig | Sol.Search
+    export type Solution = Solution.TalkTo | Solution.Dig | Solution.Search
 
-    namespace Sol {
+    namespace Solution {
         export type TalkTo = { type: "talkto", spots: TileRectangle[], npc: string }
         export type Dig = { type: "dig", spot: TileCoordinates }
         export type Search = { type: "search", spot: TileCoordinates, key?: { instructions: string, area: TileRectangle } }
     }
-
 
     type StepShared = {
         id: number,
@@ -89,24 +88,23 @@ export namespace Clues {
         challenge?: Challenge[]
     }
 
-    export type Step = {
-        id: number,
-        type: ClueType,
-        tier: ClueTier,
-        text: string,
-        challenge?: Challenge[]
-    } & (
-        { type: "scan", scantext: string, range: number, spots: TileCoordinates[] } |
-        { type: "compass", spots: TileCoordinates[] } |
-        { type: "skilling", location?: TileRectangle } |
-        { type: "coordinates", coordinates: GieliCoordinates } |
-        { type: "emote", area: TileRectangle, items: string[], emotes: string[], double_agent: boolean, hidey_hole?: { location: TileRectangle, name: string } } |
-        { type: "map", image: number[], solution: Sol } |
-        { type: "anagram", solution: Sol.TalkTo } |
-        { type: "cryptic", solution: Sol } |
-        { type: "simple", solution: Sol }
-        )
+    export type Anagram = StepShared & { type: "anagram", solution: Solution.TalkTo }
+    export type Compass = StepShared & { type: "compass", spots: TileCoordinates[] }
+    export type Coordinate = StepShared & { type: "coordinates", coordinates: GieliCoordinates }
+    export type Cryptic = StepShared & { type: "cryptic", solution: Solution }
+    export type Emote = StepShared & {
+        type: "emote",
+        area: TileRectangle,
+        items: string[],
+        emotes: string[],
+        double_agent: boolean,
+        hidey_hole?: { location: TileRectangle, name: string }
+    }
+    export type Map = StepShared & { type: "map", ocr_data: number[], solution: Solution, image_url: string }
+    export type Scan = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }
+    export type Simple = StepShared & { type: "simple", solution: Solution }
 
-    export type ScanStep = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }
+    export type Step = Anagram | Compass | Coordinate | Cryptic | Emote | Map | Scan | Simple
 
+    export type ScanStep = Scan
 }

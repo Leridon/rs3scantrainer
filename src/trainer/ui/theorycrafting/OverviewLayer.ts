@@ -116,7 +116,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                             case "talkto":
 
                                 // TODO: Render area as well, as well as variants
-                                if (!clue.solution.spots || !clue.solution.spots[0].range) return []
+                                if (!clue.solution.spots || !clue.solution.spots[0]?.range) return []
 
                                 return [TileRectangle.center(clue.solution.spots[0].range)]
                             case "dig":

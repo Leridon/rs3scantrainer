@@ -1869,7 +1869,7 @@ export namespace teleport_data {
                     animation_ticks: 3
                 },
                 {
-                    id: "whitewolfmountain", spot: {x: 2851, y: 3497, level: 0}, name: "White Wolf Mountain", code: "2",
+                    id: "whitewolfmountain", spot: {"x":2850,"y":3494,"level":1}, name: "White Wolf Mountain", code: "2",
                     menu_ticks: 1,
                     animation_ticks: 3
                 },

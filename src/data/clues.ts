@@ -714,7 +714,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Age allows a new perspective in this vital place TABOO RISES SHYLY"],
             "solution": {
                 "type": "talkto",
-                "spots": {"x": 3198, "y": 6960, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3197, "y": 6962}, "botright": {"x": 3199, "y": 6960}, "level": 1}}],
                 "npc": "Soothsayer Sybil"
             }
         },
@@ -725,7 +725,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: With her age, it's no surprise to HEAR A LADY RANT"],
             "solution": {
                 "type": "talkto",
-                "spots": {"x": 2221, "y": 3300, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 2220, "y": 3299}, "botright": {"x": 2222, "y": 3297}, "level": 1}}],
                 "npc": "Lady Trahaearn"
             }
         },
@@ -1802,7 +1802,7 @@ namespace clue_data {
             "tier": "hard",
             "text": ["01 degrees 24 minutes north,08 degrees 05 minutes west"],
             "challenge": [{"type": "wizard"}],
-"coordinates": {
+            "coordinates": {
                 "latitude": {
                     "degrees": 1,
                     "minutes": 24,
@@ -1820,7 +1820,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["02 degrees 33 minutes north,28 degrees 45 minutes east"],
-"challenge": [{"type": "wizard"}],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 2,
@@ -2603,11 +2603,13 @@ namespace clue_data {
             "id": 179,
             "type": "cryptic",
             "tier": "easy",
-            "text": ["A crate found in the tower of a church is your next location."],
+            "text": [
+                "A crate found in the tower of a church is your next location.",
+                "A crate in the tower of a church is your next location."   // This wording possibly doesn't exist anymore
+            ],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2611, "y": 3305, "level": 0},
-                "answer": "Search the crate upstairs."
+                "type": "search",
+                "spot": {"x": 2612, "y": 3306, "level": 1},
             }
         },
         {
@@ -2616,9 +2618,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["One of the sailors in Port Sarim is your next destination."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3028, "y": 3217, "level": 0},
-                "answer": "Talk to Captain Tobias."
+                "type": "talkto",
+                "npc": "Captain Tobias.",
+                "spots": [{"range": {"topleft": {"x": 3025, "y": 3221}, "botright": {"x": 3028, "y": 3215}, "level": 0}}]
             }
         },
         {
@@ -2627,9 +2629,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Someone watching Het's Oasis is your next destination."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3376, "y": 3274, "level": 0},
-                "answer": "Speak to Jeed."
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 3371, "y": 3278}, "botright": {"x": 3378, "y": 3271}, "level": 0}}],
+                "npc": "Jeed"
             }
         },
         {
@@ -2641,16 +2643,6 @@ namespace clue_data {
                 "type": "simple",
                 "spot": {"x": 3227, "y": 3395, "level": 0},
                 "answer": "You have to kill a guard dog to find the key, Guard dogs in Ardougne will do. After that you can search the locked drawers upstairs in the bar marked on the map."
-            }
-        },
-        {
-            "id": 35,
-            "type": "cryptic",
-            "tier": "medium",
-            "text": ["A crate in the tower of a church is your next location."],
-            "solution": {
-                "type": "search",
-                "spot": {"x": 2612, "y": 3306, "level": 1}
             }
         },
         {
@@ -3299,9 +3291,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["My giant guardians below the market streets would be fans of rock and roll, if only they could grab hold of it. Dig near my purple smoke!"],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3160, "y": 9905, "level": 0},
-                "answer": "Dig next to the cauldron near the Moss Giants"
+                "type": "dig",
+                "spot": {"x": 3161, "y": 9905, "level": 0},
             }
         },
         {
@@ -3310,9 +3301,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["You can cook food on me, but don't cook any foodles - That would just be wrong."],
             "solution": {
-                "type": "simple",
+                "type": "dig",
                 "spot": {"x": 2969, "y": 2975, "level": 0},
-                "answer": "Dig by the fire."
             }
         },
         {
@@ -3321,9 +3311,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["The beasts to my east snap claws and tails. The rest to my west can slide and eat fish. The force to my north will jump and they'll wail, Come dig by my fire and make a wish."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2599, "y": 3266, "level": 0},
-                "answer": "Dig by the torch."
+                "type": "dig",
+                "spot": {"x": 2598, "y": 3266, "level": 0},
             }
         },
         {
@@ -3332,9 +3321,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["You don't need to go hopping mad - or take steps - to get to this treasure: just be totally shellfish."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2519, "y": 3593, "level": 0},
-                "answer": "Dig on the small shell."
+                "type": "dig",
+                "spot": {"x": 2519, "y": 3594, "level": 0},
             }
         },
         {
@@ -3354,9 +3342,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["'Throat mage seeks companionship. Seek answers inside my furniture if interested.'"],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2668, "y": 3240, "level": 0},
-                "answer": "Search the drawers upstairs."
+                "type": "search",
+                "spot": {"x": 2666, "y": 3238, "level": 1},
             }
         },
         {
@@ -3365,9 +3352,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Must be full of railings"],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 2576, "y": 3464, "level": 0},
-                "answer": "Search the boxes."
             }
         },
         {
@@ -3376,9 +3362,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["You will need to under-cook to solve this one."],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 3219, "y": 9617, "level": 0},
-                "answer": "Search the crates in the basement."
             }
         },
         {
@@ -3387,9 +3372,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["The cheapest water for miles around, but they react badly to religious icons."],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 3178, "y": 2987, "level": 0},
-                "answer": "Search the crates."
             }
         },
         {
@@ -3409,9 +3393,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Try not to let yourself be dazzled when you search these drawers."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2562, "y": 3323, "level": 0},
-                "answer": "Search the drawers."
+                "type": "search",
+                "spot": {"x": 2561, "y": 3323, "level": 0},
             }
         },
         {
@@ -3420,9 +3403,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Aggie I see, Lonely and southern I feel, I am neither inside nor outside the house, yet no house would be complete without me. The treasure lies beneath me!"],
             "solution": {
-                "type": "simple",
+                "type": "dig",
                 "spot": {"x": 3084, "y": 3257, "level": 0},
-                "answer": "Dig under the southern window of Aggie's house."
             }
         },
         {
@@ -3442,9 +3424,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Navigating to this crate will be a trial."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2648, "y": 3661, "level": 0},
-                "answer": "Search the crates"
+                "type": "search",
+                "spot": {"x": 2648, "y": 3662, "level": 0},
             }
         },
         {
@@ -3452,10 +3433,11 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["This aviator is at the peak of his profession."],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2848, "y": 3501, "level": 0},
-                "answer": "Talk to Captain Bleemadge"
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 2849, "y": 3494}, "botright": {"x": 2851, "y": 3492}, "level": 1}}],
+                "npc": "Captain Bleemadge"
             }
         },
         {
@@ -3475,31 +3457,22 @@ namespace clue_data {
             "tier": "hard",
             "text": ["My home is grey, and made of stone, A castle with a search for a meal. Hidden in some drawers I am, across from a wooden wheel."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3208, "y": 3214, "level": 0},
-                "answer": "Search the drawers on the first floor of the castle, near the spinning wheel."
+                "type": "search",
+                "spot": {"x": 3213, "y": 3216, "level": 1},
             }
         },
         {
             "id": 171,
             "type": "cryptic",
             "tier": "hard",
-            "text": ["Surprising? I bet he is..."],
+            "text": [
+                "Surprising? I bet he is...",
+                "I bet he is..."
+            ],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3203, "y": 3472, "level": 0},
-                "answer": "Talk to Sir Prysin."
-            }
-        },
-        {
-            "id": 172,
-            "type": "cryptic",
-            "tier": "hard",
-            "text": ["I bet he is..."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3203, "y": 3472, "level": 0},
-                "answer": "Talk to Sir Prysin."
+                "type": "talkto",
+                "spot": [{"range": {"topleft": {"x": 3202, "y": 3474}, "botright": {"x": 3206, "y": 3470}, "level": 0}}],
+                "npc": "Sir Prysin."
             }
         },
         {
@@ -3508,9 +3481,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Four blades I have, yet draw no blood, Still I turn my prey to powder. If you are brave, come search my roof, It is there my blades are louder."],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 3166, "y": 3309, "level": 2},
-                "answer": "Search the crates on the top floor."
             }
         },
         {
@@ -3518,10 +3490,11 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["My name is like a tree, yet it is spelt with a 'g'. Come see the fur which is right near me."],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3218, "y": 3434, "level": 0},
-                "answer": "Talk to Wilough"
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 3219, "y": 3438}, "botright": {"x": 3223, "y": 3434}, "level": 0}}],
+                "npc": "Wilough"
             }
         },
         {
@@ -3529,32 +3502,24 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["A strange little man who sells armour only to those who've proven themselves to be unafraid of dragons."],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3068, "y": 3516, "level": 0},
-                "answer": "Talk to Oziach."
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 3066, "y": 3518}, "botright": {"x": 3070, "y": 3514}, "level": 0}}],
+                "npc": "Oziach."
             }
         },
         {
             "id": 176,
             "type": "cryptic",
             "tier": "hard",
-            "text": ["Come to the evil ledge, Yew know yew want to. Try not to get stung."],
+            "text": [
+                "Come to the evil ledge, Yew know yew want to. Try not to get stung.",
+                "Come to the Try not to get stung."
+            ],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3087, "y": 3469, "level": 0},
-                "answer": "Dig by the yew tree."
-            }
-        },
-        {
-            "id": 177,
-            "type": "cryptic",
-            "tier": "hard",
-            "text": ["Come to the Try not to get stung."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3087, "y": 3469, "level": 0},
-                "answer": "Dig by the yew tree."
+                "type": "dig",
+                "spot": {"x": 3088, "y": 3469, "level": 0},
             }
         },
         {
@@ -6135,8 +6100,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Speak to Ulizius."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3444, "y": 3460, "level": 0}
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":3440,"y":3464},"botright":{"x":3446,"y":3458},"level":0}}]
             }
         },
         {
@@ -6145,8 +6110,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Speak to Hajedy."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2773, "y": 3215, "level": 0}
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":2779,"y":3213},"botright":{"x":2782,"y":3210},"level":0}}]
             }
         },
         {
@@ -6155,8 +6120,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Speak to Kangai Mau."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2793, "y": 3183, "level": 0}
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":2790,"y":3185},"botright":{"x":2795,"y":3181},"level":0}}]
             }
         },
         {
@@ -6168,17 +6133,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Gnome ball referee",
-                "spots": [
-                    {
-                        "level": 0,
-                        "topleft": {
-                            "x": 2385, "y": 3488
-                        },
-                        "botright": {
-                            "x": 2385, "y": 3488
-                        }
-                    }
-                ]
+                "spots": [{"range": {"topleft": {"x": 2384, "y": 3489}, "botright": {"x": 2386, "y": 3487}, "level": 0}}]
             },
         },
         {
@@ -6188,21 +6143,17 @@ namespace clue_data {
             "text": ["Speak to Hazelmere."],
             "challenge": [{"type": "challengescroll", "question": "What is 19 to the power of 3?", "answers": [{"answer": 6859}]}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2678, "y": 3087, "level": 0},
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 0}}],
             }
         }
     ]
 
     /** TODO: Variant npcs
-     * Celia Diggory (at the door and indoors)
      * Death (Um + Office)
      * Paul Gower (life altar, farm)
-     * Caroline (changes locations after quest)
      * Malignus Mortifier
      * Philippe Carnillean
-     * Sabbot before/after Death Plateu
-     * Brother Tranquility (Mos Le Harmless and Harmony)
      * Queen Sigrid (before and after quest)
      */
 }

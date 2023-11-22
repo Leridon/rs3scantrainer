@@ -4,6 +4,7 @@ Immediate next:
     - Move clue data into the new, more detailled format
 
 - Theorycrafter
+    - Take another look at how methods encode what clue(-variant) they are for
     - Organize methods into content-packs
         - Name
         - Author

@@ -315,13 +315,11 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 102,
-        "tier": "easy",
+        "id": 102, "type": "simple", "tier": "easy",
         "text": "Search a barrel outside the mill, in Taverley.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2893, "y": 3420, "level": 0}
+            "type": "search",
+            "spot": {"x": 2894, "y": 3418, "level": 0}
         }
     },
     {
@@ -335,12 +333,10 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 105,
-        "tier": "easy",
+        "id": 105, "type": "simple", "tier": "easy",
         "text": "Search a barrel east of Challenge Mistress Fara, in Burthorpe.",
         "solution": {
-            "type": "simple",
+            "type": "search",
             "spot": {"x": 2912, "y": 3530, "level": 0}
         }
     },
@@ -365,13 +361,11 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 108,
-        "tier": "easy",
+        "id": 108, "type": "simple", "tier": "easy",
         "text": "Search the crates in Horvik's armoury.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3229, "y": 3434, "level": 0}
+            "type": "search",
+            "spot": {"x": 3228, "y": 3433, "level": 0}
         }
     },
     {
@@ -385,42 +379,42 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
         "id": 110,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the boxes in the Goblin house near Lumbridge.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3247, "y": 3245, "level": 0}
+            "type": "search",
+            "spot": {"x": 3247, "y": 3244, "level": 0}
         }
     },
     {
-        "type": "simple",
         "id": 111,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the drawers in Falador's chainmail shop.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2970, "y": 3311, "level": 0}
+            "type": "search",
+            "spot": {"x": 2969, "y": 3311, "level": 0}
         }
     },
     {
-        "type": "simple",
         "id": 112,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the chests in Al Kharid palace.",
         "solution": {
-            "type": "simple",
-            "spot": {"x": 3301, "y": 3165, "level": 0}
+            "type": "search",
+            "spot": {"x": 3301, "y": 3164, "level": 0}
         }
     },
     {
-        "type": "simple",
         "id": 113,
+        "type": "simple",
         "tier": "easy",
         "text": "Search the crates just outside the armour shop in East Ardougne.",
         "solution": {
-            "type": "simple",
+            "type": "search",
             "spot": {"x": 2654, "y": 3299, "level": 0}
         }
     },
@@ -497,14 +491,13 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "simple",
-        "id": 122,
-        "tier": "medium",
+        "id": 122, "type": "simple", "tier": "medium",
         "text": "Speak to a referee.",
+        "challenge": [{"type": "challengescroll", "question": "What is 57 x 89 + 23?", "answers": [{answer: 5096}]}],
         "solution": {
-            "type": "simple",
-            "spot": {"x": 2386, "y": 3490, "level": 0},
-            "answer": "Speak to the gnome ball referee, the answer to his math question is 5096."
+            "type": "talkto",
+            "npc": "Gnome ball referee",
+            "spots": [{"topleft": {"x": 2385, "y": 3488}, "botright": {"x": 2385, "y": 3488}, "level": 0}],
         }
     },
     {
@@ -619,7 +612,7 @@ export let clues: Clues.Step[] = [
         "text": "Search the crates in the Port Sarim fishing shop.",
         "solution": {
             "type": "simple",
-            "spot": {"x":3012,"y":3222,"level":0}
+            "spot": {"x": 3012, "y": 3222, "level": 0}
         }
     },
     {
@@ -650,6 +643,84 @@ export let clues: Clues.Step[] = [
         "solution": {
             "type": "simple",
             "spot": {"x": 2886, "y": 3530, "level": 0}
+        }
+    },
+
+
+    // Cryptics:
+    {
+        "type": "cryptic",
+        "text": "'A bag belt only?' he asked his balding brothers",
+        "tier": null,
+        "id": 26,
+        "solution": {
+            "type": "simple",
+            "spot": {"x": 3058, "y": 3492, "level": 0},
+            "answer": "Talk to Abbot Langley."
+        }
+    },
+    {
+        "id": 28,
+        "type": "cryptic",
+        "text": "Covered in shadows, the centre of the circle is where you will find the answer.",
+        "tier": "hard",
+        "solution": {
+            "type": "dig",
+            "spot": {"x": 3489, "y": 3288, "level": 0},
+        }
+    },
+    {
+        "type": "cryptic",
+        "text": "Find a bar with a centre fountain in its city. Go upstairs and get changed.",
+        "tier": "medium",
+        "id": 29,
+        "solution": {
+            "type": "simple",
+            "spot": {"x": 3227, "y": 3395, "level": 0},
+            "answer": "You have to kill a guard dog to find the key, Guard dogs in Ardougne will do. After that you can search the locked drawers upstairs in the bar marked on the map."
+        }
+    },
+    {
+        "id": 30,
+        "type": "cryptic",
+        "text": "Generally speaking, his nose was very bent",
+        "tier": "hard",
+        "challenge": [{"type": "slider"}],
+        "solution": {
+            "type": "talkto",
+            "npc": "General Bentnoze",
+            "spots": [{"topleft": {"x": 2954, "y": 3515}, "botright": {"x": 2960, "y": 3512}, "level": 0}],
+        }
+    },
+    {
+        "type": "cryptic",
+        "text": "If a man carried my burden, he would break his back. I am not rich, but leave silver in my track. Speak to the keeper of my trail.",
+        "tier": null,
+        "id": 31,
+        "solution": {
+            "type": "simple",
+            "spot": {"x": 3014, "y": 3223, "level": 0},
+            "answer": "Talk to Gerrant."
+        }
+    },
+    {
+        "id": 32,
+        "type": "cryptic",
+        "text": "If you look closely enough, it seems that the archers have lost more than their needles.",
+        "tier": "hard",
+        "solution": {
+            "type": "search",
+            "spot": {"x": 2671, "y": 3416, "level": 0},
+        }
+    },
+    {
+        "id": 35,
+        "type": "cryptic",
+        "text": "A crate in the tower of a church is your next location.",
+        "tier": "medium",
+        "solution": {
+            "type": "search",
+            "spot": {"x": 2612, "y": 3306, "level": 1},
         }
     },
 
@@ -687,6 +758,8 @@ export let clues: Clues.Step[] = [
             "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Bronze platelegs, Iron platebody, Blue d'hide vambraces"
         }
     },
+
+
     {
         "type": "anagram",
         "text": "This anagram reveals who to speak to next: Eek Zero Op",
@@ -732,122 +805,53 @@ export let clues: Clues.Step[] = [
         }
     },
     {
-        "type": "cryptic",
-        "text": "'A bag belt only?' he asked his balding brothers",
-        "tier": null,
-        "id": 26,
-        "solution": {
-            "type": "simple",
-            "spot": {"x": 3058, "y": 3492, "level": 0},
-            "answer": "Talk to Abbot Langley."
-        }
-    },
-    {
-        "type": "cryptic",
-        "text": "Covered in shadows, the centre of the circle is where you will find the answer.",
-        "tier": "hard",
-        "id": 28,
-        "solution": {
-            "type": "simple",
-            "spot": {"x": 3489, "y": 3288, "level": 0},
-            "answer": "Dig in the center of the town."
-        }
-    },
-    {
-        "type": "cryptic",
-        "text": "Find a bar with a centre fountain in its city. Go upstairs and get changed.",
-        "tier": "medium",
-        "id": 29,
-        "solution": {
-            "type": "simple",
-            "spot": {"x": 3227, "y": 3395, "level": 0},
-            "answer": "You have to kill a guard dog to find the key, Guard dogs in Ardougne will do. After that you can search the locked drawers upstairs in the bar marked on the map."
-        }
-    },
-    {
-        "type": "cryptic",
-        "text": "Generally speaking, his nose was very bent",
-        "tier": "hard",
-        "id": 30,
-        "solution": {
-            "type": "simple",
-            "spot": {"x": 2957, "y": 3514, "level": 0},
-            "answer": "Talk to General Bentnoze."
-        }
-    },
-    {
-        "type": "cryptic",
-        "text": "If a man carried my burden, he would break his back. I am not rich, but leave silver in my track. Speak to the keeper of my trail.",
-        "tier": null,
-        "id": 31,
-        "solution": {
-            "type": "simple",
-            "spot": {"x": 3014, "y": 3223, "level": 0},
-            "answer": "Talk to Gerrant."
-        }
-    },
-    {
-        "type": "cryptic",
-        "text": "If you look closely enough, it seems that the archers have lost more than their needles.",
-        "tier": "hard",
-        "id": 32,
-        "solution": {
-            "type": "simple",
-            "spot": {"x": 2672, "y": 3417, "level": 0},
-            "answer": "Search the haystack."
-        }
-    },
-    {
-        "type": "cryptic",
-        "text": "The crate in the tower of a church is your next location.",
-        "tier": "medium",
-        "id": 35,
-        "solution": {
-            "type": "simple",
-            "spot": {"x": 2611, "y": 3305, "level": 0},
-            "answer": "Searchs the crates on the first floor."
-        }
-    },
-    {
         "type": "scan",
         "text": "This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces.",
         "tier": "elite",
         "id": 36,
         "solution": {
             "type": "coordset",
-            "candidates": [{"x": 2958, "y": 3917, "level": 0}, {"x": 2979, "y": 3962, "level": 0}, {"x": 2998, "y": 3914, "level": 0}, {
-                "x": 2956,
-                "y": 3908,
-                "level": 0
-            }, {"x": 2944, "y": 3909, "level": 0}, {"x": 2990, "y": 3924, "level": 0}, {"x": 3055, "y": 3914, "level": 0}, {"x": 3060, "y": 3941, "level": 0}, {
-                "x": 3029,
-                "y": 3949,
-                "level": 0
-            }, {"x": 3012, "y": 3959, "level": 0}, {"x": 3057, "y": 3948, "level": 0}, {"x": 3048, "y": 3926, "level": 0}, {"x": 3037, "y": 3925, "level": 0}, {
-                "x": 3031,
-                "y": 3926,
-                "level": 0
-            }, {"x": 3021, "y": 3926, "level": 0}, {"x": 3110, "y": 3954, "level": 0}, {"x": 3125, "y": 3909, "level": 0}, {"x": 3080, "y": 3911, "level": 0}, {
-                "x": 3160,
-                "y": 3943,
-                "level": 0
-            }, {"x": 3182, "y": 3926, "level": 0}, {"x": 3193, "y": 3950, "level": 0}, {"x": 3179, "y": 3943, "level": 0}, {"x": 3175, "y": 3962, "level": 0}, {
-                "x": 3242,
-                "y": 3956,
-                "level": 0
-            }, {"x": 3241, "y": 3944, "level": 0}, {"x": 3210, "y": 3910, "level": 0}, {"x": 3216, "y": 3944, "level": 0}, {"x": 3266, "y": 3936, "level": 0}, {
-                "x": 3307,
-                "y": 3916,
-                "level": 0
-            }, {"x": 3306, "y": 3947, "level": 0}, {"x": 3281, "y": 3942, "level": 0}, {"x": 3315, "y": 3914, "level": 0}, {"x": 3269, "y": 3914, "level": 0}, {
-                "x": 3380,
-                "y": 3960,
-                "level": 0
-            }, {"x": 3342, "y": 3894, "level": 0}, {"x": 3334, "y": 3906, "level": 0}, {"x": 3363, "y": 3960, "level": 0}, {"x": 3346, "y": 3976, "level": 0}, {
-                "x": 3408,
-                "y": 3937,
-                "level": 0
-            }]
+            "candidates": [
+                {"x": 2958, "y": 3917, "level": 0},
+                {"x": 2979, "y": 3962, "level": 0},
+                {"x": 2998, "y": 3914, "level": 0},
+                {"x": 2956, "y": 3908, "level": 0},
+                {"x": 2944, "y": 3909, "level": 0},
+                {"x": 2990, "y": 3924, "level": 0},
+                {"x": 3055, "y": 3914, "level": 0},
+                {"x": 3060, "y": 3941, "level": 0},
+                {"x": 3029, "y": 3949, "level": 0},
+                {"x": 3012, "y": 3959, "level": 0},
+                {"x": 3057, "y": 3948, "level": 0},
+                {"x": 3048, "y": 3926, "level": 0},
+                {"x": 3037, "y": 3925, "level": 0},
+                {"x": 3031, "y": 3926, "level": 0},
+                {"x": 3021, "y": 3926, "level": 0},
+                {"x": 3110, "y": 3954, "level": 0},
+                {"x": 3125, "y": 3909, "level": 0},
+                {"x": 3080, "y": 3911, "level": 0},
+                {"x": 3160, "y": 3943, "level": 0},
+                {"x": 3182, "y": 3926, "level": 0},
+                {"x": 3193, "y": 3950, "level": 0},
+                {"x": 3179, "y": 3943, "level": 0},
+                {"x": 3175, "y": 3962, "level": 0},
+                {"x": 3242, "y": 3956, "level": 0},
+                {"x": 3241, "y": 3944, "level": 0},
+                {"x": 3210, "y": 3910, "level": 0},
+                {"x": 3216, "y": 3944, "level": 0},
+                {"x": 3266, "y": 3936, "level": 0},
+                {"x": 3307, "y": 3916, "level": 0},
+                {"x": 3306, "y": 3947, "level": 0},
+                {"x": 3281, "y": 3942, "level": 0},
+                {"x": 3315, "y": 3914, "level": 0},
+                {"x": 3269, "y": 3914, "level": 0},
+                {"x": 3380, "y": 3960, "level": 0},
+                {"x": 3342, "y": 3894, "level": 0},
+                {"x": 3334, "y": 3906, "level": 0},
+                {"x": 3363, "y": 3960, "level": 0},
+                {"x": 3346, "y": 3976, "level": 0},
+                {"x": 3408, "y": 3937, "level": 0}
+            ]
         }, "range": 25, "scantext": "deepest levels of the Wilderness"
     },
     {

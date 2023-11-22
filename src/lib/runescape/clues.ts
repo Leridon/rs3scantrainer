@@ -66,11 +66,11 @@ export namespace ClueType {
 export namespace Clues {
     export type Challenge =
         { type: "wizard" } |
-        { type: "slider", id: number } |
+        { type: "slider" } |
         { type: "celticknot" } |
         { type: "lockbox" } |
         { type: "towers" } |
-        { type: "challengescroll", question: string, answers: { answer: string, note?: string }[] }
+        { type: "challengescroll", question: string, answers: { answer: number, note?: string }[] }
 
     export type Sol = Sol.TalkTo | Sol.Dig | Sol.Search
 
@@ -100,7 +100,7 @@ export namespace Clues {
         { type: "compass", spots: TileCoordinates[] } |
         { type: "skilling", location?: TileRectangle } |
         { type: "coordinates", coordinates: GieliCoordinates } |
-        { type: "emote", area: TileRectangle, items: string[], emotes: string[], double_agent: boolean } |
+        { type: "emote", area: TileRectangle, items: string[], emotes: string[], double_agent: boolean, hidey_hole?: { location: TileRectangle, name: string } } |
         { type: "map", image: number[], solution: Sol } |
         { type: "anagram", solution: Sol.TalkTo } |
         { type: "cryptic", solution: Sol } |

@@ -9,7 +9,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Snah"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3221, "y": 3218, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
                 "npc": "Hans"
             }
         },
@@ -29,9 +29,9 @@ namespace clue_data {
                 "type": "talkto",
                 "npc": "Zookeeper",
                 "spots": [
-                    {"topleft": {"x": 2608, "y": 3271}, "botright": {"x": 2615, "y": 3266}, "level": 0},
-                    {"topleft": {"x": 2618, "y": 3283}, "botright": {"x": 2624, "y": 3277}, "level": 0},
-                    {"topleft": {"x": 2599, "y": 3287}, "botright": {"x": 2606, "y": 3282}, "level": 0}
+                    {"range": {"topleft": {"x": 2608, "y": 3271}, "botright": {"x": 2615, "y": 3266}, "level": 0}},
+                    {"range": {"topleft": {"x": 2618, "y": 3283}, "botright": {"x": 2624, "y": 3277}, "level": 0}},
+                    {"range": {"topleft": {"x": 2599, "y": 3287}, "botright": {"x": 2606, "y": 3282}, "level": 0}}
                 ],
             }
         },
@@ -45,7 +45,9 @@ namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2859, "y": 3580, "level": 0},
+                "spots": [
+                    {"range": {"topleft": {"x": 2267, "y": 4760}, "botright": {"x": 2271, "y": 4752}, "level": 0}, note: "Before 'Death Plateu'"}
+                ],
                 "npc": "Sabbot (Found inside the marked cave)"
             }
         },
@@ -58,7 +60,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Edmond",
-                "spots": [{"topleft": {"x": 2564, "y": 3336}, "botright": {"x": 2570, "y": 3330}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2564, "y": 3336}, "botright": {"x": 2570, "y": 3330}, "level": 0}}],
             }
         },
         {
@@ -70,7 +72,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Nails Newton",
-                "spots": [{"topleft": {"x": 2880, "y": 3445}, "botright": {"x": 2882, "y": 3443}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2880, "y": 3445}, "botright": {"x": 2882, "y": 3443}, "level": 0}}],
             }
         },
         {
@@ -82,7 +84,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Valerio",
-                "spots": [{"topleft": {"x": 3399, "y": 3150}, "botright": {"x": 3401, "y": 3148}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3399, "y": 3150}, "botright": {"x": 3401, "y": 3148}, "level": 0}}],
             }
         },
         {
@@ -93,7 +95,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Fycie",
-                "spots": [{"topleft": {"x": 2646, "y": 9398}, "botright": {"x": 2653, "y": 9390}, "level": 0}]
+                "spots": [{"range": {"topleft": {"x": 2646, "y": 9398}, "botright": {"x": 2653, "y": 9390}, "level": 0}}]
             }
         },
         {
@@ -104,7 +106,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Jaraah",
-                "spots": [{"topleft": {"x": 3290, "y": 3219}, "botright": {"x": 3297, "y": 3215}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3290, "y": 3219}, "botright": {"x": 3297, "y": 3215}, "level": 0}}],
             }
         },
         {
@@ -114,7 +116,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Bail Trims"],
             "solution": {
                 "type": "talkto",
-                "spots": [{"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}}],
                 "npc": "Brimstail (He lives under ground at the marked location)"
             }
         },
@@ -127,7 +129,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Cook",
-                "spots": [{"topleft": {"x": 3208, "y": 3215}, "botright": {"x": 3210, "y": 3215}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3208, "y": 3215}, "botright": {"x": 3210, "y": 3215}, "level": 0}}],
             }
         },
         {
@@ -139,7 +141,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Oracle",
-                "spots": [{"topleft": {"x": 3008, "y": 3503}, "botright": {"x": 3019, "y": 3498}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3008, "y": 3503}, "botright": {"x": 3019, "y": 3498}, "level": 0}}],
             }
         },
         {
@@ -149,13 +151,17 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Arc O Line"],
             "challenge": [{
                 "type": "challengescroll", "question": "How many fishermen are there on the Fishing Platform?", "answers": [
-                    {"answer": 11, "note": "Before Salt in the Wound"},
-                    {"answer": 0, "note": "After Salt in the Wound"},
+                    {"answer": 11, "note": "Before 'Kennith's Concerns'"},
+                    {"answer": 0, "note": "After 'Kennith's Concerns'"},
                 ]
             }],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2717, "y": 3303, "level": 0},
+                "npc": "Caroline",
+                "spots": [
+                    {"range": {"topleft": {"x": 2713, "y": 3305}, "botright": {"x": 2718, "y": 3290}, "level": 0}, "note": "Before 'Sea Slug'."},
+                    {"range": {"topleft": {"x": 2708, "y": 3285}, "botright": {"x": 2712, "y": 3280}, "level": 1}, "note": "After 'Sea Slug'."},
+                ],
             }
         },
         {
@@ -165,7 +171,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Goblin Kern"],
             "solution": {
                 "type": "talkto",
-                "spots": [{"topleft": {"x": 2540, "y": 3171}, "botright": {"x": 2542, "y": 3167}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2540, "y": 3171}, "botright": {"x": 2542, "y": 3167}, "level": 0}}],
                 "npc": "King Bolren"
             }
         },
@@ -178,7 +184,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Ysondria",
-                "spots": [{"topleft": {"x": 3219, "y": 3184}, "botright": {"x": 3221, "y": 3182}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3219, "y": 3184}, "botright": {"x": 3221, "y": 3182}, "level": 0}}],
             }
         },
         {
@@ -186,11 +192,11 @@ namespace clue_data {
             "type": "anagram",
             "tier": "medium",
             "text": ["This anagram reveals who to speak to next: Dt Run B"],
-            "challenge": [{type: "challengescroll", question: "How many people are waiting for the next bard to perform?", answers: [{answer: 4}]}],
+            "challenge": [{"type": "challengescroll", "question": "How many people are waiting for the next bard to perform?", "answers": [{"answer": 4}]}],
             "solution": {
                 "type": "talkto",
                 "npc": "Brundt the Chieftain",
-                "spots": [{"topleft": {"x": 2657, "y": 3670}, "botright": {"x": 2660, "y": 3666}, "level": 0}]
+                "spots": [{"range": {"topleft": {"x": 2657, "y": 3670}, "botright": {"x": 2660, "y": 3666}, "level": 0}}]
             }
         },
         {
@@ -200,7 +206,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Me if"],
             "solution": {
                 "type": "talkto",
-                "spots": [{"topleft": {"x": 2457, "y": 3382}, "botright": {"x": 2461, "y": 3380}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2457, "y": 3382}, "botright": {"x": 2461, "y": 3380}, "level": 0}}],
                 "npc": "Femi"
             }
         },
@@ -217,7 +223,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Karim",
-                "spots": [{"topleft": {"x": 3269, "y": 3184}, "botright": {"x": 3271, "y": 3182}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3269, "y": 3184}, "botright": {"x": 3271, "y": 3182}, "level": 0}}],
             }
         },
         {
@@ -229,7 +235,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Gabooty",
-                "spots": [{"topleft": {"x": 2786, "y": 3070}, "botright": {"x": 2801, "y": 3063}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2786, "y": 3070}, "botright": {"x": 2801, "y": 3063}, "level": 0}}],
             }
         },
         {
@@ -239,7 +245,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Halt Us"],
             "solution": {
                 "type": "talkto",
-                "spots": [{"topleft": {"x": 2935, "y": 3156}, "botright": {"x": 2941, "y": 3152}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2935, "y": 3156}, "botright": {"x": 2941, "y": 3152}, "level": 0}}],
                 "npc": "Luthas"
             }
         },
@@ -252,7 +258,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Recruiter",
-                "spots": [{"topleft": {"x": 2539, "y": 3308}, "botright": {"x": 2544, "y": 3302}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2539, "y": 3308}, "botright": {"x": 2544, "y": 3302}, "level": 0}}],
             }
         },
         {
@@ -264,7 +270,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Moldark, Emissary of Zamorak",
-                "spots": [{"topleft": {"x": 3104, "y": 3510}, "botright": {"x": 3105, "y": 3508}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3104, "y": 3510}, "botright": {"x": 3105, "y": 3508}, "level": 0}}],
             }
         },
         {
@@ -276,7 +282,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Rommik",
-                "spots": [{"topleft": {"x": 2945, "y": 3199}, "botright": {"x": 2950, "y": 3193}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 2945, "y": 3199}, "botright": {"x": 2950, "y": 3193}, "level": 0}}],
             }
         },
         {
@@ -286,7 +292,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: El Ow"],
             "solution": {
                 "type": "talkto",
-                "spots": [{"topleft": {"x": 3230, "y": 3422}, "botright": {"x": 3236, "y": 3420}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3230, "y": 3422}, "botright": {"x": 3236, "y": 3420}, "level": 0}}],
                 "npc": "Lowe"
             }
         },
@@ -297,7 +303,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Peaty Pert"],
             "solution": {
                 "type": "talkto",
-                "spots": [{"topleft": {"x": 3048, "y": 3378}, "botright": {"x": 3054, "y": 3372}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3048, "y": 3378}, "botright": {"x": 3054, "y": 3372}, "level": 0}}],
                 "npc": "Party Pete"
             }
         },
@@ -310,7 +316,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "King Roald",
-                "spots": [{"topleft": {"x": 3217, "y": 3478}, "botright": {"x": 3224, "y": 3471}, "level": 0}],
+                "spots": [{"range": {"topleft": {"x": 3217, "y": 3478}, "botright": {"x": 3224, "y": 3471}, "level": 0}}],
             }
         },
         {
@@ -325,7 +331,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"topleft":{"x":3284,"y":3241},"botright":{"x":3294,"y":3234},"level":0}],
+                "spots": [{"range": {"topleft": {"x": 3284, "y": 3241}, "botright": {"x": 3294, "y": 3234}, "level": 0}}],
                 "npc": "Cam the Camel"
             }
         },
@@ -337,7 +343,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3426, "y": 2927, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3420, "y": 2930}, "botright": {"x": 3430, "y": 2926}, "level": 0}}],
                 "npc": "Shiratti the Custodian"
             }
         },
@@ -349,7 +355,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2866, "y": 9877, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 2860, "y": 9883}, "botright": {"x": 2877, "y": 9873}, "level": 0}}],
                 "npc": "Captain Ninto"
             }
         },
@@ -361,7 +367,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2341, "y": 3676, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 2338, "y": 3678}, "botright": {"x": 2346, "y": 3673}, "level": 0}}],
                 "npc": "Ramara du Croissant"
             }
         },
@@ -373,7 +379,10 @@ namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "How many gnomes on the gnome ball field have red patches on their uniforms?", "answers": [{"answer": 6}]}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2396, "y": 3479, "level": 0},
+                "npc": "Gnome Coach",
+                "spots": [
+                    {"range": {"topleft": {"x": 2381, "y": 3497}, "botright": {"x": 2409, "y": 3479}, "level": 0}, "note": "The coach roams around the field."}
+                ],
             }
         },
         {
@@ -384,8 +393,8 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2905, "y": 10206, "level": 0},
-                "npc": "Riki the sculptor's model (Found just east of the palace in Keldagrim)"
+                "spots": [{"range": {"topleft": {"x": 2903, "y": 10208}, "botright": {"x": 2905, "y": 10206}, "level": 0}}],
+                "npc": "Riki the sculptor's model"
             }
         },
         {
@@ -396,7 +405,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3102, "y": 3159, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3103, "y": 3165}, "botright": {"x": 3114, "y": 3146}, "level": 0}}],
                 "npc": "Professor Onglewip"
             }
         },
@@ -408,7 +417,8 @@ namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "How many banana trees are there in the plantation?", "answers": [{"answer": 33}]}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2807, "y": 3191, "level": 0},
+                "npc": "Cap'n Izzy No-Beard",
+                "spots": [{"range": {"topleft": {"x": 2806, "y": 3192}, "botright": {"x": 2808, "y": 3190}, "level": 0}}],
             }
         },
         {
@@ -419,7 +429,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3033, "y": 3190, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3032, "y": 3191}, "botright": {"x": 3034, "y": 3190}, "level": 0}}],
                 "npc": "Trader Stan"
             }
         },
@@ -431,8 +441,8 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2594, "y": 3085, "level": 0},
-                "npc": "Wizard Frumscone (Found in the basement)"
+                "spots": [{"range": {"topleft": {"x": 2587, "y": 9489}, "botright": {"x": 2589, "y": 9488}, "level": 0}}],
+                "npc": "Wizard Frumscone"
             }
         },
         {
@@ -443,7 +453,8 @@ namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "How many flowers are there in the clearing below this platform?", "answers": [{"answer": 13}]}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2526, "y": 3164, "level": 0},
+                "npc": "Bolkoy",
+                "spots": [{"range": {"topleft": {"x": 2525, "y": 3164}, "botright": {"x": 2531, "y": 3160}, "level": 1}}],
             }
         },
         {
@@ -454,7 +465,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2500, "y": 3863, "level": 0},
+                "spots": {"x": 2500, "y": 3863, "level": 0},
                 "npc": "Queen Sigrid (Found in the other castle before blood runs deep)"
             }
         },
@@ -466,7 +477,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2658, "y": 3292, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 2657, "y": 3293}, "botright": {"x": 2661, "y": 3291}, "level": 0}}],
                 "npc": "Zenesha"
             }
         },
@@ -478,7 +489,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2444, "y": 3051, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 2437, "y": 3057}, "botright": {"x": 2450, "y": 3047}, "level": 0}}],
                 "npc": "Uglug Nar"
             }
         },
@@ -490,7 +501,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3361, "y": 3506, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3358, "y": 3510}, "botright": {"x": 3364, "y": 3502}, "level": 0}}],
                 "npc": "Odd Old Man"
             }
         },
@@ -502,7 +513,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2387, "y": 4468, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 2384, "y": 4471}, "botright": {"x": 2389, "y": 4466}, "level": 0}}],
                 "npc": "Fairy Nuff (North of the bank in Zanaris)"
             }
         },
@@ -513,8 +524,8 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: An exile that isn't wholly free WE IRK OVER NA."],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3410, "y": 3330, "level": 0},
-                "npc": "Ramokee Skinweaver (all the way at the bottom of the dungeon, on the south side)"
+                "spots": [{"range": {"topleft": {"x": 4644, "y": 5386}, "botright": {"x": 4648, "y": 5382}, "level": 0}}],
+                "npc": "Ramokee Skinweaver"
             }
         },
         {
@@ -524,7 +535,10 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: He often preaches of QUIT THY BRINE RAT ROLL"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3679, "y": 2965, "level": 0},
+                "spots": [
+                    {"range": {"topleft": {"x": 3679, "y": 2964}, "botright": {"x": 3683, "y": 2960}, "level": 0}, "note": "Mos Le'Harmless"},
+                    {"range": {"topleft": {"x": 3783, "y": 2829}, "botright": {"x": 3790, "y": 2822}, "level": 0}, "note": "Harmony"}
+                ],
                 "npc": "Brother Tranquility"
             }
         },
@@ -536,8 +550,8 @@ namespace clue_data {
             "challenge": [{"type": "towers"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 1785, "y": 11953, "level": 0},
-                "npc": "Sensei Seaworth (on Tuai Leit)"
+                "spots": [{"range": {"topleft": {"x": 1784, "y": 11954}, "botright": {"x": 1786, "y": 11952}, "level": 0}}],
+                "npc": "Sensei Seaworth"
             }
         },
         {
@@ -548,7 +562,10 @@ namespace clue_data {
             "challenge": [{"type": "towers"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3390, "y": 3402, "level": 0},
+                "spots": [
+                    {"range": {"topleft": {"x": 3376, "y": 3405}, "botright": {"x": 3378, "y": 3403}, "level": 0}, "note": "Outside the empty throne room."},
+                    {"range": {"topleft": {"x": 2825, "y": 12632}, "botright": {"x": 2827, "y": 12630}, "level": 2}, "note": "Inside the empty throne room."}
+                ],
                 "npc": "Celia Diggory"
             }
         },
@@ -560,7 +577,7 @@ namespace clue_data {
             "challenge": [{"type": "lockbox"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3003, "y": 3270, "level": 0},
+                "spots": {"x": 3003, "y": 3270, "level": 0},
                 "npc": "Malignus mortifer"
             }
         },
@@ -572,8 +589,8 @@ namespace clue_data {
             "challenge": [{"type": "lockbox"}],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2347, "y": 3165, "level": 0},
-                "npc": "Amaethwr (the farmer)"
+                "spots": [{"range": {"topleft": {"x": 2346, "y": 3165}, "botright": {"x": 2348, "y": 3163}, "level": 0}}],
+                "npc": "Amaethwr"
             }
         },
         {
@@ -588,7 +605,7 @@ namespace clue_data {
                         "id": "pre",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 2569, "y": 3272, "level": 0},
+                            "spots": {"x": 2569, "y": 3272, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "Pre-quest"
@@ -597,7 +614,7 @@ namespace clue_data {
                         "id": "50",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 2518, "y": 3353, "level": 0},
+                            "spots": {"x": 2518, "y": 3353, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "50qp"
@@ -606,7 +623,7 @@ namespace clue_data {
                         "id": "100",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 2755, "y": 3647, "level": 0},
+                            "spots": {"x": 2755, "y": 3647, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "100qp"
@@ -615,7 +632,7 @@ namespace clue_data {
                         "id": "150",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 2860, "y": 2996, "level": 0},
+                            "spots": {"x": 2860, "y": 2996, "level": 0},
                             "npc": "Philippe Carnillean, top floor of building"
                         },
                         "name": "150qp"
@@ -624,7 +641,7 @@ namespace clue_data {
                         "id": "200",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 3673, "y": 3496, "level": 0},
+                            "spots": {"x": 3673, "y": 3496, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "200qp"
@@ -633,7 +650,7 @@ namespace clue_data {
                         "id": "250",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 4641, "y": 5387, "level": 0},
+                            "spots": {"x": 4641, "y": 5387, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "250qp"
@@ -642,7 +659,7 @@ namespace clue_data {
                         "id": "300",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 2704, "y": 5364, "level": 0},
+                            "spots": {"x": 2704, "y": 5364, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "300qp"
@@ -651,7 +668,7 @@ namespace clue_data {
                         "id": "350",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 2340, "y": 3675, "level": 0},
+                            "spots": {"x": 2340, "y": 3675, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "350qp"
@@ -660,7 +677,7 @@ namespace clue_data {
                         "id": "400",
                         "solution": {
                             "type": "talkto",
-                            "spot": {"x": 4614, "y": 5125, "level": 0},
+                            "spots": {"x": 4614, "y": 5125, "level": 0},
                             "npc": "Philippe Carnillean"
                         },
                         "name": "400qp"
@@ -672,10 +689,10 @@ namespace clue_data {
             "id": 312,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: In his youth, this adventurer was a WINSCME LAD"],
+            "text": ["This anagram reveals who to speak to next: In his youth, this adventurer was a WINSOME LAD"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3089, "y": 3254, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3087, "y": 3255}, "botright": {"x": 3089, "y": 3254}, "level": 0}}],
                 "npc": "Wise Old Man"
             }
         },
@@ -686,7 +703,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3253, "y": 3355, "level": 0},
+                "spots": {"x": 3253, "y": 3355, "level": 0},
                 "npc": "Paul Gower (at the alter of life after the quest, get a disk of returning from the marked chest to get there.)"
             }
         },
@@ -697,8 +714,8 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: Age allows a new perspective in this vital place TABOO RISES SHYLY"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3198, "y": 6960, "level": 0},
-                "npc": "Soothsayer Sybil (next to the Telos entrance in The Heart)"
+                "spots": {"x": 3198, "y": 6960, "level": 0},
+                "npc": "Soothsayer Sybil"
             }
         },
         {
@@ -708,7 +725,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: With her age, it's no surprise to HEAR A LADY RANT"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 2221, "y": 3300, "level": 0},
+                "spots": {"x": 2221, "y": 3300, "level": 0},
                 "npc": "Lady Trahaearn"
             }
         },
@@ -719,7 +736,7 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: He claimed to be a human scholar but I SAW THE LIE"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3420, "y": 2938, "level": 0},
+                "spots": [{"range": {"topleft": {"x": 3416, "y": 2940}, "botright": {"x": 3421, "y": 2935}, "level": 0}}],
                 "npc": "Ali The Wise"
             }
         },
@@ -730,552 +747,547 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: His job leaves him kind of HATED"],
             "solution": {
                 "type": "talkto",
-                "spot": {"x": 3108, "y": 3311, "level": 0},
+                "spots": {"x": 3108, "y": 3311, "level": 0},
                 "npc": "Death"
             }
         }
     ]
 
-    
+
     export const compass: Clues.Compass[] = [
         {
             "id": 399,
             "type": "compass",
             "tier": "elite",
             "text": ["The compass shows where you need to go."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2413, "y": 2818, "level": 0},
-                    {"x": 2398, "y": 2862, "level": 0},
-                    {"x": 2476, "y": 2845, "level": 0},
-                    {"x": 2493, "y": 2875, "level": 0},
-                    {"x": 2546, "y": 2872, "level": 0},
-                    {"x": 2547, "y": 2826, "level": 0},
-                    {"x": 2617, "y": 2876, "level": 0},
-                    {"x": 2598, "y": 2838, "level": 0},
-                    {"x": 2445, "y": 2917, "level": 0},
-                    {"x": 2458, "y": 2893, "level": 0},
-                    {"x": 2541, "y": 2926, "level": 0},
-                    {"x": 2511, "y": 2936, "level": 0},
-                    {"x": 2578, "y": 2930, "level": 0},
-                    {"x": 2589, "y": 2898, "level": 0},
-                    {"x": 2482, "y": 2977, "level": 0},
-                    {"x": 2490, "y": 2949, "level": 0},
-                    {"x": 2511, "y": 2980, "level": 0},
-                    {"x": 2535, "y": 2958, "level": 0},
-                    {"x": 2590, "y": 2994, "level": 0},
-                    {"x": 2592, "y": 2956, "level": 0},
-                    {"x": 2640, "y": 2987, "level": 0},
-                    {"x": 2638, "y": 2948, "level": 0},
-                    {"x": 2330, "y": 3057, "level": 0},
-                    {"x": 2355, "y": 3038, "level": 0},
-                    {"x": 2393, "y": 3046, "level": 0},
-                    {"x": 2418, "y": 3040, "level": 0},
-                    {"x": 2481, "y": 3011, "level": 0},
-                    {"x": 2439, "y": 3057, "level": 0},
-                    {"x": 2564, "y": 3041, "level": 0},
-                    {"x": 2590, "y": 3063, "level": 0},
-                    {"x": 2629, "y": 3123, "level": 0},
-                    {"x": 2671, "y": 3109, "level": 0},
-                    {"x": 2579, "y": 3130, "level": 0},
-                    {"x": 2610, "y": 3076, "level": 0},
-                    {"x": 2519, "y": 3115, "level": 0},
-                    {"x": 2559, "y": 3102, "level": 0},
-                    {"x": 2449, "y": 3110, "level": 0},
-                    {"x": 2486, "y": 3134, "level": 0},
-                    {"x": 2433, "y": 3144, "level": 0},
-                    {"x": 2468, "y": 3177, "level": 0},
-                    {"x": 2498, "y": 3175, "level": 0},
-                    {"x": 2557, "y": 3164, "level": 0},
-                    {"x": 2619, "y": 3153, "level": 0},
-                    {"x": 2595, "y": 3192, "level": 0},
-                    {"x": 2651, "y": 3148, "level": 0},
-                    {"x": 2627, "y": 3172, "level": 0},
-                    {"x": 2457, "y": 3221, "level": 0},
-                    {"x": 2478, "y": 3254, "level": 0},
-                    {"x": 2543, "y": 3211, "level": 0},
-                    {"x": 2502, "y": 3249, "level": 0},
-                    {"x": 2583, "y": 3223, "level": 0},
-                    {"x": 2592, "y": 3251, "level": 0},
-                    {"x": 2634, "y": 3208, "level": 0},
-                    {"x": 2646, "y": 3251, "level": 0},
-                    {"x": 2492, "y": 3270, "level": 0},
-                    {"x": 2451, "y": 3283, "level": 0},
-                    {"x": 2506, "y": 3276, "level": 0},
-                    {"x": 2582, "y": 3266, "level": 0},
-                    {"x": 2582, "y": 3314, "level": 0},
-                    {"x": 2665, "y": 3266, "level": 0},
-                    {"x": 2650, "y": 3302, "level": 0},
-                    {"x": 2723, "y": 3277, "level": 0},
-                    {"x": 2700, "y": 3311, "level": 0},
-                    {"x": 2381, "y": 3388, "level": 0},
-                    {"x": 2410, "y": 3388, "level": 0},
-                    {"x": 2457, "y": 3331, "level": 0},
-                    {"x": 2485, "y": 3377, "level": 0},
-                    {"x": 2541, "y": 3389, "level": 0},
-                    {"x": 2513, "y": 3351, "level": 0},
-                    {"x": 2581, "y": 3340, "level": 0},
-                    {"x": 2576, "y": 3370, "level": 0},
-                    {"x": 2651, "y": 3351, "level": 0},
-                    {"x": 2662, "y": 3338, "level": 0},
-                    {"x": 2724, "y": 3360, "level": 0},
-                    {"x": 2739, "y": 3388, "level": 0},
-                    {"x": 2359, "y": 3448, "level": 0},
-                    {"x": 2392, "y": 3398, "level": 0},
-                    {"x": 2410, "y": 3419, "level": 0},
-                    {"x": 2438, "y": 3398, "level": 0},
-                    {"x": 2470, "y": 3404, "level": 0},
-                    {"x": 2522, "y": 3429, "level": 0},
-                    {"x": 2531, "y": 3405, "level": 0},
-                    {"x": 2583, "y": 3449, "level": 0},
-                    {"x": 2565, "y": 3395, "level": 0},
-                    {"x": 2677, "y": 3400, "level": 0},
-                    {"x": 2657, "y": 3451, "level": 0},
-                    {"x": 2726, "y": 3399, "level": 0},
-                    {"x": 2705, "y": 3418, "level": 0},
-                    {"x": 2765, "y": 3445, "level": 0},
-                    {"x": 2797, "y": 3428, "level": 0},
-                    {"x": 2835, "y": 3423, "level": 0},
-                    {"x": 2834, "y": 3451, "level": 0},
-                    {"x": 2926, "y": 3402, "level": 0},
-                    {"x": 2908, "y": 3431, "level": 0},
-                    {"x": 2950, "y": 3406, "level": 0},
-                    {"x": 2995, "y": 3429, "level": 0},
-                    {"x": 3055, "y": 3396, "level": 0},
-                    {"x": 3027, "y": 3454, "level": 0},
-                    {"x": 3089, "y": 3409, "level": 0},
-                    {"x": 3134, "y": 3423, "level": 0},
-                    {"x": 3158, "y": 3439, "level": 0},
-                    {"x": 3176, "y": 3400, "level": 0},
-                    {"x": 3228, "y": 3409, "level": 0},
-                    {"x": 3233, "y": 3446, "level": 0},
-                    {"x": 3276, "y": 3444, "level": 0},
-                    {"x": 3318, "y": 3426, "level": 0},
-                    {"x": 3390, "y": 3421, "level": 0},
-                    {"x": 3362, "y": 3403, "level": 0},
-                    {"x": 3411, "y": 3410, "level": 0},
-                    {"x": 3439, "y": 3454, "level": 0},
-                    {"x": 3473, "y": 3401, "level": 0},
-                    {"x": 3461, "y": 3432, "level": 0},
-                    {"x": 3538, "y": 3449, "level": 0},
-                    {"x": 3563, "y": 3408, "level": 0},
-                    {"x": 2356, "y": 3498, "level": 0},
-                    {"x": 2325, "y": 3510, "level": 0},
-                    {"x": 2394, "y": 3513, "level": 0},
-                    {"x": 2401, "y": 3458, "level": 0},
-                    {"x": 2489, "y": 3487, "level": 0},
-                    {"x": 2457, "y": 3511, "level": 0},
-                    {"x": 2504, "y": 3484, "level": 0},
-                    {"x": 2550, "y": 3475, "level": 0},
-                    {"x": 2588, "y": 3506, "level": 0},
-                    {"x": 2609, "y": 3470, "level": 0},
-                    {"x": 2649, "y": 3473, "level": 0},
-                    {"x": 2683, "y": 3491, "level": 0},
-                    {"x": 2707, "y": 3475, "level": 0},
-                    {"x": 2733, "y": 3502, "level": 0},
-                    {"x": 2777, "y": 3501, "level": 0},
-                    {"x": 2808, "y": 3474, "level": 0},
-                    {"x": 2832, "y": 3473, "level": 0},
-                    {"x": 2859, "y": 3508, "level": 0},
-                    {"x": 2937, "y": 3511, "level": 0},
-                    {"x": 2900, "y": 3501, "level": 0},
-                    {"x": 2956, "y": 3505, "level": 0},
-                    {"x": 2983, "y": 3473, "level": 0},
-                    {"x": 3035, "y": 3490, "level": 0},
-                    {"x": 3021, "y": 3470, "level": 0},
-                    {"x": 3103, "y": 3488, "level": 0},
-                    {"x": 3127, "y": 3469, "level": 0},
-                    {"x": 3145, "y": 3510, "level": 0},
-                    {"x": 3190, "y": 3464, "level": 0},
-                    {"x": 3254, "y": 3505, "level": 0},
-                    {"x": 3260, "y": 3460, "level": 0},
-                    {"x": 3317, "y": 3507, "level": 0},
-                    {"x": 3288, "y": 3460, "level": 0},
-                    {"x": 3329, "y": 3518, "level": 0},
-                    {"x": 3373, "y": 3483, "level": 0},
-                    {"x": 3420, "y": 3479, "level": 0},
-                    {"x": 3452, "y": 3476, "level": 0},
-                    {"x": 3487, "y": 3492, "level": 0},
-                    {"x": 3516, "y": 3473, "level": 0},
-                    {"x": 3529, "y": 3501, "level": 0},
-                    {"x": 3576, "y": 3481, "level": 0},
-                    {"x": 3598, "y": 3509, "level": 0},
-                    {"x": 3619, "y": 3485, "level": 0},
-                    {"x": 3649, "y": 3475, "level": 0},
-                    {"x": 3678, "y": 3518, "level": 0},
-                    {"x": 2336, "y": 3540, "level": 0},
-                    {"x": 2351, "y": 3572, "level": 0},
-                    {"x": 2418, "y": 3525, "level": 0},
-                    {"x": 2394, "y": 3574, "level": 0},
-                    {"x": 2491, "y": 3529, "level": 0},
-                    {"x": 2542, "y": 3562, "level": 0},
-                    {"x": 2677, "y": 3539, "level": 0},
-                    {"x": 2653, "y": 3578, "level": 0},
-                    {"x": 2699, "y": 3537, "level": 0},
-                    {"x": 2721, "y": 3577, "level": 0},
-                    {"x": 2757, "y": 3548, "level": 0},
-                    {"x": 2757, "y": 3581, "level": 0},
-                    {"x": 2878, "y": 3529, "level": 0},
-                    {"x": 2860, "y": 3575, "level": 0},
-                    {"x": 2928, "y": 3573, "level": 0},
-                    {"x": 2919, "y": 3535, "level": 0},
-                    {"x": 2979, "y": 3546, "level": 0},
-                    {"x": 2986, "y": 3583, "level": 0},
-                    {"x": 3052, "y": 3548, "level": 0},
-                    {"x": 3030, "y": 3520, "level": 0},
-                    {"x": 3096, "y": 3534, "level": 0},
-                    {"x": 3125, "y": 3578, "level": 0},
-                    {"x": 3153, "y": 3545, "level": 0},
-                    {"x": 3184, "y": 3559, "level": 0},
-                    {"x": 3229, "y": 3541, "level": 0},
-                    {"x": 3255, "y": 3576, "level": 0},
-                    {"x": 3289, "y": 3528, "level": 0},
-                    {"x": 3292, "y": 3574, "level": 0},
-                    {"x": 3376, "y": 3567, "level": 0},
-                    {"x": 3339, "y": 3572, "level": 0},
-                    {"x": 3418, "y": 3544, "level": 0},
-                    {"x": 3432, "y": 3544, "level": 0},
-                    {"x": 3460, "y": 3553, "level": 0},
-                    {"x": 3510, "y": 3530, "level": 0},
-                    {"x": 3571, "y": 3534, "level": 0},
-                    {"x": 3547, "y": 3524, "level": 0},
-                    {"x": 3624, "y": 3524, "level": 0},
-                    {"x": 3596, "y": 3541, "level": 0},
-                    {"x": 3655, "y": 3537, "level": 0},
-                    {"x": 2262, "y": 3605, "level": 0},
-                    {"x": 2295, "y": 3639, "level": 0},
-                    {"x": 2332, "y": 3610, "level": 0},
-                    {"x": 2347, "y": 3594, "level": 0},
-                    {"x": 2392, "y": 3599, "level": 0},
-                    {"x": 2374, "y": 3630, "level": 0},
-                    {"x": 2509, "y": 3634, "level": 0},
-                    {"x": 2559, "y": 3619, "level": 0},
-                    {"x": 2606, "y": 3635, "level": 0},
-                    {"x": 2586, "y": 3605, "level": 0},
-                    {"x": 2684, "y": 3612, "level": 0},
-                    {"x": 2669, "y": 3637, "level": 0},
-                    {"x": 2708, "y": 3589, "level": 0},
-                    {"x": 2737, "y": 3626, "level": 0},
-                    {"x": 2779, "y": 3594, "level": 0},
-                    {"x": 2780, "y": 3635, "level": 0},
-                    {"x": 2999, "y": 3606, "level": 0},
-                    {"x": 2965, "y": 3632, "level": 0},
-                    {"x": 3059, "y": 3620, "level": 0},
-                    {"x": 3028, "y": 3632, "level": 0},
-                    {"x": 3092, "y": 3605, "level": 0},
-                    {"x": 3127, "y": 3597, "level": 0},
-                    {"x": 3179, "y": 3612, "level": 0},
-                    {"x": 3146, "y": 3642, "level": 0},
-                    {"x": 3254, "y": 3624, "level": 0},
-                    {"x": 3247, "y": 3597, "level": 0},
-                    {"x": 3304, "y": 3605, "level": 0},
-                    {"x": 3278, "y": 3615, "level": 0},
-                    {"x": 3338, "y": 3638, "level": 0},
-                    {"x": 3342, "y": 3591, "level": 0},
-                    {"x": 3433, "y": 3639, "level": 0},
-                    {"x": 3403, "y": 3640, "level": 0},
-                    {"x": 2309, "y": 3669, "level": 0},
-                    {"x": 2332, "y": 3659, "level": 0},
-                    {"x": 2612, "y": 3658, "level": 0},
-                    {"x": 2643, "y": 3679, "level": 0},
-                    {"x": 2680, "y": 3676, "level": 0},
-                    {"x": 2712, "y": 3653, "level": 0},
-                    {"x": 2696, "y": 3695, "level": 0},
-                    {"x": 2756, "y": 3651, "level": 0},
-                    {"x": 2972, "y": 3682, "level": 0},
-                    {"x": 2999, "y": 3671, "level": 0},
-                    {"x": 2956, "y": 3705, "level": 0},
-                    {"x": 2965, "y": 3740, "level": 0},
-                    {"x": 3088, "y": 3678, "level": 0},
-                    {"x": 3107, "y": 3653, "level": 0},
-                    {"x": 3187, "y": 3661, "level": 0},
-                    {"x": 3142, "y": 3656, "level": 0},
-                    {"x": 3220, "y": 3667, "level": 0},
-                    {"x": 3210, "y": 3695, "level": 0},
-                    {"x": 3280, "y": 3664, "level": 0},
-                    {"x": 3315, "y": 3704, "level": 0},
-                    {"x": 3353, "y": 3664, "level": 0},
-                    {"x": 3378, "y": 3699, "level": 0},
-                    {"x": 3437, "y": 3682, "level": 0},
-                    {"x": 3423, "y": 3706, "level": 0},
-                    {"x": 3511, "y": 3670, "level": 0},
-                    {"x": 3470, "y": 3710, "level": 0},
-                    {"x": 2666, "y": 3717, "level": 0},
-                    {"x": 2686, "y": 3727, "level": 0},
-                    {"x": 2725, "y": 3751, "level": 0},
-                    {"x": 2744, "y": 3735, "level": 0},
-                    {"x": 2975, "y": 3762, "level": 0},
-                    {"x": 2985, "y": 3715, "level": 0},
-                    {"x": 3060, "y": 3767, "level": 0},
-                    {"x": 3046, "y": 3752, "level": 0},
-                    {"x": 3104, "y": 3745, "level": 0},
-                    {"x": 3116, "y": 3769, "level": 0},
-                    {"x": 3153, "y": 3744, "level": 0},
-                    {"x": 3193, "y": 3739, "level": 0},
-                    {"x": 3213, "y": 3756, "level": 0},
-                    {"x": 3255, "y": 3740, "level": 0},
-                    {"x": 3342, "y": 3732, "level": 0},
-                    {"x": 3367, "y": 3766, "level": 0},
-                    {"x": 3432, "y": 3752, "level": 0},
-                    {"x": 3430, "y": 3717, "level": 0},
-                    {"x": 3506, "y": 3734, "level": 0},
-                    {"x": 2737, "y": 3796, "level": 0},
-                    {"x": 2705, "y": 3822, "level": 1},
-                    {"x": 2960, "y": 3824, "level": 0},
-                    {"x": 2999, "y": 3791, "level": 0},
-                    {"x": 3059, "y": 3833, "level": 0},
-                    {"x": 3051, "y": 3804, "level": 0},
-                    {"x": 3101, "y": 3783, "level": 0},
-                    {"x": 3128, "y": 3822, "level": 0},
-                    {"x": 3151, "y": 3795, "level": 0},
-                    {"x": 3193, "y": 3783, "level": 0},
-                    {"x": 3250, "y": 3821, "level": 0},
-                    {"x": 3208, "y": 3792, "level": 0},
-                    {"x": 3363, "y": 3807, "level": 0},
-                    {"x": 3349, "y": 3823, "level": 0},
-                    {"x": 2958, "y": 3858, "level": 0},
-                    {"x": 2990, "y": 3883, "level": 0},
-                    {"x": 3037, "y": 3870, "level": 0},
-                    {"x": 3055, "y": 3895, "level": 0},
-                    {"x": 3088, "y": 3891, "level": 0},
-                    {"x": 3127, "y": 3891, "level": 0},
-                    {"x": 3157, "y": 3865, "level": 0},
-                    {"x": 3195, "y": 3877, "level": 0},
-                    {"x": 3250, "y": 3843, "level": 0},
-                    {"x": 3252, "y": 3887, "level": 0},
-                    {"x": 3294, "y": 3865, "level": 0},
-                    {"x": 3317, "y": 3896, "level": 0},
-                    {"x": 3383, "y": 3893, "level": 0},
-                    {"x": 3336, "y": 3898, "level": 0},
-                    {"x": 2971, "y": 3929, "level": 0},
-                    {"x": 2990, "y": 3948, "level": 0},
-                    {"x": 3055, "y": 3915, "level": 0},
-                    {"x": 3060, "y": 3941, "level": 0},
-                    {"x": 3128, "y": 3913, "level": 0},
-                    {"x": 3110, "y": 3954, "level": 0},
-                    {"x": 3155, "y": 3924, "level": 0},
-                    {"x": 3181, "y": 3944, "level": 0},
-                    {"x": 3244, "y": 3907, "level": 0},
-                    {"x": 3242, "y": 3956, "level": 0},
-                    {"x": 3306, "y": 3947, "level": 0},
-                    {"x": 3275, "y": 3915, "level": 0},
-                    {"x": 3360, "y": 3944, "level": 2},
-                    {"x": 3429, "y": 3924, "level": 0},
-                    {"x": 2901, "y": 3356, "level": 0},
-                    {"x": 2915, "y": 3335, "level": 0},
-                    {"x": 2972, "y": 3342, "level": 0},
-                    {"x": 2976, "y": 3386, "level": 0},
-                    {"x": 3027, "y": 3365, "level": 0},
-                    {"x": 3050, "y": 3348, "level": 0},
-                    {"x": 3125, "y": 3371, "level": 0},
-                    {"x": 3081, "y": 3363, "level": 0},
-                    {"x": 3158, "y": 3376, "level": 0},
-                    {"x": 3140, "y": 3343, "level": 0},
-                    {"x": 3243, "y": 3378, "level": 0},
-                    {"x": 3240, "y": 3351, "level": 0},
-                    {"x": 3312, "y": 3376, "level": 0},
-                    {"x": 3304, "y": 3335, "level": 0},
-                    {"x": 3352, "y": 3381, "level": 0},
-                    {"x": 3358, "y": 3353, "level": 0},
-                    {"x": 3438, "y": 3349, "level": 0},
-                    {"x": 3408, "y": 3390, "level": 0},
-                    {"x": 3474, "y": 3385, "level": 0},
-                    {"x": 3485, "y": 3362, "level": 0},
-                    {"x": 2915, "y": 3302, "level": 0},
-                    {"x": 2917, "y": 3271, "level": 0},
-                    {"x": 2976, "y": 3274, "level": 0},
-                    {"x": 2976, "y": 3316, "level": 0},
-                    {"x": 3033, "y": 3286, "level": 0},
-                    {"x": 3066, "y": 3322, "level": 0},
-                    {"x": 3128, "y": 3310, "level": 0},
-                    {"x": 3129, "y": 3268, "level": 0},
-                    {"x": 3188, "y": 3317, "level": 0},
-                    {"x": 3146, "y": 3312, "level": 0},
-                    {"x": 3210, "y": 3305, "level": 0},
-                    {"x": 3242, "y": 3268, "level": 0},
-                    {"x": 3265, "y": 3300, "level": 0},
-                    {"x": 3309, "y": 3298, "level": 0},
-                    {"x": 3347, "y": 3273, "level": 0},
-                    {"x": 3349, "y": 3312, "level": 0},
-                    {"x": 3450, "y": 3276, "level": 0},
-                    {"x": 3422, "y": 3302, "level": 0},
-                    {"x": 3488, "y": 3270, "level": 0},
-                    {"x": 3478, "y": 3292, "level": 0},
-                    {"x": 3538, "y": 3311, "level": 0},
-                    {"x": 3582, "y": 3312, "level": 0},
-                    {"x": 2920, "y": 3249, "level": 0},
-                    {"x": 2932, "y": 3216, "level": 0},
-                    {"x": 2982, "y": 3203, "level": 0},
-                    {"x": 2997, "y": 3241, "level": 0},
-                    {"x": 3042, "y": 3251, "level": 0},
-                    {"x": 3019, "y": 3242, "level": 0},
-                    {"x": 3091, "y": 3258, "level": 0},
-                    {"x": 3122, "y": 3227, "level": 0},
-                    {"x": 3137, "y": 3212, "level": 0},
-                    {"x": 3135, "y": 3257, "level": 0},
-                    {"x": 3210, "y": 3205, "level": 0},
-                    {"x": 3263, "y": 3253, "level": 0},
-                    {"x": 3271, "y": 3204, "level": 0},
-                    {"x": 3323, "y": 3225, "level": 0},
-                    {"x": 3486, "y": 3245, "level": 0},
-                    {"x": 3519, "y": 3246, "level": 0},
-                    {"x": 2986, "y": 3191, "level": 0},
-                    {"x": 2997, "y": 3149, "level": 0},
-                    {"x": 3028, "y": 3171, "level": 0},
-                    {"x": 3011, "y": 3195, "level": 0},
-                    {"x": 3119, "y": 3167, "level": 0},
-                    {"x": 3083, "y": 3155, "level": 0},
-                    {"x": 3146, "y": 3170, "level": 0},
-                    {"x": 3195, "y": 3163, "level": 0},
-                    {"x": 3240, "y": 3161, "level": 0},
-                    {"x": 3236, "y": 3193, "level": 0},
-                    {"x": 3272, "y": 3156, "level": 0},
-                    {"x": 3293, "y": 3183, "level": 0},
-                    {"x": 3391, "y": 3180, "level": 0},
-                    {"x": 3350, "y": 3162, "level": 0},
-                    {"x": 3418, "y": 3164, "level": 0},
-                    {"x": 3394, "y": 3149, "level": 0},
-                    {"x": 3465, "y": 3140, "level": 0},
-                    {"x": 3210, "y": 3092, "level": 0},
-                    {"x": 3257, "y": 3117, "level": 0},
-                    {"x": 3304, "y": 3126, "level": 0},
-                    {"x": 3303, "y": 3077, "level": 0},
-                    {"x": 3378, "y": 3078, "level": 0},
-                    {"x": 3344, "y": 3112, "level": 0},
-                    {"x": 3429, "y": 3106, "level": 0},
-                    {"x": 3410, "y": 3079, "level": 0},
-                    {"x": 3483, "y": 3108, "level": 0},
-                    {"x": 3509, "y": 3088, "level": 0},
-                    {"x": 3171, "y": 3028, "level": 0},
-                    {"x": 3189, "y": 3047, "level": 0},
-                    {"x": 3235, "y": 3048, "level": 0},
-                    {"x": 3215, "y": 3020, "level": 0},
-                    {"x": 3303, "y": 3050, "level": 0},
-                    {"x": 3320, "y": 3013, "level": 0},
-                    {"x": 3355, "y": 3044, "level": 0},
-                    {"x": 3383, "y": 3019, "level": 0},
-                    {"x": 3419, "y": 3017, "level": 0},
-                    {"x": 3422, "y": 3046, "level": 0},
-                    {"x": 3468, "y": 3044, "level": 0},
-                    {"x": 3509, "y": 3025, "level": 0},
-                    {"x": 3170, "y": 2982, "level": 0},
-                    {"x": 3142, "y": 3003, "level": 0},
-                    {"x": 3225, "y": 2986, "level": 0},
-                    {"x": 3256, "y": 2953, "level": 0},
-                    {"x": 3289, "y": 2957, "level": 0},
-                    {"x": 3319, "y": 2990, "level": 0},
-                    {"x": 3376, "y": 2988, "level": 0},
-                    {"x": 3346, "y": 2958, "level": 0},
-                    {"x": 3404, "y": 2992, "level": 0},
-                    {"x": 3442, "y": 2955, "level": 0},
-                    {"x": 3170, "y": 2914, "level": 0},
-                    {"x": 3177, "y": 2888, "level": 0},
-                    {"x": 3245, "y": 2935, "level": 0},
-                    {"x": 3205, "y": 2895, "level": 0},
-                    {"x": 3296, "y": 2891, "level": 0},
-                    {"x": 3316, "y": 2930, "level": 0},
-                    {"x": 3361, "y": 2921, "level": 0},
-                    {"x": 3373, "y": 2898, "level": 0},
-                    {"x": 3423, "y": 2916, "level": 0},
-                    {"x": 3434, "y": 2888, "level": 0},
-                    {"x": 3218, "y": 2843, "level": 0},
-                    {"x": 3247, "y": 2866, "level": 0},
-                    {"x": 3290, "y": 2840, "level": 0},
-                    {"x": 3321, "y": 2848, "level": 0},
-                    {"x": 3390, "y": 2841, "level": 0},
-                    {"x": 3341, "y": 2836, "level": 0},
-                    {"x": 3376, "y": 2790, "level": 0},
-                    {"x": 3351, "y": 2781, "level": 0},
-                    {"x": 3401, "y": 2758, "level": 0},
-                    {"x": 3394, "y": 2801, "level": 1},
-                    {"x": 2703, "y": 3204, "level": 0},
-                    {"x": 2746, "y": 3232, "level": 0},
-                    {"x": 2772, "y": 3217, "level": 0},
-                    {"x": 2805, "y": 3204, "level": 0},
-                    {"x": 2743, "y": 3174, "level": 0},
-                    {"x": 2734, "y": 3144, "level": 0},
-                    {"x": 2802, "y": 3156, "level": 0},
-                    {"x": 2762, "y": 3172, "level": 0},
-                    {"x": 2843, "y": 3153, "level": 0},
-                    {"x": 2874, "y": 3173, "level": 0},
-                    {"x": 2912, "y": 3168, "level": 0},
-                    {"x": 2906, "y": 3141, "level": 0},
-                    {"x": 2763, "y": 3125, "level": 0},
-                    {"x": 2786, "y": 3075, "level": 0},
-                    {"x": 2846, "y": 3078, "level": 0},
-                    {"x": 2831, "y": 3119, "level": 0},
-                    {"x": 2912, "y": 3116, "level": 0},
-                    {"x": 2881, "y": 3073, "level": 0},
-                    {"x": 2761, "y": 3057, "level": 0},
-                    {"x": 2779, "y": 3023, "level": 0},
-                    {"x": 2869, "y": 3026, "level": 0},
-                    {"x": 2835, "y": 3025, "level": 0},
-                    {"x": 2930, "y": 3029, "level": 0},
-                    {"x": 2901, "y": 3031, "level": 0},
-                    {"x": 2791, "y": 2969, "level": 0},
-                    {"x": 2757, "y": 2949, "level": 0},
-                    {"x": 2916, "y": 2992, "level": 0},
-                    {"x": 2881, "y": 2968, "level": 0},
-                    {"x": 2970, "y": 2979, "level": 0},
-                    {"x": 2958, "y": 2996, "level": 0},
-                    {"x": 2804, "y": 2924, "level": 0},
-                    {"x": 2793, "y": 2893, "level": 0},
-                    {"x": 2858, "y": 2890, "level": 0},
-                    {"x": 2841, "y": 2934, "level": 0},
-                    {"x": 2920, "y": 2888, "level": 0},
-                    {"x": 2932, "y": 2933, "level": 0},
-                    {"x": 2960, "y": 2928, "level": 0},
-                    {"x": 2964, "y": 2908, "level": 0},
-                    {"x": 3082, "y": 3475, "level": 0},
-                    {"x": 2778, "y": 3583, "level": 0},
-                    {"x": 3265, "y": 3270, "level": 0},
-                    {"x": 3508, "y": 3673, "level": 0},
-                    {"x": 2864, "y": 3589, "level": 0}
-                ]
-            }
+            "spots": [
+                {"x": 2413, "y": 2818, "level": 0},
+                {"x": 2398, "y": 2862, "level": 0},
+                {"x": 2476, "y": 2845, "level": 0},
+                {"x": 2493, "y": 2875, "level": 0},
+                {"x": 2546, "y": 2872, "level": 0},
+                {"x": 2547, "y": 2826, "level": 0},
+                {"x": 2617, "y": 2876, "level": 0},
+                {"x": 2598, "y": 2838, "level": 0},
+                {"x": 2445, "y": 2917, "level": 0},
+                {"x": 2458, "y": 2893, "level": 0},
+                {"x": 2541, "y": 2926, "level": 0},
+                {"x": 2511, "y": 2936, "level": 0},
+                {"x": 2578, "y": 2930, "level": 0},
+                {"x": 2589, "y": 2898, "level": 0},
+                {"x": 2482, "y": 2977, "level": 0},
+                {"x": 2490, "y": 2949, "level": 0},
+                {"x": 2511, "y": 2980, "level": 0},
+                {"x": 2535, "y": 2958, "level": 0},
+                {"x": 2590, "y": 2994, "level": 0},
+                {"x": 2592, "y": 2956, "level": 0},
+                {"x": 2640, "y": 2987, "level": 0},
+                {"x": 2638, "y": 2948, "level": 0},
+                {"x": 2330, "y": 3057, "level": 0},
+                {"x": 2355, "y": 3038, "level": 0},
+                {"x": 2393, "y": 3046, "level": 0},
+                {"x": 2418, "y": 3040, "level": 0},
+                {"x": 2481, "y": 3011, "level": 0},
+                {"x": 2439, "y": 3057, "level": 0},
+                {"x": 2564, "y": 3041, "level": 0},
+                {"x": 2590, "y": 3063, "level": 0},
+                {"x": 2629, "y": 3123, "level": 0},
+                {"x": 2671, "y": 3109, "level": 0},
+                {"x": 2579, "y": 3130, "level": 0},
+                {"x": 2610, "y": 3076, "level": 0},
+                {"x": 2519, "y": 3115, "level": 0},
+                {"x": 2559, "y": 3102, "level": 0},
+                {"x": 2449, "y": 3110, "level": 0},
+                {"x": 2486, "y": 3134, "level": 0},
+                {"x": 2433, "y": 3144, "level": 0},
+                {"x": 2468, "y": 3177, "level": 0},
+                {"x": 2498, "y": 3175, "level": 0},
+                {"x": 2557, "y": 3164, "level": 0},
+                {"x": 2619, "y": 3153, "level": 0},
+                {"x": 2595, "y": 3192, "level": 0},
+                {"x": 2651, "y": 3148, "level": 0},
+                {"x": 2627, "y": 3172, "level": 0},
+                {"x": 2457, "y": 3221, "level": 0},
+                {"x": 2478, "y": 3254, "level": 0},
+                {"x": 2543, "y": 3211, "level": 0},
+                {"x": 2502, "y": 3249, "level": 0},
+                {"x": 2583, "y": 3223, "level": 0},
+                {"x": 2592, "y": 3251, "level": 0},
+                {"x": 2634, "y": 3208, "level": 0},
+                {"x": 2646, "y": 3251, "level": 0},
+                {"x": 2492, "y": 3270, "level": 0},
+                {"x": 2451, "y": 3283, "level": 0},
+                {"x": 2506, "y": 3276, "level": 0},
+                {"x": 2582, "y": 3266, "level": 0},
+                {"x": 2582, "y": 3314, "level": 0},
+                {"x": 2665, "y": 3266, "level": 0},
+                {"x": 2650, "y": 3302, "level": 0},
+                {"x": 2723, "y": 3277, "level": 0},
+                {"x": 2700, "y": 3311, "level": 0},
+                {"x": 2381, "y": 3388, "level": 0},
+                {"x": 2410, "y": 3388, "level": 0},
+                {"x": 2457, "y": 3331, "level": 0},
+                {"x": 2485, "y": 3377, "level": 0},
+                {"x": 2541, "y": 3389, "level": 0},
+                {"x": 2513, "y": 3351, "level": 0},
+                {"x": 2581, "y": 3340, "level": 0},
+                {"x": 2576, "y": 3370, "level": 0},
+                {"x": 2651, "y": 3351, "level": 0},
+                {"x": 2662, "y": 3338, "level": 0},
+                {"x": 2724, "y": 3360, "level": 0},
+                {"x": 2739, "y": 3388, "level": 0},
+                {"x": 2359, "y": 3448, "level": 0},
+                {"x": 2392, "y": 3398, "level": 0},
+                {"x": 2410, "y": 3419, "level": 0},
+                {"x": 2438, "y": 3398, "level": 0},
+                {"x": 2470, "y": 3404, "level": 0},
+                {"x": 2522, "y": 3429, "level": 0},
+                {"x": 2531, "y": 3405, "level": 0},
+                {"x": 2583, "y": 3449, "level": 0},
+                {"x": 2565, "y": 3395, "level": 0},
+                {"x": 2677, "y": 3400, "level": 0},
+                {"x": 2657, "y": 3451, "level": 0},
+                {"x": 2726, "y": 3399, "level": 0},
+                {"x": 2705, "y": 3418, "level": 0},
+                {"x": 2765, "y": 3445, "level": 0},
+                {"x": 2797, "y": 3428, "level": 0},
+                {"x": 2835, "y": 3423, "level": 0},
+                {"x": 2834, "y": 3451, "level": 0},
+                {"x": 2926, "y": 3402, "level": 0},
+                {"x": 2908, "y": 3431, "level": 0},
+                {"x": 2950, "y": 3406, "level": 0},
+                {"x": 2995, "y": 3429, "level": 0},
+                {"x": 3055, "y": 3396, "level": 0},
+                {"x": 3027, "y": 3454, "level": 0},
+                {"x": 3089, "y": 3409, "level": 0},
+                {"x": 3134, "y": 3423, "level": 0},
+                {"x": 3158, "y": 3439, "level": 0},
+                {"x": 3176, "y": 3400, "level": 0},
+                {"x": 3228, "y": 3409, "level": 0},
+                {"x": 3233, "y": 3446, "level": 0},
+                {"x": 3276, "y": 3444, "level": 0},
+                {"x": 3318, "y": 3426, "level": 0},
+                {"x": 3390, "y": 3421, "level": 0},
+                {"x": 3362, "y": 3403, "level": 0},
+                {"x": 3411, "y": 3410, "level": 0},
+                {"x": 3439, "y": 3454, "level": 0},
+                {"x": 3473, "y": 3401, "level": 0},
+                {"x": 3461, "y": 3432, "level": 0},
+                {"x": 3538, "y": 3449, "level": 0},
+                {"x": 3563, "y": 3408, "level": 0},
+                {"x": 2356, "y": 3498, "level": 0},
+                {"x": 2325, "y": 3510, "level": 0},
+                {"x": 2394, "y": 3513, "level": 0},
+                {"x": 2401, "y": 3458, "level": 0},
+                {"x": 2489, "y": 3487, "level": 0},
+                {"x": 2457, "y": 3511, "level": 0},
+                {"x": 2504, "y": 3484, "level": 0},
+                {"x": 2550, "y": 3475, "level": 0},
+                {"x": 2588, "y": 3506, "level": 0},
+                {"x": 2609, "y": 3470, "level": 0},
+                {"x": 2649, "y": 3473, "level": 0},
+                {"x": 2683, "y": 3491, "level": 0},
+                {"x": 2707, "y": 3475, "level": 0},
+                {"x": 2733, "y": 3502, "level": 0},
+                {"x": 2777, "y": 3501, "level": 0},
+                {"x": 2808, "y": 3474, "level": 0},
+                {"x": 2832, "y": 3473, "level": 0},
+                {"x": 2859, "y": 3508, "level": 0},
+                {"x": 2937, "y": 3511, "level": 0},
+                {"x": 2900, "y": 3501, "level": 0},
+                {"x": 2956, "y": 3505, "level": 0},
+                {"x": 2983, "y": 3473, "level": 0},
+                {"x": 3035, "y": 3490, "level": 0},
+                {"x": 3021, "y": 3470, "level": 0},
+                {"x": 3103, "y": 3488, "level": 0},
+                {"x": 3127, "y": 3469, "level": 0},
+                {"x": 3145, "y": 3510, "level": 0},
+                {"x": 3190, "y": 3464, "level": 0},
+                {"x": 3254, "y": 3505, "level": 0},
+                {"x": 3260, "y": 3460, "level": 0},
+                {"x": 3317, "y": 3507, "level": 0},
+                {"x": 3288, "y": 3460, "level": 0},
+                {"x": 3329, "y": 3518, "level": 0},
+                {"x": 3373, "y": 3483, "level": 0},
+                {"x": 3420, "y": 3479, "level": 0},
+                {"x": 3452, "y": 3476, "level": 0},
+                {"x": 3487, "y": 3492, "level": 0},
+                {"x": 3516, "y": 3473, "level": 0},
+                {"x": 3529, "y": 3501, "level": 0},
+                {"x": 3576, "y": 3481, "level": 0},
+                {"x": 3598, "y": 3509, "level": 0},
+                {"x": 3619, "y": 3485, "level": 0},
+                {"x": 3649, "y": 3475, "level": 0},
+                {"x": 3678, "y": 3518, "level": 0},
+                {"x": 2336, "y": 3540, "level": 0},
+                {"x": 2351, "y": 3572, "level": 0},
+                {"x": 2418, "y": 3525, "level": 0},
+                {"x": 2394, "y": 3574, "level": 0},
+                {"x": 2491, "y": 3529, "level": 0},
+                {"x": 2542, "y": 3562, "level": 0},
+                {"x": 2677, "y": 3539, "level": 0},
+                {"x": 2653, "y": 3578, "level": 0},
+                {"x": 2699, "y": 3537, "level": 0},
+                {"x": 2721, "y": 3577, "level": 0},
+                {"x": 2757, "y": 3548, "level": 0},
+                {"x": 2757, "y": 3581, "level": 0},
+                {"x": 2878, "y": 3529, "level": 0},
+                {"x": 2860, "y": 3575, "level": 0},
+                {"x": 2928, "y": 3573, "level": 0},
+                {"x": 2919, "y": 3535, "level": 0},
+                {"x": 2979, "y": 3546, "level": 0},
+                {"x": 2986, "y": 3583, "level": 0},
+                {"x": 3052, "y": 3548, "level": 0},
+                {"x": 3030, "y": 3520, "level": 0},
+                {"x": 3096, "y": 3534, "level": 0},
+                {"x": 3125, "y": 3578, "level": 0},
+                {"x": 3153, "y": 3545, "level": 0},
+                {"x": 3184, "y": 3559, "level": 0},
+                {"x": 3229, "y": 3541, "level": 0},
+                {"x": 3255, "y": 3576, "level": 0},
+                {"x": 3289, "y": 3528, "level": 0},
+                {"x": 3292, "y": 3574, "level": 0},
+                {"x": 3376, "y": 3567, "level": 0},
+                {"x": 3339, "y": 3572, "level": 0},
+                {"x": 3418, "y": 3544, "level": 0},
+                {"x": 3432, "y": 3544, "level": 0},
+                {"x": 3460, "y": 3553, "level": 0},
+                {"x": 3510, "y": 3530, "level": 0},
+                {"x": 3571, "y": 3534, "level": 0},
+                {"x": 3547, "y": 3524, "level": 0},
+                {"x": 3624, "y": 3524, "level": 0},
+                {"x": 3596, "y": 3541, "level": 0},
+                {"x": 3655, "y": 3537, "level": 0},
+                {"x": 2262, "y": 3605, "level": 0},
+                {"x": 2295, "y": 3639, "level": 0},
+                {"x": 2332, "y": 3610, "level": 0},
+                {"x": 2347, "y": 3594, "level": 0},
+                {"x": 2392, "y": 3599, "level": 0},
+                {"x": 2374, "y": 3630, "level": 0},
+                {"x": 2509, "y": 3634, "level": 0},
+                {"x": 2559, "y": 3619, "level": 0},
+                {"x": 2606, "y": 3635, "level": 0},
+                {"x": 2586, "y": 3605, "level": 0},
+                {"x": 2684, "y": 3612, "level": 0},
+                {"x": 2669, "y": 3637, "level": 0},
+                {"x": 2708, "y": 3589, "level": 0},
+                {"x": 2737, "y": 3626, "level": 0},
+                {"x": 2779, "y": 3594, "level": 0},
+                {"x": 2780, "y": 3635, "level": 0},
+                {"x": 2999, "y": 3606, "level": 0},
+                {"x": 2965, "y": 3632, "level": 0},
+                {"x": 3059, "y": 3620, "level": 0},
+                {"x": 3028, "y": 3632, "level": 0},
+                {"x": 3092, "y": 3605, "level": 0},
+                {"x": 3127, "y": 3597, "level": 0},
+                {"x": 3179, "y": 3612, "level": 0},
+                {"x": 3146, "y": 3642, "level": 0},
+                {"x": 3254, "y": 3624, "level": 0},
+                {"x": 3247, "y": 3597, "level": 0},
+                {"x": 3304, "y": 3605, "level": 0},
+                {"x": 3278, "y": 3615, "level": 0},
+                {"x": 3338, "y": 3638, "level": 0},
+                {"x": 3342, "y": 3591, "level": 0},
+                {"x": 3433, "y": 3639, "level": 0},
+                {"x": 3403, "y": 3640, "level": 0},
+                {"x": 2309, "y": 3669, "level": 0},
+                {"x": 2332, "y": 3659, "level": 0},
+                {"x": 2612, "y": 3658, "level": 0},
+                {"x": 2643, "y": 3679, "level": 0},
+                {"x": 2680, "y": 3676, "level": 0},
+                {"x": 2712, "y": 3653, "level": 0},
+                {"x": 2696, "y": 3695, "level": 0},
+                {"x": 2756, "y": 3651, "level": 0},
+                {"x": 2972, "y": 3682, "level": 0},
+                {"x": 2999, "y": 3671, "level": 0},
+                {"x": 2956, "y": 3705, "level": 0},
+                {"x": 2965, "y": 3740, "level": 0},
+                {"x": 3088, "y": 3678, "level": 0},
+                {"x": 3107, "y": 3653, "level": 0},
+                {"x": 3187, "y": 3661, "level": 0},
+                {"x": 3142, "y": 3656, "level": 0},
+                {"x": 3220, "y": 3667, "level": 0},
+                {"x": 3210, "y": 3695, "level": 0},
+                {"x": 3280, "y": 3664, "level": 0},
+                {"x": 3315, "y": 3704, "level": 0},
+                {"x": 3353, "y": 3664, "level": 0},
+                {"x": 3378, "y": 3699, "level": 0},
+                {"x": 3437, "y": 3682, "level": 0},
+                {"x": 3423, "y": 3706, "level": 0},
+                {"x": 3511, "y": 3670, "level": 0},
+                {"x": 3470, "y": 3710, "level": 0},
+                {"x": 2666, "y": 3717, "level": 0},
+                {"x": 2686, "y": 3727, "level": 0},
+                {"x": 2725, "y": 3751, "level": 0},
+                {"x": 2744, "y": 3735, "level": 0},
+                {"x": 2975, "y": 3762, "level": 0},
+                {"x": 2985, "y": 3715, "level": 0},
+                {"x": 3060, "y": 3767, "level": 0},
+                {"x": 3046, "y": 3752, "level": 0},
+                {"x": 3104, "y": 3745, "level": 0},
+                {"x": 3116, "y": 3769, "level": 0},
+                {"x": 3153, "y": 3744, "level": 0},
+                {"x": 3193, "y": 3739, "level": 0},
+                {"x": 3213, "y": 3756, "level": 0},
+                {"x": 3255, "y": 3740, "level": 0},
+                {"x": 3342, "y": 3732, "level": 0},
+                {"x": 3367, "y": 3766, "level": 0},
+                {"x": 3432, "y": 3752, "level": 0},
+                {"x": 3430, "y": 3717, "level": 0},
+                {"x": 3506, "y": 3734, "level": 0},
+                {"x": 2737, "y": 3796, "level": 0},
+                {"x": 2705, "y": 3822, "level": 1},
+                {"x": 2960, "y": 3824, "level": 0},
+                {"x": 2999, "y": 3791, "level": 0},
+                {"x": 3059, "y": 3833, "level": 0},
+                {"x": 3051, "y": 3804, "level": 0},
+                {"x": 3101, "y": 3783, "level": 0},
+                {"x": 3128, "y": 3822, "level": 0},
+                {"x": 3151, "y": 3795, "level": 0},
+                {"x": 3193, "y": 3783, "level": 0},
+                {"x": 3250, "y": 3821, "level": 0},
+                {"x": 3208, "y": 3792, "level": 0},
+                {"x": 3363, "y": 3807, "level": 0},
+                {"x": 3349, "y": 3823, "level": 0},
+                {"x": 2958, "y": 3858, "level": 0},
+                {"x": 2990, "y": 3883, "level": 0},
+                {"x": 3037, "y": 3870, "level": 0},
+                {"x": 3055, "y": 3895, "level": 0},
+                {"x": 3088, "y": 3891, "level": 0},
+                {"x": 3127, "y": 3891, "level": 0},
+                {"x": 3157, "y": 3865, "level": 0},
+                {"x": 3195, "y": 3877, "level": 0},
+                {"x": 3250, "y": 3843, "level": 0},
+                {"x": 3252, "y": 3887, "level": 0},
+                {"x": 3294, "y": 3865, "level": 0},
+                {"x": 3317, "y": 3896, "level": 0},
+                {"x": 3383, "y": 3893, "level": 0},
+                {"x": 3336, "y": 3898, "level": 0},
+                {"x": 2971, "y": 3929, "level": 0},
+                {"x": 2990, "y": 3948, "level": 0},
+                {"x": 3055, "y": 3915, "level": 0},
+                {"x": 3060, "y": 3941, "level": 0},
+                {"x": 3128, "y": 3913, "level": 0},
+                {"x": 3110, "y": 3954, "level": 0},
+                {"x": 3155, "y": 3924, "level": 0},
+                {"x": 3181, "y": 3944, "level": 0},
+                {"x": 3244, "y": 3907, "level": 0},
+                {"x": 3242, "y": 3956, "level": 0},
+                {"x": 3306, "y": 3947, "level": 0},
+                {"x": 3275, "y": 3915, "level": 0},
+                {"x": 3360, "y": 3944, "level": 2},
+                {"x": 3429, "y": 3924, "level": 0},
+                {"x": 2901, "y": 3356, "level": 0},
+                {"x": 2915, "y": 3335, "level": 0},
+                {"x": 2972, "y": 3342, "level": 0},
+                {"x": 2976, "y": 3386, "level": 0},
+                {"x": 3027, "y": 3365, "level": 0},
+                {"x": 3050, "y": 3348, "level": 0},
+                {"x": 3125, "y": 3371, "level": 0},
+                {"x": 3081, "y": 3363, "level": 0},
+                {"x": 3158, "y": 3376, "level": 0},
+                {"x": 3140, "y": 3343, "level": 0},
+                {"x": 3243, "y": 3378, "level": 0},
+                {"x": 3240, "y": 3351, "level": 0},
+                {"x": 3312, "y": 3376, "level": 0},
+                {"x": 3304, "y": 3335, "level": 0},
+                {"x": 3352, "y": 3381, "level": 0},
+                {"x": 3358, "y": 3353, "level": 0},
+                {"x": 3438, "y": 3349, "level": 0},
+                {"x": 3408, "y": 3390, "level": 0},
+                {"x": 3474, "y": 3385, "level": 0},
+                {"x": 3485, "y": 3362, "level": 0},
+                {"x": 2915, "y": 3302, "level": 0},
+                {"x": 2917, "y": 3271, "level": 0},
+                {"x": 2976, "y": 3274, "level": 0},
+                {"x": 2976, "y": 3316, "level": 0},
+                {"x": 3033, "y": 3286, "level": 0},
+                {"x": 3066, "y": 3322, "level": 0},
+                {"x": 3128, "y": 3310, "level": 0},
+                {"x": 3129, "y": 3268, "level": 0},
+                {"x": 3188, "y": 3317, "level": 0},
+                {"x": 3146, "y": 3312, "level": 0},
+                {"x": 3210, "y": 3305, "level": 0},
+                {"x": 3242, "y": 3268, "level": 0},
+                {"x": 3265, "y": 3300, "level": 0},
+                {"x": 3309, "y": 3298, "level": 0},
+                {"x": 3347, "y": 3273, "level": 0},
+                {"x": 3349, "y": 3312, "level": 0},
+                {"x": 3450, "y": 3276, "level": 0},
+                {"x": 3422, "y": 3302, "level": 0},
+                {"x": 3488, "y": 3270, "level": 0},
+                {"x": 3478, "y": 3292, "level": 0},
+                {"x": 3538, "y": 3311, "level": 0},
+                {"x": 3582, "y": 3312, "level": 0},
+                {"x": 2920, "y": 3249, "level": 0},
+                {"x": 2932, "y": 3216, "level": 0},
+                {"x": 2982, "y": 3203, "level": 0},
+                {"x": 2997, "y": 3241, "level": 0},
+                {"x": 3042, "y": 3251, "level": 0},
+                {"x": 3019, "y": 3242, "level": 0},
+                {"x": 3091, "y": 3258, "level": 0},
+                {"x": 3122, "y": 3227, "level": 0},
+                {"x": 3137, "y": 3212, "level": 0},
+                {"x": 3135, "y": 3257, "level": 0},
+                {"x": 3210, "y": 3205, "level": 0},
+                {"x": 3263, "y": 3253, "level": 0},
+                {"x": 3271, "y": 3204, "level": 0},
+                {"x": 3323, "y": 3225, "level": 0},
+                {"x": 3486, "y": 3245, "level": 0},
+                {"x": 3519, "y": 3246, "level": 0},
+                {"x": 2986, "y": 3191, "level": 0},
+                {"x": 2997, "y": 3149, "level": 0},
+                {"x": 3028, "y": 3171, "level": 0},
+                {"x": 3011, "y": 3195, "level": 0},
+                {"x": 3119, "y": 3167, "level": 0},
+                {"x": 3083, "y": 3155, "level": 0},
+                {"x": 3146, "y": 3170, "level": 0},
+                {"x": 3195, "y": 3163, "level": 0},
+                {"x": 3240, "y": 3161, "level": 0},
+                {"x": 3236, "y": 3193, "level": 0},
+                {"x": 3272, "y": 3156, "level": 0},
+                {"x": 3293, "y": 3183, "level": 0},
+                {"x": 3391, "y": 3180, "level": 0},
+                {"x": 3350, "y": 3162, "level": 0},
+                {"x": 3418, "y": 3164, "level": 0},
+                {"x": 3394, "y": 3149, "level": 0},
+                {"x": 3465, "y": 3140, "level": 0},
+                {"x": 3210, "y": 3092, "level": 0},
+                {"x": 3257, "y": 3117, "level": 0},
+                {"x": 3304, "y": 3126, "level": 0},
+                {"x": 3303, "y": 3077, "level": 0},
+                {"x": 3378, "y": 3078, "level": 0},
+                {"x": 3344, "y": 3112, "level": 0},
+                {"x": 3429, "y": 3106, "level": 0},
+                {"x": 3410, "y": 3079, "level": 0},
+                {"x": 3483, "y": 3108, "level": 0},
+                {"x": 3509, "y": 3088, "level": 0},
+                {"x": 3171, "y": 3028, "level": 0},
+                {"x": 3189, "y": 3047, "level": 0},
+                {"x": 3235, "y": 3048, "level": 0},
+                {"x": 3215, "y": 3020, "level": 0},
+                {"x": 3303, "y": 3050, "level": 0},
+                {"x": 3320, "y": 3013, "level": 0},
+                {"x": 3355, "y": 3044, "level": 0},
+                {"x": 3383, "y": 3019, "level": 0},
+                {"x": 3419, "y": 3017, "level": 0},
+                {"x": 3422, "y": 3046, "level": 0},
+                {"x": 3468, "y": 3044, "level": 0},
+                {"x": 3509, "y": 3025, "level": 0},
+                {"x": 3170, "y": 2982, "level": 0},
+                {"x": 3142, "y": 3003, "level": 0},
+                {"x": 3225, "y": 2986, "level": 0},
+                {"x": 3256, "y": 2953, "level": 0},
+                {"x": 3289, "y": 2957, "level": 0},
+                {"x": 3319, "y": 2990, "level": 0},
+                {"x": 3376, "y": 2988, "level": 0},
+                {"x": 3346, "y": 2958, "level": 0},
+                {"x": 3404, "y": 2992, "level": 0},
+                {"x": 3442, "y": 2955, "level": 0},
+                {"x": 3170, "y": 2914, "level": 0},
+                {"x": 3177, "y": 2888, "level": 0},
+                {"x": 3245, "y": 2935, "level": 0},
+                {"x": 3205, "y": 2895, "level": 0},
+                {"x": 3296, "y": 2891, "level": 0},
+                {"x": 3316, "y": 2930, "level": 0},
+                {"x": 3361, "y": 2921, "level": 0},
+                {"x": 3373, "y": 2898, "level": 0},
+                {"x": 3423, "y": 2916, "level": 0},
+                {"x": 3434, "y": 2888, "level": 0},
+                {"x": 3218, "y": 2843, "level": 0},
+                {"x": 3247, "y": 2866, "level": 0},
+                {"x": 3290, "y": 2840, "level": 0},
+                {"x": 3321, "y": 2848, "level": 0},
+                {"x": 3390, "y": 2841, "level": 0},
+                {"x": 3341, "y": 2836, "level": 0},
+                {"x": 3376, "y": 2790, "level": 0},
+                {"x": 3351, "y": 2781, "level": 0},
+                {"x": 3401, "y": 2758, "level": 0},
+                {"x": 3394, "y": 2801, "level": 1},
+                {"x": 2703, "y": 3204, "level": 0},
+                {"x": 2746, "y": 3232, "level": 0},
+                {"x": 2772, "y": 3217, "level": 0},
+                {"x": 2805, "y": 3204, "level": 0},
+                {"x": 2743, "y": 3174, "level": 0},
+                {"x": 2734, "y": 3144, "level": 0},
+                {"x": 2802, "y": 3156, "level": 0},
+                {"x": 2762, "y": 3172, "level": 0},
+                {"x": 2843, "y": 3153, "level": 0},
+                {"x": 2874, "y": 3173, "level": 0},
+                {"x": 2912, "y": 3168, "level": 0},
+                {"x": 2906, "y": 3141, "level": 0},
+                {"x": 2763, "y": 3125, "level": 0},
+                {"x": 2786, "y": 3075, "level": 0},
+                {"x": 2846, "y": 3078, "level": 0},
+                {"x": 2831, "y": 3119, "level": 0},
+                {"x": 2912, "y": 3116, "level": 0},
+                {"x": 2881, "y": 3073, "level": 0},
+                {"x": 2761, "y": 3057, "level": 0},
+                {"x": 2779, "y": 3023, "level": 0},
+                {"x": 2869, "y": 3026, "level": 0},
+                {"x": 2835, "y": 3025, "level": 0},
+                {"x": 2930, "y": 3029, "level": 0},
+                {"x": 2901, "y": 3031, "level": 0},
+                {"x": 2791, "y": 2969, "level": 0},
+                {"x": 2757, "y": 2949, "level": 0},
+                {"x": 2916, "y": 2992, "level": 0},
+                {"x": 2881, "y": 2968, "level": 0},
+                {"x": 2970, "y": 2979, "level": 0},
+                {"x": 2958, "y": 2996, "level": 0},
+                {"x": 2804, "y": 2924, "level": 0},
+                {"x": 2793, "y": 2893, "level": 0},
+                {"x": 2858, "y": 2890, "level": 0},
+                {"x": 2841, "y": 2934, "level": 0},
+                {"x": 2920, "y": 2888, "level": 0},
+                {"x": 2932, "y": 2933, "level": 0},
+                {"x": 2960, "y": 2928, "level": 0},
+                {"x": 2964, "y": 2908, "level": 0},
+                {"x": 3082, "y": 3475, "level": 0},
+                {"x": 2778, "y": 3583, "level": 0},
+                {"x": 3265, "y": 3270, "level": 0},
+                {"x": 3508, "y": 3673, "level": 0},
+                {"x": 2864, "y": 3589, "level": 0}
+            ]
+
         },
         {
             "id": 400,
             "type": "compass",
             "tier": "master",
             "text": ["The compass shows where you need to go on the arc."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 1868, "y": 11649, "level": 0},
-                    {"x": 1904, "y": 11604, "level": 0},
-                    {"x": 1879, "y": 11559, "level": 0},
-                    {"x": 1812, "y": 11620, "level": 0},
-                    {"x": 2349, "y": 11182, "level": 0},
-                    {"x": 2283, "y": 11163, "level": 0},
-                    {"x": 2265, "y": 11223, "level": 0},
-                    {"x": 2323, "y": 11222, "level": 0},
-                    {"x": 2106, "y": 11279, "level": 0},
-                    {"x": 2069, "y": 11338, "level": 0},
-                    {"x": 2093, "y": 11354, "level": 0},
-                    {"x": 2117, "y": 11313, "level": 0},
-                    {"x": 2091, "y": 11296, "level": 0},
-                    {"x": 2449, "y": 11564, "level": 0},
-                    {"x": 2506, "y": 11593, "level": 0},
-                    {"x": 2508, "y": 11605, "level": 0},
-                    {"x": 2494, "y": 11553, "level": 0},
-                    {"x": 1779, "y": 11993, "level": 0},
-                    {"x": 1759, "y": 11986, "level": 0},
-                    {"x": 1759, "y": 11966, "level": 0},
-                    {"x": 1771, "y": 11919, "level": 0},
-                    {"x": 2040, "y": 11800, "level": 0},
-                    {"x": 2073, "y": 11813, "level": 0},
-                    {"x": 2035, "y": 11823, "level": 0},
-                    {"x": 2004, "y": 11801, "level": 0},
-                    {"x": 1966, "y": 11814, "level": 0},
-                    {"x": 1939, "y": 11801, "level": 0},
-                    {"x": 2278, "y": 11503, "level": 0},
-                    {"x": 2282, "y": 11464, "level": 0},
-                    {"x": 2193, "y": 11480, "level": 0},
-                    {"x": 2089, "y": 11432, "level": 0}
-                ]
-            }
+            "spots": [
+                {"x": 1868, "y": 11649, "level": 0},
+                {"x": 1904, "y": 11604, "level": 0},
+                {"x": 1879, "y": 11559, "level": 0},
+                {"x": 1812, "y": 11620, "level": 0},
+                {"x": 2349, "y": 11182, "level": 0},
+                {"x": 2283, "y": 11163, "level": 0},
+                {"x": 2265, "y": 11223, "level": 0},
+                {"x": 2323, "y": 11222, "level": 0},
+                {"x": 2106, "y": 11279, "level": 0},
+                {"x": 2069, "y": 11338, "level": 0},
+                {"x": 2093, "y": 11354, "level": 0},
+                {"x": 2117, "y": 11313, "level": 0},
+                {"x": 2091, "y": 11296, "level": 0},
+                {"x": 2449, "y": 11564, "level": 0},
+                {"x": 2506, "y": 11593, "level": 0},
+                {"x": 2508, "y": 11605, "level": 0},
+                {"x": 2494, "y": 11553, "level": 0},
+                {"x": 1779, "y": 11993, "level": 0},
+                {"x": 1759, "y": 11986, "level": 0},
+                {"x": 1759, "y": 11966, "level": 0},
+                {"x": 1771, "y": 11919, "level": 0},
+                {"x": 2040, "y": 11800, "level": 0},
+                {"x": 2073, "y": 11813, "level": 0},
+                {"x": 2035, "y": 11823, "level": 0},
+                {"x": 2004, "y": 11801, "level": 0},
+                {"x": 1966, "y": 11814, "level": 0},
+                {"x": 1939, "y": 11801, "level": 0},
+                {"x": 2278, "y": 11503, "level": 0},
+                {"x": 2282, "y": 11464, "level": 0},
+                {"x": 2193, "y": 11480, "level": 0},
+                {"x": 2089, "y": 11432, "level": 0}
+            ]
         }
     ]
     export const coordinate: Clues.Coordinate[] = [
@@ -1295,11 +1307,6 @@ namespace clue_data {
                     "minutes": 13,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2479, "y": 3158, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1318,11 +1325,6 @@ namespace clue_data {
                     "minutes": 0,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2888, "y": 3154, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1341,11 +1343,6 @@ namespace clue_data {
                     "minutes": 28,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2743, "y": 3151, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1364,11 +1361,6 @@ namespace clue_data {
                     "minutes": 15,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3184, "y": 3150, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1387,11 +1379,6 @@ namespace clue_data {
                     "minutes": 43,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3007, "y": 3144, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1410,11 +1397,6 @@ namespace clue_data {
                     "minutes": 16,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3217, "y": 3188, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1433,11 +1415,6 @@ namespace clue_data {
                     "minutes": 15,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2896, "y": 3119, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1456,11 +1433,6 @@ namespace clue_data {
                     "minutes": 1,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2697, "y": 3207, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1479,11 +1451,6 @@ namespace clue_data {
                     "minutes": 28,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2679, "y": 3110, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1502,11 +1469,6 @@ namespace clue_data {
                     "minutes": 20,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2643, "y": 3252, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1525,11 +1487,6 @@ namespace clue_data {
                     "minutes": 46,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3137, "y": 3252, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1548,11 +1505,6 @@ namespace clue_data {
                     "minutes": 35,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2875, "y": 3046, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1571,11 +1523,6 @@ namespace clue_data {
                     "minutes": 46,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2849, "y": 3033, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1594,11 +1541,6 @@ namespace clue_data {
                     "minutes": 45,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2848, "y": 3296, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1617,11 +1559,6 @@ namespace clue_data {
                     "minutes": 28,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2583, "y": 2990, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1640,11 +1577,6 @@ namespace clue_data {
                     "minutes": 5,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3179, "y": 3344, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1663,11 +1595,6 @@ namespace clue_data {
                     "minutes": 46,
                     "direction": "west"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2383, "y": 3370, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1686,11 +1613,6 @@ namespace clue_data {
                     "minutes": 56,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3430, "y": 3388, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1709,11 +1631,6 @@ namespace clue_data {
                     "minutes": 0,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2920, "y": 3403, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1732,11 +1649,6 @@ namespace clue_data {
                     "minutes": 39,
                     "direction": "west"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2387, "y": 3435, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1755,11 +1667,6 @@ namespace clue_data {
                     "minutes": 15,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2512, "y": 3467, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1778,11 +1685,6 @@ namespace clue_data {
                     "minutes": 39,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3005, "y": 3475, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1801,11 +1703,6 @@ namespace clue_data {
                     "minutes": 20,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3443, "y": 3515, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1824,11 +1721,6 @@ namespace clue_data {
                     "minutes": 45,
                     "direction": "west"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2416, "y": 3516, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1847,11 +1739,6 @@ namespace clue_data {
                     "minutes": 58,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2919, "y": 3535, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1870,11 +1757,6 @@ namespace clue_data {
                     "minutes": 13,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2735, "y": 3638, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1893,11 +1775,6 @@ namespace clue_data {
                     "minutes": 1,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2537, "y": 3881, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1905,6 +1782,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["00 degrees 00 minutes north,07 degrees 13 minutes west"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 0,
@@ -1916,11 +1794,6 @@ namespace clue_data {
                     "minutes": 13,
                     "direction": "west"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2209, "y": 3161, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1928,7 +1801,8 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["01 degrees 24 minutes north,08 degrees 05 minutes west"],
-            "coordinates": {
+            "challenge": [{"type": "wizard"}],
+"coordinates": {
                 "latitude": {
                     "degrees": 1,
                     "minutes": 24,
@@ -1939,11 +1813,6 @@ namespace clue_data {
                     "minutes": 5,
                     "direction": "west"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2181, "y": 3206, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1951,6 +1820,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["02 degrees 33 minutes north,28 degrees 45 minutes east"],
+"challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 2,
@@ -1962,11 +1832,6 @@ namespace clue_data {
                     "minutes": 45,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3360, "y": 3243, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1974,6 +1839,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["03 degrees 03 minutes south,05 degrees 03 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 3,
@@ -1985,11 +1851,6 @@ namespace clue_data {
                     "minutes": 3,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2602, "y": 3063, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -1997,6 +1858,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["03 degrees 39 minutes south,13 degrees 58 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 3,
@@ -2008,11 +1870,6 @@ namespace clue_data {
                     "minutes": 58,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2887, "y": 3044, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2020,6 +1877,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["03 degrees 45 minutes south,22 degrees 45 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 3,
@@ -2031,11 +1889,6 @@ namespace clue_data {
                     "minutes": 45,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3168, "y": 3041, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2043,6 +1896,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["04 degrees 03 minutes south,03 degrees 11 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2054,11 +1908,6 @@ namespace clue_data {
                     "minutes": 11,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2542, "y": 3031, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2066,6 +1915,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["04 degrees 05 minutes south,04 degrees 24 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2077,11 +1927,6 @@ namespace clue_data {
                     "minutes": 24,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2581, "y": 3030, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2089,6 +1934,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["04 degrees 16 minutes south,16 degrees 16 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2100,11 +1946,6 @@ namespace clue_data {
                     "minutes": 16,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2961, "y": 3024, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2112,6 +1953,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["04 degrees 41 minutes north,03 degrees 09 minutes west"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 4,
@@ -2123,11 +1965,6 @@ namespace clue_data {
                     "minutes": 9,
                     "direction": "west"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2339, "y": 3311, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2135,6 +1972,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["05 degrees 37 minutes north,31 degrees 15 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 5,
@@ -2146,11 +1984,6 @@ namespace clue_data {
                     "minutes": 15,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3440, "y": 3341, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2158,6 +1991,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["05 degrees 50 minutes south,10 degrees 05 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 5,
@@ -2169,11 +2003,6 @@ namespace clue_data {
                     "minutes": 5,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2763, "y": 2974, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2181,6 +2010,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["06 degrees 00 minutes south,21 degrees 48 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 6,
@@ -2192,11 +2022,6 @@ namespace clue_data {
                     "minutes": 48,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3138, "y": 2969, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2204,6 +2029,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["06 degrees 11 minutes south,15 degrees 07 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 6,
@@ -2215,11 +2041,6 @@ namespace clue_data {
                     "minutes": 7,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2924, "y": 2963, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2227,6 +2048,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["07 degrees 22 minutes north,14 degrees 15 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -2238,11 +2060,6 @@ namespace clue_data {
                     "minutes": 15,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2896, "y": 3397, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2250,6 +2067,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["07 degrees 41 minutes north,06 degrees 00 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -2261,11 +2079,6 @@ namespace clue_data {
                     "minutes": 0,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2632, "y": 3407, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2273,6 +2086,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["07 degrees 43 minutes south,12 degrees 26 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 7,
@@ -2284,11 +2098,6 @@ namespace clue_data {
                     "minutes": 26,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2838, "y": 2914, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2296,6 +2105,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["08 degrees 03 minutes north,31 degrees 16 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 8,
@@ -2307,11 +2117,6 @@ namespace clue_data {
                     "minutes": 16,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3441, "y": 3419, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2319,6 +2124,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["08 degrees 05 minutes south,15 degrees 56 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 8,
@@ -2330,11 +2136,6 @@ namespace clue_data {
                     "minutes": 56,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2950, "y": 2902, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2342,6 +2143,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["08 degrees 26 minutes south,10 degrees 28 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 8,
@@ -2353,11 +2155,6 @@ namespace clue_data {
                     "minutes": 28,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2775, "y": 2891, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2365,6 +2162,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["09 degrees 22 minutes north,02 degrees 24 minutes west"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 9,
@@ -2376,11 +2174,6 @@ namespace clue_data {
                     "minutes": 24,
                     "direction": "west"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2363, "y": 3461, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2388,6 +2181,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["12 degrees 48 minutes north,20 degrees 20 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 12,
@@ -2399,11 +2193,6 @@ namespace clue_data {
                     "minutes": 20,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3091, "y": 3571, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2411,6 +2200,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["13 degrees 46 minutes north,21 degrees 01 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 13,
@@ -2422,11 +2212,6 @@ namespace clue_data {
                     "minutes": 1,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3113, "y": 3602, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2434,6 +2219,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["15 degrees 48 minutes north,13 degrees 52 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 15,
@@ -2445,11 +2231,6 @@ namespace clue_data {
                     "minutes": 52,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2884, "y": 3667, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2457,6 +2238,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["16 degrees 20 minutes north,12 degrees 45 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 16,
@@ -2468,11 +2250,6 @@ namespace clue_data {
                     "minutes": 45,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2848, "y": 3684, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2480,6 +2257,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["16 degrees 30 minutes north,16 degrees 28 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 16,
@@ -2491,11 +2269,6 @@ namespace clue_data {
                     "minutes": 28,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2967, "y": 3689, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2503,6 +2276,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["16 degrees 35 minutes north,27 degrees 01 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 16,
@@ -2514,11 +2288,6 @@ namespace clue_data {
                     "minutes": 1,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3305, "y": 3692, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2526,6 +2295,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["17 degrees 50 minutes north,08 degrees 30 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 17,
@@ -2537,11 +2307,6 @@ namespace clue_data {
                     "minutes": 30,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2712, "y": 3732, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2549,6 +2314,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["18 degrees 03 minutes north,25 degrees 16 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 18,
@@ -2560,11 +2326,6 @@ namespace clue_data {
                     "minutes": 16,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3249, "y": 3739, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2572,6 +2333,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["18 degrees 22 minutes north,16 degrees 33 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 18,
@@ -2583,11 +2345,6 @@ namespace clue_data {
                     "minutes": 33,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2970, "y": 3749, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2595,6 +2352,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["19 degrees 43 minutes north,25 degrees 07 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 19,
@@ -2606,11 +2364,6 @@ namespace clue_data {
                     "minutes": 7,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3244, "y": 3792, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2618,6 +2371,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["20 degrees 05 minutes north,21 degrees 52 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 20,
@@ -2629,11 +2383,6 @@ namespace clue_data {
                     "minutes": 52,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3140, "y": 3804, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2641,6 +2390,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["20 degrees 07 minutes north,18 degrees 33 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 20,
@@ -2652,11 +2402,6 @@ namespace clue_data {
                     "minutes": 33,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3034, "y": 3805, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2664,6 +2409,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["20 degrees 33 minutes north,15 degrees 48 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 20,
@@ -2675,11 +2421,6 @@ namespace clue_data {
                     "minutes": 48,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2946, "y": 3819, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2687,6 +2428,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["21 degrees 24 minutes north,17 degrees 54 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 21,
@@ -2698,11 +2440,6 @@ namespace clue_data {
                     "minutes": 54,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3013, "y": 3846, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2710,6 +2447,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["22 degrees 35 minutes north,19 degrees 18 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 22,
@@ -2721,11 +2459,6 @@ namespace clue_data {
                     "minutes": 18,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3058, "y": 3884, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2733,6 +2466,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["22 degrees 45 minutes north,26 degrees 33 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 22,
@@ -2744,11 +2478,6 @@ namespace clue_data {
                     "minutes": 33,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3290, "y": 3889, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2756,6 +2485,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["24 degrees 26 minutes north,26 degrees 24 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 24,
@@ -2767,11 +2497,6 @@ namespace clue_data {
                     "minutes": 24,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3285, "y": 3943, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2779,6 +2504,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["24 degrees 56 minutes north,22 degrees 28 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 24,
@@ -2790,11 +2516,6 @@ namespace clue_data {
                     "minutes": 28,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "coordinates": {"x": 3159, "y": 3959, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2802,6 +2523,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["24 degrees 58 minutes north,18 degrees 43 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 24,
@@ -2813,11 +2535,6 @@ namespace clue_data {
                     "minutes": 43,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3039, "y": 3960, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2825,6 +2542,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["25 degrees 03 minutes north,17 degrees 05 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 25,
@@ -2836,11 +2554,6 @@ namespace clue_data {
                     "minutes": 5,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2987, "y": 3963, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         },
         {
@@ -2848,6 +2561,7 @@ namespace clue_data {
             "type": "coordinates",
             "tier": "hard",
             "text": ["25 degrees 03 minutes north,23 degrees 24 minutes east"],
+            "challenge": [{"type": "wizard"}],
             "coordinates": {
                 "latitude": {
                     "degrees": 25,
@@ -2859,11 +2573,6 @@ namespace clue_data {
                     "minutes": 24,
                     "direction": "east"
                 }
-            },
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3189, "y": 3963, "level": 0},
-                "answer": "Dig at the indicated spot."
             }
         }
     ]
@@ -4906,50 +4615,47 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the deepest levels of the Wilderness. Orb scan range: 25 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2958, "y": 3917, "level": 0},
-                    {"x": 2979, "y": 3962, "level": 0},
-                    {"x": 2998, "y": 3914, "level": 0},
-                    {"x": 2956, "y": 3908, "level": 0},
-                    {"x": 2944, "y": 3909, "level": 0},
-                    {"x": 2990, "y": 3924, "level": 0},
-                    {"x": 3055, "y": 3914, "level": 0},
-                    {"x": 3060, "y": 3941, "level": 0},
-                    {"x": 3029, "y": 3949, "level": 0},
-                    {"x": 3012, "y": 3959, "level": 0},
-                    {"x": 3057, "y": 3948, "level": 0},
-                    {"x": 3048, "y": 3926, "level": 0},
-                    {"x": 3037, "y": 3925, "level": 0},
-                    {"x": 3031, "y": 3926, "level": 0},
-                    {"x": 3021, "y": 3926, "level": 0},
-                    {"x": 3110, "y": 3954, "level": 0},
-                    {"x": 3125, "y": 3909, "level": 0},
-                    {"x": 3080, "y": 3911, "level": 0},
-                    {"x": 3160, "y": 3943, "level": 0},
-                    {"x": 3182, "y": 3926, "level": 0},
-                    {"x": 3193, "y": 3950, "level": 0},
-                    {"x": 3179, "y": 3943, "level": 0},
-                    {"x": 3175, "y": 3962, "level": 0},
-                    {"x": 3242, "y": 3956, "level": 0},
-                    {"x": 3241, "y": 3944, "level": 0},
-                    {"x": 3210, "y": 3910, "level": 0},
-                    {"x": 3216, "y": 3944, "level": 0},
-                    {"x": 3266, "y": 3936, "level": 0},
-                    {"x": 3307, "y": 3916, "level": 0},
-                    {"x": 3306, "y": 3947, "level": 0},
-                    {"x": 3281, "y": 3942, "level": 0},
-                    {"x": 3315, "y": 3914, "level": 0},
-                    {"x": 3269, "y": 3914, "level": 0},
-                    {"x": 3380, "y": 3960, "level": 0},
-                    {"x": 3342, "y": 3894, "level": 0},
-                    {"x": 3334, "y": 3906, "level": 0},
-                    {"x": 3363, "y": 3960, "level": 0},
-                    {"x": 3346, "y": 3976, "level": 0},
-                    {"x": 3408, "y": 3937, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2958, "y": 3917, "level": 0},
+                {"x": 2979, "y": 3962, "level": 0},
+                {"x": 2998, "y": 3914, "level": 0},
+                {"x": 2956, "y": 3908, "level": 0},
+                {"x": 2944, "y": 3909, "level": 0},
+                {"x": 2990, "y": 3924, "level": 0},
+                {"x": 3055, "y": 3914, "level": 0},
+                {"x": 3060, "y": 3941, "level": 0},
+                {"x": 3029, "y": 3949, "level": 0},
+                {"x": 3012, "y": 3959, "level": 0},
+                {"x": 3057, "y": 3948, "level": 0},
+                {"x": 3048, "y": 3926, "level": 0},
+                {"x": 3037, "y": 3925, "level": 0},
+                {"x": 3031, "y": 3926, "level": 0},
+                {"x": 3021, "y": 3926, "level": 0},
+                {"x": 3110, "y": 3954, "level": 0},
+                {"x": 3125, "y": 3909, "level": 0},
+                {"x": 3080, "y": 3911, "level": 0},
+                {"x": 3160, "y": 3943, "level": 0},
+                {"x": 3182, "y": 3926, "level": 0},
+                {"x": 3193, "y": 3950, "level": 0},
+                {"x": 3179, "y": 3943, "level": 0},
+                {"x": 3175, "y": 3962, "level": 0},
+                {"x": 3242, "y": 3956, "level": 0},
+                {"x": 3241, "y": 3944, "level": 0},
+                {"x": 3210, "y": 3910, "level": 0},
+                {"x": 3216, "y": 3944, "level": 0},
+                {"x": 3266, "y": 3936, "level": 0},
+                {"x": 3307, "y": 3916, "level": 0},
+                {"x": 3306, "y": 3947, "level": 0},
+                {"x": 3281, "y": 3942, "level": 0},
+                {"x": 3315, "y": 3914, "level": 0},
+                {"x": 3269, "y": 3914, "level": 0},
+                {"x": 3380, "y": 3960, "level": 0},
+                {"x": 3342, "y": 3894, "level": 0},
+                {"x": 3334, "y": 3906, "level": 0},
+                {"x": 3363, "y": 3960, "level": 0},
+                {"x": 3346, "y": 3976, "level": 0},
+                {"x": 3408, "y": 3937, "level": 0}
+            ],
             "range": 25,
             "scantext": "deepest levels of the Wilderness"
         },
@@ -4958,62 +4664,59 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the desert, east of the Elid and north of Nardah. Orb scan range: 27 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3421, "y": 2949, "level": 0},
-                    {"x": 3444, "y": 2952, "level": 0},
-                    {"x": 3447, "y": 2967, "level": 0},
-                    {"x": 3438, "y": 2960, "level": 0},
-                    {"x": 3417, "y": 2959, "level": 0},
-                    {"x": 3427, "y": 2970, "level": 0},
-                    {"x": 3442, "y": 2974, "level": 0},
-                    {"x": 3408, "y": 2986, "level": 0},
-                    {"x": 3426, "y": 2984, "level": 0},
-                    {"x": 3436, "y": 2989, "level": 0},
-                    {"x": 3406, "y": 3003, "level": 0},
-                    {"x": 3393, "y": 2997, "level": 0},
-                    {"x": 3419, "y": 3017, "level": 0},
-                    {"x": 3382, "y": 3015, "level": 0},
-                    {"x": 3385, "y": 3024, "level": 0},
-                    {"x": 3383, "y": 3018, "level": 0},
-                    {"x": 3423, "y": 3020, "level": 0},
-                    {"x": 3448, "y": 3019, "level": 0},
-                    {"x": 3411, "y": 3048, "level": 0},
-                    {"x": 3422, "y": 3051, "level": 0},
-                    {"x": 3448, "y": 3063, "level": 0},
-                    {"x": 3401, "y": 3064, "level": 0},
-                    {"x": 3460, "y": 3022, "level": 0},
-                    {"x": 3476, "y": 3018, "level": 0},
-                    {"x": 3462, "y": 3047, "level": 0},
-                    {"x": 3465, "y": 3034, "level": 0},
-                    {"x": 3502, "y": 3050, "level": 0},
-                    {"x": 3510, "y": 3041, "level": 0},
-                    {"x": 3476, "y": 3057, "level": 0},
-                    {"x": 3480, "y": 3090, "level": 0},
-                    {"x": 3473, "y": 3082, "level": 0},
-                    {"x": 3482, "y": 3108, "level": 0},
-                    {"x": 3499, "y": 3104, "level": 0},
-                    {"x": 3505, "y": 3093, "level": 0},
-                    {"x": 3401, "y": 3099, "level": 0},
-                    {"x": 3396, "y": 3110, "level": 0},
-                    {"x": 3406, "y": 3126, "level": 0},
-                    {"x": 3433, "y": 3122, "level": 0},
-                    {"x": 3444, "y": 3085, "level": 0},
-                    {"x": 3446, "y": 3128, "level": 0},
-                    {"x": 3360, "y": 3095, "level": 0},
-                    {"x": 3387, "y": 3123, "level": 0},
-                    {"x": 3373, "y": 3126, "level": 0},
-                    {"x": 3384, "y": 3081, "level": 0},
-                    {"x": 3405, "y": 3136, "level": 0},
-                    {"x": 3409, "y": 3119, "level": 0},
-                    {"x": 3432, "y": 3105, "level": 0},
-                    {"x": 3427, "y": 3141, "level": 0},
-                    {"x": 3444, "y": 3141, "level": 0},
-                    {"x": 3435, "y": 3129, "level": 0},
-                    {"x": 3456, "y": 3140, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3421, "y": 2949, "level": 0},
+                {"x": 3444, "y": 2952, "level": 0},
+                {"x": 3447, "y": 2967, "level": 0},
+                {"x": 3438, "y": 2960, "level": 0},
+                {"x": 3417, "y": 2959, "level": 0},
+                {"x": 3427, "y": 2970, "level": 0},
+                {"x": 3442, "y": 2974, "level": 0},
+                {"x": 3408, "y": 2986, "level": 0},
+                {"x": 3426, "y": 2984, "level": 0},
+                {"x": 3436, "y": 2989, "level": 0},
+                {"x": 3406, "y": 3003, "level": 0},
+                {"x": 3393, "y": 2997, "level": 0},
+                {"x": 3419, "y": 3017, "level": 0},
+                {"x": 3382, "y": 3015, "level": 0},
+                {"x": 3385, "y": 3024, "level": 0},
+                {"x": 3383, "y": 3018, "level": 0},
+                {"x": 3423, "y": 3020, "level": 0},
+                {"x": 3448, "y": 3019, "level": 0},
+                {"x": 3411, "y": 3048, "level": 0},
+                {"x": 3422, "y": 3051, "level": 0},
+                {"x": 3448, "y": 3063, "level": 0},
+                {"x": 3401, "y": 3064, "level": 0},
+                {"x": 3460, "y": 3022, "level": 0},
+                {"x": 3476, "y": 3018, "level": 0},
+                {"x": 3462, "y": 3047, "level": 0},
+                {"x": 3465, "y": 3034, "level": 0},
+                {"x": 3502, "y": 3050, "level": 0},
+                {"x": 3510, "y": 3041, "level": 0},
+                {"x": 3476, "y": 3057, "level": 0},
+                {"x": 3480, "y": 3090, "level": 0},
+                {"x": 3473, "y": 3082, "level": 0},
+                {"x": 3482, "y": 3108, "level": 0},
+                {"x": 3499, "y": 3104, "level": 0},
+                {"x": 3505, "y": 3093, "level": 0},
+                {"x": 3401, "y": 3099, "level": 0},
+                {"x": 3396, "y": 3110, "level": 0},
+                {"x": 3406, "y": 3126, "level": 0},
+                {"x": 3433, "y": 3122, "level": 0},
+                {"x": 3444, "y": 3085, "level": 0},
+                {"x": 3446, "y": 3128, "level": 0},
+                {"x": 3360, "y": 3095, "level": 0},
+                {"x": 3387, "y": 3123, "level": 0},
+                {"x": 3373, "y": 3126, "level": 0},
+                {"x": 3384, "y": 3081, "level": 0},
+                {"x": 3405, "y": 3136, "level": 0},
+                {"x": 3409, "y": 3119, "level": 0},
+                {"x": 3432, "y": 3105, "level": 0},
+                {"x": 3427, "y": 3141, "level": 0},
+                {"x": 3444, "y": 3141, "level": 0},
+                {"x": 3435, "y": 3129, "level": 0},
+                {"x": 3456, "y": 3140, "level": 0}
+            ],
             "range": 27,
             "scantext": "the desert, east of the Elid and north of Nardah"
         },
@@ -5022,40 +4725,37 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in Isafdar and Lletya. Orb scan range: 22 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2173, "y": 3125, "level": 0},
-                    {"x": 2283, "y": 3265, "level": 0},
-                    {"x": 2217, "y": 3130, "level": 0},
-                    {"x": 2253, "y": 3118, "level": 0},
-                    {"x": 2247, "y": 3143, "level": 0},
-                    {"x": 2271, "y": 3165, "level": 0},
-                    {"x": 2287, "y": 3141, "level": 0},
-                    {"x": 2310, "y": 3187, "level": 0},
-                    {"x": 2331, "y": 3171, "level": 0},
-                    {"x": 2322, "y": 3190, "level": 0},
-                    {"x": 2348, "y": 3183, "level": 0},
-                    {"x": 2225, "y": 3145, "level": 0},
-                    {"x": 2186, "y": 3146, "level": 0},
-                    {"x": 2205, "y": 3155, "level": 0},
-                    {"x": 2216, "y": 3159, "level": 0},
-                    {"x": 2182, "y": 3192, "level": 0},
-                    {"x": 2226, "y": 3158, "level": 0},
-                    {"x": 2176, "y": 3201, "level": 0},
-                    {"x": 2225, "y": 3212, "level": 0},
-                    {"x": 2219, "y": 3221, "level": 0},
-                    {"x": 2194, "y": 3220, "level": 0},
-                    {"x": 2194, "y": 3237, "level": 0},
-                    {"x": 2229, "y": 3248, "level": 0},
-                    {"x": 2203, "y": 3254, "level": 0},
-                    {"x": 2258, "y": 3212, "level": 0},
-                    {"x": 2289, "y": 3220, "level": 0},
-                    {"x": 2302, "y": 3230, "level": 0},
-                    {"x": 2282, "y": 3262, "level": 0},
-                    {"x": 2232, "y": 3223, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2173, "y": 3125, "level": 0},
+                {"x": 2283, "y": 3265, "level": 0},
+                {"x": 2217, "y": 3130, "level": 0},
+                {"x": 2253, "y": 3118, "level": 0},
+                {"x": 2247, "y": 3143, "level": 0},
+                {"x": 2271, "y": 3165, "level": 0},
+                {"x": 2287, "y": 3141, "level": 0},
+                {"x": 2310, "y": 3187, "level": 0},
+                {"x": 2331, "y": 3171, "level": 0},
+                {"x": 2322, "y": 3190, "level": 0},
+                {"x": 2348, "y": 3183, "level": 0},
+                {"x": 2225, "y": 3145, "level": 0},
+                {"x": 2186, "y": 3146, "level": 0},
+                {"x": 2205, "y": 3155, "level": 0},
+                {"x": 2216, "y": 3159, "level": 0},
+                {"x": 2182, "y": 3192, "level": 0},
+                {"x": 2226, "y": 3158, "level": 0},
+                {"x": 2176, "y": 3201, "level": 0},
+                {"x": 2225, "y": 3212, "level": 0},
+                {"x": 2219, "y": 3221, "level": 0},
+                {"x": 2194, "y": 3220, "level": 0},
+                {"x": 2194, "y": 3237, "level": 0},
+                {"x": 2229, "y": 3248, "level": 0},
+                {"x": 2203, "y": 3254, "level": 0},
+                {"x": 2258, "y": 3212, "level": 0},
+                {"x": 2289, "y": 3220, "level": 0},
+                {"x": 2302, "y": 3230, "level": 0},
+                {"x": 2282, "y": 3262, "level": 0},
+                {"x": 2232, "y": 3223, "level": 0}
+            ],
             "range": 22,
             "scantext": "Isafdar and Lletya"
         },
@@ -5064,35 +4764,32 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work within the walls of Varrock and the Grand Exchange Orb scan range: 16 paces"],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3197, "y": 3383, "level": 0},
-                    {"x": 3211, "y": 3385, "level": 0},
-                    {"x": 3228, "y": 3383, "level": 0},
-                    {"x": 3240, "y": 3383, "level": 0},
-                    {"x": 3175, "y": 3404, "level": 0},
-                    {"x": 3175, "y": 3415, "level": 0},
-                    {"x": 3196, "y": 3415, "level": 0},
-                    {"x": 3197, "y": 3423, "level": 0},
-                    {"x": 3253, "y": 3393, "level": 0},
-                    {"x": 3228, "y": 3409, "level": 0},
-                    {"x": 3231, "y": 3439, "level": 0},
-                    {"x": 3220, "y": 3407, "level": 0},
-                    {"x": 3204, "y": 3409, "level": 0},
-                    {"x": 3273, "y": 3398, "level": 0},
-                    {"x": 3284, "y": 3378, "level": 0},
-                    {"x": 3185, "y": 3472, "level": 0},
-                    {"x": 3188, "y": 3488, "level": 0},
-                    {"x": 3180, "y": 3510, "level": 0},
-                    {"x": 3141, "y": 3488, "level": 0},
-                    {"x": 3213, "y": 3484, "level": 0},
-                    {"x": 3230, "y": 3494, "level": 0},
-                    {"x": 3241, "y": 3480, "level": 0},
-                    {"x": 3213, "y": 3462, "level": 0},
-                    {"x": 3248, "y": 3454, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3197, "y": 3383, "level": 0},
+                {"x": 3211, "y": 3385, "level": 0},
+                {"x": 3228, "y": 3383, "level": 0},
+                {"x": 3240, "y": 3383, "level": 0},
+                {"x": 3175, "y": 3404, "level": 0},
+                {"x": 3175, "y": 3415, "level": 0},
+                {"x": 3196, "y": 3415, "level": 0},
+                {"x": 3197, "y": 3423, "level": 0},
+                {"x": 3253, "y": 3393, "level": 0},
+                {"x": 3228, "y": 3409, "level": 0},
+                {"x": 3231, "y": 3439, "level": 0},
+                {"x": 3220, "y": 3407, "level": 0},
+                {"x": 3204, "y": 3409, "level": 0},
+                {"x": 3273, "y": 3398, "level": 0},
+                {"x": 3284, "y": 3378, "level": 0},
+                {"x": 3185, "y": 3472, "level": 0},
+                {"x": 3188, "y": 3488, "level": 0},
+                {"x": 3180, "y": 3510, "level": 0},
+                {"x": 3141, "y": 3488, "level": 0},
+                {"x": 3213, "y": 3484, "level": 0},
+                {"x": 3230, "y": 3494, "level": 0},
+                {"x": 3241, "y": 3480, "level": 0},
+                {"x": 3213, "y": 3462, "level": 0},
+                {"x": 3248, "y": 3454, "level": 0}
+            ],
             "range": 16,
             "scantext": "Varrock and the Grand Exchange"
         },
@@ -5101,39 +4798,36 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work within the walls of East or West Ardougne. Orb scan range: 22 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2442, "y": 3310, "level": 0},
-                    {"x": 2440, "y": 3319, "level": 0},
-                    {"x": 2462, "y": 3282, "level": 0},
-                    {"x": 2483, "y": 3313, "level": 0},
-                    {"x": 2467, "y": 3319, "level": 0},
-                    {"x": 2496, "y": 3282, "level": 0},
-                    {"x": 2517, "y": 3281, "level": 0},
-                    {"x": 2512, "y": 3267, "level": 0},
-                    {"x": 2529, "y": 3270, "level": 0},
-                    {"x": 2537, "y": 3306, "level": 0},
-                    {"x": 2520, "y": 3318, "level": 0},
-                    {"x": 2500, "y": 3290, "level": 0},
-                    {"x": 2540, "y": 3331, "level": 0},
-                    {"x": 2509, "y": 3330, "level": 0},
-                    {"x": 2475, "y": 3331, "level": 0},
-                    {"x": 2583, "y": 3265, "level": 0},
-                    {"x": 2589, "y": 3319, "level": 0},
-                    {"x": 2582, "y": 3314, "level": 0},
-                    {"x": 2623, "y": 3311, "level": 0},
-                    {"x": 2570, "y": 3321, "level": 0},
-                    {"x": 2662, "y": 3304, "level": 0},
-                    {"x": 2625, "y": 3292, "level": 0},
-                    {"x": 2635, "y": 3313, "level": 0},
-                    {"x": 2662, "y": 3338, "level": 0},
-                    {"x": 2633, "y": 3339, "level": 0},
-                    {"x": 2613, "y": 3337, "level": 0},
-                    {"x": 2589, "y": 3330, "level": 0},
-                    {"x": 2569, "y": 3340, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2442, "y": 3310, "level": 0},
+                {"x": 2440, "y": 3319, "level": 0},
+                {"x": 2462, "y": 3282, "level": 0},
+                {"x": 2483, "y": 3313, "level": 0},
+                {"x": 2467, "y": 3319, "level": 0},
+                {"x": 2496, "y": 3282, "level": 0},
+                {"x": 2517, "y": 3281, "level": 0},
+                {"x": 2512, "y": 3267, "level": 0},
+                {"x": 2529, "y": 3270, "level": 0},
+                {"x": 2537, "y": 3306, "level": 0},
+                {"x": 2520, "y": 3318, "level": 0},
+                {"x": 2500, "y": 3290, "level": 0},
+                {"x": 2540, "y": 3331, "level": 0},
+                {"x": 2509, "y": 3330, "level": 0},
+                {"x": 2475, "y": 3331, "level": 0},
+                {"x": 2583, "y": 3265, "level": 0},
+                {"x": 2589, "y": 3319, "level": 0},
+                {"x": 2582, "y": 3314, "level": 0},
+                {"x": 2623, "y": 3311, "level": 0},
+                {"x": 2570, "y": 3321, "level": 0},
+                {"x": 2662, "y": 3304, "level": 0},
+                {"x": 2625, "y": 3292, "level": 0},
+                {"x": 2635, "y": 3313, "level": 0},
+                {"x": 2662, "y": 3338, "level": 0},
+                {"x": 2633, "y": 3339, "level": 0},
+                {"x": 2613, "y": 3337, "level": 0},
+                {"x": 2589, "y": 3330, "level": 0},
+                {"x": 2569, "y": 3340, "level": 0}
+            ],
             "range": 22,
             "scantext": "East or West Ardougne"
         },
@@ -5142,29 +4836,26 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work within the dwarven city of Keldagrim. Orb scan range: 11 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2841, "y": 10189, "level": 0},
-                    {"x": 2856, "y": 10192, "level": 0},
-                    {"x": 2822, "y": 10193, "level": 0},
-                    {"x": 2873, "y": 10194, "level": 0},
-                    {"x": 2872, "y": 10181, "level": 0},
-                    {"x": 2846, "y": 10233, "level": 0},
-                    {"x": 2860, "y": 10215, "level": 0},
-                    {"x": 2837, "y": 10209, "level": 0},
-                    {"x": 2905, "y": 10162, "level": 0},
-                    {"x": 2924, "y": 10162, "level": 0},
-                    {"x": 2938, "y": 10162, "level": 0},
-                    {"x": 2936, "y": 10206, "level": 0},
-                    {"x": 2906, "y": 10202, "level": 0},
-                    {"x": 2937, "y": 10191, "level": 0},
-                    {"x": 2904, "y": 10193, "level": 0},
-                    {"x": 2924, "y": 10191, "level": 0},
-                    {"x": 2922, "y": 10179, "level": 0},
-                    {"x": 2938, "y": 10179, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2841, "y": 10189, "level": 0},
+                {"x": 2856, "y": 10192, "level": 0},
+                {"x": 2822, "y": 10193, "level": 0},
+                {"x": 2873, "y": 10194, "level": 0},
+                {"x": 2872, "y": 10181, "level": 0},
+                {"x": 2846, "y": 10233, "level": 0},
+                {"x": 2860, "y": 10215, "level": 0},
+                {"x": 2837, "y": 10209, "level": 0},
+                {"x": 2905, "y": 10162, "level": 0},
+                {"x": 2924, "y": 10162, "level": 0},
+                {"x": 2938, "y": 10162, "level": 0},
+                {"x": 2936, "y": 10206, "level": 0},
+                {"x": 2906, "y": 10202, "level": 0},
+                {"x": 2937, "y": 10191, "level": 0},
+                {"x": 2904, "y": 10193, "level": 0},
+                {"x": 2924, "y": 10191, "level": 0},
+                {"x": 2922, "y": 10179, "level": 0},
+                {"x": 2938, "y": 10179, "level": 0}
+            ],
             "range": 11,
             "scantext": "Keldagrim"
         },
@@ -5173,32 +4864,29 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in Menaphos. Orb scan range: 30 paces"],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3099, "y": 2677, "level": 0},
-                    {"x": 3127, "y": 2643, "level": 0},
-                    {"x": 3095, "y": 2730, "level": 0},
-                    {"x": 3096, "y": 2692, "level": 0},
-                    {"x": 3108, "y": 2742, "level": 0},
-                    {"x": 3131, "y": 2791, "level": 0},
-                    {"x": 3135, "y": 2775, "level": 0},
-                    {"x": 3146, "y": 2659, "level": 0},
-                    {"x": 3155, "y": 2641, "level": 0},
-                    {"x": 3180, "y": 2669, "level": 0},
-                    {"x": 3180, "y": 2700, "level": 0},
-                    {"x": 3199, "y": 2750, "level": 0},
-                    {"x": 3145, "y": 2759, "level": 0},
-                    {"x": 3153, "y": 2799, "level": 0},
-                    {"x": 3165, "y": 2814, "level": 0},
-                    {"x": 3193, "y": 2797, "level": 0},
-                    {"x": 3237, "y": 2664, "level": 0},
-                    {"x": 3200, "y": 2709, "level": 0},
-                    {"x": 3210, "y": 2770, "level": 0},
-                    {"x": 3231, "y": 2770, "level": 0},
-                    {"x": 3238, "y": 2792, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3099, "y": 2677, "level": 0},
+                {"x": 3127, "y": 2643, "level": 0},
+                {"x": 3095, "y": 2730, "level": 0},
+                {"x": 3096, "y": 2692, "level": 0},
+                {"x": 3108, "y": 2742, "level": 0},
+                {"x": 3131, "y": 2791, "level": 0},
+                {"x": 3135, "y": 2775, "level": 0},
+                {"x": 3146, "y": 2659, "level": 0},
+                {"x": 3155, "y": 2641, "level": 0},
+                {"x": 3180, "y": 2669, "level": 0},
+                {"x": 3180, "y": 2700, "level": 0},
+                {"x": 3199, "y": 2750, "level": 0},
+                {"x": 3145, "y": 2759, "level": 0},
+                {"x": 3153, "y": 2799, "level": 0},
+                {"x": 3165, "y": 2814, "level": 0},
+                {"x": 3193, "y": 2797, "level": 0},
+                {"x": 3237, "y": 2664, "level": 0},
+                {"x": 3200, "y": 2709, "level": 0},
+                {"x": 3210, "y": 2770, "level": 0},
+                {"x": 3231, "y": 2770, "level": 0},
+                {"x": 3238, "y": 2792, "level": 0}
+            ],
             "range": 30,
             "scantext": "Menaphos"
         },
@@ -5207,37 +4895,34 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the Piscatoris Hunter Area. Orb scan range: 14 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2310, "y": 3518, "level": 0},
-                    {"x": 2336, "y": 3540, "level": 0},
-                    {"x": 2364, "y": 3547, "level": 0},
-                    {"x": 2353, "y": 3543, "level": 0},
-                    {"x": 2324, "y": 3553, "level": 0},
-                    {"x": 2361, "y": 3567, "level": 0},
-                    {"x": 2308, "y": 3560, "level": 0},
-                    {"x": 2313, "y": 3576, "level": 0},
-                    {"x": 2331, "y": 3574, "level": 0},
-                    {"x": 2342, "y": 3575, "level": 0},
-                    {"x": 2358, "y": 3557, "level": 0},
-                    {"x": 2363, "y": 3527, "level": 0},
-                    {"x": 2358, "y": 3580, "level": 0},
-                    {"x": 2388, "y": 3586, "level": 0},
-                    {"x": 2398, "y": 3582, "level": 0},
-                    {"x": 2392, "y": 3591, "level": 0},
-                    {"x": 2373, "y": 3612, "level": 0},
-                    {"x": 2372, "y": 3626, "level": 0},
-                    {"x": 2318, "y": 3601, "level": 0},
-                    {"x": 2339, "y": 3589, "level": 0},
-                    {"x": 2362, "y": 3612, "level": 0},
-                    {"x": 2347, "y": 3609, "level": 0},
-                    {"x": 2332, "y": 3632, "level": 0},
-                    {"x": 2320, "y": 3625, "level": 0},
-                    {"x": 2344, "y": 3645, "level": 0},
-                    {"x": 2310, "y": 3587, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2310, "y": 3518, "level": 0},
+                {"x": 2336, "y": 3540, "level": 0},
+                {"x": 2364, "y": 3547, "level": 0},
+                {"x": 2353, "y": 3543, "level": 0},
+                {"x": 2324, "y": 3553, "level": 0},
+                {"x": 2361, "y": 3567, "level": 0},
+                {"x": 2308, "y": 3560, "level": 0},
+                {"x": 2313, "y": 3576, "level": 0},
+                {"x": 2331, "y": 3574, "level": 0},
+                {"x": 2342, "y": 3575, "level": 0},
+                {"x": 2358, "y": 3557, "level": 0},
+                {"x": 2363, "y": 3527, "level": 0},
+                {"x": 2358, "y": 3580, "level": 0},
+                {"x": 2388, "y": 3586, "level": 0},
+                {"x": 2398, "y": 3582, "level": 0},
+                {"x": 2392, "y": 3591, "level": 0},
+                {"x": 2373, "y": 3612, "level": 0},
+                {"x": 2372, "y": 3626, "level": 0},
+                {"x": 2318, "y": 3601, "level": 0},
+                {"x": 2339, "y": 3589, "level": 0},
+                {"x": 2362, "y": 3612, "level": 0},
+                {"x": 2347, "y": 3609, "level": 0},
+                {"x": 2332, "y": 3632, "level": 0},
+                {"x": 2320, "y": 3625, "level": 0},
+                {"x": 2344, "y": 3645, "level": 0},
+                {"x": 2310, "y": 3587, "level": 0}
+            ],
             "range": 14,
             "scantext": "Piscatoris Hunter Area"
         },
@@ -5246,53 +4931,50 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in Brimhaven Dungeon. Orb scan range: 14 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2703, "y": 9439, "level": 0},
-                    {"x": 2738, "y": 9456, "level": 0},
-                    {"x": 2737, "y": 9433, "level": 0},
-                    {"x": 2722, "y": 9444, "level": 0},
-                    {"x": 2729, "y": 9427, "level": 0},
-                    {"x": 2695, "y": 9457, "level": 0},
-                    {"x": 2739, "y": 9506, "level": 0},
-                    {"x": 2745, "y": 9488, "level": 0},
-                    {"x": 2707, "y": 9486, "level": 0},
-                    {"x": 2699, "y": 9481, "level": 0},
-                    {"x": 2730, "y": 9513, "level": 0},
-                    {"x": 2717, "y": 9517, "level": 0},
-                    {"x": 2712, "y": 9524, "level": 0},
-                    {"x": 2701, "y": 9516, "level": 0},
-                    {"x": 2713, "y": 9503, "level": 0},
-                    {"x": 2679, "y": 9479, "level": 0},
-                    {"x": 2650, "y": 9488, "level": 0},
-                    {"x": 2649, "y": 9499, "level": 0},
-                    {"x": 2665, "y": 9504, "level": 0},
-                    {"x": 2681, "y": 9505, "level": 0},
-                    {"x": 2647, "y": 9511, "level": 0},
-                    {"x": 2664, "y": 9522, "level": 0},
-                    {"x": 2672, "y": 9514, "level": 0},
-                    {"x": 2652, "y": 9528, "level": 0},
-                    {"x": 2640, "y": 9533, "level": 0},
-                    {"x": 2641, "y": 9541, "level": 0},
-                    {"x": 2680, "y": 9542, "level": 0},
-                    {"x": 2669, "y": 9573, "level": 0},
-                    {"x": 2675, "y": 9582, "level": 0},
-                    {"x": 2660, "y": 9589, "level": 0},
-                    {"x": 2642, "y": 9575, "level": 0},
-                    {"x": 2638, "y": 9594, "level": 2},
-                    {"x": 2630, "y": 9581, "level": 2},
-                    {"x": 2638, "y": 9566, "level": 2},
-                    {"x": 2634, "y": 9551, "level": 2},
-                    {"x": 2627, "y": 9530, "level": 2},
-                    {"x": 2631, "y": 9516, "level": 2},
-                    {"x": 2639, "y": 9504, "level": 2},
-                    {"x": 2628, "y": 9489, "level": 2},
-                    {"x": 2655, "y": 9475, "level": 2},
-                    {"x": 2703, "y": 9564, "level": 0},
-                    {"x": 2697, "y": 9563, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2703, "y": 9439, "level": 0},
+                {"x": 2738, "y": 9456, "level": 0},
+                {"x": 2737, "y": 9433, "level": 0},
+                {"x": 2722, "y": 9444, "level": 0},
+                {"x": 2729, "y": 9427, "level": 0},
+                {"x": 2695, "y": 9457, "level": 0},
+                {"x": 2739, "y": 9506, "level": 0},
+                {"x": 2745, "y": 9488, "level": 0},
+                {"x": 2707, "y": 9486, "level": 0},
+                {"x": 2699, "y": 9481, "level": 0},
+                {"x": 2730, "y": 9513, "level": 0},
+                {"x": 2717, "y": 9517, "level": 0},
+                {"x": 2712, "y": 9524, "level": 0},
+                {"x": 2701, "y": 9516, "level": 0},
+                {"x": 2713, "y": 9503, "level": 0},
+                {"x": 2679, "y": 9479, "level": 0},
+                {"x": 2650, "y": 9488, "level": 0},
+                {"x": 2649, "y": 9499, "level": 0},
+                {"x": 2665, "y": 9504, "level": 0},
+                {"x": 2681, "y": 9505, "level": 0},
+                {"x": 2647, "y": 9511, "level": 0},
+                {"x": 2664, "y": 9522, "level": 0},
+                {"x": 2672, "y": 9514, "level": 0},
+                {"x": 2652, "y": 9528, "level": 0},
+                {"x": 2640, "y": 9533, "level": 0},
+                {"x": 2641, "y": 9541, "level": 0},
+                {"x": 2680, "y": 9542, "level": 0},
+                {"x": 2669, "y": 9573, "level": 0},
+                {"x": 2675, "y": 9582, "level": 0},
+                {"x": 2660, "y": 9589, "level": 0},
+                {"x": 2642, "y": 9575, "level": 0},
+                {"x": 2638, "y": 9594, "level": 2},
+                {"x": 2630, "y": 9581, "level": 2},
+                {"x": 2638, "y": 9566, "level": 2},
+                {"x": 2634, "y": 9551, "level": 2},
+                {"x": 2627, "y": 9530, "level": 2},
+                {"x": 2631, "y": 9516, "level": 2},
+                {"x": 2639, "y": 9504, "level": 2},
+                {"x": 2628, "y": 9489, "level": 2},
+                {"x": 2655, "y": 9475, "level": 2},
+                {"x": 2703, "y": 9564, "level": 0},
+                {"x": 2697, "y": 9563, "level": 0}
+            ],
             "range": 14,
             "scantext": "Brimhaven Dungeon"
         },
@@ -5301,36 +4983,33 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in Taverley Dungeon. Orb scan range: 22 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2858, "y": 9788, "level": 0},
-                    {"x": 2870, "y": 9791, "level": 0},
-                    {"x": 2875, "y": 9805, "level": 0},
-                    {"x": 2832, "y": 9813, "level": 0},
-                    {"x": 2835, "y": 9819, "level": 0},
-                    {"x": 2822, "y": 9826, "level": 0},
-                    {"x": 2892, "y": 9783, "level": 0},
-                    {"x": 2895, "y": 9769, "level": 0},
-                    {"x": 2914, "y": 9757, "level": 0},
-                    {"x": 2936, "y": 9764, "level": 0},
-                    {"x": 2905, "y": 9734, "level": 0},
-                    {"x": 2907, "y": 9718, "level": 0},
-                    {"x": 2907, "y": 9705, "level": 0},
-                    {"x": 2926, "y": 9692, "level": 0},
-                    {"x": 2968, "y": 9786, "level": 0},
-                    {"x": 2952, "y": 9786, "level": 0},
-                    {"x": 2949, "y": 9773, "level": 0},
-                    {"x": 2938, "y": 9812, "level": 0},
-                    {"x": 2904, "y": 9809, "level": 0},
-                    {"x": 2884, "y": 9799, "level": 0},
-                    {"x": 2895, "y": 9831, "level": 0},
-                    {"x": 2933, "y": 9848, "level": 0},
-                    {"x": 2907, "y": 9842, "level": 0},
-                    {"x": 2888, "y": 9846, "level": 0},
-                    {"x": 2945, "y": 9796, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2858, "y": 9788, "level": 0},
+                {"x": 2870, "y": 9791, "level": 0},
+                {"x": 2875, "y": 9805, "level": 0},
+                {"x": 2832, "y": 9813, "level": 0},
+                {"x": 2835, "y": 9819, "level": 0},
+                {"x": 2822, "y": 9826, "level": 0},
+                {"x": 2892, "y": 9783, "level": 0},
+                {"x": 2895, "y": 9769, "level": 0},
+                {"x": 2914, "y": 9757, "level": 0},
+                {"x": 2936, "y": 9764, "level": 0},
+                {"x": 2905, "y": 9734, "level": 0},
+                {"x": 2907, "y": 9718, "level": 0},
+                {"x": 2907, "y": 9705, "level": 0},
+                {"x": 2926, "y": 9692, "level": 0},
+                {"x": 2968, "y": 9786, "level": 0},
+                {"x": 2952, "y": 9786, "level": 0},
+                {"x": 2949, "y": 9773, "level": 0},
+                {"x": 2938, "y": 9812, "level": 0},
+                {"x": 2904, "y": 9809, "level": 0},
+                {"x": 2884, "y": 9799, "level": 0},
+                {"x": 2895, "y": 9831, "level": 0},
+                {"x": 2933, "y": 9848, "level": 0},
+                {"x": 2907, "y": 9842, "level": 0},
+                {"x": 2888, "y": 9846, "level": 0},
+                {"x": 2945, "y": 9796, "level": 0}
+            ],
             "range": 22,
             "scantext": "Taverley Dungeon"
         },
@@ -5339,43 +5018,40 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work on the faraway island of Mos Le'Harmless. Orb scan range: 27 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3702, "y": 2972, "level": 0},
-                    {"x": 3657, "y": 2955, "level": 0},
-                    {"x": 3699, "y": 2996, "level": 0},
-                    {"x": 3651, "y": 2991, "level": 0},
-                    {"x": 3692, "y": 2976, "level": 0},
-                    {"x": 3676, "y": 2981, "level": 0},
-                    {"x": 3773, "y": 2960, "level": 0},
-                    {"x": 3728, "y": 2973, "level": 0},
-                    {"x": 3730, "y": 2996, "level": 0},
-                    {"x": 3765, "y": 2995, "level": 0},
-                    {"x": 3717, "y": 2969, "level": 0},
-                    {"x": 3758, "y": 2956, "level": 0},
-                    {"x": 3752, "y": 3006, "level": 0},
-                    {"x": 3669, "y": 3055, "level": 0},
-                    {"x": 3695, "y": 3063, "level": 0},
-                    {"x": 3697, "y": 3052, "level": 0},
-                    {"x": 3687, "y": 3046, "level": 0},
-                    {"x": 3679, "y": 3018, "level": 0},
-                    {"x": 3702, "y": 3027, "level": 0},
-                    {"x": 3757, "y": 3063, "level": 0},
-                    {"x": 3742, "y": 3063, "level": 0},
-                    {"x": 3736, "y": 3041, "level": 0},
-                    {"x": 3726, "y": 3038, "level": 0},
-                    {"x": 3765, "y": 3030, "level": 0},
-                    {"x": 3769, "y": 3015, "level": 0},
-                    {"x": 3740, "y": 3018, "level": 0},
-                    {"x": 3802, "y": 3035, "level": 0},
-                    {"x": 3791, "y": 3023, "level": 0},
-                    {"x": 3818, "y": 3027, "level": 0},
-                    {"x": 3831, "y": 3031, "level": 0},
-                    {"x": 3843, "y": 2987, "level": 0},
-                    {"x": 3850, "y": 3010, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3702, "y": 2972, "level": 0},
+                {"x": 3657, "y": 2955, "level": 0},
+                {"x": 3699, "y": 2996, "level": 0},
+                {"x": 3651, "y": 2991, "level": 0},
+                {"x": 3692, "y": 2976, "level": 0},
+                {"x": 3676, "y": 2981, "level": 0},
+                {"x": 3773, "y": 2960, "level": 0},
+                {"x": 3728, "y": 2973, "level": 0},
+                {"x": 3730, "y": 2996, "level": 0},
+                {"x": 3765, "y": 2995, "level": 0},
+                {"x": 3717, "y": 2969, "level": 0},
+                {"x": 3758, "y": 2956, "level": 0},
+                {"x": 3752, "y": 3006, "level": 0},
+                {"x": 3669, "y": 3055, "level": 0},
+                {"x": 3695, "y": 3063, "level": 0},
+                {"x": 3697, "y": 3052, "level": 0},
+                {"x": 3687, "y": 3046, "level": 0},
+                {"x": 3679, "y": 3018, "level": 0},
+                {"x": 3702, "y": 3027, "level": 0},
+                {"x": 3757, "y": 3063, "level": 0},
+                {"x": 3742, "y": 3063, "level": 0},
+                {"x": 3736, "y": 3041, "level": 0},
+                {"x": 3726, "y": 3038, "level": 0},
+                {"x": 3765, "y": 3030, "level": 0},
+                {"x": 3769, "y": 3015, "level": 0},
+                {"x": 3740, "y": 3018, "level": 0},
+                {"x": 3802, "y": 3035, "level": 0},
+                {"x": 3791, "y": 3023, "level": 0},
+                {"x": 3818, "y": 3027, "level": 0},
+                {"x": 3831, "y": 3031, "level": 0},
+                {"x": 3843, "y": 2987, "level": 0},
+                {"x": 3850, "y": 3010, "level": 0}
+            ],
             "range": 27,
             "scantext": "Mos Le'Harmless"
         },
@@ -5384,32 +5060,29 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work within the Haunted Woods. Orb scan range: 11 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3534, "y": 3470, "level": 0},
-                    {"x": 3523, "y": 3460, "level": 0},
-                    {"x": 3551, "y": 3514, "level": 0},
-                    {"x": 3575, "y": 3511, "level": 0},
-                    {"x": 3562, "y": 3509, "level": 0},
-                    {"x": 3583, "y": 3484, "level": 0},
-                    {"x": 3583, "y": 3466, "level": 0},
-                    {"x": 3552, "y": 3483, "level": 0},
-                    {"x": 3573, "y": 3484, "level": 0},
-                    {"x": 3529, "y": 3501, "level": 0},
-                    {"x": 3544, "y": 3465, "level": 0},
-                    {"x": 3567, "y": 3475, "level": 0},
-                    {"x": 3609, "y": 3499, "level": 0},
-                    {"x": 3596, "y": 3501, "level": 0},
-                    {"x": 3637, "y": 3486, "level": 0},
-                    {"x": 3623, "y": 3476, "level": 0},
-                    {"x": 3604, "y": 3507, "level": 0},
-                    {"x": 3624, "y": 3508, "level": 0},
-                    {"x": 3616, "y": 3512, "level": 0},
-                    {"x": 3606, "y": 3465, "level": 0},
-                    {"x": 3590, "y": 3475, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3534, "y": 3470, "level": 0},
+                {"x": 3523, "y": 3460, "level": 0},
+                {"x": 3551, "y": 3514, "level": 0},
+                {"x": 3575, "y": 3511, "level": 0},
+                {"x": 3562, "y": 3509, "level": 0},
+                {"x": 3583, "y": 3484, "level": 0},
+                {"x": 3583, "y": 3466, "level": 0},
+                {"x": 3552, "y": 3483, "level": 0},
+                {"x": 3573, "y": 3484, "level": 0},
+                {"x": 3529, "y": 3501, "level": 0},
+                {"x": 3544, "y": 3465, "level": 0},
+                {"x": 3567, "y": 3475, "level": 0},
+                {"x": 3609, "y": 3499, "level": 0},
+                {"x": 3596, "y": 3501, "level": 0},
+                {"x": 3637, "y": 3486, "level": 0},
+                {"x": 3623, "y": 3476, "level": 0},
+                {"x": 3604, "y": 3507, "level": 0},
+                {"x": 3624, "y": 3508, "level": 0},
+                {"x": 3616, "y": 3512, "level": 0},
+                {"x": 3606, "y": 3465, "level": 0},
+                {"x": 3590, "y": 3475, "level": 0}
+            ],
             "range": 11,
             "scantext": "the Haunted Woods"
         },
@@ -5418,37 +5091,34 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the Kharazi Jungle. Orb scan range: 14 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2775, "y": 2891, "level": 0},
-                    {"x": 2786, "y": 2914, "level": 0},
-                    {"x": 2804, "y": 2924, "level": 0},
-                    {"x": 2762, "y": 2918, "level": 0},
-                    {"x": 2775, "y": 2936, "level": 0},
-                    {"x": 2766, "y": 2932, "level": 0},
-                    {"x": 2815, "y": 2887, "level": 0},
-                    {"x": 2859, "y": 2891, "level": 0},
-                    {"x": 2848, "y": 2907, "level": 0},
-                    {"x": 2827, "y": 2934, "level": 0},
-                    {"x": 2832, "y": 2935, "level": 0},
-                    {"x": 2852, "y": 2934, "level": 0},
-                    {"x": 2857, "y": 2919, "level": 0},
-                    {"x": 2841, "y": 2915, "level": 0},
-                    {"x": 2872, "y": 2901, "level": 0},
-                    {"x": 2920, "y": 2888, "level": 0},
-                    {"x": 2892, "y": 2907, "level": 0},
-                    {"x": 2931, "y": 2920, "level": 0},
-                    {"x": 2921, "y": 2937, "level": 0},
-                    {"x": 2892, "y": 2937, "level": 0},
-                    {"x": 2929, "y": 2894, "level": 0},
-                    {"x": 2927, "y": 2925, "level": 0},
-                    {"x": 2936, "y": 2917, "level": 0},
-                    {"x": 2944, "y": 2902, "level": 0},
-                    {"x": 2932, "y": 2935, "level": 0},
-                    {"x": 2942, "y": 2934, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2775, "y": 2891, "level": 0},
+                {"x": 2786, "y": 2914, "level": 0},
+                {"x": 2804, "y": 2924, "level": 0},
+                {"x": 2762, "y": 2918, "level": 0},
+                {"x": 2775, "y": 2936, "level": 0},
+                {"x": 2766, "y": 2932, "level": 0},
+                {"x": 2815, "y": 2887, "level": 0},
+                {"x": 2859, "y": 2891, "level": 0},
+                {"x": 2848, "y": 2907, "level": 0},
+                {"x": 2827, "y": 2934, "level": 0},
+                {"x": 2832, "y": 2935, "level": 0},
+                {"x": 2852, "y": 2934, "level": 0},
+                {"x": 2857, "y": 2919, "level": 0},
+                {"x": 2841, "y": 2915, "level": 0},
+                {"x": 2872, "y": 2901, "level": 0},
+                {"x": 2920, "y": 2888, "level": 0},
+                {"x": 2892, "y": 2907, "level": 0},
+                {"x": 2931, "y": 2920, "level": 0},
+                {"x": 2921, "y": 2937, "level": 0},
+                {"x": 2892, "y": 2937, "level": 0},
+                {"x": 2929, "y": 2894, "level": 0},
+                {"x": 2927, "y": 2925, "level": 0},
+                {"x": 2936, "y": 2917, "level": 0},
+                {"x": 2944, "y": 2902, "level": 0},
+                {"x": 2932, "y": 2935, "level": 0},
+                {"x": 2942, "y": 2934, "level": 0}
+            ],
             "range": 14,
             "scantext": "the Kharazi Jungle"
         },
@@ -5457,33 +5127,30 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the city of Zanaris. Orb scan range: 16 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2414, "y": 4378, "level": 0},
-                    {"x": 2423, "y": 4372, "level": 0},
-                    {"x": 2420, "y": 4381, "level": 0},
-                    {"x": 2389, "y": 4405, "level": 0},
-                    {"x": 2377, "y": 4410, "level": 0},
-                    {"x": 2404, "y": 4406, "level": 0},
-                    {"x": 2372, "y": 4467, "level": 0},
-                    {"x": 2402, "y": 4466, "level": 0},
-                    {"x": 2396, "y": 4457, "level": 0},
-                    {"x": 2410, "y": 4460, "level": 0},
-                    {"x": 2400, "y": 4441, "level": 0},
-                    {"x": 2380, "y": 4421, "level": 0},
-                    {"x": 2406, "y": 4428, "level": 0},
-                    {"x": 2429, "y": 4431, "level": 0},
-                    {"x": 2417, "y": 4444, "level": 0},
-                    {"x": 2417, "y": 4470, "level": 0},
-                    {"x": 2385, "y": 4447, "level": 0},
-                    {"x": 2439, "y": 4460, "level": 0},
-                    {"x": 2441, "y": 4428, "level": 0},
-                    {"x": 2468, "y": 4439, "level": 0},
-                    {"x": 2457, "y": 4443, "level": 0},
-                    {"x": 2453, "y": 4471, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2414, "y": 4378, "level": 0},
+                {"x": 2423, "y": 4372, "level": 0},
+                {"x": 2420, "y": 4381, "level": 0},
+                {"x": 2389, "y": 4405, "level": 0},
+                {"x": 2377, "y": 4410, "level": 0},
+                {"x": 2404, "y": 4406, "level": 0},
+                {"x": 2372, "y": 4467, "level": 0},
+                {"x": 2402, "y": 4466, "level": 0},
+                {"x": 2396, "y": 4457, "level": 0},
+                {"x": 2410, "y": 4460, "level": 0},
+                {"x": 2400, "y": 4441, "level": 0},
+                {"x": 2380, "y": 4421, "level": 0},
+                {"x": 2406, "y": 4428, "level": 0},
+                {"x": 2429, "y": 4431, "level": 0},
+                {"x": 2417, "y": 4444, "level": 0},
+                {"x": 2417, "y": 4470, "level": 0},
+                {"x": 2385, "y": 4447, "level": 0},
+                {"x": 2439, "y": 4460, "level": 0},
+                {"x": 2441, "y": 4428, "level": 0},
+                {"x": 2468, "y": 4439, "level": 0},
+                {"x": 2457, "y": 4443, "level": 0},
+                {"x": 2453, "y": 4471, "level": 0}
+            ],
             "range": 16,
             "scantext": "Zanaris"
         },
@@ -5492,23 +5159,20 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the dark and damp caves below Lumbridge Swamp. Orb scan range: 11 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3172, "y": 9570, "level": 0},
-                    {"x": 3167, "y": 9546, "level": 0},
-                    {"x": 3179, "y": 9559, "level": 0},
-                    {"x": 3191, "y": 9555, "level": 0},
-                    {"x": 3170, "y": 9557, "level": 0},
-                    {"x": 3210, "y": 9557, "level": 0},
-                    {"x": 3233, "y": 9547, "level": 0},
-                    {"x": 3246, "y": 9566, "level": 0},
-                    {"x": 3252, "y": 9577, "level": 0},
-                    {"x": 3227, "y": 9575, "level": 0},
-                    {"x": 3209, "y": 9587, "level": 0},
-                    {"x": 3210, "y": 9571, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3172, "y": 9570, "level": 0},
+                {"x": 3167, "y": 9546, "level": 0},
+                {"x": 3179, "y": 9559, "level": 0},
+                {"x": 3191, "y": 9555, "level": 0},
+                {"x": 3170, "y": 9557, "level": 0},
+                {"x": 3210, "y": 9557, "level": 0},
+                {"x": 3233, "y": 9547, "level": 0},
+                {"x": 3246, "y": 9566, "level": 0},
+                {"x": 3252, "y": 9577, "level": 0},
+                {"x": 3227, "y": 9575, "level": 0},
+                {"x": 3209, "y": 9587, "level": 0},
+                {"x": 3210, "y": 9571, "level": 0}
+            ],
             "range": 11,
             "scantext": "The caves beneath Lumbridge Swamp"
         },
@@ -5517,43 +5181,40 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work on the Fremennik Isles of Jatizso and Neitiznot. Orb scan range: 16 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2354, "y": 3790, "level": 0},
-                    {"x": 2360, "y": 3799, "level": 0},
-                    {"x": 2324, "y": 3808, "level": 0},
-                    {"x": 2322, "y": 3787, "level": 0},
-                    {"x": 2311, "y": 3801, "level": 0},
-                    {"x": 2340, "y": 3803, "level": 0},
-                    {"x": 2342, "y": 3809, "level": 0},
-                    {"x": 2330, "y": 3829, "level": 0},
-                    {"x": 2311, "y": 3835, "level": 0},
-                    {"x": 2376, "y": 3800, "level": 0},
-                    {"x": 2381, "y": 3789, "level": 0},
-                    {"x": 2402, "y": 3789, "level": 0},
-                    {"x": 2421, "y": 3792, "level": 0},
-                    {"x": 2397, "y": 3801, "level": 0},
-                    {"x": 2419, "y": 3833, "level": 0},
-                    {"x": 2395, "y": 3812, "level": 0},
-                    {"x": 2373, "y": 3834, "level": 0},
-                    {"x": 2314, "y": 3851, "level": 0},
-                    {"x": 2326, "y": 3866, "level": 0},
-                    {"x": 2326, "y": 3850, "level": 0},
-                    {"x": 2354, "y": 3853, "level": 0},
-                    {"x": 2349, "y": 3880, "level": 0},
-                    {"x": 2312, "y": 3894, "level": 0},
-                    {"x": 2352, "y": 3892, "level": 0},
-                    {"x": 2414, "y": 3848, "level": 0},
-                    {"x": 2418, "y": 3870, "level": 0},
-                    {"x": 2377, "y": 3850, "level": 0},
-                    {"x": 2400, "y": 3870, "level": 0},
-                    {"x": 2368, "y": 3870, "level": 0},
-                    {"x": 2417, "y": 3893, "level": 0},
-                    {"x": 2399, "y": 3888, "level": 0},
-                    {"x": 2389, "y": 3899, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2354, "y": 3790, "level": 0},
+                {"x": 2360, "y": 3799, "level": 0},
+                {"x": 2324, "y": 3808, "level": 0},
+                {"x": 2322, "y": 3787, "level": 0},
+                {"x": 2311, "y": 3801, "level": 0},
+                {"x": 2340, "y": 3803, "level": 0},
+                {"x": 2342, "y": 3809, "level": 0},
+                {"x": 2330, "y": 3829, "level": 0},
+                {"x": 2311, "y": 3835, "level": 0},
+                {"x": 2376, "y": 3800, "level": 0},
+                {"x": 2381, "y": 3789, "level": 0},
+                {"x": 2402, "y": 3789, "level": 0},
+                {"x": 2421, "y": 3792, "level": 0},
+                {"x": 2397, "y": 3801, "level": 0},
+                {"x": 2419, "y": 3833, "level": 0},
+                {"x": 2395, "y": 3812, "level": 0},
+                {"x": 2373, "y": 3834, "level": 0},
+                {"x": 2314, "y": 3851, "level": 0},
+                {"x": 2326, "y": 3866, "level": 0},
+                {"x": 2326, "y": 3850, "level": 0},
+                {"x": 2354, "y": 3853, "level": 0},
+                {"x": 2349, "y": 3880, "level": 0},
+                {"x": 2312, "y": 3894, "level": 0},
+                {"x": 2352, "y": 3892, "level": 0},
+                {"x": 2414, "y": 3848, "level": 0},
+                {"x": 2418, "y": 3870, "level": 0},
+                {"x": 2377, "y": 3850, "level": 0},
+                {"x": 2400, "y": 3870, "level": 0},
+                {"x": 2368, "y": 3870, "level": 0},
+                {"x": 2417, "y": 3893, "level": 0},
+                {"x": 2399, "y": 3888, "level": 0},
+                {"x": 2389, "y": 3899, "level": 0}
+            ],
             "range": 16,
             "scantext": "Fremennik Isles of Jatizso and Neitiznot"
         },
@@ -5562,29 +5223,26 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work within the walls of Falador. Orb scan range: 22 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2938, "y": 3322, "level": 0},
-                    {"x": 2976, "y": 3316, "level": 0},
-                    {"x": 2947, "y": 3316, "level": 0},
-                    {"x": 3005, "y": 3326, "level": 0},
-                    {"x": 2958, "y": 3379, "level": 0},
-                    {"x": 2972, "y": 3342, "level": 0},
-                    {"x": 2945, "y": 3339, "level": 0},
-                    {"x": 2948, "y": 3390, "level": 0},
-                    {"x": 2942, "y": 3388, "level": 0},
-                    {"x": 2939, "y": 3355, "level": 0},
-                    {"x": 3039, "y": 3331, "level": 0},
-                    {"x": 3050, "y": 3348, "level": 0},
-                    {"x": 3015, "y": 3339, "level": 0},
-                    {"x": 3027, "y": 3365, "level": 0},
-                    {"x": 3025, "y": 3379, "level": 0},
-                    {"x": 3059, "y": 3384, "level": 0},
-                    {"x": 3031, "y": 3379, "level": 0},
-                    {"x": 3011, "y": 3382, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2938, "y": 3322, "level": 0},
+                {"x": 2976, "y": 3316, "level": 0},
+                {"x": 2947, "y": 3316, "level": 0},
+                {"x": 3005, "y": 3326, "level": 0},
+                {"x": 2958, "y": 3379, "level": 0},
+                {"x": 2972, "y": 3342, "level": 0},
+                {"x": 2945, "y": 3339, "level": 0},
+                {"x": 2948, "y": 3390, "level": 0},
+                {"x": 2942, "y": 3388, "level": 0},
+                {"x": 2939, "y": 3355, "level": 0},
+                {"x": 3039, "y": 3331, "level": 0},
+                {"x": 3050, "y": 3348, "level": 0},
+                {"x": 3015, "y": 3339, "level": 0},
+                {"x": 3027, "y": 3365, "level": 0},
+                {"x": 3025, "y": 3379, "level": 0},
+                {"x": 3059, "y": 3384, "level": 0},
+                {"x": 3031, "y": 3379, "level": 0},
+                {"x": 3011, "y": 3382, "level": 0}
+            ],
             "range": 22,
             "scantext": "Falador"
         },
@@ -5593,31 +5251,28 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the cave goblin city of Dorgesh-Kaan. Orb scan range: 16 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2747, "y": 5263, "level": 0},
-                    {"x": 2731, "y": 5266, "level": 0},
-                    {"x": 2740, "y": 5273, "level": 0},
-                    {"x": 2723, "y": 5279, "level": 0},
-                    {"x": 2711, "y": 5271, "level": 0},
-                    {"x": 2729, "y": 5295, "level": 0},
-                    {"x": 2711, "y": 5284, "level": 0},
-                    {"x": 2730, "y": 5315, "level": 0},
-                    {"x": 2717, "y": 5311, "level": 0},
-                    {"x": 2739, "y": 5253, "level": 1},
-                    {"x": 2738, "y": 5301, "level": 1},
-                    {"x": 2700, "y": 5284, "level": 1},
-                    {"x": 2704, "y": 5321, "level": 0},
-                    {"x": 2732, "y": 5327, "level": 0},
-                    {"x": 2704, "y": 5349, "level": 0},
-                    {"x": 2701, "y": 5343, "level": 1},
-                    {"x": 2704, "y": 5357, "level": 1},
-                    {"x": 2734, "y": 5370, "level": 1},
-                    {"x": 2747, "y": 5327, "level": 1},
-                    {"x": 2698, "y": 5316, "level": 1}
-                ]
-            },
+            "spots": [
+                {"x": 2747, "y": 5263, "level": 0},
+                {"x": 2731, "y": 5266, "level": 0},
+                {"x": 2740, "y": 5273, "level": 0},
+                {"x": 2723, "y": 5279, "level": 0},
+                {"x": 2711, "y": 5271, "level": 0},
+                {"x": 2729, "y": 5295, "level": 0},
+                {"x": 2711, "y": 5284, "level": 0},
+                {"x": 2730, "y": 5315, "level": 0},
+                {"x": 2717, "y": 5311, "level": 0},
+                {"x": 2739, "y": 5253, "level": 1},
+                {"x": 2738, "y": 5301, "level": 1},
+                {"x": 2700, "y": 5284, "level": 1},
+                {"x": 2704, "y": 5321, "level": 0},
+                {"x": 2732, "y": 5327, "level": 0},
+                {"x": 2704, "y": 5349, "level": 0},
+                {"x": 2701, "y": 5343, "level": 1},
+                {"x": 2704, "y": 5357, "level": 1},
+                {"x": 2734, "y": 5370, "level": 1},
+                {"x": 2747, "y": 5327, "level": 1},
+                {"x": 2698, "y": 5316, "level": 1}
+            ],
             "range": 16,
             "scantext": "Dorgesh-Kaan"
         },
@@ -5626,30 +5281,27 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the Fremennik Slayer Dungeons. Orb scan range: 16 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2720, "y": 9969, "level": 0},
-                    {"x": 2741, "y": 9977, "level": 0},
-                    {"x": 2701, "y": 9978, "level": 0},
-                    {"x": 2724, "y": 9977, "level": 0},
-                    {"x": 2714, "y": 9990, "level": 0},
-                    {"x": 2731, "y": 9998, "level": 0},
-                    {"x": 2718, "y": 10000, "level": 0},
-                    {"x": 2722, "y": 10025, "level": 0},
-                    {"x": 2705, "y": 10027, "level": 0},
-                    {"x": 2745, "y": 10024, "level": 0},
-                    {"x": 2743, "y": 9986, "level": 0},
-                    {"x": 2751, "y": 9995, "level": 0},
-                    {"x": 2754, "y": 10009, "level": 0},
-                    {"x": 2804, "y": 10004, "level": 0},
-                    {"x": 2808, "y": 10018, "level": 0},
-                    {"x": 2789, "y": 10042, "level": 0},
-                    {"x": 2772, "y": 10030, "level": 0},
-                    {"x": 2757, "y": 10029, "level": 0},
-                    {"x": 2767, "y": 10002, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2720, "y": 9969, "level": 0},
+                {"x": 2741, "y": 9977, "level": 0},
+                {"x": 2701, "y": 9978, "level": 0},
+                {"x": 2724, "y": 9977, "level": 0},
+                {"x": 2714, "y": 9990, "level": 0},
+                {"x": 2731, "y": 9998, "level": 0},
+                {"x": 2718, "y": 10000, "level": 0},
+                {"x": 2722, "y": 10025, "level": 0},
+                {"x": 2705, "y": 10027, "level": 0},
+                {"x": 2745, "y": 10024, "level": 0},
+                {"x": 2743, "y": 9986, "level": 0},
+                {"x": 2751, "y": 9995, "level": 0},
+                {"x": 2754, "y": 10009, "level": 0},
+                {"x": 2804, "y": 10004, "level": 0},
+                {"x": 2808, "y": 10018, "level": 0},
+                {"x": 2789, "y": 10042, "level": 0},
+                {"x": 2772, "y": 10030, "level": 0},
+                {"x": 2757, "y": 10029, "level": 0},
+                {"x": 2767, "y": 10002, "level": 0}
+            ],
             "range": 16,
             "scantext": "Fremennik Slayer Dungeons"
         },
@@ -5658,30 +5310,27 @@ namespace clue_data {
             "type": "scan",
             "tier": "elite",
             "text": ["This scroll will work in the crater of the Wilderness volcano. Orb scan range: 11 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3112, "y": 3678, "level": 0},
-                    {"x": 3124, "y": 3698, "level": 0},
-                    {"x": 3130, "y": 3672, "level": 0},
-                    {"x": 3120, "y": 3665, "level": 0},
-                    {"x": 3104, "y": 3704, "level": 0},
-                    {"x": 3087, "y": 3712, "level": 0},
-                    {"x": 3133, "y": 3717, "level": 0},
-                    {"x": 3118, "y": 3724, "level": 0},
-                    {"x": 3110, "y": 3735, "level": 0},
-                    {"x": 3096, "y": 3738, "level": 0},
-                    {"x": 3134, "y": 3741, "level": 0},
-                    {"x": 3169, "y": 3745, "level": 0},
-                    {"x": 3180, "y": 3713, "level": 0},
-                    {"x": 3163, "y": 3724, "level": 0},
-                    {"x": 3146, "y": 3738, "level": 0},
-                    {"x": 3174, "y": 3705, "level": 0},
-                    {"x": 3152, "y": 3698, "level": 0},
-                    {"x": 3145, "y": 3681, "level": 0},
-                    {"x": 3146, "y": 3698, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3112, "y": 3678, "level": 0},
+                {"x": 3124, "y": 3698, "level": 0},
+                {"x": 3130, "y": 3672, "level": 0},
+                {"x": 3120, "y": 3665, "level": 0},
+                {"x": 3104, "y": 3704, "level": 0},
+                {"x": 3087, "y": 3712, "level": 0},
+                {"x": 3133, "y": 3717, "level": 0},
+                {"x": 3118, "y": 3724, "level": 0},
+                {"x": 3110, "y": 3735, "level": 0},
+                {"x": 3096, "y": 3738, "level": 0},
+                {"x": 3134, "y": 3741, "level": 0},
+                {"x": 3169, "y": 3745, "level": 0},
+                {"x": 3180, "y": 3713, "level": 0},
+                {"x": 3163, "y": 3724, "level": 0},
+                {"x": 3146, "y": 3738, "level": 0},
+                {"x": 3174, "y": 3705, "level": 0},
+                {"x": 3152, "y": 3698, "level": 0},
+                {"x": 3145, "y": 3681, "level": 0},
+                {"x": 3146, "y": 3698, "level": 0}
+            ],
             "range": 11,
             "scantext": "The crater of the Wilderness volcano"
         },
@@ -5690,29 +5339,26 @@ namespace clue_data {
             "type": "scan",
             "tier": "master",
             "text": ["This scroll will work in the elven city of Prifddinas. Orb scan range: 30 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2175, "y": 3291, "level": 1},
-                    {"x": 2133, "y": 3379, "level": 1},
-                    {"x": 2145, "y": 3381, "level": 1},
-                    {"x": 2148, "y": 3351, "level": 1},
-                    {"x": 2174, "y": 3398, "level": 1},
-                    {"x": 2180, "y": 3322, "level": 1},
-                    {"x": 2199, "y": 3268, "level": 1},
-                    {"x": 2212, "y": 3272, "level": 1},
-                    {"x": 2227, "y": 3295, "level": 1},
-                    {"x": 2224, "y": 3328, "level": 1},
-                    {"x": 2197, "y": 3433, "level": 1},
-                    {"x": 2222, "y": 3429, "level": 1},
-                    {"x": 2228, "y": 3424, "level": 1},
-                    {"x": 2247, "y": 3267, "level": 1},
-                    {"x": 2234, "y": 3265, "level": 1},
-                    {"x": 2275, "y": 3382, "level": 1},
-                    {"x": 2292, "y": 3361, "level": 1},
-                    {"x": 2268, "y": 3397, "level": 1}
-                ]
-            },
+            "spots": [
+                {"x": 2175, "y": 3291, "level": 1},
+                {"x": 2133, "y": 3379, "level": 1},
+                {"x": 2145, "y": 3381, "level": 1},
+                {"x": 2148, "y": 3351, "level": 1},
+                {"x": 2174, "y": 3398, "level": 1},
+                {"x": 2180, "y": 3322, "level": 1},
+                {"x": 2199, "y": 3268, "level": 1},
+                {"x": 2212, "y": 3272, "level": 1},
+                {"x": 2227, "y": 3295, "level": 1},
+                {"x": 2224, "y": 3328, "level": 1},
+                {"x": 2197, "y": 3433, "level": 1},
+                {"x": 2222, "y": 3429, "level": 1},
+                {"x": 2228, "y": 3424, "level": 1},
+                {"x": 2247, "y": 3267, "level": 1},
+                {"x": 2234, "y": 3265, "level": 1},
+                {"x": 2275, "y": 3382, "level": 1},
+                {"x": 2292, "y": 3361, "level": 1},
+                {"x": 2268, "y": 3397, "level": 1}
+            ],
             "range": 30,
             "scantext": "Prifddinas"
         },
@@ -5721,28 +5367,25 @@ namespace clue_data {
             "type": "scan",
             "tier": "master",
             "text": ["This scroll will work in the vampyre city of Darkmeyer. Orb scan range: 16 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3599, "y": 3328, "level": 0},
-                    {"x": 3590, "y": 3344, "level": 0},
-                    {"x": 3588, "y": 3361, "level": 0},
-                    {"x": 3596, "y": 3375, "level": 0},
-                    {"x": 3631, "y": 3358, "level": 0},
-                    {"x": 3611, "y": 3328, "level": 0},
-                    {"x": 3606, "y": 3391, "level": 0},
-                    {"x": 3639, "y": 3390, "level": 0},
-                    {"x": 3651, "y": 3405, "level": 0},
-                    {"x": 3670, "y": 3373, "level": 0},
-                    {"x": 3632, "y": 3344, "level": 0},
-                    {"x": 3654, "y": 3335, "level": 0},
-                    {"x": 3666, "y": 3344, "level": 0},
-                    {"x": 3654, "y": 3357, "level": 0},
-                    {"x": 3671, "y": 3366, "level": 0},
-                    {"x": 3661, "y": 3374, "level": 0},
-                    {"x": 3676, "y": 3392, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 3599, "y": 3328, "level": 0},
+                {"x": 3590, "y": 3344, "level": 0},
+                {"x": 3588, "y": 3361, "level": 0},
+                {"x": 3596, "y": 3375, "level": 0},
+                {"x": 3631, "y": 3358, "level": 0},
+                {"x": 3611, "y": 3328, "level": 0},
+                {"x": 3606, "y": 3391, "level": 0},
+                {"x": 3639, "y": 3390, "level": 0},
+                {"x": 3651, "y": 3405, "level": 0},
+                {"x": 3670, "y": 3373, "level": 0},
+                {"x": 3632, "y": 3344, "level": 0},
+                {"x": 3654, "y": 3335, "level": 0},
+                {"x": 3666, "y": 3344, "level": 0},
+                {"x": 3654, "y": 3357, "level": 0},
+                {"x": 3671, "y": 3366, "level": 0},
+                {"x": 3661, "y": 3374, "level": 0},
+                {"x": 3676, "y": 3392, "level": 0}
+            ],
             "range": 16,
             "scantext": "Darkmeyer"
         },
@@ -5751,30 +5394,27 @@ namespace clue_data {
             "type": "scan",
             "tier": "master",
             "text": ["This scroll will work on The Islands That Once Were Turtles. Orb scan range: 27 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 2103, "y": 11425, "level": 0},
-                    {"x": 2092, "y": 11427, "level": 0},
-                    {"x": 2100, "y": 11432, "level": 0},
-                    {"x": 2101, "y": 11440, "level": 0},
-                    {"x": 2099, "y": 11448, "level": 0},
-                    {"x": 2286, "y": 11452, "level": 0},
-                    {"x": 2285, "y": 11440, "level": 0},
-                    {"x": 2266, "y": 11455, "level": 0},
-                    {"x": 2221, "y": 11497, "level": 0},
-                    {"x": 2198, "y": 11481, "level": 0},
-                    {"x": 2183, "y": 11500, "level": 0},
-                    {"x": 2194, "y": 11500, "level": 0},
-                    {"x": 2200, "y": 11501, "level": 0},
-                    {"x": 2251, "y": 11428, "level": 0},
-                    {"x": 2267, "y": 11441, "level": 0},
-                    {"x": 2275, "y": 11453, "level": 0},
-                    {"x": 2283, "y": 11499, "level": 0},
-                    {"x": 2272, "y": 11428, "level": 0},
-                    {"x": 2286, "y": 11473, "level": 0}
-                ]
-            },
+            "spots": [
+                {"x": 2103, "y": 11425, "level": 0},
+                {"x": 2092, "y": 11427, "level": 0},
+                {"x": 2100, "y": 11432, "level": 0},
+                {"x": 2101, "y": 11440, "level": 0},
+                {"x": 2099, "y": 11448, "level": 0},
+                {"x": 2286, "y": 11452, "level": 0},
+                {"x": 2285, "y": 11440, "level": 0},
+                {"x": 2266, "y": 11455, "level": 0},
+                {"x": 2221, "y": 11497, "level": 0},
+                {"x": 2198, "y": 11481, "level": 0},
+                {"x": 2183, "y": 11500, "level": 0},
+                {"x": 2194, "y": 11500, "level": 0},
+                {"x": 2200, "y": 11501, "level": 0},
+                {"x": 2251, "y": 11428, "level": 0},
+                {"x": 2267, "y": 11441, "level": 0},
+                {"x": 2275, "y": 11453, "level": 0},
+                {"x": 2283, "y": 11499, "level": 0},
+                {"x": 2272, "y": 11428, "level": 0},
+                {"x": 2286, "y": 11473, "level": 0}
+            ],
             "range": 27,
             "scantext": "Islands That Once Were Turtles"
         },
@@ -5783,37 +5423,34 @@ namespace clue_data {
             "type": "scan",
             "tier": "master",
             "text": ["This scroll will work in the the Heart of Gielinor. Orb scan range: 49 paces."],
-            "solution": {
-                "type": "coordset",
-                "candidates": [
-                    {"x": 3119, "y": 6905, "level": 1},
-                    {"x": 3124, "y": 6905, "level": 1},
-                    {"x": 3148, "y": 6913, "level": 1},
-                    {"x": 3131, "y": 6921, "level": 1},
-                    {"x": 3131, "y": 6932, "level": 1},
-                    {"x": 3156, "y": 6925, "level": 1},
-                    {"x": 3166, "y": 6910, "level": 1},
-                    {"x": 3165, "y": 6932, "level": 1},
-                    {"x": 3236, "y": 6924, "level": 1},
-                    {"x": 3257, "y": 6927, "level": 1},
-                    {"x": 3258, "y": 6913, "level": 1},
-                    {"x": 3248, "y": 6903, "level": 1},
-                    {"x": 3227, "y": 6982, "level": 1},
-                    {"x": 3217, "y": 7004, "level": 1},
-                    {"x": 3219, "y": 7023, "level": 1},
-                    {"x": 3180, "y": 6985, "level": 1},
-                    {"x": 3129, "y": 6998, "level": 1},
-                    {"x": 3141, "y": 7018, "level": 1},
-                    {"x": 3183, "y": 7015, "level": 1},
-                    {"x": 3194, "y": 7029, "level": 1},
-                    {"x": 3210, "y": 7028, "level": 1},
-                    {"x": 3229, "y": 6980, "level": 1},
-                    {"x": 3241, "y": 7039, "level": 1},
-                    {"x": 3147, "y": 7046, "level": 1},
-                    {"x": 3156, "y": 7040, "level": 1},
-                    {"x": 3274, "y": 7045, "level": 1}
-                ]
-            },
+            "spots": [
+                {"x": 3119, "y": 6905, "level": 1},
+                {"x": 3124, "y": 6905, "level": 1},
+                {"x": 3148, "y": 6913, "level": 1},
+                {"x": 3131, "y": 6921, "level": 1},
+                {"x": 3131, "y": 6932, "level": 1},
+                {"x": 3156, "y": 6925, "level": 1},
+                {"x": 3166, "y": 6910, "level": 1},
+                {"x": 3165, "y": 6932, "level": 1},
+                {"x": 3236, "y": 6924, "level": 1},
+                {"x": 3257, "y": 6927, "level": 1},
+                {"x": 3258, "y": 6913, "level": 1},
+                {"x": 3248, "y": 6903, "level": 1},
+                {"x": 3227, "y": 6982, "level": 1},
+                {"x": 3217, "y": 7004, "level": 1},
+                {"x": 3219, "y": 7023, "level": 1},
+                {"x": 3180, "y": 6985, "level": 1},
+                {"x": 3129, "y": 6998, "level": 1},
+                {"x": 3141, "y": 7018, "level": 1},
+                {"x": 3183, "y": 7015, "level": 1},
+                {"x": 3194, "y": 7029, "level": 1},
+                {"x": 3210, "y": 7028, "level": 1},
+                {"x": 3229, "y": 6980, "level": 1},
+                {"x": 3241, "y": 7039, "level": 1},
+                {"x": 3147, "y": 7046, "level": 1},
+                {"x": 3156, "y": 7040, "level": 1},
+                {"x": 3274, "y": 7045, "level": 1}
+            ],
             "range": 49,
             "scantext": "Heart of Gielinor"
         }

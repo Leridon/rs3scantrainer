@@ -1271,7 +1271,7 @@ export namespace teleport_data {
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "emptythroneroom", spot: {x: 3375, y: 3402, level: 0}, code: "4", name: "The empty throne room",
+                    id: "emptythroneroom", spot: {"x": 2825, "y": 12627, "level": 2}, code: "4", name: "The empty throne room",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },

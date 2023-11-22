@@ -47,7 +47,7 @@ export class CluePanel extends SidePanel {
             .append(c(`<img class="icon" src='${Constants.icons.types[clue.type]}' title="${ClueType.pretty(clue.type)}">`))
 
 
-        this.append(c("<span></span>").text(clue.text))
+        this.append(c("<span></span>").text(clue.text[0]))
     }
 }
 

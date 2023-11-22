@@ -62,6 +62,8 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
             position: "top-left"
         }, new ControlWithHeader("Clue Filter"))
 
+        // TODO: Also filter for challenge types
+
         this.filter.set(FilterT.normalize(this.stored_filter.get()))
 
         this.filter.subscribe(f => {this.stored_filter.set(f)})
@@ -114,9 +116,9 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                             case "talkto":
 
                                 // TODO: Render area as well, as well as variants
-                                if (!clue.solution.spots) return []
+                                if (!clue.solution.spots || !clue.solution.spots[0].range) return []
 
-                                return [TileRectangle.center(clue.solution.spots[0])]
+                                return [TileRectangle.center(clue.solution.spots[0].range)]
                             case "dig":
                             case "search":
                                 return [clue.solution.spot]
@@ -174,6 +176,15 @@ class UtilityLayer extends GameLayer {
                     }),
                     new ActionBar.ActionBarButton("assets/icons/cursor_use.png", () => {
                         this.startSelectArea()
+                    }), ,
+                    new ActionBar.ActionBarButton("assets/icons/cursor_talk.png", () => {
+
+                        this.guard.set(new DrawRegionAction(""))
+                            .onCommit((a) => {
+                                this.setLayer(boxPolygon(a.area))
+
+                                this.setValue({range: a.area})
+                            })
                     }),
                 ]),
                 hbox(

@@ -1,4 +1,5 @@
 import {Clues, type ClueType} from "lib/runescape/clues";
+import {TileCoordinates, TileRectangle} from "../lib/runescape/coordinates";
 
 namespace clue_data {
     export const anagram: Clues.Anagram[] = [
@@ -117,7 +118,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "spots": [{"range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}}],
-                "npc": "Brimstail (He lives under ground at the marked location)"
+                "npc": "Brimstail"
             }
         },
         {
@@ -465,8 +466,12 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": {"x": 2500, "y": 3863, "level": 0},
-                "npc": "Queen Sigrid (Found in the other castle before blood runs deep)"
+                "spots": [
+                    {"range": {"topleft": {"x": 2499, "y": 3864}, "botright": {"x": 2502, "y": 3861}, "level": 1}, "note": "After 'Blood Runs Deep'"},
+                    {"range": {"topleft": {"x": 2612, "y": 3879}, "botright": {"x": 2617, "y": 3871}, "level": 1}, "note": "Before 'Blood Runs Deep'"}
+
+                ],
+                "npc": "Queen Sigrid"
             }
         },
         {
@@ -577,7 +582,10 @@ namespace clue_data {
             "challenge": [{"type": "lockbox"}],
             "solution": {
                 "type": "talkto",
-                "spots": {"x": 3003, "y": 3270, "level": 0},
+                "spots": [
+                    {"range": {"topleft": {"x": 2997, "y": 3273}, "botright": {"x": 3004, "y": 3263}, "level": 0}, "note": "By Armadyl's tower."},
+                    {"range": {"topleft": {"x": 1034, "y": 1764}, "botright": {"x": 1036, "y": 1762}, "level": 1}, "note": "City of Um Ritual site"}
+                ],
                 "npc": "Malignus mortifer"
             }
         },
@@ -599,89 +607,18 @@ namespace clue_data {
             "tier": "master",
             "text": ["This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE"],
             "solution": {
-                "type": "variants",
-                "variants": [
-                    {
-                        "id": "pre",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 2569, "y": 3272, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "Pre-quest"
-                    },
-                    {
-                        "id": "50",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 2518, "y": 3353, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "50qp"
-                    },
-                    {
-                        "id": "100",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 2755, "y": 3647, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "100qp"
-                    },
-                    {
-                        "id": "150",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 2860, "y": 2996, "level": 0},
-                            "npc": "Philippe Carnillean, top floor of building"
-                        },
-                        "name": "150qp"
-                    },
-                    {
-                        "id": "200",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 3673, "y": 3496, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "200qp"
-                    },
-                    {
-                        "id": "250",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 4641, "y": 5387, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "250qp"
-                    },
-                    {
-                        "id": "300",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 2704, "y": 5364, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "300qp"
-                    },
-                    {
-                        "id": "350",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 2340, "y": 3675, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "350qp"
-                    },
-                    {
-                        "id": "400",
-                        "solution": {
-                            "type": "talkto",
-                            "spots": {"x": 4614, "y": 5125, "level": 0},
-                            "npc": "Philippe Carnillean"
-                        },
-                        "name": "400qp"
-                    }
+                "type": "talkto",
+                "npc": "Philippe Carnillean",
+                "spots": [
+                    {"range": {"topleft": {"x": 2564, "y": 3274}, "botright": {"x": 2575, "y": 3267}, "level": 0}, "note": "Before Carnillean Rising"},
+                    {"range": {"topleft": {"x": 2514, "y": 3357}, "botright": {"x": 2521, "y": 3354}, "level": 0}, "note": "50 qp."},
+                    {"range": {"topleft": {"x": 2752, "y": 3656}, "botright": {"x": 2759, "y": 3649}, "level": 0}, "note": "100 qp."},
+                    {"range": {"topleft": {"x": 2857, "y": 3001}, "botright": {"x": 2865, "y": 2993}, "level": 1}, "note": "150 qp."},
+                    {"range": {"topleft": {"x": 3671, "y": 3499}, "botright": {"x": 3681, "y": 3489}, "level": 0}, "note": "200 qp."},
+                    {"range": {"topleft": {"x": 4643, "y": 5391}, "botright": {"x": 4650, "y": 5384}, "level": 0}, "note": "250 qp."},
+                    {"range": {"topleft": {"x": 2709, "y": 5362}, "botright": {"x": 2714, "y": 5357}, "level": 0}, "note": "300 qp."},
+                    {"range": {"topleft": {"x": 2338, "y": 3678}, "botright": {"x": 2346, "y": 3673}, "level": 0}, "note": "350 qp."},
+                    {"range": {"topleft": {"x": 4610, "y": 5130}, "botright": {"x": 4617, "y": 5123}, "level": 0}, "note": "400 qp."}
                 ]
             }
         },
@@ -747,7 +684,9 @@ namespace clue_data {
             "text": ["This anagram reveals who to speak to next: His job leaves him kind of HATED"],
             "solution": {
                 "type": "talkto",
-                "spots": {"x": 3108, "y": 3311, "level": 0},
+                "spots": [
+                    {"range": {"topleft": {"x": 414, "y": 674}, "botright": {"x": 414, "y": 674}, "level": 0}, "note": "Death's Office"},
+                ],
                 "npc": "Death"
             }
         }
@@ -2684,9 +2623,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["In a village made of bamboo, look for some crates under one of the houses."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2800, "y": 3076, "level": 0},
-                "answer": "Search the crates."
+                "type": "search",
+                "spot": {"x": 2800, "y": 3074, "level": 0},
             }
         },
         {
@@ -2695,9 +2633,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["The owner of this crate has a hunch that he put more than fish inside."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2773, "y": 3172, "level": 0},
-                "answer": "Search the crate."
+                "type": "search",
+                "spot": {"x": 2770, "y": 3172, "level": 0},
             }
         },
         {
@@ -2717,9 +2654,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Try not to step on any aquatic nasties while searching this crate."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2765, "y": 3274, "level": 0},
-                "answer": "Search the crate. (Talk to Holgart or Jeb in Witchaven to get to the Fishing Platform.)"
+                "type": "search",
+                "spot": {"x": 2764, "y": 3273, "level": 0},
             }
         },
         {
@@ -2728,9 +2664,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["After a hard day of spraying back the vegetation, you mite want to pop to the nearby forge and search the crates."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2399, "y": 4470, "level": 0},
-                "answer": "Search the crates"
+                "type": "search",
+                "spot": {"x": 2399, "y": 4471, "level": 0},
             }
         },
         {
@@ -2739,9 +2674,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["For any aspiring mage, I'm sure searching this bookcase will be a rewarding experience."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3362, "y": 3305, "level": 0},
-                "answer": "Search the bookcases on the top floor."
+                "type": "search",
+                "spot": {"x": 3366, "y": 3319, "level": 1},
             }
         },
         {
@@ -2750,9 +2684,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["A town with a different sort of night-life is your destination. Search for some crates in one of the houses."],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 3498, "y": 3507, "level": 0},
-                "answer": "Search the crates."
             }
         },
         {
@@ -2761,9 +2694,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Hay! Stop for a bit and admire the scenery, just like the tourism promoter says."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2525, "y": 3437, "level": 0},
-                "answer": "Search the hay bales."
+                "type": "search",
+                "spot": {"x": 2524, "y": 3438, "level": 0},
             }
         },
         {
@@ -2772,9 +2704,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["North of the best monkey restaurant on Karamja, look for the centre of the triangle of boats and search there."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2906, "y": 3188, "level": 0},
-                "answer": "Search the crate."
+                "type": "search",
+                "spot": {"x": 2905, "y": 3189, "level": 0},
             }
         },
         {
@@ -2805,9 +2736,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Being this far north has meant that these crates have escaped being battled over."],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 2519, "y": 3259, "level": 0},
-                "answer": "Search the crates."
+                "entitiy": "Crates"
             }
         },
         {
@@ -2816,9 +2747,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["After trawling for bars, go to the nearest place to smith them and dig by the door."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2656, "y": 3159, "level": 0},
-                "answer": "Dig in front of the door."
+                "type": "dig",
+                "spot": {"x": 2656, "y": 3160, "level": 0},
             }
         },
         {
@@ -2827,9 +2757,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Sophind yourself some treasure by searching these boxes."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3279, "y": 2786, "level": 0},
-                "answer": "Search the boxes"
+                "type": "search",
+                "spot": {"x": 3280, "y": 2787, "level": 0},
+                "entity": "Crate"
             }
         },
         {
@@ -2838,9 +2768,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Dig here if you are not feeling too well after travelling through the desert. Ali heartily recommends it."],
             "solution": {
-                "type": "simple",
+                "type": "dig",
                 "spot": {"x": 3358, "y": 2971, "level": 0},
-                "answer": "Dig next to the well."
             }
         },
         {
@@ -2849,9 +2778,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["You'll need to have Doug Deep into the distant past to get to these sacks"],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3356, "y": 3434, "level": 0},
-                "answer": "Go down the winch and search the north-western sacks."
+                "type": "search",
+                "spot": {"x": 3155, "y": 5727, "level": 0},
+                "entity": "Sacks"
             }
         },
         {
@@ -2860,9 +2789,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["This crate holds a better reward than a broken arrow."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2671, "y": 3438, "level": 0},
-                "answer": "Search the crates."
+                "type": "search",
+                "spot": {"x": 2671, "y": 3437, "level": 0},
+                "entity": "Crate"
             }
         },
         {
@@ -2871,9 +2800,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["The rock cakes to the south are definitely more edible than the two rocks I buried the treasure between."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2514, "y": 3040, "level": 0},
-                "answer": "Dig between the rocks."
+                "type": "dig",
+                "spot": {"x": 2513, "y": 3041, "level": 0},
             }
         },
         {
@@ -2882,9 +2810,10 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Search the upstairs drawers of a house in a village where pirates are known to have a good time."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2809, "y": 3165, "level": 0},
-                "answer": "Kill a pirate to get a key, then search the drawers upstairs."
+                "type": "search",
+                "spot": {"x": 2809, "y": 3165, "level": 1},
+                "entity": "Drawers",
+                "key": {"instructions": "Shiver me timbers!", "answer": "Kill a pirate in Brimhaven", "area": {"topleft": {"x": 2766, "y": 3201}, "botright": {"x": 2810, "y": 3167}, "level": 0}},
             }
         },
         {
@@ -2893,9 +2822,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Don't skip here, it's too muddy. You'll feel like a star if you dig here, though."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2999, "y": 3110, "level": 0},
-                "answer": "Dig on top of the starfish on the south-eastern end of Mudskipper point."
+                "type": "dig",
+                "spot": {"x": 3000, "y": 3110, "level": 0},
             }
         },
         {
@@ -2904,9 +2832,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["This crate is mine, all mine, even if it is in the middle of the desert."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3288, "y": 3022, "level": 0},
-                "answer": "Search the crate by the cart."
+                "type": "search",
+                "entity": "Crate",
+                "spot": {"x": 3289, "y": 3022, "level": 0},
             }
         },
         {
@@ -2915,9 +2843,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["The treasure is buried in a small building full of bones. Here's a Hint: It's not near a graveyard."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3356, "y": 3508, "level": 0},
-                "answer": "Dig inside the little building."
+                "type": "dig",
+                "spot": {"x": 3356, "y": 3507, "level": 0},
             }
         },
         {
@@ -2926,9 +2853,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["By the town of the dead, walk south down a rickety bridge, then dig near the spotted fungus."],
             "solution": {
-                "type": "simple",
+                "type": "dig",
                 "spot": {"x": 3644, "y": 3494, "level": 0},
-                "answer": "Dig by the mushroom south of the bridge."
             }
         },
         {
@@ -2937,9 +2863,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["This cupboard has treasure, pirate pots and corsair cutlery!"],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2812, "y": 3161, "level": 0},
-                "answer": "Search the cupboard."
+                "type": "search",
+                "entity": "Cupboard",
+                "spot": {"x": 2811, "y": 3160, "level": 0},
             }
         },
         {
@@ -2948,9 +2874,10 @@ namespace clue_data {
             "tier": "medium",
             "text": ["The dead, red dragon watches over this chest. He must really dig the view."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3355, "y": 3349, "level": 0},
-                "answer": "Kill a barbarian in Barbarian Village to get a key, then search the chest under the red dragon head."
+                "type": "search",
+                "spot": {"x": 3354, "y": 3349, "level": 0},
+                "entity": "Closed chest",
+                "key": {"instructions": "The chest is locked!  Crude graffiti on the chest reads: 'Barbarians rule, okay!'", "answer": "Kill a Barbarian in Barbarian Village.", "area": {"topleft": {"x": 3073, "y": 3434}, "botright": {"x": 3094, "y": 3412}, "level": 0}}
             }
         },
         {
@@ -2959,9 +2886,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["This crate clearly marks the end of the line for coal."],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 2691, "y": 3508, "level": 0},
-                "answer": "Search the large crate."
+                "entity": "Crate"
             }
         },
         {
@@ -2981,9 +2908,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Find a crate close to the monks that like to paaarty!"],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2616, "y": 3206, "level": 0},
-                "answer": "Search the crates."
+                "type": "search",
+                "spot": {"x": 2614, "y": 3204, "level": 0},
+                "entity": "Crate"
             }
         },
         {
@@ -3003,9 +2930,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["This temple is rather sluggish. The chest just inside the entrance, however, is filled with goodies."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2697, "y": 3283, "level": 0},
-                "answer": "Search the chests at the start of the dungeon."
+                "type": "search",
+                "spot": {"x": 2698, "y": 9684, "level": 0},
+                "entity": "Chest"
             }
         },
         {
@@ -3014,9 +2941,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["The gnomes' nearby cart must have collapsed under the weight of all the treasure in these boxes!"],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2399, "y": 3354, "level": 0},
-                "answer": "Search the boxes."
+                "type": "search",
+                "spot": {"x": 2397, "y": 3355, "level": 0},
+                "entity": "Gnome crates"
             }
         },
         {
@@ -3025,9 +2952,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Brush off the sand and dig in the quarry. There is a wheely handy barrow to the east. Don't worry, it's coal to dig there - in fact, it's all oclay."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3177, "y": 2916, "level": 0},
-                "answer": "Dig one square west of the north-eastern wheel barrow"
+                "type": "dig",
+                "spot": {"x": 3176, "y": 2916, "level": 0},
             }
         },
         {
@@ -3036,9 +2962,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Observe: In the crate just North of the stairs leading down, you will find the answer."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2439, "y": 3163, "level": 0},
-                "answer": "Search the crates, you need to go through the tunnels underground the get here."
+                "type": "search",
+                "spot": {"x": 2438, "y": 3165, "level": 0},
+                "entity": "Crate"
             }
         },
         {
@@ -3047,9 +2973,10 @@ namespace clue_data {
             "tier": "medium",
             "text": ["In a town where thieves steal from stalls, search for some drawers in the upstairs of a house near the bank."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2614, "y": 3325, "level": 0},
-                "answer": "Kill a ardougne guard to get a key, then search the drawers on the first floor."
+                "type": "search",
+                "spot": {"x": 2610, "y": 3324, "level": 1},
+                "entity": "Drawers",
+                "key": {"instructions": "It's a guard's life", "answer": "Kill an ardougne guard."}
             }
         },
         {
@@ -3058,9 +2985,8 @@ namespace clue_data {
             "tier": "medium",
             "text": ["While a sea view is nice, it seems this church has not seen visitors in a while. Dig outside the rim of the round window for a reward."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2991, "y": 3177, "level": 0},
-                "answer": "Dig on the west side of the church."
+                "type": "dig",
+                "spot": {"x": 2992, "y": 3178, "level": 0},
             }
         },
         {
@@ -3081,8 +3007,8 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "General Bentnoze",
-                "spots": [
-                    {
+                "spots": [{
+                    "range": {
                         "level": 0,
                         "topleft": {
                             "x": 2954, "y": 3515
@@ -3091,13 +3017,9 @@ namespace clue_data {
                             "x": 2960, "y": 3512
                         }
                     }
-                ]
+                }]
             },
-            "challenge": [
-                {
-                    "type": "slider"
-                }
-            ]
+            "challenge": [{"type": "slider"}]
         },
         {
             "id": 32,
@@ -3114,10 +3036,14 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["There is no 'worthier' lord."],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2186, "y": 3284, "level": 1},
-                "answer": "Speak to Lord Iorwerth. (Located in the Elf Camp before Plague's end.)"
+                "type": "talkto",
+                "spots": [
+                    {"range": {"topleft": {"x": 2185, "y": 3285}, "botright": {"x": 2187, "y": 3283}, "level": 1}, "note": "After 'Plague's End'"},
+                    {"range": {"topleft": {"x": 2198, "y": 3258}, "botright": {"x": 2209, "y": 3247}, "level": 0}, "note": "Before 'Plague's End'"}
+                ],
+                "npc": "Lord Iorwerth"
             }
         },
         {
@@ -3126,9 +3052,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["I am head of the abbey with a cold breeze from the west."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3057, "y": 3491, "level": 0},
-                "answer": "Talk to Abbot Langley."
+                "type": "talkto",
+                "spot": {"range": {"topleft": {"x": 3055, "y": 3487}, "botright": {"x": 3059, "y": 3482}, "level": 0}},
+                "npc": "Abbot Langley"
             }
         },
         {
@@ -3137,9 +3063,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["My name's a tirade, fishing is my trade, by the docks is where my fortune is made."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3014, "y": 3227, "level": 0},
-                "answer": "talk to Gerrant."
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 3011, "y": 3229}, "botright": {"x": 3017, "y": 3223}, "level": 0}}],
+                "npc": "Gerrant"
             }
         },
         {
@@ -3147,10 +3073,11 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["Often sought out by scholars of histories past, find me where words of wisdom speak volumes."],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3358, "y": 3345, "level": 0},
-                "answer": "Speak to an examiner."
+                "type": "talkto",
+                "npc": "Examiner",
+                "spots": [{"range": {"topleft": {"x": 3351, "y": 3349}, "botright": {"x": 3359, "y": 3342}, "level": 0}}],
             }
         },
         {
@@ -3159,9 +3086,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["A great view: watch the rapidly drying hides get splashed. Check the box you are sitting on."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2521, "y": 3496, "level": 1},
-                "answer": "Search the boxes upstairs."
+                "type": "search",
+                "spot":{"x":2523,"y":3493,"level":1},
+                "entity": "Boxes"
             }
         },
         {
@@ -3170,9 +3097,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["You will need to wash the old ash off of your spade when you dig here, but the only water nearby is stagnant."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2133, "y": 5162, "level": 0},
-                "answer": "Dig by the little pond on top of mountain."
+                "type": "dig",
+                "spot": {"x":2134,"y":5162,"level":0},
             }
         },
         {
@@ -3180,10 +3106,11 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["Identify the back of this over-acting brother. (He's a long way from home.)"],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3134, "y": 2802, "level": 0},
-                "answer": "Talk to Hamid."
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":3131,"y":2804},"botright":{"x":3135,"y":2800},"level":0}}],
+                "npc": "Hamid"
             }
         },
         {
@@ -3192,9 +3119,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["As you desert this town, keep an eye out for a set of spines that could ruin nearby rugs: dig carefully around the greenery."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3396, "y": 2916, "level": 0},
-                "answer": "Dig by the two cacti."
+                "type": "dig",
+                "spot": {"x":3396,"y":2918,"level":0},
             }
         },
         {
@@ -3202,10 +3128,11 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["'Small Shoe.' Often found with rod on mushroom."],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2474, "y": 3428, "level": 0},
-                "answer": "Talk to any gnome trainer."
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":2467,"y":3440},"botright":{"x":2477,"y":3426},"level":0}}],
+                "npc": "Gnome trainer"
             }
         },
         {
@@ -3214,9 +3141,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["It seems to have reached the end of the line, and it's still empty."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3041, "y": 9820, "level": 0},
-                "answer": "Search the cart"
+                "type": "search",
+                "spot": {"x":3041,"y":9820,"level":0},
+                "entity": "Mine Cart"
             }
         },
         {
@@ -3225,9 +3152,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Read 'How to Breed Scorpions' By O.W. Thathurt."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2702, "y": 3407, "level": 0},
-                "answer": "Search the bookcases on the first floor."
+                "type": "search",
+                "spot": {"x":2702,"y":3409,"level":1},
+                "entity": "Bookcase"
             }
         },
         {
@@ -3236,9 +3163,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Probably filled with books on magic."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3095, "y": 3152, "level": 0},
-                "answer": "Search the bookcases."
+                "type": "search",
+                "spot": {"x":3094,"y":3153,"level":0},
+                "entity": "Bookcase"
             }
         },
         {
@@ -3246,10 +3173,11 @@ namespace clue_data {
             "type": "cryptic",
             "tier": "hard",
             "text": ["Citric cellar."],
+            "challenge": [{"type": "slider"}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2489, "y": 3490, "level": 1},
-                "answer": "Talk to Heckel Funch on the first level of the grand tree."
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":2487,"y":3489},"botright":{"x":2493,"y":3487},"level":1}}],
+                "noc": "Heckel Funch"
             }
         },
         {
@@ -3258,9 +3186,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["I'm sure they will let ya buy some things here, as long as you are in good 'ealth."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2340, "y": 3185, "level": 0},
-                "answer": "Search the big crates."
+                "type": "search",
+                "spot": {"x":2340,"y":3187,"level":0},
+                "entity": "Crate"
             }
         },
         {
@@ -3269,9 +3197,8 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Mine was the strangest birth under the sun. I left the crimson sack. Yet life had not begun. Entered the world and yet was seen by none."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2832, "y": 9586, "level": 0},
-                "answer": "Dig under the red spiders eggs."
+                "type": "dig",
+                "spot": {"x":2832,"y":9586,"level":0},
             }
         },
         {
@@ -3280,9 +3207,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["His head might be hollow, but the crates nearby are filled with surprises."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3478, "y": 3091, "level": 0},
-                "answer": "Search the crates."
+                "type": "search",
+                "spot": {"x":3478,"y":3091,"level":0},
+                "entity": "Crate"
             }
         },
         {
@@ -3331,9 +3258,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["When you get tired of fighting, go deep, deep down until you need an antidote."],
             "solution": {
-                "type": "simple",
+                "type": "search",
                 "spot": {"x": 2576, "y": 9583, "level": 0},
-                "answer": "Search the crate."
+                "entity": "Crate"
             }
         },
         {
@@ -3446,9 +3373,9 @@ namespace clue_data {
             "tier": "hard",
             "text": ["Snah? I feel all confused, like one of those cakes."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3222, "y": 3218, "level": 0},
-                "answer": "Talk to Hans."
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
+                "npc": "Hans"
             }
         },
         {
@@ -5477,8 +5404,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to Hans to solve the clue."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3222, "y": 3219, "level": 0}
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
+                "npc": "Hans"
             }
         },
         {
@@ -5657,9 +5585,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to the staff of Sinclair Mansion."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2734, "y": 3581, "level": 0},
-                "answer": "Talk to Louisa"
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":2736,"y":3580},"botright":{"x":2737,"y":3574},"level":0}}],
+                "npc": "Louisa"
             }
         },
         {
@@ -5738,8 +5666,8 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Dig near some giant mushrooms behind the Grand Tree."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2463, "y": 3499, "level": 0}
+                "type": "dig",
+                "spot": {"x": 2459, "y": 3505, "level": 0}
             }
         },
         {
@@ -5778,8 +5706,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to Gaius in Burthorpe."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2926, "y": 3548, "level": 0}
+                "type": "talkto",
+                "npc": "Gaius",
+                "spots": [{"range": {"topleft": {"x": 2926, "y": 3552}, "botright": {"x": 2931, "y": 3546}, "level": 0}}]
             }
         },
         {
@@ -5798,8 +5727,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to Arhein in Catherby."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2804, "y": 3431, "level": 0}
+                "type": "talkto",
+                "npc": "Arhein",
+                "spots": [{"range": {"topleft": {"x": 2802, "y": 3427}, "botright": {"x": 2804, "y": 3425}, "level": 0}}]
             }
         },
         {
@@ -5808,8 +5738,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Talk to the bartender of the Rusty Anchor in Port Sarim."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3047, "y": 3258, "level": 0}
+                "type": "talkto",
+                "npc": "Bartender",
+                "spots": [{"range": {"topleft": {"x": 3044, "y": 3258}, "botright": {"x": 3046, "y": 3255}, "level": 0}}]
             }
         },
         {
@@ -5878,8 +5809,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to Ellis in Al Kharid."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3275, "y": 3195, "level": 0}
+                "type": "talkto",
+                "npc": "Ellis",
+                "spots": [{"range": {"topleft": {"x": 3270, "y": 3198}, "botright": {"x": 3276, "y": 3193}, "level": 0}}]
             }
         },
         {
@@ -5918,8 +5850,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to Doric, who lives north of Falador."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2958, "y": 3442, "level": 0}
+                "type": "talkto",
+                "npc": "Doric",
+                "spots": [{"range": {"topleft": {"x": 2955, "y": 3443}, "botright": {"x": 2963, "y": 3435}, "level": 0}}]
             }
         },
         {
@@ -5938,8 +5871,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Talk to Zeke in Al Kharid."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3287, "y": 3188, "level": 0}
+                "type": "talkto",
+                "npc": "Zeke",
+                "spots": [{"range": {"topleft": {"x": 3284, "y": 3192}, "botright": {"x": 3289, "y": 3186}, "level": 0}}]
             }
         },
         {
@@ -5948,8 +5882,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to the bartender of the Blue Moon Inn in Varrock."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3225, "y": 3400, "level": 0}
+                "type": "talkto",
+                "npc": "Bartender",
+                "spots": [{"range": {"topleft": {"x": 3223, "y": 3402}, "botright": {"x": 3226, "y": 3396}, "level": 0}}]
             }
         },
         {
@@ -5998,8 +5933,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Talk to the Squire in the White Knights' castle in Falador."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2973, "y": 3342, "level": 0}
+                "type": "talkto",
+                "npc": "Squire Asrol",
+                "spots": [{"range":{"topleft":{"x":2970,"y":3346},"botright":{"x":2977,"y":3339},"level":0}}]
             }
         },
         {
@@ -6028,7 +5964,8 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Search the crates in the Port Sarim fishing shop."],
             "solution": {
-                "type": "simple",
+                "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3012, "y": 3222, "level": 0}
             }
         },
@@ -6038,8 +5975,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to Sir Kay in Camelot Castle."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2760, "y": 3499, "level": 0}
+                "type": "talkto",
+                "npc": "Sir Kay",
+                "spots": [{"range": {"topleft": {"x": 2752, "y": 3503}, "botright": {"x": 2764, "y": 3493}, "level": 0}}]
             }
         },
         {
@@ -6048,8 +5986,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to Ned in Draynor Village."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3100, "y": 3257, "level": 0}
+                "type": "talkto",
+                "npc": "Ned",
+                "spots": [{"range": {"topleft": {"x": 3097, "y": 3260}, "botright": {"x": 3102, "y": 3255}, "level": 0}}]
             }
         },
         {
@@ -6058,8 +5997,9 @@ namespace clue_data {
             "tier": "easy",
             "text": ["Speak to the Challenge Mistress in Burthorpe."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2886, "y": 3530, "level": 0}
+                "type": "talkto",
+                "npc": "Mission Mistress Fara",
+                "spots": [{"range": {"topleft": {"x": 2887, "y": 3531}, "botright": {"x": 2889, "y": 3529}, "level": 0}}]
             }
         },
         {
@@ -6068,9 +6008,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Speak to Donovan, the family handyman."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2737, "y": 3581, "level": 0},
-                "answer": "Donovan can be found upstairs."
+                "type": "talkto",
+                "spots": [{"range":{"topleft":{"x":2740,"y":3582},"botright":{"x":2744,"y":3577},"level":1}}],
+                "npc": "Donovan the Family Handyman"
             }
         },
         {
@@ -6080,8 +6020,9 @@ namespace clue_data {
             "text": ["Speak to Brimstail."],
             "challenge": [{"type": "challengescroll", "question": "What is 19 to the power of 3?", "answers": [{"answer": 6859}]}],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2404, "y": 3421, "level": 0},
+                "type": "talkto",
+                "spots": [{"range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}}],
+                "npc": "Brimstail"
             }
         },
         {
@@ -6090,8 +6031,9 @@ namespace clue_data {
             "tier": "medium",
             "text": ["Speak to Roavar."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3494, "y": 3474, "level": 0}
+                "type": "talkto",
+                "npc": "Roavar",
+                "spots": [{"range": {"topleft": {"x": 3489, "y": 3475}, "botright": {"x": 3495, "y": 3471}, "level": 0}}]
             }
         },
         {
@@ -6101,7 +6043,8 @@ namespace clue_data {
             "text": ["Speak to Ulizius."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":3440,"y":3464},"botright":{"x":3446,"y":3458},"level":0}}]
+                "npc": "Ulizius",
+                "spots": [{"range": {"topleft": {"x": 3440, "y": 3464}, "botright": {"x": 3446, "y": 3458}, "level": 0}}]
             }
         },
         {
@@ -6111,7 +6054,8 @@ namespace clue_data {
             "text": ["Speak to Hajedy."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":2779,"y":3213},"botright":{"x":2782,"y":3210},"level":0}}]
+                "npc": "Hajedy",
+                "spots": [{"range": {"topleft": {"x": 2779, "y": 3213}, "botright": {"x": 2782, "y": 3210}, "level": 0}}]
             }
         },
         {
@@ -6121,7 +6065,8 @@ namespace clue_data {
             "text": ["Speak to Kangai Mau."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":2790,"y":3185},"botright":{"x":2795,"y":3181},"level":0}}]
+                "npc": "Kangai Mau",
+                "spots": [{"range": {"topleft": {"x": 2790, "y": 3185}, "botright": {"x": 2795, "y": 3181}, "level": 0}}]
             }
         },
         {
@@ -6144,6 +6089,7 @@ namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "What is 19 to the power of 3?", "answers": [{"answer": 6859}]}],
             "solution": {
                 "type": "talkto",
+                "npc": "Hazelmere",
                 "spots": [{"range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 0}}],
             }
         }

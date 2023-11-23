@@ -650,7 +650,7 @@ export namespace teleport_data {
                 },
                 {
                     id: "pollnivneach",
-                    spot: {x: 3360, y: 2966, level: 0},
+                    spot: {"x":3359,"y":2968,"level":0},
                     img: {url: "scroll-pollnivneach.png"},
                     name: "Pollnivneach",
                     code: "9",
@@ -1869,7 +1869,7 @@ export namespace teleport_data {
                     animation_ticks: 3
                 },
                 {
-                    id: "whitewolfmountain", spot: {"x":2850,"y":3494,"level":1}, name: "White Wolf Mountain", code: "2",
+                    id: "whitewolfmountain", spot: {"x": 2850, "y": 3494, "level": 1}, name: "White Wolf Mountain", code: "2",
                     menu_ticks: 1,
                     animation_ticks: 3
                 },
@@ -2822,6 +2822,8 @@ export namespace teleport_data {
         //TODO: Boss portals
         //      - 1912 4367 Dagannoth Kings
         // TODO: Slayer masks
+        // TODO: Ritual Site teleport incantation
+        // TODO: Tome of Um teleports
     ]
 
     export function getAllFlattened(): Teleports.flat_teleport[] {

@@ -640,7 +640,7 @@ export namespace clue_data {
             "text": ["This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW"],
             "solution": {
                 "type": "talkto",
-                "spots": {"x": 3253, "y": 3355, "level": 0},
+                //"spots": {"x": 3253, "y": 3355, "level": 0},
                 "npc": "Paul Gower (at the alter of life after the quest, get a disk of returning from the marked chest to get there.)"
             }
         },

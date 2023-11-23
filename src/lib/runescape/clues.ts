@@ -86,7 +86,8 @@ export namespace Clues {
         type: ClueType,
         tier: ClueTier,
         text: string[],
-        challenge?: Challenge[]
+        challenge?: Challenge[],
+        solution?: Solution
     }
 
     export type Anagram = StepShared & { type: "anagram", solution: Solution.TalkTo }
@@ -99,7 +100,7 @@ export namespace Clues {
         items: string[],
         emotes: string[],
         double_agent: boolean,
-        hidey_hole?: { location: TileRectangle, name: string }
+        hidey_hole?: { location: TileRectangle, name: string },
     }
     export type Map = StepShared & { type: "map", ocr_data: number[], solution: Solution, image_url: string }
     export type Scan = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }

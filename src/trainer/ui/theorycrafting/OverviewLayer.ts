@@ -16,7 +16,7 @@ import * as leaflet from "leaflet"
 import {ClueIndex} from "../../../data/ClueIndex";
 import Properties from "../widgets/Properties";
 import * as tippy from "tippy.js";
-import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {GieliCoordinates, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ActionBar} from "../map/ActionBar";
@@ -32,6 +32,9 @@ import {Util} from "leaflet";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {Rectangle, Vector2} from "../../../lib/math";
 import {clue_data} from "../../../data/clues";
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
+import * as assert from "assert";
+import {Path} from "../../../lib/runescape/pathing";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -97,69 +100,94 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
 }
 
 class ClueOverviewMarker extends leaflet.FeatureGroup {
-    private markers: { spot: TileCoordinates, marker: TileMarker }[]
+    private marker: TileMarker
 
-    tippies: tippy.Instance[] = []
+    tippy: tippy.Instance = null
 
-    constructor(private clue: Clues.Step) {
+    constructor(private clue: Clues.Step,
+                methods: MethodPackManager,
+                spot_alterantive?: TileCoordinates,
+                talk_alterantive_index?: number,
+    ) {
         super();
 
-        this.markers = [];
+        let coord: TileCoordinates
 
-        this.markers = (() => {
-            switch (clue.type) {
-                case "anagram":
-                case "simple":
-                case "cryptic":
-                case "map":
-                    return (() => {
-                        switch (clue.solution?.type) {
-                            case "talkto":
+        switch (clue.type) {
+            case "anagram":
+            case "simple":
+            case "cryptic":
+            case "map":
+                switch (clue.solution?.type) {
+                    case "talkto":
+                        if (talk_alterantive_index != null && clue.solution?.spots[talk_alterantive_index])
+                            coord = TileRectangle.center(clue.solution.spots[talk_alterantive_index].range)
+                        break;
+                    case "dig":
+                    case "search":
+                        coord = clue.solution.spot
+                        break;
+                    default:
+                        coord = {x: 0, y: 0, level: 0}
+                }
+                break
+            case "compass":
+                coord = spot_alterantive
+                break
+            case "coordinates":
+                coord = GieliCoordinates.toCoords(clue.coordinates)
+                break
+            case "emote":
+                coord = {x: 0, y: 0, level: 0} //TileRectangle.center(clue.area)
+                break;
+            case "scan":
+                coord = TileRectangle.center(TileRectangle.from(...clue.spots))
+                break;
+            case "skilling":
+                coord = {x: 0, y: 0, level: 0}
+                //coord = clue.area ? TileRectangle.center(clue.area) : null
+                break
+        }
 
-                                // TODO: Render area as well, as well as variants
-                                if (!clue.solution.spots || !clue.solution.spots[0]?.range) return []
+        if (!coord) coord = {x: 0, y: 0, level: 0}
 
-                                return [TileRectangle.center(clue.solution.spots[0].range)]
-                            case "dig":
-                            case "search":
-                                return [clue.solution.spot]
-                            default:
-                                return []
-                        }
-                    })()
-                case "compass":
-                case "coordinates":
-                case "emote":
-                case "scan":
-                case "skilling":
 
-                default:
-                    return []
-            }
-        })().flatMap(s => {
-            return ({spot: s, marker: new TileMarker(s).withMarker().addTo(this)})
-        })
+        this.marker = new TileMarker(coord).withMarker().addTo(this)
     }
 
-    createTooltips(): tippy.Instance[] {
-        this.tippies.forEach(t => t.destroy())
+    static forClue(step: Clues.Step, method_index: MethodPackManager): ClueOverviewMarker[] {
 
-        return this.tippies = this.markers.map(({spot, marker}) => {
-            let props = new Properties()
-            props.named("Id", c().text(this.clue.id))
-            props.named("Text", c().text(this.clue.text[0]))
-            props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
+        let variants: { spot?: TileCoordinates, instance_index?: number }[] = (() => {
+            if (step?.solution?.type == "talkto" && step.solution.spots) {
+                if(!step.solution.spots.map) debugger
 
-            return tippy.default(marker.marker.getElement(), {
-                content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
-            })
+                return step.solution.spots.map((s, i) => ({instance_index: i}))
+            }
+            else if (step.type == "compass") return step?.spots?.map((s) => ({spot: s})) || [{}]
+            else return [{}]
+        })()
+
+        return variants.map(({spot, instance_index}) => new ClueOverviewMarker(step, method_index, spot, instance_index))
+    }
+
+    createTooltip(): tippy.Instance {
+        if (this.tippy) {
+            this.tippy.destroy()
+            this.tippy = null
+        }
+
+        let props = new Properties()
+        props.named("Id", c().text(this.clue.id))
+        props.named("Text", c().text(this.clue.text[0]))
+        //props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
+
+        return this.tippy = tippy.default(this.marker.marker.getElement(), {
+            content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
         })
-
     }
 }
 
 class UtilityLayer extends GameLayer {
-
     preview: leaflet.Layer
 
     guard: InteractionGuard
@@ -277,7 +305,7 @@ class UtilityLayer extends GameLayer {
 export default class OverviewLayer extends GameLayer {
     filter_control: FilterControl
 
-    public clue_index: ClueIndex<{ marker: ClueOverviewMarker }>
+    public clue_index: ClueIndex<{ markers: ClueOverviewMarker[] }>
     singleton_tooltip: tippy.Instance = null
 
     constructor(private app: Application) {
@@ -287,23 +315,24 @@ export default class OverviewLayer extends GameLayer {
 
         this.filter_control = new FilterControl().addTo(this)
 
-        this.clue_index = clue_data.index.with(() => ({marker: null}))
+        this.clue_index = clue_data.index.with(() => ({markers: []}))
 
         this.on("add", () => {
             this.filter_control.filter.subscribe((f) => {
                 this.clue_index.filtered().forEach(c => {
                     let visible = FilterT.apply(f, c.clue)
 
-                    if (!visible && c.marker) {
-                        c.marker.remove()
-                        c.marker = null
-                    } else if (visible && !c.marker) {
-                        c.marker = new ClueOverviewMarker(c.clue).addTo(this)
+                    if (!visible && c.markers.length > 0) {
+                        c.markers.forEach(c => c.remove())
+                        c.markers = []
+                    } else if (visible && c.markers.length == 0) {
+                        c.markers = ClueOverviewMarker.forClue(c.clue, app.methods)
                     }
                 })
 
-                let instances = this.clue_index.filtered().filter(c => c.marker)
-                    .flatMap(({marker}) => marker?.createTooltips())
+                let instances = this.clue_index
+                    .filtered()
+                    .flatMap(c => c.markers.map(m => m.createTooltip()))
 
                 if (this.singleton_tooltip) {
                     this.singleton_tooltip.destroy()

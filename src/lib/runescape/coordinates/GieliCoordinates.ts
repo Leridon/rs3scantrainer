@@ -14,7 +14,7 @@ export type GieliCoordinates = {
 }
 
 export namespace GieliCoordinates {
-    function toCoords(comp: GieliCoordinates): TileCoordinates {
+    export function toCoords(comp: GieliCoordinates): TileCoordinates {
         const sextant = {
             offsetx: 2440,
             offsetz: 3161,

@@ -2,7 +2,6 @@ import Behaviour from "../../../lib/ui/Behaviour";
 import {Application} from "../../application";
 import TheoryCraftingSidebar from "./TheoryCraftingSidebar";
 import OverviewLayer from "./OverviewLayer";
-import {clues} from "../../../data/clues";
 
 export default class TheoryCrafter extends Behaviour {
     sidebar: TheoryCraftingSidebar

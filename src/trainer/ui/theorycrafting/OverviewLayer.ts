@@ -31,6 +31,7 @@ import {DrawRegionAction} from "../scanedit/TreeEdit";
 import {Util} from "leaflet";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {Rectangle, Vector2} from "../../../lib/math";
+import {clue_data} from "../../../data/clues";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -126,6 +127,12 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                                 return []
                         }
                     })()
+                case "compass":
+                case "coordinates":
+                case "emote":
+                case "scan":
+                case "skilling":
+
                 default:
                     return []
             }
@@ -280,7 +287,7 @@ export default class OverviewLayer extends GameLayer {
 
         this.filter_control = new FilterControl().addTo(this)
 
-        this.clue_index = new ClueIndex(() => ({marker: null}))
+        this.clue_index = clue_data.index.with(() => ({marker: null}))
 
         this.on("add", () => {
             this.filter_control.filter.subscribe((f) => {

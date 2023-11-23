@@ -5,24 +5,9 @@ import {TileCoordinates} from "../../lib/runescape/coordinates";
 import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
 import {ClueIndex} from "../../data/ClueIndex";
-
-type M_base = {
-    for: { clue: number, alternative?: string, spot?: TileCoordinates },
-    name: string,
-    description: string,
-}
-
-type M = M_base
-
-type MethodInPack = {
-    id: number,
-    method: M
-}
-
-type MethodId = {
-    pack: number,
-    method: number
-}
+import {Clues} from "../../lib/runescape/clues";
+import {default_scan_method_pack} from "../../data/methods";
+import {clue_data} from "../../data/clues";
 
 type Pack = {
     id: string,
@@ -30,7 +15,7 @@ type Pack = {
     timestamp: number,
     name: string,
     description: string,
-    methods: MethodInPack[]
+    methods: Method[]
 }
 
 type ActivePack = {
@@ -38,13 +23,7 @@ type ActivePack = {
     type: "default" | "local"
 }
 
-type M2 = {
-    pack: ActivePack,
-    method: MethodInPack
-}
-
-
-let default_scan_method_pack: Pack
+type AugmentedMethod<method_t extends Method = Method, step_t extends Clues.Step = Clues.Step> = { method: method_t, pack?: ActivePack, clue?: step_t }
 
 export class MethodPackManager {
     public initialized: Promise<void>
@@ -54,14 +33,17 @@ export class MethodPackManager {
     private default_packs: ActivePack[]
     private local_packs: ActivePack[]
 
-    private index: ClueIndex<{ methods: M2[] }>
+    private index: ClueIndex<{ methods: AugmentedMethod[] }>
 
     constructor() {
         this.default_packs = [
             {type: "default", pack: default_scan_method_pack}
         ]
 
-        this.initialized = this.local_pack_store.get().then(v => {this.local_packs = v})
+        this.initialized = this.local_pack_store.get().then(v => {
+            this.local_packs = v
+            this.invalidateIndex()
+        })
     }
 
     private save(): Promise<void> {
@@ -73,9 +55,10 @@ export class MethodPackManager {
 
         this.all().forEach(p => {
             p.pack.methods.forEach(m => {
-                this.index.get(m.method.for.clue).methods.push({
+                this.index.get(m.for.clue).methods.push({
+                    method: m,
                     pack: p,
-                    method: m
+                    clue: clue_data.index.get(m.for.clue).clue
                 })
             })
         })
@@ -119,7 +102,7 @@ export class MethodPackManager {
 
     deleteMethod(pack_id: string, method_id: string) {}
 
-    getForClue(id: number, alternantive?: string, coordinates?: TileCoordinates): M2[] {
+    getForClue(id: number, coordinates?: TileCoordinates): AugmentedMethod[] {
         // TODO: Include alternative and coordinates
 
         return this.index.get(id).methods

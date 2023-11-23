@@ -5,7 +5,6 @@ import TemplateResolver from "lib/util/TemplateResolver";
 import {TeleportLayer} from "lib/gamemap/defaultlayers/TeleportLayer";
 import {Teleports} from "lib/runescape/teleports";
 import {Clues, ClueTier, ClueType} from "lib/runescape/clues";
-import {MethodIndex} from "data/accessors";
 import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
@@ -23,6 +22,9 @@ import Widget from "../lib/ui/Widget";
 import {PathEditor} from "./ui/pathedit/PathEditor";
 import shortcuts from "../data/shortcuts";
 import TheoryCrafter from "./ui/theorycrafting/TheoryCrafter";
+import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
+import {makeshift_main} from "./main";
+import {MethodPackManager} from "./model/MethodPackManager";
 
 
 export class SimpleLayerBehaviour extends Behaviour {
@@ -217,6 +219,8 @@ export class Application extends Behaviour {
     map_widget: GameMapWidget
     map: GameMap
 
+    methods: MethodPackManager
+
     main_behaviour = this.withSub(new SingleBehaviour())
 
     data = {
@@ -224,7 +228,6 @@ export class Application extends Behaviour {
             fairy_ring_favourites: [],
             potas: [],
         }),
-        methods: new MethodIndex(methods)
     }
 
     template_resolver = new TemplateResolver(new Map<string, (args: string[]) => string>(
@@ -264,6 +267,8 @@ export class Application extends Behaviour {
 
     constructor() {
         super()
+
+        this.methods = new MethodPackManager()
     }
 
     protected async begin() {
@@ -292,9 +297,9 @@ export class Application extends Behaviour {
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
         //ExportStringModal.do(await makeshift_main())
+        await makeshift_main()
 
         this.main_behaviour.set(new TheoryCrafter(this))
-
     }
 
     protected end() {

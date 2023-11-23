@@ -1,8 +1,8 @@
 import {storage} from "lib/util/storage";
 import {Clues} from "lib/runescape/clues";
-import {clues} from "data/clues";
 import {Application} from "trainer/application";
 import ToggleButton from "./widgets/togglebutton";
+import {clue_data} from "../../data/clues";
 
 export default class FilterControl {
     private filter = new storage.Variable("preferences/cluefilters",
@@ -68,17 +68,17 @@ export default class FilterControl {
         this.update()
     }
 
-    private candidates: Clues.Step[] = clues
+    private candidates: Clues.Step[] = clue_data.all
 
     private update() {
-        this.candidates = clues.filter((c) =>
+        this.candidates = clue_data.all.filter((c) =>
             (c.tier == null || this.filter.value.tiers[c.tier]) && this.filter.value.types[c.type]
         )
     }
 
     getCandidates(): Clues.Step[] {
         // Just return scans for now
-        return clues.filter((c) => c.type == "scan")
+        return clue_data.all.filter((c) => c.type == "scan")
 
         return this.candidates
     }

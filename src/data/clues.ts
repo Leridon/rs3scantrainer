@@ -1,7 +1,7 @@
 import {Clues, type ClueType} from "lib/runescape/clues";
-import {TileCoordinates, TileRectangle} from "../lib/runescape/coordinates";
+import {ClueIndex} from "./ClueIndex";
 
-namespace clue_data {
+export namespace clue_data {
     export const anagram: Clues.Anagram[] = [
         {
             "id": 23,
@@ -691,8 +691,6 @@ namespace clue_data {
             }
         }
     ]
-
-
     export const compass: Clues.Compass[] = [
         {
             "id": 399,
@@ -3087,7 +3085,7 @@ namespace clue_data {
             "text": ["A great view: watch the rapidly drying hides get splashed. Check the box you are sitting on."],
             "solution": {
                 "type": "search",
-                "spot":{"x":2523,"y":3493,"level":1},
+                "spot": {"x": 2523, "y": 3493, "level": 1},
                 "entity": "Boxes"
             }
         },
@@ -3098,7 +3096,7 @@ namespace clue_data {
             "text": ["You will need to wash the old ash off of your spade when you dig here, but the only water nearby is stagnant."],
             "solution": {
                 "type": "dig",
-                "spot": {"x":2134,"y":5162,"level":0},
+                "spot": {"x": 2134, "y": 5162, "level": 0},
             }
         },
         {
@@ -3109,7 +3107,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":3131,"y":2804},"botright":{"x":3135,"y":2800},"level":0}}],
+                "spots": [{"range": {"topleft": {"x": 3131, "y": 2804}, "botright": {"x": 3135, "y": 2800}, "level": 0}}],
                 "npc": "Hamid"
             }
         },
@@ -3120,7 +3118,7 @@ namespace clue_data {
             "text": ["As you desert this town, keep an eye out for a set of spines that could ruin nearby rugs: dig carefully around the greenery."],
             "solution": {
                 "type": "dig",
-                "spot": {"x":3396,"y":2918,"level":0},
+                "spot": {"x": 3396, "y": 2918, "level": 0},
             }
         },
         {
@@ -3131,7 +3129,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":2467,"y":3440},"botright":{"x":2477,"y":3426},"level":0}}],
+                "spots": [{"range": {"topleft": {"x": 2467, "y": 3440}, "botright": {"x": 2477, "y": 3426}, "level": 0}}],
                 "npc": "Gnome trainer"
             }
         },
@@ -3142,7 +3140,7 @@ namespace clue_data {
             "text": ["It seems to have reached the end of the line, and it's still empty."],
             "solution": {
                 "type": "search",
-                "spot": {"x":3041,"y":9820,"level":0},
+                "spot": {"x": 3041, "y": 9820, "level": 0},
                 "entity": "Mine Cart"
             }
         },
@@ -3153,7 +3151,7 @@ namespace clue_data {
             "text": ["Read 'How to Breed Scorpions' By O.W. Thathurt."],
             "solution": {
                 "type": "search",
-                "spot": {"x":2702,"y":3409,"level":1},
+                "spot": {"x": 2702, "y": 3409, "level": 1},
                 "entity": "Bookcase"
             }
         },
@@ -3164,7 +3162,7 @@ namespace clue_data {
             "text": ["Probably filled with books on magic."],
             "solution": {
                 "type": "search",
-                "spot": {"x":3094,"y":3153,"level":0},
+                "spot": {"x": 3094, "y": 3153, "level": 0},
                 "entity": "Bookcase"
             }
         },
@@ -3176,7 +3174,7 @@ namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":2487,"y":3489},"botright":{"x":2493,"y":3487},"level":1}}],
+                "spots": [{"range": {"topleft": {"x": 2487, "y": 3489}, "botright": {"x": 2493, "y": 3487}, "level": 1}}],
                 "noc": "Heckel Funch"
             }
         },
@@ -3187,7 +3185,7 @@ namespace clue_data {
             "text": ["I'm sure they will let ya buy some things here, as long as you are in good 'ealth."],
             "solution": {
                 "type": "search",
-                "spot": {"x":2340,"y":3187,"level":0},
+                "spot": {"x": 2340, "y": 3187, "level": 0},
                 "entity": "Crate"
             }
         },
@@ -3198,7 +3196,7 @@ namespace clue_data {
             "text": ["Mine was the strangest birth under the sun. I left the crimson sack. Yet life had not begun. Entered the world and yet was seen by none."],
             "solution": {
                 "type": "dig",
-                "spot": {"x":2832,"y":9586,"level":0},
+                "spot": {"x": 2832, "y": 9586, "level": 0},
             }
         },
         {
@@ -3208,7 +3206,7 @@ namespace clue_data {
             "text": ["His head might be hollow, but the crates nearby are filled with surprises."],
             "solution": {
                 "type": "search",
-                "spot": {"x":3478,"y":3091,"level":0},
+                "spot": {"x": 3478, "y": 3091, "level": 0},
                 "entity": "Crate"
             }
         },
@@ -5586,7 +5584,7 @@ namespace clue_data {
             "text": ["Speak to the staff of Sinclair Mansion."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":2736,"y":3580},"botright":{"x":2737,"y":3574},"level":0}}],
+                "spots": [{"range": {"topleft": {"x": 2736, "y": 3580}, "botright": {"x": 2737, "y": 3574}, "level": 0}}],
                 "npc": "Louisa"
             }
         },
@@ -5935,7 +5933,7 @@ namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Squire Asrol",
-                "spots": [{"range":{"topleft":{"x":2970,"y":3346},"botright":{"x":2977,"y":3339},"level":0}}]
+                "spots": [{"range": {"topleft": {"x": 2970, "y": 3346}, "botright": {"x": 2977, "y": 3339}, "level": 0}}]
             }
         },
         {
@@ -6009,7 +6007,7 @@ namespace clue_data {
             "text": ["Speak to Donovan, the family handyman."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range":{"topleft":{"x":2740,"y":3582},"botright":{"x":2744,"y":3577},"level":1}}],
+                "spots": [{"range": {"topleft": {"x": 2740, "y": 3582}, "botright": {"x": 2744, "y": 3577}, "level": 1}}],
                 "npc": "Donovan the Family Handyman"
             }
         },
@@ -6095,26 +6093,26 @@ namespace clue_data {
         }
     ]
 
+    export let all: Clues.Step[] = [
+        ...clue_data.anagram,
+        ...clue_data.compass,
+        ...clue_data.coordinate,
+        ...clue_data.cryptic,
+        ...clue_data.emote,
+        ...clue_data.map,
+        ...clue_data.scan,
+        ...clue_data.simple,
+    ]
+
+    export const index = ClueIndex.simple(all)
+
     /** TODO: Variant npcs
      * Death (Um + Office)
      * Paul Gower (life altar, farm)
-     * Malignus Mortifier
-     * Philippe Carnillean
-     * Queen Sigrid (before and after quest)
      */
 }
 
-export let clues: Clues.Step[] = [
-    ...clue_data.anagram,
-    ...clue_data.compass,
-    ...clue_data.coordinate,
-    ...clue_data.cryptic,
-    ...clue_data.emote,
-    ...clue_data.map,
-    ...clue_data.scan,
-    ...clue_data.simple,
-]
 
 export function byType(type: ClueType): Clues.Step[] {
-    return clues.filter((e) => e.type == type)
+    return clue_data.all.filter((e) => e.type == type)
 }

@@ -3,16 +3,13 @@ import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Path} from "lib/runescape/pathing";
 import {util} from "lib/util/util";
 import {omit} from "lodash";
+import {TileCoordinates} from "../../lib/runescape/coordinates";
 
 export namespace SolvingMethods {
     import ensure_subtype = util.ensure_subtype;
     import ScanStep = Clues.ScanStep;
-    export type method_kind = "scantree" | "genericpath"
 
-    const compatible_clue_steps: Record<method_kind, ClueType[]> = {
-        scantree: ["scan"],
-        genericpath: []
-    }
+    export type method_kind = "scantree" | "genericpath"
 
     type method_step_mapping = ensure_subtype<Record<method_kind, Clues.Step>, {
         "scantree": ScanStep,
@@ -23,11 +20,22 @@ export namespace SolvingMethods {
 
     type method_base = {
         type: method_kind,
-        clue_id: number
+        id: string,
+        for: { clue: number, spot?: TileCoordinates },
+        name: string,
+        description: string,
     }
 
-    export type ScanTreeMethod = method_base & { type: "scantree" } & ScanTree.ScanTree
-    export type GenericPathMethod = method_base & { type: "genericpath" } & { path: Path.raw }
+    export type ScanTreeMethod = method_base & {
+        type: "scantree",
+        tree: ScanTree.ScanTree
+    }
+    export type GenericPathMethod = method_base & {
+        type: "general_path",
+        path_to_key_or_hideyhole?: Path.raw,
+        path_to_spot: Path.raw,
+        path_back_to_hideyhole?: Path.raw
+    }
 
     export type Method = ScanTreeMethod | GenericPathMethod
 
@@ -45,16 +53,4 @@ export namespace SolvingMethods {
     export function withoutClue<MethodT extends Method = Method>(method: MethodWithClue<MethodT>): MethodT {
         return omit(method, "clue") as unknown as MethodT // Why does this not automatically typecheck?
     }
-
-    /*
-    export function resolve<U extends Clues.Step, T extends method_base>(clue: T & indirected): T & resolved<U> {
-        if (clue == null) return null
-
-        let copy = lodash.clone(clue) as T & resolved<U>
-
-        copy.clue = clues.find((c) => c.id == clue.clue) as U
-
-        return copy as (T & resolved<U>)
-    }
-    */
 }

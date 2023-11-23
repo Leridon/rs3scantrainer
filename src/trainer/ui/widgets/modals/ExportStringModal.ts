@@ -18,17 +18,17 @@ export default class ExportStringModal extends Modal {
         })
     }
 
-    showWith(string: string, explanation: string = "") {
+    async showWith(string: string, explanation: string = ""): Promise<void> {
         this.textarea.val(string)
 
         this.explanation.text(explanation)
 
         this.copy_button.text("Copy to Clipboard");
 
-        this.show()
+        return this.show()
     }
 
-    static do(string: string, explanation: string = "") {
-        modal("modal-export-string", ExportStringModal).showWith(string, explanation)
+    static do(string: string, explanation: string = ""): Promise<void> {
+        return modal("modal-export-string", ExportStringModal).showWith(string, explanation)
     }
 }

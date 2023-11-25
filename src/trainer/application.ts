@@ -12,17 +12,12 @@ import {ExportImport} from "lib/util/exportString";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
-import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
 import SolveBehaviour from "./ui/solving/SolveBehaviour";
-import MethodWithClue = SolvingMethods.MethodWithClue;
 import GameLayer from "../lib/gamemap/GameLayer";
 import MenuBar from "./ui/MenuBar";
 import Widget from "../lib/ui/Widget";
-import {PathEditor} from "./ui/pathedit/PathEditor";
-import shortcuts from "../data/shortcuts";
 import TheoryCrafter from "./ui/theorycrafting/TheoryCrafter";
-import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
 

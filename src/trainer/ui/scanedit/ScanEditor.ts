@@ -1,9 +1,7 @@
 import {GameMap} from "lib/gamemap/GameMap";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import ScanEditPanel from "./ScanEditPanel";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
-import assumedRange = ScanTree.assumedRange;
 import {lazy, Lazy} from "lib/properties/Lazy";
 import * as leaflet from "leaflet";
 import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "lib/cluetheory/scans/EquivalenceClasses";
@@ -12,10 +10,7 @@ import {type Application} from "trainer/application";
 import {ScanLayer, ScanRegionPolygon} from "../solving/scans/ScanLayer";
 import {PathingGraphics} from "../path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
-import {SolvingMethods} from "../../model/methods";
-import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
-import {CluePanel} from "../SidePanelControl";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import shortcuts from "../../../data/shortcuts";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
@@ -29,9 +24,9 @@ import ScanTools from "./ScanTools";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import SpotOverview from "./SpotOverview";
-import span = C.span;
 import spacer = C.spacer;
 import {Clues} from "../../../lib/runescape/clues";
+import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -115,14 +110,14 @@ class EquivalenceClassHandling extends Behaviour {
 
         let normal = setup({
             candidates: this.parent.options.clue.spots,
-            range: assumedRange(this.parent.builder.tree),
+            range: this.parent.builder.tree.assumed_range,
             complement: false,
             floor: this.parent.options.map.floor.value()
         }, this.parent.tools.normal)
 
         let complement = setup({
             candidates: this.parent.options.clue.spots,
-            range: assumedRange(this.parent.builder.tree),
+            range: this.parent.builder.tree.assumed_range,
             complement: true,
             floor: this.parent.options.map.floor.value()
         }, this.parent.tools.complement)
@@ -146,7 +141,7 @@ class EquivalenceClassHandling extends Behaviour {
 }
 
 export class ScanTreeBuilder {
-    tree: ScanTreeWithClue = null
+    tree: ScanTree.ScanTree = null
     augmented: Observable<AugmentedScanTree> = observe(null)
     preview_invalid = ewent()
 
@@ -163,7 +158,7 @@ export class ScanTreeBuilder {
         this.preview_invalid.trigger(null)
     }
 
-    set(tree: ScanTreeWithClue) {
+    set(tree: ScanTree.ScanTree) {
         this.tree = tree
         this.cleanTree()
     }
@@ -253,7 +248,7 @@ export default class ScanEditor extends Behaviour {
                 public readonly options: {
                     clue: Clues.ScanStep,
                     map: GameMap, // This is already available via the app, ditch this option?
-                    initial?: ScanTreeWithClue
+                    initial?: ScanTree.ScanTree
                 }) {
         super();
 
@@ -291,11 +286,8 @@ export default class ScanEditor extends Behaviour {
 
     begin() {
         this.builder.set(this.options.initial ?? {
-            clue_id: this.options.clue.id,
-            assumes_meerkats: true,
-            clue: this.options.clue,
             root: ScanTree.init_leaf(),
-            spot_ordering: this.options.clue.spots,
+            ordered_spots: this.options.clue.spots,
             type: "scantree"
         })
 
@@ -328,9 +320,9 @@ export default class ScanEditor extends Behaviour {
 
         // Initialize and set the main game layer
         this.layer.spots.set(this.options.clue.spots)
-        this.layer.spot_order.set(this.builder.tree.spot_ordering)
+        this.layer.spot_order.set(this.builder.tree.ordered_spots)
         this.layer.active_spots.bindTo(this.candidates_at_active_node)
-        this.layer.scan_range.set(assumedRange(this.builder.tree))
+        this.layer.scan_range.set(this.builder.tree.assumed_range)
         this.options.map.addGameLayer(this.layer)
 
         this.panel.tree_edit.active_node.subscribe(async node => {

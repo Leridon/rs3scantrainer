@@ -14,7 +14,6 @@ export namespace ScanTree {
     import digSpotArea = Clues.digSpotArea;
     import PulseInformation = ScanTheory.PulseInformation;
     import spot_narrowing = ScanTheory.spot_narrowing;
-    import ScanStep = Clues.ScanStep;
 
     export type ScanRegion = {
         name: string
@@ -22,17 +21,13 @@ export namespace ScanTree {
     }
 
     export type ScanTree = {
-        spot_ordering: TileCoordinates[],
-        assumes_meerkats: boolean,
+        ordered_spots: TileCoordinates[],
+        assumed_range: number,
         root: ScanTreeNode
     }
 
-    export type TreeWithClue = ScanTree & {
-        clue: ScanStep
-    }
-
     export type ScanTreeNode = {
-        path: Path,
+        path: Path.step[],
         region?: ScanRegion,
         directions: string,
         children: {
@@ -42,11 +37,11 @@ export namespace ScanTree {
     }
 
     export namespace Augmentation {
-        import profileAsync = util.profileAsync;
-        import profile = util.profile;
         import avg = util.avg;
+
         export type AugmentedScanTree = {
-            raw: TreeWithClue,
+            raw: ScanTree,
+            clue: Clues.Scan,
             root_node: AugmentedScanTreeNode,
             state: {
                 paths_augmented: boolean
@@ -143,10 +138,12 @@ export namespace ScanTree {
          * - Sets the remaining candidates on each node
          *
          * @param tree
+         * @param clue
          */
-        export function basic_augmentation(tree: TreeWithClue): AugmentedScanTree {
+        export function basic_augmentation(tree: ScanTree, clue: Clues.Scan): AugmentedScanTree {
             let root: AugmentedScanTree = {
                 raw: tree,
+                clue: clue,
                 root_node: null,
                 state: {
                     paths_augmented: false,
@@ -180,7 +177,7 @@ export namespace ScanTree {
                 }
 
                 if (node.children.length > 0) {
-                    let narrowing = spot_narrowing(remaining_candidates, t.region.area, assumedRange(tree))
+                    let narrowing = spot_narrowing(remaining_candidates, t.region.area, tree.assumed_range)
 
                     // The node is not a leaf node, handle all relevant children
                     t.children = node.children.map(child => {
@@ -200,7 +197,7 @@ export namespace ScanTree {
                 return t
             }
 
-            root.root_node = helper(tree.root, null, 0, tree.clue.spots, null)
+            root.root_node = helper(tree.root, null, 0, tree.ordered_spots, null)
 
 
             return root
@@ -264,7 +261,7 @@ export namespace ScanTree {
         }
 
         export function analyze_timing(tree: AugmentedScanTree): AugmentedScanTree {
-            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[] = tree.raw.clue.spots.map(c => ({
+            let timings: { spot: TileCoordinates, timings: { ticks: number, incomplete: boolean }[], average: number }[] = tree.raw.ordered_spots.map(c => ({
                 spot: c,
                 timings: [],
                 average: 0
@@ -293,13 +290,14 @@ export namespace ScanTree {
         }
 
         export async function augment(options: {
-            augment_paths?: boolean,
-            analyze_correctness?: boolean,
-            analyze_completeness?: boolean,
-            analyze_timing?: boolean,
-        }, tree: TreeWithClue) {
+                                          augment_paths?: boolean,
+                                          analyze_correctness?: boolean,
+                                          analyze_completeness?: boolean,
+                                          analyze_timing?: boolean,
+                                      }, tree: ScanTree,
+                                      clue: Clues.Scan) {
 
-            let augmented = basic_augmentation(tree)
+            let augmented = basic_augmentation(tree, clue)
 
             if (options.augment_paths) await path_augmentation(augmented)
             if (options.analyze_correctness) analyze_correctness(augmented)
@@ -377,7 +375,7 @@ export namespace ScanTree {
         }
     }
 
-    export function normalize(tree: TreeWithClue): TreeWithClue {
+    export function normalize(tree: ScanTree): ScanTree {
         function helper(node: ScanTreeNode, candidates: TileCoordinates[]) {
             let where = node.region?.area || TileRectangle.fromTile(Path.ends_up(node.path))
 
@@ -389,7 +387,7 @@ export namespace ScanTree {
                 },
                 candidates: TileCoordinates[]
             }[] = !where ? []
-                : spot_narrowing(candidates, where, assumedRange(tree))
+                : spot_narrowing(candidates, where, tree.assumed_range)
                     .filter(n => n.narrowed_candidates.length > 0)  // Delete branches that have no candidates left
                     .map(({pulse, narrowed_candidates}) => {
                         return {
@@ -419,19 +417,13 @@ export namespace ScanTree {
 
         if (!tree.root) tree.root = init_leaf()
 
-        helper(tree.root, tree.clue.spots)
+        helper(tree.root, tree.ordered_spots)
 
         return tree
     }
 
-    export function assumedRange(tree: TreeWithClue): number {
-        let r = tree.clue.range
-        if (tree.assumes_meerkats) r += 5;
-        return r
-    }
-
     export function spotNumber(self: ScanTree.ScanTree, spot: TileCoordinates): number {
-        return self.spot_ordering.findIndex((s) => Vector2.eq(s, spot)) + 1
+        return self.ordered_spots.findIndex((s) => Vector2.eq(s, spot)) + 1
     }
 
     export type ScanInformation = PulseInformation & {

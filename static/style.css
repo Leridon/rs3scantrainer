@@ -1281,3 +1281,11 @@ input[type=checkbox] + span {
 .nisl-small-image-toggle.active {
     opacity: 1;
 }
+
+.nisl-entity {
+    color: cyan;
+}
+
+.nisl-npc {
+    color: yellow;
+}

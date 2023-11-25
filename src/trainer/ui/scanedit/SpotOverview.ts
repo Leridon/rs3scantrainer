@@ -45,7 +45,7 @@ export default class SpotOverview extends Widget {
             .appendTo(this.list)
 
         vbox(
-            ...tree.raw.spot_ordering.map((v, i) => {
+            ...tree.raw.ordered_spots.map((v, i) => {
                 let timing = c("<div class='col-4' style='text-align: center'>")
 
                 tree.state.timing_analysis.spots.find(t => TileCoordinates.eq2(t.spot, v)).timings.forEach((t, i) => {

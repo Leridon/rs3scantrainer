@@ -1,14 +1,12 @@
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {type Application} from "trainer/application";
-import {SolvingMethods} from "../../model/methods";
-import MethodWithClue = SolvingMethods.MethodWithClue;
 import {CluePanel} from "../SidePanelControl";
 import {Clues} from "lib/runescape/clues";
-import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import {SolveScanTreeSubBehaviour} from "./scans/ScanSolving";
-import ScanEditor from "../scanedit/ScanEditor";
 import {observe} from "../../../lib/reactive";
-
+import {AugmentedMethod} from "../../model/MethodPackManager";
+import {SolvingMethods} from "../../model/methods";
+import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 
 class NoMethodSubBehaviour extends Behaviour {
     protected begin() {
@@ -20,7 +18,7 @@ class NoMethodSubBehaviour extends Behaviour {
 
 export default class SolveBehaviour extends Behaviour {
     private clue = observe<Clues.Step | null>(null).equality((a, b) => a?.id == b?.id)
-    private method = observe<MethodWithClue | null>(null)
+    private method = observe<AugmentedMethod | null>(null)
 
     private clue_panel: CluePanel = null
 
@@ -52,9 +50,9 @@ export default class SolveBehaviour extends Behaviour {
 
         this.method.subscribe(method => {
             let behaviour = (() => {
-                switch (method?.type) {
+                switch (method?.method?.type) {
                     case "scantree":
-                        return new SolveScanTreeSubBehaviour(this, method as ScanTreeWithClue)
+                        return new SolveScanTreeSubBehaviour(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
                     case null:
                     default:
                         return new NoMethodSubBehaviour()
@@ -70,7 +68,7 @@ export default class SolveBehaviour extends Behaviour {
         this.method.set(null)
     }
 
-    setMethod(method: MethodWithClue) {
+    setMethod(method: AugmentedMethod) {
         this.clue.set(method.clue)
         this.method.set(method)
     }

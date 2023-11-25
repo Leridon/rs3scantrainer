@@ -6,7 +6,7 @@ export namespace util {
 
     import exp = ExportImport.exp;
 
-    export function natural_join(a: any[], connector: "and" | "or" = "and"): string {
+    export function natural_join(a: any[], connector: string = "and"): string {
         if (a.length == 0) return ""
         if (a.length == 1) return a.toString()
         if (a.length == 2) return `${a[0]} ${connector} ${a[1]}`

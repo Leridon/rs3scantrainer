@@ -5,18 +5,26 @@ import {TileCoordinates} from "../../lib/runescape/coordinates";
 export namespace SolvingMethods {
     export type method_kind = "scantree" | "general_path"
 
+    type ClueAssumptions = {
+        meerkats_active?: boolean,
+        full_globetrotter?: boolean,
+        way_of_the_footshaped_key?: boolean
+    }
+
     type method_base = {
         type: method_kind,
         id: string,
         for: { clue: number, spot?: TileCoordinates },
         name: string,
-        description: string
+        description: string,
+        assumptions?: assumptions,
     }
 
     export type ScanTreeMethod = method_base & {
         type: "scantree",
         tree: ScanTree.ScanTree
     }
+
     export type GenericPathMethod = method_base & {
         type: "general_path",
         path_to_key_or_hideyhole?: Path.raw,

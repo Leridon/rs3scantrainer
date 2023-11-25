@@ -9,7 +9,6 @@ import {ExportImport} from "../util/exportString";
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {Shortcuts} from "./shortcuts";
-import {stat} from "copy-webpack-plugin/types/utils";
 
 export type Path = Path.raw;
 
@@ -40,6 +39,12 @@ export namespace Path {
         | "trade"
         | "use"
     // TODO: Smith, Cook, Pick lock, Pick up, Discover, Archaelogy, Divine, Shovel, Checkmark, X (used with dive)
+
+    type PathAssumptions = {
+        double_surge?: boolean,
+        double_escape?: boolean,
+        mobile_perk?: boolean,
+    }
 
     export namespace InteractionType {
 
@@ -142,10 +147,11 @@ export namespace Path {
         acceleration_activation_tick: number,
         position: PlayerPosition,
         targeted_entity: TileCoordinates,      // The targeted entity is set by redclicking it and can be used to set the player's orientation after running.
+        assumptions: PathAssumptions
     }
 
     export namespace movement_state {
-        export function start(): movement_state {
+        export function start(assumptions: PathAssumptions): movement_state {
             return {
                 tick: 0,
                 cooldowns: {
@@ -156,7 +162,8 @@ export namespace Path {
                 },
                 acceleration_activation_tick: -1000,
                 position: {tile: null, direction: null},
-                targeted_entity: null
+                targeted_entity: null,
+                assumptions: assumptions
             }
         }
 
@@ -255,11 +262,11 @@ export namespace Path {
     }
 
     export async function augment(path: Path.step[],
-                                  start_state: movement_state = movement_state.start(),
+                                  start_state: movement_state = movement_state.start({}),
                                   target: TileRectangle = null): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
-        if (!start_state) start_state = movement_state.start()
+        if (!start_state) start_state = movement_state.start({})
 
         let state: movement_state = lodash.cloneDeep(start_state)
 

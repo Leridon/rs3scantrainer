@@ -32,22 +32,23 @@ export type ClueType =
 export namespace ClueType {
     export function meta(x: ClueTier | ClueType) {
         let lut: Record<ClueType | ClueTier, {
-            icon_url: string
+            icon_url: string,
+            name: string
         }> = {
-            easy: {icon_url: "assets/icons/sealedeasy.png"},
-            medium: {icon_url: "assets/icons/sealedmedium.png"},
-            hard: {icon_url: "assets/icons/sealedhard.png"},
-            elite: {icon_url: "assets/icons/sealedelite.png"},
-            master: {icon_url: "assets/icons/sealedmaster.png"},
-            anagram: {icon_url: "assets/icons/activeclue.png"},
-            compass: {icon_url: "assets/icons/arrow.png"},
-            coordinates: {icon_url: "assets/icons/sextant.png"},
-            cryptic: {icon_url: "assets/icons/activeclue.png"},
-            emote: {icon_url: "assets/icons/emotes.png"},
-            map: {icon_url: "assets/icons/map.png"},
-            scan: {icon_url: "assets/icons/scan.png"},
-            simple: {icon_url: "assets/icons/activeclue.png"},
-            skilling: {icon_url: "assets/icons/activeclue.png"}
+            easy: {icon_url: "assets/icons/sealedeasy.png", name: "Easy"},
+            medium: {icon_url: "assets/icons/sealedmedium.png", name: "Medium"},
+            hard: {icon_url: "assets/icons/sealedhard.png", name: "Hard"},
+            elite: {icon_url: "assets/icons/sealedelite.png", name: "Elite"},
+            master: {icon_url: "assets/icons/sealedmaster.png", name: "Master"},
+            anagram: {icon_url: "assets/icons/activeclue.png", name: "Anagram"},
+            compass: {icon_url: "assets/icons/arrow.png", name: "Compass"},
+            coordinates: {icon_url: "assets/icons/sextant.png", name: "Coordinate"},
+            cryptic: {icon_url: "assets/icons/activeclue.png", name: "Cryptic"},
+            emote: {icon_url: "assets/icons/emotes.png", name: "Emote"},
+            map: {icon_url: "assets/icons/map.png", name: "Map"},
+            scan: {icon_url: "assets/icons/scan.png", name: "Scan"},
+            simple: {icon_url: "assets/icons/activeclue.png", name: "Simple"},
+            skilling: {icon_url: "assets/icons/activeclue.png", name: "Skilling"}
         }
 
         if (!lut[x]) debugger
@@ -78,7 +79,7 @@ export namespace Clues {
         // The area for npcs should include all tiles they can be talked to from, so one tile bigger than their wander range
         export type TalkTo = { type: "talkto", spots: { range: TileRectangle, note?: string }[], npc: string }
         export type Dig = { type: "dig", spot: TileCoordinates }
-        export type Search = { type: "search", spot: TileCoordinates, entity?: string, key?: { instructions: string, answer: string, area?: TileRectangle } }
+        export type Search = { type: "search", spot: TileCoordinates, entity: string, key?: { instructions: string, answer: string, area?: TileRectangle } }
     }
 
     type StepShared = {

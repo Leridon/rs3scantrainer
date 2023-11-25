@@ -26,16 +26,14 @@ import TextField from "../../../lib/ui/controls/TextField";
 import Widget from "../../../lib/ui/Widget";
 import LightButton from "../widgets/LightButton";
 import {boxPolygon, tilePolygon} from "../polygon_helpers";
-import GameMapDragAction from "../../../lib/gamemap/interaction/GameMapDragAction";
 import {DrawRegionAction} from "../scanedit/TreeEdit";
-import {Util} from "leaflet";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {Rectangle, Vector2} from "../../../lib/math";
 import {clue_data} from "../../../data/clues";
-import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
-import * as assert from "assert";
-import {Path} from "../../../lib/runescape/pathing";
-import {Rect} from "@alt1/base";
+import {MethodPackManager} from "../../model/MethodPackManager";
+import {Constants} from "../../constants";
+import {util} from "../../../lib/util/util";
+import natural_join = util.natural_join;
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -107,8 +105,8 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 
     constructor(private clue: Clues.Step,
                 methods: MethodPackManager,
-                spot_alterantive?: TileCoordinates,
-                talk_alterantive_index?: number,
+                private spot_alternative?: TileCoordinates,
+                private talk_alternative_index?: number,
     ) {
         super();
 
@@ -121,8 +119,8 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             case "map":
                 switch (clue.solution?.type) {
                     case "talkto":
-                        if (talk_alterantive_index != null && clue.solution?.spots[talk_alterantive_index])
-                            coord = TileRectangle.center(clue.solution.spots[talk_alterantive_index].range)
+                        if (talk_alternative_index != null && clue.solution?.spots[talk_alternative_index])
+                            coord = TileRectangle.center(clue.solution.spots[talk_alternative_index].range)
                         break;
                     case "dig":
                     case "search":
@@ -133,13 +131,14 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 }
                 break
             case "compass":
-                coord = spot_alterantive
+                coord = this.spot_alternative
                 break
             case "coordinates":
                 coord = GieliCoordinates.toCoords(clue.coordinates)
                 break
             case "emote":
-                coord = {x: 0, y: 0, level: 0} //TileRectangle.center(clue.area)
+                if (clue.area)
+                    coord = TileRectangle.center(clue.area)
                 break;
             case "scan":
                 coord = TileCoordinates.lift(Rectangle.center(Rectangle.from(...clue.spots)), Math.min(...clue.spots.map(s => s.level)) as floor_t)
@@ -159,11 +158,10 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 
         let variants: { spot?: TileCoordinates, instance_index?: number }[] = (() => {
             if (step?.solution?.type == "talkto" && step.solution.spots) {
-                if(!step.solution.spots.map) debugger
+                if (!step.solution.spots.map) debugger
 
                 return step.solution.spots.map((s, i) => ({instance_index: i}))
-            }
-            else if (step.type == "compass") return step?.spots?.map((s) => ({spot: s})) || [{}]
+            } else if (step.type == "compass") return step?.spots?.map((s) => ({spot: s})) || [{}]
             else return [{}]
         })()
 
@@ -177,9 +175,78 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         }
 
         let props = new Properties()
-        props.named("Id", c().text(this.clue.id))
-        props.named("Text", c().text(this.clue.text[0]))
-        //props.named("Spot", c().text(`${spot.x}|${spot.y}|${spot.level}`))
+        props.row(hbox(
+            span(`${ClueType.meta(this.clue.tier).name} ${ClueType.meta(this.clue.type).name} Step (Id ${this.clue.id})`),
+            spacer(),
+            c(`<img class="icon" src='${this.clue.tier ? Constants.icons.tiers[this.clue.tier] : ""}' title="${ClueType.pretty(this.clue.tier)}">`),
+            c(`<img class="icon" src='${Constants.icons.types[this.clue.type]}' title="${ClueType.pretty(this.clue.type)}">`))
+        )
+
+        let self = this
+
+        function renderSolution(sol: Clues.Solution): Widget {
+            try {
+                switch (sol.type) {
+                    case "dig":
+                        return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
+                    case "search":
+                        return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
+                    case "talkto":
+                        return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
+                }
+                return c()
+            } catch (e) {
+                return c()
+            }
+        }
+
+        switch (this.clue.type) {
+            case "scan":
+                props.named("Area", c().text(`${this.clue.scantext}`))
+                props.named("Range", c().text(`${this.clue.range}`))
+                props.named("Spots", c().text(`${this.clue.spots.length}`))
+                break
+            case "compass":
+                props.named("Spot", c().text(TileCoordinates.toString(this.spot_alternative)))
+                props.named("Total", c().text(`${this.clue.spots.length}`))
+                break
+            case "coordinates":
+                props.named("Text", c().text(this.clue.text[0]))
+                props.named("Coordinates", c().text(GieliCoordinates.toString(this.clue.coordinates)))
+                props.named("Solution", renderSolution({type: "dig", spot: GieliCoordinates.toCoords(this.clue.coordinates)}))
+                break
+            case "simple":
+            case "cryptic":
+            case "anagram":
+                props.named("Text", c().text(this.clue.text[0]))
+                props.named("Solution", renderSolution(this.clue.solution))
+                break
+            case "map":
+                props.row(
+                    c(`<img src="${this.clue.image_url}" style="height: 150px">`)
+                )
+                props.named("Transcript", c().text(this.clue.text[0]))
+                props.named("Solution", renderSolution(this.clue.solution))
+                break
+            case "emote":
+                props.named("Text", c().text(this.clue.text[0]))
+                props.named("Equip", c().text(natural_join(this.clue.items, "and")))
+
+                if (this.clue.emotes.length > 1)
+                    props.named("Emotes", c().text(natural_join(this.clue.emotes, "then")))
+                else
+                    props.named("Emote", c().text(this.clue.emotes[0]))
+
+                // TODO: Hidey hole?
+
+                props.named("Agent", c().text(this.clue.double_agent ? "Yes" : "No"))
+                break
+            case "skilling":
+                props.named("Text", c().text(this.clue.text[0]))
+                break
+        }
+
+        // TODO: Challenge, Key
 
         return this.tippy = tippy.default(this.marker.marker.getElement(), {
             content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
@@ -308,10 +375,10 @@ export default class OverviewLayer extends GameLayer {
     public clue_index: ClueIndex<{ markers: ClueOverviewMarker[] }>
     singleton_tooltip: tippy.Instance = null
 
-        constructor(private app: Application) {
+    constructor(private app: Application) {
         super();
 
-        this.add( new UtilityLayer())
+        this.add(new UtilityLayer())
 
         this.filter_control = new FilterControl().addTo(this)
 
@@ -333,7 +400,14 @@ export default class OverviewLayer extends GameLayer {
 
                 let instances = this.clue_index
                     .filtered()
-                    .flatMap(c => c.markers.map(m => m.createTooltip()))
+                    .flatMap(c => c.markers.map(m => {
+                        try {
+                            return m.createTooltip()
+                        } catch (e) {
+                            return null
+                        }
+                    }))
+                    .filter(i => i != null)
 
                 if (this.singleton_tooltip) {
                     this.singleton_tooltip.destroy()

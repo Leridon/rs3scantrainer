@@ -27,4 +27,8 @@ export namespace GieliCoordinates {
             level: 0
         }
     }
+
+    export function toString(c: GieliCoordinates): string {
+        return `${c.latitude.degrees}°${c.latitude.minutes}' ${c.latitude.direction  == "north" ? "N" : "S"}, ${c.longitude.degrees}°${c.longitude.minutes}' ${c.longitude.direction == "east" ? "E" : "W"}`
+    }
 }

@@ -1,7 +1,6 @@
 import {MethodPack} from "./MethodPack";
 import {SolvingMethods} from "./methods";
 import Method = SolvingMethods.Method;
-import {TileCoordinates} from "../../lib/runescape/coordinates";
 import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
 import {ClueIndex} from "../../data/ClueIndex";
@@ -10,7 +9,7 @@ import {default_scan_method_pack} from "../../data/methods";
 import {clue_data} from "../../data/clues";
 
 export type Pack = {
-    type: "default" | "local"
+    type: "default" | "custom"
     id: string,
     author: string,
     timestamp: number,
@@ -19,7 +18,10 @@ export type Pack = {
     methods: Method[]
 }
 
-export type AugmentedMethod<method_t extends Method = Method, step_t extends Clues.Step = Clues.Step> = { method: method_t, pack?: Pack, clue?: step_t }
+export type AugmentedMethod<
+    method_t extends Method = Method,
+    step_t extends Clues.Step = Clues.Step
+> = { method: method_t, pack?: Pack, clue?: step_t }
 
 export class MethodPackManager {
     public initialized: Promise<void>
@@ -69,7 +71,7 @@ export class MethodPackManager {
 
     createPack(name: string): Pack {
         let n: Pack = {
-            type: "local",
+            type: "custom",
             author: "Anonymous",
             id: uuid(),
             name: name,

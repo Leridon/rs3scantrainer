@@ -29,7 +29,7 @@ export class MethodPackManager {
     private default_packs: Pack[]
     private local_packs: Pack[]
 
-    private index: ClueIndex<{ methods: AugmentedMethod[] }>
+    private index: ClueIndex<{ methods: AugmentedMethod[] }> = clue_data.index.with(() => ({methods: []}))
 
     constructor() {
         this.default_packs = [
@@ -37,7 +37,7 @@ export class MethodPackManager {
         ]
 
         this.initialized = this.local_pack_store.get().then(v => {
-            this.local_packs = v
+            this.local_packs = v || []
             this.invalidateIndex()
         })
     }
@@ -54,7 +54,7 @@ export class MethodPackManager {
 
         this.all().forEach(p => {
             p.methods.forEach(m => {
-                this.index.get(m.for.clue).methods.push({
+                this.index.get(m.for?.clue)?.methods?.push({
                     method: m,
                     pack: p,
                     clue: clue_data.index.get(m.for.clue).clue

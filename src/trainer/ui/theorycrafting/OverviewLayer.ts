@@ -16,7 +16,7 @@ import * as leaflet from "leaflet"
 import {ClueIndex} from "../../../data/ClueIndex";
 import Properties from "../widgets/Properties";
 import * as tippy from "tippy.js";
-import {GieliCoordinates, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {floor_t, GieliCoordinates, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ActionBar} from "../map/ActionBar";
@@ -35,6 +35,7 @@ import {clue_data} from "../../../data/clues";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import * as assert from "assert";
 import {Path} from "../../../lib/runescape/pathing";
+import {Rect} from "@alt1/base";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -141,7 +142,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 coord = {x: 0, y: 0, level: 0} //TileRectangle.center(clue.area)
                 break;
             case "scan":
-                coord = TileRectangle.center(TileRectangle.from(...clue.spots))
+                coord = TileCoordinates.lift(Rectangle.center(Rectangle.from(...clue.spots)), Math.min(...clue.spots.map(s => s.level)) as floor_t)
                 break;
             case "skilling":
                 coord = {x: 0, y: 0, level: 0}
@@ -150,7 +151,6 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         }
 
         if (!coord) coord = {x: 0, y: 0, level: 0}
-
 
         this.marker = new TileMarker(coord).withMarker().addTo(this)
     }
@@ -308,10 +308,10 @@ export default class OverviewLayer extends GameLayer {
     public clue_index: ClueIndex<{ markers: ClueOverviewMarker[] }>
     singleton_tooltip: tippy.Instance = null
 
-    constructor(private app: Application) {
+        constructor(private app: Application) {
         super();
 
-        this.add(new UtilityLayer())
+        this.add( new UtilityLayer())
 
         this.filter_control = new FilterControl().addTo(this)
 
@@ -327,6 +327,7 @@ export default class OverviewLayer extends GameLayer {
                         c.markers = []
                     } else if (visible && c.markers.length == 0) {
                         c.markers = ClueOverviewMarker.forClue(c.clue, app.methods)
+                        c.markers.forEach(m => m.addTo(this))
                     }
                 })
 

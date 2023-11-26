@@ -3,7 +3,6 @@ import {ClueIndex} from "./ClueIndex";
 import {TileRectangle} from "../lib/runescape/coordinates";
 
 export namespace clue_data {
-    import tr = TileRectangle.tr;
     export const anagram: Clues.Anagram[] = [
         {
             "id": 23,
@@ -3927,122 +3926,102 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Beckon in Tai Bwo Wannai. Clap before you talk to me. Equip green dragonhide chaps, a ring of duelling and a mithril helmet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2793, "y": 3067, "level": 0},
-                "answer": "<b>Emotes:</b> Beckon, then clap<br><b>Items:</b> Green dragonhide chaps, Ring of duelling, Mithril helm"
-            }
+            "items": ["Green dragonhide chaps", "Ring of duelling", "Mithril helm"],
+            "emotes": ["Becken", "Clap"],
+            "double_agent": false,
         },
         {
             "id": 256,
             "type": "emote",
             "tier": "medium",
             "text": ["Cheer in the Ogre Pen in the Training Camp. Show you are angry before you talk to me. Equip a green dragonhide body and chaps, and a steel squareshield."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2529, "y": 3375, "level": 0},
-                "answer": "<b>Emotes:</b> Cheer, then angry<br><b>Items:</b> Green Dragonhide Body, Green dragonhide chaps, Steel sq shield"
-            }
+            "items": ["Green dragonhide body", "Green dragonhide chaps", "Steel square shield"],
+            "emotes": ["Cheer", "Angry"],
+            "double_agent": false,
         },
         {
             "id": 257,
             "type": "emote",
             "tier": "medium",
             "text": ["Cry in the Catherby archery shop. Bow or curtsy before you talk to me. Equip a round red and black snelm, a hard leather body and an unblessed silver sickle."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2827, "y": 3456, "level": 0},
-                "answer": "<b>Emotes:</b> Cry, then bow or curtsy<br><b>Items:</b> Round red and black snelm, Hard leather body, Unblessed silver sickle"
-            }
+            "items": ["Round red and black snelm", "Hard leather body", "Unblessed silver sickle"],
+            "emotes": ["Cry", "Bow or Curtsy"],
+            "double_agent": false
         },
         {
             "id": 258,
             "type": "emote",
             "tier": "medium",
             "text": ["Yawn in the Castle Wars lobby. Shrug before you talk to me. Equip a ruby amulet, mithril scimitar and an iron square shield."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2443, "y": 3089, "level": 0},
-                "answer": "<b>Emotes:</b> Yawn, then shrug<br><b>Items:</b> Ruby amulet, Mithril scimitar, Iron sq shield"
-            }
+            "items": ["Ruby amulet", "Mithril scimitar", "Iron square shield"],
+            "emotes": ["Yawn", "Shrug"],
+            "double_agent": false
         },
         {
             "id": 9,
             "type": "emote",
             "tier": "hard",
             "text": ["Shrug in the Zamorak temple found in the Eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody, and blue d'hide vambraces"],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3240, "y": 3609, "level": 0},
-                "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Bronze platelegs, Iron platebody, Blue d'hide vambraces"
-            }
+            "items": ["Bronze platelegs", "Iron platebody", "Blue dragonhide vambraces"],
+            "emotes": ["Shrug"],
+            "double_agent": true
         },
         {
             "id": 225,
             "type": "emote",
             "tier": "hard",
             "text": ["Panic in the heart of the Haunted Woods. Beware of double agents! Have no items equipped when you do."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3613, "y": 3489, "level": 0},
-                "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Nothing equipped"
-            }
+            "emotes": ["Panic"],
+            "items": ["Nothing"],
+            "double_agent": true
         },
         {
             "id": 226,
             "type": "emote",
             "tier": "hard",
             "text": ["Laugh in the Jokul's tent in the Mountain Camp. Beware of double agents! Equip a rune full helmet, blue dragonhide chaps and a fire battlestaff."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2795, "y": 3672, "level": 0},
-                "answer": "<b>Emote:</b> Laugh<br><b>Items:</b> Rune full helm, Blue d'hide chaps, Fire battlestaff"
-            }
+            "items": ["Rune full helm", "Blue dragonhide chaps", "Fire battlestaff"],
+            "emotes": ["Laugh"],
+            "double_agent": true,
         },
         {
             "id": 227,
             "type": "emote",
             "tier": "hard",
             "text": ["Panic by the pilot on White Wolf Mountain. Beware of double agents! Equip mithril platelegs, a ring of life, and a rune hatchet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2849, "y": 3500, "level": 0},
-                "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Mithril platelegs, Ring of life, Rune hatchet"
-            }
+            "items": ["Mithril platelegs", "Ring of life", "Rune hatchet"],
+            "emotes": ["Panic"],
+            "double_agent": true
         },
         {
             "id": 228,
             "type": "emote",
             "tier": "hard",
             "text": ["Salute in the banana plantation. Beware of double agents! Equip a diamond ring, amulet of power and nothing on your chest and legs."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2921, "y": 3164, "level": 0},
-                "answer": "<b>Emote:</b> Salute<br><b>Items:</b> Diamond ring, Amulet of power, nothing on your chest and legs"
-            }
+            "items": ["Diamond ring", "Amulet of power", "Nothing on your chest and legs"],
+            "emotes": ["Salute"],
+            "double_agent": true
         },
         {
             "id": 229,
             "type": "emote",
             "tier": "hard",
             "text": ["Dance at the cat-doored pyramid in Sophanem. Beware of double agents! Equip a ring of life, an amulet of glory and an adamant two-handed sword."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3295, "y": 2784, "level": 0},
-                "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Ring of life, Uncharged amulet of glory, Adamant 2h sword"
-            }
+            "items": ["Ring of life", "Uncharged amulet of glory", "Adamant 2h sword"],
+            "emotes": ["Dance"],
+            "double_agent": true
         },
         {
             "id": 230,
             "type": "emote",
             "tier": "hard",
             "text": ["Blow a raspberry in the Fishing Guild bank. Beware of double agents! Equip an elemental shield, blue dragonhide chaps and a rune warhammer."],
-            "area": {"topleft":{"x":2585,"y":3423},"botright":{"x":2587,"y":3420},"level":0},
+            "area": {"topleft": {"x": 2585, "y": 3423}, "botright": {"x": 2587, "y": 3420}, "level": 0},
             "items": ["Elemental shield", "Blue dragonhide chaps", "Rune warhammer"],
             "emotes": ["Raspberry"],
             "double_agent": true,
             "hidey_hole": {
-                "location": {"topleft":{"x":2585,"y":3424},"botright":{"x":2585,"y":3424},"level":0},
+                "location": {"topleft": {"x": 2585, "y": 3424}, "botright": {"x": 2585, "y": 3424}, "level": 0},
                 "name": "Crate (hidey-hole)"
             }
         },
@@ -4051,23 +4030,21 @@ export namespace clue_data {
             "type": "emote",
             "tier": "hard",
             "text": ["Blow a kiss between the tables in Shilo Village bank. Beware of double agents! Equip a splitbark helm, mud pie and rune platebody."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2852, "y": 2953, "level": 0},
-                "answer": "<b>Emote:</b> Blow kiss<br><b>Items:</b> Splitbark helmet, Mud pie, Rune platebody"
-            }
+            "items": ["Splitbark helmet", "Mud pie", "Rune platebofy"],
+            "emotes": ["Blow kiss"],
+            "double_agent": true
         },
         {
             "id": 232,
             "type": "emote",
             "tier": "hard",
             "text": ["Bow or curtsy at the top of the lighthouse. Beware of double agents! Equip a blue dragonhide body, blue dragonhide vambraces and no jewellery."],
-            "area": {"topleft":{"x":2504,"y":3645},"botright":{"x":2513,"y":3636},"level":2},
+            "area": {"topleft": {"x": 2504, "y": 3645}, "botright": {"x": 2513, "y": 3636}, "level": 2},
             "items": ["Blue dragonhide body", "Blue dragon vambraces", "No jewellry"],
             "emotes": ["Bow or Curtsy"],
             "double_agent": true,
             "hidey_hole": {
-                "location": {"topleft":{"x":2512,"y":3639},"botright":{"x":2512,"y":3639},"level":2},
+                "location": {"topleft": {"x": 2512, "y": 3639}, "botright": {"x": 2512, "y": 3639}, "level": 2},
                 "name": "Crate (hidey-hole)"
             }
         },
@@ -4076,22 +4053,18 @@ export namespace clue_data {
             "type": "emote",
             "tier": "hard",
             "text": ["Yawn near the Wilderness Bandit camp obelisk. Beware of double agents! Equip an iron square shield, blue dragon vambraces and an iron pickaxe."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3035, "y": 3732, "level": 0},
-                "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Iron square shield, Blue dragon vambraces, Iron pickaxe"
-            }
+            "items": ["Iron square shield", "Blue dragonhide vambraces", "Iron pickaxe" ],
+            "emotes": ["Yawn"],
+            "double_agent": true
         },
         {
             "id": 243,
             "type": "emote",
             "tier": "hard",
             "text": ["Shrug in the Zamorak temple, found in the eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody and blue dragonhide vambraces."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3240, "y": 3612, "level": 0},
-                "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Bronze platelegs, Iron platebody, Blue dragonhide vambraces"
-            }
+            "items": ["Bronze platelegs", "Iron platebody", "Blue dragonhide vambraces"],
+            "emotes": ["Shrug"],
+            "double_agent": true,
         },
         {
             "id": 233,
@@ -5375,6 +5348,7 @@ export namespace clue_data {
             "text": ["Search the drawers of Hild and Penda's house in Burthorpe."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2914, "y": 3521, "level": 0}
             }
         },
@@ -5385,6 +5359,7 @@ export namespace clue_data {
             "text": ["Search the drawers found upstairs in the Westernmost Inn of East Ardougne."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2575, "y": 3326, "level": 1}
             }
         },
@@ -5395,6 +5370,7 @@ export namespace clue_data {
             "text": ["Search the crates outside the bank in the north of east-ardougne"],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2620, "y": 3336, "level": 0}
             }
         },
@@ -5405,6 +5381,7 @@ export namespace clue_data {
             "text": ["Search the drawers in a house in Catherby."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2830, "y": 3448, "level": 0}
             }
         },
@@ -5415,6 +5392,7 @@ export namespace clue_data {
             "text": ["Search the crates in the chicken coop in the farm north of Port Sarim."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3018, "y": 3287, "level": 0}
             }
         },
@@ -5436,6 +5414,7 @@ export namespace clue_data {
             "text": ["Search the drawers above the shops in Varrock."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 3206, "y": 3419, "level": 1}
             }
         },
@@ -5446,6 +5425,7 @@ export namespace clue_data {
             "text": ["Search chests found in the upstairs of shops in Port Sarim."],
             "solution": {
                 "type": "search",
+                "entity": "Chest", // TODO
                 "spot": {"x": 3016, "y": 3205, "level": 1}
             }
         },
@@ -5456,6 +5436,7 @@ export namespace clue_data {
             "text": ["Search the drawers on the first floor of a building overlooking Ardougne market."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2655, "y": 3323, "level": 1}
             }
         },
@@ -5466,6 +5447,7 @@ export namespace clue_data {
             "text": ["Search the drawers in Ivy's house in Taverley."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2914, "y": 3448, "level": 0}
             }
         },
@@ -5476,6 +5458,7 @@ export namespace clue_data {
             "text": ["Search the crates in Canifis."],
             "solution": {
                 "type": "search",
+                "entity": "Crate", // TODO
                 "spot": {"x": 2914, "y": 3448, "level": 0}
             }
         },
@@ -5486,6 +5469,7 @@ export namespace clue_data {
             "text": ["Search for a crate on the ground floor of a house in Seers' Village."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2699, "y": 3470, "level": 0}
             }
         },
@@ -5496,6 +5480,7 @@ export namespace clue_data {
             "text": ["Search through chests found in the upstairs of houses in eastern Falador."],
             "solution": {
                 "type": "search",
+                "entity": "Chest", // TODO
                 "spot": {"x": 3041, "y": 3364, "level": 1}
             }
         },
@@ -5506,6 +5491,7 @@ export namespace clue_data {
             "text": ["Search the chests in the Dwarven Mine."],
             "solution": {
                 "type": "search",
+                "entity": "Chest" // TODO,
                 "spot": {"x": 3000, "y": 9798, "level": 0}
             }
         },
@@ -5516,6 +5502,7 @@ export namespace clue_data {
             "text": ["Search the drawers in a house in Draynor Village."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 3097, "y": 3277, "level": 0}
             }
         },
@@ -5526,6 +5513,7 @@ export namespace clue_data {
             "text": ["Search for a crate in Varrock Palace."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3224, "y": 3492, "level": 0}
             }
         },
@@ -5546,6 +5534,7 @@ export namespace clue_data {
             "text": ["Search the boxes in the house near the south entrance of Varrock."],
             "solution": {
                 "type": "search",
+                "entity": "Boxes", // TODO
                 "spot": {"x": 3203, "y": 3384, "level": 0}
             }
         },
@@ -5556,6 +5545,7 @@ export namespace clue_data {
             "text": ["Search the crates near a cart in Varrock."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3226, "y": 3452, "level": 0}
             }
         },
@@ -5566,6 +5556,7 @@ export namespace clue_data {
             "text": ["Look in the ground floor crates of houses in Falador."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3029, "y": 3355, "level": 0}
             }
         },
@@ -5576,6 +5567,7 @@ export namespace clue_data {
             "text": ["Search the crates in Draynor Manor."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3106, "y": 3369, "level": 2}
             }
         },
@@ -5586,6 +5578,7 @@ export namespace clue_data {
             "text": ["Search for a crate in a building in Hemenster."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2636, "y": 3453, "level": 0}
             }
         },
@@ -5596,6 +5589,7 @@ export namespace clue_data {
             "text": ["Search the crates in yard of Citharede Abbey."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3415, "y": 3158, "level": 0}
             }
         },
@@ -5617,6 +5611,7 @@ export namespace clue_data {
             "text": ["Search in the south-east corner of the Artisan Dwarves' workshop in Falador."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3060, "y": 3334, "level": 0}
             }
         },
@@ -5627,6 +5622,7 @@ export namespace clue_data {
             "text": ["Search through some drawers in the upstairs of a house in Rimmington."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2970, "y": 3213, "level": 1}
             }
         },
@@ -5637,6 +5633,7 @@ export namespace clue_data {
             "text": ["Search upstairs in the houses of Seers' Village for some drawers."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2716, "y": 3471, "level": 1}
             }
         },
@@ -5647,6 +5644,7 @@ export namespace clue_data {
             "text": ["Search the crates in a house in Yanille that has a piano."],
             "solution": {
                 "type": "search",
+                "entity": "Crate", // TODO
                 "spot": {"x": 2598, "y": 3105, "level": 0}
             }
         },
@@ -5657,6 +5655,7 @@ export namespace clue_data {
             "text": ["Search the drawers in the ground floor of a shop in Yanille."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2570, "y": 3085, "level": 0}
             }
         },
@@ -5667,6 +5666,7 @@ export namespace clue_data {
             "text": ["Search the boxes in one of the tents in Al Kharid."],
             "solution": {
                 "type": "search",
+                "entity": "Boxes", // TODO
                 "spot": {"x": 3308, "y": 3206, "level": 0}
             }
         },
@@ -5677,6 +5677,7 @@ export namespace clue_data {
             "text": ["Search the crate near a cart in Port Khazard."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2660, "y": 3149, "level": 0}
             }
         },
@@ -5697,6 +5698,7 @@ export namespace clue_data {
             "text": ["Search a barrel outside the Pick and Lute inn, in Taverley."],
             "solution": {
                 "type": "search",
+                "entity": "Barrel",
                 "spot": {"x": 2886, "y": 3449, "level": 0}
             }
         },
@@ -5707,6 +5709,7 @@ export namespace clue_data {
             "text": ["Search the crates in the house at the north end of the East Ardougne Market."],
             "solution": {
                 "type": "search",
+                "entity": "Crate", // TODO
                 "spot": {"x": 2658, "y": 3323, "level": 0}
             }
         },
@@ -5717,6 +5720,7 @@ export namespace clue_data {
             "text": ["Search a barrel outside the mill, in Taverley."],
             "solution": {
                 "type": "search",
+                "entity": "Barrel",
                 "spot": {"x": 2894, "y": 3418, "level": 0}
             }
         },
@@ -5922,6 +5926,7 @@ export namespace clue_data {
             "text": ["Search the crate in the left-hand tower of Lumbridge castle."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3228, "y": 3212, "level": 1}
             }
         },
@@ -5932,6 +5937,7 @@ export namespace clue_data {
             "text": ["Search the drawers in one of Gertrude's bedrooms."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 3156, "y": 3406, "level": 0}
             }
         },
@@ -5942,6 +5948,7 @@ export namespace clue_data {
             "text": ["Search the drawers in Catherby's Archery Shop."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2828, "y": 3457, "level": 0}
             }
         },
@@ -5952,6 +5959,7 @@ export namespace clue_data {
             "text": ["Search the drawers upstairs in Falador's shield shop."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2971, "y": 3386, "level": 1}
             }
         },
@@ -5973,6 +5981,7 @@ export namespace clue_data {
             "text": ["Search the crates of Falador's general store."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2955, "y": 3390, "level": 0}
             }
         },
@@ -5983,6 +5992,7 @@ export namespace clue_data {
             "text": ["Search the crates in the Barbarian Village helmet shop."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3073, "y": 3430, "level": 0}
             }
         },

@@ -176,27 +176,31 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 
         let props = new Properties()
         props.row(hbox(
-            span(`${ClueType.meta(this.clue.tier).name} ${ClueType.meta(this.clue.type).name} Step (Id ${this.clue.id})`),
-            spacer(),
+            span(`${ClueType.meta(this.clue.tier).name} ${ClueType.meta(this.clue.type).name} Step (Id ${this.clue.id})`).css("font-weight", "bold"),
+            spacer().css("min-width", "30px"),
             c(`<img class="icon" src='${this.clue.tier ? Constants.icons.tiers[this.clue.tier] : ""}' title="${ClueType.pretty(this.clue.tier)}">`),
             c(`<img class="icon" src='${Constants.icons.types[this.clue.type]}' title="${ClueType.pretty(this.clue.type)}">`))
         )
 
         let self = this
 
-        function renderSolution(sol: Clues.Solution): Widget {
+        function renderSolution(props: Properties, sol: Clues.Solution): void {
             try {
-                switch (sol.type) {
-                    case "dig":
-                        return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
-                    case "search":
-                        return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
-                    case "talkto":
-                        return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
+                props.named("Solution", (() => {
+                    switch (sol.type) {
+                        case "dig":
+                            return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
+                        case "search":
+                            return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
+                        case "talkto":
+                            return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
+                    }
+                })())
+
+                if (sol.type == "search" && sol.key) {
+                    props.named("Key", c().text(`${sol.key.instructions} (${sol.key.answer})`))
                 }
-                return c()
             } catch (e) {
-                return c()
             }
         }
 
@@ -207,26 +211,26 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 props.named("Spots", c().text(`${this.clue.spots.length}`))
                 break
             case "compass":
-                props.named("Spot", c().text(TileCoordinates.toString(this.spot_alternative)))
+                renderSolution(props, {type: "dig", spot: this.spot_alternative})
                 props.named("Total", c().text(`${this.clue.spots.length}`))
                 break
             case "coordinates":
                 props.named("Text", c().text(this.clue.text[0]))
                 props.named("Coordinates", c().text(GieliCoordinates.toString(this.clue.coordinates)))
-                props.named("Solution", renderSolution({type: "dig", spot: GieliCoordinates.toCoords(this.clue.coordinates)}))
+                renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.coordinates)})
                 break
             case "simple":
             case "cryptic":
             case "anagram":
                 props.named("Text", c().text(this.clue.text[0]))
-                props.named("Solution", renderSolution(this.clue.solution))
+                renderSolution(props, this.clue.solution)
                 break
             case "map":
                 props.row(
-                    c(`<img src="${this.clue.image_url}" style="height: 150px">`)
+                    c(`<div style="text-align: center"><img src="${this.clue.image_url}" style="height: 150px; width: auto"></div>`)
                 )
                 props.named("Transcript", c().text(this.clue.text[0]))
-                props.named("Solution", renderSolution(this.clue.solution))
+                renderSolution(props, this.clue.solution)
                 break
             case "emote":
                 props.named("Text", c().text(this.clue.text[0]))
@@ -246,7 +250,26 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 break
         }
 
-        // TODO: Challenge, Key
+        function render_challenge(challenge: Clues.Challenge) {
+            switch (challenge.type) {
+                case "wizard":
+                    return c(`<span><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</span>`);
+                case "slider":
+                    return c(`<span><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</span>`);
+                case "celticknot":
+                    return c(`<span><img src='assets/icons/celtic_knot.png' class="inline-img"> Celtic Knot</span>`);
+                case "lockbox":
+                    return c(`<span><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</span>`);
+                case "towers":
+                    return c(`<span><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</span>`);
+                case "challengescroll":
+                    return c(`<span><img src='assets/icons/questionmark.png' class="inline-img"> ${challenge.question} (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</span>`);
+            }
+        }
+
+        if (this.clue.challenge?.length > 0) {
+            props.named("Challenge", vbox(...this.clue.challenge.map(render_challenge)))
+        }
 
         return this.tippy = tippy.default(this.marker.marker.getElement(), {
             content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],

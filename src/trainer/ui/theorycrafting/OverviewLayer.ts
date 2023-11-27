@@ -110,7 +110,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
     tippy: tippy.Instance = null
 
     constructor(private clue: Clues.Step,
-                methods: MethodPackManager,
+                private methods: MethodPackManager,
                 private spot_alternative?: TileCoordinates,
                 private talk_alternative_index?: number,
     ) {
@@ -204,7 +204,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 })())
 
                 if (sol.type == "search" && sol.key) {
-                    props.named("Key", c().text(`${sol.key.instructions} (${sol.key.answer})`))
+                    props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`).text(``))
                 }
             } catch (e) {
             }
@@ -221,14 +221,14 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 props.named("Total", c().text(`${this.clue.spots.length}`))
                 break
             case "coordinates":
-                props.named("Text", c().text(this.clue.text[0]))
+                props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
                 props.named("Coordinates", c().text(GieliCoordinates.toString(this.clue.coordinates)))
                 renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.coordinates)})
                 break
             case "simple":
             case "cryptic":
             case "anagram":
-                props.named("Text", c().text(this.clue.text[0]))
+                props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
                 renderSolution(props, this.clue.solution)
                 break
             case "map":
@@ -269,12 +269,20 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 case "towers":
                     return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
                 case "challengescroll":
-                    return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> ${challenge.question} (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
+                    return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
             }
         }
 
         if (this.clue.challenge?.length > 0) {
             props.named("Challenge", vbox(...this.clue.challenge.map(render_challenge)))
+        }
+
+        let methods = this.methods.getForClue(this.clue.id, this.spot_alternative)
+
+        if (methods.length > 0) {
+            props.header("Methods")
+
+
         }
 
         return this.tippy = tippy.default(this.marker.marker.getElement(), {

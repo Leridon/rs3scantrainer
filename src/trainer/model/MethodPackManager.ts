@@ -7,6 +7,7 @@ import {ClueIndex} from "../../data/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
 import {default_scan_method_pack} from "../../data/methods";
 import {clue_data} from "../../data/clues";
+import {TileCoordinates} from "../../lib/runescape/coordinates";
 
 export type Pack = {
     type: "default" | "custom"
@@ -101,9 +102,14 @@ export class MethodPackManager {
 
     deleteMethod(pack_id: string, method_id: string) {}
 
-    getForClue(id: number): AugmentedMethod[] {
+    getForClue(id: number, spot_alterantive?: TileCoordinates): AugmentedMethod[] {
         // TODO: Include alternative and coordinates
 
-        return this.index.get(id).methods
+        let ms = this.index.get(id).methods
+
+        if (spot_alterantive)
+            return ms.filter(m => TileCoordinates.eq2(m.method.for.spot, spot_alterantive))
+        else
+            return ms
     }
 }

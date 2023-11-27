@@ -46,7 +46,7 @@ export namespace Path {
 
     // TODO: Smith, Discover, Archaelogy,
 
-    type PathAssumptions = {
+    export type PathAssumptions = {
         double_surge?: boolean,
         double_escape?: boolean,
         mobile_perk?: boolean,

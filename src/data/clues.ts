@@ -2554,25 +2554,19 @@ export namespace clue_data {
             }
         },
         {
-            "id": 29,
-            "type": "cryptic",
-            "tier": "medium",
-            "text": ["Find a bar with a centre fountain in its city. Go upstairs and get changed."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3227, "y": 3395, "level": 0},
-                "answer": "You have to kill a guard dog to find the key, Guard dogs in Ardougne will do. After that you can search the locked drawers upstairs in the bar marked on the map."
-            }
-        },
-        {
             "id": 181,
             "type": "cryptic",
             "tier": "medium",
             "text": ["You'll need to look for a city with a central fountain. Look for a locked chest in the city's chapel."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3257, "y": 3487, "level": 0},
-                "answer": "Kill a monk in the monastery south of ardougne for a key, then search the chests."
+                "type": "search",
+                "spot": {"x": 3256, "y": 3487, "level": 0},
+                "entity": "Closed Chest",
+                "key": {
+                    "instructions": "The chest is locked! An inscription on the chest says: Property of Clock Tower Monastery.",
+                    "answer": "Kill a monk in the Kandarin Monastery.",
+                    "area": {"topleft": {"x": 2591, "y": 3218}, "botright": {"x": 2621, "y": 3204}, "level": 0}
+                }
             }
         },
         {
@@ -2581,9 +2575,14 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["The socks in these drawers are holier than thine, according to the tonsured owners."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3057, "y": 3498, "level": 0},
-                "answer": "Kill a Monk of Zamorak in the Chaos Temple near the Goblin Village to get a key, then search the drawers."
+                "type": "search",
+                "entity": "Drawers",
+                "spot": {"x": 3056, "y": 3497, "level": 0},
+                "key": {
+                    "instructions": "The chest has a crude note on top. It reads 'You'll never get these drawers open now! - Zamorak Monk.'",
+                    "answer": "Kill a Monk of Zamorak in the Chaos Temple near the Goblin Village.",
+                    "area": {"topleft": {"x": 2946, "y": 3478}, "botright": {"x": 2954, "y": 3473}, "level": 0}
+                }
             }
         },
         {
@@ -2592,9 +2591,14 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["Probably filled with wizards' socks."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3113, "y": 3152, "level": 0},
-                "answer": "Kill a Spellwisp north west of the tower to get a key, then search the cupboard on the second floor."
+                "type": "search",
+                "entity": "Cupboard",
+                "spot": {"x":3113,"y":3153,"level":2},
+                "key": {
+                    "instructions": "This cupboard is locked! One of the Spellwisps might have stolen the key. ",
+                    "answer": "Kill a Spellwisp north west of the tower.",
+                    "area": {"topleft":{"x":3066,"y":3183},"botright":{"x":3081,"y":3168},"level":0}
+                }
             }
         },
         {
@@ -3709,11 +3713,11 @@ export namespace clue_data {
             "type": "emote",
             "tier": "easy",
             "text": ["Headbang in the mine north of Al-kharid. Equip a Polar Camo Top, Leather Gloves and Leather Boots."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3296, "y": 3316}, "botright": {"x": 3303, "y": 3291}, "level": 0},
             "items": ["Polar Camo Top", "Leather Gloves", "Leather Boots"],
             "emotes": ["Headbang"],
             "double_agent": false,
+            "hidey_hole": {"name": "Rocks (hidey-hole)", "location": {"x": 3295, "y": 3282, "level": 0}}
         },
         {
             "id": 276,
@@ -3721,17 +3725,18 @@ export namespace clue_data {
             "tier": "easy",
             "text": ["Bow or curtsy outside the entrance to the Legends' Guild. Equip iron platelegs, an emerald amulet and an oak shieldbow."],
 
-            "area": null,
+            "area": {"topleft": {"x": 2726, "y": 3349}, "botright": {"x": 2731, "y": 3346}, "level": 0},
             "items": ["Iron platelegs", "Emerald Amulet", "Oak Shieldbow"],
             "emotes": ["Bow or Curtsy"],
             "double_agent": false,
+            "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2732, "y": 3352, "level": 0}}
         },
         {
             "id": 277,
             "type": "emote",
             "tier": "easy",
             "text": ["Cheer in the centre of the Burthorpe Games Room. Have nothing equipped at all when you do."],
-            "area": null,
+            "area": {"topleft": {"x": 2194, "y": 4973}, "botright": {"x": 2221, "y": 4946}, "level": 0},
             "items": ["Nothing"],
             "emotes": ["Cheer"],
             "double_agent": false,
@@ -3960,7 +3965,7 @@ export namespace clue_data {
             "text": ["Cry in the Catherby archery shop. Bow or curtsy before you talk to me. Equip a round red and black snelm, a hard leather body and an unblessed silver sickle."],
             "items": ["Round red and black snelm", "Hard leather body", "Unblessed silver sickle"],
             "emotes": ["Cry", "Bow or Curtsy"],
-            "double_agent": false
+            "double_agent": false,
             "area": null,
         },
         {
@@ -3970,7 +3975,7 @@ export namespace clue_data {
             "text": ["Yawn in the Castle Wars lobby. Shrug before you talk to me. Equip a ruby amulet, mithril scimitar and an iron square shield."],
             "items": ["Ruby amulet", "Mithril scimitar", "Iron square shield"],
             "emotes": ["Yawn", "Shrug"],
-            "double_agent": false
+            "double_agent": false,
             "area": null,
         },
         {
@@ -3980,7 +3985,7 @@ export namespace clue_data {
             "text": ["Shrug in the Zamorak temple found in the Eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody, and blue d'hide vambraces"],
             "items": ["Bronze platelegs", "Iron platebody", "Blue dragonhide vambraces"],
             "emotes": ["Shrug"],
-            "double_agent": true
+            "double_agent": true,
             "area": null,
         },
         {
@@ -4010,7 +4015,7 @@ export namespace clue_data {
             "text": ["Panic by the pilot on White Wolf Mountain. Beware of double agents! Equip mithril platelegs, a ring of life, and a rune hatchet."],
             "items": ["Mithril platelegs", "Ring of life", "Rune hatchet"],
             "emotes": ["Panic"],
-            "double_agent": true
+            "double_agent": true,
             "area": null,
         },
         {
@@ -4020,7 +4025,7 @@ export namespace clue_data {
             "text": ["Salute in the banana plantation. Beware of double agents! Equip a diamond ring, amulet of power and nothing on your chest and legs."],
             "items": ["Diamond ring", "Amulet of power", "Nothing on your chest and legs"],
             "emotes": ["Salute"],
-            "double_agent": true
+            "double_agent": true,
             "area": null,
         },
         {
@@ -4030,7 +4035,7 @@ export namespace clue_data {
             "text": ["Dance at the cat-doored pyramid in Sophanem. Beware of double agents! Equip a ring of life, an amulet of glory and an adamant two-handed sword."],
             "items": ["Ring of life", "Uncharged amulet of glory", "Adamant 2h sword"],
             "emotes": ["Dance"],
-            "double_agent": true
+            "double_agent": true,
             "area": null,
         },
         {
@@ -4078,7 +4083,7 @@ export namespace clue_data {
             "text": ["Yawn near the Wilderness Bandit camp obelisk. Beware of double agents! Equip an iron square shield, blue dragon vambraces and an iron pickaxe."],
             "items": ["Iron square shield", "Blue dragonhide vambraces", "Iron pickaxe"],
             "emotes": ["Yawn"],
-            "double_agent": true
+            "double_agent": true,
         },
         {
             "id": 243,
@@ -5503,7 +5508,7 @@ export namespace clue_data {
             "text": ["Search through chests found in the upstairs of houses in eastern Falador."],
             "solution": {
                 "type": "search",
-                "entity": "Chest", // TODO
+                "entity": "Closed Chest",
                 "spot": {"x": 3041, "y": 3364, "level": 1}
             }
         },
@@ -5514,7 +5519,7 @@ export namespace clue_data {
             "text": ["Search the chests in the Dwarven Mine."],
             "solution": {
                 "type": "search",
-                "entity": "Chest", // TODO,
+                "entity": "Chest",
                 "spot": {"x": 3000, "y": 9798, "level": 0}
             }
         },
@@ -5547,6 +5552,7 @@ export namespace clue_data {
             "text": ["Search the boxes in the house in Al Kharid with racks of silk."],
             "solution": {
                 "type": "search",
+                "entity": "Boxes",
                 "spot": {"x": 3289, "y": 3202, "level": 0}
             }
         },
@@ -5875,6 +5881,7 @@ export namespace clue_data {
             "text": ["Search the chest in the left-hand tower of Camelot Castle."],
             "solution": {
                 "type": "search",
+                "entity": "Closed Chest",
                 "spot": {"x": 2748, "y": 3495, "level": 2}
             }
         },
@@ -5885,6 +5892,7 @@ export namespace clue_data {
             "text": ["Search the chest in the Duke of Lumbridge's bedroom."],
             "solution": {
                 "type": "search",
+                "entity": "Closed Chest",
                 "spot": {"x": 3209, "y": 3218, "level": 1}
             }
         },
@@ -5895,6 +5903,7 @@ export namespace clue_data {
             "text": ["Search the crates near the Lumbridge Market."],
             "solution": {
                 "type": "search",
+                "entity": "Crates",
                 "spot": {"x": 3192, "y": 3257, "level": 0}
             }
         },

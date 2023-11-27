@@ -9,7 +9,7 @@ export namespace SolvingMethods {
         meerkats_active?: boolean,
         full_globetrotter?: boolean,
         way_of_the_footshaped_key?: boolean
-    }
+    } & Path.PathAssumptions
 
     type method_base = {
         type: method_kind,
@@ -17,7 +17,7 @@ export namespace SolvingMethods {
         for: { clue: number, spot?: TileCoordinates },
         name: string,
         description: string,
-        assumptions?: assumptions,
+        assumptions?: ClueAssumptions,
     }
 
     export type ScanTreeMethod = method_base & {

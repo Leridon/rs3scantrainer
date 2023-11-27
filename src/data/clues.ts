@@ -2641,6 +2641,7 @@ export namespace clue_data {
             "text": ["Try not to step on any aquatic nasties while searching this crate."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2764, "y": 3273, "level": 0},
             }
         },
@@ -2651,6 +2652,7 @@ export namespace clue_data {
             "text": ["After a hard day of spraying back the vegetation, you mite want to pop to the nearby forge and search the crates."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2399, "y": 4471, "level": 0},
             }
         },
@@ -2661,6 +2663,7 @@ export namespace clue_data {
             "text": ["For any aspiring mage, I'm sure searching this bookcase will be a rewarding experience."],
             "solution": {
                 "type": "search",
+                "entity": "Bookcase",
                 "spot": {"x": 3366, "y": 3319, "level": 1},
             }
         },
@@ -2671,6 +2674,7 @@ export namespace clue_data {
             "text": ["A town with a different sort of night-life is your destination. Search for some crates in one of the houses."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3498, "y": 3507, "level": 0},
             }
         },
@@ -2681,6 +2685,7 @@ export namespace clue_data {
             "text": ["Hay! Stop for a bit and admire the scenery, just like the tourism promoter says."],
             "solution": {
                 "type": "search",
+                "entity": "Hay bales",
                 "spot": {"x": 2524, "y": 3438, "level": 0},
             }
         },
@@ -2691,6 +2696,7 @@ export namespace clue_data {
             "text": ["North of the best monkey restaurant on Karamja, look for the centre of the triangle of boats and search there."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2905, "y": 3189, "level": 0},
             }
         },
@@ -2711,9 +2717,14 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["In a town where everyone has perfect vision, seek some locked drawers in a house that sits opposite a workshop."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2710, "y": 3479, "level": 0},
-                "answer": "Kill a chicken to get the key, then search the drawers."
+                "type": "search",
+                "entity": "Drawers",
+                "spot": {"x":2709,"y":3478,"level":0},
+                "key": {
+                    "instructions": "Don't forget to feed the chickens",
+                    "answer": "Kill a chicken.",
+                    "area": {"topleft":{"x":2729,"y":3564},"botright":{"x":2739,"y":3555},"level":0}
+                }
             }
         },
         {
@@ -2724,7 +2735,7 @@ export namespace clue_data {
             "solution": {
                 "type": "search",
                 "spot": {"x": 2519, "y": 3259, "level": 0},
-                "entitiy": "Crates"
+                "entity": "Crates"
             }
         },
         {
@@ -3301,6 +3312,7 @@ export namespace clue_data {
             "text": ["The cheapest water for miles around, but they react badly to religious icons."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3178, "y": 2987, "level": 0},
             }
         },
@@ -3310,9 +3322,9 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["You have all of the elements available to solve this clue. Fortunately you do not have to go as far as to stand in a draft."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2710, "y": 3498, "level": 0},
-                "answer": "Search the crates on the first level of the elemental workshop, east of the hatch."
+                "type": "search",
+                "entity": "Crate",
+                "spot": {"x":2723,"y":9891,"level":0}
             }
         },
         {
@@ -3322,6 +3334,7 @@ export namespace clue_data {
             "text": ["Try not to let yourself be dazzled when you search these drawers."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2561, "y": 3323, "level": 0},
             }
         },
@@ -3341,9 +3354,8 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["I am a token of the greatest love. I have no beginning or end. My eye is red, I can fit like a glove. Go to the place where it's money they lend, And dig by the gate to be my friend."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3189, "y": 3433, "level": 0},
-                "answer": "Dig by the gates in the cellar."
+                "type": "dig",
+                "spot": {"x":3191,"y":9825,"level":0},
             }
         },
         {
@@ -3353,6 +3365,7 @@ export namespace clue_data {
             "text": ["Navigating to this crate will be a trial."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2648, "y": 3662, "level": 0},
             }
         },

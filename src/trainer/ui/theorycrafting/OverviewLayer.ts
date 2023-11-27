@@ -204,7 +204,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 })())
 
                 if (sol.type == "search" && sol.key) {
-                    props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`).text(``))
+                    props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`))
                 }
             } catch (e) {
             }

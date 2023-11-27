@@ -3282,6 +3282,7 @@ export namespace clue_data {
             "text": ["'Throat mage seeks companionship. Seek answers inside my furniture if interested.'"],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 2666, "y": 3238, "level": 1},
             }
         },
@@ -3292,6 +3293,7 @@ export namespace clue_data {
             "text": ["Must be full of railings"],
             "solution": {
                 "type": "search",
+                "entity": "Boxes",
                 "spot": {"x": 2576, "y": 3464, "level": 0},
             }
         },
@@ -3302,6 +3304,7 @@ export namespace clue_data {
             "text": ["You will need to under-cook to solve this one."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3219, "y": 9617, "level": 0},
             }
         },

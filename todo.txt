@@ -3,6 +3,11 @@ Immediate next:
 - Data
     - Move clue data into the new, more detailled format
 
+            "area": {},
+            "items": ["", "", ""],
+            "emotes": [""],
+            "double_agent": false,
+
 - Theorycrafter
     - Take another look at how methods encode what clue(-variant) they are for
     - Organize methods into content-packs

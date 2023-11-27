@@ -50,7 +50,7 @@ export namespace clue_data {
                 "spots": [
                     {"range": {"topleft": {"x": 2267, "y": 4760}, "botright": {"x": 2271, "y": 4752}, "level": 0}, note: "Before 'Death Plateu'"}
                 ],
-                "npc": "Sabbot (Found inside the marked cave)"
+                "npc": "Sabbot"
             }
         },
         {
@@ -698,6 +698,7 @@ export namespace clue_data {
             "type": "compass",
             "tier": "elite",
             "text": ["The compass shows where you need to go."],
+            "challenge": [{"type": "wizard"}, {"type": "slider"}, {"type": "celticknot"}],
             "spots": [
                 {"x": 2413, "y": 2818, "level": 0},
                 {"x": 2398, "y": 2862, "level": 0},
@@ -1193,6 +1194,7 @@ export namespace clue_data {
             "type": "compass",
             "tier": "master",
             "text": ["The compass shows where you need to go on the arc."],
+            "challenge": [{"type": "wizard"}, {"type": "lockbox"}, {"type": "towers"}],
             "spots": [
                 {"x": 1868, "y": 11649, "level": 0},
                 {"x": 1904, "y": 11604, "level": 0},
@@ -2516,28 +2518,6 @@ export namespace clue_data {
     ]
     export const cryptic: Clues.Cryptic[] = [
         {
-            "id": 26,
-            "type": "cryptic",
-            "tier": null,
-            "text": ["'A bag belt only?' he asked his balding brothers"],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3058, "y": 3492, "level": 0},
-                "answer": "Talk to Abbot Langley."
-            }
-        },
-        {
-            "id": 31,
-            "type": "cryptic",
-            "tier": null,
-            "text": ["If a man carried my burden, he would break his back. I am not rich, but leave silver in my track. Speak to the keeper of my trail."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3014, "y": 3223, "level": 0},
-                "answer": "Talk to Gerrant."
-            }
-        },
-        {
             "id": 179,
             "type": "cryptic",
             "tier": "easy",
@@ -2547,6 +2527,7 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2612, "y": 3306, "level": 1},
             }
         },
@@ -2623,6 +2604,7 @@ export namespace clue_data {
             "text": ["In a village made of bamboo, look for some crates under one of the houses."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2800, "y": 3074, "level": 0},
             }
         },
@@ -2633,6 +2615,7 @@ export namespace clue_data {
             "text": ["The owner of this crate has a hunch that he put more than fish inside."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 2770, "y": 3172, "level": 0},
             }
         },
@@ -3058,7 +3041,10 @@ export namespace clue_data {
             "id": 139,
             "type": "cryptic",
             "tier": "hard",
-            "text": ["I am head of the abbey with a cold breeze from the west."],
+            "text": [
+                "I am head of the abbey with a cold breeze from the west.",
+                "'A bag belt only?' he asked his balding brothers" // Not sure if this is a
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [{"range": {"topleft": {"x": 3055, "y": 3487}, "botright": {"x": 3059, "y": 3482}, "level": 0}}],
@@ -3069,7 +3055,10 @@ export namespace clue_data {
             "id": 140,
             "type": "cryptic",
             "tier": "hard",
-            "text": ["My name's a tirade, fishing is my trade, by the docks is where my fortune is made."],
+            "text": [
+                "My name's a tirade, fishing is my trade, by the docks is where my fortune is made.",
+                "If a man carried my burden, he would break his back. I am not rich, but leave silver in my track. Speak to the keeper of my trail."
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [{"range": {"topleft": {"x": 3011, "y": 3229}, "botright": {"x": 3017, "y": 3223}, "level": 0}}],
@@ -3393,6 +3382,7 @@ export namespace clue_data {
             "text": ["My home is grey, and made of stone, A castle with a search for a meal. Hidden in some drawers I am, across from a wooden wheel."],
             "solution": {
                 "type": "search",
+                "entity": "Drawers",
                 "spot": {"x": 3213, "y": 3216, "level": 1},
             }
         },
@@ -3406,8 +3396,8 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spot": [{"range": {"topleft": {"x": 3202, "y": 3474}, "botright": {"x": 3206, "y": 3470}, "level": 0}}],
-                "npc": "Sir Prysin."
+                "spots": [{"range": {"topleft": {"x": 3202, "y": 3474}, "botright": {"x": 3206, "y": 3470}, "level": 0}}],
+                "npc": "Sir Prysin"
             }
         },
         {
@@ -3417,6 +3407,7 @@ export namespace clue_data {
             "text": ["Four blades I have, yet draw no blood, Still I turn my prey to powder. If you are brave, come search my roof, It is there my blades are louder."],
             "solution": {
                 "type": "search",
+                "entity": "Crate",
                 "spot": {"x": 3166, "y": 3309, "level": 2},
             }
         },
@@ -3463,9 +3454,9 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["When no weapons are at hand, then is the time to reflect. In Saradomin's name, redemption draws closer."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2818, "y": 3353, "level": 0},
-                "answer": "Search the drawers."
+                "type": "search",
+                "entity": "Drawers",
+                "spot": {"x": 2818, "y": 3351, "level": 0},
             }
         },
         {
@@ -3474,9 +3465,8 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["46 is my number. My body is the colour of burnt orange and crawls among those with eight. Three mouths I have, yet I cannot eat. My blinking blue eye hides my grave."],
             "solution": {
-                "type": "simple",
+                "type": "dig",
                 "spot": {"x": 3169, "y": 3887, "level": 0},
-                "answer": "Dig between the mushrooms."
             }
         },
         {
@@ -3485,9 +3475,8 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["If you didn't want to be here and in danger, you should lever things well enough alone."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3154, "y": 3924, "level": 0},
-                "answer": "Dig by the lever."
+                "type": "dig",
+                "spot": {"x": 3154, "y": 3923, "level": 0},
             }
         },
         {
@@ -3496,9 +3485,8 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["I lie lonely and forgotten in mid wilderness, Where the dead rise from their beds. Feel free to quarrel and wind me up, and dig while you shoot their heads."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 3235, "y": 3675, "level": 0},
-                "answer": "Dig under the crossbow."
+                "type": "dig",
+                "spot": {"x": 3235, "y": 3673, "level": 0},
             }
         },
         {
@@ -3507,9 +3495,8 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["And so on, and so on, and so on. Walking from the land of many unimportant things leads to a choice of paths."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2589, "y": 3880, "level": 0},
-                "answer": "Dig by the crossroads."
+                "type": "dig",
+                "spot": {"x": 2591, "y": 3879, "level": 0},
             }
         },
         {
@@ -3518,9 +3505,9 @@ export namespace clue_data {
             "tier": "hard",
             "text": ["This village has a problem with cartloads of the undead. Try checking the bookcase to find the answer."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2834, "y": 2990, "level": 0},
-                "answer": "Search the bookcase."
+                "type": "search",
+                "entity": "Bookcase",
+                "spot": {"x": 2833, "y": 2992, "level": 0},
             }
         }
     ]
@@ -3530,358 +3517,368 @@ export namespace clue_data {
             "type": "emote",
             "tier": "easy",
             "text": ["Dance in the shack in Lumbridge Swamp. Equip a bronze dagger, iron full helm and a gold ring."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3204, "y": 3168, "level": 0},
-                "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Bronze dagger, Iron full helm, Gold ring"
-            }
+            "area": {"topleft": {"x": 3202, "y": 3170}, "botright": {"x": 3205, "y": 3167}, "level": 0},
+            "items": ["Bronze Dagger", "Iron full helm", "Gold ring"],
+            "emotes": ["Dance"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Barrel (hidey-hole)", "location": {"x": 3204, "y": 3169, "level": 0}}
         },
         {
             "id": 259,
             "type": "emote",
             "tier": "easy",
             "text": ["Think in the middle of the wheat field by the Lumbridge mill. Equip a sapphire necklace, polar camo legs and an oak shortbow."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3159, "y": 3299, "level": 0},
-                "answer": "<b>Emote:</b> Think<br><b>Items:</b> Sapphire necklace, Polar camo legs, Oak shortbow"
-            }
+            "area": {"topleft": {"x": 3155, "y": 3303}, "botright": {"x": 3159, "y": 3295}, "level": 0},
+            "items": ["Sapphire necklace", "Polar camo legs", "Oak shortbow"],
+            "emotes": ["Think"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Sack of items (hidey-hole)", "location": {"x": 3165, "y": 3302, "level": 0}}
         },
         {
             "id": 260,
             "type": "emote",
             "tier": "easy",
             "text": ["Laugh at the crossroads south of Sinclair Mansion. Equip a leather cowl, amulet of strength and iron scimitar."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2741, "y": 3536, "level": 0},
-                "answer": "<b>Emote:</b> Laugh<br><b>Items:</b> Leather cowl, Amulet of strength, Iron scimitar"
-            }
+            "area": {"topleft": {"x": 2737, "y": 3541}, "botright": {"x": 2744, "y": 3534}, "level": 0},
+            "items": ["Leather cowl", "Amulet of strength", "Iron scimitar"],
+            "emotes": ["Laugh"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2734, "y": 3535, "level": 0}}
         },
         {
             "id": 261,
             "type": "emote",
             "tier": "easy",
             "text": ["Panic in the limestone mine. Equip bronze platelegs, a steel pickaxe and a steel helmet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3371, "y": 3500, "level": 0},
-                "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Bronze platelegs, Steel pickaxe Steel helm"
-            }
+            "area": {"topleft": {"x": 3365, "y": 3504}, "botright": {"x": 3376, "y": 3496}, "level": 0},
+            "items": ["Bronze platelegs", "Steel pickaxe", "Steel helm"],
+            "emotes": ["Panic"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3376, "y": 3500, "level": 0}}
         },
         {
             "id": 262,
             "type": "emote",
             "tier": "easy",
             "text": ["Panic on the pier where you catch the Fishing Trawler. Have nothing equipped at all when you do."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2676, "y": 3170, "level": 0},
-                "answer": "<b>Emote:</b> Panic<br><b>Items:</b> Nothing equipped"
-            }
+            "area": {"topleft": {"x": 2676, "y": 3174}, "botright": {"x": 2676, "y": 3163}, "level": 0},
+            "items": ["Nothing"],
+            "emotes": ["Panic"],
+            "double_agent": false,
+            "hidey_hole": null
         },
         {
             "id": 263,
             "type": "emote",
             "tier": "easy",
             "text": ["Blow a raspberry at the monkey cage in Ardougne Zoo. Equip a studded leather body, bronze platelegs and a mud pie."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2607, "y": 3283, "level": 0},
-                "answer": "<b>Emote:</b> Raspberry<br><b>Items:</b> Studded body, Bronze platelegs, Mud pie"
-            }
+            "area": {"topleft": {"x": 2596, "y": 3284}, "botright": {"x": 2608, "y": 3272}, "level": 0},
+            "items": ["Studded leather body", "Bronze platelegs", "Mud pie"],
+            "emotes": ["Raspberry"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2599, "y": 3280, "level": 0}}
+
         },
         {
             "id": 264,
             "type": "emote",
             "tier": "easy",
             "text": ["Clap on the causeway to the Wizards' Tower. Equip an iron helmet, emerald ring and leather gloves."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3102, "y": 3201, "level": 0},
-                "answer": "<b>Emote:</b> Clap<br><b>Items:</b> Iron helm, Emerald ring, Leather gloves"
-            }
+            "area": {"topleft": {"x": 3101, "y": 3209}, "botright": {"x": 3104, "y": 3187}, "level": 0},
+            "items": ["Iron helmet", "Emerald ring", "Leather gloves"],
+            "emotes": ["Clap"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 3099, "y": 3188, "level": 0}}
+
         },
         {
             "id": 265,
             "type": "emote",
             "tier": "easy",
             "text": ["Twirl at the crossroads north of Rimmington. Equip a Sapphire ring, yellow flowers and leather chaps."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2954, "y": 3240, "level": 0},
-                "answer": "<b>Emote:</b> Twirl<br><b>Items:</b> Sapphire ring, Yellow flowers, Leather chaps"
-            }
+            "area": {"topleft": {"x": 2953, "y": 3243}, "botright": {"x": 2956, "y": 3238}, "level": 0},
+            "items": ["Sapphire ring", "Yellow flowers", "Leather chaps"],
+            "emotes": ["Twirl"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2959, "y": 3241, "level": 0}}
         },
         {
             "id": 266,
             "type": "emote",
             "tier": "easy",
             "text": ["Blow raspberries outside the entrance to Keep Le Faye. Equip a studded leather coif, iron platebody and leather gloves."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2762, "y": 3402, "level": 0},
-                "answer": "<b>Emote:</b> Raspberry, then raspberry again<br><b>Items:</b>Studded leather coif, Iron platebody, Leather gloves"
-            }
+            "area": {"topleft": {"x": 2755, "y": 3405}, "botright": {"x": 2763, "y": 3398}, "level": 0},
+            "items": ["Studded leather coif", "Iron platebody", "Leather gloves"],
+            "emotes": ["Raspberry"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 2756, "y": 3404, "level": 0}}
         },
         {
             "id": 267,
             "type": "emote",
             "tier": "easy",
             "text": ["Cheer for the monks at Port Sarim. Equip a studded leather coif, steel plateskirt and a sapphire necklace."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3043, "y": 3236, "level": 0},
-                "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Studded leather coif, Steel plateskirt, Sapphire necklace"
-            }
+            "area": {"topleft": {"x": 3044, "y": 3237}, "botright": {"x": 3049, "y": 3234}, "level": 0},
+            "items": ["Studded Leather coif", "Steel plateskirt", "Sapphire necklace"],
+            "emotes": ["Cheer"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3042, "y": 3234, "level": 0}}
         },
         {
             "id": 268,
             "type": "emote",
             "tier": "easy",
             "text": ["Wave on Mudskipper Point. Equip a gold ring, leather chaps and a steel mace."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2994, "y": 3116, "level": 0},
-                "answer": "<b>Emote:</b> Wave<br><b>Items:</b> Gold ring, Leather chaps, Steel mace"
-            }
+            "area": {"topleft": {"x": 2981, "y": 3130}, "botright": {"x": 3005, "y": 3106}, "level": 0},
+            "items": ["Gold ring", "Leather chaps", "Steel mace"],
+            "emotes": ["Wave"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Rock (hidey-hole)", "location": {"x": 3004, "y": 3123, "level": 0}}
+
         },
         {
             "id": 269,
             "type": "emote",
             "tier": "easy",
             "text": ["Shrug in the mine near Rimmington. Equip a gold necklace, gold ring and a bronze spear."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2974, "y": 3236, "level": 0},
-                "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Gold necklace, Gold ring, Bronze spear"
-            }
+
+            "area": {"topleft": {"x": 2970, "y": 3243}, "botright": {"x": 2981, "y": 3230}, "level": 0},
+            "items": ["Gold necklace", "Gold ring", "Bronze spear"],
+            "emotes": ["Shrug"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Cart (hidey-hole)", "location": {"x": 2972, "y": 3235, "level": 0}}
         },
         {
             "id": 270,
             "type": "emote",
             "tier": "easy",
             "text": ["Clap in the main exam room of the Exam Centre. Equip a ruby amulet, blue flowers and leather gloves."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3357, "y": 3345, "level": 0},
-                "answer": "<b>Emote:</b> Clap<br><b>Items:</b> Ruby amulet, Blue flowers, Leather gloves"
-            }
+            "area": {"topleft": {"x": 3351, "y": 3349}, "botright": {"x": 3359, "y": 3342}, "level": 0},
+            "items": ["Ruby amulet", "Blue flowers", "Leather gloves"],
+            "emotes": ["Clap"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3351, "y": 3348, "level": 0}}
         },
         {
             "id": 271,
             "type": "emote",
             "tier": "easy",
             "text": ["Yawn in Varrock Palace library. Equip a holy symbol, leather vambraces and an iron warhammer."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3211, "y": 3494, "level": 0},
-                "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Holy symbol, Leather vambraces, Iron warhammer"
-            }
+            "area": {"topleft": {"x": 3207, "y": 3497}, "botright": {"x": 3217, "y": 3490}, "level": 0},
+            "items": ["Holy symbol", "Leather vamraces", "Iron warhammer"],
+            "emotes": ["Yawn"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Crate (hidey-hole)", "location": {"x": 3217, "y": 3494, "level": 0}}
+
         },
         {
             "id": 272,
             "type": "emote",
             "tier": "easy",
             "text": ["Dance in the Party Room. Equip a steel full helmet, steel platebody and an iron plateskirt."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3046, "y": 3376, "level": 0},
-                "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Steel full helm, Steel platebody, Iron plateskirt"
-            }
+            "area": {"topleft": {"x": 3036, "y": 3385}, "botright": {"x": 3055, "y": 3371}, "level": 0},
+            "items": ["Steel full helmet", "Steel platebody", "Iron plateskirt"],
+            "emotes": ["Dance"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Potted plant (hidey-hole)", "location": {"x": 3041, "y": 3372, "level": 0}}
         },
         {
             "id": 273,
             "type": "emote",
             "tier": "easy",
             "text": ["Twirl in Draynor Manor by the fountain. Equip an iron platebody, studded chaps and a bronze full helm."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3091, "y": 3337, "level": 0},
-                "answer": "<b>Emote:</b> Twirl<br><b>Items:</b> Iron platebody, Studded chaps, Bronze full helm"
-            }
+            "area": {"topleft": {"x": 3086, "y": 3337}, "botright": {"x": 3090, "y": 3333}, "level": 0},
+            "items": ["Iron platebody", "Studden chaps", "Bronze full helm"],
+            "emotes": ["Twirl"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Dead tree (hidey-hole)", "location": {"x": 3091, "y": 3341, "level": 0}}
         },
         {
             "id": 274,
             "type": "emote",
             "tier": "easy",
             "text": ["Jump for joy at the beehives. Equip iron boots, an unholy symbol and a steel hatchet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2758, "y": 3444, "level": 0},
-                "answer": "<b>Emote:</b> Jump for joy<br><b>Items:</b> Iron boots, Unholy symbol, Steel hatchet"
-            }
+            "area": {"topleft": {"x": 2752, "y": 3451}, "botright": {"x": 2766, "y": 3436}, "level": 0},
+            "items": ["Iron boots", "Unholy smybol", "Steel hatchet"],
+            "emotes": ["Jump for Joy"],
+            "double_agent": false,
+            "hidey_hole": {"name": "Beehive (hidey-hole)", "location": {"x": 2762, "y": 3447, "level": 0}}
         },
         {
             "id": 275,
             "type": "emote",
             "tier": "easy",
             "text": ["Headbang in the mine north of Al-kharid. Equip a Polar Camo Top, Leather Gloves and Leather Boots."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3298, "y": 3297, "level": 0},
-                "answer": "<b>Emote:</b> Headbang<br><b>Items:</b> Polar Camo Top, Leather Gloves, Leather Boots"
-            }
+
+            "area": null,
+            "items": ["Polar Camo Top", "Leather Gloves", "Leather Boots"],
+            "emotes": ["Headbang"],
+            "double_agent": false,
         },
         {
             "id": 276,
             "type": "emote",
             "tier": "easy",
             "text": ["Bow or curtsy outside the entrance to the Legends' Guild. Equip iron platelegs, an emerald amulet and an oak shieldbow."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2729, "y": 3349, "level": 0},
-                "answer": "<b>Emote:</b> bow or curtsy<br><b>Items:</b> Iron platelegs, Emerald amulet, Oak shieldbow"
-            }
+
+            "area": null,
+            "items": ["Iron platelegs", "Emerald Amulet", "Oak Shieldbow"],
+            "emotes": ["Bow or Curtsy"],
+            "double_agent": false,
         },
         {
             "id": 277,
             "type": "emote",
             "tier": "easy",
             "text": ["Cheer in the centre of the Burthorpe Games Room. Have nothing equipped at all when you do."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2893, "y": 3569, "level": 0},
-                "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Nothing equiped"
-            }
+            "area": null,
+            "items": ["Nothing"],
+            "emotes": ["Cheer"],
+            "double_agent": false,
+            "hidey_hole": null
         },
         {
             "id": 278,
             "type": "emote",
             "tier": "easy",
             "text": ["Dance at the crossroads north of Draynor. Equip an iron chainbody, sapphire ring and a shieldbow."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3109, "y": 3294, "level": 0},
-                "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Iron chainbody, Sapphire ring, Shieldbow"
-            }
+
+            "area": null,
+            "items": ["Iron Chainbody", "Sapphire Ring", "Shieldbow"],
+            "emotes": ["Dance"],
+            "double_agent": false,
         },
         {
             "id": 279,
             "type": "emote",
             "tier": "easy",
             "text": ["Dance a jig by the entrance to the Fishing Guild. Equip an emerald ring, sapphire amulet, and a bronze chainbody."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2614, "y": 3385, "level": 0},
-                "answer": "<b>Emote:</b> Jig<br><b>Items:</b> Sapphire amulet, Emerald ring, Bronze chainbody"
-            }
+
+            "area": null,
+            "items": ["Emerald Ring", "Sapphire Amulet", "Bronze Chainbody"],
+            "emotes": ["Jig"],
+            "double_agent": false,
         },
         {
             "id": 280,
             "type": "emote",
             "tier": "easy",
             "text": ["Bow or curtsy at the entrance to Het's Oasis. Equip an iron chainbody, leather chaps and a studded leather coif."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3321, "y": 3235, "level": 0},
-                "answer": "<b>Emote:</b> Bow or curtsy<br><b>Items:</b> Iron chainbody, Leather chaps, Studded leather coif"
-            }
+
+            "area": null,
+            "items": ["Iron Chainbody", "Leather Chaps", "Leather Coif"],
+            "emotes": ["Bow or Curtsy"],
+            "double_agent": false,
         },
         {
             "id": 281,
             "type": "emote",
             "tier": "easy",
             "text": ["Cry outside the south gates of Fort Forinthry. Equip a hard leather body, leather chaps and a bronze hatchet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3304, "y": 3525, "level": 0},
-                "answer": "<b>Emote:</b> Cry<br><b>Items:</b> Leather chaps, Bronze hatchet, Hard leather body"
-            }
+
+            "area": null,
+            "items": ["Hard Leather Body", "Leather Chaps", "Bronze Hatchet"],
+            "emotes": ["Cry"],
+            "double_agent": false,
         },
         {
             "id": 282,
             "type": "emote",
             "tier": "easy",
             "text": ["Clap on the top level of the mill north of East Ardougne. Equip an emerald ring, wood camo top and an unenchanted tiara."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2633, "y": 3386, "level": 0},
-                "answer": "<b>Emote:</b> Clap<br><b>Items:</b> Emerald ring, Wood camo top, Unenchanted Tiara<br><b>Note:<b> Top floor of the mill"
-            }
+
+            "area": null,
+            "items": ["Emerald Ring", "Wood Camo Top", "Unenchanted Tiara"],
+            "emotes": ["Clap"],
+            "double_agent": false,
         },
         {
             "id": 283,
             "type": "emote",
             "tier": "easy",
             "text": ["Yawn in Draynor Marketplace. Equip an iron kiteshield, steel longsword and studded leather chaps."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3080, "y": 3250, "level": 0},
-                "answer": "<b>Emote:</b> Yawn<br><b>Items:</b> Iron kiteshield, Steel longsword, Studded leather chaps"
-            }
+
+            "area": null,
+            "items": ["Iron Kiteshield", "Steel Longsword", "Studded Leather Chaps"],
+            "emotes": ["Yawn"],
+            "double_agent": false,
         },
         {
             "id": 284,
             "type": "emote",
             "tier": "easy",
             "text": ["Cheer at the Druids' Circle. Equip an air tiara, bronze two-handed sword and a gold amulet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2922, "y": 3482, "level": 0},
-                "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Air tiara, Bronze 2h sword, Gold amulet"
-            }
+
+            "area": null,
+            "items": ["Air Tiara", "Bronze 2h Sword", "Gold Amulet"],
+            "emotes": ["Cheer"],
+            "double_agent": false,
         },
         {
             "id": 7,
             "type": "emote",
             "tier": "medium",
             "text": ["Beckon in the Digsite, near the eastern winch. Bow or curtsy before you talk to me. Equip a pointed red and black snelm, snakeskin boots, and an iron pickaxe."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3378, "y": 3445, "level": 0},
-                "answer": "<b>Emote:</b> Beckon, then bow or curtsy<br><b>Items:</b> Pointed red and black snelm, Snakeskin boots, Iron pickaxe"
-            }
+
+            "area": null,
+            "items": ["Pointed Red and Black Snelm", "Snakeskin Boots", "Iron Pickaxe"],
+            "emotes": ["Beckon", "Bow or Curtsy"],
+            "double_agent": false,
         },
         {
             "id": 247,
             "type": "emote",
             "tier": "medium",
             "text": ["Panic by the mausoleum in Morytania. Wave before you speak to me. Equip a mithril plateskirt, a maple shieldbow and no boots."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3578, "y": 3528, "level": 0},
-                "answer": "Enter the grave marked on the map, then run north-west until you find an ladder, this will take you to the island where you can do the emote.<br><b>Emote:</b> Panic, then wave<br><b>Items:</b> Mithril plateskirt, Maple shieldbow, <b>no</b> boots"
-            }
+
+            "area": null,
+            "items": ["Mithril Plateskirt", "Maple Shieldbow", "No boots"],
+            "emotes": ["Panic", "Wave"],
+            "double_agent": false,
         },
         {
             "id": 248,
             "type": "emote",
             "tier": "medium",
             "text": ["Dance a jig under Shantay's Awning. Bow or curtsy before you talk to me. Equip a pointed blue snail helmet and an air staff."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3304, "y": 3123, "level": 0},
-                "answer": "<b>Emote: Jig, then bow or curtsy</b> <br><b>Items:</b> Pointed blue snail helmet, Air staff"
-            }
+
+            "area": null,
+            "items": ["Pointed Blue Snelm", "Air Staff"],
+            "emotes": ["Jig", "Bow or Curtsy"],
+            "double_agent": false,
         },
         {
             "id": 249,
             "type": "emote",
             "tier": "medium",
             "text": ["Think under the lens in the Observatory. Twirl before you talk to me. Equip a mithril chainbody, green dragonhide chaps and a ruby amulet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2442, "y": 3160, "level": 0},
-                "answer": "After doing the quest you can use a rope shortcut under the bridge to get there.<br><b>Emotes:</b> Think, then twirl<br><b>Items:</b> Mithril chainbody, Green dragonhide chaps, Ruby amulet"
-            }
+
+            "area": null,
+            "items": ["Mithril Chainbody", "Green Dragonhide Chaps", "Ruby Amulet"],
+            "emotes": ["Think", "Twirl"],
+            "double_agent": false,
         },
         {
             "id": 250,
             "type": "emote",
             "tier": "medium",
             "text": ["Twirl on the bridge by Barbarian Village. Salute before you talk to me. Equip an iron hatchet, steel kiteshield and a mithril full helmet."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3105, "y": 3421, "level": 0},
-                "answer": "<b>Emotes:</b> Twirl, then salute<br><b>Items:</b> Iron hatchet, Steel kiteshield, Mithril full helm"
-            }
+
+            "area": null,
+            "items": ["Iron Hatchet", "Steel Kiteshield", "Mithril Full Helm"],
+            "emotes": ["Twirl", "Salute"],
+            "double_agent": false,
         },
         {
             "id": 251,
             "type": "emote",
             "tier": "medium",
             "text": ["Jump for joy in Yanille bank. Dance a jig before you talk to me. Equip an iron crossbow, adamant helmet and snakeskin chaps."],
+
+            "area": null,
+            "items": ["", "", ""],
+            "emotes": [""],
+            "double_agent": false,
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2612, "y": 3093, "level": 0},
@@ -3893,6 +3890,11 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Dance in the centre of Canifis. Bow or curtsy before you talk to me. Equip a spiny helmet, mithril platelegs and an iron two-handed sword."],
+
+            "area": null,
+            "items": ["", "", ""],
+            "emotes": [""],
+            "double_agent": false,
             "solution": {
                 "type": "simple",
                 "spot": {"x": 3492, "y": 3491, "level": 0},
@@ -3904,6 +3906,11 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Cheer in the Barbarian Agility Arena. Headbang before you talk to me. Equip a steel platebody, maple shortbow and bronze boots."],
+
+            "area": null,
+            "items": ["", "", ""],
+            "emotes": [""],
+            "double_agent": false,
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2548, "y": 3553, "level": 0},
@@ -3915,6 +3922,11 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Cry on the platform of the south-west tree in the Gnome Agility Arena. Indicate 'no' before you talk to me. Equip a steel kiteshield, ring of forging and green dragonhide chaps."],
+
+            "area": null,
+            "items": ["", "", ""],
+            "emotes": [""],
+            "double_agent": false,
             "solution": {
                 "type": "simple",
                 "spot": {"x": 2474, "y": 3419, "level": 0},
@@ -3929,6 +3941,7 @@ export namespace clue_data {
             "items": ["Green dragonhide chaps", "Ring of duelling", "Mithril helm"],
             "emotes": ["Becken", "Clap"],
             "double_agent": false,
+            "area": null,
         },
         {
             "id": 256,
@@ -3938,6 +3951,7 @@ export namespace clue_data {
             "items": ["Green dragonhide body", "Green dragonhide chaps", "Steel square shield"],
             "emotes": ["Cheer", "Angry"],
             "double_agent": false,
+            "area": null,
         },
         {
             "id": 257,
@@ -3947,6 +3961,7 @@ export namespace clue_data {
             "items": ["Round red and black snelm", "Hard leather body", "Unblessed silver sickle"],
             "emotes": ["Cry", "Bow or Curtsy"],
             "double_agent": false
+            "area": null,
         },
         {
             "id": 258,
@@ -3956,6 +3971,7 @@ export namespace clue_data {
             "items": ["Ruby amulet", "Mithril scimitar", "Iron square shield"],
             "emotes": ["Yawn", "Shrug"],
             "double_agent": false
+            "area": null,
         },
         {
             "id": 9,
@@ -3965,6 +3981,7 @@ export namespace clue_data {
             "items": ["Bronze platelegs", "Iron platebody", "Blue dragonhide vambraces"],
             "emotes": ["Shrug"],
             "double_agent": true
+            "area": null,
         },
         {
             "id": 225,
@@ -3973,7 +3990,8 @@ export namespace clue_data {
             "text": ["Panic in the heart of the Haunted Woods. Beware of double agents! Have no items equipped when you do."],
             "emotes": ["Panic"],
             "items": ["Nothing"],
-            "double_agent": true
+            "double_agent": true,
+            "area": null,
         },
         {
             "id": 226,
@@ -3983,6 +4001,7 @@ export namespace clue_data {
             "items": ["Rune full helm", "Blue dragonhide chaps", "Fire battlestaff"],
             "emotes": ["Laugh"],
             "double_agent": true,
+            "area": null,
         },
         {
             "id": 227,
@@ -3992,6 +4011,7 @@ export namespace clue_data {
             "items": ["Mithril platelegs", "Ring of life", "Rune hatchet"],
             "emotes": ["Panic"],
             "double_agent": true
+            "area": null,
         },
         {
             "id": 228,
@@ -4001,6 +4021,7 @@ export namespace clue_data {
             "items": ["Diamond ring", "Amulet of power", "Nothing on your chest and legs"],
             "emotes": ["Salute"],
             "double_agent": true
+            "area": null,
         },
         {
             "id": 229,
@@ -4010,6 +4031,7 @@ export namespace clue_data {
             "items": ["Ring of life", "Uncharged amulet of glory", "Adamant 2h sword"],
             "emotes": ["Dance"],
             "double_agent": true
+            "area": null,
         },
         {
             "id": 230,
@@ -4032,7 +4054,8 @@ export namespace clue_data {
             "text": ["Blow a kiss between the tables in Shilo Village bank. Beware of double agents! Equip a splitbark helm, mud pie and rune platebody."],
             "items": ["Splitbark helmet", "Mud pie", "Rune platebofy"],
             "emotes": ["Blow kiss"],
-            "double_agent": true
+            "double_agent": true,
+            "area": null,
         },
         {
             "id": 232,
@@ -4053,7 +4076,7 @@ export namespace clue_data {
             "type": "emote",
             "tier": "hard",
             "text": ["Yawn near the Wilderness Bandit camp obelisk. Beware of double agents! Equip an iron square shield, blue dragon vambraces and an iron pickaxe."],
-            "items": ["Iron square shield", "Blue dragonhide vambraces", "Iron pickaxe" ],
+            "items": ["Iron square shield", "Blue dragonhide vambraces", "Iron pickaxe"],
             "emotes": ["Yawn"],
             "double_agent": true
         },
@@ -5491,7 +5514,7 @@ export namespace clue_data {
             "text": ["Search the chests in the Dwarven Mine."],
             "solution": {
                 "type": "search",
-                "entity": "Chest" // TODO,
+                "entity": "Chest", // TODO,
                 "spot": {"x": 3000, "y": 9798, "level": 0}
             }
         },

@@ -38,7 +38,13 @@ export namespace Path {
         | "mine"
         | "trade"
         | "use"
-    // TODO: Smith, Cook, Pick lock, Pick up, Discover, Archaelogy, Divine, Shovel, Checkmark, X (used with dive)
+        | "cook"
+        | "divine"
+        | "loot"
+        | "picklock"
+        | "shovel"
+
+    // TODO: Smith, Discover, Archaelogy,
 
     type PathAssumptions = {
         double_surge?: boolean,
@@ -57,7 +63,7 @@ export namespace Path {
                 {type: "talk", icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"},
                 {type: "open", icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"},
                 {type: "enter", icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"},
-                {type: "spellonentity", icon_url: "assets/icons/cursor_spell.png", description: "Use spell", short_icon: "cursor_spell"},
+                {type: "spellonentity", icon_url: "assets/icons/cursor_alchemy.png", description: "Use spell", short_icon: "cursor_spell"},
                 {type: "agility_obstacle", icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"},
                 {type: "ladderdown", icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"},
                 {type: "ladderup", icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"},
@@ -69,7 +75,12 @@ export namespace Path {
                 {type: "build", icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"},
                 {type: "mine", icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"},
                 {type: "trade", icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"},
-                {type: "use", icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
+                {type: "use", icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"},
+                {type: "cook", icon_url: "assets/icons/cursor_cook.png", description: "Cook", short_icon: "cursor_cook"},
+                {type: "divine", icon_url: "assets/icons/cursor_divine.png", description: "Divine", short_icon: "cursor_divine"},
+                {type: "loot", icon_url: "assets/icons/cursor_loot.png", description: "Loot", short_icon: "cursor_loot"},
+                {type: "picklock", icon_url: "assets/icons/cursor_picklock.png", description: "Pick Lock", short_icon: "cursor_picklock"},
+                {type: "shovel", icon_url: "assets/icons/cursor_shovel.png", description: "Shovel", short_icon: "cursor_shovel"},
             ]
         }
 

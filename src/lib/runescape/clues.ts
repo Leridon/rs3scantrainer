@@ -48,7 +48,7 @@ export namespace ClueType {
             map: {icon_url: "assets/icons/map.png", name: "Map"},
             scan: {icon_url: "assets/icons/scan.png", name: "Scan"},
             simple: {icon_url: "assets/icons/activeclue.png", name: "Simple"},
-            skilling: {icon_url: "assets/icons/activeclue.png", name: "Skilling"}
+            skilling: {icon_url: "assets/icons/skills.webp", name: "Skilling"}
         }
 
         if (!lut[x]) debugger
@@ -61,7 +61,7 @@ export namespace ClueType {
         return x.charAt(0).toUpperCase() + x.slice(1);
     }
 
-    export const all: ClueType[] = ["anagram", "compass", "coordinates", "cryptic", "emote", "map", "scan", "simple", "skilling"]
+    export const all: ClueType[] = ["simple", "cryptic", "emote", "map", "anagram", "coordinates", "compass", "scan", "skilling"]
 }
 
 export namespace Clues {
@@ -101,7 +101,7 @@ export namespace Clues {
         items: string[],
         emotes: string[],
         double_agent: boolean,
-        hidey_hole?: { location: TileRectangle, name: string },
+        hidey_hole: null | { location: TileCoordinates, name: string },
     }
     export type Map = StepShared & { type: "map", ocr_data: number[], solution: Solution, image_url: string }
     export type Scan = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }

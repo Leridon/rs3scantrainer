@@ -76,10 +76,16 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
             type: { type: ClueType, btn: SmallImageToggleButton }[],
         } = {
             tier: ClueTier.all.map(t => {
-                return {tier: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])}
+                return {
+                    tier: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])
+                        .tooltip(ClueType.meta(t).name)
+                }
             }),
             type: ClueType.all.map(t => {
-                return {type: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])}
+                return {
+                    type: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])
+                        .tooltip(ClueType.meta(t).name)
+                }
             })
         }
 
@@ -253,17 +259,17 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         function render_challenge(challenge: Clues.Challenge) {
             switch (challenge.type) {
                 case "wizard":
-                    return c(`<span><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</span>`);
+                    return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
                 case "slider":
-                    return c(`<span><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</span>`);
+                    return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
                 case "celticknot":
-                    return c(`<span><img src='assets/icons/celtic_knot.png' class="inline-img"> Celtic Knot</span>`);
+                    return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
                 case "lockbox":
-                    return c(`<span><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</span>`);
+                    return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
                 case "towers":
-                    return c(`<span><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</span>`);
+                    return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
                 case "challengescroll":
-                    return c(`<span><img src='assets/icons/questionmark.png' class="inline-img"> ${challenge.question} (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</span>`);
+                    return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> ${challenge.question} (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
             }
         }
 

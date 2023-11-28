@@ -2593,11 +2593,11 @@ export namespace clue_data {
             "solution": {
                 "type": "search",
                 "entity": "Cupboard",
-                "spot": {"x":3113,"y":3153,"level":2},
+                "spot": {"x": 3113, "y": 3153, "level": 2},
                 "key": {
                     "instructions": "This cupboard is locked! One of the Spellwisps might have stolen the key. ",
                     "answer": "Kill a Spellwisp north west of the tower.",
-                    "area": {"topleft":{"x":3066,"y":3183},"botright":{"x":3081,"y":3168},"level":0}
+                    "area": {"topleft": {"x": 3066, "y": 3183}, "botright": {"x": 3081, "y": 3168}, "level": 0}
                 }
             }
         },
@@ -2719,11 +2719,11 @@ export namespace clue_data {
             "solution": {
                 "type": "search",
                 "entity": "Drawers",
-                "spot": {"x":2709,"y":3478,"level":0},
+                "spot": {"x": 2709, "y": 3478, "level": 0},
                 "key": {
                     "instructions": "Don't forget to feed the chickens",
                     "answer": "Kill a chicken.",
-                    "area": {"topleft":{"x":2729,"y":3564},"botright":{"x":2739,"y":3555},"level":0}
+                    "area": {"topleft": {"x": 2729, "y": 3564}, "botright": {"x": 2739, "y": 3555}, "level": 0}
                 }
             }
         },
@@ -3327,7 +3327,7 @@ export namespace clue_data {
             "solution": {
                 "type": "search",
                 "entity": "Crate",
-                "spot": {"x":2723,"y":9891,"level":0}
+                "spot": {"x": 2723, "y": 9891, "level": 0}
             }
         },
         {
@@ -3358,7 +3358,7 @@ export namespace clue_data {
             "text": ["I am a token of the greatest love. I have no beginning or end. My eye is red, I can fit like a glove. Go to the place where it's money they lend, And dig by the gate to be my friend."],
             "solution": {
                 "type": "dig",
-                "spot": {"x":3191,"y":9825,"level":0},
+                "spot": {"x": 3191, "y": 9825, "level": 0},
             }
         },
         {
@@ -4203,10 +4203,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Shrug in the Lumbridge Fishing Supplies shop. Beware of double agents! Equip demon slayer gloves, a boater and the cape of legends."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3195, "y": 3253, "level": 0},
-                "answer": "<b>Emote:</b> Shrug<br><b>Items:</b> Demon slayer gloves, any Boater, Cape of legends"
+            "area": {"topleft": {"x": 3191, "y": 3255}, "botright": {"x": 3198, "y": 3251}, "level": 0},
+            "items": ["Demon Slayer Gloves", "Any Boater", "Cape of Legends"],
+            "emotes": ["Shrug"],
+            "double_agent": true,
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x": 3198, "y": 3251, "level": 0}
             }
         },
         {
@@ -4225,10 +4228,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Dance on an Uncharted Isle. Beware of double agents! Equip a dark bow, some infinity boots and culinaromancer gloves 10."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3053, "y": 3247, "level": 0},
-                "answer": "<b>Emote:</b> Dance<br><b>Items:</b> Dark bow, Infinity boots, Culinaromancer gloves 10"
+            "area": {"topleft": {"x": 3052, "y": 3248}, "botright": {"x": 3055, "y": 3245}, "level": 0},
+            "items": ["Dark bow", "Infinity boots", "Culinaromancer gloves 10"],
+            "emotes": ["Dance"],
+            "double_agent": true,
+            "hidey_hole": {
+                "location": {"x": 1818, "y": 11653, "level": 0},
+                "name": "Water barrel (hidey-hole)"
             }
         },
         {
@@ -4236,11 +4242,12 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Salute in the Max Guild Garden. Beware of double agents! Have no items equipped when you do."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2276, "y": 3330, "level": 0},
-                "answer": "<b>Emote:</b> Salute<br><b>Items:</b> <b>Nothing</b><br>(Requires any level 99 not all)"
-            }
+            "area": {"topleft": {"x": 2268, "y": 3335}, "botright": {"x": 2284, "y": 3320}, "level": 1},
+            "items": ["Nothing"],
+            "emotes": ["Salute"],
+            "hidey_hole": null,
+            "double_agent": true,
+
         }
     ]
     export const map: Clues.Map[] = [

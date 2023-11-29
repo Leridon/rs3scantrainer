@@ -30,7 +30,7 @@ import {DrawRegionAction} from "../scanedit/TreeEdit";
 import InteractionTopControl from "../map/InteractionTopControl";
 import {Rectangle, Vector2} from "../../../lib/math";
 import {clue_data} from "../../../data/clues";
-import {MethodPackManager} from "../../model/MethodPackManager";
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import {Constants} from "../../constants";
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
@@ -104,6 +104,32 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
     }
 }
 
+class MethodWidget extends Widget {
+    constructor(m: AugmentedMethod) {
+        super();
+
+        this.addClass("ctr-method-widget")
+
+        let header = hbox(
+            span(`${m.method.name} in ${m.pack.name}`),
+            spacer().css("min-width", "30px"),
+            span("F")
+        ).addClass("ctr-method-widget-header")
+            .appendTo(this)
+
+        let body = new Properties().appendTo(this)
+            .addClass("ctr-method-widget-body")
+
+        body.row(c().text(m.method.description))
+        body.named("Author", c().text(m.pack.author))
+        body.row(hbox(
+            c().text("Edit"),
+            c().text("Copy"),
+            c().text("Delete")
+        ))
+    }
+}
+
 class ClueOverviewMarker extends leaflet.FeatureGroup {
     private marker: TileMarker
 
@@ -174,7 +200,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         return variants.map(({spot, instance_index}) => new ClueOverviewMarker(step, method_index, spot, instance_index))
     }
 
-    createTooltip(): tippy.Instance {
+    async createTooltip(): Promise<tippy.Instance> {
         if (this.tippy) {
             this.tippy.destroy()
             this.tippy = null
@@ -247,8 +273,6 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 else
                     props.named("Emote", c().text(this.clue.emotes[0]))
 
-                // TODO: Hidey hole?
-
                 props.named("Agent", c().text(this.clue.double_agent ? "Yes" : "No"))
                 break
             case "skilling":
@@ -277,12 +301,14 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             props.named("Challenge", vbox(...this.clue.challenge.map(render_challenge)))
         }
 
-        let methods = this.methods.getForClue(this.clue.id, this.spot_alternative)
+        let methods = await this.methods.getForClue(this.clue.id, this.spot_alternative)
 
         if (methods.length > 0) {
             props.header("Methods")
 
-
+            methods.forEach(m => {
+                props.row(new MethodWidget(m))
+            })
         }
 
         return this.tippy = tippy.default(this.marker.marker.getElement(), {
@@ -422,7 +448,7 @@ export default class OverviewLayer extends GameLayer {
         this.clue_index = clue_data.index.with(() => ({markers: []}))
 
         this.on("add", () => {
-            this.filter_control.filter.subscribe((f) => {
+            this.filter_control.filter.subscribe(async (f) => {
                 this.clue_index.filtered().forEach(c => {
                     let visible = FilterT.apply(f, c.clue)
 
@@ -435,7 +461,7 @@ export default class OverviewLayer extends GameLayer {
                     }
                 })
 
-                let instances = this.clue_index
+                let instances = await Promise.all(this.clue_index
                     .filtered()
                     .flatMap(c => c.markers.map(m => {
                         try {
@@ -444,7 +470,7 @@ export default class OverviewLayer extends GameLayer {
                             return null
                         }
                     }))
-                    .filter(i => i != null)
+                    .filter(i => i != null))
 
                 if (this.singleton_tooltip) {
                     this.singleton_tooltip.destroy()

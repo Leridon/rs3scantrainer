@@ -1289,3 +1289,15 @@ input[type=checkbox] + span {
 .nisl-npc {
     color: yellow;
 }
+
+.ctr-method-widget {
+    background-color: #FFFFFF20;
+    border: 1px solid black;
+}
+
+.ctr-method-widget-header {
+}
+
+.ctr-method-widget-body {
+    border-top: 1px dashed black
+}

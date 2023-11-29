@@ -3,7 +3,7 @@ import {type Pack} from "../trainer/model/MethodPackManager";
 export const default_scan_method_pack: Pack = {
     type: "default",
     id: "default:scanmethods",
-    author: "Leridon",
+    author: "Zyklop Marco",
     timestamp: 1700749105,
     name: "Default Scan Methods",
     description: "This default pack features standard scan routes based on the guide by Fiery and some other contributors.",

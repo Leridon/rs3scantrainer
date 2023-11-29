@@ -102,8 +102,8 @@ export class MethodPackManager {
 
     deleteMethod(pack_id: string, method_id: string) {}
 
-    getForClue(id: number, spot_alterantive?: TileCoordinates): AugmentedMethod[] {
-        // TODO: Include alternative and coordinates
+    async getForClue(id: number, spot_alterantive?: TileCoordinates): Promise<AugmentedMethod[]> {
+        await this.initialized
 
         let ms = this.index.get(id).methods
 

@@ -51,8 +51,6 @@ export namespace ClueType {
             skilling: {icon_url: "assets/icons/skills.webp", name: "Skilling"}
         }
 
-        if (!lut[x]) debugger
-
         return lut[x]
     }
 

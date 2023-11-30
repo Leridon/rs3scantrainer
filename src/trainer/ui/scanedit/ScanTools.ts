@@ -20,21 +20,21 @@ export default class ScanTools extends Widget {
         centered(
             c("<div style='font-weight: bold'>Center On</div>"),
             hbox(
-                new LightButton("Spots")
+                new LightButton("Spots", "rectangle")
                     .on("click", () => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.editor.options.clue.spots.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
+                        this.editor.value.clue.spots.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
 
                         bounds.pad(0.1)
 
-                        this.editor.options.map.fitBounds(bounds)
+                        this.editor.app.map.fitBounds(bounds)
                     }),
-                new LightButton("Complement")
+                new LightButton("Complement", "rectangle")
                     .on("click", () => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.editor.options.clue.spots.forEach((c) => {
+                        this.editor.value.clue.spots.forEach((c) => {
                             bounds.extend(Vector2.toLatLong({
                                 x: c.x,
                                 y: (c.y < 6400 ? c.y + 6400 : c.y - 6400)
@@ -42,7 +42,7 @@ export default class ScanTools extends Widget {
                         })
                         bounds.pad(0.1)
 
-                        this.editor.options.map.fitBounds(bounds)
+                        this.editor.app.map.fitBounds(bounds)
                     })
             ).addClass("ctr-button-container"),
             c("<div style='font-weight: bold'>Show Equivalence Classes</div>"),

@@ -5,7 +5,7 @@ import {TileCoordinates} from "../../lib/runescape/coordinates";
 export namespace SolvingMethods {
     export type method_kind = "scantree" | "general_path"
 
-    type ClueAssumptions = {
+    export type ClueAssumptions = {
         meerkats_active?: boolean,
         full_globetrotter?: boolean,
         way_of_the_footshaped_key?: boolean
@@ -17,7 +17,7 @@ export namespace SolvingMethods {
         for: { clue: number, spot?: TileCoordinates },
         name: string,
         description: string,
-        assumptions?: ClueAssumptions,
+        assumptions: ClueAssumptions,
     }
 
     export type ScanTreeMethod = method_base & {

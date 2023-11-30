@@ -1,6 +1,4 @@
-import {GameMap} from "lib/gamemap/GameMap";
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import ScanEditPanel from "./ScanEditPanel";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {lazy, Lazy} from "lib/properties/Lazy";
 import * as leaflet from "leaflet";
@@ -27,6 +25,14 @@ import SpotOverview from "./SpotOverview";
 import spacer = C.spacer;
 import {Clues} from "../../../lib/runescape/clues";
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
+import {AugmentedMethod} from "../../model/MethodPackManager";
+import {SolvingMethods} from "../../model/methods";
+import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
+import Widget from "../../../lib/ui/Widget";
+import TreeEdit from "./TreeEdit";
+import MethodSubEditor from "../theorycrafting/MethodSubEditor";
+import ClueAssumptions = SolvingMethods.ClueAssumptions;
+import * as lodash from "lodash";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -109,22 +115,22 @@ class EquivalenceClassHandling extends Behaviour {
         }
 
         let normal = setup({
-            candidates: this.parent.options.clue.spots,
+            candidates: this.parent.value.clue.spots,
             range: this.parent.builder.tree.assumed_range,
             complement: false,
-            floor: this.parent.options.map.floor.value()
+            floor: this.parent.app.map.floor.value()
         }, this.parent.tools.normal)
 
         let complement = setup({
-            candidates: this.parent.options.clue.spots,
+            candidates: this.parent.value.clue.spots,
             range: this.parent.builder.tree.assumed_range,
             complement: true,
-            floor: this.parent.options.map.floor.value()
+            floor: this.parent.app.map.floor.value()
         }, this.parent.tools.complement)
 
         this.equivalence_classes = [normal, complement]
 
-        this.parent.options.map.floor
+        this.parent.app.map.floor
             .subscribe(f => this.equivalence_classes.forEach(t => t.options.update(o => o.floor = f)))
 
         this.parent.candidates_at_active_node
@@ -145,15 +151,38 @@ export class ScanTreeBuilder {
     augmented: Observable<AugmentedScanTree> = observe(null)
     preview_invalid = ewent()
 
-    constructor() { }
+    assumptions: Observable<ClueAssumptions> = observe<ClueAssumptions>({}).equality(
+        (a: ClueAssumptions, b: ClueAssumptions) => {
+            return a.meerkats_active == b.meerkats_active
+                && a.mobile_perk == b.mobile_perk
+                && a.double_escape == b.double_escape
+                && a.double_surge == b.double_surge
+        })
+
+    constructor(private clue: Clues.Scan) {
+
+        this.assumptions.subscribe((v) => {
+            console.log("Changed")
+            console.log(v)
+            this.cleanTree()
+        })
+    }
 
     public async cleanTree() {
+        if (!this.tree) return
+
+        this.tree.assumed_range = this.clue.range + (this.assumptions.value().meerkats_active ? 5 : 0)
+
         this.augmented.set(await ScanTree.Augmentation.augment({
-            augment_paths: true,
-            analyze_completeness: true,
-            analyze_correctness: true,
-            analyze_timing: true
-        }, ScanTree.normalize(this.tree)));
+                augment_paths: true,
+                analyze_completeness: true,
+                analyze_correctness: true,
+                analyze_timing: true,
+                path_assumptions: this.assumptions.value()
+            },
+            ScanTree.normalize(this.tree),
+            this.clue
+        ));
 
         this.preview_invalid.trigger(null)
     }
@@ -187,12 +216,12 @@ class PreviewLayerControl extends Behaviour {
         this.layer = new OpacityGroup().addTo(this.parent.layer)
 
         // Render path preview
-        this.parent.panel.tree_edit.active.subscribe(() => this.updatePreview(), true)
+        this.parent.tree_edit.active.subscribe(() => this.updatePreview(), true)
         this.parent.builder.preview_invalid.on(() => this.updatePreview())
     }
 
     private async updatePreview() {
-        let a = this.parent.panel.tree_edit.active_node.value()
+        let a = this.parent.tree_edit.active_node.value()
 
         let layer = new OpacityGroup()
 
@@ -200,17 +229,17 @@ class PreviewLayerControl extends Behaviour {
             for (const n of AugmentedScanTree.collect_parents(a, true)) {
 
                 if (n.raw.region) {
-                    (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
+                    (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
 
                 if (n != a) PathingGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
         } else {
-            if (this.parent.panel.tree_edit.root_widget) {
-                AugmentedScanTree.traverse(this.parent.panel.tree_edit.root_widget.node, async (n) => {
+            if (this.parent.tree_edit.root_widget) {
+                AugmentedScanTree.traverse(this.parent.tree_edit.root_widget.node, async (n) => {
                     if (n.raw.region) {
-                        (await this.parent.panel.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
+                        (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                     }
 
                     return PathingGraphics.renderPath(n.raw.path).addTo(layer)
@@ -227,14 +256,14 @@ class PreviewLayerControl extends Behaviour {
 
 }
 
-export default class ScanEditor extends Behaviour {
+export default class ScanEditor extends MethodSubEditor {
 
     public builder: ScanTreeBuilder
     candidates_at_active_node: Observable<TileCoordinates[]>
 
     layer: ScanEditLayerLight
     interaction_guard: InteractionGuard
-    panel: ScanEditPanel
+    tree_edit: TreeEdit
     tools: ScanTools
     overview: SpotOverview
 
@@ -245,14 +274,13 @@ export default class ScanEditor extends Behaviour {
 
 
     constructor(public app: Application,
-                public readonly options: {
-                    clue: Clues.ScanStep,
-                    map: GameMap, // This is already available via the app, ditch this option?
-                    initial?: ScanTree.ScanTree
-                }) {
+                public value: AugmentedMethod<ScanTreeMethod, Clues.Scan>,
+                public side_panel: Widget
+    ) {
         super();
 
-        this.builder = new ScanTreeBuilder()
+        this.builder = new ScanTreeBuilder(value.clue)
+        this.builder.assumptions.set(value.method.assumptions)
 
         this.layer = new ScanEditLayerLight(this)
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.layer)
@@ -260,6 +288,10 @@ export default class ScanEditor extends Behaviour {
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
         this.path_editor = this.withSub(new SingleBehaviour<PathEditor>())
+    }
+
+    setAssumptions(assumptions: SolvingMethods.ClueAssumptions) {
+        this.builder.assumptions.set(lodash.cloneDeep(assumptions))
     }
 
     private setPathEditor(node: AugmentedScanTreeNode): void {
@@ -278,20 +310,18 @@ export default class ScanEditor extends Behaviour {
                 }
             })
             .onStop(() => {
-                if (this.panel.tree_edit.active_node.value() == node) this.panel.tree_edit.setActiveNode(null)
+                if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
             })
         )
     }
 
-
     begin() {
-        this.builder.set(this.options.initial ?? {
-            root: ScanTree.init_leaf(),
-            ordered_spots: this.options.clue.spots,
-            type: "scantree"
-        })
+        this.builder.set(this.value.method.tree)
 
-        this.panel = new ScanEditPanel(this)
+        c("<div style='font-weight: bold; text-align: center'>Scan Tree</div>").appendTo(this.side_panel)
+
+        this.tree_edit = new TreeEdit(this, this.builder.tree.root)
+            .css("overflow-y", "auto").appendTo(this.side_panel)
 
         new GameMapControl({
                 position: "top-right",
@@ -310,29 +340,24 @@ export default class ScanEditor extends Behaviour {
             })
         ).addTo(this.layer)
 
-        /* // TODO
-        this.app.sidepanels
-            .add(new CluePanel(this.options.clue), 0)
-            .add(this.panel, 1)*/
-
-        this.candidates_at_active_node = this.panel.tree_edit.active
-            .map(n => n ? n.node.remaining_candidates : this.options.clue.spots)
+        this.candidates_at_active_node = this.tree_edit.active
+            .map(n => n ? n.node.remaining_candidates : this.value.clue.spots)
 
         // Initialize and set the main game layer
-        this.layer.spots.set(this.options.clue.spots)
+        this.layer.spots.set(this.value.clue.spots)
         this.layer.spot_order.set(this.builder.tree.ordered_spots)
         this.layer.active_spots.bindTo(this.candidates_at_active_node)
         this.layer.scan_range.set(this.builder.tree.assumed_range)
-        this.options.map.addGameLayer(this.layer)
+        this.app.map.addGameLayer(this.layer)
 
-        this.panel.tree_edit.active_node.subscribe(async node => {
+        this.tree_edit.active_node.subscribe(async node => {
             if (node) this.setPathEditor(node)
             else this.path_editor.set(null)
         })
     }
 
     end() {
-        // TODO this.app.sidepanels.empty()
         this.layer.remove()
+        this.tree_edit.remove()
     }
 }

@@ -103,8 +103,9 @@ export namespace ScanTree {
          * Modifies the input tree.
          *
          * @param tree The tree whose paths to augment
+         * @param assumptions The underlying path assumptions
          */
-        export async function path_augmentation(tree: AugmentedScanTree): Promise<AugmentedScanTree> {
+        export async function path_augmentation(tree: AugmentedScanTree, assumptions: Path.PathAssumptions): Promise<AugmentedScanTree> {
             async function helper(
                 node: AugmentedScanTreeNode,
                 start_state: Path.movement_state
@@ -113,7 +114,6 @@ export namespace ScanTree {
                 node.path = await Path.augment(node.raw.path,
                     start_state,
                     node.remaining_candidates.length == 1 ? digSpotArea(node.remaining_candidates[0]) : node.region?.area)
-
 
                 if (node.children.length > 0) {
                     let cloned_state = lodash.cloneDeep(node.path.post_state)
@@ -124,7 +124,9 @@ export namespace ScanTree {
             }
 
             if (!tree.state.paths_augmented) {
-                await helper(tree.root_node, movement_state.start())
+                console.log(assumptions)
+
+                await helper(tree.root_node, movement_state.start(assumptions))
                 tree.state.paths_augmented = true
             }
 
@@ -294,12 +296,13 @@ export namespace ScanTree {
                                           analyze_correctness?: boolean,
                                           analyze_completeness?: boolean,
                                           analyze_timing?: boolean,
+                                          path_assumptions: Path.PathAssumptions
                                       }, tree: ScanTree,
                                       clue: Clues.Scan) {
 
             let augmented = basic_augmentation(tree, clue)
 
-            if (options.augment_paths) await path_augmentation(augmented)
+            if (options.augment_paths) await path_augmentation(augmented, options.path_assumptions)
             if (options.analyze_correctness) analyze_correctness(augmented)
             if (options.analyze_completeness) analyze_completeness(augmented)
             if (options.analyze_timing) analyze_timing(augmented)
@@ -398,8 +401,6 @@ export namespace ScanTree {
                             candidates: narrowed_candidates
                         }
                     })
-
-            debugger
 
             // When there is only one child, the current position produces no information at all
             // So there is no point in adding children, which is why they are removed by this statement

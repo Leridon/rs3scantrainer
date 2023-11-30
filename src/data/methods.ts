@@ -15,6 +15,14 @@ export const default_scan_method_pack: Pack = {
             "name": "Zanaris Scan",
             "description": "Meta Zanaris route based on Fiery's guide.",
             "type": "scantree",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 21,
                 "ordered_spots": [
@@ -2718,6 +2726,14 @@ export const default_scan_method_pack: Pack = {
             "name": "Falador Scan",
             "description": "Meta Falador route based on Fiery's guide and input by Mr Cob.",
             "type": "scantree",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 27,
                 "ordered_spots": [
@@ -5402,6 +5418,14 @@ export const default_scan_method_pack: Pack = {
             "name": "Nardah Scan",
             "description": "Meta Nardah route based on Fiery's guide.",
             "type": "scantree",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 32,
                 "ordered_spots": [
@@ -10402,6 +10426,14 @@ export const default_scan_method_pack: Pack = {
             "name": "Lumbridge Swamp Cave Scan",
             "description": "Meta Swamp cave route based on a guide by Xindrjayzda.",
             "type": "scantree",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 16,
                 "ordered_spots": [
@@ -11127,6 +11159,14 @@ export const default_scan_method_pack: Pack = {
             "id": "b52948ad-c572-47b7-8a8c-7d91d6be3f7f",
             "name": "Varrock Scan",
             "description": "Meta Varrock route based on Fiery's guide.",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 21,
                 "ordered_spots": [
@@ -13925,6 +13965,14 @@ export const default_scan_method_pack: Pack = {
             "id": "9698cc25-4b59-4acd-b0c4-3259e7643de7",
             "name": "Haunted Woods Scan",
             "description": "Meta Haunted route based on Fiery's guide.",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 16,
                 "ordered_spots": [
@@ -16537,6 +16585,14 @@ export const default_scan_method_pack: Pack = {
             "id": "54d08fef-6e98-4215-b722-39f9311854e9",
             "name": "Prifddinas Scan",
             "description": "Meta Prifddinas route based on a Guide by Phyzzix and Saltea.",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 35,
                 "ordered_spots": [
@@ -19402,6 +19458,14 @@ export const default_scan_method_pack: Pack = {
             "id": "ac31fb85-8077-427d-a696-e6d9d0ae2096",
             "name": "Dorgesh Khaan Scan",
             "description": "Meta Dorgesh Khaan route based on Fiery's guide.",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 21,
                 "ordered_spots": [
@@ -22999,6 +23063,14 @@ export const default_scan_method_pack: Pack = {
             "id": "b3d0ec08-2b36-4019-9780-dce9a4c104cd",
             "name": "Piscatoris Scan",
             "description": "Meta Piscatoris route based on Fiery's guide.",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 19,
                 "ordered_spots": [
@@ -25227,6 +25299,14 @@ export const default_scan_method_pack: Pack = {
             "id": "cbfc22a3-5102-49e3-8864-e0b1d661c2dd",
             "name": "Fremmenik Isles Scan",
             "description": "Meta Fremmenik Isles route based on Fiery's guide.",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "type": "scantree",
             "tree": {
                 "assumed_range": 16,
@@ -29849,6 +29929,14 @@ export const default_scan_method_pack: Pack = {
             "name": "Ardougne Scan",
             "description": "Meta Ardougne route based on Fiery's guide.",
             "type": "scantree",
+            "assumptions": {
+                "double_escape": true,
+                "double_surge": true,
+                "full_globetrotter": false,
+                "meerkats_active": true,
+                "mobile_perk": true,
+                "way_of_the_footshaped_key": false
+            },
             "tree": {
                 "assumed_range": 27,
                 "root": {

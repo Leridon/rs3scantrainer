@@ -150,8 +150,8 @@ export namespace Path {
     export type movement_state = {
         tick: number,
         cooldowns: {    // Cooldowns signify the next tick the ability/charge can be used.
-            escape: [number, number],
-            surge: [number, number],
+            escape: number[],
+            surge: number[],
             barge: number,
             dive: number,
         },
@@ -166,8 +166,8 @@ export namespace Path {
             return {
                 tick: 0,
                 cooldowns: {
-                    escape: [0, 0],
-                    surge: [0, 0],
+                    escape: assumptions.double_escape ? [0, 0] : [0],
+                    surge: assumptions.double_surge ? [0, 0] : [0],
                     barge: 0,
                     dive: 0,
                 },
@@ -394,24 +394,26 @@ export namespace Path {
 
                             let cd = state.cooldowns.surge[min] - state.tick
                             if (cd > 0) {
-                                if (cd <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
+                                if (state.assumptions.double_surge && cd <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst(), state.assumptions.mobile_perk) - 2)
                                     augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
                                     augmented.issues.push({
                                         level: cd >= 4 ? 0 : 1,
-                                        message: `Both surge charges are still on cooldown for ${cd} ticks!`
+                                        message: `All surge charges are still on cooldown for ${cd} ticks!`
                                     })
 
                                 state.tick = state.cooldowns.surge[min] // Wait for cooldown
                             }
 
                             // Put the used charge on cooldown
-                            state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst())
+                            state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk)
                             // Set the antispam delay for the second charge
-                            state.cooldowns.surge[1 - min] = Math.max(state.tick + 2, state.cooldowns.surge[1 - min])
+                            for (let j = 0; j < state.cooldowns.escape.length; j++) {
+                                state.cooldowns.surge[j] = Math.max(state.tick + 2, state.cooldowns.surge[j])
+                            }
 
                             // Surge puts both escape charges on cooldown
-                            state.cooldowns.escape.fill(state.tick + cooldown("escape", powerburst()))
+                            state.cooldowns.escape.fill(state.tick + cooldown("escape", powerburst(), state.assumptions.mobile_perk))
 
                             break
                         }
@@ -420,24 +422,27 @@ export namespace Path {
 
                             let cd = state.cooldowns.escape[min] - state.tick
                             if (cd > 0) {
-                                if (cd <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
+                                if (state.assumptions.double_escape && cd <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst(), state.assumptions.mobile_perk) - 2)
                                     augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
                                     augmented.issues.push({
                                         level: cd >= 4 ? 0 : 1,
-                                        message: `Both escape charges are still on cooldown for ${cd} ticks!`
+                                        message: `All escape charges are still on cooldown for ${cd} ticks!`
                                     })
 
                                 state.tick = state.cooldowns.escape[min] // Wait for cooldown
                             }
 
                             // Put the used charge on cooldown
-                            state.cooldowns.escape[min] = state.tick + cooldown("escape", powerburst())
+                            state.cooldowns.escape[min] = state.tick + cooldown("escape", powerburst(), state.assumptions.mobile_perk)
                             // Set the antispam delay for the second charge
-                            state.cooldowns.escape[1 - min] = Math.max(state.tick + 2, state.cooldowns.escape[1 - min])
+
+                            for (let j = 0; j < state.cooldowns.escape.length; j++) {
+                                state.cooldowns.escape[j] = Math.max(state.tick + 2, state.cooldowns.escape[j])
+                            }
 
                             // Escape puts both surge charges on cooldown
-                            state.cooldowns.surge.fill(state.tick + cooldown("surge", powerburst()))
+                            state.cooldowns.surge.fill(state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk))
 
                             break
                         }
@@ -448,7 +453,7 @@ export namespace Path {
                                 state.tick = state.cooldowns.dive // Wait for cooldown
                             }
 
-                            state.cooldowns.dive = state.tick + cooldown("dive", powerburst())
+                            state.cooldowns.dive = state.tick + cooldown("dive", powerburst(), state.assumptions.mobile_perk)
 
                             break
                         }
@@ -459,7 +464,7 @@ export namespace Path {
                                 state.tick = state.cooldowns.barge // Wait for cooldown
                             }
 
-                            state.cooldowns.barge = state.tick + cooldown("barge", powerburst())
+                            state.cooldowns.barge = state.tick + cooldown("barge", powerburst(), state.assumptions.mobile_perk)
 
                             break
                         }

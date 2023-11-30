@@ -27,6 +27,7 @@ import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
 import UtilityLayer from "../map/UtilityLayer";
 import * as lodash from "lodash";
+import LightButton from "../widgets/LightButton";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -98,7 +99,9 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
 }
 
 class MethodWidget extends Widget {
-    constructor(methods: AugmentedMethod[]) {
+    constructor(methods: AugmentedMethod[],
+                private edit_handler: (_: AugmentedMethod) => any
+    ) {
         super();
 
         let pack = methods[0].pack
@@ -108,7 +111,7 @@ class MethodWidget extends Widget {
                 .tooltip(`By ${pack.author}. ${pack.description}`)
         )
 
-        for (let m of methods.concat(...methods, ...methods)) {
+        for (let m of methods) {
             function render_for() {
                 if (m.method.for.spot) return `spot ${TileCoordinates.toString(m.method.for.spot)} in clue ${m.method.for.clue}`
                 if (m.method.for.spot) return `clue ${m.method.for.clue}`
@@ -132,10 +135,20 @@ class MethodWidget extends Widget {
 
             body.row(c().text(m.method.description))
             body.row(hbox(
-                c().text("Edit"),
-                c().text("Copy"),
-                c().text("Delete")
-            ))
+                new LightButton("Edit", "rectangle").setEnabled(pack.type == "custom")
+                    .on("click", () => this.edit_handler(m))
+                ,
+                new LightButton("Edit Copy", "rectangle")
+                    .on("click", () => {
+
+                        this.edit_handler({pack: null, clue: m.clue, method: m.method})
+                    })
+                ,
+                new LightButton("Delete", "rectangle"),
+            ).addClass("ctr-button-container"))
+                .tapRaw(r => r.on("click", () => {
+                    this.edit_handler(m)
+                }))
         }
 
         this.addClass("ctr-method-widget")
@@ -150,6 +163,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 
     constructor(private clue: Clues.Step,
                 private methods: MethodPackManager,
+                private edit_handler: (_: AugmentedMethod) => any,
                 private spot_alternative?: TileCoordinates,
                 private talk_alternative_index?: number,
     ) {
@@ -199,7 +213,8 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         this.marker = new TileMarker(coord).withMarker().addTo(this)
     }
 
-    static forClue(step: Clues.Step, method_index: MethodPackManager): ClueOverviewMarker[] {
+    static forClue(step: Clues.Step, method_index: MethodPackManager,
+                   edit_handler: (_: AugmentedMethod) => any): ClueOverviewMarker[] {
 
         let variants: { spot?: TileCoordinates, instance_index?: number }[] = (() => {
             if (step?.solution?.type == "talkto" && step.solution.spots) {
@@ -210,7 +225,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             else return [{}]
         })()
 
-        return variants.map(({spot, instance_index}) => new ClueOverviewMarker(step, method_index, spot, instance_index))
+        return variants.map(({spot, instance_index}) => new ClueOverviewMarker(step, method_index, edit_handler, spot, instance_index))
     }
 
     async createTooltip(): Promise<tippy.Instance> {
@@ -322,18 +337,8 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             let grouped = lodash.groupBy(methods, e => e.pack.id)
 
             for (let methods_in_pack of Object.values(grouped)) {
-                props.row(new MethodWidget(methods_in_pack))
+                props.row(new MethodWidget(methods_in_pack, this.edit_handler))
             }
-
-            for (let methods_in_pack of Object.values(grouped)) {
-                props.row(new MethodWidget(methods_in_pack))
-            }
-
-            for (let methods_in_pack of Object.values(grouped)) {
-                props.row(new MethodWidget(methods_in_pack))
-            }
-
-
         }
 
         return this.tippy = tippy.default(this.marker.marker.getElement(), {
@@ -348,7 +353,7 @@ export default class OverviewLayer extends GameLayer {
     public clue_index: ClueIndex<{ markers: ClueOverviewMarker[] }>
     singleton_tooltip: tippy.Instance = null
 
-    constructor(private app: Application) {
+    constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
         super();
 
         this.add(new UtilityLayer())
@@ -366,7 +371,7 @@ export default class OverviewLayer extends GameLayer {
                         c.markers.forEach(c => c.remove())
                         c.markers = []
                     } else if (visible && c.markers.length == 0) {
-                        c.markers = ClueOverviewMarker.forClue(c.clue, app.methods)
+                        c.markers = ClueOverviewMarker.forClue(c.clue, app.methods, this.edit_handler)
                         c.markers.forEach(m => m.addTo(this))
                     }
                 })

@@ -4,7 +4,7 @@ import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {TeleportLayer} from "lib/gamemap/defaultlayers/TeleportLayer";
 import {Teleports} from "lib/runescape/teleports";
-import {Clues, ClueTier, ClueType} from "lib/runescape/clues";
+import {ClueTier, ClueType} from "lib/runescape/clues";
 import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
@@ -13,7 +13,6 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {SolvingMethods} from "./model/methods";
-import SolveBehaviour from "./ui/solving/SolveBehaviour";
 import GameLayer from "../lib/gamemap/GameLayer";
 import MenuBar from "./ui/MenuBar";
 import Widget from "../lib/ui/Widget";
@@ -38,7 +37,6 @@ export class SimpleLayerBehaviour extends Behaviour {
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
-    import withClue = SolvingMethods.withClue;
     import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 
     export const load_path: Command<{
@@ -298,23 +296,6 @@ export class Application extends Behaviour {
     }
 
     protected end() {
-    }
-
-    solveClue(step: Clues.Step) {
-        if (!(this.main_behaviour.get() instanceof SolveBehaviour)) this.main_behaviour.set(new SolveBehaviour(this));
-
-        let behaviour = this.main_behaviour.get() as SolveBehaviour
-
-        let methods = this.data.methods.forStep(step)
-
-        if (methods.length > 0) behaviour.setMethod(methods[0])
-        else behaviour.setClue(step)
-    }
-
-    showMethod(method: MethodWithClue) {
-        if (!(this.main_behaviour.get() instanceof SolveBehaviour)) this.main_behaviour.set(new SolveBehaviour(this));
-        let behaviour = this.main_behaviour.get() as SolveBehaviour
-        behaviour.setMethod(method)
     }
 }
 

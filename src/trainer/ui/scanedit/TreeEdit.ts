@@ -1,5 +1,4 @@
 import Widget from "lib/ui/Widget";
-import ScanEditPanel from "./ScanEditPanel";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import decision_tree = ScanTree.ScanTreeNode;
 import {util} from "lib/util/util";
@@ -29,7 +28,7 @@ import {Scans} from "../../../lib/runescape/clues/scans";
 import Pulse = Scans.Pulse;
 import * as assert from "assert";
 import Order = util.Order;
-import decision_string = ScanTree.Augmentation.AugmentedScanTree.decision_string;
+import ScanEditor from "./ScanEditor";
 
 export class DrawRegionAction extends ValueInteraction<ScanRegion> {
     constructor(name: string) {
@@ -72,7 +71,7 @@ class RegionEdit extends Widget {
                     this.parent.region_preview?.setRegion(this.parent.node.raw.region)
                 })
                 .on("changed", (v) => {
-                    this.parent.parent.parent.parent.builder.setRegion(this.parent.node.raw, {area: this.parent.node.region.area, name: v})
+                    this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {area: this.parent.node.region.area, name: v})
                 })
                 .css("flex-grow", "1")
                 .appendTo(this)
@@ -81,14 +80,14 @@ class RegionEdit extends Widget {
                 .css("margin-left", "2px")
                 .on("click", async () => {
 
-                    this.parent.parent.parent.parent.interaction_guard.set(
+                    this.parent.parent.parent.interaction_guard.set(
                         new DrawRegionAction(this.parent.node.raw.region.name)
                             .onStart(() => this.parent.region_preview?.setOpacity(0))
                             .onEnd(() => this.parent.region_preview?.setOpacity(this.parent.region_preview.isActive()
                                 ? this.parent.region_preview.active_opacity
                                 : this.parent.region_preview.inactive_opacity))
                             .onCommit(area => {
-                                this.parent.parent.parent.parent.builder.setRegion(this.parent.node.raw, area)
+                                this.parent.parent.parent.builder.setRegion(this.parent.node.raw, area)
                             })
                     )
                 })
@@ -97,7 +96,7 @@ class RegionEdit extends Widget {
             SmallImageButton.new("assets/icons/regenerate.png")
                 .css("margin-left", "2px")
                 .on("click", async () => {
-                    this.parent.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
+                    this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
                         name: this.parent.node.region?.name || "",
                         area: TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
                     })
@@ -108,7 +107,7 @@ class RegionEdit extends Widget {
             SmallImageButton.new("assets/icons/delete.png")
                 .css("margin-left", "2px")
                 .on("click", async () => {
-                    this.parent.parent.parent.parent.builder.setRegion(this.parent.node.raw, null)
+                    this.parent.parent.parent.builder.setRegion(this.parent.node.raw, null)
                 })
                 .appendTo(this)
         } else {
@@ -117,19 +116,19 @@ class RegionEdit extends Widget {
                     if (this.parent.node.path.steps.length > 0 && this.parent.node.path.post_state?.position?.tile) {
                         let area = TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
 
-                        this.parent.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
+                        this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
                             name: "",
                             area: area
                         })
                     } else {
-                        this.parent.parent.parent.parent.interaction_guard.set(
+                        this.parent.parent.parent.interaction_guard.set(
                             new DrawRegionAction("")
                                 .onStart(() => this.parent.region_preview?.setOpacity(0))
                                 .onEnd(() => this.parent.region_preview?.setOpacity(this.parent.region_preview.isActive()
                                     ? this.parent.region_preview.active_opacity
                                     : this.parent.region_preview.inactive_opacity))
                                 .onCommit(area => {
-                                    this.parent.parent.parent.parent.builder.setRegion(this.parent.node.raw, area)
+                                    this.parent.parent.parent.builder.setRegion(this.parent.node.raw, area)
                                 })
                         )
                     }
@@ -170,7 +169,7 @@ class TreeNodeEdit extends Widget {
             let self = this
 
 
-            let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.parent.builder.tree, c)),
+            let spot_text = natural_join(shorten_integer_list(node.remaining_candidates.map((c) => ScanTree.spotNumber(parent.parent.builder.tree, c)),
                 (n) => `<span class="ctr-digspot-inline">${n}</span>`
             ), "and")
 
@@ -192,7 +191,7 @@ class TreeNodeEdit extends Widget {
             this.you_are_here_marker = c().addClass("ctr-scantreeedit-youarehere")
                 .tapRaw(r => r.on("click", () => this.parent.setActiveNode(this.isActive() ? null : this)))
 
-            this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold; font-size: 1.2em"></div>`)
+            this.header = c(`<div style="padding-left: 5px; padding-right: 5px; display:flex; overflow: hidden; text-overflow: ellipsis; text-wrap: none; white-space: nowrap; font-weight: bold;"></div>`)
                 .append(this.you_are_here_marker)
                 .append(collapse_control)
                 .append(this.decision_span = c(`<span class='nisl-textlink'></span>`).tooltip("Load decisions into map")
@@ -219,7 +218,7 @@ class TreeNodeEdit extends Widget {
 
         this.body.named("Direction",
             this.description_input = new TemplateStringEdit({
-                resolver: this.parent.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)),
+                resolver: this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)),
                 generator: () => {
                     let path_short =
                         this.node.path.steps.length > 0
@@ -247,7 +246,7 @@ class TreeNodeEdit extends Widget {
     renderValue(node: AugmentedScanTreeNode) {
         this.node = node
 
-        this.description_input.setResolver(this.parent.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)))
+        this.description_input.setResolver(this.parent.parent.app.template_resolver.with(scan_tree_template_resolvers(node)))
 
         {
             let decision_path_text = ""
@@ -330,10 +329,10 @@ export default class TreeEdit extends Widget {
     active = observe<TreeNodeEdit>(null)
     active_node = this.active.map(a => a?.node)
 
-    constructor(public parent: ScanEditPanel, public value: decision_tree) {
+    constructor(public parent: ScanEditor, public value: decision_tree) {
         super()
 
-        this.parent.parent.builder.augmented.subscribe(async (tree) => {
+        this.parent.builder.augmented.subscribe(async (tree) => {
             if (tree) {
                 if (this.root_widget) this.root_widget.renderValue(tree.root_node)
                 else this.root_widget = new TreeNodeEdit(this, tree.root_node).appendTo(this)

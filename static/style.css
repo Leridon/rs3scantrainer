@@ -1292,12 +1292,24 @@ input[type=checkbox] + span {
 
 .ctr-method-widget {
     background-color: #FFFFFF20;
-    border: 1px solid black;
+    border: 1px solid white;
 }
 
 .ctr-method-widget-header {
+    border-top: 1px solid grey;
 }
 
 .ctr-method-widget-body {
-    border-top: 1px dashed black
+    border-top: 1px dashed grey;
+}
+
+.ctr-method-widget-pack-header {
+    text-align: center;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.ctr-method-widget-pack-header > span {
+    font-style: italic;
 }

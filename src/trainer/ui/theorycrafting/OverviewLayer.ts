@@ -17,24 +17,16 @@ import {ClueIndex} from "../../../data/ClueIndex";
 import Properties from "../widgets/Properties";
 import * as tippy from "tippy.js";
 import {floor_t, GieliCoordinates, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
-import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
-import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
-import {ActionBar} from "../map/ActionBar";
-import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import vbox = C.vbox;
-import TextField from "../../../lib/ui/controls/TextField";
 import Widget from "../../../lib/ui/Widget";
-import LightButton from "../widgets/LightButton";
-import {boxPolygon, tilePolygon} from "../polygon_helpers";
-import {DrawRegionAction} from "../scanedit/TreeEdit";
-import InteractionTopControl from "../map/InteractionTopControl";
-import {Rectangle, Vector2} from "../../../lib/math";
+import {Rectangle} from "../../../lib/math";
 import {clue_data} from "../../../data/clues";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import {Constants} from "../../constants";
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
 import UtilityLayer from "../map/UtilityLayer";
+import * as lodash from "lodash";
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -106,28 +98,48 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
 }
 
 class MethodWidget extends Widget {
-    constructor(m: AugmentedMethod) {
+    constructor(methods: AugmentedMethod[]) {
         super();
+
+        let pack = methods[0].pack
+
+        this.append(
+            c(`<div class="ctr-method-widget-pack-header">Pack <span>${pack.name}</span></span></div>`)
+                .tooltip(`By ${pack.author}. ${pack.description}`)
+        )
+
+        for (let m of methods.concat(...methods, ...methods)) {
+            function render_for() {
+                if (m.method.for.spot) return `spot ${TileCoordinates.toString(m.method.for.spot)} in clue ${m.method.for.clue}`
+                if (m.method.for.spot) return `clue ${m.method.for.clue}`
+            }
+
+            let header = hbox(
+                vbox(
+                    c(`<div><span style="font-style: italic">${m.method.name}</span></div>`),
+                ),
+                spacer().css("min-width", "30px"),
+                span("F")
+            ).addClass("ctr-method-widget-header")
+                .appendTo(this)
+                .tapRaw(r => r.on("click", () => {
+                    body.container.animate({"height": "toggle"})
+                }))
+
+            let body = new Properties().appendTo(this)
+                .addClass("ctr-method-widget-body")
+                .css("display", "None")
+
+            body.row(c().text(m.method.description))
+            body.row(hbox(
+                c().text("Edit"),
+                c().text("Copy"),
+                c().text("Delete")
+            ))
+        }
 
         this.addClass("ctr-method-widget")
 
-        let header = hbox(
-            span(`${m.method.name} in ${m.pack.name}`),
-            spacer().css("min-width", "30px"),
-            span("F")
-        ).addClass("ctr-method-widget-header")
-            .appendTo(this)
-
-        let body = new Properties().appendTo(this)
-            .addClass("ctr-method-widget-body")
-
-        body.row(c().text(m.method.description))
-        body.named("Author", c().text(m.pack.author))
-        body.row(hbox(
-            c().text("Edit"),
-            c().text("Copy"),
-            c().text("Delete")
-        ))
     }
 }
 
@@ -307,13 +319,25 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         if (methods.length > 0) {
             props.header("Methods")
 
-            methods.forEach(m => {
-                props.row(new MethodWidget(m))
-            })
+            let grouped = lodash.groupBy(methods, e => e.pack.id)
+
+            for (let methods_in_pack of Object.values(grouped)) {
+                props.row(new MethodWidget(methods_in_pack))
+            }
+
+            for (let methods_in_pack of Object.values(grouped)) {
+                props.row(new MethodWidget(methods_in_pack))
+            }
+
+            for (let methods_in_pack of Object.values(grouped)) {
+                props.row(new MethodWidget(methods_in_pack))
+            }
+
+
         }
 
         return this.tippy = tippy.default(this.marker.marker.getElement(), {
-            content: () => c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(props).container.get()[0],
+            content: () => c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props).raw(),
         })
     }
 }

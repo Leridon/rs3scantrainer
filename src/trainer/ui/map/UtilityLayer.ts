@@ -14,6 +14,10 @@ import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "./InteractionTopControl";
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
+import {C} from "../../../lib/ui/constructors";
+import vbox = C.vbox;
+import hbox = C.hbox;
+import spacer = C.spacer;
 
 export default class UtilityLayer extends GameLayer {
     preview: leaflet.Layer

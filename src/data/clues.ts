@@ -3862,11 +3862,14 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Dance a jig under Shantay's Awning. Bow or curtsy before you talk to me. Equip a pointed blue snail helmet and an air staff."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3303, "y": 3124}, "botright": {"x": 3306, "y": 3121}, "level": 0},
             "items": ["Pointed Blue Snelm", "Air Staff"],
             "emotes": ["Jig", "Bow or Curtsy"],
             "double_agent": false,
+            "hidey_hole": {
+                "name": "Crate (hidey-hole)",
+                "location": {"x": 3302, "y": 3130, "level": 0}
+            }
         },
         {
             "id": 249,
@@ -3884,26 +3887,27 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Twirl on the bridge by Barbarian Village. Salute before you talk to me. Equip an iron hatchet, steel kiteshield and a mithril full helmet."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3102, "y": 3421}, "botright": {"x": 3108, "y": 3420}, "level": 0},
             "items": ["Iron Hatchet", "Steel Kiteshield", "Mithril Full Helm"],
             "emotes": ["Twirl", "Salute"],
             "double_agent": false,
+            "hidey_hole": {
+                "name": "Rock (hidey-hole)",
+                "location": {"x": 3114, "y": 3418, "level": 0}
+            }
         },
         {
             "id": 251,
             "type": "emote",
             "tier": "medium",
             "text": ["Jump for joy in Yanille bank. Dance a jig before you talk to me. Equip an iron crossbow, adamant helmet and snakeskin chaps."],
-
-            "area": null,
-            "items": ["", "", ""],
-            "emotes": [""],
+            "area": {"topleft": {"x": 2609, "y": 3097}, "botright": {"x": 2613, "y": 3088}, "level": 0},
+            "items": ["Iron Crossbow", "Adamant Med Helmet", "Snakeskin Chaps"],
+            "emotes": ["Jump for Joy", "Jig"],
             "double_agent": false,
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2612, "y": 3093, "level": 0},
-                "answer": "<b>Emotes:</b> Jump for joy, then jig<br><b>Items:</b> Iron crossbow, Adamant med helmet, Snakeskin chaps"
+            "hidey_hole": {
+                "name": "Crate (hidey-hole)",
+                "location": {"x": 2613, "y": 3088, "level": 0}
             }
         },
         {
@@ -4064,7 +4068,7 @@ export namespace clue_data {
             "emotes": ["Raspberry"],
             "double_agent": true,
             "hidey_hole": {
-                "location": {"topleft": {"x": 2585, "y": 3424}, "botright": {"x": 2585, "y": 3424}, "level": 0},
+                "location": {"x": 2585, "y": 3424, "level": 0},
                 "name": "Crate (hidey-hole)"
             }
         },
@@ -4076,7 +4080,11 @@ export namespace clue_data {
             "items": ["Splitbark helmet", "Mud pie", "Rune platebofy"],
             "emotes": ["Blow kiss"],
             "double_agent": true,
-            "area": null,
+            "area": {"topleft": {"x": 2851, "y": 2954}, "botright": {"x": 2853, "y": 2951}, "level": 0},
+            "hidey_hole": {
+                "name": "Potted plant (hidey-hole)",
+                "location": {"x": 2856, "y": 2954, "level": 0}
+            }
         },
         {
             "id": 232,
@@ -4126,10 +4134,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Headbang inside the Slayer Tower. Beware of double agents! Equip an imp-hide hood, a Prifddinian musician's robe top and an amulet of magic."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3424, "y": 3544, "level": 0},
-                "answer": "<b>Emote:</b> Headbang<br><b>Items:</b> Imp-hide hood, Prifddinian musician's robe top, Amulet of magic"
+            "emotes": ["Headbang"],
+            "area": {"topleft": {"x": 3400, "y": 3574}, "botright": {"x": 3446, "y": 3541}, "level": 0},
+            "items": ["Imp-hide Hood", "Prifddinia Musician's Robe Top", "Amulet of Magic"],
+            "double_agent": true,
+            "hidey_hole": {
+                "name": "Crates (hidey-hole)",
+                "location": {"x": 3427, "y": 3541, "level": 0}
             }
         },
         {
@@ -4137,10 +4148,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Dare to laugh in the Green Ghost inn at Port Phasmatys. Beware of double agents! Equip an Iban's staff, a ghostly cloak and a cavalier."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3674, "y": 3497, "level": 0},
-                "answer": "<b>Emote:</b> Laugh<br><b>Items:</b> Iban's staff, Ghostly cloak, Cavalier"
+            "emotes": ["Laugh"],
+            "items": ["Iban's Staff", "Ghostly Cloak", "Cavalier"],
+            "double_agent": true,
+            "area": {"topleft": {"x": 3671, "y": 3499}, "botright": {"x": 3681, "y": 3489}, "level": 0},
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x": 3676, "y": 3494, "level": 0},
             }
         },
         {
@@ -4170,10 +4184,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Jig in the Edgeville Monastery garden. Beware of double agents! Equip a holy cithara, Saradomin's murmur and a ring of devotion."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3052, "y": 3505, "level": 0},
-                "answer": "<b>Emote:</b> Jig<br><b>Items:</b> Holy cithara, Saradomin's murmur, Ring of devotion"
+            "emotes": ["Jig"],
+            "items": ["Holy Cithara", "Saradomin's Murmur", "Ring of Devotion"],
+            "double_agent": true,
+            "area": {"topleft": {"x": 3046, "y": 3508}, "botright": {"x": 3057, "y": 3501}, "level": 0},
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x": 3056, "y": 3499, "level": 0}
             }
         },
         {
@@ -4192,10 +4209,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Think in the Hefin district of Prifddinas. Beware of double agents! Equip an ancient staff, Prifddinian worker's trousers and a berserker ring."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2187, "y": 3412, "level": 0},
-                "answer": "<b>Emote:</b> Think<br><b>Items:</b> Ancient staff, Prifddinian worker's trousers, Berserker ring"
+            "emotes": ["Think"],
+            "items": ["Ancient Staff", "Prifdiinia Worker's Trousers", "Berserker Ring"],
+            "area": {"topleft": {"x": 2174, "y": 3414}, "botright": {"x": 2203, "y": 3393}, "level": 1},
+            "double_agent": true,
+            "hidey_hole": {
+                "name": "Potted plant (hidey-hole)",
+                "location": {"x": 2181, "y": 3402, "level": 1}
             }
         },
         {
@@ -4217,10 +4237,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Have an idea inside the Invention Guild. Beware of double agents! Equip a lab coat top, lab coat legs and a staff of light."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2998, "y": 3441, "level": 0},
-                "answer": "<b>Emote:</b> Idea<br><b>Items:</b> Lab coat top, Lab coat legs, Staff of light"
+            "items": ["Lab Coat Top", "Lab Coat Legs", "Staff of Light"],
+            "emotes": ["Idea"],
+            "area": {"topleft": {"x": 6160, "y": 1074}, "botright": {"x": 6177, "y": 1039}, "level": 0},
+            "double_agent": true,
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x": 6176, "y": 1050, "level": 0}
             }
         },
         {

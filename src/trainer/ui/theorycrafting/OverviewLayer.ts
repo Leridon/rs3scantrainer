@@ -28,6 +28,7 @@ import natural_join = util.natural_join;
 import UtilityLayer from "../map/UtilityLayer";
 import * as lodash from "lodash";
 import LightButton from "../widgets/LightButton";
+import {v4 as uuidv4} from 'uuid';
 
 type FilterT = {
     [P in ClueType | ClueTier]?: boolean
@@ -141,7 +142,11 @@ class MethodWidget extends Widget {
                 new LightButton("Edit Copy", "rectangle")
                     .on("click", () => {
 
-                        this.edit_handler({pack: null, clue: m.clue, method: m.method})
+                        let c = lodash.cloneDeep(m.method)
+
+                        c.id = uuidv4()
+
+                        this.edit_handler({pack: null, clue: m.clue, method: c})
                     })
                 ,
                 new LightButton("Delete", "rectangle"),

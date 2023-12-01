@@ -2924,9 +2924,14 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["In a town where wizards are known to gather, search upstairs in a large house to the north."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2594, "y": 3104, "level": 0},
-                "answer": "Kill the man downstairs to get a key, then search the chest upstairs."
+                "type": "search",
+                "entity": "Closed chest",
+                "spot": {"x":2593,"y":3108,"level":1},
+                "key": {
+                    "instructions": "Stand by your man.",
+                    "answer": "Kill the man downstairs.",
+                    "area": {"topleft":{"x":2590,"y":3108},"botright":{"x":2598,"y":3103},"level":0}
+                }
             }
         },
         {
@@ -4173,10 +4178,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Wave in front of the entrance to the Grand Library of Menaphos. Beware of double agents! Equip an asylum surgeon's ring and the Scabaras mask."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3172, "y": 2710, "level": 0},
-                "answer": "<b>Emote:</b> Wave<br><b>Items:</b> Asylum surgeon's ring, Scabaras mask"
+            "area": {"topleft":{"x":3173,"y":2711},"botright":{"x":3176,"y":2708},"level":0},
+            "items": ["Asylum Surgeon's Ring", "Scabaras Mask"],
+            "emotes": ["Wave"],
+            "double_agent": true,
+            "hidey_hole": {
+                "name": "Plant (hidey-hole)",
+                "location": {"x":3172,"y":2711,"level":0}
             }
         },
         {
@@ -4198,10 +4206,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Bow or curtsy at the charm sprite hunter area. Beware of double agents! Equip an enhanced yaktwee stick, a Dagon-hai hat and an amulet of ranging."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2404, "y": 3370, "level": 0},
-                "answer": "<b>Emote:</b> Bow or curtsy<br><b>Items:</b> Enhanced yaktwee stick, Dagon-hai hat, Amulet of ranging"
+            "items": ["Enhances Yaktwee Stick", "Dagon-Hai Hat", "Amulet of Ranging"],
+            "area": {"topleft":{"x":2391,"y":3383},"botright":{"x":2417,"y":3363},"level":0},
+            "emotes": ["Bow or Curtsy"],
+            "double_agent": true,
+            "hidey_hole": {
+                "name": "Rock (hidey-hole)",
+                "location": {"x":2397,"y":3367,"level":0}
             }
         },
         {

@@ -1,6 +1,7 @@
 import * as L from "leaflet"
 import * as leaflet from "leaflet";
 import {ExportImport} from "./exportString";
+import {v4 as uuidv4} from 'uuid';
 
 export namespace util {
 
@@ -146,5 +147,9 @@ export namespace util {
 
     export function avg(...ns: number[]): number {
         return ns.reduce((a, b) => a + b, 0) / ns.length
+    }
+
+    export function uuid(): string {
+        return uuidv4()
     }
 }

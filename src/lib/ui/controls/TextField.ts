@@ -16,6 +16,11 @@ export default class TextField extends AbstractEditWidget<string, {
             })
     }
 
+    setEnabled(v: boolean) : this {
+        this.container.prop("disabled", !v)
+        return this
+    }
+
     setPlaceholder(placeholder: string): this{
         this.container.attr("placeholder", placeholder)
 

@@ -1,4 +1,3 @@
-import {MethodPack} from "./MethodPack";
 import {SolvingMethods} from "./methods";
 import Method = SolvingMethods.Method;
 import KeyValueStore from "../../lib/util/KeyValueStore";
@@ -8,9 +7,11 @@ import {Clues} from "../../lib/runescape/clues";
 import {default_scan_method_pack} from "../../data/methods";
 import {clue_data} from "../../data/clues";
 import {TileCoordinates} from "../../lib/runescape/coordinates";
+import {ewent, Ewent} from "../../lib/reactive";
+import * as lodash from "lodash";
 
 export type Pack = {
-    type: "default" | "custom"
+    type: "default" | "local" | "imported"
     id: string,
     author: string,
     timestamp: number,
@@ -30,7 +31,9 @@ export class MethodPackManager {
     private local_pack_store = KeyValueStore.instance().variable<Pack[]>("data/local_methods")
 
     private default_packs: Pack[]
-    private local_packs: Pack[]
+    private local_packs: Pack[] = []
+
+    pack_set_changed: Ewent.Real<Pack[]> = ewent()
 
     private index: ClueIndex<{ methods: AugmentedMethod[] }> = clue_data.index.with(() => ({methods: []}))
 
@@ -49,13 +52,13 @@ export class MethodPackManager {
         return this.local_pack_store.set(this.local_packs)
     }
 
-    private invalidateIndex(): void {
+    private async invalidateIndex(): Promise<void> {
 
         // TODO: For multi-spot clues there needs to be a hashed index to find methods by spot
 
-        this.index.filtered().forEach(c => c.methods = [])
+        this.index.filtered().forEach(c => c.methods = []);
 
-        this.all().forEach(p => {
+        (await this.all()).forEach(p => {
             p.methods.forEach(m => {
                 this.index.get(m.for?.clue)?.methods?.push({
                     method: m,
@@ -66,34 +69,72 @@ export class MethodPackManager {
         })
     }
 
-    all(): Pack[] {
+    async all(): Promise<Pack[]> {
+        await this.initialized
         return [...this.default_packs, ...this.local_packs]
     }
 
-    createPack(name: string): Pack {
-        let n: Pack = {
-            type: "custom",
-            author: "Anonymous",
-            id: uuid(),
-            name: name,
-            description: "",
-            timestamp: null, // TODO
-            methods: []
+    /**
+     * Clones and saves the given pack locally.
+     * The pack is copied and gets a new id.
+     *
+     * The copied and modified pack is returned
+     *
+     * @param pack
+     */
+    async create(pack: Pack): Promise<Pack> {
+        pack = lodash.cloneDeep(pack)
+        pack.id = uuid()
+        pack.type = "local"
+
+        this.local_packs.push(pack)
+
+        await this.save()
+
+        this.pack_set_changed.trigger(await this.all())
+
+        return pack
+    }
+
+    /**
+     * Clones and saves the given pack locally as an imported pack.
+     * The pack is copied, but keeps its id.
+     *
+     * The copied pack is returned
+     *
+     * @param pack
+     */
+    async import(pack: Pack): Promise<Pack> {
+        pack = lodash.cloneDeep(pack)
+        pack.type = "imported"
+
+        this.local_packs.push(pack)
+
+        await this.save()
+
+        this.pack_set_changed.trigger(await this.all())
+
+        return pack
+    }
+
+    async deletePack(pack: Pack) {
+        if (pack.type == "default") {
+            console.log("Attempting to delete default pack")
+            return
         }
 
-        this.local_packs.push(n)
+        let i = this.local_packs.findIndex(p => p.id == pack.id)
 
-        this.save()
+        if(i < 0) {
+            console.log("Attempting to delete non-existing pack")
+            return
+        }
 
-        return n
-    }
+        this.local_packs.splice(i, 1)
 
-    copyPack(pack: MethodPack) {
+        await this.save()
 
-    }
-
-    deletePack() {
-
+        this.pack_set_changed.trigger(await this.all())
     }
 
     createMethod(pack_id: string, method: Method) {

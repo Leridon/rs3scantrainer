@@ -10,7 +10,7 @@ import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 import {ewent, Observable, observe} from "../reactive";
 
 export default abstract class Behaviour {
-    protected handler_pool: EwentHandlerPool = new EwentHandlerPool()
+    public handler_pool: EwentHandlerPool = new EwentHandlerPool()
     private _subBehaviours: Behaviour[] = []
 
     public started = ewent<null>()

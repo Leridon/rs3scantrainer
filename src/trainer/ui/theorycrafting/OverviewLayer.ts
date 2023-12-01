@@ -136,7 +136,7 @@ class MethodWidget extends Widget {
 
             body.row(c().text(m.method.description))
             body.row(hbox(
-                new LightButton("Edit", "rectangle").setEnabled(pack.type == "custom")
+                new LightButton("Edit", "rectangle").setEnabled(pack.type == "local")
                     .on("click", () => this.edit_handler(m))
                 ,
                 new LightButton("Edit Copy", "rectangle")
@@ -151,13 +151,9 @@ class MethodWidget extends Widget {
                 ,
                 new LightButton("Delete", "rectangle"),
             ).addClass("ctr-button-container"))
-                .tapRaw(r => r.on("click", () => {
-                    this.edit_handler(m)
-                }))
         }
 
         this.addClass("ctr-method-widget")
-
     }
 }
 
@@ -239,115 +235,121 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             this.tippy = null
         }
 
-        let props = new Properties()
-        props.row(hbox(
-            span(`${ClueType.meta(this.clue.tier).name} ${ClueType.meta(this.clue.type).name} Step (Id ${this.clue.id})`).css("font-weight", "bold"),
-            spacer().css("min-width", "30px"),
-            c(`<img class="icon" src='${this.clue.tier ? Constants.icons.tiers[this.clue.tier] : ""}' title="${ClueType.pretty(this.clue.tier)}">`),
-            c(`<img class="icon" src='${Constants.icons.types[this.clue.type]}' title="${ClueType.pretty(this.clue.type)}">`))
-        )
-
         let self = this
 
-        function renderSolution(props: Properties, sol: Clues.Solution): void {
-            try {
-                props.named("Solution", (() => {
-                    switch (sol.type) {
-                        case "dig":
-                            return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
-                        case "search":
-                            return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
-                        case "talkto":
-                            return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
-                    }
-                })())
-
-                if (sol.type == "search" && sol.key) {
-                    props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`))
-                }
-            } catch (e) {
-            }
-        }
-
-        switch (this.clue.type) {
-            case "scan":
-                props.named("Area", c().text(`${this.clue.scantext}`))
-                props.named("Range", c().text(`${this.clue.range}`))
-                props.named("Spots", c().text(`${this.clue.spots.length}`))
-                break
-            case "compass":
-                renderSolution(props, {type: "dig", spot: this.spot_alternative})
-                props.named("Total", c().text(`${this.clue.spots.length}`))
-                break
-            case "coordinates":
-                props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
-                props.named("Coordinates", c().text(GieliCoordinates.toString(this.clue.coordinates)))
-                renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.coordinates)})
-                break
-            case "simple":
-            case "cryptic":
-            case "anagram":
-                props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
-                renderSolution(props, this.clue.solution)
-                break
-            case "map":
-                props.row(
-                    c(`<div style="text-align: center"><img src="${this.clue.image_url}" style="height: 150px; width: auto"></div>`)
-                )
-                props.named("Transcript", c().text(this.clue.text[0]))
-                renderSolution(props, this.clue.solution)
-                break
-            case "emote":
-                props.named("Text", c().text(this.clue.text[0]))
-                props.named("Equip", c().text(natural_join(this.clue.items, "and")))
-
-                if (this.clue.emotes.length > 1)
-                    props.named("Emotes", c().text(natural_join(this.clue.emotes, "then")))
-                else
-                    props.named("Emote", c().text(this.clue.emotes[0]))
-
-                props.named("Agent", c().text(this.clue.double_agent ? "Yes" : "No"))
-                break
-            case "skilling":
-                props.named("Text", c().text(this.clue.text[0]))
-                break
-        }
-
-        function render_challenge(challenge: Clues.Challenge) {
-            switch (challenge.type) {
-                case "wizard":
-                    return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
-                case "slider":
-                    return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
-                case "celticknot":
-                    return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
-                case "lockbox":
-                    return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
-                case "towers":
-                    return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
-                case "challengescroll":
-                    return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
-            }
-        }
-
-        if (this.clue.challenge?.length > 0) {
-            props.named("Challenge", vbox(...this.clue.challenge.map(render_challenge)))
-        }
-
-        let methods = await this.methods.getForClue(this.clue.id, this.spot_alternative)
-
-        if (methods.length > 0) {
-            props.header("Methods")
-
-            let grouped = lodash.groupBy(methods, e => e.pack.id)
-
-            for (let methods_in_pack of Object.values(grouped)) {
-                props.row(new MethodWidget(methods_in_pack, this.edit_handler))
-            }
-        }
-
         return this.tippy = tippy.default(this.marker.marker.getElement(), {
-            content: () => c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props).raw(),
+            content: () => {
+                console.log("Getting content")
+
+                let props = new Properties()
+                props.row(hbox(
+                    span(`${ClueType.meta(this.clue.tier).name} ${ClueType.meta(this.clue.type).name} Step (Id ${this.clue.id})`).css("font-weight", "bold"),
+                    spacer().css("min-width", "30px"),
+                    c(`<img class="icon" src='${this.clue.tier ? Constants.icons.tiers[this.clue.tier] : ""}' title="${ClueType.pretty(this.clue.tier)}">`),
+                    c(`<img class="icon" src='${Constants.icons.types[this.clue.type]}' title="${ClueType.pretty(this.clue.type)}">`))
+                )
+
+
+                function renderSolution(props: Properties, sol: Clues.Solution): void {
+                    try {
+                        props.named("Solution", (() => {
+                            switch (sol.type) {
+                                case "dig":
+                                    return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
+                                case "search":
+                                    return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
+                                case "talkto":
+                                    return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
+                            }
+                        })())
+
+                        if (sol.type == "search" && sol.key) {
+                            props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`))
+                        }
+                    } catch (e) {
+                    }
+                }
+
+                switch (this.clue.type) {
+                    case "scan":
+                        props.named("Area", c().text(`${this.clue.scantext}`))
+                        props.named("Range", c().text(`${this.clue.range}`))
+                        props.named("Spots", c().text(`${this.clue.spots.length}`))
+                        break
+                    case "compass":
+                        renderSolution(props, {type: "dig", spot: this.spot_alternative})
+                        props.named("Total", c().text(`${this.clue.spots.length}`))
+                        break
+                    case "coordinates":
+                        props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
+                        props.named("Coordinates", c().text(GieliCoordinates.toString(this.clue.coordinates)))
+                        renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.coordinates)})
+                        break
+                    case "simple":
+                    case "cryptic":
+                    case "anagram":
+                        props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
+                        renderSolution(props, this.clue.solution)
+                        break
+                    case "map":
+                        props.row(
+                            c(`<div style="text-align: center"><img src="${this.clue.image_url}" style="height: 150px; width: auto"></div>`)
+                        )
+                        props.named("Transcript", c().text(this.clue.text[0]))
+                        renderSolution(props, this.clue.solution)
+                        break
+                    case "emote":
+                        props.named("Text", c().text(this.clue.text[0]))
+                        props.named("Equip", c().text(natural_join(this.clue.items, "and")))
+
+                        if (this.clue.emotes.length > 1)
+                            props.named("Emotes", c().text(natural_join(this.clue.emotes, "then")))
+                        else
+                            props.named("Emote", c().text(this.clue.emotes[0]))
+
+                        props.named("Agent", c().text(this.clue.double_agent ? "Yes" : "No"))
+                        break
+                    case "skilling":
+                        props.named("Text", c().text(this.clue.text[0]))
+                        break
+                }
+
+                function render_challenge(challenge: Clues.Challenge) {
+                    switch (challenge.type) {
+                        case "wizard":
+                            return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
+                        case "slider":
+                            return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
+                        case "celticknot":
+                            return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
+                        case "lockbox":
+                            return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
+                        case "towers":
+                            return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
+                        case "challengescroll":
+                            return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
+                    }
+                }
+
+                if (this.clue.challenge?.length > 0) {
+                    props.named("Challenge", vbox(...this.clue.challenge.map(render_challenge)))
+                }
+
+                this.methods.getForClue(this.clue.id, this.spot_alternative)
+                    .then(methods => {
+                        if (methods.length > 0) {
+                            props.header("Methods")
+
+                            let grouped = lodash.groupBy(methods, e => e.pack.id)
+
+                            for (let methods_in_pack of Object.values(grouped)) {
+                                props.row(new MethodWidget(methods_in_pack, this.edit_handler))
+                            }
+                        }
+                    })
+
+                return c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props).raw()
+            },
         })
     }
 }

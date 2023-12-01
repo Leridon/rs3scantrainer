@@ -35,9 +35,8 @@ export default class MenuBar extends Widget {
 
         this.append(
             new MenuButton("Solving", "assets/icons/ribbon_clue.png", () => {}),
-            new MenuButton("Theory", "assets/icons/ribbon_notes.webp", () => {
+            new MenuButton("Create", "assets/icons/ribbon_notes.webp", () => {
                 app.main_behaviour.set(new TheoryCrafter(app))
-
             }),
             new MenuButton("Paths", "assets/icons/ribbon_activitytracker.webp", () => {
                 app.main_behaviour.set(new PathEditor(new GameLayer().addTo(app.map), app.template_resolver, {

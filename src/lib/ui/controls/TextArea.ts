@@ -16,6 +16,11 @@ export default class TextArea extends AbstractEditWidget<string, {
             })
     }
 
+    setEnabled(v: boolean) : this {
+        this.container.prop("disabled", !v)
+        return this
+    }
+
     protected render() {
         this.container.val(this.value)
     }

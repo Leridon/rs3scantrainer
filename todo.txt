@@ -1,18 +1,19 @@
 Immediate next:
 
 - Data
-    - Move clue data into the new, more detailled format
+    - Move clue data into the new, more detailed format
 
 - Theorycrafter
     - Search
-    - Show Meta pathing in overview
-    - Create new method
     - Fix new filter
-    - Fix dynamic tooltip content on show
+    - [Bug] Degree symbol bugs out in tooltip
+    - Editor for generic path methods
+    - Visual feedback for successful change.
+        - Track changes and disable when no changes exist?
 
 - Menu Bar
     - Highlight currently active
-    - Disable when active to prevent unneccessary reloading
+    - Disable when active to prevent unnecessary reloading
 
 - Solving Behaviour
     - Search Bar
@@ -45,6 +46,9 @@ Immediate next:
     - Update target for path editor when needed
     - Jump to spot button in overview
     - Autoname areas
+    - [Bug] Focussing a leaf root causes an exception (in path editor probably)
+    - [Bug] Closing the path editor does not unselect the active node
+    - [Bug] Deselecting equivalence classes does not hide them
 
 - Path Editor
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
@@ -56,7 +60,7 @@ Immediate next:
     - [Bug] Path Editor throws an exception when start_state is undefined
     - Add a way to make it not closeable by the user
 
-- Scan Tree Viewing
+- Solving
     - Make fit include the entire path
     - Better render of in-route teleports
     - Run graphics are bad on snow background

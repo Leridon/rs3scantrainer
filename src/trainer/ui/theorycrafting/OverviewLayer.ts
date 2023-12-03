@@ -32,6 +32,7 @@ import {v4 as uuidv4} from 'uuid';
 import {DropdownSelection} from "../widgets/DropdownSelection";
 import TextField from "../../../lib/ui/controls/TextField";
 import ClueSpot = Clues.ClueSpot;
+import {SolvingMethods} from "../../model/methods";
 
 type FilterT = {
     tiers?: { [P in ClueTier]: boolean },
@@ -326,125 +327,144 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 
         let self = this
 
-        return this.tippy = tippy.default(this.marker.marker.getElement(), {
-            onShow: (instance): void => {
-                async function construct(): Promise<Widget> {
+        async function construct(): Promise<Widget> {
 
-                    let props = new Properties()
-                    props.row(hbox(
-                        span(`${ClueType.meta(self.clue.clue.tier).name} ${ClueType.meta(self.clue.clue.type).name} Step (Id ${self.clue.clue.id})`).css("font-weight", "bold"),
-                        spacer().css("min-width", "30px"),
-                        c(`<img class="icon" src='${self.clue.clue.tier ? Constants.icons.tiers[self.clue.clue.tier] : ""}' title="${ClueType.pretty(self.clue.clue.tier)}">`),
-                        c(`<img class="icon" src='${Constants.icons.types[self.clue.clue.type]}' title="${ClueType.pretty(self.clue.clue.type)}">`))
-                    )
+            let props = new Properties()
+            props.row(hbox(
+                span(`${ClueType.meta(self.clue.clue.tier).name} ${ClueType.meta(self.clue.clue.type).name} Step (Id ${self.clue.clue.id})`).css("font-weight", "bold"),
+                spacer().css("min-width", "30px"),
+                c(`<img class="icon" src='${self.clue.clue.tier ? Constants.icons.tiers[self.clue.clue.tier] : ""}' title="${ClueType.pretty(self.clue.clue.tier)}">`),
+                c(`<img class="icon" src='${Constants.icons.types[self.clue.clue.type]}' title="${ClueType.pretty(self.clue.clue.type)}">`))
+            )
 
 
-                    function renderSolution(props: Properties, sol: Clues.Solution): void {
-                        try {
-                            props.named("Solution", (() => {
-                                switch (sol.type) {
-                                    case "dig":
-                                        return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
-                                    case "search":
-                                        return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
-                                    case "talkto":
-                                        return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
-                                }
-                            })())
-
-                            if (sol.type == "search" && sol.key) {
-                                props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`))
-                            }
-                        } catch (e) {
+            function renderSolution(props: Properties, sol: Clues.Solution): void {
+                try {
+                    props.named("Solution", (() => {
+                        switch (sol.type) {
+                            case "dig":
+                                return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
+                            case "search":
+                                return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
+                            case "talkto":
+                                return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
                         }
+                    })())
+
+                    if (sol.type == "search" && sol.key) {
+                        props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`))
                     }
-
-                    switch (self.clue.clue.type) {
-                        case "scan":
-                            props.named("Area", c().text(`${self.clue.clue.scantext}`))
-                            props.named("Range", c().text(`${self.clue.clue.range}`))
-                            props.named("Spots", c().text(`${self.clue.clue.spots.length}`))
-                            break
-                        case "compass":
-                            renderSolution(props, {type: "dig", spot: self.clue.spot})
-                            props.named("Total", c().text(`${self.clue.clue.spots.length}`))
-                            break
-                        case "coordinates":
-                            props.named("Text", c().text(self.clue.clue.text[0]).css("font-style", "italic"))
-                            props.named("Coordinates", c().text(GieliCoordinates.toString(self.clue.clue.coordinates)))
-                            renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(self.clue.clue.coordinates)})
-                            break
-                        case "simple":
-                        case "cryptic":
-                        case "anagram":
-                            props.named("Text", c().text(self.clue.clue.text[0]).css("font-style", "italic"))
-                            renderSolution(props, self.clue.clue.solution)
-                            break
-                        case "map":
-                            props.row(
-                                c(`<div style="text-align: center"><img src="${self.clue.clue.image_url}" style="height: 150px; width: auto"></div>`)
-                            )
-                            props.named("Transcript", c().text(self.clue.clue.text[0]))
-                            renderSolution(props, self.clue.clue.solution)
-                            break
-                        case "emote":
-                            props.named("Text", c().text(self.clue.clue.text[0]))
-                            props.named("Equip", c().text(natural_join(self.clue.clue.items, "and")))
-
-                            if (self.clue.clue.emotes.length > 1)
-                                props.named("Emotes", c().text(natural_join(self.clue.clue.emotes, "then")))
-                            else
-                                props.named("Emote", c().text(self.clue.clue.emotes[0]))
-
-                            props.named("Agent", c().text(self.clue.clue.double_agent ? "Yes" : "No"))
-                            break
-                        case "skilling":
-                            props.named("Text", c().text(self.clue.clue.text[0]))
-                            break
-                    }
-
-                    function render_challenge(challenge: Clues.Challenge) {
-                        switch (challenge.type) {
-                            case "wizard":
-                                return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
-                            case "slider":
-                                return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
-                            case "celticknot":
-                                return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
-                            case "lockbox":
-                                return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
-                            case "towers":
-                                return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
-                            case "challengescroll":
-                                return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
-                        }
-                    }
-
-                    if (self.clue.clue.challenge?.length > 0) {
-                        props.named("Challenge", vbox(...self.clue.clue.challenge.map(render_challenge)))
-                    }
-
-                    self.methods.getForClue(self.clue.clue.id, self.clue.spot)
-                        .then(methods => {
-                            if (methods.length > 0) {
-                                props.header("Methods")
-
-                                let grouped = lodash.groupBy(methods, e => e.pack.local_id)
-
-                                for (let methods_in_pack of Object.values(grouped)) {
-                                    props.row(new MethodWidget(methods_in_pack, self.edit_handler))
-                                }
-                            }
-                        })
-
-                    return c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props)
-
+                } catch (e) {
                 }
+            }
 
-                construct().then(w => instance.setContent(w.raw()))
+            switch (self.clue.clue.type) {
+                case "scan":
+                    props.named("Area", c().text(`${self.clue.clue.scantext}`))
+                    props.named("Range", c().text(`${self.clue.clue.range}`))
+                    props.named("Spots", c().text(`${self.clue.clue.spots.length}`))
+                    break
+                case "compass":
+                    renderSolution(props, {type: "dig", spot: self.clue.spot})
+                    props.named("Total", c().text(`${self.clue.clue.spots.length}`))
+                    break
+                case "coordinates":
+                    props.named("Text", c().text(self.clue.clue.text[0]).css("font-style", "italic"))
+                    props.named("Coordinates", c().text(GieliCoordinates.toString(self.clue.clue.coordinates)))
+                    renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(self.clue.clue.coordinates)})
+                    break
+                case "simple":
+                case "cryptic":
+                case "anagram":
+                    props.named("Text", c().text(self.clue.clue.text[0]).css("font-style", "italic"))
+                    renderSolution(props, self.clue.clue.solution)
+                    break
+                case "map":
+                    props.row(
+                        c(`<div style="text-align: center"><img src="${self.clue.clue.image_url}" style="height: 150px; width: auto"></div>`)
+                    )
+                    props.named("Transcript", c().text(self.clue.clue.text[0]))
+                    renderSolution(props, self.clue.clue.solution)
+                    break
+                case "emote":
+                    props.named("Text", c().text(self.clue.clue.text[0]))
+                    props.named("Equip", c().text(natural_join(self.clue.clue.items, "and")))
+
+                    if (self.clue.clue.emotes.length > 1)
+                        props.named("Emotes", c().text(natural_join(self.clue.clue.emotes, "then")))
+                    else
+                        props.named("Emote", c().text(self.clue.clue.emotes[0]))
+
+                    props.named("Agent", c().text(self.clue.clue.double_agent ? "Yes" : "No"))
+                    break
+                case "skilling":
+                    props.named("Text", c().text(self.clue.clue.text[0]))
+                    break
+            }
+
+            function render_challenge(challenge: Clues.Challenge) {
+                switch (challenge.type) {
+                    case "wizard":
+                        return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
+                    case "slider":
+                        return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
+                    case "celticknot":
+                        return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
+                    case "lockbox":
+                        return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
+                    case "towers":
+                        return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
+                    case "challengescroll":
+                        return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
+                }
+            }
+
+            if (self.clue.clue.challenge?.length > 0) {
+                props.named("Challenge", vbox(...self.clue.clue.challenge.map(render_challenge)))
+            }
+
+            let methods = await self.methods.getForClue(self.clue.clue.id, self.clue.spot)
+
+            if (methods.length > 0) {
+                props.header("Methods")
+
+                let grouped = lodash.groupBy(methods, e => e.pack.local_id)
+
+                for (let methods_in_pack of Object.values(grouped)) {
+                    props.row(new MethodWidget(methods_in_pack, self.edit_handler))
+                }
+            }
+
+            props.row(new LightButton("+ New Method", "rectangle").onClick(() => {
+                self.edit_handler({
+                    clue: self.clue.clue,
+                    pack: null,
+                    method: SolvingMethods.init(self.clue)
+                })
+            }))
+
+            return c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props)
+
+        }
+
+        //let cont = await construct()
+
+        let lock = false
+
+        this.tippy = tippy.default(this.marker.marker.getElement(), {
+            onBeforeUpdate: (instance): void => {
+                if (lock) return
+
+                (async () => {
+                    lock = true
+                    await construct().then(w => instance.setContent(w.raw()))
+                    lock = false
+                })()
             },
             content: () => c().text("Loading").raw(),
         })
+
+        return this.tippy
     }
 }
 
@@ -478,11 +498,9 @@ export default class OverviewLayer extends GameLayer {
                     })
                 )
 
-                let instances = []
-
-                /*await Promise.all(
-                    this.clue_index
-                        .filtered()
+                let instances = await Promise.all(
+                    this.marker_index
+                        .flat()
                         .flatMap(c => c.markers.map(m => {
                             try {
                                 return m.createTooltip()
@@ -491,7 +509,7 @@ export default class OverviewLayer extends GameLayer {
                             }
                         }))
                         .filter(i => i != null)
-                )*/
+                )
 
                 if (this.singleton_tooltip) {
                     this.singleton_tooltip.destroy()
@@ -503,6 +521,10 @@ export default class OverviewLayer extends GameLayer {
                     interactiveBorder: 20,
                     interactiveDebounce: 0.5,
                     arrow: true,
+                    overrides: ["onShow", "onMount", "onShown", "onBeforeUpdate"],
+                    onCreate: () => {
+                        console.log("Create")
+                    },
                     appendTo: () => document.body,
                     delay: 0,
                     animation: false,

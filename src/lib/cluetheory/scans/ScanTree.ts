@@ -370,6 +370,14 @@ export namespace ScanTree {
         tree.children.forEach(c => traverse(c.value, f))
     }
 
+    export function init(clue: Clues.Scan): ScanTree {
+        return {
+            assumed_range: clue.range,
+            ordered_spots: clue.spots,
+            root: init_leaf()
+        }
+    }
+
     export function init_leaf(): ScanTreeNode {
         return {
             children: [],

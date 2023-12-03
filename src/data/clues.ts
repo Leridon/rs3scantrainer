@@ -2926,11 +2926,11 @@ export namespace clue_data {
             "solution": {
                 "type": "search",
                 "entity": "Closed chest",
-                "spot": {"x":2593,"y":3108,"level":1},
+                "spot": {"x": 2593, "y": 3108, "level": 1},
                 "key": {
                     "instructions": "Stand by your man.",
                     "answer": "Kill the man downstairs.",
-                    "area": {"topleft":{"x":2590,"y":3108},"botright":{"x":2598,"y":3103},"level":0}
+                    "area": {"topleft": {"x": 2590, "y": 3108}, "botright": {"x": 2598, "y": 3103}, "level": 0}
                 }
             }
         },
@@ -3921,14 +3921,13 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["Dance in the centre of Canifis. Bow or curtsy before you talk to me. Equip a spiny helmet, mithril platelegs and an iron two-handed sword."],
 
-            "area": null,
-            "items": ["", "", ""],
-            "emotes": [""],
+            "area": {"topleft":{"x":3485,"y":3496},"botright":{"x":3503,"y":3480},"level":0},
+            "items": ["Spine Helm", "Mithril Platelegs", "Iron two-handed sword"],
+            "emotes": ["Dance", "Bow or Curtsy"],
             "double_agent": false,
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3492, "y": 3491, "level": 0},
-                "answer": "<b>Emotes:</b> Dance, then bow or curtsy<br><b>Items:</b> Spiny helm, Mithril platelegs, Iron two-handed sword"
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x":3491,"y":3480,"level":0}
             }
         },
         {
@@ -4051,7 +4050,11 @@ export namespace clue_data {
             "items": ["Diamond ring", "Amulet of power", "Nothing on your chest and legs"],
             "emotes": ["Salute"],
             "double_agent": true,
-            "area": null,
+            "area": {"topleft":{"x":2908,"y":3173},"botright":{"x":2934,"y":3154},"level":0},
+            "hidey_hole": {
+                "name": "Log (hidey-hole)",
+                "location": {"x":2914,"y":3154,"level":0}
+            }
         },
         {
             "id": 229,
@@ -4061,7 +4064,11 @@ export namespace clue_data {
             "items": ["Ring of life", "Uncharged amulet of glory", "Adamant 2h sword"],
             "emotes": ["Dance"],
             "double_agent": true,
-            "area": null,
+            "area": {"topleft":{"x":3292,"y":2785},"botright":{"x":3297,"y":2782},"level":0},
+            "hidey_hole": {
+                "name": "Crate (hidey-hole)",
+                "location": {"x":3310,"y":2784,"level":0}
+            }
         },
         {
             "id": 230,
@@ -4101,7 +4108,7 @@ export namespace clue_data {
             "emotes": ["Bow or Curtsy"],
             "double_agent": true,
             "hidey_hole": {
-                "location": {"topleft": {"x": 2512, "y": 3639}, "botright": {"x": 2512, "y": 3639}, "level": 2},
+                "location": {"x": 2512, "y": 3639, "level": 2},
                 "name": "Crate (hidey-hole)"
             }
         },
@@ -4112,6 +4119,11 @@ export namespace clue_data {
             "text": ["Yawn near the Wilderness Bandit camp obelisk. Beware of double agents! Equip an iron square shield, blue dragon vambraces and an iron pickaxe."],
             "items": ["Iron square shield", "Blue dragonhide vambraces", "Iron pickaxe"],
             "emotes": ["Yawn"],
+            "area": {"topleft": {"x": 3031, "y": 3736}, "botright": {"x": 3039, "y": 3728}, "level": 0},
+            "hidey_hole": {
+                "name": "Dead tree (hidey-hole)",
+                "location": {"x": 3032, "y": 3723, "level": 0}
+            },
             "double_agent": true,
         },
         {
@@ -4121,17 +4133,25 @@ export namespace clue_data {
             "text": ["Shrug in the Zamorak temple, found in the eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody and blue dragonhide vambraces."],
             "items": ["Bronze platelegs", "Iron platebody", "Blue dragonhide vambraces"],
             "emotes": ["Shrug"],
+            "area": {"topleft": {"x": 3234, "y": 3614}, "botright": {"x": 3245, "y": 3603}, "level": 0},
             "double_agent": true,
+            "hidey_hole": {
+                "name": "Rock (hidey-hole)",
+                "location": {"x": 3245, "y": 3610, "level": 0}
+            }
         },
         {
             "id": 233,
             "type": "emote",
             "tier": "master",
             "text": ["Cheer by the sulphur pit in the TzHaar City. Beware of double agents! Equip a fire cape, a Toktz-ket-xil and a spork."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2845, "y": 3174, "level": 0},
-                "answer": "<b>Emote:</b> Cheer<br><b>Items:</b> Fire cape, Toktz-ket-xil, Spork<br>(Inside the TzHaar City, southwest of the market square)"
+            "area": {"topleft": {"x": 4632, "y": 5114}, "botright": {"x": 4640, "y": 5106}, "level": 0},
+            "items": ["Fire Cape", "Toktz-Ket-Xil", "Spork"],
+            "emotes": ["Cheer"],
+            "double_agent": true,
+            "hidey_hole": {
+                "name": "Table (hidey-hole)",
+                "location": {"x": 4638, "y": 5106, "level": 0}
             }
         },
         {
@@ -4178,13 +4198,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Wave in front of the entrance to the Grand Library of Menaphos. Beware of double agents! Equip an asylum surgeon's ring and the Scabaras mask."],
-            "area": {"topleft":{"x":3173,"y":2711},"botright":{"x":3176,"y":2708},"level":0},
+            "area": {"topleft": {"x": 3173, "y": 2711}, "botright": {"x": 3176, "y": 2708}, "level": 0},
             "items": ["Asylum Surgeon's Ring", "Scabaras Mask"],
             "emotes": ["Wave"],
             "double_agent": true,
             "hidey_hole": {
                 "name": "Plant (hidey-hole)",
-                "location": {"x":3172,"y":2711,"level":0}
+                "location": {"x": 3172, "y": 2711, "level": 0}
             }
         },
         {
@@ -4207,12 +4227,12 @@ export namespace clue_data {
             "tier": "master",
             "text": ["Bow or curtsy at the charm sprite hunter area. Beware of double agents! Equip an enhanced yaktwee stick, a Dagon-hai hat and an amulet of ranging."],
             "items": ["Enhances Yaktwee Stick", "Dagon-Hai Hat", "Amulet of Ranging"],
-            "area": {"topleft":{"x":2391,"y":3383},"botright":{"x":2417,"y":3363},"level":0},
+            "area": {"topleft": {"x": 2391, "y": 3383}, "botright": {"x": 2417, "y": 3363}, "level": 0},
             "emotes": ["Bow or Curtsy"],
             "double_agent": true,
             "hidey_hole": {
                 "name": "Rock (hidey-hole)",
-                "location": {"x":2397,"y":3367,"level":0}
+                "location": {"x": 2397, "y": 3367, "level": 0}
             }
         },
         {

@@ -108,7 +108,7 @@ class MethodWidget extends Widget {
         let pack = methods[0].pack
 
         this.append(
-            c(`<div class="ctr-method-widget-pack-header">Pack <span>${pack.name}</span></span></div>`)
+            c(`<div class="ctr-method-widget-pack-header">${lodash.capitalize(pack.type)} Pack <span>${pack.name}</span></span></div>`)
                 .tooltip(`By ${pack.author}. ${pack.description}`)
         )
 
@@ -137,10 +137,10 @@ class MethodWidget extends Widget {
             body.row(c().text(m.method.description))
             body.row(hbox(
                 new LightButton("Edit", "rectangle").setEnabled(pack.type == "local")
-                    .on("click", () => this.edit_handler(m))
+                    .onClick(() => this.edit_handler(m))
                 ,
                 new LightButton("Edit Copy", "rectangle")
-                    .on("click", () => {
+                    .onClick(() => {
 
                         let c = lodash.cloneDeep(m.method)
 

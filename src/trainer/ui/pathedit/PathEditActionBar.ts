@@ -157,25 +157,25 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         // Render buttons
         {
             hbox(
-                new LightButton("Commit", "rectangle").on("click", () => {
+                new LightButton("Commit", "rectangle").onClick(() => {
                     this.editor.options.commit_handler(this.editor.value.construct())
                 }).setEnabled(!!this.editor.options.commit_handler),
 
-                new LightButton("Discard", "rectangle").on("click", () => {
+                new LightButton("Discard", "rectangle").onClick(() => {
                     this.editor.value.load(this.editor.options.initial)
                     this.editor.options?.discard_handler()
                 }),
 
                 new LightButton("Export", "rectangle")
-                    .on("click", () => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
+                    .onClick(() => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
 
                 new LightButton("Import", "rectangle")
-                    .on("click", async () => {
+                    .onClick(async () => {
                         this.editor.value.load(await ImportStringModal.do((s) => Path.import_path(s)))
                     }),
 
                 new LightButton("Share", "rectangle")
-                    .on("click", () => {
+                    .onClick(() => {
                         ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, {
                             steps: this.editor.value.construct(),
                             start_state: this.editor.options.start_state,

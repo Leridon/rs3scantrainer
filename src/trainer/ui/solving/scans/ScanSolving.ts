@@ -265,7 +265,7 @@ class ScanTreeMethodPanel extends MethodPanel {
             : resolver.resolve(`Spot {{digspot ${spotNumber(node.root.raw, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
 
         if (depth == 0) {
-            new LightButton().on("click", () => this.node.set(node))
+            new LightButton().onClick(() => this.node.set(node))
                 .setHTML(link_html)
                 .appendTo(line)
         } else if (depth > 0) {
@@ -293,7 +293,7 @@ class ScanTreeMethodPanel extends MethodPanel {
                     .forEach((child) => {
                         new LightButton()
                             .setHTML(render_digspot(spotNumber(node.root.raw, child.remaining_candidates[0])))
-                            .on("click", () => this.node.set(child))
+                            .onClick(() => this.node.set(child))
                             .appendTo(line)
                     })
             } else {
@@ -333,7 +333,7 @@ class ScanTreeMethodPanel extends MethodPanel {
                 .forEach((child) => {
                     new LightButton()
                         .setHTML(render_digspot(spotNumber(node.root.raw, child.value.remaining_candidates[0])))
-                        .on("click", () => this.node.set(child.value))
+                        .onClick(() => this.node.set(child.value))
                         .appendTo(line)
                 })
         }

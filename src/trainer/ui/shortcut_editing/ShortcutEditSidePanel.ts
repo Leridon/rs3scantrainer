@@ -53,22 +53,22 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
         hboxc(
             new LightButton("Edit Builtins")
-                .on("click", () => {
+                .onClick(() => {
                     this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: false})))
                 }),
             new LightButton("Delete Local")
-                .on("click", () => {
+                .onClick(() => {
                     this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
                 }),
         ).addClass("ctr-button-container").appendTo(this.search_container)
 
         hboxc(
             new LightButton("Export All")
-                .on("click", () => {
+                .onClick(() => {
                     ExportStringModal.do(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
                 }),
             new LightButton("Export Local")
-                .on("click", () => {
+                .onClick(() => {
                     ExportStringModal.do(JSON.stringify(this.editor.data.value().filter(s => !s.value().is_builtin).map(v => (({
                                                                                                                                    is_builtin,
                                                                                                                                    ...rest
@@ -77,7 +77,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
         ).addClass("ctr-button-container").appendTo(this.search_container)
 
         c("<div style='display: flex'></div>").append(new TextField().css("flex-grow", "1").setPlaceholder("Search Shortcuts...")
-            .on("hint", (v) => this.search_term.set(v))
+            .onPreview((v) => this.search_term.set(v))
         ).appendTo(this.search_container)
 
         hbox(
@@ -86,7 +86,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
         )
             .appendTo(this.search_container)
 
-        this.viewport_checkbox.on("changed", () => this.updateVisibleData())
+        this.viewport_checkbox.onCommit(() => this.updateVisibleData())
 
         c().text("Results:").appendTo(this)
 

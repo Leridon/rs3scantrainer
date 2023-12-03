@@ -66,11 +66,11 @@ class RegionEdit extends Widget {
         if (is_defined) {
             new TextField()
                 .setValue(this.parent.node.raw.region.name)
-                .on("hint", (v) => {
+                .onPreview((v) => {
                     this.parent.node.raw.region.name = v
                     this.parent.region_preview?.setRegion(this.parent.node.raw.region)
                 })
-                .on("changed", (v) => {
+                .onCommit((v) => {
                     this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {area: this.parent.node.region.area, name: v})
                 })
                 .css("flex-grow", "1")
@@ -78,7 +78,7 @@ class RegionEdit extends Widget {
 
             SmallImageButton.new("assets/icons/edit.png")
                 .css("margin-left", "2px")
-                .on("click", async () => {
+                .onClick(async () => {
 
                     this.parent.parent.parent.interaction_guard.set(
                         new DrawRegionAction(this.parent.node.raw.region.name)
@@ -95,7 +95,7 @@ class RegionEdit extends Widget {
 
             SmallImageButton.new("assets/icons/regenerate.png")
                 .css("margin-left", "2px")
-                .on("click", async () => {
+                .onClick(async () => {
                     this.parent.parent.parent.builder.setRegion(this.parent.node.raw, {
                         name: this.parent.node.region?.name || "",
                         area: TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
@@ -106,13 +106,13 @@ class RegionEdit extends Widget {
 
             SmallImageButton.new("assets/icons/delete.png")
                 .css("margin-left", "2px")
-                .on("click", async () => {
+                .onClick(async () => {
                     this.parent.parent.parent.builder.setRegion(this.parent.node.raw, null)
                 })
                 .appendTo(this)
         } else {
             new LightButton("Create")
-                .on("click", async () => {
+                .onClick(async () => {
                     if (this.parent.node.path.steps.length > 0 && this.parent.node.path.post_state?.position?.tile) {
                         let area = TileRectangle.fromTile(this.parent.node.path.post_state?.position?.tile)
 
@@ -230,7 +230,7 @@ class TreeNodeEdit extends Widget {
                     return path_short + " to " + target
                 }
             })
-                .on("changed", (v) => {
+                .onCommit((v) => {
                     this.node.raw.directions = v
                 })
                 .setValue(this.node.raw.directions)

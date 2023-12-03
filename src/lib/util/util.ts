@@ -152,4 +152,11 @@ export namespace util {
     export function uuid(): string {
         return uuidv4()
     }
+
+    /**
+     * @return The current utc time as a unix timestamp (in seconds)
+     */
+    export function timestamp(): number {
+        return Math.floor((new Date()).getTime() / 1000)
+    }
 }

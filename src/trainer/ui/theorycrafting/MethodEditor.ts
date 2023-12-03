@@ -24,7 +24,10 @@ class MethodEditSideBar extends MapSideBar {
 
         if (parent.method.pack) {
             hbox(
-                new LightButton(`Save in ${parent.method.pack}`, "rectangle"),
+                new LightButton(`Save in ${parent.method.pack.name}`, "rectangle")
+                    .onClick(() => {
+                        parent.app.methods.updateMethod(parent.method)
+                    }),
                 new LightButton("Save Copy", "rectangle")
             ).appendTo(this.body).addClass("ctr-button-container")
         } else {
@@ -40,10 +43,10 @@ class MethodEditSideBar extends MapSideBar {
 
         props.header("Name & Description")
         props.row(new TextField().setValue(parent.method.method.name).setPlaceholder("Enter Name")
-            .on("changed", v => parent.method.method.name = v)
+            .onCommit(v => parent.method.method.name = v)
         )
         props.row(new TextArea().css("height", "80px").setValue(parent.method.method.description)
-            .on("changed", v => parent.method.method.description = v)
+            .onCommit(v => parent.method.method.description = v)
         )
 
         props.header("Assumptions")
@@ -55,22 +58,22 @@ class MethodEditSideBar extends MapSideBar {
 
         props.row(vbox(
             hbox(new Checkbox().setValue(parent.method.method.assumptions.meerkats_active)
-                    .on("changed", v => updateAssumptions(a => a.meerkats_active = v))
+                    .onCommit(v => updateAssumptions(a => a.meerkats_active = v))
                 , span("Meerkats")),
             hbox(new Checkbox().setValue(parent.method.method.assumptions.full_globetrotter)
-                    .on("changed", v => updateAssumptions(a => a.full_globetrotter = v))
+                    .onCommit(v => updateAssumptions(a => a.full_globetrotter = v))
                 , span("Full Globetrotter")),
             hbox(new Checkbox().setValue(parent.method.method.assumptions.way_of_the_footshaped_key)
-                    .on("changed", v => updateAssumptions(a => a.way_of_the_footshaped_key = v))
+                    .onCommit(v => updateAssumptions(a => a.way_of_the_footshaped_key = v))
                 , span("Way of the foot-shaped key")),
             hbox(new Checkbox().setValue(parent.method.method.assumptions.double_surge)
-                    .on("changed", v => updateAssumptions(a => a.double_surge = v))
+                    .onCommit(v => updateAssumptions(a => a.double_surge = v))
                 , span("Double Surge")),
             hbox(new Checkbox().setValue(parent.method.method.assumptions.double_escape)
-                    .on("changed", v => updateAssumptions(a => a.double_escape = v))
+                    .onCommit(v => updateAssumptions(a => a.double_escape = v))
                 , span("Double Escape")),
             hbox(new Checkbox().setValue(parent.method.method.assumptions.mobile_perk)
-                    .on("changed", v => updateAssumptions(a => a.mobile_perk = v))
+                    .onCommit(v => updateAssumptions(a => a.mobile_perk = v))
                 , span("Mobile Perk")),
         ))
 
@@ -84,7 +87,7 @@ export default class MethodEditor extends Behaviour {
 
     sub_editor = this.withSub(new SingleBehaviour<MethodSubEditor>())
 
-    constructor(private app: Application, public method: AugmentedMethod) {
+    constructor(public app: Application, public method: AugmentedMethod) {
         super();
     }
 

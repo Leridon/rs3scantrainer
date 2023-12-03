@@ -22,7 +22,7 @@ export default class SpotOverview extends Widget {
 
         /*
         this.reselect_button = new LightButton("Select new spot numbering")
-            .on("click", (e) => {
+            .onClick((e) => {
                 if (this.interaction) {
                     this.interaction.deactivate()
                     this.interaction = null

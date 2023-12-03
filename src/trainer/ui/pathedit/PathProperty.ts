@@ -44,15 +44,11 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
         await this.render()
 
         this.options.editor_handle({
-            initial: this.value,
+            initial: this.get(),
             commit_handler: async v => {
-                this.changed(v)
-                await this.render()
+                this.commit(v, true)
             },
             discard_handler: async () => {
-                this.loaded = false
-                this.changed(this.value)
-
                 await this.render()
             },
             start_state: this.options.start_state,
@@ -61,7 +57,7 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
     }
 
     protected async render() {
-        this.augmented = await Path.augment(this.value, this.options.start_state, this.options.target)
+        this.augmented = await Path.augment(this.get(), this.options.start_state, this.options.target)
 
         this.empty()
 
@@ -111,17 +107,15 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
             .css("margin-left", "2px")
             .setEnabled(!this.loaded)
             .setVisible(false)
-            .on("click", async () => await this.edit())
+            .onClick(async () => await this.edit())
             .appendTo(this)
 
         this.reset_button = SmallImageButton.new("assets/icons/reset.png")
             .css("margin-left", "2px")
-            .setEnabled(!this.loaded && this.value.length > 0)
+            .setEnabled(!this.loaded && this.get().length > 0)
             .setVisible(false)
-            .on("click", async () => {
-                this.changed([])
-
-                await this.render()
+            .onClick(async () => {
+                this.commit([], true)
             })
             .appendTo(this)
     }

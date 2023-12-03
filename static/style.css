@@ -14,6 +14,11 @@ html, body {
     height: 100vh;
 }
 
+h2 {
+    font-size: 1.3rem;
+    padding-left: 10px;
+}
+
 .search-container {
     display: flex;
     flex-direction: column;
@@ -1284,10 +1289,6 @@ input[type=checkbox] + span {
     padding-right: 10px;
 }
 
-.ctr-method-widget-pack-header > span {
-    font-style: italic;
-}
-
 .ctr-lightbutton.ctr-lightbutton-round {
     border-radius: 20px;
     padding-left: 0.5em;
@@ -1328,6 +1329,7 @@ input[type=checkbox] + span {
 .ctr-pack-widget {
     background-color: #1b364d;
     border: 1px solid white;
+    margin-bottom: 5px;
 }
 
 .ctr-pack-widget-header > span {

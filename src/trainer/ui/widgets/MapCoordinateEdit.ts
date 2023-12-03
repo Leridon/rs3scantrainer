@@ -5,6 +5,7 @@ import SelectTileInteraction from "lib/gamemap/interaction/SelectTileInteraction
 import AbstractEditWidget from "./AbstractEditWidget";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {SmallImageButton} from "./SmallImageButton";
+import {tap} from "lodash";
 
 export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinates> {
     x: Widget
@@ -16,28 +17,26 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
     ) {
         super()
 
-        this.value = lodash.clone(initial)
+        this.setValue(lodash.clone(initial))
 
         this.container.css("min-width", "0")
         this.css("display", "flex")
 
         this.x = c("<input type='text' inputmode='numeric' class='nisinput' min='0' style='text-align: right'>").appendTo(this)
         this.x.container.on("change", () => {
-            this.value.x = Number(this.x.container.val())
-            this.emit("changed", this.value)
+            this.commit(tap(lodash.clone(this.get()), v => v.x = Number(this.x.container.val())))
         })
         c("<div> | </div>").appendTo(this)
         this.y = c("<input type='text' inputmode='numeric' class='nisinput' min='0'>").appendTo(this)
         this.y.container.on("change", () => {
-            this.value.y = Number(this.y.container.val())
-            this.emit("changed", this.value)
+            this.commit(tap(lodash.clone(this.get()), v => v.y = Number(this.x.container.val())))
+
         })
 
         c("<div> | </div>").appendTo(this)
         this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='width: 30%'>").appendTo(this)
         this.floor.container.on("change", () => {
-            this.value.level = Number(this.floor.container.val()) as floor_t
-            this.emit("changed", this.value)
+            this.commit(tap(lodash.clone(this.get()), v => v.level = Number(this.x.container.val()) as floor_t))
         })
 
         if (initial) {
@@ -48,18 +47,20 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
 
         if (this.interaction_f) {
             SmallImageButton.new("assets/icons/marker.png").appendTo(this)
-                .on("click", () =>
-                    this.interaction_f(this.value).onCommit((v) => {
-                        this.value = v
-
-                        this.x.container.val(v.x)
-                        this.y.container.val(v.y)
-                        this.floor.container.val(v.level)
-
-                        this.emit("changed", this.value)
+                .onClick(() =>
+                    this.interaction_f(this.get()).onCommit((v) => {
+                        this.commit(v, true)
                     })
                 )
                 .css("margin-left", "3px")
         }
+    }
+
+    protected render() {
+        let v = this.get()
+
+        this.x.container.val(v.x)
+        this.y.container.val(v.y)
+        this.floor.container.val(v.level)
     }
 }

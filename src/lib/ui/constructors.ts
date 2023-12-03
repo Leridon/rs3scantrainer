@@ -11,6 +11,11 @@ export namespace C {
         return create("<div style='display: flex'></div>").append(...content)
     }
 
+    export function btnrow(...buttons: Widget[]): Widget {
+        return create("<div style='display: flex' class='ctr-button-container'></div>").append(...buttons)
+
+    }
+
     export function hboxc(...content: Widget[]): Widget {
         return create("<div style='display: flex; justify-content: center'></div>").append(...content)
     }
@@ -31,4 +36,7 @@ export namespace C {
         return create("<span></span>").setInnerHtml(text)
     }
 
+    export function h(level: 1 | 2 | 3 | 4 | 5, text: string): Widget {
+        return create(`<h${level}>${text}</h${level}>`)
+    }
 }

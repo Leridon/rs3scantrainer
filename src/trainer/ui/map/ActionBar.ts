@@ -30,7 +30,7 @@ export namespace ActionBar {
                 if (i) i.onEnd(() => this._activeInteraction.set(null))
             })
 
-            this.on("click", async (e) => {
+            this.onClick( async (e) => {
                 if (this._activeInteraction.value()) this._activeInteraction.value().cancel()
                 else {
                     let activated = await this.activation(e)

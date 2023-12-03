@@ -7,12 +7,12 @@ export default class Checkbox extends AbstractEditWidget<boolean> {
         this.container
             .on("input", () => {
                 let value = this.container.is(":checked")
-                if (value != this.value) this.changed(value)
+                if (value != this.get()) this.commit(value)
             })
             .appendTo(this.container)
     }
 
     protected render() {
-        this.container.prop("checked", this.value);
+        this.container.prop("checked", this.get());
     }
 }

@@ -21,7 +21,7 @@ export default class ScanTools extends Widget {
             c("<div style='font-weight: bold'>Center On</div>"),
             hbox(
                 new LightButton("Spots", "rectangle")
-                    .on("click", () => {
+                    .onClick(() => {
                         let bounds = leaflet.latLngBounds([])
 
                         this.editor.value.clue.spots.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
@@ -31,7 +31,7 @@ export default class ScanTools extends Widget {
                         this.editor.app.map.fitBounds(bounds)
                     }),
                 new LightButton("Complement", "rectangle")
-                    .on("click", () => {
+                    .onClick(() => {
                         let bounds = leaflet.latLngBounds([])
 
                         this.editor.value.clue.spots.forEach((c) => {
@@ -49,13 +49,13 @@ export default class ScanTools extends Widget {
 
             hboxc(
                 c("<div style='display: flex; padding-left: 5px'>")
-                    .append(new Checkbox().on("changed", (v) => {
+                    .append(new Checkbox().onCommit((v) => {
                         this.normal.set(v)
                     }))
                     .append(c("<div class='col-4' style='margin-left: 5px'>Spots</div>")),
 
                 c("<div style='display: flex; padding-left: 5px'>")
-                    .append(new Checkbox().on("changed", (v) => {
+                    .append(new Checkbox().onCommit((v) => {
                         this.complement.set(v)
                     }).container)
                     .append(c("<div class='col-4' style='margin-left: 5px'>Complement</div>"))

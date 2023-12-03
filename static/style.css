@@ -1246,10 +1246,6 @@ input[type=checkbox] + span {
     margin-left: 5px;
 }
 
-.ctr-filter-control-row > *:first-child {
-    width: 30px;
-}
-
 .nisl-small-image-toggle {
     text-align: center;
     padding: 0;

@@ -2,7 +2,8 @@ import {type Pack} from "../trainer/model/MethodPackManager";
 
 export const default_scan_method_pack: Pack = {
     type: "default",
-    id: "default:scanmethods",
+    local_id: "default:scanmethods",
+    original_id: "default:scanmethods",
     author: "Zyklop Marco",
     timestamp: 1700749105,
     name: "Default Scan Methods",

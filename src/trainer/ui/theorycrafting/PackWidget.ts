@@ -34,7 +34,7 @@ export default class PackWidget extends Widget {
                 spacer(),
                 span("+")
             ).addClass("ctr-pack-widget-header")
-                .tooltip(pack.id)
+                .tooltip(pack.local_id)
                 .tapRaw(r => r.on("click", () => {
                     body.container.animate({
                         "height": "toggle"

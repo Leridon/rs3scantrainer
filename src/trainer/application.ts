@@ -249,10 +249,10 @@ export class Application extends Behaviour {
     startup_settings = new storage.Variable<{
         hide_beta_notice: boolean,
         seen_changelogs: string[]
-    }>("preferences/startupsettings", {
+    }>("preferences/startupsettings",  () => ({
         hide_beta_notice: false,
         seen_changelogs: []
-    })
+    }))
 
     beta_notice_modal = new BetaNoticeModal("modal-public-beta", this)
     patch_notes_modal = new PatchNotesModal("modal-patchnotes", this)

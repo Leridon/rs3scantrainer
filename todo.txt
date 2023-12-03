@@ -6,14 +6,9 @@ Immediate next:
 - Theorycrafter
     - Search
     - Show Meta pathing in overview
-    - There needs to be an easy way to copy a method into another pack without copying the entire pack
-        - Open, Save As -> Other pack
-    - Tooltip:
-        - Id
-        - Text
-        - Solution/Coordinates
-        - Methods
-            - Favorite, Edit, Edit Copy
+    - Create new method
+    - Fix new filter
+    - Fix dynamic tooltip content on show
 
 - Menu Bar
     - Highlight currently active

@@ -109,4 +109,6 @@ export namespace Clues {
     export type Step = Anagram | Compass | Coordinate | Cryptic | Emote | Map | Scan | Simple | Skilling
 
     export type ScanStep = Scan
+
+    export type ClueSpot = {clue: Step, spot?: TileCoordinates}
 }

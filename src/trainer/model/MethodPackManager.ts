@@ -2,7 +2,7 @@ import {SolvingMethods} from "./methods";
 import Method = SolvingMethods.Method;
 import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
-import {ClueIndex} from "../../data/ClueIndex";
+import {ClueSpotIndex} from "../../data/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
 import {default_scan_method_pack} from "../../data/methods";
 import {clue_data} from "../../data/clues";
@@ -14,7 +14,8 @@ import timestamp = util.timestamp;
 
 export type Pack = {
     type: "default" | "local" | "imported"
-    id: string,
+    local_id: string,
+    original_id: string,
     author: string,
     timestamp: number,
     name: string,
@@ -38,7 +39,9 @@ export class MethodPackManager {
     pack_set_changed: Ewent.Real<Pack[]> = ewent()
 
     private index_created: Promise<void>
-    private index: ClueIndex<{ methods: AugmentedMethod[] }> = clue_data.index.with(() => ({methods: []}))
+
+    private method_index: ClueSpotIndex<{ methods: AugmentedMethod[] }>
+        = ClueSpotIndex.simple(clue_data.index).with(() => ({methods: []}))
 
     constructor() {
         this.default_packs = [
@@ -61,14 +64,11 @@ export class MethodPackManager {
     private invalidateIndex(): void {
 
         this.index_created = new Promise(async (resolve) => {
-
-            // TODO: For multi-spot clues there needs to be a hashed index to find methods by spot
-
-            this.index.filtered().forEach(c => c.methods = []);
+            this.method_index.forEach(e => e.methods = []);
 
             (await this.all()).forEach(p => {
                 p.methods.forEach(m => {
-                    this.index.get(m.for?.clue)?.methods?.push({
+                    this.method_index.get(m.for.clue, m.for.spot).methods.push({
                         method: m,
                         pack: p,
                         clue: clue_data.index.get(m.for.clue).clue
@@ -96,7 +96,8 @@ export class MethodPackManager {
      */
     async create(pack: Pack): Promise<Pack> {
         pack = lodash.cloneDeep(pack)
-        pack.id = uuid()
+        pack.local_id = uuid()
+        pack.original_id = pack.local_id
         pack.type = "local"
         pack.timestamp = timestamp()
 
@@ -119,6 +120,8 @@ export class MethodPackManager {
      */
     async import(pack: Pack): Promise<Pack> {
         pack = lodash.cloneDeep(pack)
+
+        pack.local_id = uuid()
         pack.type = "imported"
 
         this.local_packs.push(pack)
@@ -130,13 +133,17 @@ export class MethodPackManager {
         return pack
     }
 
+    async getPack(local_id: string): Promise<Pack> {
+        return (await this.all()).find(p => p.local_id == local_id)
+    }
+
     async deletePack(pack: Pack) {
         if (pack.type == "default") {
             console.log("Attempting to delete default pack")
             return
         }
 
-        let i = this.local_packs.findIndex(p => p.id == pack.id)
+        let i = this.local_packs.findIndex(p => p.local_id == pack.local_id)
 
         if (i < 0) {
             console.log("Attempting to delete non-existing pack")
@@ -159,7 +166,7 @@ export class MethodPackManager {
     }
 
     async updateMethod(method: AugmentedMethod): Promise<void> {
-        let pack = this.local_packs.find(p => p.type == "local" && p.id == method.pack.id)
+        let pack = this.local_packs.find(p => p.type == "local" && p.local_id == method.pack.local_id)
 
         let i = pack.methods.findIndex(m => m.id == method.method.id)
 
@@ -168,20 +175,27 @@ export class MethodPackManager {
         this.save()
     }
 
-    createMethod(pack_id: string, method: Method) {
+    createMethod(method: AugmentedMethod) {
+        let pack = this.local_packs.find(p => p.type == "local" && p.local_id == method.pack.local_id)
 
+        pack.methods.push(method.method)
+
+        this.save()
     }
 
-    deleteMethod(pack_id: string, method_id: string) {}
+    deleteMethod(method: AugmentedMethod) {
+        let pack = this.local_packs.find(p => p.type == "local" && p.local_id == method.pack.local_id)
+
+        let i = pack.methods.findIndex(m => m.id == method.method.id)
+
+        pack.methods.splice(i, 1)
+
+        this.save()
+    }
 
     async getForClue(id: number, spot_alterantive?: TileCoordinates): Promise<AugmentedMethod[]> {
         await this.index_created
 
-        let ms = this.index.get(id).methods
-
-        if (spot_alterantive)
-            return ms.filter(m => TileCoordinates.eq2(m.method.for.spot, spot_alterantive))
-        else
-            return ms
+        return this.method_index.get(id, spot_alterantive).methods
     }
 }

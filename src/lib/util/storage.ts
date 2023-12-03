@@ -1,8 +1,8 @@
 export namespace storage {
-    export function get(key: string, def: any = null): any {
+    export function get(key: string, def: () => any = () => null): any {
         let r = localStorage.getItem(key)
 
-        if (r == null) return def
+        if (r == null) return def()
         return JSON.parse(r)
     }
 
@@ -13,7 +13,7 @@ export namespace storage {
     export class Variable<type> {
         value: type = null
 
-        constructor(public key: string, initial: type) {
+        constructor(public key: string, initial: () => type) {
             this.value = get(key, initial)
         }
 

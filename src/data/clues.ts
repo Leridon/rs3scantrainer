@@ -1,5 +1,5 @@
 import {Clues, type ClueType} from "lib/runescape/clues";
-import {ClueIndex} from "./ClueIndex";
+import {ClueIndex, ClueSpotIndex} from "./ClueIndex";
 import {TileRectangle} from "../lib/runescape/coordinates";
 
 export namespace clue_data {
@@ -6234,6 +6234,8 @@ export namespace clue_data {
     ]
 
     export const index = ClueIndex.simple(all)
+
+    export const spot_index = ClueSpotIndex.simple(index)
 
     /** TODO: Variant npcs
      * Death (Um + Office)

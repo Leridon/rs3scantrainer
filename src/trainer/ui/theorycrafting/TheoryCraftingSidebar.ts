@@ -74,7 +74,8 @@ export default class TheoryCraftingSidebar extends MapSideBar {
                 .onClick(() => {
                     this.methods.create({
                         type: "local",
-                        id: "",
+                        local_id: "",
+                        original_id: "",
                         timestamp: 0,
                         author: "Anonymous",
                         name: "New Method Pack",

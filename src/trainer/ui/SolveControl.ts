@@ -10,7 +10,7 @@ export default class SolveControl {
 
     private clue_reader = new ClueReader()
 
-    private should_autosolve = new storage.Variable("preferences/autosolve", false)
+    private should_autosolve = new storage.Variable("preferences/autosolve", () => false)
 
     constructor(private app: Application) {
         if (!this.app.in_alt1) {

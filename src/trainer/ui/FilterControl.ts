@@ -5,26 +5,26 @@ import ToggleButton from "./widgets/togglebutton";
 import {clue_data} from "../../data/clues";
 
 export default class FilterControl {
-    private filter = new storage.Variable("preferences/cluefilters",
-        {
-            tiers: {
-                easy: true,
-                medium: true,
-                hard: true,
-                elite: true,
-                master: true
-            },
-            types: {
-                compass: true,
-                coordinates: true,
-                cryptic: true,
-                emote: true,
-                image: true,
-                scan: true,
-                simple: true,
-                skilling: true,
-            }
-        }
+    private filter = new storage.Variable("preferences/cluefilters", ()  =>
+       ({
+           tiers: {
+               easy: true,
+               medium: true,
+               hard: true,
+               elite: true,
+               master: true
+           },
+           types: {
+               compass: true,
+               coordinates: true,
+               cryptic: true,
+               emote: true,
+               image: true,
+               scan: true,
+               simple: true,
+               skilling: true,
+           }
+       })
     )
 
     filterbuttons: ToggleButton[]

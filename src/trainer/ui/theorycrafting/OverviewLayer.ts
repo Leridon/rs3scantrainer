@@ -13,7 +13,7 @@ import span = C.span;
 import sitog = SmallImageButton.sitog;
 import {Observable, observe} from "../../../lib/reactive";
 import * as leaflet from "leaflet"
-import {ClueIndex} from "../../../data/ClueIndex";
+import {ClueIndex, ClueSpotIndex} from "../../../data/ClueIndex";
 import Properties from "../widgets/Properties";
 import * as tippy from "tippy.js";
 import {floor_t, GieliCoordinates, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
@@ -21,7 +21,7 @@ import vbox = C.vbox;
 import Widget from "../../../lib/ui/Widget";
 import {Rectangle} from "../../../lib/math";
 import {clue_data} from "../../../data/clues";
-import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
+import {AugmentedMethod, MethodPackManager, Pack} from "../../model/MethodPackManager";
 import {Constants} from "../../constants";
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
@@ -29,42 +29,91 @@ import UtilityLayer from "../map/UtilityLayer";
 import * as lodash from "lodash";
 import LightButton from "../widgets/LightButton";
 import {v4 as uuidv4} from 'uuid';
+import {DropdownSelection} from "../widgets/DropdownSelection";
+import TextField from "../../../lib/ui/controls/TextField";
+import ClueSpot = Clues.ClueSpot;
 
 type FilterT = {
-    [P in ClueType | ClueTier]?: boolean
+    tiers?: { [P in ClueTier]: boolean },
+    types?: { [P in ClueType]: boolean },
+    method_pack?: string,
+    method_mode?: "none" | "at_least_one"
 }
 
 namespace FilterT {
-    export function normalize(f: FilterT): FilterT {
-        for (let key of [].concat(ClueType.all, ClueTier.all)) {
-            let old = f[key]
+    import ClueSpot = Clues.ClueSpot;
 
-            f[key] = old == undefined || old
+    export function normalize(f: FilterT): FilterT {
+        if (!f.types) {
+            f.types = {
+                simple: true,
+                anagram: true,
+                compass: true,
+                coordinates: true,
+                cryptic: true,
+                emote: true,
+                map: true,
+                scan: true,
+                skilling: true
+            }
         }
+
+        if (!f.tiers) {
+            f.tiers = {
+                easy: true,
+                elite: true,
+                hard: true,
+                master: true,
+                medium: true
+            }
+        }
+
+        if (!f.method_mode) f.method_mode = "at_least_one"
 
         return f
     }
 
-    export function apply(f: FilterT, clue: Clues.Step): boolean {
-        return f[clue.type] && f[clue.tier]
+    export async function apply(f: FilterT, clue: ClueSpot, methods?: MethodPackManager): Promise<boolean> {
+        if (!(f.types[clue.clue.type] && f.tiers[clue.clue.tier])) return false
+
+        if (methods && f.method_pack) {
+            let ms = await methods.getForClue(clue.clue.id, clue.spot)
+
+            switch (f.method_mode) {
+                case "none":
+                    if (ms.some(m => m.pack.local_id == f.method_pack)) return false
+                    break
+                case "at_least_one":
+                    if (!ms.some(m => m.pack.local_id == f.method_pack)) return false
+                    break
+            }
+        }
+
+        return true
     }
 }
 
 class FilterControl extends GameMapControl<ControlWithHeader> {
-    private stored_filter = new storage.Variable<FilterT>("preferences/cluefilters2", {})
+    private stored_filter = new storage.Variable<FilterT>("preferences/cluefilters2", () => FilterT.normalize({}))
     public filter: Observable<FilterT> = observe({})
 
-    constructor() {
+    constructor(
+        private methods: MethodPackManager
+    ) {
         super({
             type: "floating",
             position: "top-left"
         }, new ControlWithHeader("Clue Filter"))
 
-        // TODO: Also filter for challenge types
-
         this.filter.set(FilterT.normalize(this.stored_filter.get()))
-
         this.filter.subscribe(f => {this.stored_filter.set(f)})
+
+        this.renderFilter()
+    }
+
+    async renderFilter(): Promise<void> {
+        let props = new Properties()
+        // TODO: Also filter for challenge types
 
         let buttons: {
             tier: { tier: ClueTier, btn: SmallImageToggleButton }[],
@@ -72,18 +121,24 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
         } = {
             tier: ClueTier.all.map(t => {
                 return {
-                    tier: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])
+                    tier: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f.tiers[t] = v))
+                        .setState(this.filter.value().tiers[t])
                         .tooltip(ClueType.meta(t).name)
                 }
             }),
             type: ClueType.all.map(t => {
                 return {
-                    type: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f[t] = v)).setState(this.filter.value()[t])
+                    type: t, btn: sitog(ClueType.meta(t).icon_url, (v) => this.filter.update(f => f.types[t] = v))
+                        .setState(this.filter.value().types[t])
                         .tooltip(ClueType.meta(t).name)
                 }
             })
         }
 
+        props.named("Tier", hbox(...buttons.tier.map(s => s.btn), spacer()).addClass("ctr-filter-control-row"))
+        props.named("Type", hbox(...buttons.type.map(s => s.btn), spacer()).addClass("ctr-filter-control-row"))
+
+        /*
         this.content.body.append(
             hbox(
                 span("Tier"),
@@ -95,7 +150,46 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
                 ...buttons.type.map(s => s.btn),
                 spacer()
             ).addClass("ctr-filter-control-row"),
-        )
+        )*/
+
+        this.content.body.append(props)
+
+        if (this.methods) {
+            let specifics_container = hbox()
+
+            let selection = new DropdownSelection({
+                    type_class: {
+                        toHTML(v: Pack): Widget {
+                            if (v) return span(`${lodash.capitalize(v.type)}: ${v.name}`)
+                            else return span("None")
+                        }
+                    },
+                    can_be_null: true
+                },
+                await this.methods.all()
+            )
+
+            props.named("Methods",
+                vbox(
+                    selection,
+                    specifics_container
+                )
+            )
+
+            selection.on("selection_changed", s => {
+                this.filter.update(f => f.method_pack = s?.local_id)
+
+                specifics_container.empty()
+                if (s) {
+                    specifics_container.append(
+                        span("None"),
+                        span("At least one")
+                    )
+                }
+            })
+        }
+
+        props.named("Search", new TextField().setPlaceholder("Search"))
     }
 }
 
@@ -162,48 +256,46 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 
     tippy: tippy.Instance = null
 
-    constructor(private clue: Clues.Step,
+    constructor(private clue: Clues.ClueSpot,
                 private methods: MethodPackManager,
                 private edit_handler: (_: AugmentedMethod) => any,
-                private spot_alternative?: TileCoordinates,
                 private talk_alternative_index?: number,
     ) {
         super();
 
         let coord: TileCoordinates
 
-        switch (clue.type) {
+        switch (clue.clue.type) {
             case "anagram":
             case "simple":
             case "cryptic":
             case "map":
-                switch (clue.solution?.type) {
+                switch (clue.clue.solution?.type) {
                     case "talkto":
-                        if (talk_alternative_index != null && clue.solution?.spots[talk_alternative_index])
-                            coord = TileRectangle.center(clue.solution.spots[talk_alternative_index].range)
+                        if (talk_alternative_index != null && clue.clue.solution?.spots[talk_alternative_index])
+                            coord = TileRectangle.center(clue.clue.solution.spots[talk_alternative_index].range)
                         break;
                     case "dig":
                     case "search":
-                        coord = clue.solution.spot
+                        coord = clue.clue.solution.spot
                         break;
-                    default:
-                        coord = {x: 0, y: 0, level: 0}
                 }
                 break
             case "compass":
-                coord = this.spot_alternative
+                coord = this.clue.spot
                 break
             case "coordinates":
-                coord = GieliCoordinates.toCoords(clue.coordinates)
+                coord = GieliCoordinates.toCoords(clue.clue.coordinates)
                 break
             case "emote":
-                if (clue.area)
-                    coord = TileRectangle.center(clue.area)
+                if (clue.clue.area)
+                    coord = TileRectangle.center(clue.clue.area)
                 break;
             case "scan":
-                coord = TileCoordinates.lift(Rectangle.center(Rectangle.from(...clue.spots)), Math.min(...clue.spots.map(s => s.level)) as floor_t)
+                coord = TileCoordinates.lift(Rectangle.center(Rectangle.from(...clue.clue.spots)), Math.min(...clue.clue.spots.map(s => s.level)) as floor_t)
                 break;
             case "skilling":
+                // TODO:
                 coord = {x: 0, y: 0, level: 0}
                 //coord = clue.area ? TileRectangle.center(clue.area) : null
                 break
@@ -214,19 +306,16 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         this.marker = new TileMarker(coord).withMarker().addTo(this)
     }
 
-    static forClue(step: Clues.Step, method_index: MethodPackManager,
+    static forClue(spot: ClueSpot, method_index: MethodPackManager,
                    edit_handler: (_: AugmentedMethod) => any): ClueOverviewMarker[] {
 
-        let variants: { spot?: TileCoordinates, instance_index?: number }[] = (() => {
-            if (step?.solution?.type == "talkto" && step.solution.spots) {
-                if (!step.solution.spots.map) debugger
-
-                return step.solution.spots.map((s, i) => ({instance_index: i}))
-            } else if (step.type == "compass") return step?.spots?.map((s) => ({spot: s})) || [{}]
-            else return [{}]
+        let variants: { instance_index?: number }[] = (() => {
+            if (spot.clue.solution?.type == "talkto" && spot.clue.solution.spots) {
+                return spot.clue.solution.spots.map((s, i) => ({instance_index: i}))
+            } else return [{}]
         })()
 
-        return variants.map(({spot, instance_index}) => new ClueOverviewMarker(step, method_index, edit_handler, spot, instance_index))
+        return variants.map(({instance_index}) => new ClueOverviewMarker(spot, method_index, edit_handler, instance_index))
     }
 
     async createTooltip(): Promise<tippy.Instance> {
@@ -238,118 +327,123 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         let self = this
 
         return this.tippy = tippy.default(this.marker.marker.getElement(), {
-            content: () => {
-                console.log("Getting content")
+            onShow: (instance): void => {
+                async function construct(): Promise<Widget> {
 
-                let props = new Properties()
-                props.row(hbox(
-                    span(`${ClueType.meta(this.clue.tier).name} ${ClueType.meta(this.clue.type).name} Step (Id ${this.clue.id})`).css("font-weight", "bold"),
-                    spacer().css("min-width", "30px"),
-                    c(`<img class="icon" src='${this.clue.tier ? Constants.icons.tiers[this.clue.tier] : ""}' title="${ClueType.pretty(this.clue.tier)}">`),
-                    c(`<img class="icon" src='${Constants.icons.types[this.clue.type]}' title="${ClueType.pretty(this.clue.type)}">`))
-                )
+                    let props = new Properties()
+                    props.row(hbox(
+                        span(`${ClueType.meta(self.clue.clue.tier).name} ${ClueType.meta(self.clue.clue.type).name} Step (Id ${self.clue.clue.id})`).css("font-weight", "bold"),
+                        spacer().css("min-width", "30px"),
+                        c(`<img class="icon" src='${self.clue.clue.tier ? Constants.icons.tiers[self.clue.clue.tier] : ""}' title="${ClueType.pretty(self.clue.clue.tier)}">`),
+                        c(`<img class="icon" src='${Constants.icons.types[self.clue.clue.type]}' title="${ClueType.pretty(self.clue.clue.type)}">`))
+                    )
 
 
-                function renderSolution(props: Properties, sol: Clues.Solution): void {
-                    try {
-                        props.named("Solution", (() => {
-                            switch (sol.type) {
-                                case "dig":
-                                    return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
-                                case "search":
-                                    return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
-                                case "talkto":
-                                    return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
+                    function renderSolution(props: Properties, sol: Clues.Solution): void {
+                        try {
+                            props.named("Solution", (() => {
+                                switch (sol.type) {
+                                    case "dig":
+                                        return c(`<span><img src='assets/icons/cursor_shovel.png' class="inline-img"> Dig at ${TileCoordinates.toString(sol.spot)}</span>`)
+                                    case "search":
+                                        return c(`<span><img src='assets/icons/cursor_search.png' class="inline-img"> Search <span class="nisl-entity">${sol.entity}</span> at ${TileCoordinates.toString(sol.spot)}</span>`)
+                                    case "talkto":
+                                        return c(`<span><img src='assets/icons/cursor_talk.png' class="inline-img"> Talk to <span class="nisl-npc">${sol.npc}</span> near ${TileCoordinates.toString(TileRectangle.center(sol.spots[self.talk_alternative_index || 0].range))}</span>`)
+                                }
+                            })())
+
+                            if (sol.type == "search" && sol.key) {
+                                props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`))
                             }
-                        })())
-
-                        if (sol.type == "search" && sol.key) {
-                            props.named("Key", c(`<span><span style="font-style: italic">${sol.key.instructions}</span> (${sol.key.answer})</span>`))
+                        } catch (e) {
                         }
-                    } catch (e) {
                     }
-                }
 
-                switch (this.clue.type) {
-                    case "scan":
-                        props.named("Area", c().text(`${this.clue.scantext}`))
-                        props.named("Range", c().text(`${this.clue.range}`))
-                        props.named("Spots", c().text(`${this.clue.spots.length}`))
-                        break
-                    case "compass":
-                        renderSolution(props, {type: "dig", spot: this.spot_alternative})
-                        props.named("Total", c().text(`${this.clue.spots.length}`))
-                        break
-                    case "coordinates":
-                        props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
-                        props.named("Coordinates", c().text(GieliCoordinates.toString(this.clue.coordinates)))
-                        renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.coordinates)})
-                        break
-                    case "simple":
-                    case "cryptic":
-                    case "anagram":
-                        props.named("Text", c().text(this.clue.text[0]).css("font-style", "italic"))
-                        renderSolution(props, this.clue.solution)
-                        break
-                    case "map":
-                        props.row(
-                            c(`<div style="text-align: center"><img src="${this.clue.image_url}" style="height: 150px; width: auto"></div>`)
-                        )
-                        props.named("Transcript", c().text(this.clue.text[0]))
-                        renderSolution(props, this.clue.solution)
-                        break
-                    case "emote":
-                        props.named("Text", c().text(this.clue.text[0]))
-                        props.named("Equip", c().text(natural_join(this.clue.items, "and")))
+                    switch (self.clue.clue.type) {
+                        case "scan":
+                            props.named("Area", c().text(`${self.clue.clue.scantext}`))
+                            props.named("Range", c().text(`${self.clue.clue.range}`))
+                            props.named("Spots", c().text(`${self.clue.clue.spots.length}`))
+                            break
+                        case "compass":
+                            renderSolution(props, {type: "dig", spot: self.clue.spot})
+                            props.named("Total", c().text(`${self.clue.clue.spots.length}`))
+                            break
+                        case "coordinates":
+                            props.named("Text", c().text(self.clue.clue.text[0]).css("font-style", "italic"))
+                            props.named("Coordinates", c().text(GieliCoordinates.toString(self.clue.clue.coordinates)))
+                            renderSolution(props, {type: "dig", spot: GieliCoordinates.toCoords(self.clue.clue.coordinates)})
+                            break
+                        case "simple":
+                        case "cryptic":
+                        case "anagram":
+                            props.named("Text", c().text(self.clue.clue.text[0]).css("font-style", "italic"))
+                            renderSolution(props, self.clue.clue.solution)
+                            break
+                        case "map":
+                            props.row(
+                                c(`<div style="text-align: center"><img src="${self.clue.clue.image_url}" style="height: 150px; width: auto"></div>`)
+                            )
+                            props.named("Transcript", c().text(self.clue.clue.text[0]))
+                            renderSolution(props, self.clue.clue.solution)
+                            break
+                        case "emote":
+                            props.named("Text", c().text(self.clue.clue.text[0]))
+                            props.named("Equip", c().text(natural_join(self.clue.clue.items, "and")))
 
-                        if (this.clue.emotes.length > 1)
-                            props.named("Emotes", c().text(natural_join(this.clue.emotes, "then")))
-                        else
-                            props.named("Emote", c().text(this.clue.emotes[0]))
+                            if (self.clue.clue.emotes.length > 1)
+                                props.named("Emotes", c().text(natural_join(self.clue.clue.emotes, "then")))
+                            else
+                                props.named("Emote", c().text(self.clue.clue.emotes[0]))
 
-                        props.named("Agent", c().text(this.clue.double_agent ? "Yes" : "No"))
-                        break
-                    case "skilling":
-                        props.named("Text", c().text(this.clue.text[0]))
-                        break
-                }
-
-                function render_challenge(challenge: Clues.Challenge) {
-                    switch (challenge.type) {
-                        case "wizard":
-                            return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
-                        case "slider":
-                            return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
-                        case "celticknot":
-                            return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
-                        case "lockbox":
-                            return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
-                        case "towers":
-                            return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
-                        case "challengescroll":
-                            return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
+                            props.named("Agent", c().text(self.clue.clue.double_agent ? "Yes" : "No"))
+                            break
+                        case "skilling":
+                            props.named("Text", c().text(self.clue.clue.text[0]))
+                            break
                     }
-                }
 
-                if (this.clue.challenge?.length > 0) {
-                    props.named("Challenge", vbox(...this.clue.challenge.map(render_challenge)))
-                }
+                    function render_challenge(challenge: Clues.Challenge) {
+                        switch (challenge.type) {
+                            case "wizard":
+                                return c(`<div><img src='assets/icons/cursor_attack.png' class="inline-img"> Wizard</div>`);
+                            case "slider":
+                                return c(`<div><img src='assets/icons/slider.png' class="inline-img"> Puzzle box</div>`);
+                            case "celticknot":
+                                return c(`<div><img src='assets/icons/celticknot.png' class="inline-img"> Celtic Knot</div>`);
+                            case "lockbox":
+                                return c(`<div><img src='assets/icons/lockbox.png' class="inline-img"> Lockbox</div>`);
+                            case "towers":
+                                return c(`<div><img src='assets/icons/towers.png' class="inline-img"> Towers Puzzle</div>`);
+                            case "challengescroll":
+                                return c(`<div><img src='assets/icons/cursor_talk.png' class="inline-img"> <span style="font-style: italic">${challenge.question}</span> (Answer: ${natural_join(challenge.answers.map(a => a.note ? `${a.answer} (${a.note}` : a.answer), "or")})</div>`);
+                        }
+                    }
 
-                this.methods.getForClue(this.clue.id, this.spot_alternative)
-                    .then(methods => {
-                        if (methods.length > 0) {
-                            props.header("Methods")
+                    if (self.clue.clue.challenge?.length > 0) {
+                        props.named("Challenge", vbox(...self.clue.clue.challenge.map(render_challenge)))
+                    }
 
-                            let grouped = lodash.groupBy(methods, e => e.pack.id)
+                    self.methods.getForClue(self.clue.clue.id, self.clue.spot)
+                        .then(methods => {
+                            if (methods.length > 0) {
+                                props.header("Methods")
 
-                            for (let methods_in_pack of Object.values(grouped)) {
-                                props.row(new MethodWidget(methods_in_pack, this.edit_handler))
+                                let grouped = lodash.groupBy(methods, e => e.pack.local_id)
+
+                                for (let methods_in_pack of Object.values(grouped)) {
+                                    props.row(new MethodWidget(methods_in_pack, self.edit_handler))
+                                }
                             }
-                        }
-                    })
+                        })
 
-                return c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props).raw()
+                    return c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props)
+
+                }
+
+                construct().then(w => instance.setContent(w.raw()))
             },
+            content: () => c().text("Loading").raw(),
         })
     }
 }
@@ -357,7 +451,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
 export default class OverviewLayer extends GameLayer {
     filter_control: FilterControl
 
-    public clue_index: ClueIndex<{ markers: ClueOverviewMarker[] }>
+    public marker_index: ClueSpotIndex<{ markers: ClueOverviewMarker[] }>
     singleton_tooltip: tippy.Instance = null
 
     constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
@@ -365,34 +459,39 @@ export default class OverviewLayer extends GameLayer {
 
         this.add(new UtilityLayer())
 
-        this.filter_control = new FilterControl().addTo(this)
+        this.filter_control = new FilterControl(app.methods).addTo(this)
 
-        this.clue_index = clue_data.index.with(() => ({markers: []}))
+        this.marker_index = clue_data.spot_index.with(() => ({markers: []}))
 
         this.on("add", () => {
             this.filter_control.filter.subscribe(async (f) => {
-                this.clue_index.filtered().forEach(c => {
-                    let visible = FilterT.apply(f, c.clue)
+                await Promise.all(this.marker_index.flat().map(async c => {
+                        let visible = await FilterT.apply(f, c.for, this.app.methods)
 
-                    if (!visible && c.markers.length > 0) {
-                        c.markers.forEach(c => c.remove())
-                        c.markers = []
-                    } else if (visible && c.markers.length == 0) {
-                        c.markers = ClueOverviewMarker.forClue(c.clue, app.methods, this.edit_handler)
-                        c.markers.forEach(m => m.addTo(this))
-                    }
-                })
-
-                let instances = await Promise.all(this.clue_index
-                    .filtered()
-                    .flatMap(c => c.markers.map(m => {
-                        try {
-                            return m.createTooltip()
-                        } catch (e) {
-                            return null
+                        if (!visible && c.markers.length > 0) {
+                            c.markers.forEach(c => c.remove())
+                            c.markers = []
+                        } else if (visible && c.markers.length == 0) {
+                            c.markers = ClueOverviewMarker.forClue(c.for, app.methods, this.edit_handler)
+                            c.markers.forEach(m => m.addTo(this))
                         }
-                    }))
-                    .filter(i => i != null))
+                    })
+                )
+
+                let instances = []
+
+                /*await Promise.all(
+                    this.clue_index
+                        .filtered()
+                        .flatMap(c => c.markers.map(m => {
+                            try {
+                                return m.createTooltip()
+                            } catch (e) {
+                                return null
+                            }
+                        }))
+                        .filter(i => i != null)
+                )*/
 
                 if (this.singleton_tooltip) {
                     this.singleton_tooltip.destroy()

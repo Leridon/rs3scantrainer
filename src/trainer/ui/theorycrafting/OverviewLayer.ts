@@ -424,24 +424,29 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             }
 
             let methods = await self.methods.getForClue(self.clue.clue.id, self.clue.spot)
+            props.header("Methods")
 
             if (methods.length > 0) {
-                props.header("Methods")
-
                 let grouped = lodash.groupBy(methods, e => e.pack.local_id)
 
                 for (let methods_in_pack of Object.values(grouped)) {
                     props.row(new MethodWidget(methods_in_pack, self.edit_handler))
                 }
+            } else {
+                if (self.clue.spot) {
+                    props.row(c().text("No methods for this spot."))
+                } else {
+                    props.row(c().text("No methods for this clue."))
+                }
             }
 
-            props.row(new LightButton("+ New Method", "rectangle").onClick(() => {
+            props.row(hbox(new LightButton("+ New Method", "rectangle").onClick(() => {
                 self.edit_handler({
                     clue: self.clue.clue,
                     pack: null,
                     method: SolvingMethods.init(self.clue)
                 })
-            }))
+            })).addClass("ctr-button-container"))
 
             return c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props)
 
@@ -460,6 +465,9 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                     await construct().then(w => instance.setContent(w.raw()))
                     lock = false
                 })()
+            },
+            onShow: (instance) => {
+                construct().then(w => instance.setContent(w.raw()))
             },
             content: () => c().text("Loading").raw(),
         })
@@ -521,10 +529,7 @@ export default class OverviewLayer extends GameLayer {
                     interactiveBorder: 20,
                     interactiveDebounce: 0.5,
                     arrow: true,
-                    overrides: ["onShow", "onMount", "onShown", "onBeforeUpdate"],
-                    onCreate: () => {
-                        console.log("Create")
-                    },
+                    overrides: ["onShow","onBeforeUpdate"],
                     appendTo: () => document.body,
                     delay: 0,
                     animation: false,

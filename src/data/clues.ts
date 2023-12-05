@@ -1,6 +1,5 @@
 import {Clues, type ClueType} from "lib/runescape/clues";
 import {ClueIndex, ClueSpotIndex} from "./ClueIndex";
-import {TileRectangle} from "../lib/runescape/coordinates";
 
 export namespace clue_data {
     export const anagram: Clues.Anagram[] = [
@@ -641,7 +640,10 @@ export namespace clue_data {
             "text": ["This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW"],
             "solution": {
                 "type": "talkto",
-                //"spots": {"x": 3253, "y": 3355, "level": 0},
+                "spots": [
+                    {"range": {"topleft": {"x": 3252, "y": 3355}, "botright": {"x": 3256, "y": 3353}, "level": 0}},
+                    {"range": {"topleft": {"x": 1055, "y": 5551}, "botright": {"x": 1057, "y": 5549}, "level": 1}}
+                ],
                 "npc": "Paul Gower"
             }
         },
@@ -3899,7 +3901,7 @@ export namespace clue_data {
             "items": ["Mithril Plateskirt", "Maple Shieldbow", "No boots"],
             "emotes": ["Panic", "Wave"],
             "double_agent": false,
-            "hidey-hole": {
+            "hidey_hole": {
                 "name": "Crate (hidey-hole)",
                 "location": {"x": 3506, "y": 3574, "level": 0}
             }
@@ -3923,11 +3925,14 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Think under the lens in the Observatory. Twirl before you talk to me. Equip a mithril chainbody, green dragonhide chaps and a ruby amulet."],
-
-            "area": null,
+            "area": {"topleft": {"x": 2439, "y": 3166}, "botright": {"x": 2441, "y": 3164}, "level": 1},
             "items": ["Mithril Chainbody", "Green Dragonhide Chaps", "Ruby Amulet"],
             "emotes": ["Think", "Twirl"],
             "double_agent": false,
+            "hidey_hole": {
+                "location": {"x": 2445, "y": 3161, "level": 1},
+                "name": "Crate (hidey-hole)"
+            }
         },
         {
             "id": 250,
@@ -3962,7 +3967,6 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Dance in the centre of Canifis. Bow or curtsy before you talk to me. Equip a spiny helmet, mithril platelegs and an iron two-handed sword."],
-
             "area": {"topleft": {"x": 3485, "y": 3496}, "botright": {"x": 3503, "y": 3480}, "level": 0},
             "items": ["Spine Helm", "Mithril Platelegs", "Iron two-handed sword"],
             "emotes": ["Dance", "Bow or Curtsy"],
@@ -3977,15 +3981,14 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Cheer in the Barbarian Agility Arena. Headbang before you talk to me. Equip a steel platebody, maple shortbow and bronze boots."],
-
-            "area": null,
-            "items": ["", "", ""],
-            "emotes": [""],
+            "area": {"topleft": {"x": 2528, "y": 3559}, "botright": {"x": 2555, "y": 3542}, "level": 0},
+            "items": ["Steel Platebody", "Maple Shortbow", "Bronze Boots"],
+            "emotes": ["Cheer", "Headbang"],
             "double_agent": false,
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2548, "y": 3553, "level": 0},
-                "answer": "<b>Emotes:</b> Cheer, then Headbang<br><b>Items:</b> Steel platebody, Maple shortbow, Bronze boots"
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x": 2545, "y": 3556, "level": 0}
+
             }
         },
         {
@@ -3993,15 +3996,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "medium",
             "text": ["Cry on the platform of the south-west tree in the Gnome Agility Arena. Indicate 'no' before you talk to me. Equip a steel kiteshield, ring of forging and green dragonhide chaps."],
-
-            "area": null,
-            "items": ["", "", ""],
-            "emotes": [""],
+            "area": {"topleft": {"x": 2472, "y": 3421}, "botright": {"x": 2477, "y": 3418}, "level": 2},
+            "items": ["Green Dragonhide Chaps", "Steel Kiteshield", "Ring of Forging"],
+            "emotes": ["Cry", "No"],
             "double_agent": false,
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 2474, "y": 3419, "level": 0},
-                "answer": "<b>Emote:</b> Cry, then 'no' emote<br><b>Items:</b> Green d'hide chaps, Steel kiteshield, Ring of forging"
+            "hidey_hole": {
+                "name": "Tree stump (hidey-hole)",
+                "location": {"x": 2473, "y": 3418, "level": 2}
             }
         },
         {
@@ -4012,7 +4013,11 @@ export namespace clue_data {
             "items": ["Green dragonhide chaps", "Ring of duelling", "Mithril helm"],
             "emotes": ["Becken", "Clap"],
             "double_agent": false,
-            "area": null,
+            "area": {"topleft": {"x": 2778, "y": 3073}, "botright": {"x": 2810, "y": 3057}, "level": 0},
+            "hidey_hole": {
+                "name": "Crate (hidey-hole)",
+                "location": {"x": 2793, "y": 3073, "level": 0}
+            }
         },
         {
             "id": 256,
@@ -4022,7 +4027,11 @@ export namespace clue_data {
             "items": ["Green dragonhide body", "Green dragonhide chaps", "Steel square shield"],
             "emotes": ["Cheer", "Angry"],
             "double_agent": false,
-            "area": null,
+            "area": {"topleft": {"x": 2523, "y": 3377}, "botright": {"x": 2533, "y": 3373}, "level": 0},
+            "hidey_hole": {
+                "name": "Crate (hidey-hole)",
+                "location": {"x": 2521, "y": 3377, "level": 0}
+            }
         },
         {
             "id": 257,
@@ -4032,7 +4041,11 @@ export namespace clue_data {
             "items": ["Round red and black snelm", "Hard leather body", "Unblessed silver sickle"],
             "emotes": ["Cry", "Bow or Curtsy"],
             "double_agent": false,
-            "area": null,
+            "area": {"topleft": {"x": 2824, "y": 3457}, "botright": {"x": 2829, "y": 3454}, "level": 0},
+            "hidey_hole": {
+                "name": "Crates (hidey-hole)",
+                "location": {"x": 2829, "y": 3455, "level": 0}
+            }
         },
         {
             "id": 258,
@@ -4042,17 +4055,11 @@ export namespace clue_data {
             "items": ["Ruby amulet", "Mithril scimitar", "Iron square shield"],
             "emotes": ["Yawn", "Shrug"],
             "double_agent": false,
-            "area": null,
-        },
-        {
-            "id": 9,
-            "type": "emote",
-            "tier": "hard",
-            "text": ["Shrug in the Zamorak temple found in the Eastern Wilderness. Beware of double agents! Equip bronze platelegs, an iron platebody, and blue d'hide vambraces"],
-            "items": ["Bronze platelegs", "Iron platebody", "Blue dragonhide vambraces"],
-            "emotes": ["Shrug"],
-            "double_agent": true,
-            "area": null,
+            "area": {"topleft": {"x": 2436, "y": 3099}, "botright": {"x": 2448, "y": 3080}, "level": 0},
+            "hidey_hole": {
+                "name": "Stone blocks (hidey-hole)",
+                "location": {"x": 2448, "y": 3087, "level": 0}
+            }
         },
         {
             "id": 225,
@@ -4062,7 +4069,8 @@ export namespace clue_data {
             "emotes": ["Panic"],
             "items": ["Nothing"],
             "double_agent": true,
-            "area": null,
+            "area": {"topleft": {"x": 3610, "y": 3494}, "botright": {"x": 3617, "y": 3487}, "level": 0},
+            "hidey_hole": null
         },
         {
             "id": 226,
@@ -4072,7 +4080,11 @@ export namespace clue_data {
             "items": ["Rune full helm", "Blue dragonhide chaps", "Fire battlestaff"],
             "emotes": ["Laugh"],
             "double_agent": true,
-            "area": null,
+            "area": {"topleft": {"x": 2790, "y": 3674}, "botright": {"x": 2797, "y": 3667}, "level": 0},
+            "hidey_hole": {
+                "name": "Rock (hidey-hole)",
+                "location": {"x": 2790, "y": 3667, "level": 0}
+            }
         },
         {
             "id": 227,
@@ -4082,7 +4094,11 @@ export namespace clue_data {
             "items": ["Mithril platelegs", "Ring of life", "Rune hatchet"],
             "emotes": ["Panic"],
             "double_agent": true,
-            "area": null,
+            "area": {"topleft": {"x": 2843, "y": 3498}, "botright": {"x": 2853, "y": 3489}, "level": 1},
+            "hidey_hole": {
+                "name": "Rock (hidey-hole)",
+                "location": {"x": 2845, "y": 3496, "level": 1}
+            }
         },
         {
             "id": 228,
@@ -4229,10 +4245,13 @@ export namespace clue_data {
             "type": "emote",
             "tier": "master",
             "text": ["Blow a Raspberry at the celestial dragons on Dragontooth Isle. Beware of double agents! Equip a dragon mask, a Dragon Rider amulet and a dragon defender."],
-            "solution": {
-                "type": "simple",
-                "spot": {"x": 3814, "y": 3530, "level": 0},
-                "answer": "<b>Emote:</b> Raspberry<br><b>Items:</b> any Dragon mask, Dragon Rider amulet, Dragon defender"
+            "double_agent": true,
+            "area": {"topleft": {"x": 2242, "y": 6012}, "botright": {"x": 2301, "y": 5956}, "level": 0},
+            "items": ["Any Dragon Mask", "Dragon Rider Amulet", "Dragon Defender"],
+            "emotes": ["Raspberry"],
+            "hidey_hole": {
+                "name": "Rock (hidey-hole)",
+                "location": {"x": 2277, "y": 5966, "level": 0}
             }
         },
         {
@@ -6298,11 +6317,6 @@ export namespace clue_data {
     export const index = ClueIndex.simple(all)
 
     export const spot_index = ClueSpotIndex.simple(index)
-
-    /** TODO: Variant npcs
-     * Death (Um + Office)
-     * Paul Gower (life altar, farm)
-     */
 }
 
 

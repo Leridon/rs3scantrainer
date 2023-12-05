@@ -1200,7 +1200,7 @@ export namespace teleport_data {
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "dragontooth", spot: {x: 3817, y: 3529, level: 0}, code: "0,3", name: "Dragontooth island",
+                    id: "dragontooth", spot: {"x":3812,"y":3528,"level":0}, code: "0,3", name: "Dragontooth island",
                     menu_ticks: 2,
                     animation_ticks: default_teleport_ticks
                 },
@@ -1359,7 +1359,7 @@ export namespace teleport_data {
                     animation_ticks: 13
                 },
                 {
-                    id: "dragontooth", spot: {x: 3793, y: 3559, level: 0}, code: "3", name: "Dragontooth Isle",
+                    id: "dragontooth", spot: {"x":3792,"y":3559,"level":0}, code: "3", name: "Dragontooth Isle",
                     menu_ticks: 1,
                     animation_ticks: 13
                 },

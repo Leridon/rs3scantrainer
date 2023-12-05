@@ -419,7 +419,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             }
 
             if (self.clue.clue.challenge?.length > 0) {
-                props.named("Challenge", hbox(...self.clue.clue.challenge.map(render_challenge).map(s => s.css("flex-grow", 1))))
+                props.named("Challenge", hbox(...self.clue.clue.challenge.map(render_challenge).map(s => s.css("flex-grow", "1"))))
             }
 
             let methods = await self.methods.getForClue(self.clue.clue.id, self.clue.spot)

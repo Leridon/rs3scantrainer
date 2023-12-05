@@ -337,7 +337,6 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 c(`<img class="icon" src='${Constants.icons.types[self.clue.clue.type]}' title="${ClueType.pretty(self.clue.clue.type)}">`))
             )
 
-
             function renderSolution(props: Properties, sol: Clues.Solution): void {
                 try {
                     props.named("Solution", (() => {
@@ -420,7 +419,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             }
 
             if (self.clue.clue.challenge?.length > 0) {
-                props.named("Challenge", vbox(...self.clue.clue.challenge.map(render_challenge)))
+                props.named("Challenge", hbox(...self.clue.clue.challenge.map(render_challenge).map(s => s.css("flex-grow", 1))))
             }
 
             let methods = await self.methods.getForClue(self.clue.clue.id, self.clue.spot)
@@ -529,7 +528,7 @@ export default class OverviewLayer extends GameLayer {
                     interactiveBorder: 20,
                     interactiveDebounce: 0.5,
                     arrow: true,
-                    overrides: ["onShow","onBeforeUpdate"],
+                    overrides: ["onShow", "onBeforeUpdate"],
                     appendTo: () => document.body,
                     delay: 0,
                     animation: false,

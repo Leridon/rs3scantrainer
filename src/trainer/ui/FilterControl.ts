@@ -1,30 +1,30 @@
 import {storage} from "lib/util/storage";
-import {ClueStep} from "lib/runescape/clues";
-import {clues} from "data/clues";
+import {Clues} from "lib/runescape/clues";
 import {Application} from "trainer/application";
 import ToggleButton from "./widgets/togglebutton";
+import {clue_data} from "../../data/clues";
 
 export default class FilterControl {
-    private filter = new storage.Variable("preferences/cluefilters",
-        {
-            tiers: {
-                easy: true,
-                medium: true,
-                hard: true,
-                elite: true,
-                master: true
-            },
-            types: {
-                compass: true,
-                coordinates: true,
-                cryptic: true,
-                emote: true,
-                image: true,
-                scan: true,
-                simple: true,
-                skilling: true,
-            }
-        }
+    private filter = new storage.Variable("preferences/cluefilters", ()  =>
+       ({
+           tiers: {
+               easy: true,
+               medium: true,
+               hard: true,
+               elite: true,
+               master: true
+           },
+           types: {
+               compass: true,
+               coordinates: true,
+               cryptic: true,
+               emote: true,
+               image: true,
+               scan: true,
+               simple: true,
+               skilling: true,
+           }
+       })
     )
 
     filterbuttons: ToggleButton[]
@@ -68,17 +68,17 @@ export default class FilterControl {
         this.update()
     }
 
-    private candidates: ClueStep[] = clues
+    private candidates: Clues.Step[] = clue_data.all
 
     private update() {
-        this.candidates = clues.filter((c) =>
+        this.candidates = clue_data.all.filter((c) =>
             (c.tier == null || this.filter.value.tiers[c.tier]) && this.filter.value.types[c.type]
         )
     }
 
-    getCandidates(): ClueStep[] {
+    getCandidates(): Clues.Step[] {
         // Just return scans for now
-        return clues.filter((c) => c.type == "scan")
+        return clue_data.all.filter((c) => c.type == "scan")
 
         return this.candidates
     }

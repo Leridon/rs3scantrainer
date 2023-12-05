@@ -121,7 +121,7 @@ class StepEditWidget extends Widget {
                 generator: () => Path.auto_description(value.raw) // TODO
             })
                 .setValue(value.raw.description)
-                .on("changed", (v) => this.value.update(o => o.raw.description = v))
+                .onCommit((v) => this.value.update(o => o.raw.description = v))
         )
 
         switch (value.raw.type) {
@@ -131,7 +131,7 @@ class StepEditWidget extends Widget {
                         span(`${Vector2.toString(value.raw.from)} to ${Vector2.toString(value.raw.to)}`),
                         spacer(),
                         new LightButton("Redraw")
-                            .on("click", () => {
+                            .onClick(() => {
                                 assert(value.raw.type == "ability")
 
                                 this.parent.editor.interaction_guard.set(new DrawAbilityInteraction(value.raw.ability)
@@ -152,7 +152,7 @@ class StepEditWidget extends Widget {
                         span(`${Vector2.toString(value.raw.where)}`),
                         spacer(),
                         new LightButton("Move")
-                            .on("click", () => {
+                            .onClick(() => {
                                 assert(value.raw.type == "redclick")
 
                                 this.parent.editor.interaction_guard.set(
@@ -191,7 +191,7 @@ class StepEditWidget extends Widget {
                             .onStart(() => this.value.value().associated_preview?.setOpacity(0))
                             .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
                     ))
-                    .on("changed", (c) => {
+                    .onCommit((c) => {
                         this.value.update((v) => {
                             assert(v.raw.type == "powerburst")
                             v.raw.where = c
@@ -207,7 +207,7 @@ class StepEditWidget extends Widget {
                         span(`${PathFinder.pathLength(value.raw.waypoints)} tile path to ${Vector2.toString(index(value.raw.waypoints, -1))}`),
                         spacer(),
                         new LightButton("Edit")
-                            .on("click", () => {
+                            .onClick(() => {
                                 assert(value.raw.type == "run")
 
                                 this.parent.editor.interaction_guard.set(new DrawRunInteraction()
@@ -223,7 +223,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Deprecated",
                     new LightButton("Convert")
-                        .on("click", () => {
+                        .onClick(() => {
                             this.value.update(value => {
                                 assert(value.raw.type == "interaction")
 
@@ -274,7 +274,7 @@ class StepEditWidget extends Widget {
                 props.named("Start", hbox(
                     span(TileCoordinates.toString(value.raw.assumed_start)),
                     spacer(),
-                    assumed_start_needs_fixing ? new LightButton("Repair").on("click", () => {
+                    assumed_start_needs_fixing ? new LightButton("Repair").onClick(() => {
                         this.value.update(v => {
                             assert(v.raw.type == "shortcut_v2")
                             v.raw.assumed_start = value.pre_state.position.tile
@@ -341,7 +341,7 @@ class StepEditWidget extends Widget {
                     hbox(
                         new Checkbox()
                             .setValue(value.raw.spot_override != null)
-                            .on("changed", enabled => {
+                            .onCommit(enabled => {
                                 this.value.update(v => {
                                     assert(v.raw.type == "teleport")
 
@@ -354,7 +354,7 @@ class StepEditWidget extends Widget {
                                 () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
                                     // preview_render: (tile) => {}
                                 }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the overriden target of the teleport by clicking a tile.")))
-                            ).on("changed", (c) => {
+                            ).onCommit((c) => {
                                 this.value.update(v => {
                                     assert(v.raw.type == "teleport")
                                     v.raw.spot_override = c

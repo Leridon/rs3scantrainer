@@ -75,29 +75,21 @@ export default class MovementStateView extends Widget {
             c().text("Ready").appendTo(powerburst_container)
         }
 
-        new BuffCooldownView({
-            icon: "assets/icons/surge.png",
-            on_cooldown: this.value.cooldowns.surge[0] > this.value.tick,
-            time_left: this.value.cooldowns.surge[0] - this.value.tick
-        }).appendTo(cooldown_container)
+        for(let cd of this.value.cooldowns.surge){
+            new BuffCooldownView({
+                icon: "assets/icons/surge.png",
+                on_cooldown: cd > this.value.tick,
+                time_left: cd - this.value.tick
+            }).appendTo(cooldown_container)
+        }
 
-        new BuffCooldownView({
-            icon: "assets/icons/surge.png",
-            on_cooldown: this.value.cooldowns.surge[1] > this.value.tick,
-            time_left: this.value.cooldowns.surge[1] - this.value.tick
-        }).appendTo(cooldown_container)
-
-        new BuffCooldownView({
-            icon: "assets/icons/escape.png",
-            on_cooldown: this.value.cooldowns.escape[0] > this.value.tick,
-            time_left: this.value.cooldowns.escape[0] - this.value.tick
-        }).appendTo(cooldown_container)
-
-        new BuffCooldownView({
-            icon: "assets/icons/escape.png",
-            on_cooldown: this.value.cooldowns.escape[1] > this.value.tick,
-            time_left: this.value.cooldowns.escape[1] - this.value.tick
-        }).appendTo(cooldown_container)
+        for(let cd of this.value.cooldowns.escape){
+            new BuffCooldownView({
+                icon: "assets/icons/escape.png",
+                on_cooldown: cd > this.value.tick,
+                time_left: cd - this.value.tick
+            }).appendTo(cooldown_container)
+        }
 
         new BuffCooldownView({
             icon: "assets/icons/dive.png",

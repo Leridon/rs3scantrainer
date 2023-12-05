@@ -14,6 +14,7 @@
 		"assert-browserify": "^2.0.0",
 		"bootstrap": "^5.3.0",
 		"byte-base64": "^1.1.0",
+		"dexie": "^3.2.4",
 		"fuzzysort": "^2.0.4",
 		"jquery": "^3.7.0",
 		"leaflet": "^1.9.3",
@@ -21,7 +22,8 @@
 		"pako": "^2.1.0",
 		"process": "^0.11.10",
 		"timers-browserify": "^2.0.12",
-		"tippy.js": "^6.3.7"
+		"tippy.js": "^6.3.7",
+		"uuid": "^9.0.1"
 	},
 	"devDependencies": {
 		"@alt1/imagedata-loader": "^1.0.0-alpha.2",
@@ -31,6 +33,7 @@
 		"@types/leaflet": "^1.9.3",
 		"@types/lodash": "^4.14.194",
 		"@types/node": "^12.12.54",
+		"@types/uuid": "^9.0.7",
 		"@types/webpack": "^5.28.0",
 		"circular-dependency-plugin": "^5.2.2",
 		"copy-webpack-plugin": "^11.0.0",

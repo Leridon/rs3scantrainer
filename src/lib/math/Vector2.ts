@@ -1,6 +1,7 @@
 import * as leaflet from "leaflet";
 import {Transform} from "./Transform";
 import {LatLng} from "leaflet";
+import {TileCoordinates} from "../runescape/coordinates";
 
 export type Vector2 = { x: number, y: number }
 
@@ -19,7 +20,7 @@ export namespace Vector2 {
         }
     }
 
-    export function ul(a: Vector2, b: Vector2): Vector2 {
+    export function mul(a: Vector2, b: Vector2): Vector2 {
         return {
             x: a.x * b.x,
             y: a.y * b.y
@@ -132,5 +133,9 @@ export namespace Vector2 {
 
     export function toString(a: Vector2): string {
         return `${a.x}|${a.y}`
+    }
+
+    export function hash(c: Vector2, mod: number = 64): number {
+        return Math.floor(Math.abs((c.x ^ c.y) % mod))
     }
 }

@@ -167,7 +167,7 @@ export class ShortcutEditor extends Behaviour {
     layer: ShortcutEditGameLayer
     editControl: EditControl
 
-    private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", [])
+    private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", () => [])
     public data: ShortcutEditor.Data
 
     sidebar: ShortcutEditSidePanel

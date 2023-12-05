@@ -14,7 +14,7 @@ export type GieliCoordinates = {
 }
 
 export namespace GieliCoordinates {
-    function toCoords(comp: GieliCoordinates): TileCoordinates {
+    export function toCoords(comp: GieliCoordinates): TileCoordinates {
         const sextant = {
             offsetx: 2440,
             offsetz: 3161,
@@ -26,5 +26,9 @@ export namespace GieliCoordinates {
             y: sextant.offsetz + Math.round((60 * comp.latitude.degrees + comp.latitude.minutes) * (comp.latitude.direction == "south" ? -1 : 1) / sextant.minutespertile),
             level: 0
         }
+    }
+
+    export function toString(c: GieliCoordinates): string {
+        return `${c.latitude.degrees}°${c.latitude.minutes}' ${c.latitude.direction  == "north" ? "N" : "S"}, ${c.longitude.degrees}°${c.longitude.minutes}' ${c.longitude.direction == "east" ? "E" : "W"}`
     }
 }

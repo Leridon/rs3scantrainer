@@ -1,28 +1,24 @@
 import {storage} from "lib/util/storage";
-import SidePanelControl from "trainer/ui/SidePanelControl";
 import MenuBarControl from "trainer/ui/MenuBarControl";
 import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {TeleportLayer} from "lib/gamemap/defaultlayers/TeleportLayer";
 import {Teleports} from "lib/runescape/teleports";
-import {ClueIndex, ClueStep, ClueTier, ClueType, ScanStep} from "lib/runescape/clues";
-import {MethodIndex} from "data/accessors";
+import {ClueTier, ClueType} from "lib/runescape/clues";
 import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
 import {Path} from "lib/runescape/pathing";
 import {ExportImport} from "lib/util/exportString";
-import OverviewLayer from "./ui/theorycrafting/OverviewLayer";
-import {clues} from "data/clues";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
-import methods from "../data/methods";
 import {SolvingMethods} from "./model/methods";
-import SolveBehaviour from "./ui/solving/SolveBehaviour";
-import MethodWithClue = SolvingMethods.MethodWithClue;
 import GameLayer from "../lib/gamemap/GameLayer";
 import MenuBar from "./ui/MenuBar";
 import Widget from "../lib/ui/Widget";
+import TheoryCrafter from "./ui/theorycrafting/TheoryCrafter";
+import {makeshift_main} from "./main";
+import {MethodPackManager} from "./model/MethodPackManager";
 
 
 export class SimpleLayerBehaviour extends Behaviour {
@@ -41,7 +37,6 @@ export class SimpleLayerBehaviour extends Behaviour {
 
 export namespace ScanTrainerCommands {
     import Command = QueryLinks.Command;
-    import withClue = SolvingMethods.withClue;
     import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 
     export const load_path: Command<{
@@ -84,14 +79,14 @@ export namespace ScanTrainerCommands {
         },
         default: {
             tiers: ["easy", "medium", "hard", "elite", "master", null],
-            types: ["anagram", "compass", "coordinates", "cryptic", "emote", "image", "scan", "simple", "skilling"]
+            types: ["anagram", "compass", "coordinates", "cryptic", "emote", "map", "scan", "simple", "skilling"]
         },
         serializer: {
             tiers: (tiers: ClueTier[]) => tiers.join(","),
             types: (tiers: ClueType[]) => tiers.join(",")
         },
         instantiate: ({tiers, types}) => (app: Application): void => {
-            app.main_behaviour.set(new SimpleLayerBehaviour(app.map, new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app)))
+            //TODO app.main_behaviour.set(new SimpleLayerBehaviour(app.map, new OverviewLayer(clues.filter(c => tiers.indexOf(c.tier) >= 0 && types.indexOf(c.type) >= 0), app)))
         },
     }
 
@@ -108,9 +103,9 @@ export namespace ScanTrainerCommands {
         },
         instantiate: ({method}) => (app: Application): void => {
             //let resolved = resolve(method)
-            let resolved = withClue(method, app.data.clues.byId(method.clue_id) as ScanStep)
+            //let resolved = withClue(method, app.data.clues.byId(method.clue_id) as ScanStep)
 
-            app.showMethod(resolved)
+            //app.showMethod(resolved)
         },
     }
 
@@ -217,6 +212,8 @@ export class Application extends Behaviour {
     map_widget: GameMapWidget
     map: GameMap
 
+    methods: MethodPackManager
+
     main_behaviour = this.withSub(new SingleBehaviour())
 
     data = {
@@ -224,8 +221,6 @@ export class Application extends Behaviour {
             fairy_ring_favourites: [],
             potas: [],
         }),
-        clues: new ClueIndex(clues),
-        methods: new MethodIndex(methods)
     }
 
     template_resolver = new TemplateResolver(new Map<string, (args: string[]) => string>(
@@ -254,10 +249,10 @@ export class Application extends Behaviour {
     startup_settings = new storage.Variable<{
         hide_beta_notice: boolean,
         seen_changelogs: string[]
-    }>("preferences/startupsettings", {
+    }>("preferences/startupsettings",  () => ({
         hide_beta_notice: false,
         seen_changelogs: []
-    })
+    }))
 
     beta_notice_modal = new BetaNoticeModal("modal-public-beta", this)
     patch_notes_modal = new PatchNotesModal("modal-patchnotes", this)
@@ -265,6 +260,8 @@ export class Application extends Behaviour {
 
     constructor() {
         super()
+
+        this.methods = new MethodPackManager()
     }
 
     protected async begin() {
@@ -293,28 +290,12 @@ export class Application extends Behaviour {
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
 
         //ExportStringModal.do(await makeshift_main())
+        await makeshift_main()
 
-
+        this.main_behaviour.set(new TheoryCrafter(this))
     }
 
     protected end() {
-    }
-
-    solveClue(step: ClueStep) {
-        if (!(this.main_behaviour.get() instanceof SolveBehaviour)) this.main_behaviour.set(new SolveBehaviour(this));
-
-        let behaviour = this.main_behaviour.get() as SolveBehaviour
-
-        let methods = this.data.methods.forStep(step)
-
-        if (methods.length > 0) behaviour.setMethod(methods[0])
-        else behaviour.setClue(step)
-    }
-
-    showMethod(method: MethodWithClue) {
-        if (!(this.main_behaviour.get() instanceof SolveBehaviour)) this.main_behaviour.set(new SolveBehaviour(this));
-        let behaviour = this.main_behaviour.get() as SolveBehaviour
-        behaviour.setMethod(method)
     }
 }
 

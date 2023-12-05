@@ -1,10 +1,12 @@
 import Button from "lib/ui/controls/Button";
 
 export default class LightButton extends Button {
-    constructor(text: string = "Button") {
+    constructor(text: string = "Button", type: "round" | "rectangle" = "round") {
         super()
 
-        this.addClass("lightbutton").text(text)
+        if (type == "round") this.addClass("ctr-lightbutton-round")
+
+        this.addClass("ctr-lightbutton").text(text)
     }
 
     setText(text: string): this {

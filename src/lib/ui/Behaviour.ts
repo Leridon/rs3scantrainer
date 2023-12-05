@@ -7,10 +7,10 @@
  */
 
 import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
-import {ewent} from "../reactive";
+import {ewent, Observable, observe} from "../reactive";
 
 export default abstract class Behaviour {
-    protected handler_pool: EwentHandlerPool = new EwentHandlerPool()
+    public handler_pool: EwentHandlerPool = new EwentHandlerPool()
     private _subBehaviours: Behaviour[] = []
 
     public started = ewent<null>()
@@ -70,30 +70,30 @@ export default abstract class Behaviour {
 }
 
 export class SingleBehaviour<T extends Behaviour = Behaviour> extends Behaviour {
-    private behaviour: T = null
+    public behaviour: Observable<T> = observe(null)
 
     public content_stopped = ewent<T>()
 
     protected begin() {
-        if (this.behaviour) this.behaviour.start()
+        if (this.behaviour.value()) this.behaviour.value().start()
     }
 
     protected end() {
-        if (this.behaviour) this.behaviour.stop()
+        if (this.behaviour.value()) this.behaviour.value().stop()
     }
 
     get(): T {
-        return this.behaviour
+        return this.behaviour.value()
     }
 
     set(behaviour: T): this {
-        if (this.behaviour) {
-            if (this.behaviour.isActive()) this.behaviour.stop()
-            this.behaviour = null
+        if (this.behaviour.value()) {
+            if (this.behaviour.value().isActive()) this.behaviour.value().stop()
+            this.behaviour.set(null)
         }
 
         if (behaviour) {
-            this.behaviour = behaviour
+            this.behaviour.set(behaviour)
 
             behaviour.stopped.on(() => this.content_stopped.trigger(behaviour))
 

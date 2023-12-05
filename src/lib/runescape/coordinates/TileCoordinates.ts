@@ -1,6 +1,7 @@
 import {Transform, Vector2} from "../../math";
 import {floor_t} from "./index";
 import {TileTransform} from "./TileTransform";
+import {Browser} from "leaflet";
 
 
 export type TileCoordinates = Vector2 & {
@@ -8,6 +9,8 @@ export type TileCoordinates = Vector2 & {
 }
 
 export namespace TileCoordinates {
+    import retina = Browser.retina;
+
     export function eq(a: TileCoordinates, b: TileCoordinates) {
         return Vector2.eq(a, b) && a.level == b.level
     }

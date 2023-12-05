@@ -1,4 +1,4 @@
-import {ClueStep, ClueType} from "lib/runescape/clues";
+import {Clues, ClueType} from "lib/runescape/clues";
 import {Constants} from "trainer/constants";
 import {Application} from "trainer/application";
 import Widget from "lib/ui/Widget";
@@ -30,8 +30,8 @@ export class SidePanel<events_t extends Record<string, any> = {}> extends Widget
 }
 
 export class CluePanel extends SidePanel {
-    constructor(clue: ClueStep, options: {
-        edit_handler?: (_: ClueStep) => void
+    constructor(clue: Clues.Step, options: {
+        edit_handler?: (_: Clues.Step) => void
     } = {}) {
         super();
 
@@ -39,7 +39,7 @@ export class CluePanel extends SidePanel {
         
         if (options.edit_handler) {
             this.ui.header.right_corner
-                .append(SmallImageButton.new("assets/icons/edit.png").on("click", () => options.edit_handler(clue)))
+                .append(SmallImageButton.new("assets/icons/edit.png").onClick(() => options.edit_handler(clue)))
         }
 
         this.ui.header.right_corner
@@ -47,7 +47,7 @@ export class CluePanel extends SidePanel {
             .append(c(`<img class="icon" src='${Constants.icons.types[clue.type]}' title="${ClueType.pretty(clue.type)}">`))
 
 
-        this.append(c("<span></span>").text(clue.clue))
+        this.append(c("<span></span>").text(clue.text[0]))
     }
 }
 

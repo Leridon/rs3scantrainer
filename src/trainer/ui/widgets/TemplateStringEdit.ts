@@ -5,7 +5,6 @@ import Button from "lib/ui/controls/Button";
 import {SmallImageButton} from "./SmallImageButton";
 
 export default class TemplateStringEdit extends AbstractEditWidget<string> {
-
     edit_mode: boolean = false
 
     main_row: Widget = null
@@ -35,6 +34,8 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
             if (this.edit_button) this.edit_button.setVisible(false)
         })
 
+        this.onChange(() => this.renderPreview())
+
         this.addClass("ctr-template-string-edit")
 
         this.render()
@@ -51,22 +52,19 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
             .css("margin-left", "2px")
             .tooltip("Auto generate")
             .setEnabled(!!this.options.generator)
-            .on("click", () => {
-                this.setValue(this.options.generator())
-                this.changed(this.value)
+            .onClick( () => {
+                this.commit(this.options.generator())
             }).setVisible(this.edit_mode)
 
         if (this.edit_mode) {
             this.instruction_input = c("<input type='text' class='nisinput'>")
                 .tapRaw(r => r
-                    .val(this.value)
+                    .val(this.get())
                     .on("input", () => {
-                        this.value = this.instruction_input.container.val() as string
-                        // Only update preview without immediately triggering the change
-                        this.renderPreview()
+                        this.preview(this.instruction_input.container.val() as string)
                     })
                     .on("change", () => {
-                        this.changed(this.instruction_input.container.val() as string)
+                        this.commit(this.instruction_input.container.val() as string)
                     })
                     .on("keyup", (e) => {
                         if (e.key === 'Enter') this.instruction_input.raw().blur()
@@ -89,7 +87,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
             this.edit_button = SmallImageButton.new("assets/icons/edit.png")
                 .css("margin-left", "2px")
                 .tooltip("Edit")
-                .on("click", () => {
+                .onClick( () => {
                     this.startEdit()
                 }).setVisible(false)
 
@@ -107,7 +105,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
         }
 
         if (this.instruction_input) {
-            this.instruction_input.container.val(this.value)
+            this.instruction_input.container.val(this.get())
         }
 
         this.renderPreview()
@@ -121,7 +119,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
     }
 
     private renderPreview() {
-        this.preview_container.container.html(`${this.options.resolver.resolve(this.value || "")}`)
+        this.preview_container.container.html(`${this.options.resolver.resolve(this.get() || "")}`)
     }
 
     public startEdit() {

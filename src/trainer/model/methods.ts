@@ -1,59 +1,77 @@
-import {ClueStep, ClueType, ScanStep} from "lib/runescape/clues";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Path} from "lib/runescape/pathing";
-import {util} from "lib/util/util";
-import {omit} from "lodash";
+import {TileCoordinates} from "../../lib/runescape/coordinates";
+import {Clues} from "../../lib/runescape/clues";
+import {uuid} from "../../oldlib";
 
 export namespace SolvingMethods {
-    import ensure_subtype = util.ensure_subtype;
-    export type method_kind = "scantree" | "genericpath"
+    export type method_kind = "scantree" | "general_path"
 
-    const compatible_clue_steps: Record<method_kind, ClueType[]> = {
-        scantree: ["scan"],
-        genericpath: []
-    }
+    export type ClueAssumptions = {
+        meerkats_active?: boolean,
+        full_globetrotter?: boolean,
+        way_of_the_footshaped_key?: boolean
+    } & Path.PathAssumptions
 
-    type method_step_mapping = ensure_subtype<Record<method_kind, ClueStep>, {
-        "scantree": ScanStep,
-        "genericpath": ClueStep
-    }>
-
-    type ClueStepForMethod<MethodT extends Method> = method_step_mapping[MethodT["type"]]
-
-    type method_base = {
-        type: method_kind,
-        clue_id: number
-    }
-
-    export type ScanTreeMethod = method_base & { type: "scantree" } & ScanTree.ScanTree
-    export type GenericPathMethod = method_base & { type: "genericpath" } & { path: Path.raw }
-
-    export type Method = ScanTreeMethod | GenericPathMethod
-
-    export type MethodWithClue<method_t extends Method = Method> = method_t & { clue: method_step_mapping[method_t["type"]] }
-
-    export type ScanTreeWithClue = MethodWithClue<ScanTreeMethod>
-
-    export function withClue<MethodT extends Method, StepT extends ClueStepForMethod<MethodT> = ClueStepForMethod<MethodT>>(method: MethodT, clue: StepT): MethodWithClue<MethodT> {
-        return {
-            ...method,
-            clue: clue
+    export namespace ClueAssumptions {
+        export function init(): ClueAssumptions {
+            return {
+                double_escape: true,
+                double_surge: true,
+                full_globetrotter: true,
+                meerkats_active: true,
+                mobile_perk: true,
+                way_of_the_footshaped_key: true
+            }
         }
     }
 
-    export function withoutClue<MethodT extends Method = Method>(method: MethodWithClue<MethodT>): MethodT {
-        return omit(method, "clue") as unknown as MethodT // Why does this not automatically typecheck?
+    type method_base = {
+        type: method_kind,
+        id: string,
+        for: { clue: number, spot?: TileCoordinates },
+        name: string,
+        description: string,
+        assumptions: ClueAssumptions,
     }
 
-    /*
-    export function resolve<U extends ClueStep, T extends method_base>(clue: T & indirected): T & resolved<U> {
-        if (clue == null) return null
-
-        let copy = lodash.clone(clue) as T & resolved<U>
-
-        copy.clue = clues.find((c) => c.id == clue.clue) as U
-
-        return copy as (T & resolved<U>)
+    export type ScanTreeMethod = method_base & {
+        type: "scantree",
+        tree: ScanTree.ScanTree
     }
-    */
+
+    export type GenericPathMethod = method_base & {
+        type: "general_path",
+        path_to_key_or_hideyhole?: Path.raw,
+        path_to_spot: Path.raw,
+        path_back_to_hideyhole?: Path.raw
+    }
+
+    export type Method = ScanTreeMethod | GenericPathMethod
+
+    export function init(clue: Clues.ClueSpot): Method {
+        if (clue.clue.type == "scan") {
+            return {
+                id: uuid(),
+                type: "scantree",
+                name: "Enter a name",
+                description: "Enter a description.",
+                assumptions: ClueAssumptions.init(),
+                for: {clue: clue.clue.id},
+                tree: ScanTree.init(clue.clue)
+            }
+        } else {
+            return {
+                id: uuid(),
+                type: "general_path",
+                name: "Enter a name",
+                description: "Enter a description.",
+                assumptions: ClueAssumptions.init(),
+                for: {clue: clue.clue.id, spot: clue.spot ?? undefined},
+                path_back_to_hideyhole: [],
+                path_to_key_or_hideyhole: [],
+                path_to_spot: [],
+            }
+        }
+    }
 }

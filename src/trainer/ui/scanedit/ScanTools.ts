@@ -20,21 +20,21 @@ export default class ScanTools extends Widget {
         centered(
             c("<div style='font-weight: bold'>Center On</div>"),
             hbox(
-                new LightButton("Spots")
-                    .on("click", () => {
+                new LightButton("Spots", "rectangle")
+                    .onClick(() => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.editor.options.clue.solution.candidates.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
+                        this.editor.value.clue.spots.forEach((c) => bounds.extend(Vector2.toLatLong(c)))
 
                         bounds.pad(0.1)
 
-                        this.editor.options.map.fitBounds(bounds)
+                        this.editor.app.map.fitBounds(bounds)
                     }),
-                new LightButton("Complement")
-                    .on("click", () => {
+                new LightButton("Complement", "rectangle")
+                    .onClick(() => {
                         let bounds = leaflet.latLngBounds([])
 
-                        this.editor.options.clue.solution.candidates.forEach((c) => {
+                        this.editor.value.clue.spots.forEach((c) => {
                             bounds.extend(Vector2.toLatLong({
                                 x: c.x,
                                 y: (c.y < 6400 ? c.y + 6400 : c.y - 6400)
@@ -42,20 +42,20 @@ export default class ScanTools extends Widget {
                         })
                         bounds.pad(0.1)
 
-                        this.editor.options.map.fitBounds(bounds)
+                        this.editor.app.map.fitBounds(bounds)
                     })
             ).addClass("ctr-button-container"),
             c("<div style='font-weight: bold'>Show Equivalence Classes</div>"),
 
             hboxc(
                 c("<div style='display: flex; padding-left: 5px'>")
-                    .append(new Checkbox().on("changed", (v) => {
+                    .append(new Checkbox().onCommit((v) => {
                         this.normal.set(v)
                     }))
                     .append(c("<div class='col-4' style='margin-left: 5px'>Spots</div>")),
 
                 c("<div style='display: flex; padding-left: 5px'>")
-                    .append(new Checkbox().on("changed", (v) => {
+                    .append(new Checkbox().onCommit((v) => {
                         this.complement.set(v)
                     }).container)
                     .append(c("<div class='col-4' style='margin-left: 5px'>Complement</div>"))

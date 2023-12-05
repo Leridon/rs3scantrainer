@@ -9,7 +9,6 @@ import {ExportImport} from "../util/exportString";
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {Shortcuts} from "./shortcuts";
-import {stat} from "copy-webpack-plugin/types/utils";
 
 export type Path = Path.raw;
 
@@ -39,7 +38,19 @@ export namespace Path {
         | "mine"
         | "trade"
         | "use"
-    // TODO: Smith, Cook, Pick lock, Pick up, Discover, Archaelogy, Divine
+        | "cook"
+        | "divine"
+        | "loot"
+        | "picklock"
+        | "shovel"
+
+    // TODO: Smith, Discover, Archaelogy,
+
+    export type PathAssumptions = {
+        double_surge?: boolean,
+        double_escape?: boolean,
+        mobile_perk?: boolean,
+    }
 
     export namespace InteractionType {
 
@@ -52,7 +63,7 @@ export namespace Path {
                 {type: "talk", icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"},
                 {type: "open", icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"},
                 {type: "enter", icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"},
-                {type: "spellonentity", icon_url: "assets/icons/cursor_spell.png", description: "Use spell", short_icon: "cursor_spell"},
+                {type: "spellonentity", icon_url: "assets/icons/cursor_alchemy.png", description: "Use spell", short_icon: "cursor_spell"},
                 {type: "agility_obstacle", icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"},
                 {type: "ladderdown", icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"},
                 {type: "ladderup", icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"},
@@ -64,7 +75,12 @@ export namespace Path {
                 {type: "build", icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"},
                 {type: "mine", icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"},
                 {type: "trade", icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"},
-                {type: "use", icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"}
+                {type: "use", icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"},
+                {type: "cook", icon_url: "assets/icons/cursor_cook.png", description: "Cook", short_icon: "cursor_cook"},
+                {type: "divine", icon_url: "assets/icons/cursor_divine.png", description: "Divine", short_icon: "cursor_divine"},
+                {type: "loot", icon_url: "assets/icons/cursor_loot.png", description: "Loot", short_icon: "cursor_loot"},
+                {type: "picklock", icon_url: "assets/icons/cursor_picklock.png", description: "Pick Lock", short_icon: "cursor_picklock"},
+                {type: "shovel", icon_url: "assets/icons/cursor_shovel.png", description: "Shovel", short_icon: "cursor_shovel"},
             ]
         }
 
@@ -134,29 +150,31 @@ export namespace Path {
     export type movement_state = {
         tick: number,
         cooldowns: {    // Cooldowns signify the next tick the ability/charge can be used.
-            escape: [number, number],
-            surge: [number, number],
+            escape: number[],
+            surge: number[],
             barge: number,
             dive: number,
         },
         acceleration_activation_tick: number,
         position: PlayerPosition,
         targeted_entity: TileCoordinates,      // The targeted entity is set by redclicking it and can be used to set the player's orientation after running.
+        assumptions: PathAssumptions
     }
 
     export namespace movement_state {
-        export function start(): movement_state {
+        export function start(assumptions: PathAssumptions): movement_state {
             return {
                 tick: 0,
                 cooldowns: {
-                    escape: [0, 0],
-                    surge: [0, 0],
+                    escape: assumptions.double_escape ? [0, 0] : [0],
+                    surge: assumptions.double_surge ? [0, 0] : [0],
                     barge: 0,
                     dive: 0,
                 },
                 acceleration_activation_tick: -1000,
                 position: {tile: null, direction: null},
-                targeted_entity: null
+                targeted_entity: null,
+                assumptions: assumptions
             }
         }
 
@@ -255,11 +273,11 @@ export namespace Path {
     }
 
     export async function augment(path: Path.step[],
-                                  start_state: movement_state = movement_state.start(),
+                                  start_state: movement_state = movement_state.start({}),
                                   target: TileRectangle = null): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
 
-        if (!start_state) start_state = movement_state.start()
+        if (!start_state) start_state = movement_state.start({})
 
         let state: movement_state = lodash.cloneDeep(start_state)
 
@@ -376,24 +394,26 @@ export namespace Path {
 
                             let cd = state.cooldowns.surge[min] - state.tick
                             if (cd > 0) {
-                                if (cd <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst()) - 2)
+                                if (state.assumptions.double_surge && cd <= 2 && state.cooldowns.surge[1 - min] >= cooldown("surge", powerburst(), state.assumptions.mobile_perk) - 2)
                                     augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
                                     augmented.issues.push({
                                         level: cd >= 4 ? 0 : 1,
-                                        message: `Both surge charges are still on cooldown for ${cd} ticks!`
+                                        message: `All surge charges are still on cooldown for ${cd} ticks!`
                                     })
 
                                 state.tick = state.cooldowns.surge[min] // Wait for cooldown
                             }
 
                             // Put the used charge on cooldown
-                            state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst())
+                            state.cooldowns.surge[min] = state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk)
                             // Set the antispam delay for the second charge
-                            state.cooldowns.surge[1 - min] = Math.max(state.tick + 2, state.cooldowns.surge[1 - min])
+                            for (let j = 0; j < state.cooldowns.escape.length; j++) {
+                                state.cooldowns.surge[j] = Math.max(state.tick + 2, state.cooldowns.surge[j])
+                            }
 
                             // Surge puts both escape charges on cooldown
-                            state.cooldowns.escape.fill(state.tick + cooldown("escape", powerburst()))
+                            state.cooldowns.escape.fill(state.tick + cooldown("escape", powerburst(), state.assumptions.mobile_perk))
 
                             break
                         }
@@ -402,24 +422,27 @@ export namespace Path {
 
                             let cd = state.cooldowns.escape[min] - state.tick
                             if (cd > 0) {
-                                if (cd <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst()) - 2)
+                                if (state.assumptions.double_escape && cd <= 2 && state.cooldowns.escape[1 - min] >= cooldown("escape", powerburst(), state.assumptions.mobile_perk) - 2)
                                     augmented.issues.push({level: 1, message: `Antispam delay. Delaying for ${cd} ticks.`})
                                 else
                                     augmented.issues.push({
                                         level: cd >= 4 ? 0 : 1,
-                                        message: `Both escape charges are still on cooldown for ${cd} ticks!`
+                                        message: `All escape charges are still on cooldown for ${cd} ticks!`
                                     })
 
                                 state.tick = state.cooldowns.escape[min] // Wait for cooldown
                             }
 
                             // Put the used charge on cooldown
-                            state.cooldowns.escape[min] = state.tick + cooldown("escape", powerburst())
+                            state.cooldowns.escape[min] = state.tick + cooldown("escape", powerburst(), state.assumptions.mobile_perk)
                             // Set the antispam delay for the second charge
-                            state.cooldowns.escape[1 - min] = Math.max(state.tick + 2, state.cooldowns.escape[1 - min])
+
+                            for (let j = 0; j < state.cooldowns.escape.length; j++) {
+                                state.cooldowns.escape[j] = Math.max(state.tick + 2, state.cooldowns.escape[j])
+                            }
 
                             // Escape puts both surge charges on cooldown
-                            state.cooldowns.surge.fill(state.tick + cooldown("surge", powerburst()))
+                            state.cooldowns.surge.fill(state.tick + cooldown("surge", powerburst(), state.assumptions.mobile_perk))
 
                             break
                         }
@@ -430,7 +453,7 @@ export namespace Path {
                                 state.tick = state.cooldowns.dive // Wait for cooldown
                             }
 
-                            state.cooldowns.dive = state.tick + cooldown("dive", powerburst())
+                            state.cooldowns.dive = state.tick + cooldown("dive", powerburst(), state.assumptions.mobile_perk)
 
                             break
                         }
@@ -441,7 +464,7 @@ export namespace Path {
                                 state.tick = state.cooldowns.barge // Wait for cooldown
                             }
 
-                            state.cooldowns.barge = state.tick + cooldown("barge", powerburst())
+                            state.cooldowns.barge = state.tick + cooldown("barge", powerburst(), state.assumptions.mobile_perk)
 
                             break
                         }

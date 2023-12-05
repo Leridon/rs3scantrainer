@@ -614,7 +614,7 @@ export namespace MovementAbilities {
         }
     }
 
-    export function cooldown(ability: MovementAbilities.movement_ability, powerburst: boolean, mobile: boolean = true): number {
+    export function cooldown(ability: MovementAbilities.movement_ability, powerburst: boolean, mobile: boolean): number {
         switch (ability) {
             case "surge":
                 return (powerburst ? 2 : (mobile ? 17 : 34))

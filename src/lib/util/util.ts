@@ -1,12 +1,13 @@
 import * as L from "leaflet"
 import * as leaflet from "leaflet";
 import {ExportImport} from "./exportString";
+import {v4 as uuidv4} from 'uuid';
 
 export namespace util {
 
     import exp = ExportImport.exp;
 
-    export function natural_join(a: any[], connector: "and" | "or" = "and"): string {
+    export function natural_join(a: any[], connector: string = "and"): string {
         if (a.length == 0) return ""
         if (a.length == 1) return a.toString()
         if (a.length == 2) return `${a[0]} ${connector} ${a[1]}`
@@ -146,5 +147,16 @@ export namespace util {
 
     export function avg(...ns: number[]): number {
         return ns.reduce((a, b) => a + b, 0) / ns.length
+    }
+
+    export function uuid(): string {
+        return uuidv4()
+    }
+
+    /**
+     * @return The current utc time as a unix timestamp (in seconds)
+     */
+    export function timestamp(): number {
+        return Math.floor((new Date()).getTime() / 1000)
     }
 }

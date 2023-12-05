@@ -10,7 +10,7 @@ export default class SolveControl {
 
     private clue_reader = new ClueReader()
 
-    private should_autosolve = new storage.Variable("preferences/autosolve", false)
+    private should_autosolve = new storage.Variable("preferences/autosolve", () => false)
 
     constructor(private app: Application) {
         if (!this.app.in_alt1) {
@@ -38,7 +38,7 @@ export default class SolveControl {
     private async try_solve() {
         let clue = await this.clue_reader.find(a1lib.captureHoldFullRs())
 
-        if (clue) this.app.solveClue(clue)
+        //if (clue) this.app.solveClue(clue)
     }
 
     private update_autosolve() {

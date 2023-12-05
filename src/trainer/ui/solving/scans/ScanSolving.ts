@@ -13,7 +13,6 @@ import Behaviour from "lib/ui/Behaviour";
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import SolveBehaviour from "../SolveBehaviour";
 import {SolvingMethods} from "../../../model/methods";
-import ScanTreeWithClue = SolvingMethods.ScanTreeWithClue;
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 import {TextRendering} from "../../TextRendering";
 import render_digspot = TextRendering.render_digspot;
@@ -25,10 +24,11 @@ import Pulse = Scans.Pulse;
 import Order = util.Order;
 import natural_join = util.natural_join;
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
-import assumedRange = ScanTree.assumedRange;
-import ScanEditor from "../../scanedit/ScanEditor";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {Observable, observe} from "../../../../lib/reactive";
+import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
+import {AugmentedMethod} from "../../../model/MethodPackManager";
+import {Clues} from "../../../../lib/runescape/clues";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -169,9 +169,9 @@ class ScanTreeSolvingLayer extends ScanLayer {
 
         this.node.subscribe((node, old_node) => {
             if (old_node == null) {
-                this.spots.set(node.root.raw.clue.solution.candidates)
-                this.spot_order.set(node.root.raw.spot_ordering)
-                this.scan_range.set(assumedRange(node.root.raw))
+                this.spots.set(node.root.raw.ordered_spots)
+                this.spot_order.set(node.root.raw.ordered_spots)
+                this.scan_range.set(node.root.raw.assumed_range)
             }
 
             if (node) {
@@ -265,7 +265,7 @@ class ScanTreeMethodPanel extends MethodPanel {
             : resolver.resolve(`Spot {{digspot ${spotNumber(node.root.raw, node.remaining_candidates[0])}}}`)             // Nodes without a parent kind always have exactly one remaining candidate as they are synthetic
 
         if (depth == 0) {
-            new LightButton().on("click", () => this.node.set(node))
+            new LightButton().onClick(() => this.node.set(node))
                 .setHTML(link_html)
                 .appendTo(line)
         } else if (depth > 0) {
@@ -293,7 +293,7 @@ class ScanTreeMethodPanel extends MethodPanel {
                     .forEach((child) => {
                         new LightButton()
                             .setHTML(render_digspot(spotNumber(node.root.raw, child.remaining_candidates[0])))
-                            .on("click", () => this.node.set(child))
+                            .onClick(() => this.node.set(child))
                             .appendTo(line)
                     })
             } else {
@@ -333,7 +333,7 @@ class ScanTreeMethodPanel extends MethodPanel {
                 .forEach((child) => {
                     new LightButton()
                         .setHTML(render_digspot(spotNumber(node.root.raw, child.value.remaining_candidates[0])))
-                        .on("click", () => this.node.set(child.value))
+                        .onClick(() => this.node.set(child.value))
                         .appendTo(line)
                 })
         }
@@ -346,11 +346,12 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
     panel: ScanTreeMethodPanel = null
     layer: ScanTreeSolvingLayer = null
 
-    constructor(private parent: SolveBehaviour, private method: ScanTreeWithClue) {
+    constructor(private parent: SolveBehaviour, private method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
         super();
     }
 
     protected begin() {
+        /*//TODO
         this.parent.parent.sidepanels.add(this.panel = new ScanTreeMethodPanel(this.parent.parent.template_resolver, {
             edit_handler: this.parent.parent.in_alt1 ? undefined : () => {
                 this.parent.parent.main_behaviour.set(new ScanEditor(this.parent.parent, {
@@ -359,12 +360,13 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
                     initial: this.method
                 }))
             }
-        }), 2)
+        }), 2)*/
+
         this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map)
 
         this.node.bind(this.panel.node).bind(this.layer.node)
 
-        this.node.set(ScanTree.Augmentation.basic_augmentation(this.method).root_node)
+        this.node.set(ScanTree.Augmentation.basic_augmentation(this.method.method.tree, this.method.clue).root_node)
     }
 
     protected end() {

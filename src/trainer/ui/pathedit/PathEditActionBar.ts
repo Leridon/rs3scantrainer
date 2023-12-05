@@ -43,7 +43,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         powerburst: ActionBarButton,
     }
 
-    state: Observable<movement_state> = observe(movement_state.start())
+    state: Observable<movement_state> = observe(movement_state.start({}))
 
     constructor(private editor: PathEditor,
                 private interaction_guard: InteractionGuard
@@ -157,25 +157,25 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         // Render buttons
         {
             hbox(
-                new LightButton("Commit").on("click", () => {
+                new LightButton("Commit", "rectangle").onClick(() => {
                     this.editor.options.commit_handler(this.editor.value.construct())
                 }).setEnabled(!!this.editor.options.commit_handler),
 
-                new LightButton("Discard").on("click", () => {
+                new LightButton("Discard", "rectangle").onClick(() => {
                     this.editor.value.load(this.editor.options.initial)
                     this.editor.options?.discard_handler()
                 }),
 
-                new LightButton("Export")
-                    .on("click", () => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
+                new LightButton("Export", "rectangle")
+                    .onClick(() => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
 
-                new LightButton("Import")
-                    .on("click", async () => {
+                new LightButton("Import", "rectangle")
+                    .onClick(async () => {
                         this.editor.value.load(await ImportStringModal.do((s) => Path.import_path(s)))
                     }),
 
-                new LightButton("Share")
-                    .on("click", () => {
+                new LightButton("Share", "rectangle")
+                    .onClick(() => {
                         ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, {
                             steps: this.editor.value.construct(),
                             start_state: this.editor.options.start_state,

@@ -125,7 +125,7 @@ export class ShortcutEdit extends Widget {
 
         props.named("Name", new TextField()
             .setValue(v.name)
-            .on("changed", v => {
+            .onCommit(v => {
                 this.config.value.update(o => o.name = v)
             }))
 
@@ -145,7 +145,7 @@ export class ShortcutEdit extends Widget {
                         .append(c().css("flex-grow", "1"))
                         .append(
                             new LightButton("Select")
-                                .on("click", () => {
+                                .onClick(() => {
                                     this.config.interaction_guard.set(
                                         new DrawDoor({
                                             done_handler: (new_v) => {
@@ -171,7 +171,7 @@ export class ShortcutEdit extends Widget {
                         .append(c().css("flex-grow", "1"))
                         .append(
                             new LightButton("Select")
-                                .on("click", () => {
+                                .onClick(() => {
 
                                         this.config.interaction_guard.set(
                                             new GameMapDragAction({
@@ -208,7 +208,7 @@ export class ShortcutEdit extends Widget {
                             .append(c(`<div class='nisl-property-header' style="flex-grow: 1">Action #${action_i + 1}: ${action.name}</div>`))
                             .append(SmallImageButton.new("assets/icons/delete.png")
                                 .setEnabled(!this.config.single_action)
-                                .on("click", () => {
+                                .onClick(() => {
                                     this.config.value.update(v => {
                                         assert(v.type == "entity")
                                         v.actions.splice(v.actions.indexOf(action), 1)
@@ -217,7 +217,7 @@ export class ShortcutEdit extends Widget {
 
                     props.named("Name", new TextField()
                         .setValue(action.name)
-                        .on("changed", v => {
+                        .onCommit(v => {
                             this.config.value.update(() => action.name = v)
                         }))
 
@@ -229,7 +229,7 @@ export class ShortcutEdit extends Widget {
                     )
                     props.named("Ticks", new NumberInput(0, 100)
                         .setValue(action.time)
-                        .on("changed", (v) => this.config.value.update(() => action.time = v))
+                        .onCommit((v) => this.config.value.update(() => action.time = v))
                     )
                     props.named("Area",
                         c("<div style='display: flex'></div>")
@@ -237,7 +237,7 @@ export class ShortcutEdit extends Widget {
                             .append(c().css("flex-grow", "1"))
                             .append(
                                 new LightButton("Select")
-                                    .on("click", () => {
+                                    .onClick(() => {
 
                                         this.config.interaction_guard.set(
                                             new GameMapDragAction({
@@ -304,7 +304,7 @@ export class ShortcutEdit extends Widget {
                                     .append(c().css("flex-grow", "1"))
                                     .append(
                                         new LightButton("Draw")
-                                            .on("click", () => {
+                                            .onClick(() => {
                                                 this.config.interaction_guard.set(
                                                     new DrawOffset({
                                                         preview_render: (offset) => {
@@ -357,7 +357,7 @@ export class ShortcutEdit extends Widget {
                                             .onStart(() => { this.config.associated_preview?.setOpacity(0) })
                                             .onEnd(() => this.config.associated_preview?.setOpacity(1))
                                             .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the target of this map connection."))
-                                    )).on("changed", (v) => {
+                                    )).onCommit((v) => {
                                     this.config.value.update(() => {
                                         assert(action.movement.type == "fixed")
                                         action.movement.target = v
@@ -367,7 +367,7 @@ export class ShortcutEdit extends Widget {
 
                             target_thing.append(C.hbox(
                                     new Checkbox().setValue(action.movement.relative)
-                                        .on("changed", (v) => {
+                                        .onCommit((v) => {
                                             this.config.value.update(() => {
                                                 assert(action.movement.type == "fixed")
                                                 action.movement.relative = v
@@ -432,7 +432,7 @@ export class ShortcutEdit extends Widget {
                             action.orientation.type != "forced"
                                 ? undefined
                                 : hbox(new Checkbox().setValue(action.orientation.relative)
-                                        .on("changed", (v) => {
+                                        .onCommit((v) => {
                                             this.config.value.update(() => {
                                                 assert(action.orientation.type == "forced")
                                                 action.orientation.relative = v
@@ -445,7 +445,7 @@ export class ShortcutEdit extends Widget {
 
                 if (!this.config.single_action) {
                     props.row(vbox(new LightButton("+ Add Action")
-                        .on("click", () => {
+                        .onClick(() => {
                             this.config.value.update(v => {
                                 assert(v.type == "entity")
 

@@ -8,13 +8,11 @@ export default class NumberInput extends AbstractEditWidget<number> {
 
         this.container
             .on("input", () => {
-                this.changed(Number(this.container.val()))
+                this.commit(Number(this.container.val()))
             })
-
     }
 
-
     protected render() {
-        this.container.val(this.value)
+        this.container.val(this.get())
     }
 }

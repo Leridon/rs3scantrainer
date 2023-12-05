@@ -77,7 +77,14 @@ export namespace Clues {
         // The area for npcs should include all tiles they can be talked to from, so one tile bigger than their wander range
         export type TalkTo = { type: "talkto", spots: { range: TileRectangle, note?: string }[], npc: string }
         export type Dig = { type: "dig", spot: TileCoordinates }
-        export type Search = { type: "search", spot: TileCoordinates, entity: string, key?: { instructions: string, answer: string, area?: TileRectangle } }
+        export type Search = {
+            type: "search", spot: TileCoordinates, entity: string,
+            key?: {
+                instructions: string,
+                answer: string,
+                area?: TileRectangle
+            }
+        }
     }
 
     type StepShared = {
@@ -110,5 +117,5 @@ export namespace Clues {
 
     export type ScanStep = Scan
 
-    export type ClueSpot = {clue: Step, spot?: TileCoordinates}
+    export type ClueSpot = { clue: Step, spot?: TileCoordinates }
 }

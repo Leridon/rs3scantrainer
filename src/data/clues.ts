@@ -2629,9 +2629,14 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["In a town where the guards are armed with maces, search the upstairs rooms of the public house."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2574, "y": 3322, "level": 0},
-                "answer": "Kill a guard dog get obtain a key, then search the drawers upstairs."
+                "type": "search",
+                "spot": {"x": 2575, "y": 3326, "level": 1},
+                "entity": "Drawers",
+                "key": {
+                    "instructions": "The drawers are locked! A note left on the drawers reads: Beware of dog!",
+                    "answer": "Kill a guard dog.",
+                    "area": {"topleft": {"x": 2623, "y": 3330}, "botright": {"x": 2647, "y": 3307}, "level": 0}
+                }
             }
         },
         {
@@ -2706,9 +2711,14 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["Go to the village being attacked by trolls and search the drawers in one of the houses."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2930, "y": 3550, "level": 0},
-                "answer": "Pickpocket Penda (in the south-western most house) to get a key, then search the marked drawers."
+                "type": "search",
+                "spot": {"x": 2928, "y": 3552, "level": 0},
+                "entity": "Drawers",
+                "key": {
+                    "instructions": "The drawers are locked! A note on the top of the drawer reads: Wait till I get my hands on Penda; he's nicked the key again!",
+                    "answer": "Pickpocket Penda in the hour north of Heroes's Guild.",
+                    "area": {"topleft": {"x": 2912, "y": 3526}, "botright": {"x": 2916, "y": 3521}, "level": 0}
+                }
             }
         },
         {
@@ -2902,9 +2912,14 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["Go to this building to be illuminated, and check the drawers while you are there."],
             "solution": {
-                "type": "simple",
-                "spot": {"x": 2509, "y": 3642, "level": 0},
-                "answer": "Kill a Fremennik market guard to get the key, then search the drawers on the first floor of the Lighthouse."
+                "type": "search",
+                "spot": {"x": 2512, "y": 3641, "level": 1},
+                "entity": "Drawers",
+                "key": {
+                    "instructions": "The drawers are locked! A note on the top says 'I'm guarding the key at the market'.",
+                    "answer": "Kill a Fremennik market guard in Relekka.",
+                    "area": {"topleft": {"x": 2635, "y": 3686}, "botright": {"x": 2652, "y": 3669}, "level": 0}
+                }
             }
         },
         {
@@ -3194,7 +3209,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "spots": [{"range": {"topleft": {"x": 2487, "y": 3489}, "botright": {"x": 2493, "y": 3487}, "level": 1}}],
-                "noc": "Heckel Funch"
+                "npc": "Heckel Funch"
             }
         },
         {
@@ -3768,99 +3783,126 @@ export namespace clue_data {
             "type": "emote",
             "tier": "easy",
             "text": ["Dance at the crossroads north of Draynor. Equip an iron chainbody, sapphire ring and a shieldbow."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3108, "y": 3296}, "botright": {"x": 3111, "y": 3293}, "level": 0},
             "items": ["Iron Chainbody", "Sapphire Ring", "Shieldbow"],
             "emotes": ["Dance"],
             "double_agent": false,
+            "hidey_hole": {
+                "location": {"x": 3112, "y": 3292, "level": 0},
+                "name": "Rock (hidey-hole)"
+            }
         },
         {
             "id": 279,
             "type": "emote",
             "tier": "easy",
             "text": ["Dance a jig by the entrance to the Fishing Guild. Equip an emerald ring, sapphire amulet, and a bronze chainbody."],
-
-            "area": null,
+            "area": {"topleft": {"x": 2611, "y": 3386}, "botright": {"x": 2615, "y": 3384}, "level": 0},
             "items": ["Emerald Ring", "Sapphire Amulet", "Bronze Chainbody"],
             "emotes": ["Jig"],
             "double_agent": false,
+            "hidey_hole": {
+                "location": {"x": 2619, "y": 3388, "level": 0},
+                "name": "Rock (hidey-hole)"
+            }
         },
         {
             "id": 280,
             "type": "emote",
             "tier": "easy",
             "text": ["Bow or curtsy at the entrance to Het's Oasis. Equip an iron chainbody, leather chaps and a studded leather coif."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3318, "y": 3240}, "botright": {"x": 3326, "y": 3225}, "level": 0},
             "items": ["Iron Chainbody", "Leather Chaps", "Leather Coif"],
             "emotes": ["Bow or Curtsy"],
             "double_agent": false,
+            "hidey_hole": {
+                "name": "Sack (hidey-hole)",
+                "location": {"x": 3323, "y": 3236, "level": 0}
+            }
         },
         {
             "id": 281,
             "type": "emote",
             "tier": "easy",
             "text": ["Cry outside the south gates of Fort Forinthry. Equip a hard leather body, leather chaps and a bronze hatchet."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3296, "y": 3528}, "botright": {"x": 3311, "y": 3520}, "level": 0},
             "items": ["Hard Leather Body", "Leather Chaps", "Bronze Hatchet"],
             "emotes": ["Cry"],
             "double_agent": false,
+            "hidey_hole": {
+                "location": {"x": 3299, "y": 3521, "level": 0},
+                "name": "Tree stump (hidey-hole)"
+            }
         },
         {
             "id": 282,
             "type": "emote",
             "tier": "easy",
             "text": ["Clap on the top level of the mill north of East Ardougne. Equip an emerald ring, wood camo top and an unenchanted tiara."],
-
-            "area": null,
+            "area": {"topleft": {"x": 2630, "y": 3386}, "botright": {"x": 2635, "y": 3381}, "level": 2},
             "items": ["Emerald Ring", "Wood Camo Top", "Unenchanted Tiara"],
             "emotes": ["Clap"],
             "double_agent": false,
+            "hidey_hole": {
+                "location": {"x": 2635, "y": 3383, "level": 2},
+                "name": "Crate (hidey-hole)"
+            }
         },
         {
             "id": 283,
             "type": "emote",
             "tier": "easy",
             "text": ["Yawn in Draynor Marketplace. Equip an iron kiteshield, steel longsword and studded leather chaps."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3074, "y": 3255}, "botright": {"x": 3086, "y": 3246}, "level": 0},
             "items": ["Iron Kiteshield", "Steel Longsword", "Studded Leather Chaps"],
             "emotes": ["Yawn"],
             "double_agent": false,
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x": 3078, "y": 3246, "level": 0}
+            }
         },
         {
             "id": 284,
             "type": "emote",
             "tier": "easy",
             "text": ["Cheer at the Druids' Circle. Equip an air tiara, bronze two-handed sword and a gold amulet."],
-
-            "area": null,
+            "area": {"topleft": {"x": 2918, "y": 3485}, "botright": {"x": 2925, "y": 3478}, "level": 0},
             "items": ["Air Tiara", "Bronze 2h Sword", "Gold Amulet"],
             "emotes": ["Cheer"],
             "double_agent": false,
+            "hidey_hole": {
+                "name": "Rock (hidey-hole)",
+                "location": {"x": 2922, "y": 3476, "level": 0}
+            }
         },
         {
             "id": 7,
             "type": "emote",
             "tier": "medium",
-            "text": ["Beckon in the Digsite, near the eastern winch. Bow or curtsy before you talk to me. Equip a pointed red and black snelm, snakeskin boots, and an iron pickaxe."],
-
-            "area": null,
+            "text": ["Beckon at the Digsite, near the eastern winch. Bow or curtsy before you talk to me. Equip a pointed red and black snelm, snakeskin boots, and an iron pickaxe."],
+            "area": {"topleft": {"x": 3375, "y": 3446}, "botright": {"x": 3381, "y": 3440}, "level": 0},
             "items": ["Pointed Red and Black Snelm", "Snakeskin Boots", "Iron Pickaxe"],
             "emotes": ["Beckon", "Bow or Curtsy"],
             "double_agent": false,
+            "hidey_hole": {
+                "name": "Barrel (hidey-hole)",
+                "location": {"x": 3379, "y": 3445, "level": 0}
+            }
         },
         {
             "id": 247,
             "type": "emote",
             "tier": "medium",
             "text": ["Panic by the mausoleum in Morytania. Wave before you speak to me. Equip a mithril plateskirt, a maple shieldbow and no boots."],
-
-            "area": null,
+            "area": {"topleft": {"x": 3490, "y": 3581}, "botright": {"x": 3514, "y": 3565}, "level": 0},
             "items": ["Mithril Plateskirt", "Maple Shieldbow", "No boots"],
             "emotes": ["Panic", "Wave"],
             "double_agent": false,
+            "hidey-hole": {
+                "name": "Crate (hidey-hole)",
+                "location": {"x": 3506, "y": 3574, "level": 0}
+            }
         },
         {
             "id": 248,
@@ -3921,13 +3963,13 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["Dance in the centre of Canifis. Bow or curtsy before you talk to me. Equip a spiny helmet, mithril platelegs and an iron two-handed sword."],
 
-            "area": {"topleft":{"x":3485,"y":3496},"botright":{"x":3503,"y":3480},"level":0},
+            "area": {"topleft": {"x": 3485, "y": 3496}, "botright": {"x": 3503, "y": 3480}, "level": 0},
             "items": ["Spine Helm", "Mithril Platelegs", "Iron two-handed sword"],
             "emotes": ["Dance", "Bow or Curtsy"],
             "double_agent": false,
             "hidey_hole": {
                 "name": "Barrel (hidey-hole)",
-                "location": {"x":3491,"y":3480,"level":0}
+                "location": {"x": 3491, "y": 3480, "level": 0}
             }
         },
         {
@@ -4050,10 +4092,10 @@ export namespace clue_data {
             "items": ["Diamond ring", "Amulet of power", "Nothing on your chest and legs"],
             "emotes": ["Salute"],
             "double_agent": true,
-            "area": {"topleft":{"x":2908,"y":3173},"botright":{"x":2934,"y":3154},"level":0},
+            "area": {"topleft": {"x": 2908, "y": 3173}, "botright": {"x": 2934, "y": 3154}, "level": 0},
             "hidey_hole": {
                 "name": "Log (hidey-hole)",
-                "location": {"x":2914,"y":3154,"level":0}
+                "location": {"x": 2914, "y": 3154, "level": 0}
             }
         },
         {
@@ -4064,10 +4106,10 @@ export namespace clue_data {
             "items": ["Ring of life", "Uncharged amulet of glory", "Adamant 2h sword"],
             "emotes": ["Dance"],
             "double_agent": true,
-            "area": {"topleft":{"x":3292,"y":2785},"botright":{"x":3297,"y":2782},"level":0},
+            "area": {"topleft": {"x": 3292, "y": 2785}, "botright": {"x": 3297, "y": 2782}, "level": 0},
             "hidey_hole": {
                 "name": "Crate (hidey-hole)",
-                "location": {"x":3310,"y":2784,"level":0}
+                "location": {"x": 3310, "y": 2784, "level": 0}
             }
         },
         {

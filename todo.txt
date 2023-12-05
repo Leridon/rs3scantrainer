@@ -1,8 +1,5 @@
 Immediate next:
 
-- Data
-    - Move clue data into the new, more detailed format
-
 - Theorycrafter
     - Search
     - Fix new filter
@@ -10,6 +7,7 @@ Immediate next:
     - Editor for generic path methods
     - Visual feedback for successful change.
         - Track changes and disable when no changes exist?
+    - "Save to pack" modal
 
 - Menu Bar
     - Highlight currently active
@@ -28,6 +26,7 @@ Immediate next:
 - General
     - [Styling] ControlHeader title and X are not properly aligned
     - Clean up cursor on map
+    - Fix dumb layouting of properties
 
 - Shortcut editor/View
     - [Bug] Actually disable editing for builtins

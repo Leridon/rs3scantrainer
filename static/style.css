@@ -1305,7 +1305,7 @@ input[type=checkbox] + span {
     cursor: pointer;
 }
 
-.ctr-lightbutton:not(.enabled){
+.ctr-lightbutton:not(.enabled) {
     cursor: not-allowed;
 }
 
@@ -1338,4 +1338,41 @@ input[type=checkbox] + span {
 
 .ctr-pack-widget-pack-header > span {
     font-style: italic;
+}
+
+.nisl-modal {
+    border-radius: 10px;
+    border: 2px solid rgb(43, 58, 67);
+}
+
+.nisl-modal-header {
+    color: #FFCB05FF;
+    background: #23323B80;
+    font-family: 'trajan-pro-3', serif;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px #ECC622;
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.5rem;
+}
+
+.nisl-modal-title {
+    margin-bottom: 0;
+    font-size: 1.25rem !important;
+}
+
+.nisl-modal-exit {
+    background-image: url("assets/icons/exit.png");
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+}
+
+.nisl-modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 0.5rem;
 }

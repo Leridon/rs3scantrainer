@@ -17,36 +17,44 @@ export default class PackWidget extends Widget {
 
     private name_span: Widget
 
-    constructor(pack: Pack,
+    constructor(public pack: Pack,
                 manager: MethodPackManager,
-                mode: "edit" | "view" = "edit"
+                customization: {
+                    mode: "edit" | "view",
+                    buttons?: boolean,
+                    collapsible?: boolean
+                }
     ) {
         super();
 
         this.addClass("ctr-pack-widget")
 
-        if (pack.type == "default" || pack.type == "imported") mode = "view"
+        if (pack.type == "default" || pack.type == "imported") customization.mode = "view"
 
-        this.append(
-            hbox(
-                span("Pack: "),
-                this.name_span = span(pack.name),
-                spacer(),
-                span("+")
-            ).addClass("ctr-pack-widget-header")
-                .tooltip(pack.local_id)
-                .tapRaw(r => r.on("click", () => {
-                    body.container.animate({
-                        "height": "toggle"
-                    }, 100)
-                }))
-        )
+        let header = hbox(
+            span("Pack: "),
+            this.name_span = span(pack.name),
+            spacer(),
+            span("+")
+        ).addClass("ctr-pack-widget-header")
+            .tooltip(pack.local_id)
+            .appendTo(this)
+
 
         let body = new Properties().appendTo(this)
             .addClass("ctr-pack-widget-body")
-            .css("display", "none")
 
-        switch (mode) {
+        if (customization.collapsible) {
+            header.tapRaw(r => r.on("click", () => {
+                body.container.animate({
+                    "height": "toggle"
+                }, 100)
+            }))
+
+            body.css("display", "none")
+        }
+
+        switch (customization.mode) {
             case "edit":
                 body.named("Name", new TextField().setValue(pack.name)
                     .onChange((v) => this.name_span.text(v.value))
@@ -75,24 +83,26 @@ export default class PackWidget extends Widget {
 
         body.row(span(`Contains ${pack.methods.length} methods`))
 
-        body.row(hbox(
-            new LightButton("Clone", "rectangle")
-                .onClick(() => {
-                    let copy = lodash.cloneDeep(pack)
+        if (customization.buttons) {
+            body.row(hbox(
+                new LightButton("Clone", "rectangle")
+                    .onClick(() => {
+                        let copy = lodash.cloneDeep(pack)
 
-                    copy.name = `Cloned ${pack.name}`
+                        copy.name = `Cloned ${pack.name}`
 
-                    manager.create(copy)
-                }),
-            new LightButton("Delete", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
-                .onClick(() => manager.deletePack(pack)),
-            new LightButton("Export", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
-                .onClick(() => {
-                    ExportStringModal.do(exp({type: "method-pack", version: 1},
-                        true,
-                        true
-                    )(pack))
-                }),
-        ).addClass("ctr-button-container"))
+                        manager.create(copy)
+                    }),
+                new LightButton("Delete", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
+                    .onClick(() => manager.deletePack(pack)),
+                new LightButton("Export", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
+                    .onClick(() => {
+                        ExportStringModal.do(exp({type: "method-pack", version: 1},
+                            true,
+                            true
+                        )(pack))
+                    }),
+            ).addClass("ctr-button-container"))
+        }
     }
 }

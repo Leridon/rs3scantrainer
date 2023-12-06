@@ -1328,6 +1328,13 @@ input[type=checkbox] + span {
     margin-bottom: 5px;
 }
 
+.ctr-pack-widget.inactive {
+    background-color: #1b364d;
+    color: grey;
+    filter: saturate(0.5);
+    border: 1px solid grey;
+}
+
 .ctr-pack-widget-header > span {
     font-style: italic;
 }

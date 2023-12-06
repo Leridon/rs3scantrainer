@@ -36,14 +36,14 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         h(2, "Default Packs").appendTo(this.body)
         grouped["default"].forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods).appendTo(this.body)
+            new PackWidget(p, this.theorycrafter.app.methods, {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         h(2, "Imported Packs").appendTo(this.body)
         let imported = grouped["imported"] || []
 
         imported.forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods).appendTo(this.body)
+            new PackWidget(p, this.theorycrafter.app.methods, {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (imported.length == 0) {
@@ -62,7 +62,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
         h(2, "Local Packs").appendTo(this.body)
 
         locals.forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods).appendTo(this.body)
+            new PackWidget(p, this.theorycrafter.app.methods, {mode: "edit", buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (locals.length == 0) {

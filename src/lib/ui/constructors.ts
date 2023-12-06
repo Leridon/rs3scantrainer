@@ -1,8 +1,6 @@
 import Widget from "./Widget";
 
 export namespace C {
-
-
     export function create(s: string): Widget {
         return c(s)
     }

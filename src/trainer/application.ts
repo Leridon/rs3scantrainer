@@ -19,10 +19,6 @@ import Widget from "../lib/ui/Widget";
 import TheoryCrafter from "./ui/theorycrafting/TheoryCrafter";
 import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
-import NisModal from "../lib/ui/NisModal";
-import {C} from "../lib/ui/constructors";
-import span = C.span;
-
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
@@ -291,14 +287,6 @@ export class Application extends Behaviour {
 
         if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
         if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
-
-        let m = new NisModal()
-
-        m.title.set("I am a Modal")
-
-        m.body.append(span("Hello World!"))
-
-        await m.show()
 
         //ExportStringModal.do(await makeshift_main())
         await makeshift_main()

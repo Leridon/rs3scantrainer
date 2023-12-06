@@ -162,6 +162,8 @@ export class MethodPackManager {
 
         f(pack)
 
+        pack.timestamp = timestamp()
+
         this.save()
     }
 
@@ -172,6 +174,8 @@ export class MethodPackManager {
 
         pack.methods[i] = method.method
 
+        method.method.timestamp = pack.timestamp = timestamp()
+
         this.save()
     }
 
@@ -179,6 +183,8 @@ export class MethodPackManager {
         let pack = this.local_packs.find(p => p.type == "local" && p.local_id == method.pack.local_id)
 
         pack.methods.push(method.method)
+
+        pack.timestamp = timestamp()
 
         this.save()
     }
@@ -189,6 +195,8 @@ export class MethodPackManager {
         let i = pack.methods.findIndex(m => m.id == method.method.id)
 
         pack.methods.splice(i, 1)
+
+        pack.timestamp = timestamp()
 
         this.save()
     }

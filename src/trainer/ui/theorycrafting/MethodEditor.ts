@@ -17,6 +17,7 @@ import {Clues} from "../../../lib/runescape/clues";
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import MethodSubEditor from "./MethodSubEditor";
 import LightButton from "../widgets/LightButton";
+import SaveInPack from "./SaveInPack";
 
 class MethodEditSideBar extends MapSideBar {
     constructor(parent: MethodEditor) {
@@ -33,6 +34,7 @@ class MethodEditSideBar extends MapSideBar {
         } else {
             hbox(
                 new LightButton("Select Pack and Save", "rectangle")
+                    .onClick(() => new SaveInPack(parent.method, parent.app.methods).show())
             ).appendTo(this.body).addClass("ctr-button-container")
         }
 

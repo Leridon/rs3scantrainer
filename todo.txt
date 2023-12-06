@@ -8,6 +8,9 @@ Immediate next:
     - Visual feedback for successful change.
         - Track changes and disable when no changes exist?
     - "Save to pack" modal
+        - "Create new" option
+        - Better footer buttons
+    - Update Save buttons when "Select pack and Save" is completed
 
 - Menu Bar
     - Highlight currently active

@@ -15,6 +15,8 @@ export default class SaveInPack extends NisModal {
 
     save_button: Button
 
+    private saved_in: Pack = null
+
     constructor(private method: AugmentedMethod, private packs: MethodPackManager) {
         super({footer: true});
 
@@ -52,6 +54,8 @@ export default class SaveInPack extends NisModal {
                 this.save_button = new LightButton("Save").onClick(() => {
                     this.packs.updatePack(this.active.value(), p => p.methods.push(this.method.method))
 
+                    this.saved_in = this.active.value()
+
                     this.remove()
                 }),
                 new LightButton("Cancel")
@@ -59,5 +63,15 @@ export default class SaveInPack extends NisModal {
             )
         )
 
+    }
+
+    do(): Promise<Pack | null> {
+        this.show()
+
+        return new Promise((resolve) => {
+            this.hidden.on(() => {
+                resolve(this.saved_in)
+            })
+        })
     }
 }

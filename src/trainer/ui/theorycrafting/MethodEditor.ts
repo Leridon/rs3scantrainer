@@ -6,37 +6,29 @@ import Properties from "../widgets/Properties";
 import TextField from "../../../lib/ui/controls/TextField";
 import TextArea from "../../../lib/ui/controls/TextArea";
 import {C} from "../../../lib/ui/constructors";
-import vbox = C.vbox;
-import hbox = C.hbox;
 import Checkbox from "../../../lib/ui/controls/Checkbox";
-import span = C.span;
 import ScanEditor from "../scanedit/ScanEditor";
 import {SolvingMethods} from "../../model/methods";
-import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {Clues} from "../../../lib/runescape/clues";
-import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import MethodSubEditor from "./MethodSubEditor";
 import LightButton from "../widgets/LightButton";
 import SaveInPack from "./SaveInPack";
+import Widget from "../../../lib/ui/Widget";
+import vbox = C.vbox;
+import hbox = C.hbox;
+import span = C.span;
+import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
+import ClueAssumptions = SolvingMethods.ClueAssumptions;
 
 class MethodEditSideBar extends MapSideBar {
-    constructor(parent: MethodEditor) {
+    save_row: Widget
+
+    constructor(private parent: MethodEditor) {
         super("Method Editor");
 
-        if (parent.method.pack) {
-            hbox(
-                new LightButton(`Save in ${parent.method.pack.name}`, "rectangle")
-                    .onClick(() => {
-                        parent.app.methods.updateMethod(parent.method)
-                    }),
-                new LightButton("Save Copy", "rectangle")
-            ).appendTo(this.body).addClass("ctr-button-container")
-        } else {
-            hbox(
-                new LightButton("Select Pack and Save", "rectangle")
-                    .onClick(() => new SaveInPack(parent.method, parent.app.methods).show())
-            ).appendTo(this.body).addClass("ctr-button-container")
-        }
+        this.save_row = hbox().appendTo(this.body).addClass("ctr-button-container")
+
+        this.renderSaveRow()
 
 
         this.header.close_handler.set(() => parent.stop())
@@ -80,6 +72,29 @@ class MethodEditSideBar extends MapSideBar {
         ))
 
         this.body.append(props)
+    }
+
+    renderSaveRow() {
+        this.save_row.empty()
+
+        if (this.parent.method.pack) {
+            this.save_row.append(
+                new LightButton(`Save in ${this.parent.method.pack.name}`, "rectangle")
+                    .onClick(() => {
+                        this.parent.app.methods.updateMethod(this.parent.method)
+                    }),
+                new LightButton("Save Copy", "rectangle")
+            )
+        } else {
+            this.save_row.append(
+                new LightButton("Select Pack and Save", "rectangle")
+                    .onClick(async () => {
+                        this.parent.method.pack = await new SaveInPack(this.parent.method, this.parent.app.methods).do()
+
+                        this.renderSaveRow()
+                    })
+            )
+        }
     }
 }
 

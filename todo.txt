@@ -1,8 +1,12 @@
 Planned for next release (b0.4):
 
 - Theorycrafter
-    - Search
-    - Fix new filter
+    - Filter
+        - Method Pack
+            - Update on change in set
+            - At least one, None
+        - Search
+        - Styling
     - [Bug] Degree symbol bugs out in tooltip
     - Editor for generic path methods
     - Visual feedback for successful change.
@@ -10,16 +14,33 @@ Planned for next release (b0.4):
     - "Save to pack" modal
         - "Create new" option
         - Better footer buttons
+            - Unlock cosmetic, Redeem lamp for more styling options
+
+- Notification Bar
+    - Temporary/Fixed notifications on top of screen.
+        - Yellow?
+        - Different Categories?
+        - Full width or only in center?
+        - Fade after x seconds
+        - Closeable
+        -"Add to Alt 1" action button
 
 - Menu Bar
     - Highlight currently active
-    - Disable when active to prevent unnecessary reloading
 
 - Solving Behaviour
     - Search Bar
     - Solve, Autosolve
     - Multiple Methods, Preferences
     - Integrate scan tree as map control instead of sidebar
+    - Solving
+        - Make fit include the entire path
+        - Better render of in-route teleports
+        - Run graphics are bad on snow background
+        - Spacing in the tree view is bad
+        - Don't fit to origin of teleport
+        - Adjust range polygon colors to ingame colors of pulses
+        - Replace buttons with pulse icons
 
 - Settings Modal
     - Map Settings: Teleport Preferences
@@ -27,6 +48,7 @@ Planned for next release (b0.4):
 
 - General
     - [Styling] ControlHeader title and X are not properly aligned
+        - Check modal for how to do it
     - Clean up cursor on map
     - Fix dumb layouting of properties
     - "Add to Alt1 button" at the top when in browser
@@ -64,14 +86,10 @@ Planned for next release (b0.4):
     - [Bug] Path Editor throws an exception when start_state is undefined
     - Add a way to make it not closeable by the user
 
-- Solving
-    - Make fit include the entire path
-    - Better render of in-route teleports
-    - Run graphics are bad on snow background
-    - Spacing in the tree view is bad
-    - Don't fit to origin of teleport
-    - Adjust range polygon colors to ingame colors of pulses
-    - Replace buttons with pulse icons
+- Data Model
+    - Skilling Clue locations
+    - Sandy clues
+    - Membership only
 
 - Content
     ✓ Fremmenik Isles

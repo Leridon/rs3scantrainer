@@ -43,7 +43,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
         return this
     }
 
-    append(...widget: (Widget | JQuery)[]): this {
+    append(...widget: (Widget | JQuery | string)[]): this {
         widget.forEach(w => {
             if (!w) return
             if (w instanceof Widget) w = w.container

@@ -1444,3 +1444,53 @@ input[type=checkbox] + span {
 .nisl-big-button.enabled.nisl-big-button-neutral > .background {
     background: linear-gradient(to bottom, #2cb5ec, #05649d);
 }
+
+
+/* Notification Bar */
+
+.ctr-notification-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    text-align: center;
+}
+
+.ctr-notification-bar > .ctr-notification:not(:first-child) {
+    border-top: 1px solid grey;
+}
+
+.ctr-notification-bar > .ctr-notification.ctr-notification-error {
+    background-color: #9C2F0FFF;
+}
+
+.ctr-notification-bar > .ctr-notification.ctr-notification-information {
+    background-color: #05649DFF;
+}
+
+.ctr-notification {
+    display: flex;
+    justify-content: center;
+}
+
+.ctr-notification-content {
+    max-width: 600px;
+    min-width: 600px;
+    display: flex;
+}
+
+.ctr-notification-dismiss {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.ctr-notification-link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: unset;
+}
+
+.ctr-notification-link:hover {
+    color: unset;
+}

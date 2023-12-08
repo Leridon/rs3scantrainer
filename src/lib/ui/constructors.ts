@@ -6,7 +6,7 @@ export namespace C {
     }
 
     export function hbox(...content: Widget[]): Widget {
-        return create("<div style='display: flex'></div>").append(...content)
+        return create("<div style='display: flex; justify-content: center'></div>").append(...content)
     }
 
     export function btnrow(...buttons: Widget[]): Widget {
@@ -35,5 +35,15 @@ export namespace C {
 
     export function h(level: 1 | 2 | 3 | 4 | 5, text: string): Widget {
         return create(`<h${level}>${text}</h${level}>`)
+    }
+
+    export function div(
+        ...content: (Widget | string)[]
+    ) {
+        return c().append(...content)
+    }
+
+    export function text_link(content: string, handler: () => any): Widget {
+        return c("<div class='link'>")
     }
 }

@@ -59,7 +59,7 @@ export default class SpotOverview extends Widget {
                 })
 
                 return c("<div class='row'>")
-                    .append(c("<div class='col-2' style='text-align: right'>").text(i + 1))
+                    .append(c("<div class='col-2' style='text-align: center'>").text(i + 1))
                     .append(c("<div class='col-6' style='text-align: center'>").text(TileCoordinates.toString(v)))
                     .append(timing)
             })

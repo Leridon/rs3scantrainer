@@ -9,6 +9,7 @@ import hboxc = C.hboxc;
 import centered = C.centered;
 import {observe} from "../../../lib/reactive";
 import ScanEditor from "./ScanEditor";
+import ButtonRow from "../../../lib/ui/ButtonRow";
 
 export default class ScanTools extends Widget {
     normal = observe(false)
@@ -19,7 +20,7 @@ export default class ScanTools extends Widget {
 
         centered(
             c("<div style='font-weight: bold'>Center On</div>"),
-            hbox(
+            new ButtonRow({align: "center", sizing: "100px", max_center_spacer_width: "20px"}).buttons(
                 new LightButton("Spots", "rectangle")
                     .onClick(() => {
                         let bounds = leaflet.latLngBounds([])

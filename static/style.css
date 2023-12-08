@@ -804,7 +804,7 @@ video {
 /** Properties**/
 
 .nisl-properties {
-    margin: 5px 3px;
+    /*margin: 5px 3px;*/
     font-family: monospace;
     display: grid;
     column-gap: 5px;
@@ -816,12 +816,18 @@ video {
     text-align: center;
     font-weight: bold;
     padding: 2px 3px;
+    width: 100%;
 }
 
 .nisl-property-row {
     grid-column: 1 / span 2;
     grid-row: auto;
     justify-self: center;
+    width: 100%;
+}
+
+.nisl-property-row > * {
+    width: 100%;
 }
 
 .nisl-property-name {

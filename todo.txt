@@ -38,7 +38,6 @@ Planned for next release (b0.4):
     - [Styling] ControlHeader title and X are not properly aligned
         - Check modal for how to do it
     - Clean up cursor on map
-    - Fix dumb layouting of properties
     - Remove old Modals
 
 - Shortcut editor/View

@@ -11,6 +11,7 @@ import h = C.h;
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {ExportImport} from "../../../lib/util/exportString";
 import imp = ExportImport.imp;
+import ButtonRow from "../../../lib/ui/ButtonRow";
 
 export default class TheoryCraftingSidebar extends MapSideBar {
 

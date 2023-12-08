@@ -113,7 +113,9 @@ class StepEditWidget extends Widget {
 
         value.issues.forEach((i) => new IssueWidget(i).appendTo(issues))
 
-        let props = new Properties().appendTo(this)
+        let props = new Properties().css2({
+            "padding": "3px"
+        }).appendTo(this)
 
         props.named("Detail",
             new TemplateStringEdit({

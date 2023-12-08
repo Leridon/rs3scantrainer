@@ -333,7 +333,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
             props.row(hbox(
                 span(`${ClueType.meta(self.clue.clue.tier).name} ${ClueType.meta(self.clue.clue.type).name} Step (Id ${self.clue.clue.id})`).css("font-weight", "bold"),
                 spacer().css("min-width", "30px"),
-                c(`<img class="icon" src='${self.clue.clue.tier ? Constants.icons.tiers[self.clue.clue.tier] : ""}' title="${ClueType.pretty(self.clue.clue.tier)}">`),
+                c(`<img class="icon" src='${self.clue.clue.tier ? Constants.icons.tiers[self.clue.clue.tier] : ""}' title="${ClueType.pretty(self.clue.clue.tier)}" style="margin-right: 3px">`),
                 c(`<img class="icon" src='${Constants.icons.types[self.clue.clue.type]}' title="${ClueType.pretty(self.clue.clue.type)}">`))
             )
 
@@ -380,13 +380,13 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                     break
                 case "map":
                     props.row(
-                        c(`<div style="text-align: center"><img src="${self.clue.clue.image_url}" style="height: 150px; width: auto"></div>`)
+                        c(`<div style="text-align: center"><img src="${self.clue.clue.image_url}" style="height: 180px; width: auto"></div>`)
                     )
                     props.named("Transcript", c().text(self.clue.clue.text[0]))
                     renderSolution(props, self.clue.clue.solution)
                     break
                 case "emote":
-                    props.named("Text", c().text(self.clue.clue.text[0]))
+                    props.named("Text", c().text(self.clue.clue.text[0]).css("font-style", "italic"))
                     props.named("Equip", c().text(natural_join(self.clue.clue.items, "and")))
 
                     if (self.clue.clue.emotes.length > 1)
@@ -447,7 +447,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 })
             })).addClass("ctr-button-container"))
 
-            return c("<div style='background: rgb(10, 31, 41); border: 1px solid white; width: 400px'></div>").append(props)
+            return c("<div style='background: rgb(10, 31, 41); border: 1px solid grey; width: 400px; padding: 5px'></div>").append(props)
 
         }
 
@@ -483,8 +483,6 @@ export default class OverviewLayer extends GameLayer {
 
     constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
         super();
-
-        this.add(new UtilityLayer())
 
         this.filter_control = new FilterControl(app.methods).addTo(this)
 

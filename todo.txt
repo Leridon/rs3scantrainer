@@ -7,24 +7,14 @@ Planned for next release (b0.4):
             - At least one, None
         - Search
         - Styling
-    - [Bug] Degree symbol bugs out in tooltip
     - Editor for generic path methods
-    - Visual feedback for successful save.
-        - Track changes and disable when no changes exist?
+    - [Bug] Degree symbol bugs out in tooltip
     - "Save to pack" modal
         - "Create new" option
 
-- Notification Bar
-    - Temporary/Fixed notifications on top of screen.
-        - Yellow?
-        - Different Categories?
-        - Full width or only in center?
-        - Fade after x seconds
-        - Closeable
-        -"Add to Alt 1" action button
-
 - Menu Bar
     - Highlight currently active
+    - Add to Alt 1 entry when not in Alt1
 
 - Solving Behaviour
     - Search Bar
@@ -49,7 +39,6 @@ Planned for next release (b0.4):
         - Check modal for how to do it
     - Clean up cursor on map
     - Fix dumb layouting of properties
-    - "Add to Alt1 button" at the top when in browser
     - Remove old Modals
 
 - Shortcut editor/View
@@ -88,7 +77,7 @@ Planned for next release (b0.4):
 - Data Model
     - Skilling Clue locations
     - Sandy clues
-    - Membership only
+        - Membership only
 
 - Content
     ✓ Fremmenik Isles
@@ -160,25 +149,3 @@ Unscheduled (Far future):
 - Figure out z-Ordering of layers (need to use custom panes maybe)
 - Google Maps like layout for a slimmer experience? Make the map be the center of everything
 - Landing areas for non-static teleports, show better metadata on tooltip/hover
-
-
-
-
-
-Bugs you would most like to see addressed.
-1.    The clientside prediction of tower puzzles on master clues desyncs from the actual serverside state when clicking VERY fast (use Alt 1 to reproduce).
-2.    Some tiles at the ground floor of wizards tower look walkable but are blocked near the bookshelves/pillars. Weird pathing because of that.
-3.    Teleport tablets play two animations (breaking the tablet and the custom animation set by the player), so they take longer than they should.
-4.    On certain teleports (Fairy Rings and Lodestones) there is a very noticeable delay before you are able to move (or do anything, even interacting with/reordering the inventory), which should not be there.
-
-Tweaks to existing content in the game today.
-1.    Add keybinds to the charter ship interface (like spirit trees already have)
-2.    Make portable fairy rings/spirit trees work like teletablets (Stackable, single use items). Easier to work with, bank-preset friendlier, saves inventory and bank space. Keep the same balance by creating 10 single use items for the same cost as a 10-use item costs now.
-3.    Make dragon trinkets use the standard teleport interface (from teleport jewellry).
-4.   Make the teleports of skilling outfits work with just the headpiece and make them and teleports from slayer masks not have a daily limit. They are unreliable to use as they are now.
-
-Issues that break you out of your game experience
-1.    The current number of banking presets as well as action bar presets (18 and 15 respectively) limits the ability to engage in lots of different content because you constantly have to juggle presets around/save them as screenshots externally, which breaks the game experience. Increase them by a generous amount, ideally to 30+. Bonus Points for allowing players to choose custom names for presets instead of having to choose from a pre-determined set of names.
-2.    Allow faster/easier switching between cape perks active in the max cape. Switching capes at the moment makes switching between content that needs different cape setups miserable.
-3.    Add presets for action bar binding setups (i.e. “switch bar x to preset y when equipping style z”) so you can quickly change the setup when switching between manual and revolution combat content.
-4.    The fact that switching relic powers costs chronotes discourages players from doing content, where a different relic setup is required (not only to be optimal, but to be viable at all). Probably too large in scope, but I suggest rebalancing them so chronotes are not consumed on switch but when they are actually used (such as 1 chronote per teleport with abyssal link, 10 per ultimate with conservation of energy etc).

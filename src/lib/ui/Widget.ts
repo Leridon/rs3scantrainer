@@ -1,7 +1,7 @@
 import * as tippy from 'tippy.js';
 
 
-export default class Widget {
+export default class Widget<T extends HTMLElement = HTMLElement> {
     public container: JQuery
 
     constructor(init: JQuery | Widget = $("<div>")) {
@@ -18,8 +18,8 @@ export default class Widget {
         return this
     }
 
-    raw(): HTMLElement {
-        return this.container.get()[0]
+    raw(): T {
+        return this.container.get()[0] as T
     }
 
     empty(): this {
@@ -145,6 +145,16 @@ export default class Widget {
 
     setInnerHtml(html: string): this {
         this.container.html(html)
+        return this
+    }
+
+    on<TType extends string>(
+        events: TType,
+        handler:
+            | JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, TType>
+            | false,
+    ): this {
+        this.container.on(events, handler)
         return this
     }
 }

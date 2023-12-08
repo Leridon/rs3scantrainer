@@ -171,7 +171,9 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
 
                 new LightButton("Import", "rectangle")
                     .onClick(async () => {
-                        this.editor.value.load(await ImportStringModal.do((s) => Path.import_path(s)))
+                        await ImportStringModal.do((s) => Path.import_path(s), (value) => {
+                            this.editor.value.load(value)
+                        })
                     }),
 
                 new LightButton("Share", "rectangle")

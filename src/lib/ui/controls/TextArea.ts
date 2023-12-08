@@ -1,11 +1,16 @@
 import AbstractEditWidget from "trainer/ui/widgets/AbstractEditWidget";
 
-export default class TextArea extends AbstractEditWidget<string> {
-    constructor() {
+export default class TextArea extends AbstractEditWidget<string, HTMLTextAreaElement> {
+    constructor(customization: {
+        readonly?: boolean,
+        placeholder?: string
+    } = {}) {
         super($("<textarea class='nisinput'>"));
 
-        this.container
-            .val(this.get())
+        this.raw().readOnly = !!customization.readonly
+        this.raw().placeholder = customization.placeholder || ""
+
+        this
             .on("input", () => {
                 this.preview(this.container.val() as string)
             })
@@ -14,7 +19,7 @@ export default class TextArea extends AbstractEditWidget<string> {
             })
     }
 
-    setEnabled(v: boolean) : this {
+    setEnabled(v: boolean): this {
         this.container.prop("disabled", !v)
         return this
     }

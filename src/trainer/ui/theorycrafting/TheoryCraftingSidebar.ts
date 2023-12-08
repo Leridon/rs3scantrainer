@@ -52,8 +52,10 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         btnrow(
             new LightButton("Import", "rectangle")
-                .onClick(async () => {
-                    await this.methods.import(await ImportStringModal.do<Pack>(imp({expected_type: "method-pack", expected_version: 1})))
+                .onClick(() => {
+                    ImportStringModal.do<Pack>(imp({expected_type: "method-pack", expected_version: 1}), (value) => {
+                        this.methods.import(value)
+                    })
                 })
         ).appendTo(this.body)
 

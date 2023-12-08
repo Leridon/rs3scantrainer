@@ -13,8 +13,6 @@ Planned for next release (b0.4):
         - Track changes and disable when no changes exist?
     - "Save to pack" modal
         - "Create new" option
-        - Better footer buttons
-            - Unlock cosmetic, Redeem lamp for more styling options
 
 - Notification Bar
     - Temporary/Fixed notifications on top of screen.
@@ -52,6 +50,7 @@ Planned for next release (b0.4):
     - Clean up cursor on map
     - Fix dumb layouting of properties
     - "Add to Alt1 button" at the top when in browser
+    - Remove old Modals
 
 - Shortcut editor/View
     - [Bug] Actually disable editing for builtins

@@ -5,7 +5,7 @@ import {Observable, observe} from "../../../lib/reactive";
 /**
  * This class encapsulates common functionality for widgets that are an editor for a value.
  */
-export default abstract class AbstractEditWidget<T> extends Widget {
+export default abstract class AbstractEditWidget<T, Element_T extends HTMLElement = HTMLElement> extends Widget<Element_T> {
     protected v: Observable<{
         committed: boolean,
         value: T

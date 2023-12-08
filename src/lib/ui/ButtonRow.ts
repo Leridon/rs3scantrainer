@@ -18,7 +18,7 @@ export default class ButtonRow extends Widget {
         })
     }
 
-    buttons(...buttons: Button[]): this {
+    buttons(...buttons: Widget[]): this {
         buttons.forEach(b => b.css("flex-basis", this.customization.sizing || "100%"))
         this.empty()
         if (buttons.length % 2 == 0 && this.customization.max_center_spacer_width) {

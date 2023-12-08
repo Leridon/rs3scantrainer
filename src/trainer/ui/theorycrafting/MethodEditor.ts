@@ -6,7 +6,6 @@ import Properties from "../widgets/Properties";
 import TextField from "../../../lib/ui/controls/TextField";
 import TextArea from "../../../lib/ui/controls/TextArea";
 import {C} from "../../../lib/ui/constructors";
-import Checkbox from "../../../lib/ui/controls/Checkbox";
 import ScanEditor from "../scanedit/ScanEditor";
 import {SolvingMethods} from "../../model/methods";
 import {Clues} from "../../../lib/runescape/clues";
@@ -19,6 +18,7 @@ import hbox = C.hbox;
 import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 
 class MethodEditSideBar extends MapSideBar {
     save_row: Widget
@@ -51,24 +51,24 @@ class MethodEditSideBar extends MapSideBar {
         }
 
         props.row(vbox(
-            hbox(new Checkbox().setValue(parent.method.method.assumptions.meerkats_active)
-                    .onCommit(v => updateAssumptions(a => a.meerkats_active = v))
-                , span("Meerkats")).css("justify-content", "left"),
-            hbox(new Checkbox().setValue(parent.method.method.assumptions.full_globetrotter)
-                    .onCommit(v => updateAssumptions(a => a.full_globetrotter = v))
-                , span("Full Globetrotter")).css("justify-content", "left"),
-            hbox(new Checkbox().setValue(parent.method.method.assumptions.way_of_the_footshaped_key)
-                    .onCommit(v => updateAssumptions(a => a.way_of_the_footshaped_key = v))
-                , span("Way of the foot-shaped key")).css("justify-content", "left"),
-            hbox(new Checkbox().setValue(parent.method.method.assumptions.double_surge)
-                    .onCommit(v => updateAssumptions(a => a.double_surge = v))
-                , span("Double Surge")).css("justify-content", "left"),
-            hbox(new Checkbox().setValue(parent.method.method.assumptions.double_escape)
-                    .onCommit(v => updateAssumptions(a => a.double_escape = v))
-                , span("Double Escape")).css("justify-content", "left"),
-            hbox(new Checkbox().setValue(parent.method.method.assumptions.mobile_perk)
-                    .onCommit(v => updateAssumptions(a => a.mobile_perk = v))
-                , span("Mobile Perk")).css("justify-content", "left"),
+            new Checkbox("Meerkats").setValue(parent.method.method.assumptions.meerkats_active)
+                .onCommit(v => updateAssumptions(a => a.meerkats_active = v))
+            ,
+            new Checkbox("Full Globetrotter").setValue(parent.method.method.assumptions.full_globetrotter)
+                .onCommit(v => updateAssumptions(a => a.full_globetrotter = v))
+            ,
+            new Checkbox("Way of the foot-shaped key").setValue(parent.method.method.assumptions.way_of_the_footshaped_key)
+                .onCommit(v => updateAssumptions(a => a.way_of_the_footshaped_key = v))
+            ,
+            new Checkbox("Double Surge").setValue(parent.method.method.assumptions.double_surge)
+                .onCommit(v => updateAssumptions(a => a.double_surge = v))
+            ,
+            new Checkbox("Double Escape").setValue(parent.method.method.assumptions.double_escape)
+                .onCommit(v => updateAssumptions(a => a.double_escape = v))
+            ,
+            new Checkbox("Mobile Perk").setValue(parent.method.method.assumptions.mobile_perk)
+                .onCommit(v => updateAssumptions(a => a.mobile_perk = v))
+            ,
         ))
 
         this.renderSaveRow()

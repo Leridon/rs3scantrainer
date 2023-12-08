@@ -35,12 +35,12 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         let grouped = lodash.groupBy(packs, p => p.type)
 
-        h(2, "Default Packs").appendTo(this.body)
+        h(2, "Default Method-Packs").appendTo(this.body)
         grouped["default"].forEach(p => {
             new PackWidget(p, this.theorycrafter.app.methods, {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
         })
 
-        h(2, "Imported Packs").appendTo(this.body)
+        h(2, "Imported Method-Packs").appendTo(this.body)
         let imported = grouped["imported"] || []
 
         imported.forEach(p => {
@@ -62,7 +62,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         let locals = grouped["local"] || []
 
-        h(2, "Local Packs").appendTo(this.body)
+        h(2, "Local Method-Packs").appendTo(this.body)
 
         locals.forEach(p => {
             new PackWidget(p, this.theorycrafter.app.methods, {mode: "edit", buttons: true, collapsible: true}).appendTo(this.body)

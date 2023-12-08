@@ -47,8 +47,8 @@ import DirectionSelect from "./DirectionSelect";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
-import Checkbox from "../../../lib/ui/controls/Checkbox";
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {

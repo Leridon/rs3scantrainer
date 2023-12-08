@@ -1,15 +1,14 @@
 import Widget from "lib/ui/Widget";
 import * as leaflet from "leaflet"
-import Checkbox from "lib/ui/controls/Checkbox";
 import LightButton from "../widgets/LightButton";
 import {Vector2} from "lib/math";
 import {C} from "../../../lib/ui/constructors";
-import hbox = C.hbox;
 import hboxc = C.hboxc;
 import centered = C.centered;
 import {observe} from "../../../lib/reactive";
 import ScanEditor from "./ScanEditor";
 import ButtonRow from "../../../lib/ui/ButtonRow";
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 
 export default class ScanTools extends Widget {
     normal = observe(false)
@@ -49,17 +48,12 @@ export default class ScanTools extends Widget {
             c("<div style='font-weight: bold'>Show Equivalence Classes</div>"),
 
             hboxc(
-                c("<div style='display: flex; padding-left: 5px'>")
-                    .append(new Checkbox().onCommit((v) => {
-                        this.normal.set(v)
-                    }))
-                    .append(c("<div class='col-4' style='margin-left: 5px'>Spots</div>")),
-
-                c("<div style='display: flex; padding-left: 5px'>")
-                    .append(new Checkbox().onCommit((v) => {
-                        this.complement.set(v)
-                    }).container)
-                    .append(c("<div class='col-4' style='margin-left: 5px'>Complement</div>"))
+                new Checkbox("Spots").onCommit((v) => {
+                    this.normal.set(v)
+                }),
+                new Checkbox("Complement").onCommit((v) => {
+                    this.complement.set(v)
+                })
             )
         ).appendTo(this)
     }

@@ -4,13 +4,11 @@ Planned for next release (b0.4):
     - Filter
         - Method Pack
             - Update on change in set
-            - At least one, None
         - Search
-        - Styling
-    - Editor for generic path methods
-    - [Bug] Degree symbol bugs out in tooltip
     - "Save to pack" modal
         - "Create new" option
+    - Editor for generic path methods
+    - [Bug] Degree symbol bugs out in tooltip
 
 - Menu Bar
     - Highlight currently active
@@ -35,10 +33,13 @@ Planned for next release (b0.4):
     - Local Method Packs
 
 - General
+    - [Bug] Checkbox seems to start with wrong state in some cases.
     - [Styling] ControlHeader title and X are not properly aligned
         - Check modal for how to do it
     - Clean up cursor on map
     - Remove old Modals
+        - About
+        - Patchnotes
 
 - Shortcut editor/View
     - [Bug] Actually disable editing for builtins
@@ -60,6 +61,7 @@ Planned for next release (b0.4):
     - [Bug] Focussing a leaf root causes an exception (in path editor probably)
     - [Bug] Closing the path editor does not unselect the active node
     - [Bug] Deselecting equivalence classes does not hide them
+    - [Bug] Changing meerkat assumption has not effect on scan range marker
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
 

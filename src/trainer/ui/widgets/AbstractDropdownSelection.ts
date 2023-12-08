@@ -199,8 +199,8 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         return this._dropdownpane
     }
 
-    onSelection(f: (v: T) => any): this {
-        this.selection.subscribe(f)
+    onSelection(f: (v: T) => any, trigger_now: boolean = false): this {
+        this.selection.subscribe(f, trigger_now)
         return this
     }
 }

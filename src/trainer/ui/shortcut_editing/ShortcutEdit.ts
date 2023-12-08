@@ -22,7 +22,6 @@ import {DrawOffset} from "./interactions/DrawOffset";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import {C} from "../../../lib/ui/constructors";
-import Checkbox from "../../../lib/ui/controls/Checkbox";
 import {direction} from "../../../lib/runescape/movement";
 import hbox = C.hbox;
 import span = C.span;
@@ -32,6 +31,7 @@ import {ShortcutViewLayer} from "./ShortcutView";
 import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
 import vbox = C.vbox;
 import * as assert from "assert";
+import { Checkbox } from "lib/ui/controls/Checkbox";
 
 export class ShortcutEdit extends Widget {
     private header: Widget

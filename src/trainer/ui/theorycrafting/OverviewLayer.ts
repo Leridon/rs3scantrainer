@@ -13,7 +13,7 @@ import span = C.span;
 import sitog = SmallImageButton.sitog;
 import {Observable, observe} from "../../../lib/reactive";
 import * as leaflet from "leaflet"
-import {ClueIndex, ClueSpotIndex} from "../../../data/ClueIndex";
+import {ClueSpotIndex} from "../../../data/ClueIndex";
 import Properties from "../widgets/Properties";
 import * as tippy from "tippy.js";
 import {floor_t, GieliCoordinates, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
@@ -25,7 +25,6 @@ import {AugmentedMethod, MethodPackManager, Pack} from "../../model/MethodPackMa
 import {Constants} from "../../constants";
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
-import UtilityLayer from "../map/UtilityLayer";
 import * as lodash from "lodash";
 import LightButton from "../widgets/LightButton";
 import {v4 as uuidv4} from 'uuid';
@@ -33,12 +32,14 @@ import {DropdownSelection} from "../widgets/DropdownSelection";
 import TextField from "../../../lib/ui/controls/TextField";
 import ClueSpot = Clues.ClueSpot;
 import {SolvingMethods} from "../../model/methods";
+import {Checkbox} from "lib/ui/controls/Checkbox";
 
 type FilterT = {
     tiers?: { [P in ClueTier]: boolean },
     types?: { [P in ClueType]: boolean },
     method_pack?: string,
-    method_mode?: "none" | "at_least_one"
+    method_mode?: "none" | "at_least_one",
+    search_term?: string
 }
 
 namespace FilterT {
@@ -156,7 +157,7 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
         this.content.body.append(props)
 
         if (this.methods) {
-            let specifics_container = hbox()
+            let specifics_container = hbox()//new ButtonRow({max_center_spacer_width: "100%", align: "center"})
 
             let selection = new DropdownSelection({
                     type_class: {
@@ -169,6 +170,10 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
                 },
                 await this.methods.all()
             )
+                .setValue(this.filter.value().method_pack
+                    ? await this.methods.getPack(this.filter.value().method_pack)
+                    : null
+                )
 
             props.named("Methods",
                 vbox(
@@ -181,16 +186,31 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
                 this.filter.update(f => f.method_pack = s?.local_id)
 
                 specifics_container.empty()
+
                 if (s) {
+                    let none: Checkbox = new Checkbox("None")
+                    let at_least_one: Checkbox = new Checkbox("At least one", "radio")
+
+                    new Checkbox.Group<"none" | "at_least_one">([
+                        {value: "none", button: none},
+                        {value: "at_least_one", button: at_least_one},
+                    ]).setValue(this.filter.value().method_mode || "at_least_one")
+                        .onChange(v => this.filter.update(f => f.method_mode = v))
+
                     specifics_container.append(
-                        span("None"),
-                        span("At least one")
+                        none,
+                        spacer(),
+                        at_least_one
                     )
                 }
-            })
+            }, true)
         }
 
-        props.named("Search", new TextField().setPlaceholder("Search"))
+        props.named("Search", new TextField().setPlaceholder("Search")
+            .onChange(v => {
+                this.filter.update(f => f.search_term = v.value)
+            })
+        )
     }
 }
 

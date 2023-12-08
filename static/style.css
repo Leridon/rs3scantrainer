@@ -1104,6 +1104,7 @@ video {
 }
 
 .gamemap-ui-control-default-styling {
+    cursor: default;
     background-color: rgb(10, 31, 41);
     border: 1px solid rgb(5, 56, 66);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
@@ -1481,4 +1482,52 @@ input[type=checkbox] + span {
 
 .ctr-notification-link:hover {
     color: unset;
+}
+
+/* Checkbox */
+
+.nisl-checkbox {
+    display: grid;
+    grid-template-columns: 1em auto auto;
+    gap: 0.5em;
+    padding: 3px;
+}
+
+.nisl-checkbox-box.checked {
+    /* background-color: #f3c450;*/
+}
+
+.nisl-checkbox-box {
+    position: relative;
+    margin: 4px 0;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    background-color: #191717;
+    border: 2px solid #38515e;
+}
+
+.nisl-checkbox-box > .nisl-checkbox-checkmark {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 12px;
+    height: 12px;
+}
+
+.nisl-checkbox-box.checked > .nisl-checkbox-checkmark {
+    background-image: url("assets/nis/checkmark.png");
+}
+.nisl-checkbox-box.nisl-checkbox-radio.checked > .nisl-checkbox-checkmark {
+    background-image: url("assets/nis/radiocheck.png");
+}
+
+.nisl-checkbox-box:not(.checked) > .nisl-checkbox-checkmark {
+    display: none;
+}
+
+.nisl-checkbox-radio {
+    border-radius: 50%;
 }

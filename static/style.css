@@ -445,20 +445,6 @@ video {
     margin-right: 0.5em;
 }
 
-.properties > .row {
-    margin-top: 5px;
-}
-
-.properties > .head {
-    margin-top: 5px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.property {
-    font-weight: bold;
-}
-
 #curtain {
     background: url("assets/nis/background.png");
 }
@@ -575,11 +561,11 @@ video {
     display: flex;
     justify-content: center;
     line-height: 20px;
+    padding: 3px;
 }
 
-.path-step-edit-widget-control-row > div {
-    margin-left: 3px;
-    margin-right: 3px;
+.path-step-edit-widget-control-row > div:not(:last-child) {
+    margin-right: 6px;
 }
 
 .step-edit-component:not(:first-child) {
@@ -818,44 +804,40 @@ video {
 /** Properties**/
 
 .nisl-properties {
+    margin: 5px 3px;
     font-family: monospace;
+    display: grid;
+    column-gap: 5px;
+    row-gap: 2px;
+    grid-template-columns: [name] min-content [content] 1fr;
 }
 
 .nisl-property-header {
     text-align: center;
     font-weight: bold;
-    margin: 2px 3px;
+    padding: 2px 3px;
+}
+
+.nisl-property-row {
+    grid-column: 1 / span 2;
+    grid-row: auto;
+    justify-self: center;
 }
 
 .nisl-property-name {
-    flex: 0 0 auto;
-    width: 22%;
+    grid-column: 1;
+    grid-row: auto;
     font-weight: bold;
     text-align: left;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
 }
 
 .nisl-property-content {
-    flex: 0 0 auto;
-    width: 78%;
-    display: flex;
+    grid-column: 2;
+    grid-row: auto;
 }
 
 .nisl-property-content > * {
     width: 100%;
-}
-
-.nisl-property-row {
-    display: flex;
-    margin: 2px 3px;
-}
-
-/*Why do I even need this? Shouldn't flexbox contents auto fill the row if there is no other size limit?*/
-.nisl-property-standalone-row > * {
-    flex: 1;
 }
 
 /** Dropdown select **/

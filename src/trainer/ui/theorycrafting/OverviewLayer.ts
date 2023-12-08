@@ -177,7 +177,7 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
                 )
             )
 
-            selection.on("selection_changed", s => {
+            selection.onSelection(s => {
                 this.filter.update(f => f.method_pack = s?.local_id)
 
                 specifics_container.empty()

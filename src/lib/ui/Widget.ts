@@ -1,13 +1,10 @@
-import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as tippy from 'tippy.js';
 
 
-export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
+export default class Widget {
     public container: JQuery
 
     constructor(init: JQuery | Widget = $("<div>")) {
-        super()
-
         if (init instanceof Widget) this.container = init.container
         else if (!init) this.container = $("<div>")
         else this.container = init
@@ -97,10 +94,10 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    static wrap<T extends Record<string, any> = {}>(jquery: JQuery | string): Widget<T> {
+    static wrap(jquery: JQuery | string): Widget {
         if (typeof jquery == "string") jquery = $(jquery)
 
-        return new Widget<T>(jquery)
+        return new Widget(jquery)
     }
 
     text(text: string | number): this {

@@ -11,7 +11,6 @@ export namespace C {
 
     export function btnrow(...buttons: Widget[]): Widget {
         return create("<div style='display: flex' class='ctr-button-container'></div>").append(...buttons)
-
     }
 
     export function hboxc(...content: Widget[]): Widget {

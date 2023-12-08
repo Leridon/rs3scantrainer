@@ -170,7 +170,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Action", new InteractionSelect()
                     .setValue(value.raw.how)
-                    .on("selection_changed", how => {
+                    .onSelection(how => {
                         this.value.update((v) => {
                             assert(v.raw.type == "redclick")
                             v.raw.how = how
@@ -317,7 +317,7 @@ class StepEditWidget extends Widget {
             case "orientation":
                 props.named("Facing", new DirectionSelect()
                     .setValue(value.raw.direction)
-                    .on("selection_changed", dir => {
+                    .onSelection(dir => {
                         this.value.update((v) => {
                             assert(v.raw.type == "orientation")
                             v.raw.direction = dir
@@ -330,7 +330,7 @@ class StepEditWidget extends Widget {
                 let current = Teleports.find(teleport_data.getAllFlattened(), value.raw.id)
 
                 props.named("Teleport", new TeleportSelect().setValue(current)
-                    .on("selection_changed", tele =>
+                    .onSelection(tele =>
                         this.value.update((v) => {
                             assert(v.raw.type == "teleport")
                             v.raw.id = tele.id

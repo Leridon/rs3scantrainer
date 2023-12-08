@@ -391,7 +391,7 @@ export namespace GameMap {
     }
 }
 
-export class GameMapWidget extends Widget<{}> {
+export class GameMapWidget extends Widget {
     map: GameMap
 
     constructor(container: JQuery) {

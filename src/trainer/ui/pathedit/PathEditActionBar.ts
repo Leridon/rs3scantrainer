@@ -15,7 +15,7 @@ import surge_cooldown = Path.movement_state.surge_cooldown;
 import escape_cooldown = Path.movement_state.escape_cooldown;
 import barge_cooldown = Path.movement_state.barge_cooldown;
 import dive_cooldown = Path.movement_state.dive_cooldown;
-import Collapsible from "../widgets/modals/Collapsible";
+import Collapsible from "../widgets/Collapsible";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";

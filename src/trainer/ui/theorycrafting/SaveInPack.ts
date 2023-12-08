@@ -1,12 +1,12 @@
 import NisModal from "../../../lib/ui/NisModal";
 import {AugmentedMethod, MethodPackManager, Pack} from "../../model/MethodPackManager";
 import PackWidget from "./PackWidget";
-import LightButton from "../widgets/LightButton";
-import {C} from "../../../lib/ui/constructors";
-import btnrow = C.btnrow;
 import {Observable, observe} from "../../../lib/reactive";
 import * as lodash from "lodash";
 import Button from "../../../lib/ui/controls/Button";
+import BigNisButton from "../widgets/BigNisButton";
+
+import ButtonRow from "../../../lib/ui/ButtonRow";
 
 export default class SaveInPack extends NisModal {
     private pack_widgets: PackWidget[]
@@ -50,17 +50,18 @@ export default class SaveInPack extends NisModal {
         })
 
         this.footer.append(
-            btnrow(
-                this.save_button = new LightButton("Save").onClick(() => {
-                    this.packs.updatePack(this.active.value(), p => p.methods.push(this.method.method))
+            new ButtonRow({align: "center", sizing: "100px", max_center_spacer_width: "100px"})
+                .buttons(
+                    new BigNisButton("Cancel", "cancel")
+                        .onClick(() => this.remove()),
+                    this.save_button = new BigNisButton("Save", "confirm").onClick(() => {
+                        this.packs.updatePack(this.active.value(), p => p.methods.push(this.method.method))
 
-                    this.saved_in = this.active.value()
+                        this.saved_in = this.active.value()
 
-                    this.remove()
-                }),
-                new LightButton("Cancel")
-                    .onClick(() => this.remove())
-            )
+                        this.remove()
+                    }),
+                )
         )
 
     }

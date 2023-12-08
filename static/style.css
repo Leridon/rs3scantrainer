@@ -694,7 +694,6 @@ video {
 
 .ctr-button-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -1347,9 +1346,15 @@ input[type=checkbox] + span {
     font-style: italic;
 }
 
+
 .nisl-modal {
     border-radius: 10px;
     border: 2px solid rgb(43, 58, 67);
+}
+
+.nisl-modal-footer {
+    background: rgba(35, 50, 59, 0.125);
+    border-top: 1px solid rgb(43, 58, 67);
 }
 
 .nisl-modal-header {
@@ -1358,6 +1363,7 @@ input[type=checkbox] + span {
     font-family: 'trajan-pro-3', serif;
     font-size: 2em;
     text-shadow: 1px 1px 1px #ECC622;
+    border-bottom: 1px solid rgb(43, 58, 67);
 
     display: flex;
     flex-shrink: 0;
@@ -1382,4 +1388,59 @@ input[type=checkbox] + span {
     position: relative;
     flex: 1 1 auto;
     padding: 0.5rem;
+}
+
+/* Big Nis Button */
+
+.nisl-big-button {
+    border-radius: 3px;
+    font-family: 'trajan-pro-3', serif;
+    /*text-shadow: 1px 1px 2px #ECC622;*/
+    padding: 0 12px;
+    height: 24px;
+    position: relative;
+    margin: 5px;
+}
+
+.nisl-big-button > .content {
+    font-size: 14px;
+    color: #00000A;
+    line-height: 24px;
+    text-align: center;
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.nisl-big-button > .background {
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 100%;
+}
+
+.nisl-big-button.enabled:hover > .background {
+    filter: brightness(1.2);
+}
+
+.nisl-big-button:not(.enabled) > .background {
+    background: linear-gradient(to bottom, #a49c87ff, #5f5648ff);
+}
+
+.nisl-big-button.enabled.nisl-big-button-confirm > .background {
+    background: linear-gradient(to bottom, #fad54e, #ce720a);
+}
+
+.nisl-big-button.enabled.nisl-big-button-cancel > .background {
+    background: linear-gradient(to bottom, #c95921, #9c2f0f);
+}
+
+.nisl-big-button.enabled.nisl-big-button-neutral > .background {
+    background: linear-gradient(to bottom, #2cb5ec, #05649d);
 }

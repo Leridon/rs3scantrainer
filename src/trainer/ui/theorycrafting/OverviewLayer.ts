@@ -34,6 +34,7 @@ import ClueSpot = Clues.ClueSpot;
 import {SolvingMethods} from "../../model/methods";
 import {Checkbox} from "lib/ui/controls/Checkbox";
 import asyncFilter = util.asyncFilter;
+import UtilityLayer from "../map/UtilityLayer";
 
 type FilterT = {
     tiers?: { [P in ClueTier]: boolean },
@@ -213,8 +214,6 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
             return await r
         })
 
-        console.log(match.length)
-
         this?.count_line.text(`${match.length} matches`)
     }
 }
@@ -321,9 +320,13 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                 coord = TileCoordinates.lift(Rectangle.center(Rectangle.from(...clue.clue.spots)), Math.min(...clue.clue.spots.map(s => s.level)) as floor_t)
                 break;
             case "skilling":
-                // TODO:
-                coord = {x: 0, y: 0, level: 0}
-                //coord = clue.area ? TileRectangle.center(clue.area) : null
+                let i = talk_alternative_index != null ? talk_alternative_index : 0
+
+                if (i >= 0 && clue.clue.areas?.length > 0) {
+                    if (i >= clue.clue.areas.length) i = 0
+                    coord = TileRectangle.center(clue.clue.areas[i])
+                }
+
                 break
         }
 
@@ -338,6 +341,8 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
         let variants: { instance_index?: number }[] = (() => {
             if (spot.clue.solution?.type == "talkto" && spot.clue.solution.spots) {
                 return spot.clue.solution.spots.map((s, i) => ({instance_index: i}))
+            } else if(spot.clue.type == "skilling") {
+                return (spot.clue.areas || []).map((s, i) => ({instance_index: i}))
             } else return [{}]
         })()
 
@@ -423,6 +428,7 @@ class ClueOverviewMarker extends leaflet.FeatureGroup {
                     break
                 case "skilling":
                     props.named("Text", c().text(self.clue.clue.text[0]))
+                    props.named("Answer", c().text(self.clue.clue.answer))
                     break
             }
 
@@ -508,6 +514,8 @@ export default class OverviewLayer extends GameLayer {
 
     constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
         super();
+
+        this.add(new UtilityLayer())
 
         this.filter_control = new FilterControl(app.methods).addTo(this)
 

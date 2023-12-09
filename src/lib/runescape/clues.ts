@@ -111,7 +111,7 @@ export namespace Clues {
     export type Map = StepShared & { type: "map", ocr_data: number[], solution: Solution, image_url: string }
     export type Scan = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }
     export type Simple = StepShared & { type: "simple", solution: Solution }
-    export type Skilling = StepShared & { type: "skilling", area?: TileRectangle }
+    export type Skilling = StepShared & { type: "skilling", areas: TileRectangle[], answer: string }
 
     export type Step = Anagram | Compass | Coordinate | Cryptic | Emote | Map | Scan | Simple | Skilling
 

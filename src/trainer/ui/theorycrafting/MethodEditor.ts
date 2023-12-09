@@ -110,11 +110,11 @@ export default class MethodEditor extends Behaviour {
 
     sub_editor = this.withSub(new SingleBehaviour<MethodSubEditor>())
 
-    assumptions_updates = ewent<ClueAssumptions>()
+    assumptions_updated = ewent<ClueAssumptions>()
 
     updateAssumptions(f: (_: ClueAssumptions) => void) {
         f(this.method.method.assumptions)
-        this.assumptions_updates.trigger(this.method.method.assumptions)
+        this.assumptions_updated.trigger(this.method.method.assumptions)
     }
 
     constructor(public app: Application, public method: AugmentedMethod) {

@@ -124,8 +124,6 @@ export namespace ScanTree {
             }
 
             if (!tree.state.paths_augmented) {
-                console.log(assumptions)
-
                 await helper(tree.root_node, movement_state.start(assumptions))
                 tree.state.paths_augmented = true
             }

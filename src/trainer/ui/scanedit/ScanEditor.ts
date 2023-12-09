@@ -279,7 +279,7 @@ export default class ScanEditor extends MethodSubEditor {
         super(parent);
 
         this.builder = new ScanTreeBuilder(value.clue)
-        this.builder.assumptions.set(value.method.assumptions)
+        this.builder.assumptions.set(lodash.cloneDeep(value.method.assumptions))
 
         this.layer = new ScanEditLayerLight(this)
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.layer)
@@ -288,10 +288,10 @@ export default class ScanEditor extends MethodSubEditor {
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
         this.path_editor = this.withSub(new SingleBehaviour<PathEditor>())
 
-        this.parent.assumptions_updates.on((v) => {
+        this.parent.assumptions_updated.on((v) => {
             this.value.method.tree.assumed_range = this.value.clue.range + (v.meerkats_active ? 5 : 0)
 
-            this.builder.assumptions.set(v)
+            this.builder.assumptions.set(lodash.cloneDeep(v))
 
             this.layer.scan_range.set(this.value.method.tree.assumed_range)
         })

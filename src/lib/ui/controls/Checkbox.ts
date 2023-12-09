@@ -32,7 +32,7 @@ export class Checkbox extends AbstractEditWidget<boolean> {
             c().addClass("nisl-checkbox-label").text(this.label).appendTo(this)
         }
 
-        this.render()
+        this.setValue(false)
     }
 
     protected render() {

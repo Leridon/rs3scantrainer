@@ -33,7 +33,6 @@ Planned for next release (b0.4):
     - Local Method Packs
 
 - General
-    - [Bug] Checkbox seems to start with wrong state in some cases.
     - [Styling] ControlHeader title and X are not properly aligned
         - Check modal for how to do it
     - Clean up cursor on map
@@ -60,7 +59,6 @@ Planned for next release (b0.4):
     - Autoname areas
     - [Bug] Focussing a leaf root causes an exception (in path editor probably)
     - [Bug] Closing the path editor does not unselect the active node
-    - [Bug] Deselecting equivalence classes does not hide them
     - [Bug] Changing meerkat assumption has not effect on scan range marker
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out

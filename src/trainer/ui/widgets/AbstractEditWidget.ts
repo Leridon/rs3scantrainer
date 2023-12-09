@@ -52,7 +52,7 @@ export default abstract class AbstractEditWidget<T, Element_T extends HTMLElemen
     }
 
     onCommit(handler: (_: T) => any): this {
-        this.v.subscribe((v) => {if (v.committed && v.value) handler(v.value)})
+        this.v.subscribe((v) => {if (v.committed && v.value != null) handler(v.value)})
         return this
     }
 }

@@ -53,8 +53,7 @@ export namespace Checkbox {
                 o.button.type.set("radio")
                 o.button.onCommit(v => {
                     if (v) this.value.set(o.value)
-
-                    if (!v && this.value.value() == o.value) {
+                    else if (!v && this.value.value() == o.value) {
                         if (can_be_null) this.value.set(null)
                         else o.button.setValue(true)
                     }
@@ -67,7 +66,7 @@ export namespace Checkbox {
                 })
             })
 
-            if(can_be_null) this.value.set(null)
+            if (can_be_null) this.value.set(null)
             else buttons[0].button.setValue(true)
         }
 

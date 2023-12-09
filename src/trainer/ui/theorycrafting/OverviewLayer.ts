@@ -194,7 +194,7 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
                     new Checkbox.Group<"none" | "at_least_one">([
                         {value: "none", button: none},
                         {value: "at_least_one", button: at_least_one},
-                    ]).setValue(this.filter.value().method_mode || "at_least_one")
+                    ], false).setValue(this.filter.value().method_mode || "at_least_one")
                         .onChange(v => this.filter.update(f => f.method_mode = v))
 
                     specifics_container.append(

@@ -15,10 +15,10 @@ import SaveInPack from "./SaveInPack";
 import Widget from "../../../lib/ui/Widget";
 import vbox = C.vbox;
 import hbox = C.hbox;
-import span = C.span;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
+import {ewent} from "../../../lib/reactive";
 
 class MethodEditSideBar extends MapSideBar {
     save_row: Widget
@@ -45,29 +45,24 @@ class MethodEditSideBar extends MapSideBar {
 
         props.header("Assumptions")
 
-        function updateAssumptions(f: (a: ClueAssumptions) => void) {
-            f(parent.method.method.assumptions)
-            parent.sub_editor.get().setAssumptions(parent.method.method.assumptions)
-        }
-
         props.row(vbox(
             new Checkbox("Meerkats").setValue(parent.method.method.assumptions.meerkats_active)
-                .onCommit(v => updateAssumptions(a => a.meerkats_active = v))
+                .onCommit(v => parent.updateAssumptions(a => a.meerkats_active = v))
             ,
             new Checkbox("Full Globetrotter").setValue(parent.method.method.assumptions.full_globetrotter)
-                .onCommit(v => updateAssumptions(a => a.full_globetrotter = v))
+                .onCommit(v => parent.updateAssumptions(a => a.full_globetrotter = v))
             ,
             new Checkbox("Way of the foot-shaped key").setValue(parent.method.method.assumptions.way_of_the_footshaped_key)
-                .onCommit(v => updateAssumptions(a => a.way_of_the_footshaped_key = v))
+                .onCommit(v => parent.updateAssumptions(a => a.way_of_the_footshaped_key = v))
             ,
             new Checkbox("Double Surge").setValue(parent.method.method.assumptions.double_surge)
-                .onCommit(v => updateAssumptions(a => a.double_surge = v))
+                .onCommit(v => parent.updateAssumptions(a => a.double_surge = v))
             ,
             new Checkbox("Double Escape").setValue(parent.method.method.assumptions.double_escape)
-                .onCommit(v => updateAssumptions(a => a.double_escape = v))
+                .onCommit(v => parent.updateAssumptions(a => a.double_escape = v))
             ,
             new Checkbox("Mobile Perk").setValue(parent.method.method.assumptions.mobile_perk)
-                .onCommit(v => updateAssumptions(a => a.mobile_perk = v))
+                .onCommit(v => parent.updateAssumptions(a => a.mobile_perk = v))
             ,
         ))
 
@@ -115,6 +110,13 @@ export default class MethodEditor extends Behaviour {
 
     sub_editor = this.withSub(new SingleBehaviour<MethodSubEditor>())
 
+    assumptions_updates = ewent<ClueAssumptions>()
+
+    updateAssumptions(f: (_: ClueAssumptions) => void) {
+        f(this.method.method.assumptions)
+        this.assumptions_updates.trigger(this.method.method.assumptions)
+    }
+
     constructor(public app: Application, public method: AugmentedMethod) {
         super();
     }
@@ -124,7 +126,7 @@ export default class MethodEditor extends Behaviour {
             .css("width", "300px")
 
         if (this.method.method.type == "scantree") {
-            this.sub_editor.set(new ScanEditor(this.app, this.method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, this.sidebar.body))
+            this.sub_editor.set(new ScanEditor(this, this.app, this.method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, this.sidebar.body))
         }
     }
 

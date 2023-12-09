@@ -33,6 +33,7 @@ import TreeEdit from "./TreeEdit";
 import MethodSubEditor from "../theorycrafting/MethodSubEditor";
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import * as lodash from "lodash";
+import MethodEditor from "../theorycrafting/MethodEditor";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -160,10 +161,7 @@ export class ScanTreeBuilder {
         })
 
     constructor(private clue: Clues.Scan) {
-
         this.assumptions.subscribe((v) => {
-            console.log("Changed")
-            console.log(v)
             this.cleanTree()
         })
     }
@@ -272,12 +270,13 @@ export default class ScanEditor extends MethodSubEditor {
 
     path_editor: SingleBehaviour<PathEditor>
 
-
-    constructor(public app: Application,
-                public value: AugmentedMethod<ScanTreeMethod, Clues.Scan>,
-                public side_panel: Widget
+    constructor(
+        parent: MethodEditor,
+        public app: Application,
+        public value: AugmentedMethod<ScanTreeMethod, Clues.Scan>,
+        public side_panel: Widget
     ) {
-        super();
+        super(parent);
 
         this.builder = new ScanTreeBuilder(value.clue)
         this.builder.assumptions.set(value.method.assumptions)
@@ -288,10 +287,14 @@ export default class ScanEditor extends MethodSubEditor {
         this.equivalence_classes = this.withSub(new EquivalenceClassHandling(this))
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
         this.path_editor = this.withSub(new SingleBehaviour<PathEditor>())
-    }
 
-    setAssumptions(assumptions: SolvingMethods.ClueAssumptions) {
-        this.builder.assumptions.set(lodash.cloneDeep(assumptions))
+        this.parent.assumptions_updates.on((v) => {
+            this.value.method.tree.assumed_range = this.value.clue.range + (v.meerkats_active ? 5 : 0)
+
+            this.builder.assumptions.set(v)
+
+            this.layer.scan_range.set(this.value.method.tree.assumed_range)
+        })
     }
 
     private setPathEditor(node: AugmentedScanTreeNode): void {

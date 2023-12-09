@@ -57,8 +57,6 @@ Planned for next release (b0.4):
     - Update target for path editor when needed
     - Jump to spot button in overview
     - Autoname areas
-    - [Bug] Focussing a leaf root causes an exception (in path editor probably)
-    - [Bug] Closing the path editor does not unselect the active node
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
 

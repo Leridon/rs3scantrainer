@@ -572,7 +572,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         data.forEach(v => {
             if (!v.augmented) v.augmented = observe(null)
         })
-        
+
         if (data.some(s => !s)) {
             console.log("PANIC, adding null to step list")
             debugger
@@ -719,7 +719,7 @@ export class PathEditor extends Behaviour {
 
         let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state.position?.tile), this.options.target)
 
-        this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 5})
+        if (bounds) this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 5})
     }
 
     protected end() {

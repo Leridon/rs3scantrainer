@@ -294,7 +294,7 @@ export default class ScanEditor extends MethodSubEditor {
             this.builder.assumptions.set(lodash.cloneDeep(v))
 
             this.layer.scan_range.set(this.value.method.tree.assumed_range)
-        })
+        }).bindTo(this.handler_pool)
     }
 
     private setPathEditor(node: AugmentedScanTreeNode): void {

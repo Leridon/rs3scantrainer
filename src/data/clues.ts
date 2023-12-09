@@ -4,17 +4,6 @@ import {ClueIndex, ClueSpotIndex} from "./ClueIndex";
 export namespace clue_data {
     export const anagram: Clues.Anagram[] = [
         {
-            "id": 23,
-            "type": "anagram",
-            "tier": null,
-            "text": ["This anagram reveals who to speak to next: Snah"],
-            "solution": {
-                "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
-                "npc": "Hans"
-            }
-        },
-        {
             "id": 14,
             "type": "anagram",
             "tier": "medium",
@@ -6303,6 +6292,305 @@ export namespace clue_data {
         }
     ]
 
+    export const skilling: Clues.Skilling[] = [{
+        "type": "skilling",
+        "clue": "Complete the action to solve the clue: Crossing the desert I met a crocodile. She gave me a dazzling smile but she had something in her teeth.",
+        "tier": "master",
+        "id": 372,
+        "solution": {
+            "type": "simple",
+            "coordinates": {"x": 3282, "y": 2676, "level": 0},
+            "answer": "Catch a plover bird"
+        }
+    },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: I once met a man returning from market. He showed me the spoils of his day. It's precious to see what people pay for.",
+            "tier": "master",
+            "id": 373,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2670, "y": 3301, "level": 0},
+                "answer": "Steal from the gem stall"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: A view of the city from high above. I can hear their prayers below.",
+            "tier": "master",
+            "id": 374,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2178, "y": 3403, "level": 0},
+                "answer": "Complete the Hefin Agility Course."
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Round and round we go, burning, burning all aglow.",
+            "tier": "master",
+            "id": 375,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2947, "y": 2957, "level": 0},
+                "answer": "Burn a curly root in the Jadinko lair"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: When I encountered this individual, she had more rings than any I had seen before.",
+            "tier": "master",
+            "id": 376,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3255, "y": 3375, "level": 0},
+                "answer": "Cut some elder logs"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Rowdy Unruly Boisterous I am pie.",
+            "tier": "master",
+            "id": 377,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3165, "y": 3493, "level": 0},
+                "answer": "Cook a Wild pie (can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: In a station of power someone requires assistance. Do a good deed to spread some happiness.",
+            "tier": "master",
+            "id": 378,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2722, "y": 5256, "level": 0},
+                "answer": "Hand in the right component after completing the Dorgesh-Kaan agility course"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Those things I once held dear continue to fade. I look upon her face and barely know who she is. But her eyes... They are still so radiant.",
+            "tier": "master",
+            "id": 379,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3812, "y": 3557, "level": 0},
+                "answer": "Harvest a radiant memory"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: There are those who prove themselves and become a beacon of light in the darkness. Come to the crystal city and become that figure.",
+            "tier": "master",
+            "id": 380,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2207, "y": 3362, "level": 0},
+                "answer": "Activate Light Form prayer inside Prifddinas"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Stare into the flames for long enough and you may see something you didn't realise was there.",
+            "tier": "master",
+            "id": 381,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3165, "y": 3493, "level": 0},
+                "answer": "Burn some magic logs on a bonfire (can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: The crystals tempt most however, there are other riches to gain for the quick-fingered.",
+            "tier": "master",
+            "id": 382,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2186, "y": 3310, "level": 0},
+                "answer": "Pickpocket any prifddinas worker"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Magical energy floats unleashed. The fluid of life that flows through us all. Span the gap to capture this energy.",
+            "tier": "master",
+            "id": 383,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3102, "y": 3157, "level": 0},
+                "answer": "Siphon a blood esswraith, blood pool or bloody skulls in the Runespan"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: The spell struck me in the chest. Perhaps if I had worn armour today. Black looks better than red.",
+            "tier": "master",
+            "id": 384,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3165, "y": 3493, "level": 0},
+                "answer": "Craft a black dragonhide body (can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Ernie once mentioned to me a secret to improve my cooking. His idea was strong but I went the extra mile.",
+            "tier": "master",
+            "id": 385,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3165, "y": 3493, "level": 0},
+                "answer": "Add a fire rune to a Decorated cooking urn (nr) (can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: I have all the ingredients for soup but sometimes a simple meal tastes the best.",
+            "tier": "master",
+            "id": 386,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3165, "y": 3493, "level": 0},
+                "answer": "Cook a raw shark or raw rocktail (can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Take the journey to a distant mining site. Become a blight to your foes.",
+            "tier": "master",
+            "id": 387,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2975, "y": 3370, "level": 0},
+                "answer": "Smelt a bane bar (can be done at any furnace)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Where there is Light there is also Death. Should you contain this you may progress.",
+            "tier": "master",
+            "id": 388,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2543, "y": 3326, "level": 0},
+                "answer": "Craft a death rune"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: There is a temple where there are rivers of red. Bind the magic to get ahead.",
+            "tier": "master",
+            "id": 389,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3643, "y": 3306, "level": 0},
+                "answer": "Craft a Blood rune"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Corruption seeps from this stone but there are those who work to cleanse it. Lend your voice.",
+            "tier": "master",
+            "id": 390,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2190, "y": 3448, "level": 0},
+                "answer": "Fully use a cleansing crystal on the corrupted seren stone"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Charm me and I shall unlock. But be brave in the darkness.",
+            "tier": "master",
+            "id": 391,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3377, "y": 3742, "level": 0},
+                "answer": "Catch a charming moth"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: I once met an ancient warrior who told me tales of his adventures. His eyes lit up as he spoke.",
+            "tier": "master",
+            "id": 392,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3165, "y": 3492, "level": 0},
+                "answer": "Burn some elder logs (can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Keeping all your gold together. That's a good idea. It shall be mine.",
+            "tier": "master",
+            "id": 393,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3060, "y": 3376, "level": 0},
+                "answer": "Mine concentrated gold rocks in the Living Rock Caverns"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Rumours of a great shark continue to spread. Catch me one and I will be fed.",
+            "tier": "master",
+            "id": 394,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2853, "y": 3426, "level": 0},
+                "answer": "Catch a great white shark (1/2 chance of catching instead of a normal shark after unlocking the perk in your aquarium.)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: The God of Order requires a sacrifice of strength but in return restores me. If only we could keep that feeling in his absence.",
+            "tier": "master",
+            "id": 395,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3165, "y": 3493, "level": 0},
+                "answer": "Mix a Saradomin brew (toadflax+crushed nest, can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Head protection is never a bad thing. Make it from rune for the best chance of survival.",
+            "tier": "master",
+            "id": 396,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3188, "y": 3427, "level": 0},
+                "answer": "Smith a rune helm or full helm (can be done at any anvil)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling.",
+            "tier": "master",
+            "id": 397,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 3164, "y": 3493, "level": 0},
+                "answer": "Mix a Zamorak brew (torstol+jangerberries, can be done anywhere)"
+            }
+        },
+        {
+            "type": "skilling",
+            "clue": "Complete the action to solve the clue: Catching only one shark. That don't impress me much.",
+            "tier": "master",
+            "id": 398,
+            "solution": {
+                "type": "simple",
+                "coordinates": {"x": 2855, "y": 3433, "level": 0},
+                "answer": "Catch two sharks at once (requires 76 fishing and 76 agility)"
+            }
+        },
+    ]
+
     export let all: Clues.Step[] = [
         ...clue_data.anagram,
         ...clue_data.compass,
@@ -6312,6 +6600,7 @@ export namespace clue_data {
         ...clue_data.map,
         ...clue_data.scan,
         ...clue_data.simple,
+        ...clue_data.skilling,
     ]
 
     export const index = ClueIndex.simple(all)

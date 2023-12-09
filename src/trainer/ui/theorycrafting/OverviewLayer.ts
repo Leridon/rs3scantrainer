@@ -33,6 +33,7 @@ import TextField from "../../../lib/ui/controls/TextField";
 import ClueSpot = Clues.ClueSpot;
 import {SolvingMethods} from "../../model/methods";
 import {Checkbox} from "lib/ui/controls/Checkbox";
+import asyncFilter = util.asyncFilter;
 
 type FilterT = {
     tiers?: { [P in ClueTier]: boolean },
@@ -99,6 +100,8 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
     private stored_filter = new storage.Variable<FilterT>("preferences/cluefilters2", () => FilterT.normalize({}))
     public filter: Observable<FilterT> = observe({})
 
+    private count_line: Widget
+
     constructor(
         private methods: MethodPackManager
     ) {
@@ -108,13 +111,15 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
         }, new ControlWithHeader("Clue Filter"))
 
         this.filter.set(FilterT.normalize(this.stored_filter.get()))
-        this.filter.subscribe(f => {this.stored_filter.set(f)})
+        this.filter.subscribe(f => {
+            this.stored_filter.set(f)
+        })
 
         this.renderFilter()
     }
 
-    async renderFilter(): Promise<void> {
-        let props = new Properties()
+    private async renderFilter(): Promise<void> {
+        let props = new Properties().appendTo(this.content.body)
         // TODO: Also filter for challenge types
 
         let buttons: {
@@ -139,22 +144,6 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
 
         props.named("Tier", hbox(...buttons.tier.map(s => s.btn), spacer()).addClass("ctr-filter-control-row"))
         props.named("Type", hbox(...buttons.type.map(s => s.btn), spacer()).addClass("ctr-filter-control-row"))
-
-        /*
-        this.content.body.append(
-            hbox(
-                span("Tier"),
-                ...buttons.tier.map(s => s.btn),
-                spacer()
-            ).addClass("ctr-filter-control-row"),
-            hbox(
-                span("Type"),
-                ...buttons.type.map(s => s.btn),
-                spacer()
-            ).addClass("ctr-filter-control-row"),
-        )*/
-
-        this.content.body.append(props)
 
         if (this.methods) {
             let specifics_container = hbox()//new ButtonRow({max_center_spacer_width: "100%", align: "center"})
@@ -211,6 +200,22 @@ class FilterControl extends GameMapControl<ControlWithHeader> {
                 this.filter.update(f => f.search_term = v.value)
             })
         )
+
+        this.count_line = c().text("Matches").appendTo(this.content.body)
+
+        this.filter.subscribe(() => this.updateResults(), true)
+    }
+
+    async updateResults() {
+        let match = await asyncFilter(clue_data.spot_index.flat(), async v => {
+            let r = FilterT.apply(this.filter.value(), v.for, this.methods)
+
+            return await r
+        })
+
+        console.log(match.length)
+
+        this?.count_line.text(`${match.length} matches`)
     }
 }
 

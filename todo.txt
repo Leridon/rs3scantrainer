@@ -1,10 +1,6 @@
 Planned for next release (b0.4):
 
 - Theorycrafter
-    - Filter
-        - Method Pack
-            - Update on change in set
-        - Search
     - "Save to pack" modal
         - "Create new" option
     - Editor for generic path methods

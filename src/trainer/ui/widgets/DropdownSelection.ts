@@ -10,4 +10,10 @@ export class DropdownSelection<T extends object | string | number> extends Abstr
 
         this.setDropdownItems(items)
     }
+
+    override setDropdownItems(items: T[]) {
+        super.setDropdownItems(items)
+
+        if (this.options.can_be_null && !items.some(p => p == this.selection.value())) this.selectValue(null)
+    }
 }

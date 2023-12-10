@@ -277,6 +277,11 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
                     : null
                 )
 
+
+            this.methods.pack_set_changed.on((packs) => {
+                selection.setDropdownItems(packs)
+            }).bindTo(this.handler_pool)
+
             props.named("Methods",
                 vbox(
                     selection,

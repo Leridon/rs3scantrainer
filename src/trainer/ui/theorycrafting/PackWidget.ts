@@ -62,7 +62,7 @@ export default class PackWidget extends Widget {
                         manager.updatePack(pack, p => p.name = v)
                     })
                 )
-                body.named("Author", new TextField().setValue(pack.author)
+                body.named("Author(s)", new TextField().setValue(pack.author)
                     .onCommit(v => manager.updatePack(pack, p => p.author = v))
                 )
 
@@ -73,7 +73,7 @@ export default class PackWidget extends Widget {
 
                 break
             case "view":
-                body.named("Author", c().text(pack.author))
+                body.named("Author(s)", c().text(pack.author))
 
                 body.header("Description")
                 body.row(c().text(pack.description))

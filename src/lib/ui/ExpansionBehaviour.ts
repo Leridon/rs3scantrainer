@@ -21,7 +21,10 @@ export class ExpansionBehaviour {
     }
 
     bindToClickable(widget: Widget) {
-        widget.on("click", () => this.toggle())
+        widget.on("click", (e) => {
+            e.stopPropagation()
+            this.toggle()
+        })
 
         return this
     }

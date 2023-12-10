@@ -1,7 +1,7 @@
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {storage} from "../../../lib/util/storage";
-import {Observable, observe} from "../../../lib/reactive";
+import {ewent, Observable, observe} from "../../../lib/reactive";
 import {ClueSpotIndex} from "../../../data/ClueIndex";
 import Widget from "../../../lib/ui/Widget";
 import {clue_data} from "../../../data/clues";
@@ -20,15 +20,15 @@ import spacer = C.spacer;
 import span = C.span;
 import vbox = C.vbox;
 import ClueSpot = Clues.ClueSpot;
-import sibut = SmallImageButton.sibut;
+
 import NisCollapseButton from "../../../lib/ui/controls/NisCollapseButton";
 import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 import {ClueProperties} from "./ClueProperties";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
-import {util} from "../../../lib/util/util";
-import {Rectangle, Vector2} from "../../../lib/math";
+import {Vector2} from "../../../lib/math";
 import {ClueOverviewMarker} from "./OverviewMarker";
+import * as fuzzysort from "fuzzysort";
 
 export type ClueSpotFilter = {
     tiers?: { [P in ClueTier]: boolean },
@@ -71,7 +71,7 @@ export namespace ClueSpotFilter {
         return f
     }
 
-    export async function apply(f: ClueSpotFilter, clue: ClueSpot, methods?: MethodPackManager): Promise<boolean> {
+    export async function apply(f: ClueSpotFilter, clue: ClueSpot, methods?: MethodPackManager, prepared?: Fuzzysort.Prepared): Promise<boolean> {
         if (!(f.types[clue.clue.type] && f.tiers[clue.clue.tier])) return false
 
         if (methods && f.method_pack) {
@@ -87,7 +87,27 @@ export namespace ClueSpotFilter {
             }
         }
 
+        if (f.search_term) {
+            if (!prepared) return false
+
+            let match = fuzzysort.single(f.search_term, prepared)
+
+            if (!match || match.score < -500) return false
+        }
+
         return true
+    }
+
+    export function filter_string(clue: ClueSpot): string {
+        switch (clue.clue.type) {
+            case "compass":
+                return null
+            default:
+                return clue.clue.text[0]
+
+        }
+
+        return null
     }
 }
 
@@ -161,9 +181,14 @@ namespace ClueSpotFilterResult {
 export class FilterControl extends GameMapControl<ControlWithHeader> {
     private stored_filter = new storage.Variable<ClueSpotFilter>("preferences/cluefilters2", () => ClueSpotFilter.normalize({}))
     public filter: Observable<ClueSpotFilter> = observe({})
+    public filtered_index_updated = ewent()
 
-    public index: ClueSpotIndex<{ visible: boolean, list_widget: Widget }> =
-        clue_data.spot_index.with(() => ({visible: false, list_widget: null}))
+    public index: ClueSpotIndex<{
+        visible: boolean,
+        list_widget: Widget,
+        prepared_search_string: Fuzzysort.Prepared
+    }> =
+        clue_data.spot_index.with(() => ({visible: false, list_widget: null, prepared_search_string: null}))
 
     private count_line: Widget
     private result_container: Widget
@@ -177,12 +202,28 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
             position: "top-left"
         }, new ControlWithHeader("Clue Filter").css2({"max-width": "300px", "width": "300px"}))
 
+        this.index.forEach(e => {
+            let s = ClueSpotFilter.filter_string(e.for)
+
+            e.prepared_search_string = s ? fuzzysort.prepare(s) : null
+        })
+
         this.filter.set(ClueSpotFilter.normalize(this.stored_filter.get()))
         this.filter.subscribe(f => {
             this.stored_filter.set(f)
         })
 
-        this.renderFilter()
+        this.renderFilter().then(() => {
+            this.filter.subscribe(async () => {
+                await Promise.all(this.index.flat().map(async e => {
+                    e.visible = await ClueSpotFilter.apply(this.filter.value(), e.for, this.methods, e.prepared_search_string)
+                }))
+
+                this.filtered_index_updated.trigger(undefined)
+
+                this.renderResults()
+            }, true)
+        })
     }
 
     private async renderFilter(): Promise<void> {
@@ -268,6 +309,7 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
         }
 
         props.named("Search", new TextField().setPlaceholder("Search")
+            .setValue(this.filter.value().search_term || "")
             .onChange(v => {
                 this.filter.update(f => f.search_term = v.value)
             })
@@ -280,15 +322,9 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
                 "overflow-y": "scroll"
             })
             .appendTo(this.content.body)
-
-        this.filter.subscribe(() => this.updateResults(), true)
     }
 
-    async updateResults() {
-        await Promise.all(this.index.flat().map(async e => {
-            e.visible = await ClueSpotFilter.apply(this.filter.value(), e.for, this.methods)
-        }))
-
+    async renderResults() {
         this.index.flat().forEach(e => {
             if (e.visible && !e.list_widget) {
                 e.list_widget = new ClueSpotFilterResult(e.for,

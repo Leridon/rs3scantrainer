@@ -7779,11 +7779,8 @@ export namespace clue_data {
         "text": ["Rowdy Unruly Boisterous I am pie."],
         "tier": "master",
         "id": 377,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3165, "y": 3493, "level": 0},
-            "answer": "Cook a Wild pie (can be done anywhere)"
-        }
+        "answer": "Cook a wild pie. The 'Bake Pie' spell works.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["In a station of power someone requires assistance. Do a good deed to spread some happiness."],
@@ -7810,21 +7807,15 @@ export namespace clue_data {
         "text": ["Stare into the flames for long enough and you may see something you didn't realise was there."],
         "tier": "master",
         "id": 381,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3165, "y": 3493, "level": 0},
-            "answer": "Burn some magic logs on a bonfire (can be done anywhere)"
-        }
+        "answer": "Light some magic logs.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["The crystals tempt most however, there are other riches to gain for the quick-fingered."],
         "tier": "master",
         "id": 382,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2186, "y": 3310, "level": 0},
-            "answer": "Pickpocket any prifddinas worker"
-        }
+        "answer": "Pickpocket any elf",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Magical energy floats unleashed. The fluid of life that flows through us all. Span the gap to capture this energy."],
@@ -7837,41 +7828,29 @@ export namespace clue_data {
         "text": ["The spell struck me in the chest. Perhaps if I had worn armour today. Black looks better than red."],
         "tier": "master",
         "id": 384,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3165, "y": 3493, "level": 0},
-            "answer": "Craft a black dragonhide body (can be done anywhere)"
-        }
+        "answer": "Craft a black dragonhide body.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Ernie once mentioned to me a secret to improve my cooking. His idea was strong but I went the extra mile."],
         "tier": "master",
         "id": 385,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3165, "y": 3493, "level": 0},
-            "answer": "Add a fire rune to a Decorated cooking urn (nr) (can be done anywhere)"
-        }
+        "answer": "Add a fire rune to a decorated cooking urn (nr).",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["I have all the ingredients for soup but sometimes a simple meal tastes the best."],
         "tier": "master",
         "id": 386,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3165, "y": 3493, "level": 0},
-            "answer": "Cook a raw shark or raw rocktail (can be done anywhere)"
-        }
+        "answer": "Cook a raw shark, raw rocktail or raw sailfish.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Take the journey to a distant mining site. Become a blight to your foes."],
         "tier": "master",
         "id": 387,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2975, "y": 3370, "level": 0},
-            "answer": "Smelt a bane bar (can be done at any furnace)"
-        }
+        "answer": "Smelt a Bane bar at a furnace.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Where there is Light there is also Death. Should you contain this you may progress."],
@@ -7905,71 +7884,50 @@ export namespace clue_data {
         "text": ["I once met an ancient warrior who told me tales of his adventures. His eyes lit up as he spoke."],
         "tier": "master",
         "id": 392,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3165, "y": 3492, "level": 0},
-            "answer": "Burn some elder logs (can be done anywhere)"
-        }
+        "answer": "Burn some elder logs.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Keeping all your gold together. That's a good idea. It shall be mine."],
         "tier": "master",
         "id": 393,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3060, "y": 3376, "level": 0},
-            "answer": "Mine concentrated gold rocks in the Living Rock Caverns"
-        }
+        "answer": "Mine a concentrated gold deposit in the Living Rock Caverns.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Rumours of a great shark continue to spread. Catch me one and I will be fed."],
         "tier": "master",
         "id": 394,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2853, "y": 3426, "level": 0},
-            "answer": "Catch a great white shark (1/2 chance of catching instead of a normal shark after unlocking the perk in your aquarium.)"
-        }
+        "answer": "Catch a raw great white shark.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["The God of Order requires a sacrifice of strength but in return restores me. If only we could keep that feeling in his absence."],
         "tier": "master",
         "id": 395,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3165, "y": 3493, "level": 0},
-            "answer": "Mix a Saradomin brew (toadflax+crushed nest, can be done anywhere)"
-        }
+        "answer": "Create a Saradomin brew.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Head protection is never a bad thing. Make it from rune for the best chance of survival."],
         "tier": "master",
         "id": 396,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3188, "y": 3427, "level": 0},
-            "answer": "Smith a rune helm or full helm (can be done at any anvil)"
-        }
+        "answer": "Smith a rune med helm or rune full helm.",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling."],
         "tier": "master",
         "id": 397,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 3164, "y": 3493, "level": 0},
-            "answer": "Mix a Zamorak brew (torstol+jangerberries, can be done anywhere)"
-        }
+        "answer": "Create a Zamorak brew. (Mix jangerberries into a torstol potion).",
+        "areas": null
     }, {
         "type": "skilling",
         "text": ["Catching only one shark. That don't impress me much."],
         "tier": "master",
         "id": 398,
-        "solution": {
-            "type": "simple",
-            "coordinates": {"x": 2855, "y": 3433, "level": 0},
-            "answer": "Catch two sharks at once (requires 76 fishing and 76 agility)"
-        }
+        "answer": "Catch two sharks at once.",
+        "areas": null
     },
     ]
 

@@ -4,7 +4,6 @@ Planned for next release (b0.4):
     - "Save to pack" modal
         - "Create new" option
     - Editor for generic path methods
-    - [Bug] Degree symbol bugs out in tooltip
 
 - Menu Bar
     - Highlight currently active
@@ -36,6 +35,7 @@ Planned for next release (b0.4):
         - About
         - Patchnotes
     - Add short summary sentence to update notifications
+    - Use the new ExpansionBehaviour wherever it's applicable
 
 
 - Shortcut editor/View

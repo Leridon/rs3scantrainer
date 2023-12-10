@@ -6332,7 +6332,7 @@ export namespace clue_data {
         "answer": "Cut some elder logs from an elder tree."
     }, {
         "type": "skilling",
-        "clue": "Rowdy Unruly Boisterous I am pie.",
+        "text": ["Rowdy Unruly Boisterous I am pie."],
         "tier": "master",
         "id": 377,
         "solution": {
@@ -6363,7 +6363,7 @@ export namespace clue_data {
         "answer": "Active the Light Form Prayer in Prifddinas"
     }, {
         "type": "skilling",
-        "clue": "Stare into the flames for long enough and you may see something you didn't realise was there.",
+        "text": ["Stare into the flames for long enough and you may see something you didn't realise was there."],
         "tier": "master",
         "id": 381,
         "solution": {
@@ -6373,7 +6373,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "The crystals tempt most however, there are other riches to gain for the quick-fingered.",
+        "text": ["The crystals tempt most however, there are other riches to gain for the quick-fingered."],
         "tier": "master",
         "id": 382,
         "solution": {
@@ -6390,7 +6390,7 @@ export namespace clue_data {
         "answer": "Siphon some blood runes in the Runespan."
     }, {
         "type": "skilling",
-        "clue": "The spell struck me in the chest. Perhaps if I had worn armour today. Black looks better than red.",
+        "text": ["The spell struck me in the chest. Perhaps if I had worn armour today. Black looks better than red."],
         "tier": "master",
         "id": 384,
         "solution": {
@@ -6400,7 +6400,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "Ernie once mentioned to me a secret to improve my cooking. His idea was strong but I went the extra mile.",
+        "text": ["Ernie once mentioned to me a secret to improve my cooking. His idea was strong but I went the extra mile."],
         "tier": "master",
         "id": 385,
         "solution": {
@@ -6410,7 +6410,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "I have all the ingredients for soup but sometimes a simple meal tastes the best.",
+        "text": ["I have all the ingredients for soup but sometimes a simple meal tastes the best."],
         "tier": "master",
         "id": 386,
         "solution": {
@@ -6420,7 +6420,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "Take the journey to a distant mining site. Become a blight to your foes.",
+        "text": ["Take the journey to a distant mining site. Become a blight to your foes."],
         "tier": "master",
         "id": 387,
         "solution": {
@@ -6458,7 +6458,7 @@ export namespace clue_data {
         "answer": "Catch a charming moth in the Wilderness. "
     }, {
         "type": "skilling",
-        "clue": "I once met an ancient warrior who told me tales of his adventures. His eyes lit up as he spoke.",
+        "text": ["I once met an ancient warrior who told me tales of his adventures. His eyes lit up as he spoke."],
         "tier": "master",
         "id": 392,
         "solution": {
@@ -6468,7 +6468,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "Keeping all your gold together. That's a good idea. It shall be mine.",
+        "text": ["Keeping all your gold together. That's a good idea. It shall be mine."],
         "tier": "master",
         "id": 393,
         "solution": {
@@ -6478,7 +6478,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "Rumours of a great shark continue to spread. Catch me one and I will be fed.",
+        "text": ["Rumours of a great shark continue to spread. Catch me one and I will be fed."],
         "tier": "master",
         "id": 394,
         "solution": {
@@ -6488,7 +6488,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "The God of Order requires a sacrifice of strength but in return restores me. If only we could keep that feeling in his absence.",
+        "text": ["The God of Order requires a sacrifice of strength but in return restores me. If only we could keep that feeling in his absence."],
         "tier": "master",
         "id": 395,
         "solution": {
@@ -6498,7 +6498,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "Head protection is never a bad thing. Make it from rune for the best chance of survival.",
+        "text": ["Head protection is never a bad thing. Make it from rune for the best chance of survival."],
         "tier": "master",
         "id": 396,
         "solution": {
@@ -6508,7 +6508,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling.",
+        "text": ["Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling."],
         "tier": "master",
         "id": 397,
         "solution": {
@@ -6518,7 +6518,7 @@ export namespace clue_data {
         }
     }, {
         "type": "skilling",
-        "clue": "Catching only one shark. That don't impress me much.",
+        "text": ["Catching only one shark. That don't impress me much."],
         "tier": "master",
         "id": 398,
         "solution": {

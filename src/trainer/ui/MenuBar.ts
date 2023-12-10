@@ -9,6 +9,7 @@ import GameLayer from "../../lib/gamemap/GameLayer";
 import shortcuts from "../../data/shortcuts";
 import TheoryCrafter from "./theorycrafting/TheoryCrafter";
 import Button from "../../lib/ui/controls/Button";
+import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
 
 class MenuButton extends Button {
 
@@ -37,8 +38,10 @@ export default class MenuBar extends Widget {
 
             this.append(
                 new MenuButton("Solving", "assets/icons/ribbon_clue.png")
-                    .setEnabled(true)
-                    .onClick(() => {}),
+                    .setEnabled(!(behaviour instanceof NeoSolvingBehaviour))
+                    .onClick(() => {
+                        app.main_behaviour.set(new NeoSolvingBehaviour(app))
+                    }),
                 new MenuButton("Create", "assets/icons/ribbon_notes.webp")
                     .setEnabled(!(behaviour instanceof TheoryCrafter))
                     .onClick(() => {

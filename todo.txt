@@ -37,7 +37,6 @@ Planned for next release (b0.4):
     - Add short summary sentence to update notifications
     - Use the new ExpansionBehaviour wherever it's applicable
 
-
 - Shortcut editor/View
     - [Bug] Actually disable editing for builtins
     - [Bug] Viewport filtering needs to include level

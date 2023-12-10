@@ -5,6 +5,14 @@ import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {clue_data} from "../data/clues";
 
 export async function makeshift_main(): Promise<string> {
+    ExportStringModal.do(JSON.stringify(clue_data.anagram.map(a => {
+        return {
+            ...a, anagram: a.text.map(anagram => {
+                return new RegExp("This anagram reveals who to speak to next: (.*)").exec(anagram)[1]
+            })
+        }
+    }), null, 4))
+
     let output = ""
     /*
         let cmp = Order.chain(

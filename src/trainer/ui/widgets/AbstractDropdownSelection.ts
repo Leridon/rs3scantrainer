@@ -186,7 +186,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         return this
     }
 
-    private selectValue(v: T) {
+    protected selectValue(v: T) {
         this.setValue(v)
         this.selection.set(v)
     }

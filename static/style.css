@@ -1520,6 +1520,7 @@ input[type=checkbox] + span {
 .nisl-checkbox-box.checked > .nisl-checkbox-checkmark {
     background-image: url("assets/nis/checkmark.png");
 }
+
 .nisl-checkbox-box.nisl-checkbox-radio.checked > .nisl-checkbox-checkmark {
     background-image: url("assets/nis/radiocheck.png");
 }
@@ -1530,4 +1531,30 @@ input[type=checkbox] + span {
 
 .nisl-checkbox-radio {
     border-radius: 50%;
+}
+
+
+/* Collapse button */
+
+.nisl-collapse-button {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    margin: 4px;
+}
+
+.ctr-filtered-clue-result {
+    border: 1px solid grey;
+}
+
+.ctr-filtered-clue-result:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.ctr-filtered-clue-result-summary {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: bold;
+    cursor: pointer;
 }

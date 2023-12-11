@@ -445,20 +445,6 @@ video {
     margin-right: 0.5em;
 }
 
-.properties > .row {
-    margin-top: 5px;
-}
-
-.properties > .head {
-    margin-top: 5px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.property {
-    font-weight: bold;
-}
-
 #curtain {
     background: url("assets/nis/background.png");
 }
@@ -575,11 +561,11 @@ video {
     display: flex;
     justify-content: center;
     line-height: 20px;
+    padding: 3px;
 }
 
-.path-step-edit-widget-control-row > div {
-    margin-left: 3px;
-    margin-right: 3px;
+.path-step-edit-widget-control-row > div:not(:last-child) {
+    margin-right: 6px;
 }
 
 .step-edit-component:not(:first-child) {
@@ -694,7 +680,6 @@ video {
 
 .ctr-button-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -819,44 +804,46 @@ video {
 /** Properties**/
 
 .nisl-properties {
+    /*margin: 5px 3px;*/
     font-family: monospace;
+    display: grid;
+    column-gap: 5px;
+    row-gap: 2px;
+    grid-template-columns: [name] min-content [content] 1fr;
 }
 
 .nisl-property-header {
     text-align: center;
     font-weight: bold;
-    margin: 2px 3px;
-}
-
-.nisl-property-name {
-    flex: 0 0 auto;
-    width: 22%;
-    font-weight: bold;
-    text-align: left;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-}
-
-.nisl-property-content {
-    flex: 0 0 auto;
-    width: 78%;
-    display: flex;
-}
-
-.nisl-property-content > * {
+    padding: 2px 3px;
     width: 100%;
 }
 
 .nisl-property-row {
-    display: flex;
-    margin: 2px 3px;
+    grid-column: 1 / span 2;
+    grid-row: auto;
+    justify-self: center;
+    width: 100%;
 }
 
-/*Why do I even need this? Shouldn't flexbox contents auto fill the row if there is no other size limit?*/
-.nisl-property-standalone-row > * {
-    flex: 1;
+.nisl-property-row > * {
+    width: 100%;
+}
+
+.nisl-property-name {
+    grid-column: 1;
+    grid-row: auto;
+    font-weight: bold;
+    text-align: left;
+}
+
+.nisl-property-content {
+    grid-column: 2;
+    grid-row: auto;
+}
+
+.nisl-property-content > * {
+    width: 100%;
 }
 
 /** Dropdown select **/
@@ -1117,6 +1104,7 @@ video {
 }
 
 .gamemap-ui-control-default-styling {
+    cursor: default;
     background-color: rgb(10, 31, 41);
     border: 1px solid rgb(5, 56, 66);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0, 0, 0, 0.02);
@@ -1305,7 +1293,7 @@ input[type=checkbox] + span {
     cursor: pointer;
 }
 
-.ctr-lightbutton:not(.enabled){
+.ctr-lightbutton:not(.enabled) {
     cursor: not-allowed;
 }
 
@@ -1328,6 +1316,13 @@ input[type=checkbox] + span {
     margin-bottom: 5px;
 }
 
+.ctr-pack-widget.inactive {
+    background-color: #1b364d;
+    color: grey;
+    filter: saturate(0.5);
+    border: 1px solid grey;
+}
+
 .ctr-pack-widget-header > span {
     font-style: italic;
 }
@@ -1338,4 +1333,228 @@ input[type=checkbox] + span {
 
 .ctr-pack-widget-pack-header > span {
     font-style: italic;
+}
+
+
+.nisl-modal {
+    border-radius: 10px;
+    border: 2px solid rgb(43, 58, 67);
+}
+
+.nisl-modal-footer {
+    background: rgba(35, 50, 59, 0.125);
+    border-top: 1px solid rgb(43, 58, 67);
+}
+
+.nisl-modal-header {
+    color: #FFCB05FF;
+    background: #23323B80;
+    font-family: 'trajan-pro-3', serif;
+    font-size: 2em;
+    text-shadow: 1px 1px 1px #ECC622;
+    border-bottom: 1px solid rgb(43, 58, 67);
+
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.5rem;
+}
+
+.nisl-modal-title {
+    margin-bottom: 0;
+    font-size: 1.25rem !important;
+}
+
+.nisl-modal-exit {
+    background-image: url("assets/icons/exit.png");
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+}
+
+.nisl-modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: 0.5rem;
+}
+
+/* Big Nis Button */
+
+.nisl-big-button {
+    border-radius: 3px;
+    font-family: 'trajan-pro-3', serif;
+    /*text-shadow: 1px 1px 2px #ECC622;*/
+    padding: 0 12px;
+    height: 24px;
+    position: relative;
+    margin: 5px;
+}
+
+.nisl-big-button > .content {
+    font-size: 14px;
+    color: #00000A;
+    line-height: 24px;
+    text-align: center;
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.nisl-big-button > .background {
+    border-radius: 3px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 100%;
+}
+
+.nisl-big-button.enabled:hover > .background {
+    filter: brightness(1.2);
+}
+
+.nisl-big-button:not(.enabled) > .background {
+    background: linear-gradient(to bottom, #a49c87ff, #5f5648ff);
+}
+
+.nisl-big-button.enabled.nisl-big-button-confirm > .background {
+    background: linear-gradient(to bottom, #fad54e, #ce720a);
+}
+
+.nisl-big-button.enabled.nisl-big-button-cancel > .background {
+    background: linear-gradient(to bottom, #c95921, #9c2f0f);
+}
+
+.nisl-big-button.enabled.nisl-big-button-neutral > .background {
+    background: linear-gradient(to bottom, #2cb5ec, #05649d);
+}
+
+
+/* Notification Bar */
+
+.ctr-notification-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    text-align: center;
+}
+
+.ctr-notification-bar > .ctr-notification:not(:first-child) {
+    border-top: 1px solid grey;
+}
+
+.ctr-notification-bar > .ctr-notification.ctr-notification-error {
+    background-color: #9C2F0FFF;
+}
+
+.ctr-notification-bar > .ctr-notification.ctr-notification-information {
+    background-color: #05649DFF;
+}
+
+.ctr-notification {
+    display: flex;
+    justify-content: center;
+}
+
+.ctr-notification-content {
+    max-width: 600px;
+    min-width: 600px;
+    display: flex;
+}
+
+.ctr-notification-dismiss {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.ctr-notification-link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: unset;
+}
+
+.ctr-notification-link:hover {
+    color: unset;
+}
+
+/* Checkbox */
+
+.nisl-checkbox {
+    display: grid;
+    grid-template-columns: 1em auto auto;
+    gap: 0.5em;
+    padding: 3px;
+}
+
+.nisl-checkbox-box.checked {
+    /* background-color: #f3c450;*/
+}
+
+.nisl-checkbox-box {
+    position: relative;
+    margin: 4px 0;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+    background-color: #191717;
+    border: 2px solid #38515e;
+}
+
+.nisl-checkbox-box > .nisl-checkbox-checkmark {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 12px;
+    height: 12px;
+}
+
+.nisl-checkbox-box.checked > .nisl-checkbox-checkmark {
+    background-image: url("assets/nis/checkmark.png");
+}
+
+.nisl-checkbox-box.nisl-checkbox-radio.checked > .nisl-checkbox-checkmark {
+    background-image: url("assets/nis/radiocheck.png");
+}
+
+.nisl-checkbox-box:not(.checked) > .nisl-checkbox-checkmark {
+    display: none;
+}
+
+.nisl-checkbox-radio {
+    border-radius: 50%;
+}
+
+
+/* Collapse button */
+
+.nisl-collapse-button {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    margin: 4px;
+}
+
+.ctr-filtered-clue-result {
+    border: 1px solid grey;
+}
+
+.ctr-filtered-clue-result:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.ctr-filtered-clue-result-summary {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: bold;
+    cursor: pointer;
 }

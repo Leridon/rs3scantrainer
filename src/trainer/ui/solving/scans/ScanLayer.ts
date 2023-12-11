@@ -88,13 +88,13 @@ export class ScanRadiusMarker extends OpacityGroup {
                 botright: {x: this.spot.x + this.range, y: this.spot.y - this.range}
             }).setStyle({
                 interactive: false
-            }).setStyle({color: "green", fillOpacity: 0}).addTo(this)
+            }).setStyle({color: "#e51c02", fillOpacity: 0, dashArray: [9, 6, 9, 6, 9, 18]}).addTo(this)
             boxPolygon({
                 topleft: {x: this.spot.x - 2 * this.range, y: this.spot.y + 2 * this.range},
                 botright: {x: this.spot.x + 2 * this.range, y: this.spot.y - 2 * this.range}
             }).setStyle({
                 interactive: false
-            }).setStyle({color: "yellow", fillOpacity: 0, dashArray: [5, 5]}).addTo(this)
+            }).setStyle({color: "#fff40b", fillOpacity: 0, dashArray: [9, 9, 9, 18]}).addTo(this)
         }
     }
 }

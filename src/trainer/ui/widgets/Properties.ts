@@ -1,4 +1,5 @@
 import Widget from "lib/ui/Widget";
+import {C} from "../../../lib/ui/constructors";
 
 export default class Properties extends Widget {
     constructor() {
@@ -8,19 +9,19 @@ export default class Properties extends Widget {
     }
 
     header(text: string): Widget {
-        return c(`<div class='nisl-property-header'>${text}</div>`).appendTo(this)
+
+        return c(`<div class='nisl-property-header nisl-property-row'>${text}</div>`).appendTo(this)
     }
 
     row(content: Widget): this {
-        c("<div class='nisl-property-row nisl-property-standalone-row'></div>").append(content).appendTo(this)
+        c("<div class='nisl-property-row'></div>").append(content).appendTo(this)
 
         return this
     }
 
     named<T extends Widget>(name: string, content: T): T {
-        let row = $(`<div class='nisl-property-row'><div class='nisl-property-name'>${name}</div></div>`).appendTo(this.container)
-
-        content.appendTo(c("<div class='nisl-property-content'>").appendTo(row))
+        c(`<div class='nisl-property-name'>${name}</div>`).appendTo(this)
+        c(`<div class='nisl-property-content'></div>`).append(content).appendTo(this)
 
         return content
     }

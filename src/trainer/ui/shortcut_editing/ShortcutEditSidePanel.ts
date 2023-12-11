@@ -8,7 +8,6 @@ import * as lodash from "lodash"
 import {Rectangle, Vector2} from "lib/math";
 import {ewent, Observable, ObservableArray, observe} from "../../../lib/reactive";
 import shortcuts from "../../../data/shortcuts";
-import Checkbox from "../../../lib/ui/controls/Checkbox";
 import {C} from "../../../lib/ui/constructors";
 import {ShortcutEditor} from "./ShortcutEditor";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
@@ -23,6 +22,7 @@ import ContextMenu from "../widgets/ContextMenu";
 import {SmallImageButton} from "../widgets/SmallImageButton";
 import sibut = SmallImageButton.sibut;
 import MapSideBar from "../MapSideBar";
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 
 export default class ShortcutEditSidePanel extends MapSideBar {
     search_container: Widget

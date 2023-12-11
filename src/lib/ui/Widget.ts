@@ -1,13 +1,10 @@
-import {TypedEmitter} from "../../skillbertssolver/eventemitter";
 import * as tippy from 'tippy.js';
 
 
-export default class Widget<T extends Record<string, any> = {}> extends TypedEmitter<T> {
+export default class Widget<T extends HTMLElement = HTMLElement> {
     public container: JQuery
 
     constructor(init: JQuery | Widget = $("<div>")) {
-        super()
-
         if (init instanceof Widget) this.container = init.container
         else if (!init) this.container = $("<div>")
         else this.container = init
@@ -21,8 +18,8 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    raw(): HTMLElement {
-        return this.container.get()[0]
+    raw(): T {
+        return this.container.get()[0] as T
     }
 
     empty(): this {
@@ -46,7 +43,7 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    append(...widget: (Widget | JQuery)[]): this {
+    append(...widget: (Widget | JQuery | string)[]): this {
         widget.forEach(w => {
             if (!w) return
             if (w instanceof Widget) w = w.container
@@ -97,10 +94,10 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
         return this
     }
 
-    static wrap<T extends Record<string, any> = {}>(jquery: JQuery | string): Widget<T> {
+    static wrap(jquery: JQuery | string): Widget {
         if (typeof jquery == "string") jquery = $(jquery)
 
-        return new Widget<T>(jquery)
+        return new Widget(jquery)
     }
 
     text(text: string | number): this {
@@ -148,6 +145,16 @@ export default class Widget<T extends Record<string, any> = {}> extends TypedEmi
 
     setInnerHtml(html: string): this {
         this.container.html(html)
+        return this
+    }
+
+    on<TType extends string>(
+        events: TType,
+        handler:
+            | JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, TType>
+            | false,
+    ): this {
+        this.container.on(events, handler)
         return this
     }
 }

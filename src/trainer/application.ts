@@ -19,7 +19,15 @@ import Widget from "../lib/ui/Widget";
 import TheoryCrafter from "./ui/theorycrafting/TheoryCrafter";
 import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
-
+import NotificationBar from "./ui/NotificationBar";
+import {C} from "../lib/ui/constructors";
+import div = C.div;
+import link = QueryLinks.link;
+import vbox = C.vbox;
+import span = C.span;
+import hbox = C.hbox;
+import spacer = C.spacer;
+import {observe} from "../lib/reactive";
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
@@ -115,20 +123,6 @@ export namespace ScanTrainerCommands {
     ]
 }
 
-class BetaNoticeModal extends Modal {
-    understand_button: JQuery
-
-    constructor(id: string, app: Application) {
-        super(id);
-
-        this.understand_button = $("#beta-notice-dismiss").on("click", () => {
-            app.startup_settings.map((s) => {
-                s.hide_beta_notice = true
-            })
-        })
-    }
-}
-
 class PatchNotesModal extends Modal {
     sections: { el: JQuery, patchnotes: string }[]
     all_title: JQuery
@@ -146,33 +140,6 @@ class PatchNotesModal extends Modal {
                 patchnotes: e.data("patchnotes") as string
             }
         })
-    }
-
-    hasNewPatchnotes(): boolean {
-        let seen = this.app.startup_settings.get().seen_changelogs
-
-        return this.sections.some((e) => !seen.includes(e.patchnotes))
-    }
-
-
-    showNew() {
-        this.all_title.hide()
-        this.new_title.show()
-
-        let seen = this.app.startup_settings.get().seen_changelogs
-
-        this.sections.forEach((el) => {
-            if (seen.includes(el.patchnotes)) el.el.hide()
-            else el.el.show()
-        })
-
-        this.app.startup_settings.map((s) => {
-            s.seen_changelogs = this.sections.map((e) => e.patchnotes)
-        })
-
-        $("#modal-patchnotes-report-issues").show()
-
-        return this.show()
     }
 
     showAll() {
@@ -205,6 +172,8 @@ class AboutModal extends Modal {
 }
 
 export class Application extends Behaviour {
+    version = "b0.3.1"
+
     in_alt1: boolean = !!window.alt1
 
     main_content: Widget = null
@@ -246,17 +215,13 @@ export class Application extends Behaviour {
         ]
     ))
 
-    startup_settings = new storage.Variable<{
-        hide_beta_notice: boolean,
-        seen_changelogs: string[]
-    }>("preferences/startupsettings",  () => ({
-        hide_beta_notice: false,
-        seen_changelogs: []
-    }))
+    private startup_settings_storage = new storage.Variable<Application.Preferences>("preferences/startupsettings", () => ({}))
+    startup_settings = observe(this.startup_settings_storage.get())
 
-    beta_notice_modal = new BetaNoticeModal("modal-public-beta", this)
     patch_notes_modal = new PatchNotesModal("modal-patchnotes", this)
     about_modal = new AboutModal("modal-about", this)
+
+    notifications: NotificationBar
 
     constructor() {
         super()
@@ -266,7 +231,12 @@ export class Application extends Behaviour {
 
     protected async begin() {
         let container = Widget.wrap($("#main-content"))
+
+        this.startup_settings.subscribe(s => this.startup_settings_storage.set(s))
+
         let map_widget: Widget
+
+        this.notifications = new NotificationBar().appendTo($("body"))
 
         container.append(
             new MenuBar(this),
@@ -283,29 +253,77 @@ export class Application extends Behaviour {
             this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
         })
 
+        this.main_behaviour.set(new TheoryCrafter(this))
+
+        if (this.mode() == "preview") {
+            this.notifications.notify({type: "information"}, div(
+                "This is a preview release of Scan Trainer and not recommended for general usage. Features may change or disappear without any notice. ",
+                c("<a href='https://leridon.github.io/cluetrainer-live/' style='color: unset; text-decoration: underline'>Click here to get to the official release.</a>")
+            ))
+        }
+
+        if (!this.in_alt1 && !this.startup_settings.value().dont_recommend_alt1) {
+            this.notifications.notify({type: "information"}, not => vbox(
+                span("Scan Trainer is an Alt1 plugin and has clue-solving features when installed."),
+                hbox(
+                    c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`),
+                    spacer().css("max-width", "60px"),
+                    c(`<span class="ctr-notification-link">Don't show again.</span>`).on("click", () => {
+                        this.startup_settings.update(s => s.dont_recommend_alt1 = true)
+                        not.dismiss()
+                    })
+                )
+            ))
+        }
+
+        if (this.startup_settings.value().last_loaded_version != null && this.startup_settings.value().last_loaded_version != this.version) {
+            this.notifications.notify({type: "information"}, not => vbox(
+                span("There has been an update! "),
+                c(`<span class="ctr-notification-link">View patchnotes.</span>`).on("click", () => {
+                    this.patch_notes_modal.showAll()
+                    not.dismiss()
+                })
+            ))
+        }
+
+        this.startup_settings.update(s => s.last_loaded_version = this.version)
+
         let query_function = QueryLinks.get_from_params(ScanTrainerCommands.index, new URLSearchParams(window.location.search))
         if (query_function) query_function(this)
 
-        if (!this.startup_settings.get().hide_beta_notice) await this.beta_notice_modal.show()
-        if (this.patch_notes_modal.hasNewPatchnotes()) await this.patch_notes_modal.showNew()
-
         //ExportStringModal.do(await makeshift_main())
         await makeshift_main()
-
-        this.main_behaviour.set(new TheoryCrafter(this))
     }
 
     protected end() {
     }
+
+    mode(): "development" | "live" | "preview" {
+        if (window.location.host.includes("localhost"))
+            return "development"
+
+        if (window.location.host == "leridon.github.io") {
+            if (window.location.pathname.startsWith("/cluetrainer-live")) return "live"
+            if (window.location.pathname.startsWith("/rs3scantrainer")) return "preview"
+        }
+
+        return "development"
+    }
+
+    addToAlt1Link(): string {
+        return `alt1://addapp/${window.location.protocol}//${window.location.host}${window.location.pathname.slice(0, window.location.pathname.lastIndexOf("/") + 1)}appconfig.json`
+    }
 }
 
-export let scantrainer: Application
+namespace Application {
+    export type Preferences = {
+        last_loaded_version?: string,
+        dont_recommend_alt1?: boolean
+    }
+}
 
 export function initialize() {
-
-    scantrainer = new Application()
-
-    scantrainer.start()
+    new Application().start()
 
     //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
     //scantrainer.select(clues.find((c) => c.id == 399)) // compass

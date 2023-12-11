@@ -3,8 +3,10 @@ import {Path} from "lib/runescape/pathing";
 import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {Clues} from "../../lib/runescape/clues";
 import {uuid} from "../../oldlib";
+import {util} from "../../lib/util/util";
 
 export namespace SolvingMethods {
+    import timestamp = util.timestamp;
     export type method_kind = "scantree" | "general_path"
 
     export type ClueAssumptions = {
@@ -29,6 +31,7 @@ export namespace SolvingMethods {
     type method_base = {
         type: method_kind,
         id: string,
+        timestamp: number,
         for: { clue: number, spot?: TileCoordinates },
         name: string,
         description: string,
@@ -54,6 +57,7 @@ export namespace SolvingMethods {
             return {
                 id: uuid(),
                 type: "scantree",
+                timestamp: timestamp(),
                 name: "Enter a name",
                 description: "Enter a description.",
                 assumptions: ClueAssumptions.init(),
@@ -64,6 +68,7 @@ export namespace SolvingMethods {
             return {
                 id: uuid(),
                 type: "general_path",
+                timestamp: timestamp(),
                 name: "Enter a name",
                 description: "Enter a description.",
                 assumptions: ClueAssumptions.init(),

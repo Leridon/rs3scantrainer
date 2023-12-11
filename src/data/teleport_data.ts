@@ -1821,6 +1821,11 @@ export namespace teleport_data {
                     animation_ticks: 5
                 },
                 {
+                    id: "deathaltar", spot: {"x":1858,"y":4639,"level":0}, name: "Death Altar", code: "5",
+                    menu_ticks: 1,
+                    animation_ticks: 5
+                },
+                {
                     id: "elfcamp", spot: {x: 2202, y: 3255, level: 0}, name: "Elf Camp", code: "6",
                     menu_ticks: 1,
                     animation_ticks: 5
@@ -1974,6 +1979,16 @@ export namespace teleport_data {
                 },
                 {
                     id: "law", spot: {x: 2857, y: 3382, level: 0}, name: "Law", code: "Law",
+                    menu_ticks: 2,
+                    animation_ticks: 3
+                },
+                {
+                    id: "blood", spot: {"x":3560,"y":9779,"level":0}, name: "Blood", code: "Blood",
+                    menu_ticks: 2,
+                    animation_ticks: 3
+                },
+                {
+                    id: "death", spot: {"x":1863,"y":4637,"level":0}, name: "Death", code: "Death",
                     menu_ticks: 2,
                     animation_ticks: 3
                 },

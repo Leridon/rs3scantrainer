@@ -33,7 +33,7 @@ export class SearchSelection<T extends object | string | number> extends Abstrac
                     this.setDropdownItems(Array.from(results).map(r => r.obj.item))
                 }))
 
-        this.setDropdownItems([this.getSelection()])
+        this.setDropdownItems([this.selection.value()])
 
         return search_box
     }

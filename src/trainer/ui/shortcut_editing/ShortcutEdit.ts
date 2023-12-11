@@ -22,7 +22,6 @@ import {DrawOffset} from "./interactions/DrawOffset";
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import {C} from "../../../lib/ui/constructors";
-import Checkbox from "../../../lib/ui/controls/Checkbox";
 import {direction} from "../../../lib/runescape/movement";
 import hbox = C.hbox;
 import span = C.span;
@@ -32,6 +31,7 @@ import {ShortcutViewLayer} from "./ShortcutView";
 import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
 import vbox = C.vbox;
 import * as assert from "assert";
+import { Checkbox } from "lib/ui/controls/Checkbox";
 
 export class ShortcutEdit extends Widget {
     private header: Widget
@@ -223,7 +223,7 @@ export class ShortcutEdit extends Widget {
 
                     props.named("Cursor", new InteractionSelect()
                         .setValue(action.cursor)
-                        .on("selection_changed", (v) => {
+                        .onSelection((v) => {
                             this.config.value.update(() => action.cursor = v)
                         })
                     )
@@ -261,7 +261,7 @@ export class ShortcutEdit extends Widget {
                             }
                         }, ["offset", "fixed"])
                             .setValue(action.movement.type)
-                            .on("selection_changed", (v) => {
+                            .onSelection((v) => {
                                 switch (v) {
                                     case "offset": {
                                         this.config.value.update(() => {
@@ -412,7 +412,7 @@ export class ShortcutEdit extends Widget {
                             direction: d
                         })
                     )) as Shortcuts.shortcut_orientation_type[])
-                        .on("selection_changed", (v) => {
+                        .onSelection((v) => {
                             this.config.value.update(() => {
                                 if (v.type == "forced") {
                                     let old_relative = action.orientation.type == "forced"

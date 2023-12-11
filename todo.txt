@@ -1,23 +1,27 @@
-Immediate next:
+Planned for next release (b0.4):
 
 - Theorycrafter
-    - Search
-    - Fix new filter
-    - [Bug] Degree symbol bugs out in tooltip
-    - Editor for generic path methods
-    - Visual feedback for successful change.
-        - Track changes and disable when no changes exist?
     - "Save to pack" modal
+        - "Create new" option
+    - Editor for generic path methods
 
 - Menu Bar
     - Highlight currently active
-    - Disable when active to prevent unnecessary reloading
+    - Add to Alt 1 entry when not in Alt1
 
 - Solving Behaviour
     - Search Bar
     - Solve, Autosolve
     - Multiple Methods, Preferences
     - Integrate scan tree as map control instead of sidebar
+    - Solving
+        - Make fit include the entire path
+        - Better render of in-route teleports
+        - Run graphics are bad on snow background
+        - Spacing in the tree view is bad
+        - Don't fit to origin of teleport
+        - Adjust range polygon colors to ingame colors of pulses
+        - Replace buttons with pulse icons
 
 - Settings Modal
     - Map Settings: Teleport Preferences
@@ -25,8 +29,13 @@ Immediate next:
 
 - General
     - [Styling] ControlHeader title and X are not properly aligned
+        - Check modal for how to do it
     - Clean up cursor on map
-    - Fix dumb layouting of properties
+    - Remove old Modals
+        - About
+        - Patchnotes
+    - Add short summary sentence to update notifications
+    - Use the new ExpansionBehaviour wherever it's applicable
 
 - Shortcut editor/View
     - [Bug] Actually disable editing for builtins
@@ -45,9 +54,8 @@ Immediate next:
     - Update target for path editor when needed
     - Jump to spot button in overview
     - Autoname areas
-    - [Bug] Focussing a leaf root causes an exception (in path editor probably)
-    - [Bug] Closing the path editor does not unselect the active node
-    - [Bug] Deselecting equivalence classes does not hide them
+    - Better placement of information marker to guaranteee it's always inside the area.
+    - Scale information gain down when zoomed out
 
 - Path Editor
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
@@ -59,14 +67,10 @@ Immediate next:
     - [Bug] Path Editor throws an exception when start_state is undefined
     - Add a way to make it not closeable by the user
 
-- Solving
-    - Make fit include the entire path
-    - Better render of in-route teleports
-    - Run graphics are bad on snow background
-    - Spacing in the tree view is bad
-    - Don't fit to origin of teleport
-    - Adjust range polygon colors to ingame colors of pulses
-    - Replace buttons with pulse icons
+- Data Model
+    - Skilling Clue locations
+    - Sandy clues
+        - Membership only
 
 - Content
     ✓ Fremmenik Isles
@@ -107,27 +111,9 @@ Ready for release:
 - Update compass spots from rsmv
 - Have a way to directly link to a given clue and its method with query parameters.
 - Shortcut editor
-
-
-Planned for next release (b0.4):
-- [How] Detailled pathing
-    - Model what kinds of actions a path can consist of
-    - Define a graphical representation for each one.
-    - Add an editor/Unified way to show paths
-- Finish all elite/master scans
-
-- [Tooling] Styling pass over the scan editor
-    - Better placement of information marker to guaranteee it's always inside the area.
-    - Scale information gain down when zoomed out
-
-- "Add to Alt1 button" at the top when in browser
-
-b0.5:
-- Settings modal
-    - Local methods
-    - Teleport settings
-    - Shown depth of scan trees
-- Support for multiple methods
+- The internal datastructure for clues has been revamped and now includes more detail about the individual steps.
+- OverviewLayer/theorycrafter
+    - You can edit methods locally, share them as content packs.
 
 RELEASE 1.0
 - Auto read pulses
@@ -140,56 +126,19 @@ RELEASE 1.0
       Format:  floor,chunkx,chunkz,subx,subz
 
 
-Unscheduled:
+Unscheduled (Far future):
 - Fade teleport icons when on different level
 - [What] Incorporate jacket/backpack recommmendations
 - [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
 - Add a view to see the entire scan tree without having to enter the editor
 - Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
-- Add overview layer to display all clues based on the filter. Very useful tool to get an overview.
 - Scale teleports with zoom
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
-- Arrow key/enter control for the search.
 - Add puzzle solvers
 - Warn when not using meerkats
-- Track Jacket/Backpack Charges via Chat.
-- Locally saved methods
-- Figure out z-Ordering of layers (need to use panes maybe)
-- Assign clue tiers to remaining clues
-- Figure out how to handle clues with different solutions depending on game progress.
+- Track Jacket/Backpack Charges via Chat, display them
+- Figure out z-Ordering of layers (need to use custom panes maybe)
 - Google Maps like layout for a slimmer experience? Make the map be the center of everything
 - Landing areas for non-static teleports, show better metadata on tooltip/hover
-- Properly model clue solution types with more details
-
-Notable feedback to consider:
-
-[03:18]Offline: bit confused, when it says step- (surge), does that mean step and then surge?
-
-then for the double ping, it says (surge) -step south- (surge), does that mean surge, then take 1 step south, then surge once more? maybe it could be separated with commas so its more clear its like a step
-
-the patch notes does note that the zooming when going to next step has changed to include necessary spots, but i think the zoom should also include necessary next steps that dont have a teleport specified
-second picture for example, i dont know where C is, but the map doesnt need to zoom so far to see G because now i know where G is because a teleport is specified
-or for 3rd image i dont know where im diving or surging to, F cant be seen at all
-i see that the plugin works so that you arrive to a step, you see the pings, then click the plugin, then move accordingly
-but the way i use it is that i like to look forward to where i should move and then click the plugin as im arriving
-
-09:25]Offline: I think having an option to go 2 steps ahead might be useful, theres times on the older version where i just dont click the plugin because im moving through the steps rather quickly and then when i get stuck, then i click through whatever steps ive already done
-
-however i think there would have to be more of a distinct separator between ping sections and a section’s future steps
-so maybe indenting the future steps in farther for a better visual, or maybe even adding bullet points so that each section of ping directions has their own bullet points of future steps
-
-as for the blue marker, now that i look at it, it does look like it can be in the way at times, especially on specific tile directions like you said
-sometimes instead of perfectly surging to the next location i just run there because my brain still trying to process next steps and whatnot, so being able to see what exact tile i might need to stand on through the plugin would help
-
-one thing that did come in mind is maybe theres a way you can incorporate a statement that kinda visually describes what to stand near or on… for example maybe for a certain haunted woods step, there could be a tip saying that the next step is 1 step southwest of a nearby mushroom, which iirc step C and F is (just off top of my head)
-or for the second image, it could say something like “dive/surge to B, south of the nearby tree”
-
-also one thing i did remember about is that i think the upstairs portion of dorg was a bit visually confusing (when you option 4 tele to the west) because the map shows upstairs and downstairs
-off top of my head cause im on mobile atm, i think step H was a strip of land that looked like it was right by the bank, so i ended up getting confused if i was supposed to stay upstairs or downstairs for that step
-im not sure if all of the steps relating to dorg orb option4 are upstairs only, but maybe the steps in that table could specify that you would be staying upstairs or noting if/when go downstairs? idk, maybe its a me specific problem
-
-
-WIP Ardounge:
-eyJfcGF5bG9hZF90eXBlIjoiZW52ZWxvcCIsInZhbHVlIjoiZUp6dFhWdHpvemdXL2lzVXorNVpMZ1pNM25vdVBVKzdEN3UxdFE5VEtSZTJaWWNLTVM3QXlhUXkvdThyTUJJSVBzbGMwK21wOUVzblByTE9rZlNkbys4Y0NmS21yMC9CYXhRSHUzWDJlaUw2blo3L3Q5TVhldmxydWcyT1dVSUkvZVNaSkdrWUgvVTdnLzRjUkdjcWZ0TzM5UDkxdU5QdmJNZGE2RUdhbnA5SXVuNGlKSGtNc2xTL3k1SXpXZWhKSEdkRjY0Y3cyaVdFOXZISG0vNUlYdlBQVHVjb3BWMlpDMzBYN3ZlRVNyTjFSSjVKcE4vdEF5cTYxTFhOOTMzcm5iOS9uN2RQeURhalUwcm5TWDk3UzgvSmdlekNaM0s1YUZtc3ZiMWxBZjBndTF6bzNKK0M3S0ZRV2k1THNBbWpNSHVsRXZiVG5aNS9sWDZ3SStrMkNVOVpzVlQ2ZjFOQ2U3cjJTb1g3Skg3S0RmbVRHcngwbHd1ZGZ0RzJUWHVobHlZYjFOd3NycHJZWlJPajN1U3lVQnBTREtSbFNUbEFPcmoveEdjNm1xWXhVQk0weHZJbHhpVG5ZMHZ0djg5SHpkS3lNQ0lwbGIwRXI2YzRQT2JJL0VQWjY2SWxOV3ZTK3hzejBIOHBvQnB4OUZiWlpHWFZSMzlmVElDSVJWdUd4WVdlbnE2ZVdIUzV0QmdBREdGQ2YyREFPcnpKY2pyQS9vK2tXZE1XckVpd1pYbkxGaGxlbHlxODRsNFhMYW1GcEhEQjc4ZUJ5R0I5K3A4ZytnNGdtbVJTSktBU0RNSHJUS0dqWHRUOU9ja2VTS0s5WE1mZlhOTkJNWHZscWxDK2NwUlN1UDZUUjNTc1JwaFJEemFaQVdaWWtiaTdZRnZvMGlia1VPaDQwNC9CVTI1VmJrNUNndndUMWpEdjZoU1JmWWI2bzRvMmNaYUVod2NzenY4TmpqNHJHODloeCtnVGJ1T2pSaUhZSWZoOEdLQ09DZGF1OTI3QmVvNzVncHZiTGRjZDRqRllrOFI3clJrRE05WWl1aTVlMHpFdzhSZ3diZk5IaEltTE5yT3hNUGxYbkxTekZxeEtXQjdleEpwekE4ZGFSTUN5Sm5ZemdWQ3Y0QmV0akpQQmRrdWk4b1AzcG0yT3ZXTDVvU3Nab0dQeEpqMDhja0Iwa0NnU2JERnYyVElFOTVKZUYwektBb0VCTWxuSGRKRzA3aFduK0lVa20zTlNEQml0VEIwRnVZR1UxcEZxeExEL2lYRXUwU0pNdmVHK0V3eXdJc0huL0NHMjlIWityQVZISVhHM0V2Z2RZM1ZOTGxkeExBZHh1UlVEcFpucnJLa3YrZUx2T2lKNFkrdHRZK3Q5SGJkQ1orV1BaMHlYeXovNlVVMnkyMGJoOXJFZElFcUJGbVNhNVhpcnYyZ3d0Lzh5V3I3b3NTV3hSUzk1aUY5b0wvR0pHdHNoRkhtcVVPVEMzWVFGRzQ4bGk3YUxwRGFTanQyZ2k3TGlsOStDdHFOaWZVTFE0QmkzM0g3eDJsVk5FdTUxMFpJNlNNclcwSnFzVmxPQjJSNWU4UHNFOHllWUVWeFp5cENUbzdiVVUwb2hMTzh4TlMyZ3Q2VXNKVTdXVWJEYmtXUVh2K1JBL0dkd2ZJZ2pVdkhWY1htOXFacUxQQytTVXkzYnVFVzEwZ2VhVFd6UDJmclowdG14Mlc2ZFVqTXJaOFc5TkUwdFIzMm5LV2JtbHloODJuekpmOUdvTmpvU2toeURxTmpxcitiUXNIRUZhTGxsbDUzU0R3b1BEVFlSV1V2WUFTWERQem5jMEo4UVEzQXN2MnBpRlUxcXd3blkydEs1dlJwUERhak1ad2Juelo1VlZqQUZTMlJCTlplV3FQMHBmaVpQZFBpMXlkaUhmMTVQUUF2TVZNenptb243bnUwTFBTUWtDbkxUS3ZwUlRtSTE2M2xuWWY0WjdTSk9RcW91eUVyT3hYVEd5YlpRV3ZWMlBUbmw0S2RmWmpuOXBIeGFNcXAyS3VON1M3ODdoeDJTVFVzMFlXTWNpVEZkUEF0MzB2S3M4MDQ3aFczWGlqZTB0MjFFbUdOMTlhbXl1MDVPWlRLbjhqM1h3RTVsK3J5SnMrcmtWTUdoV0IwK2dJNnV4V2ZMTmFBZDFXUU9kUzNKOW52RHRiaFgyVEt2eXVMckltd0k5UytpczFwSE8rT1IxckhycHFIQjE4V1ZlZDgrWk1Zei9vWkNiVmZ0V3dPUzdiSytrcFlaN0ZUY0I3dHNKVFY2RUsvZUVSS3JFWUlTSTRqV3lwZ3VRaW9ZSUZRbk1rRFd4Sk5ZTk9Ub1dkTHJvaWwxSWNkajF4ZGN0OG54aHFjei9EaGJMSzErUHpnN0krQnNLYVVWZ1pxNnBnMHhodldKcUllblYxTzdIOVlpZ2gzREFHWVBHWW5JaVk1YTJ3WFBKRTFQSklvMmNVeHpVRW8yejRkalBpbWJZUHU0MEJBZ0JCWkE4MDc2K1NISUNNQUhVeU1aYWdjcnFNS3YrVy9IWWdIekczWnYraUdKejZkOEVvVnZVWEY2M3VUelhYNWI3K0xvcGpxL3dkVjJKdlZWMHFVTm9kT1NvaGpDN2lGZ0oxaDZTRHJXQ1JEOHNTWUJkUTVzMHBPSjRrNmF0aklnYUM5QkZHbTdPRTVhblBTS3hoeGQzZGhvdTh0T3ZOVHhxa3hPd2tzZG5nOWFmamRlV3BSd3VuRlJoeDl4UUM1YW04NmJYRFRlNzFPU0wzejV3N1dQS3pvYjFiRnl6dWpzY3M3cDNPS2N3WjZPWmhqbE5PcURhRlBPbXJpeWJSYkcyWFVmNWdVeWE4Qng4ZGNvUEJ5MWx6Qjc0SFdic2pCNHVZemJvenNXSHBmU3dpTTdleDlWZUZReXFpR0Z4eGxMaTdqUWlZaGw3OUtpOGx3VDk4cW53VmRLZVozY216TU53R3BnR3RCd2d6RU0xMlZEWHc0bzJIOXZ6MW9WbnVWL1JNOXlWOTM4cms5bU9aeHNZMzNZNzVZOVVzemVJTWRhTU1oRlE5NmxWRC9KR0MyVDdaL1NHd1FXNTdlU3pLWUx0Y09kZkpidlA4djNJODdnSktOZ1VrY3A5VmgxM1ZSSzU3NDBKMUVsbHZsWkU2Zm5veFBLQWd6dXRUVUREcXBmNFRPRHZtZDZueWNQbnljUDczL3kwUFhhTDd0SDFuakU3S00reXRObEt6Zk5HMXY1c0RBTWUyV2hRbkl2a0VuNVh0cm5pY0p1U1IyOHBRajFpYmNVZWNIRzdEZEpLOVVsYmR6cm9pbGRUZlowZzJQeU13WnZidndPU25NbGVHMUpKd2VHM0hGa21LaWFyQ1NZbU5hRFYxSkRtSzlaWGs5d0t0TkQzT3VpS1lWSFdSaG00NkRMc29YbWdkMG5kSDlnNkZhTE9sbEJ5SUNuMFgrVExicm5ZLzEydHkwYVBneGh3azJSU1htNk9XWDlSNzVGWTMzaVF3MTQzZVVQN3d4YzRPR0RrRnlKaEk0cHZzQ2hKekd1OVFLckZUVnhSWXgvRzBPTUhXT0NlOU1qby9NazExRW5UKzB4RXFBK0VRbjhzY1lKYjh6SUxjTHF4Q2pFN3hsSWpuT0hWUnhncjYwSHRpd1loYmkwejdMMXZ3RUsxWWpCQjhOZlh2TWRkL05hZVZYL3hzMEVUeW5saVJsNjRNSzJsVkxvWXZkOWcxZXRHMWpvckltcjRQWHJxT0RGRnJoSmh6NHFaZWp4cEtmbFMwNGhwOTNhc0RyUkluNG5iOVV2ZktoU2FFbXZpNVlVVWh4ZktZV2dHSmZEWU9mckNMUmZ3ME4rYW9qZ05TcXY0bTh0V1EwQmZ5MmFCY2ZkQkpjRXZ3VmJVcndLUmR1ODVoMWtEMFJMVDJRYjdrT3lLNkF3WjlqemtOUkIwaGxlcWlEUkpMb1JiREpreTJQUlJjVUtidHRUN2Q4U2UyUnVuUy90dGRSOGd4ZWdKZUdQZVdPcGp5QTl6blg1eTMyR3ZmQmhjamU1V2IrNTRROHJGZUw1WUExNHlaQkhqTWtQLzVzQXhLb0VBUEltVmcraTNIdkx4Vm9FUSt3ZUhMRGI5VllsS0w3M0JkcSt0SzZDSTZSMU5YSHRMR21XUzN2Zi8wV1dNOXlyVjhVQ2Q4bjJOd2NRZDVkZk9NWlNkbmZjbVRJM2xsSkppYjY2cDdrMmE3THM4Y0tZNFJaaGRZSkZGbXRpei9nS0c0a1d3UkNUUC92c05ZTFEwSjNQZGJuV3NRUXh6YWRZSXdIbGRsUEJYbFdTdndWN0Z3S05TUmxoZE9aOENaNUVqYkNrL0ViM2N1bzN6S0tyZGhKMWdrWHU5Q0RqcFFYYkh3S3lFa1ZYYWpWQmdlV0RSZFArc0pvZ2lBNmFHMG1zYkVsQk9hL0N3RkxrbFdvR2xUNkdVWlFleWZZeHlqUEhmWkE4aGNmRGhBUktwZURiOVJmdDl6TUZaNHRFaWQva0pLcnNvVGVIcWdNUGNDaEJQTkdGRjlmaWJ6WWFYaHFqVTlYZk15ZEtxYXNBSzYyVnViS3F6T1MyU0lvUUFwRVlZa3QvSXRIQkVMendZMks4eGErN0RMbzhOUU5wVnJNSFZjbW9jallzNVlVVHAwZVlIMEdhb1Q0UjVYejJuUm1SaGJXSXlNSXdHTVVlZUxGbzBEdHV4eGJ3UDFKYzZyOWlIUXpCMHp2WDZaYXBaQml1Nm1haDZ4b3FxVk5kb2tkU1d5bTFvSXV4NWZTVlVsVXRUZ0lGeWNGWml4Tnd6MGQxRmRjeDZ1TGE4cGJzNE9kUjdJQ25oc2FnMXd1ODQ1bVpERFpDV29OSDg0TUVwaUhIWjNNNms5UE4xV1RQYlE3YXNuRzNYS2w1UytsVXdSMXJFc0MyaEUwbXp3TnZHOUludVBPYzZCZ25UeFR1YzlhdDFTcStza0owTStkcWZLMXo1Ym9aVngxZkdWZXJ0MzhZTUs1K3pWOHhVY1NDZFp6c1NKTG5lOVVmS0lGL1pJVGQrOFovUm9KSjhSKzVZVkw4c24vK1hmZ2VkSDdmSEQ3Ym9ENE9WMS80NWNmdzhPcHV0Nk5aZkR6Tkh4WEFyeDVTbnRueDc4THpHalliK0FYdjdMdHNuaTBYdnBnVXZoR1hTK0hMV0ZpUXdua1greTUrZ0pySGE3aUI4WjRoNzE0b3cwQ3JaeHVzZ3FSNHg2UzRKTjJhSzdRS2txZTc3OXQvZk8xeStUK1BWMkFHIiwiY29tcHJlc3NlZCI6dHJ1ZSwiaGFzaCI6MTgxMzM1NjAwNTk5OTI1Mn0=

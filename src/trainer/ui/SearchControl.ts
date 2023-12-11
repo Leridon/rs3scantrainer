@@ -1,6 +1,7 @@
 import {type Application} from "trainer/application";
 import * as fuzzysort from "fuzzysort";
 import {Constants} from "trainer/constants";
+import {clue_data} from "../../data/clues";
 
 export default class SearchControl {
     private menubarcontrols = $("#menubarcontrols")
@@ -68,7 +69,7 @@ export default class SearchControl {
     update() {
         let term = this.search_box.val() as string
 
-        let results = fuzzysort.go(term, this.app.menubar.filter.getCandidates(), {
+        let results = fuzzysort.go(term, clue_data.all, {
             key: "clue",
             all: true,
             threshold: -10000

@@ -2,7 +2,6 @@ import Dict = NodeJS.Dict;
 
 export class Modal {
     _modal: JQuery
-    private hidden_promise: Promise<void>
 
     public constructor(id: string) {
         this._modal = $(`#${id}`)
@@ -24,10 +23,6 @@ export class Modal {
 
     show(): Promise<void> {
         this._modal.modal("show")
-
-        this.hidden_promise = new Promise<void>((resolve) => {
-            this._modal.on("hidden.bs.modal", () => resolve())
-        })
 
         return new Promise<void>((resolve) => {
             let listener = () => {

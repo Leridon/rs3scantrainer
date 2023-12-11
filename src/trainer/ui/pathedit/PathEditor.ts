@@ -47,8 +47,8 @@ import DirectionSelect from "./DirectionSelect";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
 import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
-import Checkbox from "../../../lib/ui/controls/Checkbox";
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -113,7 +113,9 @@ class StepEditWidget extends Widget {
 
         value.issues.forEach((i) => new IssueWidget(i).appendTo(issues))
 
-        let props = new Properties().appendTo(this)
+        let props = new Properties().css2({
+            "padding": "3px"
+        }).appendTo(this)
 
         props.named("Detail",
             new TemplateStringEdit({
@@ -170,7 +172,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Action", new InteractionSelect()
                     .setValue(value.raw.how)
-                    .on("selection_changed", how => {
+                    .onSelection(how => {
                         this.value.update((v) => {
                             assert(v.raw.type == "redclick")
                             v.raw.how = how
@@ -317,7 +319,7 @@ class StepEditWidget extends Widget {
             case "orientation":
                 props.named("Facing", new DirectionSelect()
                     .setValue(value.raw.direction)
-                    .on("selection_changed", dir => {
+                    .onSelection(dir => {
                         this.value.update((v) => {
                             assert(v.raw.type == "orientation")
                             v.raw.direction = dir
@@ -330,7 +332,7 @@ class StepEditWidget extends Widget {
                 let current = Teleports.find(teleport_data.getAllFlattened(), value.raw.id)
 
                 props.named("Teleport", new TeleportSelect().setValue(current)
-                    .on("selection_changed", tele =>
+                    .onSelection(tele =>
                         this.value.update((v) => {
                             assert(v.raw.type == "teleport")
                             v.raw.id = tele.id
@@ -570,7 +572,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         data.forEach(v => {
             if (!v.augmented) v.augmented = observe(null)
         })
-        
+
         if (data.some(s => !s)) {
             console.log("PANIC, adding null to step list")
             debugger
@@ -717,7 +719,7 @@ export class PathEditor extends Behaviour {
 
         let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state.position?.tile), this.options.target)
 
-        this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 5})
+        if (bounds) this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 5})
     }
 
     protected end() {

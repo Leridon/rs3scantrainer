@@ -5,7 +5,7 @@ import Widget from "lib/ui/Widget";
 import {SmallImageButton} from "./widgets/SmallImageButton";
 import {observe} from "../../lib/reactive";
 
-export class SidePanel<events_t extends Record<string, any> = {}> extends Widget<events_t> {
+export class SidePanel extends Widget {
     protected ui: {
         header: {
             title_span?: Widget,

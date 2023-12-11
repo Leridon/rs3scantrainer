@@ -12,6 +12,7 @@ export const default_scan_method_pack: Pack = {
         // Zanaris
         {
             "for": {"clue": 361},
+            "timestamp": 1701903764,
             "id": "4bd5ae7f-7522-4c88-8c2f-c88940433cda",
             "name": "Zanaris Scan",
             "description": "Meta Zanaris route based on Fiery's guide.",
@@ -2723,6 +2724,7 @@ export const default_scan_method_pack: Pack = {
         // Falador
         {
             "for": {"clue": 364},
+            "timestamp": 1701903764,
             "id": "4247edeb-e2d7-4b59-903b-29a24d74f66c",
             "name": "Falador Scan",
             "description": "Meta Falador route based on Fiery's guide and input by Mr Cob.",
@@ -5415,6 +5417,7 @@ export const default_scan_method_pack: Pack = {
         //Desert
         {
             "for": {"clue": 349},
+            "timestamp": 1701903764,
             "id": "93c7a742-d1b2-40ee-b5a7-0c56be6cf4e4",
             "name": "Nardah Scan",
             "description": "Meta Nardah route based on Fiery's guide.",
@@ -10423,6 +10426,7 @@ export const default_scan_method_pack: Pack = {
         // Swamp Caves
         {
             "for": {"clue": 362},
+            "timestamp": 1701903764,
             "id": "fcbcfdb8-bb6f-4998-8b1c-bbe5989337ca",
             "name": "Lumbridge Swamp Cave Scan",
             "description": "Meta Swamp cave route based on a guide by Xindrjayzda.",
@@ -11156,6 +11160,7 @@ export const default_scan_method_pack: Pack = {
         //Varrock
         {
             "for": {"clue": 351},
+            "timestamp": 1701903764,
             "type": "scantree",
             "id": "b52948ad-c572-47b7-8a8c-7d91d6be3f7f",
             "name": "Varrock Scan",
@@ -13962,6 +13967,7 @@ export const default_scan_method_pack: Pack = {
         //Haunted woods
         {
             "for": {"clue": 359},
+            "timestamp": 1701903764,
             "type": "scantree",
             "id": "9698cc25-4b59-4acd-b0c4-3259e7643de7",
             "name": "Haunted Woods Scan",
@@ -16582,6 +16588,7 @@ export const default_scan_method_pack: Pack = {
         // Prifddinas
         {
             "for": {"clue": 368},
+            "timestamp": 1701903764,
             "type": "scantree",
             "id": "54d08fef-6e98-4215-b722-39f9311854e9",
             "name": "Prifddinas Scan",
@@ -19455,6 +19462,7 @@ export const default_scan_method_pack: Pack = {
         // Dorgesh Khaan
         {
             "for": {"clue": 365},
+            "timestamp": 1701903764,
             "type": "scantree",
             "id": "ac31fb85-8077-427d-a696-e6d9d0ae2096",
             "name": "Dorgesh Khaan Scan",
@@ -23060,6 +23068,7 @@ export const default_scan_method_pack: Pack = {
         // Piscatoris
         {
             "for": {"clue": 355},
+            "timestamp": 1701903764,
             "type": "scantree",
             "id": "b3d0ec08-2b36-4019-9780-dce9a4c104cd",
             "name": "Piscatoris Scan",
@@ -25297,6 +25306,7 @@ export const default_scan_method_pack: Pack = {
         // Neitiznot
         {
             "for": {"clue": 363},
+            "timestamp": 1701903764,
             "id": "cbfc22a3-5102-49e3-8864-e0b1d661c2dd",
             "name": "Fremmenik Isles Scan",
             "description": "Meta Fremmenik Isles route based on Fiery's guide.",
@@ -29926,6 +29936,7 @@ export const default_scan_method_pack: Pack = {
         // Ardounge
         {
             "for": {"clue": 352},
+            "timestamp": 1701903764,
             "id": "ef1ef008-1d6b-4598-bf38-70d7a0788b3a",
             "name": "Ardougne Scan",
             "description": "Meta Ardougne route based on Fiery's guide.",

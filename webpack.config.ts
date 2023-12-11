@@ -1,6 +1,6 @@
 import alt1chain from "@alt1/webpack";
 import * as path from "path";
-import { ProvidePlugin } from "webpack";
+import {ProvidePlugin} from "webpack";
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');

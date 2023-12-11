@@ -15,7 +15,7 @@ import surge_cooldown = Path.movement_state.surge_cooldown;
 import escape_cooldown = Path.movement_state.escape_cooldown;
 import barge_cooldown = Path.movement_state.barge_cooldown;
 import dive_cooldown = Path.movement_state.dive_cooldown;
-import Collapsible from "../widgets/modals/Collapsible";
+import Collapsible from "../widgets/Collapsible";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
@@ -171,7 +171,9 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
 
                 new LightButton("Import", "rectangle")
                     .onClick(async () => {
-                        this.editor.value.load(await ImportStringModal.do((s) => Path.import_path(s)))
+                        await ImportStringModal.do((s) => Path.import_path(s), (value) => {
+                            this.editor.value.load(value)
+                        })
                     }),
 
                 new LightButton("Share", "rectangle")

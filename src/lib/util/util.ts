@@ -159,4 +159,10 @@ export namespace util {
     export function timestamp(): number {
         return Math.floor((new Date()).getTime() / 1000)
     }
+
+    export async function asyncFilter<T>(collection: T[], predicate: (_: T) => Promise<boolean>): Promise<T[]> {
+        let filters = await Promise.all(collection.map(predicate))
+
+        return collection.filter((e, i) => filters[i])
+    }
 }

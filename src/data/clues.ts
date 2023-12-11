@@ -4,37 +4,80 @@ import {ClueIndex, ClueSpotIndex} from "./ClueIndex";
 export namespace clue_data {
     export const anagram: Clues.Anagram[] = [
         {
-            "id": 23,
-            "type": "anagram",
-            "tier": null,
-            "text": ["This anagram reveals who to speak to next: Snah"],
-            "solution": {
-                "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
-                "npc": "Hans"
-            }
-        },
-        {
             "id": 14,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Eek Zero Op"],
-            "challenge": [{
-                "type": "challengescroll", "question": "How many animals are in the Ardougne Zoo?", "answers": [
-                    {"answer": 40, "note": "Before Eagles' Peak and Hunt for Red Raktuber"},
-                    {"answer": 41, "note": "After either Eagles' Peak or Hunt for Red Raktuber"},
-                    {"answer": 42, "note": "After both Eagles' Peak and Hunt for Red Raktuber"},
-                ]
-            }],
+            "text": [
+                "This anagram reveals who to speak to next: Eek Zero Op"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many animals are in the Ardougne Zoo?",
+                    "answers": [
+                        {
+                            "answer": 40,
+                            "note": "Before Eagles' Peak and Hunt for Red Raktuber"
+                        },
+                        {
+                            "answer": 41,
+                            "note": "After either Eagles' Peak or Hunt for Red Raktuber"
+                        },
+                        {
+                            "answer": 42,
+                            "note": "After both Eagles' Peak and Hunt for Red Raktuber"
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Zookeeper",
                 "spots": [
-                    {"range": {"topleft": {"x": 2608, "y": 3271}, "botright": {"x": 2615, "y": 3266}, "level": 0}},
-                    {"range": {"topleft": {"x": 2618, "y": 3283}, "botright": {"x": 2624, "y": 3277}, "level": 0}},
-                    {"range": {"topleft": {"x": 2599, "y": 3287}, "botright": {"x": 2606, "y": 3282}, "level": 0}}
-                ],
-            }
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2608,
+                                "y": 3271
+                            },
+                            "botright": {
+                                "x": 2615,
+                                "y": 3266
+                            },
+                            "level": 0
+                        }
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2618,
+                                "y": 3283
+                            },
+                            "botright": {
+                                "x": 2624,
+                                "y": 3277
+                            },
+                            "level": 0
+                        }
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2599,
+                                "y": 3287
+                            },
+                            "botright": {
+                                "x": 2606,
+                                "y": 3282
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Eek Zero Op"
+            ]
         },
         {
             "id": 24,
@@ -47,278 +90,861 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 2267, "y": 4760}, "botright": {"x": 2271, "y": 4752}, "level": 0}, note: "Before 'Death Plateu'"}
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2267,
+                                "y": 4760
+                            },
+                            "botright": {
+                                "x": 2271,
+                                "y": 4752
+                            },
+                            "level": 0
+                        },
+                        "note": "Before 'Death Plateu'"
+                    }
                 ],
                 "npc": "Sabbot"
-            }
+            },
+            "anagram": [
+                "Stab Ob",
+                "Boast B"
+            ]
         },
         {
             "id": 318,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Nod med"],
-            "challenge": [{"type": "challengescroll", "question": "How many pigeon cages are there around the back of Jerico's house?", "answers": [{"answer": 3}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Nod med"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many pigeon cages are there around the back of Jerico's house?",
+                    "answers": [
+                        {
+                            "answer": 3
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Edmond",
-                "spots": [{"range": {"topleft": {"x": 2564, "y": 3336}, "botright": {"x": 2570, "y": 3330}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2564,
+                                "y": 3336
+                            },
+                            "botright": {
+                                "x": 2570,
+                                "y": 3330
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Nod med"
+            ]
         },
         {
             "id": 320,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Winston Lane"],
-            "challenge": [{"type": "challengescroll", "question": "How many tables are there in the Pick and Lute Inn?", "answers": [{"answer": 10}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Winston Lane"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many tables are there in the Pick and Lute Inn?",
+                    "answers": [
+                        {
+                            "answer": 10
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Nails Newton",
-                "spots": [{"range": {"topleft": {"x": 2880, "y": 3445}, "botright": {"x": 2882, "y": 3443}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2880,
+                                "y": 3445
+                            },
+                            "botright": {
+                                "x": 2882,
+                                "y": 3443
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Winston Lane"
+            ]
         },
         {
             "id": 321,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Or A Vile"],
-            "challenge": [{"type": "challengescroll", "question": "How many windows look out into the Citharede Abbey courtyard?", "answers": [{"answer": 17}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Or A Vile"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many windows look out into the Citharede Abbey courtyard?",
+                    "answers": [
+                        {
+                            "answer": 17
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Valerio",
-                "spots": [{"range": {"topleft": {"x": 3399, "y": 3150}, "botright": {"x": 3401, "y": 3148}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3399,
+                                "y": 3150
+                            },
+                            "botright": {
+                                "x": 3401,
+                                "y": 3148
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Or A Vile"
+            ]
         },
         {
             "id": 322,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Icy Fe"],
+            "text": [
+                "This anagram reveals who to speak to next: Icy Fe"
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Fycie",
-                "spots": [{"range": {"topleft": {"x": 2646, "y": 9398}, "botright": {"x": 2653, "y": 9390}, "level": 0}}]
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2646,
+                                "y": 9398
+                            },
+                            "botright": {
+                                "x": 2653,
+                                "y": 9390
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Icy Fe"
+            ]
         },
         {
             "id": 323,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Aha Jar"],
+            "text": [
+                "This anagram reveals who to speak to next: Aha Jar"
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Jaraah",
-                "spots": [{"range": {"topleft": {"x": 3290, "y": 3219}, "botright": {"x": 3297, "y": 3215}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3290,
+                                "y": 3219
+                            },
+                            "botright": {
+                                "x": 3297,
+                                "y": 3215
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Aha Jar"
+            ]
         },
         {
             "id": 326,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Bail Trims"],
+            "text": [
+                "This anagram reveals who to speak to next: Bail Trims"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2405,
+                                "y": 9822
+                            },
+                            "botright": {
+                                "x": 2413,
+                                "y": 9815
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Brimstail"
-            }
+            },
+            "anagram": [
+                "Bail Trims"
+            ]
         },
         {
             "id": 327,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Ok Co"],
-            "challenge": [{"type": "challengescroll", "question": "How many cannons does Lumbridge Castle have?", "answers": [{"answer": 7}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Ok Co"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many cannons does Lumbridge Castle have?",
+                    "answers": [
+                        {
+                            "answer": 7
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Cook",
-                "spots": [{"range": {"topleft": {"x": 3208, "y": 3215}, "botright": {"x": 3210, "y": 3215}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3208,
+                                "y": 3215
+                            },
+                            "botright": {
+                                "x": 3210,
+                                "y": 3215
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Ok Co"
+            ]
         },
         {
             "id": 328,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Are Col"],
-            "challenge": [{"type": "challengescroll", "question": "If x is 15 and y is 3, what is 3x + y? ", "answers": [{"answer": 48}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Are Col"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "If x is 15 and y is 3, what is 3x + y? ",
+                    "answers": [
+                        {
+                            "answer": 48
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Oracle",
-                "spots": [{"range": {"topleft": {"x": 3008, "y": 3503}, "botright": {"x": 3019, "y": 3498}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3008,
+                                "y": 3503
+                            },
+                            "botright": {
+                                "x": 3019,
+                                "y": 3498
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Are Col"
+            ]
         },
         {
             "id": 329,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Arc O Line"],
-            "challenge": [{
-                "type": "challengescroll", "question": "How many fishermen are there on the Fishing Platform?", "answers": [
-                    {"answer": 11, "note": "Before 'Kennith's Concerns'"},
-                    {"answer": 0, "note": "After 'Kennith's Concerns'"},
-                ]
-            }],
+            "text": [
+                "This anagram reveals who to speak to next: Arc O Line"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many fishermen are there on the Fishing Platform?",
+                    "answers": [
+                        {
+                            "answer": 11,
+                            "note": "Before 'Kennith's Concerns'"
+                        },
+                        {
+                            "answer": 0,
+                            "note": "After 'Kennith's Concerns'"
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Caroline",
                 "spots": [
-                    {"range": {"topleft": {"x": 2713, "y": 3305}, "botright": {"x": 2718, "y": 3290}, "level": 0}, "note": "Before 'Sea Slug'."},
-                    {"range": {"topleft": {"x": 2708, "y": 3285}, "botright": {"x": 2712, "y": 3280}, "level": 1}, "note": "After 'Sea Slug'."},
-                ],
-            }
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2713,
+                                "y": 3305
+                            },
+                            "botright": {
+                                "x": 2718,
+                                "y": 3290
+                            },
+                            "level": 0
+                        },
+                        "note": "Before 'Sea Slug'."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2708,
+                                "y": 3285
+                            },
+                            "botright": {
+                                "x": 2712,
+                                "y": 3280
+                            },
+                            "level": 1
+                        },
+                        "note": "After 'Sea Slug'."
+                    }
+                ]
+            },
+            "anagram": [
+                "Arc O Line"
+            ]
         },
         {
             "id": 330,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Goblin Kern"],
+            "text": [
+                "This anagram reveals who to speak to next: Goblin Kern"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2540, "y": 3171}, "botright": {"x": 2542, "y": 3167}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2540,
+                                "y": 3171
+                            },
+                            "botright": {
+                                "x": 2542,
+                                "y": 3167
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "King Bolren"
-            }
+            },
+            "anagram": [
+                "Goblin Kern"
+            ]
         },
         {
             "id": 331,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Soy Drain"],
-            "challenge": [{"type": "challengescroll", "question": "How many ore rocks are there in the nearby copper and tin mine?", "answers": [{"answer": 8}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Soy Drain"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many ore rocks are there in the nearby copper and tin mine?",
+                    "answers": [
+                        {
+                            "answer": 8
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Ysondria",
-                "spots": [{"range": {"topleft": {"x": 3219, "y": 3184}, "botright": {"x": 3221, "y": 3182}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3219,
+                                "y": 3184
+                            },
+                            "botright": {
+                                "x": 3221,
+                                "y": 3182
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Soy Drain"
+            ]
         },
         {
             "id": 332,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Dt Run B"],
-            "challenge": [{"type": "challengescroll", "question": "How many people are waiting for the next bard to perform?", "answers": [{"answer": 4}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Dt Run B"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many people are waiting for the next bard to perform?",
+                    "answers": [
+                        {
+                            "answer": 4
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Brundt the Chieftain",
-                "spots": [{"range": {"topleft": {"x": 2657, "y": 3670}, "botright": {"x": 2660, "y": 3666}, "level": 0}}]
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2657,
+                                "y": 3670
+                            },
+                            "botright": {
+                                "x": 2660,
+                                "y": 3666
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Dt Run B"
+            ]
         },
         {
             "id": 334,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Me if"],
+            "text": [
+                "This anagram reveals who to speak to next: Me if"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2457, "y": 3382}, "botright": {"x": 2461, "y": 3380}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2457,
+                                "y": 3382
+                            },
+                            "botright": {
+                                "x": 2461,
+                                "y": 3380
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Femi"
-            }
+            },
+            "anagram": [
+                "Me if"
+            ]
         },
         {
             "id": 335,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: R Ak Mi"],
-            "challenge": [{
-                "type": "challengescroll",
-                "question": "I have 16 kebabs, I eat one myself and share the rest equally between 3 friends. How many do they have each?",
-                "answers": [{"answer": 5}]
-            }],
+            "text": [
+                "This anagram reveals who to speak to next: R Ak Mi"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "I have 16 kebabs, I eat one myself and share the rest equally between 3 friends. How many do they have each?",
+                    "answers": [
+                        {
+                            "answer": 5
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Karim",
-                "spots": [{"range": {"topleft": {"x": 3269, "y": 3184}, "botright": {"x": 3271, "y": 3182}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3269,
+                                "y": 3184
+                            },
+                            "botright": {
+                                "x": 3271,
+                                "y": 3182
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "R Ak Mi"
+            ]
         },
         {
             "id": 336,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Got A Boy"],
-            "challenge": [{"type": "challengescroll", "question": "How many buildings are in the village?", "answers": [{"answer": 11}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Got A Boy"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many buildings are in the village?",
+                    "answers": [
+                        {
+                            "answer": 11
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Gabooty",
-                "spots": [{"range": {"topleft": {"x": 2786, "y": 3070}, "botright": {"x": 2801, "y": 3063}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2786,
+                                "y": 3070
+                            },
+                            "botright": {
+                                "x": 2801,
+                                "y": 3063
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Got A Boy"
+            ]
         },
         {
             "id": 337,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Halt Us"],
+            "text": [
+                "This anagram reveals who to speak to next: Halt Us"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2935, "y": 3156}, "botright": {"x": 2941, "y": 3152}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2935,
+                                "y": 3156
+                            },
+                            "botright": {
+                                "x": 2941,
+                                "y": 3152
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Luthas"
-            }
+            },
+            "anagram": [
+                "Halt Us"
+            ]
         },
         {
             "id": 338,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Err Cure It"],
-            "challenge": [{"type": "challengescroll", "question": "How many houses have a cross on the door?", "answers": [{"answer": 20}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Err Cure It"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many houses have a cross on the door?",
+                    "answers": [
+                        {
+                            "answer": 20
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Recruiter",
-                "spots": [{"range": {"topleft": {"x": 2539, "y": 3308}, "botright": {"x": 2544, "y": 3302}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2539,
+                                "y": 3308
+                            },
+                            "botright": {
+                                "x": 2544,
+                                "y": 3302
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Err Cure It"
+            ]
         },
         {
             "id": 339,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Iz A Ammo Load For Mrs Yakkers"],
-            "challenge": [{"type": "challengescroll", "question": "How many bottles are there on the stall to the east of Mr Ex?", "answers": [{"answer": 7}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Iz A Ammo Load For Mrs Yakkers"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many bottles are there on the stall to the east of Mr Ex?",
+                    "answers": [
+                        {
+                            "answer": 7
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Moldark, Emissary of Zamorak",
-                "spots": [{"range": {"topleft": {"x": 3104, "y": 3510}, "botright": {"x": 3105, "y": 3508}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3104,
+                                "y": 3510
+                            },
+                            "botright": {
+                                "x": 3105,
+                                "y": 3508
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Iz A Ammo Load For Mrs Yakkers"
+            ]
         },
         {
             "id": 340,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Im Krom"],
-            "challenge": [{"type": "challengescroll", "question": "How many rocks in the Rimmington mine cannot be used to make bronze?", "answers": [{"answer": 7}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Im Krom"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many rocks in the Rimmington mine cannot be used to make bronze?",
+                    "answers": [
+                        {
+                            "answer": 7
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Rommik",
-                "spots": [{"range": {"topleft": {"x": 2945, "y": 3199}, "botright": {"x": 2950, "y": 3193}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2945,
+                                "y": 3199
+                            },
+                            "botright": {
+                                "x": 2950,
+                                "y": 3193
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Im Krom"
+            ]
         },
         {
             "id": 341,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: El Ow"],
+            "text": [
+                "This anagram reveals who to speak to next: El Ow"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3230, "y": 3422}, "botright": {"x": 3236, "y": 3420}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3230,
+                                "y": 3422
+                            },
+                            "botright": {
+                                "x": 3236,
+                                "y": 3420
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Lowe"
-            }
+            },
+            "anagram": [
+                "El Ow"
+            ]
         },
         {
             "id": 342,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Peaty Pert"],
+            "text": [
+                "This anagram reveals who to speak to next: Peaty Pert"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3048, "y": 3378}, "botright": {"x": 3054, "y": 3372}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3048,
+                                "y": 3378
+                            },
+                            "botright": {
+                                "x": 3054,
+                                "y": 3372
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Party Pete"
-            }
+            },
+            "anagram": [
+                "Peaty Pert"
+            ]
         },
         {
             "id": 343,
             "type": "anagram",
             "tier": "medium",
-            "text": ["This anagram reveals who to speak to next: Lark In Dog"],
-            "challenge": [{"type": "challengescroll", "question": "How many bookcases are there in the Varrock Palace library?", "answers": [{"answer": 24}]}],
+            "text": [
+                "This anagram reveals who to speak to next: Lark In Dog"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many bookcases are there in the Varrock Palace library?",
+                    "answers": [
+                        {
+                            "answer": 24
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "King Roald",
-                "spots": [{"range": {"topleft": {"x": 3217, "y": 3478}, "botright": {"x": 3224, "y": 3471}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3217,
+                                "y": 3478
+                            },
+                            "botright": {
+                                "x": 3224,
+                                "y": 3471
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "Lark In Dog"
+            ]
         },
         {
             "id": 20,
@@ -327,371 +953,1178 @@ export namespace clue_data {
             "text": [
                 "This anagram reveals who to speak to next: Me Am The Calc",
                 "This anagram reveals who to speak to next: Ace Match Elm",
-                "This anagram reveals who to speak to next: The Cal Came",
+                "This anagram reveals who to speak to next: The Cal Came"
             ],
-            "challenge": [{"type": "slider"}],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3284, "y": 3241}, "botright": {"x": 3294, "y": 3234}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3284,
+                                "y": 3241
+                            },
+                            "botright": {
+                                "x": 3294,
+                                "y": 3234
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Cam the Camel"
-            }
+            },
+            "anagram": [
+                "Me Am The Calc",
+                "Ace Match Elm",
+                "The Cal Came"
+            ]
         },
         {
             "id": 287,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: I Eat Its Chart Hints Do U"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: I Eat Its Chart Hints Do U"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3420, "y": 2930}, "botright": {"x": 3430, "y": 2926}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3420,
+                                "y": 2930
+                            },
+                            "botright": {
+                                "x": 3430,
+                                "y": 2926
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Shiratti the Custodian"
-            }
+            },
+            "anagram": [
+                "I Eat Its Chart Hints Do U"
+            ]
         },
         {
             "id": 288,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: An Paint Tonic"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: An Paint Tonic"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2860, "y": 9883}, "botright": {"x": 2877, "y": 9873}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2860,
+                                "y": 9883
+                            },
+                            "botright": {
+                                "x": 2877,
+                                "y": 9873
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Captain Ninto"
-            }
+            },
+            "anagram": [
+                "An Paint Tonic"
+            ]
         },
         {
             "id": 289,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Arr! So I am a crust, and?"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: Arr! So I am a crust, and?"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2338, "y": 3678}, "botright": {"x": 2346, "y": 3673}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2338,
+                                "y": 3678
+                            },
+                            "botright": {
+                                "x": 2346,
+                                "y": 3673
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Ramara du Croissant"
-            }
+            },
+            "anagram": [
+                "Arr! So I am a crust, and?"
+            ]
         },
         {
             "id": 290,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: C On Game Hoc"],
-            "challenge": [{"type": "challengescroll", "question": "How many gnomes on the gnome ball field have red patches on their uniforms?", "answers": [{"answer": 6}]}],
+            "text": [
+                "This anagram reveals who to speak to next: C On Game Hoc"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many gnomes on the gnome ball field have red patches on their uniforms?",
+                    "answers": [
+                        {
+                            "answer": 6
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Gnome Coach",
                 "spots": [
-                    {"range": {"topleft": {"x": 2381, "y": 3497}, "botright": {"x": 2409, "y": 3479}, "level": 0}, "note": "The coach roams around the field."}
-                ],
-            }
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2381,
+                                "y": 3497
+                            },
+                            "botright": {
+                                "x": 2409,
+                                "y": 3479
+                            },
+                            "level": 0
+                        },
+                        "note": "The coach roams around the field."
+                    }
+                ]
+            },
+            "anagram": [
+                "C On Game Hoc"
+            ]
         },
         {
             "id": 291,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: He Do Pose. It Is Cultrrl, Mk?"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: He Do Pose. It Is Cultrrl, Mk?"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2903, "y": 10208}, "botright": {"x": 2905, "y": 10206}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2903,
+                                "y": 10208
+                            },
+                            "botright": {
+                                "x": 2905,
+                                "y": 10206
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Riki the sculptor's model"
-            }
+            },
+            "anagram": [
+                "He Do Pose. It Is Cultrrl, Mk?"
+            ]
         },
         {
             "id": 292,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Profs Lose Wrong Pie"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: Profs Lose Wrong Pie"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3103, "y": 3165}, "botright": {"x": 3114, "y": 3146}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3103,
+                                "y": 3165
+                            },
+                            "botright": {
+                                "x": 3114,
+                                "y": 3146
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Professor Onglewip"
-            }
+            },
+            "anagram": [
+                "Profs Lose Wrong Pie"
+            ]
         },
         {
             "id": 293,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: O Birdz A Zany En Pc"],
-            "challenge": [{"type": "challengescroll", "question": "How many banana trees are there in the plantation?", "answers": [{"answer": 33}]}],
+            "text": [
+                "This anagram reveals who to speak to next: O Birdz A Zany En Pc"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many banana trees are there in the plantation?",
+                    "answers": [
+                        {
+                            "answer": 33
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Cap'n Izzy No-Beard",
-                "spots": [{"range": {"topleft": {"x": 2806, "y": 3192}, "botright": {"x": 2808, "y": 3190}, "level": 0}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2806,
+                                "y": 3192
+                            },
+                            "botright": {
+                                "x": 2808,
+                                "y": 3190
+                            },
+                            "level": 0
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "O Birdz A Zany En Pc"
+            ]
         },
         {
             "id": 295,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Red Art Tans"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: Red Art Tans"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3032, "y": 3191}, "botright": {"x": 3034, "y": 3190}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3032,
+                                "y": 3191
+                            },
+                            "botright": {
+                                "x": 3034,
+                                "y": 3190
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Trader Stan"
-            }
+            },
+            "anagram": [
+                "Red Art Tans"
+            ]
         },
         {
             "id": 296,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Or Zinc Fumes Ward"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: Or Zinc Fumes Ward"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2587, "y": 9489}, "botright": {"x": 2589, "y": 9488}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2587,
+                                "y": 9489
+                            },
+                            "botright": {
+                                "x": 2589,
+                                "y": 9488
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Wizard Frumscone"
-            }
+            },
+            "anagram": [
+                "Or Zinc Fumes Ward"
+            ]
         },
         {
             "id": 297,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: By Look"],
-            "challenge": [{"type": "challengescroll", "question": "How many flowers are there in the clearing below this platform?", "answers": [{"answer": 13}]}],
+            "text": [
+                "This anagram reveals who to speak to next: By Look"
+            ],
+            "challenge": [
+                {
+                    "type": "challengescroll",
+                    "question": "How many flowers are there in the clearing below this platform?",
+                    "answers": [
+                        {
+                            "answer": 13
+                        }
+                    ]
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Bolkoy",
-                "spots": [{"range": {"topleft": {"x": 2525, "y": 3164}, "botright": {"x": 2531, "y": 3160}, "level": 1}}],
-            }
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2525,
+                                "y": 3164
+                            },
+                            "botright": {
+                                "x": 2531,
+                                "y": 3160
+                            },
+                            "level": 1
+                        }
+                    }
+                ]
+            },
+            "anagram": [
+                "By Look"
+            ]
         },
         {
             "id": 298,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Sequin Dirge"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: Sequin Dirge"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 2499, "y": 3864}, "botright": {"x": 2502, "y": 3861}, "level": 1}, "note": "After 'Blood Runs Deep'"},
-                    {"range": {"topleft": {"x": 2612, "y": 3879}, "botright": {"x": 2617, "y": 3871}, "level": 1}, "note": "Before 'Blood Runs Deep'"}
-
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2499,
+                                "y": 3864
+                            },
+                            "botright": {
+                                "x": 2502,
+                                "y": 3861
+                            },
+                            "level": 1
+                        },
+                        "note": "After 'Blood Runs Deep'"
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2612,
+                                "y": 3879
+                            },
+                            "botright": {
+                                "x": 2617,
+                                "y": 3871
+                            },
+                            "level": 1
+                        },
+                        "note": "Before 'Blood Runs Deep'"
+                    }
                 ],
                 "npc": "Queen Sigrid"
-            }
+            },
+            "anagram": [
+                "Sequin Dirge"
+            ]
         },
         {
             "id": 299,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: A Zen She"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: A Zen She"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2657, "y": 3293}, "botright": {"x": 2661, "y": 3291}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2657,
+                                "y": 3293
+                            },
+                            "botright": {
+                                "x": 2661,
+                                "y": 3291
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Zenesha"
-            }
+            },
+            "anagram": [
+                "A Zen She"
+            ]
         },
         {
             "id": 300,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Gulag Run"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: Gulag Run"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2437, "y": 3057}, "botright": {"x": 2450, "y": 3047}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2437,
+                                "y": 3057
+                            },
+                            "botright": {
+                                "x": 2450,
+                                "y": 3047
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Uglug Nar"
-            }
+            },
+            "anagram": [
+                "Gulag Run"
+            ]
         },
         {
             "id": 301,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: Land Doomd"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: Land Doomd"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3358, "y": 3510}, "botright": {"x": 3364, "y": 3502}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3358,
+                                "y": 3510
+                            },
+                            "botright": {
+                                "x": 3364,
+                                "y": 3502
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Odd Old Man"
-            }
+            },
+            "anagram": [
+                "Land Doomd"
+            ]
         },
         {
             "id": 302,
             "type": "anagram",
             "tier": "hard",
-            "text": ["This anagram reveals who to speak to next: I Faffy Run"],
-            "challenge": [{"type": "slider"}],
+            "text": [
+                "This anagram reveals who to speak to next: I Faffy Run"
+            ],
+            "challenge": [
+                {
+                    "type": "slider"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2384, "y": 4471}, "botright": {"x": 2389, "y": 4466}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2384,
+                                "y": 4471
+                            },
+                            "botright": {
+                                "x": 2389,
+                                "y": 4466
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Fairy Nuff (North of the bank in Zanaris)"
-            }
+            },
+            "anagram": [
+                "I Faffy Run"
+            ]
         },
         {
             "id": 303,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: An exile that isn't wholly free WE IRK OVER NA."],
+            "text": [
+                "This anagram reveals who to speak to next: An exile that isn't wholly free WE IRK OVER NA."
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 4644, "y": 5386}, "botright": {"x": 4648, "y": 5382}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 4644,
+                                "y": 5386
+                            },
+                            "botright": {
+                                "x": 4648,
+                                "y": 5382
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Ramokee Skinweaver"
-            }
+            },
+            "anagram": [
+                "An exile that isn't wholly free WE IRK OVER NA."
+            ]
         },
         {
             "id": 306,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: He often preaches of QUIT THY BRINE RAT ROLL"],
+            "text": [
+                "This anagram reveals who to speak to next: He often preaches of QUIT THY BRINE RAT ROLL"
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 3679, "y": 2964}, "botright": {"x": 3683, "y": 2960}, "level": 0}, "note": "Mos Le'Harmless"},
-                    {"range": {"topleft": {"x": 3783, "y": 2829}, "botright": {"x": 3790, "y": 2822}, "level": 0}, "note": "Harmony"}
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3679,
+                                "y": 2964
+                            },
+                            "botright": {
+                                "x": 3683,
+                                "y": 2960
+                            },
+                            "level": 0
+                        },
+                        "note": "Mos Le'Harmless"
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3783,
+                                "y": 2829
+                            },
+                            "botright": {
+                                "x": 3790,
+                                "y": 2822
+                            },
+                            "level": 0
+                        },
+                        "note": "Harmony"
+                    }
                 ],
                 "npc": "Brother Tranquility"
-            }
+            },
+            "anagram": [
+                "He often preaches of QUIT THY BRINE RAT ROLL"
+            ]
         },
         {
             "id": 307,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: They seek spirits O EASTERN WISHES"],
-            "challenge": [{"type": "towers"}],
+            "text": [
+                "This anagram reveals who to speak to next: They seek spirits O EASTERN WISHES"
+            ],
+            "challenge": [
+                {
+                    "type": "towers"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 1784, "y": 11954}, "botright": {"x": 1786, "y": 11952}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 1784,
+                                "y": 11954
+                            },
+                            "botright": {
+                                "x": 1786,
+                                "y": 11952
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Sensei Seaworth"
-            }
+            },
+            "anagram": [
+                "They seek spirits O EASTERN WISHES"
+            ]
         },
         {
             "id": 308,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: This lady wants me to find ancient scrolls ERGO I DIG CLAY"],
-            "challenge": [{"type": "towers"}],
+            "text": [
+                "This anagram reveals who to speak to next: This lady wants me to find ancient scrolls ERGO I DIG CLAY"
+            ],
+            "challenge": [
+                {
+                    "type": "towers"
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 3376, "y": 3405}, "botright": {"x": 3378, "y": 3403}, "level": 0}, "note": "Outside the empty throne room."},
-                    {"range": {"topleft": {"x": 2825, "y": 12632}, "botright": {"x": 2827, "y": 12630}, "level": 2}, "note": "Inside the empty throne room."}
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3376,
+                                "y": 3405
+                            },
+                            "botright": {
+                                "x": 3378,
+                                "y": 3403
+                            },
+                            "level": 0
+                        },
+                        "note": "Outside the empty throne room."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2825,
+                                "y": 12632
+                            },
+                            "botright": {
+                                "x": 2827,
+                                "y": 12630
+                            },
+                            "level": 2
+                        },
+                        "note": "Inside the empty throne room."
+                    }
                 ],
                 "npc": "Celia Diggory"
-            }
+            },
+            "anagram": [
+                "This lady wants me to find ancient scrolls ERGO I DIG CLAY"
+            ]
         },
         {
             "id": 309,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: Master of the elements, he may REIGN US IF IMMORTAL"],
-            "challenge": [{"type": "lockbox"}],
+            "text": [
+                "This anagram reveals who to speak to next: Master of the elements, he may REIGN US IF IMMORTAL"
+            ],
+            "challenge": [
+                {
+                    "type": "lockbox"
+                }
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 2997, "y": 3273}, "botright": {"x": 3004, "y": 3263}, "level": 0}, "note": "By Armadyl's tower."},
-                    {"range": {"topleft": {"x": 1034, "y": 1764}, "botright": {"x": 1036, "y": 1762}, "level": 1}, "note": "City of Um Ritual site"}
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2997,
+                                "y": 3273
+                            },
+                            "botright": {
+                                "x": 3004,
+                                "y": 3263
+                            },
+                            "level": 0
+                        },
+                        "note": "By Armadyl's tower."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 1034,
+                                "y": 1764
+                            },
+                            "botright": {
+                                "x": 1036,
+                                "y": 1762
+                            },
+                            "level": 1
+                        },
+                        "note": "City of Um Ritual site"
+                    }
                 ],
                 "npc": "Malignus mortifer"
-            }
+            },
+            "anagram": [
+                "Master of the elements, he may REIGN US IF IMMORTAL"
+            ]
         },
         {
             "id": 310,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: If distracted from their work AH; WET ARM"],
-            "challenge": [{"type": "lockbox"}],
+            "text": [
+                "This anagram reveals who to speak to next: If distracted from their work AH; WET ARM"
+            ],
+            "challenge": [
+                {
+                    "type": "lockbox"
+                }
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2346, "y": 3165}, "botright": {"x": 2348, "y": 3163}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2346,
+                                "y": 3165
+                            },
+                            "botright": {
+                                "x": 2348,
+                                "y": 3163
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Amaethwr"
-            }
+            },
+            "anagram": [
+                "If distracted from their work AH; WET ARM"
+            ]
         },
         {
             "id": 311,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE"],
+            "text": [
+                "This anagram reveals who to speak to next: Young but stylish PIN HEIR ALL IN PLACE"
+            ],
             "solution": {
                 "type": "talkto",
                 "npc": "Philippe Carnillean",
                 "spots": [
-                    {"range": {"topleft": {"x": 2564, "y": 3274}, "botright": {"x": 2575, "y": 3267}, "level": 0}, "note": "Before Carnillean Rising"},
-                    {"range": {"topleft": {"x": 2514, "y": 3357}, "botright": {"x": 2521, "y": 3354}, "level": 0}, "note": "50 qp."},
-                    {"range": {"topleft": {"x": 2752, "y": 3656}, "botright": {"x": 2759, "y": 3649}, "level": 0}, "note": "100 qp."},
-                    {"range": {"topleft": {"x": 2857, "y": 3001}, "botright": {"x": 2865, "y": 2993}, "level": 1}, "note": "150 qp."},
-                    {"range": {"topleft": {"x": 3671, "y": 3499}, "botright": {"x": 3681, "y": 3489}, "level": 0}, "note": "200 qp."},
-                    {"range": {"topleft": {"x": 4643, "y": 5391}, "botright": {"x": 4650, "y": 5384}, "level": 0}, "note": "250 qp."},
-                    {"range": {"topleft": {"x": 2709, "y": 5362}, "botright": {"x": 2714, "y": 5357}, "level": 0}, "note": "300 qp."},
-                    {"range": {"topleft": {"x": 2338, "y": 3678}, "botright": {"x": 2346, "y": 3673}, "level": 0}, "note": "350 qp."},
-                    {"range": {"topleft": {"x": 4610, "y": 5130}, "botright": {"x": 4617, "y": 5123}, "level": 0}, "note": "400 qp."}
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2564,
+                                "y": 3274
+                            },
+                            "botright": {
+                                "x": 2575,
+                                "y": 3267
+                            },
+                            "level": 0
+                        },
+                        "note": "Before Carnillean Rising"
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2514,
+                                "y": 3357
+                            },
+                            "botright": {
+                                "x": 2521,
+                                "y": 3354
+                            },
+                            "level": 0
+                        },
+                        "note": "50 qp."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2752,
+                                "y": 3656
+                            },
+                            "botright": {
+                                "x": 2759,
+                                "y": 3649
+                            },
+                            "level": 0
+                        },
+                        "note": "100 qp."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2857,
+                                "y": 3001
+                            },
+                            "botright": {
+                                "x": 2865,
+                                "y": 2993
+                            },
+                            "level": 1
+                        },
+                        "note": "150 qp."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3671,
+                                "y": 3499
+                            },
+                            "botright": {
+                                "x": 3681,
+                                "y": 3489
+                            },
+                            "level": 0
+                        },
+                        "note": "200 qp."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 4643,
+                                "y": 5391
+                            },
+                            "botright": {
+                                "x": 4650,
+                                "y": 5384
+                            },
+                            "level": 0
+                        },
+                        "note": "250 qp."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2709,
+                                "y": 5362
+                            },
+                            "botright": {
+                                "x": 2714,
+                                "y": 5357
+                            },
+                            "level": 0
+                        },
+                        "note": "300 qp."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2338,
+                                "y": 3678
+                            },
+                            "botright": {
+                                "x": 2346,
+                                "y": 3673
+                            },
+                            "level": 0
+                        },
+                        "note": "350 qp."
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 4610,
+                                "y": 5130
+                            },
+                            "botright": {
+                                "x": 4617,
+                                "y": 5123
+                            },
+                            "level": 0
+                        },
+                        "note": "400 qp."
+                    }
                 ]
-            }
+            },
+            "anagram": [
+                "Young but stylish PIN HEIR ALL IN PLACE"
+            ]
         },
         {
             "id": 312,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: In his youth, this adventurer was a WINSOME LAD"],
+            "text": [
+                "This anagram reveals who to speak to next: In his youth, this adventurer was a WINSOME LAD"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3087, "y": 3255}, "botright": {"x": 3089, "y": 3254}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3087,
+                                "y": 3255
+                            },
+                            "botright": {
+                                "x": 3089,
+                                "y": 3254
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Wise Old Man"
-            }
+            },
+            "anagram": [
+                "In his youth, this adventurer was a WINSOME LAD"
+            ]
         },
         {
             "id": 313,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW"],
+            "text": [
+                "This anagram reveals who to speak to next: The cabbage diet must work because he has A PURE GLOW"
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 3252, "y": 3355}, "botright": {"x": 3256, "y": 3353}, "level": 0}},
-                    {"range": {"topleft": {"x": 1055, "y": 5551}, "botright": {"x": 1057, "y": 5549}, "level": 1}}
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3252,
+                                "y": 3355
+                            },
+                            "botright": {
+                                "x": 3256,
+                                "y": 3353
+                            },
+                            "level": 0
+                        }
+                    },
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 1055,
+                                "y": 5551
+                            },
+                            "botright": {
+                                "x": 1057,
+                                "y": 5549
+                            },
+                            "level": 1
+                        }
+                    }
                 ],
                 "npc": "Paul Gower"
-            }
+            },
+            "anagram": [
+                "The cabbage diet must work because he has A PURE GLOW"
+            ]
         },
         {
             "id": 314,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: Age allows a new perspective in this vital place TABOO RISES SHYLY"],
+            "text": [
+                "This anagram reveals who to speak to next: Age allows a new perspective in this vital place TABOO RISES SHYLY"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3197, "y": 6962}, "botright": {"x": 3199, "y": 6960}, "level": 1}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3197,
+                                "y": 6962
+                            },
+                            "botright": {
+                                "x": 3199,
+                                "y": 6960
+                            },
+                            "level": 1
+                        }
+                    }
+                ],
                 "npc": "Soothsayer Sybil"
-            }
+            },
+            "anagram": [
+                "Age allows a new perspective in this vital place TABOO RISES SHYLY"
+            ]
         },
         {
             "id": 315,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: With her age, it's no surprise to HEAR A LADY RANT"],
+            "text": [
+                "This anagram reveals who to speak to next: With her age, it's no surprise to HEAR A LADY RANT"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2220, "y": 3299}, "botright": {"x": 2222, "y": 3297}, "level": 1}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 2220,
+                                "y": 3299
+                            },
+                            "botright": {
+                                "x": 2222,
+                                "y": 3297
+                            },
+                            "level": 1
+                        }
+                    }
+                ],
                 "npc": "Lady Trahaearn"
-            }
+            },
+            "anagram": [
+                "With her age, it's no surprise to HEAR A LADY RANT"
+            ]
         },
         {
             "id": 316,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: He claimed to be a human scholar but I SAW THE LIE"],
+            "text": [
+                "This anagram reveals who to speak to next: He claimed to be a human scholar but I SAW THE LIE"
+            ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3416, "y": 2940}, "botright": {"x": 3421, "y": 2935}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 3416,
+                                "y": 2940
+                            },
+                            "botright": {
+                                "x": 3421,
+                                "y": 2935
+                            },
+                            "level": 0
+                        }
+                    }
+                ],
                 "npc": "Ali The Wise"
-            }
+            },
+            "anagram": [
+                "He claimed to be a human scholar but I SAW THE LIE"
+            ]
         },
         {
             "id": 317,
             "type": "anagram",
             "tier": "master",
-            "text": ["This anagram reveals who to speak to next: His job leaves him kind of HATED"],
+            "text": [
+                "This anagram reveals who to speak to next: His job leaves him kind of HATED"
+            ],
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 414, "y": 674}, "botright": {"x": 414, "y": 674}, "level": 0}, "note": "Death's Office"},
+                    {
+                        "range": {
+                            "topleft": {
+                                "x": 414,
+                                "y": 674
+                            },
+                            "botright": {
+                                "x": 414,
+                                "y": 674
+                            },
+                            "level": 0
+                        },
+                        "note": "Death's Office"
+                    }
                 ],
                 "npc": "Death"
-            }
+            },
+            "anagram": [
+                "His job leaves him kind of HATED"
+            ]
         }
     ]
     export const compass: Clues.Compass[] = [
@@ -4460,7 +5893,7 @@ export namespace clue_data {
             "ocr_data": [26, 78, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -1, 18, 23, 26, 76, -2, 13, 17, 25, 80, -6, 10, 14, 25, 85, -3, 11, 15, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -5, 10, 15, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -5, 5, 7, 26, 81, -2, 6, 8, 26, 79, -3, 7, 8, 26, 79, 7, 49, 56, 28, 68, 31, 57, 67, 25, 77, 7, 24, 37, 26, 77, 2, 21, 27, 27, 77, 14, 42, 50, 26, 82, 7, 37, 46, 28, 77, 20, 52, 65, 25, 79, -9, 5, 7, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -7, 6, 7, 26, 80, 2, 15, 22, 27, 76, 5, 24, 30, 28, 74, 21, 58, 66, 26, 80, 4, 40, 49, 26, 79, -3, 11, 18, 25, 78, -5, 14, 18, 27, 73, 23, 57, 66, 26, 81, 4, 32, 40, 26, 76, 5, 24, 34, 26, 77, -1, 17, 21, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -7, 4, 5, 26, 81, -7, 4, 7, 27, 81, -7, 8, 10, 26, 78, -2, 21, 24, 27, 81, 20, 56, 65, 26, 79, -3, 19, 24, 24, 80, -5, 7, 8, 26, 80, 7, 37, 41, 27, 74, 13, 28, 33, 27, 77, 3, 17, 21, 27, 74, 16, 42, 46, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 26, 77, -6, 13, 17, 27, 74, 18, 41, 50, 27, 76, 8, 28, 33, 26, 80, -8, 6, 8, 26, 80, 8, 45, 56, 26, 77, -12, 6, 12, 25, 79, -7, 6, 8, 27, 77, 16, 52, 59, 25, 75, -1, 13, 20, 27, 79, -3, 7, 10, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 7, 26, 78, -6, 13, 18, 26, 75, -3, 21, 27, 27, 75, 4, 28, 34, 26, 82, 12, 54, 62, 26, 80, 3, 32, 48, 27, 78, 6, 48, 63, 27, 77, 26, 82, 94, 26, 74, 6, 24, 33, 28, 74, 12, 27, 33, 26, 80, -6, 5, 7, 26, 81, -9, 5, 6, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 27, 73, 8, 30, 41, 26, 76, -4, 14, 17, 27, 74, -3, 21, 28, 26, 80, 0, 39, 46, 25, 77, -9, 8, 11, 26, 79, 7, 55, 61, 26, 83, 22, 51, 62, 26, 77, 4, 25, 32, 26, 79, 8, 25, 34, 25, 82, -2, 8, 9, 25, 80, -9, 5, 6, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 77, -9, 9, 13, 27, 74, 10, 32, 37, 27, 74, 7, 31, 37, 27, 74, 2, 31, 37, 27, 82, 1, 44, 51, 26, 81, -2, 23, 31, 26, 81, 2, 21, 31, 26, 81, 7, 48, 55, 26, 76, 15, 36, 42, 26, 80, -2, 7, 9, 26, 81, 1, 14, 18, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 81, -1, 15, 19, 26, 78, -5, 20, 23, 27, 76, -11, 14, 18, 28, 72, 10, 35, 41, 26, 82, 2, 33, 39, 28, 71, 41, 70, 80, 28, 73, 31, 47, 54, 26, 77, 8, 20, 25, 26, 80, -5, 5, 8, 27, 76, 10, 28, 34, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -6, 6, 9, 26, 77, 15, 43, 48, 25, 80, -1, 14, 17, 28, 73, 16, 35, 41, 26, 76, 8, 33, 40, 27, 76, 7, 26, 35, 29, 69, 45, 56, 64, 29, 76, 37, 44, 52, 26, 74, 9, 32, 36, 28, 71, 12, 39, 43, 26, 79, -8, 4, 5, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, -3, 8, 10, 26, 78, 3, 17, 28, 27, 77, 11, 27, 34, 26, 80, -1, 13, 16, 26, 82, 0, 14, 19, 27, 77, 14, 29, 38, 26, 79, 0, 14, 22, 28, 74, 9, 27, 33, 27, 77, -7, 13, 17, 27, 75, -6, 22, 25, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 83, -1, 10, 12, 24, 84, -1, 8, 10, 25, 83, 1, 18, 26, 26, 80, -10, 6, 8, 26, 76, -5, 22, 27, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "search",
-                "spot": {"x": 2658, "y": 3489, "level": 0},
+                "spot": {"x": 2658, "y": 3488, "level": 0},
                 "entity": "Crate"
             }
         },
@@ -4708,7 +6141,7 @@ export namespace clue_data {
                 {"x": 3408, "y": 3937, "level": 0}
             ],
             "range": 25,
-            "scantext": "deepest levels of the Wilderness"
+            "scantext": "the deepest levels of the Wilderness"
         },
         {
             "id": 349,
@@ -6303,6 +7736,201 @@ export namespace clue_data {
         }
     ]
 
+    export const skilling: Clues.Skilling[] = [{
+        "type": "skilling",
+        "text": ["Crossing the desert I met a crocodile. She gave me a dazzling smile but she had something in her teeth."],
+        "tier": "master",
+        "id": 372,
+        "areas": [{"topleft": {"x": 3274, "y": 2685}, "botright": {"x": 3290, "y": 2662}, "level": 0}],
+        "answer": "Catch a plover bird in the southern part of Sophanem."
+    }, {
+        "type": "skilling",
+        "text": ["I once met a man returning from market. He showed me the spoils of his day. It's precious to see what people pay for."],
+        "tier": "master",
+        "id": 373,
+        "areas": [{"topleft": {"x": 2666, "y": 3304}, "botright": {"x": 2669, "y": 3301}, "level": 0}],
+        "answer": "Steal from the Ardougne Gem Stall."
+    }, {
+        "type": "skilling",
+        "text": ["A view of the city from high above. I can hear their prayers below."],
+        "tier": "master",
+        "id": 374,
+        "areas": [{"topleft": {"x": 2183, "y": 3454}, "botright": {"x": 2196, "y": 3441}, "level": 2}],
+        "answer": "Go to the top of the Hefin Agility Course."
+    }, {
+        "type": "skilling",
+        "text": ["Round and round we go, burning, burning all aglow."],
+        "tier": "master",
+        "id": 375,
+        "areas": [{"topleft": {"x": 3018, "y": 9249}, "botright": {"x": 3052, "y": 9228}, "level": 0}],
+        "answer": "Start a firepit with a Curly Root in the Jadinko Lair."
+    }, {
+        "type": "skilling",
+        "text": ["When I encountered this individual, she had more rings than any I had seen before."],
+        "tier": "master",
+        "id": 376,
+        "areas": [
+            {"topleft": {"x": 2269, "y": 3390}, "botright": {"x": 2273, "y": 3386}, "level": 1},
+            {"topleft": {"x": 3259, "y": 3373}, "botright": {"x": 3265, "y": 3367}, "level": 0}
+        ],
+        "answer": "Cut some elder logs from an elder tree."
+    }, {
+        "type": "skilling",
+        "text": ["Rowdy Unruly Boisterous I am pie."],
+        "tier": "master",
+        "id": 377,
+        "answer": "Cook a wild pie. The 'Bake Pie' spell works.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["In a station of power someone requires assistance. Do a good deed to spread some happiness."],
+        "tier": "master",
+        "id": 378,
+        "areas": [{"topleft": {"x": 2688, "y": 5247}, "botright": {"x": 2751, "y": 5184}, "level": 3}],
+        "answer": "Help Turgall at the Dorgesh-Kaan Agility Course."
+    }, {
+        "type": "skilling",
+        "text": ["Those things I once held dear continue to fade. I look upon her face and barely know who she is. But her eyes... They are still so radiant."],
+        "tier": "master",
+        "id": 379,
+        "areas": [{"topleft": {"x": 3801, "y": 3555}, "botright": {"x": 3808, "y": 3548}, "level": 0}],
+        "answer": "Harvest a radiant memory."
+    }, {
+        "type": "skilling",
+        "text": ["There are those who prove themselves and become a beacon of light in the darkness. Come to the crystal city and become that figure."],
+        "tier": "master",
+        "id": 380,
+        "areas": [{"topleft": {"x": 2100, "y": 3459}, "botright": {"x": 2292, "y": 3277}, "level": 1}],
+        "answer": "Active the Light Form Prayer in Prifddinas"
+    }, {
+        "type": "skilling",
+        "text": ["Stare into the flames for long enough and you may see something you didn't realise was there."],
+        "tier": "master",
+        "id": 381,
+        "answer": "Light some magic logs.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["The crystals tempt most however, there are other riches to gain for the quick-fingered."],
+        "tier": "master",
+        "id": 382,
+        "answer": "Pickpocket any elf",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Magical energy floats unleashed. The fluid of life that flows through us all. Span the gap to capture this energy."],
+        "tier": "master",
+        "id": 383,
+        "areas": [{"topleft": {"x": 4343, "y": 6055}, "botright": {"x": 4364, "y": 6038}, "level": 1}],
+        "answer": "Siphon some blood runes in the Runespan."
+    }, {
+        "type": "skilling",
+        "text": ["The spell struck me in the chest. Perhaps if I had worn armour today. Black looks better than red."],
+        "tier": "master",
+        "id": 384,
+        "answer": "Craft a black dragonhide body.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Ernie once mentioned to me a secret to improve my cooking. His idea was strong but I went the extra mile."],
+        "tier": "master",
+        "id": 385,
+        "answer": "Add a fire rune to a decorated cooking urn (nr).",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["I have all the ingredients for soup but sometimes a simple meal tastes the best."],
+        "tier": "master",
+        "id": 386,
+        "answer": "Cook a raw shark, raw rocktail or raw sailfish.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Take the journey to a distant mining site. Become a blight to your foes."],
+        "tier": "master",
+        "id": 387,
+        "answer": "Smelt a Bane bar at a furnace.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Where there is Light there is also Death. Should you contain this you may progress."],
+        "tier": "master",
+        "id": 388,
+        "areas": [{"topleft": {"x": 2203, "y": 4838}, "botright": {"x": 2207, "y": 4834}, "level": 0}],
+        "answer": "Craft a death rune."
+    }, {
+        "type": "skilling",
+        "text": ["There is a temple where there are rivers of red. Bind the magic to get ahead."],
+        "tier": "master",
+        "id": 389,
+        "areas": [{"topleft": {"x": 2460, "y": 4898}, "botright": {"x": 2465, "y": 4893}, "level": 1}],
+        "answer": "Craft a blood rune."
+    }, {
+        "type": "skilling",
+        "text": ["Corruption seeps from this stone but there are those who work to cleanse it. Lend your voice."],
+        "tier": "master",
+        "id": 390,
+        "areas": [{"topleft": {"x": 2187, "y": 3451}, "botright": {"x": 2193, "y": 3445}, "level": 1}],
+        "answer": "Completely use up a cleansing crystal on the Corrupted Seren Stone."
+    }, {
+        "type": "skilling",
+        "text": ["Charm me and I shall unlock. But be brave in the darkness."],
+        "tier": "master",
+        "id": 391,
+        "areas": [{"topleft": {"x": 3365, "y": 3748}, "botright": {"x": 3380, "y": 3731}, "level": 0}],
+        "answer": "Catch a charming moth in the Wilderness. "
+    }, {
+        "type": "skilling",
+        "text": ["I once met an ancient warrior who told me tales of his adventures. His eyes lit up as he spoke."],
+        "tier": "master",
+        "id": 392,
+        "answer": "Burn some elder logs.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Keeping all your gold together. That's a good idea. It shall be mine."],
+        "tier": "master",
+        "id": 393,
+        "answer": "Mine a concentrated gold deposit in the Living Rock Caverns.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Rumours of a great shark continue to spread. Catch me one and I will be fed."],
+        "tier": "master",
+        "id": 394,
+        "answer": "Catch a raw great white shark.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["The God of Order requires a sacrifice of strength but in return restores me. If only we could keep that feeling in his absence."],
+        "tier": "master",
+        "id": 395,
+        "answer": "Create a Saradomin brew.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Head protection is never a bad thing. Make it from rune for the best chance of survival."],
+        "tier": "master",
+        "id": 396,
+        "answer": "Smith a rune med helm or rune full helm.",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling."],
+        "tier": "master",
+        "id": 397,
+        "answer": "Create a Zamorak brew. (Mix jangerberries into a torstol potion).",
+        "areas": null
+    }, {
+        "type": "skilling",
+        "text": ["Catching only one shark. That don't impress me much."],
+        "tier": "master",
+        "id": 398,
+        "answer": "Catch two sharks at once.",
+        "areas": null
+    },
+    ]
+
     export let all: Clues.Step[] = [
         ...clue_data.anagram,
         ...clue_data.compass,
@@ -6312,6 +7940,7 @@ export namespace clue_data {
         ...clue_data.map,
         ...clue_data.scan,
         ...clue_data.simple,
+        ...clue_data.skilling,
     ]
 
     export const index = ClueIndex.simple(all)

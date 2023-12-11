@@ -1,6 +1,6 @@
 export namespace Constants {
     // TODO: This is hardcoded, because I cant dynamically get the current version from runeapps because of CORS.
-    export const map_version: number = 1686910882
+    export const map_version: number = 1701428222
 
     export const icons = {
         tiers: {

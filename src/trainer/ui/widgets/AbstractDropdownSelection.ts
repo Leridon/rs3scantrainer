@@ -1,9 +1,8 @@
 import Widget from "lib/ui/Widget";
 import {createPopper} from '@popperjs/core';
+import {Observable, observe} from "../../../lib/reactive";
 
-export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget<{
-    "selection_changed": T
-}> {
+export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget {
     protected input_container: Widget
     private input: Widget
 
@@ -11,12 +10,12 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
     private dropdown_rows: Widget[] = null
     private highlighted_value: T = null
 
-    private value: T = null
+    public selection: Observable.Simple<T>
 
     protected constructor(protected options: AbstractDropdownSelection.options<T>, inital_item: T) {
         super($("<div class='nisl-selectdropdown'>"));
 
-        this.value = inital_item
+        this.selection = observe(inital_item)
 
         this.input_container = c("<div></div>").appendTo(this)
 
@@ -32,7 +31,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
                     this.openDropdown()
                 })
             )
-            .append(this.construct(this.value))
+            .append(this.construct(this.selection.value()))
             .appendTo(this.input_container.empty());
     }
 
@@ -94,12 +93,14 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         )
 
         if (this.options.can_be_null) {
-            c(`<div></div>`).appendTo(this.dropdown)
-                .append(this.construct(null))
-                .tapRaw((r) => r.data("value", null)
-                    .on("mouseover", () => this.setHighlight(null))
-                    .on("click", () => this.selectValue(null))
-                )
+            this.dropdown_rows.push(
+                c(`<div></div>`).appendTo(this.dropdown)
+                    .append(this.construct(null))
+                    .tapRaw((r) => r.data("value", null)
+                        .on("mouseover", () => this.setHighlight(null))
+                        .on("click", () => this.selectValue(null))
+                    )
+            )
         }
     }
 
@@ -110,7 +111,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
         this.fillDropdown()
 
-        this.setHighlight(this.value)
+        this.setHighlight(this.selection.value())
 
         let instance = createPopper(this.input_container.container.get()[0], this.dropdown.container.get()[0], {
             placement: "bottom-start",
@@ -172,7 +173,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
     }
 
     setValue(v: T): this {
-        this.value = v
+        this.selection.set(v)
 
         this.setHighlight(v)
 
@@ -185,9 +186,9 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         return this
     }
 
-    private selectValue(v: T) {
+    protected selectValue(v: T) {
         this.setValue(v)
-        this.emit("selection_changed", v)
+        this.selection.set(v)
     }
 
     private static _dropdownpane: Widget = null
@@ -198,8 +199,9 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         return this._dropdownpane
     }
 
-    getSelection(): T {
-        return this.value
+    onSelection(f: (v: T) => any, trigger_now: boolean = false): this {
+        this.selection.subscribe(f, trigger_now)
+        return this
     }
 }
 

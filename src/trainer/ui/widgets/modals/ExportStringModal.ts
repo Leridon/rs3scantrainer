@@ -1,34 +1,42 @@
-import {modal, Modal} from "../modal";
+import NisModal from "../../../../lib/ui/NisModal";
+import TextArea from "../../../../lib/ui/controls/TextArea";
+import Widget from "../../../../lib/ui/Widget";
+import ButtonRow from "../../../../lib/ui/ButtonRow";
+import BigNisButton from "../BigNisButton";
 
-export default class ExportStringModal extends Modal {
-    textarea: JQuery
-    explanation: JQuery
-    copy_button: JQuery
+export default class ExportStringModal extends NisModal {
+    textarea: TextArea
+    explanation: Widget
 
-    constructor(id: string) {
-        super(id);
+    constructor(string: string, explanation: string = "") {
+        super({footer: true});
 
-        this.textarea = $("#export-modal-text")
-        this.explanation = $("#modal-export-string-explanation")
+        this.title.set("Export")
 
-        this.copy_button = $("#modal-export-string-copy").on("click", async () => {
-            await navigator.clipboard.writeText(this.textarea.val() as string)
+        this.explanation = c("<p></p>").text(explanation).appendTo(this.body)
 
-            this.copy_button.text("Copied!");
-        })
+        this.textarea = new TextArea({readonly: true}).setValue(string)
+            .css2({
+                "resize": "none",
+                "width": "100%",
+                "height": "20em"
+            })
+            .on("click", () => this.textarea.raw().select())
+            .appendTo(this.body)
+
+        this.footer.append(new ButtonRow({align: "center", sizing: "100px", max_center_spacer_width: "100px"})
+            .buttons(
+                new BigNisButton("Cancel", "cancel")
+                    .onClick(() => this.remove()),
+                new BigNisButton("Copy", "confirm")
+                    .onClick(async () => {
+                        await navigator.clipboard.writeText(string)
+                    })
+            )
+        )
     }
 
-    async showWith(string: string, explanation: string = ""): Promise<void> {
-        this.textarea.val(string)
-
-        this.explanation.text(explanation)
-
-        this.copy_button.text("Copy to Clipboard");
-
-        return this.show()
-    }
-
-    static do(string: string, explanation: string = ""): Promise<void> {
-        return modal("modal-export-string", ExportStringModal).showWith(string, explanation)
+    static do(string: string, explanation: string = ""): Promise<any> {
+        return new ExportStringModal(string, explanation).show()
     }
 }

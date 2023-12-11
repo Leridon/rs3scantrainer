@@ -232,7 +232,7 @@ export class GameMap extends leaflet.Map {
         function geturls(filename: string) {
             return [
                 `https://runeapps.org/s3/map${MAP_ID}/live/${filename}`,
-                backupUrl(filename, Constants.map_version),
+                `https://runeapps.org/node/map/getnamed?mapid=${MAP_ID}&version=${Constants.map_version}&file=${filename}`
             ];
         }
 
@@ -391,7 +391,7 @@ export namespace GameMap {
     }
 }
 
-export class GameMapWidget extends Widget<{}> {
+export class GameMapWidget extends Widget {
     map: GameMap
 
     constructor(container: JQuery) {

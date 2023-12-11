@@ -28,6 +28,7 @@ import span = C.span;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import {observe} from "../lib/reactive";
+import NeoSolvingBehaviour from "./ui/neosolving/NeoSolvingBehaviour";
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
@@ -253,7 +254,7 @@ export class Application extends Behaviour {
             this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
         })
 
-        this.main_behaviour.set(new TheoryCrafter(this))
+        this.main_behaviour.set(new NeoSolvingBehaviour(this))
 
         if (this.mode() == "preview") {
             this.notifications.notify({type: "information"}, div(

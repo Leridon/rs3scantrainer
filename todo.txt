@@ -22,6 +22,9 @@ Planned for next release (b0.4):
         - Don't fit to origin of teleport
         - Adjust range polygon colors to ingame colors of pulses
         - Replace buttons with pulse icons
+    - Clue Reader
+        - Text Clues
+        - Scan Clues
 
 - Settings Modal
     - Map Settings: Teleport Preferences

@@ -69,6 +69,7 @@ Planned for next release (b0.4):
     - Implicit run for shortcuts?
     - [Bug] Path Editor throws an exception when start_state is undefined
     - Add a way to make it not closeable by the user
+    - [Bug] Teleport overriding does not work
 
 - Data Model
     - Skilling Clue locations

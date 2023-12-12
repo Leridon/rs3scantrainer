@@ -62,6 +62,16 @@ export class ExpansionBehaviour {
         return this
     }
 
+    setCollapsed(collapsed: boolean): this {
+        if (this.isCollapsed()) {
+            if (!collapsed) this.expand()
+        } else {
+            if (collapsed) this.collapse()
+        }
+
+        return this
+    }
+
     onExpansion(f: () => any): this {
         this.expanded_event.on(f)
 
@@ -93,5 +103,16 @@ export namespace ExpansionBehaviour {
         if (options.target) behaviour.bindToClickable(options.target)
 
         return behaviour
+    }
+
+    export function horizontal(options: {
+        widget: Widget,
+        starts_collapsed: boolean
+    }) : ExpansionBehaviour {
+        return create({
+            starts_collapsed: options.starts_collapsed,
+            onExpand: () => options.widget.container.animate({"width": "show"}),
+            onCollapse: () => options.widget.container.animate({"width": "hide"}),
+        })
     }
 }

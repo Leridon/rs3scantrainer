@@ -1600,10 +1600,28 @@ input[type=checkbox] + span {
     border-right: 1px solid rgba(5, 56, 66, 0.6);
 }
 
+.ctr-neosolving-main-bar-button > *:only-child {
+    text-align: center;
+}
+
 .ctr-neosolving-main-bar-icon {
     height: 20px;
 }
 
-.ctr-neosolving-main-bar > * {
+.ctr-neosolving-main-bar-section {
     padding: 3px
+}
+
+.ctr-neosolving-main-bar-search {
+    flex-grow: 1;
+    flex-basis: 100%;
+    border: none;
+    border-left: 1px solid red;
+    border-right: 1px solid red;
+    width: 100%;
+    color: #B1AFAE;
+    background: transparent;
+    outline: none;
+    height: 20px;
+    font-size: 1.5em;
 }

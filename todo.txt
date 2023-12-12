@@ -11,10 +11,28 @@ Planned for next release (b0.4):
 
 - Solving Behaviour
     - Search Bar
+        - Actual fuzzy search
+        - Neat styling
+            - Hover effects of buttons
+            - Highlight on toggled
+
+        - [Bug] Dropdown starts offset to the left
+        - [Bug] Search term input does not fill the entire width.
+        - [Bug] Some of the vertical division lines are missing (wrong css selector)
+    - Hide Menubar on fullscreen
+    - Clue Panel
+    - Solution Panel
+        - Talk (+ Challenge)
+        - Search (+ Key)
+        - Dig
+        - Emote
+    - Scantree Panel
+    - Path Panel
+    - Compass Panel
     - Solve, Autosolve
     - Multiple Methods, Preferences
     - Integrate scan tree as map control instead of sidebar
-    - Solving
+    - Scan Tree Behaviour
         - Make fit include the entire path
         - Better render of in-route teleports
         - Run graphics are bad on snow background

@@ -107,12 +107,13 @@ export namespace ExpansionBehaviour {
 
     export function horizontal(options: {
         widget: Widget,
-        starts_collapsed: boolean
+        starts_collapsed: boolean,
+        duration?: number
     }) : ExpansionBehaviour {
         return create({
             starts_collapsed: options.starts_collapsed,
-            onExpand: () => options.widget.container.animate({"width": "show"}),
-            onCollapse: () => options.widget.container.animate({"width": "hide"}),
+            onExpand: () => options.widget.container.animate({"width": "show"}, options.duration || 300),
+            onCollapse: () => options.widget.container.animate({"width": "hide"}, options.duration || 300),
         })
     }
 }

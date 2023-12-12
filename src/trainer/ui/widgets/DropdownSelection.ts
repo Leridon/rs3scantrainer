@@ -6,7 +6,7 @@ import {AbstractDropdownSelection} from "./AbstractDropdownSelection";
  */
 export class DropdownSelection<T extends object | string | number> extends AbstractDropdownSelection<T> {
     constructor(options: AbstractDropdownSelection.options<T>, private items: T[]) {
-        super(options, options.can_be_null ? (options.null_value || null) : items[0]);
+        super(options, options.can_be_null ?  null : items[0]);
 
         this.setDropdownItems(items)
     }

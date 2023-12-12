@@ -7,6 +7,9 @@ import Widget from "../../../lib/ui/Widget";
 import Button from "../../../lib/ui/controls/Button";
 import TextField from "../../../lib/ui/controls/TextField";
 import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
+import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
+import {Clues} from "../../../lib/runescape/clues";
+import {clue_data} from "../../../data/clues";
 
 class NeoSolvingLayer extends GameLayer {
     constructor() {
@@ -27,9 +30,8 @@ class NeoSolvingLayer extends GameLayer {
 
 namespace NeoSolvinglayer {
     import spacer = C.spacer;
-    import span = C.span;
     import hbox = C.hbox;
-    import div = C.div;
+    import ClueSpot = Clues.ClueSpot;
 
     class MainControlButton extends Button {
         constructor(options: { icon?: string, text?: string }) {
@@ -61,20 +63,31 @@ namespace NeoSolvinglayer {
         search_bar_collapsible: ExpansionBehaviour
         rest_collapsible: ExpansionBehaviour
 
+        dropdown: AbstractDropdownSelection.DropDown<Clues.Step> = null
+
         constructor() {
             super();
 
             this.addClass("ctr-neosolving-main-bar")
 
+            this.dropdown = new AbstractDropdownSelection.DropDown<Clues.Step>({
+                dropdownClass: "ctr-neosolving-search-dropdown"
+            })
+                .onSelected(clue => {
+                    this.search_bar_collapsible.collapse()
+                })
+                .setItems(clue_data.index.filtered().map(a => a.clue).slice(0, 30))
+
             this.append(
                 new MainControlButton({icon: "assets/icons/glass.png"})
                     .append(this.search_bar = new TextField()
+                        .css("flex-grow", "1")
                         .setPlaceholder("Enter Search Term...")
                         .toggleClass("nisinput", false)
                         .addClass("ctr-neosolving-main-bar-search")
                         .setVisible(false)
                         .on("focusout", (e) => {
-                            this.search_bar_collapsible.collapse()
+                            //this.search_bar_collapsible.collapse()
                         })
                     )
                     .onClick((e) => {
@@ -86,9 +99,9 @@ namespace NeoSolvinglayer {
                             this.search_bar_collapsible.expand()
                             this.search_bar.container.focus()
                             this.search_bar.setValue("")
+                            this.dropdown.open(this, this.search_bar)
                         }
-                    })
-                ,
+                    }),
                 this.rest = hbox(
                     new MainControlButton({text: "Solve"}),
                     new MainControlButton({icon: "assets/icons/lock.png", text: "Auto"})
@@ -99,8 +112,12 @@ namespace NeoSolvinglayer {
                 ).css("flex-grow", "1"),
             )
 
-            this.search_bar_collapsible = ExpansionBehaviour.horizontal({widget: this.search_bar, starts_collapsed: true})
-                .onChange(v => this.rest_collapsible.setCollapsed(!v))
+            this.search_bar_collapsible = ExpansionBehaviour.horizontal({widget: this.search_bar, starts_collapsed: true, duration: 100})
+                .onChange(v => {
+                    if (v) this.dropdown?.close()
+
+                    this.rest_collapsible.setCollapsed(!v)
+                })
 
             this.rest_collapsible = ExpansionBehaviour.horizontal({widget: this.rest, starts_collapsed: false})
         }

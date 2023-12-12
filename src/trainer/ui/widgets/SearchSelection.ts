@@ -7,7 +7,7 @@ export class SearchSelection<T extends object | string | number> extends Abstrac
     private prepared_items: { item: T, term: Fuzzysort.Prepared }[]
 
     constructor(protected options: SearchSelection.options<T>, items: T[]) {
-        super(options, options.can_be_null ? (options.null_value || null) : items[0]);
+        super(options, options.can_be_null ? null : items[0]);
 
         this.prepared_items = items.map(i => {
             return {item: i, term: fuzzysort.prepare(this.options.search_term(i))}

@@ -1615,8 +1615,8 @@ input[type=checkbox] + span {
 .ctr-neosolving-main-bar-search {
     flex-grow: 1;
     flex-basis: 100%;
+    min-width: 100%;
     border: none;
-    border-left: 1px solid red;
     border-right: 1px solid red;
     width: 100%;
     color: #B1AFAE;
@@ -1624,4 +1624,34 @@ input[type=checkbox] + span {
     outline: none;
     height: 20px;
     font-size: 1.5em;
+}
+
+.ctr-neosolving-search-dropdown {
+    background-color: blue;
+    border: 1px solid red;
+    max-height: 50vh;
+}
+
+.ctr-neosolving-search-dropdown > * {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ctr-neosolving-search-dropdown > *:not(:last-child) {
+    border-bottom: 1px solid red
+}
+
+/* Dropdown */
+
+.nisl-abstract-dropdown {
+    z-index: 9999999;
+    overflow: auto;
+}
+
+.nisl-abstract-dropdown > * {
+    cursor: pointer;
+}
+
+.nisl-abstract-dropdown > *.selected {
+    background-color: grey;
 }

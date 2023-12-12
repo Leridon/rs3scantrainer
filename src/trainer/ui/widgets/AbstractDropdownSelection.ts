@@ -1,6 +1,7 @@
 import Widget from "lib/ui/Widget";
-import {createPopper} from '@popperjs/core';
-import {Observable, observe} from "../../../lib/reactive";
+import * as popper from "@popperjs/core"
+import {ewent, Observable, observe} from "../../../lib/reactive";
+import {util} from "../../../lib/util/util";
 
 export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget {
     protected input_container: Widget
@@ -113,7 +114,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
         this.setHighlight(this.selection.value())
 
-        let instance = createPopper(this.input_container.container.get()[0], this.dropdown.container.get()[0], {
+        let instance = popper.createPopper(this.input_container.raw(), this.dropdown.raw(), {
             placement: "bottom-start",
             modifiers: [
                 {
@@ -191,14 +192,6 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         this.selection.set(v)
     }
 
-    private static _dropdownpane: Widget = null
-
-    static getDropdownPane(): Widget {
-        if (!this._dropdownpane) this._dropdownpane = c("<div style='position: absolute; top: 0; left: 0; overflow: visible'>").appendTo($("body"))
-
-        return this._dropdownpane
-    }
-
     onSelection(f: (v: T) => any, trigger_now: boolean = false): this {
         this.selection.subscribe(f, trigger_now)
         return this
@@ -206,6 +199,158 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 }
 
 export namespace AbstractDropdownSelection {
+    import positiveMod = util.positiveMod;
+
+    export class DropDown<T> {
+        private selectable_items: Observable<T[]> = observe([])
+        private highlight_index: Observable<number | null> = observe(null)
+
+        public selected = ewent<T>()
+
+        private focus_widget: Widget
+        private input_handler: (event: JQuery.KeyDownEvent) => any
+        private container: Widget
+        private rows: Widget[]
+        private instance: popper.Instance
+
+        constructor(private options: {
+            dropdownClass?: string,
+            renderItem?: (_: T) => Widget
+        }) {
+            if (!options.renderItem) options.renderItem = (v) => c().text(JSON.stringify(v))
+
+            this.selectable_items.subscribe((items, old_items) => {
+                if (this.highlight_index.value() != null) {
+                    let new_index = items.indexOf(old_items[this.highlight_index.value()])
+
+                    this.highlight_index.set(new_index >= 0 ? new_index : 0)
+                }
+            })
+
+            this.highlight_index.subscribe((highlight, old_highlight) => {
+                if (old_highlight != null) this.rows[old_highlight].toggleClass("selected", false)
+                if (highlight != null) this.rows[highlight].toggleClass("selected", true)
+                    .raw().scrollIntoView()
+            })
+        }
+
+        private select(item: T) {
+            this.selected.trigger(item)
+            this.close()
+        }
+
+        setItems(items: T[]): this {
+            this.selectable_items.set(items)
+            return this
+        }
+
+        renderItems() {
+            this.rows = this.selectable_items.value().map((item, index) => {
+                return c().text(JSON.stringify(item))
+                    .toggleClass("selected", this.highlight_index.value() == index)
+                    .on("click", () => {
+                        this.select(item)
+                    })
+                    .on("mousemove", () => {
+                        this.highlight_index.set(index)
+                    })
+                    .appendTo(this.container)
+            })
+        }
+
+        open(reference: Widget, focus_widget: Widget): void {
+
+            if (focus_widget) {
+                this.focus_widget = focus_widget
+                focus_widget.on("keydown", this.input_handler = (e) => {
+                    console.log("Keydown")
+
+                    if (e.key == "Escape") {
+                        e.stopPropagation()
+                        this.focus_widget.raw().blur()
+                    }
+
+                    if (e.key == "ArrowUp") {
+                        this.highlight_index.set(positiveMod(
+                            (this.highlight_index.value() ?? this.selectable_items.value().length) - 1,
+                            this.selectable_items.value().length
+                        ))
+                    }
+
+                    if (e.key == "ArrowDown") {
+                        this.highlight_index.set(positiveMod(
+                            (this.highlight_index.value() ?? (this.selectable_items.value().length - 1)) + 1,
+                            this.selectable_items.value().length
+                        ))
+                    }
+
+                    if (e.key == "Enter") {
+                        let i = this.highlight_index.value()
+                        if (i != null && i >= 0 && i < this.selectable_items.value().length)
+                            this.select(this.selectable_items.value()[i])
+                    }
+                })
+            }
+
+            this.container = c("<div style='z-index: 100000'></div>")
+                .addClass("nisl-abstract-dropdown")
+            if (this.options.dropdownClass) {
+                this.container.addClass(this.options.dropdownClass)
+            }
+
+            this.renderItems()
+
+            this.instance = popper.createPopper(reference.raw(), this.container.appendTo(getDropdownPane()).raw(),
+                {
+                    placement: "bottom-start",
+                    modifiers: [
+                        {
+                            name: 'flip',
+                            enabled: true,
+                        },
+                        {
+                            name: "preventOverflow",
+                            enabled: true,
+                            options: {
+                                boundary: "viewport",
+                                rootBoundary: 'viewport',
+                            }
+                        },
+                        {
+                            name: 'widthSync', // Custom modifier name
+                            enabled: true,
+                            phase: 'beforeWrite',
+                            fn: ({state}) => {
+                                state.styles.popper.width = `${state.rects.reference.width}px`; // Set tooltip width based on reference width
+                                state.styles.popper.maxWidth = `${state.rects.reference.width}px`
+                            },
+                        },
+                    ]
+                })
+        }
+
+        close() {
+            if (this.instance) {
+                this.instance.destroy()
+                this.instance = null
+
+                this.container.remove()
+            }
+
+            if (this.focus_widget) {
+                this.focus_widget.container.off("keydown", this.input_handler)
+                this.focus_widget = null
+                this.input_handler = null
+            }
+        }
+
+        onSelected(f: (_: T) => any): this {
+            this.selected.on(f)
+
+            return this
+        }
+    }
+
 
     export type selectable<T> = {
         toHTML(v: T): Widget
@@ -213,7 +358,14 @@ export namespace AbstractDropdownSelection {
 
     export type options<T> = {
         can_be_null?: boolean
-        null_value?: T
         type_class?: selectable<T>
+    }
+
+    let _dropdownpane: Widget = null
+
+    export function getDropdownPane(): Widget {
+        if (!_dropdownpane) _dropdownpane = c("<div style='position: absolute; top: 0; left: 0; overflow: visible; max-width: 100%; max-height: 100%'>").appendTo($("body"))
+
+        return _dropdownpane
     }
 }

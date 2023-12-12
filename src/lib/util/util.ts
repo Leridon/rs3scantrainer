@@ -149,6 +149,12 @@ export namespace util {
         return ns.reduce((a, b) => a + b, 0) / ns.length
     }
 
+    export function positiveMod(a: number, b: number): number {
+        a += Math.ceil(Math.abs(a / b)) * b
+
+        return a % b
+    }
+
     export function uuid(): string {
         return uuidv4()
     }

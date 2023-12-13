@@ -206,6 +206,7 @@ export namespace AbstractDropdownSelection {
         private highlight_index: Observable<number | null> = observe(null)
 
         public selected = ewent<T>()
+        public closed = ewent<undefined>()
 
         private focus_widget: Widget
         private input_handler: (event: JQuery.KeyDownEvent) => any
@@ -259,6 +260,7 @@ export namespace AbstractDropdownSelection {
                     return this.options.renderItem(item)
                         .toggleClass("selected", this.highlight_index.value() == index)
                         .on("click", () => {
+                            console.log("Click")
                             this.select(item)
                         })
                         .on("mousemove", () => {
@@ -270,38 +272,49 @@ export namespace AbstractDropdownSelection {
         }
 
         open(reference: Widget, focus_widget: Widget): void {
-
             if (focus_widget) {
                 this.focus_widget = focus_widget
-                focus_widget.on("keydown", this.input_handler = (e) => {
-                    if (e.key == "Escape") {
-                        e.stopPropagation()
-                        this.focus_widget.raw().blur()
-                    }
+                focus_widget
+                    .on("keydown", this.input_handler = (e) => {
+                        if (e.key == "Escape") {
+                            e.stopPropagation()
+                            this.focus_widget.raw().blur()
+                        }
 
-                    if (e.key == "ArrowUp") {
-                        this.highlight_index.set(positiveMod(
-                            (this.highlight_index.value() ?? this.selectable_items.value().length) - 1,
-                            this.selectable_items.value().length
-                        ))
-                    }
+                        if (e.key == "ArrowUp") {
+                            this.highlight_index.set(positiveMod(
+                                (this.highlight_index.value() ?? this.selectable_items.value().length) - 1,
+                                this.selectable_items.value().length
+                            ))
+                        }
 
-                    if (e.key == "ArrowDown") {
-                        this.highlight_index.set(positiveMod(
-                            (this.highlight_index.value() ?? (this.selectable_items.value().length - 1)) + 1,
-                            this.selectable_items.value().length
-                        ))
-                    }
+                        if (e.key == "ArrowDown") {
+                            this.highlight_index.set(positiveMod(
+                                (this.highlight_index.value() ?? (this.selectable_items.value().length - 1)) + 1,
+                                this.selectable_items.value().length
+                            ))
+                        }
 
-                    if (e.key == "Enter") {
-                        let i = this.highlight_index.value()
-                        if (i != null && i >= 0 && i < this.selectable_items.value().length)
-                            this.select(this.selectable_items.value()[i])
-                    }
-                })
+                        if (e.key == "Enter") {
+                            let i = this.highlight_index.value()
+                            if (i != null && i >= 0 && i < this.selectable_items.value().length)
+                                this.select(this.selectable_items.value()[i])
+                        }
+                    })
+                    .on("focusout", (e) => {
+                        debugger
+                        if (!(e.originalEvent.relatedTarget instanceof HTMLElement)
+                            || (!this.container.container.is(e.originalEvent.relatedTarget)
+                                && this.container.container.has(e.originalEvent.relatedTarget).length == 0)
+                        ) {
+                            console.log("focus out")
+                            this.close()
+                        }
+                    })
+                    .raw().focus()
             }
 
-            this.container = c("<div style='z-index: 100000'></div>")
+            this.container = c("<div style='z-index: 100000' tabindex='0'></div>")
                 .addClass("nisl-abstract-dropdown")
             if (this.options.dropdownClass) {
                 this.container.addClass(this.options.dropdownClass)
@@ -344,6 +357,8 @@ export namespace AbstractDropdownSelection {
                 this.instance = null
 
                 this.container.remove()
+
+                this.closed.trigger(undefined)
             }
 
             if (this.focus_widget) {
@@ -355,6 +370,12 @@ export namespace AbstractDropdownSelection {
 
         onSelected(f: (_: T) => any): this {
             this.selected.on(f)
+
+            return this
+        }
+
+        onClosed(f: () => any): this {
+            this.closed.on(f)
 
             return this
         }

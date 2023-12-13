@@ -96,9 +96,10 @@ namespace NeoSolvinglayer {
                 }
             })
                 .onSelected(clue => {
-                    this.search_bar_collapsible.collapse()
-
                     this.parent.solveClue(clue)
+                })
+                .onClosed(() => {
+                    this.search_bar_collapsible.collapse()
                 })
                 .setItems([])
 
@@ -114,9 +115,6 @@ namespace NeoSolvinglayer {
                             let results = this.prepared_search_index.search(value)
 
                             this.dropdown.setItems(results)
-                        })
-                        .on("focusout", (e) => {
-                            this.search_bar_collapsible.collapse()
                         })
                     )
                     .onClick((e) => {

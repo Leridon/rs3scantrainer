@@ -12,26 +12,51 @@ import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {Observable, observe} from "../../../lib/reactive";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import * as lodash from "lodash";
+import {Rectangle} from "../../../lib/math";
 
 class NeoSolvingLayer extends GameLayer {
     public control_bar: NeoSolvinglayer.MainControlBar
     public clue_container: Widget
     public solution_container: Widget
 
+    private sidebar: GameMapControl
+
     constructor(private behaviour: NeoSolvingBehaviour) {
         super();
 
-        let sidebar = new GameMapControl({
+        this.sidebar = new GameMapControl({
             position: "top-left",
             type: "floating",
             no_default_styling: true
         }, c().addClass("ctr-neosolving-sidebar")).addTo(this)
 
-        sidebar.content.append(
+        this.sidebar.content.append(
             new NeoSolvinglayer.MainControlBar(behaviour),
             this.clue_container = c(),
             this.solution_container = c()
         )
+    }
+
+    fit(view: TileRectangle): this {
+        let copy = lodash.cloneDeep(view)
+
+        // Modify the rectangle to center the view on the space right of the sidebar.
+        {
+            const sidebar_w = this.sidebar.content.raw().clientWidth + 20
+            const total_w = this.getMap().container.get()[0].clientWidth
+
+            const f = sidebar_w / Math.max(sidebar_w, total_w - sidebar_w)
+
+            copy.topleft.x -= f * Rectangle.width(view)
+        }
+
+        this.map.fitView(copy, {
+            maxZoom: 4,
+        })
+
+        return this
     }
 }
 
@@ -165,6 +190,39 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     solveClue(step: { step: Clues.Step, text_index: number }): void {
         this.layer.clue_container.text(step.step.text[step.text_index])
+
+        this.layer.solution_container.empty()
+        {
+            let w = c()
+
+            const s = step.step.solution
+
+            if (s) {
+                switch (s.type) {
+                    case "talkto":
+                        w.append(c().append(
+                            "Talk to ",
+                            C.npc(s.npc).on("click", () => {
+                                this.layer.fit(s.spots[0].range)
+                            })
+                        ))
+                        break;
+                    case "search":
+                        w.append(c().append(
+                            "Search ",
+                            C.entity(s.entity).on("click", () => {
+                                this.layer.fit(TileRectangle.from(s.spot))
+                            })
+                        ))
+                        break;
+                    case "dig":
+                        w.append(c().text(`Dig at ${TileCoordinates.toString(s.spot)}`))
+                        break;
+                }
+            }
+
+            this.layer.solution_container.append(w)
+        }
     }
 
     protected begin() {

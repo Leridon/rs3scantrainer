@@ -46,4 +46,12 @@ export namespace C {
     export function text_link(content: string, handler: () => any): Widget {
         return c("<div class='link'>")
     }
+
+    export function npc(name: string): Widget {
+        return c("<span class='nisl-npc'></span>").text(name)
+    }
+
+    export function entity(name: string): Widget {
+        return c("<span class='nisl-entity'></span>").text(name)
+    }
 }

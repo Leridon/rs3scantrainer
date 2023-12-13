@@ -260,7 +260,6 @@ export namespace AbstractDropdownSelection {
                     return this.options.renderItem(item)
                         .toggleClass("selected", this.highlight_index.value() == index)
                         .on("click", () => {
-                            console.log("Click")
                             this.select(item)
                         })
                         .on("mousemove", () => {
@@ -302,12 +301,10 @@ export namespace AbstractDropdownSelection {
                         }
                     })
                     .on("focusout", (e) => {
-                        debugger
                         if (!(e.originalEvent.relatedTarget instanceof HTMLElement)
                             || (!this.container.container.is(e.originalEvent.relatedTarget)
                                 && this.container.container.has(e.originalEvent.relatedTarget).length == 0)
                         ) {
-                            console.log("focus out")
                             this.close()
                         }
                     })

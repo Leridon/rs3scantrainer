@@ -1,6 +1,7 @@
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {GieliCoordinates} from "./coordinates";
+import {Vector2} from "../math";
 
 export namespace Clues {
     export function digSpotArea(spot: TileCoordinates): TileRectangle {
@@ -118,4 +119,30 @@ export namespace Clues {
     export type ScanStep = Scan
 
     export type ClueSpot = { clue: Step, spot?: TileCoordinates }
+
+    export namespace Step {
+        export function shortString(step: Step, text_variant: number = 0): string {
+            let i = Math.max(0, Math.min(step.text.length - 1, text_variant))
+
+            switch (step.type) {
+                case "anagram":
+                    return `Anagram: ${step.anagram[i]}`
+                case "map":
+                    return `Map: ${step.text[i]}`
+                case "coordinates":
+                    return GieliCoordinates.toString(step.coordinates)
+                case "scan":
+                    return `Scan ${step.scantext}`
+                default:
+                    return step.text[i]
+            }
+        }
+    }
+
+    export namespace ClueSpot {
+        export function shortString(spot: Clues.ClueSpot, text_variant: number = 0): string {
+            if (spot.clue.type == "compass") return `Compass spot ${Vector2.toString(spot.spot)}`
+            else return Step.shortString(spot.clue, text_variant)
+        }
+    }
 }

@@ -126,7 +126,7 @@ class ClueSpotFilterResult extends Widget {
 
         this.append(hbox(
             vbox(
-                this.summary = c().text(ClueSpotFilterResult.summary_text(spot)).addClass("ctr-filtered-clue-result-summary").on("click", () => {
+                this.summary = c().text(ClueSpot.shortString(spot)).addClass("ctr-filtered-clue-result-summary").on("click", () => {
                     if (this.map) {
                         this.map.fitView(TileRectangle.from(ClueOverviewMarker.position(spot)), {
                             maxZoom: 4
@@ -153,28 +153,6 @@ class ClueSpotFilterResult extends Widget {
             "display": "none",
             "border-top": "1px dashed grex"
         }))
-    }
-}
-
-namespace ClueSpotFilterResult {
-    export function summary_text(spot: Clues.ClueSpot): string {
-
-        switch (spot.clue.type) {
-            case "map":
-                return `Map: ${spot.clue.text[0]}`
-            case "scan":
-                return `Scan ${spot.clue.scantext}`
-            case "compass":
-                return `Compass spot ${Vector2.toString(spot.spot)}`
-            case "anagram":
-                return `Anagram: ${spot.clue.anagram[0]}`
-            case "coordinates":
-            case "simple":
-            case "cryptic":
-            case "emote":
-            case "skilling":
-                return spot.clue.text[0]
-        }
     }
 }
 

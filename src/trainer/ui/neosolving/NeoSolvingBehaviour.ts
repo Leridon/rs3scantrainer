@@ -10,9 +10,15 @@ import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
 import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
+import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
+import {Observable, observe} from "../../../lib/reactive";
 
 class NeoSolvingLayer extends GameLayer {
-    constructor() {
+    public control_bar: NeoSolvinglayer.MainControlBar
+    public clue_container: Widget
+    public solution_container: Widget
+
+    constructor(private behaviour: NeoSolvingBehaviour) {
         super();
 
         let sidebar = new GameMapControl({
@@ -22,8 +28,9 @@ class NeoSolvingLayer extends GameLayer {
         }, c().addClass("ctr-neosolving-sidebar")).addTo(this)
 
         sidebar.content.append(
-            new NeoSolvinglayer.MainControlBar(),
-            c().text("I am another test thing")
+            new NeoSolvinglayer.MainControlBar(behaviour),
+            this.clue_container = c(),
+            this.solution_container = c()
         )
     }
 }
@@ -31,7 +38,8 @@ class NeoSolvingLayer extends GameLayer {
 namespace NeoSolvinglayer {
     import spacer = C.spacer;
     import hbox = C.hbox;
-    import ClueSpot = Clues.ClueSpot;
+    import Step = Clues.Step;
+
 
     class MainControlButton extends Button {
         constructor(options: { icon?: string, text?: string }) {
@@ -63,20 +71,36 @@ namespace NeoSolvinglayer {
         search_bar_collapsible: ExpansionBehaviour
         rest_collapsible: ExpansionBehaviour
 
-        dropdown: AbstractDropdownSelection.DropDown<Clues.Step> = null
+        dropdown: AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }> = null
 
-        constructor() {
+        prepared_search_index: PreparedSearchIndex<{ step: Clues.Step, text_index: number }>
+
+        constructor(private parent: NeoSolvingBehaviour) {
             super();
 
             this.addClass("ctr-neosolving-main-bar")
 
-            this.dropdown = new AbstractDropdownSelection.DropDown<Clues.Step>({
-                dropdownClass: "ctr-neosolving-search-dropdown"
+            this.prepared_search_index = new PreparedSearchIndex<{ step: Clues.Step, text_index: number }>(
+                clue_data.all.flatMap(step => step.text.map((_, i) => ({step: step, text_index: i}))),
+                (step) => step.step.text[step.text_index]
+                , {
+                    all: true,
+                    threshold: -10000
+                }
+            )
+
+            this.dropdown = new AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }>({
+                dropdownClass: "ctr-neosolving-search-dropdown",
+                renderItem: e => {
+                    return c().text(Step.shortString(e.step, e.text_index))
+                }
             })
                 .onSelected(clue => {
                     this.search_bar_collapsible.collapse()
+
+                    this.parent.solveClue(clue)
                 })
-                .setItems(clue_data.index.filtered().map(a => a.clue).slice(0, 30))
+                .setItems([])
 
             this.append(
                 new MainControlButton({icon: "assets/icons/glass.png"})
@@ -86,8 +110,13 @@ namespace NeoSolvinglayer {
                         .toggleClass("nisinput", false)
                         .addClass("ctr-neosolving-main-bar-search")
                         .setVisible(false)
+                        .onChange(({value}) => {
+                            let results = this.prepared_search_index.search(value)
+
+                            this.dropdown.setItems(results)
+                        })
                         .on("focusout", (e) => {
-                            //this.search_bar_collapsible.collapse()
+                            this.search_bar_collapsible.collapse()
                         })
                     )
                     .onClick((e) => {
@@ -99,7 +128,6 @@ namespace NeoSolvinglayer {
                             this.search_bar_collapsible.expand()
                             this.search_bar.container.focus()
                             this.search_bar.setValue("")
-                            this.dropdown.open(this, this.search_bar)
                         }
                     }),
                 this.rest = hbox(
@@ -115,6 +143,10 @@ namespace NeoSolvinglayer {
             this.search_bar_collapsible = ExpansionBehaviour.horizontal({widget: this.search_bar, starts_collapsed: true, duration: 100})
                 .onChange(v => {
                     if (v) this.dropdown?.close()
+                    else {
+                        this.dropdown.setItems(this.prepared_search_index.items())
+                        this.dropdown?.open(this, this.search_bar)
+                    }
 
                     this.rest_collapsible.setCollapsed(!v)
                 })
@@ -127,12 +159,18 @@ namespace NeoSolvinglayer {
 export default class NeoSolvingBehaviour extends Behaviour {
     layer: NeoSolvingLayer
 
+    auto_solving: Observable<boolean> = observe(false)
+
     constructor(private app: Application) {
         super();
     }
 
+    solveClue(step: { step: Clues.Step, text_index: number }): void {
+        this.layer.clue_container.text(step.step.text[step.text_index])
+    }
+
     protected begin() {
-        this.app.map.addGameLayer(this.layer = new NeoSolvingLayer())
+        this.app.map.addGameLayer(this.layer = new NeoSolvingLayer(this))
     }
 
     protected end() {

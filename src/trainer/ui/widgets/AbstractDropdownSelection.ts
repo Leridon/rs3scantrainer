@@ -220,17 +220,24 @@ export namespace AbstractDropdownSelection {
             if (!options.renderItem) options.renderItem = (v) => c().text(JSON.stringify(v))
 
             this.selectable_items.subscribe((items, old_items) => {
+                /*
                 if (this.highlight_index.value() != null) {
                     let new_index = items.indexOf(old_items[this.highlight_index.value()])
 
                     this.highlight_index.set(new_index >= 0 ? new_index : 0)
-                }
+                }*/
+
+                this.highlight_index.set(0)
+
+                this.renderItems()
             })
 
             this.highlight_index.subscribe((highlight, old_highlight) => {
-                if (old_highlight != null) this.rows[old_highlight].toggleClass("selected", false)
-                if (highlight != null) this.rows[highlight].toggleClass("selected", true)
-                    .raw().scrollIntoView()
+                if (this.rows) {
+                    if (old_highlight != null) this.rows[old_highlight]?.toggleClass("selected", false)
+                    if (highlight != null) this.rows[highlight]?.toggleClass("selected", true)
+                        ?.raw()?.scrollIntoView(false)
+                }
             })
         }
 
@@ -245,17 +252,21 @@ export namespace AbstractDropdownSelection {
         }
 
         renderItems() {
-            this.rows = this.selectable_items.value().map((item, index) => {
-                return c().text(JSON.stringify(item))
-                    .toggleClass("selected", this.highlight_index.value() == index)
-                    .on("click", () => {
-                        this.select(item)
-                    })
-                    .on("mousemove", () => {
-                        this.highlight_index.set(index)
-                    })
-                    .appendTo(this.container)
-            })
+            if (this.container) {
+                this.container.empty()
+
+                this.rows = this.selectable_items.value().map((item, index) => {
+                    return this.options.renderItem(item)
+                        .toggleClass("selected", this.highlight_index.value() == index)
+                        .on("click", () => {
+                            this.select(item)
+                        })
+                        .on("mousemove", () => {
+                            this.highlight_index.set(index)
+                        })
+                        .appendTo(this.container)
+                })
+            }
         }
 
         open(reference: Widget, focus_widget: Widget): void {
@@ -263,8 +274,6 @@ export namespace AbstractDropdownSelection {
             if (focus_widget) {
                 this.focus_widget = focus_widget
                 focus_widget.on("keydown", this.input_handler = (e) => {
-                    console.log("Keydown")
-
                     if (e.key == "Escape") {
                         e.stopPropagation()
                         this.focus_widget.raw().blur()

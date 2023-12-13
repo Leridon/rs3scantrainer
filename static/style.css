@@ -1568,7 +1568,10 @@ input[type=checkbox] + span {
     width: 250px;
 }
 
-.ctr-neosolving-sidebar > * {
+.ctr-neosolving-sidebar > *:empty {
+    display: none;
+}
+.ctr-neosolving-sidebar > *:not(:empty) {
     margin-bottom: 10px;
     background-color: #FFFFFF40;
     border-radius: 5px;

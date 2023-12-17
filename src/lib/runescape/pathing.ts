@@ -43,6 +43,8 @@ export namespace Path {
         | "loot"
         | "picklock"
         | "shovel"
+        | "equip"
+        | "hunt"
 
     // TODO: Smith, Discover, Archaelogy,
 
@@ -81,6 +83,7 @@ export namespace Path {
                 {type: "loot", icon_url: "assets/icons/cursor_loot.png", description: "Loot", short_icon: "cursor_loot"},
                 {type: "picklock", icon_url: "assets/icons/cursor_picklock.png", description: "Pick Lock", short_icon: "cursor_picklock"},
                 {type: "shovel", icon_url: "assets/icons/cursor_shovel.png", description: "Shovel", short_icon: "cursor_shovel"},
+                {type: "equip", icon_url: "assets/icons/cursor_equip.png", description: "Equip", short_icon: "cursor_equip"},
             ]
         }
 

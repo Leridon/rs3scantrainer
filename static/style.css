@@ -1252,6 +1252,19 @@ input[type=checkbox] + span {
     color: yellow;
 }
 
+.nisl-item {
+    color: #f8d56b;
+}
+
+.nisl-emote {
+    /*color: #7d98a6;*/
+}
+
+.nisl-noitem {
+    color: grey;
+    font-style: italic;
+}
+
 .ctr-method-widget {
     background-color: #1b364d;
     border: 1px solid white;
@@ -1566,11 +1579,13 @@ input[type=checkbox] + span {
     display: flex;
     flex-direction: column;
     width: 250px;
+    font-size: 1rem;
 }
 
 .ctr-neosolving-sidebar > *:empty {
     display: none;
 }
+
 .ctr-neosolving-sidebar > *:not(:empty) {
     margin-bottom: 10px;
     background-color: #FFFFFF40;
@@ -1644,6 +1659,21 @@ input[type=checkbox] + span {
     border-bottom: 1px solid red
 }
 
+.ctr-neosolving-solution-row {
+    padding: 3px;
+}
+
+.ctr-neosolving-solution-row:not(:last-child) {
+    border-bottom: 1px dashed grey;
+}
+
+.ctr-neosolving-solution-row > img:first-child {
+    height: 20px;
+    width: 20px;
+    margin-right: 3px;
+    align-content: center;
+}
+
 /* Dropdown */
 
 .nisl-abstract-dropdown {
@@ -1657,4 +1687,8 @@ input[type=checkbox] + span {
 
 .nisl-abstract-dropdown > *.selected {
     background-color: grey;
+}
+
+.ctr-clickable {
+    cursor: pointer;
 }

@@ -15,6 +15,11 @@ import {Observable, observe} from "../../../lib/reactive";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {Rectangle} from "../../../lib/math";
+import span = C.span;
+import {util} from "../../../lib/util/util";
+import natural_join = util.natural_join;
+import {Path} from "../../../lib/runescape/pathing";
+import InteractionType = Path.InteractionType;
 
 class NeoSolvingLayer extends GameLayer {
     public control_bar: NeoSolvinglayer.MainControlBar
@@ -189,39 +194,200 @@ export default class NeoSolvingBehaviour extends Behaviour {
     }
 
     solveClue(step: { step: Clues.Step, text_index: number }): void {
-        this.layer.clue_container.text(step.step.text[step.text_index])
+        type NeoSolvingSettings = {
+            clue: "full" | "short" | "none",
+            talks: {
+                at_all: boolean,
+                description: boolean,
+            }
+            digs: {
+                coordinates: boolean,
+                description: boolean
+            },
+            searches: {
+                at_all: boolean,
+                key_solution: boolean
+            },
+            emotes: {
+                hidey_hole: boolean,
+                items: boolean,
+                emotes: boolean,
+                double_agent: boolean
+            }
+            scan_solving: "always" | "scantree_fallback" | "never",
+        }
 
+        const settings: NeoSolvingSettings = {
+            clue: "full",
+            talks: {
+                at_all: true,
+                description: true
+            },
+            digs: {
+                coordinates: true,
+                description: true,
+            },
+            searches: {
+                at_all: true,
+                key_solution: true,
+            },
+            emotes: {
+                hidey_hole: true,
+                items: true,
+                emotes: true,
+                double_agent: true
+            },
+            scan_solving: "always"
+        }
+
+        this.layer.clue_container.empty()
         this.layer.solution_container.empty()
+
+        const clue = step.step
+
+        if (step.step.type == "map") {
+            this.layer.clue_container.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).text(step.step.text[step.text_index]))
+        } else {
+            this.layer.clue_container.append(c().text(step.step.text[step.text_index]))
+        }
+
         {
             let w = c()
 
-            const s = step.step.solution
+            if (step.step.solution) {
+                const sol = step.step.solution
 
-            if (s) {
-                switch (s.type) {
+                switch (sol?.type) {
                     case "talkto":
-                        w.append(c().append(
-                            "Talk to ",
-                            C.npc(s.npc).on("click", () => {
-                                this.layer.fit(s.spots[0].range)
-                            })
-                        ))
+                        if (!settings.talks.at_all) break
+
+                        let npc_spot_id = 0 // TODO
+
+                        w.append(c().addClass("ctr-neosolving-solution-row")
+                            .append(
+                                c("<img src='assets/icons/cursor_talk.png'>"),
+                                span("Talk to "),
+                                C.npc(sol.npc, true)
+                                    .tooltip("Click to center")
+                                    .on("click", () => {
+                                        this.layer.fit(sol.spots[npc_spot_id].range)
+                                    }),
+                                settings.talks.description
+                                    ? span(" " + sol.spots[npc_spot_id].description)
+                                    : undefined
+                            ))
+
                         break;
                     case "search":
-                        w.append(c().append(
-                            "Search ",
-                            C.entity(s.entity).on("click", () => {
-                                this.layer.fit(TileRectangle.from(s.spot))
-                            })
+                        if (!settings.searches.at_all) break
+
+                        if (sol.key && settings.searches.key_solution) {
+                            w.append(c().addClass("ctr-neosolving-solution-row").append(
+                                c("<img src='assets/icons/key.png'>"),
+                                span(sol.key.answer).addClass("ctr-clickable").on("click", () => {
+                                    this.layer.fit(sol.key.area)
+                                }),
+                            ))
+                        }
+
+                        w.append(c().addClass("ctr-neosolving-solution-row").append(
+                            c("<img src='assets/icons/cursor_talk.png'>"),
+                            span("Search "),
+                            C.entity(sol.entity, true)
+                                .tooltip("Click to center")
+                                .on("click", () => {
+                                    this.layer.fit(TileRectangle.from(sol.spot))
+                                })
                         ))
                         break;
                     case "dig":
-                        w.append(c().text(`Dig at ${TileCoordinates.toString(s.spot)}`))
+                        if (!settings.digs.description && !settings.digs.coordinates) break
+
+                        w.append(c().addClass("ctr-neosolving-solution-row").append(
+                            c("<img src='assets/icons/cursor_shovel.png'>"),
+                            span("Dig"),
+                            settings.digs.coordinates
+                                ? span(` at ${TileCoordinates.toString(sol.spot)}`)
+                                : null,
+                            settings.digs.description && sol.description
+                                ? span(sol.description)
+                                : null
+                        ))
+
                         break;
                 }
             }
 
-            this.layer.solution_container.append(w)
+            if (clue.type == "emote") {
+                if (settings.emotes.hidey_hole && clue.hidey_hole) {
+                    w.append(c().addClass("ctr-neosolving-solution-row").append(
+                        c("<img src='assets/icons/cursor_search.png'>"),
+                        span("Get items from "),
+                        C.entity(clue.hidey_hole.name)
+                            .tooltip("Click to center")
+                            .addClass("ctr-clickable")
+                            .on("click", () => {
+                                this.layer.fit(TileRectangle.from(clue.hidey_hole.location))
+                            })
+                    ))
+                }
+
+                if (settings.emotes.items) {
+                    let row = c().addClass("ctr-neosolving-solution-row").append(
+                        c("<img src='assets/icons/cursor_equip.png'>"),
+                        span("Equip "),
+                    ).appendTo(w)
+
+                    for (let i = 0; i < clue.items.length; i++) {
+                        const item = clue.items[i]
+
+                        if (i > 0) {
+                            if (i == clue.items.length - 1) row.append(", and ")
+                            else row.append(", ")
+                        }
+
+                        const is_none = item.startsWith("Nothing") || item.startsWith("No ")
+
+                        row.append(span(item)
+                            .toggleClass("nisl-item", !is_none)
+                            .toggleClass("nisl-noitem", is_none)
+                        )
+                    }
+                }
+
+                if (settings.emotes.emotes) {
+                    let row = c().addClass("ctr-neosolving-solution-row").append(
+                        c("<img src='assets/icons/emotes.png'>"),
+                    ).appendTo(w)
+
+                    for (let i = 0; i < clue.emotes.length; i++) {
+                        const item = clue.emotes[i]
+
+                        if (i > 0) {
+                            if (i == clue.emotes.length - 1) row.append(", then ")
+                            else row.append(", ")
+                        }
+
+                        row.append(item).addClass("nisl-emote")
+                    }
+                }
+
+                if (settings.emotes.double_agent && clue.double_agent) {
+                    w.append(c().addClass("ctr-neosolving-solution-row").append(
+                        c("<img src='assets/icons/cursor_attack.png'>"),
+                        span("Kill "),
+                        C.npc("Double Agent")
+                    ))
+                }
+            } else if (clue.type == "skilling") {
+                w.append(c().addClass("ctr-neosolving-solution-row").append(
+                    c(`<img src="${InteractionType.meta(clue.cursor).icon_url}">`),
+                    span(clue.answer)
+                ))
+            }
+
+            if (!w.container.is(":empty"))
+                this.layer.solution_container.append(w)
         }
     }
 

@@ -47,11 +47,11 @@ export namespace C {
         return c("<div class='link'>")
     }
 
-    export function npc(name: string): Widget {
-        return c("<span class='nisl-npc'></span>").text(name)
+    export function npc(name: string, clickable: boolean = false): Widget {
+        return c("<span class='nisl-npc'></span>").toggleClass("ctr-clickable", clickable).text(name)
     }
 
-    export function entity(name: string): Widget {
-        return c("<span class='nisl-entity'></span>").text(name)
+    export function entity(name: string, clickable: boolean = false): Widget {
+        return c("<span class='nisl-entity'></span>").toggleClass("ctr-clickable", clickable).text(name)
     }
 }

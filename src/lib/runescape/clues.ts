@@ -2,6 +2,7 @@ import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {GieliCoordinates} from "./coordinates";
 import {Vector2} from "../math";
+import {Path} from "./pathing";
 
 export namespace Clues {
     export function digSpotArea(spot: TileCoordinates): TileRectangle {
@@ -64,6 +65,7 @@ export namespace ClueType {
 }
 
 export namespace Clues {
+    import InteractionType = Path.InteractionType;
     export type Challenge =
         { type: "wizard" } |
         { type: "slider" } |
@@ -76,8 +78,20 @@ export namespace Clues {
 
     namespace Solution {
         // The area for npcs should include all tiles they can be talked to from, so one tile bigger than their wander range
-        export type TalkTo = { type: "talkto", spots: { range: TileRectangle, note?: string }[], npc: string }
-        export type Dig = { type: "dig", spot: TileCoordinates }
+        export type TalkTo = {
+            type: "talkto",
+            npc: string
+            spots: {
+                range: TileRectangle,
+                note?: string,
+                description: string // Strings like "in City of Um", "at the Bank" etc.
+            }[],
+        }
+        export type Dig = {
+            type: "dig",
+            spot: TileCoordinates
+            description: string // Strings like "on top of the fern", "next to the window" etc.
+        }
         export type Search = {
             type: "search", spot: TileCoordinates, entity: string,
             key?: {
@@ -112,7 +126,12 @@ export namespace Clues {
     export type Map = StepShared & { type: "map", ocr_data: number[], solution: Solution, image_url: string }
     export type Scan = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }
     export type Simple = StepShared & { type: "simple", solution: Solution }
-    export type Skilling = StepShared & { type: "skilling", areas: TileRectangle[], answer: string }
+    export type Skilling = StepShared & {
+        type: "skilling",
+        areas: TileRectangle[],
+        answer: string,
+        cursor: InteractionType
+    }
 
     export type Step = Anagram | Compass | Coordinate | Cryptic | Emote | Map | Scan | Simple | Skilling
 

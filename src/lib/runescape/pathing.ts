@@ -26,7 +26,7 @@ export namespace Path {
         | "open"
         | "enter"
         | "spellonentity"
-        | "agility_obstacle"
+        | "agility"
         | "ladderdown"
         | "ladderup"
         | "read"
@@ -45,8 +45,12 @@ export namespace Path {
         | "shovel"
         | "equip"
         | "hunt"
+        | "discover"
+        | "smith"
+        | "herblore"
+        | "burn"
 
-    // TODO: Smith, Discover, Archaelogy,
+    // TODO: Archaelogy, Runecraft, Pray, Thieving
 
     export type PathAssumptions = {
         double_surge?: boolean,
@@ -66,7 +70,7 @@ export namespace Path {
                 {type: "open", icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"},
                 {type: "enter", icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"},
                 {type: "spellonentity", icon_url: "assets/icons/cursor_alchemy.png", description: "Use spell", short_icon: "cursor_spell"},
-                {type: "agility_obstacle", icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"},
+                {type: "agility", icon_url: "assets/icons/cursor_agility.png", description: "Use", short_icon: "cursor_agility"},
                 {type: "ladderdown", icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"},
                 {type: "ladderup", icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"},
                 {type: "read", icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"},
@@ -84,6 +88,11 @@ export namespace Path {
                 {type: "picklock", icon_url: "assets/icons/cursor_picklock.png", description: "Pick Lock", short_icon: "cursor_picklock"},
                 {type: "shovel", icon_url: "assets/icons/cursor_shovel.png", description: "Shovel", short_icon: "cursor_shovel"},
                 {type: "equip", icon_url: "assets/icons/cursor_equip.png", description: "Equip", short_icon: "cursor_equip"},
+                {type: "discover", icon_url: "assets/icons/cursor_discover.png", description: "Discover", short_icon: "cursor_discover"},
+                {type: "smith", icon_url: "assets/icons/cursor_smith.png", description: "Smith", short_icon: "cursor_smith"},
+                {type: "herblore", icon_url: "assets/icons/cursor_herblore.png", description: "Herblore", short_icon: "cursor_herblore"},
+                {type: "hunt", icon_url: "assets/icons/cursor_hunt.png", description: "Hunt", short_icon: "cursor_hunt"},
+                {type: "burn", icon_url: "assets/icons/cursor_burn.png", description: "Burn", short_icon: "cursor_burn"},
             ]
         }
 

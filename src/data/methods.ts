@@ -24202,7 +24202,7 @@ export const default_scan_method_pack: Pack = {
                                                                                             "level": 0
                                                                                         },
                                                                                         "forced_direction": 4,
-                                                                                        "how": "agility_obstacle"
+                                                                                        "how": "agility"
                                                                                     },
                                                                                     {
                                                                                         "type": "ability",
@@ -28090,7 +28090,7 @@ export const default_scan_method_pack: Pack = {
                                                                     },
                                                                     "actions": [
                                                                         {
-                                                                            "cursor": "agility_obstacle",
+                                                                            "cursor": "agility",
                                                                             "interactive_area": {
                                                                                 "topleft": {
                                                                                     "x": 2355,
@@ -29064,7 +29064,7 @@ export const default_scan_method_pack: Pack = {
                                                                                 },
                                                                                 "actions": [
                                                                                     {
-                                                                                        "cursor": "agility_obstacle",
+                                                                                        "cursor": "agility",
                                                                                         "interactive_area": {
                                                                                             "topleft": {
                                                                                                 "x": 2314,
@@ -29510,7 +29510,7 @@ export const default_scan_method_pack: Pack = {
                                                         },
                                                         "actions": [
                                                             {
-                                                                "cursor": "agility_obstacle",
+                                                                "cursor": "agility",
                                                                 "interactive_area": {
                                                                     "topleft": {
                                                                         "x": 2355,
@@ -29624,7 +29624,7 @@ export const default_scan_method_pack: Pack = {
                                                         },
                                                         "actions": [
                                                             {
-                                                                "cursor": "agility_obstacle",
+                                                                "cursor": "agility",
                                                                 "interactive_area": {
                                                                     "topleft": {
                                                                         "x": 2378,
@@ -29819,7 +29819,7 @@ export const default_scan_method_pack: Pack = {
                                             },
                                             "actions": [
                                                 {
-                                                    "cursor": "agility_obstacle",
+                                                    "cursor": "agility",
                                                     "interactive_area": {
                                                         "topleft": {
                                                             "x": 2355,
@@ -30853,7 +30853,7 @@ export const default_scan_method_pack: Pack = {
                                                                     },
                                                                     "actions": [
                                                                         {
-                                                                            "cursor": "agility_obstacle",
+                                                                            "cursor": "agility",
                                                                             "interactive_area": {
                                                                                 "topleft": {
                                                                                     "x": 2518,
@@ -31532,7 +31532,7 @@ export const default_scan_method_pack: Pack = {
                                                                                 },
                                                                                 "actions": [
                                                                                     {
-                                                                                        "cursor": "agility_obstacle",
+                                                                                        "cursor": "agility",
                                                                                         "interactive_area": {
                                                                                             "topleft": {
                                                                                                 "x": 2518,

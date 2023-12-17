@@ -7757,6 +7757,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 374,
         "areas": [{"topleft": {"x": 2183, "y": 3454}, "botright": {"x": 2196, "y": 3441}, "level": 2}],
+        "cursor": "agility",
         "answer": "Go to the top of the Hefin Agility Course."
     }, {
         "type": "skilling",
@@ -7764,6 +7765,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 375,
         "areas": [{"topleft": {"x": 3018, "y": 9249}, "botright": {"x": 3052, "y": 9228}, "level": 0}],
+        "cursor": "burn",
         "answer": "Start a firepit with a Curly Root in the Jadinko Lair."
     }, {
         "type": "skilling",
@@ -7774,13 +7776,15 @@ export namespace clue_data {
             {"topleft": {"x": 2269, "y": 3390}, "botright": {"x": 2273, "y": 3386}, "level": 1},
             {"topleft": {"x": 3259, "y": 3373}, "botright": {"x": 3265, "y": 3367}, "level": 0}
         ],
-        "answer": "Cut some elder logs from an elder tree."
+        "answer": "Cut some elder logs from an elder tree.",
+        "cursor": "chop",
     }, {
         "type": "skilling",
         "text": ["Rowdy Unruly Boisterous I am pie."],
         "tier": "master",
         "id": 377,
         "answer": "Cook a wild pie. The 'Bake Pie' spell works.",
+        "cursor": "cook",
         "areas": null
     }, {
         "type": "skilling",
@@ -7788,6 +7792,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 378,
         "areas": [{"topleft": {"x": 2688, "y": 5247}, "botright": {"x": 2751, "y": 5184}, "level": 3}],
+        "cursor": "agility",
         "answer": "Help Turgall at the Dorgesh-Kaan Agility Course."
     }, {
         "type": "skilling",
@@ -7795,6 +7800,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 379,
         "areas": [{"topleft": {"x": 3801, "y": 3555}, "botright": {"x": 3808, "y": 3548}, "level": 0}],
+        "cursor": "divine",
         "answer": "Harvest a radiant memory."
     }, {
         "type": "skilling",
@@ -7809,6 +7815,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 381,
         "answer": "Light some magic logs.",
+        "cursor": "burn",
         "areas": null
     }, {
         "type": "skilling",
@@ -7830,6 +7837,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 384,
         "answer": "Craft a black dragonhide body.",
+        "cursor": "craft",
         "areas": null
     }, {
         "type": "skilling",
@@ -7837,6 +7845,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 385,
         "answer": "Add a fire rune to a decorated cooking urn (nr).",
+        "cursor": "craft",
         "areas": null
     }, {
         "type": "skilling",
@@ -7844,6 +7853,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 386,
         "answer": "Cook a raw shark, raw rocktail or raw sailfish.",
+        "cursor": "cook",
         "areas": null
     }, {
         "type": "skilling",
@@ -7851,6 +7861,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 387,
         "answer": "Smelt a Bane bar at a furnace.",
+        "cursor": "smith",
         "areas": null
     }, {
         "type": "skilling",
@@ -7879,13 +7890,15 @@ export namespace clue_data {
         "tier": "master",
         "id": 391,
         "areas": [{"topleft": {"x": 3365, "y": 3748}, "botright": {"x": 3380, "y": 3731}, "level": 0}],
-        "answer": "Catch a charming moth in the Wilderness. "
+        "answer": "Catch a charming moth in the Wilderness.",
+        "cursor": "hunt"
     }, {
         "type": "skilling",
         "text": ["I once met an ancient warrior who told me tales of his adventures. His eyes lit up as he spoke."],
         "tier": "master",
         "id": 392,
         "answer": "Burn some elder logs.",
+        "cursor": "herblore",
         "areas": null
     }, {
         "type": "skilling",
@@ -7893,6 +7906,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 393,
         "answer": "Mine a concentrated gold deposit in the Living Rock Caverns.",
+        "cursor": "mine",
         "areas": null
     }, {
         "type": "skilling",
@@ -7900,6 +7914,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 394,
         "answer": "Catch a raw great white shark.",
+        "cursor": "fish",
         "areas": null
     }, {
         "type": "skilling",
@@ -7907,6 +7922,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 395,
         "answer": "Create a Saradomin brew.",
+        "cursor": "herblore",
         "areas": null
     }, {
         "type": "skilling",
@@ -7914,13 +7930,15 @@ export namespace clue_data {
         "tier": "master",
         "id": 396,
         "answer": "Smith a rune med helm or rune full helm.",
+        "cursor": "smith",
         "areas": null
     }, {
         "type": "skilling",
         "text": ["Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling."],
         "tier": "master",
         "id": 397,
-        "answer": "Create a Zamorak brew. (Mix jangerberries into a torstol potion).",
+        "answer": "Create a Zamorak brew.",
+        "cursor": "herblore",
         "areas": null
     }, {
         "type": "skilling",
@@ -7928,6 +7946,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 398,
         "answer": "Catch two sharks at once.",
+        "cursor": "fish",
         "areas": null
     },
     ]

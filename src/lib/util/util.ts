@@ -171,4 +171,8 @@ export namespace util {
 
         return collection.filter((e, i) => filters[i])
     }
+
+    export function todo(): never {
+        throw new Error("Not implemented.")
+    }
 }

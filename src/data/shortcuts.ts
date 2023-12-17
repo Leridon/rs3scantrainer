@@ -100,7 +100,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2317,
@@ -144,7 +144,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2317,
@@ -188,7 +188,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2314,
@@ -232,7 +232,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2355,
@@ -276,7 +276,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2378,
@@ -320,7 +320,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2343,
@@ -364,7 +364,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2343,
@@ -408,7 +408,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2314,
@@ -452,7 +452,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2355,
@@ -496,7 +496,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2378,
@@ -4553,7 +4553,7 @@ let data: Shortcuts.shortcut[] = [
         },
         "actions": [
             {
-                "cursor": "agility_obstacle",
+                "cursor": "agility",
                 "interactive_area": {
                     "topleft": {
                         "x": 2518,

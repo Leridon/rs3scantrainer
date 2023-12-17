@@ -11,15 +11,60 @@ import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
 import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
-import {Observable, observe} from "../../../lib/reactive";
+import {Ewent, Observable, observe} from "../../../lib/reactive";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
-import {Rectangle} from "../../../lib/math";
+import {Rectangle, Vector2} from "../../../lib/math";
 import span = C.span;
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
 import {Path} from "../../../lib/runescape/pathing";
 import InteractionType = Path.InteractionType;
+import todo = util.todo;
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
+import {ScanTheory} from "../../../lib/cluetheory/scans/Scans";
+import PulseInformation = ScanTheory.PulseInformation;
+import {Scans} from "../../../lib/runescape/clues/scans";
+import Pulse = Scans.Pulse;
+import {SolvingMethods} from "../../model/methods";
+import Method = SolvingMethods.Method;
+import step = Path.step;
+
+class NeoReader {
+    read: Ewent<{ step: Clues.Step, text_index: number }>
+    compass_angle_read: Ewent<{ angle: number }>
+    pulse_read: Ewent<Pulse>
+}
+
+class FavoriteIndex {
+    constructor(private methods: MethodPackManager) {
+
+    }
+
+    getTalkId(clue: Clues.Step): number {
+        todo()
+    }
+
+    setTalkId(clue: Clues.Step, id: number): void {
+        todo()
+    }
+
+    getChallengeAnswerId(clue: Clues.Step): number {
+        todo()
+    }
+
+    setChallengeAnswerId(clue: Clues.Step, answer_id: number): void {
+        todo()
+    }
+
+    getMethod(step: Clues.ClueSpot): AugmentedMethod {
+        todo()
+    }
+
+    setMethod(method: AugmentedMethod): void {
+        todo()
+    }
+}
 
 class NeoSolvingLayer extends GameLayer {
     public control_bar: NeoSolvinglayer.MainControlBar
@@ -126,7 +171,7 @@ namespace NeoSolvinglayer {
                 }
             })
                 .onSelected(clue => {
-                    this.parent.solveClue(clue)
+                    this.parent.setClue(clue)
                 })
                 .onClosed(() => {
                     this.search_bar_collapsible.collapse()
@@ -193,7 +238,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
         super();
     }
 
-    solveClue(step: { step: Clues.Step, text_index: number }): void {
+    /**
+     * Sets the active clue. Builds the ui elements and moves the map view to the appropriate spot.
+     *
+     * @param step The clue step combined with the index of the selected text variant.
+     */
+    setClue(step: { step: Clues.Step, text_index: number }): void {
         type NeoSolvingSettings = {
             clue: "full" | "short" | "none",
             talks: {
@@ -390,6 +440,65 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 this.layer.solution_container.append(w)
         }
     }
+
+    /**
+     * Sets the active solving method.
+     * Use {@link setClue} to activate the related clue first!
+     * Builds the necessary ui elements and potentially zooms to the start point.
+     *
+     * @param method
+     */
+    setMethod(method: AugmentedMethod): void {
+        todo()
+    }
+
+    /**
+     * Resets both the active clue and method, resets all displayed pathing.
+     */
+    reset() {
+        todo()
+    }
+
+    /**
+     * Sets the active path displayed in the pathing widget and on the map.
+     * Dissects the path into sections automatically.
+     *
+     * @param path The displayed path.
+     */
+    private setPath(path: Path.raw) {
+        todo()
+    }
+
+    /**
+     * Sets the active path displayed in the pathing widget, pre-dissected into sections.
+     *
+     * @param sections
+     * @private
+     */
+    private setPathSections(sections: Path.step[][]) {
+        todo()
+    }
+
+    /**
+     * Adds angle information for a compass clue into the current solving process.
+     *
+     * @param info
+     * @private
+     */
+    private addCompassInfo(info: { angle: number, position: Vector2 }) {
+        todo()
+    }
+
+    /**
+     * Adds pulse information for a scan clue into the current solving process.
+     *
+     * @param info
+     * @private
+     */
+    private addScanInfo(info: { position: TileCoordinates, pulse: PulseInformation, range: number }) {
+        todo()
+    }
+
 
     protected begin() {
         this.app.map.addGameLayer(this.layer = new NeoSolvingLayer(this))

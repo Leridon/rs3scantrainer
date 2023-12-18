@@ -7750,7 +7750,8 @@ export namespace clue_data {
         "tier": "master",
         "id": 373,
         "areas": [{"topleft": {"x": 2666, "y": 3304}, "botright": {"x": 2669, "y": 3301}, "level": 0}],
-        "answer": "Steal from the Ardougne Gem Stall."
+        "answer": "Steal from the Ardougne Gem Stall.",
+        "cursor": "thieve"
     }, {
         "type": "skilling",
         "text": ["A view of the city from high above. I can hear their prayers below."],
@@ -7823,6 +7824,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 382,
         "answer": "Pickpocket any elf",
+        "cursor": "thieve",
         "areas": null
     }, {
         "type": "skilling",
@@ -7830,7 +7832,8 @@ export namespace clue_data {
         "tier": "master",
         "id": 383,
         "areas": [{"topleft": {"x": 4343, "y": 6055}, "botright": {"x": 4364, "y": 6038}, "level": 1}],
-        "answer": "Siphon some blood runes in the Runespan."
+        "answer": "Siphon some blood runes in the Runespan.",
+        "cursor": "runecraft"
     }, {
         "type": "skilling",
         "text": ["The spell struck me in the chest. Perhaps if I had worn armour today. Black looks better than red."],
@@ -7869,21 +7872,24 @@ export namespace clue_data {
         "tier": "master",
         "id": 388,
         "areas": [{"topleft": {"x": 2203, "y": 4838}, "botright": {"x": 2207, "y": 4834}, "level": 0}],
-        "answer": "Craft a death rune."
+        "answer": "Craft a death rune.",
+        "cursor": "runecraft"
     }, {
         "type": "skilling",
         "text": ["There is a temple where there are rivers of red. Bind the magic to get ahead."],
         "tier": "master",
         "id": 389,
         "areas": [{"topleft": {"x": 2460, "y": 4898}, "botright": {"x": 2465, "y": 4893}, "level": 1}],
-        "answer": "Craft a blood rune."
+        "answer": "Craft a blood rune.",
+        "cursor": "runecraft"
     }, {
         "type": "skilling",
         "text": ["Corruption seeps from this stone but there are those who work to cleanse it. Lend your voice."],
         "tier": "master",
         "id": 390,
         "areas": [{"topleft": {"x": 2187, "y": 3451}, "botright": {"x": 2193, "y": 3445}, "level": 1}],
-        "answer": "Completely use up a cleansing crystal on the Corrupted Seren Stone."
+        "answer": "Completely use up a cleansing crystal on the Corrupted Seren Stone.",
+        "cursor": "pray"
     }, {
         "type": "skilling",
         "text": ["Charm me and I shall unlock. But be brave in the darkness."],

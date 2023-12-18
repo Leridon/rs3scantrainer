@@ -294,7 +294,7 @@ export namespace ScanTree {
                                           analyze_correctness?: boolean,
                                           analyze_completeness?: boolean,
                                           analyze_timing?: boolean,
-                                          path_assumptions: Path.PathAssumptions
+                                          path_assumptions?: Path.PathAssumptions
                                       }, tree: ScanTree,
                                       clue: Clues.Scan) {
 

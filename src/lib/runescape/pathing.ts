@@ -49,8 +49,11 @@ export namespace Path {
         | "smith"
         | "herblore"
         | "burn"
+        | "pray"
+        | "runecraft"
+        | "thieve"
 
-    // TODO: Archaelogy, Runecraft, Pray, Thieving
+    // TODO: Archaelogy
 
     export type PathAssumptions = {
         double_surge?: boolean,
@@ -93,6 +96,9 @@ export namespace Path {
                 {type: "herblore", icon_url: "assets/icons/cursor_herblore.png", description: "Herblore", short_icon: "cursor_herblore"},
                 {type: "hunt", icon_url: "assets/icons/cursor_hunt.png", description: "Hunt", short_icon: "cursor_hunt"},
                 {type: "burn", icon_url: "assets/icons/cursor_burn.png", description: "Burn", short_icon: "cursor_burn"},
+                {type: "pray", icon_url: "assets/icons/cursor_pray.png", description: "Pray", short_icon: "cursor_pray"},
+                {type: "runecraft", icon_url: "assets/icons/cursor_runecraft.png", description: "Runecraft", short_icon: "cursor_runecraft"},
+                {type: "thieve", icon_url: "assets/icons/cursor_thieve.png", description: "Thieve", short_icon: "cursor_thieve"},
             ]
         }
 

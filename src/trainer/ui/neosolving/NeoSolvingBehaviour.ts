@@ -1,4 +1,4 @@
-import Behaviour from "../../../lib/ui/Behaviour";
+import Behaviour, {SingleBehaviour} from "../../../lib/ui/Behaviour";
 import {Application} from "../../application";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
@@ -17,7 +17,6 @@ import * as lodash from "lodash";
 import {Rectangle, Vector2} from "../../../lib/math";
 import span = C.span;
 import {util} from "../../../lib/util/util";
-import natural_join = util.natural_join;
 import {Path} from "../../../lib/runescape/pathing";
 import InteractionType = Path.InteractionType;
 import todo = util.todo;
@@ -27,8 +26,11 @@ import PulseInformation = ScanTheory.PulseInformation;
 import {Scans} from "../../../lib/runescape/clues/scans";
 import Pulse = Scans.Pulse;
 import {SolvingMethods} from "../../model/methods";
-import Method = SolvingMethods.Method;
-import step = Path.step;
+import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
+import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
+import {SolveScanTreeSubBehaviour} from "../solving/scans/ScanSolving";
+import LightButton from "../widgets/LightButton";
+import hbox = C.hbox;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -67,9 +69,10 @@ class FavoriteIndex {
 }
 
 class NeoSolvingLayer extends GameLayer {
-    public control_bar: NeoSolvinglayer.MainControlBar
+    public control_bar: NeoSolvingLayer.MainControlBar
     public clue_container: Widget
     public solution_container: Widget
+    public scantree_container: Widget
 
     private sidebar: GameMapControl
 
@@ -83,9 +86,10 @@ class NeoSolvingLayer extends GameLayer {
         }, c().addClass("ctr-neosolving-sidebar")).addTo(this)
 
         this.sidebar.content.append(
-            new NeoSolvinglayer.MainControlBar(behaviour),
+            new NeoSolvingLayer.MainControlBar(behaviour),
             this.clue_container = c(),
-            this.solution_container = c()
+            this.solution_container = c(),
+            this.scantree_container = c()
         )
     }
 
@@ -110,7 +114,7 @@ class NeoSolvingLayer extends GameLayer {
     }
 }
 
-namespace NeoSolvinglayer {
+namespace NeoSolvingLayer {
     import spacer = C.spacer;
     import hbox = C.hbox;
     import Step = Clues.Step;
@@ -170,8 +174,12 @@ namespace NeoSolvinglayer {
                     return c().text(Step.shortString(e.step, e.text_index))
                 }
             })
-                .onSelected(clue => {
+                .onSelected(async clue => {
                     this.parent.setClue(clue)
+
+                    let m = await this.parent.app.methods.getForClue(clue.step.id)
+                    // TODO: Get from favourites instead
+                    if (m.length > 0) this.parent.setMethod(m[0])
                 })
                 .onClosed(() => {
                     this.search_bar_collapsible.collapse()
@@ -229,12 +237,60 @@ namespace NeoSolvinglayer {
     }
 }
 
+class ScanTreeSolvingControl extends Behaviour {
+    node: ScanTree.Augmentation.AugmentedScanTreeNode = null
+    augmented: ScanTree.Augmentation.AugmentedScanTree = null
+
+    tree_widget: Widget
+
+    constructor(public parent: NeoSolvingBehaviour, public method: AugmentedMethod<ScanTreeMethod, Clues.Scan>) {
+        super()
+
+        this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
+    }
+
+    setNode(node: ScanTree.Augmentation.AugmentedScanTreeNode) {
+        this.node = node
+
+        this.tree_widget.empty()
+
+        this.tree_widget.append(c().text(this.method.method.name))
+
+        this.tree_widget.append(c().text(node.raw.directions))
+
+        for (let child of node.children) {
+
+            hbox(
+                new LightButton(child.key.pulse.toString(), "rectangle")
+                    .onClick(() => {
+                        this.setNode(child.value)
+                    }),
+                c().setInnerHtml(this.parent.app.template_resolver.resolve(child.value.raw.directions))
+            ).appendTo(this.tree_widget)
+        }
+    }
+
+    protected begin() {
+        this.tree_widget = c().appendTo(this.parent.layer.scantree_container)
+
+        this.setNode(this.augmented.root_node)
+    }
+
+    protected end() {
+        this.tree_widget.remove()
+    }
+}
+
 export default class NeoSolvingBehaviour extends Behaviour {
     layer: NeoSolvingLayer
 
+    active_clue: { step: Clues.Step, text_index: number } = null
+
     auto_solving: Observable<boolean> = observe(false)
 
-    constructor(private app: Application) {
+    private scantree_behaviour = this.withSub(new SingleBehaviour<ScanTreeSolvingControl>())
+
+    constructor(public app: Application) {
         super();
     }
 
@@ -244,54 +300,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
      * @param step The clue step combined with the index of the selected text variant.
      */
     setClue(step: { step: Clues.Step, text_index: number }): void {
-        type NeoSolvingSettings = {
-            clue: "full" | "short" | "none",
-            talks: {
-                at_all: boolean,
-                description: boolean,
-            }
-            digs: {
-                coordinates: boolean,
-                description: boolean
-            },
-            searches: {
-                at_all: boolean,
-                key_solution: boolean
-            },
-            emotes: {
-                hidey_hole: boolean,
-                items: boolean,
-                emotes: boolean,
-                double_agent: boolean
-            }
-            scan_solving: "always" | "scantree_fallback" | "never",
+        this.reset()
+
+        if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
+            return
         }
 
-        const settings: NeoSolvingSettings = {
-            clue: "full",
-            talks: {
-                at_all: true,
-                description: true
-            },
-            digs: {
-                coordinates: true,
-                description: true,
-            },
-            searches: {
-                at_all: true,
-                key_solution: true,
-            },
-            emotes: {
-                hidey_hole: true,
-                items: true,
-                emotes: true,
-                double_agent: true
-            },
-            scan_solving: "always"
-        }
+        this.active_clue = step
 
-        this.layer.clue_container.empty()
-        this.layer.solution_container.empty()
+        const settings = NeoSolving.Settings.DEFAULT
 
         const clue = step.step
 
@@ -449,14 +466,24 @@ export default class NeoSolvingBehaviour extends Behaviour {
      * @param method
      */
     setMethod(method: AugmentedMethod): void {
-        todo()
+        if (method.clue.id != this.active_clue?.step?.id) return
+
+        if (method.method.type == "scantree") {
+            console.log("Setting method")
+            this.scantree_behaviour.set(
+                new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
+            )
+        }
     }
 
     /**
      * Resets both the active clue and method, resets all displayed pathing.
      */
     reset() {
-        todo()
+        this.layer.clue_container.empty()
+        this.layer.solution_container.empty()
+
+        this.scantree_behaviour.set(null)
     }
 
     /**
@@ -506,5 +533,57 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     protected end() {
         this.layer.remove()
+    }
+}
+
+export namespace NeoSolving {
+
+
+    export type Settings = {
+        clue: "full" | "short" | "none",
+        talks: {
+            at_all: boolean,
+            description: boolean,
+        }
+        digs: {
+            coordinates: boolean,
+            description: boolean
+        },
+        searches: {
+            at_all: boolean,
+            key_solution: boolean
+        },
+        emotes: {
+            hidey_hole: boolean,
+            items: boolean,
+            emotes: boolean,
+            double_agent: boolean
+        }
+        scan_solving: "always" | "scantree_fallback" | "never",
+    }
+
+    export namespace Settings {
+        export const DEFAULT: Settings = {
+            clue: "full",
+            talks: {
+                at_all: true,
+                description: true
+            },
+            digs: {
+                coordinates: true,
+                description: true,
+            },
+            searches: {
+                at_all: true,
+                key_solution: true,
+            },
+            emotes: {
+                hidey_hole: true,
+                items: true,
+                emotes: true,
+                double_agent: true
+            },
+            scan_solving: "always"
+        }
     }
 }

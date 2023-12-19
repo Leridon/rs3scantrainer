@@ -28,9 +28,10 @@ import Pulse = Scans.Pulse;
 import {SolvingMethods} from "../../model/methods";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
-import {SolveScanTreeSubBehaviour} from "../solving/scans/ScanSolving";
+import {scan_tree_template_resolvers, SolveScanTreeSubBehaviour} from "../solving/scans/ScanSolving";
 import LightButton from "../widgets/LightButton";
 import hbox = C.hbox;
+import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -60,7 +61,11 @@ class FavoriteIndex {
     }
 
     getMethod(step: Clues.ClueSpot): AugmentedMethod {
-        todo()
+        const candidates = this.methods.getForClue(step.clue.id, step.spot)
+
+        // TODO: Get real favourite
+
+        return null
     }
 
     setMethod(method: AugmentedMethod): void {
@@ -254,9 +259,43 @@ class ScanTreeSolvingControl extends Behaviour {
 
         this.tree_widget.empty()
 
-        this.tree_widget.append(c().text(this.method.method.name))
+        const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(node))
 
-        this.tree_widget.append(c().text(node.raw.directions))
+        {
+            let row = c("<div tabindex='-1'>").addClass("ctr-neosolving-solution-row").text(this.method.method.name)
+
+            row.on("click", async () => {
+                new AbstractDropdownSelection.DropDown<AugmentedMethod>({renderItem: m => c().text(m.method.name)})
+                    .setItems(await this.parent.app.methods.getForClue(this.parent.active_clue.step.id))
+                    .onSelected(m => {
+                        this.parent.setMethod(m)
+                    })
+                    .open(row, row)
+            })
+
+            this.tree_widget.append(row)
+        }
+
+        {
+            let ui_nav = c()
+
+            let list = c("<ol class='breadcrumb' style='margin-bottom: unset'></ol>").appendTo(ui_nav)
+
+            AugmentedScanTree.collect_parents(node)
+                .map(n =>
+                    c("<span class='nisl-textlink'>")
+                        .tapRaw(e => e.on("click", () => this.setNode(n)))
+                        .text(AugmentedScanTree.decision_string(n))
+                ).forEach(w => w.appendTo(c("<li>").addClass("breadcrumb-item").appendTo(list)))
+
+            let last = list.container.children().last()
+
+            last.text(last.children().first().text()).addClass("active")
+
+            this.tree_widget.append(ui_nav)
+        }
+
+        this.tree_widget.append(c().addClass('nextstep').setInnerHtml(resolvers.resolve(node.raw.directions)))
 
         for (let child of node.children) {
 
@@ -265,8 +304,8 @@ class ScanTreeSolvingControl extends Behaviour {
                     .onClick(() => {
                         this.setNode(child.value)
                     }),
-                c().setInnerHtml(this.parent.app.template_resolver.resolve(child.value.raw.directions))
-            ).appendTo(this.tree_widget)
+                c().setInnerHtml(resolvers.resolve(child.value.raw.directions))
+            ).css("justify-content", "left").appendTo(this.tree_widget)
         }
     }
 
@@ -312,14 +351,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
         const clue = step.step
 
-        if (step.step.type == "map") {
-            this.layer.clue_container.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).text(step.step.text[step.text_index]))
-        } else {
-            this.layer.clue_container.append(c().text(step.step.text[step.text_index]))
-        }
-
         {
             let w = c()
+
+            if (step.step.type == "map") {
+                w.append(c(`<img src='${step.step.image_url}' style="width: 100%">`).addClass("ctr-neosolving-solution-row").text(step.step.text[step.text_index]))
+            } else {
+                w.append(c().addClass("ctr-neosolving-solution-row").text(step.step.text[step.text_index]))
+            }
 
             if (step.step.solution) {
                 const sol = step.step.solution
@@ -456,6 +495,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
             if (!w.container.is(":empty"))
                 this.layer.solution_container.append(w)
         }
+
+
     }
 
     /**

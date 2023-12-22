@@ -9,6 +9,7 @@ import {ExportImport} from "../util/exportString";
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {Shortcuts} from "./shortcuts";
+import {last} from "lodash";
 
 export type Path = Path.raw;
 
@@ -164,6 +165,7 @@ export namespace Path {
     import cooldown = MovementAbilities.cooldown;
     import capitalize = util.capitalize;
     import entity_shortcut = Shortcuts.entity_shortcut;
+    import todo = util.todo;
 
     export type movement_state = {
         tick: number,
@@ -758,5 +760,43 @@ export namespace Path {
 
     export function bounds(path: Path.raw): Rectangle {
         return Rectangle.combine(...path.map(step_bounds))
+    }
+
+    export type Section = {
+        name: string,
+        steps?: step[],
+        subsections?: Section[]
+    }
+
+    export function split_into_sections(path: Path.raw): Section[] {
+        let section_dividers: number[] = []
+
+        let pos: TileCoordinates = null
+
+        for (let i = 0; i < path.length; i++) {
+            let step = path[i]
+            let new_pos = ends_up([step])
+
+            if (step.type == "teleport") section_dividers.push(i)
+            else if (step.type == "shortcut_v2" && pos) {
+                if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
+                    section_dividers.push(i + 1)
+                }
+            }
+
+            pos = new_pos
+        }
+
+        section_dividers.push(path.length)
+
+        return section_dividers.map((end, i) => {
+            let prev = i == 0 ? 0 : section_dividers[i - 1]
+
+            return {
+                name: `Section ${i + 1}`,
+                steps: path.slice(prev, end)
+            }
+        })
+
     }
 }

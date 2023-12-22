@@ -32,6 +32,9 @@ import {scan_tree_template_resolvers, SolveScanTreeSubBehaviour} from "../solvin
 import LightButton from "../widgets/LightButton";
 import hbox = C.hbox;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
+import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
+import * as leaflet from "leaflet"
+import {createStepGraphics} from "../path_graphics";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -254,10 +257,58 @@ class ScanTreeSolvingControl extends Behaviour {
         this.augmented = ScanTree.Augmentation.basic_augmentation(method.method.tree, method.clue)
     }
 
+    private fit() {
+        // TODO: This is a copy of the old implementation
+        let node = this.node
+
+        let bounds = leaflet.bounds([])
+
+        //1. If no children: All Candidates
+        if (node.children.length == 0)
+            node.remaining_candidates.map(Vector2.toPoint).forEach((c) => bounds.extend(c))
+
+        //2. All children that are leafs in the augmented tree (i.e. spots directly reached from here)
+        /* //TODO: Rethink this, disabled to get the build working again
+        this.node.get().children.filter(c => c.value.is_leaf)
+            .map(c => c.value.remaining_candidates.map(Vector2.toPoint).forEach(spot => bounds.extend(spot)))
+
+         */
+
+        //4. "Where"
+        if (node.region) {
+            bounds.extend(Vector2.toPoint(node.region.area.topleft))
+            bounds.extend(Vector2.toPoint(node.region.area.botright))
+        }
+
+        // 5. parent.where if not far away
+        if (node.parent && node.parent.node.region) {
+            let o = leaflet.bounds([])
+
+            o.extend(Vector2.toPoint(node.parent.node.region.area.topleft))
+            o.extend(Vector2.toPoint(node.parent.node.region.area.botright))
+
+            if (o.getCenter().distanceTo(bounds.getCenter()) < 60) {
+                bounds.extend(o)
+            }
+        }
+
+        // 6. The path
+        // TODO: Include path bounds, without augmenting it!
+
+        this.parent.layer.getMap().fitBounds(util.convert_bounds(bounds).pad(0.1), {
+            maxZoom: 4,
+            animate: true,
+        })
+    }
+
+
     setNode(node: ScanTree.Augmentation.AugmentedScanTreeNode) {
         this.node = node
 
         this.tree_widget.empty()
+
+        this.parent.path_control.setSections(Path.split_into_sections(node.raw.path))
+        this.fit()
 
         const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(node))
 
@@ -298,7 +349,6 @@ class ScanTreeSolvingControl extends Behaviour {
         this.tree_widget.append(c().addClass('nextstep').setInnerHtml(resolvers.resolve(node.raw.directions)))
 
         for (let child of node.children) {
-
             hbox(
                 new LightButton(child.key.pulse.toString(), "rectangle")
                     .onClick(() => {
@@ -320,6 +370,33 @@ class ScanTreeSolvingControl extends Behaviour {
     }
 }
 
+class PathControl extends Behaviour {
+    private path_layer: leaflet.FeatureGroup = new OpacityGroup()
+
+    constructor(private parent: NeoSolvingBehaviour) {
+        super();
+    }
+
+
+    protected begin() {
+        this.path_layer.addTo(this.parent.layer)
+    }
+
+    protected end() {
+        this.path_layer.remove()
+    }
+
+    setSections(sections: Path.Section[]): void {
+        this.path_layer.clearLayers()
+
+        for (let section of sections) {
+            for (let step of section.steps) {
+                createStepGraphics(step).addTo(this.path_layer)
+            }
+        }
+    }
+}
+
 export default class NeoSolvingBehaviour extends Behaviour {
     layer: NeoSolvingLayer
 
@@ -328,6 +405,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     auto_solving: Observable<boolean> = observe(false)
 
     private scantree_behaviour = this.withSub(new SingleBehaviour<ScanTreeSolvingControl>())
+    public path_control = this.withSub(new PathControl(this))
 
     constructor(public app: Application) {
         super();

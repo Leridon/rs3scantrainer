@@ -61,6 +61,19 @@ export namespace util {
         return array[(array.length + index) % array.length]
     }
 
+    type nArray<T> = T | nArray<T>[]
+
+    export function multiIndex<T>(nArray: nArray<T>, ...indices: number[]): T {
+        let x = nArray
+
+        indices.forEach(i => {
+            x = index((x as nArray<T>[]), i)
+        })
+
+        return x as T
+    }
+
+
     export function minIndex(array: number[]): number {
         return array.indexOf(Math.min(...array))
     }

@@ -489,7 +489,8 @@ export namespace clue_data {
                                 "y": 3167
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Tree Gnome Village",
                     }
                 ],
                 "npc": "King Bolren"
@@ -531,7 +532,8 @@ export namespace clue_data {
                                 "y": 3182
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the Nexus",
                     }
                 ]
             },
@@ -572,7 +574,8 @@ export namespace clue_data {
                                 "y": 3666
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Relekka Longhall",
                     }
                 ]
             },
@@ -601,7 +604,8 @@ export namespace clue_data {
                                 "y": 3380
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at gates of Tree Gnome Stronghold",
                     }
                 ],
                 "npc": "Femi"
@@ -643,7 +647,8 @@ export namespace clue_data {
                                 "y": 3182
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Al Kharid",
                     }
                 ]
             },
@@ -684,7 +689,8 @@ export namespace clue_data {
                                 "y": 3063
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Tai Bwo Wannai Village",
                     }
                 ]
             },
@@ -713,7 +719,8 @@ export namespace clue_data {
                                 "y": 3152
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at Musa Point",
                     }
                 ],
                 "npc": "Luthas"
@@ -755,7 +762,8 @@ export namespace clue_data {
                                 "y": 3302
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in West Ardougne",
                     }
                 ]
             },
@@ -796,7 +804,8 @@ export namespace clue_data {
                                 "y": 3508
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Edgeville",
                     }
                 ]
             },
@@ -837,7 +846,8 @@ export namespace clue_data {
                                 "y": 3193
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Rimmington",
                     }
                 ]
             },
@@ -866,7 +876,8 @@ export namespace clue_data {
                                 "y": 3420
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Varrock's Archery Store",
                     }
                 ],
                 "npc": "Lowe"
@@ -896,7 +907,8 @@ export namespace clue_data {
                                 "y": 3372
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in the Party Room",
                     }
                 ],
                 "npc": "Party Pete"
@@ -938,7 +950,8 @@ export namespace clue_data {
                                 "y": 3471
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Varrock Castle",
                     }
                 ]
             },
@@ -974,7 +987,8 @@ export namespace clue_data {
                                 "y": 3234
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "north of Al Kharid",
                     }
                 ],
                 "npc": "Cam the Camel"
@@ -1011,7 +1025,8 @@ export namespace clue_data {
                                 "y": 2926
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Nardah"
                     }
                 ],
                 "npc": "Shiratti the Custodian"
@@ -1046,7 +1061,8 @@ export namespace clue_data {
                                 "y": 9873
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in the Dwarven Tunnel under the White Wolf Mountain"
                     }
                 ],
                 "npc": "Captain Ninto"
@@ -1081,7 +1097,8 @@ export namespace clue_data {
                                 "y": 3673
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the Piscatoris Fishing Colony"
                     }
                 ],
                 "npc": "Ramara du Croissant"
@@ -1124,7 +1141,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "The coach roams around the field."
+                        "description": "roaming around the gnomeball field"
                     }
                 ]
             },
@@ -1158,7 +1175,8 @@ export namespace clue_data {
                                 "y": 10206
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in eastern Keldagrim"
                     }
                 ],
                 "npc": "Riki the sculptor's model"
@@ -1193,7 +1211,8 @@ export namespace clue_data {
                                 "y": 3146
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "on the ground floor of Wizard's Tower"
                     }
                 ],
                 "npc": "Professor Onglewip"
@@ -1235,7 +1254,8 @@ export namespace clue_data {
                                 "y": 3190
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the Agility Arena"
                     }
                 ]
             },
@@ -1269,7 +1289,8 @@ export namespace clue_data {
                                 "y": 3190
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Port Sarim"
                     }
                 ],
                 "npc": "Trader Stan"
@@ -1304,7 +1325,8 @@ export namespace clue_data {
                                 "y": 9488
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in the basement of Wizard's Guild"
                     }
                 ],
                 "npc": "Wizard Frumscone"
@@ -1346,7 +1368,8 @@ export namespace clue_data {
                                 "y": 3160
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "in Tree Gnome Village"
                     }
                 ]
             },
@@ -1381,7 +1404,8 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
-                        "note": "After 'Blood Runs Deep'"
+                        "note": "After 'Blood Runs Deep'",
+                        "description": "in Miscellania's Throneroom"
                     },
                     {
                         "range": {
@@ -1395,7 +1419,8 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
-                        "note": "Before 'Blood Runs Deep'"
+                        "note": "Before 'Blood Runs Deep'",
+                        "description": "in Etceteria Castle"
                     }
                 ],
                 "npc": "Queen Sigrid"
@@ -1780,7 +1805,8 @@ export namespace clue_data {
                                 "y": 3163
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Lletya"
                     }
                 ],
                 "npc": "Amaethwr"
@@ -7618,7 +7644,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Sir Kay",
-                "spots": [{"range": {"topleft": {"x": 2752, "y": 3503}, "botright": {"x": 2764, "y": 3493}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2752, "y": 3503}, "botright": {"x": 2764, "y": 3493}, "level": 0},
+                    "description": "in the courtyard of Camelet Castle"
+                }]
             }
         },
         {
@@ -7629,7 +7658,11 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Ned",
-                "spots": [{"range": {"topleft": {"x": 3097, "y": 3260}, "botright": {"x": 3102, "y": 3255}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3097, "y": 3260}, "botright": {"x": 3102, "y": 3255}, "level": 0},
+                    "description": "in Draynor"
+
+                }]
             }
         },
         {
@@ -7640,7 +7673,11 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Mission Mistress Fara",
-                "spots": [{"range": {"topleft": {"x": 2887, "y": 3531}, "botright": {"x": 2889, "y": 3529}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2887, "y": 3531}, "botright": {"x": 2889, "y": 3529}, "level": 0},
+                    "description": "in Burthorpe"
+
+                }]
             }
         },
         {
@@ -7650,7 +7687,10 @@ export namespace clue_data {
             "text": ["Speak to Donovan, the family handyman."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2740, "y": 3582}, "botright": {"x": 2744, "y": 3577}, "level": 1}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2740, "y": 3582}, "botright": {"x": 2744, "y": 3577}, "level": 1},
+                    "description": "at Sinclair Mansion"
+                }],
                 "npc": "Donovan the Family Handyman"
             }
         },
@@ -7662,7 +7702,10 @@ export namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "What is 19 to the power of 3?", "answers": [{"answer": 6859}]}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0},
+                    "description": "in Brimstail's cave"
+                }],
                 "npc": "Brimstail"
             }
         },
@@ -7674,7 +7717,11 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Roavar",
-                "spots": [{"range": {"topleft": {"x": 3489, "y": 3475}, "botright": {"x": 3495, "y": 3471}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3489, "y": 3475}, "botright": {"x": 3495, "y": 3471}, "level": 0},
+                    "description": "in Canifis' bar"
+
+                }]
             }
         },
         {
@@ -7685,7 +7732,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Ulizius",
-                "spots": [{"range": {"topleft": {"x": 3440, "y": 3464}, "botright": {"x": 3446, "y": 3458}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3440, "y": 3464}, "botright": {"x": 3446, "y": 3458}, "level": 0},
+                    "description": "near the Swamp Gate"
+                }]
             }
         },
         {
@@ -7696,7 +7746,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Hajedy",
-                "spots": [{"range": {"topleft": {"x": 2779, "y": 3213}, "botright": {"x": 2782, "y": 3210}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2779, "y": 3213}, "botright": {"x": 2782, "y": 3210}, "level": 0},
+                    "description": "in Brimhaven"
+                }]
             }
         },
         {
@@ -7707,7 +7760,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Kangai Mau",
-                "spots": [{"range": {"topleft": {"x": 2790, "y": 3185}, "botright": {"x": 2795, "y": 3181}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2790, "y": 3185}, "botright": {"x": 2795, "y": 3181}, "level": 0},
+                    "description": "in Brimhaven"
+                }]
             }
         },
         {

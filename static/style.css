@@ -955,6 +955,7 @@ video {
 .gamemap-ui-container > * {
     z-index: 10000;
     position: absolute;
+    cursor: default;
 }
 
 /* UI TOP*/
@@ -1580,6 +1581,7 @@ input[type=checkbox] + span {
     flex-direction: column;
     width: 250px;
     font-size: 1rem;
+    cursor: default;
 }
 
 .ctr-neosolving-sidebar > *:empty {

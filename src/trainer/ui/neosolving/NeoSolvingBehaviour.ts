@@ -35,6 +35,9 @@ import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as leaflet from "leaflet"
 import {createStepGraphics} from "../path_graphics";
+import mul = Vector2.mul;
+import multiIndex = util.multiIndex;
+import spacer = C.spacer;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -81,6 +84,7 @@ class NeoSolvingLayer extends GameLayer {
     public clue_container: Widget
     public solution_container: Widget
     public scantree_container: Widget
+    public path_container: Widget
 
     private sidebar: GameMapControl
 
@@ -97,7 +101,8 @@ class NeoSolvingLayer extends GameLayer {
             new NeoSolvingLayer.MainControlBar(behaviour),
             this.clue_container = c(),
             this.solution_container = c(),
-            this.scantree_container = c()
+            this.scantree_container = c(),
+            this.path_container = c(),
         )
     }
 
@@ -307,10 +312,9 @@ class ScanTreeSolvingControl extends Behaviour {
 
         this.tree_widget.empty()
 
-        this.parent.path_control.setSections(Path.split_into_sections(node.raw.path))
+        this.parent.path_control.set(Path.split_into_sections(node.raw.path))
         this.fit()
 
-        const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(node))
 
         {
             let row = c("<div tabindex='-1'>").addClass("ctr-neosolving-solution-row").text(this.method.method.name)
@@ -346,9 +350,11 @@ class ScanTreeSolvingControl extends Behaviour {
             this.tree_widget.append(ui_nav)
         }
 
-        this.tree_widget.append(c().addClass('nextstep').setInnerHtml(resolvers.resolve(node.raw.directions)))
+        this.tree_widget.append(c().addClass('nextstep').setInnerHtml(this.parent.app.template_resolver.with(scan_tree_template_resolvers(node)).resolve(node.raw.directions)))
 
         for (let child of node.children) {
+            const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(child.value))
+
             hbox(
                 new LightButton(child.key.pulse.toString(), "rectangle")
                     .onClick(() => {
@@ -372,11 +378,14 @@ class ScanTreeSolvingControl extends Behaviour {
 
 class PathControl extends Behaviour {
     private path_layer: leaflet.FeatureGroup = new OpacityGroup()
+    private sections: Path.Section[] = null
+    private current_section: number[] = null
+
+    private widget: Widget = null
 
     constructor(private parent: NeoSolvingBehaviour) {
         super();
     }
-
 
     protected begin() {
         this.path_layer.addTo(this.parent.layer)
@@ -386,13 +395,79 @@ class PathControl extends Behaviour {
         this.path_layer.remove()
     }
 
-    setSections(sections: Path.Section[]): void {
+    set(sections: Path.Section[], active_id: number[] = null) {
+        this.reset()
+
+        if (!active_id) active_id = [0] // TODO: Add additional indices when there are more subsection layers
+
+        this.sections = sections
+        this.current_section = active_id
+
         this.path_layer.clearLayers()
 
         for (let section of sections) {
             for (let step of section.steps) {
                 createStepGraphics(step).addTo(this.path_layer)
             }
+        }
+
+        this.renderWidget()
+    }
+
+    reset() {
+        this.sections = null
+        this.current_section = null
+
+        this.widget?.remove()
+        this.widget = null
+        this.path_layer.clearLayers()
+    }
+
+    private setCurrentSection(ids: number[]) {
+        this.current_section = ids
+        this.renderWidget()
+    }
+
+    private renderWidget() {
+        this.widget?.remove()
+        this.widget = null
+
+        if (!this.sections || !this.current_section) return
+
+        this.widget = c().appendTo(this.parent.layer.path_container)
+
+        {
+            let sections = this.sections
+
+            for (let i = 0; i < this.current_section.length; i++) {
+                let section_id = this.current_section[i]
+
+                if (sections.length > 1) {
+                    this.widget.append(
+                        hbox(
+                            section_id > 0 ? span("P").on("click", () => {
+                                let cp = lodash.clone(this.current_section)
+                                cp[i] -= 1
+                                this.setCurrentSection(cp)
+                            }) : undefined,
+                            span(sections[section_id].name).css("flex-grow", "1").css("text-align", "center"),
+                            section_id < sections.length - 1 ? span("N").on("click", () => {
+                                let cp = lodash.clone(this.current_section)
+                                cp[i] += 1
+                                this.setCurrentSection(cp)
+                            }) : undefined,
+                        )
+                    )
+                }
+
+                sections = sections[section_id].subsections
+            }
+        }
+
+        let path = Path.get_subsection_from_id_list(this.sections, this.current_section).steps
+
+        for (let step of path) {
+            c().setInnerHtml(this.parent.app.template_resolver.resolve(step.description)).appendTo(this.widget)
         }
     }
 }
@@ -456,7 +531,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                                     .on("click", () => {
                                         this.layer.fit(sol.spots[npc_spot_id].range)
                                     }),
-                                settings.talks.description
+                                settings.talks.description && sol.spots[npc_spot_id].description
                                     ? span(" " + sol.spots[npc_spot_id].description)
                                     : undefined
                             ))
@@ -601,6 +676,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
     reset() {
         this.layer.clue_container.empty()
         this.layer.solution_container.empty()
+
+        this.path_control.reset()
 
         this.scantree_behaviour.set(null)
     }

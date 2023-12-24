@@ -771,23 +771,27 @@ export namespace Path {
     export function split_into_sections(path: Path.raw): Section[] {
         let section_dividers: number[] = []
 
+        const division = (i: number) => {
+            if (i > 0 && (section_dividers.length == 0 || index(section_dividers, -1) != i)) section_dividers.push(i)
+        }
+
         let pos: TileCoordinates = null
 
         for (let i = 0; i < path.length; i++) {
             let step = path[i]
             let new_pos = ends_up([step])
 
-            if (step.type == "teleport") section_dividers.push(i)
+            if (step.type == "teleport") division(i)
             else if (step.type == "shortcut_v2" && pos) {
                 if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
-                    section_dividers.push(i + 1)
+                    division(i + 1)
                 }
             }
 
             pos = new_pos
         }
 
-        section_dividers.push(path.length)
+        division(path.length)
 
         return section_dividers.map((end, i) => {
             let prev = i == 0 ? 0 : section_dividers[i - 1]
@@ -798,5 +802,16 @@ export namespace Path {
             }
         })
 
+    }
+
+    export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
+        for (let i of indices) {
+            let sect = sections[i]
+
+            if (sect.subsections) sections = sect.subsections
+            else return sect
+        }
+
+        return null
     }
 }

@@ -1,17 +1,7 @@
 Planned for next release (b0.4):
 
-- Theorycrafter
-    - "Save to pack" modal
-        - "Create new" option
-    - Editor for generic path methods
-
-- Menu Bar
-    - Highlight currently active
-    - Add to Alt 1 entry when not in Alt1
-
 - Solving Behaviour
     - Search Bar
-        - Actual fuzzy search
         - Neat styling
             - Hover effects of buttons
             - Highlight on toggled
@@ -20,18 +10,18 @@ Planned for next release (b0.4):
         - [Bug] Search term input does not fill the entire width.
         - [Bug] Some of the vertical division lines are missing (wrong css selector)
     - Hide Menubar on fullscreen
-    - Clue Panel
-    - Solution Panel
-        - Talk (+ Challenge)
-        - Search (+ Key)
-        - Dig
-        - Emote
     - Scantree Panel
+        - Compounded triples
+        - Scan type icons
+    - "No method selected" widget
     - Path Panel
+        - Add method selector for basic methods
     - Compass Panel
     - Solve, Autosolve
     - Multiple Methods, Preferences
-    - Integrate scan tree as map control instead of sidebar
+        - Preferred method
+        - Preferred npc spot
+        - Preferred challenge answer
     - Scan Tree Behaviour
         - Make fit include the entire path
         - Better render of in-route teleports
@@ -43,6 +33,16 @@ Planned for next release (b0.4):
     - Clue Reader
         - Text Clues
         - Scan Clues
+        - Hook up to interface
+
+- Theorycrafter
+    - "Save to pack" modal
+        - "Create new" option
+    - Editor for generic path methods
+
+- Menu Bar
+    - Highlight currently active
+    - Add to Alt 1 entry when not in Alt1
 
 - Settings Modal
     - Map Settings: Teleport Preferences

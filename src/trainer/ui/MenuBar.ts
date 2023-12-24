@@ -37,7 +37,7 @@ export default class MenuBar extends Widget {
             this.empty()
 
             this.append(
-                new MenuButton("Solving", "assets/icons/ribbon_clue.png")
+                new MenuButton("Solve", "assets/icons/ribbon_clue.png")
                     .setEnabled(!(behaviour instanceof NeoSolvingBehaviour))
                     .onClick(() => {
                         app.main_behaviour.set(new NeoSolvingBehaviour(app))

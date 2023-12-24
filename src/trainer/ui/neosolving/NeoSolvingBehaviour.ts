@@ -35,9 +35,6 @@ import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as leaflet from "leaflet"
 import {createStepGraphics} from "../path_graphics";
-import mul = Vector2.mul;
-import multiIndex = util.multiIndex;
-import spacer = C.spacer;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>

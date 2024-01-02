@@ -1,6 +1,6 @@
 import {util} from "lib/util/util";
 import {modal, Modal} from "../../widgets/modal";
-import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
+import {ScanLayer, ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import * as leaflet from "leaflet";
 import {Vector2} from "lib/math";
 import {floor_t} from "lib/runescape/coordinates";
@@ -159,10 +159,8 @@ class ScanTreeSolvingLayer extends ScanLayer {
         })*/
     }
 
-    constructor(options: {
-        show_edit_button?: boolean
-    } = {}) {
-        super(options);
+    constructor() {
+        super();
 
         this.path_graphics = new OpacityGroup().addTo(this)
 
@@ -362,7 +360,7 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
             }
         }), 2)*/
 
-        this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map)
+        this.layer = new ScanTreeSolvingLayer().addTo(this.parent.parent.map)
 
         this.node.bind(this.panel.node).bind(this.layer.node)
 

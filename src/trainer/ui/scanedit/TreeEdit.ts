@@ -10,7 +10,7 @@ import shorten_integer_list = util.shorten_integer_list;
 import {PathingGraphics} from "../path_graphics";
 import TextField from "lib/ui/controls/TextField";
 import {SmallImageButton} from "../widgets/SmallImageButton";
-import {ScanRegionPolygon} from "../solving/scans/ScanLayer";
+import {ScanRegionPolygon} from "../neosolving/ScanLayer";
 import LightButton from "../widgets/LightButton";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;

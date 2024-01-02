@@ -1,17 +1,17 @@
 import * as leaflet from "leaflet";
-import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import {blue_icon} from "lib/gamemap/GameMap";
-import {ScanTree} from "lib/cluetheory/scans/ScanTree";
-import {Constants} from "../../../constants";
+import {TileCoordinates} from "../../../lib/runescape/coordinates/TileCoordinates";
+import {blue_icon} from "../../../lib/gamemap/GameMap";
+import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
+import {Constants} from "../../constants";
 import ScanRegion = ScanTree.ScanRegion;
-import {TileMarker} from "lib/gamemap/TileMarker";
-import {ActiveOpacityGroup, OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
-import {boxPolygon} from "../../polygon_helpers";
-import {Scans} from "lib/runescape/clues/scans";
-import GameLayer from "lib/gamemap/GameLayer";
+import {TileMarker} from "../../../lib/gamemap/TileMarker";
+import {ActiveOpacityGroup, OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
+import {boxPolygon} from "../polygon_helpers";
+import {Scans} from "../../../lib/runescape/clues/scans";
+import GameLayer from "../../../lib/gamemap/GameLayer";
 import complementSpot = Scans.complementSpot;
-import {GameMapContextMenuEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
-import {Observable, observe} from "lib/reactive";
+import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
+import {Observable, observe} from "../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
 
 export class ScanRegionPolygon extends ActiveOpacityGroup {
@@ -135,11 +135,9 @@ export class ScanLayer extends GameLayer {
     spots: Observable<TileCoordinates[]> = observe([])
     spot_order: Observable<TileCoordinates[]> = observe([])
     active_spots: Observable<TileCoordinates[]> = observe([])
+    is_interactive: Observable<boolean> = observe(false)
 
-    constructor(options: {
-                    show_edit_button?: boolean
-                } = {}
-    ) {
+    constructor() {
         super()
 
         observe_combined({range: this.scan_range, spot: this.marker_spot}).subscribe(({range, spot}) => {
@@ -195,26 +193,30 @@ export class ScanLayer extends GameLayer {
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
-        event.onPre(() => {
-            if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
-                event.add({type: "basic", text: "Remove Marker", handler: () => this.marker_spot.set(null)})
-            } else event.add({
-                type: "basic", text: "Set Marker", handler: () => {
-                    this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
-                }
+        if (this.is_interactive.value()) {
+            event.onPre(() => {
+                if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
+                    event.add({type: "basic", text: "Remove Marker", handler: () => this.marker_spot.set(null)})
+                } else event.add({
+                    type: "basic", text: "Set Marker", handler: () => {
+                        this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
+                    }
+                })
             })
-        })
+        }
     }
 
     eventClick(event: GameMapMouseEvent) {
-        event.onPost(() => {
-            if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
-                this.marker_spot.set(null)
-            } else {
-                this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
-            }
+        if (this.is_interactive.value()) {
+            event.onPost(() => {
+                if (this.marker_spot.value()?.click_to_remove && TileCoordinates.eq2(event.tile(), this.marker_spot.value()?.coordinates)) {
+                    this.marker_spot.set(null)
+                } else {
+                    this.marker_spot.set({coordinates: event.tile(), click_to_remove: true, with_marker: true})
+                }
 
-            event.stopAllPropagation()
-        })
+                event.stopAllPropagation()
+            })
+        }
     }
 }

@@ -5,7 +5,7 @@ import * as leaflet from "leaflet";
 import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "lib/cluetheory/scans/EquivalenceClasses";
 import {areaToPolygon} from "../polygon_helpers";
 import {type Application} from "trainer/application";
-import {ScanLayer, ScanRegionPolygon} from "../solving/scans/ScanLayer";
+import {ScanLayer, ScanRegionPolygon} from "../neosolving/ScanLayer";
 import {PathingGraphics} from "../path_graphics";
 import {PathEditor} from "../pathedit/PathEditor";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;

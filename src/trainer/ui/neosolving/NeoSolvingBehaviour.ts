@@ -12,7 +12,7 @@ import {Clues} from "../../../lib/runescape/clues";
 import {clue_data} from "../../../data/clues";
 import PreparedSearchIndex from "../../../lib/util/PreparedSearchIndex";
 import {Ewent, Observable, observe} from "../../../lib/reactive";
-import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {Rectangle, Vector2} from "../../../lib/math";
 import span = C.span;
@@ -34,7 +34,8 @@ import hbox = C.hbox;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as leaflet from "leaflet"
-import {createStepGraphics} from "../path_graphics";
+import {createStepGraphics, PathingGraphics} from "../path_graphics";
+import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -83,6 +84,8 @@ class NeoSolvingLayer extends GameLayer {
     public scantree_container: Widget
     public path_container: Widget
 
+    public scan_layer: ScanLayer
+
     private sidebar: GameMapControl
 
     constructor(private behaviour: NeoSolvingBehaviour) {
@@ -101,6 +104,8 @@ class NeoSolvingLayer extends GameLayer {
             this.scantree_container = c(),
             this.path_container = c(),
         )
+
+        this.scan_layer = new ScanLayer().addTo(this)
     }
 
     fit(view: TileRectangle): this {
@@ -121,6 +126,17 @@ class NeoSolvingLayer extends GameLayer {
         })
 
         return this
+    }
+
+    reset(): void {
+        this.clue_container.empty()
+        this.solution_container.empty()
+
+        this.scan_layer.is_interactive.set(false)
+        this.scan_layer.marker_spot.set(null)
+        this.scan_layer.spots.set([])
+        this.scan_layer.spot_order.set([])
+        this.scan_layer.active_spots.set([])
     }
 }
 
@@ -250,6 +266,7 @@ namespace NeoSolvingLayer {
 class ScanTreeSolvingControl extends Behaviour {
     node: ScanTree.Augmentation.AugmentedScanTreeNode = null
     augmented: ScanTree.Augmentation.AugmentedScanTree = null
+    layer: leaflet.FeatureGroup = null
 
     tree_widget: Widget
 
@@ -303,6 +320,44 @@ class ScanTreeSolvingControl extends Behaviour {
         })
     }
 
+    private renderLayer(): void {
+        let node = this.node
+
+        this.layer?.remove()
+
+        this.layer = leaflet.featureGroup().addTo(this.parent.layer.scan_layer)
+
+        let pos = node.region
+            ? TileRectangle.center(node.region.area)
+            : Path.ends_up(node.raw.path)
+
+        if (pos) {
+            this.parent.layer.getMap().floor.set(pos.level)
+        } else {
+            this.parent.layer.getMap().floor.set(Math.min(...node.remaining_candidates.map((c) => c.level)) as floor_t)
+        }
+
+        if (pos && node.remaining_candidates.length > 1) {
+            this.parent.layer.scan_layer.marker_spot.set({coordinates: pos, with_marker: false, click_to_remove: false})
+        } else {
+            this.parent.layer.scan_layer.marker_spot.set(null)
+        }
+
+        this.parent.layer.scan_layer.active_spots.set(node.remaining_candidates)
+
+        if (node.raw.region) new ScanRegionPolygon(node.raw.region).setOpacity(1).addTo(this.layer)
+
+        AugmentedScanTree.collect_parents(node, false).forEach(n => {
+            new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.layer)
+            PathingGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.layer)
+        })
+
+        // Children paths to dig spots are rendered with 0.5
+        node.children.forEach(c => {
+            PathingGraphics.renderPath(c.value.raw.path).setOpacity(0.5).addTo(this.layer)
+            if (c.value.raw.region) new ScanRegionPolygon(c.value.raw.region).setOpacity(0.5).addTo(this.layer)
+        })
+    }
 
     setNode(node: ScanTree.Augmentation.AugmentedScanTreeNode) {
         this.node = node
@@ -311,7 +366,7 @@ class ScanTreeSolvingControl extends Behaviour {
 
         this.parent.path_control.set(Path.split_into_sections(node.raw.path))
         this.fit()
-
+        this.renderLayer()
 
         {
             let row = c("<div tabindex='-1'>").addClass("ctr-neosolving-solution-row").text(this.method.method.name)
@@ -370,6 +425,12 @@ class ScanTreeSolvingControl extends Behaviour {
 
     protected end() {
         this.tree_widget.remove()
+        this.tree_widget = null
+
+        if (this.layer) {
+            this.layer.remove()
+            this.layer = null
+        }
     }
 }
 
@@ -640,6 +701,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
                     c(`<img src="${InteractionType.meta(clue.cursor).icon_url}">`),
                     span(clue.answer)
                 ))
+            } else if (clue.type == "scan") {
+                this.layer.scan_layer.is_interactive.set(true)
+                this.layer.scan_layer.active_spots.set(clue.spots)
+                this.layer.scan_layer.spots.set(clue.spots)
+                this.layer.scan_layer.scan_range.set(clue.range + 5)
             }
 
             if (!w.container.is(":empty"))
@@ -660,10 +726,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
         if (method.clue.id != this.active_clue?.step?.id) return
 
         if (method.method.type == "scantree") {
-            console.log("Setting method")
             this.scantree_behaviour.set(
                 new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
             )
+
+            this.layer.scan_layer.spot_order.set(method.method.tree.ordered_spots)
         }
     }
 
@@ -671,8 +738,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
      * Resets both the active clue and method, resets all displayed pathing.
      */
     reset() {
-        this.layer.clue_container.empty()
-        this.layer.solution_container.empty()
+        this.layer.reset()
 
         this.path_control.reset()
 

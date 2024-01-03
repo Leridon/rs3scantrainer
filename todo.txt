@@ -1,6 +1,7 @@
 Planned for next release (b0.4):
 
 - Solving Behaviour
+    - "No method selected" widget
     - Search Bar
         - Neat styling
             - Hover effects of buttons
@@ -9,11 +10,15 @@ Planned for next release (b0.4):
         - [Bug] Dropdown starts offset to the left
         - [Bug] Search term input does not fill the entire width.
         - [Bug] Some of the vertical division lines are missing (wrong css selector)
+    - Basic solution rendering on the map
+        - Target marker
+        - Wander ranges
+        - Emote areas
+        - Entity/Npc names?
     - Hide Menubar on fullscreen
     - Scantree Panel
         - Compounded triples
         - Scan type icons
-    - "No method selected" widget
     - Path Panel
         - Add method selector for basic methods
     - Compass Panel

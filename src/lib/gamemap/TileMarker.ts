@@ -21,7 +21,7 @@ export class TileMarker extends ActiveOpacityGroup {
 
         this.marker = leaflet.marker([this.spot.y, this.spot.x], {
             icon: icon || level_markers[this.spot.level],
-            title: `[${this.spot.x}, ${this.spot.y}]`,
+            //title: `[${this.spot.x}, ${this.spot.y}]`,
             opacity: this.options.opacity
         }).addTo(this)
 

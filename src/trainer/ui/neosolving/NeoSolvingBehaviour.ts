@@ -36,6 +36,12 @@ import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as leaflet from "leaflet"
 import {createStepGraphics, PathingGraphics} from "../path_graphics";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
+import tr = TileRectangle.tr;
+import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
+import {TileMarker} from "../../../lib/gamemap/TileMarker";
+import {red_marker} from "../../../lib/gamemap/GameMap";
+import {RenderingUtility} from "../map/RenderingUtility";
+import interactionMarker = RenderingUtility.interactionMarker;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -85,6 +91,7 @@ class NeoSolvingLayer extends GameLayer {
     public path_container: Widget
 
     public scan_layer: ScanLayer
+    public generic_solution_layer: leaflet.FeatureGroup
 
     private sidebar: GameMapControl
 
@@ -106,6 +113,7 @@ class NeoSolvingLayer extends GameLayer {
         )
 
         this.scan_layer = new ScanLayer().addTo(this)
+        this.generic_solution_layer = leaflet.featureGroup().addTo(this)
     }
 
     fit(view: TileRectangle): this {
@@ -137,6 +145,8 @@ class NeoSolvingLayer extends GameLayer {
         this.scan_layer.spots.set([])
         this.scan_layer.spot_order.set([])
         this.scan_layer.active_spots.set([])
+
+        this.generic_solution_layer.clearLayers()
     }
 }
 
@@ -323,9 +333,7 @@ class ScanTreeSolvingControl extends Behaviour {
     private renderLayer(): void {
         let node = this.node
 
-        this.layer?.remove()
-
-        this.layer = leaflet.featureGroup().addTo(this.parent.layer.scan_layer)
+        this.layer.clearLayers()
 
         let pos = node.region
             ? TileRectangle.center(node.region.area)
@@ -419,6 +427,7 @@ class ScanTreeSolvingControl extends Behaviour {
 
     protected begin() {
         this.tree_widget = c().appendTo(this.parent.layer.scantree_container)
+        this.layer = leaflet.featureGroup().addTo(this.parent.layer.scan_layer)
 
         this.setNode(this.augmented.root_node)
     }
@@ -549,7 +558,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
      *
      * @param step The clue step combined with the index of the selected text variant.
      */
-    setClue(step: { step: Clues.Step, text_index: number }): void {
+    setClue(step: { step: Clues.Step, text_index: number }, fit_target: boolean = true): void {
         this.reset()
 
         if (this.active_clue && this.active_clue.step.id == step.step.id && this.active_clue.text_index == step.text_index) {
@@ -562,6 +571,9 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
         const clue = step.step
 
+        const bounds = new BoundsBuilder()
+
+        // Render controls and solution on map
         {
             let w = c()
 
@@ -571,14 +583,15 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 w.append(c().addClass("ctr-neosolving-solution-row").text(step.step.text[step.text_index]))
             }
 
-            if (step.step.solution) {
-                const sol = step.step.solution
+            const sol = Clues.Step.solution(step.step)
 
+            if (sol) {
                 switch (sol?.type) {
                     case "talkto":
                         if (!settings.talks.at_all) break
 
                         let npc_spot_id = 0 // TODO
+                        let spot = sol.spots[npc_spot_id]
 
                         w.append(c().addClass("ctr-neosolving-solution-row")
                             .append(
@@ -587,12 +600,18 @@ export default class NeoSolvingBehaviour extends Behaviour {
                                 C.npc(sol.npc, true)
                                     .tooltip("Click to center")
                                     .on("click", () => {
-                                        this.layer.fit(sol.spots[npc_spot_id].range)
+                                        this.layer.fit(spot.range)
                                     }),
-                                settings.talks.description && sol.spots[npc_spot_id].description
-                                    ? span(" " + sol.spots[npc_spot_id].description)
+                                settings.talks.description && spot.description
+                                    ? span(" " + spot.description)
                                     : undefined
                             ))
+
+
+                        interactionMarker(TileRectangle.center(spot.range), "talk", false, false)
+                            .addTo(this.layer.generic_solution_layer)
+
+                        bounds.addRectangle(spot.range)
 
                         break;
                     case "search":
@@ -616,6 +635,12 @@ export default class NeoSolvingBehaviour extends Behaviour {
                                     this.layer.fit(TileRectangle.from(sol.spot))
                                 })
                         ))
+
+                        bounds.addTile(sol.spot)
+
+                        interactionMarker(sol.spot, "search", false, false)
+                            .addTo(this.layer.generic_solution_layer)
+
                         break;
                     case "dig":
                         if (!settings.digs.description && !settings.digs.coordinates) break
@@ -630,6 +655,11 @@ export default class NeoSolvingBehaviour extends Behaviour {
                                 ? span(sol.description)
                                 : null
                         ))
+
+                        interactionMarker(sol.spot, "shovel", false, false)
+                            .addTo(this.layer.generic_solution_layer)
+
+                        bounds.addTile(sol.spot)
 
                         break;
                 }
@@ -696,23 +726,38 @@ export default class NeoSolvingBehaviour extends Behaviour {
                         C.npc("Double Agent")
                     ))
                 }
+
+                bounds.addRectangle(clue.area)
+
+                new TileMarker(TileRectangle.center(clue.area)).withMarker().addTo(this.layer.generic_solution_layer)
             } else if (clue.type == "skilling") {
                 w.append(c().addClass("ctr-neosolving-solution-row").append(
                     c(`<img src="${InteractionType.meta(clue.cursor).icon_url}">`),
                     span(clue.answer)
                 ))
+
+                bounds.addRectangle(clue.areas[0])
+
+                interactionMarker(TileRectangle.center(clue.areas[0]), clue.cursor, false, false)
+                    .addTo(this.layer.generic_solution_layer)
             } else if (clue.type == "scan") {
                 this.layer.scan_layer.is_interactive.set(true)
                 this.layer.scan_layer.active_spots.set(clue.spots)
                 this.layer.scan_layer.spots.set(clue.spots)
                 this.layer.scan_layer.scan_range.set(clue.range + 5)
+
+                bounds.addTile(...clue.spots)
+            } else if (clue.type == "compass") {
+                bounds.addTile(...clue.spots)
             }
 
             if (!w.container.is(":empty"))
                 this.layer.solution_container.append(w)
         }
 
-
+        if (fit_target) {
+            this.layer.fit(bounds.get())
+        }
     }
 
     /**
@@ -743,26 +788,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.path_control.reset()
 
         this.scantree_behaviour.set(null)
-    }
-
-    /**
-     * Sets the active path displayed in the pathing widget and on the map.
-     * Dissects the path into sections automatically.
-     *
-     * @param path The displayed path.
-     */
-    private setPath(path: Path.raw) {
-        todo()
-    }
-
-    /**
-     * Sets the active path displayed in the pathing widget, pre-dissected into sections.
-     *
-     * @param sections
-     * @private
-     */
-    private setPathSections(sections: Path.step[][]) {
-        todo()
     }
 
     /**

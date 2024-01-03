@@ -140,6 +140,18 @@ export namespace Clues {
     export type ClueSpot = { clue: Step, spot?: TileCoordinates }
 
     export namespace Step {
+        export function solution(step: Step): Solution {
+            if (step.solution) return step.solution
+
+            if (step.type == "coordinates") return {
+                type: "dig",
+                spot: GieliCoordinates.toCoords(step.coordinates),
+                description: null
+            }
+
+            return null
+        }
+
         export function shortString(step: Step, text_variant: number = 0): string {
             let i = Math.max(0, Math.min(step.text.length - 1, text_variant))
 

@@ -5,11 +5,11 @@ import {Path} from "lib/runescape/pathing";
 export namespace RenderingUtility {
     import InteractionType = Path.InteractionType;
 
-    export function interactionMarker(where: Vector2, how: InteractionType, simplified: boolean = false): leaflet.Marker {
+    export function interactionMarker(where: Vector2, how: InteractionType, simplified: boolean = false, centered: boolean = true): leaflet.Marker {
         let icon = leaflet.icon({
             iconUrl: Path.InteractionType.meta(how).icon_url,
             iconSize: [28, 31],
-            iconAnchor: [14, 16],
+            iconAnchor: centered ? [14, 16] : [3, 0],
             className: simplified ? "ctr-inactive-overlay-marker" : undefined
         })
 

@@ -7083,8 +7083,8 @@ export namespace clue_data {
             "text": ["Search the crates in Canifis."],
             "solution": {
                 "type": "search",
-                "entity": "Crate", // TODO
-                "spot": {"x": 2914, "y": 3448, "level": 0}
+                "entity": "Crate",
+                "spot": {"x": 3509, "y": 3497, "level": 0}
             }
         },
         {

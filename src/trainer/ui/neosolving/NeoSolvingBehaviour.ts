@@ -415,8 +415,17 @@ class ScanTreeSolvingControl extends Behaviour {
         for (let child of node.children) {
             const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(child.value))
 
+            const urls = [
+                'assets/icons/single.png',
+                'assets/icons/double.png',
+                'assets/icons/triple.png',
+            ]
+
             hbox(
-                new LightButton(child.key.pulse.toString(), "rectangle")
+                new LightButton("", "rectangle")
+                    .append(c("<img>")
+                        .setAttribute("src", urls[child.key.pulse - 1])
+                    )
                     .onClick(() => {
                         this.setNode(child.value)
                     }),
@@ -499,13 +508,12 @@ class PathControl extends Behaviour {
         this.widget?.remove()
         this.widget = null
 
-        if (!this.sections || !this.current_section) return
+        if (!this.sections || this.sections.length == 0 || !this.current_section) return
 
         this.widget = c().appendTo(this.parent.layer.path_container)
 
         {
             let sections = this.sections
-
             for (let i = 0; i < this.current_section.length; i++) {
                 let section_id = this.current_section[i]
 

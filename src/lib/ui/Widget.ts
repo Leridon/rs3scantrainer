@@ -157,6 +157,12 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
         this.container.on(events, handler)
         return this
     }
+
+    setAttribute(name: string, value: string): this {
+        this.raw().setAttribute(name, value)
+
+        return this
+    }
 }
 
 declare global {

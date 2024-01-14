@@ -82,8 +82,9 @@ export namespace Clues {
             type: "talkto",
             npc: string
             spots: {
+                id?: string,
                 range: TileRectangle,
-                note?: string,
+                note?: string,  // Describing conditions for the npc to be at that spot, such as "After completing quest X"
                 description: string // Strings like "in City of Um", "at the Bank" etc.
             }[],
         }

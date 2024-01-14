@@ -1745,6 +1745,7 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "armadyl-tower",
                         "range": {
                             "topleft": {
                                 "x": 2997,
@@ -1756,9 +1757,10 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "By Armadyl's tower."
+                        "description": "by Armadyl's tower"
                     },
                     {
+                        "id": "city-of-um",
                         "range": {
                             "topleft": {
                                 "x": 1034,
@@ -1770,7 +1772,7 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
-                        "note": "City of Um Ritual site"
+                        "description": "at the Ritual Site"
                     }
                 ],
                 "npc": "Malignus mortifer"
@@ -5993,6 +5995,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2906, "y": 3296, "level": 0},
+                "description": "west of the snape grass at the tip of the hobgoblin peninsula."
             }
         },
         {
@@ -6005,6 +6008,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2579, "y": 3597, "level": 0},
+                "description": "at the end of the branching path next to the crystal tree"
             }
         },
         {
@@ -6017,6 +6021,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3434, "y": 3265, "level": 0},
+                "description": "four tiles west of the mushroom"
             }
         },
         {
@@ -6029,6 +6034,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3092, "y": 3225, "level": 0},
+                "description": "between the southern most willow tree and the small obelisk"
             }
         },
         {
@@ -6054,6 +6060,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2616, "y": 3077, "level": 0},
+                "description": "inside, next to the south-eastern wall of the anvil building, or outside next to the tree"
             }
         },
         {
@@ -6066,6 +6073,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2723, "y": 3338, "level": 0},
+                "description": "two tiles south of the northern bench"
             }
         },
         {
@@ -7226,7 +7234,7 @@ export namespace clue_data {
             "text": ["Speak to the staff of Sinclair Mansion."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2736, "y": 3580}, "botright": {"x": 2737, "y": 3574}, "level": 0}}],
+                "spots": [{"range": {"topleft": {"x": 2736, "y": 3580}, "botright": {"x": 2737, "y": 3574}, "level": 0}, "description": "in Sinclair Mansion"}],
                 "npc": "Louisa"
             }
         },
@@ -7358,7 +7366,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Gaius",
-                "spots": [{"range": {"topleft": {"x": 2926, "y": 3552}, "botright": {"x": 2931, "y": 3546}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 2926, "y": 3552}, "botright": {"x": 2931, "y": 3546}, "level": 0}, "description": "in Burthorpe"}]
             }
         },
         {
@@ -7380,7 +7388,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Arhein",
-                "spots": [{"range": {"topleft": {"x": 2802, "y": 3427}, "botright": {"x": 2804, "y": 3425}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 2802, "y": 3427}, "botright": {"x": 2804, "y": 3425}, "level": 0}, "description": "in Catherby"}]
             }
         },
         {
@@ -7391,7 +7399,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Bartender",
-                "spots": [{"range": {"topleft": {"x": 3044, "y": 3258}, "botright": {"x": 3046, "y": 3255}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3044, "y": 3258}, "botright": {"x": 3046, "y": 3255}, "level": 0}, "description": "in Port Sarim"}]
             }
         },
         {
@@ -7468,7 +7476,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Ellis",
-                "spots": [{"range": {"topleft": {"x": 3270, "y": 3198}, "botright": {"x": 3276, "y": 3193}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3270, "y": 3198}, "botright": {"x": 3276, "y": 3193}, "level": 0}, "description": "in Al Kharid"}]
             }
         },
         {
@@ -7512,7 +7520,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Doric",
-                "spots": [{"range": {"topleft": {"x": 2955, "y": 3443}, "botright": {"x": 2963, "y": 3435}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 2955, "y": 3443}, "botright": {"x": 2963, "y": 3435}, "level": 0}, "description": "north of Falador"}]
             }
         },
         {
@@ -7534,7 +7542,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Zeke",
-                "spots": [{"range": {"topleft": {"x": 3284, "y": 3192}, "botright": {"x": 3289, "y": 3186}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3284, "y": 3192}, "botright": {"x": 3289, "y": 3186}, "level": 0}, "description": "in Al Kharid"}]
             }
         },
         {
@@ -7545,7 +7553,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Bartender",
-                "spots": [{"range": {"topleft": {"x": 3223, "y": 3402}, "botright": {"x": 3226, "y": 3396}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3223, "y": 3402}, "botright": {"x": 3226, "y": 3396}, "level": 0}, "description": "in the Blue Moon Inn"}]
             }
         },
         {
@@ -7646,7 +7654,7 @@ export namespace clue_data {
                 "npc": "Sir Kay",
                 "spots": [{
                     "range": {"topleft": {"x": 2752, "y": 3503}, "botright": {"x": 2764, "y": 3493}, "level": 0},
-                    "description": "in the courtyard of Camelet Castle"
+                    "description": "in the courtyard of Camelot Castle"
                 }]
             }
         },

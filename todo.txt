@@ -1,7 +1,6 @@
 Planned for next release (b0.4):
 
 - Solving Behaviour
-    - "No method selected" widget
     - Search Bar
         - Neat styling
             - Hover effects of buttons
@@ -9,7 +8,6 @@ Planned for next release (b0.4):
 
         - [Bug] Dropdown starts offset to the left
         - [Bug] Search term input does not fill the entire width.
-        - [Bug] Some of the vertical division lines are missing (wrong css selector)
     - Basic solution rendering on the map
         - Target marker
         - Wander ranges
@@ -30,8 +28,6 @@ Planned for next release (b0.4):
         - Run graphics are bad on snow background
         - Spacing in the tree view is bad
         - Don't fit to origin of teleport
-        - Adjust range polygon colors to ingame colors of pulses
-        - Replace buttons with pulse icons
     - Clue Reader
         - Text Clues
         - Scan Clues

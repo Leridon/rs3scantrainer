@@ -272,6 +272,9 @@ export namespace AbstractDropdownSelection {
 
         open(reference: Widget, focus_widget: Widget): void {
             if (focus_widget) {
+                if (focus_widget.raw().getAttribute("tabindex") == null)
+                    focus_widget.setAttribute("tabindex", "-1")
+
                 this.focus_widget = focus_widget
                 focus_widget
                     .on("keydown", this.input_handler = (e) => {

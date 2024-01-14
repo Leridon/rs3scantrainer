@@ -44,6 +44,7 @@ import spotNumber = ScanTree.spotNumber;
 import PulseButton, {PulseIcon} from "./PulseButton";
 import spacer = C.spacer;
 import {FavouriteIcon, NislIcon} from "../nisl";
+import MethodSelector from "./MethodSelector";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -55,6 +56,7 @@ class NeoSolvingLayer extends GameLayer {
     public control_bar: NeoSolvingLayer.MainControlBar
     public clue_container: Widget
     public solution_container: Widget
+    public method_selection_container: Widget
     public scantree_container: Widget
     public path_container: Widget
 
@@ -76,6 +78,7 @@ class NeoSolvingLayer extends GameLayer {
             new NeoSolvingLayer.MainControlBar(behaviour),
             this.clue_container = c(),
             this.solution_container = c(),
+            this.method_selection_container = c(),
             this.scantree_container = c(),
             this.path_container = c(),
         )
@@ -180,9 +183,14 @@ namespace NeoSolvingLayer {
                 .onSelected(async clue => {
                     this.parent.setClue(clue)
 
-                    let m = await this.parent.app.methods.getForClue(clue.step.id)
-                    // TODO: Get from favourites instead
-                    if (m.length > 0) this.parent.setMethod(m[0])
+                    let m = this.parent.app.favourites.getMethod({clue: clue.step})
+
+                    if (!m) {
+                        let ms = await this.parent.app.methods.getForClue(clue.step.id)
+                        if (ms.length > 0) m = ms[0]
+                    }
+
+                    if (m) this.parent.setMethod(m)
                 })
                 .onClosed(() => {
                     this.search_bar_collapsible.collapse()
@@ -353,29 +361,8 @@ class ScanTreeSolvingControl extends Behaviour {
                 .setAttribute("tabindex", "-1")
                 .addClass("ctr-neosolving-solution-row")
 
-            row.on("click", async () => {
-                new AbstractDropdownSelection.DropDown<AugmentedMethod>({
-                    dropdownClass: "ctr-neosolving-favourite-dropdown",
-                    renderItem: m => {
-
-                        // TODO: Add tippy tooltip with more details for the method
-
-                        return hbox(
-                            new FavouriteIcon().set(m == this.parent.active_method),
-                            span(m.method.name),
-                            spacer()
-                        ).tooltip(m.method.description)
-                    }
-                })
-                    .setItems(await this.parent.app.methods.getForClue(this.parent.active_clue.step.id))
-                    .onSelected(m => {
-                        this.parent.app.favourites.setMethod(m)
-                        this.parent.setMethod(m)
-                    })
-                    .open(row, row)
-            })
-
-            this.tree_widget.append(row)
+            row.on("click", () => NeoSolving.openMethodSelection(this.parent, row))
+                .appendTo(this.tree_widget)
         }
 
         let content = c().addClass("ctr-neosolving-solution-row").appendTo(this.tree_widget)
@@ -563,6 +550,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
     private scantree_behaviour = this.withSub(new SingleBehaviour<ScanTreeSolvingControl>())
     public path_control = this.withSub(new PathControl(this))
+    private default_method_selector: MethodSelector = null
 
     constructor(public app: Application) {
         super();
@@ -582,7 +570,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
         }
 
         this.active_clue = step
-        this.active_method = null
 
         const settings = NeoSolving.Settings.DEFAULT
 
@@ -775,6 +762,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
         if (fit_target) {
             this.layer.fit(bounds.get())
         }
+
+        this.setMethod(null)
     }
 
     /**
@@ -785,16 +774,29 @@ export default class NeoSolvingBehaviour extends Behaviour {
      * @param method
      */
     setMethod(method: AugmentedMethod): void {
-        if (method.clue.id != this.active_clue?.step?.id) return
+        if (method && method.clue.id != this.active_clue?.step?.id) return;
+        if (method == this.active_method) return;
 
-        this.active_method = method
+        this.scantree_behaviour.set(null)
+        this.path_control.reset()
+        this.default_method_selector?.remove()
 
-        if (method.method.type == "scantree") {
-            this.scantree_behaviour.set(
-                new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
-            )
+        this.active_method = null
 
-            this.layer.scan_layer.spot_order.set(method.method.tree.ordered_spots)
+        if (method) {
+            if (method.clue.id != this.active_clue?.step?.id) return
+
+            this.active_method = method
+
+            if (method.method.type == "scantree") {
+                this.scantree_behaviour.set(
+                    new ScanTreeSolvingControl(this, method as AugmentedMethod<ScanTreeMethod, Clues.Scan>)
+                )
+
+                this.layer.scan_layer.spot_order.set(method.method.tree.ordered_spots)
+            }
+        } else {
+            this.default_method_selector = new MethodSelector(this).appendTo(this.layer.method_selection_container)
         }
     }
 
@@ -805,8 +807,10 @@ export default class NeoSolvingBehaviour extends Behaviour {
         this.layer.reset()
 
         this.path_control.reset()
-
         this.scantree_behaviour.set(null)
+        this.default_method_selector?.remove()
+        this.active_clue = null
+        this.active_method = null
     }
 
     /**
@@ -840,8 +844,6 @@ export default class NeoSolvingBehaviour extends Behaviour {
 }
 
 export namespace NeoSolving {
-
-
     export type Settings = {
         clue: "full" | "short" | "none",
         talks: {
@@ -888,5 +890,35 @@ export namespace NeoSolving {
             },
             scan_solving: "always"
         }
+    }
+
+    export async function openMethodSelection(behaviour: NeoSolvingBehaviour, ref: Widget) {
+        new AbstractDropdownSelection.DropDown<AugmentedMethod>({
+            dropdownClass: "ctr-neosolving-favourite-dropdown",
+            renderItem: m => {
+
+                if (!m) {
+                    return hbox(
+                        new FavouriteIcon().set(m == behaviour.active_method),
+                        span("None"),
+                        spacer()
+                    )
+                } else {
+                    // TODO: Add tippy tooltip with more details for the method
+
+                    return hbox(
+                        new FavouriteIcon().set(m == behaviour.active_method),
+                        span(m.method.name),
+                        spacer()
+                    ).tooltip(m.method.description)
+                }
+            }
+        })
+            .setItems((await behaviour.app.methods.getForClue(behaviour.active_clue.step.id)).concat([null]))
+            .onSelected(m => {
+                behaviour.app.favourites.setMethod(m)
+                behaviour.setMethod(m)
+            })
+            .open(ref, ref)
     }
 }

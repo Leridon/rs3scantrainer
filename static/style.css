@@ -1613,10 +1613,6 @@ input[type=checkbox] + span {
     background-image: linear-gradient(to bottom, #ffd12f, #ffd12f);
 }
 
-.ctr-neosolving-main-bar > *:not(:last-child) {
-    border-right: 1px solid rgba(5, 56, 66, 0.6);
-}
-
 .ctr-neosolving-main-bar-button > *:only-child {
     text-align: center;
 }
@@ -1627,6 +1623,10 @@ input[type=checkbox] + span {
 
 .ctr-neosolving-main-bar-section {
     padding: 3px
+}
+
+.ctr-neosolving-main-bar-section:not(:last-child) {
+    border-right: 1px solid rgba(5, 56, 66, 0.6);
 }
 
 .ctr-neosolving-main-bar-search {

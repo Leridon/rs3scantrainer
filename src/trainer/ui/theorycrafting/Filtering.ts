@@ -257,7 +257,7 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
 
 
             this.methods.pack_set_changed.on((packs) => {
-                selection.setDropdownItems(packs)
+                selection.setItems(packs)
             }).bindTo(this.handler_pool)
 
             props.named("Methods",

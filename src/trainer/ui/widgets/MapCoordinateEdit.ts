@@ -17,8 +17,6 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
     ) {
         super()
 
-        this.setValue(lodash.clone(initial))
-
         this.container.css("min-width", "0")
         this.css("display", "flex")
 
@@ -54,6 +52,8 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
                 )
                 .css("margin-left", "3px")
         }
+
+        this.setValue(lodash.clone(initial))
     }
 
     protected render() {

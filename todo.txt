@@ -16,6 +16,8 @@ Planned for next release (b0.4):
     - Hide Menubar on fullscreen
     - Path Panel
         - Add method selector for basic methods
+        - Neat step styling
+
     - Compass Panel
     - Solve, Autosolve
     - Multiple Methods, Preferences
@@ -57,7 +59,6 @@ Planned for next release (b0.4):
     - Use the new ExpansionBehaviour wherever it's applicable
 
 - Shortcut editor/View
-    - [Bug] Currently, the editor seems to be completely broken
     - [Bug] Actually disable editing for builtins
     - [Bug] Viewport filtering needs to include level
     - [Potential Bug] Copying from a different floor is weird.

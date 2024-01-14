@@ -8,12 +8,14 @@ export class DropdownSelection<T extends object | string | number> extends Abstr
     constructor(options: AbstractDropdownSelection.options<T>, private items: T[]) {
         super(options, options.can_be_null ?  null : items[0]);
 
-        this.setDropdownItems(items)
+        this.setItems(items)
     }
 
-    override setDropdownItems(items: T[]) {
-        super.setDropdownItems(items)
+    override setItems(items: T[]): this {
+        super.setItems(items)
 
         if (this.options.can_be_null && !items.some(p => p == this.selection.value())) this.selectValue(null)
+
+        return this
     }
 }

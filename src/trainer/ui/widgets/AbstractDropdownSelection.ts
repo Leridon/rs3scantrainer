@@ -5,13 +5,11 @@ import {util} from "../../../lib/util/util";
 
 export abstract class AbstractDropdownSelection<T extends object | string | number> extends Widget {
     protected input_container: Widget
-    private input: Widget
 
-    protected dropdown: Widget = null
-    private dropdown_rows: Widget[] = null
-    private highlighted_value: T = null
+    protected dropdown: AbstractDropdownSelection.DropDown<T> = null
 
     public selection: Observable.Simple<T>
+    private selected = ewent<T>()
 
     protected constructor(protected options: AbstractDropdownSelection.options<T>, inital_item: T) {
         super($("<div class='nisl-selectdropdown'>"));
@@ -20,18 +18,18 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
         this.input_container = c("<div></div>").appendTo(this)
 
-        this.input = this.constructInput()
+        this.selection.subscribe(item => {
+            this.renderInput()
+        })
 
-        this.setDropdownItems([inital_item])
+        this.setItems([inital_item])
     }
 
-    protected constructInput(): Widget {
-        return c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
-            .tapRaw((r) => r
-                .on("click", (e) => {
-                    this.openDropdown()
-                })
-            )
+    private renderInput(): void {
+        c("<div class='nisl-selectdropdown-input' tabindex='-1'>")
+            .on("click", (e) => {
+                this.openDropdown()
+            })
             .append(this.construct(this.selection.value()))
             .appendTo(this.input_container.empty());
     }
@@ -42,126 +40,33 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
             : c(`<div>${v}</div>`)
     }
 
-    private setHighlight(v: T) {
-        if (!this.dropdown) return
-
-        this.highlighted_value = v
-
-        this.dropdown_rows.forEach(r => {
-            r.toggleClass("selected", r.container.data("value") == v)
-        })
-    }
-
-    hideDropdown() {
-        if (this.dropdown) {
-            this.dropdown_rows = null
-            this.dropdown.remove()
-            this.dropdown = null
-        }
-
-        this.constructInput()
-    }
-
     _selectableItems: T[] = []
 
-    setDropdownItems(items: T[]) {
+    setItems(items: T[]): this {
         this._selectableItems = items
 
-        if (this.dropdown) {
-            this.fillDropdown()
+        if (this.dropdown) this.dropdown.setItems(items)
 
-            if (this._selectableItems.find(i => i == this.highlighted_value) != null) {
-                this.setHighlight(this._selectableItems[0])
-            }
-        }
-    }
-
-    private fillDropdown() {
-
-        this.dropdown.empty()
-
-        if (this._selectableItems.length == 0 && !this.options.can_be_null) {
-            c(`<div class="nisl-selectdropdown-options-none">No selection available</div>`).appendTo(this.dropdown)
-        }
-
-        this.dropdown_rows = this._selectableItems.map((i) =>
-            c(`<div></div>`).appendTo(this.dropdown)
-                .append(this.construct(i))
-                .tapRaw((r) => r.data("value", i)
-                    .on("mouseover", () => this.setHighlight(i))
-                    .on("click", () => this.selectValue(i))
-                )
-        )
-
-        if (this.options.can_be_null) {
-            this.dropdown_rows.push(
-                c(`<div></div>`).appendTo(this.dropdown)
-                    .append(this.construct(null))
-                    .tapRaw((r) => r.data("value", null)
-                        .on("mouseover", () => this.setHighlight(null))
-                        .on("click", () => this.selectValue(null))
-                    )
-            )
-        }
+        return this
     }
 
     openDropdown() {
-        if (this.dropdown) return
-
-        this.dropdown = c("<div class='nisl-selectdropdown-options' style='z-index: 9999999999' tabindex='0'>").appendTo(AbstractDropdownSelection.getDropdownPane())
-
-        this.fillDropdown()
-
-        this.setHighlight(this.selection.value())
-
-        let instance = popper.createPopper(this.input_container.raw(), this.dropdown.raw(), {
-            placement: "bottom-start",
-            modifiers: [
-                {
-                    name: 'flip',
-                    enabled: true,
-                },
-                {
-                    name: "preventOverflow",
-                    enabled: true,
-                    options: {
-                        boundary: "viewport",
-                        rootBoundary: 'viewport',
-                    }
-                },
-                {
-                    name: 'widthSync', // Custom modifier name
-                    enabled: true,
-                    phase: 'beforeWrite',
-                    fn: ({state}) => {
-                        state.styles.popper.width = `${state.rects.reference.width}px`; // Set tooltip width based on reference width
-                    },
-                },
-            ]
+        this.dropdown = new AbstractDropdownSelection.DropDown<T>({
+            dropdownClass: 'nisl-selectdropdown-options',
+            renderItem: (i) => {
+                return c().append(this.construct(i))
+            }
         })
-
-        this.onOpen().tapRaw(r => r
-            .attr("tabindex", 0)
-            .on("keydown", (e) => {
-                if (e.key == "Enter") this.selectValue(this.highlighted_value)
-
-                if (e.key == "ArrowDown") {
-                    this.setHighlight(this._selectableItems[Math.min(this._selectableItems.length - 1, this._selectableItems.indexOf(this.highlighted_value) + 1)])
-                }
-
-                if (e.key == "ArrowUp") {
-                    this.setHighlight(this._selectableItems[Math.max(0, this._selectableItems.indexOf(this.highlighted_value) - 1)])
-                }
+            .setItems(this._selectableItems.concat(this.options.can_be_null ? [null] : []))
+            .setHighlighted(this.selection.value())
+            .onClosed(() => this.dropdown = null)
+            .onSelected(i => {
+                this.selection.set(i)
+                this.selected.trigger(i)
             })
-            .on("focusout", (e) => {
-                if (!(e.originalEvent.relatedTarget instanceof HTMLElement)
-                    || (!this.dropdown.container.is(e.originalEvent.relatedTarget) && this.dropdown.container.has(e.originalEvent.relatedTarget).length == 0)
-                ) {
-                    this.hideDropdown()
-                }
-            })
-            .focus() // The deprecation warning here is for a different overload
-        )
+            .open(this, this.onOpen())
+
+        if (this.dropdown) return
     }
 
     /**
@@ -170,19 +75,11 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
      * @return Must return the focus handler, i.e. the element that receives key events. The dropdown by default.
      */
     protected onOpen(): Widget {
-        return this.dropdown
+        return this.input_container
     }
 
     setValue(v: T): this {
         this.selection.set(v)
-
-        this.setHighlight(v)
-
-        this.hideDropdown()
-
-        this.constructInput()
-
-        this.input.empty().append(this.construct(v))
 
         return this
     }
@@ -193,7 +90,9 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
     }
 
     onSelection(f: (v: T) => any, trigger_now: boolean = false): this {
-        this.selection.subscribe(f, trigger_now)
+        this.selected.on(f)
+
+        if (trigger_now) f(this.selection.value())
         return this
     }
 }
@@ -270,7 +169,10 @@ export namespace AbstractDropdownSelection {
             }
         }
 
-        open(reference: Widget, focus_widget: Widget): void {
+        open(reference: Widget, focus_widget: Widget): this {
+            this.container = c("<div style='z-index: 100000' tabindex='0'></div>")
+                .addClass("nisl-abstract-dropdown")
+
             if (focus_widget) {
                 if (focus_widget.raw().getAttribute("tabindex") == null)
                     focus_widget.setAttribute("tabindex", "-1")
@@ -314,9 +216,6 @@ export namespace AbstractDropdownSelection {
                     .raw().focus()
             }
 
-            this.container = c("<div style='z-index: 100000' tabindex='0'></div>")
-                .addClass("nisl-abstract-dropdown")
-
             this.container.addClass(this.options.dropdownClass || "nisl-abstract-dropdown-default-styling")
 
             this.renderItems()
@@ -348,6 +247,8 @@ export namespace AbstractDropdownSelection {
                         },
                     ]
                 })
+
+            return this
         }
 
         close() {
@@ -375,6 +276,13 @@ export namespace AbstractDropdownSelection {
 
         onClosed(f: () => any): this {
             this.closed.on(f)
+
+            return this
+        }
+
+        setHighlighted(item: T): this {
+            let index = this.selectable_items.value().indexOf(item)
+            if (index >= 0) this.highlight_index.set(index)
 
             return this
         }

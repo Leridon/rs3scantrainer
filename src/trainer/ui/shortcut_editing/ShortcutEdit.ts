@@ -31,7 +31,7 @@ import {ShortcutViewLayer} from "./ShortcutView";
 import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
 import vbox = C.vbox;
 import * as assert from "assert";
-import { Checkbox } from "lib/ui/controls/Checkbox";
+import {Checkbox} from "lib/ui/controls/Checkbox";
 
 export class ShortcutEdit extends Widget {
     private header: Widget
@@ -462,15 +462,10 @@ export class ShortcutEdit extends Widget {
                         })).css("text-align", "center"))
                 }
 
-
                 break;
             }
         }
 
-        props
-            .appendTo(this
-
-                .body
-            )
+        props.appendTo(this.body        )
     }
 }

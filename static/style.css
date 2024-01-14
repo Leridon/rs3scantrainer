@@ -1289,8 +1289,6 @@ input[type=checkbox] + span {
 
 .ctr-lightbutton.ctr-lightbutton-round {
     border-radius: 20px;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
 }
 
 .ctr-lightbutton {
@@ -1674,6 +1672,42 @@ input[type=checkbox] + span {
     width: 20px;
     margin-right: 3px;
     align-content: center;
+}
+
+.ctr-neosolving-nextscanstep {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ctr-neosolving-scantreeline {
+    display: flex;
+    justify-content: left;
+    margin-top: 3px;
+}
+
+.ctr-neosolving-scantreeline > * {
+    margin-left: 3px;
+}
+
+.ctr-neosolving-pulseicon {
+    width: 18px;
+    height: 18px;
+    position: relative;
+}
+
+.ctr-neosolving-pulseicon > img {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ctr-neosolving-pulsebutton {
+    padding: 0;
+    width: 20px;
+    height: 20px;
 }
 
 /* Dropdown */

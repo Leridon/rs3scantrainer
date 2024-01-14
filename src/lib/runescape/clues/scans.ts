@@ -2,6 +2,7 @@ import {TileCoordinates} from "../coordinates";
 import {util} from "../../util/util";
 import {Vector2} from "../../math";
 import * as assert from "assert";
+import {pull} from "lodash";
 
 export namespace Scans {
 
@@ -85,20 +86,48 @@ export namespace Scans {
             }
         }
 
-        export function pretty_with_context(type: Pulse, context: Pulse[]): string {
-            let pretty = ["Single", "Double", "Triple"][type.pulse - 1]
-
+        export function simplify_with_context(pulse: Pulse, context: Pulse[]): {
+            type: 1 | 2 | 3 | null,
+            text: "DL" | "TF" | null
+        } {
             // Use the full word when it's not "different level"
-            if (!type.different_level) {
-                if (util.count(context, (p => p.different_level)) == context.length - 1) return "Too far" // Is the only non-different level
-                else return pretty
+            if (!pulse.different_level) {
+                if (util.count(context, (p => p.different_level)) == context.length - 1) return {type: null, text: "TF"} // Is the only non-different level
+                else return {type: pulse.pulse, text: null}
             } else {
-                let counterpart_exists = context.some(p => p.pulse == type.pulse && !p.different_level)
+                let counterpart_exists = context.some(p => p.pulse == pulse.pulse && !p.different_level)
 
-                if (!counterpart_exists) return pretty // If the non-different level counterpart does not exist, just use the pretty string
+                if (!counterpart_exists) return {type: pulse.pulse, text: null} // If the non-different level counterpart does not exist, just use the pretty string
 
-                if (util.count(context, (p => p.different_level)) == 1) return "Different level" // Is the only different level
-                else return `Different Level (${pretty})`
+                if (util.count(context, (p => p.different_level)) == 1) return {type: null, text: "DL"} // Is the only different level
+                else return {type: pulse.pulse, text: "DL"}
+            }
+        }
+
+        export function pretty_with_context(pulse: Pulse, context: Pulse[]): string {
+            let {type, text} = simplify_with_context(pulse, context)
+
+            if (type == null) {
+                switch (text) {
+                    case "DL":
+                        return "Different level";
+                    case "TF":
+                        return "Too far";
+                    case null:
+                        return "NULL"
+                }
+            } else {
+                let pretty = ["Single", "Double", "Triple"][type - 1]
+
+                switch (text) {
+                    case "DL":
+                        return `Different Level (${pretty})`
+                    case "TF":
+                        return "NULL"
+                    case null:
+                        return pretty
+
+                }
             }
         }
 

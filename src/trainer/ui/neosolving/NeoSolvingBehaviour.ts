@@ -28,20 +28,20 @@ import Pulse = Scans.Pulse;
 import {SolvingMethods} from "../../model/methods";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
-import {scan_tree_template_resolvers, SolveScanTreeSubBehaviour} from "../solving/scans/ScanSolving";
-import LightButton from "../widgets/LightButton";
+import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
 import hbox = C.hbox;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as leaflet from "leaflet"
 import {createStepGraphics, PathingGraphics} from "../path_graphics";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
-import tr = TileRectangle.tr;
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
-import {red_marker} from "../../../lib/gamemap/GameMap";
 import {RenderingUtility} from "../map/RenderingUtility";
 import interactionMarker = RenderingUtility.interactionMarker;
+import Order = util.Order;
+import spotNumber = ScanTree.spotNumber;
+import PulseButton, {PulseIcon} from "./PulseButton";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -410,27 +410,44 @@ class ScanTreeSolvingControl extends Behaviour {
             this.tree_widget.append(ui_nav)
         }
 
-        this.tree_widget.append(c().addClass('nextstep').setInnerHtml(this.parent.app.template_resolver.with(scan_tree_template_resolvers(node)).resolve(node.raw.directions)))
+        this.tree_widget.append(c().addClass('ctr-neosolving-nextscanstep').setInnerHtml(this.parent.app.template_resolver.with(scan_tree_template_resolvers(node)).resolve(node.raw.directions)))
 
-        for (let child of node.children) {
-            const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(child.value))
+        {
 
-            const urls = [
-                'assets/icons/single.png',
-                'assets/icons/double.png',
-                'assets/icons/triple.png',
-            ]
+            let triples = node.children.filter(e => e.key.pulse == 3)
 
-            hbox(
-                new LightButton("", "rectangle")
-                    .append(c("<img>")
-                        .setAttribute("src", urls[child.key.pulse - 1])
-                    )
-                    .onClick(() => {
-                        this.setNode(child.value)
-                    }),
-                c().setInnerHtml(resolvers.resolve(child.value.raw.directions))
-            ).css("justify-content", "left").appendTo(this.tree_widget)
+            node.children
+                .filter((e) => triples.length <= 1 || e.key.pulse != 3)
+                .sort(Order.comap(Scans.Pulse.compare, (a) => a.key))
+                .forEach((child) => {
+                    const resolvers = this.parent.app.template_resolver.with(scan_tree_template_resolvers(child.value))
+
+                    c().addClass("ctr-neosolving-scantreeline")
+                        .append(
+                            PulseButton.forPulse(child.key, node.children.map(c => c.key))
+                                .onClick(() => {
+                                    this.setNode(child.value)
+                                }),
+                            c().setInnerHtml(resolvers.resolve(child.value.raw.directions))
+                        ).appendTo(this.tree_widget)
+                })
+
+            if (triples.length > 1) {
+                c().addClass("ctr-neosolving-scantreeline")
+                    .append(
+                        c().append( // Wrap in another div to allow another margin
+                            new PulseIcon({different_level: false, pulse: 3})
+                                .css("margin", "1px")
+                        ),
+                        span("at"),
+                        ...triples
+                            .sort(Order.comap(Order.natural_order, (c) => spotNumber(node.root.raw, c.value.remaining_candidates[0])))
+                            .map((child) =>
+                                PulseButton.forSpot(spotNumber(node.root.raw, child.value.remaining_candidates[0]))
+                                    .onClick(() => this.setNode(child.value))
+                            )
+                    ).appendTo(this.tree_widget)
+            }
         }
     }
 

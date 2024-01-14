@@ -42,45 +42,13 @@ import interactionMarker = RenderingUtility.interactionMarker;
 import Order = util.Order;
 import spotNumber = ScanTree.spotNumber;
 import PulseButton, {PulseIcon} from "./PulseButton";
+import spacer = C.spacer;
+import {FavouriteIcon, NislIcon} from "../nisl";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
     compass_angle_read: Ewent<{ angle: number }>
     pulse_read: Ewent<Pulse>
-}
-
-class FavoriteIndex {
-    constructor(private methods: MethodPackManager) {
-
-    }
-
-    getTalkId(clue: Clues.Step): number {
-        todo()
-    }
-
-    setTalkId(clue: Clues.Step, id: number): void {
-        todo()
-    }
-
-    getChallengeAnswerId(clue: Clues.Step): number {
-        todo()
-    }
-
-    setChallengeAnswerId(clue: Clues.Step, answer_id: number): void {
-        todo()
-    }
-
-    getMethod(step: Clues.ClueSpot): AugmentedMethod {
-        const candidates = this.methods.getForClue(step.clue.id, step.spot)
-
-        // TODO: Get real favourite
-
-        return null
-    }
-
-    setMethod(method: AugmentedMethod): void {
-        todo()
-    }
 }
 
 class NeoSolvingLayer extends GameLayer {
@@ -155,7 +123,6 @@ namespace NeoSolvingLayer {
     import hbox = C.hbox;
     import Step = Clues.Step;
 
-
     class MainControlButton extends Button {
         constructor(options: { icon?: string, text?: string }) {
             super();
@@ -205,7 +172,7 @@ namespace NeoSolvingLayer {
             )
 
             this.dropdown = new AbstractDropdownSelection.DropDown<{ step: Clues.Step, text_index: number }>({
-                dropdownClass: "ctr-neosolving-search-dropdown",
+                dropdownClass: "ctr-neosolving-favourite-dropdown",
                 renderItem: e => {
                     return c().text(Step.shortString(e.step, e.text_index))
                 }
@@ -377,12 +344,32 @@ class ScanTreeSolvingControl extends Behaviour {
         this.renderLayer()
 
         {
-            let row = c("<div tabindex='-1'>").addClass("ctr-neosolving-solution-row").text(this.method.method.name)
+            let row = hbox(
+                span(this.method.method.name),
+                spacer(),
+                NislIcon.dropdown(),
+            )
+                .addClass("ctr-clickable")
+                .setAttribute("tabindex", "-1")
+                .addClass("ctr-neosolving-solution-row")
 
             row.on("click", async () => {
-                new AbstractDropdownSelection.DropDown<AugmentedMethod>({renderItem: m => c().text(m.method.name)})
+                new AbstractDropdownSelection.DropDown<AugmentedMethod>({
+                    dropdownClass: "ctr-neosolving-favourite-dropdown",
+                    renderItem: m => {
+
+                        // TODO: Add tippy tooltip with more details for the method
+
+                        return hbox(
+                            new FavouriteIcon().set(m == this.parent.active_method),
+                            span(m.method.name),
+                            spacer()
+                        ).tooltip(m.method.description)
+                    }
+                })
                     .setItems(await this.parent.app.methods.getForClue(this.parent.active_clue.step.id))
                     .onSelected(m => {
+                        this.parent.app.favourites.setMethod(m)
                         this.parent.setMethod(m)
                     })
                     .open(row, row)
@@ -390,6 +377,8 @@ class ScanTreeSolvingControl extends Behaviour {
 
             this.tree_widget.append(row)
         }
+
+        let content = c().addClass("ctr-neosolving-solution-row").appendTo(this.tree_widget)
 
         {
             let ui_nav = c()
@@ -407,10 +396,10 @@ class ScanTreeSolvingControl extends Behaviour {
 
             last.text(last.children().first().text()).addClass("active")
 
-            this.tree_widget.append(ui_nav)
+            content.append(ui_nav)
         }
 
-        this.tree_widget.append(c().addClass('ctr-neosolving-nextscanstep').setInnerHtml(this.parent.app.template_resolver.with(scan_tree_template_resolvers(node)).resolve(node.raw.directions)))
+        content.append(c().addClass('ctr-neosolving-nextscanstep').setInnerHtml(this.parent.app.template_resolver.with(scan_tree_template_resolvers(node)).resolve(node.raw.directions)))
 
         {
 
@@ -429,14 +418,14 @@ class ScanTreeSolvingControl extends Behaviour {
                                     this.setNode(child.value)
                                 }),
                             c().setInnerHtml(resolvers.resolve(child.value.raw.directions))
-                        ).appendTo(this.tree_widget)
+                        ).appendTo(content)
                 })
 
             if (triples.length > 1) {
                 c().addClass("ctr-neosolving-scantreeline")
                     .append(
                         c().append( // Wrap in another div to allow another margin
-                            new PulseIcon({different_level: false, pulse: 3})
+                            new PulseIcon({different_level: false, pulse: 3}, null)
                                 .css("margin", "1px")
                         ),
                         span("at"),
@@ -446,7 +435,7 @@ class ScanTreeSolvingControl extends Behaviour {
                                 PulseButton.forSpot(spotNumber(node.root.raw, child.value.remaining_candidates[0]))
                                     .onClick(() => this.setNode(child.value))
                             )
-                    ).appendTo(this.tree_widget)
+                    ).appendTo(content)
             }
         }
     }
@@ -568,6 +557,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
     layer: NeoSolvingLayer
 
     active_clue: { step: Clues.Step, text_index: number } = null
+    active_method: AugmentedMethod = null
 
     auto_solving: Observable<boolean> = observe(false)
 
@@ -582,6 +572,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
      * Sets the active clue. Builds the ui elements and moves the map view to the appropriate spot.
      *
      * @param step The clue step combined with the index of the selected text variant.
+     * @param fit_target
      */
     setClue(step: { step: Clues.Step, text_index: number }, fit_target: boolean = true): void {
         this.reset()
@@ -591,6 +582,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
         }
 
         this.active_clue = step
+        this.active_method = null
 
         const settings = NeoSolving.Settings.DEFAULT
 
@@ -794,6 +786,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
      */
     setMethod(method: AugmentedMethod): void {
         if (method.clue.id != this.active_clue?.step?.id) return
+
+        this.active_method = method
 
         if (method.method.type == "scantree") {
             this.scantree_behaviour.set(

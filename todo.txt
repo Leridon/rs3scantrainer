@@ -16,9 +16,6 @@ Planned for next release (b0.4):
         - Emote areas
         - Entity/Npc names?
     - Hide Menubar on fullscreen
-    - Scantree Panel
-        - Compounded triples
-        - Scan type icons
     - Path Panel
         - Add method selector for basic methods
     - Compass Panel

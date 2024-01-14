@@ -1588,9 +1588,8 @@ input[type=checkbox] + span {
 
 .ctr-neosolving-sidebar > *:not(:empty) {
     margin-bottom: 10px;
-    background-color: #FFFFFF40;
     border-radius: 5px;
-    background-color: rgba(10, 31, 41, 0.6);
+    background-color: rgba(10, 31, 41, 1);
     border: 1px solid rgba(5, 56, 66, 0.6);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0 rgba(0, 0, 0, 0.02);
 }
@@ -1683,6 +1682,7 @@ input[type=checkbox] + span {
     display: flex;
     justify-content: left;
     margin-top: 3px;
+    margin-left: 4px;
 }
 
 .ctr-neosolving-scantreeline > * {
@@ -1710,6 +1710,17 @@ input[type=checkbox] + span {
     height: 20px;
 }
 
+.ctr-neosolving-favourite-dropdown {
+    background-color: #08161DDF;
+    border: 1px solid rgba(5, 56, 66, 0.6);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.ctr-neosolving-favourite-dropdown > *.selected {
+    background-color: #00527a;
+}
+
 /* Dropdown */
 
 .nisl-abstract-dropdown {
@@ -1721,10 +1732,14 @@ input[type=checkbox] + span {
     cursor: pointer;
 }
 
-.nisl-abstract-dropdown > *.selected {
+.nisl-abstract-dropdown-default-styling > .selected {
     background-color: grey;
 }
 
 .ctr-clickable {
     cursor: pointer;
+}
+
+.nisl-icon {
+    display: inline-block;
 }

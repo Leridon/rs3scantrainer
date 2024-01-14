@@ -201,9 +201,9 @@ export class MethodPackManager {
         this.save()
     }
 
-    async getForClue(id: number, spot_alterantive?: TileCoordinates): Promise<AugmentedMethod[]> {
+    async getForClue(id: number, spot_alternative?: TileCoordinates): Promise<AugmentedMethod[]> {
         await this.index_created
 
-        return this.method_index.get(id, spot_alterantive).methods
+        return this.method_index.get(id, spot_alternative).methods
     }
 }

@@ -313,9 +313,8 @@ export namespace AbstractDropdownSelection {
 
             this.container = c("<div style='z-index: 100000' tabindex='0'></div>")
                 .addClass("nisl-abstract-dropdown")
-            if (this.options.dropdownClass) {
-                this.container.addClass(this.options.dropdownClass)
-            }
+
+            this.container.addClass(this.options.dropdownClass || "nisl-abstract-dropdown-default-styling")
 
             this.renderItems()
 

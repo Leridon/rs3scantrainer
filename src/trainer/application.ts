@@ -29,6 +29,7 @@ import hbox = C.hbox;
 import spacer = C.spacer;
 import {observe} from "../lib/reactive";
 import NeoSolvingBehaviour from "./ui/neosolving/NeoSolvingBehaviour";
+import {FavoriteIndex} from "./favorites";
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
@@ -183,6 +184,7 @@ export class Application extends Behaviour {
     map: GameMap
 
     methods: MethodPackManager
+    favourites: FavoriteIndex
 
     main_behaviour = this.withSub(new SingleBehaviour())
 
@@ -228,6 +230,7 @@ export class Application extends Behaviour {
         super()
 
         this.methods = new MethodPackManager()
+        this.favourites = new FavoriteIndex(this.methods)
     }
 
     protected async begin() {

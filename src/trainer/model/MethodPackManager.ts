@@ -4,7 +4,7 @@ import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
 import {ClueSpotIndex} from "../../data/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
-import {default_scan_method_pack} from "../../data/methods";
+import {default_generic_method_pack, default_scan_method_pack} from "../../data/methods";
 import {clue_data} from "../../data/clues";
 import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {ewent, Ewent} from "../../lib/reactive";
@@ -45,7 +45,8 @@ export class MethodPackManager {
 
     constructor() {
         this.default_packs = [
-            default_scan_method_pack
+            default_scan_method_pack,
+            default_generic_method_pack
         ]
 
         this.initialized = this.local_pack_store.get().then(async v => {

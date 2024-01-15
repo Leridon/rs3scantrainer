@@ -33151,3 +33151,38 @@ export const default_scan_method_pack: Pack = {
         }
     ]
 }
+
+export const default_generic_method_pack: Pack = {
+    type: "default",
+    name: "Default Clue Paths",
+    local_id: "default:genericmethods",
+    original_id: "default:genericmethods",
+    author: "Zyklop Marco",
+    timestamp: 1700749105,
+    description: "",
+    methods: [{
+        type: "general_path",
+        id: "60647262-2d5f-4d2c-9874-61872b69ed60",
+        timestamp: 1700749105,
+        for: {clue: 42},
+        name: "Legends Guild Dig",
+        description: "",
+        assumptions: {
+            double_escape: true,
+            double_surge: true,
+            full_globetrotter: true,
+            meerkats_active: true,
+            mobile_perk: true,
+            way_of_the_footshaped_key: true
+        },
+        path_to_spot: [{
+            "type": "teleport",
+            "description": "Use {{teleport legendscape legendsguild}}", "id": {"group": "legendscape", "sub": "legendsguild"}
+        }, {
+            "type": "run",
+            "description": "Run 2 tiles",
+            "waypoints": [{"x": 2728, "y": 3348, "level": 0}, {"x": 2728, "y": 3346, "level": 0}]
+        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}],
+    }
+    ]
+}

@@ -29,7 +29,6 @@ export default class MethodSelector extends Widget {
         )
             .addClass("ctr-clickable")
             .setAttribute("tabindex", "-1")
-            .addClass("ctr-neosolving-solution-row")
 
         row.on("click", () => NeoSolving.openMethodSelection(this.parent, row))
             .appendTo(this)

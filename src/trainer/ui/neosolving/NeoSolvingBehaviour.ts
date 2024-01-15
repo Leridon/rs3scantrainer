@@ -45,6 +45,8 @@ import PulseButton, {PulseIcon} from "./PulseButton";
 import spacer = C.spacer;
 import {FavouriteIcon, NislIcon} from "../nisl";
 import MethodSelector from "./MethodSelector";
+import PathControl from "./PathControl";
+import GenericPathMethod = SolvingMethods.GenericPathMethod;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -347,21 +349,14 @@ class ScanTreeSolvingControl extends Behaviour {
 
         this.tree_widget.empty()
 
-        this.parent.path_control.set(Path.split_into_sections(node.raw.path))
+        this.parent.path_control.reset().setPath(node.raw.path)
+
         this.fit()
         this.renderLayer()
 
         {
-            let row = hbox(
-                span(this.method.method.name),
-                spacer(),
-                NislIcon.dropdown(),
-            )
-                .addClass("ctr-clickable")
-                .setAttribute("tabindex", "-1")
+            new MethodSelector(this.parent)
                 .addClass("ctr-neosolving-solution-row")
-
-            row.on("click", () => NeoSolving.openMethodSelection(this.parent, row))
                 .appendTo(this.tree_widget)
         }
 
@@ -445,100 +440,6 @@ class ScanTreeSolvingControl extends Behaviour {
     }
 }
 
-class PathControl extends Behaviour {
-    private path_layer: leaflet.FeatureGroup = new OpacityGroup()
-    private sections: Path.Section[] = null
-    private current_section: number[] = null
-
-    private widget: Widget = null
-
-    constructor(private parent: NeoSolvingBehaviour) {
-        super();
-    }
-
-    protected begin() {
-        this.path_layer.addTo(this.parent.layer)
-    }
-
-    protected end() {
-        this.path_layer.remove()
-    }
-
-    set(sections: Path.Section[], active_id: number[] = null) {
-        this.reset()
-
-        if (!active_id) active_id = [0] // TODO: Add additional indices when there are more subsection layers
-
-        this.sections = sections
-        this.current_section = active_id
-
-        this.path_layer.clearLayers()
-
-        for (let section of sections) {
-            for (let step of section.steps) {
-                createStepGraphics(step).addTo(this.path_layer)
-            }
-        }
-
-        this.renderWidget()
-    }
-
-    reset() {
-        this.sections = null
-        this.current_section = null
-
-        this.widget?.remove()
-        this.widget = null
-        this.path_layer.clearLayers()
-    }
-
-    private setCurrentSection(ids: number[]) {
-        this.current_section = ids
-        this.renderWidget()
-    }
-
-    private renderWidget() {
-        this.widget?.remove()
-        this.widget = null
-
-        if (!this.sections || this.sections.length == 0 || !this.current_section) return
-
-        this.widget = c().appendTo(this.parent.layer.path_container)
-
-        {
-            let sections = this.sections
-            for (let i = 0; i < this.current_section.length; i++) {
-                let section_id = this.current_section[i]
-
-                if (sections.length > 1) {
-                    this.widget.append(
-                        hbox(
-                            section_id > 0 ? span("P").on("click", () => {
-                                let cp = lodash.clone(this.current_section)
-                                cp[i] -= 1
-                                this.setCurrentSection(cp)
-                            }) : undefined,
-                            span(sections[section_id].name).css("flex-grow", "1").css("text-align", "center"),
-                            section_id < sections.length - 1 ? span("N").on("click", () => {
-                                let cp = lodash.clone(this.current_section)
-                                cp[i] += 1
-                                this.setCurrentSection(cp)
-                            }) : undefined,
-                        )
-                    )
-                }
-
-                sections = sections[section_id].subsections
-            }
-        }
-
-        let path = Path.get_subsection_from_id_list(this.sections, this.current_section).steps
-
-        for (let step of path) {
-            c().setInnerHtml(this.parent.app.template_resolver.resolve(step.description)).appendTo(this.widget)
-        }
-    }
-}
 
 export default class NeoSolvingBehaviour extends Behaviour {
     layer: NeoSolvingLayer
@@ -794,9 +695,13 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 )
 
                 this.layer.scan_layer.spot_order.set(method.method.tree.ordered_spots)
+            } else if (method.method.type == "general_path") {
+                this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
             }
         } else {
-            this.default_method_selector = new MethodSelector(this).appendTo(this.layer.method_selection_container)
+            this.default_method_selector = new MethodSelector(this)
+                .addClass("ctr-neosolving-solution-row")
+                .appendTo(this.layer.method_selection_container)
         }
     }
 

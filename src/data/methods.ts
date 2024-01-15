@@ -33182,7 +33182,26 @@ export const default_generic_method_pack: Pack = {
             "type": "run",
             "description": "Run 2 tiles",
             "waypoints": [{"x": 2728, "y": 3348, "level": 0}, {"x": 2728, "y": 3346, "level": 0}]
-        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}],
+        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}
+        ],
+        path_to_key_or_hideyhole: [{
+            "type": "teleport",
+            "description": "Use {{teleport legendscape legendsguild}}", "id": {"group": "legendscape", "sub": "legendsguild"}
+        }, {
+            "type": "run",
+            "description": "Run 2 tiles",
+            "waypoints": [{"x": 2728, "y": 3348, "level": 0}, {"x": 2728, "y": 3346, "level": 0}]
+        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}
+        ],
+        path_back_to_hideyhole: [{
+            "type": "teleport",
+            "description": "Use {{teleport legendscape legendsguild}}", "id": {"group": "legendscape", "sub": "legendsguild"}
+        }, {
+            "type": "run",
+            "description": "Run 2 tiles",
+            "waypoints": [{"x": 2728, "y": 3348, "level": 0}, {"x": 2728, "y": 3346, "level": 0}]
+        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}
+        ],
     }
     ]
 }

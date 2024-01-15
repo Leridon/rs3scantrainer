@@ -768,50 +768,75 @@ export namespace Path {
         subsections?: Section[]
     }
 
-    export function split_into_sections(path: Path.raw): Section[] {
-        let section_dividers: number[] = []
+    export namespace Section {
+        export function split_into_sections(path: Path.raw): Section[] {
+            let section_dividers: number[] = []
 
-        const division = (i: number) => {
-            if (i > 0 && (section_dividers.length == 0 || index(section_dividers, -1) != i)) section_dividers.push(i)
-        }
+            const division = (i: number) => {
+                if (i > 0 && (section_dividers.length == 0 || index(section_dividers, -1) != i)) section_dividers.push(i)
+            }
 
-        let pos: TileCoordinates = null
+            let pos: TileCoordinates = null
 
-        for (let i = 0; i < path.length; i++) {
-            let step = path[i]
-            let new_pos = ends_up([step])
+            for (let i = 0; i < path.length; i++) {
+                let step = path[i]
+                let new_pos = ends_up([step])
 
-            if (step.type == "teleport") division(i)
-            else if (step.type == "shortcut_v2" && pos) {
-                if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
-                    division(i + 1)
+                if (step.type == "teleport") division(i)
+                else if (step.type == "shortcut_v2" && pos) {
+                    if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
+                        division(i + 1)
+                    }
                 }
+
+                pos = new_pos
             }
 
-            pos = new_pos
+            division(path.length)
+
+            return section_dividers.map((end, i) => {
+                let prev = i == 0 ? 0 : section_dividers[i - 1]
+
+                return {
+                    name: `Section ${i + 1}`,
+                    steps: path.slice(prev, end)
+                }
+            })
+
         }
 
-        division(path.length)
+        export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
+            for (let index of indices) {
+                let sect = sections[index]
 
-        return section_dividers.map((end, i) => {
-            let prev = i == 0 ? 0 : section_dividers[i - 1]
-
-            return {
-                name: `Section ${i + 1}`,
-                steps: path.slice(prev, end)
+                if (sect.subsections) sections = sect.subsections
+                else return sect
             }
-        })
-
-    }
-
-    export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
-        for (let i of indices) {
-            let sect = sections[i]
-
-            if (sect.subsections) sections = sect.subsections
-            else return sect
+            return null
         }
 
-        return null
+        export function index_of_first_real_section(sections: Section[]): number[] {
+            if (sections[0].subsections) return [0].concat(index_of_first_real_section(sections[0].subsections))
+            else return [0]
+        }
+
+        export function fix_index(sections: Section[], indices: number[]): number[] {
+            let result: number[] = []
+
+            let i = 0
+
+            while (true) {
+                let index = i < indices.length ? indices[i] : 0
+
+                result.push(index)
+
+                let sect = sections[index]
+
+                if (sect.subsections) sections = sect.subsections
+                else return result
+
+                i++
+            }
+        }
     }
 }

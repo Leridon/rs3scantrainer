@@ -13,6 +13,7 @@ import {SolvingMethods} from "../../model/methods";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import {AugmentedMethod} from "../../model/MethodPackManager";
 import MethodSelector from "./MethodSelector";
+import {NislIcon} from "../nisl";
 
 export default class PathControl extends Behaviour {
     private method: AugmentedMethod<GenericPathMethod> = null
@@ -137,13 +138,13 @@ export default class PathControl extends Behaviour {
                     if (sections.length > 1) {
                         body.append(
                             hbox(
-                                section_id > 0 ? span("P").on("click", () => {
+                                section_id > 0 ? NislIcon.arrow("left").withClick(() => {
                                     let cp = lodash.clone(this.current_section)
                                     cp[i] -= 1
                                     this.setCurrentSection(cp)
                                 }) : undefined,
                                 span(sections[section_id].name).css("flex-grow", "1").css("text-align", "center"),
-                                section_id < sections.length - 1 ? span("N").on("click", () => {
+                                section_id < sections.length - 1 ? NislIcon.arrow("right").withClick(() => {
                                     let cp = lodash.clone(this.current_section)
                                     cp[i] += 1
                                     this.setCurrentSection(cp)

@@ -151,7 +151,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     on<TType extends string>(
         events: TType,
         handler:
-            | JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, TType>
+            JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, TType>
             | false,
     ): this {
         this.container.on(events, handler)

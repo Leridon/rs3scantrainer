@@ -15,7 +15,6 @@ Planned for next release (b0.4):
         - Entity/Npc names?
     - Hide Menubar on fullscreen
     - Path Panel
-        - Add method selector for basic methods
         - Neat step styling
 
     - Compass Panel

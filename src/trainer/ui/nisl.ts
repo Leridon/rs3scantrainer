@@ -1,5 +1,5 @@
 import Widget from "../../lib/ui/Widget";
-import {observe} from "../../lib/reactive";
+import {Observable, observe} from "../../lib/reactive";
 
 export class NislIcon extends Widget {
     private img: Widget
@@ -22,8 +22,19 @@ export class NislIcon extends Widget {
         return this
     }
 
+    withClick(handler: JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, "click">): this {
+        this.addClass("ctr-clickable")
+
+        this.on("click", handler)
+        return this
+    }
+
     static dropdown(): NislIcon {
         return new NislIcon().setSource("assets/nis/dropdown.png")
+    }
+
+    static arrow(direction: ArrowIcon.direction = "down"): ArrowIcon {
+        return new ArrowIcon(direction)
     }
 }
 
@@ -42,4 +53,27 @@ export class FavouriteIcon extends NislIcon {
         this.toggled.set(value)
         return this
     }
+}
+
+export class ArrowIcon extends NislIcon {
+    direction: Observable<ArrowIcon.direction>
+
+    constructor(dir: ArrowIcon.direction = "down") {
+        super();
+
+        this.direction = observe(dir)
+
+        this.direction.subscribe(dir => {
+            this.setSource(`assets/nis/arrow_${dir}.png`)
+        }, true)
+    }
+
+    setDirection(direction: ArrowIcon.direction): this {
+        this.direction.set(direction)
+        return this
+    }
+}
+
+export namespace ArrowIcon {
+    export type direction = "left" | "right" | "up" | "down"
 }

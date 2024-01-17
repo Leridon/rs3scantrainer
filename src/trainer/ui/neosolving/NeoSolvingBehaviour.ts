@@ -534,7 +534,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                         w.append(c().addClass("ctr-neosolving-solution-row").append(
                             c("<img src='assets/icons/cursor_talk.png'>"),
                             span("Search "),
-                            C.entity(sol.entity, true)
+                            C.staticentity(sol.entity, true)
                                 .tooltip("Click to center")
                                 .on("click", () => {
                                     this.layer.fit(TileRectangle.from(sol.spot))
@@ -548,17 +548,14 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
                         break;
                     case "dig":
-                        if (!settings.digs.description && !settings.digs.coordinates) break
+                        if (!settings.digs.at_all) break
 
                         w.append(c().addClass("ctr-neosolving-solution-row").append(
                             c("<img src='assets/icons/cursor_shovel.png'>"),
                             span("Dig"),
-                            settings.digs.coordinates
-                                ? span(` at ${TileCoordinates.toString(sol.spot)}`)
-                                : null,
-                            settings.digs.description && sol.description
-                                ? span(sol.description)
-                                : null
+                            sol.description
+                                ? span(" " + sol.description)
+                                : span(` at ${TileCoordinates.toString(sol.spot)}`)
                         ))
 
                         interactionMarker(sol.spot, "shovel", false, false)
@@ -575,7 +572,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                     w.append(c().addClass("ctr-neosolving-solution-row").append(
                         c("<img src='assets/icons/cursor_search.png'>"),
                         span("Get items from "),
-                        C.entity(clue.hidey_hole.name)
+                        C.staticentity(clue.hidey_hole.name)
                             .tooltip("Click to center")
                             .addClass("ctr-clickable")
                             .on("click", () => {
@@ -676,7 +673,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
      */
     setMethod(method: AugmentedMethod): void {
         if (method && method.clue.id != this.active_clue?.step?.id) return;
-        if (method == this.active_method) return;
+        if (method && method == this.active_method) return;
 
         this.scantree_behaviour.set(null)
         this.path_control.reset()
@@ -756,8 +753,7 @@ export namespace NeoSolving {
             description: boolean,
         }
         digs: {
-            coordinates: boolean,
-            description: boolean
+            at_all: boolean
         },
         searches: {
             at_all: boolean,
@@ -780,8 +776,7 @@ export namespace NeoSolving {
                 description: true
             },
             digs: {
-                coordinates: true,
-                description: true,
+                at_all: true,
             },
             searches: {
                 at_all: true,

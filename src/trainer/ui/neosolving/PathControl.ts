@@ -3,7 +3,7 @@ import * as leaflet from "leaflet";
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {Path} from "../../../lib/runescape/pathing";
 import Widget from "../../../lib/ui/Widget";
-import {createStepGraphics} from "../path_graphics";
+import {createStepGraphics, PathGraphics} from "../path_graphics";
 import * as lodash from "lodash";
 import NeoSolvingBehaviour from "./NeoSolvingBehaviour";
 import {C} from "../../../lib/ui/constructors";
@@ -14,6 +14,21 @@ import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import {AugmentedMethod} from "../../model/MethodPackManager";
 import MethodSelector from "./MethodSelector";
 import {NislIcon} from "../nisl";
+import div = C.div;
+import hboxl = C.hboxl;
+import TeleportIcon from "../widgets/TeleportIcon";
+import {Teleports} from "../../../lib/runescape/teleports";
+import img = C.img;
+import InteractionType = Path.InteractionType;
+import inlineimg = C.inlineimg;
+import staticentity = C.staticentity;
+import ability_icon = PathGraphics.ability_icon;
+import {direction, PathFinder} from "../../../lib/runescape/movement";
+import bold = C.bold;
+import {Vector2} from "../../../lib/math";
+import {capitalize, sum} from "lodash";
+import {stat} from "copy-webpack-plugin/types/utils";
+import entity = C.entity;
 
 export default class PathControl extends Behaviour {
     private method: AugmentedMethod<GenericPathMethod> = null
@@ -159,9 +174,112 @@ export default class PathControl extends Behaviour {
 
             let path = Path.Section.get_subsection_from_id_list(this.sections, this.current_section).steps
 
-            for (let step of path) {
-                c().setInnerHtml(this.parent.app.template_resolver.resolve(step.description)).appendTo(body)
-            }
+            path.forEach((step, index) => {
+                let order = c()
+                    .text(`${index + 1}.`)
+
+                if (path.length >= 10) order.css2({
+                    "width": "18px",
+                    "text-align": "right"
+                })
+
+                let icon = c().addClass("ctr-neosolving-path-stepicon")
+                let content = div()
+
+                switch (step.type) {
+                    case "orientation":
+
+                        content.append(
+                            "Face ",
+                            bold(direction.toString(step.direction))
+                        )
+
+                        break;
+                    case "ability":
+                        icon.append(img(ability_icon(step.ability)))
+
+                        content.append(
+                            capitalize(step.ability),
+                            " "
+                        )
+
+                        if (step.target) {
+                            content.append("on ", entity(step.target))
+
+                            if (step.target_text) {
+                                content.append(", ", step.target_text)
+                            }
+                        } else if (step.target_text) {
+                            content.append(step.target_text, " ")
+                        } else {
+                            content.append(
+                                bold(direction.toString(direction.fromVector(Vector2.sub(step.to, step.from))))
+                            )
+                        }
+
+                        break;
+                    case "run":
+                        icon.append(img("assets/icons/run.png"))
+
+                        content.append("Run ",)
+
+                        if (step.to_text) {
+                            content.append(step.to_text)
+                        } else {
+                            content.append(`${PathFinder.pathLength(step.waypoints)} tiles`)
+                        }
+
+                        break;
+                    case "teleport":
+                        let flat = this.parent.app.data.teleports.get2(step.id)
+
+                        icon.append(new TeleportIcon(flat)
+                            .css2({
+                                "display": "inline-block",
+                                "height": "20px"
+                            }))
+
+                        content.append(
+                            "Teleport to ",
+                            bold(flat.sub.name || flat.group.name)
+                        )
+                        break;
+                    case "redclick":
+                        icon.append(img(InteractionType.meta(step.how).icon_url))
+
+                        content.append(
+                            "Target ",
+                            staticentity("Entity")
+                        )
+                        break;
+                    case "powerburst":
+
+                        icon.append(img("assets/icons/accel.png")
+                            .tooltip("Powerburst of Acceleration"))
+
+                        content.append(
+                            "Drink ",
+                            span("Powerburst of Acceleration").addClass("nisl-item")
+                        )
+
+                        break;
+                    case "shortcut_v2":
+                        let shortcut = step.internal
+                        let action = shortcut.actions[0]
+
+                        icon.append(img(InteractionType.meta(step.internal.actions[0].cursor).icon_url))
+
+                        content.append(
+                            action.name, " ",
+                            staticentity(shortcut.name)
+                        )
+
+                        break;
+                }
+
+                hboxl(order, icon, content).addClass("ctr-neosolving-path-legend").appendTo(body)
+//c().setInnerHtml(this.parent.app.template_resolver.resolve(step.description))
+            })
         }
 
         if (w.container.is(":empty")) return

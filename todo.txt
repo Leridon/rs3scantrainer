@@ -1,6 +1,26 @@
 Planned for next release (b0.4):
 
+- Path Editor
+    - Add support for the model refinement (target entity, to_text etc)
+    - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
+    - [Bug] There appears to be a way to cause an undefined step to enter the array
+    - [Bug] Fit to step/path doesnt include level
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
+    - [Bug] Context Menu and other tooltips are displayed behind controls.
+    - [Bug] Path Editor throws an exception when start_state is undefined
+    - Add a way to make it not closeable by the user
+    - [Bug] Teleport overriding does not work
+
+
 - Solving Behaviour
+    - Path Panel
+        - Neat step styling
+        - Detail tooltip on hover
+        - Highlight render on hover
+        - Improve contrast
+            https://css-tricks.com/adding-shadows-to-svg-icons-with-css-and-svg-filters/
+
+
     - Search Bar
         - Neat styling
             - Hover effects of buttons
@@ -14,8 +34,7 @@ Planned for next release (b0.4):
         - Emote areas
         - Entity/Npc names?
     - Hide Menubar on fullscreen
-    - Path Panel
-        - Neat step styling
+
 
     - Compass Panel
     - Solve, Autosolve
@@ -77,16 +96,6 @@ Planned for next release (b0.4):
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
 
-- Path Editor
-    - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
-    - [Bug] There appears to be a way to cause an undefined step to enter the array
-    - [Bug] Fit to step/path doesnt include level
-    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
-    - [Bug] Context Menu and other tooltips are displayed behind controls.
-    - Implicit run for shortcuts?
-    - [Bug] Path Editor throws an exception when start_state is undefined
-    - Add a way to make it not closeable by the user
-    - [Bug] Teleport overriding does not work
 
 - Data Model
     - Skilling Clue locations

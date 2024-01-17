@@ -10,6 +10,7 @@ import {Teleports} from "lib/runescape/teleports";
 import {teleport_data} from "../../data/teleport_data";
 
 export namespace PathGraphics {
+    import movement_ability = MovementAbilities.movement_ability;
     type HTMLString = string
 
     export function text_icon(icon: string, hover: string = ""): HTMLString {
@@ -22,21 +23,25 @@ export namespace PathGraphics {
         }
     }
 
+    export function ability_icon(ability: movement_ability): string {
+        switch (ability) {
+            case "surge":
+                return 'assets/icons/surge.png'
+            case "escape":
+                return 'assets/icons/escape.png'
+            case "barge":
+                return 'assets/icons/barge.png'
+            case "dive":
+                return 'assets/icons/dive.png'
+        }
+    }
+
     export function asSpan(step: Path.step): HTMLString {
         switch (step.type) {
             case "orientation":
                 return text_icon('assets/icons/compass.png') + direction.toShortString(step.direction)
             case "ability":
-                switch (step.ability) {
-                    case "surge":
-                        return text_icon('assets/icons/surge.png')
-                    case "escape":
-                        return text_icon('assets/icons/escape.png')
-                    case "barge":
-                        return text_icon('assets/icons/barge.png')
-                    case "dive":
-                        return text_icon('assets/icons/dive.png')
-                }
+                return text_icon(ability_icon(step.ability))
             case "run":
                 return text_icon('assets/icons/run.png') + (step.waypoints.length - 1)
             case "teleport":

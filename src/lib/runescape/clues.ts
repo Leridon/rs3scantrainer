@@ -91,7 +91,7 @@ export namespace Clues {
         export type Dig = {
             type: "dig",
             spot: TileCoordinates
-            description: string // Strings like "on top of the fern", "next to the window" etc.
+            description: string | null// Strings like "on top of the fern", "next to the window" etc.
         }
         export type Search = {
             type: "search", spot: TileCoordinates, entity: string,

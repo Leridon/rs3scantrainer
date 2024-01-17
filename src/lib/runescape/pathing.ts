@@ -108,6 +108,11 @@ export namespace Path {
         }
     }
 
+    export type entity = {
+        name: string,
+        kind: "npc" | "static" | "item"
+    }
+
     export type step_orientation = step_base & {
         type: "orientation",
         direction: direction
@@ -116,12 +121,15 @@ export namespace Path {
     export type step_ability = step_base & {
         type: "ability",
         ability: movement_ability,
+        target?: entity,
+        target_text?: string,
         from: TileCoordinates,
         to: TileCoordinates,
     }
 
     export type step_run = step_base & {
         type: "run",
+        to_text?: string,
         waypoints: TileCoordinates[]
     }
 
@@ -149,6 +157,7 @@ export namespace Path {
 
     export type step_redclick = step_base & {
         type: "redclick",
+        target: entity,
         where: TileCoordinates,
         how: InteractionType
     }
@@ -782,8 +791,10 @@ export namespace Path {
                 let step = path[i]
                 let new_pos = ends_up([step])
 
-                if (step.type == "teleport") division(i)
-                else if (step.type == "shortcut_v2" && pos) {
+                if (step.type == "teleport") {
+                    if (i >= 1 && path[i - 1].type == "orientation") division(i - 1)
+                    else division(i)
+                } else if (step.type == "shortcut_v2" && pos) {
                     if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
                         division(i + 1)
                     }

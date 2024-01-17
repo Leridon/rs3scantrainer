@@ -7,6 +7,7 @@ import {C} from "../../../lib/ui/constructors";
 import spacer = C.spacer;
 import span = C.span;
 import hbox = C.hbox;
+import bold = C.bold;
 
 export default class MethodSelector extends Widget {
     public method: Observable<AugmentedMethod>
@@ -22,7 +23,7 @@ export default class MethodSelector extends Widget {
     private render(method: AugmentedMethod) {
         let row = hbox(
             method
-                ? span(method.method.name)
+                ? bold(method.method.name)
                 : c("<span style='font-style: italic; color: gray'> No method selected</span>"),
             spacer(),
             NislIcon.dropdown(),

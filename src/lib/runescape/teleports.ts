@@ -76,6 +76,10 @@ export namespace Teleports {
             return this.data.find((t) => t.id.group == id && (!subid || t.id.sub == subid))
         }
 
+        get2(id: full_teleport_id): flat_teleport {
+            return this.get(id.group, id.sub)
+        }
+
         getAll(): flat_teleport[] {
             return this.data
         }

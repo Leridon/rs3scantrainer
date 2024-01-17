@@ -33175,32 +33175,464 @@ export const default_generic_method_pack: Pack = {
             mobile_perk: true,
             way_of_the_footshaped_key: true
         },
-        path_to_spot: [{
-            "type": "teleport",
-            "description": "Use {{teleport legendscape legendsguild}}", "id": {"group": "legendscape", "sub": "legendsguild"}
-        }, {
-            "type": "run",
-            "description": "Run 2 tiles",
-            "waypoints": [{"x": 2728, "y": 3348, "level": 0}, {"x": 2728, "y": 3346, "level": 0}]
-        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}
+        path_to_spot: [
+            {
+                "type": "orientation",
+                "description": "Face West",
+                "direction": 1
+            },
+            {
+                "type": "teleport",
+                "description": "Use {{teleport questcape legensguild}} to Legends' Guild",
+                "id": {
+                    "group": "legendscape",
+                    "sub": "legendsguild"
+                }
+            },
+            {
+                "type": "redclick",
+                "description": "Redclick at 2715|3331|0",
+                "where": {
+                    "x": 2715,
+                    "y": 3331,
+                    "level": 0
+                },
+                "how": "mine"
+            },
+            {
+                "type": "run",
+                "description": "Run 3 tiles",
+                "waypoints": [
+                    {
+                        "x": 2728,
+                        "y": 3348,
+                        "level": 0
+                    },
+                    {
+                        "x": 2728,
+                        "y": 3346,
+                        "level": 0
+                    },
+                    {
+                        "x": 2727,
+                        "y": 3345,
+                        "level": 0
+                    }
+                ]
+            },
+            {
+                "type": "ability",
+                "ability": "surge",
+                "description": "{{surge}} South-West",
+                "from": {
+                    "x": 2727,
+                    "y": 3345,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                }
+            },
+            {
+                "type": "powerburst",
+                "description": "Use {{icon accel}}",
+                "where": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                }
+            },
+            {
+                "type": "ability",
+                "ability": "dive",
+                "description": "Use {{dive}}",
+                "from": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2707,
+                    "y": 3345,
+                    "level": 0
+                }
+            },
+            {
+                "type": "ability",
+                "ability": "surge",
+                "description": "{{surge}} North-West",
+                "from": {
+                    "x": 2707,
+                    "y": 3345,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2697,
+                    "y": 3355,
+                    "level": 0
+                }
+            },
+            {
+                "type": "shortcut_v2",
+                "assumed_start": {
+                    "x": 2697,
+                    "y": 3355,
+                    "level": 0
+                },
+                "description": "Entity: {{icon cursor_generic}} Use ",
+                "internal": {
+                    "type": "entity",
+                    "name": "Entity",
+                    "clickable_area": {
+                        "topleft": {
+                            "x": 2695.5,
+                            "y": 3356.5
+                        },
+                        "botright": {
+                            "x": 2696.5,
+                            "y": 3355.5
+                        },
+                        "level": 0
+                    },
+                    "actions": [
+                        {
+                            "cursor": "generic",
+                            "interactive_area": {
+                                "topleft": {
+                                    "x": 2695,
+                                    "y": 3357
+                                },
+                                "botright": {
+                                    "x": 2697,
+                                    "y": 3355
+                                },
+                                "level": 0
+                            },
+                            "movement": {
+                                "type": "offset",
+                                "offset": {
+                                    "x": -6,
+                                    "y": 5,
+                                    "level": 0
+                                }
+                            },
+                            "orientation": {
+                                "type": "byoffset"
+                            },
+                            "name": "Use",
+                            "time": 3
+                        }
+                    ]
+                }
+            }
         ],
-        path_to_key_or_hideyhole: [{
-            "type": "teleport",
-            "description": "Use {{teleport legendscape legendsguild}}", "id": {"group": "legendscape", "sub": "legendsguild"}
-        }, {
-            "type": "run",
-            "description": "Run 2 tiles",
-            "waypoints": [{"x": 2728, "y": 3348, "level": 0}, {"x": 2728, "y": 3346, "level": 0}]
-        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}
+        path_to_key_or_hideyhole: [
+            {
+                "type": "orientation",
+                "description": "Face West",
+                "direction": 1
+            },
+            {
+                "type": "teleport",
+                "description": "Use {{teleport questcape legensguild}} to Legends' Guild",
+                "id": {
+                    "group": "legendscape",
+                    "sub": "legendsguild"
+                }
+            },
+            {
+                "type": "redclick",
+                "description": "Redclick at 2715|3331|0",
+                "where": {
+                    "x": 2715,
+                    "y": 3331,
+                    "level": 0
+                },
+                "how": "mine"
+            },
+            {
+                "type": "run",
+                "description": "Run 3 tiles",
+                "waypoints": [
+                    {
+                        "x": 2728,
+                        "y": 3348,
+                        "level": 0
+                    },
+                    {
+                        "x": 2728,
+                        "y": 3346,
+                        "level": 0
+                    },
+                    {
+                        "x": 2727,
+                        "y": 3345,
+                        "level": 0
+                    }
+                ]
+            },
+            {
+                "type": "ability",
+                "ability": "surge",
+                "description": "{{surge}} South-West",
+                "from": {
+                    "x": 2727,
+                    "y": 3345,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                }
+            },
+            {
+                "type": "powerburst",
+                "description": "Use {{icon accel}}",
+                "where": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                }
+            },
+            {
+                "type": "ability",
+                "ability": "dive",
+                "description": "Use {{dive}}",
+                "from": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2707,
+                    "y": 3345,
+                    "level": 0
+                }
+            },
+            {
+                "type": "ability",
+                "ability": "surge",
+                "description": "{{surge}} North-West",
+                "from": {
+                    "x": 2707,
+                    "y": 3345,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2697,
+                    "y": 3355,
+                    "level": 0
+                }
+            },
+            {
+                "type": "shortcut_v2",
+                "assumed_start": {
+                    "x": 2697,
+                    "y": 3355,
+                    "level": 0
+                },
+                "description": "Entity: {{icon cursor_generic}} Use ",
+                "internal": {
+                    "type": "entity",
+                    "name": "Entity",
+                    "clickable_area": {
+                        "topleft": {
+                            "x": 2695.5,
+                            "y": 3356.5
+                        },
+                        "botright": {
+                            "x": 2696.5,
+                            "y": 3355.5
+                        },
+                        "level": 0
+                    },
+                    "actions": [
+                        {
+                            "cursor": "generic",
+                            "interactive_area": {
+                                "topleft": {
+                                    "x": 2695,
+                                    "y": 3357
+                                },
+                                "botright": {
+                                    "x": 2697,
+                                    "y": 3355
+                                },
+                                "level": 0
+                            },
+                            "movement": {
+                                "type": "offset",
+                                "offset": {
+                                    "x": -6,
+                                    "y": 5,
+                                    "level": 0
+                                }
+                            },
+                            "orientation": {
+                                "type": "byoffset"
+                            },
+                            "name": "Use",
+                            "time": 3
+                        }
+                    ]
+                }
+            }
         ],
-        path_back_to_hideyhole: [{
-            "type": "teleport",
-            "description": "Use {{teleport legendscape legendsguild}}", "id": {"group": "legendscape", "sub": "legendsguild"}
-        }, {
-            "type": "run",
-            "description": "Run 2 tiles",
-            "waypoints": [{"x": 2728, "y": 3348, "level": 0}, {"x": 2728, "y": 3346, "level": 0}]
-        }, {"type": "ability", "ability": "dive", "description": "Use {{dive}}", "from": {"x": 2728, "y": 3346, "level": 0}, "to": {"x": 2722, "y": 3338, "level": 0}}
+        path_back_to_hideyhole: [
+            {
+                "type": "orientation",
+                "description": "Face West",
+                "direction": 1
+            },
+            {
+                "type": "teleport",
+                "description": "Use {{teleport questcape legensguild}} to Legends' Guild",
+                "id": {
+                    "group": "legendscape",
+                    "sub": "legendsguild"
+                }
+            },
+            {
+                "type": "redclick",
+                "description": "Redclick at 2715|3331|0",
+                "where": {
+                    "x": 2715,
+                    "y": 3331,
+                    "level": 0
+                },
+                "how": "mine"
+            },
+            {
+                "type": "run",
+                "description": "Run 3 tiles",
+                "waypoints": [
+                    {
+                        "x": 2728,
+                        "y": 3348,
+                        "level": 0
+                    },
+                    {
+                        "x": 2728,
+                        "y": 3346,
+                        "level": 0
+                    },
+                    {
+                        "x": 2727,
+                        "y": 3345,
+                        "level": 0
+                    }
+                ]
+            },
+            {
+                "type": "ability",
+                "ability": "surge",
+                "description": "{{surge}} South-West",
+                "from": {
+                    "x": 2727,
+                    "y": 3345,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                }
+            },
+            {
+                "type": "powerburst",
+                "description": "Use {{icon accel}}",
+                "where": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                }
+            },
+            {
+                "type": "ability",
+                "ability": "dive",
+                "description": "Use {{dive}}",
+                "from": {
+                    "x": 2717,
+                    "y": 3335,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2707,
+                    "y": 3345,
+                    "level": 0
+                }
+            },
+            {
+                "type": "ability",
+                "ability": "surge",
+                "description": "{{surge}} North-West",
+                "from": {
+                    "x": 2707,
+                    "y": 3345,
+                    "level": 0
+                },
+                "to": {
+                    "x": 2697,
+                    "y": 3355,
+                    "level": 0
+                }
+            },
+            {
+                "type": "shortcut_v2",
+                "assumed_start": {
+                    "x": 2697,
+                    "y": 3355,
+                    "level": 0
+                },
+                "description": "Entity: {{icon cursor_generic}} Use ",
+                "internal": {
+                    "type": "entity",
+                    "name": "Entity",
+                    "clickable_area": {
+                        "topleft": {
+                            "x": 2695.5,
+                            "y": 3356.5
+                        },
+                        "botright": {
+                            "x": 2696.5,
+                            "y": 3355.5
+                        },
+                        "level": 0
+                    },
+                    "actions": [
+                        {
+                            "cursor": "generic",
+                            "interactive_area": {
+                                "topleft": {
+                                    "x": 2695,
+                                    "y": 3357
+                                },
+                                "botright": {
+                                    "x": 2697,
+                                    "y": 3355
+                                },
+                                "level": 0
+                            },
+                            "movement": {
+                                "type": "offset",
+                                "offset": {
+                                    "x": -6,
+                                    "y": 5,
+                                    "level": 0
+                                }
+                            },
+                            "orientation": {
+                                "type": "byoffset"
+                            },
+                            "name": "Use",
+                            "time": 3
+                        }
+                    ]
+                }
+            }
         ],
     }
     ]

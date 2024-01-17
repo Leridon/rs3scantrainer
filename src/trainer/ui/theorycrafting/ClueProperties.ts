@@ -60,13 +60,13 @@ export class ClueProperties extends Properties {
                 this.named("Spots", c().text(`${this.clue.clue.spots.length}`))
                 break
             case "compass":
-                renderSolution(this, {type: "dig", spot: this.clue.spot})
+                renderSolution(this, {type: "dig", spot: this.clue.spot, description: null})
                 this.named("Total", c().text(`${this.clue.clue.spots.length}`))
                 break
             case "coordinates":
                 this.named("Text", c().text(this.clue.clue.text[0]).css("font-style", "italic"))
                 this.named("Coordinates", c().setInnerHtml(GieliCoordinates.toString(this.clue.clue.coordinates)))
-                renderSolution(this, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.clue.coordinates)})
+                renderSolution(this, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.clue.coordinates), description: null})
                 break
             case "simple":
             case "cryptic":

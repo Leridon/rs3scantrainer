@@ -2490,6 +2490,7 @@ export namespace teleport_data {
             img: {url: "legendscape.png"},
             spots: [{
                 id: "legendsguild", spot: {x: 2728, y: 3348, level: 0},
+                name: "Legend's Guild",
                 menu_ticks: 1,
                 animation_ticks: default_teleport_ticks
             }]

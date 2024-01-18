@@ -38,6 +38,9 @@ Planned for next release (b0.4):
 
     - Compass Panel
     - Solve, Autosolve
+    - Key solution
+    - Challenge answer
+    - Potential Puzzles
     - Multiple Methods, Preferences
         - Preferred method
         - Preferred npc spot
@@ -170,5 +173,4 @@ Unscheduled (Far future):
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat, display them
 - Figure out z-Ordering of layers (need to use custom panes maybe)
-- Google Maps like layout for a slimmer experience? Make the map be the center of everything
 - Landing areas for non-static teleports, show better metadata on tooltip/hover

@@ -97,6 +97,9 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
             [tip, Vector2.toLatLong(Vector2.add(to, arm2_offset))],
         ]
     )
+        .setStyle({
+            interactive: true
+        })
 }
 
 export namespace PathingGraphics {

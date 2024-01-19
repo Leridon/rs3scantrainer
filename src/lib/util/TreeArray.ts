@@ -58,6 +58,11 @@ export namespace TreeArray {
         }
     }
 
+    export function forLeafs<Inner, Leaf>(array: TreeArray<Leaf, Inner>, f: (el: Leaf) => void): void {
+        if (array.type == "leaf") f(array.value)
+        else array.children.forEach(c => forLeafs(c, f))
+    }
+
     export function fixIndex<Inner, Leaf>(node: TreeArray<Leaf, Inner>, indices: number[]): number[] {
         let result: number[] = []
 

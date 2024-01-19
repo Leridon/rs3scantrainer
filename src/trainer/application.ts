@@ -189,7 +189,7 @@ export class Application extends Behaviour {
     main_behaviour = this.withSub(new SingleBehaviour())
 
     data = {
-        teleports: new Teleports.ManagedTeleports({
+        teleports: new Teleports.ManagedTeleportData({
             fairy_ring_favourites: [],
             potas: [],
         }),

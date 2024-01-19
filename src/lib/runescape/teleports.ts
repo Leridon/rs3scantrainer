@@ -50,8 +50,8 @@ export namespace Teleports {
     }
 
 
-    export class ManagedTeleports extends TypedEmitter<{
-        refreshed: ManagedTeleports
+    export class ManagedTeleportData extends TypedEmitter<{
+        refreshed: ManagedTeleportData
     }> {
         private data: flat_teleport[]
 

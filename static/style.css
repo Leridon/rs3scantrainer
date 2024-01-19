@@ -1741,7 +1741,7 @@ input[type=checkbox] + span {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
-.ctr-neosolving-path-legend:hover {
+.ctr-neosolving-path-legend-highlighted {
     background-color: #00527a;
 }
 

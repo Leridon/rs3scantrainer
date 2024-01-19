@@ -31,7 +31,8 @@ export class TileHighlight extends leaflet.FeatureGroup {
             fillOpacity: 0.2,
             opacity: 0.8,
             color: "#F0780C",
-            fillColor: "#F0780C"
+            fillColor: "#F0780C",
+            interactive: false
         }).addTo(this)
     }
 }

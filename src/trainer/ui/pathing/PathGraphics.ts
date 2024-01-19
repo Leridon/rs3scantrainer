@@ -8,19 +8,33 @@ import {observe} from "../../../lib/reactive";
 
 
 export class StepGraphics extends OpacityGroup {
+    private rendering: boolean = false
 
     highlighted = observe(false)
+    highlightable: boolean = false
 
     constructor(private step: Path.step) {
         super()
 
-        this.setStyle({
-            interactive: false
+        this.highlighted.subscribe(() => {
+            this.render()
         })
 
-        this.highlighted.subscribe(() => this.render())
+        this.on("mouseover", () => {
+            if (!this.rendering && this.highlightable) this.highlighted.set(true)
+        })
+
+        this.on("mouseout", () => {
+            if (!this.rendering && this.highlightable) this.highlighted.set(false)
+        })
 
         this.render()
+    }
+
+    setHighlightable(v: boolean): this {
+        this.highlightable = v
+        if (!v) this.highlighted.set(false)
+        return this
     }
 
     public isVisual(): boolean {
@@ -39,6 +53,8 @@ export class StepGraphics extends OpacityGroup {
     }
 
     private render() {
+        this.rendering = true
+
         this.clearLayers()
 
         const step = this.step
@@ -58,7 +74,8 @@ export class StepGraphics extends OpacityGroup {
                 arrow(step.from, step.to)
                     .setStyle({
                         color: meta[step.ability].color,
-                        weight: highlighted ? 6 : 4
+                        weight: highlighted ? 6 : 4,
+                        interactive: true,
                     }).addTo(this)
 
                 leaflet.marker(Vector2.toLatLong(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
@@ -81,10 +98,6 @@ export class StepGraphics extends OpacityGroup {
                 }
 
                 lines = lines.filter((l) => !Vector2.eq(l[0], l[1]))
-
-                this.setStyle({
-                    interactive: false
-                })
 
                 leaflet.polyline(
                     lines.map((t) => t.map(Vector2.toLatLong)),
@@ -109,6 +122,12 @@ export class StepGraphics extends OpacityGroup {
                 break;
 
         }
+
+        this.setStyle({
+            interactive: true
+        })
+
+        this.rendering = false
     }
 }
 

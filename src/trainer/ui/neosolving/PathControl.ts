@@ -3,7 +3,7 @@ import * as leaflet from "leaflet";
 import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {Path} from "../../../lib/runescape/pathing";
 import Widget from "../../../lib/ui/Widget";
-import {createStepGraphics, PathGraphics} from "../path_graphics";
+import {PathGraphics} from "../path_graphics";
 import * as lodash from "lodash";
 import NeoSolvingBehaviour from "./NeoSolvingBehaviour";
 import {C} from "../../../lib/ui/constructors";
@@ -17,10 +17,8 @@ import {NislIcon} from "../nisl";
 import div = C.div;
 import hboxl = C.hboxl;
 import TeleportIcon from "../widgets/TeleportIcon";
-import {Teleports} from "../../../lib/runescape/teleports";
 import img = C.img;
 import InteractionType = Path.InteractionType;
-import inlineimg = C.inlineimg;
 import staticentity = C.staticentity;
 import ability_icon = PathGraphics.ability_icon;
 import {direction, PathFinder} from "../../../lib/runescape/movement";
@@ -34,32 +32,117 @@ import {TreeArray} from "../../../lib/util/TreeArray";
 import SectionedPath = Path.SectionedPath;
 import * as assert from "assert";
 import index = util.index;
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {Observable, observe} from "../../../lib/reactive";
+import {Teleports} from "../../../lib/runescape/teleports";
+import ManagedTeleportData = Teleports.ManagedTeleportData;
 
 class PathSectionControl extends Widget {
-    private path_layer: leaflet.FeatureGroup = null
-    private sections: SectionedPath = null
-    private current_section_id: number[] = null
-    private step_graphics: TreeArray<StepGraphics, {}> = null
-    private rows: PathSectionControl.StepRow[] = null
-
-    constructor(private reference_layer: GameLayer | null) {
+    constructor(
+        private sections: SectionedPath,
+        private current_section_id: number[],
+        private teleport_data: ManagedTeleportData,
+        private step_graphics: TreeArray<StepGraphics, {}>,
+    ) {
         super()
+
+        this.render()
     }
 
     render() {
+        this.empty()
 
+        if (this.sections && this.current_section_id) {
+            let section_link = TreeArray.getPath(this.sections, this.current_section_id)
+
+            {
+                section_link.forEach((node, i) => {
+                    if (i == 0 || node.type == "leaf") return // Ignore root node and steps
+
+                    let parent = section_link[i - 1]
+
+                    assert(parent.type == "inner")
+
+                    if (parent.children.length <= 1) return // Don't draw section controls if there is just one
+
+                    let section_id = parent.children.indexOf(node)
+
+                    if (node.type == "inner") {
+                        hbox(
+                            section_id > 0 ? NislIcon.arrow("left").withClick(() => {
+                                let cp = lodash.clone(this.current_section_id)
+                                cp[i - 1] -= 1
+                                this.setCurrentSection(cp)
+                            }) : undefined,
+                            span(node.value.name).css("flex-grow", "1").css("text-align", "center"),
+                            section_id < parent.children.length - 1 ? NislIcon.arrow("right").withClick(() => {
+                                let cp = lodash.clone(this.current_section_id)
+                                cp[i - 1] += 1
+                                this.setCurrentSection(cp)
+                            }) : undefined,
+                        )
+                            .appendTo(this)
+                    }
+                })
+            }
+
+            let currently_shown_path = (() => {
+                let n = index(section_link, -2)
+                assert(n.type == "inner")
+
+                return n.children.map(c => {
+                    assert(c.type == "leaf")
+                    return c.value
+                })
+            })()
+
+            if (this.step_graphics) {
+                TreeArray.forLeafs(this.step_graphics, graphics => {
+                    graphics.setHighlightable(false)
+                })
+            }
+
+            currently_shown_path.forEach((step, index) => {
+                let sectionindex = lodash.clone(this.current_section_id)
+                sectionindex[sectionindex.length - 1] = index
+
+                let graphics_node = TreeArray.index(this.step_graphics, sectionindex)
+                assert(graphics_node.type == "leaf")
+
+                new PathSectionControl.StepRow(
+                    this.teleport_data,
+                    sectionindex,
+                    step
+                )
+                    .setAssociatedGraphics(graphics_node.value)
+                    .appendTo(this)
+            })
+        }
+    }
+
+    private setCurrentSection(ids: number[]) {
+        this.current_section_id = TreeArray.fixIndex(this.sections, ids)
+        this.render()
     }
 }
 
 namespace PathSectionControl {
+    import ManagedTeleportData = Teleports.ManagedTeleportData;
+
     export class StepRow extends Widget {
-        constructor(private parent: PathSectionControl,
+        highlighted: Observable<boolean> = observe(false)
+        associated_graphics: StepGraphics = null
+
+        constructor(private teleport_data: ManagedTeleportData,
                     private section_index: number[],
                     private step: Path.step) {
             super();
 
-            const index = util.index(section_index, -1)
+            this.highlighted.subscribe(v => {
+                this.toggleClass("ctr-neosolving-path-legend-highlighted", v)
+                this.associated_graphics?.highlighted?.set(v)
+            })
+
+            const index = util.index(this.section_index, -1)
 
             let order = c().text(`${index + 1}.`)
 
@@ -117,7 +200,7 @@ namespace PathSectionControl {
 
                     break;
                 case "teleport":
-                    let flat = this.parent.app.data.teleports.get2(step.id)
+                    let flat = this.teleport_data.get2(step.id)
 
                     icon.append(new TeleportIcon(flat)
                         .css2({
@@ -163,38 +246,38 @@ namespace PathSectionControl {
                     break;
             }
 
-            hboxl(order, icon, content).addClass("ctr-neosolving-path-legend").appendTo(body)
-                .on("mouseover", () => {
-                    let cp = lodash.clone(this.section_index)
-                    cp[cp.length - 1] = index
+            hboxl(order, icon, content).addClass("ctr-neosolving-path-legend")
+                .on("mouseover", () => this.setHighlight(true))
+                .on("mouseleave", () => this.setHighlight(false))
+                .appendTo(this)
+        }
 
-                    let node = TreeArray.index(this.step_graphics, cp)
-                    assert(node.type == "leaf")
+        setAssociatedGraphics(graphics: StepGraphics): this {
+            this.associated_graphics = graphics
 
-                    node.value.highlighted.set(true)
+            if (graphics) {
+                graphics.setHighlightable(true)
+
+                this.associated_graphics.highlighted.subscribe(v => {
+                    this.setHighlight(v)
                 })
-                .on("mouseleave", () => {
-                    let cp = lodash.clone(this.current_section_id)
-                    cp[cp.length - 1] = index
+            }
 
-                    let node = TreeArray.index(this.step_graphics, cp)
-                    assert(node.type == "leaf")
+            return this
+        }
 
-                    node.value.highlighted.set(false)
-                })
-
-
+        setHighlight(v: boolean) {
+            this.highlighted.set(v)
         }
     }
 }
 
 export default class PathControl extends Behaviour {
     private method: AugmentedMethod<GenericPathMethod> = null
-    private path_layer: leaflet.FeatureGroup = new OpacityGroup()
-    private sections: SectionedPath = null
-    private current_section_id: number[] = null
+    private sectioned_path: SectionedPath = null
 
-    private step_graphics: TreeArray<StepGraphics, {}>
+    private path_layer: leaflet.FeatureGroup = new OpacityGroup()
+    private step_graphics: TreeArray<StepGraphics, {}> = null
 
     private widget: Widget = null
 
@@ -216,27 +299,14 @@ export default class PathControl extends Behaviour {
      * @param path
      */
     setPath(path: Path.raw) {
-        this.setSections(Path.Section.split_into_sections(path))
+        this.set(null, Path.Section.split_into_sections(path))
     }
 
     setSections(sections: SectionedPath, active_id: number[] = null) {
-        this.sections = sections
-        this.current_section_id = TreeArray.fixIndex(this.sections, active_id || [])
-
-        this.path_layer.clearLayers()
-
-        let self = this
-
-        this.step_graphics = TreeArray.map(this.sections, (step) => {
-            return new StepGraphics(step).addTo(self.path_layer)
-        })
-
-        this.renderWidget()
+        this.set(null, sections, active_id)
     }
 
     setMethod(method: AugmentedMethod<GenericPathMethod>) {
-        this.method = method
-
         let sectioned: Path.SectionedPath = TreeArray.init({name: "root"})
 
         if (method.method.path_to_key_or_hideyhole) {
@@ -256,12 +326,27 @@ export default class PathControl extends Behaviour {
 
         if (sectioned.children.length == 1) sectioned = sectioned.children[0]
 
-        this.setSections(sectioned)
+        this.set(method, sectioned)
+    }
+
+    private set(method: AugmentedMethod<GenericPathMethod>,
+                sections: SectionedPath,
+                active_id: number[] = null
+    ) {
+        this.sectioned_path = sections
+        this.method = method
+        let section_id = TreeArray.fixIndex(this.sectioned_path, active_id || [])
+
+        this.path_layer.clearLayers()
+        this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
+            return new StepGraphics(step).addTo(this.path_layer)
+        })
+
+        this.renderWidget(section_id)
     }
 
     reset(): this {
-        this.sections = null
-        this.current_section_id = null
+        this.sectioned_path = null
         this.method = null
 
         this.widget?.remove()
@@ -271,12 +356,7 @@ export default class PathControl extends Behaviour {
         return this
     }
 
-    private setCurrentSection(ids: number[]) {
-        this.current_section_id = TreeArray.fixIndex(this.sections, ids)
-        this.renderWidget()
-    }
-
-    private renderWidget() {
+    private renderWidget(active_id: number[]) {
         this.widget?.remove()
         this.widget = null
 
@@ -288,177 +368,15 @@ export default class PathControl extends Behaviour {
                 .appendTo(w)
         }
 
-        if (this.sections && this.current_section_id) {
-
-            let body = c().addClass("ctr-neosolving-solution-row").appendTo(w)
-
-            let section_link = TreeArray.getPath(this.sections, this.current_section_id)
-
-            {
-                section_link.forEach((node, i) => {
-                    if (i == 0 || node.type == "leaf") return // Ignore root node and steps
-
-                    let parent = section_link[i - 1]
-
-                    assert(parent.type == "inner")
-
-                    if (parent.children.length <= 1) return // Don't draw section controls if there is just one
-
-                    let section_id = parent.children.indexOf(node)
-
-                    if (node.type == "inner") {
-                        body.append(
-                            hbox(
-                                section_id > 0 ? NislIcon.arrow("left").withClick(() => {
-                                    let cp = lodash.clone(this.current_section_id)
-                                    cp[i - 1] -= 1
-                                    this.setCurrentSection(cp)
-                                }) : undefined,
-                                span(node.value.name).css("flex-grow", "1").css("text-align", "center"),
-                                section_id < parent.children.length - 1 ? NislIcon.arrow("right").withClick(() => {
-                                    let cp = lodash.clone(this.current_section_id)
-                                    cp[i - 1] += 1
-                                    this.setCurrentSection(cp)
-                                }) : undefined,
-                            )
-                        )
-                    }
-                })
-            }
-
-            let path = (() => {
-                let n = index(section_link, -2)
-                assert(n.type == "inner")
-
-                return n.children.map(c => {
-                    assert(c.type == "leaf")
-                    return c.value
-                })
-            })()
-
-            path.forEach((step, index) => {
-                let order = c()
-                    .text(`${index + 1}.`)
-
-                if (path.length >= 10) order.css2({
-                    "width": "18px",
-                    "text-align": "right"
-                })
-
-                let icon = c().addClass("ctr-neosolving-path-stepicon")
-                let content = div()
-
-                switch (step.type) {
-                    case "orientation":
-
-                        content.append(
-                            "Face ",
-                            bold(direction.toString(step.direction))
-                        )
-
-                        break;
-                    case "ability":
-                        icon.append(img(ability_icon(step.ability)))
-
-                        content.append(
-                            capitalize(step.ability),
-                            " "
-                        )
-
-                        if (step.target) {
-                            content.append("on ", entity(step.target))
-
-                            if (step.target_text) {
-                                content.append(", ", step.target_text)
-                            }
-                        } else if (step.target_text) {
-                            content.append(step.target_text, " ")
-                        } else {
-                            content.append(
-                                bold(direction.toString(direction.fromVector(Vector2.sub(step.to, step.from))))
-                            )
-                        }
-
-                        break;
-                    case "run":
-                        icon.append(img("assets/icons/run.png"))
-
-                        content.append("Run ",)
-
-                        if (step.to_text) {
-                            content.append(step.to_text)
-                        } else {
-                            content.append(`${PathFinder.pathLength(step.waypoints)} tiles`)
-                        }
-
-                        break;
-                    case "teleport":
-                        let flat = this.parent.app.data.teleports.get2(step.id)
-
-                        icon.append(new TeleportIcon(flat)
-                            .css2({
-                                "display": "inline-block",
-                                "height": "20px"
-                            }))
-
-                        content.append(
-                            "Teleport to ",
-                            bold(flat.sub.name || flat.group.name)
-                        )
-                        break;
-                    case "redclick":
-                        icon.append(img(InteractionType.meta(step.how).icon_url))
-
-                        content.append(
-                            "Target ",
-                            staticentity("Entity")
-                        )
-                        break;
-                    case "powerburst":
-
-                        icon.append(img("assets/icons/accel.png")
-                            .tooltip("Powerburst of Acceleration"))
-
-                        content.append(
-                            "Drink ",
-                            span("Powerburst of Acceleration").addClass("nisl-item")
-                        )
-
-                        break;
-                    case "shortcut_v2":
-                        let shortcut = step.internal
-                        let action = shortcut.actions[0]
-
-                        icon.append(img(InteractionType.meta(step.internal.actions[0].cursor).icon_url))
-
-                        content.append(
-                            action.name, " ",
-                            staticentity(shortcut.name)
-                        )
-
-                        break;
-                }
-
-                hboxl(order, icon, content).addClass("ctr-neosolving-path-legend").appendTo(body)
-                    .on("mouseover", () => {
-                        let cp = lodash.clone(this.current_section_id)
-                        cp[cp.length - 1] = index
-
-                        let node = TreeArray.index(this.step_graphics, cp)
-                        assert(node.type == "leaf")
-
-                        node.value.highlighted.set(true)
-                    })
-                    .on("mouseleave", () => {
-                        let cp = lodash.clone(this.current_section_id)
-                        cp[cp.length - 1] = index
-
-                        let node = TreeArray.index(this.step_graphics, cp)
-                        assert(node.type == "leaf")
-
-                        node.value.highlighted.set(false)
-                    })
-            })
+        if (this.sectioned_path) {
+            new PathSectionControl(
+                this.sectioned_path,
+                active_id,
+                this.parent.app.data.teleports,
+                this.step_graphics,
+            )
+                .addClass("ctr-neosolving-solution-row")
+                .appendTo(w)
         }
 
         if (w.container.is(":empty")) return

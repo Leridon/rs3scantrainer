@@ -63,7 +63,11 @@ export namespace PathGraphics {
 
 }
 
-export function createX(coordinate: TileCoordinates, color: "red" | "yellow"): leaflet.Layer {
+export function createX(coordinate: TileCoordinates,
+                        color: "red" | "yellow",
+                        size: number = 16,
+                        className: string = undefined
+): leaflet.Marker {
     const click_icons = {
         "red": "assets/icons/redclick.png",
         "yellow": "assets/icons/yellowclick.png",
@@ -72,10 +76,13 @@ export function createX(coordinate: TileCoordinates, color: "red" | "yellow"): l
     return leaflet.marker(Vector2.toLatLong(coordinate), {
         icon: leaflet.icon({
             iconUrl: click_icons[color],
-            iconSize: [16, 16],
-            iconAnchor: [8, 8],
+            iconSize: [size, size],
+            iconAnchor: [size / 2, size / 2],
+            className:
+                className ? `no-antialiasing ${className}`
+                    : "no-antialiasing"
         }),
-        interactive: false
+        interactive: false,
     })
 }
 

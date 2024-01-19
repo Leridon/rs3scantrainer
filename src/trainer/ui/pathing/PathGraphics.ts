@@ -25,7 +25,7 @@ export class StepGraphics extends OpacityGroup {
         })
 
         this.on("mouseout", () => {
-            if (!this.rendering && this.highlightable) this.highlighted.set(false)
+            if (!this.rendering) this.highlighted.set(false)
         })
 
         this.render()
@@ -55,6 +55,8 @@ export class StepGraphics extends OpacityGroup {
     private render() {
         this.rendering = true
 
+        const cls = "ctr-step-graphics"
+
         this.clearLayers()
 
         const step = this.step
@@ -76,6 +78,7 @@ export class StepGraphics extends OpacityGroup {
                         color: meta[step.ability].color,
                         weight: highlighted ? 6 : 4,
                         interactive: true,
+                        className: cls
                     }).addTo(this)
 
                 leaflet.marker(Vector2.toLatLong(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
@@ -83,6 +86,7 @@ export class StepGraphics extends OpacityGroup {
                         iconUrl: meta[step.ability].icon,
                         iconSize: highlighted ? [36, 36] : [24, 24],
                         iconAnchor: highlighted ? [18, 18] : [12, 12],
+                        className: cls
                     })
                 }).addTo(this)
 
@@ -103,11 +107,17 @@ export class StepGraphics extends OpacityGroup {
                     lines.map((t) => t.map(Vector2.toLatLong)),
                     {
                         color: "#b4b4b4",
-                        weight: highlighted ? 6 : 4
+                        weight: highlighted ? 6 : 4,
+                        className: cls
                     }
                 ).addTo(this)
 
-                createX(step.waypoints[step.waypoints.length - 1], "yellow").addTo(this)
+                createX(step.waypoints[step.waypoints.length - 1],
+                    "yellow",
+                    highlighted ? 24 : 16,
+                    "ctr-step-graphics"
+                )
+                    .addTo(this)
 
                 break;
             case "teleport":
@@ -120,11 +130,11 @@ export class StepGraphics extends OpacityGroup {
                 break;
             case "shortcut_v2":
                 break;
-
         }
 
         this.setStyle({
-            interactive: true
+            interactive: true,
+            className: "ctr-step-graphics"
         })
 
         this.rendering = false

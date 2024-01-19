@@ -1732,6 +1732,7 @@ input[type=checkbox] + span {
     width: 100%;
     height: 100%;
 }
+
 .ctr-teleport-icon > div {
     position: absolute;
     top: 50%;
@@ -1786,4 +1787,14 @@ input[type=checkbox] + span {
 
 .nisl-icon {
     display: inline-block;
+}
+
+/* Step graphics */
+
+.ctr-step-graphics {
+    filter: drop-shadow(2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(-2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.25)) drop-shadow(0 -2px 2px rgb(0 0 0 / 0.25));
+}
+
+.no-antialiasing {
+    image-rendering: pixelated; /* Universal support since 2021   */
 }

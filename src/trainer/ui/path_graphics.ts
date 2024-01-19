@@ -63,7 +63,7 @@ export namespace PathGraphics {
 
 }
 
-function createX(coordinate: TileCoordinates, color: "red" | "yellow"): leaflet.Layer {
+export function createX(coordinate: TileCoordinates, color: "red" | "yellow"): leaflet.Layer {
     const click_icons = {
         "red": "assets/icons/redclick.png",
         "yellow": "assets/icons/yellowclick.png",

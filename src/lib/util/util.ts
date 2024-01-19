@@ -61,7 +61,7 @@ export namespace util {
         return array[(array.length + index) % array.length]
     }
 
-    type nArray<T> = T | nArray<T>[]
+    export type nArray<T> = T | nArray<T>[]
 
     export function multiIndex<T>(nArray: nArray<T>, ...indices: number[]): T {
         let x = nArray

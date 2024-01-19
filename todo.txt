@@ -16,8 +16,8 @@ Planned for next release (b0.4):
     - Path Panel
         - Neat step styling
         - Detail tooltip on hover
-        - Highlight render on hover
-        - Improve contrast
+        - [WIP] Highlight render on hover
+        - [WIP] Improve contrast
             https://css-tricks.com/adding-shadows-to-svg-icons-with-css-and-svg-filters/
 
 

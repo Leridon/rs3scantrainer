@@ -10,6 +10,7 @@ import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {Shortcuts} from "./shortcuts";
 import {last} from "lodash";
+import {TreeArray} from "../util/TreeArray";
 
 export type Path = Path.raw;
 
@@ -777,8 +778,15 @@ export namespace Path {
         subsections?: Section[]
     }
 
+    export type SectionedPath = TreeArray<step, { name: string }>
+
     export namespace Section {
-        export function split_into_sections(path: Path.raw): Section[] {
+        /*export function asMultiArray(section: Section): TreeArray<step> {
+            if (section.subsections) return section.subsections.map(asMultiArray)
+            else return section.steps
+        }*/
+
+        export function split_into_sections(path: Path.raw, root_name: string = "root"): TreeArray.InnerNode<step, { name: string }> {
             let section_dividers: number[] = []
 
             const division = (i: number) => {
@@ -805,16 +813,22 @@ export namespace Path {
 
             division(path.length)
 
-            return section_dividers.map((end, i) => {
+            let root = TreeArray.init({name: root_name})
+
+            section_dividers.forEach((end, i) => {
+                let sect = TreeArray.add(root,
+                    TreeArray.inner({name: `Section ${i + 1}`})
+                )
+
                 let prev = i == 0 ? 0 : section_dividers[i - 1]
 
-                return {
-                    name: `Section ${i + 1}`,
-                    steps: path.slice(prev, end)
-                }
+                sect.children = TreeArray.leafs(path.slice(prev, end))
             })
 
+            return root
         }
+
+        /*
 
         export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
             for (let index of indices) {
@@ -831,23 +845,7 @@ export namespace Path {
             else return [0]
         }
 
-        export function fix_index(sections: Section[], indices: number[]): number[] {
-            let result: number[] = []
 
-            let i = 0
-
-            while (true) {
-                let index = i < indices.length ? indices[i] : 0
-
-                result.push(index)
-
-                let sect = sections[index]
-
-                if (sect.subsections) sections = sect.subsections
-                else return result
-
-                i++
-            }
-        }
+         */
     }
 }

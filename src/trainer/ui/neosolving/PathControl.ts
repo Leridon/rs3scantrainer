@@ -309,20 +309,25 @@ export default class PathControl extends Behaviour {
     setMethod(method: AugmentedMethod<GenericPathMethod>) {
         let sectioned: Path.SectionedPath = TreeArray.init({name: "root"})
 
+        /*
         if (method.method.path_to_key_or_hideyhole) {
             TreeArray.add(sectioned,
                 Path.Section.split_into_sections(method.method.path_to_key_or_hideyhole, "Pre Path")
             )
         }
+
+         */
+
         TreeArray.add(sectioned,
             Path.Section.split_into_sections(method.method.path_to_spot, "To Spot")
         )
 
+        /*
         if (method.method.path_back_to_hideyhole) {
             TreeArray.add(sectioned,
                 Path.Section.split_into_sections(method.method.path_back_to_hideyhole, "Back to Hideyhole")
             )
-        }
+        }*/
 
         if (sectioned.children.length == 1) sectioned = sectioned.children[0]
 

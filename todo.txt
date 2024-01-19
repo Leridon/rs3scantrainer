@@ -19,6 +19,7 @@ Planned for next release (b0.4):
         - [WIP] Highlight render on hover
         - [WIP] Improve contrast
             https://css-tricks.com/adding-shadows-to-svg-icons-with-css-and-svg-filters/
+        - Disable default teleport render when contained in step
 
 
     - Search Bar

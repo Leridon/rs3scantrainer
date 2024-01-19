@@ -49,6 +49,7 @@ import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
+import {StepGraphics} from "../pathing/PathGraphics";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -184,7 +185,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Where", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                            preview_render: (tile) => createStepGraphics({
+                            preview_render: (tile) => new StepGraphics({
                                 type: "powerburst",
                                 description: "",
                                 where: tile,
@@ -638,7 +639,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         }
 
         if (this.meta.preview_layer) {
-            value.associated_preview = createStepGraphics(value.raw).addTo(this.meta.preview_layer)
+            value.associated_preview = new StepGraphics(value.raw).addTo(this.meta.preview_layer)
         }
     }
 

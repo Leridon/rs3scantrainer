@@ -2,13 +2,13 @@ import {Path} from "lib/runescape/pathing";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
-import {createStepGraphics} from "../../path_graphics";
+import {StepGraphics} from "../../pathing/PathGraphics";
 
 export default class PlacePowerburstInteraction extends ValueInteraction<Path.step_powerburst> {
 
     constructor() {
         super({
-            preview_render: (s) => createStepGraphics(s)
+            preview_render: (s) => new StepGraphics(s)
         });
 
         new SelectTileInteraction()

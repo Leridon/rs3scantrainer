@@ -1792,6 +1792,7 @@ input[type=checkbox] + span {
 /* Step graphics */
 
 .ctr-step-graphics {
+    image-rendering: pixelated;
     filter: drop-shadow(2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(-2px 0 2px rgb(0 0 0 / 0.25)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.25)) drop-shadow(0 -2px 2px rgb(0 0 0 / 0.25));
 }
 

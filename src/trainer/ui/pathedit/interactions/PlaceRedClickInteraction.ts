@@ -2,15 +2,15 @@ import {Path} from "lib/runescape/pathing";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
-import {createStepGraphics} from "../../path_graphics";
 import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
 import InteractionType = Path.InteractionType;
+import {StepGraphics} from "../../pathing/PathGraphics";
 
 export default class PlaceRedClickInteraction extends ValueInteraction<Path.step_redclick> {
 
     constructor(private interaction_type: InteractionType = null) {
         super({
-            preview_render: (s) => createStepGraphics(s)
+            preview_render: (s) => new StepGraphics(s)
         });
 
         new SelectTileInteraction()

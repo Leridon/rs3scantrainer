@@ -1,6 +1,6 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import {ClearMapData, PathFinder} from "lib/runescape/movement";
-import {arrow, createStepGraphics} from "../../path_graphics";
+import {PathFinder} from "lib/runescape/movement";
+import {arrow} from "../../path_graphics";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import InteractionTopControl from "../../map/InteractionTopControl";
@@ -9,6 +9,7 @@ import {util} from "../../../../lib/util/util";
 import index = util.index;
 import observe_combined = Observable.observe_combined;
 import {Path} from "../../../../lib/runescape/pathing";
+import {StepGraphics} from "../../pathing/PathGraphics";
 
 class DrawRunInteractionInternal extends ValueInteraction<{
     path: TileCoordinates[],
@@ -41,7 +42,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
 
                 if (v) {
 
-                    let preview = createStepGraphics({
+                    let preview = new StepGraphics({
                         type: "run",
                         waypoints: v.path,
                         description: ""

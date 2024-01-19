@@ -31,9 +31,8 @@ import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
 import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
 import hbox = C.hbox;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
-import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import * as leaflet from "leaflet"
-import {createStepGraphics, PathingGraphics} from "../path_graphics";
+import {PathingGraphics} from "../path_graphics";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
@@ -47,6 +46,7 @@ import {FavouriteIcon, NislIcon} from "../nisl";
 import MethodSelector from "./MethodSelector";
 import PathControl from "./PathControl";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
+import {PathGraphics} from "../pathing/PathGraphics";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -334,12 +334,12 @@ class ScanTreeSolvingControl extends Behaviour {
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
             new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.layer)
-            PathingGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.layer)
+            PathGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.layer)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.forEach(c => {
-            PathingGraphics.renderPath(c.value.raw.path).setOpacity(0.5).addTo(this.layer)
+            PathGraphics.renderPath(c.value.raw.path).setOpacity(0.5).addTo(this.layer)
             if (c.value.raw.region) new ScanRegionPolygon(c.value.raw.region).setOpacity(0.5).addTo(this.layer)
         })
     }

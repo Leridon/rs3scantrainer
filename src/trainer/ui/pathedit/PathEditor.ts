@@ -185,10 +185,12 @@ class StepEditWidget extends Widget {
                 props.named("Where", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
                             preview_render: tile => new StepGraphics({
-                                type: "powerburst",
-                                description: "",
-                                where: tile,
-                            })
+                                    type: "powerburst",
+                                    description: "",
+                                    where: tile,
+                                },
+                                this.parent.getMap().getTeleportLayer().teleports
+                            )
                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the redclick by clicking the tile.`))
                             .onStart(() => this.value.value().associated_preview?.setOpacity(0))
                             .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
@@ -472,7 +474,7 @@ class PathEditorGameLayer extends GameLayer {
                 // TODO: Run here
 
                 {
-                    this.getMap().getTeleportLayer().teleports
+                    this.getMap().getTeleportLayer().teleports.getAll()
                         .filter(t => Vector2.max_axis(Vector2.sub(t.spot, event.coordinates)) < 2)
                         .forEach(t => {
                             event.add({
@@ -599,7 +601,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
     constructor(private meta: {
         target?: TileRectangle,
         start_state?: movement_state,
-        preview_layer?: leaflet.LayerGroup
+        preview_layer?: GameLayer
     } = {}) {
         super();
 
@@ -638,7 +640,8 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         }
 
         if (this.meta.preview_layer) {
-            value.associated_preview = new StepGraphics(value.raw).addTo(this.meta.preview_layer)
+            value.associated_preview = new StepGraphics(value.raw,
+                this.meta.preview_layer.getMap().getTeleportLayer().teleports).addTo(this.meta.preview_layer)
         }
     }
 

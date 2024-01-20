@@ -4,7 +4,7 @@ import {LayerGroup} from "leaflet";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
 import {TileMarker} from "./TileMarker";
 import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
-import GameEntity from "./GameEntity";
+import {GameEntity} from "./GameEntity";
 
 export default class GameLayer extends leaflet.FeatureGroup {
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()

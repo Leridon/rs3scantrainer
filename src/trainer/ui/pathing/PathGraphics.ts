@@ -7,10 +7,16 @@ import {arrow, createX} from "../path_graphics";
 import InteractionType = Path.InteractionType;
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameEntity} from "../../../lib/gamemap/GameEntity";
+import TeleportIcon from "../widgets/TeleportIcon";
+import {Teleports} from "../../../lib/runescape/teleports";
+import ManagedTeleportData = Teleports.ManagedTeleportData;
+import {TeleportMapIcon} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
 
 export class StepGraphics extends GameEntity {
 
-    constructor(private step: Path.step) {
+    constructor(private step: Path.step,
+                private teleport_data: ManagedTeleportData
+    ) {
         super()
 
         this.render()
@@ -80,6 +86,13 @@ export class StepGraphics extends GameEntity {
 
                 break;
             case "teleport":
+                let teleport = this.teleport_data.get2(step.id)
+
+                leaflet.marker(Vector2.toLatLong(teleport.spot), {
+                    icon: new TeleportMapIcon(teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
+                    riseOnHover: true
+                }).addTo(this)
+
                 break;
             case "redclick":
 
@@ -155,10 +168,10 @@ export class StepGraphics extends GameEntity {
 
 export namespace PathGraphics {
 
-    export function renderPath(path: Path.step[]): OpacityGroup {
+    export function renderPath(path: Path.step[], teleports: ManagedTeleportData): OpacityGroup {
         let group = new OpacityGroup()
 
-        for (let step of path) new StepGraphics(step).addTo(group)
+        for (let step of path) new StepGraphics(step, teleports).addTo(group)
 
         return group
     }

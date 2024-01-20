@@ -251,10 +251,10 @@ export class Application extends Behaviour {
         this.map_widget = new GameMapWidget(map_widget.container)
         this.map = this.map_widget.map
 
-        this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+        this.map.setTeleportLayer(new TeleportLayer(this.data.teleports))
 
         this.data.teleports.on("refreshed", (t) => {
-            this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
+            this.map.setTeleportLayer(new TeleportLayer(this.data.teleports))
         })
 
         this.main_behaviour.set(new NeoSolvingBehaviour(this))

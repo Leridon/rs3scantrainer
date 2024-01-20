@@ -128,12 +128,14 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
             // Draw the necessary preview
             this._preview_arrow = (
                 okay ? new StepGraphics({
-                        type: "ability",
-                        ability: this.ability,
-                        description: "",
-                        from: from,
-                        to: to
-                    })
+                            type: "ability",
+                            ability: this.ability,
+                            description: "",
+                            from: from,
+                            to: to
+                        },
+                        this.getMap().getTeleportLayer().teleports
+                    )
                     : arrow(from, to).setStyle({
                         weight: 3,
                         color: "red"

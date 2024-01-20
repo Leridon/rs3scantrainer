@@ -373,7 +373,7 @@ export default class PathControl extends Behaviour {
 
         this.path_layer.clearLayers()
         this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
-            return new StepGraphics(step).addTo(this.path_layer)
+            return new StepGraphics(step, this.parent.app.data.teleports).addTo(this.path_layer)
         })
 
         this.renderWidget(section_id)

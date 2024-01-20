@@ -8,7 +8,7 @@ export default class PlacePowerburstInteraction extends ValueInteraction<Path.st
 
     constructor() {
         super({
-            preview_render: (s) => new StepGraphics(s)
+            preview_render: (s) => new StepGraphics(s, this.getMap().getTeleportLayer().teleports)
         });
 
         new SelectTileInteraction()

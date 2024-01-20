@@ -139,17 +139,17 @@ class ScanTreeSolvingLayer extends ScanLayer {
         // Render pathing with appropriate opacity
         this.path_graphics.clearLayers()
 
-        PathGraphics.renderPath(node.raw.path).setOpacity(1).addTo(this.path_graphics)
+        PathGraphics.renderPath(node.raw.path, this.getMap().getTeleportLayer().teleports).setOpacity(1).addTo(this.path_graphics)
         if (node.raw.region) new ScanRegionPolygon(node.raw.region).setOpacity(1).addTo(this.path_graphics)
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
             new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.path_graphics)
-            PathGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.path_graphics)
+            PathGraphics.renderPath(n.raw.path, this.getMap().getTeleportLayer().teleports).setOpacity(0.2).addTo(this.path_graphics)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.filter(c => c.value.remaining_candidates.length == 1).forEach(c => {
-            PathGraphics.renderPath(c.value.raw.path).setOpacity(0.5).addTo(this.path_graphics)
+            PathGraphics.renderPath(c.value.raw.path, this.getMap().getTeleportLayer().teleports).setOpacity(0.5).addTo(this.path_graphics)
         })
 
         /*

@@ -6,6 +6,7 @@ import {C} from "../../ui/constructors";
 import {OpacityGroup} from "../layers/OpacityLayer";
 import div = C.div;
 import img = C.img;
+import ManagedTeleportData = Teleports.ManagedTeleportData;
 
 class TeleportEntity extends GameEntity {
 
@@ -14,19 +15,15 @@ class TeleportEntity extends GameEntity {
         this.render()
     }
 
-    protected render_implementation() {
-        let highlighted = this.highlighted.value()
-
-        c().text(this.teleport.hover)
-
+    protected render_implementation(options: GameEntity.RenderOptions) {
         leaflet.marker(Vector2.toLatLong(this.teleport.spot), {
-            icon: new TeleportIcon(this.teleport, highlighted ? "ctr-map-teleport-icon-highlighted" : null),
+            icon: new TeleportMapIcon(this.teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
             riseOnHover: true
         }).addTo(this)
     }
 }
 
-class TeleportIcon extends leaflet.DivIcon {
+export class TeleportMapIcon extends leaflet.DivIcon {
     constructor(tele: Teleports.flat_teleport, cls: string = undefined) {
         let i = img(`./assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`)
 
@@ -50,10 +47,10 @@ class TeleportIcon extends leaflet.DivIcon {
 
 export class TeleportLayer extends OpacityGroup {
 
-    constructor(public teleports: Teleports.flat_teleport[]) {
+    constructor(public teleports: ManagedTeleportData) {
         super()
 
-        for (let tele of teleports) {
+        for (let tele of teleports.getAll()) {
             new TeleportEntity(tele).setHighlightable(true).addTo(this)
         }
     }

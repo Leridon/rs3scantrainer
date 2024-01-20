@@ -43,10 +43,12 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                 if (v) {
 
                     let preview = new StepGraphics({
-                        type: "run",
-                        waypoints: v.path,
-                        description: ""
-                    })
+                            type: "run",
+                            waypoints: v.path,
+                            description: ""
+                        },
+                        this.getMap().getTeleportLayer().teleports
+                    )
 
                     if (v.no_path_to) {
                         arrow(index(v.path, -1), v.no_path_to).setStyle({

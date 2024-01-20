@@ -4,66 +4,22 @@ import {MovementAbilities} from "../../../lib/runescape/movement";
 import * as leaflet from "leaflet";
 import {Vector2} from "../../../lib/math";
 import {arrow, createX} from "../path_graphics";
-import {observe} from "../../../lib/reactive";
 import InteractionType = Path.InteractionType;
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
+import {GameEntity} from "../../../lib/gamemap/GameEntity";
 
-export class StepGraphics extends OpacityGroup {
-    private rendering: boolean = false
-
-    highlighted = observe(false)
-    highlightable: boolean = false
+export class StepGraphics extends GameEntity {
 
     constructor(private step: Path.step) {
         super()
 
-        this.highlighted.subscribe((v) => {
-            this.render()
-        })
-
-        this.on("mouseover", () => {
-            if (!this.rendering && this.highlightable) this.highlighted.set(true)
-        })
-
-        this.on("mouseout", () => {
-            if (!this.rendering) this.highlighted.set(false)
-        })
-
         this.render()
     }
 
-    setHighlightable(v: boolean): this {
-        this.highlightable = v
-
-        if (this.highlightable) this.highlighted.set(false)
-
-        return this
-    }
-
-    public isVisual(): boolean {
-        switch (this.step.type) {
-            case "orientation":
-            case "teleport":
-                return false
-            case "ability":
-            case "run":
-            case "interaction":
-            case "redclick":
-            case "powerburst":
-            case "shortcut_v2":
-                return true
-        }
-    }
-
-    private render() {
-        this.rendering = true
-
+    protected override render_implementation(options: GameEntity.RenderOptions) {
         const cls = "ctr-step-graphics"
 
-        this.clearLayers()
-
         const step = this.step
-        const highlighted = this.highlighted.value()
 
         switch (step.type) {
             case "orientation":
@@ -79,7 +35,7 @@ export class StepGraphics extends OpacityGroup {
                 arrow(step.from, step.to)
                     .setStyle({
                         color: meta[step.ability].color,
-                        weight: highlighted ? 6 : 4,
+                        weight: options.highlight ? 6 : 4,
                         interactive: true,
                         className: cls
                     }).addTo(this)
@@ -87,8 +43,8 @@ export class StepGraphics extends OpacityGroup {
                 leaflet.marker(Vector2.toLatLong(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
                     icon: leaflet.icon({
                         iconUrl: meta[step.ability].icon,
-                        iconSize: highlighted ? [36, 36] : [24, 24],
-                        iconAnchor: highlighted ? [18, 18] : [12, 12],
+                        iconSize: options.highlight ? [36, 36] : [24, 24],
+                        iconAnchor: options.highlight ? [18, 18] : [12, 12],
                         className: cls
                     })
                 }).addTo(this)
@@ -110,14 +66,14 @@ export class StepGraphics extends OpacityGroup {
                     lines.map((t) => t.map(Vector2.toLatLong)),
                     {
                         color: "#b4b4b4",
-                        weight: highlighted ? 6 : 4,
+                        weight: options.highlight ? 6 : 4,
                         className: cls
                     }
                 ).addTo(this)
 
                 createX(step.waypoints[step.waypoints.length - 1],
                     "yellow",
-                    highlighted ? 30 : 20,
+                    options.highlight ? 30 : 20,
                     "ctr-step-graphics"
                 )
                     .addTo(this)
@@ -128,15 +84,15 @@ export class StepGraphics extends OpacityGroup {
             case "redclick":
 
                 createX(step.where, "red",
-                    highlighted ? 30 : 20,
+                    options.highlight ? 30 : 20,
                     "ctr-step-graphics"
                 ).addTo(this)
 
                 leaflet.marker(Vector2.toLatLong(step.where), {
                     icon: leaflet.icon({
                         iconUrl: InteractionType.meta(step.how).icon_url,
-                        iconSize: highlighted ? [42, 48] : [28, 31],
-                        iconAnchor: highlighted ? [6, 2] : [4, 1],
+                        iconSize: options.highlight ? [42, 48] : [28, 31],
+                        iconAnchor: options.highlight ? [6, 2] : [4, 1],
                         className: cls
                     })
                 }).addTo(this)
@@ -147,8 +103,8 @@ export class StepGraphics extends OpacityGroup {
                 leaflet.marker(Vector2.toLatLong(step.where), {
                     icon: leaflet.icon({
                         iconUrl: "assets/icons/accel.png",
-                        iconSize: highlighted ? [26, 36] : [18, 24],
-                        iconAnchor: highlighted ? [13, 18] : [9, 12],
+                        iconSize: options.highlight ? [26, 36] : [18, 24],
+                        iconAnchor: options.highlight ? [13, 18] : [9, 12],
                         className: cls
                     })
                 }).addTo(this)
@@ -173,7 +129,7 @@ export class StepGraphics extends OpacityGroup {
                 arrow(step.assumed_start, ends_up)
                     .setStyle({
                         color: "#069334",
-                        weight: highlighted ? 6 : 4,
+                        weight: options.highlight ? 6 : 4,
                         dashArray: '10, 10',
                         className: cls
                     }).addTo(this)
@@ -181,8 +137,8 @@ export class StepGraphics extends OpacityGroup {
                 leaflet.marker(Vector2.toLatLong(TileRectangle.center(step.internal.clickable_area)), {
                     icon: leaflet.icon({
                         iconUrl: InteractionType.meta(action.cursor).icon_url,
-                        iconSize: highlighted ? [42, 48] : [28, 31],
-                        iconAnchor: highlighted ? [6, 2] : [4, 1],
+                        iconSize: options.highlight ? [42, 48] : [28, 31],
+                        iconAnchor: options.highlight ? [6, 2] : [4, 1],
                         className: cls
                     }),
                 }).addTo(this)
@@ -194,13 +150,10 @@ export class StepGraphics extends OpacityGroup {
             interactive: true,
             className: "ctr-step-graphics"
         })
-
-        this.rendering = false
     }
 }
 
 export namespace PathGraphics {
-
 
     export function renderPath(path: Path.step[]): OpacityGroup {
         let group = new OpacityGroup()

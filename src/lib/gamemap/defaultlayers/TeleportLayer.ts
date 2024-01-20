@@ -1,45 +1,60 @@
 import * as leaflet from "leaflet"
 import {Vector2} from "../../math";
 import {Teleports} from "../../runescape/teleports";
+import {GameEntity} from "../GameEntity";
+import {C} from "../../ui/constructors";
+import {OpacityGroup} from "../layers/OpacityLayer";
+import div = C.div;
+import img = C.img;
 
-class TeleportIcon extends leaflet.Icon {
-    constructor(public options: leaflet.IconOptions & { teleport: Teleports.flat_teleport }) {
-        super(options);
+class TeleportEntity extends GameEntity {
+
+    constructor(public teleport: Teleports.flat_teleport) {
+        super();
+        this.render()
     }
 
-    createIcon() {
-        let el = document.createElement("div");
-        el.style.backgroundImage = `url("${this.options.iconUrl}")`;
-        el.classList.add("marktele");
-        if (this.options.teleport.code) {
-            el.innerText = this.options.teleport.code;
-        }
-        if (this.options.teleport.hover) {
-            el.title = this.options.teleport.hover;
-        }
-        if (typeof this.options.teleport.icon != "string") {
-            el.style.backgroundSize = `${this.options.teleport.icon.width ? this.options.teleport.icon.width + "px" : "auto"} ${this.options.teleport.icon.height ? this.options.teleport.icon.height + "px" : "auto"}`
-        }
-        return el;
-    }
+    protected render_implementation() {
+        let highlighted = this.highlighted.value()
 
-    static fromTeleport(tele: Teleports.flat_teleport): TeleportIcon {
-        return new TeleportIcon({
-            iconUrl: `./assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`,
-            teleport: tele
-        })
+        c().text(this.teleport.hover)
+
+        leaflet.marker(Vector2.toLatLong(this.teleport.spot), {
+            icon: new TeleportIcon(this.teleport, highlighted ? "ctr-map-teleport-icon-highlighted" : null),
+            riseOnHover: true
+        }).addTo(this)
     }
 }
 
-export class TeleportLayer extends leaflet.FeatureGroup {
+class TeleportIcon extends leaflet.DivIcon {
+    constructor(tele: Teleports.flat_teleport, cls: string = undefined) {
+        let i = img(`./assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`)
+
+        if (typeof tele.icon != "string") {
+            i.css2({
+                "width": tele.icon.width ? tele.icon.width + "px" : "auto",
+                "height": tele.icon.height ? tele.icon.height + "px" : "auto",
+            })
+        }
+
+        super({
+            iconSize: [0, 0],
+            iconAnchor: [0, 0],
+            html: div(
+                i,
+                tele.code ? c().text(tele.code) : undefined
+            ).addClass("ctr-map-teleport-icon").addClass(cls).raw()
+        });
+    }
+}
+
+export class TeleportLayer extends OpacityGroup {
 
     constructor(public teleports: Teleports.flat_teleport[]) {
         super()
 
         for (let tele of teleports) {
-            leaflet.marker(Vector2.toLatLong(tele.spot), {
-                icon: TeleportIcon.fromTeleport(tele)
-            }).addTo(this)
+            new TeleportEntity(tele).setHighlightable(true).addTo(this)
         }
     }
 }

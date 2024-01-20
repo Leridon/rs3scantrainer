@@ -47,6 +47,7 @@ import MethodSelector from "./MethodSelector";
 import PathControl from "./PathControl";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import {PathGraphics} from "../pathing/PathGraphics";
+import inlineimg = C.inlineimg;
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -500,7 +501,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
                         w.append(c().addClass("ctr-neosolving-solution-row")
                             .append(
-                                c("<img src='assets/icons/cursor_talk.png'>"),
+                                inlineimg("assets/icons/cursor_talk.png"),
                                 span("Talk to "),
                                 C.npc(sol.npc, true)
                                     .tooltip("Click to center")
@@ -524,7 +525,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
                         if (sol.key && settings.searches.key_solution) {
                             w.append(c().addClass("ctr-neosolving-solution-row").append(
-                                c("<img src='assets/icons/key.png'>"),
+                                inlineimg("assets/icons/key.png"),
+                                " ",
                                 span(sol.key.answer).addClass("ctr-clickable").on("click", () => {
                                     this.layer.fit(sol.key.area)
                                 }),
@@ -532,7 +534,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
                         }
 
                         w.append(c().addClass("ctr-neosolving-solution-row").append(
-                            c("<img src='assets/icons/cursor_talk.png'>"),
+                            inlineimg("assets/icons/cursor_talk.png"),
+                            " ",
                             span("Search "),
                             C.staticentity(sol.entity, true)
                                 .tooltip("Click to center")
@@ -551,7 +554,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
                         if (!settings.digs.at_all) break
 
                         w.append(c().addClass("ctr-neosolving-solution-row").append(
-                            c("<img src='assets/icons/cursor_shovel.png'>"),
+                            inlineimg("assets/icons/cursor_shovel.png"),
+                            " ",
                             span("Dig"),
                             sol.description
                                 ? span(" " + sol.description)
@@ -570,7 +574,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
             if (clue.type == "emote") {
                 if (settings.emotes.hidey_hole && clue.hidey_hole) {
                     w.append(c().addClass("ctr-neosolving-solution-row").append(
-                        c("<img src='assets/icons/cursor_search.png'>"),
+                        inlineimg("assets/icons/cursor_search.png"),
+                        " ",
                         span("Get items from "),
                         C.staticentity(clue.hidey_hole.name)
                             .tooltip("Click to center")
@@ -583,7 +588,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
                 if (settings.emotes.items) {
                     let row = c().addClass("ctr-neosolving-solution-row").append(
-                        c("<img src='assets/icons/cursor_equip.png'>"),
+                        inlineimg("assets/icons/cursor_equip.png"),
+                        " ",
                         span("Equip "),
                     ).appendTo(w)
 
@@ -606,7 +612,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
                 if (settings.emotes.emotes) {
                     let row = c().addClass("ctr-neosolving-solution-row").append(
-                        c("<img src='assets/icons/emotes.png'>"),
+                        inlineimg("assets/icons/emotes.png"),
+                        " ",
                     ).appendTo(w)
 
                     for (let i = 0; i < clue.emotes.length; i++) {
@@ -623,7 +630,8 @@ export default class NeoSolvingBehaviour extends Behaviour {
 
                 if (settings.emotes.double_agent && clue.double_agent) {
                     w.append(c().addClass("ctr-neosolving-solution-row").append(
-                        c("<img src='assets/icons/cursor_attack.png'>"),
+                        inlineimg("assets/icons/cursor_attack.png"),
+                        " ",
                         span("Kill "),
                         C.npc("Double Agent")
                     ))

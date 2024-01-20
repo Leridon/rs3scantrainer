@@ -1669,13 +1669,6 @@ input[type=checkbox] + span {
     border-bottom: 1px dashed grey;
 }
 
-.ctr-neosolving-solution-row > img:first-child {
-    height: 20px;
-    width: 20px;
-    margin-right: 3px;
-    align-content: center;
-}
-
 .ctr-neosolving-nextscanstep {
     font-size: 20px;
     font-weight: bold;
@@ -1807,4 +1800,24 @@ input[type=checkbox] + span {
 
 .ctr-step-properties-explanation {
     font-style: italic;
+}
+
+.ctr-map-teleport-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.ctr-map-teleport-icon-highlighted {
+    scale: 1.5
+}
+
+.ctr-map-teleport-icon > * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

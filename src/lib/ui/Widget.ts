@@ -90,7 +90,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     }
 
     addClass(cls: string): this {
-        this.container.addClass(cls)
+        if (cls) this.container.addClass(cls)
         return this
     }
 

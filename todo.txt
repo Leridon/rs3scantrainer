@@ -14,6 +14,7 @@ Planned for next release (b0.4):
 - Solving Behaviour
     - Path Panel
         - Neat step styling
+        - Focus section when selected
         - [WIP] Detail tooltip on hover
             - Finish official info
             - Add description
@@ -32,7 +33,7 @@ Planned for next release (b0.4):
             - Highlight on toggled
 
         - [Bug] Dropdown starts offset to the left
-        - [Bug] Search term input does not fill the entire width.
+        - [Bug] Search term input is larger than the bar itself.
     - Basic solution rendering on the map
         - Target marker
         - Wander ranges

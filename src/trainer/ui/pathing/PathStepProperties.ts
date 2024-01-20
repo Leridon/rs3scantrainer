@@ -1,7 +1,7 @@
 import Properties from "../widgets/Properties";
 import {Path} from "../../../lib/runescape/pathing";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
-import {direction} from "../../../lib/runescape/movement";
+import {direction, PathFinder} from "../../../lib/runescape/movement";
 import {C} from "../../../lib/ui/constructors";
 import entity = C.entity;
 import staticentity = C.staticentity;
@@ -69,7 +69,7 @@ export class PathStepProperties extends Properties {
                 let shortcut = this.step.internal
                 let action = shortcut.actions[0]
 
-                this.row(c().append(
+                this.header(c().append(
                     inlineimg(InteractionType.meta(this.step.internal.actions[0].cursor).icon_url),
                     " ",
                     action.name,
@@ -79,6 +79,16 @@ export class PathStepProperties extends Properties {
 
                 break;
             case "run":
+
+                this.header(c().append(
+                    "Run ",
+                    this.step.to_text
+                        ? this.step.to_text
+                        : `${PathFinder.pathLength(this.step.waypoints)} tiles`)
+                )
+
+                break;
+
             case "ability":
             case "teleport":
             default:

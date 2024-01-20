@@ -6,7 +6,6 @@ Planned for next release (b0.4):
     - [Bug] There appears to be a way to cause an undefined step to enter the array
     - [Bug] Fit to step/path doesnt include level
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
-    - [Bug] Context Menu and other tooltips are displayed behind controls.
     - [Bug] Path Editor throws an exception when start_state is undefined
     - Add a way to make it not closeable by the user
     - [Bug] Teleport overriding does not work
@@ -15,11 +14,16 @@ Planned for next release (b0.4):
 - Solving Behaviour
     - Path Panel
         - Neat step styling
-        - Detail tooltip on hover
-        - [WIP] Highlight render on hover
-        - [WIP] Improve contrast
-            https://css-tricks.com/adding-shadows-to-svg-icons-with-css-and-svg-filters/
+        - [WIP] Detail tooltip on hover
+            - Finish official info
+            - Add description
         - Disable default teleport render when contained in step
+            - Render step instead
+        - Cleanup using "fake" steps:
+            - Combine surges/dives following a powerburst into one "fake" step
+            - Duplicate shortcut step to exist in both sections
+            - Combine run followed by shortcut into one
+            - Clue-specific actions? Search drawers, dig, etc?
 
 
     - Search Bar

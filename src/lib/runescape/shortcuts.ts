@@ -5,6 +5,7 @@ import {TileCoordinates} from "./coordinates";
 import {direction} from "./movement";
 
 export namespace Shortcuts {
+    import entity = Path.entity;
     export type shortcut_orientation_type =
         { type: "forced", direction: direction, relative: boolean }
         | { type: "byoffset" }
@@ -24,7 +25,7 @@ export namespace Shortcuts {
 
     export type entity_shortcut = {
         type: "entity",
-        name: string,
+        entity: entity,
         clickable_area: TileRectangle,
         actions: entity_shortcut_action[]
     }
@@ -51,7 +52,7 @@ export namespace Shortcuts {
             case "northsouth":
                 return {
                     type: "entity",
-                    name: shortcut.name,
+                    entity: {kind: "static", name: shortcut.name},
                     clickable_area: {
                         topleft: Vector2.add(shortcut.area.topleft, {x: -0.5, y: 0}),
                         botright: Vector2.add(shortcut.area.botright, {x: 0.5, y: 0}),
@@ -76,7 +77,7 @@ export namespace Shortcuts {
             case "eastwest":
                 return {
                     type: "entity",
-                    name: shortcut.name,
+                    entity: {kind: "static", name: shortcut.name},
                     clickable_area: {
                         topleft: Vector2.add(shortcut.area.topleft, {x: 0, y: 0.5}),
                         botright: Vector2.add(shortcut.area.botright, {x: 0, y: -0.5}),
@@ -120,6 +121,16 @@ export namespace Shortcuts {
                 return TileRectangle.center(shortcut.clickable_area)
             case "door":
                 return TileRectangle.center(shortcut.area)
+        }
+    }
+
+    export function name(shortcut: shortcut): string {
+        switch (shortcut.type) {
+            case "entity":
+                return shortcut.entity.name
+            case "door":
+                return shortcut.name
+
         }
     }
 }

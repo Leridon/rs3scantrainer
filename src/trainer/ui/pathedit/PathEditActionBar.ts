@@ -68,7 +68,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
 
                     if (res) {
 
-                        self.editor.value.create(Path.auto_describe({
+                        self.editor.value.create(({
                             type: "ability",
                             ability: opt.ability,
                             description: "",
@@ -108,7 +108,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 }).tooltip("Redclick"),
                 powerburst: new ActionBarButton('assets/icons/accel.png', () => {
                         if (self.state.value().position?.tile) {
-                            this.editor.value.create(Path.auto_describe({
+                            this.editor.value.create(({
                                     type: "powerburst",
                                     description: "",
                                     where: self.state.value().position.tile
@@ -129,7 +129,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                             type: "basic",
                             text: direction.toString(d),
                             handler: () => {
-                                self.editor.value.create(Path.auto_describe({
+                                self.editor.value.create(({
                                     type: "orientation",
                                     description: "",
                                     direction: d

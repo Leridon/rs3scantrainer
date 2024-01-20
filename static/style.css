@@ -1799,3 +1799,12 @@ input[type=checkbox] + span {
 .no-antialiasing {
     image-rendering: pixelated; /* Universal support since 2021   */
 }
+
+.ctr-step-properties {
+    font-family: sans-serif;
+    padding: 5px;
+}
+
+.ctr-step-properties-explanation {
+    font-style: italic;
+}

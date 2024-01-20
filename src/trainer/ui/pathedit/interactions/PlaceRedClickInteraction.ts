@@ -16,9 +16,9 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
         new SelectTileInteraction()
             .onCommit((t) => {
                     if (this.interaction_type != null) {
-                        this.commit(Path.auto_describe({
+                        this.commit(({
                             type: "redclick",
-                            description: "",
+                            target:  InteractionType.defaultEntity(this.interaction_type),
                             where: t,
                             how: this.interaction_type
                         }))
@@ -30,9 +30,9 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
                                 text: i.description,
                                 icon: i.icon_url,
                                 handler: () => {
-                                    this.commit(Path.auto_describe({
+                                    this.commit(({
                                         type: "redclick",
-                                        description: "",
+                                        target:  InteractionType.defaultEntity(i.type),
                                         where: t,
                                         how: i.type
                                     }))
@@ -46,9 +46,9 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
                 }
             )
             .onPreview((t) =>
-                this.preview(Path.auto_describe({
+                this.preview(({
                         type: "redclick",
-                        description: "",
+                        target: {kind: "static", name: "Entity"},
                         where: t,
                         how: "generic"
                     })

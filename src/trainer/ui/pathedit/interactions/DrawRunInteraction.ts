@@ -197,7 +197,7 @@ export default class DrawRunInteraction extends ValueInteraction<Path.step_run> 
 
         this.internal = new DrawRunInteractionInternal()
             .onCommit(v => {
-                this.commit(Path.auto_describe({
+                this.commit(({
                     type: "run",
                     description: "",
                     waypoints: v.path

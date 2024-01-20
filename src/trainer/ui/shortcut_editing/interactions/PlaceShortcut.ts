@@ -4,7 +4,6 @@ import {Transform, Vector2} from "lib/math";
 import {TileRectangle} from "lib/runescape/coordinates";
 import {TileCoordinates} from "lib/runescape/coordinates";
 import {TileTransform} from "lib/runescape/coordinates/TileTransform";
-import {floor_t} from "lib/runescape/coordinates";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "../../../../lib/gamemap/MapEvents";
 import {ShortcutViewLayer} from "../ShortcutView";
 import InteractionTopControl from "../../map/InteractionTopControl";
@@ -119,7 +118,7 @@ export namespace PlaceShortcut {
             case "entity":
                 return {
                     type: "entity",
-                    name: s.name,
+                    entity: s.entity,
                     clickable_area: TileRectangle.transform(s.clickable_area, trans),
                     actions: s.actions.map(a => ({
                         cursor: a.cursor,

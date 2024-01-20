@@ -8,7 +8,6 @@ import {observe} from "../../../lib/reactive";
 import InteractionType = Path.InteractionType;
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 
-
 export class StepGraphics extends OpacityGroup {
     private rendering: boolean = false
 
@@ -18,7 +17,7 @@ export class StepGraphics extends OpacityGroup {
     constructor(private step: Path.step) {
         super()
 
-        this.highlighted.subscribe(() => {
+        this.highlighted.subscribe((v) => {
             this.render()
         })
 
@@ -35,7 +34,9 @@ export class StepGraphics extends OpacityGroup {
 
     setHighlightable(v: boolean): this {
         this.highlightable = v
-        if (!v) this.highlighted.set(false)
+
+        if (this.highlightable) this.highlighted.set(false)
+
         return this
     }
 

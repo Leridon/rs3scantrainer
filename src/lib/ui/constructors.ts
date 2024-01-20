@@ -72,6 +72,8 @@ export namespace C {
     }
 
     export function staticentity(name: string, clickable: boolean = false): Widget {
+        if(!name) debugger
+
         return c("<span class='nisl-entity'></span>").toggleClass("ctr-clickable", clickable).text(name)
     }
 

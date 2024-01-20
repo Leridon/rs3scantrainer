@@ -4934,7 +4934,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3066, "y": 3518}, "botright": {"x": 3070, "y": 3514}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3066, "y": 3518}, "botright": {"x": 3070, "y": 3514}, "level": 0},
+                    "description": "in Edgeville"
+                }],
                 "npc": "Oziach."
             }
         },
@@ -4949,6 +4952,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3088, "y": 3469, "level": 0},
+                "description": "next to the yew tree"
             }
         },
         {
@@ -7036,7 +7040,13 @@ export namespace clue_data {
             "text": ["Speak to Hans to solve the clue."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0},
+                        "description": "at Lumbridge Castle"
+                    }
+
+                ],
                 "npc": "Hans"
             }
         },
@@ -7608,7 +7618,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Squire Asrol",
-                "spots": [{"range": {"topleft": {"x": 2970, "y": 3346}, "botright": {"x": 2977, "y": 3339}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 2970, "y": 3346}, "botright": {"x": 2977, "y": 3339}, "level": 0}, "description": "in the couryard of the White Knight's castle"}]
             }
         },
         {
@@ -7795,7 +7805,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Hazelmere",
-                "spots": [{"range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 0},
+                    "description": "east of Yanille"
+                }],
             }
         }
     ]

@@ -98,7 +98,7 @@ export class ShortcutEdit extends Widget {
         this.body.empty()
 
         let header = hbox(
-            span(this.config.value.value().name),
+            span(Shortcuts.name(this.config.value.value())),
             spacer(),
             sibut("assets/icons/move.png", () => {
                 this.config.interaction_guard.set(new PlaceShortcut(this.config.value.value(), TileRectangle.center(Shortcuts.bounds(this.config.value.value())), null)
@@ -466,6 +466,6 @@ export class ShortcutEdit extends Widget {
             }
         }
 
-        props.appendTo(this.body        )
+        props.appendTo(this.body)
     }
 }

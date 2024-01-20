@@ -98,7 +98,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
             results.forEach(s => {
                 hbox(
-                    span(`${Vector2.toString(TileCoordinates.chunk(Shortcuts.position(s.value())))}: ${s.value().name}`),
+                    span(`${Vector2.toString(TileCoordinates.chunk(Shortcuts.position(s.value())))}: ${Shortcuts.name(s.value())}`),
                     spacer(),
                     sibut("assets/icons/edit.png", () => this.editor.editControl.shortcut.set(s)).setEnabled(!s.value().is_builtin)
                 ).appendTo(this.result_container)
@@ -143,7 +143,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
     private updateVisibleData() {
         this.visible_data_view.set(this.editor.data.get().filter(s => {
-            return s.value().name.toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.app.map.viewport.value()))
+            return Shortcuts.name(s.value()).toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.app.map.viewport.value()))
         }))
     }
 }

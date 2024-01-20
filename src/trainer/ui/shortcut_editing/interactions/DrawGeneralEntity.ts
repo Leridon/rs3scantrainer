@@ -34,7 +34,7 @@ export namespace DrawGeneralEntity {
     export function create(area: TileRectangle): Shortcuts.entity_shortcut {
         return {
             type: "entity",
-            name: "Entity",
+            entity: {kind: "static", name: "Entity"},
             clickable_area: TileRectangle.extend(area, 0.5),
             actions: [{
                 cursor: "generic",

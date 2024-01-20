@@ -16,10 +16,6 @@ export type Path = Path.raw;
 
 export namespace Path {
     import getAllFlattened = teleport_data.getAllFlattened;
-    type step_base = {
-        type: string,
-        description: string
-    }
 
     export type InteractionType =
         "generic"
@@ -107,11 +103,68 @@ export namespace Path {
         export function meta(type: InteractionType): Meta {
             return all().find(s => s.type == type)
         }
+
+        export function defaultEntity(type: InteractionType): entity {
+            switch (type) {
+                case "generic":
+                case "spellonentity":
+                case "craft":
+                case "build":
+                case "use":
+                case "cook":
+                case "divine":
+                case "picklock":
+                case "shovel":
+                case "hunt":
+                case "discover":
+                case "smith":
+                case "herblore":
+                case "burn":
+                case "pray":
+                case "runecraft":
+                    return {kind: "static", name: "Entity"}
+                case "chop":
+                    return {kind: "static", name: "Tree"}
+                case "talk":
+                case "trade":
+                case "thieve":
+                    return {kind: "npc", name: "NPC"}
+                case "attack":
+                    return {kind: "npc", name: "Monster"}
+                case "open":
+                    return {kind: "static", name: "Door"}
+                case "enter":
+                    return {kind: "static", name: "Cave"}
+                case "agility":
+                    return {kind: "static", name: "Shortcut"}
+                case "ladderdown":
+                case "ladderup":
+                    return {kind: "static", name: "Stairs"}
+                case "read":
+                    return {kind: "static", name: "Book"}
+                case "fish":
+                    return {kind: "static", name: "Fishing Spot"}
+                case "search":
+                    return {kind: "static", name: "Chest"}
+                case "mine":
+                    return {kind: "static", name: "Rock"}
+                case "loot":
+                case "equip":
+                    return {kind: "item", name: "Item"}
+            }
+        }
     }
+
+    export type EntityKind = "npc" | "static" | "item"
 
     export type entity = {
         name: string,
-        kind: "npc" | "static" | "item"
+        kind: EntityKind
+    }
+
+    type step_base = {
+        type: string,
+        description?: string
     }
 
     export type step_orientation = step_base & {
@@ -677,45 +730,6 @@ export namespace Path {
         }
 
         return "MISSING"
-    }
-
-    export function auto_description(step: step): string {
-        if (step.type === "orientation") {
-            return `Face ${direction.toString(step.direction)}`
-        } else if (step.type === "ability") {
-            let dir = direction.toString(direction.fromVector(Vector2.sub(step.to, step.from)))
-
-            switch (step.ability) {
-                case "surge":
-                    return `{{surge}} ${dir}`;
-                case "dive":
-                    return `{{dive}} ${dir}`
-                case "escape":
-                    return `{{escape}} ${dir}`
-                case "barge":
-                    return `{{barge}} ${dir}`
-            }
-        } else if (step.type === "run") {
-            return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
-        } else if (step.type === "teleport") {
-            let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
-
-            if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.sub.name}`
-            else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
-        } else if (step.type === "interaction") {
-            return "Use entrance/shortcut"; // TODO:
-        } else if (step.type == "shortcut_v2") {
-            return `${step.internal.name}: {{icon ${InteractionType.meta(step.internal.actions[0].cursor).short_icon}}} ${step.internal.actions[0].name} `
-        } else if (step.type === "redclick") {
-            return `Redclick at ${TileCoordinates.toString(step.where)}` // TODO:
-        } else if (step.type === "powerburst") {
-            return "Use {{icon accel}}"
-        }
-    }
-
-    export function auto_describe<T extends step>(step: T): T {
-        step.description = auto_description(step)
-        return step
     }
 
     export function collect_issues(path: augmented): (issue & { step?: augmented_step, path?: augmented })[] {

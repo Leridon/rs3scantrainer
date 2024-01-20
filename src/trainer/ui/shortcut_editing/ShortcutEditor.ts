@@ -14,17 +14,13 @@ import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";
 import {ShortcutViewLayer} from "./ShortcutView";
 import {PlaceShortcut} from "./interactions/PlaceShortcut";
 import {EwentHandler, Observable, ObservableArray, observe, observeArray} from "../../../lib/reactive";
-import {tap} from "lodash";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
-import {GameMap} from "../../../lib/gamemap/GameMap";
-import SidePanelControl from "../SidePanelControl";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {ShortcutEdit} from "./ShortcutEdit";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {Application} from "../../application";
-import MapSideBar from "../MapSideBar";
 
 class EditControl extends GameMapControl<ControlWithHeader> {
     private remove_handler: EwentHandler<any> = null
@@ -116,7 +112,7 @@ export class ShortcutEditGameLayer extends GameLayer {
                 let entries = ShortcutEditor.contextMenu(s, this.editor, true, event.tile())
 
                 if (shortcuts.length > 1) {
-                    event.add({type: "submenu", children: entries, text: s.value().name})
+                    event.add({type: "submenu", children: entries, text: Shortcuts.name(s.value())})
                 } else {
                     event.add(...entries)
                 }
@@ -219,7 +215,7 @@ export namespace ShortcutEditor {
         if (editable) {
             menu.push({
                 type: "basic",
-                text: `Edit ${shortcut.value().name}`,
+                text: `Edit ${Shortcuts.name(shortcut.value())}`,
                 icon: "assets/icons/edit.png",
                 handler: () => {
                     editor.editControl.shortcut.set(shortcut)
@@ -228,14 +224,14 @@ export namespace ShortcutEditor {
 
             menu.push({
                 type: "basic",
-                text: `Delete ${shortcut.value().name}`,
+                text: `Delete ${Shortcuts.name(shortcut.value())}`,
                 icon: "assets/icons/delete.png",
                 handler: () => {shortcut.remove()}
             })
 
             menu.push({
                 type: "basic",
-                text: `Move ${shortcut.value().name}`,
+                text: `Move ${Shortcuts.name(shortcut.value())}`,
                 icon: "assets/icons/move.png",
                 handler: () => {
                     editor.layer.startMove(shortcut, origin_tile)
@@ -245,7 +241,7 @@ export namespace ShortcutEditor {
 
         menu.push({
             type: "basic",
-            text: `Copy ${shortcut.value().name}`,
+            text: `Copy ${Shortcuts.name(shortcut.value())}`,
             icon: "assets/icons/copy.png",
             handler: () => {
                 editor.layer.startPlacement(shortcut.value(), origin_tile)
@@ -255,7 +251,7 @@ export namespace ShortcutEditor {
         if (!origin_tile) {
             menu.push({
                 type: "basic",
-                text: `Focus on ${shortcut.value().name}`,
+                text: `Focus on ${Shortcuts.name(shortcut.value())}`,
                 icon: "assets/icons/fullscreen.png",
                 handler: () => {editor.layer.view.center(shortcut.value())}
             })
@@ -266,7 +262,7 @@ export namespace ShortcutEditor {
 
     export function nameWithBuiltin(value: Value): string {
         return value.is_builtin
-            ? `${value.name} (builtin)`
-            : value.name
+            ? `${Shortcuts.name(value)} (builtin)`
+            : Shortcuts.name(value)
     }
 }

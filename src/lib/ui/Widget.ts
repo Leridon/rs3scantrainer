@@ -134,6 +134,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
             arrow: true,
             animation: false,
             delay: 0,
+            zIndex: 10001
         })
 
         return this

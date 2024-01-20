@@ -35,6 +35,10 @@ import index = util.index;
 import {Observable, observe} from "../../../lib/reactive";
 import {Teleports} from "../../../lib/runescape/teleports";
 import ManagedTeleportData = Teleports.ManagedTeleportData;
+import {PathStepProperties} from "../pathing/PathStepProperties";
+import TemplateResolver from "../../../lib/util/TemplateResolver";
+import * as tippy from "tippy.js";
+import {followCursor} from "tippy.js";
 
 class PathSectionControl extends Widget {
     constructor(
@@ -42,6 +46,7 @@ class PathSectionControl extends Widget {
         private current_section_id: number[],
         private teleport_data: ManagedTeleportData,
         private step_graphics: TreeArray<StepGraphics, {}>,
+        private template_resolver: TemplateResolver,
     ) {
         super()
 
@@ -111,7 +116,8 @@ class PathSectionControl extends Widget {
                 new PathSectionControl.StepRow(
                     this.teleport_data,
                     sectionindex,
-                    step
+                    step,
+                    this.template_resolver
                 )
                     .setAssociatedGraphics(graphics_node.value)
                     .appendTo(this)
@@ -132,14 +138,37 @@ namespace PathSectionControl {
         highlighted: Observable<boolean> = observe(false)
         associated_graphics: StepGraphics = null
 
+        tooltip_instance: tippy.Instance = null
+
         constructor(private teleport_data: ManagedTeleportData,
                     private section_index: number[],
-                    private step: Path.step) {
+                    private step: Path.step,
+                    private template_resolver: TemplateResolver
+        ) {
             super();
 
             this.highlighted.subscribe(v => {
                 this.toggleClass("ctr-neosolving-path-legend-highlighted", v)
                 this.associated_graphics?.highlighted?.set(v)
+
+                if (!v) this.tooltip_instance?.destroy()
+                else {
+                    let tooltip = new PathStepProperties(this.step, this.template_resolver)
+
+                    this.tooltip_instance = tippy.default(this.raw(), {
+                        content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white;padding: 3px'></div>")
+                            .append(tooltip).raw(),
+                        arrow: true,
+                        animation: false,
+                        trigger: "manual",
+                        zIndex: 10001,
+                        delay: 0,
+                        followCursor: true,
+                        plugins: [followCursor]
+                    })
+
+                    this.tooltip_instance.show()
+                }
             })
 
             const index = util.index(this.section_index, -1)
@@ -240,7 +269,7 @@ namespace PathSectionControl {
 
                     content.append(
                         action.name, " ",
-                        staticentity(shortcut.name)
+                        entity(shortcut.entity)
                     )
 
                     break;
@@ -379,6 +408,7 @@ export default class PathControl extends Behaviour {
                 active_id,
                 this.parent.app.data.teleports,
                 this.step_graphics,
+                this.parent.app.template_resolver
             )
                 .addClass("ctr-neosolving-solution-row")
                 .appendTo(w)

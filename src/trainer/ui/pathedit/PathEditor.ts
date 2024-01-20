@@ -1,6 +1,5 @@
 import * as leaflet from "leaflet";
 import Widget from "lib/ui/Widget";
-import {createStepGraphics} from "../path_graphics";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
@@ -16,7 +15,7 @@ import movement_state = Path.movement_state;
 import issue = Path.issue;
 import Behaviour from "lib/ui/Behaviour";
 import {Shortcuts} from "lib/runescape/shortcuts";
-import {Rectangle, Transform, Vector2} from "lib/math";
+import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
@@ -77,7 +76,7 @@ class StepEditWidget extends Widget {
 
         this.addClass("step-edit-component")
 
-        value.value().augmented.subscribe((v) => {
+        value.value().augmented.subscribe(v => {
             this.render(v)
         }, true)
     }
@@ -112,7 +111,7 @@ class StepEditWidget extends Widget {
 
         let issues = c().addClass("step-edit-issues").appendTo(this)
 
-        value.issues.forEach((i) => new IssueWidget(i).appendTo(issues))
+        value.issues.forEach(i => new IssueWidget(i).appendTo(issues))
 
         let props = new Properties().css2({
             "padding": "3px"
@@ -121,10 +120,10 @@ class StepEditWidget extends Widget {
         props.named("Detail",
             new TemplateStringEdit({
                 resolver: this.parent.editor.template_resolver,
-                generator: () => Path.auto_description(value.raw) // TODO
+                generator: null
             })
                 .setValue(value.raw.description)
-                .onCommit((v) => this.value.update(o => o.raw.description = v))
+                .onCommit(v => this.value.update(o => o.raw.description = v))
         )
 
         switch (value.raw.type) {
@@ -139,7 +138,7 @@ class StepEditWidget extends Widget {
 
                                 this.parent.editor.interaction_guard.set(new DrawAbilityInteraction(value.raw.ability)
                                     .setStartPosition(value.raw.from)
-                                    .onCommit(new_s => this.value.update((v) => v.raw = new_s))
+                                    .onCommit(new_s => this.value.update(v => v.raw = new_s))
                                     .onStart(() => this.value.value().associated_preview?.setOpacity(0))
                                     .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
                             })
@@ -160,7 +159,7 @@ class StepEditWidget extends Widget {
 
                                 this.parent.editor.interaction_guard.set(
                                     new PlaceRedClickInteraction(value.raw.how)
-                                        .onCommit(new_s => this.value.update((v) => {
+                                        .onCommit(new_s => this.value.update(v => {
                                             assert(v.raw.type == "redclick")
                                             v.raw.where = new_s.where
                                         }))
@@ -174,7 +173,7 @@ class StepEditWidget extends Widget {
                 props.named("Action", new InteractionSelect()
                     .setValue(value.raw.how)
                     .onSelection(how => {
-                        this.value.update((v) => {
+                        this.value.update(v => {
                             assert(v.raw.type == "redclick")
                             v.raw.how = how
                         })
@@ -185,7 +184,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Where", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                            preview_render: (tile) => new StepGraphics({
+                            preview_render: tile => new StepGraphics({
                                 type: "powerburst",
                                 description: "",
                                 where: tile,
@@ -194,8 +193,8 @@ class StepEditWidget extends Widget {
                             .onStart(() => this.value.value().associated_preview?.setOpacity(0))
                             .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
                     ))
-                    .onCommit((c) => {
-                        this.value.update((v) => {
+                    .onCommit(c => {
+                        this.value.update(v => {
                             assert(v.raw.type == "powerburst")
                             v.raw.where = c
                         })
@@ -215,7 +214,7 @@ class StepEditWidget extends Widget {
 
                                 this.parent.editor.interaction_guard.set(new DrawRunInteraction()
                                     .setStartPosition(value.raw.waypoints[0])
-                                    .onCommit(new_s => this.value.update((v) => v.raw = new_s))
+                                    .onCommit(new_s => this.value.update(v => v.raw = new_s))
                                     .onStart(() => this.value.value().associated_preview?.setOpacity(0))
                                     .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
                             })
@@ -236,7 +235,7 @@ class StepEditWidget extends Widget {
                                     assumed_start: value.raw.starts,
                                     internal: {
                                         type: "entity",
-                                        name: "Entity",
+                                        entity: InteractionType.defaultEntity(value.raw.how),
                                         clickable_area: TileRectangle.from(value.raw.where),
                                         actions: [{
                                             cursor: value.raw.how,
@@ -260,7 +259,7 @@ class StepEditWidget extends Widget {
 
             case "shortcut_v2": {
                 let body: ShortcutEdit = ShortcutEdit.forSimple(value.raw.internal, this.parent.editor.interaction_guard,
-                    (v) => {
+                    v => {
                         this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Shortcuts.bounds(v))), {maxZoom: 5})
                     })
 
@@ -287,7 +286,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Entity",
                     hbox(
-                        span(value.raw.internal.name),
+                        span(value.raw.internal.entity.name),
                         spacer(),
                         sibut("assets/icons/edit.png", () => {
                                 this.shortcut_custom_open = !this.shortcut_custom_open
@@ -321,7 +320,7 @@ class StepEditWidget extends Widget {
                 props.named("Facing", new DirectionSelect()
                     .setValue(value.raw.direction)
                     .onSelection(dir => {
-                        this.value.update((v) => {
+                        this.value.update(v => {
                             assert(v.raw.type == "orientation")
                             v.raw.direction = dir
                         })
@@ -334,7 +333,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Teleport", new TeleportSelect().setValue(current)
                     .onSelection(tele =>
-                        this.value.update((v) => {
+                        this.value.update(v => {
                             assert(v.raw.type == "teleport")
                             v.raw.id = tele.id
                         })
@@ -357,7 +356,7 @@ class StepEditWidget extends Widget {
                                 () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
                                     // preview_render: (tile) => {}
                                 }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the overriden target of the teleport by clicking a tile.")))
-                            ).onCommit((c) => {
+                            ).onCommit(c => {
                                 this.value.update(v => {
                                     assert(v.raw.type == "teleport")
                                     v.raw.spot_override = c
@@ -460,12 +459,12 @@ class PathEditorGameLayer extends GameLayer {
                         text: i.description,
                         icon: i.icon_url,
                         handler: () => {
-                            this.editor.value.create(Path.auto_describe({
+                            this.editor.value.create({
                                 type: "redclick",
-                                description: "",
+                                target: InteractionType.defaultEntity(i.type),
                                 where: event.tile(),
                                 how: i.type
-                            }))
+                            })
                         }
                     }))
                 })
@@ -482,11 +481,11 @@ class PathEditorGameLayer extends GameLayer {
                                 icon: `assets/icons/teleports/${t.icon.url}`,
                                 handler: () => {
                                     this.editor.value.add({
-                                        raw: Path.auto_describe({
+                                        raw: {
                                             type: "teleport",
                                             description: "",
                                             id: t.id,
-                                        })
+                                        }
                                     })
                                 }
                             })
@@ -500,7 +499,7 @@ class PathEditorGameLayer extends GameLayer {
                         s.actions.forEach(a => {
                             event.add({
                                 type: "basic",
-                                text: `${s.name}: ${a.name}`,
+                                text: `${s.entity.name}: ${a.name}`,
                                 icon: InteractionType.meta(a.cursor).icon_url,
                                 handler: () => {
                                     let t = this.editor.value.post_state.value()?.position?.tile
@@ -508,12 +507,12 @@ class PathEditorGameLayer extends GameLayer {
                                     let clone = lodash.cloneDeep(s)
                                     clone.actions = [lodash.cloneDeep(a)]
 
-                                    this.editor.value.create(Path.auto_describe({
+                                    this.editor.value.create({
                                         type: "shortcut_v2",
                                         assumed_start: t ? TileRectangle.clampInto(t, a.interactive_area) : TileRectangle.center(a.interactive_area),
                                         description: "",
                                         internal: clone
-                                    }))
+                                    })
                                 }
                             })
                         })
@@ -527,13 +526,13 @@ class PathEditorGameLayer extends GameLayer {
 
                         let t = this.editor.value.post_state.value()?.position?.tile
 
-                        this.editor.value.create(Path.auto_describe({
+                        this.editor.value.create({
                             type: "shortcut_v2",
                             assumed_start: t ? TileRectangle.clampInto(t, TileRectangle.extend(TileRectangle.from(event.tile()), 1)) : event.tile(),
                             description: "",
                             internal: {
                                 type: "entity",
-                                name: "Entity",
+                                entity: {kind: "static", name: "Entity"},
                                 clickable_area: TileRectangle.from(event.tile()),
                                 actions: [{
                                     cursor: "generic",
@@ -544,7 +543,7 @@ class PathEditorGameLayer extends GameLayer {
                                     orientation: {type: "byoffset"}
                                 }]
                             }
-                        }))
+                        })
                     }
                 })
             }
@@ -607,19 +606,19 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         this.post_state = this.augmented_value.map(({path}) => path?.post_state)
 
         this.element_changed.on(() => this.updateAugment())
-        this.array_changed.on((v) => this.updateAugment())
+        this.array_changed.on(v => this.updateAugment())
 
         this.element_added.on(e => this.updatePreview(e))
         this.element_removed.on(e => e.value().associated_preview?.remove())
         this.element_changed.on(e => this.updatePreview(e))
 
-        this.augmented_value.subscribe((v) => {
+        this.augmented_value.subscribe(v => {
             for (let i = 0; i < v.path.steps.length; i++) {
                 let step = v.path.steps[i]
 
                 if (step.raw.type == "shortcut_v2" && needRepairing(step.pre_state, step.raw)) {
 
-                    this._value[i].update((s) => {
+                    this._value[i].update(s => {
                         assert(s.raw.type == "shortcut_v2")
                         repairShortcutStep(step.pre_state, s.raw)
                     })

@@ -126,7 +126,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -170,7 +174,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -214,7 +222,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -258,7 +270,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -302,7 +318,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -346,7 +366,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -390,7 +414,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -434,7 +462,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -478,7 +510,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "entity",
@@ -522,7 +558,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Walk-across",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Rope bridge"
+        }
     },
     {
         "type": "door",
@@ -641,7 +681,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Ladder"
+        }
     },
     {
         "type": "entity",
@@ -712,7 +756,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Ladder"
+        }
     },
     {
         "type": "entity",
@@ -757,7 +805,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentitybefore"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Maria Gunners (Neitiznot)"
+        }
     },
     {
         "type": "entity",
@@ -802,7 +854,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Travel-Neitiznot",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Maria Gunners (Relekka)"
+        }
     },
     {
         "type": "entity",
@@ -847,7 +903,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Travel-Jatizso",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Mord Gunners (Relekka)"
+        }
     },
     {
         "type": "entity",
@@ -892,7 +952,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Travel-Relekka",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Mord Gunners (Jatizso)"
+        }
     },
     {
         "type": "door",
@@ -1011,7 +1075,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Ladder"
+        }
     },
     {
         "type": "entity",
@@ -1056,7 +1124,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentityafter"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Staircase"
+        }
     },
     {
         "type": "entity",
@@ -1101,7 +1173,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Staircase"
+        }
     },
     {
         "type": "door",
@@ -1204,7 +1280,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Ladder"
+        }
     },
     {
         "type": "entity",
@@ -1275,7 +1355,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Ladder"
+        }
     },
     {
         "type": "door",
@@ -1336,7 +1420,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentityafter"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Cave"
+        }
     },
     {
         "type": "entity",
@@ -1381,7 +1469,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Open",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stone Ladder"
+        }
     },
     {
         "type": "door",
@@ -1870,7 +1962,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -1943,7 +2039,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2016,7 +2116,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2089,7 +2193,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2162,7 +2270,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2235,7 +2347,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2308,7 +2424,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2381,7 +2501,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2454,7 +2578,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2527,7 +2655,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2600,7 +2732,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2673,7 +2809,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2746,7 +2886,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2819,7 +2963,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "entity",
@@ -2892,7 +3040,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-down",
                 "time": 2
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Stairs"
+        }
     },
     {
         "type": "door",
@@ -3091,7 +3243,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Use",
                 "time": 3
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Jutting wall"
+        }
     },
     {
         "type": "entity",
@@ -3162,7 +3318,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Use",
                 "time": 3
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Jutting wall"
+        }
     },
     {
         "type": "entity",
@@ -3233,7 +3393,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Use",
                 "time": 3
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Jutting wall"
+        }
     },
     {
         "type": "entity",
@@ -3278,7 +3442,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentitybefore"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Shady Grove"
+        }
     },
     {
         "type": "entity",
@@ -3323,7 +3491,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Enter",
                 "time": 1
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Shady opening"
+        }
     },
     {
         "type": "door",
@@ -3432,7 +3604,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentityafter"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Portal"
+        }
     },
     {
         "type": "entity",
@@ -3477,7 +3653,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentitybefore"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Chicken Shrine"
+        }
     },
     {
         "type": "entity",
@@ -3522,7 +3702,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentitybefore"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Fairy Ring"
+        }
     },
     {
         "type": "door",
@@ -3865,7 +4049,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Use",
                 "time": 5
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Ardounge wall door"
+        }
     },
     {
         "type": "door",
@@ -4488,7 +4676,11 @@ let data: Shortcuts.shortcut[] = [
                     "direction": 4
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Manhole"
+        }
     },
     {
         "type": "entity",
@@ -4535,7 +4727,11 @@ let data: Shortcuts.shortcut[] = [
                     "direction": 2
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Pipe"
+        }
     },
     {
         "type": "entity",
@@ -4580,7 +4776,11 @@ let data: Shortcuts.shortcut[] = [
                     "type": "toentitybefore"
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Mud pile"
+        }
     },
     {
         "type": "door",
@@ -4963,7 +5163,11 @@ let data: Shortcuts.shortcut[] = [
                     "direction": 1
                 }
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Lever"
+        }
     },
     {
         "type": "entity",
@@ -5010,7 +5214,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Pull",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Lever"
+        }
     },
     {
         "type": "entity",
@@ -5057,7 +5265,11 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Pull",
                 "time": 10
             }
-        ]
+        ],
+        "entity": {
+            "kind": "static",
+            "name": "Lever"
+        }
     }
 ]
 

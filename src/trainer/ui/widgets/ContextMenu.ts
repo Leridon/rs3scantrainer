@@ -233,6 +233,7 @@ namespace open_menu {
                 animation: false,
                 content: men.root_widget.raw(),
                 maxWidth: "none",
+                zIndex: 10001
             })
 
         if (!men.parent) {

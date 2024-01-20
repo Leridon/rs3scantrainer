@@ -14,8 +14,8 @@ export const default_scan_method_pack: Pack = {
             "for": {"clue": 361},
             "timestamp": 1701903764,
             "id": "4bd5ae7f-7522-4c88-8c2f-c88940433cda",
-            "name": "Zanaris Scan",
             "description": "Meta Zanaris route based on Fiery's guide.",
+            "name": "Zanaris Scan",
             "type": "scantree",
             "assumptions": {
                 "double_escape": true,
@@ -142,7 +142,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "Use {{teleport fairyring AIP}} to Zanaris",
                             "type": "teleport",
                             "id": {
                                 "group": "fairyring",
@@ -174,7 +173,6 @@ export const default_scan_method_pack: Pack = {
                             "value": {
                                 "path": [
                                     {
-                                        "description": "Use {{teleport slayercape chealdar}} to Chealdar",
                                         "type": "teleport",
                                         "id": {
                                             "group": "slayercape",
@@ -206,7 +204,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport wickedhood cosmic}}",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "wickedhood",
@@ -245,7 +242,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 2405,
                                                                     "y": 4381,
@@ -276,7 +272,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 1 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2405,
@@ -293,7 +288,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} South-East",
                                                                 "from": {
                                                                     "x": 2406,
                                                                     "y": 4380,
@@ -308,7 +302,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2416,
                                                                     "y": 4370,
@@ -339,7 +332,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 1 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2405,
@@ -356,7 +348,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} South-East",
                                                                 "from": {
                                                                     "x": 2406,
                                                                     "y": 4380,
@@ -371,7 +362,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2416,
                                                                     "y": 4370,
@@ -427,12 +417,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "Use {{surge}}",
                                                     "from": {
                                                         "x": 2449,
                                                         "y": 4434,
@@ -473,12 +461,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2453,
                                                         "y": 4447,
@@ -519,8 +505,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{icon run}}/{{surgedive}} to {{target}}",
                                             "children": []
@@ -567,12 +552,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "Use {{surge}}",
                                                     "from": {
                                                         "x": 2449,
                                                         "y": 4434,
@@ -613,12 +596,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2453,
                                                         "y": 4447,
@@ -659,8 +640,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{icon run}}/{{surgedive}} to {{target}}",
                                             "children": []
@@ -702,12 +682,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 3 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} north",
                                                     "from": {
                                                         "x": 2449,
                                                         "y": 4433,
@@ -722,7 +700,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} northeast",
                                                     "from": {
                                                         "x": 2449,
                                                         "y": 4443,
@@ -763,8 +740,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{icon run}}/{{surgedive}} to {{target}}",
                                             "children": []
@@ -799,8 +775,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 3 tiles"
-                                    }
+                                        }
                                 ],
                                 "region": {
                                     "name": "B",
@@ -826,7 +801,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport dragontrinkets black}} to Black Dragons",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "dragontrinkets",
@@ -840,10 +814,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 4356,
                                                         "level": 0
                                                     },
-                                                    "description": "Portal: {{icon cursor_enter}} Enter ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Portal",
+                                                        "entity": {"kind": "static", "name": "Portal"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 1562.5,
@@ -889,7 +862,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 5 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2453,
@@ -918,7 +890,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} northeast",
                                                     "from": {
                                                         "x": 2410,
                                                         "y": 4436,
@@ -968,12 +939,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 1 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northwest",
                                                                 "from": {
                                                                     "x": 2419,
                                                                     "y": 4445,
@@ -1011,7 +980,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2409,
@@ -1028,7 +996,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} south",
                                                                             "from": {
                                                                                 "x": 2409,
                                                                                 "y": 4453,
@@ -1042,7 +1009,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 27 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2409,
@@ -1104,7 +1070,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2419,
                                                                                 "y": 4417,
@@ -1118,7 +1083,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2409,
@@ -1135,7 +1099,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} West",
                                                                             "from": {
                                                                                 "x": 2407,
                                                                                 "y": 4407,
@@ -1150,7 +1113,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} West",
                                                                             "from": {
                                                                                 "x": 2397,
                                                                                 "y": 4407,
@@ -1164,7 +1126,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 10 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2387,
@@ -1274,8 +1235,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run to 2401 | 4451"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "run",
                                                                             "waypoints": [
@@ -1295,12 +1255,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} west",
                                                                             "from": {
                                                                                 "x": 2399,
                                                                                 "y": 4451,
@@ -1391,12 +1349,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run to 2386 | 4465"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} west",
                                                                             "from": {
                                                                                 "x": 2386,
                                                                                 "y": 4465,
@@ -1447,8 +1403,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 6 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon run}}/{{surgedive}} to {{target}}",
                                                                     "children": []
@@ -1478,12 +1433,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 1 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northwest",
                                                                 "from": {
                                                                     "x": 2419,
                                                                     "y": 4445,
@@ -1521,7 +1474,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2409,
@@ -1538,7 +1490,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South",
                                                                             "from": {
                                                                                 "x": 2409,
                                                                                 "y": 4453,
@@ -1552,7 +1503,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 27 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2409,
@@ -1614,7 +1564,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2419,
                                                                                 "y": 4417,
@@ -1645,7 +1594,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2409,
@@ -1662,7 +1610,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} West",
                                                                                         "from": {
                                                                                             "x": 2407,
                                                                                             "y": 4407,
@@ -1676,7 +1623,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 8 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2397,
@@ -1714,7 +1660,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 4 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2409,
@@ -1774,12 +1719,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 1 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southwest",
                                                                             "from": {
                                                                                 "x": 2408,
                                                                                 "y": 4454,
@@ -1817,7 +1760,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 15 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2398,
@@ -1869,7 +1811,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2390,
                                                                                             "y": 4431,
@@ -1977,8 +1918,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run to 2385 | 4447"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "{{icon run}}  to {{target}}",
                                                                                 "children": []
@@ -2001,7 +1941,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 6 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2409,
@@ -2023,7 +1962,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} North-West",
                                                                             "from": {
                                                                                 "x": 2408,
                                                                                 "y": 4461,
@@ -2037,7 +1975,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2404,
@@ -2075,7 +2012,7 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "redclick",
-                                                                            "description": "Redclick at 2413|4465|0",
+                                                                            "target": {"kind": "static", "name": "Tree"},
                                                                             "where": {
                                                                                 "x": 2413,
                                                                                 "y": 4465,
@@ -2085,7 +2022,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 6 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2409,
@@ -2107,7 +2043,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} North-East",
                                                                             "from": {
                                                                                 "x": 2408,
                                                                                 "y": 4461,
@@ -2158,12 +2093,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northwest",
                                                                 "from": {
                                                                     "x": 2418,
                                                                     "y": 4446,
@@ -2204,8 +2137,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "Go to {{target}}",
                                                         "children": []
@@ -2262,12 +2194,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run to 2426 | 4444"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 2426,
                                                                     "y": 4444,
@@ -2298,12 +2228,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 2436,
                                                                     "y": 4446,
@@ -2344,8 +2272,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "Go to {{target}}",
                                                         "children": []
@@ -2364,7 +2291,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "Use {{teleport slayercape chealdar}} to Chealdar",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "slayercape",
@@ -2410,8 +2336,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 6 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{teleport slayercape chealdar}} to {{target}}",
                                                         "children": []
@@ -2434,7 +2359,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 4 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2410,
@@ -2461,7 +2385,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2412,
                                                         "y": 4440,
@@ -2476,7 +2399,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North-West",
                                                     "from": {
                                                         "x": 2402,
                                                         "y": 4450,
@@ -2511,7 +2433,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} north",
                                         "from": {
                                             "x": 2412,
                                             "y": 4434,
@@ -2542,12 +2463,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 3 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} west",
                                         "from": {
                                             "x": 2409,
                                             "y": 4444,
@@ -2578,8 +2497,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 3 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{surgedive}} to {{target}}",
                                 "children": []
@@ -2600,7 +2518,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 2412,
                                             "y": 4434,
@@ -2648,12 +2565,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 3 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} east",
                                         "from": {
                                             "x": 2414,
                                             "y": 4434,
@@ -2668,7 +2583,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southeast",
                                         "from": {
                                             "x": 2424,
                                             "y": 4434,
@@ -2700,7 +2614,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} northeast",
                                         "from": {
                                             "x": 2412,
                                             "y": 4434,
@@ -2727,8 +2640,8 @@ export const default_scan_method_pack: Pack = {
             "timestamp": 1701903764,
             "id": "4247edeb-e2d7-4b59-903b-29a24d74f66c",
             "name": "Falador Scan",
-            "description": "Meta Falador route based on Fiery's guide and input by Mr Cob.",
             "type": "scantree",
+            "description": "Meta Falador route based on Fiery's guide.",
             "assumptions": {
                 "double_escape": true,
                 "double_surge": true,
@@ -2834,7 +2747,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "Use {{teleport normalspellbook falador}} to Falador",
                             "type": "teleport",
                             "id": {
                                 "group": "normalspellbook",
@@ -2889,12 +2801,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 3 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 2965,
                                             "y": 3376,
@@ -2931,7 +2841,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport skillsnecklace mining}} to Mining Guild",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "skillsnecklace",
@@ -3011,12 +2920,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 8 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northeast",
                                                                 "from": {
                                                                     "x": 3024,
                                                                     "y": 3337,
@@ -3031,7 +2938,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northeast",
                                                                 "from": {
                                                                     "x": 3032,
                                                                     "y": 3345,
@@ -3156,12 +3062,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 16 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 3057,
                                                                                 "y": 3364,
@@ -3232,8 +3136,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 10 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -3300,8 +3203,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run to 3050 | 3348"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon run}} to {{target}}",
                                                                     "children": []
@@ -3388,12 +3290,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 12 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 3033,
                                                                                 "y": 3364,
@@ -3439,8 +3339,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 5 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -3459,7 +3358,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport amuletofnature faladortree}} to Falador Tree Patch",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "amuletofnature",
@@ -3469,7 +3367,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} northeast",
                                                                             "from": {
                                                                                 "x": 3006,
                                                                                 "y": 3375,
@@ -3535,8 +3432,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 9 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{teleport amuletofnature faladortree}} - {{surge}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -3586,12 +3482,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run to 3020 | 3337"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 3020,
                                                                     "y": 3337,
@@ -3606,7 +3500,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 3030,
                                                                     "y": 3337,
@@ -3664,12 +3557,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 3020,
                                                                     "y": 3337,
@@ -3684,7 +3575,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} north",
                                                                 "from": {
                                                                     "x": 3030,
                                                                     "y": 3337,
@@ -3790,8 +3680,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 17 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}}  - {{surge}} - {{dive}} - {{icon run}}  to {{target}}",
                                                         "children": []
@@ -3831,12 +3720,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 3 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} southwest",
                                                     "from": {
                                                         "x": 2962,
                                                         "y": 3366,
@@ -3851,7 +3738,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southwest",
                                                     "from": {
                                                         "x": 2952,
                                                         "y": 3356,
@@ -3887,8 +3773,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 3 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "H",
@@ -3915,7 +3800,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "powerburst",
-                                                                "description": "Use {{icon accel}}",
                                                                 "where": {
                                                                     "x": 2942,
                                                                     "y": 3343,
@@ -3925,7 +3809,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} south",
                                                                 "from": {
                                                                     "x": 2942,
                                                                     "y": 3343,
@@ -3940,7 +3823,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 2942,
                                                                     "y": 3333,
@@ -3955,7 +3837,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 2952,
                                                                     "y": 3323,
@@ -3970,7 +3851,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 2962,
                                                                     "y": 3313,
@@ -4011,8 +3891,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon accel}} - {{surge}} - {{dive}} to {{target}}",
                                                         "children": []
@@ -4139,8 +4018,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 20 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}}  to {{target}}",
                                                         "children": []
@@ -4297,8 +4175,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 26 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} to {{target}}",
                                                         "children": []
@@ -4341,12 +4218,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 3 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 2965,
                                             "y": 3376,
@@ -4416,8 +4291,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 5 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "C",
@@ -4443,7 +4317,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "Use {{teleport skillsnecklace mining}} to Mining Guild",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "skillsnecklace",
@@ -4491,8 +4364,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "region": {
                                                             "name": "D",
@@ -4518,7 +4390,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport home lumbridge}} to Lumbridge",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "amuletofnature",
@@ -4528,7 +4399,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} northeast",
                                                                             "from": {
                                                                                 "x": 3006,
                                                                                 "y": 3375,
@@ -4591,8 +4461,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 6 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "region": {
                                                                         "name": "E",
@@ -4618,7 +4487,6 @@ export const default_scan_method_pack: Pack = {
                                                                             "value": {
                                                                                 "path": [
                                                                                     {
-                                                                                        "description": "Use {{teleport home lumbridge}} to Lumbridge",
                                                                                         "type": "teleport",
                                                                                         "id": {
                                                                                             "group": "davesspellbook",
@@ -4628,7 +4496,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} north",
                                                                                         "from": {
                                                                                             "x": 3006,
                                                                                             "y": 3319,
@@ -4655,7 +4522,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} southwest",
                                                                                         "from": {
                                                                                             "x": 2950,
                                                                                             "y": 3365,
@@ -4686,12 +4552,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} south",
                                                                                         "from": {
                                                                                             "x": 2940,
                                                                                             "y": 3353,
@@ -4752,12 +4616,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 8 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} south",
                                                                                         "from": {
                                                                                             "x": 2940,
                                                                                             "y": 3335,
@@ -4788,8 +4650,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "Dig at {{target}}",
                                                                                 "children": []
@@ -4840,12 +4701,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 3 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} southwest",
                                                     "from": {
                                                         "x": 2962,
                                                         "y": 3366,
@@ -4876,12 +4735,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 2950,
                                                         "y": 3356,
@@ -4934,12 +4791,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run to 2962 | 3366"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2962,
                                                         "y": 3366,
@@ -4954,7 +4809,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southwest",
                                                     "from": {
                                                         "x": 2952,
                                                         "y": 3356,
@@ -5005,8 +4859,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 6 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{icon run}} - {{dive}} - {{surge}} to {{target}}",
                                             "children": []
@@ -5043,12 +4896,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2965,
                                                         "y": 3364,
@@ -5063,7 +4914,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2965,
                                                         "y": 3354,
@@ -5114,8 +4964,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 6 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{icon run}} - {{surge}} - {{dive}} to {{target}}",
                                             "children": []
@@ -5139,7 +4988,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} west",
                                         "from": {
                                             "x": 2965,
                                             "y": 3379,
@@ -5171,7 +5019,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} west",
                                         "from": {
                                             "x": 2965,
                                             "y": 3379,
@@ -5186,7 +5033,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} northwest",
                                         "from": {
                                             "x": 2955,
                                             "y": 3379,
@@ -5218,7 +5064,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} west",
                                         "from": {
                                             "x": 2965,
                                             "y": 3379,
@@ -5233,7 +5078,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} northwest",
                                         "from": {
                                             "x": 2955,
                                             "y": 3379,
@@ -5264,8 +5108,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -5286,7 +5129,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} west",
                                         "from": {
                                             "x": 2965,
                                             "y": 3379,
@@ -5301,7 +5143,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 2955,
                                             "y": 3379,
@@ -5342,12 +5183,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 4 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 2942,
                                             "y": 3373,
@@ -5403,8 +5242,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 7 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{surge}}/{{dive}}/{{icon run}} to {{target}}",
                                 "children": []
@@ -5420,7 +5258,7 @@ export const default_scan_method_pack: Pack = {
             "timestamp": 1701903764,
             "id": "93c7a742-d1b2-40ee-b5a7-0c56be6cf4e4",
             "name": "Nardah Scan",
-            "description": "Meta Nardah route based on Fiery's guide.",
+            "description": "Meta Desert route based on Fiery's guide.",
             "type": "scantree",
             "assumptions": {
                 "double_escape": true,
@@ -5692,7 +5530,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "Use {{teleport fairyring DLQ}} to Kharidian Desert: North of Nardah",
                             "type": "teleport",
                             "id": {
                                 "group": "fairyring",
@@ -5742,12 +5579,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3421,
                                             "y": 3014,
@@ -5784,7 +5619,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport home lumbridge}} to Lumbridge",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "travellersnecklace",
@@ -5844,8 +5678,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run to 3424 | 3137"
-                                                            }
+                                                                }
                                                         ],
                                                         "region": {
                                                             "name": "F",
@@ -5871,7 +5704,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport desertamulet uzer}} to Uzer",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "desertamulet",
@@ -5937,12 +5769,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} east",
                                                                                         "from": {
                                                                                             "x": 3481,
                                                                                             "y": 3099,
@@ -5957,7 +5787,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} northeast",
                                                                                         "from": {
                                                                                             "x": 3491,
                                                                                             "y": 3099,
@@ -6005,12 +5834,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} east",
                                                                                         "from": {
                                                                                             "x": 3481,
                                                                                             "y": 3099,
@@ -6025,7 +5852,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} east",
                                                                                         "from": {
                                                                                             "x": 3491,
                                                                                             "y": 3099,
@@ -6066,8 +5892,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 4 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "{{icon run}} E - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                                                 "children": []
@@ -6086,7 +5911,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} southwest",
                                                                             "from": {
                                                                                 "x": 3424,
                                                                                 "y": 3137,
@@ -6101,7 +5925,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southwest",
                                                                             "from": {
                                                                                 "x": 3414,
                                                                                 "y": 3127,
@@ -6115,7 +5938,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "powerburst",
-                                                                            "description": "Use {{icon accel}}",
                                                                             "where": {
                                                                                 "x": 3408,
                                                                                 "y": 3121,
@@ -6125,7 +5947,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southwest",
                                                                             "from": {
                                                                                 "x": 3408,
                                                                                 "y": 3121,
@@ -6140,7 +5961,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} southwest",
                                                                             "from": {
                                                                                 "x": 3398,
                                                                                 "y": 3111,
@@ -6155,7 +5975,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southwest",
                                                                             "from": {
                                                                                 "x": 3389,
                                                                                 "y": 3102,
@@ -6170,7 +5989,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} west",
                                                                             "from": {
                                                                                 "x": 3379,
                                                                                 "y": 3092,
@@ -6185,7 +6003,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} west",
                                                                             "from": {
                                                                                 "x": 3369,
                                                                                 "y": 3092,
@@ -6241,8 +6058,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run to 3424 | 3137"
-                                                            }
+                                                                }
                                                         ],
                                                         "region": {
                                                             "name": "F",
@@ -6286,12 +6102,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southwest",
                                                                             "from": {
                                                                                 "x": 3422,
                                                                                 "y": 3135,
@@ -6328,7 +6142,6 @@ export const default_scan_method_pack: Pack = {
                                                                             "value": {
                                                                                 "path": [
                                                                                     {
-                                                                                        "description": "Use {{teleport desertamulet uzer}} to Uzer",
                                                                                         "type": "teleport",
                                                                                         "id": {
                                                                                             "group": "desertamulet",
@@ -6367,7 +6180,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} north",
                                                                                                     "from": {
                                                                                                         "x": 3479,
                                                                                                         "y": 3099,
@@ -6399,7 +6211,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} south",
                                                                                                     "from": {
                                                                                                         "x": 3479,
                                                                                                         "y": 3099,
@@ -6429,7 +6240,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 3412,
                                                                                             "y": 3125,
@@ -6467,7 +6277,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "powerburst",
-                                                                                                    "description": "Use {{icon accel}}",
                                                                                                     "where": {
                                                                                                         "x": 3412,
                                                                                                         "y": 3117,
@@ -6477,7 +6286,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} southwest",
                                                                                                     "from": {
                                                                                                         "x": 3412,
                                                                                                         "y": 3117,
@@ -6514,7 +6322,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                     "value": {
                                                                                                         "path": [
                                                                                                             {
-                                                                                                                "description": "Use {{teleport desertamulet uzer}} to Uzer",
                                                                                                                 "type": "teleport",
                                                                                                                 "id": {
                                                                                                                     "group": "desertamulet",
@@ -6524,7 +6331,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "surge",
-                                                                                                                "description": "{{surge}} southwest",
                                                                                                                 "from": {
                                                                                                                     "x": 3479,
                                                                                                                     "y": 3099,
@@ -6539,7 +6345,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "dive",
-                                                                                                                "description": "Use {{dive}}",
                                                                                                                 "from": {
                                                                                                                     "x": 3469,
                                                                                                                     "y": 3089,
@@ -6570,8 +6375,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                                         "level": 0
                                                                                                                     }
                                                                                                                 ],
-                                                                                                                "description": "Run 2 tiles"
-                                                                                                            }
+                                                                                                                }
                                                                                                         ],
                                                                                                         "directions": "{{teleport desertamulet uzer}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                                                                         "children": []
@@ -6587,7 +6391,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "surge",
-                                                                                                                "description": "{{surge}} southwest",
                                                                                                                 "from": {
                                                                                                                     "x": 3402,
                                                                                                                     "y": 3107,
@@ -6602,7 +6405,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "dive",
-                                                                                                                "description": "{{dive}} southwest",
                                                                                                                 "from": {
                                                                                                                     "x": 3392,
                                                                                                                     "y": 3097,
@@ -6633,12 +6435,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                                         "level": 0
                                                                                                                     }
                                                                                                                 ],
-                                                                                                                "description": "Run 2 tiles"
-                                                                                                            },
+                                                                                                                },
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "surge",
-                                                                                                                "description": "{{surge}} west",
                                                                                                                 "from": {
                                                                                                                     "x": 3380,
                                                                                                                     "y": 3092,
@@ -6653,7 +6453,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "dive",
-                                                                                                                "description": "{{dive}} west",
                                                                                                                 "from": {
                                                                                                                     "x": 3370,
                                                                                                                     "y": 3092,
@@ -6685,7 +6484,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "surge",
-                                                                                                                "description": "{{surge}} southwest",
                                                                                                                 "from": {
                                                                                                                     "x": 3402,
                                                                                                                     "y": 3107,
@@ -6700,7 +6498,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "surge",
-                                                                                                                "description": "{{surge}} southwest",
                                                                                                                 "from": {
                                                                                                                     "x": 3392,
                                                                                                                     "y": 3097,
@@ -6715,7 +6512,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "dive",
-                                                                                                                "description": "{{dive}} south",
                                                                                                                 "from": {
                                                                                                                     "x": 3382,
                                                                                                                     "y": 3087,
@@ -6747,7 +6543,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "dive",
-                                                                                                                "description": "{{dive}} northwest",
                                                                                                                 "from": {
                                                                                                                     "x": 3402,
                                                                                                                     "y": 3107,
@@ -6762,7 +6557,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "surge",
-                                                                                                                "description": "{{surge}} northwest",
                                                                                                                 "from": {
                                                                                                                     "x": 3392,
                                                                                                                     "y": 3117,
@@ -6777,7 +6571,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                             {
                                                                                                                 "type": "ability",
                                                                                                                 "ability": "dive",
-                                                                                                                "description": "{{dive}} west",
                                                                                                                 "from": {
                                                                                                                     "x": 3382,
                                                                                                                     "y": 3127,
@@ -6811,7 +6604,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "powerburst",
-                                                                                                    "description": "Use {{icon accel}}",
                                                                                                     "where": {
                                                                                                         "x": 3412,
                                                                                                         "y": 3117,
@@ -6821,7 +6613,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} southeast",
                                                                                                     "from": {
                                                                                                         "x": 3412,
                                                                                                         "y": 3117,
@@ -6836,7 +6627,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} southeast",
                                                                                                     "from": {
                                                                                                         "x": 3422,
                                                                                                         "y": 3107,
@@ -6867,12 +6657,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                             "level": 0
                                                                                                         }
                                                                                                     ],
-                                                                                                    "description": "Run 2 tiles"
-                                                                                                },
+                                                                                                    },
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} southeast",
                                                                                                     "from": {
                                                                                                         "x": 3434,
                                                                                                         "y": 3095,
@@ -6907,7 +6695,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} west",
                                                                                         "from": {
                                                                                             "x": 3412,
                                                                                             "y": 3125,
@@ -6948,12 +6735,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 4 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} west",
                                                                                         "from": {
                                                                                             "x": 3398,
                                                                                             "y": 3125,
@@ -6984,8 +6769,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                                                 "children": []
@@ -7006,7 +6790,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 3412,
                                                                                             "y": 3125,
@@ -7020,7 +6803,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "powerburst",
-                                                                                        "description": "Use {{icon accel}}",
                                                                                         "where": {
                                                                                             "x": 3408,
                                                                                             "y": 3115,
@@ -7030,7 +6812,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "Use {{surge}}",
                                                                                         "from": {
                                                                                             "x": 3408,
                                                                                             "y": 3115,
@@ -7045,7 +6826,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 3408,
                                                                                             "y": 3105,
@@ -7080,7 +6860,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} east",
                                                                             "from": {
                                                                                 "x": 3424,
                                                                                 "y": 3137,
@@ -7095,7 +6874,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} east",
                                                                             "from": {
                                                                                 "x": 3434,
                                                                                 "y": 3137,
@@ -7176,8 +6954,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 12 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -7198,7 +6975,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} southeast",
                                                                             "from": {
                                                                                 "x": 3424,
                                                                                 "y": 3137,
@@ -7229,12 +7005,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} south",
                                                                             "from": {
                                                                                 "x": 3434,
                                                                                 "y": 3125,
@@ -7305,8 +7079,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run to 3432 | 3105"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{dive}} - {{icon run}} S - {{surge}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -7346,8 +7119,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} to {{target}}",
                                                         "children": []
@@ -7384,12 +7156,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 3426,
                                                                     "y": 3141,
@@ -7404,7 +7174,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 3436,
                                                                     "y": 3141,
@@ -7436,7 +7205,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 3424,
                                                                     "y": 3141,
@@ -7467,8 +7235,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -7505,12 +7272,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 3426,
                                                                     "y": 3139,
@@ -7525,7 +7290,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 3436,
                                                                     "y": 3129,
@@ -7573,12 +7337,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 3426,
                                                                     "y": 3139,
@@ -7593,7 +7355,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southwest",
                                                                 "from": {
                                                                     "x": 3436,
                                                                     "y": 3129,
@@ -7625,7 +7386,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southwest",
                                                                 "from": {
                                                                     "x": 3424,
                                                                     "y": 3141,
@@ -7640,7 +7400,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northwest",
                                                                 "from": {
                                                                     "x": 3414,
                                                                     "y": 3131,
@@ -7672,7 +7431,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southwest",
                                                                 "from": {
                                                                     "x": 3424,
                                                                     "y": 3141,
@@ -7687,7 +7445,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southwest",
                                                                 "from": {
                                                                     "x": 3414,
                                                                     "y": 3131,
@@ -7719,7 +7476,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southwest",
                                                                 "from": {
                                                                     "x": 3424,
                                                                     "y": 3141,
@@ -7734,7 +7490,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} south",
                                                                 "from": {
                                                                     "x": 3414,
                                                                     "y": 3131,
@@ -7765,8 +7520,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -7787,7 +7541,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southwest",
                                                                 "from": {
                                                                     "x": 3424,
                                                                     "y": 3141,
@@ -7802,7 +7555,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southwest",
                                                                 "from": {
                                                                     "x": 3414,
                                                                     "y": 3131,
@@ -7816,7 +7568,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "powerburst",
-                                                                "description": "Use {{icon accel}}",
                                                                 "where": {
                                                                     "x": 3408,
                                                                     "y": 3121,
@@ -7826,7 +7577,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southwest",
                                                                 "from": {
                                                                     "x": 3408,
                                                                     "y": 3121,
@@ -7857,8 +7607,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{surge}} - {{dive}} - {{icon accel}} - {{surge}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -7879,7 +7628,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 3424,
                                                                     "y": 3141,
@@ -7894,7 +7642,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 3434,
                                                                     "y": 3141,
@@ -7975,8 +7722,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 12 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{dive}} - {{surge}} - {{icon run}} 12 tiles to {{target}}",
                                                         "children": []
@@ -7995,7 +7741,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} south",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 3004,
@@ -8010,7 +7755,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 2994,
@@ -8024,7 +7768,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "powerburst",
-                                                    "description": "Use {{icon accel}}",
                                                     "where": {
                                                         "x": 3411,
                                                         "y": 2984,
@@ -8034,7 +7777,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 2984,
@@ -8049,7 +7791,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} southeast",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 2974,
@@ -8080,12 +7821,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 3421,
                                                         "y": 2962,
@@ -8116,8 +7855,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{surge}} - {{icon accel}} - {{surge}}/{{dive}} to {{target}}",
                                             "children": []
@@ -8152,12 +7890,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3421,
                                             "y": 3014,
@@ -8196,7 +7932,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} east",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 3004,
@@ -8211,7 +7946,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} east",
                                                     "from": {
                                                         "x": 3421,
                                                         "y": 3004,
@@ -8225,7 +7959,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "powerburst",
-                                                    "description": "Use {{icon accel}}",
                                                     "where": {
                                                         "x": 3431,
                                                         "y": 3004,
@@ -8235,7 +7968,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} northeast",
                                                     "from": {
                                                         "x": 3431,
                                                         "y": 3004,
@@ -8250,7 +7982,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} northeast",
                                                     "from": {
                                                         "x": 3441,
                                                         "y": 3014,
@@ -8289,7 +8020,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northeast",
                                                                 "from": {
                                                                     "x": 3451,
                                                                     "y": 3024,
@@ -8304,7 +8034,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northeast",
                                                                 "from": {
                                                                     "x": 3461,
                                                                     "y": 3032,
@@ -8319,7 +8048,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northeast",
                                                                 "from": {
                                                                     "x": 3471,
                                                                     "y": 3042,
@@ -8334,7 +8062,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northwest",
                                                                 "from": {
                                                                     "x": 3481,
                                                                     "y": 3052,
@@ -8366,7 +8093,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northeast",
                                                                 "from": {
                                                                     "x": 3451,
                                                                     "y": 3024,
@@ -8381,7 +8107,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 3461,
                                                                     "y": 3034,
@@ -8396,7 +8121,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 3470,
                                                                     "y": 3024,
@@ -8426,7 +8150,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} southeast",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 3004,
@@ -8481,12 +8204,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 3421,
                                                                     "y": 2996,
@@ -8500,7 +8221,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "powerburst",
-                                                                "description": "Use {{icon accel}}",
                                                                 "where": {
                                                                     "x": 3421,
                                                                     "y": 3006,
@@ -8510,7 +8230,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} north",
                                                                 "from": {
                                                                     "x": 3421,
                                                                     "y": 3006,
@@ -8525,7 +8244,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 3422,
                                                                     "y": 3016,
@@ -8540,7 +8258,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 3422,
                                                                     "y": 3026,
@@ -8584,7 +8301,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} northwest",
                                                                             "from": {
                                                                                 "x": 3422,
                                                                                 "y": 3036,
@@ -8599,7 +8315,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} northwest",
                                                                             "from": {
                                                                                 "x": 3412,
                                                                                 "y": 3046,
@@ -8614,7 +8329,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} north",
                                                                             "from": {
                                                                                 "x": 3402,
                                                                                 "y": 3056,
@@ -8646,7 +8360,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} northeast",
                                                                             "from": {
                                                                                 "x": 3422,
                                                                                 "y": 3036,
@@ -8661,7 +8374,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} northeast",
                                                                             "from": {
                                                                                 "x": 3432,
                                                                                 "y": 3046,
@@ -8676,7 +8388,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} northeast",
                                                                             "from": {
                                                                                 "x": 3442,
                                                                                 "y": 3056,
@@ -8706,7 +8417,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 3421,
                                                                     "y": 2994,
@@ -8743,7 +8453,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport fairyring DLQ}} to Kharidian Desert: North of Nardah",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "fairyring",
@@ -8752,7 +8461,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "powerburst",
-                                                                            "description": "Use {{icon accel}}",
                                                                             "where": {
                                                                                 "x": 3423,
                                                                                 "y": 3016,
@@ -8762,7 +8470,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} north",
                                                                             "from": {
                                                                                 "x": 3423,
                                                                                 "y": 3016,
@@ -8777,7 +8484,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 3423,
                                                                                 "y": 3026,
@@ -8808,12 +8514,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} northwest",
                                                                             "from": {
                                                                                 "x": 3421,
                                                                                 "y": 3038,
@@ -8828,7 +8532,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} east",
                                                                             "from": {
                                                                                 "x": 3411,
                                                                                 "y": 3048,
@@ -8870,7 +8573,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "powerburst",
-                                                                            "description": "Use {{icon accel}}",
                                                                             "where": {
                                                                                 "x": 3431,
                                                                                 "y": 2984,
@@ -8880,7 +8582,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southeast",
                                                                             "from": {
                                                                                 "x": 3431,
                                                                                 "y": 2984,
@@ -8895,7 +8596,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} south",
                                                                             "from": {
                                                                                 "x": 3441,
                                                                                 "y": 2974,
@@ -8931,8 +8631,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 3 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon accel}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -8952,7 +8651,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "powerburst",
-                                                                            "description": "Use {{icon accel}}",
                                                                             "where": {
                                                                                 "x": 3431,
                                                                                 "y": 2984,
@@ -8962,7 +8660,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} southwest",
                                                                             "from": {
                                                                                 "x": 3431,
                                                                                 "y": 2984,
@@ -8977,7 +8674,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southwest",
                                                                             "from": {
                                                                                 "x": 3421,
                                                                                 "y": 2974,
@@ -8992,7 +8688,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} southeast",
                                                                             "from": {
                                                                                 "x": 3411,
                                                                                 "y": 2964,
@@ -9023,7 +8718,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "powerburst",
-                                                                            "description": "Use {{icon accel}}",
                                                                             "where": {
                                                                                 "x": 3431,
                                                                                 "y": 2984,
@@ -9033,7 +8727,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southeast",
                                                                             "from": {
                                                                                 "x": 3431,
                                                                                 "y": 2984,
@@ -9048,7 +8741,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} south",
                                                                             "from": {
                                                                                 "x": 3441,
                                                                                 "y": 2974,
@@ -9063,7 +8755,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} south",
                                                                             "from": {
                                                                                 "x": 3441,
                                                                                 "y": 2964,
@@ -9094,8 +8785,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon accel}} - {{surge}} - {{dive}} - {{surge}} to {{target}}",
                                                                     "children": []
@@ -9119,7 +8809,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 3421,
                                                                     "y": 2994,
@@ -9210,8 +8899,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 14 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{surge}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -9232,7 +8920,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 3421,
                                                                     "y": 2994,
@@ -9246,7 +8933,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "powerburst",
-                                                                "description": "Use {{icon accel}}",
                                                                 "where": {
                                                                     "x": 3431,
                                                                     "y": 2984,
@@ -9256,7 +8942,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southeast",
                                                                 "from": {
                                                                     "x": 3431,
                                                                     "y": 2984,
@@ -9271,7 +8956,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 3441,
                                                                     "y": 2974,
@@ -9306,7 +8990,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} northwest",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 3004,
@@ -9337,12 +9020,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} northwest",
                                                     "from": {
                                                         "x": 3399,
                                                         "y": 3016,
@@ -9383,8 +9064,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -9405,7 +9085,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} northwest",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 3004,
@@ -9436,12 +9115,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 3399,
                                                         "y": 3014,
@@ -9492,8 +9169,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 6 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}}  to {{target}}",
                                             "children": []
@@ -9514,7 +9190,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} northwest",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 3004,
@@ -9545,12 +9220,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 3399,
                                                         "y": 3014,
@@ -9601,8 +9274,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 6 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{icon run}} - {{surge}} - {{icon run}}  to {{target}}",
                                             "children": []
@@ -9623,7 +9295,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} southeast",
                                                     "from": {
                                                         "x": 3411,
                                                         "y": 3004,
@@ -9654,12 +9325,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southeast",
                                                     "from": {
                                                         "x": 3423,
                                                         "y": 2992,
@@ -9720,8 +9389,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 8 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -9745,7 +9413,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} north",
                                         "from": {
                                             "x": 3423,
                                             "y": 3016,
@@ -9777,7 +9444,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 3423,
                                             "y": 3016,
@@ -9808,8 +9474,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{dive}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -9830,7 +9495,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 3423,
                                             "y": 3016,
@@ -9845,7 +9509,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3417,
                                             "y": 3013,
@@ -9877,7 +9540,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 3423,
                                             "y": 3016,
@@ -9892,7 +9554,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3413,
                                             "y": 3006,
@@ -9923,12 +9584,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} west",
                                         "from": {
                                             "x": 3401,
                                             "y": 2996,
@@ -9954,8 +9613,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 1 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -9992,12 +9650,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 3423,
                                             "y": 3014,
@@ -10028,12 +9684,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3421,
                                             "y": 3002,
@@ -10048,7 +9702,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 3411,
                                             "y": 2992,
@@ -10096,12 +9749,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 3423,
                                             "y": 3014,
@@ -10116,7 +9767,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 3423,
                                             "y": 3004,
@@ -10131,7 +9781,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} south",
                                         "from": {
                                             "x": 3423,
                                             "y": 2994,
@@ -10179,12 +9828,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 3423,
                                             "y": 3014,
@@ -10199,7 +9846,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southeast",
                                         "from": {
                                             "x": 3423,
                                             "y": 3004,
@@ -10240,8 +9886,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 4 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -10278,12 +9923,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} east",
                                         "from": {
                                             "x": 3425,
                                             "y": 3016,
@@ -10298,7 +9941,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} east",
                                         "from": {
                                             "x": 3435,
                                             "y": 3016,
@@ -10329,8 +9971,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{surge}} - {{dive}} - {{icon run}}  to {{target}}",
                                 "children": []
@@ -10367,12 +10008,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} northwest",
                                         "from": {
                                             "x": 3422,
                                             "y": 3018,
@@ -10387,7 +10026,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} north",
                                         "from": {
                                             "x": 3412,
                                             "y": 3028,
@@ -10402,7 +10040,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} north",
                                         "from": {
                                             "x": 3412,
                                             "y": 3038,
@@ -10429,7 +10066,7 @@ export const default_scan_method_pack: Pack = {
             "timestamp": 1701903764,
             "id": "fcbcfdb8-bb6f-4998-8b1c-bbe5989337ca",
             "name": "Lumbridge Swamp Cave Scan",
-            "description": "Meta Swamp cave route based on a guide by Xindrjayzda.",
+            "description": "Meta Swamp Caves route based on Fiery's guide.",
             "type": "scantree",
             "assumptions": {
                 "double_escape": true,
@@ -10506,7 +10143,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "Use {{teleport gamesnecklace tearsofguthix}} to Tears of Guthix",
                             "type": "teleport",
                             "id": {
                                 "group": "gamesnecklace",
@@ -10540,7 +10176,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 3252,
                                             "y": 9517,
@@ -10621,12 +10256,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 2
                                             }
                                         ],
-                                        "description": "Run to 3243 | 9527"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} west",
                                         "from": {
                                             "x": 3243,
                                             "y": 9527,
@@ -10681,8 +10314,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 2
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "run",
                                                     "waypoints": [
@@ -10702,12 +10334,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 2
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 3229,
                                                         "y": 9529,
@@ -10738,8 +10368,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 2
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "C",
@@ -10767,7 +10396,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "interaction",
                                                                 "ticks": 1,
-                                                                "description": "{{icon cursor_enter}} Tunnel",
                                                                 "starts": {
                                                                     "x": 3219,
                                                                     "y": 9531,
@@ -10824,7 +10452,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} northwest",
                                                                             "from": {
                                                                                 "x": 3226,
                                                                                 "y": 9542,
@@ -10839,7 +10466,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "interaction",
                                                                             "ticks": 9,
-                                                                            "description": "{{icon cursor_generic}} Jump across stepping stones",
                                                                             "where": {
                                                                                 "x": 3221,
                                                                                 "y": 9554,
@@ -10911,12 +10537,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 4 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} northeast",
                                                                                         "from": {
                                                                                             "x": 3222,
                                                                                             "y": 9560,
@@ -10957,12 +10581,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 4 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} east",
                                                                                         "from": {
                                                                                             "x": 3236,
                                                                                             "y": 9570,
@@ -10994,7 +10616,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} north",
                                                                                         "from": {
                                                                                             "x": 3221,
                                                                                             "y": 9556,
@@ -11045,12 +10666,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 6 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} northwest",
                                                                                         "from": {
                                                                                             "x": 3221,
                                                                                             "y": 9567,
@@ -11101,8 +10720,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run to 3210 | 9571"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "{{surge}}/{{icon run}} to {{target}}",
                                                                                 "children": []
@@ -11300,7 +10918,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "{{teleport normalspellbook varrock}} to Varrock",
                             "type": "teleport",
                             "id": {
                                 "group": "normalspellbook",
@@ -11350,12 +10967,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southeast",
                                         "from": {
                                             "x": 3214,
                                             "y": 3432,
@@ -11394,7 +11009,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 3224,
                                                         "y": 3422,
@@ -11409,7 +11023,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} east",
                                                     "from": {
                                                         "x": 3234,
                                                         "y": 3418,
@@ -11446,7 +11059,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "Use {{teleport home lumbridge}} to Lumbridge",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "davesspellbook",
@@ -11478,7 +11090,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport ringofwealth grandexchange}} to Grand Exchange",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "ringofwealth",
@@ -11514,8 +11125,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 4 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "region": {
                                                                         "name": "H",
@@ -11559,8 +11169,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run to 3164 | 3469"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "region": {
                                                                                     "name": "J",
@@ -11588,7 +11197,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} northeast",
                                                                                                     "from": {
                                                                                                         "x": 3164,
                                                                                                         "y": 3469,
@@ -11603,7 +11211,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} northeast",
                                                                                                     "from": {
                                                                                                         "x": 3174,
                                                                                                         "y": 3479,
@@ -11634,12 +11241,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                             "level": 0
                                                                                                         }
                                                                                                     ],
-                                                                                                    "description": "Run 2 tiles"
-                                                                                                },
+                                                                                                    },
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} northeast",
                                                                                                     "from": {
                                                                                                         "x": 3186,
                                                                                                         "y": 3490,
@@ -11653,7 +11258,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "powerburst",
-                                                                                                    "description": "Use {{icon accel}}",
                                                                                                     "where": {
                                                                                                         "x": 3196,
                                                                                                         "y": 3500,
@@ -11663,7 +11267,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} east",
                                                                                                     "from": {
                                                                                                         "x": 3196,
                                                                                                         "y": 3500,
@@ -11678,7 +11281,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} east",
                                                                                                     "from": {
                                                                                                         "x": 3206,
                                                                                                         "y": 3501,
@@ -11693,7 +11295,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} east",
                                                                                                     "from": {
                                                                                                         "x": 3216,
                                                                                                         "y": 3501,
@@ -11708,7 +11309,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} southeast",
                                                                                                     "from": {
                                                                                                         "x": 3226,
                                                                                                         "y": 3501,
@@ -11735,7 +11335,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} northeast",
                                                                                                     "from": {
                                                                                                         "x": 3164,
                                                                                                         "y": 3469,
@@ -11750,7 +11349,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} north",
                                                                                                     "from": {
                                                                                                         "x": 3174,
                                                                                                         "y": 3479,
@@ -11765,7 +11363,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} north",
                                                                                                     "from": {
                                                                                                         "x": 3174,
                                                                                                         "y": 3489,
@@ -11836,8 +11433,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                             "level": 0
                                                                                                         }
                                                                                                     ],
-                                                                                                    "description": "Run 10 tiles"
-                                                                                                }
+                                                                                                    }
                                                                                             ],
                                                                                             "directions": "Dig at {{target}}",
                                                                                             "children": []
@@ -11856,7 +11452,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} northeast",
                                                                                         "from": {
                                                                                             "x": 3162,
                                                                                             "y": 3467,
@@ -11871,7 +11466,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} northeast",
                                                                                         "from": {
                                                                                             "x": 3172,
                                                                                             "y": 3477,
@@ -11922,8 +11516,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 6 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                                                 "children": []
@@ -11944,7 +11537,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} northwest",
                                                                                         "from": {
                                                                                             "x": 3162,
                                                                                             "y": 3467,
@@ -11959,7 +11551,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} northwest",
                                                                                         "from": {
                                                                                             "x": 3152,
                                                                                             "y": 3477,
@@ -12065,8 +11656,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run to 3245 | 3459"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "region": {
                                                                         "name": "F",
@@ -12094,7 +11684,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} northwest",
                                                                                         "from": {
                                                                                             "x": 3245,
                                                                                             "y": 3459,
@@ -12125,12 +11714,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} west",
                                                                                         "from": {
                                                                                             "x": 3233,
                                                                                             "y": 3466,
@@ -12246,12 +11833,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 19 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "interaction",
                                                                                         "ticks": 1,
-                                                                                        "description": "Use entrance/shortcut",
                                                                                         "starts": {
                                                                                             "x": 3215,
                                                                                             "y": 3476,
@@ -12273,7 +11858,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} north",
                                                                                         "from": {
                                                                                             "x": 3215,
                                                                                             "y": 3477,
@@ -12304,8 +11888,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "Dig at {{target}}",
                                                                                 "children": []
@@ -12342,12 +11925,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} north",
                                                                                         "from": {
                                                                                             "x": 3245,
                                                                                             "y": 3461,
@@ -12362,7 +11943,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} northwest",
                                                                                         "from": {
                                                                                             "x": 3245,
                                                                                             "y": 3471,
@@ -12435,12 +12015,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southwest",
                                                     "from": {
                                                         "x": 3221,
                                                         "y": 3419,
@@ -12455,7 +12033,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} south",
                                                     "from": {
                                                         "x": 3211,
                                                         "y": 3409,
@@ -12493,7 +12070,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "powerburst",
-                                                                "description": "Use {{icon accel}}",
                                                                 "where": {
                                                                     "x": 3211,
                                                                     "y": 3399,
@@ -12503,7 +12079,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 3211,
                                                                     "y": 3399,
@@ -12534,12 +12109,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 3223,
                                                                     "y": 3389,
@@ -12554,7 +12127,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 3233,
                                                                     "y": 3389,
@@ -12692,8 +12264,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 20 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} to {{target}}",
                                                         "children": []
@@ -12790,8 +12361,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 14 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} to {{target}}",
                                                         "children": []
@@ -12811,7 +12381,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "powerburst",
-                                                                "description": "Use {{icon accel}}",
                                                                 "where": {
                                                                     "x": 3211,
                                                                     "y": 3399,
@@ -12821,7 +12390,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} south",
                                                                 "from": {
                                                                     "x": 3211,
                                                                     "y": 3399,
@@ -12852,12 +12420,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 3213,
                                                                     "y": 3387,
@@ -12872,7 +12438,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 3223,
                                                                     "y": 3383,
@@ -12921,12 +12486,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southeast",
                                         "from": {
                                             "x": 3214,
                                             "y": 3432,
@@ -12963,7 +12526,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport home lumbridge}} to Lumbridge",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "archteleport",
@@ -12995,7 +12557,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "Use {{teleport home lumbridge}} to Lumbridge",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "ringofwealth",
@@ -13005,7 +12566,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northeast",
                                                                 "from": {
                                                                     "x": 3162,
                                                                     "y": 3463,
@@ -13036,12 +12596,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 3174,
                                                                     "y": 3473,
@@ -13073,7 +12631,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} west",
                                                                 "from": {
                                                                     "x": 3181,
                                                                     "y": 3417,
@@ -13105,7 +12662,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southwest",
                                                                 "from": {
                                                                     "x": 3181,
                                                                     "y": 3417,
@@ -13136,8 +12692,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -13156,7 +12711,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southeast",
                                                     "from": {
                                                         "x": 3224,
                                                         "y": 3422,
@@ -13193,7 +12747,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "{{teleport normalspellbook varrock}} to Varrock",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "normalspellbook",
@@ -13203,7 +12756,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} north",
                                                                 "from": {
                                                                     "x": 3212,
                                                                     "y": 3433,
@@ -13314,8 +12866,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run to 3213 | 3461"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{teleport normalspellbook varrock}} - {{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -13329,7 +12880,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "Use {{teleport home lumbridge}} to Lumbridge",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "davesspellbook",
@@ -13339,7 +12889,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northwest",
                                                                 "from": {
                                                                     "x": 3254,
                                                                     "y": 3449,
@@ -13387,12 +12936,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 3233,
                                                                     "y": 3411,
@@ -13463,8 +13010,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 10 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} - {{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -13514,12 +13060,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run to 3221 | 3419"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southwest",
                                                     "from": {
                                                         "x": 3221,
                                                         "y": 3419,
@@ -13534,7 +13078,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} west",
                                                     "from": {
                                                         "x": 3211,
                                                         "y": 3409,
@@ -13566,7 +13109,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 3224,
                                                         "y": 3422,
@@ -13581,7 +13123,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "Use {{surge}}",
                                                     "from": {
                                                         "x": 3222,
                                                         "y": 3415,
@@ -13612,8 +13153,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -13634,7 +13174,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southeast",
                                                     "from": {
                                                         "x": 3224,
                                                         "y": 3422,
@@ -13649,7 +13188,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} southwest",
                                                     "from": {
                                                         "x": 3234,
                                                         "y": 3412,
@@ -13700,12 +13238,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southeast",
                                         "from": {
                                             "x": 3214,
                                             "y": 3432,
@@ -13720,7 +13256,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} northeast",
                                         "from": {
                                             "x": 3224,
                                             "y": 3422,
@@ -13781,8 +13316,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 8 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{icon run}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -13834,12 +13368,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 5 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 3207,
                                             "y": 3431,
@@ -13902,12 +13434,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 5 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 3213,
                                             "y": 3428,
@@ -13922,7 +13452,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3206,
                                             "y": 3422,
@@ -13953,8 +13482,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{icon run}} - {{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -14092,7 +13620,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "Use {{teleport fairyring ALQ}} to Morytania: Haunted Woods east of Canifis",
                             "type": "teleport",
                             "id": {
                                 "group": "fairyring",
@@ -14137,12 +13664,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 1 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3596,
                                             "y": 3494,
@@ -14181,7 +13706,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} west",
                                                     "from": {
                                                         "x": 3587,
                                                         "y": 3485,
@@ -14196,7 +13720,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 3577,
                                                         "y": 3484,
@@ -14301,8 +13824,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 12 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "region": {
                                                             "name": "G",
@@ -14328,7 +13850,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport fairyring ALQ}} to Morytania: Haunted Woods east of Canifis",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "fairyring",
@@ -14338,7 +13859,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} east",
                                                                             "from": {
                                                                                 "x": 3597,
                                                                                 "y": 3495,
@@ -14353,7 +13873,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} east",
                                                                             "from": {
                                                                                 "x": 3607,
                                                                                 "y": 3495,
@@ -14367,12 +13886,12 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "redclick",
-                                                                            "description": "Redclick",
                                                                             "where": {
                                                                                 "x": 3636,
                                                                                 "y": 3488,
                                                                                 "level": 0
                                                                             },
+                                                                            "target": {"kind": "static", "name": "Tree"},
                                                                             "how": "chop"
                                                                         },
                                                                         {
@@ -14429,12 +13948,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run to 3626 | 3496"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southeast",
                                                                             "from": {
                                                                                 "x": 3626,
                                                                                 "y": 3496,
@@ -14547,8 +14064,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 16 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "region": {
                                                                         "name": "H",
@@ -14575,7 +14091,7 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "redclick",
-                                                                                        "description": "Redclick",
+                                                                                        "target": {"kind": "static", "name": "Tree"},
                                                                                         "where": {
                                                                                             "x": 3527,
                                                                                             "y": 3482,
@@ -14602,12 +14118,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} northwest",
                                                                                         "from": {
                                                                                             "x": 3537,
                                                                                             "y": 3473,
@@ -14622,7 +14136,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 3528,
                                                                                             "y": 3482,
@@ -14637,7 +14150,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} north",
                                                                                         "from": {
                                                                                             "x": 3529,
                                                                                             "y": 3491,
@@ -14669,7 +14181,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} southwest",
                                                                                         "from": {
                                                                                             "x": 3539,
                                                                                             "y": 3473,
@@ -14742,12 +14253,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 7 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} southwest",
                                                                                         "from": {
                                                                                             "x": 3532,
                                                                                             "y": 3471,
@@ -14846,8 +14355,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 12 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "region": {
                                                             "name": "G",
@@ -14961,12 +14469,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run to 3550 | 3494"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} north",
                                                                             "from": {
                                                                                 "x": 3550,
                                                                                 "y": 3494,
@@ -14981,7 +14487,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 3550,
                                                                                 "y": 3504,
@@ -15099,8 +14604,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 16 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon run}} to {{target}}",
                                                                     "children": []
@@ -15200,8 +14704,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 14 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "Dig at {{target}}",
                                                         "children": []
@@ -15220,7 +14723,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 3587,
                                                         "y": 3485,
@@ -15235,7 +14737,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} northwest",
                                                     "from": {
                                                         "x": 3578,
                                                         "y": 3495,
@@ -15296,8 +14797,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 8 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -15327,12 +14827,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 1 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southwest",
                                         "from": {
                                             "x": 3596,
                                             "y": 3494,
@@ -15371,7 +14869,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} east",
                                                     "from": {
                                                         "x": 3587,
                                                         "y": 3485,
@@ -15386,7 +14883,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} east",
                                                     "from": {
                                                         "x": 3597,
                                                         "y": 3485,
@@ -15551,8 +15047,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 24 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} to {{target}}",
                                                         "children": []
@@ -15659,8 +15154,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 16 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} to {{target}}",
                                                         "children": []
@@ -15715,8 +15209,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 6 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "C",
@@ -15744,7 +15237,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northeast",
                                                                 "from": {
                                                                     "x": 3583,
                                                                     "y": 3482,
@@ -15759,7 +15251,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northeast",
                                                                 "from": {
                                                                     "x": 3593,
                                                                     "y": 3492,
@@ -15900,8 +15391,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run to 3617 | 3511"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -15917,7 +15407,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 3583,
                                                                     "y": 3482,
@@ -15972,12 +15461,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} northwest",
                                                                             "from": {
                                                                                 "x": 3589,
                                                                                 "y": 3480,
@@ -16108,8 +15595,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 22 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "Dig at {{target}}",
                                                                     "children": []
@@ -16130,7 +15616,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} southeast",
                                                                             "from": {
                                                                                 "x": 3591,
                                                                                 "y": 3478,
@@ -16181,8 +15666,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 6 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{surge}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -16206,7 +15690,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} south",
                                                                 "from": {
                                                                     "x": 3583,
                                                                     "y": 3482,
@@ -16221,7 +15704,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} south",
                                                                 "from": {
                                                                     "x": 3583,
                                                                     "y": 3476,
@@ -16253,7 +15735,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} southwest",
                                                                 "from": {
                                                                     "x": 3583,
                                                                     "y": 3482,
@@ -16268,7 +15749,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northwest",
                                                                 "from": {
                                                                     "x": 3573,
                                                                     "y": 3472,
@@ -16303,7 +15783,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} west",
                                                     "from": {
                                                         "x": 3587,
                                                         "y": 3485,
@@ -16344,8 +15823,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -16366,7 +15844,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} south",
                                                     "from": {
                                                         "x": 3587,
                                                         "y": 3485,
@@ -16427,12 +15904,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 4 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "Use {{surge}}",
                                         "from": {
                                             "x": 3593,
                                             "y": 3494,
@@ -16464,7 +15939,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} east",
                                         "from": {
                                             "x": 3597,
                                             "y": 3495,
@@ -16495,8 +15969,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{dive}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -16517,7 +15990,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} north",
                                         "from": {
                                             "x": 3597,
                                             "y": 3495,
@@ -16549,7 +16021,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} northeast",
                                         "from": {
                                             "x": 3597,
                                             "y": 3495,
@@ -16564,7 +16035,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} northeast",
                                         "from": {
                                             "x": 3601,
                                             "y": 3504,
@@ -16698,7 +16168,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "Use {{teleport teleportseed Trahaearn}} to Trahaearn",
                             "type": "teleport",
                             "id": {
                                 "group": "teleportseed",
@@ -16730,7 +16199,6 @@ export const default_scan_method_pack: Pack = {
                             "value": {
                                 "path": [
                                     {
-                                        "description": "Use {{teleport teleportseed amlodd}} to Amlodd",
                                         "type": "teleport",
                                         "id": {
                                             "group": "teleportseed",
@@ -16785,8 +16253,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 3 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "G",
@@ -16812,7 +16279,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "Use {{teleport teleportseed crwys}} to crwys",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "teleportseed",
@@ -16851,7 +16317,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} east",
                                                                             "from": {
                                                                                 "x": 2261,
                                                                                 "y": 3383,
@@ -16866,7 +16331,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "Use {{surge}}",
                                                                             "from": {
                                                                                 "x": 2264,
                                                                                 "y": 3383,
@@ -16898,7 +16362,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2261,
                                                                                 "y": 3383,
@@ -16913,7 +16376,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2261,
                                                                                 "y": 3393,
@@ -16959,12 +16421,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 5 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "interaction",
                                                                             "ticks": 1,
-                                                                            "description": "Use entrance/shortcut",
                                                                             "starts": {
                                                                                 "x": 2266,
                                                                                 "y": 3402,
@@ -17002,8 +16462,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{dive}} - {{surge}} - {{icon run}} - {{icon cursor_generic}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -17020,7 +16479,6 @@ export const default_scan_method_pack: Pack = {
                                                     "value": {
                                                         "path": [
                                                             {
-                                                                "description": "Use {{teleport teleportseed Meilyr}} to Meilyr",
                                                                 "type": "teleport",
                                                                 "id": {
                                                                     "group": "teleportseed",
@@ -17030,7 +16488,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} north",
                                                                 "from": {
                                                                     "x": 2230,
                                                                     "y": 3411,
@@ -17061,8 +16518,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{teleport teleportseed Meilyr}} - {{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -17079,7 +16535,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport teleportseed Meilyr}} to Meilyr",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "teleportseed",
@@ -17144,12 +16599,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} west",
                                                                 "from": {
                                                                     "x": 2226,
                                                                     "y": 3411,
@@ -17215,12 +16668,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 9 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 2208,
                                                                     "y": 3414,
@@ -17251,12 +16702,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northwest",
                                                                 "from": {
                                                                     "x": 2206,
                                                                     "y": 3424,
@@ -17297,8 +16746,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} - {{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -17345,12 +16793,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run to 2230 | 3415"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northwest",
                                                                 "from": {
                                                                     "x": 2230,
                                                                     "y": 3415,
@@ -17365,7 +16811,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} northwest",
                                                                 "from": {
                                                                     "x": 2227,
                                                                     "y": 3420,
@@ -17406,8 +16851,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} - {{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -17457,12 +16901,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run to 2151 | 3383"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 2151,
                                                         "y": 3383,
@@ -17477,7 +16919,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} south",
                                                     "from": {
                                                         "x": 2141,
                                                         "y": 3383,
@@ -17491,12 +16932,12 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "redclick",
-                                                    "description": "{{icon cursor_spell}} Chair",
                                                     "where": {
                                                         "x": 2131,
                                                         "y": 3384,
                                                         "level": 1
                                                     },
+                                                    "target": {"kind": "static", "name": "Desk"},
                                                     "how": "spellonentity"
                                                 },
                                                 {
@@ -17518,12 +16959,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run to 2140 | 3372"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} northwest",
                                                     "from": {
                                                         "x": 2140,
                                                         "y": 3372,
@@ -17555,7 +16994,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} west",
                                                     "from": {
                                                         "x": 2155,
                                                         "y": 3383,
@@ -17586,8 +17024,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -17606,7 +17043,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport teleportseed Ithell}} to Ithell",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "teleportseed",
@@ -17615,12 +17051,12 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "redclick",
-                                                    "description": "Redclick",
                                                     "where": {
                                                         "x": 2139,
                                                         "y": 3350,
                                                         "level": 1
                                                     },
+                                                    "target": {"kind": "static", "name": "Glass Maker"},
                                                     "how": "generic"
                                                 },
                                                 {
@@ -17647,12 +17083,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 3 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} northwest",
                                                     "from": {
                                                         "x": 2152,
                                                         "y": 3339,
@@ -17667,7 +17101,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} east",
                                                     "from": {
                                                         "x": 2142,
                                                         "y": 3349,
@@ -17697,7 +17130,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport teleportseed hefin}} to Hefin",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "teleportseed",
@@ -17733,12 +17165,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2186,
                                                         "y": 3407,
@@ -17769,12 +17199,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} west",
                                                     "from": {
                                                         "x": 2184,
                                                         "y": 3397,
@@ -17830,12 +17258,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 1
                                             }
                                         ],
-                                        "description": "Run 4 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 2231,
                                             "y": 3307,
@@ -17872,7 +17298,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport teleportseed crwys}} to crwys",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "teleportseed",
@@ -17937,12 +17362,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 2265,
                                                                     "y": 3383,
@@ -18000,12 +17423,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} south",
                                                                 "from": {
                                                                     "x": 2261,
                                                                     "y": 3379,
@@ -18071,12 +17492,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 9 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} east",
                                                                 "from": {
                                                                     "x": 2264,
                                                                     "y": 3361,
@@ -18137,12 +17556,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run to 2282 | 3361"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 2282,
                                                                     "y": 3361,
@@ -18170,7 +17587,6 @@ export const default_scan_method_pack: Pack = {
                                         "value": {
                                             "path": [
                                                 {
-                                                    "description": "Use {{teleport teleportseed iorwerth}} to Iorwerth",
                                                     "type": "teleport",
                                                     "id": {
                                                         "group": "teleportseed",
@@ -18265,8 +17681,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 10 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "run",
                                                                 "waypoints": [
@@ -18286,12 +17701,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run to 2181 | 3301"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} west",
                                                                 "from": {
                                                                     "x": 2181,
                                                                     "y": 3301,
@@ -18322,12 +17735,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} south",
                                                                 "from": {
                                                                     "x": 2171,
                                                                     "y": 3299,
@@ -18363,8 +17774,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 3 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} - {{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -18411,12 +17821,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run 4 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 2185,
                                                                     "y": 3315,
@@ -18467,8 +17875,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 1
                                                                     }
                                                                 ],
-                                                                "description": "Run to 2180 | 3322"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -18508,12 +17915,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 2219,
                                                         "y": 3298,
@@ -18554,12 +17959,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run to 2209 | 3294"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3294,
@@ -18690,8 +18093,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 22 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -18728,12 +18130,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 2219,
                                                         "y": 3298,
@@ -18774,12 +18174,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run to 2209 | 3294"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3294,
@@ -18860,8 +18258,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 12 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{icon run}} - {{surge}} - {{icon run}} - {{surge}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -18898,12 +18295,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 2219,
                                                         "y": 3298,
@@ -18944,12 +18339,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run to 2209 | 3294"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3294,
@@ -18963,7 +18356,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "powerburst",
-                                                    "description": "Use {{icon accel}}",
                                                     "where": {
                                                         "x": 2209,
                                                         "y": 3284,
@@ -18973,7 +18365,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3284,
@@ -18988,7 +18379,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3274,
@@ -19029,12 +18419,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} east",
                                                     "from": {
                                                         "x": 2223,
                                                         "y": 3268,
@@ -19049,7 +18437,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} east",
                                                     "from": {
                                                         "x": 2233,
                                                         "y": 3268,
@@ -19064,7 +18451,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} east",
                                                     "from": {
                                                         "x": 2243,
                                                         "y": 3268,
@@ -19112,12 +18498,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} west",
                                                     "from": {
                                                         "x": 2219,
                                                         "y": 3298,
@@ -19158,12 +18542,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run to 2209 | 3294"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3294,
@@ -19177,7 +18559,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "powerburst",
-                                                    "description": "Use {{icon accel}}",
                                                     "where": {
                                                         "x": 2209,
                                                         "y": 3284,
@@ -19187,7 +18568,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3284,
@@ -19202,7 +18582,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2209,
                                                         "y": 3274,
@@ -19243,12 +18622,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} east",
                                                     "from": {
                                                         "x": 2223,
                                                         "y": 3268,
@@ -19263,7 +18640,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} south",
                                                     "from": {
                                                         "x": 2233,
                                                         "y": 3268,
@@ -19324,12 +18700,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 1
                                             }
                                         ],
-                                        "description": "Run 4 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 2231,
                                             "y": 3307,
@@ -19344,7 +18718,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} southwest",
                                         "from": {
                                             "x": 2231,
                                             "y": 3297,
@@ -19397,12 +18770,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 1
                                             }
                                         ],
-                                        "description": "Run 3 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} north",
                                         "from": {
                                             "x": 2231,
                                             "y": 3314,
@@ -19417,7 +18788,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} northwest",
                                         "from": {
                                             "x": 2231,
                                             "y": 3320,
@@ -19448,8 +18818,7 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 1
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    }
+                                        }
                                 ],
                                 "directions": "{{icon run}} - {{surge}} - {{dive}} - {{icon run}} to {{target}}",
                                 "children": []
@@ -19605,7 +18974,6 @@ export const default_scan_method_pack: Pack = {
                             "value": {
                                 "path": [
                                     {
-                                        "description": "Use {{teleport spheredorgeshkaan south}} to South",
                                         "type": "teleport",
                                         "id": {
                                             "group": "spheredorgeshkaan",
@@ -19638,7 +19006,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2722,
@@ -19660,7 +19027,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2721,
                                                         "y": 5266,
@@ -19698,7 +19064,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 1 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2714,
@@ -19719,10 +19084,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5277,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Stairs",
+                                                                    "entity": {"kind": "static", "name": "Stairs"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2712.5,
@@ -19793,7 +19157,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "interaction",
                                                                             "ticks": 1,
-                                                                            "description": "Use entrance/shortcut",
                                                                             "starts": {
                                                                                 "x": 2714,
                                                                                 "y": 5281,
@@ -19837,7 +19200,6 @@ export const default_scan_method_pack: Pack = {
                                                                             "value": {
                                                                                 "path": [
                                                                                     {
-                                                                                        "description": "Use {{teleport spheredorgeshkaan north}} to North",
                                                                                         "type": "teleport",
                                                                                         "id": {
                                                                                             "group": "spheredorgeshkaan",
@@ -19858,12 +19220,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 1 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} west",
                                                                                         "from": {
                                                                                             "x": 2718,
                                                                                             "y": 5350,
@@ -19878,7 +19238,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} west",
                                                                                         "from": {
                                                                                             "x": 2709,
                                                                                             "y": 5350,
@@ -19961,12 +19320,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 10 tiles"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} northeast",
                                                                                         "from": {
                                                                                             "x": 2709,
                                                                                             "y": 5290,
@@ -20007,12 +19364,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run to 2718 | 5303"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} north",
                                                                                         "from": {
                                                                                             "x": 2718,
                                                                                             "y": 5303,
@@ -20073,12 +19428,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run to 2718 | 5321"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} northeast",
                                                                                         "from": {
                                                                                             "x": 2718,
                                                                                             "y": 5321,
@@ -20119,8 +19472,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 4 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "{{icon run}}/{{surgedive}} to {{target}}",
                                                                                 "children": []
@@ -20143,10 +19495,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 5281,
                                                                                 "level": 1
                                                                             },
-                                                                            "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Stairs",
+                                                                                "entity": {"kind": "static", "name": "Stairs"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2712.5,
@@ -20192,7 +19543,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 12 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2713,
@@ -20229,7 +19579,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2705,
                                                                                 "y": 5293,
@@ -20244,7 +19593,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2705,
                                                                                 "y": 5303,
@@ -20259,7 +19607,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2705,
                                                                                 "y": 5313,
@@ -20288,7 +19635,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 1 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2714,
@@ -20309,10 +19655,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5277,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Stairs",
+                                                                    "entity": {"kind": "static", "name": "Stairs"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2712.5,
@@ -20363,10 +19708,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5281,
                                                                     "level": 1
                                                                 },
-                                                                "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Stairs",
+                                                                    "entity": {"kind": "static", "name": "Stairs"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2712.5,
@@ -20412,7 +19756,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 9 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2713,
@@ -20479,12 +19822,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 1 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "Use {{surge}}",
                                                                             "from": {
                                                                                 "x": 2710,
                                                                                 "y": 5290,
@@ -20515,8 +19856,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "shortcut_v2",
                                                                             "assumed_start": {
@@ -20524,10 +19864,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 5292,
                                                                                 "level": 0
                                                                             },
-                                                                            "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Stairs",
+                                                                                "entity": {"kind": "static", "name": "Stairs"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2721.5,
@@ -20574,7 +19913,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2725,
                                                                                 "y": 5292,
@@ -20593,10 +19931,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 5300,
                                                                                 "level": 1
                                                                             },
-                                                                            "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Stairs",
+                                                                                "entity": {"kind": "static", "name": "Stairs"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2728.5,
@@ -20642,7 +19979,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 1 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2729,
@@ -20659,7 +19995,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} North",
                                                                             "from": {
                                                                                 "x": 2729,
                                                                                 "y": 5305,
@@ -20691,7 +20026,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} northeast",
                                                                             "from": {
                                                                                 "x": 2709,
                                                                                 "y": 5290,
@@ -20722,12 +20056,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2718,
                                                                                 "y": 5301,
@@ -20786,8 +20118,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "B",
@@ -20831,12 +20162,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} west",
                                                                 "from": {
                                                                     "x": 2724,
                                                                     "y": 5266,
@@ -20862,12 +20191,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 1 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 2714,
                                                                     "y": 5267,
@@ -20886,10 +20213,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5277,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Stairs",
+                                                                    "entity": {"kind": "static", "name": "Stairs"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2712.5,
@@ -20940,10 +20266,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5281,
                                                                     "level": 1
                                                                 },
-                                                                "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Stairs",
+                                                                    "entity": {"kind": "static", "name": "Stairs"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2712.5,
@@ -20989,7 +20314,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 7 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2713,
@@ -21006,7 +20330,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2720,
                                                                     "y": 5285,
@@ -21038,7 +20361,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} east",
                                                                 "from": {
                                                                     "x": 2726,
                                                                     "y": 5266,
@@ -21064,8 +20386,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 1 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "shortcut_v2",
                                                                 "assumed_start": {
@@ -21073,10 +20394,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5264,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Door: {{icon cursor_open}} Cross east ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Door",
+                                                                    "entity": {"kind": "static", "name": "Door"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2737,
@@ -21124,7 +20444,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} East",
                                                                 "from": {
                                                                     "x": 2738,
                                                                     "y": 5264,
@@ -21157,7 +20476,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2726,
@@ -21174,7 +20492,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2724,
                                                                     "y": 5266,
@@ -21189,7 +20506,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2714,
                                                                     "y": 5266,
@@ -21203,7 +20519,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 1 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2714,
@@ -21224,10 +20539,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5277,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Stairs",
+                                                                    "entity": {"kind": "static", "name": "Stairs"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2712.5,
@@ -21278,10 +20592,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 5281,
                                                                     "level": 1
                                                                 },
-                                                                "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Stairs",
+                                                                    "entity": {"kind": "static", "name": "Stairs"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2712.5,
@@ -21327,7 +20640,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2713,
@@ -21367,7 +20679,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} east",
                                                     "from": {
                                                         "x": 2722,
                                                         "y": 5264,
@@ -21398,7 +20709,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2722,
@@ -21420,7 +20730,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2724,
                                                         "y": 5263,
@@ -21435,7 +20744,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North-East",
                                                     "from": {
                                                         "x": 2734,
                                                         "y": 5268,
@@ -21467,7 +20775,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2722,
                                                         "y": 5264,
@@ -21486,10 +20793,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 5268,
                                                         "level": 0
                                                     },
-                                                    "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Stairs",
+                                                        "entity": {"kind": "static", "name": "Stairs"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 2721.5,
@@ -21540,10 +20846,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 5272,
                                                         "level": 1
                                                     },
-                                                    "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Stairs",
+                                                        "entity": {"kind": "static", "name": "Stairs"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 2721.5,
@@ -21589,7 +20894,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2722,
@@ -21622,7 +20926,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2722,
@@ -21644,7 +20947,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2721,
                                                         "y": 5266,
@@ -21675,7 +20977,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2722,
@@ -21697,7 +20998,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2721,
                                                         "y": 5266,
@@ -21711,7 +21011,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 1 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2714,
@@ -21732,10 +21031,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 5277,
                                                         "level": 0
                                                     },
-                                                    "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Stairs",
+                                                        "entity": {"kind": "static", "name": "Stairs"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 2712.5,
@@ -21786,10 +21084,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 5281,
                                                         "level": 1
                                                     },
-                                                    "description": "Stairs: {{icon cursor_ladderdown}} Climb-down ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Stairs",
+                                                        "entity": {"kind": "static", "name": "Stairs"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 2712.5,
@@ -21835,7 +21132,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2713,
@@ -21870,7 +21166,6 @@ export const default_scan_method_pack: Pack = {
                             "value": {
                                 "path": [
                                     {
-                                        "description": "Use {{teleport spheredorgeshkaan west}} to West",
                                         "type": "teleport",
                                         "id": {
                                             "group": "spheredorgeshkaan",
@@ -21935,12 +21230,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 5 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} north",
                                                     "from": {
                                                         "x": 2700,
                                                         "y": 5313,
@@ -21955,7 +21248,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} north",
                                                     "from": {
                                                         "x": 2700,
                                                         "y": 5323,
@@ -21994,7 +21286,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northeast",
                                                                 "from": {
                                                                     "x": 2700,
                                                                     "y": 5333,
@@ -22031,7 +21322,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport spheredorgeshkaan south}} to South",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "spheredorgeshkaan",
@@ -22067,8 +21357,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 4 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "shortcut_v2",
                                                                             "assumed_start": {
@@ -22076,10 +21365,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 5260,
                                                                                 "level": 0
                                                                             },
-                                                                            "description": "Stairs: {{icon cursor_ladderup}} Climb-up ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Stairs",
+                                                                                "entity": {"kind": "static", "name": "Stairs"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2721.5,
@@ -22142,12 +21430,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} east",
                                                                             "from": {
                                                                                 "x": 2724,
                                                                                 "y": 5256,
@@ -22162,7 +21448,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} southeast",
                                                                             "from": {
                                                                                 "x": 2734,
                                                                                 "y": 5256,
@@ -22187,7 +21472,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport spheredorgeshkaan east}} to East",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "spheredorgeshkaan",
@@ -22213,12 +21497,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2735,
                                                                                 "y": 5309,
@@ -22233,7 +21515,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} northeast",
                                                                             "from": {
                                                                                 "x": 2735,
                                                                                 "y": 5319,
@@ -22264,8 +21545,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{teleport spheredorgeshkaan east}} - {{surgedive}}  to {{target}}",
                                                                     "children": []
@@ -22284,7 +21564,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northeast",
                                                                 "from": {
                                                                     "x": 2700,
                                                                     "y": 5333,
@@ -22322,7 +21601,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "powerburst",
-                                                                            "description": "Use {{icon accel}}",
                                                                             "where": {
                                                                                 "x": 2707,
                                                                                 "y": 5343,
@@ -22332,7 +21610,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} north",
                                                                             "from": {
                                                                                 "x": 2707,
                                                                                 "y": 5343,
@@ -22347,7 +21624,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2707,
                                                                                 "y": 5353,
@@ -22362,7 +21638,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} east",
                                                                             "from": {
                                                                                 "x": 2707,
                                                                                 "y": 5361,
@@ -22377,7 +21652,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} east",
                                                                             "from": {
                                                                                 "x": 2717,
                                                                                 "y": 5362,
@@ -22408,12 +21682,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2727,
                                                                                 "y": 5364,
@@ -22428,7 +21700,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} east",
                                                                             "from": {
                                                                                 "x": 2727,
                                                                                 "y": 5372,
@@ -22536,8 +21807,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 14 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{icon run}} to {{target}}",
                                                                     "children": []
@@ -22561,7 +21831,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} north",
                                                                 "from": {
                                                                     "x": 2700,
                                                                     "y": 5333,
@@ -22612,8 +21881,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 3 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "G",
@@ -22641,7 +21909,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} north",
                                                                 "from": {
                                                                     "x": 2701,
                                                                     "y": 5305,
@@ -22656,7 +21923,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} north",
                                                                 "from": {
                                                                     "x": 2701,
                                                                     "y": 5315,
@@ -22693,7 +21959,6 @@ export const default_scan_method_pack: Pack = {
                                                                 "value": {
                                                                     "path": [
                                                                         {
-                                                                            "description": "Use {{teleport spheredorgeshkaan east}} to East",
                                                                             "type": "teleport",
                                                                             "id": {
                                                                                 "group": "spheredorgeshkaan",
@@ -22739,8 +22004,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 6 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{teleport spheredorgeshkaan east}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -22777,12 +22041,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} north",
                                                                             "from": {
                                                                                 "x": 2701,
                                                                                 "y": 5327,
@@ -22833,8 +22095,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 1
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 6 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{surge}} to {{target}}",
                                                                     "children": []
@@ -22858,7 +22119,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} south",
                                                                 "from": {
                                                                     "x": 2701,
                                                                     "y": 5305,
@@ -22873,7 +22133,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} south",
                                                                 "from": {
                                                                     "x": 2701,
                                                                     "y": 5295,
@@ -22908,7 +22167,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} south",
                                                     "from": {
                                                         "x": 2700,
                                                         "y": 5308,
@@ -22923,7 +22181,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} south",
                                                     "from": {
                                                         "x": 2701,
                                                         "y": 5298,
@@ -22964,8 +22221,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 1
                                                         }
                                                     ],
-                                                    "description": "Run 4 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{surgedive}} to {{target}}",
                                             "children": []
@@ -22986,7 +22242,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} north",
                                                     "from": {
                                                         "x": 2700,
                                                         "y": 5308,
@@ -23005,10 +22260,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 5317,
                                                         "level": 1
                                                     },
-                                                    "description": "Door: {{icon cursor_open}} Cross west ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Door",
+                                                        "entity": {"kind": "static", "name": "Door"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 2699,
@@ -23218,7 +22472,6 @@ export const default_scan_method_pack: Pack = {
                 "root": {
                     "path": [
                         {
-                            "description": "Use {{teleport fairyring AKQ}} to Piscatoris Hunter area",
                             "type": "teleport",
                             "id": {
                                 "group": "fairyring",
@@ -23268,12 +22521,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run 2 tiles"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southeast",
                                         "from": {
                                             "x": 2321,
                                             "y": 3617,
@@ -23328,12 +22579,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southeast",
                                                     "from": {
                                                         "x": 2333,
                                                         "y": 3605,
@@ -23364,8 +22613,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "D",
@@ -23420,8 +22668,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "region": {
                                                             "name": "E",
@@ -23449,7 +22696,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} southwest",
                                                                             "from": {
                                                                                 "x": 2347,
                                                                                 "y": 3594,
@@ -23610,8 +22856,7 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 28 tiles"
-                                                                        }
+                                                                            }
                                                                     ],
                                                                     "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                                     "children": []
@@ -23643,12 +22888,10 @@ export const default_scan_method_pack: Pack = {
                                                                                     "level": 0
                                                                                 }
                                                                             ],
-                                                                            "description": "Run 2 tiles"
-                                                                        },
+                                                                            },
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "{{dive}} northeast",
                                                                             "from": {
                                                                                 "x": 2349,
                                                                                 "y": 3596,
@@ -23703,8 +22946,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 2 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "region": {
                                                                                     "name": "G",
@@ -23731,7 +22973,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "powerburst",
-                                                                                                    "description": "Use {{icon accel}}",
                                                                                                     "where": {
                                                                                                         "x": 2359,
                                                                                                         "y": 3604,
@@ -23741,7 +22982,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "{{dive}} south",
                                                                                                     "from": {
                                                                                                         "x": 2359,
                                                                                                         "y": 3604,
@@ -23756,7 +22996,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} south",
                                                                                                     "from": {
                                                                                                         "x": 2359,
                                                                                                         "y": 3594,
@@ -23771,7 +23010,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2359,
                                                                                                         "y": 3584,
@@ -23786,7 +23024,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} south",
                                                                                                     "from": {
                                                                                                         "x": 2358,
                                                                                                         "y": 3576,
@@ -23801,7 +23038,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} south",
                                                                                                     "from": {
                                                                                                         "x": 2358,
                                                                                                         "y": 3566,
@@ -23874,8 +23110,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                             "level": 0
                                                                                                         }
                                                                                                     ],
-                                                                                                    "description": "Run to 2362 | 3596"
-                                                                                                },
+                                                                                                    },
                                                                                                 {
                                                                                                     "type": "run",
                                                                                                     "waypoints": [
@@ -23915,12 +23150,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                             "level": 0
                                                                                                         }
                                                                                                     ],
-                                                                                                    "description": "Run to 2362 | 3590"
-                                                                                                },
+                                                                                                    },
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} south",
                                                                                                     "from": {
                                                                                                         "x": 2362,
                                                                                                         "y": 3590,
@@ -23951,12 +23184,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                             "level": 0
                                                                                                         }
                                                                                                     ],
-                                                                                                    "description": "Run 2 tiles"
-                                                                                                },
+                                                                                                    },
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} south",
                                                                                                     "from": {
                                                                                                         "x": 2362,
                                                                                                         "y": 3578,
@@ -24047,12 +23278,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run to 2362 | 3617"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} northeast",
                                                                                         "from": {
                                                                                             "x": 2362,
                                                                                             "y": 3617,
@@ -24180,12 +23409,10 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run to 2370 | 3621"
-                                                                                    },
+                                                                                        },
                                                                                     {
                                                                                         "type": "interaction",
                                                                                         "ticks": 6,
-                                                                                        "description": "Use entrance/shortcut",
                                                                                         "starts": {
                                                                                             "x": 2370,
                                                                                             "y": 3621,
@@ -24207,7 +23434,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "{{dive}} south",
                                                                                         "from": {
                                                                                             "x": 2371,
                                                                                             "y": 3619,
@@ -24248,8 +23474,7 @@ export const default_scan_method_pack: Pack = {
                                                                                                 "level": 0
                                                                                             }
                                                                                         ],
-                                                                                        "description": "Run 4 tiles"
-                                                                                    }
+                                                                                        }
                                                                                 ],
                                                                                 "directions": "{{icon run}} - {{icon cursor_obstacle}} - {{dive}} - {{icon run}} to {{target}}",
                                                                                 "children": []
@@ -24290,12 +23515,10 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                },
+                                                    },
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southeast",
                                                     "from": {
                                                         "x": 2333,
                                                         "y": 3605,
@@ -24326,8 +23549,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 2 tiles"
-                                                }
+                                                    }
                                             ],
                                             "region": {
                                                 "name": "D",
@@ -24355,7 +23577,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southwest",
                                                                 "from": {
                                                                     "x": 2345,
                                                                     "y": 3593,
@@ -24486,8 +23707,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 22 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -24508,7 +23728,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southwest",
                                                                 "from": {
                                                                     "x": 2345,
                                                                     "y": 3593,
@@ -24569,8 +23788,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 8 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -24591,7 +23809,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southwest",
                                                                 "from": {
                                                                     "x": 2345,
                                                                     "y": 3593,
@@ -24652,8 +23869,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 8 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "{{dive}} - {{icon run}} to {{target}}",
                                                         "children": []
@@ -24690,12 +23906,10 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 2 tiles"
-                                                            },
+                                                                },
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} southeast",
                                                                 "from": {
                                                                     "x": 2347,
                                                                     "y": 3591,
@@ -24727,7 +23941,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "{{dive}} northeast",
                                                                 "from": {
                                                                     "x": 2345,
                                                                     "y": 3593,
@@ -24798,8 +24011,7 @@ export const default_scan_method_pack: Pack = {
                                                                         "level": 0
                                                                     }
                                                                 ],
-                                                                "description": "Run 10 tiles"
-                                                            }
+                                                                }
                                                         ],
                                                         "directions": "Dig at {{target}}",
                                                         "children": []
@@ -24820,7 +24032,7 @@ export const default_scan_method_pack: Pack = {
                                 "path": [
                                     {
                                         "type": "redclick",
-                                        "description": "Click Rabbithole",
+                                        "target": {"kind": "static", "name": "Entity"},
                                         "where": {
                                             "x": 2329,
                                             "y": 3604,
@@ -24852,12 +24064,10 @@ export const default_scan_method_pack: Pack = {
                                                 "level": 0
                                             }
                                         ],
-                                        "description": "Run to 2319 | 3616"
-                                    },
+                                        },
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} southeast",
                                         "from": {
                                             "x": 2319,
                                             "y": 3616,
@@ -24896,7 +24106,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} northeast",
                                                     "from": {
                                                         "x": 2329,
                                                         "y": 3606,
@@ -24911,7 +24120,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} northeast",
                                                     "from": {
                                                         "x": 2339,
                                                         "y": 3616,
@@ -25022,8 +24230,7 @@ export const default_scan_method_pack: Pack = {
                                                             "level": 0
                                                         }
                                                     ],
-                                                    "description": "Run 18 tiles"
-                                                }
+                                                    }
                                             ],
                                             "directions": "{{dive}} - {{surge}} - {{icon run}} to {{target}}",
                                             "children": []
@@ -25044,7 +24251,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southeast",
                                                     "from": {
                                                         "x": 2329,
                                                         "y": 3606,
@@ -25059,7 +24265,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} south",
                                                     "from": {
                                                         "x": 2339,
                                                         "y": 3596,
@@ -25091,7 +24296,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} east",
                                                     "from": {
                                                         "x": 2329,
                                                         "y": 3606,
@@ -25106,7 +24310,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} east",
                                                     "from": {
                                                         "x": 2337,
                                                         "y": 3609,
@@ -25138,7 +24341,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} southwest",
                                                     "from": {
                                                         "x": 2329,
                                                         "y": 3606,
@@ -25153,7 +24355,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} southwest",
                                                     "from": {
                                                         "x": 2319,
                                                         "y": 3596,
@@ -25188,7 +24389,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} south",
                                         "from": {
                                             "x": 2319,
                                             "y": 3619,
@@ -25203,7 +24403,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} south",
                                         "from": {
                                             "x": 2319,
                                             "y": 3611,
@@ -25235,7 +24434,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 2319,
                                             "y": 3619,
@@ -25250,7 +24448,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} northeast",
                                         "from": {
                                             "x": 2322,
                                             "y": 3622,
@@ -25282,7 +24479,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "{{dive}} north",
                                         "from": {
                                             "x": 2319,
                                             "y": 3619,
@@ -25487,7 +24683,6 @@ export const default_scan_method_pack: Pack = {
                     "path": [
                         {
                             "type": "teleport",
-                            "description": "Use {{teleport naturessentinel arcticpine}} to Arctic Pine Trees",
                             "id": {
                                 "group": "naturessentinel",
                                 "sub": "arcticpine"
@@ -25568,7 +24763,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                         "path": [
                                                                                                             {
                                                                                                                 "type": "run",
-                                                                                                                "description": "Run 24 tiles",
                                                                                                                 "waypoints": [
                                                                                                                     {
                                                                                                                         "x": 2339,
@@ -25651,7 +24845,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                         "path": [
                                                                                                             {
                                                                                                                 "type": "run",
-                                                                                                                "description": "Run 20 tiles",
                                                                                                                 "waypoints": [
                                                                                                                     {
                                                                                                                         "x": 2339,
@@ -25704,7 +24897,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2311,
                                                                                                         "y": 3787,
@@ -25719,7 +24911,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} North-East",
                                                                                                     "from": {
                                                                                                         "x": 2314,
                                                                                                         "y": 3793,
@@ -25733,7 +24924,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 4 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2324,
@@ -25764,10 +24954,9 @@ export const default_scan_method_pack: Pack = {
                                                                                                         "y": 3804,
                                                                                                         "level": 0
                                                                                                     },
-                                                                                                    "description": "Door: {{icon cursor_open}} Cross east ",
                                                                                                     "internal": {
                                                                                                         "type": "entity",
-                                                                                                        "name": "Door",
+                                                                                                        "entity": {"kind": "static", "name": "Door"},
                                                                                                         "clickable_area": {
                                                                                                             "topleft": {
                                                                                                                 "x": 2328,
@@ -25815,7 +25004,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} East",
                                                                                                     "from": {
                                                                                                         "x": 2329,
                                                                                                         "y": 3804,
@@ -25856,7 +25044,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2311,
                                                                                                         "y": 3787,
@@ -25871,7 +25058,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} North-East",
                                                                                                     "from": {
                                                                                                         "x": 2314,
                                                                                                         "y": 3793,
@@ -25885,7 +25071,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 4 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2324,
@@ -25916,10 +25101,9 @@ export const default_scan_method_pack: Pack = {
                                                                                                         "y": 3804,
                                                                                                         "level": 0
                                                                                                     },
-                                                                                                    "description": "Door: {{icon cursor_open}} Cross east ",
                                                                                                     "internal": {
                                                                                                         "type": "entity",
-                                                                                                        "name": "Door",
+                                                                                                        "entity": {"kind": "static", "name": "Door"},
                                                                                                         "clickable_area": {
                                                                                                             "topleft": {
                                                                                                                 "x": 2328,
@@ -25967,7 +25151,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} East",
                                                                                                     "from": {
                                                                                                         "x": 2329,
                                                                                                         "y": 3804,
@@ -25999,7 +25182,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2311,
                                                                                                         "y": 3787,
@@ -26014,7 +25196,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} North-East",
                                                                                                     "from": {
                                                                                                         "x": 2314,
                                                                                                         "y": 3792,
@@ -26028,7 +25209,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 2 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2324,
@@ -26049,10 +25229,9 @@ export const default_scan_method_pack: Pack = {
                                                                                                         "y": 3802,
                                                                                                         "level": 0
                                                                                                     },
-                                                                                                    "description": "Door: {{icon cursor_open}} Cross south ",
                                                                                                     "internal": {
                                                                                                         "type": "entity",
-                                                                                                        "name": "Door",
+                                                                                                        "entity": {"kind": "static", "name": "Door"},
                                                                                                         "clickable_area": {
                                                                                                             "topleft": {
                                                                                                                 "x": 2325.5,
@@ -26100,7 +25279,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} South",
                                                                                                     "from": {
                                                                                                         "x": 2326,
                                                                                                         "y": 3801,
@@ -26114,7 +25292,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 4 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2326,
@@ -26147,7 +25324,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 5 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2311,
@@ -26184,7 +25360,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} North",
                                                                                                     "from": {
                                                                                                         "x": 2313,
                                                                                                         "y": 3790,
@@ -26199,7 +25374,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2313,
                                                                                                         "y": 3798,
@@ -26213,7 +25387,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 6 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2316,
@@ -26245,7 +25418,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "teleport",
-                                                                                        "description": "Use {{teleport lyre neitiznot}} to Neitiznot",
                                                                                         "id": {
                                                                                             "group": "lyre",
                                                                                             "sub": "neitiznot"
@@ -26291,7 +25463,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 5 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2393,
@@ -26322,10 +25493,9 @@ export const default_scan_method_pack: Pack = {
                                                                                                         "y": 3799,
                                                                                                         "level": 0
                                                                                                     },
-                                                                                                    "description": "Door: {{icon cursor_open}} Cross west ",
                                                                                                     "internal": {
                                                                                                         "type": "entity",
-                                                                                                        "name": "Door",
+                                                                                                        "entity": {"kind": "static", "name": "Door"},
                                                                                                         "clickable_area": {
                                                                                                             "topleft": {
                                                                                                                 "x": 2387,
@@ -26373,7 +25543,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} West",
                                                                                                     "from": {
                                                                                                         "x": 2387,
                                                                                                         "y": 3799,
@@ -26404,7 +25573,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 5 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2393,
@@ -26435,10 +25603,9 @@ export const default_scan_method_pack: Pack = {
                                                                                                         "y": 3799,
                                                                                                         "level": 0
                                                                                                     },
-                                                                                                    "description": "Door: {{icon cursor_open}} Cross west ",
                                                                                                     "internal": {
                                                                                                         "type": "entity",
-                                                                                                        "name": "Door",
+                                                                                                        "entity": {"kind": "static", "name": "Door"},
                                                                                                         "clickable_area": {
                                                                                                             "topleft": {
                                                                                                                 "x": 2387,
@@ -26485,7 +25652,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 2 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2387,
@@ -26507,7 +25673,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} South-West",
                                                                                                     "from": {
                                                                                                         "x": 2386,
                                                                                                         "y": 3797,
@@ -26521,7 +25686,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 2 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2379,
@@ -26548,7 +25712,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2403,
@@ -26570,7 +25733,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} North-East",
                                                                                         "from": {
                                                                                             "x": 2404,
                                                                                             "y": 3784,
@@ -26584,7 +25746,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2414,
@@ -26610,10 +25771,9 @@ export const default_scan_method_pack: Pack = {
                                                                                             "y": 3796,
                                                                                             "level": 0
                                                                                         },
-                                                                                        "description": "Door: {{icon cursor_open}} Cross north ",
                                                                                         "internal": {
                                                                                             "type": "entity",
-                                                                                            "name": "Door",
+                                                                                            "entity": {"kind": "static", "name": "Door"},
                                                                                             "clickable_area": {
                                                                                                 "topleft": {
                                                                                                     "x": 2411.5,
@@ -26660,7 +25820,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 10 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2413,
@@ -26687,7 +25846,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2403,
                                                                                             "y": 3799,
@@ -26732,7 +25890,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 6 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2403,
@@ -26770,7 +25927,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2403,
@@ -26787,7 +25943,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} North-East",
                                                                                         "from": {
                                                                                             "x": 2405,
                                                                                             "y": 3784,
@@ -26801,7 +25956,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 6 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2415,
@@ -26839,7 +25993,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2403,
@@ -26861,7 +26014,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} North-East",
                                                                                         "from": {
                                                                                             "x": 2404,
                                                                                             "y": 3784,
@@ -26875,7 +26027,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2414,
@@ -26901,10 +26052,9 @@ export const default_scan_method_pack: Pack = {
                                                                                             "y": 3796,
                                                                                             "level": 0
                                                                                         },
-                                                                                        "description": "Door: {{icon cursor_open}} Cross north ",
                                                                                         "internal": {
                                                                                             "type": "entity",
-                                                                                            "name": "Door",
+                                                                                            "entity": {"kind": "static", "name": "Door"},
                                                                                             "clickable_area": {
                                                                                                 "topleft": {
                                                                                                     "x": 2411.5,
@@ -26951,7 +26101,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 6 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2413,
@@ -26973,7 +26122,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2407,
                                                                                             "y": 3798,
@@ -26993,7 +26141,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "teleport",
-                                                                            "description": "Use {{teleport lyre jatizso}} to Jatizso",
                                                                             "id": {
                                                                                 "group": "lyre",
                                                                                 "sub": "jatizso"
@@ -27041,7 +26188,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 2 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2401,
@@ -27063,7 +26209,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} South-East",
                                                                                                     "from": {
                                                                                                         "x": 2403,
                                                                                                         "y": 3859,
@@ -27077,7 +26222,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 6 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2413,
@@ -27099,7 +26243,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2419,
                                                                                                         "y": 3846,
@@ -27113,7 +26256,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 2 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2419,
@@ -27147,7 +26289,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} East",
                                                                                                     "from": {
                                                                                                         "x": 2401,
                                                                                                         "y": 3860,
@@ -27162,7 +26303,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2411,
                                                                                                         "y": 3860,
@@ -27182,7 +26322,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2375,
@@ -27199,7 +26338,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} East",
                                                                                         "from": {
                                                                                             "x": 2377,
                                                                                             "y": 3867,
@@ -27213,7 +26351,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 16 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2387,
@@ -27283,7 +26420,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} West",
                                                                                                     "from": {
                                                                                                         "x": 2374,
                                                                                                         "y": 3867,
@@ -27297,7 +26433,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "powerburst",
-                                                                                                    "description": "Use {{icon accel}}",
                                                                                                     "where": {
                                                                                                         "x": 2364,
                                                                                                         "y": 3867,
@@ -27307,7 +26442,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} West",
                                                                                                     "from": {
                                                                                                         "x": 2364,
                                                                                                         "y": 3867,
@@ -27322,7 +26456,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2354,
                                                                                                         "y": 3867,
@@ -27336,7 +26469,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 2 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2349,
@@ -27353,7 +26485,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} North",
                                                                                                     "from": {
                                                                                                         "x": 2349,
                                                                                                         "y": 3879,
@@ -27368,7 +26499,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2349,
                                                                                                         "y": 3889,
@@ -27383,7 +26513,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} East",
                                                                                                     "from": {
                                                                                                         "x": 2359,
                                                                                                         "y": 3889,
@@ -27398,7 +26527,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2369,
                                                                                                         "y": 3889,
@@ -27413,7 +26541,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} East",
                                                                                                     "from": {
                                                                                                         "x": 2379,
                                                                                                         "y": 3889,
@@ -27428,7 +26555,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2389,
                                                                                                         "y": 3889,
@@ -27443,7 +26569,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2399,
                                                                                                         "y": 3889,
@@ -27458,7 +26583,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "dive",
-                                                                                                    "description": "Use {{dive}}",
                                                                                                     "from": {
                                                                                                         "x": 2408,
                                                                                                         "y": 3887,
@@ -27484,7 +26608,6 @@ export const default_scan_method_pack: Pack = {
                                                                                             "path": [
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 2 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2374,
@@ -27501,7 +26624,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} East",
                                                                                                     "from": {
                                                                                                         "x": 2376,
                                                                                                         "y": 3867,
@@ -27515,7 +26637,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 },
                                                                                                 {
                                                                                                     "type": "run",
-                                                                                                    "description": "Run 18 tiles",
                                                                                                     "waypoints": [
                                                                                                         {
                                                                                                             "x": 2386,
@@ -27557,7 +26678,6 @@ export const default_scan_method_pack: Pack = {
                                                                                                 {
                                                                                                     "type": "ability",
                                                                                                     "ability": "surge",
-                                                                                                    "description": "{{surge}} South-East",
                                                                                                     "from": {
                                                                                                         "x": 2403,
                                                                                                         "y": 3859,
@@ -27577,7 +26697,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 1 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2375,
@@ -27613,7 +26732,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2377,
@@ -27654,7 +26772,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 4 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2363,
@@ -27671,7 +26788,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2367,
                                                                     "y": 3868,
@@ -27718,7 +26834,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2357,
@@ -27735,7 +26850,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} East",
                                                                             "from": {
                                                                                 "x": 2359,
                                                                                 "y": 3868,
@@ -27749,7 +26863,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 30 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2369,
@@ -27790,7 +26903,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} East",
                                                                                         "from": {
                                                                                             "x": 2370,
                                                                                             "y": 3889,
@@ -27805,7 +26917,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2380,
                                                                                             "y": 3889,
@@ -27820,7 +26931,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} East",
                                                                                         "from": {
                                                                                             "x": 2390,
                                                                                             "y": 3889,
@@ -27852,7 +26962,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} East",
                                                                                         "from": {
                                                                                             "x": 2370,
                                                                                             "y": 3889,
@@ -27867,7 +26976,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2380,
                                                                                             "y": 3889,
@@ -27888,7 +26996,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} North-West",
                                                                             "from": {
                                                                                 "x": 2357,
                                                                                 "y": 3868,
@@ -27902,7 +27009,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 30 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2347,
@@ -27949,7 +27055,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2363,
                                                                     "y": 3864,
@@ -27983,7 +27088,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2351,
@@ -28000,7 +27104,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North-East",
                                                     "from": {
                                                         "x": 2353,
                                                         "y": 3854,
@@ -28047,7 +27150,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 7 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2354,
@@ -28073,10 +27175,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 3848,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Rope bridge",
+                                                                    "entity": {"kind": "static", "name": "Rope bridge"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2354.5,
@@ -28122,7 +27223,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2355,
                                                                     "y": 3839,
@@ -28136,7 +27236,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2345,
@@ -28153,7 +27252,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2343,
                                                                     "y": 3833,
@@ -28168,7 +27266,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2333,
                                                                     "y": 3833,
@@ -28182,7 +27279,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 11 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2323,
@@ -28232,7 +27328,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 3 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2351,
@@ -28259,7 +27354,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} North-West",
                                                                             "from": {
                                                                                 "x": 2349,
                                                                                 "y": 3878,
@@ -28273,7 +27367,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 26 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2339,
@@ -28311,7 +27404,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2351,
@@ -28327,7 +27419,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2349,
@@ -28344,7 +27435,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} North",
                                                                             "from": {
                                                                                 "x": 2349,
                                                                                 "y": 3879,
@@ -28358,7 +27448,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2349,
@@ -28381,7 +27470,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2354,
                                                                     "y": 3855,
@@ -28396,7 +27484,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} North",
                                                                 "from": {
                                                                     "x": 2351,
                                                                     "y": 3865,
@@ -28430,7 +27517,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 3 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2351,
@@ -28466,7 +27552,6 @@ export const default_scan_method_pack: Pack = {
                                 "path": [
                                     {
                                         "type": "run",
-                                        "description": "Run 4 tiles",
                                         "waypoints": [
                                             {
                                                 "x": 2355,
@@ -28528,7 +27613,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2324,
                                                                     "y": 3803,
@@ -28559,7 +27643,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 4 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2324,
@@ -28590,10 +27673,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 3804,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Door: {{icon cursor_open}} Cross east ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Door",
+                                                                    "entity": {"kind": "static", "name": "Door"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2328,
@@ -28641,7 +27723,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} East",
                                                                 "from": {
                                                                     "x": 2329,
                                                                     "y": 3804,
@@ -28656,7 +27737,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2339,
                                                                     "y": 3804,
@@ -28676,7 +27756,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "teleport",
-                                                    "description": "Use {{teleport lyre neitiznot}} to Neitiznot",
                                                     "id": {
                                                         "group": "lyre",
                                                         "sub": "neitiznot"
@@ -28684,7 +27763,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 8 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2311,
@@ -28726,7 +27804,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North-East",
                                                     "from": {
                                                         "x": 2314,
                                                         "y": 3793,
@@ -28759,7 +27836,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "teleport",
-                                                                "description": "Use {{teleport lyre jatizso}} to Jatizso",
                                                                 "id": {
                                                                     "group": "lyre",
                                                                     "sub": "jatizso"
@@ -28767,7 +27843,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 4 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2403,
@@ -28784,7 +27859,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2403,
                                                                     "y": 3786,
@@ -28803,10 +27877,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 3796,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Door: {{icon cursor_open}} Cross north ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Door",
+                                                                    "entity": {"kind": "static", "name": "Door"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2411.5,
@@ -28853,7 +27926,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "powerburst",
-                                                                "description": "Use {{icon accel}}",
                                                                 "where": {
                                                                     "x": 2413,
                                                                     "y": 3797,
@@ -28863,7 +27935,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2413,
                                                                     "y": 3797,
@@ -28878,7 +27949,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2403,
                                                                     "y": 3800,
@@ -28893,7 +27963,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2393,
                                                                     "y": 3800,
@@ -28912,10 +27981,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 3799,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Door: {{icon cursor_open}} Cross west ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Door",
+                                                                    "entity": {"kind": "static", "name": "Door"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2387,
@@ -28963,7 +28031,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2387,
                                                                     "y": 3799,
@@ -28978,7 +28045,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2385,
                                                                     "y": 3809,
@@ -29011,7 +28077,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 9 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2323,
@@ -29047,10 +28112,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 3848,
                                                                                 "level": 0
                                                                             },
-                                                                            "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Rope bridge",
+                                                                                "entity": {"kind": "static", "name": "Rope bridge"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2313.5,
@@ -29096,7 +28160,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2314,
                                                                                 "y": 3839,
@@ -29111,7 +28174,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South-East",
                                                                             "from": {
                                                                                 "x": 2320,
                                                                                 "y": 3836,
@@ -29125,7 +28187,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2328,
@@ -29163,7 +28224,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 9 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2323,
@@ -29195,7 +28255,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2345,
@@ -29212,7 +28271,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2343,
                                                                     "y": 3863,
@@ -29227,7 +28285,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2333,
                                                                     "y": 3863,
@@ -29259,7 +28316,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2345,
@@ -29276,7 +28332,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2343,
                                                                     "y": 3863,
@@ -29291,7 +28346,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2333,
                                                                     "y": 3863,
@@ -29323,7 +28377,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2345,
                                                                     "y": 3863,
@@ -29338,7 +28391,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} South-West",
                                                                 "from": {
                                                                     "x": 2336,
                                                                     "y": 3859,
@@ -29370,7 +28422,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2345,
                                                                     "y": 3863,
@@ -29385,7 +28436,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} North",
                                                                 "from": {
                                                                     "x": 2348,
                                                                     "y": 3871,
@@ -29405,7 +28455,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 1 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2356,
@@ -29422,7 +28471,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North-West",
                                                     "from": {
                                                         "x": 2355,
                                                         "y": 3853,
@@ -29467,7 +28515,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 4 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2356,
@@ -29493,10 +28540,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 3848,
                                                         "level": 0
                                                     },
-                                                    "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Rope bridge",
+                                                        "entity": {"kind": "static", "name": "Rope bridge"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 2354.5,
@@ -29541,7 +28587,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2355,
@@ -29558,7 +28603,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} South-East",
                                                     "from": {
                                                         "x": 2357,
                                                         "y": 3837,
@@ -29573,7 +28617,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2364,
                                                         "y": 3830,
@@ -29588,7 +28631,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North-East",
                                                     "from": {
                                                         "x": 2374,
                                                         "y": 3835,
@@ -29607,10 +28649,9 @@ export const default_scan_method_pack: Pack = {
                                                         "y": 3839,
                                                         "level": 0
                                                     },
-                                                    "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
                                                     "internal": {
                                                         "type": "entity",
-                                                        "name": "Rope bridge",
+                                                        "entity": {"kind": "static", "name": "Rope bridge"},
                                                         "clickable_area": {
                                                             "topleft": {
                                                                 "x": 2377.5,
@@ -29655,7 +28696,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2378,
@@ -29693,7 +28733,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 3 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2356,
@@ -29710,7 +28749,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2353,
                                                         "y": 3855,
@@ -29725,7 +28763,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North-East",
                                                     "from": {
                                                         "x": 2359,
                                                         "y": 3861,
@@ -29745,7 +28782,6 @@ export const default_scan_method_pack: Pack = {
                                 "path": [
                                     {
                                         "type": "run",
-                                        "description": "Run 4 tiles",
                                         "waypoints": [
                                             {
                                                 "x": 2355,
@@ -29802,10 +28838,9 @@ export const default_scan_method_pack: Pack = {
                                             "y": 3848,
                                             "level": 0
                                         },
-                                        "description": "Rope bridge: {{icon cursor_obstacle}} Walk-across ",
                                         "internal": {
                                             "type": "entity",
-                                            "name": "Rope bridge",
+                                            "entity": {"kind": "static", "name": "Rope bridge"},
                                             "clickable_area": {
                                                 "topleft": {
                                                     "x": 2354.5,
@@ -29850,7 +28885,6 @@ export const default_scan_method_pack: Pack = {
                                     },
                                     {
                                         "type": "run",
-                                        "description": "Run 2 tiles",
                                         "waypoints": [
                                             {
                                                 "x": 2355,
@@ -29867,7 +28901,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} South-East",
                                         "from": {
                                             "x": 2357,
                                             "y": 3837,
@@ -29882,7 +28915,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 2364,
                                             "y": 3830,
@@ -29914,7 +28946,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 2355,
                                             "y": 3848,
@@ -29986,7 +29017,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2464,
                                                                                 "y": 3313,
@@ -30001,7 +29031,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South",
                                                                             "from": {
                                                                                 "x": 2463,
                                                                                 "y": 3303,
@@ -30015,7 +29044,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2463,
@@ -30032,7 +29060,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2463,
                                                                                 "y": 3291,
@@ -30064,7 +29091,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2464,
                                                                                 "y": 3313,
@@ -30079,7 +29105,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} West",
                                                                             "from": {
                                                                                 "x": 2454,
                                                                                 "y": 3314,
@@ -30093,7 +29118,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 4 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2444,
@@ -30132,7 +29156,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2464,
                                                                                 "y": 3313,
@@ -30147,7 +29170,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} West",
                                                                             "from": {
                                                                                 "x": 2454,
                                                                                 "y": 3314,
@@ -30162,7 +29184,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2444,
                                                                                 "y": 3314,
@@ -30182,7 +29203,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2486,
@@ -30204,7 +29224,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2484,
                                                                     "y": 3313,
@@ -30219,7 +29238,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2474,
                                                                     "y": 3313,
@@ -30264,7 +29282,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2486,
@@ -30302,7 +29319,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2486,
@@ -30319,7 +29335,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} West",
                                                                 "from": {
                                                                     "x": 2484,
                                                                     "y": 3312,
@@ -30334,7 +29349,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2474,
                                                                     "y": 3312,
@@ -30365,7 +29379,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2486,
@@ -30382,7 +29395,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} North",
                                                                 "from": {
                                                                     "x": 2486,
                                                                     "y": 3314,
@@ -30397,7 +29409,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2486,
                                                                     "y": 3324,
@@ -30418,7 +29429,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2538,
                                                         "y": 3306,
@@ -30433,7 +29443,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} West",
                                                     "from": {
                                                         "x": 2528,
                                                         "y": 3302,
@@ -30447,7 +29456,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2518,
@@ -30468,7 +29476,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "powerburst",
-                                                    "description": "Use {{icon accel}}",
                                                     "where": {
                                                         "x": 2516,
                                                         "y": 3303,
@@ -30478,7 +29485,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2516,
                                                         "y": 3303,
@@ -30493,7 +29499,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} West",
                                                     "from": {
                                                         "x": 2506,
                                                         "y": 3302,
@@ -30508,7 +29513,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2496,
                                                         "y": 3302,
@@ -30567,7 +29571,7 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "redclick",
-                                                                            "description": "Redclick at 2578|3333|0",
+                                                                            "target": {"kind": "static", "name": "Door"},
                                                                             "where": {
                                                                                 "x": 2577.5,
                                                                                 "y": 3333,
@@ -30577,7 +29581,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 7 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2566,
@@ -30599,7 +29602,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South-East",
                                                                             "from": {
                                                                                 "x": 2573,
                                                                                 "y": 3336,
@@ -30613,7 +29615,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 6 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2583,
@@ -30651,7 +29652,7 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "redclick",
-                                                                            "description": "Redclick at 2578|3333|0",
+                                                                            "target": {"kind": "static", "name": "Door"},
                                                                             "where": {
                                                                                 "x": 2577.5,
                                                                                 "y": 3333,
@@ -30661,7 +29662,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 7 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2566,
@@ -30683,7 +29683,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South-East",
                                                                             "from": {
                                                                                 "x": 2573,
                                                                                 "y": 3336,
@@ -30697,7 +29696,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 6 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2583,
@@ -30729,7 +29727,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 1 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2531,
@@ -30750,10 +29747,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 3303,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Manhole: {{icon cursor_ladderdown}} Climb-down ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Manhole",
+                                                                    "entity": {"kind": "static", "name": "Manhole"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2528.5,
@@ -30802,7 +29798,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2514,
                                                                     "y": 9739,
@@ -30817,7 +29812,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} North",
                                                                 "from": {
                                                                     "x": 2518,
                                                                     "y": 9749,
@@ -30836,10 +29830,9 @@ export const default_scan_method_pack: Pack = {
                                                                     "y": 9759,
                                                                     "level": 0
                                                                 },
-                                                                "description": "Mud pile: {{icon cursor_obstacle}} Climb ",
                                                                 "internal": {
                                                                     "type": "entity",
-                                                                    "name": "Mud pile",
+                                                                    "entity": {"kind": "static", "name": "Mud pile"},
                                                                     "clickable_area": {
                                                                         "topleft": {
                                                                             "x": 2518.5,
@@ -30925,7 +29918,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 9 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2560,
@@ -30942,7 +29934,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2560,
                                                                                             "y": 3290,
@@ -30957,7 +29948,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} South-East",
                                                                                         "from": {
                                                                                             "x": 2570,
                                                                                             "y": 3280,
@@ -30971,7 +29961,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 4 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2580,
@@ -31009,7 +29998,6 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 5 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2560,
@@ -31031,7 +30019,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} North-East",
                                                                                         "from": {
                                                                                             "x": 2565,
                                                                                             "y": 3302,
@@ -31046,7 +30033,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2575,
                                                                                             "y": 3312,
@@ -31066,7 +30052,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "teleport",
-                                                                            "description": "Use {{teleport davesspellbook ardougne}} to Ardounge",
                                                                             "id": {
                                                                                 "group": "davesspellbook",
                                                                                 "sub": "ardougne"
@@ -31074,7 +30059,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 11 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2538,
@@ -31111,7 +30095,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} East",
                                                                             "from": {
                                                                                 "x": 2547,
                                                                                 "y": 3299,
@@ -31130,10 +30113,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 3299,
                                                                                 "level": 0
                                                                             },
-                                                                            "description": "Ardounge wall door: {{icon cursor_open}} Use ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Ardounge wall door",
+                                                                                "entity": {"kind": "static", "name": "Ardounge wall door"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2557.5,
@@ -31216,7 +30198,7 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "redclick",
-                                                                                        "description": "Redclick at 2574|3333|0",
+                                                                                        "target": {"kind": "static", "name": "Door"},
                                                                                         "where": {
                                                                                             "x": 2573.5,
                                                                                             "y": 3333,
@@ -31226,7 +30208,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 4 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2566,
@@ -31243,7 +30224,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} South-East",
                                                                                         "from": {
                                                                                             "x": 2570,
                                                                                             "y": 3336,
@@ -31257,7 +30237,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 2 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2580,
@@ -31279,7 +30258,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2578,
                                                                                             "y": 3327,
@@ -31310,7 +30288,7 @@ export const default_scan_method_pack: Pack = {
                                                                                 "path": [
                                                                                     {
                                                                                         "type": "redclick",
-                                                                                        "description": "Redclick at 2584|3339|0",
+                                                                                        "target": {"kind": "static", "name": "Door"},
                                                                                         "where": {
                                                                                             "x": 2573.5,
                                                                                             "y": 3333,
@@ -31320,7 +30298,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     },
                                                                                     {
                                                                                         "type": "run",
-                                                                                        "description": "Run 4 tiles",
                                                                                         "waypoints": [
                                                                                             {
                                                                                                 "x": 2566,
@@ -31342,7 +30319,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "surge",
-                                                                                        "description": "{{surge}} North-East",
                                                                                         "from": {
                                                                                             "x": 2570,
                                                                                             "y": 3330,
@@ -31357,7 +30333,6 @@ export const default_scan_method_pack: Pack = {
                                                                                     {
                                                                                         "type": "ability",
                                                                                         "ability": "dive",
-                                                                                        "description": "Use {{dive}}",
                                                                                         "from": {
                                                                                             "x": 2580,
                                                                                             "y": 3340,
@@ -31378,7 +30353,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2521,
                                                                                 "y": 3293,
@@ -31397,10 +30371,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 3302,
                                                                                 "level": 0
                                                                             },
-                                                                            "description": "Manhole: {{icon cursor_ladderdown}} Climb-down ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Manhole",
+                                                                                "entity": {"kind": "static", "name": "Manhole"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2528.5,
@@ -31448,7 +30421,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 6 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2514,
@@ -31475,7 +30447,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} North",
                                                                             "from": {
                                                                                 "x": 2517,
                                                                                 "y": 9744,
@@ -31489,7 +30460,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 5 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2517,
@@ -31515,10 +30485,9 @@ export const default_scan_method_pack: Pack = {
                                                                                 "y": 9759,
                                                                                 "level": 0
                                                                             },
-                                                                            "description": "Mud pile: {{icon cursor_obstacle}} Climb ",
                                                                             "internal": {
                                                                                 "type": "entity",
-                                                                                "name": "Mud pile",
+                                                                                "entity": {"kind": "static", "name": "Mud pile"},
                                                                                 "clickable_area": {
                                                                                     "topleft": {
                                                                                         "x": 2518.5,
@@ -31596,7 +30565,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2521,
                                                                                 "y": 3293,
@@ -31610,7 +30578,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 6 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2511,
@@ -31632,7 +30599,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South-West",
                                                                             "from": {
                                                                                 "x": 2505,
                                                                                 "y": 3301,
@@ -31646,7 +30612,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 8 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2495,
@@ -31679,7 +30644,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2521,
@@ -31696,7 +30660,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South",
                                                                             "from": {
                                                                                 "x": 2521,
                                                                                 "y": 3291,
@@ -31711,7 +30674,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2521,
                                                                                 "y": 3281,
@@ -31725,7 +30687,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 4 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2511,
@@ -31763,7 +30724,6 @@ export const default_scan_method_pack: Pack = {
                                                                     "path": [
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 2 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2521,
@@ -31780,7 +30740,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South",
                                                                             "from": {
                                                                                 "x": 2521,
                                                                                 "y": 3291,
@@ -31795,7 +30754,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2521,
                                                                                 "y": 3281,
@@ -31827,7 +30785,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "dive",
-                                                                            "description": "Use {{dive}}",
                                                                             "from": {
                                                                                 "x": 2521,
                                                                                 "y": 3293,
@@ -31841,7 +30798,6 @@ export const default_scan_method_pack: Pack = {
                                                                         },
                                                                         {
                                                                             "type": "run",
-                                                                            "description": "Run 3 tiles",
                                                                             "waypoints": [
                                                                                 {
                                                                                     "x": 2511,
@@ -31863,7 +30819,6 @@ export const default_scan_method_pack: Pack = {
                                                                         {
                                                                             "type": "ability",
                                                                             "ability": "surge",
-                                                                            "description": "{{surge}} South-West",
                                                                             "from": {
                                                                                 "x": 2510,
                                                                                 "y": 3300,
@@ -31884,7 +30839,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} South-West",
                                                                 "from": {
                                                                     "x": 2531,
                                                                     "y": 3303,
@@ -31929,7 +30883,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 1 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2531,
@@ -31946,7 +30899,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} North-West",
                                                                 "from": {
                                                                     "x": 2530,
                                                                     "y": 3304,
@@ -31961,7 +30913,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} North-West",
                                                                 "from": {
                                                                     "x": 2524,
                                                                     "y": 3310,
@@ -31975,7 +30926,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 5 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2515,
@@ -31997,7 +30947,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2517,
                                                                     "y": 3324,
@@ -32017,7 +30966,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 7 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2538,
@@ -32080,7 +31028,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2538,
                                                         "y": 3306,
@@ -32095,7 +31042,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} South-West",
                                                     "from": {
                                                         "x": 2528,
                                                         "y": 3296,
@@ -32109,7 +31055,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 8 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2520,
@@ -32168,7 +31113,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Face west by to the specified tile",
                                                     "waypoints": [
                                                         {
                                                             "x": 2538,
@@ -32195,7 +31139,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} West",
                                                     "from": {
                                                         "x": 2535,
                                                         "y": 3307,
@@ -32210,7 +31153,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "{{dive}} North-West",
                                                     "from": {
                                                         "x": 2525,
                                                         "y": 3307,
@@ -32224,7 +31166,6 @@ export const default_scan_method_pack: Pack = {
                                                 },
                                                 {
                                                     "type": "run",
-                                                    "description": "Run to target",
                                                     "waypoints": [
                                                         {
                                                             "x": 2515,
@@ -32262,7 +31203,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 4 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2538,
@@ -32289,7 +31229,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} North",
                                                     "from": {
                                                         "x": 2540,
                                                         "y": 3310,
@@ -32304,7 +31243,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2540,
                                                         "y": 3320,
@@ -32324,7 +31262,6 @@ export const default_scan_method_pack: Pack = {
                                 "path": [
                                     {
                                         "type": "teleport",
-                                        "description": "Use {{teleport davesspellbook ardougne}} to Ardounge",
                                         "id": {
                                             "group": "davesspellbook",
                                             "sub": "ardougne"
@@ -32372,7 +31309,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 4 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2646,
@@ -32394,7 +31330,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} South-West",
                                                                 "from": {
                                                                     "x": 2642,
                                                                     "y": 3354,
@@ -32409,7 +31344,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} South-West",
                                                                 "from": {
                                                                     "x": 2632,
                                                                     "y": 3344,
@@ -32424,7 +31358,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2622,
                                                                     "y": 3334,
@@ -32455,7 +31388,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 2 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2646,
@@ -32477,7 +31409,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2647,
                                                                     "y": 3353,
@@ -32492,7 +31423,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "surge",
-                                                                "description": "{{surge}} South-East",
                                                                 "from": {
                                                                     "x": 2657,
                                                                     "y": 3343,
@@ -32523,7 +31453,6 @@ export const default_scan_method_pack: Pack = {
                                                         "path": [
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 4 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2646,
@@ -32545,7 +31474,6 @@ export const default_scan_method_pack: Pack = {
                                                             {
                                                                 "type": "ability",
                                                                 "ability": "dive",
-                                                                "description": "Use {{dive}}",
                                                                 "from": {
                                                                     "x": 2642,
                                                                     "y": 3354,
@@ -32559,7 +31487,6 @@ export const default_scan_method_pack: Pack = {
                                                             },
                                                             {
                                                                 "type": "run",
-                                                                "description": "Run 4 tiles",
                                                                 "waypoints": [
                                                                     {
                                                                         "x": 2632,
@@ -32586,7 +31513,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "teleport",
-                                                    "description": "Use {{teleport skillsnecklace farming}} to Farming Guild",
                                                     "id": {
                                                         "group": "skillsnecklace",
                                                         "sub": "farming"
@@ -32626,7 +31552,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} West",
                                                     "from": {
                                                         "x": 2647,
                                                         "y": 3306,
@@ -32641,7 +31566,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} West",
                                                     "from": {
                                                         "x": 2637,
                                                         "y": 3306,
@@ -32656,7 +31580,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2627,
                                                         "y": 3306,
@@ -32687,7 +31610,6 @@ export const default_scan_method_pack: Pack = {
                                             "path": [
                                                 {
                                                     "type": "run",
-                                                    "description": "Run 2 tiles",
                                                     "waypoints": [
                                                         {
                                                             "x": 2647,
@@ -32709,7 +31631,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} South-West",
                                                     "from": {
                                                         "x": 2645,
                                                         "y": 3305,
@@ -32724,7 +31645,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2635,
                                                         "y": 3295,
@@ -32756,7 +31676,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "surge",
-                                                    "description": "{{surge}} West",
                                                     "from": {
                                                         "x": 2647,
                                                         "y": 3306,
@@ -32771,7 +31690,6 @@ export const default_scan_method_pack: Pack = {
                                                 {
                                                     "type": "ability",
                                                     "ability": "dive",
-                                                    "description": "Use {{dive}}",
                                                     "from": {
                                                         "x": 2637,
                                                         "y": 3306,
@@ -32791,7 +31709,6 @@ export const default_scan_method_pack: Pack = {
                                 "path": [
                                     {
                                         "type": "run",
-                                        "description": "Run 14 tiles",
                                         "waypoints": [
                                             {
                                                 "x": 2661,
@@ -32869,7 +31786,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 2661,
                                             "y": 3302,
@@ -32900,7 +31816,6 @@ export const default_scan_method_pack: Pack = {
                                 "path": [
                                     {
                                         "type": "run",
-                                        "description": "Run 8 tiles",
                                         "waypoints": [
                                             {
                                                 "x": 2661,
@@ -32931,7 +31846,6 @@ export const default_scan_method_pack: Pack = {
                                     },
                                     {
                                         "type": "run",
-                                        "description": "Run 2 tiles",
                                         "waypoints": [
                                             {
                                                 "x": 2653,
@@ -32948,7 +31862,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "surge",
-                                        "description": "{{surge}} West",
                                         "from": {
                                             "x": 2651,
                                             "y": 3306,
@@ -32963,7 +31876,6 @@ export const default_scan_method_pack: Pack = {
                                     {
                                         "type": "ability",
                                         "ability": "dive",
-                                        "description": "Use {{dive}}",
                                         "from": {
                                             "x": 2641,
                                             "y": 3306,
@@ -32983,7 +31895,6 @@ export const default_scan_method_pack: Pack = {
                     "path": [
                         {
                             "type": "teleport",
-                            "description": "Use {{teleport normalspellbook ardougne}} to Ardougne",
                             "id": {
                                 "group": "normalspellbook",
                                 "sub": "ardougne"
@@ -33178,12 +32089,10 @@ export const default_generic_method_pack: Pack = {
         path_to_spot: [
             {
                 "type": "orientation",
-                "description": "Face West",
                 "direction": 1
             },
             {
                 "type": "teleport",
-                "description": "Use {{teleport questcape legensguild}} to Legends' Guild",
                 "id": {
                     "group": "legendscape",
                     "sub": "legendsguild"
@@ -33191,7 +32100,7 @@ export const default_generic_method_pack: Pack = {
             },
             {
                 "type": "redclick",
-                "description": "Redclick at 2715|3331|0",
+                "target": {"kind": "static", "name": "Rock"},
                 "where": {
                     "x": 2715,
                     "y": 3331,
@@ -33201,7 +32110,6 @@ export const default_generic_method_pack: Pack = {
             },
             {
                 "type": "run",
-                "description": "Run 3 tiles",
                 "waypoints": [
                     {
                         "x": 2728,
@@ -33223,7 +32131,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "surge",
-                "description": "{{surge}} South-West",
                 "from": {
                     "x": 2727,
                     "y": 3345,
@@ -33237,7 +32144,6 @@ export const default_generic_method_pack: Pack = {
             },
             {
                 "type": "powerburst",
-                "description": "Use {{icon accel}}",
                 "where": {
                     "x": 2717,
                     "y": 3335,
@@ -33247,7 +32153,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "dive",
-                "description": "Use {{dive}}",
                 "from": {
                     "x": 2717,
                     "y": 3335,
@@ -33262,7 +32167,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "surge",
-                "description": "{{surge}} North-West",
                 "from": {
                     "x": 2707,
                     "y": 3345,
@@ -33281,10 +32185,9 @@ export const default_generic_method_pack: Pack = {
                     "y": 3355,
                     "level": 0
                 },
-                "description": "Entity: {{icon cursor_generic}} Use ",
                 "internal": {
                     "type": "entity",
-                    "name": "Entity",
+                    "entity": {"kind": "static", "name": "Entity"},
                     "clickable_area": {
                         "topleft": {
                             "x": 2695.5,
@@ -33331,12 +32234,10 @@ export const default_generic_method_pack: Pack = {
         path_to_key_or_hideyhole: [
             {
                 "type": "orientation",
-                "description": "Face West",
                 "direction": 1
             },
             {
                 "type": "teleport",
-                "description": "Use {{teleport questcape legensguild}} to Legends' Guild",
                 "id": {
                     "group": "legendscape",
                     "sub": "legendsguild"
@@ -33344,17 +32245,16 @@ export const default_generic_method_pack: Pack = {
             },
             {
                 "type": "redclick",
-                "description": "Redclick at 2715|3331|0",
                 "where": {
                     "x": 2715,
                     "y": 3331,
                     "level": 0
                 },
+                "target": {"kind": "static", "name": "Rock"},
                 "how": "mine"
             },
             {
                 "type": "run",
-                "description": "Run 3 tiles",
                 "waypoints": [
                     {
                         "x": 2728,
@@ -33376,7 +32276,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "surge",
-                "description": "{{surge}} South-West",
                 "from": {
                     "x": 2727,
                     "y": 3345,
@@ -33390,7 +32289,6 @@ export const default_generic_method_pack: Pack = {
             },
             {
                 "type": "powerburst",
-                "description": "Use {{icon accel}}",
                 "where": {
                     "x": 2717,
                     "y": 3335,
@@ -33400,7 +32298,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "dive",
-                "description": "Use {{dive}}",
                 "from": {
                     "x": 2717,
                     "y": 3335,
@@ -33415,7 +32312,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "surge",
-                "description": "{{surge}} North-West",
                 "from": {
                     "x": 2707,
                     "y": 3345,
@@ -33434,10 +32330,9 @@ export const default_generic_method_pack: Pack = {
                     "y": 3355,
                     "level": 0
                 },
-                "description": "Entity: {{icon cursor_generic}} Use ",
                 "internal": {
                     "type": "entity",
-                    "name": "Entity",
+                    "entity": {"kind": "static", "name": "Entity"},
                     "clickable_area": {
                         "topleft": {
                             "x": 2695.5,
@@ -33484,12 +32379,10 @@ export const default_generic_method_pack: Pack = {
         path_back_to_hideyhole: [
             {
                 "type": "orientation",
-                "description": "Face West",
                 "direction": 1
             },
             {
                 "type": "teleport",
-                "description": "Use {{teleport questcape legensguild}} to Legends' Guild",
                 "id": {
                     "group": "legendscape",
                     "sub": "legendsguild"
@@ -33497,17 +32390,16 @@ export const default_generic_method_pack: Pack = {
             },
             {
                 "type": "redclick",
-                "description": "Redclick at 2715|3331|0",
                 "where": {
                     "x": 2715,
                     "y": 3331,
                     "level": 0
                 },
+                "target": {"kind": "static", "name": "Rock"},
                 "how": "mine"
             },
             {
                 "type": "run",
-                "description": "Run 3 tiles",
                 "waypoints": [
                     {
                         "x": 2728,
@@ -33529,7 +32421,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "surge",
-                "description": "{{surge}} South-West",
                 "from": {
                     "x": 2727,
                     "y": 3345,
@@ -33543,7 +32434,6 @@ export const default_generic_method_pack: Pack = {
             },
             {
                 "type": "powerburst",
-                "description": "Use {{icon accel}}",
                 "where": {
                     "x": 2717,
                     "y": 3335,
@@ -33553,7 +32443,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "dive",
-                "description": "Use {{dive}}",
                 "from": {
                     "x": 2717,
                     "y": 3335,
@@ -33568,7 +32457,6 @@ export const default_generic_method_pack: Pack = {
             {
                 "type": "ability",
                 "ability": "surge",
-                "description": "{{surge}} North-West",
                 "from": {
                     "x": 2707,
                     "y": 3345,
@@ -33587,10 +32475,9 @@ export const default_generic_method_pack: Pack = {
                     "y": 3355,
                     "level": 0
                 },
-                "description": "Entity: {{icon cursor_generic}} Use ",
                 "internal": {
                     "type": "entity",
-                    "name": "Entity",
+                    "entity": {"kind": "static", "name": "Entity"},
                     "clickable_area": {
                         "topleft": {
                             "x": 2695.5,

@@ -187,7 +187,6 @@ class StepEditWidget extends Widget {
                             preview_render: tile => new StepGraphics({
                                 step: {
                                     type: "powerburst",
-                                    description: "",
                                     where: tile,
                                 }
                             })
@@ -233,7 +232,6 @@ class StepEditWidget extends Widget {
 
                                 value.raw = {
                                     type: "shortcut_v2",
-                                    description: "",
                                     assumed_start: value.raw.starts,
                                     internal: {
                                         type: "entity",
@@ -485,7 +483,6 @@ class PathEditorGameLayer extends GameLayer {
                                     this.editor.value.add({
                                         raw: {
                                             type: "teleport",
-                                            description: "",
                                             id: t.id,
                                         }
                                     })
@@ -512,7 +509,6 @@ class PathEditorGameLayer extends GameLayer {
                                     this.editor.value.create({
                                         type: "shortcut_v2",
                                         assumed_start: t ? TileRectangle.clampInto(t, a.interactive_area) : TileRectangle.center(a.interactive_area),
-                                        description: "",
                                         internal: clone
                                     })
                                 }
@@ -531,7 +527,6 @@ class PathEditorGameLayer extends GameLayer {
                         this.editor.value.create({
                             type: "shortcut_v2",
                             assumed_start: t ? TileRectangle.clampInto(t, TileRectangle.extend(TileRectangle.from(event.tile()), 1)) : event.tile(),
-                            description: "",
                             internal: {
                                 type: "entity",
                                 entity: {kind: "static", name: "Entity"},

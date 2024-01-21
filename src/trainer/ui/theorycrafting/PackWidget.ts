@@ -12,6 +12,9 @@ import spacer = C.spacer;
 import {ExportImport} from "../../../lib/util/exportString";
 import exp = ExportImport.exp;
 import ExportStringModal from "../widgets/modals/ExportStringModal";
+import {NislIcon} from "../nisl";
+import NisCollapseButton from "../../../lib/ui/controls/NisCollapseButton";
+import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 
 export default class PackWidget extends Widget {
 
@@ -31,28 +34,23 @@ export default class PackWidget extends Widget {
 
         if (pack.type == "default" || pack.type == "imported") customization.mode = "view"
 
-        let header = hbox(
-            span("Pack: "),
-            this.name_span = span(pack.name),
-            spacer(),
-            span("+")
-        ).addClass("ctr-pack-widget-header")
-            .tooltip(pack.local_id)
-            .appendTo(this)
-
-
-        let body = new Properties().appendTo(this)
+        let body = new Properties()
             .addClass("ctr-pack-widget-body")
 
-        if (customization.collapsible) {
-            header.tapRaw(r => r.on("click", () => {
-                body.container.animate({
-                    "height": "toggle"
-                }, 100)
-            }))
+        let header = hbox(
+            "Pack: ",
+            this.name_span = span(pack.name),
+            spacer(),
+            customization.collapsible
+                ? new NisCollapseButton(ExpansionBehaviour.vertical({
+                    target: body,
+                    starts_collapsed: true
+                }))
+                : undefined
+        ).addClass("ctr-pack-widget-header")
+            .tooltip(pack.local_id)
 
-            body.css("display", "none")
-        }
+        this.append(header, body)
 
         switch (customization.mode) {
             case "edit":

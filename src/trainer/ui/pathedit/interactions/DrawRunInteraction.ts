@@ -46,7 +46,6 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                         step: {
                             type: "run",
                             waypoints: v.path,
-                            description: ""
                         },
                         highlightable: false
                     })
@@ -202,7 +201,6 @@ export default class DrawRunInteraction extends ValueInteraction<Path.step_run> 
             .onCommit(v => {
                 this.commit(({
                     type: "run",
-                    description: "",
                     waypoints: v.path
                 }))
             }).addTo(this)

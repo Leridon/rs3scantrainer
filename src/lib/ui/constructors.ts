@@ -6,11 +6,11 @@ export namespace C {
         return c(s)
     }
 
-    export function hbox(...content: Widget[]): Widget {
+    export function hbox(...content: (Widget | string)[]): Widget {
         return create("<div style='display: flex; justify-content: center'></div>").append(...content)
     }
 
-    export function hboxl(...content: Widget[]): Widget {
+    export function hboxl(...content: (Widget | string)[]): Widget {
         return create("<div style='display: flex'></div>").append(...content)
     }
 

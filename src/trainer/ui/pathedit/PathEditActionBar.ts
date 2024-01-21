@@ -71,7 +71,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                         self.editor.value.create(({
                             type: "ability",
                             ability: opt.ability,
-                            description: "",
                             from: self.state.value().position?.tile,
                             to: res.tile
                         }))
@@ -110,7 +109,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                         if (self.state.value().position?.tile) {
                             this.editor.value.create(({
                                     type: "powerburst",
-                                    description: "",
                                     where: self.state.value().position.tile
                                 })
                             )
@@ -131,7 +129,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                             handler: () => {
                                 self.editor.value.create(({
                                     type: "orientation",
-                                    description: "",
                                     direction: d
                                 }))
                             }

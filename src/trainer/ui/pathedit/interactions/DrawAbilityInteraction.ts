@@ -131,7 +131,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                             step: {
                                 type: "ability",
                                 ability: this.ability,
-                                description: "",
                                 from: from,
                                 to: to
                             }
@@ -158,7 +157,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                     this.commit({
                         type: "ability",
                         ability: this.ability,
-                        description: `Use {{${this.ability}}}`,
                         from: this.start_position.value(),
                         to: tile
                     })
@@ -169,7 +167,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                         this.commit({
                             type: "ability",
                             ability: this.ability,
-                            description: `Use {{${this.ability}}}`,
                             from: this.start_position.value(),
                             to: res.tile
                         })

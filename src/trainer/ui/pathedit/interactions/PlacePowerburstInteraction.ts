@@ -16,13 +16,11 @@ export default class PlacePowerburstInteraction extends ValueInteraction<Path.st
         new SelectTileInteraction()
             .onCommit((t) => this.commit(({
                 type: "powerburst",
-                description: "",
                 where: t
             })))
             .onPreview((t) =>
                 this.preview(({
                         type: "powerburst",
-                        description: "",
                         where: t
                     })
                 )

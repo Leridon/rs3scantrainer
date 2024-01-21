@@ -235,7 +235,7 @@ namespace NeoSolvingLayer {
                 ).css("flex-grow", "1"),
             )
 
-            this.search_bar_collapsible = ExpansionBehaviour.horizontal({widget: this.search_bar, starts_collapsed: true, duration: 100})
+            this.search_bar_collapsible = ExpansionBehaviour.horizontal({target: this.search_bar, starts_collapsed: true, duration: 100})
                 .onChange(v => {
                     if (v) this.dropdown?.close()
                     else {
@@ -246,7 +246,7 @@ namespace NeoSolvingLayer {
                     this.rest_collapsible.setCollapsed(!v)
                 })
 
-            this.rest_collapsible = ExpansionBehaviour.horizontal({widget: this.rest, starts_collapsed: false})
+            this.rest_collapsible = ExpansionBehaviour.horizontal({target: this.rest, starts_collapsed: false})
         }
     }
 }

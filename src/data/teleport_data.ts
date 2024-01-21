@@ -650,7 +650,7 @@ export namespace teleport_data {
                 },
                 {
                     id: "pollnivneach",
-                    spot: {"x":3359,"y":2968,"level":0},
+                    spot: {"x": 3359, "y": 2968, "level": 0},
                     img: {url: "scroll-pollnivneach.png"},
                     name: "Pollnivneach",
                     code: "9",
@@ -943,7 +943,7 @@ export namespace teleport_data {
                     animation_ticks: 7
                 },
                 {
-                    id: "BLR", spot: {x: 2740, y: 3351, level: 0}, code: "BLR", name: "Kandarin: Legends´ Guild",
+                    id: "BLR", spot: {x: 2740, y: 3351, level: 0}, code: "BLR", name: "Kandarin: Legends' Guild",
                     menu_ticks: 1,
                     animation_ticks: 7
                 },
@@ -1200,7 +1200,7 @@ export namespace teleport_data {
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "dragontooth", spot: {"x":3812,"y":3528,"level":0}, code: "0,3", name: "Dragontooth island",
+                    id: "dragontooth", spot: {"x": 3812, "y": 3528, "level": 0}, code: "0,3", name: "Dragontooth island",
                     menu_ticks: 2,
                     animation_ticks: default_teleport_ticks
                 },
@@ -1359,7 +1359,7 @@ export namespace teleport_data {
                     animation_ticks: 13
                 },
                 {
-                    id: "dragontooth", spot: {"x":3792,"y":3559,"level":0}, code: "3", name: "Dragontooth Isle",
+                    id: "dragontooth", spot: {"x": 3792, "y": 3559, "level": 0}, code: "3", name: "Dragontooth Isle",
                     menu_ticks: 1,
                     animation_ticks: 13
                 },
@@ -1821,7 +1821,7 @@ export namespace teleport_data {
                     animation_ticks: 5
                 },
                 {
-                    id: "deathaltar", spot: {"x":1858,"y":4639,"level":0}, name: "Death Altar", code: "5",
+                    id: "deathaltar", spot: {"x": 1858, "y": 4639, "level": 0}, name: "Death Altar", code: "5",
                     menu_ticks: 1,
                     animation_ticks: 5
                 },
@@ -1983,12 +1983,12 @@ export namespace teleport_data {
                     animation_ticks: 3
                 },
                 {
-                    id: "blood", spot: {"x":3560,"y":9779,"level":0}, name: "Blood", code: "Blood",
+                    id: "blood", spot: {"x": 3560, "y": 9779, "level": 0}, name: "Blood", code: "Blood",
                     menu_ticks: 2,
                     animation_ticks: 3
                 },
                 {
-                    id: "death", spot: {"x":1863,"y":4637,"level":0}, name: "Death", code: "Death",
+                    id: "death", spot: {"x": 1863, "y": 4637, "level": 0}, name: "Death", code: "Death",
                     menu_ticks: 2,
                     animation_ticks: 3
                 },

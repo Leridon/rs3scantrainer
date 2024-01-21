@@ -231,7 +231,7 @@ class PreviewLayerControl extends Behaviour {
                     (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
 
-                if (n != a) PathGraphics.renderPath(n.raw.path, this.parent.app.data.teleports).addTo(layer);
+                if (n != a) PathGraphics.renderPath(n.raw.path).addTo(layer);
             }
 
         } else {
@@ -241,7 +241,7 @@ class PreviewLayerControl extends Behaviour {
                         (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                     }
 
-                    return PathGraphics.renderPath(n.raw.path, this.parent.app.data.teleports).addTo(layer)
+                    return PathGraphics.renderPath(n.raw.path).addTo(layer)
                 }, true)
             }
         }

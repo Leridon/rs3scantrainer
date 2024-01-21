@@ -10,6 +10,9 @@ Planned for next release (b0.4):
     - Add a way to make it not closeable by the user
     - [Bug] Teleport overriding does not work
 
+- Shortcuts & Teleports:
+    - Combine into a combined abstract data structure
+
 
 - Solving Behaviour
     - Path Panel

@@ -10,7 +10,7 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
 
     constructor(private interaction_type: InteractionType = null) {
         super({
-            preview_render: (s) => new StepGraphics(s, this.getMap().getTeleportLayer().teleports)
+            preview_render: (s) => new StepGraphics({step: s})
         });
 
         new SelectTileInteraction()

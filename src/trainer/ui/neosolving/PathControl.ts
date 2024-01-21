@@ -102,7 +102,7 @@ class PathSectionControl extends Widget {
 
             if (this.step_graphics) {
                 TreeArray.forLeafs(this.step_graphics, graphics => {
-                    graphics.setHighlightable(false)
+                    // TODO(?) graphics.setHighlightable(false)
                 })
             }
 
@@ -138,8 +138,6 @@ namespace PathSectionControl {
         highlighted: Observable<boolean> = observe(false)
         associated_graphics: StepGraphics = null
 
-        tooltip_instance: tippy.Instance = null
-
         constructor(private teleport_data: ManagedTeleportData,
                     private section_index: number[],
                     private step: Path.step,
@@ -150,25 +148,6 @@ namespace PathSectionControl {
             this.highlighted.subscribe(v => {
                 this.toggleClass("ctr-neosolving-path-legend-highlighted", v)
                 this.associated_graphics?.highlighted?.set(v)
-
-                if (!v) this.tooltip_instance?.destroy()
-                else {
-                    let tooltip = new PathStepProperties(this.step, this.template_resolver)
-
-                    this.tooltip_instance = tippy.default(this.raw(), {
-                        content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white;padding: 3px'></div>")
-                            .append(tooltip).raw(),
-                        arrow: true,
-                        animation: false,
-                        trigger: "manual",
-                        zIndex: 10001,
-                        delay: 0,
-                        followCursor: true,
-                        plugins: [followCursor]
-                    })
-
-                    this.tooltip_instance.show()
-                }
             })
 
             const index = util.index(this.section_index, -1)
@@ -285,7 +264,7 @@ namespace PathSectionControl {
             this.associated_graphics = graphics
 
             if (graphics) {
-                graphics.setHighlightable(true)
+                //graphics.setHighlightable(true)
 
                 this.associated_graphics.highlighted.subscribe(v => {
                     this.setHighlight(v)
@@ -373,7 +352,10 @@ export default class PathControl extends Behaviour {
 
         this.path_layer.clearLayers()
         this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
-            return new StepGraphics(step, this.parent.app.data.teleports).addTo(this.path_layer)
+            return new StepGraphics({
+                highlightable: true,
+                step: step
+            }).addTo(this.path_layer)
         })
 
         this.renderWidget(section_id)

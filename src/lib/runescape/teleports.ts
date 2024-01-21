@@ -83,6 +83,17 @@ export namespace Teleports {
         getAll(): flat_teleport[] {
             return this.data
         }
+
+        static _instance: ManagedTeleportData
+
+        static instance(): ManagedTeleportData {
+            if (!ManagedTeleportData._instance) ManagedTeleportData._instance = new ManagedTeleportData({
+                potas: [],
+                fairy_ring_favourites: []
+            })
+
+            return ManagedTeleportData._instance
+        }
     }
 
     export namespace teleport_id {

@@ -7,19 +7,41 @@ import {OpacityGroup} from "../layers/OpacityLayer";
 import div = C.div;
 import img = C.img;
 import ManagedTeleportData = Teleports.ManagedTeleportData;
+import full_teleport_id = Teleports.full_teleport_id;
+import Widget from "../../ui/Widget";
+import Properties from "../../../trainer/ui/widgets/Properties";
 
-class TeleportEntity extends GameEntity {
+export class TeleportEntity extends GameEntity {
 
-    constructor(public teleport: Teleports.flat_teleport) {
-        super();
+    constructor(public config: TeleportEntity.Config) {
+        super(config);
+
         this.render()
     }
 
     protected render_implementation(options: GameEntity.RenderOptions) {
-        leaflet.marker(Vector2.toLatLong(this.teleport.spot), {
-            icon: new TeleportMapIcon(this.teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
+        leaflet.marker(Vector2.toLatLong(this.config.teleport.spot), {
+            icon: new TeleportMapIcon(this.config.teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
             riseOnHover: true
         }).addTo(this)
+    }
+
+    protected renderTooltip(): Widget | null {
+        let props = new Properties()
+
+        props.named("Group", c().text(this.config.teleport.group.name))
+        props.named("Name", c().text(this.config.teleport.sub.name))
+        props.header("Timing")
+        props.named("Interface", c().text(this.config.teleport.menu_ticks + " ticks"))
+        props.named("Blocked", c().text(this.config.teleport.animation_ticks + " ticks"))
+
+        return props
+    }
+}
+
+export namespace TeleportEntity {
+    export type Config = GameEntity.SetupOptions & {
+        teleport: Teleports.flat_teleport
     }
 }
 
@@ -46,12 +68,16 @@ export class TeleportMapIcon extends leaflet.DivIcon {
 }
 
 export class TeleportLayer extends OpacityGroup {
+    entities: Map<full_teleport_id, TeleportEntity> = new Map<full_teleport_id, TeleportEntity>()
 
     constructor(public teleports: ManagedTeleportData) {
         super()
 
         for (let tele of teleports.getAll()) {
-            new TeleportEntity(tele).setHighlightable(true).addTo(this)
+            this.entities.set(tele.id, new TeleportEntity({
+                highlightable: true,
+                teleport: tele
+            }).addTo(this))
         }
     }
 }

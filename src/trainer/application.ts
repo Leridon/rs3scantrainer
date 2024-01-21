@@ -30,6 +30,7 @@ import spacer = C.spacer;
 import {observe} from "../lib/reactive";
 import NeoSolvingBehaviour from "./ui/neosolving/NeoSolvingBehaviour";
 import {FavoriteIndex} from "./favorites";
+import Dependencies from "./dependencies";
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
@@ -327,7 +328,9 @@ namespace Application {
 }
 
 export function initialize() {
-    new Application().start()
+    let app = new Application()
+    Dependencies.instance().app.set(app)
+    app.start()
 
     //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
     //scantrainer.select(clues.find((c) => c.id == 399)) // compass

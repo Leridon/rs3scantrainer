@@ -1812,7 +1812,8 @@ input[type=checkbox] + span {
 }
 
 .ctr-map-teleport-icon-highlighted {
-    scale: 1.5
+    scale: 1.5;
+    image-rendering: pixelated;
 }
 
 .ctr-map-teleport-icon > * {

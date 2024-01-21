@@ -7,17 +7,16 @@ import {arrow, createX} from "../path_graphics";
 import InteractionType = Path.InteractionType;
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameEntity} from "../../../lib/gamemap/GameEntity";
-import TeleportIcon from "../widgets/TeleportIcon";
 import {Teleports} from "../../../lib/runescape/teleports";
 import ManagedTeleportData = Teleports.ManagedTeleportData;
 import {TeleportMapIcon} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
+import Widget from "../../../lib/ui/Widget";
+import {PathStepProperties} from "./PathStepProperties";
+import Dependencies from "../../dependencies";
 
 export class StepGraphics extends GameEntity {
-
-    constructor(private step: Path.step,
-                private teleport_data: ManagedTeleportData
-    ) {
-        super()
+    constructor(public config: PathGraphics.Config) {
+        super(config)
 
         this.render()
     }
@@ -25,7 +24,7 @@ export class StepGraphics extends GameEntity {
     protected override render_implementation(options: GameEntity.RenderOptions) {
         const cls = "ctr-step-graphics"
 
-        const step = this.step
+        const step = this.config.step
 
         switch (step.type) {
             case "orientation":
@@ -86,7 +85,7 @@ export class StepGraphics extends GameEntity {
 
                 break;
             case "teleport":
-                let teleport = this.teleport_data.get2(step.id)
+                let teleport = ManagedTeleportData.instance().get2(step.id)
 
                 leaflet.marker(Vector2.toLatLong(teleport.spot), {
                     icon: new TeleportMapIcon(teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
@@ -164,14 +163,24 @@ export class StepGraphics extends GameEntity {
             className: "ctr-step-graphics"
         })
     }
+
+    protected renderTooltip(): Widget | null {
+        return new PathStepProperties(this.config.step, Dependencies.instance().app.value().template_resolver)
+    }
 }
 
 export namespace PathGraphics {
+    export type Config = GameEntity.SetupOptions & {
+        step: Path.step
+    }
 
-    export function renderPath(path: Path.step[], teleports: ManagedTeleportData): OpacityGroup {
+    export function renderPath(path: Path.step[]): OpacityGroup {
         let group = new OpacityGroup()
 
-        for (let step of path) new StepGraphics(step, teleports).addTo(group)
+        for (let step of path) new StepGraphics({
+            highlightable: true,
+            step: step,
+        }).addTo(group)
 
         return group
     }

@@ -185,12 +185,12 @@ class StepEditWidget extends Widget {
                 props.named("Where", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
                             preview_render: tile => new StepGraphics({
+                                step: {
                                     type: "powerburst",
                                     description: "",
                                     where: tile,
-                                },
-                                this.parent.getMap().getTeleportLayer().teleports
-                            )
+                                }
+                            })
                         }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the redclick by clicking the tile.`))
                             .onStart(() => this.value.value().associated_preview?.setOpacity(0))
                             .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
@@ -640,8 +640,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         }
 
         if (this.meta.preview_layer) {
-            value.associated_preview = new StepGraphics(value.raw,
-                this.meta.preview_layer.getMap().getTeleportLayer().teleports).addTo(this.meta.preview_layer)
+            value.associated_preview = new StepGraphics({step: value.raw}).addTo(this.meta.preview_layer)
         }
     }
 
@@ -746,7 +745,7 @@ export class PathEditor extends Behaviour {
 
 export namespace PathEditor {
 
-    export type Value = { raw: Path.step, associated_preview?: OpacityGroup, augmented?: Observable<Path.augmented_step> }
+    export type Value = { raw: Path.step, associated_preview?: StepGraphics, augmented?: Observable<Path.augmented_step> }
     export type OValue = ObservableArray.ObservableArrayValue<Value>
     export type Data = PathBuilder
 

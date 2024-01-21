@@ -54,6 +54,8 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "before-death-plateu",
+                        "description": "in his cave near Burthorpe",
                         "range": {
                             "topleft": {
                                 "x": 2267,

@@ -15,11 +15,28 @@ export default class GameLayer extends leaflet.FeatureGroup {
     public parent: GameLayer | null = null
     protected map: GameMap | null = null
 
+    public active_entities: MapEntity[] = []
+
     constructor() {
         super();
 
         this.on("layeradd", (l) => {
             if (childLike(l.layer)) l.layer.parent = this
+
+            if (l.layer instanceof MapEntity) {
+                const lay = l.layer
+
+                l.layer.mouseover.subscribe(v => {
+                    if (v) {
+                        console.log("Activating")
+                        console.log(lay)
+
+                        this.active_entities.push(lay)
+                    } else {
+                        this.active_entities = this.active_entities.filter(e => e != lay)
+                    }
+                })
+            }
         })
 
         this.on("layerremove", (l) => {
@@ -70,6 +87,24 @@ export default class GameLayer extends leaflet.FeatureGroup {
         this.handler_pool.kill()
 
         return super.onRemove(map);
+    }
+
+    collectActiveEntities(accumulator: MapEntity[][] = []): MapEntity[][] {
+        accumulator.push(this.active_entities)
+
+        this.eachLayer(lay => {
+            if (lay instanceof GameLayer) lay.collectActiveEntities(accumulator)
+        })
+
+        return accumulator
+    }
+
+    eachEntity(f: (_: MapEntity) => void): this {
+        this.eachLayer(lay => {
+            if (lay instanceof MapEntity) f(lay)
+        })
+
+        return this
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {}

@@ -39,6 +39,7 @@ import {PathStepProperties} from "../pathing/PathStepProperties";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
 import * as tippy from "tippy.js";
 import {followCursor} from "tippy.js";
+import GameLayer from "../../../lib/gamemap/GameLayer";
 
 class PathSectionControl extends Widget {
     constructor(
@@ -284,7 +285,7 @@ export default class PathControl extends Behaviour {
     private method: AugmentedMethod<GenericPathMethod> = null
     private sectioned_path: SectionedPath = null
 
-    private path_layer: leaflet.FeatureGroup = new OpacityGroup()
+    private path_layer: GameLayer = new GameLayer()
     private step_graphics: TreeArray<StepGraphics, {}> = null
 
     private widget: Widget = null

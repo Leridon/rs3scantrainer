@@ -3,8 +3,11 @@ import * as leaflet from "leaflet";
 import {TileCoordinates} from "../runescape/coordinates";
 import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
 import {LeafletEvent} from "leaflet";
+import {MapEntity} from "./MapEntity";
 
 export abstract class GameMapEvent<LeafletT extends leaflet.LeafletEvent, OriginalT extends Event> {
+    active_entities: MapEntity[] = []
+
     public propagation_state: {
         phase: "pre" | "post",
         trickle_stopped_immediate: boolean,
@@ -15,7 +18,7 @@ export abstract class GameMapEvent<LeafletT extends leaflet.LeafletEvent, Origin
     protected constructor(public map: GameMap,
                           public leaflet: LeafletT,
                           public original: OriginalT
-                          ) {
+    ) {
         this.propagation_state = {
             phase: "pre",
             trickle_stopped_immediate: false,

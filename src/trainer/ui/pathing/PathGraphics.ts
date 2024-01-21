@@ -13,6 +13,7 @@ import {TeleportMapIcon} from "../../../lib/gamemap/defaultlayers/TeleportLayer"
 import Widget from "../../../lib/ui/Widget";
 import {PathStepProperties} from "./PathStepProperties";
 import Dependencies from "../../dependencies";
+import GameLayer from "../../../lib/gamemap/GameLayer";
 
 export class StepGraphics extends MapEntity {
     constructor(public config: PathGraphics.Config) {
@@ -174,8 +175,8 @@ export namespace PathGraphics {
         step: Path.step
     }
 
-    export function renderPath(path: Path.step[]): OpacityGroup {
-        let group = new OpacityGroup()
+    export function renderPath(path: Path.step[]): GameLayer {
+        let group = new GameLayer()
 
         for (let step of path) new StepGraphics({
             highlightable: true,

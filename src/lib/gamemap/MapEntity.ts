@@ -10,6 +10,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
     public parent: GameLayer | null = null
     private rendering: boolean = false
 
+    mouseover = observe(false)
     highlighted = observe(false)
     opacity = observe(1)
 
@@ -49,10 +50,14 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
 
         this.on("mouseover", () => {
             if (!this.rendering && this.entity_config.highlightable) this.highlighted.set(true)
+
+            this.mouseover.set(true)
         })
 
         this.on("mouseout", () => {
             if (!this.rendering) this.highlighted.set(false)
+
+            this.mouseover.set(false)
         })
     }
 

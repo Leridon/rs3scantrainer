@@ -543,6 +543,23 @@ class PathEditorGameLayer extends GameLayer {
                         })
                     }
                 })
+
+
+                event.active_entities.forEach(entity => {
+                    if (entity instanceof StepGraphics) {
+                        let i = this.editor.value.value().findIndex(v => v.value().associated_preview == entity)
+
+                        if (i >= 0) {
+                            let v = this.editor.value.value()[i]
+
+                            event.add({
+                                type: "basic",
+                                text: `Delete step ${i}`,
+                                handler: () => this.editor.value.remove(v)
+                            })
+                        }
+                    }
+                })
             }
         })
     }

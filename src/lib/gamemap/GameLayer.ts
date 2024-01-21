@@ -28,9 +28,6 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
                 l.layer.mouseover.subscribe(v => {
                     if (v) {
-                        console.log("Activating")
-                        console.log(lay)
-
                         this.active_entities.push(lay)
                     } else {
                         this.active_entities = this.active_entities.filter(e => e != lay)

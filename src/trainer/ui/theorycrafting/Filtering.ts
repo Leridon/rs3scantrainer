@@ -20,13 +20,11 @@ import spacer = C.spacer;
 import span = C.span;
 import vbox = C.vbox;
 import ClueSpot = Clues.ClueSpot;
-
 import NisCollapseButton from "../../../lib/ui/controls/NisCollapseButton";
 import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 import {ClueProperties} from "./ClueProperties";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
-import {Vector2} from "../../../lib/math";
 import {ClueOverviewMarker} from "./OverviewMarker";
 import * as fuzzysort from "fuzzysort";
 
@@ -124,6 +122,11 @@ class ClueSpotFilterResult extends Widget {
 
         this.addClass("ctr-filtered-clue-result")
 
+        this.props = new ClueProperties(this.spot, this.methods, this.edit_handler, true).css2({
+            "display": "none",
+            "border-top": "1px dashed grey"
+        })
+
         this.append(hbox(
             vbox(
                 this.summary = c().text(ClueSpot.shortString(spot)).addClass("ctr-filtered-clue-result-summary").on("click", () => {
@@ -137,22 +140,14 @@ class ClueSpotFilterResult extends Widget {
                 "overflow": "hidden"
             }),
             spacer(),
-            new NisCollapseButton(ExpansionBehaviour.create({
-                    starts_collapsed: true,
-                    onCollapse: () => {
-                        this.props.container.animate({height: "hide"})
-                    },
-                    onExpand: () => {
-                        this.props.container.animate({height: "show"})
-                    }
+            new NisCollapseButton(ExpansionBehaviour.vertical({
+                    target: this.props,
+                    starts_collapsed: true
                 })
             )
         ))
 
-        this.append(this.props = new ClueProperties(this.spot, this.methods, this.edit_handler, true).css2({
-            "display": "none",
-            "border-top": "1px dashed grex"
-        }))
+        this.append(this.props)
     }
 }
 

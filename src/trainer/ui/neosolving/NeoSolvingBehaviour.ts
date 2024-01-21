@@ -335,12 +335,12 @@ class ScanTreeSolvingControl extends Behaviour {
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
             new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.layer)
-            PathGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.layer)
+            PathGraphics.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.layer)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.forEach(c => {
-            PathGraphics.renderPath(c.value.raw.path).setOpacity(0.5).addTo(this.layer)
+            PathGraphics.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
             if (c.value.raw.region) new ScanRegionPolygon(c.value.raw.region).setOpacity(0.5).addTo(this.layer)
         })
     }

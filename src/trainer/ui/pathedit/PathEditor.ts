@@ -635,7 +635,9 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
         }
 
         if (this.meta.preview_layer) {
-            value.associated_preview = new StepGraphics({step: value.raw}).addTo(this.meta.preview_layer)
+            value.associated_preview =
+                new StepGraphics({step: value.raw, highlightable: true})
+                    .addTo(this.meta.preview_layer)
         }
     }
 

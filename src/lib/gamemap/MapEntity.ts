@@ -4,8 +4,10 @@ import observe_combined = Observable.observe_combined;
 import * as tippy from "tippy.js";
 import Widget from "../ui/Widget";
 import {followCursor} from "tippy.js";
+import GameLayer from "./GameLayer";
 
-export abstract class GameEntity extends leaflet.FeatureGroup {
+export abstract class MapEntity extends leaflet.FeatureGroup {
+    public parent: GameLayer | null = null
     private rendering: boolean = false
 
     highlighted = observe(false)
@@ -13,7 +15,7 @@ export abstract class GameEntity extends leaflet.FeatureGroup {
 
     private tooltip_instance: tippy.Instance = null
 
-    protected constructor(protected entity_config: GameEntity.SetupOptions) {
+    protected constructor(protected entity_config: MapEntity.SetupOptions) {
         super();
 
         observe_combined({
@@ -68,7 +70,7 @@ export abstract class GameEntity extends leaflet.FeatureGroup {
         return this
     }
 
-    protected abstract render_implementation(options: GameEntity.RenderOptions): void
+    protected abstract render_implementation(options: MapEntity.RenderOptions): void
 
     protected renderTooltip(): Widget | null {
         return null
@@ -88,7 +90,7 @@ export abstract class GameEntity extends leaflet.FeatureGroup {
     }
 }
 
-export namespace GameEntity {
+export namespace MapEntity {
     export type RenderOptions = {
         highlight: boolean,
         opacity: number

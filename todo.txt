@@ -18,12 +18,14 @@ Planned for next release (b0.4):
 - Solving Behaviour
     - Path Panel
         - Neat step styling
+        - Add icon for orientation step
         - Focus section when selected
         - [WIP] Detail tooltip on hover
             - Finish official info
-            - Add description
+            - Add custom description
         - Disable default teleport render when contained in step
             - Render step instead
+            - (Maybe that's not even necessary, since the step graphics are draw on top of the teleport graphics. Very hacky, but does what it should)
         - Cleanup using "fake" steps:
             - Combine surges/dives following a powerburst into one "fake" step
             - Duplicate shortcut step to exist in both sections

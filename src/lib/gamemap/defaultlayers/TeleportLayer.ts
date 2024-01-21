@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet"
 import {Vector2} from "../../math";
 import {Teleports} from "../../runescape/teleports";
-import {GameEntity} from "../GameEntity";
+import {MapEntity} from "../MapEntity";
 import {C} from "../../ui/constructors";
 import {OpacityGroup} from "../layers/OpacityLayer";
 import div = C.div;
@@ -11,7 +11,7 @@ import full_teleport_id = Teleports.full_teleport_id;
 import Widget from "../../ui/Widget";
 import Properties from "../../../trainer/ui/widgets/Properties";
 
-export class TeleportEntity extends GameEntity {
+export class TeleportEntity extends MapEntity {
 
     constructor(public config: TeleportEntity.Config) {
         super(config);
@@ -19,7 +19,7 @@ export class TeleportEntity extends GameEntity {
         this.render()
     }
 
-    protected render_implementation(options: GameEntity.RenderOptions) {
+    protected render_implementation(options: MapEntity.RenderOptions) {
         leaflet.marker(Vector2.toLatLong(this.config.teleport.spot), {
             icon: new TeleportMapIcon(this.config.teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
             riseOnHover: true
@@ -40,7 +40,7 @@ export class TeleportEntity extends GameEntity {
 }
 
 export namespace TeleportEntity {
-    export type Config = GameEntity.SetupOptions & {
+    export type Config = MapEntity.SetupOptions & {
         teleport: Teleports.flat_teleport
     }
 }

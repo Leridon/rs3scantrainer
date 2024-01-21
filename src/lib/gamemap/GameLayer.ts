@@ -2,21 +2,29 @@ import * as leaflet from "leaflet"
 import {GameMap} from "./GameMap";
 import {LayerGroup} from "leaflet";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
-import {TileMarker} from "./TileMarker";
 import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
-import {GameEntity} from "./GameEntity";
+import {MapEntity} from "./MapEntity";
+
+function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
+    return l instanceof GameLayer || l instanceof MapEntity
+}
 
 export default class GameLayer extends leaflet.FeatureGroup {
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()
 
-    private entities: GameEntity[] = []
-
-    protected parent: GameLayer | null = null
+    public parent: GameLayer | null = null
     protected map: GameMap | null = null
 
     constructor() {
         super();
-        new TileMarker({x: 0, y: 0, level: 0}).withMarker().addTo(this)
+
+        this.on("layeradd", (l) => {
+            if (childLike(l.layer)) l.layer.parent = this
+        })
+
+        this.on("layerremove", (l) => {
+            if (childLike(l.layer) && l.layer.parent == this) l.layer.parent = null
+        })
     }
 
     isRootLayer(): boolean {
@@ -37,17 +45,17 @@ export default class GameLayer extends leaflet.FeatureGroup {
     add(layer: GameLayer): this {
         this.addLayer(layer)
 
-        layer.parent = this
-
         return this
     }
 
-    addTo(layer: GameMap | LayerGroup | GameLayer): this {
-        if (layer instanceof GameLayer) layer.add(this)
-        else if (layer instanceof GameMap) layer.addGameLayer(this)
-        else super.addTo(layer)
 
-        return this
+    addTo(layer: GameMap | LayerGroup | GameLayer): this {
+        if (layer instanceof GameMap) {
+            layer.addGameLayer(this)
+            return this
+        }
+
+        return super.addTo(layer)
     }
 
     onAdd(map: GameMap): this {

@@ -6,7 +6,7 @@ import {Vector2} from "../../../lib/math";
 import {arrow, createX} from "../path_graphics";
 import InteractionType = Path.InteractionType;
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
-import {GameEntity} from "../../../lib/gamemap/GameEntity";
+import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {Teleports} from "../../../lib/runescape/teleports";
 import ManagedTeleportData = Teleports.ManagedTeleportData;
 import {TeleportMapIcon} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
@@ -14,14 +14,14 @@ import Widget from "../../../lib/ui/Widget";
 import {PathStepProperties} from "./PathStepProperties";
 import Dependencies from "../../dependencies";
 
-export class StepGraphics extends GameEntity {
+export class StepGraphics extends MapEntity {
     constructor(public config: PathGraphics.Config) {
         super(config)
 
         this.render()
     }
 
-    protected override render_implementation(options: GameEntity.RenderOptions) {
+    protected override render_implementation(options: MapEntity.RenderOptions) {
         const cls = "ctr-step-graphics"
 
         const step = this.config.step
@@ -170,7 +170,7 @@ export class StepGraphics extends GameEntity {
 }
 
 export namespace PathGraphics {
-    export type Config = GameEntity.SetupOptions & {
+    export type Config = MapEntity.SetupOptions & {
         step: Path.step
     }
 

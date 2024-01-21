@@ -33,47 +33,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Zookeeper",
-                "spots": [
-                    {
-                        "range": {
-                            "topleft": {
-                                "x": 2608,
-                                "y": 3271
-                            },
-                            "botright": {
-                                "x": 2615,
-                                "y": 3266
-                            },
-                            "level": 0
-                        }
-                    },
-                    {
-                        "range": {
-                            "topleft": {
-                                "x": 2618,
-                                "y": 3283
-                            },
-                            "botright": {
-                                "x": 2624,
-                                "y": 3277
-                            },
-                            "level": 0
-                        }
-                    },
-                    {
-                        "range": {
-                            "topleft": {
-                                "x": 2599,
-                                "y": 3287
-                            },
-                            "botright": {
-                                "x": 2606,
-                                "y": 3282
-                            },
-                            "level": 0
-                        }
-                    }
-                ]
+                "spots": [{
+                    "range": {"topleft": {"x": 2607, "y": 3281}, "botright": {"x": 2620, "y": 3268}, "level": 0},
+                    "description": "in Ardougne Zoo"
+                }]
             },
             "anagram": [
                 "Eek Zero Op"
@@ -145,7 +108,8 @@ export namespace clue_data {
                                 "y": 3330
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "north of Ardougne castle"
                     }
                 ]
             },
@@ -186,7 +150,8 @@ export namespace clue_data {
                                 "y": 3443
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "near Taverley Lodestone"
                     }
                 ]
             },
@@ -227,7 +192,8 @@ export namespace clue_data {
                                 "y": 3148
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "outside of the abbey"
                     }
                 ]
             },
@@ -257,7 +223,8 @@ export namespace clue_data {
                                 "y": 9390
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Rantz's cave"
                     }
                 ]
             },
@@ -287,7 +254,8 @@ export namespace clue_data {
                                 "y": 3215
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the northern end of Al Kharid"
                     }
                 ]
             },
@@ -316,7 +284,8 @@ export namespace clue_data {
                                 "y": 9815
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in his cave at Tree Gnome Stronghold"
                     }
                 ],
                 "npc": "Brimstail"
@@ -358,7 +327,8 @@ export namespace clue_data {
                                 "y": 3215
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Lumbridge Castle's kitchen"
                     }
                 ]
             },
@@ -399,7 +369,8 @@ export namespace clue_data {
                                 "y": 3498
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "on the peak of Ice Mountain"
                     }
                 ]
             },
@@ -435,6 +406,8 @@ export namespace clue_data {
                 "npc": "Caroline",
                 "spots": [
                     {
+                        "id": "default",
+                        "description": "in Witchhaven",
                         "range": {
                             "topleft": {
                                 "x": 2713,
@@ -446,7 +419,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "Before 'Sea Slug'."
+                        "note": "Before 'Sea Slug'"
                     },
                     {
                         "range": {
@@ -460,6 +433,7 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
+                        "description": "in her house in Witchhaven",
                         "note": "After 'Sea Slug'."
                     }
                 ]
@@ -1455,7 +1429,8 @@ export namespace clue_data {
                                 "y": 3291
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in her house south of Ardougne Market"
                     }
                 ],
                 "npc": "Zenesha"
@@ -1490,7 +1465,8 @@ export namespace clue_data {
                                 "y": 3047
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "south of Castle Wars"
                     }
                 ],
                 "npc": "Uglug Nar"
@@ -1525,7 +1501,8 @@ export namespace clue_data {
                                 "y": 3502
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the limestone mine"
                     }
                 ],
                 "npc": "Odd Old Man"
@@ -1560,10 +1537,11 @@ export namespace clue_data {
                                 "y": 4466
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "north of the bank in Zanaris"
                     }
                 ],
-                "npc": "Fairy Nuff (North of the bank in Zanaris)"
+                "npc": "Fairy Nuff"
             },
             "anagram": [
                 "I Faffy Run"
@@ -1590,7 +1568,8 @@ export namespace clue_data {
                                 "y": 5382
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the bottom of Polypore Dungeon"
                     }
                 ],
                 "npc": "Ramokee Skinweaver"
@@ -1621,6 +1600,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
+                        "description": "by the docks on Mos Le'Harmless",
                         "note": "Mos Le'Harmless"
                     },
                     {
@@ -1635,6 +1615,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
+                        "description": "on Harmony Island",
                         "note": "Harmony"
                     }
                 ],
@@ -1670,7 +1651,8 @@ export namespace clue_data {
                                 "y": 11952
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "on Tuaei Leit"
                     }
                 ],
                 "npc": "Sensei Seaworth"
@@ -1695,6 +1677,8 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "outside",
+                        "description": "outside of the entrance to the empty throne room",
                         "range": {
                             "topleft": {
                                 "x": 3376,
@@ -1706,9 +1690,11 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "Outside the empty throne room."
+                        "note": "Outside the empty throne room"
                     },
                     {
+                        "id": "inside",
+                        "description": "inside the empty throne room",
                         "range": {
                             "topleft": {
                                 "x": 2825,
@@ -1720,7 +1706,7 @@ export namespace clue_data {
                             },
                             "level": 2
                         },
-                        "note": "Inside the empty throne room."
+                        "note": "Inside the empty throne room"
                     }
                 ],
                 "npc": "Celia Diggory"
@@ -1829,6 +1815,8 @@ export namespace clue_data {
                 "npc": "Philippe Carnillean",
                 "spots": [
                     {
+                        "id": "before",
+                        "description": "at Carnillean Mansion",
                         "range": {
                             "topleft": {
                                 "x": 2564,
@@ -1843,6 +1831,8 @@ export namespace clue_data {
                         "note": "Before Carnillean Rising"
                     },
                     {
+                        "id": "50qp",
+                        "description": "at the entrance of Ardounge Combat Training Camp",
                         "range": {
                             "topleft": {
                                 "x": 2514,
@@ -1857,6 +1847,8 @@ export namespace clue_data {
                         "note": "50 qp."
                     },
                     {
+                        "id": "100qp",
+                        "description": "at the entrance to Mountain Camp",
                         "range": {
                             "topleft": {
                                 "x": 2752,
@@ -1871,6 +1863,8 @@ export namespace clue_data {
                         "note": "100 qp."
                     },
                     {
+                        "id": "150qp",
+                        "description": "in Shilo Village",
                         "range": {
                             "topleft": {
                                 "x": 2857,
@@ -1885,6 +1879,8 @@ export namespace clue_data {
                         "note": "150 qp."
                     },
                     {
+                        "id": "200qp",
+                        "description": "in the Green Ghost Inn",
                         "range": {
                             "topleft": {
                                 "x": 3671,
@@ -1899,6 +1895,8 @@ export namespace clue_data {
                         "note": "200 qp."
                     },
                     {
+                        "id": "250qp",
+                        "description": "at the bottom of Polypore Dungeon",
                         "range": {
                             "topleft": {
                                 "x": 4643,
@@ -1913,6 +1911,8 @@ export namespace clue_data {
                         "note": "250 qp."
                     },
                     {
+                        "id": "300qp",
+                        "description": "outside of Oldak's house",
                         "range": {
                             "topleft": {
                                 "x": 2709,
@@ -1927,6 +1927,8 @@ export namespace clue_data {
                         "note": "300 qp."
                     },
                     {
+                        "id": "350qp",
+                        "description": "at Piscatoris Fishing Colony",
                         "range": {
                             "topleft": {
                                 "x": 2338,
@@ -1941,6 +1943,8 @@ export namespace clue_data {
                         "note": "350 qp."
                     },
                     {
+                        "id": "400qp",
+                        "description": "at the TzHaar fight Caves",
                         "range": {
                             "topleft": {
                                 "x": 4610,
@@ -1981,7 +1985,8 @@ export namespace clue_data {
                                 "y": 3254
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Draynor"
                     }
                 ],
                 "npc": "Wise Old Man"
@@ -2001,6 +2006,8 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "farm",
+                        "note": "Before Gower Quest",
                         "range": {
                             "topleft": {
                                 "x": 3252,
@@ -2011,9 +2018,12 @@ export namespace clue_data {
                                 "y": 3353
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the farm south of Varrock"
                     },
                     {
+                        "id": "life-altar",
+                        "note": "After Gower Quest",
                         "range": {
                             "topleft": {
                                 "x": 1055,
@@ -2024,7 +2034,8 @@ export namespace clue_data {
                                 "y": 5549
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "at the Life Altar"
                     }
                 ],
                 "npc": "Paul Gower"
@@ -2054,7 +2065,8 @@ export namespace clue_data {
                                 "y": 6960
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "at the entrance to Telos"
                     }
                 ],
                 "npc": "Soothsayer Sybil"
@@ -2084,7 +2096,8 @@ export namespace clue_data {
                                 "y": 3297
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "at the seren stones",
                     }
                 ],
                 "npc": "Lady Trahaearn"
@@ -2114,7 +2127,8 @@ export namespace clue_data {
                                 "y": 2935
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Nardaah"
                     }
                 ],
                 "npc": "Ali The Wise"
@@ -2134,6 +2148,7 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "office",
                         "range": {
                             "topleft": {
                                 "x": 414,
@@ -2145,8 +2160,10 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
+                        "description": "in Death's Office",
                         "note": "Death's Office"
                     }
+                    // TODO: City of Um?
                 ],
                 "npc": "Death"
             },
@@ -4002,7 +4019,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Captain Tobias.",
-                "spots": [{"range": {"topleft": {"x": 3025, "y": 3221}, "botright": {"x": 3028, "y": 3215}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3025, "y": 3221}, "botright": {"x": 3028, "y": 3215}, "level": 0},
+                    "description": "at Port Sarim"
+                }]
             }
         },
         {
@@ -4012,7 +4032,10 @@ export namespace clue_data {
             "text": ["Someone watching Het's Oasis is your next destination."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3371, "y": 3278}, "botright": {"x": 3378, "y": 3271}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3371, "y": 3278}, "botright": {"x": 3378, "y": 3271}, "level": 0},
+                    "description": "north of Het's Oasis"
+                }],
                 "npc": "Jeed"
             }
         },
@@ -4219,6 +4242,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2656, "y": 3160, "level": 0},
+                "description": "in front of the door"
             }
         },
         {
@@ -4240,6 +4264,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3358, "y": 2971, "level": 0},
+                "description": "next to the well"
             }
         },
         {
@@ -4272,6 +4297,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2513, "y": 3041, "level": 0},
+                "description": "between the rocks"
             }
         },
         {
@@ -4298,6 +4324,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3000, "y": 3110, "level": 0},
+                "description": "on top of the shellfish",
             }
         },
         {
@@ -4319,6 +4346,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3356, "y": 3507, "level": 0},
+                "description": "in the western shed"
             }
         },
         {
@@ -4329,6 +4357,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3644, "y": 3494, "level": 0},
+                "description": "next to the mushroom"
             }
         },
         {
@@ -4442,6 +4471,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3176, "y": 2916, "level": 0},
+                "description": "west of the cart"
             }
         },
         {
@@ -4475,6 +4505,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2992, "y": 3178, "level": 0},
+                "description": "west of the church near Port Sarim"
             }
         },
         {
@@ -4484,7 +4515,8 @@ export namespace clue_data {
             "text": ["Covered in shadows, the centre of the circle is where you will find the answer."],
             "solution": {
                 "type": "dig",
-                "spot": {"x": 3489, "y": 3288, "level": 0}
+                "spot": {"x": 3489, "y": 3288, "level": 0},
+                "description": "at the centre of Mort'ton"
             }
         },
         {
@@ -4504,7 +4536,8 @@ export namespace clue_data {
                         "botright": {
                             "x": 2960, "y": 3512
                         }
-                    }
+                    },
+                    "description": "in Goblin Village"
                 }]
             },
             "challenge": [{"type": "slider"}]
@@ -4529,8 +4562,18 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 2185, "y": 3285}, "botright": {"x": 2187, "y": 3283}, "level": 1}, "note": "After 'Plague's End'"},
-                    {"range": {"topleft": {"x": 2198, "y": 3258}, "botright": {"x": 2209, "y": 3247}, "level": 0}, "note": "Before 'Plague's End'"}
+                    {
+                        "id": "default",
+                        "range": {"topleft": {"x": 2185, "y": 3285}, "botright": {"x": 2187, "y": 3283}, "level": 1},
+                        "note": "After 'Plague's End'",
+                        "description": "in Prifddinas"
+                    },
+                    {
+                        "id": "after-plagues-end",
+                        "range": {"topleft": {"x": 2198, "y": 3258}, "botright": {"x": 2209, "y": 3247}, "level": 0},
+                        "note": "Before 'Plague's End'",
+                        "description": "at Iorwerth Camp"
+                    }
                 ],
                 "npc": "Lord Iorwerth"
             }
@@ -4545,7 +4588,10 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3055, "y": 3487}, "botright": {"x": 3059, "y": 3482}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3055, "y": 3487}, "botright": {"x": 3059, "y": 3482}, "level": 0},
+                    "description": "at the Edgeville Monastery"
+                }],
                 "npc": "Abbot Langley"
             }
         },
@@ -4559,7 +4605,10 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3011, "y": 3229}, "botright": {"x": 3017, "y": 3223}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3011, "y": 3229}, "botright": {"x": 3017, "y": 3223}, "level": 0},
+                    "description": "in the fishing shop in Port Sarim"
+                }],
                 "npc": "Gerrant"
             }
         },
@@ -4572,7 +4621,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Examiner",
-                "spots": [{"range": {"topleft": {"x": 3351, "y": 3349}, "botright": {"x": 3359, "y": 3342}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3351, "y": 3349}, "botright": {"x": 3359, "y": 3342}, "level": 0},
+                    "description": "in the Exam Centre"
+                }],
             }
         },
         {
@@ -4594,6 +4646,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2134, "y": 5162, "level": 0},
+                "description": "next to the puddle on top of the mountain on Braindeath Island"
             }
         },
         {
@@ -4604,7 +4657,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3131, "y": 2804}, "botright": {"x": 3135, "y": 2800}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3131, "y": 2804}, "botright": {"x": 3135, "y": 2800}, "level": 0},
+                    "description": "on the beach in Menaphos Worker District"
+                }],
                 "npc": "Hamid"
             }
         },
@@ -4616,6 +4672,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3396, "y": 2918, "level": 0},
+                "description": "next to the cacti west of Nardaah"
             }
         },
         {
@@ -4626,7 +4683,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2467, "y": 3440}, "botright": {"x": 2477, "y": 3426}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2467, "y": 3440}, "botright": {"x": 2477, "y": 3426}, "level": 0},
+                    "description": "at the Gnome Agility Course"
+                }],
                 "npc": "Gnome trainer"
             }
         },
@@ -4671,7 +4731,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2487, "y": 3489}, "botright": {"x": 2493, "y": 3487}, "level": 1}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2487, "y": 3489}, "botright": {"x": 2493, "y": 3487}, "level": 1},
+                    "description": "in the south-east corner on the first floor of the Grand Tree"
+                }],
                 "npc": "Heckel Funch"
             }
         },
@@ -4694,6 +4757,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2832, "y": 9586, "level": 0},
+                "description": "on top of the Red spider's eggs spawn"
             }
         },
         {
@@ -4715,6 +4779,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3161, "y": 9905, "level": 0},
+                "description": "next to the cauldron"
             }
         },
         {
@@ -4725,6 +4790,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2969, "y": 2975, "level": 0},
+                "description": "by the fire next to Captain Klemfoodle"
             }
         },
         {
@@ -4735,6 +4801,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2598, "y": 3266, "level": 0},
+                "description": "next to the torch in Ardougne Zoo"
             }
         },
         {
@@ -4745,6 +4812,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2519, "y": 3594, "level": 0},
+                "description": "on top of the shell"
             }
         },
         {
@@ -4832,6 +4900,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3084, "y": 3257, "level": 0},
+                "description": "in front of the window"
             }
         },
         {
@@ -4842,6 +4911,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3191, "y": 9825, "level": 0},
+                "description": "in front of the gate"
             }
         },
         {
@@ -4863,7 +4933,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2849, "y": 3494}, "botright": {"x": 2851, "y": 3492}, "level": 1}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2849, "y": 3494}, "botright": {"x": 2851, "y": 3492}, "level": 1},
+                    "description": "in eastern Karamja"
+                }],
                 "npc": "Captain Bleemadge"
             }
         },
@@ -4874,7 +4947,11 @@ export namespace clue_data {
             "text": ["Snah? I feel all confused, like one of those cakes."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0},
+                    "description": "at Lumbridge Castle"
+
+                }],
                 "npc": "Hans"
             }
         },
@@ -4899,7 +4976,10 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3474}, "botright": {"x": 3206, "y": 3470}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3202, "y": 3474}, "botright": {"x": 3206, "y": 3470}, "level": 0},
+                    "description": "in Varrock Castle"
+                }],
                 "npc": "Sir Prysin"
             }
         },
@@ -4922,7 +5002,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3219, "y": 3438}, "botright": {"x": 3223, "y": 3434}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3219, "y": 3438}, "botright": {"x": 3223, "y": 3434}, "level": 0},
+                    "description": "near Varrock's fountain"
+                }],
                 "npc": "Wilough"
             }
         },
@@ -4974,6 +5057,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3169, "y": 3887, "level": 0},
+                "description": "on top of the sapphire spawn"
             }
         },
         {
@@ -4984,6 +5068,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3154, "y": 3923, "level": 0},
+                "description": "in front of the lever in deep wilderness"
             }
         },
         {
@@ -4994,6 +5079,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3235, "y": 3673, "level": 0},
+                "description": "on top of the crossbow in the Graveyard of Shadows"
             }
         },
         {
@@ -5004,6 +5090,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2591, "y": 3879, "level": 0},
+                "description": "at the crossoads on Etceteria"
             }
         },
         {
@@ -5840,6 +5927,7 @@ export namespace clue_data {
             "ocr_data": [26, 74, 167, 26, 77, -17, 6, 8, 26, 77, -18, 8, 10, 25, 78, -17, 6, 7, 26, 80, -14, 5, 6, 25, 77, -15, 7, 8, 26, 77, -17, 7, 9, 26, 77, -18, 6, 8, 25, 80, -20, 7, 9, 25, 86, -19, 7, 8, 25, 82, -20, 6, 7, 26, 82, -18, 5, 6, 26, 82, -20, 4, 6, 25, 82, -19, 5, 7, 25, 85, -20, 6, 7, 26, 81, -21, 8, 10, 26, 78, -17, 7, 9, 25, 76, -21, 7, 9, 25, 79, -18, 5, 7, 26, 81, -15, 6, 8, 26, 79, -16, 7, 8, 26, 77, -19, 7, 8, 25, 78, -20, 6, 7, 24, 79, -15, 15, 20, 25, 80, -20, 8, 12, 26, 81, -11, 13, 17, 26, 79, -5, 18, 21, 26, 80, -15, 12, 17, 25, 79, -22, 5, 7, 25, 83, -23, 7, 8, 26, 80, -21, 6, 8, 25, 77, -19, 8, 10, 26, 78, -21, 6, 8, 26, 78, -20, 6, 7, 25, 82, -17, 5, 7, 26, 79, -20, 6, 7, 26, 77, -16, 10, 12, 26, 79, -18, 9, 14, 26, 64, 37, 40, 52, 26, 69, 24, 45, 56, 26, 68, 26, 41, 50, 26, 67, 40, 55, 67, 26, 67, 33, 52, 62, 26, 79, -20, 5, 7, 26, 80, -23, 6, 7, 26, 80, -22, 7, 8, 25, 78, -20, 5, 6, 25, 78, -20, 6, 8, 25, 77, -20, 4, 5, 26, 80, -19, 6, 8, 27, 71, 14, 39, 47, 26, 69, 17, 35, 46, 26, 68, 34, 60, 72, 26, 61, 43, 53, 66, 25, 64, 44, 68, 82, 26, 64, 32, 51, 62, 26, 72, 0, 26, 35, 27, 69, 18, 26, 36, 26, 80, -18, 6, 8, 25, 79, -22, 6, 8, 26, 79, -23, 5, 6, 25, 78, -17, 8, 10, 26, 78, -21, 6, 8, 25, 78, -22, 5, 6, 25, 76, -8, 20, 24, 27, 67, 27, 43, 50, 26, 69, 12, 34, 43, 27, 64, 38, 66, 77, 27, 57, 60, 53, 63, 27, 59, 66, 71, 84, 27, 59, 51, 64, 79, 26, 62, 42, 52, 61, 27, 74, -5, 16, 21, 25, 80, -18, 5, 6, 26, 81, -22, 6, 7, 26, 80, -25, 6, 7, 26, 77, -23, 5, 7, 25, 81, -21, 6, 7, 26, 78, -25, 6, 7, 26, 75, -9, 19, 25, 26, 61, 40, 57, 67, 27, 62, 37, 62, 72, 26, 59, 56, 60, 73, 26, 54, 44, 25, 33, 26, 55, 44, 31, 38, 26, 58, 60, 73, 89, 26, 64, 28, 48, 67, 27, 69, 24, 31, 43, 26, 80, -19, 5, 6, 26, 81, -22, 5, 6, 25, 80, -23, 6, 7, 26, 77, -23, 7, 9, 26, 78, -26, 7, 8, 25, 80, -23, 6, 8, 27, 67, 24, 48, 57, 27, 56, 69, 62, 80, 27, 58, 47, 64, 79, 26, 56, 45, 40, 46, 26, 53, 55, 40, 48, 26, 53, 46, 25, 30, 25, 60, 41, 42, 52, 27, 58, 61, 61, 76, 26, 70, 24, 30, 40, 25, 82, -16, 8, 9, 25, 80, -22, 5, 6, 26, 79, -24, 6, 7, 26, 79, -18, 6, 8, 26, 78, -26, 6, 7, 26, 78, -23, 6, 8, 25, 74, -7, 17, 21, 26, 64, 32, 40, 52, 27, 58, 52, 67, 84, 27, 58, 46, 42, 52, 26, 54, 44, 25, 29, 26, 55, 46, 19, 22, 26, 59, 51, 53, 64, 26, 59, 63, 66, 81, 26, 71, 14, 24, 32, 25, 83, -17, 6, 7, 26, 79, -23, 6, 7, 26, 81, -23, 6, 8, 26, 79, -16, 5, 6, 25, 80, -19, 6, 8, 26, 82, -22, 6, 8, 26, 80, -11, 12, 15, 26, 70, 4, 27, 33, 27, 59, 44, 64, 78, 27, 61, 40, 56, 69, 26, 57, 57, 71, 85, 26, 59, 54, 55, 67, 26, 60, 50, 66, 80, 26, 62, 46, 56, 70, 26, 76, -10, 12, 18, 26, 81, -18, 4, 6, 25, 79, -19, 5, 6, 26, 79, -24, 5, 6, 25, 81, -15, 7, 10, 25, 80, -17, 8, 10, 26, 81, -19, 6, 8, 25, 80, -11, 12, 14, 25, 74, -2, 16, 20, 26, 67, 20, 30, 38, 26, 63, 38, 51, 57, 26, 59, 55, 100, 119, 26, 60, 52, 71, 87, 26, 63, 37, 50, 59, 25, 73, -5, 19, 24, 26, 74, -21, 8, 10, 26, 79, -21, 4, 5, 26, 80, -22, 5, 7, 27, 77, -25, 5, 7, 26, 82, -15, 6, 8, 26, 82, -18, 7, 8, 25, 82, -16, 8, 10, 25, 80, -16, 8, 10, 26, 79, -11, 11, 13, 25, 80, -14, 10, 13, 25, 81, -11, 10, 13, 25, 77, 4, 22, 28, 26, 76, -6, 18, 24, 26, 77, -21, 9, 11, 26, 76, -20, 10, 12, 27, 77, -25, 6, 7, 26, 80, -21, 6, 8, 26, 79, -25, 6, 7, 27, 77, -27, 5, 7, 25, 84, -13, 9, 11, 24, 84, -15, 8, 10, 24, 85, -14, 9, 11, 25, 84, -12, 7, 9, 25, 84, -13, 7, 9, 25, 83, -14, 10, 12, 24, 84, -14, 8, 10, 25, 85, -16, 10, 12, 26, 80, -23, 6, 8, 26, 78, -24, 6, 8, 26, 77, -26, 6, 7, 27, 78, -26, 5, 6, 26, 80, -21, 6, 7, 26, 78, -25, 6, 8, 27, 76, -26, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "east of the rock",
                 "spot": {"x": 3102, "y": 3133, "level": 0},
             }
         },
@@ -5852,6 +5940,7 @@ export namespace clue_data {
             "ocr_data": [26, 77, 175, 26, 77, -9, 6, 8, 26, 77, -10, 8, 10, 25, 78, -9, 6, 7, 26, 79, -1, 15, 19, 25, 77, -7, 7, 10, 26, 77, -9, 7, 9, 26, 77, -10, 6, 8, 25, 80, -12, 7, 9, 25, 86, -11, 7, 8, 25, 82, -12, 6, 7, 26, 82, -10, 5, 6, 26, 82, -12, 4, 6, 25, 82, -11, 5, 7, 25, 85, -12, 6, 7, 26, 81, -13, 8, 10, 26, 78, -9, 7, 9, 25, 76, -13, 7, 9, 25, 79, -10, 5, 14, 27, 70, 41, 40, 50, 26, 71, 37, 48, 59, 26, 77, -10, 9, 14, 25, 78, -12, 6, 7, 24, 80, -13, 6, 8, 25, 80, -14, 5, 7, 26, 84, -10, 5, 6, 26, 83, -8, 6, 8, 26, 82, -12, 6, 10, 27, 70, 16, 52, 59, 25, 83, -15, 7, 8, 26, 80, -13, 6, 8, 25, 77, -11, 8, 10, 26, 78, -13, 6, 8, 26, 78, -12, 6, 16, 26, 72, 36, 34, 42, 27, 70, 35, 45, 50, 26, 79, -12, 5, 7, 26, 80, -13, 5, 6, 26, 80, -12, 6, 8, 25, 79, -13, 7, 8, 26, 79, -12, 5, 7, 26, 81, -9, 6, 7, 27, 71, 17, 45, 51, 26, 76, -6, 22, 31, 26, 80, -15, 6, 7, 26, 80, -14, 7, 8, 25, 78, -12, 5, 6, 25, 78, -12, 6, 8, 25, 77, -12, 4, 9, 27, 69, 41, 39, 52, 27, 70, 38, 46, 57, 26, 80, -11, 8, 14, 27, 73, 17, 57, 64, 25, 80, -15, 10, 17, 24, 80, -10, 7, 8, 25, 78, -5, 21, 24, 26, 77, -3, 24, 27, 27, 71, 16, 41, 50, 27, 70, 21, 50, 61, 25, 79, -14, 6, 8, 26, 79, -15, 5, 6, 25, 78, -9, 8, 10, 26, 78, -13, 6, 8, 25, 78, -14, 5, 6, 26, 69, 41, 55, 61, 27, 75, 15, 40, 46, 27, 76, 9, 22, 26, 26, 79, -13, 13, 17, 28, 68, 18, 64, 76, 26, 77, -1, 25, 37, 26, 74, 22, 71, 89, 25, 75, 13, 66, 85, 27, 72, 21, 55, 87, 27, 71, 21, 57, 64, 26, 81, -14, 6, 7, 26, 80, -17, 6, 7, 26, 77, -15, 5, 7, 25, 81, -13, 6, 7, 26, 78, -17, 6, 7, 26, 70, 32, 31, 44, 26, 75, -4, 22, 38, 26, 68, 37, 40, 53, 27, 70, 17, 57, 66, 26, 77, 2, 45, 58, 26, 74, 6, 43, 68, 26, 70, 42, 108, 131, 25, 76, 0, 39, 50, 27, 78, -3, 24, 30, 27, 70, 28, 61, 85, 26, 81, -13, 6, 10, 25, 80, -15, 6, 7, 26, 77, -15, 7, 9, 26, 78, -18, 7, 8, 25, 80, -15, 6, 8, 27, 72, 19, 26, 31, 26, 72, 22, 53, 59, 27, 68, 42, 51, 63, 28, 67, 21, 58, 66, 25, 76, -11, 15, 22, 26, 77, 4, 43, 49, 25, 81, -9, 8, 10, 26, 79, -8, 8, 10, 26, 80, 9, 41, 46, 26, 78, 5, 36, 45, 25, 80, -13, 5, 9, 26, 79, -16, 6, 7, 26, 79, -10, 6, 8, 26, 78, -18, 6, 7, 26, 78, -15, 6, 8, 26, 72, 37, 27, 31, 27, 72, 53, 36, 45, 27, 68, 60, 53, 62, 27, 77, -7, 27, 32, 26, 79, 1, 45, 48, 26, 79, 7, 41, 47, 26, 80, -10, 7, 9, 25, 82, -8, 6, 8, 26, 78, 9, 43, 51, 25, 82, -7, 7, 12, 26, 79, -15, 6, 7, 26, 81, -15, 6, 8, 26, 79, -8, 5, 6, 25, 80, -11, 6, 8, 26, 82, -14, 6, 8, 26, 79, 4, 21, 27, 27, 72, 23, 41, 49, 27, 72, 7, 35, 42, 27, 66, 41, 62, 71, 26, 81, -13, 7, 11, 26, 78, 8, 50, 55, 26, 78, 4, 41, 47, 26, 78, 5, 42, 48, 27, 73, 18, 60, 76, 27, 75, 8, 27, 34, 25, 79, -11, 5, 6, 26, 79, -16, 5, 6, 25, 81, -7, 7, 10, 25, 80, -9, 8, 10, 26, 81, -11, 6, 8, 25, 81, 1, 18, 23, 26, 71, 36, 46, 56, 26, 79, -11, 6, 7, 25, 75, 9, 31, 37, 26, 66, 49, 58, 70, 26, 72, 23, 21, 25, 26, 72, 15, 26, 31, 25, 78, -10, 9, 16, 27, 67, 13, 48, 58, 27, 70, 17, 51, 57, 26, 80, -14, 5, 7, 27, 77, -17, 5, 7, 26, 82, -7, 6, 8, 26, 82, -10, 7, 8, 25, 82, -8, 8, 10, 25, 80, -7, 9, 14, 26, 80, -5, 12, 18, 25, 81, -10, 6, 8, 25, 83, -8, 8, 10, 25, 82, -5, 12, 19, 26, 77, 5, 29, 38, 27, 73, 13, 42, 52, 27, 66, 47, 59, 70, 27, 70, 16, 24, 30, 26, 78, -8, 18, 24, 26, 79, -17, 6, 7, 27, 77, -19, 5, 7, 25, 84, -5, 9, 11, 24, 84, -7, 8, 10, 24, 85, -6, 9, 11, 25, 84, -4, 7, 9, 25, 84, -5, 7, 9, 25, 83, -6, 10, 12, 24, 84, -6, 8, 10, 25, 85, -8, 10, 12, 26, 80, -15, 6, 8, 26, 78, -16, 6, 8, 26, 77, -17, 6, 12, 27, 72, 8, 37, 46, 26, 77, 0, 20, 25, 26, 78, -17, 6, 8, 27, 76, -18, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "in front of the door",
                 "spot": {"x": 2612, "y": 3481, "level": 0},
             }
         },
@@ -5864,6 +5953,7 @@ export namespace clue_data {
             "ocr_data": [26, 78, 182, 26, 77, -2, 6, 8, 26, 77, -3, 8, 10, 25, 78, -2, 6, 7, 26, 80, 1, 5, 6, 25, 77, 0, 7, 8, 26, 77, -2, 7, 9, 26, 77, -3, 6, 8, 25, 80, -5, 7, 9, 25, 86, -4, 7, 8, 25, 82, -5, 6, 7, 26, 82, -3, 5, 6, 26, 82, -5, 4, 6, 25, 82, -4, 5, 7, 25, 85, -5, 6, 7, 26, 81, -6, 8, 10, 26, 78, -2, 7, 9, 25, 76, -6, 7, 9, 25, 79, -3, 5, 7, 26, 79, 7, 14, 19, 26, 78, 1, 10, 15, 28, 68, 28, 53, 60, 26, 77, -3, 9, 14, 24, 80, -6, 6, 8, 25, 80, -7, 5, 7, 26, 84, -3, 5, 6, 26, 83, -1, 6, 8, 26, 82, -5, 5, 6, 25, 79, -7, 5, 7, 25, 83, -8, 7, 8, 26, 80, -6, 6, 8, 25, 77, -4, 8, 10, 26, 78, -6, 6, 8, 26, 78, -5, 6, 7, 26, 75, 16, 31, 42, 27, 78, 1, 13, 17, 26, 77, -1, 15, 18, 26, 80, -5, 7, 14, 26, 78, 13, 56, 65, 25, 78, -1, 19, 28, 26, 79, -5, 5, 7, 26, 81, -2, 6, 7, 26, 79, -3, 5, 6, 26, 79, -5, 5, 7, 26, 80, -8, 6, 7, 26, 80, -7, 7, 8, 25, 78, -5, 5, 6, 25, 78, -5, 6, 8, 25, 77, -5, 4, 5, 26, 81, -5, 4, 6, 27, 79, 7, 41, 44, 26, 79, 0, 22, 26, 26, 81, 8, 45, 53, 25, 80, -9, 6, 8, 24, 79, 9, 38, 46, 26, 76, 15, 68, 74, 26, 76, 12, 46, 53, 26, 78, 0, 7, 11, 26, 80, -3, 6, 8, 25, 79, -7, 6, 8, 26, 79, -8, 5, 6, 25, 78, -2, 8, 10, 26, 78, -6, 6, 8, 25, 78, -7, 5, 6, 25, 80, -5, 6, 8, 27, 78, 11, 67, 75, 26, 78, -3, 15, 18, 26, 75, 2, 20, 23, 26, 64, 24, 38, 43, 25, 75, 3, 18, 23, 26, 77, -5, 11, 21, 25, 76, -1, 12, 20, 27, 77, 13, 54, 61, 25, 80, -3, 5, 6, 26, 81, -7, 6, 7, 26, 80, -10, 6, 7, 26, 77, -8, 5, 7, 25, 81, -6, 6, 7, 26, 78, -10, 6, 7, 26, 78, 0, 37, 43, 26, 64, 28, 39, 48, 26, 75, 0, 18, 22, 26, 68, 26, 28, 37, 26, 75, 1, 17, 20, 26, 69, 5, 30, 35, 26, 68, 63, 130, 157, 27, 66, 33, 65, 83, 27, 78, 11, 43, 49, 28, 70, 25, 50, 54, 26, 81, -7, 5, 6, 25, 80, -8, 6, 7, 26, 77, -8, 7, 9, 26, 78, -11, 7, 8, 25, 80, -8, 6, 8, 26, 78, -6, 8, 12, 26, 77, -6, 6, 8, 26, 70, 3, 21, 29, 26, 78, -9, 6, 14, 25, 76, -5, 11, 15, 26, 78, -4, 8, 12, 25, 75, 12, 21, 29, 26, 79, 0, 8, 16, 26, 80, 18, 48, 56, 25, 80, 8, 28, 31, 25, 80, -7, 5, 6, 26, 79, -9, 6, 7, 26, 79, -3, 6, 8, 26, 78, -11, 6, 7, 26, 78, -8, 6, 8, 25, 78, 3, 29, 39, 26, 76, 8, 49, 63, 27, 77, -6, 14, 33, 27, 79, 6, 53, 60, 26, 79, 6, 41, 48, 26, 78, 6, 17, 21, 26, 70, 19, 21, 28, 26, 79, 17, 69, 78, 26, 80, 1, 7, 12, 25, 83, -2, 6, 7, 26, 79, -8, 6, 7, 26, 81, -8, 6, 8, 26, 79, -1, 5, 6, 25, 80, -4, 6, 8, 26, 82, -7, 6, 8, 26, 82, -2, 9, 11, 26, 79, -3, 12, 16, 27, 75, 1, 24, 31, 28, 68, 18, 46, 55, 26, 78, 10, 41, 52, 25, 78, 11, 43, 48, 26, 78, 11, 51, 59, 25, 80, -2, 6, 10, 26, 80, -3, 4, 5, 26, 81, -3, 4, 6, 25, 79, -4, 5, 6, 26, 79, -9, 5, 6, 25, 81, 0, 7, 10, 25, 80, -2, 8, 10, 26, 81, -4, 6, 8, 25, 82, 4, 22, 25, 25, 78, 14, 39, 45, 26, 77, 12, 41, 46, 26, 76, 17, 55, 65, 26, 79, -1, 11, 20, 25, 79, -5, 6, 7, 26, 78, -5, 6, 7, 26, 78, 6, 38, 46, 26, 74, 10, 44, 49, 26, 78, 8, 39, 42, 26, 80, -7, 5, 7, 27, 77, -10, 5, 7, 26, 82, 0, 6, 8, 26, 82, -3, 7, 8, 25, 82, -1, 8, 10, 25, 80, 1, 12, 17, 26, 81, 0, 7, 14, 25, 81, 0, 12, 16, 25, 82, 4, 29, 32, 25, 81, 15, 46, 57, 26, 79, 10, 41, 49, 27, 77, 11, 53, 58, 26, 77, 0, 26, 37, 27, 76, -7, 17, 21, 26, 80, -6, 6, 8, 26, 79, -10, 6, 7, 27, 77, -12, 5, 7, 25, 84, 2, 9, 11, 24, 84, 0, 8, 10, 24, 85, 1, 9, 11, 25, 84, 3, 7, 9, 25, 84, 2, 7, 9, 25, 83, 1, 10, 12, 24, 84, 1, 8, 10, 25, 85, -1, 10, 12, 26, 80, -8, 6, 8, 26, 78, -9, 6, 8, 26, 77, -11, 6, 7, 27, 78, -11, 5, 6, 26, 80, -6, 6, 7, 26, 78, -10, 6, 8, 27, 76, -11, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "west of the tree",
                 "spot": {"x": 3043, "y": 3399, "level": 0},
             }
         },
@@ -5876,6 +5966,7 @@ export namespace clue_data {
             "ocr_data": [26, 77, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -4, 7, 9, 26, 77, -5, 6, 8, 25, 80, -7, 7, 9, 25, 86, -6, 7, 8, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -7, 4, 6, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -5, 5, 7, 26, 81, -2, 6, 8, 26, 77, 4, 21, 28, 27, 71, 14, 32, 44, 25, 78, -7, 6, 7, 24, 80, -8, 6, 8, 26, 76, 2, 24, 29, 27, 75, 21, 31, 38, 26, 83, -3, 6, 8, 27, 76, 10, 24, 28, 25, 79, -9, 6, 10, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -7, 6, 10, 27, 74, 20, 44, 51, 26, 80, -7, 5, 6, 26, 79, -7, 5, 8, 26, 78, -2, 16, 21, 26, 80, -7, 6, 8, 25, 79, -8, 7, 9, 26, 75, 3, 19, 29, 26, 81, -4, 6, 7, 27, 69, 24, 48, 52, 26, 78, -4, 11, 15, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -7, 4, 5, 26, 79, -3, 14, 18, 27, 81, -8, 6, 7, 26, 80, -8, 6, 8, 26, 75, 14, 49, 54, 27, 69, 25, 44, 51, 24, 79, -1, 15, 19, 25, 78, -3, 12, 16, 26, 78, -4, 7, 9, 26, 78, -2, 7, 9, 26, 80, -5, 6, 8, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 25, 78, -9, 5, 6, 25, 80, -3, 18, 22, 28, 71, 20, 56, 60, 26, 80, -8, 6, 8, 26, 81, -11, 5, 7, 25, 48, 31, 77, 85, 25, 64, 10, 29, 35, 27, 70, 19, 51, 57, 25, 77, -5, 6, 9, 27, 79, -3, 7, 9, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 9, 26, 77, 17, 71, 86, 26, 74, 17, 75, 86, 26, 78, -8, 10, 16, 25, 80, -10, 7, 8, 21, 36, 35, 49, 58, 23, 38, 37, 42, 51, 25, 78, -7, 7, 8, 25, 78, -7, 11, 16, 26, 76, 0, 16, 21, 26, 78, 13, 52, 60, 26, 81, -8, 5, 11, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 26, 77, -2, 18, 27, 26, 75, 14, 66, 73, 27, 75, 15, 69, 87, 26, 77, 3, 44, 57, 24, 51, 34, 135, 153, 25, 52, 34, 63, 80, 26, 75, 32, 85, 97, 26, 76, 23, 58, 67, 26, 79, 26, 71, 88, 26, 80, 21, 62, 73, 25, 80, -3, 20, 24, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 78, -10, 6, 8, 27, 71, 17, 48, 53, 26, 77, -6, 12, 17, 27, 77, 6, 52, 63, 27, 79, 9, 46, 59, 26, 80, -7, 6, 14, 26, 72, 14, 94, 107, 26, 74, 25, 67, 86, 26, 78, 28, 77, 89, 26, 79, 13, 44, 52, 25, 83, -4, 6, 7, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 80, 0, 19, 23, 28, 66, 33, 62, 69, 27, 76, -14, 6, 7, 27, 75, 10, 58, 66, 26, 81, -8, 7, 8, 25, 75, 3, 26, 27, 26, 78, 15, 51, 59, 25, 80, -4, 7, 10, 26, 80, -5, 5, 8, 26, 76, 3, 21, 24, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -6, 6, 8, 26, 77, 14, 31, 37, 25, 78, 3, 21, 27, 28, 66, 32, 60, 65, 25, 79, 1, 17, 26, 26, 78, 16, 57, 64, 26, 78, 12, 51, 57, 26, 77, 7, 40, 49, 25, 77, -3, 10, 13, 26, 69, 2, 23, 29, 25, 72, 4, 27, 28, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, -3, 8, 10, 25, 77, 3, 22, 27, 26, 81, -3, 7, 8, 27, 72, 21, 44, 52, 25, 83, -3, 8, 10, 26, 81, 20, 59, 69, 26, 79, 11, 44, 53, 26, 78, -10, 5, 6, 26, 78, -11, 5, 6, 27, 73, -5, 16, 19, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 80, 9, 29, 41, 24, 84, -1, 8, 10, 25, 83, 11, 44, 53, 26, 80, -10, 6, 8, 26, 78, -11, 6, 8, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "two tiles south-east of the bench",
                 "spot": {"x": 2971, "y": 3414, "level": 0},
             }
         },
@@ -5888,6 +5979,7 @@ export namespace clue_data {
             "ocr_data": [26, 78, 181, 26, 77, -3, 6, 8, 26, 77, -4, 8, 10, 25, 78, -3, 6, 7, 26, 80, 0, 5, 6, 25, 77, -1, 7, 8, 26, 77, -3, 7, 9, 26, 77, -4, 6, 8, 25, 80, -6, 7, 9, 25, 86, -5, 7, 8, 25, 79, 12, 39, 46, 26, 79, 10, 36, 43, 26, 82, -6, 4, 6, 25, 82, -5, 5, 7, 25, 85, -6, 6, 7, 26, 81, -7, 8, 10, 26, 78, -3, 7, 9, 25, 76, -7, 7, 9, 25, 79, -4, 5, 7, 26, 81, -1, 6, 8, 26, 79, -2, 7, 8, 26, 78, -6, 7, 8, 25, 78, -6, 6, 7, 24, 80, -7, 6, 8, 25, 80, -8, 5, 7, 26, 77, 25, 58, 68, 26, 77, 21, 54, 64, 26, 82, -6, 5, 6, 25, 79, -8, 5, 7, 25, 83, -9, 7, 8, 26, 80, -7, 6, 8, 25, 77, -5, 8, 10, 26, 78, -7, 6, 8, 26, 78, -6, 6, 7, 25, 82, -3, 5, 7, 26, 80, -6, 5, 6, 26, 79, -6, 5, 7, 26, 72, 9, 49, 55, 26, 71, 16, 95, 106, 25, 73, 6, 43, 49, 26, 71, 11, 50, 56, 26, 79, -1, 9, 13, 26, 79, -4, 5, 6, 26, 79, -6, 5, 7, 26, 80, -9, 6, 7, 26, 80, -8, 7, 8, 25, 78, -6, 5, 6, 25, 78, -6, 6, 8, 25, 77, -6, 4, 5, 26, 81, -6, 4, 6, 27, 81, -6, 9, 13, 26, 80, -7, 6, 8, 25, 76, 9, 48, 58, 25, 73, 10, 34, 53, 24, 74, 7, 19, 27, 25, 78, -5, 6, 8, 26, 77, 3, 23, 27, 26, 78, -1, 7, 9, 26, 80, -4, 6, 8, 25, 79, -8, 6, 8, 26, 79, -9, 5, 6, 25, 78, -3, 8, 10, 26, 78, -7, 6, 8, 25, 78, -8, 5, 6, 25, 80, -6, 6, 7, 27, 77, 13, 43, 49, 26, 77, 3, 87, 97, 26, 69, 16, 54, 74, 26, 63, 24, 39, 51, 25, 74, 7, 23, 31, 26, 64, 26, 36, 40, 25, 75, 12, 42, 48, 27, 79, -2, 7, 9, 25, 80, -4, 5, 6, 26, 81, -8, 6, 7, 26, 80, -11, 6, 7, 26, 77, -9, 5, 7, 25, 81, -7, 6, 7, 26, 78, -11, 6, 7, 26, 79, -8, 6, 8, 26, 75, 10, 43, 49, 26, 66, 17, 46, 53, 26, 70, 12, 60, 84, 26, 72, 7, 85, 103, 26, 76, -7, 10, 19, 25, 78, -6, 7, 8, 25, 76, 9, 50, 58, 27, 79, -5, 7, 11, 26, 80, -5, 5, 6, 26, 81, -8, 5, 6, 25, 80, -9, 6, 7, 26, 77, -9, 7, 9, 26, 78, -12, 7, 8, 25, 80, -9, 6, 8, 26, 78, -7, 7, 9, 26, 75, 10, 44, 51, 26, 65, 16, 39, 46, 26, 76, -6, 16, 25, 25, 76, -6, 15, 21, 26, 64, 31, 91, 107, 25, 71, 21, 31, 35, 26, 79, -1, 8, 12, 26, 79, 16, 73, 82, 25, 82, -1, 8, 11, 25, 80, -8, 5, 6, 26, 79, -10, 6, 7, 26, 79, -4, 6, 8, 26, 78, -12, 6, 7, 26, 78, -9, 6, 8, 25, 78, -5, 8, 9, 26, 76, 7, 43, 49, 27, 78, -11, 5, 7, 27, 70, 15, 25, 31, 26, 69, 17, 53, 62, 26, 79, 1, 14, 18, 26, 80, -4, 7, 9, 25, 82, -2, 6, 8, 26, 79, 3, 17, 28, 26, 80, 14, 23, 27, 26, 79, -9, 6, 7, 26, 81, -9, 6, 8, 26, 79, -2, 5, 6, 25, 80, -5, 6, 8, 26, 82, -8, 6, 8, 26, 82, -3, 9, 11, 26, 77, 7, 47, 55, 27, 76, -9, 11, 19, 27, 74, -2, 20, 24, 26, 71, 16, 23, 26, 25, 80, -5, 6, 7, 25, 76, 2, 17, 20, 26, 71, 16, 26, 32, 26, 75, 10, 28, 38, 26, 79, 12, 22, 25, 25, 79, -5, 5, 6, 26, 79, -10, 5, 6, 25, 81, -1, 7, 10, 25, 80, -3, 8, 10, 26, 81, -5, 6, 8, 25, 83, -2, 8, 10, 25, 80, -3, 6, 7, 26, 76, 15, 68, 78, 25, 79, -2, 10, 18, 26, 79, -6, 5, 7, 25, 79, -6, 6, 7, 26, 69, 16, 22, 26, 25, 61, 35, 46, 55, 26, 71, 5, 29, 41, 26, 77, 8, 23, 26, 26, 80, -8, 5, 7, 27, 77, -11, 5, 7, 26, 82, -1, 6, 8, 26, 82, -4, 7, 8, 25, 82, -2, 8, 10, 25, 80, -3, 7, 9, 26, 81, -2, 7, 8, 25, 81, -4, 6, 8, 26, 80, 16, 46, 54, 26, 80, 16, 43, 49, 26, 78, 11, 42, 49, 27, 75, 15, 42, 56, 27, 74, 14, 42, 55, 27, 75, 11, 47, 52, 26, 79, -1, 16, 20, 26, 79, -11, 6, 7, 27, 77, -13, 5, 7, 25, 84, 1, 9, 11, 24, 84, -1, 8, 10, 24, 85, 0, 9, 11, 25, 84, 2, 7, 9, 25, 84, 1, 7, 9, 25, 83, 0, 10, 12, 24, 84, 0, 8, 10, 25, 85, -2, 10, 12, 26, 80, -9, 6, 8, 26, 78, -10, 6, 8, 26, 77, -12, 6, 7, 27, 78, -12, 5, 6, 26, 80, -7, 6, 7, 26, 78, -11, 6, 8, 27, 76, -12, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "two tiles south-east of the dead tree",
                 "spot": {"x": 3290, "y": 3373, "level": 0},
             }
         },
@@ -5900,6 +5992,7 @@ export namespace clue_data {
             "ocr_data": [26, 77, 177, 26, 77, -7, 6, 8, 26, 77, -8, 8, 10, 25, 78, -7, 6, 7, 26, 80, -4, 5, 6, 25, 77, -5, 7, 8, 26, 77, -7, 7, 10, 26, 77, -8, 6, 8, 25, 80, -10, 7, 9, 25, 86, -9, 7, 8, 25, 82, -10, 6, 7, 26, 82, -8, 5, 6, 26, 82, -10, 4, 9, 25, 82, -9, 5, 7, 25, 85, -10, 6, 7, 26, 81, -11, 8, 10, 26, 78, -7, 7, 9, 25, 76, -11, 7, 9, 25, 79, -8, 5, 7, 26, 81, -5, 6, 8, 27, 75, 7, 28, 36, 29, 62, 37, 59, 69, 25, 77, -9, 7, 12, 27, 66, 32, 55, 62, 25, 80, -12, 5, 7, 26, 84, -8, 5, 7, 26, 72, 13, 38, 45, 26, 68, 17, 39, 46, 25, 79, -11, 6, 11, 25, 83, -13, 7, 8, 26, 80, -11, 6, 8, 25, 77, -9, 8, 10, 26, 78, -11, 6, 8, 26, 78, -10, 6, 7, 26, 81, -5, 10, 15, 28, 64, 34, 51, 60, 27, 75, -3, 19, 23, 26, 80, -11, 5, 6, 26, 75, 2, 30, 34, 25, 76, -4, 18, 22, 26, 75, -1, 22, 28, 26, 66, 27, 28, 37, 25, 62, 29, 31, 39, 26, 75, -2, 16, 19, 26, 80, -13, 6, 7, 26, 80, -12, 7, 8, 25, 78, -10, 5, 6, 25, 78, -10, 6, 8, 25, 77, -10, 4, 5, 26, 81, -10, 4, 6, 27, 80, -8, 11, 14, 26, 80, -11, 6, 8, 25, 84, -11, 7, 9, 25, 77, -6, 19, 23, 24, 65, 27, 33, 39, 25, 72, 4, 20, 28, 26, 78, -7, 7, 9, 26, 77, -3, 9, 16, 26, 80, -8, 6, 8, 25, 79, -12, 6, 8, 26, 79, -13, 5, 6, 25, 78, -7, 8, 10, 26, 78, -11, 6, 8, 25, 78, -12, 5, 6, 25, 80, -10, 6, 7, 26, 80, -10, 6, 7, 26, 80, -11, 6, 8, 26, 81, -14, 5, 7, 26, 77, -16, 5, 7, 26, 71, 9, 21, 24, 26, 71, 5, 21, 24, 25, 77, -8, 6, 8, 27, 79, -6, 7, 9, 25, 80, -8, 5, 6, 26, 81, -12, 6, 7, 26, 80, -15, 6, 7, 26, 77, -13, 5, 7, 25, 81, -11, 6, 7, 26, 78, -15, 6, 7, 26, 79, -11, 7, 13, 29, 63, 33, 40, 53, 26, 78, -14, 5, 6, 25, 79, -2, 31, 40, 26, 79, -13, 7, 11, 26, 76, -12, 7, 8, 25, 78, -10, 7, 8, 25, 78, -11, 7, 9, 27, 79, -9, 7, 9, 26, 80, -9, 5, 6, 26, 81, -12, 5, 6, 25, 80, -13, 6, 7, 26, 77, -13, 7, 9, 26, 78, -16, 7, 8, 25, 80, -13, 6, 8, 26, 78, -11, 7, 11, 26, 70, 9, 41, 53, 26, 66, 11, 127, 130, 26, 71, 30, 106, 124, 26, 73, 9, 25, 31, 26, 75, 4, 21, 25, 25, 81, -6, 9, 14, 26, 79, -6, 8, 10, 26, 82, -4, 7, 8, 25, 82, -6, 8, 9, 25, 80, -12, 5, 6, 26, 79, -14, 6, 7, 26, 79, -8, 6, 8, 26, 78, -16, 6, 7, 26, 76, -4, 24, 29, 26, 69, 30, 49, 60, 26, 77, -10, 9, 16, 27, 69, 23, 44, 54, 27, 71, 29, 50, 60, 26, 77, 9, 33, 41, 26, 75, 19, 35, 40, 26, 70, 33, 53, 63, 26, 73, 27, 40, 49, 26, 80, -5, 7, 11, 25, 83, -7, 6, 7, 26, 79, -13, 6, 7, 26, 81, -13, 6, 8, 26, 79, -6, 5, 6, 25, 80, -9, 6, 8, 26, 82, -12, 6, 8, 26, 81, -1, 18, 26, 26, 69, 32, 61, 71, 27, 73, -3, 24, 31, 27, 75, -4, 22, 29, 27, 64, 50, 74, 86, 26, 67, 41, 63, 75, 26, 75, 7, 28, 35, 26, 77, 6, 26, 34, 27, 67, 56, 56, 63, 26, 72, 35, 39, 47, 25, 79, -9, 5, 6, 26, 79, -14, 5, 6, 25, 81, -5, 7, 10, 25, 80, -7, 8, 10, 26, 80, -7, 12, 18, 25, 83, -6, 8, 13, 25, 80, -7, 6, 7, 26, 79, -9, 6, 7, 25, 78, 0, 21, 28, 26, 66, 45, 75, 92, 26, 66, 36, 77, 87, 26, 72, 19, 46, 55, 25, 79, -10, 5, 6, 27, 70, 33, 27, 31, 26, 75, 19, 35, 55, 26, 80, -12, 5, 7, 27, 77, -15, 5, 7, 26, 82, -5, 6, 8, 26, 82, -8, 7, 8, 25, 80, 4, 17, 21, 26, 70, 34, 52, 61, 27, 71, 33, 47, 54, 26, 71, 31, 52, 61, 25, 81, 4, 28, 39, 25, 83, -6, 7, 21, 26, 80, -6, 14, 29, 26, 71, 22, 44, 54, 26, 68, 30, 58, 66, 27, 68, 32, 41, 52, 26, 74, 24, 27, 33, 26, 79, -15, 6, 7, 27, 77, -17, 5, 7, 25, 84, -3, 9, 11, 24, 84, -5, 8, 10, 24, 85, -4, 9, 11, 25, 84, -2, 7, 9, 25, 84, -3, 7, 9, 25, 82, 2, 16, 21, 25, 75, 26, 24, 30, 25, 74, 34, 28, 42, 26, 72, 25, 26, 36, 26, 76, -6, 15, 21, 26, 77, -16, 6, 7, 27, 78, -16, 5, 6, 26, 80, -11, 6, 7, 26, 78, -15, 6, 8, 27, 76, -16, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "three tiles east of the tree",
                 "spot": {"x": 3166, "y": 3360, "level": 0},
             }
         },
@@ -5938,6 +6031,7 @@ export namespace clue_data {
             "ocr_data": [25, 89, 175, 26, 77, -9, 6, 8, 26, 77, -10, 8, 10, 25, 78, -9, 6, 7, 26, 80, -6, 5, 6, 25, 77, -7, 7, 8, 26, 77, -9, 7, 9, 26, 76, -7, 23, 36, 25, 78, -1, 47, 58, 25, 86, -11, 7, 8, 25, 82, -12, 6, 7, 26, 82, -10, 5, 6, 26, 82, -12, 4, 6, 25, 82, -11, 5, 7, 25, 85, -12, 6, 7, 26, 81, -13, 8, 10, 26, 78, -9, 7, 9, 25, 76, -13, 7, 9, 25, 79, -10, 5, 7, 26, 81, -7, 6, 8, 26, 79, -8, 7, 8, 26, 78, -12, 7, 8, 26, 77, 4, 50, 68, 24, 106, 29, 45, 59, 25, 84, 3, 43, 50, 26, 83, -8, 11, 14, 26, 83, -8, 6, 8, 26, 82, -12, 5, 6, 25, 79, -14, 5, 7, 25, 83, -15, 7, 8, 26, 80, -13, 6, 8, 25, 77, -11, 8, 10, 26, 78, -13, 6, 8, 26, 78, -12, 6, 7, 25, 82, -9, 5, 7, 26, 80, -12, 5, 6, 27, 79, -1, 47, 54, 26, 80, -11, 8, 19, 25, 112, 35, 47, 55, 25, 91, 10, 33, 41, 26, 79, -12, 5, 7, 26, 81, -9, 6, 7, 26, 79, -10, 5, 6, 26, 79, -12, 5, 7, 26, 80, -15, 6, 7, 26, 80, -14, 7, 8, 25, 78, -12, 5, 6, 25, 78, -12, 6, 8, 25, 77, -12, 4, 5, 26, 81, -12, 4, 6, 27, 81, -10, 17, 24, 27, 81, 3, 43, 54, 25, 104, 12, 31, 36, 22, 200, 55, 4, 6, 22, 187, 54, 17, 24, 25, 83, 3, 27, 46, 26, 78, -9, 7, 9, 26, 78, -7, 7, 9, 26, 80, -10, 6, 8, 25, 79, -14, 6, 8, 26, 79, -15, 5, 6, 25, 78, -9, 8, 10, 26, 78, -13, 6, 8, 25, 78, -14, 5, 6, 25, 80, -12, 6, 7, 27, 72, 18, 107, 132, 27, 79, 6, 60, 70, 25, 100, 14, 28, 32, 22, 187, 63, 2, 3, 22, 188, 62, 2, 3, 24, 129, 44, 55, 60, 25, 77, -10, 6, 10, 27, 79, -8, 7, 9, 25, 80, -10, 5, 6, 26, 81, -14, 6, 7, 26, 80, -17, 6, 7, 26, 77, -15, 5, 7, 25, 81, -13, 6, 7, 26, 78, -17, 6, 7, 26, 79, -14, 6, 8, 26, 72, 1, 46, 59, 26, 78, -1, 40, 45, 26, 83, 3, 45, 52, 24, 124, 46, 83, 95, 22, 171, 67, 13, 22, 22, 181, 66, 3, 4, 23, 126, 39, 46, 53, 27, 79, -10, 8, 13, 26, 80, -11, 5, 6, 26, 81, -14, 5, 6, 25, 80, -15, 6, 7, 26, 77, -15, 7, 9, 26, 78, -18, 7, 8, 25, 80, -15, 6, 8, 26, 78, -13, 7, 9, 26, 77, -13, 6, 8, 26, 77, 0, 41, 47, 26, 78, -1, 41, 46, 26, 72, 20, 101, 114, 23, 136, 58, 31, 42, 22, 171, 73, 2, 3, 22, 167, 67, 9, 12, 25, 90, 9, 42, 47, 25, 82, -8, 8, 9, 25, 80, -14, 5, 6, 26, 79, -16, 6, 7, 26, 79, -10, 6, 8, 26, 78, -18, 6, 7, 26, 78, -15, 6, 8, 25, 78, -11, 8, 9, 26, 81, -8, 18, 26, 27, 77, 1, 61, 71, 26, 89, 9, 51, 61, 26, 89, 8, 38, 44, 25, 93, 12, 32, 38, 23, 150, 58, 37, 47, 24, 115, 21, 19, 24, 26, 80, -7, 7, 9, 25, 83, -9, 6, 7, 26, 79, -15, 6, 7, 26, 81, -15, 6, 8, 26, 79, -8, 5, 6, 25, 80, -11, 6, 8, 26, 82, -14, 6, 8, 26, 82, -9, 9, 11, 24, 128, 27, 29, 36, 24, 111, 69, 98, 116, 24, 118, 58, 81, 98, 25, 105, 17, 32, 38, 26, 80, 18, 82, 92, 26, 80, 0, 24, 37, 26, 80, 1, 20, 33, 26, 78, -1, 47, 61, 26, 81, -9, 4, 7, 25, 79, -11, 5, 6, 26, 79, -16, 5, 6, 25, 81, -7, 7, 10, 25, 80, -9, 8, 10, 26, 81, -11, 6, 8, 25, 83, -8, 8, 10, 25, 95, 8, 29, 34, 22, 181, 58, 18, 27, 22, 186, 58, 16, 24, 25, 92, 8, 32, 40, 26, 80, 13, 65, 77, 26, 78, -9, 13, 16, 25, 79, -12, 5, 6, 27, 71, 2, 56, 70, 26, 79, -13, 4, 5, 26, 80, -14, 5, 7, 27, 77, -17, 5, 7, 26, 82, -7, 6, 8, 26, 82, -10, 7, 8, 25, 82, -8, 8, 10, 25, 80, -9, 7, 9, 26, 80, -6, 17, 22, 25, 88, 27, 105, 116, 25, 96, 11, 28, 33, 25, 83, -8, 7, 9, 26, 81, -12, 6, 7, 26, 76, -4, 52, 59, 27, 75, -3, 49, 64, 27, 77, -18, 5, 6, 26, 80, -13, 6, 8, 26, 79, -17, 6, 7, 27, 77, -19, 5, 7, 25, 84, -5, 9, 11, 24, 84, -7, 8, 10, 24, 85, -6, 9, 11, 25, 84, -4, 7, 9, 25, 84, -5, 7, 9, 25, 81, -1, 21, 24, 24, 84, -6, 8, 10, 25, 85, -8, 10, 12, 26, 80, -15, 6, 8, 26, 77, -14, 11, 14, 26, 76, -16, 10, 14, 27, 78, -18, 5, 6, 26, 80, -13, 6, 7, 26, 78, -17, 6, 8, 27, 76, -18, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "behind the chaos altar at Ourania",
                 "spot": {"x": 2454, "y": 3230, "level": 0},
             }
         },
@@ -5950,6 +6044,7 @@ export namespace clue_data {
             "ocr_data": [26, 78, 178, 26, 77, -6, 6, 8, 26, 77, -7, 8, 10, 25, 78, -6, 6, 7, 26, 80, -1, 8, 13, 26, 73, 17, 36, 44, 26, 77, -6, 7, 12, 26, 77, -7, 6, 8, 25, 80, -9, 7, 9, 25, 86, -8, 7, 8, 25, 82, -9, 6, 7, 26, 82, -7, 5, 6, 26, 82, -9, 4, 6, 25, 82, -8, 5, 7, 25, 85, -9, 6, 7, 26, 81, -10, 8, 10, 26, 78, -6, 7, 9, 25, 76, -10, 7, 9, 25, 79, -7, 5, 7, 26, 81, -3, 8, 11, 27, 73, 22, 22, 27, 27, 68, 47, 65, 76, 25, 78, -9, 6, 8, 26, 71, 19, 49, 53, 27, 71, 21, 55, 61, 26, 84, -7, 5, 6, 26, 83, -5, 6, 8, 26, 82, -9, 5, 6, 25, 79, -11, 5, 7, 25, 83, -12, 7, 8, 26, 80, -10, 6, 8, 25, 77, -8, 8, 10, 26, 78, -10, 6, 8, 26, 78, -9, 6, 7, 25, 82, -6, 5, 7, 26, 80, -9, 5, 6, 26, 76, 8, 19, 25, 27, 74, 29, 55, 64, 26, 77, 0, 27, 30, 27, 69, 22, 54, 66, 26, 76, 3, 27, 34, 26, 81, -6, 6, 7, 26, 79, -7, 5, 6, 26, 79, -9, 5, 7, 26, 80, -12, 6, 7, 26, 80, -11, 7, 8, 25, 78, -9, 5, 6, 25, 78, -9, 6, 8, 25, 77, -9, 4, 5, 26, 81, -9, 4, 6, 27, 81, -10, 6, 7, 26, 80, -10, 6, 8, 26, 75, 29, 35, 46, 25, 77, 7, 35, 46, 27, 67, 30, 53, 68, 27, 68, 25, 56, 62, 26, 78, -6, 7, 9, 26, 78, -4, 7, 9, 26, 80, -7, 6, 8, 25, 79, -11, 6, 8, 26, 79, -12, 5, 6, 25, 78, -6, 8, 10, 26, 78, -10, 6, 8, 25, 78, -11, 5, 6, 25, 80, -9, 6, 7, 26, 80, -9, 6, 7, 26, 80, -10, 6, 8, 26, 79, -3, 20, 27, 27, 71, 28, 42, 47, 26, 78, -7, 11, 14, 26, 78, -10, 6, 8, 25, 77, -7, 6, 8, 27, 79, -5, 7, 9, 25, 80, -7, 5, 6, 26, 81, -11, 6, 7, 26, 80, -14, 6, 7, 26, 77, -12, 5, 7, 25, 81, -10, 6, 7, 26, 78, -14, 6, 8, 26, 78, -3, 43, 48, 26, 76, -4, 42, 46, 26, 78, -13, 5, 6, 26, 72, 38, 60, 69, 26, 78, 2, 32, 40, 27, 75, 13, 48, 62, 25, 77, -7, 12, 21, 25, 78, -10, 7, 17, 27, 79, -8, 7, 18, 26, 80, -8, 5, 14, 26, 81, -11, 5, 6, 25, 80, -12, 6, 7, 26, 77, -12, 7, 9, 26, 78, -15, 7, 8, 25, 80, -12, 6, 8, 26, 78, -10, 7, 9, 26, 77, -10, 6, 8, 26, 75, -7, 17, 24, 26, 70, 36, 44, 51, 25, 76, 5, 42, 52, 26, 77, 4, 22, 42, 26, 79, 25, 42, 71, 26, 78, 15, 25, 41, 26, 80, 16, 25, 40, 26, 80, 26, 56, 71, 25, 80, -11, 5, 6, 26, 79, -13, 6, 7, 26, 79, -7, 6, 8, 26, 78, -15, 6, 7, 26, 78, -12, 6, 8, 25, 78, -8, 8, 11, 26, 78, -11, 6, 10, 27, 76, 0, 21, 26, 27, 74, 26, 40, 45, 26, 70, 62, 123, 140, 26, 77, 31, 58, 73, 26, 80, -2, 14, 21, 25, 82, -5, 6, 8, 26, 80, 2, 23, 29, 26, 80, 23, 60, 76, 26, 79, -12, 6, 7, 26, 81, -12, 6, 8, 26, 79, -5, 5, 6, 25, 80, -8, 6, 8, 26, 82, -11, 7, 9, 26, 82, 1, 43, 47, 26, 79, -3, 41, 46, 27, 76, -7, 44, 51, 27, 69, 39, 63, 75, 26, 81, -7, 14, 25, 26, 78, 12, 43, 49, 26, 78, 11, 42, 48, 26, 79, 13, 42, 48, 26, 79, 12, 41, 46, 26, 79, 13, 43, 48, 25, 79, -8, 5, 6, 26, 79, -13, 5, 6, 25, 81, -4, 7, 10, 25, 80, -6, 8, 10, 26, 81, -8, 6, 8, 25, 83, -5, 8, 10, 25, 80, -6, 6, 7, 26, 79, -8, 6, 7, 25, 77, 6, 17, 20, 26, 70, 40, 44, 55, 26, 70, 41, 56, 65, 26, 71, 28, 39, 45, 26, 75, 9, 31, 38, 26, 76, -14, 4, 5, 27, 72, 14, 33, 39, 26, 79, -8, 13, 17, 27, 77, -14, 5, 7, 26, 82, -4, 6, 8, 26, 82, -7, 7, 8, 25, 82, -5, 8, 10, 25, 80, -6, 7, 9, 26, 81, -5, 7, 8, 25, 81, -4, 18, 21, 25, 82, 5, 53, 58, 25, 83, -1, 23, 26, 26, 81, -9, 6, 9, 26, 76, 0, 20, 24, 27, 70, 24, 31, 41, 27, 68, 38, 59, 65, 26, 68, 35, 68, 79, 26, 79, -14, 6, 7, 27, 77, -16, 5, 7, 25, 84, -2, 9, 11, 24, 84, -4, 8, 10, 24, 85, -3, 9, 11, 25, 84, -1, 7, 9, 25, 84, -2, 7, 9, 25, 83, -3, 10, 12, 24, 84, -3, 8, 10, 25, 85, -5, 10, 12, 26, 80, -12, 6, 8, 26, 78, -13, 6, 8, 26, 77, -15, 6, 7, 27, 78, -15, 5, 6, 26, 72, 21, 29, 39, 26, 75, 4, 32, 38, 27, 76, -15, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "west of the Chemist's House",
                 "spot": {"x": 2923, "y": 3210, "level": 0},
             }
         },
@@ -5962,6 +6057,7 @@ export namespace clue_data {
             "ocr_data": [26, 79, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -4, 7, 9, 26, 77, -5, 6, 8, 25, 80, -7, 7, 9, 25, 86, -6, 7, 8, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -7, 4, 6, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -3, 11, 16, 26, 81, 2, 13, 21, 26, 79, -3, 7, 8, 26, 78, -7, 7, 8, 25, 78, -7, 6, 7, 25, 80, 6, 26, 32, 27, 78, 17, 33, 38, 26, 84, -5, 5, 6, 26, 83, -3, 6, 12, 27, 80, 14, 34, 42, 25, 79, -9, 5, 7, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -4, 17, 23, 26, 81, 13, 52, 58, 27, 79, 7, 43, 49, 27, 78, 5, 24, 29, 27, 78, 15, 31, 35, 26, 80, 3, 22, 32, 26, 78, 18, 39, 46, 26, 79, -7, 5, 7, 26, 80, 0, 16, 22, 27, 75, 42, 62, 67, 26, 79, -7, 5, 7, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -3, 11, 25, 27, 79, 12, 42, 57, 27, 80, 9, 56, 63, 27, 79, 3, 25, 34, 26, 80, 19, 41, 48, 25, 80, -11, 6, 8, 24, 80, -5, 7, 8, 25, 78, -6, 6, 8, 26, 78, -4, 7, 9, 26, 78, -2, 7, 9, 26, 80, -5, 6, 8, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 25, 78, -9, 5, 6, 26, 79, 22, 62, 83, 26, 80, -7, 6, 7, 26, 80, -8, 6, 8, 26, 81, -11, 5, 7, 26, 77, -6, 18, 23, 26, 78, 8, 27, 32, 26, 78, -8, 6, 8, 25, 77, -5, 6, 8, 27, 79, -3, 7, 9, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 7, 26, 78, 21, 63, 85, 26, 77, -10, 6, 7, 27, 77, 15, 42, 49, 25, 77, 18, 59, 73, 26, 73, 35, 98, 119, 27, 75, 28, 45, 52, 25, 78, -7, 7, 8, 25, 78, -8, 7, 9, 27, 79, -6, 7, 9, 26, 80, -6, 5, 6, 26, 81, -9, 5, 6, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 27, 77, 16, 62, 75, 26, 76, 13, 60, 66, 28, 75, 36, 64, 73, 26, 77, 2, 31, 47, 25, 61, 31, 149, 169, 26, 78, -7, 7, 9, 25, 81, -4, 8, 10, 26, 79, -2, 8, 17, 27, 78, 26, 36, 40, 26, 79, 17, 32, 36, 25, 80, -9, 5, 6, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 78, -10, 6, 8, 26, 77, 10, 44, 50, 26, 78, 5, 41, 48, 27, 78, -12, 5, 7, 27, 81, -11, 6, 11, 26, 61, 31, 157, 169, 26, 70, 17, 120, 144, 26, 77, 5, 48, 70, 29, 75, 55, 54, 72, 26, 79, 9, 28, 34, 26, 82, 5, 25, 31, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 81, 18, 60, 66, 26, 78, 11, 62, 69, 27, 76, -14, 6, 7, 27, 77, -12, 6, 8, 26, 79, -2, 16, 24, 26, 68, 33, 99, 138, 26, 68, 26, 83, 124, 26, 79, 17, 57, 66, 26, 79, 9, 39, 44, 26, 80, 6, 34, 37, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -4, 9, 16, 26, 81, 25, 67, 86, 26, 79, 17, 50, 59, 26, 78, 20, 59, 78, 25, 80, -4, 11, 17, 26, 79, 14, 67, 75, 26, 78, 10, 46, 59, 26, 76, 11, 53, 66, 25, 79, -7, 5, 6, 26, 76, -12, 4, 5, 26, 79, -8, 4, 5, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, 2, 22, 28, 26, 80, 5, 30, 36, 26, 81, -3, 7, 10, 26, 80, 12, 48, 53, 26, 82, 13, 48, 53, 25, 83, -3, 7, 10, 26, 80, 8, 41, 48, 26, 78, 1, 36, 44, 26, 77, 0, 38, 46, 27, 77, -13, 5, 6, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 83, -1, 10, 12, 24, 84, -1, 8, 10, 25, 85, -3, 10, 12, 26, 80, -10, 6, 9, 26, 78, -11, 6, 8, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "between the signpost and the evergreen",
                 "spot": {"x": 2536, "y": 3865, "level": 0},
             }
         },
@@ -5974,6 +6070,7 @@ export namespace clue_data {
             "ocr_data": [29, 69, 156, 28, 75, -7, 8, 11, 31, 64, 7, 30, 34, 28, 75, -3, 10, 14, 29, 74, -1, 15, 19, 28, 74, -2, 29, 36, 27, 67, -8, 36, 44, 27, 66, -29, 16, 19, 25, 72, -27, 43, 49, 26, 73, -28, 19, 25, 27, 73, -11, 37, 43, 30, 72, 10, 48, 57, 29, 79, -2, 6, 9, 28, 78, 13, 32, 37, 28, 79, 15, 36, 41, 29, 77, 13, 37, 42, 29, 76, -4, 9, 12, 28, 75, -8, 10, 12, 28, 77, -7, 8, 11, 30, 74, 2, 23, 29, 28, 64, -7, 34, 41, 27, 69, -33, 15, 19, 26, 72, -34, 13, 17, 25, 72, -25, 38, 45, 27, 72, -12, 38, 45, 28, 80, -8, 10, 13, 31, 70, 18, 36, 41, 29, 79, -1, 6, 8, 26, 59, 24, 32, 38, 25, 51, 16, 10, 11, 26, 56, 27, 31, 37, 28, 75, -7, 10, 15, 30, 71, -2, 17, 21, 29, 74, -3, 14, 19, 31, 68, 15, 43, 50, 29, 67, 0, 46, 54, 28, 62, -27, 16, 20, 27, 66, -29, 15, 20, 27, 68, -17, 26, 31, 28, 77, -7, 29, 37, 33, 66, 16, 31, 39, 29, 78, 1, 6, 7, 29, 77, 1, 6, 9, 25, 56, 28, 34, 40, 25, 51, 15, 8, 10, 26, 54, 26, 33, 40, 28, 66, 12, 23, 30, 30, 64, 10, 29, 33, 29, 71, 4, 21, 26, 30, 75, 1, 15, 20, 29, 80, -5, 13, 18, 28, 78, -6, 28, 33, 27, 82, -14, 21, 26, 27, 77, -20, 11, 14, 27, 77, -10, 10, 13, 30, 65, 6, 31, 37, 29, 76, -2, 10, 12, 29, 76, 0, 9, 13, 27, 61, 25, 47, 54, 26, 56, 21, 36, 42, 27, 59, 24, 53, 61, 28, 75, -3, 13, 17, 28, 67, 6, 18, 22, 31, 60, 11, 35, 42, 31, 63, 8, 34, 44, 29, 75, -2, 14, 18, 29, 77, -10, 11, 13, 28, 77, -16, 9, 12, 28, 74, -19, 9, 12, 30, 69, -3, 20, 26, 30, 69, 3, 25, 31, 28, 76, -1, 7, 9, 29, 75, -3, 11, 15, 28, 78, -5, 6, 8, 29, 77, -6, 11, 16, 31, 69, 3, 20, 25, 30, 72, -2, 18, 24, 31, 66, 11, 35, 42, 28, 66, 1, 19, 24, 32, 59, 10, 40, 46, 32, 63, 7, 27, 33, 29, 74, -6, 13, 18, 29, 47, 19, 73, 78, 29, 75, -8, 14, 18, 30, 71, -3, 22, 26, 31, 66, 12, 33, 40, 30, 71, 5, 26, 32, 32, 66, 7, 25, 29, 30, 69, 3, 20, 26, 31, 67, 3, 22, 28, 30, 71, 1, 24, 31, 31, 67, 10, 35, 40, 31, 66, 1, 44, 51, 29, 72, -6, 22, 28, 29, 67, 5, 25, 32, 29, 65, 11, 23, 30, 29, 66, 7, 21, 25, 21, 80, 6, 68, 78, 31, 64, 5, 26, 33, 32, 65, 14, 36, 44, 30, 72, 10, 26, 31, 33, 61, 15, 38, 41, 29, 79, 2, 8, 9, 29, 74, 6, 19, 22, 29, 75, -2, 15, 20, 30, 74, -1, 18, 24, 28, 76, -7, 13, 18, 32, 66, 8, 38, 46, 29, 70, -1, 28, 35, 30, 68, 9, 32, 40, 30, 72, 1, 20, 25, 29, 75, -6, 11, 17, 29, 67, 12, 10, 16, 29, 76, -3, 12, 16, 31, 67, 11, 55, 61, 29, 70, 4, 38, 46, 29, 76, 1, 19, 23, 29, 80, 6, 21, 27, 28, 82, 6, 26, 32, 31, 69, 9, 31, 36, 33, 67, 11, 34, 44, 28, 77, -4, 9, 12, 28, 77, -5, 16, 21, 32, 68, 8, 40, 48, 28, 79, -7, 11, 13, 29, 78, -8, 11, 16, 28, 65, 10, 49, 56, 26, 54, 19, 36, 42, 26, 59, 21, 40, 46, 29, 70, 15, 44, 60, 29, 74, 4, 22, 33, 29, 73, 8, 47, 54, 29, 61, -6, 37, 46, 29, 57, -8, 31, 39, 28, 79, 1, 28, 34, 29, 71, -7, 27, 32, 29, 76, 3, 16, 21, 32, 64, 10, 29, 37, 32, 70, 10, 24, 28, 28, 79, -5, 10, 12, 27, 68, 15, 40, 47, 25, 52, 12, 11, 15, 25, 53, 12, 30, 35, 25, 51, 16, 16, 20, 26, 56, 25, 41, 49, 29, 78, -1, 13, 19, 28, 63, -7, 34, 42, 27, 68, -38, 13, 17, 27, 67, -31, 19, 24, 28, 74, -2, 49, 56, 29, 78, -10, 27, 32, 32, 65, 11, 25, 31, 29, 76, -1, 14, 22, 28, 75, 1, 23, 29, 28, 77, -4, 10, 12, 28, 67, 16, 33, 39, 25, 52, 15, 11, 13, 26, 68, -13, 39, 47, 25, 54, 14, 30, 35, 26, 54, 27, 33, 41, 29, 78, 0, 12, 19, 29, 62, -6, 39, 48, 28, 70, -40, 10, 13, 27, 73, -36, 11, 14, 28, 68, -36, 19, 23, 29, 63, -36, 17, 21, 28, 80, 1, 12, 16, 28, 80, -1, 10, 13, 28, 78, 4, 17, 22, 32, 65, 16, 31, 39, 29, 70, 20, 49, 59, 25, 53, 23, 16, 23, 24, 51, 22, 10, 13, 24, 51, 21, 11, 14, 27, 62, 27, 48, 58, 29, 78, -1, 12, 18, 29, 62, -8, 43, 54, 28, 71, -41, 9, 12, 27, 74, -37, 7, 9, 27, 72, -40, 8, 10, 28, 70, -42, 9, 12],
             "solution": {
                 "type": "dig",
+                "description": "south of the giant head",
                 "spot": {"x": 2648, "y": 3231, "level": 0},
             }
         },
@@ -5986,6 +6083,7 @@ export namespace clue_data {
             "ocr_data": [26, 77, 174, 26, 77, -10, 6, 8, 26, 77, -11, 8, 10, 25, 78, -10, 6, 7, 26, 80, -7, 5, 6, 25, 77, -8, 7, 8, 26, 77, -10, 7, 9, 26, 77, -11, 6, 8, 25, 80, -10, 16, 21, 25, 82, 3, 18, 23, 25, 82, -13, 6, 7, 26, 82, -11, 6, 9, 26, 82, -13, 4, 6, 25, 82, -12, 5, 7, 25, 85, -13, 6, 7, 26, 81, -14, 8, 10, 26, 78, -10, 7, 9, 25, 76, -14, 7, 9, 25, 79, -11, 5, 7, 27, 78, 13, 34, 42, 27, 73, 31, 117, 134, 26, 75, 2, 53, 67, 25, 78, -13, 6, 7, 24, 80, -14, 6, 12, 26, 68, 42, 63, 73, 26, 82, -6, 28, 32, 26, 81, 1, 47, 54, 26, 82, -12, 11, 14, 25, 79, -15, 5, 7, 25, 83, -16, 7, 8, 26, 80, -14, 6, 8, 25, 77, -12, 8, 10, 26, 78, -14, 6, 8, 26, 78, -13, 6, 7, 30, 62, 72, 35, 44, 29, 64, 63, 41, 46, 27, 74, 18, 106, 120, 27, 69, 21, 62, 68, 26, 77, -2, 23, 27, 26, 74, 13, 38, 46, 26, 71, 31, 49, 58, 26, 80, -9, 8, 12, 26, 79, -8, 15, 21, 26, 79, -13, 5, 9, 26, 80, -16, 6, 7, 26, 80, -15, 7, 8, 25, 78, -13, 5, 6, 25, 78, -13, 6, 8, 25, 77, -13, 4, 5, 26, 77, 15, 40, 49, 27, 78, 15, 49, 56, 27, 75, 16, 95, 110, 27, 75, 32, 50, 58, 27, 69, 21, 65, 77, 26, 71, 18, 44, 51, 25, 76, 2, 27, 39, 27, 69, 34, 42, 54, 26, 77, -2, 28, 34, 26, 79, -3, 39, 44, 25, 79, -15, 6, 8, 26, 79, -16, 5, 6, 25, 78, -10, 8, 10, 26, 78, -14, 6, 8, 25, 78, -15, 5, 6, 25, 80, -13, 6, 7, 28, 69, 19, 56, 60, 27, 72, 35, 126, 141, 31, 59, 84, 11, 22, 28, 70, 32, 44, 52, 26, 75, -4, 27, 33, 26, 78, -14, 6, 9, 26, 68, 32, 54, 64, 27, 73, 17, 26, 35, 26, 78, 1, 19, 22, 26, 80, -9, 12, 17, 26, 80, -18, 6, 7, 26, 77, -16, 5, 7, 25, 81, -14, 6, 7, 26, 78, -18, 6, 7, 27, 73, 4, 25, 30, 26, 74, -4, 29, 44, 26, 74, 14, 81, 104, 25, 75, 21, 50, 60, 26, 79, -12, 15, 24, 26, 66, 48, 121, 141, 25, 74, 9, 42, 55, 25, 78, -14, 7, 9, 27, 75, 10, 35, 43, 26, 73, 20, 35, 41, 26, 80, -10, 13, 18, 25, 80, -16, 6, 7, 26, 77, -16, 7, 9, 26, 78, -19, 7, 8, 25, 80, -13, 11, 15, 27, 70, 14, 54, 65, 26, 76, -12, 8, 12, 27, 72, 14, 111, 128, 26, 75, 4, 74, 91, 25, 77, -16, 7, 9, 27, 70, 16, 45, 57, 25, 79, -1, 21, 31, 28, 70, 22, 52, 60, 27, 71, 22, 46, 52, 25, 82, -9, 8, 9, 25, 80, -15, 5, 6, 26, 79, -17, 6, 7, 26, 79, -11, 6, 8, 26, 78, -19, 6, 7, 26, 78, -15, 7, 12, 26, 65, 46, 61, 72, 26, 78, -15, 6, 8, 27, 78, -18, 5, 7, 27, 78, 4, 62, 80, 26, 76, 19, 93, 114, 26, 73, 21, 71, 86, 26, 77, 11, 70, 84, 26, 76, 13, 71, 86, 27, 70, 18, 49, 57, 26, 78, 4, 22, 31, 26, 79, -16, 6, 7, 26, 81, -16, 6, 8, 26, 79, -9, 5, 6, 25, 80, -12, 6, 8, 26, 82, -15, 6, 8, 26, 76, 14, 26, 33, 27, 68, 35, 54, 66, 27, 74, -3, 34, 42, 27, 77, -17, 9, 13, 27, 70, 22, 54, 69, 26, 78, 3, 28, 54, 27, 71, 21, 42, 67, 28, 67, 42, 110, 136, 26, 77, 3, 42, 57, 26, 80, -9, 6, 10, 25, 79, -12, 5, 6, 26, 79, -17, 5, 6, 25, 81, -8, 7, 10, 25, 80, -10, 8, 10, 26, 81, -12, 6, 8, 25, 83, -8, 11, 19, 25, 78, 1, 29, 42, 26, 68, 37, 36, 48, 26, 71, 29, 52, 63, 26, 76, -2, 29, 37, 25, 79, -12, 6, 10, 27, 66, 24, 54, 70, 26, 72, 12, 54, 79, 26, 73, 5, 62, 76, 26, 79, -14, 4, 5, 26, 80, -15, 5, 7, 27, 77, -18, 5, 7, 26, 82, -8, 6, 8, 26, 82, -11, 7, 8, 25, 82, -9, 8, 10, 25, 79, -5, 19, 29, 26, 80, -3, 22, 31, 25, 81, -10, 7, 13, 25, 79, 9, 23, 31, 26, 69, 38, 44, 54, 26, 81, -13, 6, 7, 26, 74, -5, 29, 38, 26, 76, -6, 30, 46, 27, 74, -1, 61, 72, 26, 80, -14, 6, 8, 26, 79, -18, 6, 7, 27, 77, -20, 5, 7, 25, 84, -6, 9, 11, 24, 84, -8, 8, 10, 24, 85, -7, 9, 11, 25, 84, -5, 7, 9, 25, 84, -6, 7, 9, 25, 83, -7, 10, 12, 24, 84, -7, 8, 10, 25, 81, 2, 25, 30, 26, 80, -16, 6, 8, 26, 78, -17, 6, 8, 26, 77, -19, 6, 7, 27, 78, -19, 5, 6, 26, 80, -14, 6, 7, 26, 78, -18, 6, 8, 27, 76, -19, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "next to the bush",
                 "spot": {"x": 2667, "y": 3562, "level": 0},
             }
         },
@@ -6089,6 +6187,7 @@ export namespace clue_data {
             "ocr_data": [26, 79, 181, 26, 77, -3, 6, 8, 26, 77, -4, 8, 10, 25, 78, -3, 6, 7, 26, 80, 0, 5, 6, 25, 77, -1, 7, 8, 26, 77, -3, 7, 9, 26, 77, -4, 6, 8, 25, 80, -6, 7, 9, 25, 86, -5, 7, 8, 25, 82, -6, 6, 7, 26, 82, -4, 5, 6, 26, 82, -6, 4, 6, 25, 82, -5, 5, 7, 25, 85, -6, 6, 7, 26, 81, -7, 8, 10, 26, 78, -3, 7, 9, 25, 76, -7, 7, 9, 25, 79, -4, 5, 7, 26, 81, -1, 6, 8, 26, 77, 15, 40, 44, 26, 75, 18, 73, 81, 26, 75, 15, 43, 50, 25, 77, 18, 62, 82, 25, 77, 13, 43, 49, 26, 78, 32, 78, 87, 26, 80, 15, 44, 49, 26, 79, 16, 63, 68, 25, 79, -8, 5, 7, 25, 83, -9, 7, 8, 26, 80, -7, 6, 8, 25, 77, -5, 8, 10, 26, 78, -7, 6, 8, 26, 78, -6, 6, 7, 25, 82, -3, 5, 7, 26, 78, 4, 37, 41, 27, 75, 21, 67, 75, 26, 77, 14, 43, 49, 26, 76, 24, 53, 72, 26, 77, 7, 44, 50, 26, 76, 25, 75, 87, 26, 79, 8, 38, 43, 26, 76, 21, 67, 73, 26, 79, -6, 5, 7, 26, 80, -9, 6, 7, 26, 80, -8, 7, 8, 25, 78, -6, 5, 6, 25, 78, -6, 6, 8, 25, 77, -6, 4, 5, 26, 81, -6, 4, 6, 27, 81, -7, 6, 7, 26, 80, -7, 6, 8, 25, 84, -7, 7, 9, 25, 80, -10, 6, 8, 24, 80, -4, 7, 8, 25, 78, -5, 6, 8, 26, 78, -3, 7, 9, 26, 78, -1, 7, 9, 26, 80, -4, 6, 8, 25, 79, -8, 6, 8, 26, 79, -9, 5, 6, 25, 78, -3, 8, 10, 26, 78, -7, 6, 8, 25, 78, -8, 5, 6, 25, 80, -6, 6, 7, 26, 80, -6, 6, 7, 26, 80, -7, 6, 8, 26, 81, -10, 5, 7, 26, 77, -12, 5, 7, 25, 79, -6, 6, 8, 26, 78, -7, 6, 8, 25, 77, -4, 6, 8, 27, 79, -2, 7, 9, 25, 80, -4, 5, 6, 26, 81, -8, 6, 7, 26, 80, -11, 6, 7, 26, 77, -9, 5, 7, 25, 81, -7, 6, 7, 26, 78, -11, 6, 7, 26, 79, -8, 6, 8, 26, 75, 13, 70, 76, 26, 76, 10, 59, 65, 25, 80, -9, 7, 8, 26, 76, 15, 58, 81, 26, 74, 7, 56, 61, 25, 77, -6, 8, 15, 25, 66, 65, 155, 190, 27, 77, 13, 53, 64, 26, 80, -5, 5, 6, 26, 81, -8, 5, 6, 25, 80, -9, 6, 7, 26, 77, -9, 7, 9, 26, 78, -12, 7, 8, 25, 80, -9, 6, 8, 26, 78, -7, 7, 9, 26, 75, 8, 47, 53, 26, 75, 5, 49, 56, 26, 78, -12, 6, 8, 26, 75, 6, 27, 53, 26, 76, 9, 46, 52, 25, 81, -3, 8, 10, 26, 77, 9, 25, 49, 26, 81, 5, 21, 28, 25, 82, -2, 8, 9, 25, 80, -8, 5, 6, 26, 79, -10, 6, 7, 26, 79, -4, 6, 8, 26, 78, -12, 6, 7, 26, 78, -9, 6, 8, 25, 78, -5, 8, 9, 26, 75, 17, 58, 80, 27, 75, 12, 56, 75, 27, 81, -10, 6, 8, 26, 78, 14, 35, 70, 26, 78, 17, 50, 65, 26, 80, -4, 7, 9, 26, 79, 18, 35, 67, 26, 78, 17, 52, 65, 25, 83, -3, 6, 7, 26, 79, -9, 6, 7, 26, 81, -9, 6, 8, 26, 79, -2, 5, 6, 25, 80, -5, 6, 8, 26, 82, -8, 6, 8, 26, 82, -3, 9, 11, 26, 77, 6, 46, 53, 27, 75, 2, 48, 53, 27, 77, -11, 6, 8, 26, 80, 3, 23, 40, 25, 79, 3, 31, 34, 25, 80, -6, 5, 7, 26, 79, 7, 21, 38, 26, 79, 3, 25, 28, 26, 81, -4, 4, 6, 25, 79, -5, 5, 6, 26, 79, -10, 5, 6, 25, 81, -1, 7, 10, 25, 80, -3, 8, 10, 26, 81, -5, 6, 8, 25, 83, -2, 8, 10, 26, 77, 21, 67, 76, 26, 76, 17, 61, 69, 25, 80, -4, 7, 8, 26, 76, 20, 60, 86, 26, 77, 10, 49, 56, 26, 78, -6, 6, 7, 26, 75, 21, 57, 84, 26, 74, 6, 50, 57, 26, 79, -7, 4, 5, 26, 80, -8, 5, 7, 27, 77, -11, 5, 7, 26, 82, -1, 6, 8, 26, 82, -4, 7, 8, 25, 82, -2, 8, 10, 25, 80, -3, 7, 9, 27, 79, 12, 50, 54, 26, 79, 11, 46, 52, 25, 83, -2, 8, 10, 26, 81, 11, 29, 51, 26, 79, 8, 46, 54, 26, 78, -9, 5, 6, 26, 76, 5, 30, 53, 27, 75, 4, 47, 55, 26, 80, -7, 6, 8, 26, 79, -11, 6, 7, 27, 77, -13, 5, 7, 25, 84, 1, 9, 11, 24, 84, -1, 8, 10, 24, 85, 0, 9, 11, 25, 84, 2, 7, 9, 25, 84, 1, 7, 9, 25, 83, 1, 10, 17, 24, 84, 0, 8, 10, 25, 85, -2, 10, 12, 26, 80, -8, 6, 13, 26, 78, -10, 6, 8, 26, 77, -12, 6, 7, 27, 78, -11, 5, 12, 26, 80, -7, 6, 7, 26, 78, -11, 6, 8, 27, 76, -12, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "in the north-western corner of the building",
                 "spot": {"x": 2488, "y": 3308, "level": 0},
             }
         },
@@ -6128,6 +6227,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3021, "y": 3913, "level": 0},
+                "description": "two tiles west of the large geyser"
             }
         }
     ]
@@ -7332,7 +7432,8 @@ export namespace clue_data {
             "text": ["Dig near some giant mushrooms behind the Grand Tree."],
             "solution": {
                 "type": "dig",
-                "spot": {"x": 2459, "y": 3505, "level": 0}
+                "spot": {"x": 2459, "y": 3505, "level": 0},
+                "description": "behind the giant mushrooms"
             }
         },
         {
@@ -7618,7 +7719,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Squire Asrol",
-                "spots": [{"range": {"topleft": {"x": 2970, "y": 3346}, "botright": {"x": 2977, "y": 3339}, "level": 0}, "description": "in the couryard of the White Knight's castle"}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2970, "y": 3346}, "botright": {"x": 2977, "y": 3339}, "level": 0},
+                    "description": "in the couryard of the White Knight's castle"
+                }]
             }
         },
         {
@@ -7793,7 +7897,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Gnome ball referee",
-                "spots": [{"range": {"topleft": {"x": 2384, "y": 3489}, "botright": {"x": 2386, "y": 3487}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2384, "y": 3489}, "botright": {"x": 2386, "y": 3487}, "level": 0},
+                    "description": "at the gate of the Gnomeball Field"
+                }]
             },
         },
         {
@@ -7884,6 +7991,7 @@ export namespace clue_data {
         "type": "skilling",
         "text": ["There are those who prove themselves and become a beacon of light in the darkness. Come to the crystal city and become that figure."],
         "tier": "master",
+        "cursor": "pray",
         "id": 380,
         "areas": [{"topleft": {"x": 2100, "y": 3459}, "botright": {"x": 2292, "y": 3277}, "level": 1}],
         "answer": "Active the Light Form Prayer in Prifddinas"

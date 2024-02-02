@@ -2,7 +2,6 @@ import {Rectangle, Transform, Vector2} from "../../math";
 import {floor_t} from "./index";
 import {TileCoordinates} from "./TileCoordinates";
 import {TileTransform} from "./TileTransform";
-import {Rect} from "@alt1/base";
 
 export type TileRectangle = Rectangle & {
     level: floor_t

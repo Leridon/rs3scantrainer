@@ -18,8 +18,6 @@ export default class OverviewLayer extends GameLayer {
     constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
         super();
 
-        this.add(new UtilityLayer())
-
         this.filter_control = new FilterControl(app.methods, this.edit_handler).addTo(this)
 
         this.marker_index = clue_data.spot_index.with(() => ({markers: []}))

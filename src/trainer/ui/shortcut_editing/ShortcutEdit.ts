@@ -32,6 +32,7 @@ import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
 import vbox = C.vbox;
 import * as assert from "assert";
 import {Checkbox} from "lib/ui/controls/Checkbox";
+import shortcuts from "../../../data/shortcuts";
 
 export class ShortcutEdit extends Widget {
     private header: Widget
@@ -131,17 +132,9 @@ export class ShortcutEdit extends Widget {
 
         switch (v.type) {
             case "door": {
-                let width = v.direction == "eastwest"
-                    ? Rectangle.tileHeight(v.area)
-                    : Rectangle.tileWidth(v.area)
-
-                let dir = v.direction == "eastwest"
-                    ? "|"
-                    : "&#8212;"
-
                 props.named("Bounds",
                     c("<div style='display: flex'></div>")
-                        .append(c("<span style='margin-right: 5px;'></span>").setInnerHtml(`${width} wide ${dir} door at ${TileCoordinates.toString(TileRectangle.bl(v.area))}`))
+                        .append(c("<span style='margin-right: 5px;'></span>").setInnerHtml(`Door (${direction.toString(v.direction)}) at ${TileCoordinates.toString(v.position)}`))
                         .append(c().css("flex-grow", "1"))
                         .append(
                             new LightButton("Select")
@@ -151,7 +144,7 @@ export class ShortcutEdit extends Widget {
                                             done_handler: (new_v) => {
                                                 this.config.value.update(() => {
                                                     assert(v.type == "door")
-                                                    v.area = new_v.area
+                                                    v.position = new_v.position
                                                     v.direction = new_v.direction
                                                 })
                                             }

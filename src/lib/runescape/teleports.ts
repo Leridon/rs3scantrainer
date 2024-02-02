@@ -72,7 +72,7 @@ export namespace Teleports {
             this.emit("refreshed", this)
         }
 
-        get(id: string, subid: string = null): flat_teleport {
+        get(id: string, subid: string | null = null): flat_teleport {
             return this.data.find((t) => t.id.group == id && (!subid || t.id.sub == subid))
         }
 

@@ -51,6 +51,8 @@ c.plugins = [
     })*/
 ]
 
+if (!c.resolve) c.resolve = {}
+
 c.resolve.fallback = {
     "timers": false,
     "assert": require.resolve("assert"),

@@ -18,24 +18,104 @@ import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import hbox = C.hbox;
 import spacer = C.spacer;
+import {Checkbox} from "../../../lib/ui/controls/Checkbox";
+import {GridLayer, LatLngBounds} from "leaflet";
+import Graticule from "../../../lib/gamemap/defaultlayers/Graticule";
+
+class ChunkGridGraticule extends Graticule {
+    constructor() {
+        super({
+            intervals: [
+                {min_zoom: -Infinity, interval: 64},
+            ],
+            lineStyle: {
+                stroke: true,
+                weight: 2,
+                color: "white",
+                fill: false
+            }
+        });
+    }
+
+    override onRemove(map): this {
+        super.onRemove(map);
+
+        this.clearLayers()
+
+        return this
+    }
+
+    override constructLines(bounds: LatLngBounds, interval: number) {
+        super.constructLines(bounds, interval)
+
+        let mins = {
+            x: Math.max(0, Math.floor(bounds.getWest() / interval)),
+            y: Math.max(0, Math.floor(bounds.getSouth() / interval))
+        };
+
+        let max = {
+            x: Math.min(99, Math.ceil(bounds.getEast() / interval)),
+            y: Math.min(199, Math.ceil(bounds.getNorth() / interval))
+        };
+
+        console.log(mins)
+        console.log(max)
+
+        for (let x = mins.x; x <= max.x; x++) {
+            for (let y = mins.y; y <= max.y; y++) {
+                leaflet.marker([y * 64 + 31.5, x * 64 + 31.5], {
+                    icon: leaflet.divIcon({
+                        iconSize: [100, 40],
+                        html: `${x}|${y}`,
+                        className: "ctr-map-utility-chunk-index"
+                    }),
+                }).addTo(this)
+            }
+        }
+    }
+}
 
 export default class UtilityLayer extends GameLayer {
     preview: leaflet.Layer
+
+    chunk_grid: leaflet.FeatureGroup = null
 
     guard: InteractionGuard
 
     output: Widget
     value: string
     chunk_in: TextField
+    coords_in: TextField
 
     constructor() {
         super();
 
         this.guard = new InteractionGuard().setDefaultLayer(this)
 
-        let control = new ControlWithHeader("Utility", () => this.remove())
+        let layer_control = new ControlWithHeader("Utility")
+        layer_control.append(new Checkbox("Chunks")
+            .onCommit(v => {
+                console.log(this.chunk_grid)
 
-        control.body.append(
+                this.chunk_grid?.clearLayers()
+                this.chunk_grid?.remove()
+                this.chunk_grid = null
+
+                if (v) {
+                    this.chunk_grid = new ChunkGridGraticule().addTo(this)
+                }
+
+                console.log(this.chunk_grid)
+            }))
+
+        new GameMapControl({
+            position: "top-right",
+            type: "floating",
+        }, layer_control).addTo(this)
+
+        let bottom_control = new ControlWithHeader("Utility")
+
+        bottom_control.body.append(
             vbox(
                 new ActionBar([
                     new ActionBar.ActionBarButton("assets/icons/cursor_generic.png", () => {
@@ -64,24 +144,34 @@ export default class UtilityLayer extends GameLayer {
                 hbox(
                     this.chunk_in = new TextField(),
                     spacer(),
-                    new LightButton("Jump").onClick(() => {
+                    new LightButton("Chunk").onClick(() => {
                         let [cx, cy, ...rest] = this.chunk_in.get().split(new RegExp("[^0-9]"))
                             .map(e => e.trim())
                             .filter(e => e.length > 0)
                             .map(e => Number(e))
 
-                        Vector2.mul({x: cx, y: cy}, {x: 64, y: 64})
-
                         this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: cx * 64, y: cy * 64}, {x: cx * 64 + 63, y: cy * 64 + 63}), 0))
                     })
-                )
+                ),
+                hbox(
+                    this.coords_in = new TextField(),
+                    spacer(),
+                    new LightButton("Coords").onClick(() => {
+                        let [cx, cy, ...rest] = this.coords_in.get().split(new RegExp("[^0-9]"))
+                            .map(e => e.trim())
+                            .filter(e => e.length > 0)
+                            .map(e => Number(e))
+
+                        this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: cx, y: cy}), 0))
+                    })
+                ),
             )
         )
 
         this.add(new GameMapControl({
             type: "gapless",
             position: "bottom-center"
-        }, control))
+        }, bottom_control))
     }
 
     private setLayer(l: leaflet.Layer) {

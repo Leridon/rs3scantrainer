@@ -23,18 +23,20 @@ export namespace Shortcuts {
         orientation: shortcut_orientation_type
     }
 
-    export type entity_shortcut = {
+    export type shortcut_base = { source_loc?: number }
+
+    export type entity_shortcut = shortcut_base & {
         type: "entity",
         entity: entity,
         clickable_area: TileRectangle,
         actions: entity_shortcut_action[]
     }
 
-    export type door_shortcut = {
+    export type door_shortcut = shortcut_base & {
         type: "door",
+        position: TileCoordinates,
+        direction: direction,
         name: string,
-        area: TileRectangle,
-        direction: "northsouth" | "eastwest"
     }
 
     export type shortcut = entity_shortcut | door_shortcut
@@ -48,58 +50,28 @@ export namespace Shortcuts {
     export function normalize(shortcut: shortcut): entity_shortcut {
         if (shortcut.type == "entity") return shortcut
 
-        switch (shortcut.direction) {
-            case "northsouth":
-                return {
-                    type: "entity",
-                    entity: {kind: "static", name: shortcut.name},
-                    clickable_area: {
-                        topleft: Vector2.add(shortcut.area.topleft, {x: -0.5, y: 0}),
-                        botright: Vector2.add(shortcut.area.botright, {x: 0.5, y: 0}),
-                        level: shortcut.area.level
-                    },
-                    actions: [{
-                        cursor: "open",
-                        interactive_area: TileRectangle.top(shortcut.area),
-                        time: 1,
-                        name: "Cross south",
-                        movement: {type: "offset", offset: {x: 0, y: -1, level: 0}},
-                        orientation: {type: "forced", direction: direction.south, relative: true}
-                    }, {
-                        cursor: "open",
-                        interactive_area: TileRectangle.bottom(shortcut.area),
-                        time: 1,
-                        name: "Cross north",
-                        movement: {type: "offset", offset: {x: 0, y: 1, level: 0}},
-                        orientation: {type: "forced", direction: direction.north, relative: true}
-                    }]
-                }
-            case "eastwest":
-                return {
-                    type: "entity",
-                    entity: {kind: "static", name: shortcut.name},
-                    clickable_area: {
-                        topleft: Vector2.add(shortcut.area.topleft, {x: 0, y: 0.5}),
-                        botright: Vector2.add(shortcut.area.botright, {x: 0, y: -0.5}),
-                        level: shortcut.area.level
-                    },
-                    actions: [{
-                        cursor: "open",
-                        interactive_area: TileRectangle.left(shortcut.area),
-                        time: 1,
-                        name: "Cross east",
-                        movement: {type: "offset", offset: {x: 1, y: 0, level: 0}},
-                        orientation: {type: "forced", direction: direction.east, relative: true}
-                    }, {
-                        cursor: "open",
-                        interactive_area: TileRectangle.right(shortcut.area),
-                        time: 1,
-                        name: "Cross west",
-                        movement: {type: "offset", offset: {x: -1, y: 0, level: 0}},
-                        orientation: {type: "forced", direction: direction.west, relative: true}
+        const off = direction.toVector(shortcut.direction)
 
-                    }]
-                }
+        return {
+            type: "entity",
+            source_loc: shortcut.source_loc,
+            entity: {kind: "static", name: shortcut.name},
+            clickable_area: TileRectangle.extend(TileRectangle.from(TileCoordinates.move(shortcut.position, Vector2.scale(0.5, off))), 0.5),
+            actions: [{
+                cursor: "open",
+                interactive_area: TileRectangle.from(shortcut.position),
+                time: 1,
+                name: `Cross ${direction.toString(shortcut.direction)}`,
+                movement: {type: "offset", offset: {...off, level: 0}},
+                orientation: {type: "forced", direction: shortcut.direction, relative: true}
+            }, {
+                cursor: "open",
+                interactive_area: TileRectangle.from(TileCoordinates.move(shortcut.position, off)),
+                time: 1,
+                name: `Cross ${direction.toString(direction.invert(shortcut.direction))}`,
+                movement: {type: "offset", offset: {...direction.toVector(direction.invert(shortcut.direction)), level: 0}},
+                orientation: {type: "forced", direction: direction.invert(shortcut.direction), relative: true}
+            }]
         }
     }
 
@@ -111,16 +83,16 @@ export namespace Shortcuts {
                     ...shortcut.actions.map(a => a.interactive_area)
                 ), shortcut.clickable_area.level)
             case "door":
-                return shortcut.area
+                return TileRectangle.from(shortcut.position, TileCoordinates.move(shortcut.position, direction.toVector(shortcut.direction)))
         }
     }
 
     export function position(shortcut: shortcut): TileCoordinates {
-        switch (shortcut.type){
+        switch (shortcut.type) {
             case "entity":
                 return TileRectangle.center(shortcut.clickable_area)
             case "door":
-                return TileRectangle.center(shortcut.area)
+                return TileCoordinates.move(shortcut.position, Vector2.scale(0.5, direction.toVector(shortcut.direction)))
         }
     }
 

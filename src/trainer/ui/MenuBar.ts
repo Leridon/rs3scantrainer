@@ -10,6 +10,7 @@ import shortcuts from "../../data/shortcuts";
 import TheoryCrafter from "./theorycrafting/TheoryCrafter";
 import Button from "../../lib/ui/controls/Button";
 import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
+import MapUtilityBehaviour from "./MapUtilityBehaviour";
 
 class MenuButton extends Button {
 
@@ -59,6 +60,10 @@ export default class MenuBar extends Widget {
                 new MenuButton("Edit", "assets/icons/ribbon_teleports.webp")
                     .setEnabled(!(behaviour instanceof ShortcutEditor))
                     .onClick(() => app.main_behaviour.set(new ShortcutEditor(app)))
+                ,
+                new MenuButton("Utility", "assets/icons/ribbon_notes.webp")
+                    .setEnabled(!(behaviour instanceof MapUtilityBehaviour))
+                    .onClick(() => app.main_behaviour.set(new MapUtilityBehaviour(app)))
                 ,
                 spacer(),
                 new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {}),

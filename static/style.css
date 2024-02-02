@@ -1822,3 +1822,11 @@ input[type=checkbox] + span {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.ctr-map-utility-chunk-index {
+    font-size: 25px;
+    background: none;
+    border: none;
+    text-align: center;
+    vertical-align: center;
+}

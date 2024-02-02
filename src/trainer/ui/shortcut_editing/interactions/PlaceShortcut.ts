@@ -99,21 +99,13 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
 
 export namespace PlaceShortcut {
     export function transform(s: Shortcuts.shortcut, trans: TileTransform): Shortcuts.shortcut {
-        function dir(s: "eastwest" | "northsouth"): "eastwest" | "northsouth" {
-            let v = s == "eastwest" ? {x: 1, y: 0} : {x: 0, y: 1}
-
-            let new_v = Vector2.transform(v, trans.matrix)
-
-            return Math.abs(new_v.x) > 0.1 ? "eastwest" : "northsouth"
-        }
-
         switch (s.type) {
             case "door":
                 return {
                     type: "door",
                     name: s.name,
-                    area: TileRectangle.transform(s.area, trans),
-                    direction: dir(s.direction)
+                    position: s.position,
+                    direction: direction.transform(s.direction, trans.matrix)
                 }
             case "entity":
                 return {

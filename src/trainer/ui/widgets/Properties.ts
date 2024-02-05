@@ -12,13 +12,13 @@ export default class Properties extends Widget {
         return c(`<div class='nisl-property-header nisl-property-row'></div>`).append(text).appendTo(this)
     }
 
-    row(content: Widget): this {
+    row(content: Widget | string): this {
         c("<div class='nisl-property-row'></div>").append(content).appendTo(this)
 
         return this
     }
 
-    named<T extends Widget>(name: string, content: T): T {
+    named<T extends Widget | string>(name: string, content: T): T {
         c(`<div class='nisl-property-name'>${name}</div>`).appendTo(this)
         c(`<div class='nisl-property-content'></div>`).append(content).appendTo(this)
 

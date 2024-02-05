@@ -2,6 +2,7 @@ import {Raster} from "lib/util/raster";
 import {Rectangle, Vector2} from "lib/math";
 import * as leaflet from "leaflet";
 import {LatLngExpression} from "leaflet";
+import {TileArea} from "../../lib/runescape/coordinates/TileArea";
 
 export function areaToPolygon<T>(raster: Raster<T>,
                                  f: (_: T) => boolean,
@@ -94,61 +95,6 @@ export function areaToPolygon<T>(raster: Raster<T>,
     } while (!done())
 
     return leaflet.polygon(polygon.map(Vector2.toLatLong))
-
-    /*
-    // Find a start point that is on the border of the shape. Assumes there are no holes in the shape
-    let startpoint = area.tiles[0]
-    while (a({x: startpoint.x - 1, y: startpoint.y})) startpoint = {x: startpoint.x - 1, y: startpoint.y}
-
-    let start: { tile: TileCoordinates, corner: corner } = {tile: startpoint, corner: 0}
-    let current: { tile: TileCoordinates, corner: corner } = {tile: startpoint, corner: 0}
-
-    function done() {
-        return start.tile.x == current.tile.x
-            && start.tile.y == current.tile.y
-            && start.corner == current.corner;
-    }
-
-    let polygon: TileCoordinates[] = [toCoords(current)]
-
-    do {
-        switch (current.corner) {
-            case 0: // Bottom left
-                if (a({x: current.tile.x - 1, y: current.tile.y})) {
-                    current = {tile: {x: current.tile.x - 1, y: current.tile.y}, corner: 2}
-                } else {
-                    current.corner = 1
-                    polygon.push(toCoords(current))
-                }
-                break;
-            case 1: // Top left
-                if (a({x: current.tile.x, y: current.tile.y + 1})) {
-                    current = {tile: {x: current.tile.x, y: current.tile.y + 1}, corner: 0}
-                } else {
-                    current.corner = 3
-                    polygon.push(toCoords(current))
-                }
-                break;
-            case 2: // Bottom right
-                if (a({x: current.tile.x, y: current.tile.y - 1})) {
-                    current = {tile: {x: current.tile.x, y: current.tile.y - 1}, corner: 3}
-                } else {
-                    current.corner = 0
-                    polygon.push(toCoords(current))
-                }
-                break;
-            case 3: // Top right
-                if (a({x: current.tile.x + 1, y: current.tile.y})) {
-                    current = {tile: {x: current.tile.x + 1, y: current.tile.y}, corner: 1}
-                } else {
-                    current.corner = 2
-                    polygon.push(toCoords(current))
-                }
-                break;
-        }
-    } while (!done())
-
-    return leaflet.polygon(polygon.map((c) => [c.y, c.x] as [number, number]))*/
 }
 
 export function tilePolygon(tile: Vector2) {
@@ -167,6 +113,10 @@ export function boxPolygon(tile: Rectangle): leaflet.Polygon {
         {x: tile.botright.x + 0.5, y: tile.botright.y - 0.5},
         {x: tile.topleft.x - 0.5, y: tile.botright.y - 0.5},
     ].map(Vector2.toLatLong))
+}
+
+export function areaPolygon(area: TileArea): leaflet.Polygon {
+    return boxPolygon(TileArea.toRect(area)) // TODO: This is just a quick and dirty solution and NOT accurate!
 }
 
 /**

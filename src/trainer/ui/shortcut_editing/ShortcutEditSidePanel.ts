@@ -1,6 +1,6 @@
 import {SidePanel} from "../SidePanelControl";
 import Widget from "lib/ui/Widget";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../lib/runescape/transportation";
 import TextField from "lib/ui/controls/TextField";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
@@ -29,9 +29,9 @@ export default class ShortcutEditSidePanel extends MapSideBar {
     result_container: Widget
     viewport_checkbox: Checkbox
 
-    centered = ewent<Shortcuts.shortcut>()
+    centered = ewent<Transportation.transportation>()
 
-    private visible_data_view: Observable<ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>[]>
+    private visible_data_view: Observable<ObservableArrayValue<Transportation.transportation & { is_builtin: boolean }>[]>
     private search_term = observe("")
 
     widgets: ShortcutEdit[] = []
@@ -41,7 +41,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
         this.header.close_handler.set(() => editor.stop())
 
-        observe<(_: Shortcuts.shortcut) => boolean>(() => true).equality(() => false)
+        observe<(_: Transportation.transportation) => boolean>(() => true).equality(() => false)
 
         this.editor.app.map.viewport.subscribe(() => {if (this.viewport_checkbox.get()) this.updateVisibleData()})
         this.search_term.subscribe(() => this.updateVisibleData())
@@ -98,7 +98,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
             results.forEach(s => {
                 hbox(
-                    span(`${Vector2.toString(TileCoordinates.chunk(Shortcuts.position(s.value())))}: ${Shortcuts.name(s.value())}`),
+                    span(`${Vector2.toString(TileCoordinates.chunk(Transportation.position(s.value())))}: ${Transportation.name(s.value())}`),
                     spacer(),
                     sibut("assets/icons/edit.png", () => this.editor.editControl.shortcut.set(s)).setEnabled(!s.value().is_builtin)
                 ).appendTo(this.result_container)
@@ -143,7 +143,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
     private updateVisibleData() {
         this.visible_data_view.set(this.editor.data.get().filter(s => {
-            return Shortcuts.name(s.value()).toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.app.map.viewport.value()))
+            return Transportation.name(s.value()).toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Transportation.bounds(s.value()), this.editor.app.map.viewport.value()))
         }))
     }
 }

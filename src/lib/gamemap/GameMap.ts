@@ -281,12 +281,16 @@ export class GameMap extends leaflet.Map {
     }
 
     setTeleportLayer(layer: TeleportLayer): this {
-        if (this.teleportLayer) this.teleportLayer.remove()
+        if (this.teleportLayer) {
+            this.teleportLayer.remove()
+            this.teleportLayer = null
+        }
 
-        this.teleportLayer = layer
+        if(layer) {
+            this.teleportLayer = layer
 
-        layer.addTo(this).setZIndex(100)
-
+            layer.addTo(this).setZIndex(100)
+        }
         return this
     }
 

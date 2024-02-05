@@ -21,6 +21,8 @@ import spacer = C.spacer;
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {GridLayer, LatLngBounds} from "leaflet";
 import Graticule from "../../../lib/gamemap/defaultlayers/Graticule";
+import TransportLayer from "../../../lib/gamemap/defaultlayers/TransportLayer";
+import shortcuts from "../../../data/shortcuts";
 
 class ChunkGridGraticule extends Graticule {
     constructor() {
@@ -89,6 +91,8 @@ export default class UtilityLayer extends GameLayer {
 
     constructor() {
         super();
+
+        new TransportLayer(shortcuts).addTo(this)
 
         this.guard = new InteractionGuard().setDefaultLayer(this)
 

@@ -5,6 +5,7 @@ import {Rectangle, Transform, Vector2} from "../math";
 import * as pako from "pako"
 import {Raster} from "../util/raster";
 import {Browser} from "leaflet";
+import {TileArea} from "./coordinates/TileArea";
 
 type TileMovementData = number
 
@@ -234,7 +235,14 @@ export namespace direction {
             [south, east],
             [south, west]
         ] as [cardinal, cardinal][]) [dir - 5]
+    }
 
+    export function rotate(dir: ordinal, quarters: number): ordinal
+    export function rotate(dir: cardinal, quarters: number): cardinal
+    export function rotate(dir: direction, quarters: number): direction {
+        if (dir == center) return center
+
+        return (dir - 1 + quarters) % 4 + 1 + Math.floor(dir / 5) * 4 as direction
     }
 }
 
@@ -276,7 +284,7 @@ export namespace PathFinder {
         return state
     }
 
-    async function djikstra2(state: state, target: TileCoordinates, step_limit: number): Promise<void> {
+    async function djikstra2(state: state, target: (tile: TileCoordinates) => boolean, step_limit: number): Promise<TileCoordinates | null> {
         // This is a typical djikstra algorithm
         // To improve it to A*, it still needs to prefer ortogonal pathing before diagonal pathing like ingame, but I'm not sure how to do that yet.
         // Possibly with a stable priority queue and tile distance as an estimator
@@ -306,7 +314,10 @@ export namespace PathFinder {
                 if (await canMove(state.data, e.coords, i)) push(move(e.coords, direction.toVector(i)), e)
             }
 
-            if (Vector2.eq(e.coords, target)) break
+            if (target(e.coords)) {
+                state.blocked = false
+                return e.coords
+            }
         }
 
         state.blocked = false
@@ -330,36 +341,68 @@ export namespace PathFinder {
         return cleanWaypoints(p)
     }
 
-    export async function find(state: state, target: TileCoordinates): Promise<TileCoordinates[] | null> {
-        if (target.level != state.start.level) return null
+    export async function find(state: state, target: TileArea): Promise<TileCoordinates[] | null> {
+        if (target.origin.level != state.start.level) return null
 
-        let target_i = ChunkedData.split(target)
 
-        // Check the cache for existing result
-        let existing = state.tiles.get(target_i)
-        if (existing != null) {
-            if (existing.unreachable) return null
-            else return get(state, target_i)
+        // Check for existing routes to any tile inside the area
+        {
+            let size = TileArea.size(target)
+
+            for (let delta_x = 0; delta_x < size.x; delta_x++) {
+                for (let delta_y = 0; delta_y < size.y; delta_y++) {
+                    const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
+
+                    if (TileArea.contains(target, tile)) {
+                        let target_i = ChunkedData.split(tile)
+
+                        // Check the cache for existing result
+                        let existing = state.tiles.get(target_i)
+                        if (existing != null) {
+                            if (existing.unreachable) return null
+                            else return get(state, target_i)
+                        }
+                    }
+
+                }
+            }
         }
+
 
         // Check if the target tile can be reached from any of its direct neighbours
         // If not, do not even search for a path.
-        let reachable_at_all = direction.cardinals.some((d) => canMove(state.data, move(target, direction.toVector(d)), direction.invert(d)))
 
-        if (!reachable_at_all) {
-            state.tiles.set(target_i, {parent: null, unreachable: true})
-            return null
+        if (TileArea.isSingleTile(target)) {
+            let target_i = ChunkedData.split(target.origin)
+
+            let reachable_at_all = direction.cardinals.some((d) => canMove(state.data, move(target.origin, direction.toVector(d)), direction.invert(d)))
+
+            if (!reachable_at_all) {
+                state.tiles.set(target_i, {parent: null, unreachable: true})
+                return null
+            }
         }
 
-        await djikstra2(state, target, 5000)
 
-        if (state.tiles.get(target_i) == null) {
-            // Cache whether the tile is unreachable to prevent endless search
-            state.tiles.set(target_i, {parent: null, unreachable: true})
-            return null
+        let end_tile = await djikstra2(state, (tile) => TileArea.contains(target, tile), 5000)
+
+        // Cache whether the target is unreachable to prevent endless search
+        if (!end_tile) {
+
+            let size = TileArea.size(target)
+
+            for (let delta_x = 0; delta_x < size.x; delta_x++) {
+                for (let delta_y = 0; delta_y < size.y; delta_y++) {
+                    const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
+
+                    if (TileArea.contains(target, tile)) {
+                        state.tiles.set(ChunkedData.split(tile), {parent: null, unreachable: true})
+                    }
+                }
+            }
         }
 
-        return get(state, target_i)
+        return get(state, ChunkedData.split(end_tile))
     }
 
     export function idealPath(from: TileCoordinates, to: TileCoordinates): TileCoordinates[] {

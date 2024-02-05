@@ -10,6 +10,7 @@ import index = util.index;
 import observe_combined = Observable.observe_combined;
 import {Path} from "../../../../lib/runescape/pathing";
 import {StepGraphics} from "../../pathing/PathGraphics";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 
 class DrawRunInteractionInternal extends ValueInteraction<{
     path: TileCoordinates[],
@@ -120,7 +121,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                 let segment =
                     await (event.original.ctrlKey
                         ? PathFinder.idealPath(this.last_position.value(), event.tile())
-                        : PathFinder.find(this.getPathFindingState(), event.tile()))
+                        : PathFinder.find(this.getPathFindingState(), TileArea.init(event.tile())))
 
                 if (segment) {
                     this.segments.update(w => w.push({tiles: segment}))
@@ -148,7 +149,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
             let segment =
                 await (force
                     ? PathFinder.idealPath(this.last_position.value(), tile)
-                    : PathFinder.find(this.getPathFindingState(), tile))
+                    : PathFinder.find(this.getPathFindingState(), TileArea.init(tile)))
 
             this.previewed_segment.set({
                 target: tile,

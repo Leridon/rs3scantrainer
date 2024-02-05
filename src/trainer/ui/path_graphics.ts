@@ -50,8 +50,6 @@ export namespace PathGraphics {
                 if (!tele) return text_icon('assets/teleports/homeport.png')
 
                 return PathGraphics.Teleport.asSpan(tele)
-            case "interaction":
-                return text_icon(InteractionType.meta(step.how).icon_url)
             case "shortcut_v2":
                 return text_icon(InteractionType.meta(step.internal.actions[0].cursor).icon_url)
             case "redclick":
@@ -125,7 +123,6 @@ export namespace PathingGraphics {
                 return `{{teleport ${step.id.group} ${step.id.sub}}}`
             case "powerburst":
                 return `{{icon accel}}`
-            case "interaction":
             case "redclick":
                 return `{{icon ${InteractionType.meta(step.how).short_icon}}}`
             case "shortcut_v2":
@@ -153,8 +150,6 @@ export namespace PathingGraphics {
                 break;
             case "teleport":
                 return c(`<img class='text-icon' src='assets/icons/teleports/homeport.png'>`)
-            case "interaction":
-                return c(`<img class='text-icon' src='assets/icons/shortcut.png'>`)
             case "redclick":
                 return c(`<img class='text-icon' src='assets/icons/redclick.png'>`)
             case "powerburst":

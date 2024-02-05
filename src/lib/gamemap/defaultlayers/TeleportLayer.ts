@@ -10,13 +10,16 @@ import ManagedTeleportData = Teleports.ManagedTeleportData;
 import full_teleport_id = Teleports.full_teleport_id;
 import Widget from "../../ui/Widget";
 import Properties from "../../../trainer/ui/widgets/Properties";
-import {Shortcuts} from "../../runescape/shortcuts";
-import shortcut = Shortcuts.shortcut;
-import {floor_t, TileRectangle} from "../../runescape/coordinates";
-import {boxPolygon, boxPolygon2} from "../../../trainer/ui/polygon_helpers";
-import {RenderingUtility} from "../../../trainer/ui/map/RenderingUtility";
+import {Transportation} from "../../runescape/transportation";
+import shortcut = Transportation.transportation;
+import {floor_t, TileCoordinates, TileRectangle} from "../../runescape/coordinates";
+import {areaPolygon, boxPolygon2} from "../../../trainer/ui/polygon_helpers";
 import shortcuts from "../../../data/shortcuts";
 import {arrow} from "../../../trainer/ui/path_graphics";
+import {Path} from "../../runescape/pathing";
+import {direction} from "../../runescape/movement";
+import * as lodash from "lodash";
+import {TileArea} from "../../runescape/coordinates/TileArea";
 
 export class TeleportEntity extends MapEntity {
 
@@ -94,82 +97,106 @@ export class ShortcutEntity extends MapEntity {
             else return {}
         }
 
-        let shortcut = Shortcuts.normalize(this.config.shortcut)
+        let shortcut = Transportation.normalize(this.config.shortcut)
 
-        let index_of_first_action_on_floor = shortcut.actions.findIndex(a => a.interactive_area.level == floor)
+        let index_of_first_action_on_floor = shortcut.actions.findIndex(a => a.interactive_area.origin.level == floor)
 
         let render_main = all_floors || (index_of_first_action_on_floor >= 0) || shortcut.clickable_area.level == floor
 
         for (let action of shortcut.actions) {
 
-            if (render_main) {
-                boxPolygon(action.interactive_area).setStyle({
+            if (render_main && options.highlight && action.interactive_area) {
+                areaPolygon(action.interactive_area).setStyle({
                     color: COLORS.interactive_area,
                     fillColor: COLORS.interactive_area,
                     interactive: true,
                     fillOpacity: 0.1,
                     weight: 2
                 })
-                    .setStyle(fs(action.interactive_area.level))
+                    .setStyle(fs(action.interactive_area.origin.level))
                     .addTo(this)
             }
 
-            switch (action.movement.type) {
-                case "offset":
+            action.movement.forEach(movement => {
 
+                if (movement.offset) {
                     if (options.highlight) {
+                        let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area), true)
 
-                        let center = TileRectangle.center(action.interactive_area, true)
-                        let target = Vector2.add(center, action.movement.offset)
+                        let target = Vector2.add(center, movement.offset)
 
-                        render_transport_arrow(center, target, action.movement.offset.level).addTo(this)
+                        render_transport_arrow(center, target, movement.offset.level).addTo(this)
                     }
-
-                    break;
-
-                case "fixed":
-                    if (render_main || action.movement.target.level == floor) {
-                        leaflet.circle(Vector2.toLatLong(action.movement.target), {
+                } else if (movement.fixed_target) {
+                    if (render_main || movement.fixed_target.level == floor) {
+                        leaflet.circle(Vector2.toLatLong(movement.fixed_target), {
                             color: COLORS.target_area,
                             weight: 2,
                             radius: 0.4,
                             fillOpacity: 0.1,
                         })
-                            .setStyle(fs(action.movement.target.level))
+                            .setStyle(fs(movement.fixed_target.level))
                             .addTo(this)
                     }
 
                     if (options.highlight) {
-
-                        let center = TileRectangle.center(action.interactive_area, false)
-                        let target = action.movement.target
+                        let center = TileRectangle.center(shortcut.clickable_area, false)
+                        let target = movement.fixed_target
 
                         render_transport_arrow(center, target, target.level - center.level).addTo(this)
-                        break;
                     }
-
-                    break
-            }
+                }
+            })
 
         }
 
         if (render_main) {
             let i = index_of_first_action_on_floor >= 0 ? index_of_first_action_on_floor : 0
 
-            RenderingUtility.interactionMarker(Rectangle.center(shortcut.clickable_area, false), shortcut.actions[i]?.cursor || "generic", true)
-                .addTo(this)
+            leaflet.marker(Vector2.toLatLong(Rectangle.center(shortcut.clickable_area, false)), {
+                icon: leaflet.icon({
+                    iconUrl: Path.InteractionType.meta(shortcut.actions[i]?.cursor ?? "generic").icon_url,
+                    iconSize: options.highlight ? [42, 48] : [28, 31],
+                    iconAnchor: options.highlight ? [21, 24] : [14, 16],
+                    className: null
+                }),
+                interactive: true
+            }).addTo(this)
 
-            leaflet.polygon(boxPolygon2(shortcut.clickable_area), {
+            if (options.highlight) leaflet.polygon(boxPolygon2(shortcut.clickable_area), {
                 color: COLORS.clickable_area,
                 fillColor: COLORS.clickable_area,
                 fillOpacity: 0.1,
+                opacity: 0.5,
                 interactive: true
             }).addTo(this)
         }
     }
 
     protected renderTooltip(): Widget | null {
-        return c().text(this.config.shortcut.source_loc)
+        const props = new Properties()
+        const s = this.config.shortcut
+
+        switch (s.type) {
+            case "entity":
+                props.header(C.entity(s.entity))
+                break;
+            case "door":
+                props.header(C.staticentity(s.name))
+                break;
+        }
+
+        if (s.source_loc) {
+            props.named("Object ID", s.source_loc.toString())
+        }
+
+        if (s.type == "door") {
+            props.named("Position", TileCoordinates.toString(s.position))
+            props.named("Direction", direction.toString(s.direction))
+
+        }
+
+        return props
     }
 }
 

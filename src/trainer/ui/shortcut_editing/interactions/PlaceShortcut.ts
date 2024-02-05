@@ -1,5 +1,5 @@
 import {ValueInteraction} from "lib/gamemap/interaction/ValueInteraction";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../../lib/runescape/transportation";
 import {Transform, Vector2} from "lib/math";
 import {TileRectangle} from "lib/runescape/coordinates";
 import {TileCoordinates} from "lib/runescape/coordinates";
@@ -10,14 +10,14 @@ import InteractionTopControl from "../../map/InteractionTopControl";
 import {observe} from "../../../../lib/reactive";
 import {direction} from "../../../../lib/runescape/movement";
 
-export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
+export class PlaceShortcut extends ValueInteraction<Transportation.transportation> {
 
     private transform: TileTransform
     private final_translation_transform: TileTransform
 
-    constructor(private original: Shortcuts.shortcut,
+    constructor(private original: Transportation.transportation,
                 private origin: TileCoordinates,
-                private copy_handler: (copy: Shortcuts.shortcut) => void = null
+                private copy_handler: (copy: Transportation.transportation) => void = null
     ) {
         super({
             preview_render: (s) => new ShortcutViewLayer.ShortcutPolygon(observe(s))
@@ -46,7 +46,7 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
     }
 
     private updatePreview() {
-        this.preview(PlaceShortcut.transform(this.original,
+        this.preview(Transportation.transform(this.original,
             TileTransform.chain(
                 this.final_translation_transform,
                 this.transform
@@ -79,14 +79,14 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
             this.final_translation_transform = TileTransform.translation(event.tile(), event.tile().level)
 
             if (event.original.shiftKey) {
-                this.copy_handler(PlaceShortcut.transform(this.original,
+                this.copy_handler(Transportation.transform(this.original,
                     TileTransform.chain(
                         this.final_translation_transform,
                         this.transform
                     )
                 ))
             } else {
-                this.commit(PlaceShortcut.transform(this.original,
+                this.commit(Transportation.transform(this.original,
                     TileTransform.chain(
                         TileTransform.translation(event.tile(), event.tile().level),
                         this.transform
@@ -94,78 +94,5 @@ export class PlaceShortcut extends ValueInteraction<Shortcuts.shortcut> {
                 ))
             }
         })
-    }
-}
-
-export namespace PlaceShortcut {
-    export function transform(s: Shortcuts.shortcut, trans: TileTransform): Shortcuts.shortcut {
-        switch (s.type) {
-            case "door":
-                return {
-                    type: "door",
-                    name: s.name,
-                    position: s.position,
-                    direction: direction.transform(s.direction, trans.matrix)
-                }
-            case "entity":
-                return {
-                    type: "entity",
-                    entity: s.entity,
-                    clickable_area: TileRectangle.transform(s.clickable_area, trans),
-                    actions: s.actions.map(a => ({
-                        cursor: a.cursor,
-                        interactive_area: TileRectangle.transform(a.interactive_area, trans),
-                        movement: (() => {
-                            switch (a.movement.type) {
-                                case "fixed":
-                                    return (a.movement.relative)
-                                        ? {
-                                            type: "fixed",
-                                            target: TileCoordinates.transform(a.movement.target, trans),
-                                            relative: true
-                                        }
-                                        : {
-                                            type: "fixed",
-                                            target: a.movement.target,
-                                            relative: false
-                                        }
-                                case "offset":
-                                    return {
-                                        type: "offset",
-                                        offset: {...Vector2.snap(Vector2.transform(a.movement.offset, trans.matrix)), level:a.movement.offset.level + trans.level_offset}
-                                    }
-                            }
-                        })(),
-                        orientation: (() => {
-                            switch (a.orientation.type) {
-                                case "byoffset":
-                                    return {type: "byoffset"}
-                                case "keep":
-                                    return {type: "keep"}
-                                case "toentityafter":
-                                    return {type: "toentityafter"}
-                                case "toentitybefore":
-                                    return {type: "toentitybefore"}
-                                case "forced":
-                                    return (a.orientation.relative)
-                                        ? {
-                                            type: "forced",
-                                            direction: direction.transform(a.orientation.direction, trans.matrix),
-                                            relative: true
-                                        }
-                                        : {
-                                            type: "forced",
-                                            direction: a.orientation.direction,
-                                            relative: false
-                                        }
-                            }
-                        })(),
-                        name: a.name,
-                        time: a.time,
-                    }))
-                }
-
-
-        }
     }
 }

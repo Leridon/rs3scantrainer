@@ -8,9 +8,10 @@ import {Rectangle, Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
-import {Shortcuts} from "./shortcuts";
+import {Transportation} from "./transportation";
 import {last} from "lodash";
 import {TreeArray} from "../util/TreeArray";
+import {TileArea} from "./coordinates/TileArea";
 
 export type Path = Path.raw;
 
@@ -153,6 +154,22 @@ export namespace Path {
                     return {kind: "item", name: "Item"}
             }
         }
+
+        export function fromCacheCursor(id: number | null | undefined) {
+            const table: Record<number, InteractionType> = {
+                0: "generic",
+                44: "talk",
+                49: "open",
+                52: "ladderup",
+                53: "ladderdown",
+                59: "chop",
+                181: "agility",
+                208: "discover",
+            }
+
+            return table[id ?? 0] || "generic"
+        }
+
     }
 
     export type EntityKind = "npc" | "static" | "item"
@@ -193,16 +210,6 @@ export namespace Path {
         spot_override?: TileCoordinates
     }
 
-    export type step_interact = step_base & {
-        type: "interaction",
-        ticks: number,
-        where: TileCoordinates,
-        starts: TileCoordinates,
-        ends_up: TileCoordinates,
-        forced_direction: direction
-        how: InteractionType
-    }
-
     export type step_shortcut = step_base & {
         type: "shortcut_v2",
         assumed_start: TileCoordinates,
@@ -221,13 +228,13 @@ export namespace Path {
         where: TileCoordinates
     }
 
-    export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst | step_shortcut
+    export type step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_shortcut
 
     import index = util.index;
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
     import capitalize = util.capitalize;
-    import entity_shortcut = Shortcuts.entity_shortcut;
+    import entity_shortcut = Transportation.entity_transportation;
     import todo = util.todo;
 
     export type movement_state = {
@@ -331,18 +338,16 @@ export namespace Path {
                 case "teleport":
                     if (step.spot_override) return step.spot_override
                     else return teleport_data.resolveTarget(step.id)
-                case "interaction":
-                    return step.ends_up
                 case "shortcut_v2":
                     let start_tile = step.assumed_start
                     let action = step.internal.actions[0]
 
-                    switch (action.movement.type) {
-                        case "offset":
-                            return TileCoordinates.move(start_tile, action.movement.offset)
-                            break;
-                        case "fixed":
-                            return action.movement.target
+                    const movement = Transportation.EntityAction.findApplicable(action, start_tile) ?? action.movement[0]
+
+                    if (movement.offset) {
+                        return TileCoordinates.move(start_tile, movement.offset)
+                    } else if (movement.fixed_target) {
+                        return movement.fixed_target
                     }
                     break
                 case "redclick":
@@ -587,20 +592,12 @@ export namespace Path {
                     state.targeted_entity = null
 
                     break;
-                case "interaction":
-
-                    state.position.tile = step.ends_up
-                    if (step.forced_direction != null) state.position.direction = step.forced_direction
-                    state.tick += step.ticks
-                    state.targeted_entity = null
-
-                    break;
                 case "shortcut_v2":
 
                     let entity = step.internal
                     let action = entity.actions[0]
 
-                    let in_interactive_area = !state.position.tile || TileRectangle.contains(action.interactive_area, state.position.tile)
+                    let in_interactive_area = !state.position.tile || TileArea.contains(action.interactive_area, state.position.tile)
 
                     if (!in_interactive_area) {
                         augmented.issues.push({level: 0, message: "Player is not in the interactive area for this shortcut!"})
@@ -612,22 +609,26 @@ export namespace Path {
 
                     let start_tile = step.assumed_start
 
-                    switch (action.movement.type) {
-                        case "offset":
-                            state.position.tile = TileCoordinates.move(start_tile, action.movement.offset)
-                            state.position.tile.level += action.movement.offset.level
-                            break;
-                        case "fixed":
-                            state.position.tile = action.movement.target
-                            break;
+                    let movement = Transportation.EntityAction.findApplicable(action, start_tile)
+
+                    if (!movement) {
+                        augmented.issues.push(({level: 0, message: "No applicable movement option from this tile"}))
+                        movement = action.movement[0]
                     }
 
-                    switch (action.orientation.type) {
-                        case "byoffset":
+                    if (movement.offset) {
+                        state.position.tile = TileCoordinates.move(start_tile, movement.offset)
+                        state.position.tile.level += movement.offset.level
+                    } else if (movement.fixed_target) {
+                        state.position.tile = movement.fixed_target
+                    }
+
+                    switch (movement.orientation || "bymovement") {
+                        case "bymovement":
                             state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, start_tile))
                             break;
                         case "forced":
-                            state.position.direction = action.orientation.direction
+                            state.position.direction = movement.forced_direction
                             break;
                         case "toentitybefore":
                             state.position.direction = direction.fromVector(Vector2.sub(TileRectangle.center(entity.clickable_area), start_tile))
@@ -718,8 +719,6 @@ export namespace Path {
                 return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
             case "teleport":
                 return `Teleport`
-            case "interaction":
-                return "Use entrance (DEPRECATED)";
             case "shortcut_v2":
                 return `Use entity`
             case "redclick":
@@ -772,8 +771,6 @@ export namespace Path {
             case "teleport":
                 if (step.spot_override) return Rectangle.from(step.spot_override)
                 else return Rectangle.from(Teleports.find(getAllFlattened(), step.id).spot)
-            case "interaction":
-                return Rectangle.from(step.where, step.ends_up)
             case "redclick":
             case "powerburst":
                 return Rectangle.from(step.where)

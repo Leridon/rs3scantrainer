@@ -1,14 +1,14 @@
 import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 import GameMapDragAction from "lib/gamemap/interaction/GameMapDragAction";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../../lib/runescape/transportation";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import {ShortcutViewLayer} from "../ShortcutView";
 import {observe} from "../../../../lib/reactive";
 
 export class DrawGeneralEntity extends InteractionLayer {
     constructor(public config: {
-        done_handler: (_: Shortcuts.shortcut) => void
+        done_handler: (_: Transportation.transportation) => void
     }) {
         super();
 
@@ -31,18 +31,16 @@ export class DrawGeneralEntity extends InteractionLayer {
 }
 
 export namespace DrawGeneralEntity {
-    export function create(area: TileRectangle): Shortcuts.entity_shortcut {
+    export function create(area: TileRectangle): Transportation.entity_transportation {
         return {
             type: "entity",
             entity: {kind: "static", name: "Entity"},
             clickable_area: TileRectangle.extend(area, 0.5),
             actions: [{
                 cursor: "generic",
-                interactive_area: TileRectangle.extend(area, 1),
-                movement: {type: "offset", offset: {x: 0, y: 0, level: 0}},
+                movement: [{offset: {x: 0, y: 0, level: 0}}],
                 name: "Use",
                 time: 3,
-                orientation: {type: "byoffset"}
             }]
         }
     }

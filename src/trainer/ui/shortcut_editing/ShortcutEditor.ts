@@ -1,7 +1,7 @@
 import Behaviour from "lib/ui/Behaviour";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import GameLayer from "lib/gamemap/GameLayer";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../lib/runescape/transportation";
 import {Rectangle} from "lib/math"
 import {ActionBar} from "../map/ActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
@@ -84,7 +84,7 @@ export class ShortcutEditGameLayer extends GameLayer {
     eventClick(event: GameMapMouseEvent) {
         event.onPost(() => {
             let shortcuts = this.editor.data.value().filter(s => {
-                return !s.value().is_builtin && Rectangle.containsTile(Shortcuts.bounds(s.value()), event.coordinates)
+                return !s.value().is_builtin && Rectangle.containsTile(Transportation.bounds(s.value()), event.coordinates)
             })
 
             if (shortcuts.length == 1) {
@@ -105,14 +105,14 @@ export class ShortcutEditGameLayer extends GameLayer {
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPost(() => {
             let shortcuts = this.editor.data.value().filter(s => {
-                return Rectangle.containsTile(Shortcuts.bounds(s.value()), event.coordinates)
+                return Rectangle.containsTile(Transportation.bounds(s.value()), event.coordinates)
             })
 
             shortcuts.forEach(s => {
                 let entries = ShortcutEditor.contextMenu(s, this.editor, true, event.tile())
 
                 if (shortcuts.length > 1) {
-                    event.add({type: "submenu", children: entries, text: Shortcuts.name(s.value())})
+                    event.add({type: "submenu", children: entries, text: Transportation.name(s.value())})
                 } else {
                     event.add(...entries)
                 }
@@ -121,7 +121,7 @@ export class ShortcutEditGameLayer extends GameLayer {
     }
 
     startMove(s: ShortcutEditor.OValue, origin: TileCoordinates = null) {
-        if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s.value()))
+        if (!origin) origin = TileRectangle.center(Transportation.bounds(s.value()))
 
         this.interactionGuard.set(new PlaceShortcut(s.value(), origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
             .onCommit(n => s.set(Object.assign(n, {is_builtin: false})))
@@ -130,8 +130,8 @@ export class ShortcutEditGameLayer extends GameLayer {
         )
     }
 
-    startPlacement(s: Shortcuts.shortcut, origin: TileCoordinates = null) {
-        if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s))
+    startPlacement(s: Transportation.transportation, origin: TileCoordinates = null) {
+        if (!origin) origin = TileRectangle.center(Transportation.bounds(s))
 
         this.interactionGuard.set(new PlaceShortcut(s, origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
             .onCommit(n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
@@ -163,7 +163,7 @@ export class ShortcutEditor extends Behaviour {
     layer: ShortcutEditGameLayer
     editControl: EditControl
 
-    private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", () => [])
+    private storage = new storage.Variable<Transportation.transportation[]>("local_shortcuts", () => [])
     public data: ShortcutEditor.Data
 
     sidebar: ShortcutEditSidePanel
@@ -193,13 +193,13 @@ export class ShortcutEditor extends Behaviour {
         this.sidebar.remove()
     }
 
-    public createNew(shortcut: Shortcuts.shortcut) {
+    public createNew(shortcut: Transportation.transportation) {
         this.editControl.shortcut.set(this.data.add(Object.assign(lodash.cloneDeep(shortcut), {is_builtin: false})))
     }
 }
 
 export namespace ShortcutEditor {
-    export type Value = Shortcuts.shortcut & { is_builtin: boolean }
+    export type Value = Transportation.transportation & { is_builtin: boolean }
     export type OValue = ObservableArrayValue<Value>
     export type Data = ObservableArray<Value>
 
@@ -215,7 +215,7 @@ export namespace ShortcutEditor {
         if (editable) {
             menu.push({
                 type: "basic",
-                text: `Edit ${Shortcuts.name(shortcut.value())}`,
+                text: `Edit ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/edit.png",
                 handler: () => {
                     editor.editControl.shortcut.set(shortcut)
@@ -224,14 +224,14 @@ export namespace ShortcutEditor {
 
             menu.push({
                 type: "basic",
-                text: `Delete ${Shortcuts.name(shortcut.value())}`,
+                text: `Delete ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/delete.png",
                 handler: () => {shortcut.remove()}
             })
 
             menu.push({
                 type: "basic",
-                text: `Move ${Shortcuts.name(shortcut.value())}`,
+                text: `Move ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/move.png",
                 handler: () => {
                     editor.layer.startMove(shortcut, origin_tile)
@@ -241,7 +241,7 @@ export namespace ShortcutEditor {
 
         menu.push({
             type: "basic",
-            text: `Copy ${Shortcuts.name(shortcut.value())}`,
+            text: `Copy ${Transportation.name(shortcut.value())}`,
             icon: "assets/icons/copy.png",
             handler: () => {
                 editor.layer.startPlacement(shortcut.value(), origin_tile)
@@ -251,7 +251,7 @@ export namespace ShortcutEditor {
         if (!origin_tile) {
             menu.push({
                 type: "basic",
-                text: `Focus on ${Shortcuts.name(shortcut.value())}`,
+                text: `Focus on ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/fullscreen.png",
                 handler: () => {editor.layer.view.center(shortcut.value())}
             })
@@ -262,7 +262,7 @@ export namespace ShortcutEditor {
 
     export function nameWithBuiltin(value: Value): string {
         return value.is_builtin
-            ? `${Shortcuts.name(value)} (builtin)`
-            : Shortcuts.name(value)
+            ? `${Transportation.name(value)} (builtin)`
+            : Transportation.name(value)
     }
 }

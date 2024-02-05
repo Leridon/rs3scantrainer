@@ -1,7 +1,7 @@
 import GameMapDragAction from "lib/gamemap/interaction/GameMapDragAction";
 import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 import InteractionTopControl from "../../map/InteractionTopControl";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../../lib/runescape/transportation";
 import {Rectangle} from "lib/math"
 import {boxPolygon} from "../../polygon_helpers";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
@@ -13,7 +13,7 @@ import {direction} from "../../../../lib/runescape/movement";
 export class DrawDoor extends InteractionLayer {
 
     constructor(public config: {
-        done_handler: (_: Shortcuts.door_shortcut) => void
+        done_handler: (_: Transportation.door) => void
     }) {
         super();
 
@@ -67,11 +67,11 @@ export class DrawDoor extends InteractionLayer {
 }
 
 export namespace DrawDoor {
-    export function shortcutsFromArea(area: TileRectangle): Shortcuts.door_shortcut[] {
+    export function shortcutsFromArea(area: TileRectangle): Transportation.door[] {
         let width = Rectangle.tileWidth(area)
         let height = Rectangle.tileHeight(area)
 
-        let options: Shortcuts.door_shortcut[] = []
+        let options: Transportation.door[] = []
 
         return []
 

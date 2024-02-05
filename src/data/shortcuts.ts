@@ -1,9 +1,6 @@
-// @ts-nocheck
+import {Transportation} from "../lib/runescape/transportation";
 
-import {Shortcuts} from "lib/runescape/shortcuts";
-
-/* ts-ignore */
-let data: Shortcuts.shortcut[] = [
+let data: Transportation.transportation[] = [
     {
         "type": "door",
         "name": "Door",
@@ -2787,28 +2784,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1226,
-                        "y": 6736
-                    },
-                    "botright": {
-                        "x": 1226,
-                        "y": 6736
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 6736,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -2835,28 +2827,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1238,
-                        "y": 6721
-                    },
-                    "botright": {
-                        "x": 1238,
-                        "y": 6721
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 6721,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -2883,28 +2870,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1646,
-                        "y": 5369
-                    },
-                    "botright": {
-                        "x": 1646,
-                        "y": 5369
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5369,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -2931,28 +2913,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1662,
-                        "y": 5362
-                    },
-                    "botright": {
-                        "x": 1662,
-                        "y": 5362
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5362,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -2979,28 +2956,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1860,
-                        "y": 5564
-                    },
-                    "botright": {
-                        "x": 1860,
-                        "y": 5564
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5564,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3027,28 +2999,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1862,
-                        "y": 5532
-                    },
-                    "botright": {
-                        "x": 1862,
-                        "y": 5532
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5532,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3075,28 +3042,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1878,
-                        "y": 5535
-                    },
-                    "botright": {
-                        "x": 1878,
-                        "y": 5535
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5535,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3123,28 +3085,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1878,
-                        "y": 5553
-                    },
-                    "botright": {
-                        "x": 1878,
-                        "y": 5553
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5553,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3171,28 +3128,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1881,
-                        "y": 5514
-                    },
-                    "botright": {
-                        "x": 1881,
-                        "y": 5514
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5514,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3219,28 +3171,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1890,
-                        "y": 5529
-                    },
-                    "botright": {
-                        "x": 1890,
-                        "y": 5529
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5529,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3267,28 +3214,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1898,
-                        "y": 5505
-                    },
-                    "botright": {
-                        "x": 1898,
-                        "y": 5505
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5505,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3315,28 +3257,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 1910,
-                        "y": 5542
-                    },
-                    "botright": {
-                        "x": 1910,
-                        "y": 5542
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 5542,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3363,28 +3300,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3184,
-                        "y": 3446
-                    },
-                    "botright": {
-                        "x": 3184,
-                        "y": 3446
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3446,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3411,28 +3343,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3186,
-                        "y": 3415
-                    },
-                    "botright": {
-                        "x": 3186,
-                        "y": 3415
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3415,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3459,28 +3386,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3222,
-                        "y": 3387
-                    },
-                    "botright": {
-                        "x": 3222,
-                        "y": 3387
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3387,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3507,28 +3429,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3202,
-                        "y": 3417
-                    },
-                    "botright": {
-                        "x": 3202,
-                        "y": 3417
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3417,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3555,28 +3472,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3202,
-                        "y": 3435
-                    },
-                    "botright": {
-                        "x": 3202,
-                        "y": 3435
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3435,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3603,28 +3515,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3205,
-                        "y": 3396
-                    },
-                    "botright": {
-                        "x": 3205,
-                        "y": 3396
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3396,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3651,28 +3558,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3214,
-                        "y": 3411
-                    },
-                    "botright": {
-                        "x": 3214,
-                        "y": 3411
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3411,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3699,28 +3601,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3234,
-                        "y": 3424
-                    },
-                    "botright": {
-                        "x": 3234,
-                        "y": 3424
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3424,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3747,28 +3644,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3246,
-                        "y": 3409
-                    },
-                    "botright": {
-                        "x": 3246,
-                        "y": 3409
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3409,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3795,28 +3687,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3262,
-                        "y": 3402
-                    },
-                    "botright": {
-                        "x": 3262,
-                        "y": 3402
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3402,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3843,28 +3730,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3267,
-                        "y": 3379
-                    },
-                    "botright": {
-                        "x": 3267,
-                        "y": 3379
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 3379,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3891,28 +3773,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3695,
-                        "y": 9078
-                    },
-                    "botright": {
-                        "x": 3695,
-                        "y": 9078
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9078,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3939,28 +3816,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3698,
-                        "y": 9047
-                    },
-                    "botright": {
-                        "x": 3698,
-                        "y": 9047
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9047,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -3987,28 +3859,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3734,
-                        "y": 9019
-                    },
-                    "botright": {
-                        "x": 3734,
-                        "y": 9019
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9019,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4035,28 +3902,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3714,
-                        "y": 9049
-                    },
-                    "botright": {
-                        "x": 3714,
-                        "y": 9049
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9049,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4083,28 +3945,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3714,
-                        "y": 9067
-                    },
-                    "botright": {
-                        "x": 3714,
-                        "y": 9067
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9067,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4131,28 +3988,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3717,
-                        "y": 9028
-                    },
-                    "botright": {
-                        "x": 3717,
-                        "y": 9028
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9028,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4179,28 +4031,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3726,
-                        "y": 9043
-                    },
-                    "botright": {
-                        "x": 3726,
-                        "y": 9043
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9043,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4227,28 +4074,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3758,
-                        "y": 9041
-                    },
-                    "botright": {
-                        "x": 3758,
-                        "y": 9041
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9041,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4275,28 +4117,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3774,
-                        "y": 9034
-                    },
-                    "botright": {
-                        "x": 3774,
-                        "y": 9034
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9034,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4323,28 +4160,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3816,
-                        "y": 9125
-                    },
-                    "botright": {
-                        "x": 3816,
-                        "y": 9125
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9125,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354
@@ -4371,28 +4203,23 @@ let data: Shortcuts.shortcut[] = [
                 "name": "Climb-up",
                 "time": 3,
                 "interactive_area": {
-                    "topleft": {
+                    "origin": {
                         "x": 3822,
-                        "y": 9140
-                    },
-                    "botright": {
-                        "x": 3822,
-                        "y": 9140
-                    },
-                    "level": 0
-                },
-                "movement": {
-                    "type": "offset",
-                    "offset": {
-                        "x": 0,
-                        "y": 0,
-                        "level": 1
+                        "y": 9140,
+                        "level": 0
                     }
                 },
-                "cursor": "ladderup",
-                "orientation": {
-                    "type": "toentitybefore"
-                }
+                "movement": [
+                    {
+                        "offset": {
+                            "x": 0,
+                            "y": 0,
+                            "level": 1
+                        },
+                        "orientation": "toentitybefore"
+                    }
+                ],
+                "cursor": "ladderup"
             }
         ],
         "source_loc": 24354

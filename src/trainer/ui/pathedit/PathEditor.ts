@@ -14,7 +14,7 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import movement_state = Path.movement_state;
 import issue = Path.issue;
 import Behaviour from "lib/ui/Behaviour";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../lib/runescape/transportation";
 import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
@@ -49,6 +49,11 @@ import index = util.index;
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {StepGraphics} from "../pathing/PathGraphics";
+import shortcuts from "../../../data/shortcuts";
+import TransportLayer from "lib/gamemap/defaultlayers/TransportLayer";
+import {ShortcutEntity, TeleportEntity} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import EntityTransportation = Transportation.EntityTransportation;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -58,10 +63,9 @@ export class IssueWidget extends Widget {
 
 function needRepairing(state: movement_state, shortcut: Path.step_shortcut): boolean {
     return state.position.tile
-        && TileRectangle.contains(shortcut.internal.actions[0].interactive_area, state.position.tile)
+        && TileArea.contains(shortcut.internal.actions[0].interactive_area, state.position.tile)
         && !TileCoordinates.eq2(state.position.tile, shortcut.assumed_start)
 }
-
 
 function repairShortcutStep(state: movement_state, shortcut: Path.step_shortcut): void {
     shortcut.assumed_start = state.position.tile
@@ -222,45 +226,11 @@ class StepEditWidget extends Widget {
                     )
                 )
                 break
-            case "interaction":
-
-                props.named("Deprecated",
-                    new LightButton("Convert")
-                        .onClick(() => {
-                            this.value.update(value => {
-                                assert(value.raw.type == "interaction")
-
-                                value.raw = {
-                                    type: "shortcut_v2",
-                                    assumed_start: value.raw.starts,
-                                    internal: {
-                                        type: "entity",
-                                        entity: InteractionType.defaultEntity(value.raw.how),
-                                        clickable_area: TileRectangle.from(value.raw.where),
-                                        actions: [{
-                                            cursor: value.raw.how,
-                                            interactive_area: TileRectangle.from(value.raw.starts),
-                                            movement: {type: "fixed", target: value.raw.ends_up, relative: false},
-                                            name: "Use",
-                                            time: value.raw.ticks,
-                                            orientation: value.raw.forced_direction != null ? {
-                                                type: "forced",
-                                                direction: value.raw.forced_direction,
-                                                relative: false
-                                            } : {type: "keep"}
-                                        }]
-                                    }
-                                }
-                            })
-                        })
-                )
-
-                break
 
             case "shortcut_v2": {
                 let body: ShortcutEdit = ShortcutEdit.forSimple(value.raw.internal, this.parent.editor.interaction_guard,
                     v => {
-                        this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Shortcuts.bounds(v))), {maxZoom: 5})
+                        this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Transportation.bounds(v))), {maxZoom: 5})
                     })
 
                 if (!this.shortcut_custom_open) body.css("display", "none")
@@ -310,8 +280,9 @@ class StepEditWidget extends Widget {
                         assert(v.raw.type == "shortcut_v2")
                         assert(s.type == "entity")
 
-                        v.raw.assumed_start = TileRectangle.clampInto(v.raw.assumed_start, s.actions[0].interactive_area)
-                        v.raw.internal = lodash.cloneDeep(s)
+                        // TODO: ???
+                        //v.raw.assumed_start = TileRectangle.clampInto(v.raw.assumed_start, s.actions[0].interactive_area)
+                        //v.raw.internal = lodash.cloneDeep(s)
                     })
                 })
             }
@@ -443,10 +414,14 @@ class PathEditorGameLayer extends GameLayer {
     constructor(private editor: PathEditor) {
         super();
 
-        new ShortcutViewLayer(observeArray(editor.data.shortcuts), true).addTo(this)
+        new TransportLayer(shortcuts).addTo(this)
+
+        //new ShortcutViewLayer(observeArray(editor.data.shortcuts), true).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
+
+
         event.onPost(() => {
             if (this.editor.isActive()) {
 
@@ -471,50 +446,51 @@ class PathEditorGameLayer extends GameLayer {
 
                 // TODO: Run here
 
-                {
-                    this.getMap().getTeleportLayer().teleports.getAll()
-                        .filter(t => Vector2.max_axis(Vector2.sub(t.spot, event.coordinates)) < 2)
-                        .forEach(t => {
-                            event.add({
-                                type: "basic",
-                                text: `Teleport: ${t.hover}`,
-                                icon: `assets/icons/teleports/${t.icon.url}`,
-                                handler: () => {
-                                    this.editor.value.add({
-                                        raw: {
-                                            type: "teleport",
-                                            id: t.id,
-                                        }
-                                    })
-                                }
-                            })
-                        })
-                }
+                event.active_entities.forEach(entity => {
 
-                this.editor.data.shortcuts
-                    .filter(s => Rectangle.containsTile(Shortcuts.bounds(s), event.coordinates))
-                    .map(Shortcuts.normalize)
-                    .forEach(s => {
+                    if (entity instanceof TeleportEntity) {
+                        const t = entity.config.teleport
+
+                        event.add({
+                            type: "basic",
+                            text: `Teleport: ${t.hover}`,
+                            icon: `assets/icons/teleports/${t.icon.url}`,
+                            handler: () => {
+                                this.editor.value.add({
+                                    raw: {
+                                        type: "teleport",
+                                        id: t.id,
+                                    }
+                                })
+                            }
+                        })
+                    } else if (entity instanceof ShortcutEntity) {
+
+                        let s = Transportation.normalize(entity.config.shortcut)
+
                         s.actions.forEach(a => {
                             event.add({
                                 type: "basic",
                                 text: `${s.entity.name}: ${a.name}`,
                                 icon: InteractionType.meta(a.cursor).icon_url,
-                                handler: () => {
+                                handler: async () => {
                                     let t = this.editor.value.post_state.value()?.position?.tile
+
+                                    let start = await PathFinder.find(PathFinder.init_djikstra(t), a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area))
 
                                     let clone = lodash.cloneDeep(s)
                                     clone.actions = [lodash.cloneDeep(a)]
 
                                     this.editor.value.create({
                                         type: "shortcut_v2",
-                                        assumed_start: t ? TileRectangle.clampInto(t, a.interactive_area) : TileRectangle.center(a.interactive_area),
+                                        assumed_start: start,
                                         internal: clone
                                     })
                                 }
                             })
                         })
-                    })
+                    }
+                })
 
                 event.add({
                     type: "basic",
@@ -683,7 +659,7 @@ export class PathEditor extends Behaviour {
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,
                 public data: {
-                    shortcuts: Shortcuts.shortcut[],
+                    shortcuts: Transportation.transportation[],
                     teleports: Teleports.flat_teleport[]
                 },
                 public options: PathEditor.options_t
@@ -729,11 +705,13 @@ export class PathEditor extends Behaviour {
     }
 
     protected begin() {
+        this.game_layer.getMap().setTeleportLayer(null)
+
         this.handler_layer.addTo(this.game_layer)
 
         this.game_layer.getMap().container.focus()
 
-        let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state.position?.tile), this.options.target)
+        let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), this.options.target)
 
         if (bounds) this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 5})
     }

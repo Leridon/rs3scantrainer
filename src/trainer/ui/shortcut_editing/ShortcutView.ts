@@ -1,5 +1,5 @@
 import GameLayer from "lib/gamemap/GameLayer";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../lib/runescape/transportation";
 import * as leaflet from "leaflet";
 import {boxPolygon, boxPolygon2} from "../polygon_helpers";
 import {RenderingUtility} from "../map/RenderingUtility";
@@ -11,9 +11,10 @@ import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/co
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {util} from "../../../lib/util/util";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 
 export class ShortcutViewLayer extends GameLayer {
-    constructor(public data: ObservableArray<Shortcuts.shortcut>, private simplified: boolean = false) {
+    constructor(public data: ObservableArray<Transportation.transportation>, private simplified: boolean = false) {
         super();
 
         data.element_added.on(s => {
@@ -42,7 +43,7 @@ export class ShortcutViewLayer extends GameLayer {
                 let shortcut = l.data.value()
                 s.draw_arrows = shortcut.type == "entity" &&
                     (TileRectangle.containsCoords(shortcut.clickable_area, event.tile())
-                        || shortcut.actions.some(a => TileRectangle.contains(a.interactive_area, event.tile()))
+                        || shortcut.actions.some(a => TileArea.contains(a.interactive_area, event.tile()))
                     )
             })
         })
@@ -58,12 +59,12 @@ export class ShortcutViewLayer extends GameLayer {
         }).addTo(this))
     }
 
-    getView(s: ObservableArray.ObservableArrayValue<Shortcuts.shortcut>): ShortcutViewLayer.ShortcutPolygon {
+    getView(s: ObservableArray.ObservableArrayValue<Transportation.transportation>): ShortcutViewLayer.ShortcutPolygon {
         return this.getLayers().find(v => (v instanceof ShortcutViewLayer.ShortcutPolygon) && v.data == s) as ShortcutViewLayer.ShortcutPolygon
     }
 
-    center(s: Shortcuts.shortcut): this {
-        this.getMap().fitView(Shortcuts.bounds(s), {
+    center(s: Transportation.transportation): this {
+        this.getMap().fitView(Transportation.bounds(s), {
             maxZoom: 5,
         })
 
@@ -96,7 +97,7 @@ export namespace ShortcutViewLayer {
         //      - Target tiles: Circle
         public style = observe<ShortcutPolygon.style_t>(null).equality((a, b) => a?.type == b?.type && a?.draw_arrows == b?.draw_arrows && a?.viewed_floor == b?.viewed_floor)
 
-        constructor(public data: Observable<Shortcuts.shortcut>, style: ShortcutPolygon.style_t = {
+        constructor(public data: Observable<Transportation.transportation>, style: ShortcutPolygon.style_t = {
             type: "regular",
             draw_arrows: true,
             viewed_floor: null
@@ -123,6 +124,10 @@ export namespace ShortcutViewLayer {
         public render() {
             this.clearLayers()
 
+            // TODO: Reimplement if needed, or bette yet switch to shortcut entity class
+
+            /*
+
             let all_floors = this.style.value().viewed_floor == null
             let floor = this.style.value().viewed_floor
 
@@ -137,7 +142,7 @@ export namespace ShortcutViewLayer {
                 else return {}
             }
 
-            let shortcut = Shortcuts.normalize(this.data.value())
+            let shortcut = Transportation.normalize(this.data.value())
 
             let index_of_first_action_on_floor = shortcut.actions.findIndex(a => a.interactive_area.level == this.style.value().viewed_floor)
 
@@ -215,6 +220,8 @@ export namespace ShortcutViewLayer {
                     className: "ctr-inactive-overlay"
                 })
             }
+
+             */
         }
     }
 

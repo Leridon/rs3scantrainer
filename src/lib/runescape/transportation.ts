@@ -16,10 +16,9 @@ export namespace Transportation {
     export type EntityActionMovement = {
         valid_from?: TileArea, // Default: Entire interactive area
         offset?: Vector2 & { level: number },
-        fixed_target?: TileCoordinates,
+        fixed_target?: { target: TileCoordinates, relative?: boolean },
         orientation?: "bymovement" | "toentitybefore" | "toentityafter" | "keep" | "forced", // Default: "bymovement"
-        forced_direction?: direction,
-        forced_direction_relative?: boolean
+        forced_orientation?: { dir: direction, relative?: boolean },
     }
 
     export type EntityAction = {

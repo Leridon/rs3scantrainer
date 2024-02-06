@@ -20,6 +20,7 @@ import {Path} from "../../runescape/pathing";
 import {direction} from "../../runescape/movement";
 import * as lodash from "lodash";
 import {TileArea} from "../../runescape/coordinates/TileArea";
+import EntityTransportation = Transportation.EntityTransportation;
 
 export class TeleportEntity extends MapEntity {
 
@@ -83,7 +84,7 @@ export class ShortcutEntity extends MapEntity {
             return group
         }
 
-        let all_floors = false
+        let all_floors = true
         let floor = 0 // TODO
 
         function fs(f: floor_t): leaflet.PolylineOptions {
@@ -99,9 +100,7 @@ export class ShortcutEntity extends MapEntity {
 
         let shortcut = Transportation.normalize(this.config.shortcut)
 
-        let index_of_first_action_on_floor = shortcut.actions.findIndex(a => a.interactive_area.origin.level == floor)
-
-        let render_main = all_floors || (index_of_first_action_on_floor >= 0) || shortcut.clickable_area.level == floor
+        let render_main = all_floors || shortcut.clickable_area.level == floor
 
         for (let action of shortcut.actions) {
 
@@ -121,41 +120,38 @@ export class ShortcutEntity extends MapEntity {
 
                 if (movement.offset) {
                     if (options.highlight) {
-                        let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area), true)
+                        let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area || EntityTransportation.default_interactive_area(TileRectangle.extend(shortcut.clickable_area, -0.5))), true)
 
                         let target = Vector2.add(center, movement.offset)
 
                         render_transport_arrow(center, target, movement.offset.level).addTo(this)
                     }
                 } else if (movement.fixed_target) {
-                    if (render_main || movement.fixed_target.level == floor) {
-                        leaflet.circle(Vector2.toLatLong(movement.fixed_target), {
+                    if (render_main || movement.fixed_target.target.level == floor) {
+                        leaflet.circle(Vector2.toLatLong(movement.fixed_target.target), {
                             color: COLORS.target_area,
                             weight: 2,
                             radius: 0.4,
                             fillOpacity: 0.1,
                         })
-                            .setStyle(fs(movement.fixed_target.level))
+                            .setStyle(fs(movement.fixed_target.target.level))
                             .addTo(this)
                     }
 
                     if (options.highlight) {
                         let center = TileRectangle.center(shortcut.clickable_area, false)
-                        let target = movement.fixed_target
+                        let target = movement.fixed_target.target
 
                         render_transport_arrow(center, target, target.level - center.level).addTo(this)
                     }
                 }
             })
-
         }
 
         if (render_main) {
-            let i = index_of_first_action_on_floor >= 0 ? index_of_first_action_on_floor : 0
-
             leaflet.marker(Vector2.toLatLong(Rectangle.center(shortcut.clickable_area, false)), {
                 icon: leaflet.icon({
-                    iconUrl: Path.InteractionType.meta(shortcut.actions[i]?.cursor ?? "generic").icon_url,
+                    iconUrl: Path.InteractionType.meta(shortcut.actions[0]?.cursor ?? "generic").icon_url,
                     iconSize: options.highlight ? [42, 48] : [28, 31],
                     iconAnchor: options.highlight ? [21, 24] : [14, 16],
                     className: null

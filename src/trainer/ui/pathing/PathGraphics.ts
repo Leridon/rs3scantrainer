@@ -18,8 +18,6 @@ import GameLayer from "../../../lib/gamemap/GameLayer";
 export class StepGraphics extends MapEntity {
     constructor(public config: PathGraphics.Config) {
         super(config)
-
-        this.render()
     }
 
     protected override render_implementation(options: MapEntity.RenderOptions) {
@@ -124,20 +122,10 @@ export class StepGraphics extends MapEntity {
 
                 break;
             case "shortcut_v2":
-                let start_tile = step.assumed_start
-
                 let entity = step.internal
                 let action = entity.actions[0]
 
-                let ends_up: TileCoordinates = null
-                switch (action.movement.type) {
-                    case "offset":
-                        ends_up = TileCoordinates.move(start_tile, action.movement.offset)
-                        break;
-                    case "fixed":
-                        ends_up = action.movement.target
-                        break;
-                }
+                let ends_up: TileCoordinates = Path.ends_up([step])
 
                 arrow(step.assumed_start, ends_up)
                     .setStyle({

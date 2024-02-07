@@ -8,7 +8,7 @@ import GameLayer from "./GameLayer";
 import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
 import {FitBoundsOptions, LatLngBounds, MapOptions} from "leaflet";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
-import {GameMapContextMenuEvent, GameMapEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
+import {GameMapContextMenuEvent, GameMapEvent, GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "./MapEvents";
 import {GameMapControl} from "./GameMapControl";
 import BaseTileLayer from "./defaultlayers/BaseTileLayer";
 import FloorControl from "./defaultlayers/FloorControl";
@@ -56,11 +56,8 @@ export const yellow_icon = leaflet.icon({
  */
 export class GameMap extends leaflet.Map {
     floor: Observable<floor_t> = observe(0)
-    private bounds: Observable<LatLngBounds> = observe(null)
-    public viewport = this.bounds.map(s =>
-        s ? Rectangle.extend(Rectangle.from(Vector2.fromLatLong(s.getNorthEast()), Vector2.fromLatLong(s.getSouthWest())), 1)
-            : null
-    )
+
+    public viewport: Observable<TileRectangle> = observe(null).equality(TileRectangle.equals)
 
     container: JQuery
     private ui_container: Widget
@@ -139,8 +136,13 @@ export class GameMap extends leaflet.Map {
                 this.event(new GameMapKeyboardEvent(this, e), l => e => l.eventKeyUp(e))
             })
 
-            this.on("moveend", () => this.bounds.set(this.getBounds()))
-            this.on("zoomend", () => this.bounds.set(this.getBounds()))
+            this.viewport.subscribe((new_value, old) => {
+                this.event(new GameMapViewChangedEvent(this, new_value, old), l => e => l.eventViewChanged(e))
+            })
+
+            this.on("moveend", () => this.updateView())
+            this.on("zoomend", () => this.updateView())
+            this.floor.subscribe(() => this.updateView())
         }
 
         // Add subtle gridlines
@@ -179,6 +181,14 @@ export class GameMap extends leaflet.Map {
         this.updateBaseLayers()
 
         this.floor.subscribe(() => this.updateBaseLayers())
+    }
+
+    private updateView(): this {
+        const bounds = this.getBounds()
+
+        this.viewport.set(TileRectangle.lift(Rectangle.extend(Rectangle.from(Vector2.fromLatLong(bounds.getNorthEast()), Vector2.fromLatLong(bounds.getSouthWest())), 1), this.floor.value()))
+
+        return this
     }
 
     public fitView(view: TileRectangle, options?: FitBoundsOptions): this {
@@ -286,7 +296,7 @@ export class GameMap extends leaflet.Map {
             this.teleportLayer = null
         }
 
-        if(layer) {
+        if (layer) {
             this.teleportLayer = layer
 
             layer.addTo(this).setZIndex(100)
@@ -386,6 +396,8 @@ export namespace GameMap {
         "top-left": "gamemap-ui-layer-tl",
         "top-right": "gamemap-ui-layer-tr"
     }
+
+    export type View = TileRectangle
 }
 
 export class GameMapWidget extends Widget {

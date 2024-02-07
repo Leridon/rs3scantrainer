@@ -478,12 +478,14 @@ class PathEditorGameLayer extends GameLayer {
 
                                     let start = await PathFinder.find(PathFinder.init_djikstra(t), a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area))
 
+                                    console.log(start)
+
                                     let clone = lodash.cloneDeep(s)
                                     clone.actions = [lodash.cloneDeep(a)]
 
                                     this.editor.value.create({
                                         type: "shortcut_v2",
-                                        assumed_start: start,
+                                        assumed_start: index(start, -1),
                                         internal: clone
                                     })
                                 }

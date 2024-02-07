@@ -2,6 +2,7 @@ import {Rectangle, Transform, Vector2} from "../../math";
 import {floor_t} from "./index";
 import {TileCoordinates} from "./TileCoordinates";
 import {TileTransform} from "./TileTransform";
+import {Rect} from "@alt1/base";
 
 export type TileRectangle = Rectangle & {
     level: floor_t
@@ -103,5 +104,9 @@ export namespace TileRectangle {
         let norm = TileTransform.normalize(trans)
 
         return lift(Rectangle.transform(rect, norm.matrix), floor_t.clamp(rect.level + norm.level_offset))
+    }
+
+    export function equals(a: TileRectangle, b: TileRectangle): boolean {
+        return (a == b) || (!!a && !!b && Rectangle.equals(a, b) && a.level == b.level)
     }
 }

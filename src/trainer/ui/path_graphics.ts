@@ -87,6 +87,9 @@ export function createX(coordinate: TileCoordinates,
 const pi = 3.1415
 
 export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
+
+    if(!to) debugger
+
     let off = Vector2.sub(from, to)
 
     if (Vector2.lengthSquared(off) < 1) return leaflet.polyline([])

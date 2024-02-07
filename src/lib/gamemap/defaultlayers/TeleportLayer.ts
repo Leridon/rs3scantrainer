@@ -26,8 +26,6 @@ export class TeleportEntity extends MapEntity {
 
     constructor(public config: TeleportEntity.Config) {
         super(config);
-
-        this.render()
     }
 
     protected render_implementation(options: MapEntity.RenderOptions) {
@@ -54,10 +52,14 @@ export class ShortcutEntity extends MapEntity {
     constructor(public config: ShortcutEntity.Config) {
         super(config)
 
-        this.render()
+        this.floor_sensitive = true
     }
 
     protected render_implementation(options: MapEntity.RenderOptions) {
+        const shortcut = Transportation.normalize(this.config.shortcut)
+
+        if (options.viewport.level != shortcut.clickable_area.level) return
+
         const COLORS = {
             interactive_area: "#72bb46",
             target_area: "#cca927",
@@ -65,6 +67,8 @@ export class ShortcutEntity extends MapEntity {
         }
 
         function render_transport_arrow(from: Vector2, to: Vector2, level_offset: number): OpacityGroup {
+
+
             let group = new OpacityGroup().addLayer(arrow(from, to).setStyle({
                 color: COLORS.target_area,
                 weight: 4,
@@ -84,8 +88,8 @@ export class ShortcutEntity extends MapEntity {
             return group
         }
 
-        let all_floors = true
-        let floor = 0 // TODO
+        let all_floors = false
+        let floor = options.viewport.level
 
         function fs(f: floor_t): leaflet.PolylineOptions {
             if (f < floor) return {
@@ -97,8 +101,6 @@ export class ShortcutEntity extends MapEntity {
             }
             else return {}
         }
-
-        let shortcut = Transportation.normalize(this.config.shortcut)
 
         let render_main = all_floors || shortcut.clickable_area.level == floor
 

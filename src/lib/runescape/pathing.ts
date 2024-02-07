@@ -347,7 +347,7 @@ export namespace Path {
                     if (movement.offset) {
                         return TileCoordinates.move(start_tile, movement.offset)
                     } else if (movement.fixed_target) {
-                        return movement.fixed_target
+                        return movement.fixed_target.target
                     }
                     break
                 case "redclick":

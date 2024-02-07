@@ -1,7 +1,7 @@
 import * as leaflet from "leaflet"
 import {GameMap} from "./GameMap";
 import {LayerGroup} from "leaflet";
-import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent} from "./MapEvents";
+import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "./MapEvents";
 import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 import {MapEntity} from "./MapEntity";
 
@@ -33,6 +33,8 @@ export default class GameLayer extends leaflet.FeatureGroup {
                         this.active_entities = this.active_entities.filter(e => e != lay)
                     }
                 })
+
+                if (this.map) l.layer.render()
             }
         })
 
@@ -74,6 +76,10 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
     onAdd(map: GameMap): this {
         this.map = map
+
+        this.eachEntity(e => {
+            e.render()
+        })
 
         return super.onAdd(map)
     }
@@ -117,4 +123,12 @@ export default class GameLayer extends leaflet.FeatureGroup {
     eventKeyDown(event: GameMapKeyboardEvent) {}
 
     eventKeyUp(event: GameMapKeyboardEvent) {}
+
+    eventViewChanged(event: GameMapViewChangedEvent) {
+        if (event.floorChanged()) {
+            this.eachEntity(e => {
+                if (e.floor_sensitive) e.render()
+            })
+        }
+    }
 }

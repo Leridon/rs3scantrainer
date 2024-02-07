@@ -87,3 +87,16 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
         return TileCoordinates.snap(this.coordinates)
     }
 }
+
+export class GameMapViewChangedEvent extends GameMapEvent<undefined, undefined> {
+    constructor(map: GameMap,
+                public old_view: GameMap.View,
+                public new_view: GameMap.View
+    ) {
+        super(map, undefined, undefined)
+    }
+
+    floorChanged(): boolean {
+        return this.old_view?.level != this.new_view?.level
+    }
+}

@@ -5,10 +5,14 @@ import * as tippy from "tippy.js";
 import Widget from "../ui/Widget";
 import {followCursor} from "tippy.js";
 import GameLayer from "./GameLayer";
+import {floor_t} from "../runescape/coordinates";
+import {GameMap} from "./GameMap";
 
 export abstract class MapEntity extends leaflet.FeatureGroup {
     public parent: GameLayer | null = null
-    private rendering: boolean = false
+    private rendering_lock: boolean = false
+
+    floor_sensitive: boolean = false
 
     mouseover = observe(false)
     highlighted = observe(false)
@@ -49,15 +53,15 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
         })
 
         this.on("mouseover", () => {
-            if (!this.rendering && this.entity_config.highlightable) this.highlighted.set(true)
-
             this.mouseover.set(true)
         })
 
         this.on("mouseout", () => {
-            if (!this.rendering) this.highlighted.set(false)
-
             this.mouseover.set(false)
+        })
+
+        this.mouseover.subscribe(v => {
+            if (!this.rendering_lock && this.entity_config.highlightable) this.highlighted.set(v)
         })
     }
 
@@ -84,21 +88,23 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
     render() {
         this.clearLayers()
 
-        this.rendering = true
+        this.rendering_lock = true
 
         this.render_implementation({
             highlight: this.highlighted.value(),
-            opacity: this.opacity.value()
+            opacity: this.opacity.value(),
+            viewport: this.parent.getMap().viewport.value()
         })
 
-        this.rendering = false
+        this.rendering_lock = false
     }
 }
 
 export namespace MapEntity {
     export type RenderOptions = {
         highlight: boolean,
-        opacity: number
+        opacity: number,
+        viewport: GameMap.View
     }
 
     export type SetupOptions = {

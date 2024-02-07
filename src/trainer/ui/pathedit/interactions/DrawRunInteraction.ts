@@ -9,7 +9,7 @@ import {util} from "../../../../lib/util/util";
 import index = util.index;
 import observe_combined = Observable.observe_combined;
 import {Path} from "../../../../lib/runescape/pathing";
-import {StepGraphics} from "../../pathing/PathGraphics";
+import {PathStepEntity} from "../../pathing/PathStepEntity";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 
 class DrawRunInteractionInternal extends ValueInteraction<{
@@ -43,7 +43,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
 
                 if (v) {
 
-                    let preview = new StepGraphics({
+                    let preview = new PathStepEntity({
                         step: {
                             type: "run",
                             waypoints: v.path,

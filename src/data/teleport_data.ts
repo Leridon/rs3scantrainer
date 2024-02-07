@@ -1099,7 +1099,7 @@ export namespace teleport_data {
                     animation_ticks: default_teleport_ticks
                 },
                 {
-                    id: "lapalok", spot: {x: 2870, y: 2982, level: 1}, code: "5", name: "Lapalok",
+                    id: "lapalok", spot: {x: 2869, y: 2982, level: 1}, code: "5", name: "Lapalok",
                     menu_ticks: 1,
                     animation_ticks: default_teleport_ticks
                 },

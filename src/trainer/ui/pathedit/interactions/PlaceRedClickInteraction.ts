@@ -4,13 +4,13 @@ import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTil
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
 import InteractionType = Path.InteractionType;
-import {StepGraphics} from "../../pathing/PathGraphics";
+import {PathStepEntity} from "../../pathing/PathStepEntity";
 
 export default class PlaceRedClickInteraction extends ValueInteraction<Path.step_redclick> {
 
     constructor(private interaction_type: InteractionType = null) {
         super({
-            preview_render: (s) => new StepGraphics({step: s})
+            preview_render: (s) => new PathStepEntity({step: s})
         });
 
         new SelectTileInteraction()

@@ -48,12 +48,13 @@ import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
-import {StepGraphics} from "../pathing/PathGraphics";
+import {PathStepEntity} from "../pathing/PathStepEntity";
 import shortcuts from "../../../data/shortcuts";
 import TransportLayer from "lib/gamemap/defaultlayers/TransportLayer";
 import {ShortcutEntity, TeleportEntity} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import EntityTransportation = Transportation.EntityTransportation;
+import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -63,7 +64,7 @@ export class IssueWidget extends Widget {
 
 function needRepairing(state: movement_state, shortcut: Path.step_shortcut): boolean {
     return state.position.tile
-        && TileArea.contains(shortcut.internal.actions[0].interactive_area, state.position.tile)
+        && TileArea.contains(shortcut.internal.actions[0].interactive_area || default_interactive_area(shortcut.internal.clickable_area), state.position.tile)
         && !TileCoordinates.eq2(state.position.tile, shortcut.assumed_start)
 }
 
@@ -81,12 +82,15 @@ class StepEditWidget extends Widget {
         this.addClass("step-edit-component")
 
         value.value().augmented.subscribe(v => {
+            if (!v) debugger
             this.render(v)
         }, true)
     }
 
     private render(value: Path.augmented_step) {
         this.empty()
+
+        if (!value) return
 
         // Render header
         {
@@ -188,7 +192,7 @@ class StepEditWidget extends Widget {
 
                 props.named("Where", new MapCoordinateEdit(value.raw.where,
                     () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                            preview_render: tile => new StepGraphics({
+                            preview_render: tile => new PathStepEntity({
                                 step: {
                                     type: "powerburst",
                                     where: tile,
@@ -240,7 +244,7 @@ class StepEditWidget extends Widget {
 
                 let assumed_start_needs_fixing =
                     value.pre_state.position.tile
-                    && TileRectangle.contains(value.raw.internal.actions[0].interactive_area, value.pre_state.position.tile)
+                    && TileArea.contains(value.raw.internal.actions[0].interactive_area ?? default_interactive_area(value.raw.internal.clickable_area), value.pre_state.position.tile)
                     && !TileCoordinates.eq2(value.pre_state.position.tile, value.raw.assumed_start)
 
                 props.named("Start", hbox(
@@ -476,16 +480,21 @@ class PathEditorGameLayer extends GameLayer {
                                 handler: async () => {
                                     let t = this.editor.value.post_state.value()?.position?.tile
 
-                                    let start = await PathFinder.find(PathFinder.init_djikstra(t), a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area))
+                                    let path_to_start = await PathFinder.find(PathFinder.init_djikstra(t), a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area))
 
-                                    console.log(start)
+                                    if (path_to_start && path_to_start.length > 1) {
+                                        this.editor.value.create({
+                                            type: "run",
+                                            waypoints: path_to_start,
+                                        })
+                                    }
 
                                     let clone = lodash.cloneDeep(s)
                                     clone.actions = [lodash.cloneDeep(a)]
 
                                     this.editor.value.create({
                                         type: "shortcut_v2",
-                                        assumed_start: index(start, -1),
+                                        assumed_start: index(path_to_start, -1),
                                         internal: clone
                                     })
                                 }
@@ -494,6 +503,7 @@ class PathEditorGameLayer extends GameLayer {
                     }
                 })
 
+                /*
                 event.add({
                     type: "basic",
                     text: "Create custom shortcut",
@@ -512,7 +522,7 @@ class PathEditorGameLayer extends GameLayer {
                                 actions: [{
                                     cursor: "generic",
                                     interactive_area: TileRectangle.extend(TileRectangle.from(event.tile()), 1),
-                                    movement: {type: "offset", offset: {x: 0, y: 0, level: 0}},
+                                    movement: [{offset: {x: 0, y: 0, level: 0}}],
                                     name: "Use",
                                     time: 3,
                                     orientation: {type: "byoffset"}
@@ -522,9 +532,11 @@ class PathEditorGameLayer extends GameLayer {
                     }
                 })
 
+                 */
+
 
                 event.active_entities.forEach(entity => {
-                    if (entity instanceof StepGraphics) {
+                    if (entity instanceof PathStepEntity) {
                         let i = this.editor.value.value().findIndex(v => v.value().associated_preview == entity)
 
                         if (i >= 0) {
@@ -576,16 +588,24 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
     augmented_value: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }> = observe({path: null, steps: []})
     post_state: Observable<movement_state>
 
+
+    augmenting_lock: Promise<void> = null
     private async updateAugment() {
-        let v = this._value
+        await this.augmenting_lock
 
-        let aug = await Path.augment(v.map(s => s.value().raw), this.meta.start_state, this.meta.target)
+        this.augmenting_lock = (async () => {
+            let v = this._value
 
-        for (let i = 0; i < aug.steps.length; i++) {
-            v[i].value().augmented?.set(aug.steps[i])
-        }
+            let aug = await Path.augment(v.map(s => s.value().raw), this.meta.start_state, this.meta.target)
 
-        this.augmented_value.set({path: aug, steps: v})
+            for (let i = 0; i < aug.steps.length; i++) {
+                if(!aug.steps[i]) debugger
+
+                v[i].value().augmented?.set(aug.steps[i])
+            }
+
+            this.augmented_value.set({path: aug, steps: v})
+        })()
     }
 
     constructor(private meta: {
@@ -631,7 +651,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
 
         if (this.meta.preview_layer) {
             value.associated_preview =
-                new StepGraphics({step: value.raw, highlightable: true})
+                new PathStepEntity({step: value.raw, highlightable: true})
                     .addTo(this.meta.preview_layer)
         }
     }
@@ -739,7 +759,7 @@ export class PathEditor extends Behaviour {
 
 export namespace PathEditor {
 
-    export type Value = { raw: Path.step, associated_preview?: StepGraphics, augmented?: Observable<Path.augmented_step> }
+    export type Value = { raw: Path.step, associated_preview?: PathStepEntity, augmented?: Observable<Path.augmented_step> }
     export type OValue = ObservableArray.ObservableArrayValue<Value>
     export type Data = PathBuilder
 

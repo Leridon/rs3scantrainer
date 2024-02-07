@@ -28,7 +28,7 @@ import {Observable, observe} from "../../../../lib/reactive";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {AugmentedMethod} from "../../../model/MethodPackManager";
 import {Clues} from "../../../../lib/runescape/clues";
-import {PathGraphics} from "../../pathing/PathGraphics";
+import {PathStepEntity} from "../../pathing/PathStepEntity";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -138,17 +138,17 @@ class ScanTreeSolvingLayer extends ScanLayer {
         // Render pathing with appropriate opacity
         this.path_graphics.clearLayers()
 
-        PathGraphics.renderPath(node.raw.path).addTo(this.path_graphics)
+        PathStepEntity.renderPath(node.raw.path).addTo(this.path_graphics)
         if (node.raw.region) new ScanRegionPolygon(node.raw.region).setOpacity(1).addTo(this.path_graphics)
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
             new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.path_graphics)
-            PathGraphics.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.path_graphics)
+            PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.path_graphics)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.filter(c => c.value.remaining_candidates.length == 1).forEach(c => {
-            PathGraphics.renderPath(c.value.raw.path).eachEntity(e => e.setOpacity(0.5)).addTo(this.path_graphics)
+            PathStepEntity.renderPath(c.value.raw.path).eachEntity(e => e.setOpacity(0.5)).addTo(this.path_graphics)
         })
 
         /*

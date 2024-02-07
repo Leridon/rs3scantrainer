@@ -55,7 +55,7 @@ export namespace Transportation {
 
     export namespace EntityTransportation {
         export function default_interactive_area(area: TileRectangle): TileArea {
-            const extended = TileRectangle.extend(area, 1)
+            const extended = TileRectangle.extend(area, 0.5)
 
             let tiles = TileArea.fromRect(extended, false)
 

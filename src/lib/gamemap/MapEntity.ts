@@ -60,6 +60,11 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
             this.mouseover.set(false)
         })
 
+        this.on("click", () => {
+            console.log("click")
+            console.log(this)
+        })
+
         this.mouseover.subscribe(v => {
             if (!this.rendering_lock && this.entity_config.highlightable) this.highlighted.set(v)
         })

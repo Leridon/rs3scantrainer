@@ -34,7 +34,7 @@ import MethodSubEditor from "../theorycrafting/MethodSubEditor";
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import * as lodash from "lodash";
 import MethodEditor from "../theorycrafting/MethodEditor";
-import {PathGraphics} from "../pathing/PathGraphics";
+import {PathStepEntity} from "../pathing/PathStepEntity";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -231,7 +231,7 @@ class PreviewLayerControl extends Behaviour {
                     (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                 }
 
-                if (n != a) PathGraphics.renderPath(n.raw.path).addTo(layer);
+                if (n != a) PathStepEntity.renderPath(n.raw.path).addTo(layer);
             }
 
         } else {
@@ -241,7 +241,7 @@ class PreviewLayerControl extends Behaviour {
                         (await this.parent.tree_edit.getNode(n)).region_preview = new ScanRegionPolygon(n.raw.region).addTo(layer)
                     }
 
-                    return PathGraphics.renderPath(n.raw.path).addTo(layer)
+                    return PathStepEntity.renderPath(n.raw.path).addTo(layer)
                 }, true)
             }
         }

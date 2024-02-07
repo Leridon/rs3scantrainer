@@ -1,4 +1,3 @@
-import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {Path} from "../../../lib/runescape/pathing";
 import {MovementAbilities} from "../../../lib/runescape/movement";
 import * as leaflet from "leaflet";
@@ -15,15 +14,17 @@ import {PathStepProperties} from "./PathStepProperties";
 import Dependencies from "../../dependencies";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 
-export class StepGraphics extends MapEntity {
-    constructor(public config: PathGraphics.Config) {
+export class PathStepEntity extends MapEntity {
+    constructor(public config: PathStepEntity.Config) {
         super(config)
+
+        this.floor_sensitive = true
     }
 
     protected override render_implementation(options: MapEntity.RenderOptions) {
-        const cls = "ctr-step-graphics"
-
         const step = this.config.step
+
+        const cls = Path.level(step) == options.viewport.level ? "ctr-step-graphics" : "ctr-step-graphics-dl"
 
         switch (step.type) {
             case "orientation":
@@ -78,7 +79,7 @@ export class StepGraphics extends MapEntity {
                 createX(step.waypoints[step.waypoints.length - 1],
                     "yellow",
                     options.highlight ? 30 : 20,
-                    "ctr-step-graphics"
+                    cls
                 )
                     .addTo(this)
 
@@ -158,7 +159,7 @@ export class StepGraphics extends MapEntity {
     }
 }
 
-export namespace PathGraphics {
+export namespace PathStepEntity {
     export type Config = MapEntity.SetupOptions & {
         step: Path.step
     }
@@ -166,7 +167,7 @@ export namespace PathGraphics {
     export function renderPath(path: Path.step[]): GameLayer {
         let group = new GameLayer()
 
-        for (let step of path) new StepGraphics({
+        for (let step of path) new PathStepEntity({
             highlightable: true,
             step: step,
         }).addTo(group)

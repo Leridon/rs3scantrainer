@@ -10,7 +10,7 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import {Observable, observe} from "../../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
 import possibility_raster = MovementAbilities.possibility_raster;
-import {StepGraphics} from "../../pathing/PathGraphics";
+import {PathStepEntity} from "../../pathing/PathStepEntity";
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
     _possibility_overlay: leaflet.FeatureGroup = null
@@ -127,7 +127,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
             // Draw the necessary preview
             this._preview_arrow = (
-                okay ? new StepGraphics({
+                okay ? new PathStepEntity({
                             step: {
                                 type: "ability",
                                 ability: this.ability,

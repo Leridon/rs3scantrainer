@@ -46,7 +46,7 @@ import {FavouriteIcon, NislIcon} from "../nisl";
 import MethodSelector from "./MethodSelector";
 import PathControl from "./PathControl";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
-import {PathGraphics} from "../pathing/PathGraphics";
+import {PathStepEntity} from "../pathing/PathStepEntity";
 import inlineimg = C.inlineimg;
 
 class NeoReader {
@@ -335,12 +335,12 @@ class ScanTreeSolvingControl extends Behaviour {
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
             new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.layer)
-            PathGraphics.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.layer)
+            PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.layer)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.forEach(c => {
-            PathGraphics.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
+            PathStepEntity.renderPath(c.value.raw.path).eachEntity(l => l.setOpacity(0.5)).addTo(this.layer)
             if (c.value.raw.region) new ScanRegionPolygon(c.value.raw.region).setOpacity(0.5).addTo(this.layer)
         })
     }

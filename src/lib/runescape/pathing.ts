@@ -6,7 +6,7 @@ import {teleport_data} from "data/teleport_data";
 import {Teleports} from "./teleports";
 import {Rectangle, Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
-import {TileCoordinates} from "./coordinates";
+import {floor_t, TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {Transportation} from "./transportation";
 import {last} from "lodash";
@@ -236,6 +236,8 @@ export namespace Path {
     import capitalize = util.capitalize;
     import entity_shortcut = Transportation.entity_transportation;
     import todo = util.todo;
+    import resolveTarget = teleport_data.resolveTarget;
+    import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 
     export type movement_state = {
         tick: number,
@@ -345,7 +347,11 @@ export namespace Path {
                     const movement = Transportation.EntityAction.findApplicable(action, start_tile) ?? action.movement[0]
 
                     if (movement.offset) {
-                        return TileCoordinates.move(start_tile, movement.offset)
+                        let t = TileCoordinates.move(start_tile, movement.offset)
+
+                        t.level += movement.offset.level
+
+                        return t
                     } else if (movement.fixed_target) {
                         return movement.fixed_target.target
                     }
@@ -597,7 +603,7 @@ export namespace Path {
                     let entity = step.internal
                     let action = entity.actions[0]
 
-                    let in_interactive_area = !state.position.tile || TileArea.contains(action.interactive_area, state.position.tile)
+                    let in_interactive_area = !state.position.tile || TileArea.contains(action.interactive_area || default_interactive_area(entity.clickable_area), state.position.tile)
 
                     if (!in_interactive_area) {
                         augmented.issues.push({level: 0, message: "Player is not in the interactive area for this shortcut!"})
@@ -620,7 +626,7 @@ export namespace Path {
                         state.position.tile = TileCoordinates.move(start_tile, movement.offset)
                         state.position.tile.level += movement.offset.level
                     } else if (movement.fixed_target) {
-                        state.position.tile = movement.fixed_target
+                        state.position.tile = movement.fixed_target.target
                     }
 
                     switch (movement.orientation || "bymovement") {
@@ -628,7 +634,7 @@ export namespace Path {
                             state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, start_tile))
                             break;
                         case "forced":
-                            state.position.direction = movement.forced_direction
+                            state.position.direction = movement.forced_orientation.dir
                             break;
                         case "toentitybefore":
                             state.position.direction = direction.fromVector(Vector2.sub(TileRectangle.center(entity.clickable_area), start_tile))
@@ -781,6 +787,25 @@ export namespace Path {
 
     export function bounds(path: Path.raw): Rectangle {
         return Rectangle.combine(...path.map(step_bounds))
+    }
+
+    export function level(step: step): floor_t {
+        switch (step.type) {
+            case "orientation":
+                return 0
+            case "ability":
+                return step.to.level
+            case "run":
+                return step.waypoints[0].level
+            case "teleport":
+                return resolveTarget(step.id).level
+            case "redclick":
+                return step.where.level
+            case "powerburst":
+                return step.where.level
+            case "shortcut_v2":
+                return step.internal.clickable_area.level
+        }
     }
 
     export type Section = {

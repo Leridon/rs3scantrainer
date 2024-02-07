@@ -26,7 +26,7 @@ import bold = C.bold;
 import {Vector2} from "../../../lib/math";
 import {capitalize} from "lodash";
 import entity = C.entity;
-import {StepGraphics} from "../pathing/PathGraphics";
+import {PathStepEntity} from "../pathing/PathStepEntity";
 import {util} from "../../../lib/util/util";
 import {TreeArray} from "../../../lib/util/TreeArray";
 import SectionedPath = Path.SectionedPath;
@@ -46,7 +46,7 @@ class PathSectionControl extends Widget {
         private sections: SectionedPath,
         private current_section_id: number[],
         private teleport_data: ManagedTeleportData,
-        private step_graphics: TreeArray<StepGraphics, {}>,
+        private step_graphics: TreeArray<PathStepEntity, {}>,
         private template_resolver: TemplateResolver,
     ) {
         super()
@@ -137,7 +137,7 @@ namespace PathSectionControl {
 
     export class StepRow extends Widget {
         highlighted: Observable<boolean> = observe(false)
-        associated_graphics: StepGraphics = null
+        associated_graphics: PathStepEntity = null
 
         constructor(private teleport_data: ManagedTeleportData,
                     private section_index: number[],
@@ -261,7 +261,7 @@ namespace PathSectionControl {
                 .appendTo(this)
         }
 
-        setAssociatedGraphics(graphics: StepGraphics): this {
+        setAssociatedGraphics(graphics: PathStepEntity): this {
             this.associated_graphics = graphics
 
             if (graphics) {
@@ -286,7 +286,7 @@ export default class PathControl extends Behaviour {
     private sectioned_path: SectionedPath = null
 
     private path_layer: GameLayer = new GameLayer()
-    private step_graphics: TreeArray<StepGraphics, {}> = null
+    private step_graphics: TreeArray<PathStepEntity, {}> = null
 
     private widget: Widget = null
 
@@ -353,7 +353,7 @@ export default class PathControl extends Behaviour {
 
         this.path_layer.clearLayers()
         this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
-            return new StepGraphics({
+            return new PathStepEntity({
                 highlightable: true,
                 step: step
             }).addTo(this.path_layer)

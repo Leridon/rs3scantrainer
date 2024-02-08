@@ -4,6 +4,8 @@ import {LayerGroup} from "leaflet";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "./MapEvents";
 import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 import {MapEntity} from "./MapEntity";
+import * as tippy from "tippy.js";
+import {followCursor} from "tippy.js";
 
 function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
     return l instanceof GameLayer || l instanceof MapEntity
@@ -15,7 +17,17 @@ export default class GameLayer extends leaflet.FeatureGroup {
     public parent: GameLayer | null = null
     protected map: GameMap | null = null
 
-    public active_entities: MapEntity[] = []
+    private active_entity: {
+        entity: MapEntity,
+        is_selected: boolean,
+        tooltip_instance?: tippy.Instance
+    } = null
+
+    private selected_entity: {
+        entity: MapEntity,
+        is_selected: boolean,
+        tooltip_instance?: tippy.Instance
+    } = null
 
     constructor() {
         super();
@@ -24,16 +36,6 @@ export default class GameLayer extends leaflet.FeatureGroup {
             if (childLike(l.layer)) l.layer.parent = this
 
             if (l.layer instanceof MapEntity) {
-                const lay = l.layer
-
-                l.layer.mouseover.subscribe(v => {
-                    if (v) {
-                        this.active_entities.push(lay)
-                    } else {
-                        this.active_entities = this.active_entities.filter(e => e != lay)
-                    }
-                })
-
                 if (this.map) l.layer.render()
             }
         })
@@ -45,6 +47,12 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
     isRootLayer(): boolean {
         return this.parent == null
+    }
+
+    getRoot(): GameLayer {
+        if (this.isRootLayer()) return this
+
+        return this.parent.getRoot()
     }
 
     getMap(): GameMap {
@@ -63,7 +71,6 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
         return this
     }
-
 
     addTo(layer: GameMap | LayerGroup | GameLayer): this {
         if (layer instanceof GameMap) {
@@ -92,22 +99,59 @@ export default class GameLayer extends leaflet.FeatureGroup {
         return super.onRemove(map);
     }
 
-    collectActiveEntities(accumulator: MapEntity[][] = []): MapEntity[][] {
-        accumulator.push(this.active_entities)
-
-        this.eachLayer(lay => {
-            if (lay instanceof GameLayer) lay.collectActiveEntities(accumulator)
-        })
-
-        return accumulator
-    }
-
     eachEntity(f: (_: MapEntity) => void): this {
         this.eachLayer(lay => {
             if (lay instanceof MapEntity) f(lay)
         })
 
         return this
+    }
+
+    requestEntityActivation(entity: MapEntity, selected: boolean = false): void {
+        if (!this.isRootLayer()) return this.parent.requestEntityActivation(entity, selected)
+
+        if (entity != this.active_entity?.entity) {
+            if (this.active_entity) {
+                this.active_entity.entity.highlighted.set(false)
+
+                this.active_entity.tooltip_instance?.destroy()
+
+                this.active_entity = null
+            }
+
+            if (entity) {
+                entity.highlighted.set(true)
+
+                const tooltip = entity.renderTooltip(selected)
+
+                this.active_entity = {
+                    entity: entity,
+                    is_selected: selected
+                }
+
+                if (tooltip) {
+                    this.active_entity.tooltip_instance = tippy.default($("body").get()[0], {
+                        content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white;padding: 3px'></div>")
+                            .append(tooltip).raw(),
+                        arrow: true,
+                        animation: false,
+                        trigger: "manual",
+                        zIndex: 10001,
+                        delay: 0,
+                        followCursor: true,
+                        plugins: [followCursor]
+                    })
+
+                    this.active_entity.tooltip_instance.show()
+                }
+            }
+
+
+        }
+    }
+
+    getActiveEntity(): MapEntity {
+        return this.getRoot().active_entity?.entity
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {}
@@ -125,9 +169,18 @@ export default class GameLayer extends leaflet.FeatureGroup {
     eventKeyUp(event: GameMapKeyboardEvent) {}
 
     eventViewChanged(event: GameMapViewChangedEvent) {
-        if (event.floorChanged()) {
+        if (event.floor_changed || event.zoom_changed) {
             this.eachEntity(e => {
-                if (e.floor_sensitive) e.render()
+
+                const render = (() => {
+                    if (e.floor_sensitive && event.floor_changed) return true
+
+                    if (e.zoom_sensitive && e.zoom_sensitivity_layers.getIndex(event.old_view.zoom) != e.zoom_sensitivity_layers.get(event.new_view.zoom)) return true
+
+                    return false
+                })()
+
+                if (render) e.render()
             })
         }
     }

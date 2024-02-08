@@ -3,14 +3,14 @@ import InteractionTopControl from "../../map/InteractionTopControl";
 import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
-import InteractionType = Path.InteractionType;
 import {PathStepEntity} from "../../pathing/PathStepEntity";
+import { CursorType } from "lib/runescape/CursorType";
 
 export default class PlaceRedClickInteraction extends ValueInteraction<Path.step_redclick> {
 
-    constructor(private interaction_type: InteractionType = null) {
+    constructor(private interaction_type: CursorType = null) {
         super({
-            preview_render: (s) => new PathStepEntity({step: s})
+            preview_render: (s) => new PathStepEntity({step: s, interactive:false})
         });
 
         new SelectTileInteraction()
@@ -18,13 +18,13 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
                     if (this.interaction_type != null) {
                         this.commit(({
                             type: "redclick",
-                            target:  InteractionType.defaultEntity(this.interaction_type),
+                            target:  CursorType.defaultEntity(this.interaction_type),
                             where: t,
                             how: this.interaction_type
                         }))
                     } else {
 
-                        let menu = InteractionType.all().map((i): MenuEntry => {
+                        let menu = CursorType.all().map((i): MenuEntry => {
                             return {
                                 type: "basic",
                                 text: i.description,
@@ -32,7 +32,7 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
                                 handler: () => {
                                     this.commit(({
                                         type: "redclick",
-                                        target:  InteractionType.defaultEntity(i.type),
+                                        target:  CursorType.defaultEntity(i.type),
                                         where: t,
                                         how: i.type
                                     }))

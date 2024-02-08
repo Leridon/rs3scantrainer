@@ -1,20 +1,17 @@
 import GameLayer from "lib/gamemap/GameLayer";
 import {Transportation} from "../../../lib/runescape/transportation";
 import * as leaflet from "leaflet";
-import {boxPolygon, boxPolygon2} from "../polygon_helpers";
-import {RenderingUtility} from "../map/RenderingUtility";
-import {Rectangle, Vector2} from "lib/math";
+import {Vector2} from "lib/math";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {arrow} from "../path_graphics";
 import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
-import {util} from "../../../lib/util/util";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 
 export class ShortcutViewLayer extends GameLayer {
-    constructor(public data: ObservableArray<Transportation.transportation>, private simplified: boolean = false) {
+    constructor(public data: ObservableArray<Transportation.Transportation>, private simplified: boolean = false) {
         super();
 
         data.element_added.on(s => {
@@ -59,11 +56,11 @@ export class ShortcutViewLayer extends GameLayer {
         }).addTo(this))
     }
 
-    getView(s: ObservableArray.ObservableArrayValue<Transportation.transportation>): ShortcutViewLayer.ShortcutPolygon {
+    getView(s: ObservableArray.ObservableArrayValue<Transportation.Transportation>): ShortcutViewLayer.ShortcutPolygon {
         return this.getLayers().find(v => (v instanceof ShortcutViewLayer.ShortcutPolygon) && v.data == s) as ShortcutViewLayer.ShortcutPolygon
     }
 
-    center(s: Transportation.transportation): this {
+    center(s: Transportation.Transportation): this {
         this.getMap().fitView(Transportation.bounds(s), {
             maxZoom: 5,
         })
@@ -97,7 +94,7 @@ export namespace ShortcutViewLayer {
         //      - Target tiles: Circle
         public style = observe<ShortcutPolygon.style_t>(null).equality((a, b) => a?.type == b?.type && a?.draw_arrows == b?.draw_arrows && a?.viewed_floor == b?.viewed_floor)
 
-        constructor(public data: Observable<Transportation.transportation>, style: ShortcutPolygon.style_t = {
+        constructor(public data: Observable<Transportation.Transportation>, style: ShortcutPolygon.style_t = {
             type: "regular",
             draw_arrows: true,
             viewed_floor: null

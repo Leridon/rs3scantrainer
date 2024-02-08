@@ -6,7 +6,7 @@ import Properties from "../widgets/Properties";
 import TextField from "../../../lib/ui/controls/TextField";
 import TextArea from "../../../lib/ui/controls/TextArea";
 import {C} from "../../../lib/ui/constructors";
-import ScanEditor from "../scanedit/ScanEditor";
+import ScanEditor from "./scanedit/ScanEditor";
 import {SolvingMethods} from "../../model/methods";
 import {Clues} from "../../../lib/runescape/clues";
 import MethodSubEditor from "./MethodSubEditor";
@@ -19,6 +19,8 @@ import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {ewent} from "../../../lib/reactive";
+import GenericPathMethodEditor from "./GenericPathMethodEditor";
+import GenericPathMethod = SolvingMethods.GenericPathMethod;
 
 class MethodEditSideBar extends MapSideBar {
     save_row: Widget
@@ -127,6 +129,8 @@ export default class MethodEditor extends Behaviour {
 
         if (this.method.method.type == "scantree") {
             this.sub_editor.set(new ScanEditor(this, this.app, this.method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, this.sidebar.body))
+        } else {
+            this.sub_editor.set(new GenericPathMethodEditor(this, this.method as AugmentedMethod<GenericPathMethod, Clues.Step>))
         }
     }
 

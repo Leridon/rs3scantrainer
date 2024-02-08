@@ -1,4 +1,4 @@
-import {Observable, observe} from "../reactive";
+import {ewent, Observable, observe} from "../reactive";
 import * as leaflet from "leaflet"
 import observe_combined = Observable.observe_combined;
 import * as tippy from "tippy.js";
@@ -7,18 +7,19 @@ import {followCursor} from "tippy.js";
 import GameLayer from "./GameLayer";
 import {floor_t} from "../runescape/coordinates";
 import {GameMap} from "./GameMap";
+import {ZoomLevels} from "./ZoomLevels";
 
 export abstract class MapEntity extends leaflet.FeatureGroup {
     public parent: GameLayer | null = null
     private rendering_lock: boolean = false
 
     floor_sensitive: boolean = false
+    zoom_sensitive: boolean = false
 
-    mouseover = observe(false)
+    zoom_sensitivity_layers: ZoomLevels<any>
+
     highlighted = observe(false)
     opacity = observe(1)
-
-    private tooltip_instance: tippy.Instance = null
 
     protected constructor(protected entity_config: MapEntity.SetupOptions) {
         super();
@@ -28,46 +29,23 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
             opacity: this.opacity
         }).subscribe(() => this.render())
 
-        this.highlighted.subscribe(v => {
-            if (!v) this.tooltip_instance?.destroy()
-            else {
-                let tooltip = this.renderTooltip()
+        if (entity_config.interactive) {
+            this.on("mouseover", () => {
+                this.parent?.requestEntityActivation(this, false)
+            })
 
-                if (tooltip) {
+            this.on("mouseout", () => {
+                if (this.isActive()) this.parent?.requestEntityActivation(null, false)
+            })
 
-                    this.tooltip_instance = tippy.default($("body").get()[0], {
-                        content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white;padding: 3px'></div>")
-                            .append(tooltip).raw(),
-                        arrow: true,
-                        animation: false,
-                        trigger: "manual",
-                        zIndex: 10001,
-                        delay: 0,
-                        followCursor: true,
-                        plugins: [followCursor]
-                    })
+            this.on("click", () => {
+                this.parent?.requestEntityActivation(this, true)
+            })
+        }
+    }
 
-                    this.tooltip_instance.show()
-                }
-            }
-        })
-
-        this.on("mouseover", () => {
-            this.mouseover.set(true)
-        })
-
-        this.on("mouseout", () => {
-            this.mouseover.set(false)
-        })
-
-        this.on("click", () => {
-            console.log("click")
-            console.log(this)
-        })
-
-        this.mouseover.subscribe(v => {
-            if (!this.rendering_lock && this.entity_config.highlightable) this.highlighted.set(v)
-        })
+    isActive(): boolean {
+        return this.parent?.getActiveEntity() == this
     }
 
     setHighlight(v: boolean): this {
@@ -86,12 +64,14 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
 
     protected abstract render_implementation(options: MapEntity.RenderOptions): void
 
-    protected renderTooltip(): Widget | null {
+    public renderTooltip(selected: boolean = false): Widget | null {
         return null
     }
 
     render() {
         this.clearLayers()
+
+        if (!this.parent?.getMap()) return
 
         this.rendering_lock = true
 
@@ -113,6 +93,13 @@ export namespace MapEntity {
     }
 
     export type SetupOptions = {
-        highlightable?: boolean
+        highlightable?: boolean,
+        interactive?: boolean
     }
+
+    export const default_zoom_scale_layers = new ZoomLevels<{ scale: number }>([
+        {min: -100, value: {scale: 0.25}},
+        {min: 0, value: {scale: 0.5}},
+        {min: 1.5, value: {scale: 1}},
+    ])
 }

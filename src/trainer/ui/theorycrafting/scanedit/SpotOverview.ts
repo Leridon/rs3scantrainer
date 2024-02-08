@@ -1,12 +1,12 @@
-import Widget from "lib/ui/Widget";
-import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import LightButton from "../widgets/LightButton";
+import Widget from "../../../../lib/ui/Widget";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
+import LightButton from "../../widgets/LightButton";
 import {ScanTreeBuilder} from "./ScanEditor";
-import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
+import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
-import {C} from "../../../lib/ui/constructors";
+import {C} from "../../../../lib/ui/constructors";
 import span = C.span;
-import {Observable} from "../../../lib/reactive";
+import {Observable} from "../../../../lib/reactive";
 import vbox = C.vbox;
 
 export default class SpotOverview extends Widget {

@@ -6,7 +6,7 @@ import {LeafletEvent} from "leaflet";
 import {MapEntity} from "./MapEntity";
 
 export abstract class GameMapEvent<LeafletT extends leaflet.LeafletEvent, OriginalT extends Event> {
-    active_entities: MapEntity[] = []
+    active_entity: MapEntity | null = null
 
     public propagation_state: {
         phase: "pre" | "post",
@@ -89,14 +89,16 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
 }
 
 export class GameMapViewChangedEvent extends GameMapEvent<undefined, undefined> {
+    floor_changed: boolean
+    zoom_changed: boolean
+
     constructor(map: GameMap,
                 public old_view: GameMap.View,
                 public new_view: GameMap.View
     ) {
         super(map, undefined, undefined)
-    }
 
-    floorChanged(): boolean {
-        return this.old_view?.level != this.new_view?.level
+        this.floor_changed = this.old_view?.rect?.level != this.new_view?.rect?.level
+        this.zoom_changed = this.old_view?.zoom != this.new_view?.zoom
     }
 }

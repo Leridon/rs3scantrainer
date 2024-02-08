@@ -8,7 +8,7 @@ import {observe} from "../../../../lib/reactive";
 
 export class DrawGeneralEntity extends InteractionLayer {
     constructor(public config: {
-        done_handler: (_: Transportation.transportation) => void
+        done_handler: (_: Transportation.Transportation) => void
     }) {
         super();
 
@@ -31,7 +31,7 @@ export class DrawGeneralEntity extends InteractionLayer {
 }
 
 export namespace DrawGeneralEntity {
-    export function create(area: TileRectangle): Transportation.entity_transportation {
+    export function create(area: TileRectangle): Transportation.EntityTransportation {
         return {
             type: "entity",
             entity: {kind: "static", name: "Entity"},

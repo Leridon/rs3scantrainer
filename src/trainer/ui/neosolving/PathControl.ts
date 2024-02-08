@@ -18,7 +18,6 @@ import div = C.div;
 import hboxl = C.hboxl;
 import TeleportIcon from "../widgets/TeleportIcon";
 import img = C.img;
-import InteractionType = Path.InteractionType;
 import staticentity = C.staticentity;
 import ability_icon = PathGraphics.ability_icon;
 import {direction, PathFinder} from "../../../lib/runescape/movement";
@@ -40,6 +39,7 @@ import TemplateResolver from "../../../lib/util/TemplateResolver";
 import * as tippy from "tippy.js";
 import {followCursor} from "tippy.js";
 import GameLayer from "../../../lib/gamemap/GameLayer";
+import {CursorType} from "../../../lib/runescape/CursorType";
 
 class PathSectionControl extends Widget {
     constructor(
@@ -141,7 +141,7 @@ namespace PathSectionControl {
 
         constructor(private teleport_data: ManagedTeleportData,
                     private section_index: number[],
-                    private step: Path.step,
+                    private step: Path.Step,
                     private template_resolver: TemplateResolver
         ) {
             super();
@@ -223,7 +223,7 @@ namespace PathSectionControl {
                     )
                     break;
                 case "redclick":
-                    icon.append(img(InteractionType.meta(step.how).icon_url))
+                    icon.append(img(CursorType.meta(step.how).icon_url))
 
                     content.append(
                         "Target ",
@@ -241,11 +241,11 @@ namespace PathSectionControl {
                     )
 
                     break;
-                case "shortcut_v2":
+                case "transport":
                     let shortcut = step.internal
                     let action = shortcut.actions[0]
 
-                    icon.append(img(InteractionType.meta(step.internal.actions[0].cursor).icon_url))
+                    icon.append(img(CursorType.meta(step.internal.actions[0].cursor).icon_url))
 
                     content.append(
                         action.name, " ",
@@ -328,7 +328,7 @@ export default class PathControl extends Behaviour {
          */
 
         TreeArray.add(sectioned,
-            Path.Section.split_into_sections(method.method.path_to_spot, "To Spot")
+            Path.Section.split_into_sections(method.method.main_path, "To Spot")
         )
 
         /*

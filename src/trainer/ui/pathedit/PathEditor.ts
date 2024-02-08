@@ -36,7 +36,6 @@ import * as assert from "assert";
 import vbox = C.vbox;
 import * as lodash from "lodash";
 import {MenuEntry} from "../widgets/ContextMenu";
-import InteractionType = Path.InteractionType;
 import MapCoordinateEdit from "../widgets/MapCoordinateEdit";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import InteractionSelect from "./InteractionSelect";
@@ -55,6 +54,7 @@ import {ShortcutEntity, TeleportEntity} from "../../../lib/gamemap/defaultlayers
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import EntityTransportation = Transportation.EntityTransportation;
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
+import {CursorType} from "../../../lib/runescape/CursorType";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -62,13 +62,13 @@ export class IssueWidget extends Widget {
     }
 }
 
-function needRepairing(state: movement_state, shortcut: Path.step_shortcut): boolean {
+function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
         && TileArea.contains(shortcut.internal.actions[0].interactive_area || default_interactive_area(shortcut.internal.clickable_area), state.position.tile)
         && !TileCoordinates.eq2(state.position.tile, shortcut.assumed_start)
 }
 
-function repairShortcutStep(state: movement_state, shortcut: Path.step_shortcut): void {
+function repairShortcutStep(state: movement_state, shortcut: Path.step_transportation): void {
     shortcut.assumed_start = state.position.tile
 }
 
@@ -112,7 +112,8 @@ class StepEditWidget extends Widget {
                     .tooltip("Move step down").setEnabled(this.value.index.value() != this.parent.editor.value.get().length - 1),
                 sibut("assets/icons/delete.png", () => this.value.remove()),
                 sibut("assets/icons/fullscreen.png", () => {
-                    this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)), {maxZoom: 5})
+                    this.parent.editor.game_layer.getMap().fitView(bounds, {maxZoom: 5}
+                    )
                 }).setEnabled(!!bounds)
             ).addClass("path-step-edit-widget-control-row").appendTo(this)
         }
@@ -231,7 +232,7 @@ class StepEditWidget extends Widget {
                 )
                 break
 
-            case "shortcut_v2": {
+            case "transport": {
                 let body: ShortcutEdit = ShortcutEdit.forSimple(value.raw.internal, this.parent.editor.interaction_guard,
                     v => {
                         this.parent.editor.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(Transportation.bounds(v))), {maxZoom: 5})
@@ -252,7 +253,7 @@ class StepEditWidget extends Widget {
                     spacer(),
                     assumed_start_needs_fixing ? new LightButton("Repair").onClick(() => {
                         this.value.update(v => {
-                            assert(v.raw.type == "shortcut_v2")
+                            assert(v.raw.type == "transport")
                             v.raw.assumed_start = value.pre_state.position.tile
                         })
                     }) : null
@@ -281,7 +282,7 @@ class StepEditWidget extends Widget {
 
                 body.config.value.subscribe(s => {
                     this.value.update(v => {
-                        assert(v.raw.type == "shortcut_v2")
+                        assert(v.raw.type == "transport")
                         assert(s.type == "entity")
 
                         // TODO: ???
@@ -418,29 +419,34 @@ class PathEditorGameLayer extends GameLayer {
     constructor(private editor: PathEditor) {
         super();
 
-        new TransportLayer(shortcuts).addTo(this)
-
-        //new ShortcutViewLayer(observeArray(editor.data.shortcuts), true).addTo(this)
+        new TransportLayer(shortcuts, true).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
-
-
         event.onPost(() => {
             if (this.editor.isActive()) {
+
+                event.add({
+                    type: "basic",
+                    text: "Walk here",
+                    icon: "assets/icons/yellowclick.png",
+                    handler: () => {
+
+                    }
+                })
 
                 event.add({
                     type: "submenu",
                     text: "Create Redclick",
                     icon: "assets/icons/redclick.png",
-                    children: InteractionType.all().map((i): MenuEntry => ({
+                    children: CursorType.all().map((i): MenuEntry => ({
                         type: "basic",
                         text: i.description,
                         icon: i.icon_url,
                         handler: () => {
                             this.editor.value.create({
                                 type: "redclick",
-                                target: InteractionType.defaultEntity(i.type),
+                                target: CursorType.defaultEntity(i.type),
                                 where: event.tile(),
                                 how: i.type
                             })
@@ -448,108 +454,69 @@ class PathEditorGameLayer extends GameLayer {
                     }))
                 })
 
-                // TODO: Run here
 
-                event.active_entities.forEach(entity => {
+                if (event.active_entity instanceof TeleportEntity) {
+                    const t = event.active_entity.config.teleport
 
-                    if (entity instanceof TeleportEntity) {
-                        const t = entity.config.teleport
+                    event.add({
+                        type: "basic",
+                        text: `Teleport: ${t.hover}`,
+                        icon: `assets/icons/teleports/${t.icon.url}`,
+                        handler: () => {
+                            this.editor.value.add({
+                                raw: {
+                                    type: "teleport",
+                                    id: t.id,
+                                }
+                            })
+                        }
+                    })
+                } else if (event.active_entity instanceof ShortcutEntity) {
 
+                    let s = Transportation.normalize(event.active_entity.config.shortcut)
+
+                    s.actions.forEach(a => {
                         event.add({
                             type: "basic",
-                            text: `Teleport: ${t.hover}`,
-                            icon: `assets/icons/teleports/${t.icon.url}`,
-                            handler: () => {
-                                this.editor.value.add({
-                                    raw: {
-                                        type: "teleport",
-                                        id: t.id,
-                                    }
+                            text: `${s.entity.name}: ${a.name}`,
+                            icon: CursorType.meta(a.cursor).icon_url,
+                            handler: async () => {
+                                let t = this.editor.value.post_state.value()?.position?.tile
+
+                                let path_to_start = await PathFinder.find(PathFinder.init_djikstra(t), a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area))
+
+                                if (path_to_start && path_to_start.length > 1) {
+                                    this.editor.value.create({
+                                        type: "run",
+                                        waypoints: path_to_start,
+                                    })
+                                }
+
+                                let clone = lodash.cloneDeep(s)
+                                clone.actions = [lodash.cloneDeep(a)]
+
+                                this.editor.value.create({
+                                    type: "transport",
+                                    assumed_start: index(path_to_start, -1),
+                                    internal: clone
                                 })
                             }
                         })
-                    } else if (entity instanceof ShortcutEntity) {
+                    })
+                } else if (event.active_entity instanceof PathStepEntity) {
+                    let i = this.editor.value.value().findIndex(v => v.value().associated_preview == event.active_entity)
 
-                        let s = Transportation.normalize(entity.config.shortcut)
+                    if (i >= 0) {
+                        let v = this.editor.value.value()[i]
 
-                        s.actions.forEach(a => {
-                            event.add({
-                                type: "basic",
-                                text: `${s.entity.name}: ${a.name}`,
-                                icon: InteractionType.meta(a.cursor).icon_url,
-                                handler: async () => {
-                                    let t = this.editor.value.post_state.value()?.position?.tile
-
-                                    let path_to_start = await PathFinder.find(PathFinder.init_djikstra(t), a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area))
-
-                                    if (path_to_start && path_to_start.length > 1) {
-                                        this.editor.value.create({
-                                            type: "run",
-                                            waypoints: path_to_start,
-                                        })
-                                    }
-
-                                    let clone = lodash.cloneDeep(s)
-                                    clone.actions = [lodash.cloneDeep(a)]
-
-                                    this.editor.value.create({
-                                        type: "shortcut_v2",
-                                        assumed_start: index(path_to_start, -1),
-                                        internal: clone
-                                    })
-                                }
-                            })
+                        event.add({
+                            type: "basic",
+                            text: `Delete step ${i} (${Path.Step.name(v.value().raw)})`,
+                            handler: () => this.editor.value.remove(v)
                         })
                     }
-                })
+                }
 
-                /*
-                event.add({
-                    type: "basic",
-                    text: "Create custom shortcut",
-                    icon: "assets/icons/cursor_generic.png",
-                    handler: () => {
-
-                        let t = this.editor.value.post_state.value()?.position?.tile
-
-                        this.editor.value.create({
-                            type: "shortcut_v2",
-                            assumed_start: t ? TileRectangle.clampInto(t, TileRectangle.extend(TileRectangle.from(event.tile()), 1)) : event.tile(),
-                            internal: {
-                                type: "entity",
-                                entity: {kind: "static", name: "Entity"},
-                                clickable_area: TileRectangle.from(event.tile()),
-                                actions: [{
-                                    cursor: "generic",
-                                    interactive_area: TileRectangle.extend(TileRectangle.from(event.tile()), 1),
-                                    movement: [{offset: {x: 0, y: 0, level: 0}}],
-                                    name: "Use",
-                                    time: 3,
-                                    orientation: {type: "byoffset"}
-                                }]
-                            }
-                        })
-                    }
-                })
-
-                 */
-
-
-                event.active_entities.forEach(entity => {
-                    if (entity instanceof PathStepEntity) {
-                        let i = this.editor.value.value().findIndex(v => v.value().associated_preview == entity)
-
-                        if (i >= 0) {
-                            let v = this.editor.value.value()[i]
-
-                            event.add({
-                                type: "basic",
-                                text: `Delete step ${i}`,
-                                handler: () => this.editor.value.remove(v)
-                            })
-                        }
-                    }
-                })
             }
         })
     }
@@ -557,7 +524,7 @@ class PathEditorGameLayer extends GameLayer {
 }
 
 export class PathBuilder extends ObservableArray<PathEditor.Value> {
-    create(step: Path.step) {
+    create(step: Path.Step) {
         this.add({raw: step})
     }
 
@@ -590,6 +557,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
 
 
     augmenting_lock: Promise<void> = null
+
     private async updateAugment() {
         await this.augmenting_lock
 
@@ -599,7 +567,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
             let aug = await Path.augment(v.map(s => s.value().raw), this.meta.start_state, this.meta.target)
 
             for (let i = 0; i < aug.steps.length; i++) {
-                if(!aug.steps[i]) debugger
+                if (!aug.steps[i]) debugger
 
                 v[i].value().augmented?.set(aug.steps[i])
             }
@@ -628,10 +596,10 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
             for (let i = 0; i < v.path.steps.length; i++) {
                 let step = v.path.steps[i]
 
-                if (step.raw.type == "shortcut_v2" && needRepairing(step.pre_state, step.raw)) {
+                if (step.raw.type == "transport" && needRepairing(step.pre_state, step.raw)) {
 
                     this._value[i].update(s => {
-                        assert(s.raw.type == "shortcut_v2")
+                        assert(s.raw.type == "transport")
                         repairShortcutStep(step.pre_state, s.raw)
                     })
 
@@ -651,7 +619,7 @@ export class PathBuilder extends ObservableArray<PathEditor.Value> {
 
         if (this.meta.preview_layer) {
             value.associated_preview =
-                new PathStepEntity({step: value.raw, highlightable: true})
+                new PathStepEntity({step: value.raw, highlightable: true, interactive: true})
                     .addTo(this.meta.preview_layer)
         }
     }
@@ -681,7 +649,7 @@ export class PathEditor extends Behaviour {
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,
                 public data: {
-                    shortcuts: Transportation.transportation[],
+                    shortcuts: Transportation.Transportation[],
                     teleports: Teleports.flat_teleport[]
                 },
                 public options: PathEditor.options_t
@@ -759,7 +727,7 @@ export class PathEditor extends Behaviour {
 
 export namespace PathEditor {
 
-    export type Value = { raw: Path.step, associated_preview?: PathStepEntity, augmented?: Observable<Path.augmented_step> }
+    export type Value = { raw: Path.Step, associated_preview?: PathStepEntity, augmented?: Observable<Path.augmented_step> }
     export type OValue = ObservableArray.ObservableArrayValue<Value>
     export type Data = PathBuilder
 

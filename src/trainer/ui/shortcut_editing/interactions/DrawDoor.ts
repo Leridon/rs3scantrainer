@@ -13,7 +13,7 @@ import {direction} from "../../../../lib/runescape/movement";
 export class DrawDoor extends InteractionLayer {
 
     constructor(public config: {
-        done_handler: (_: Transportation.door) => void
+        done_handler: (_: Transportation.DoorTransportation) => void
     }) {
         super();
 
@@ -67,11 +67,11 @@ export class DrawDoor extends InteractionLayer {
 }
 
 export namespace DrawDoor {
-    export function shortcutsFromArea(area: TileRectangle): Transportation.door[] {
+    export function shortcutsFromArea(area: TileRectangle): Transportation.DoorTransportation[] {
         let width = Rectangle.tileWidth(area)
         let height = Rectangle.tileHeight(area)
 
-        let options: Transportation.door[] = []
+        let options: Transportation.DoorTransportation[] = []
 
         return []
 

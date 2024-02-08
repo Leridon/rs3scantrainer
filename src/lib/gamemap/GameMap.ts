@@ -57,7 +57,7 @@ export const yellow_icon = leaflet.icon({
 export class GameMap extends leaflet.Map {
     floor: Observable<floor_t> = observe(0)
 
-    public viewport: Observable<TileRectangle> = observe(null).equality(TileRectangle.equals)
+    public viewport: Observable<GameMap.View> = observe(null).equality(GameMap.View.equals)
 
     container: JQuery
     private ui_container: Widget
@@ -103,8 +103,6 @@ export class GameMap extends leaflet.Map {
                     .onClosed(() => {
                         this.container.focus()
                     })
-
-                // TODO: Give focus back to map on exit
             })
 
             this.on("click", (e) => {
@@ -163,21 +161,6 @@ export class GameMap extends leaflet.Map {
             .setZIndex(10)
             .addTo(this)
 
-        /*
-        new Graticule({
-            intervals: [
-                {min_zoom: -Infinity, interval: 64},
-            ],
-            lineStyle: {
-                weight: 4,
-                color: '#000000',
-                opacity: 0.5,
-                interactive: false
-            }
-        })
-            .setZIndex(10)
-            .addTo(this)*/
-
         this.updateBaseLayers()
 
         this.floor.subscribe(() => this.updateBaseLayers())
@@ -186,7 +169,10 @@ export class GameMap extends leaflet.Map {
     private updateView(): this {
         const bounds = this.getBounds()
 
-        this.viewport.set(TileRectangle.lift(Rectangle.extend(Rectangle.from(Vector2.fromLatLong(bounds.getNorthEast()), Vector2.fromLatLong(bounds.getSouthWest())), 1), this.floor.value()))
+        this.viewport.set({
+            rect: TileRectangle.lift(Rectangle.extend(Rectangle.from(Vector2.fromLatLong(bounds.getNorthEast()), Vector2.fromLatLong(bounds.getSouthWest())), 1), this.floor.value()),
+            zoom: this.getZoom()
+        })
 
         return this
     }
@@ -333,7 +319,7 @@ export class GameMap extends leaflet.Map {
             event.propagation_state.trickle_stopped_immediate = false
         }
 
-        event.active_entities = this.internal_root_layer.collectActiveEntities().flat()
+        event.active_entity = this.internal_root_layer.getActiveEntity()
 
         propagate(this.internal_root_layer)
 
@@ -397,7 +383,13 @@ export namespace GameMap {
         "top-right": "gamemap-ui-layer-tr"
     }
 
-    export type View = TileRectangle
+    export type View = { rect: TileRectangle, zoom: number }
+
+    export namespace View {
+        export function equals(a: View, b: View): boolean {
+            return TileRectangle.equals(a?.rect, b?.rect) && a?.zoom == b?.zoom
+        }
+    }
 }
 
 export class GameMapWidget extends Widget {

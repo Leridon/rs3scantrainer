@@ -11,31 +11,44 @@ import full_teleport_id = Teleports.full_teleport_id;
 import Widget from "../../ui/Widget";
 import Properties from "../../../trainer/ui/widgets/Properties";
 import {Transportation} from "../../runescape/transportation";
-import shortcut = Transportation.transportation;
+import shortcut = Transportation.Transportation;
 import {floor_t, TileCoordinates, TileRectangle} from "../../runescape/coordinates";
 import {areaPolygon, boxPolygon2} from "../../../trainer/ui/polygon_helpers";
 import shortcuts from "../../../data/shortcuts";
 import {arrow} from "../../../trainer/ui/path_graphics";
-import {Path} from "../../runescape/pathing";
 import {direction} from "../../runescape/movement";
-import * as lodash from "lodash";
 import {TileArea} from "../../runescape/coordinates/TileArea";
 import EntityTransportation = Transportation.EntityTransportation;
+import {CursorType} from "../../runescape/CursorType";
+import {ZoomLevels} from "../ZoomLevels";
+import {DivIcon} from "leaflet";
+import {identity} from "lodash";
 
 export class TeleportEntity extends MapEntity {
 
+    zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
+
     constructor(public config: TeleportEntity.Config) {
         super(config);
+
+        this.floor_sensitive = true
+        this.zoom_sensitive = true
     }
 
-    protected render_implementation(options: MapEntity.RenderOptions) {
+    render_implementation(options: MapEntity.RenderOptions) {
+        const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
+
         leaflet.marker(Vector2.toLatLong(this.config.teleport.spot), {
-            icon: new TeleportMapIcon(this.config.teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
+            icon: new TeleportMapIcon(this.config.teleport, scale, w => {
+                if(options.viewport.rect.level != this.config.teleport.spot.level)  w.css("filter", "grayscale(1) brightness(0.5)")
+
+                return w
+            }),
             riseOnHover: true
         }).addTo(this)
     }
 
-    protected renderTooltip(): Widget | null {
+    renderTooltip(): Widget | null {
         let props = new Properties()
 
         props.named("Group", c().text(this.config.teleport.group.name))
@@ -49,16 +62,19 @@ export class TeleportEntity extends MapEntity {
 }
 
 export class ShortcutEntity extends MapEntity {
+    zoom_sensitivity_layers: ZoomLevels<{ scale: number }> = MapEntity.default_zoom_scale_layers
+
     constructor(public config: ShortcutEntity.Config) {
         super(config)
 
         this.floor_sensitive = true
+        this.zoom_sensitive = true
     }
 
-    protected render_implementation(options: MapEntity.RenderOptions) {
+    render_implementation(options: MapEntity.RenderOptions) {
         const shortcut = Transportation.normalize(this.config.shortcut)
 
-        if (options.viewport.level != shortcut.clickable_area.level) return
+        if (options.viewport.rect.level != shortcut.clickable_area.level) return
 
         const COLORS = {
             interactive_area: "#72bb46",
@@ -67,8 +83,6 @@ export class ShortcutEntity extends MapEntity {
         }
 
         function render_transport_arrow(from: Vector2, to: Vector2, level_offset: number): OpacityGroup {
-
-
             let group = new OpacityGroup().addLayer(arrow(from, to).setStyle({
                 color: COLORS.target_area,
                 weight: 4,
@@ -88,90 +102,73 @@ export class ShortcutEntity extends MapEntity {
             return group
         }
 
-        let all_floors = false
-        let floor = options.viewport.level
+        let floor = options.viewport.rect.level
 
-        function fs(f: floor_t): leaflet.PolylineOptions {
-            if (f < floor) return {
-                className: "ctr-shortcut-different-level",
-            }
-            else if (f > floor) return {
-                className: "ctr-shortcut-different-level",
-                dashArray: "10, 10",
-            }
-            else return {}
-        }
+        const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
 
-        let render_main = all_floors || shortcut.clickable_area.level == floor
+        // Render main marker
+        leaflet.marker(Vector2.toLatLong(Rectangle.center(shortcut.clickable_area, false)), {
+            icon: leaflet.icon({
+                iconUrl: CursorType.meta(shortcut.actions[0]?.cursor ?? "generic").icon_url,
+                iconSize: CursorType.iconSize(scale),
+                iconAnchor: CursorType.iconAnchor(scale, true),
+            }),
+            interactive: true
+        }).addTo(this);
 
-        for (let action of shortcut.actions) {
-
-            if (render_main && options.highlight && action.interactive_area) {
-                areaPolygon(action.interactive_area).setStyle({
-                    color: COLORS.interactive_area,
-                    fillColor: COLORS.interactive_area,
-                    interactive: true,
-                    fillOpacity: 0.1,
-                    weight: 2
-                })
-                    .setStyle(fs(action.interactive_area.origin.level))
-                    .addTo(this)
-            }
-
-            action.movement.forEach(movement => {
-
-                if (movement.offset) {
-                    if (options.highlight) {
-                        let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area || EntityTransportation.default_interactive_area(TileRectangle.extend(shortcut.clickable_area, -0.5))), true)
-
-                        let target = Vector2.add(center, movement.offset)
-
-                        render_transport_arrow(center, target, movement.offset.level).addTo(this)
-                    }
-                } else if (movement.fixed_target) {
-                    if (render_main || movement.fixed_target.target.level == floor) {
-                        leaflet.circle(Vector2.toLatLong(movement.fixed_target.target), {
-                            color: COLORS.target_area,
-                            weight: 2,
-                            radius: 0.4,
-                            fillOpacity: 0.1,
-                        })
-                            .setStyle(fs(movement.fixed_target.target.level))
-                            .addTo(this)
-                    }
-
-                    if (options.highlight) {
-                        let center = TileRectangle.center(shortcut.clickable_area, false)
-                        let target = movement.fixed_target.target
-
-                        render_transport_arrow(center, target, target.level - center.level).addTo(this)
-                    }
-                }
-            })
-        }
-
-        if (render_main) {
-            leaflet.marker(Vector2.toLatLong(Rectangle.center(shortcut.clickable_area, false)), {
-                icon: leaflet.icon({
-                    iconUrl: Path.InteractionType.meta(shortcut.actions[0]?.cursor ?? "generic").icon_url,
-                    iconSize: options.highlight ? [42, 48] : [28, 31],
-                    iconAnchor: options.highlight ? [21, 24] : [14, 16],
-                    className: null
-                }),
-                interactive: true
-            }).addTo(this)
-
-            if (options.highlight) leaflet.polygon(boxPolygon2(shortcut.clickable_area), {
+        if (options.highlight) {
+            leaflet.polygon(boxPolygon2(shortcut.clickable_area), {
                 color: COLORS.clickable_area,
                 fillColor: COLORS.clickable_area,
                 fillOpacity: 0.1,
                 opacity: 0.5,
                 interactive: true
             }).addTo(this)
+
+            for (let action of shortcut.actions) {
+
+                if (action.interactive_area) {
+                    areaPolygon(action.interactive_area).setStyle({
+                        color: COLORS.interactive_area,
+                        fillColor: COLORS.interactive_area,
+                        interactive: true,
+                        fillOpacity: 0.1,
+                        weight: 2
+                    }).addTo(this)
+                }
+
+                action.movement.forEach(movement => {
+
+                    if (movement.offset) {
+                        let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area || EntityTransportation.default_interactive_area(TileRectangle.extend(shortcut.clickable_area, -0.5))), true)
+
+                        let target = Vector2.add(center, movement.offset)
+
+                        render_transport_arrow(center, target, movement.offset.level).addTo(this)
+
+                    } else if (movement.fixed_target && !movement.fixed_target.relative) {
+                        if (movement.fixed_target.target.level == floor) {
+                            leaflet.circle(Vector2.toLatLong(movement.fixed_target.target), {
+                                color: COLORS.target_area,
+                                weight: 2,
+                                radius: 0.4,
+                                fillOpacity: 0.1,
+                            })
+                                .addTo(this)
+                        }
+
+                        const center = TileRectangle.center(shortcut.clickable_area, false)
+                        const target = movement.fixed_target.target
+
+                        render_transport_arrow(center, target, target.level - center.level).addTo(this)
+                    }
+                })
+            }
+
         }
     }
 
-    protected renderTooltip(): Widget | null {
+    renderTooltip(): Widget | null {
         const props = new Properties()
         const s = this.config.shortcut
 
@@ -211,7 +208,7 @@ export namespace TeleportEntity {
 }
 
 export class TeleportMapIcon extends leaflet.DivIcon {
-    constructor(tele: Teleports.flat_teleport, cls: string = undefined) {
+    constructor(tele: Teleports.flat_teleport, scale: number = 1, transformer: (w: Widget) => Widget = identity) {
         let i = img(`./assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`)
 
         if (typeof tele.icon != "string") {
@@ -224,10 +221,10 @@ export class TeleportMapIcon extends leaflet.DivIcon {
         super({
             iconSize: [0, 0],
             iconAnchor: [0, 0],
-            html: div(
+            html: transformer(div(
                 i,
                 tele.code ? c().text(tele.code) : undefined
-            ).addClass("ctr-map-teleport-icon").addClass(cls).raw()
+            ).css("scale", scale.toString()).addClass("ctr-map-teleport-icon")).raw()
         });
     }
 }

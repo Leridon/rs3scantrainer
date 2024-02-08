@@ -29,9 +29,9 @@ export default class ShortcutEditSidePanel extends MapSideBar {
     result_container: Widget
     viewport_checkbox: Checkbox
 
-    centered = ewent<Transportation.transportation>()
+    centered = ewent<Transportation.Transportation>()
 
-    private visible_data_view: Observable<ObservableArrayValue<Transportation.transportation & { is_builtin: boolean }>[]>
+    private visible_data_view: Observable<ObservableArrayValue<Transportation.Transportation & { is_builtin: boolean }>[]>
     private search_term = observe("")
 
     widgets: ShortcutEdit[] = []
@@ -41,7 +41,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
         this.header.close_handler.set(() => editor.stop())
 
-        observe<(_: Transportation.transportation) => boolean>(() => true).equality(() => false)
+        observe<(_: Transportation.Transportation) => boolean>(() => true).equality(() => false)
 
         this.editor.app.map.viewport.subscribe(() => {if (this.viewport_checkbox.get()) this.updateVisibleData()})
         this.search_term.subscribe(() => this.updateVisibleData())
@@ -143,7 +143,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
     private updateVisibleData() {
         this.visible_data_view.set(this.editor.data.get().filter(s => {
-            return Transportation.name(s.value()).toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Transportation.bounds(s.value()), this.editor.app.map.viewport.value()))
+            return Transportation.name(s.value()).toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Transportation.bounds(s.value()), this.editor.app.map.viewport.value().rect))
         }))
     }
 }

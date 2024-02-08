@@ -18,7 +18,6 @@ import {Rectangle, Vector2} from "../../../lib/math";
 import span = C.span;
 import {util} from "../../../lib/util/util";
 import {Path} from "../../../lib/runescape/pathing";
-import InteractionType = Path.InteractionType;
 import todo = util.todo;
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import {ScanTheory} from "../../../lib/cluetheory/scans/Scans";
@@ -48,6 +47,7 @@ import PathControl from "./PathControl";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import {PathStepEntity} from "../pathing/PathStepEntity";
 import inlineimg = C.inlineimg;
+import {CursorType} from "../../../lib/runescape/CursorType";
 
 class NeoReader {
     read: Ewent<{ step: Clues.Step, text_index: number }>
@@ -642,7 +642,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 new TileMarker(TileRectangle.center(clue.area)).withMarker().addTo(this.layer.generic_solution_layer)
             } else if (clue.type == "skilling") {
                 w.append(c().addClass("ctr-neosolving-solution-row").append(
-                    c(`<img src="${InteractionType.meta(clue.cursor).icon_url}">`),
+                    c(`<img src="${CursorType.meta(clue.cursor).icon_url}">`),
                     span(clue.answer)
                 ))
 

@@ -1814,10 +1814,6 @@ input[type=checkbox] + span {
     transform: translate(-50%, -50%);
     font-size: 12px;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
-
-.ctr-map-teleport-icon-highlighted {
-    scale: 1.5;
     image-rendering: pixelated;
 }
 

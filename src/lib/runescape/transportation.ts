@@ -1,4 +1,3 @@
-import {Path} from "./pathing";
 import {Rectangle, Vector2} from "../math";
 import {TileRectangle} from "./coordinates";
 import {TileCoordinates} from "./coordinates";
@@ -6,9 +5,10 @@ import {direction} from "./movement";
 import {TileArea} from "./coordinates/TileArea";
 import {TileTransform} from "./coordinates/TileTransform";
 import {util} from "../util/util";
+import {CursorType} from "./CursorType";
+import {EntityName} from "./EntityName";
 
 export namespace Transportation {
-    import entity = Path.entity;
     import todo = util.todo;
 
     export type transportation_base = { type: string, source_loc?: number }
@@ -22,28 +22,28 @@ export namespace Transportation {
     }
 
     export type EntityAction = {
-        cursor?: Path.InteractionType,
+        cursor?: CursorType,
         time: number,
         name: string,
         movement: EntityActionMovement[],
         interactive_area?: TileArea, // Default: clickable area extended by 1
     }
 
-    export type entity_transportation = transportation_base & {
+    export type EntityTransportation = transportation_base & {
         type: "entity",
-        entity: entity,
+        entity: EntityName,
         clickable_area: TileRectangle,
         actions: EntityAction[]
     }
 
-    export type door = transportation_base & {
+    export type DoorTransportation = transportation_base & {
         type: "door",
         position: TileCoordinates,
         direction: direction,
         name: string,
     }
 
-    export type transportation = entity_transportation | door
+    export type Transportation = EntityTransportation | DoorTransportation
 
     export namespace EntityAction {
         export function findApplicable(action: EntityAction, tile: TileCoordinates): EntityActionMovement {
@@ -88,12 +88,12 @@ export namespace Transportation {
     }
 
     /**
-     * Coalesces all shortcuts into the general entity_shortcut.
-     * More specifically, it transforms door shortcuts into an equivalent {@link entity_transportation} to allow unified handling across the code base.
+     * Coalesces all shortcuts into the general EntityTransportation.
+     * More specifically, it transforms door shortcuts into an equivalent {@link EntityTransportation} to allow unified handling across the code base.
      * Doors are modelled differently in case their handling for pathing is ever changed from the current, hacky variant.
      * @param shortcut
      */
-    export function normalize(shortcut: transportation): entity_transportation {
+    export function normalize(shortcut: Transportation): EntityTransportation {
         if (shortcut.type == "entity") return shortcut
 
         const off = direction.toVector(shortcut.direction)
@@ -124,7 +124,7 @@ export namespace Transportation {
         }
     }
 
-    export function bounds(shortcut: transportation): TileRectangle {
+    export function bounds(shortcut: Transportation): TileRectangle {
         switch (shortcut.type) {
             case "entity":
                 return TileRectangle.lift(Rectangle.combine(
@@ -136,7 +136,7 @@ export namespace Transportation {
         }
     }
 
-    export function position(shortcut: transportation): TileCoordinates {
+    export function position(shortcut: Transportation): TileCoordinates {
         switch (shortcut.type) {
             case "entity":
                 return TileRectangle.center(shortcut.clickable_area)
@@ -145,7 +145,7 @@ export namespace Transportation {
         }
     }
 
-    export function name(shortcut: transportation): string {
+    export function name(shortcut: Transportation): string {
         switch (shortcut.type) {
             case "entity":
                 return shortcut.entity.name
@@ -154,7 +154,7 @@ export namespace Transportation {
         }
     }
 
-    export function transform(transport: transportation, transform: TileTransform): transportation {
+    export function transform(transport: Transportation, transform: TileTransform): Transportation {
 
         todo()// TODO: Reimplement if neede
 

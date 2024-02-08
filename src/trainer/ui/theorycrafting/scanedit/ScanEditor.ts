@@ -1,40 +1,40 @@
-import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
-import {lazy, Lazy} from "lib/properties/Lazy";
+import {TileCoordinates} from "../../../../lib/runescape/coordinates/TileCoordinates";
+import Behaviour, {SingleBehaviour} from "../../../../lib/ui/Behaviour";
+import {lazy, Lazy} from "../../../../lib/properties/Lazy";
 import * as leaflet from "leaflet";
-import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "lib/cluetheory/scans/EquivalenceClasses";
-import {areaToPolygon} from "../polygon_helpers";
-import {type Application} from "trainer/application";
-import {ScanLayer, ScanRegionPolygon} from "../neosolving/ScanLayer";
-import {PathingGraphics} from "../path_graphics";
-import {PathEditor} from "../pathedit/PathEditor";
+import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} from "../../../../lib/cluetheory/scans/EquivalenceClasses";
+import {areaToPolygon} from "../../polygon_helpers";
+import {type Application} from "../../../application";
+import {ScanLayer, ScanRegionPolygon} from "../../neosolving/ScanLayer";
+import {PathingGraphics} from "../../path_graphics";
+import {PathEditor} from "../../pathedit/PathEditor";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
-import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
-import shortcuts from "../../../data/shortcuts";
+import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
+import shortcuts from "../../../../data/shortcuts";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
-import {ewent, Observable, observe} from "lib/reactive";
-import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
+import {ewent, Observable, observe} from "../../../../lib/reactive";
+import {InteractionGuard} from "../../../../lib/gamemap/interaction/InteractionLayer";
 import ScanTreeNode = ScanTree.ScanTreeNode;
 import ScanRegion = ScanTree.ScanRegion;
-import {Path} from "../../../lib/runescape/pathing";
-import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
+import {Path} from "../../../../lib/runescape/pathing";
+import {GameMapControl} from "../../../../lib/gamemap/GameMapControl";
 import ScanTools from "./ScanTools";
-import {C} from "../../../lib/ui/constructors";
+import {C} from "../../../../lib/ui/constructors";
 import vbox = C.vbox;
 import SpotOverview from "./SpotOverview";
 import spacer = C.spacer;
-import {Clues} from "../../../lib/runescape/clues";
-import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
-import {AugmentedMethod} from "../../model/MethodPackManager";
-import {SolvingMethods} from "../../model/methods";
+import {Clues} from "../../../../lib/runescape/clues";
+import {ScanTree} from "../../../../lib/cluetheory/scans/ScanTree";
+import {AugmentedMethod} from "../../../model/MethodPackManager";
+import {SolvingMethods} from "../../../model/methods";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
-import Widget from "../../../lib/ui/Widget";
+import Widget from "../../../../lib/ui/Widget";
 import TreeEdit from "./TreeEdit";
-import MethodSubEditor from "../theorycrafting/MethodSubEditor";
+import MethodSubEditor from "../MethodSubEditor";
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import * as lodash from "lodash";
-import MethodEditor from "../theorycrafting/MethodEditor";
-import {PathStepEntity} from "../pathing/PathStepEntity";
+import MethodEditor from "../MethodEditor";
+import {PathStepEntity} from "../../pathing/PathStepEntity";
 
 class ScanEditLayerLight extends ScanLayer {
 
@@ -272,7 +272,7 @@ export default class ScanEditor extends MethodSubEditor {
     path_editor: SingleBehaviour<PathEditor>
 
     constructor(
-        parent: MethodEditor,
+        public parent: MethodEditor,
         public app: Application,
         public value: AugmentedMethod<ScanTreeMethod, Clues.Scan>,
         public side_panel: Widget
@@ -296,6 +296,10 @@ export default class ScanEditor extends MethodSubEditor {
 
             this.layer.scan_range.set(this.value.method.tree.assumed_range)
         }).bindTo(this.handler_pool)
+    }
+
+    relevantAssumptions(): Set<keyof SolvingMethods.ClueAssumptions> {
+        return new Set<keyof SolvingMethods.ClueAssumptions>(["meerkats_active", "double_escape", "double_surge", "mobile_perk"])
     }
 
     private setPathEditor(node: AugmentedScanTreeNode): void {

@@ -57,7 +57,7 @@ export namespace ScanTrainerCommands {
     }> = {
         name: "load_path",
         parser: {
-            steps: ExportImport.imp<Path.step[]>({expected_type: "path", expected_version: 0}), // import is idempotent if it's not a serialized payload string
+            steps: ExportImport.imp<Path.Step[]>({expected_type: "path", expected_version: 0}), // import is idempotent if it's not a serialized payload string
         },
         default: {},
         serializer: {},

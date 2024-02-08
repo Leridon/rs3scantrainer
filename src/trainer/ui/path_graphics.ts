@@ -5,9 +5,9 @@ import {direction, MovementAbilities} from "lib/runescape/movement";
 import Widget from "lib/ui/Widget";
 import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {Vector2} from "lib/math";
-import InteractionType = Path.InteractionType;
 import {Teleports} from "lib/runescape/teleports";
 import {teleport_data} from "../../data/teleport_data";
+import {CursorType} from "../../lib/runescape/CursorType";
 
 export namespace PathGraphics {
     import movement_ability = MovementAbilities.movement_ability;
@@ -36,7 +36,7 @@ export namespace PathGraphics {
         }
     }
 
-    export function asSpan(step: Path.step): HTMLString {
+    export function asSpan(step: Path.Step): HTMLString {
         switch (step.type) {
             case "orientation":
                 return text_icon('assets/icons/compass.png') + direction.toShortString(step.direction)
@@ -50,8 +50,8 @@ export namespace PathGraphics {
                 if (!tele) return text_icon('assets/teleports/homeport.png')
 
                 return PathGraphics.Teleport.asSpan(tele)
-            case "shortcut_v2":
-                return text_icon(InteractionType.meta(step.internal.actions[0].cursor).icon_url)
+            case "transport":
+                return text_icon(CursorType.meta(step.internal.actions[0].cursor).icon_url)
             case "redclick":
                 return text_icon('assets/icons/redclick.png')
             case "powerburst":
@@ -112,9 +112,8 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
 
 export namespace PathingGraphics {
 
-    import InteractionType = Path.InteractionType;
-
-    export function templateString(step: Path.step): string {
+    
+    export function templateString(step: Path.Step): string {
         switch (step.type) {
             case "orientation":
                 return `Face ${direction.toString(step.direction)}`
@@ -127,13 +126,13 @@ export namespace PathingGraphics {
             case "powerburst":
                 return `{{icon accel}}`
             case "redclick":
-                return `{{icon ${InteractionType.meta(step.how).short_icon}}}`
-            case "shortcut_v2":
-                return `{{icon ${InteractionType.meta(step.internal.actions[0].cursor).short_icon}}}`
+                return `{{icon ${CursorType.meta(step.how).short_icon}}}`
+            case "transport":
+                return `{{icon ${CursorType.meta(step.internal.actions[0].cursor).short_icon}}}`
         }
     }
 
-    export function getIcon(step: Path.step): Widget {
+    export function getIcon(step: Path.Step): Widget {
         switch (step.type) {
             case "orientation":
                 return c(`<img class='text-icon' src='assets/icons/compass.png'>`)

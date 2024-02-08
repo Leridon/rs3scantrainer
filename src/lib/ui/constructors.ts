@@ -1,5 +1,6 @@
 import Widget from "./Widget";
 import {Path} from "../runescape/pathing";
+import {EntityName} from "../runescape/EntityName";
 
 export namespace C {
     export function create(s: string): Widget {
@@ -77,7 +78,7 @@ export namespace C {
         return c("<span class='nisl-entity'></span>").toggleClass("ctr-clickable", clickable).text(name)
     }
 
-    export function entity(entity: Path.entity): Widget {
+    export function entity(entity: EntityName): Widget {
         switch (entity.kind) {
             case "npc":
                 return npc(entity.name)

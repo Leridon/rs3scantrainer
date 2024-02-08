@@ -3,6 +3,7 @@ import {TileRectangle} from "./coordinates";
 import {GieliCoordinates} from "./coordinates";
 import {Vector2} from "../math";
 import {Path} from "./pathing";
+import {CursorType} from "./CursorType";
 
 export namespace Clues {
     export function digSpotArea(spot: TileCoordinates): TileRectangle {
@@ -65,8 +66,7 @@ export namespace ClueType {
 }
 
 export namespace Clues {
-    import InteractionType = Path.InteractionType;
-    export type Challenge =
+        export type Challenge =
         { type: "wizard" } |
         { type: "slider" } |
         { type: "celticknot" } |
@@ -131,7 +131,7 @@ export namespace Clues {
         type: "skilling",
         areas: TileRectangle[],
         answer: string,
-        cursor: InteractionType
+        cursor: CursorType
     }
 
     export type Step = Anagram | Compass | Coordinate | Cryptic | Emote | Map | Scan | Simple | Skilling

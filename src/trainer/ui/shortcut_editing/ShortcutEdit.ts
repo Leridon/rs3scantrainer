@@ -39,12 +39,12 @@ export class ShortcutEdit extends Widget {
     private body: Widget
 
     constructor(public config: {
-                    value: Observable<Transportation.transportation>,
+                    value: Observable<Transportation.Transportation>,
                     ovalue?: ShortcutEditor.OValue,
                     edit_layer?: ShortcutEditGameLayer,
                     interaction_guard: InteractionGuard,
                     associated_preview: ShortcutPolygon,
-                    centered_handler: (s: Transportation.transportation) => any,
+                    centered_handler: (s: Transportation.Transportation) => any,
                     collapsible: boolean,
                     single_action?: boolean
                 } = null
@@ -61,9 +61,9 @@ export class ShortcutEdit extends Widget {
         this.config.value.subscribe(() => this.render(), true)
     }
 
-    static forSimple(shortcut: Transportation.transportation,
+    static forSimple(shortcut: Transportation.Transportation,
                      guard: InteractionGuard,
-                     centered_handler: (s: Transportation.transportation) => any = null
+                     centered_handler: (s: Transportation.Transportation) => any = null
     ) {
         return new ShortcutEdit({
                 value: observe(shortcut),
@@ -80,7 +80,7 @@ export class ShortcutEdit extends Widget {
 
     static forEditor(shortcut: ShortcutEditor.OValue,
                      edit_layer: ShortcutEditGameLayer,
-                     centered_handler: (s: Transportation.transportation) => any
+                     centered_handler: (s: Transportation.Transportation) => any
     ): ShortcutEdit {
         return new ShortcutEdit({
                 value: shortcut,

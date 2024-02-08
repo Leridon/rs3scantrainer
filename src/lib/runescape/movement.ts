@@ -400,6 +400,8 @@ export namespace PathFinder {
                     }
                 }
             }
+
+            return null
         }
 
         return get(state, ChunkedData.split(end_tile))

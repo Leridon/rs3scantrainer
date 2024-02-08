@@ -1,16 +1,15 @@
 Planned for next release (b0.4):
 
+- Map Entities
+    - Rendering for zoom level changes needs massive optimization
+        - Invisible from certain zoom
+
 - Path Editor
     - Add support for the model refinement (target entity, to_text etc)
     - Add proper entity interactions now that steps are MapEntities
-    - Make teleports be entities
-    - Make shortcuts be entities
-    - Port the current context menu options
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
-    - [Bug] There appears to be a way to cause an undefined step to enter the array
     - [Bug] Fit to step/path doesnt include level
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
-    - [Bug] Path Editor throws an exception when start_state is undefined
     - Add a way to make it not closeable by the user
     - [Bug] Teleport overriding does not work
 

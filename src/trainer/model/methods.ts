@@ -45,9 +45,9 @@ export namespace SolvingMethods {
 
     export type GenericPathMethod = method_base & {
         type: "general_path",
-        path_to_key_or_hideyhole?: Path.raw,
-        path_to_spot: Path.raw,
-        path_back_to_hideyhole?: Path.raw
+        pre_path?: Path.raw,
+        main_path: Path.raw,
+        post_path?: Path.raw
     }
 
     export type Method = ScanTreeMethod | GenericPathMethod
@@ -73,9 +73,9 @@ export namespace SolvingMethods {
                 description: "Enter a description.",
                 assumptions: ClueAssumptions.init(),
                 for: {clue: clue.clue.id, spot: clue.spot ?? undefined},
-                path_back_to_hideyhole: [],
-                path_to_key_or_hideyhole: [],
-                path_to_spot: [],
+                post_path: [],
+                pre_path: [],
+                main_path: [],
             }
         }
     }

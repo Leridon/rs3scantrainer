@@ -1,14 +1,14 @@
-import Widget from "lib/ui/Widget";
+import Widget from "../../../../lib/ui/Widget";
 import * as leaflet from "leaflet"
-import LightButton from "../widgets/LightButton";
-import {Vector2} from "lib/math";
-import {C} from "../../../lib/ui/constructors";
+import LightButton from "../../widgets/LightButton";
+import {Vector2} from "../../../../lib/math";
+import {C} from "../../../../lib/ui/constructors";
 import hboxc = C.hboxc;
 import centered = C.centered;
-import {observe} from "../../../lib/reactive";
+import {observe} from "../../../../lib/reactive";
 import ScanEditor from "./ScanEditor";
-import ButtonRow from "../../../lib/ui/ButtonRow";
-import {Checkbox} from "../../../lib/ui/controls/Checkbox";
+import ButtonRow from "../../../../lib/ui/ButtonRow";
+import {Checkbox} from "../../../../lib/ui/controls/Checkbox";
 
 export default class ScanTools extends Widget {
     normal = observe(false)

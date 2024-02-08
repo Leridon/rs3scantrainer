@@ -5,7 +5,7 @@ import Widget from "../../../lib/ui/Widget";
 import TextField from "../../../lib/ui/controls/TextField";
 import ControlWithHeader from "./ControlWithHeader";
 import {ActionBar} from "./ActionBar";
-import {DrawRegionAction} from "../scanedit/TreeEdit";
+import {DrawRegionAction} from "../theorycrafting/scanedit/TreeEdit";
 import {boxPolygon, tilePolygon} from "../polygon_helpers";
 import LightButton from "../widgets/LightButton";
 import {Rectangle, Vector2} from "../../../lib/math";
@@ -60,9 +60,6 @@ class ChunkGridGraticule extends Graticule {
             y: Math.min(199, Math.ceil(bounds.getNorth() / interval))
         };
 
-        console.log(mins)
-        console.log(max)
-
         for (let x = mins.x; x <= max.x; x++) {
             for (let y = mins.y; y <= max.y; y++) {
                 leaflet.marker([y * 64 + 31.5, x * 64 + 31.5], {
@@ -92,7 +89,7 @@ export default class UtilityLayer extends GameLayer {
     constructor() {
         super();
 
-        new TransportLayer(shortcuts).addTo(this)
+        new TransportLayer(shortcuts, true).addTo(this)
 
         this.guard = new InteractionGuard().setDefaultLayer(this)
 

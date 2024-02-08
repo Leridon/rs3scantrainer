@@ -5,13 +5,13 @@ import {direction, PathFinder} from "../../../lib/runescape/movement";
 import {C} from "../../../lib/ui/constructors";
 import entity = C.entity;
 import staticentity = C.staticentity;
-import InteractionType = Path.InteractionType;
 import inlineimg = C.inlineimg;
 import bold = C.bold;
+import {CursorType} from "../../../lib/runescape/CursorType";
 
 export class PathStepProperties extends Properties {
 
-    constructor(private step: Path.step,
+    constructor(private step: Path.Step,
                 private template_resolver: TemplateResolver
     ) {
         super();
@@ -48,7 +48,7 @@ export class PathStepProperties extends Properties {
 
             case "redclick":
                 this.header(c().append(
-                    inlineimg(InteractionType.meta(this.step.how).icon_url),
+                    inlineimg(CursorType.meta(this.step.how).icon_url),
                     " Target ",
                     staticentity("Entity")
                 ))
@@ -65,12 +65,12 @@ export class PathStepProperties extends Properties {
                     entity({kind: "item", name: "Powerburst of Acceleration"}),
                 ))
                 break;
-            case "shortcut_v2":
+            case "transport":
                 let shortcut = this.step.internal
                 let action = shortcut.actions[0]
 
                 this.header(c().append(
-                    inlineimg(InteractionType.meta(this.step.internal.actions[0].cursor).icon_url),
+                    inlineimg(CursorType.meta(this.step.internal.actions[0].cursor).icon_url),
                     " ",
                     action.name,
                     " ",
@@ -104,7 +104,7 @@ export class PathStepProperties extends Properties {
 }
 
 export namespace PathStepProperties {
-    export function header_text(step: Path.step) {
+    export function header_text(step: Path.Step) {
         switch (step.type) {
             case "orientation":
                 return "Manual Orientation"
@@ -128,7 +128,7 @@ export namespace PathStepProperties {
                 return "Target Entity"
             case "powerburst":
                 return "Powerburst"
-            case "shortcut_v2":
+            case "transport":
                 return "Use entity"
 
         }

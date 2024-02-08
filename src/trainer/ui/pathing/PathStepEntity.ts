@@ -3,7 +3,6 @@ import {MovementAbilities} from "../../../lib/runescape/movement";
 import * as leaflet from "leaflet";
 import {Vector2} from "../../../lib/math";
 import {arrow, createX} from "../path_graphics";
-import InteractionType = Path.InteractionType;
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {Teleports} from "../../../lib/runescape/teleports";
@@ -13,6 +12,7 @@ import Widget from "../../../lib/ui/Widget";
 import {PathStepProperties} from "./PathStepProperties";
 import Dependencies from "../../dependencies";
 import GameLayer from "../../../lib/gamemap/GameLayer";
+import {CursorType} from "../../../lib/runescape/CursorType";
 
 export class PathStepEntity extends MapEntity {
     constructor(public config: PathStepEntity.Config) {
@@ -24,7 +24,7 @@ export class PathStepEntity extends MapEntity {
     protected override render_implementation(options: MapEntity.RenderOptions) {
         const step = this.config.step
 
-        const cls = Path.level(step) == options.viewport.level ? "ctr-step-graphics" : "ctr-step-graphics-dl"
+        const cls = Path.Step.level(step) == options.viewport.rect.level ? "ctr-step-graphics" : "ctr-step-graphics-dl"
 
         switch (step.type) {
             case "orientation":
@@ -88,7 +88,7 @@ export class PathStepEntity extends MapEntity {
                 let teleport = ManagedTeleportData.instance().get2(step.id)
 
                 leaflet.marker(Vector2.toLatLong(teleport.spot), {
-                    icon: new TeleportMapIcon(teleport, options.highlight ? "ctr-map-teleport-icon-highlighted" : null),
+                    icon: new TeleportMapIcon(teleport, options.highlight ? 1.5 : 1),
                     riseOnHover: true
                 }).addTo(this)
 
@@ -102,7 +102,7 @@ export class PathStepEntity extends MapEntity {
 
                 leaflet.marker(Vector2.toLatLong(step.where), {
                     icon: leaflet.icon({
-                        iconUrl: InteractionType.meta(step.how).icon_url,
+                        iconUrl: CursorType.meta(step.how).icon_url,
                         iconSize: options.highlight ? [42, 48] : [28, 31],
                         iconAnchor: options.highlight ? [6, 2] : [4, 1],
                         className: cls
@@ -122,7 +122,7 @@ export class PathStepEntity extends MapEntity {
                 }).addTo(this)
 
                 break;
-            case "shortcut_v2":
+            case "transport":
                 let entity = step.internal
                 let action = entity.actions[0]
 
@@ -138,7 +138,7 @@ export class PathStepEntity extends MapEntity {
 
                 leaflet.marker(Vector2.toLatLong(TileRectangle.center(step.internal.clickable_area)), {
                     icon: leaflet.icon({
-                        iconUrl: InteractionType.meta(action.cursor).icon_url,
+                        iconUrl: CursorType.meta(action.cursor).icon_url,
                         iconSize: options.highlight ? [42, 48] : [28, 31],
                         iconAnchor: options.highlight ? [6, 2] : [4, 1],
                         className: cls
@@ -154,17 +154,17 @@ export class PathStepEntity extends MapEntity {
         })
     }
 
-    protected renderTooltip(): Widget | null {
+    renderTooltip(): Widget | null {
         return new PathStepProperties(this.config.step, Dependencies.instance().app.value().template_resolver)
     }
 }
 
 export namespace PathStepEntity {
     export type Config = MapEntity.SetupOptions & {
-        step: Path.step
+        step: Path.Step
     }
 
-    export function renderPath(path: Path.step[]): GameLayer {
+    export function renderPath(path: Path.Step[]): GameLayer {
         let group = new GameLayer()
 
         for (let step of path) new PathStepEntity({

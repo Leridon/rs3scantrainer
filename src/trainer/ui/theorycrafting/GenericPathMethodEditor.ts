@@ -46,7 +46,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
         })
 
         this.path_editor.behaviour.subscribe(b => {
-            
+
         })
     }
 
@@ -175,7 +175,21 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
                     editor_handle: (options) => this.setPathEditor(options),
                     target: section.path.target,
                 })
-                    .onCommit(() => this.propagateState())
+                    .onCommit((v) => {
+                        switch (section.path.section) {
+                            case "pre":
+                                this.value.method.pre_path = v
+                                break
+                            case "post":
+                                this.value.method.post_path = v
+                                break;
+                            case "main":
+                                this.value.method.main_path = v
+                                break;
+                        }
+
+                        this.propagateState()
+                    })
                     .setValue(getSection(value.method, section.path.section)))
             }
         })

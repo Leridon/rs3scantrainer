@@ -26,7 +26,7 @@ import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
 import {Observable, ObservableArray, observe, observeArray} from "../../../lib/reactive";
-import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
 import span = C.span;
@@ -55,6 +55,7 @@ import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import EntityTransportation = Transportation.EntityTransportation;
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import {CursorType} from "../../../lib/runescape/CursorType";
+import {boxPolygon} from "../polygon_helpers";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -701,9 +702,15 @@ export class PathEditor extends Behaviour {
 
         this.game_layer.getMap().container.focus()
 
-        let bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), this.options.target)
+        const bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), this.options.target)
 
-        if (bounds) this.game_layer.getMap().fitBounds(util.convert_bounds(Rectangle.toBounds(bounds)).pad(0.1), {maxZoom: 5})
+        if(this.options.target) {
+            boxPolygon(this.options.target).addTo(this.handler_layer)
+        }
+
+        const level = this.options.target?.level ?? this.options.start_state?.position?.tile?.level ?? Math.min(...this.options.initial.map(Path.Step.level))
+
+        if (bounds) this.game_layer.getMap().fitView(TileRectangle.lift(bounds, level as floor_t), {maxZoom: 3})
     }
 
     protected end() {

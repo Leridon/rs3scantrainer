@@ -289,13 +289,13 @@ export default class ScanEditor extends MethodSubEditor {
         this.preview_layer = this.withSub(new PreviewLayerControl(this))
         this.path_editor = this.withSub(new SingleBehaviour<PathEditor>())
 
-        this.parent.assumptions_updated.on((v) => {
+        this.assumptions.subscribe((v) => {
             this.value.method.tree.assumed_range = this.value.clue.range + (v.meerkats_active ? 5 : 0)
 
             this.builder.assumptions.set(lodash.cloneDeep(v))
 
             this.layer.scan_range.set(this.value.method.tree.assumed_range)
-        }).bindTo(this.handler_pool)
+        })
     }
 
     relevantAssumptions(): Set<keyof SolvingMethods.ClueAssumptions> {

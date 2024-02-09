@@ -28,7 +28,7 @@ export default abstract class Behaviour {
     }
 
     start(): this {
-        if (this._started) throw new TypeError()
+        if (this._started) return this
 
         this._started = true
 

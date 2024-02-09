@@ -5,16 +5,6 @@ import {Vector2} from "../math";
 import {Path} from "./pathing";
 import {CursorType} from "./CursorType";
 
-export namespace Clues {
-    export function digSpotArea(spot: TileCoordinates): TileRectangle {
-        return {
-            topleft: {x: spot.x - 1, y: spot.y + 1},
-            botright: {x: spot.x + 1, y: spot.y - 1},
-            level: spot.level
-        }
-    }
-}
-
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
 export namespace ClueTier {
@@ -66,7 +56,7 @@ export namespace ClueType {
 }
 
 export namespace Clues {
-        export type Challenge =
+    export type Challenge =
         { type: "wizard" } |
         { type: "slider" } |
         { type: "celticknot" } |
@@ -176,5 +166,36 @@ export namespace Clues {
             if (spot.clue.type == "compass") return `Compass spot ${Vector2.toString(spot.spot)}`
             else return Step.shortString(spot.clue, text_variant)
         }
+
+        export function targetArea(spot: Clues.ClueSpot): TileRectangle {
+            if (spot.spot) return digSpotArea(spot.spot)
+
+            const sol = Clues.Step.solution(spot.clue)
+
+            if (sol) {
+                switch (sol.type) {
+                    case "search":
+                        return TileRectangle.extend(TileRectangle.from(sol.spot), 1)
+                    case "dig":
+                        return digSpotArea(sol.spot)
+                    case "talkto":
+                        return sol.spots[0].range
+                }
+            }
+
+            if (spot.clue.type == "emote") return spot.clue.area
+        }
+    }
+
+    export function digSpotArea(spot: TileCoordinates): TileRectangle {
+        return {
+            topleft: {x: spot.x - 1, y: spot.y + 1},
+            botright: {x: spot.x + 1, y: spot.y - 1},
+            level: spot.level
+        }
+    }
+
+    export function requiresKey(clue: Step): clue is Step & { solution: { type: "search" } } {
+        return clue.solution && clue.solution.type == "search" && !!clue.solution.key
     }
 }

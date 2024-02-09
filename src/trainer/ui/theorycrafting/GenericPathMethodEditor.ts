@@ -2,31 +2,185 @@ import MethodSubEditor from "./MethodSubEditor";
 import MethodEditor from "./MethodEditor";
 import {AugmentedMethod} from "../../model/MethodPackManager";
 import {SolvingMethods} from "../../model/methods";
+import PathProperty from "../pathedit/PathProperty";
+import {PathEditor} from "../pathedit/PathEditor";
+import shortcuts from "../../../data/shortcuts";
+import {SingleBehaviour} from "../../../lib/ui/Behaviour";
+import GameLayer from "../../../lib/gamemap/GameLayer";
+import Widget from "../../../lib/ui/Widget";
+import Properties from "../widgets/Properties";
+import {identity} from "lodash";
+import {Path} from "../../../lib/runescape/pathing";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
+import movement_state = Path.movement_state;
+import {Clues} from "../../../lib/runescape/clues";
+import {TileRectangle} from "../../../lib/runescape/coordinates";
+import * as lodash from "lodash";
+
+function getSection(method: GenericPathMethod, section: "pre" | "post" | "main") {
+    switch (section) {
+        case "pre":
+            return method.pre_path
+        case "post":
+            return method.post_path
+        case "main":
+            return method.main_path
+    }
+}
 
 export default class GenericPathMethodEditor extends MethodSubEditor {
+    path_editor: SingleBehaviour<PathEditor> = this.withSub(new SingleBehaviour<PathEditor>())
+    layer: GameLayer
+
+    sidepanel_widget: Widget
+
+    sequence: { path?: { section: "pre" | "post" | "main", target: TileRectangle, prop?: PathProperty } | null, name: string, ticks?: number } [] = []
+
     constructor(parent: MethodEditor,
                 public value: AugmentedMethod<GenericPathMethod>,
     ) {
         super(parent);
+
+        this.assumptions.subscribe((v) => {
+            this.updateSequence()
+        })
+
+        this.path_editor.behaviour.subscribe(b => {
+            
+        })
     }
 
-
     relevantAssumptions(): Set<keyof SolvingMethods.ClueAssumptions> {
-        let set = new Set<keyof SolvingMethods.ClueAssumptions>(["meerkats_active", "double_escape", "double_surge", "mobile_perk"])
+        let set = new Set<keyof SolvingMethods.ClueAssumptions>(["double_escape", "double_surge", "mobile_perk"])
 
         if (this.value.clue.solution && this.value.clue.solution.type == "search" && this.value.clue.solution.key) {
             set.add("way_of_the_footshaped_key")
         }
 
-        if (this.value.clue.type == "emote") {
+        if (this.value.clue.type == "emote" && this.value.clue.hidey_hole) {
             set.add("full_globetrotter")
         }
 
         return set
     }
 
+    private setPathEditor(options: PathEditor.options_t): PathEditor {
+        let editor = new PathEditor(this.layer,
+            this.parent.app.template_resolver, {
+                teleports: this.parent.app.data.teleports.getAll(),
+                shortcuts: shortcuts
+            }, options)
+            .onStop(() => {
+                this.propagateState()
+                //if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
+            })
+
+        this.path_editor.set(editor)
+
+        return editor
+    }
+
     protected begin() {
+        this.sidepanel_widget = c().appendTo(this.parent.sidebar.body)
+
+        this.layer = new GameLayer().addTo(this.parent.app.map)
+
+        this.updateSequence()
+    }
+
+    /**
+     * Updates the required sequence based on the clue step and the method assumptions.
+     * The sequence is the "blueprint" of things that need to be done to complete the step.
+     */
+    private updateSequence() {
+        let sequence = []
+
+        const value = this.value
+        const clue = this.value.clue
+        const assumptions = this.assumptions.value()
+
+        if (clue.type == "emote") {
+            const hidey_hole_in_target = clue.hidey_hole && TileRectangle.contains(clue.area, clue.hidey_hole.location)
+
+            if (!assumptions.full_globetrotter) {
+                if (hidey_hole_in_target) {
+                    sequence.push({
+                        name: `Path to Hidey Hole (${clue.hidey_hole.name}) in Target Area`,
+                        path: {section: "main", target: TileRectangle.from(clue.hidey_hole.location)}
+                    })
+                } else if (clue.hidey_hole) {
+                    sequence.push({
+                        name: `Path to Hidey Hole (${clue.hidey_hole.name})`,
+                        path: {section: "pre", target: TileRectangle.from(clue.hidey_hole.location)}
+                    })
+                }
+
+                if (clue.hidey_hole) sequence.push({name: "Take and Equip Items", ticks: 1})
+                else sequence.push({name: "Unequip Items", ticks: 1 + Math.floor(clue.items.length / 3)})
+            }
+
+            if (assumptions.full_globetrotter || !hidey_hole_in_target) sequence.push({
+                name: "Path to Emote Area",
+                path: {section: "main", target: clue.area}
+            })
+
+            sequence.push({name: "Summon Uri", ticks: 1})
+
+            if (clue.double_agent) sequence.push({name: "Kill double agent", ticks: clue.tier == "master" ? 5 : 3})
+
+            if (clue.hidey_hole && !hidey_hole_in_target && !assumptions.full_globetrotter) {
+                sequence.push({
+                    name: "Return to Hidey Hole",
+                    path: {section: "post", target: TileRectangle.from(clue.hidey_hole.location)}
+                })
+
+                sequence.push({name: "Return Items", ticks: 1})
+            }
+        } else {
+            if (Clues.requiresKey(clue) && !assumptions.way_of_the_footshaped_key) {
+                sequence.push({name: "Path to Key", path: {section: "pre", target: clue.solution.key.area}})
+
+                sequence.push({name: `Get Key (${clue.solution.key.instructions})`, ticks: 2})
+            }
+
+            sequence.push({
+                name: "To target", path: {
+                    section: "main",
+                    target: Clues.ClueSpot.targetArea({clue: clue, spot: value.method.for.spot})
+                }
+            })
+        }
+
+        this.sequence = sequence
+
+        this.render()
+    }
+
+    private render() {
+        this.sidepanel_widget.empty()
+
+        const props = new Properties().appendTo(this.sidepanel_widget)
+        const value = this.value
+        const assumptions = this.assumptions.value()
+
+        this.sequence.forEach(section => {
+            if (section.ticks != null) {
+                props.header(`${section.name} (+${section.ticks} ticks)`)
+            } else {
+                props.header(section.name)
+            }
+
+            if (section.path) {
+                props.row(section.path.prop = new PathProperty({
+                    editor_handle: (options) => this.setPathEditor(options),
+                    target: section.path.target,
+                })
+                    .onCommit(() => this.propagateState())
+                    .setValue(getSection(value.method, section.path.section)))
+            }
+        })
+
+        this.propagateState()
 
         // Create widgets for every part of the path
         // - Pre-Path for keys (if not way of the foot shaped key) and hidey holes (if not full globetrotter && hideyhole not in area)
@@ -35,11 +189,25 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
         // Integrate Path Editor
         // - Auto active if only main path exists
-        // - Auto commit changed (?)
     }
 
     protected end() {
-
+        this.layer.remove()
     }
 
+    private async propagateState() {
+
+        await this.sequence.reduce<Promise<movement_state>>(async (old_state, section) => {
+            let state: movement_state = lodash.cloneDeep(await old_state)
+
+            if (section.path) {
+                await section.path.prop.setStartState(await old_state)
+                state = lodash.cloneDeep((await section.path.prop.augmented).post_state)
+            }
+
+            if (section.ticks) state.tick += section.ticks
+
+            return state
+        }, Promise.resolve(movement_state.start(this.assumptions.value())))
+    }
 }

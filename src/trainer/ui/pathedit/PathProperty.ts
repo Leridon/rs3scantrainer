@@ -8,11 +8,12 @@ import Properties from "../widgets/Properties";
 import {SmallImageButton} from "../widgets/SmallImageButton";
 import {PathGraphics} from "../path_graphics";
 import Button from "lib/ui/controls/Button";
+import movement_state = Path.movement_state;
 
 export default class PathProperty extends AbstractEditWidget<Path.raw> {
     private loaded: boolean = false
 
-    private augmented: Path.augmented
+    public augmented: Promise<Path.augmented>
 
     private reset_button: Button = null
     private edit_button: Button = null
@@ -35,6 +36,8 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
                 if (this.edit_button) this.edit_button.setVisible(false)
             })
         }
+
+        this.setValue([])
     }
 
     private async edit() {
@@ -56,17 +59,39 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
         })
     }
 
+    async setStartState(state: movement_state): Promise<this> {
+        this.options.start_state = state
+
+        this.augmented = Path.augment(this.get(), this.options.start_state, this.options.target)
+
+        await this.render()
+
+        return this
+    }
+
+    setValue(v: Path.raw): this {
+        this.augmented = Path.augment(v, this.options.start_state, this.options.target)
+
+        return super.setValue(v)
+    }
+
     protected async render() {
-        this.augmented = await Path.augment(this.get(), this.options.start_state, this.options.target)
+        let augmented = await this.augmented
 
         this.empty()
 
         {
+            let issues = collect_issues(augmented)
+            let errors = issues.filter(i => i.level == 0)
+            let warnings = issues.filter(i => i.level == 1)
+
             let tooltip = c()
             tooltip.append(new Properties().header("Start State"))
-            tooltip.append(new MovementStateView(this.augmented.pre_state))
+            tooltip.append(new MovementStateView(augmented.pre_state))
             tooltip.append(new Properties().header("End State"))
-            tooltip.append(new MovementStateView(this.augmented.post_state))
+            tooltip.append(new MovementStateView(augmented.post_state))
+
+            issues.forEach(i => new IssueWidget(i).appendTo(tooltip))
 
             let preview = c("<div class='ctr-path-property-preview'></div>")
                 .addTippy(tooltip)
@@ -76,9 +101,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
             if (this.options.editor_handle) preview.css("cursor", "pointer")
 
             {
-                let issues = collect_issues(this.augmented)
-                let errors = issues.filter(i => i.level == 0)
-                let warnings = issues.filter(i => i.level == 1)
 
                 if (errors.length > 0) new IssueWidget({level: 0, message: errors.length.toString()})
                     .css("margin-top", "0")
@@ -91,13 +113,13 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
             }
 
             {
-                let steps = this.augmented.steps.slice(0, Math.min(this.augmented.steps.length, 4))
+                let steps = augmented.steps.slice(0, Math.min(augmented.steps.length, 4))
 
-                let html = this.augmented.steps.length > 0
+                let html = augmented.steps.length > 0
                     ? steps.map((step) => PathGraphics.asSpan(step.raw)).join("|")
                     : "Empty path"
 
-                if (steps.length != this.augmented.steps.length) html += " ..."
+                if (steps.length != augmented.steps.length) html += " ..."
 
                 let preview_span = c("<span>").appendTo(preview).container.html(html)
             }

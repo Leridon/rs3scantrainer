@@ -21,9 +21,11 @@ import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {ewent} from "../../../lib/reactive";
 import GenericPathMethodEditor from "./GenericPathMethodEditor";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
+import AssumptionProperty from "./AssumptionProperty";
 
 class MethodEditSideBar extends MapSideBar {
     save_row: Widget
+    assumptions: AssumptionProperty
 
     private pack_name: Widget
 
@@ -47,26 +49,10 @@ class MethodEditSideBar extends MapSideBar {
 
         props.header("Assumptions")
 
-        props.row(vbox(
-            new Checkbox("Meerkats").setValue(parent.method.method.assumptions.meerkats_active)
-                .onCommit(v => parent.updateAssumptions(a => a.meerkats_active = v))
-            ,
-            new Checkbox("Full Globetrotter").setValue(parent.method.method.assumptions.full_globetrotter)
-                .onCommit(v => parent.updateAssumptions(a => a.full_globetrotter = v))
-            ,
-            new Checkbox("Way of the foot-shaped key").setValue(parent.method.method.assumptions.way_of_the_footshaped_key)
-                .onCommit(v => parent.updateAssumptions(a => a.way_of_the_footshaped_key = v))
-            ,
-            new Checkbox("Double Surge").setValue(parent.method.method.assumptions.double_surge)
-                .onCommit(v => parent.updateAssumptions(a => a.double_surge = v))
-            ,
-            new Checkbox("Double Escape").setValue(parent.method.method.assumptions.double_escape)
-                .onCommit(v => parent.updateAssumptions(a => a.double_escape = v))
-            ,
-            new Checkbox("Mobile Perk").setValue(parent.method.method.assumptions.mobile_perk)
-                .onCommit(v => parent.updateAssumptions(a => a.mobile_perk = v))
-            ,
-        ))
+        props.row(
+            this.assumptions = new AssumptionProperty()
+                .setValue(parent.method.method.assumptions)
+        )
 
         this.renderSaveRow()
 
@@ -110,14 +96,7 @@ export default class MethodEditor extends Behaviour {
 
     sidebar: MethodEditSideBar
 
-    sub_editor = this.withSub(new SingleBehaviour<MethodSubEditor>())
-
-    assumptions_updated = ewent<ClueAssumptions>()
-
-    updateAssumptions(f: (_: ClueAssumptions) => void) {
-        f(this.method.method.assumptions)
-        this.assumptions_updated.trigger(this.method.method.assumptions)
-    }
+    sub_editor: MethodSubEditor
 
     constructor(public app: Application, public method: AugmentedMethod) {
         super();
@@ -128,10 +107,18 @@ export default class MethodEditor extends Behaviour {
             .css("width", "300px")
 
         if (this.method.method.type == "scantree") {
-            this.sub_editor.set(new ScanEditor(this, this.app, this.method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, this.sidebar.body))
+            this.sub_editor = this.withSub(new ScanEditor(this, this.app, this.method as AugmentedMethod<ScanTreeMethod, Clues.Scan>, this.sidebar.body))
         } else {
-            this.sub_editor.set(new GenericPathMethodEditor(this, this.method as AugmentedMethod<GenericPathMethod, Clues.Step>))
+            this.sub_editor = this.withSub(new GenericPathMethodEditor(this, this.method as AugmentedMethod<GenericPathMethod, Clues.Step>))
         }
+
+        this.sidebar.assumptions.setRelevantAssumptions(this.sub_editor.relevantAssumptions())
+
+        this.sub_editor.setAssumptions(this.method.method.assumptions)
+
+        this.sidebar.assumptions.onCommit(value => {
+            this.sub_editor.setAssumptions(value)
+        })
     }
 
     protected end() {

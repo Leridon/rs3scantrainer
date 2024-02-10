@@ -3,22 +3,20 @@ Planned for next release (b0.4):
 
 - Theorycrafter
     - Filtering does not update properly in some situations
-    - Method-based filtering
     - Saved generic methods do not appear anywhere
         - They exist in the local storage, so just a display issue?
     - "Save to pack" modal
         - "Create new" option
     - Editor for generic path methods
         - Display pathing when no section is selected
-        - Pathing is not saved to the actual method
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
     - Add estimated time in ticks to methods
-
-
+    - Sensible default names for methods
 
 - Map Entities
     - Rendering for zoom level changes needs massive optimization
         - Invisible from certain zoom
+        - Only render visible entities
 
 - Path Editor
     - Add support for the model refinement (target entity, to_text etc)
@@ -30,7 +28,7 @@ Planned for next release (b0.4):
 
 - Shortcuts & Teleports:
     - Combine into a combined abstract data structure
-
+    - Create "Transportation Network" type
 
 - Solving Behaviour
     - Path Panel

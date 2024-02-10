@@ -20,7 +20,7 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
 
         this.selection.subscribe(item => {
             this.renderInput()
-        })
+        }, true)
 
         this.setItems([inital_item])
     }

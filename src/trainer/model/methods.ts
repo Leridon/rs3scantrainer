@@ -53,13 +53,15 @@ export namespace SolvingMethods {
     export type Method = ScanTreeMethod | GenericPathMethod
 
     export function init(clue: Clues.ClueSpot): Method {
+        // TODO: Sensible default names
+
         if (clue.clue.type == "scan") {
             return {
                 id: uuid(),
                 type: "scantree",
                 timestamp: timestamp(),
-                name: "Enter a name",
-                description: "Enter a description.",
+                name: "",
+                description: "",
                 assumptions: ClueAssumptions.init(),
                 for: {clue: clue.clue.id},
                 tree: ScanTree.init(clue.clue)
@@ -69,8 +71,8 @@ export namespace SolvingMethods {
                 id: uuid(),
                 type: "general_path",
                 timestamp: timestamp(),
-                name: "Enter a name",
-                description: "Enter a description.",
+                name: "",
+                description: "",
                 assumptions: ClueAssumptions.init(),
                 for: {clue: clue.clue.id, spot: clue.spot ?? undefined},
                 post_path: [],

@@ -245,17 +245,16 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
                 },
                 await this.methods.all()
             )
-                .setValue(this.filter.value().method_pack
-                    ? await this.methods.getPack(this.filter.value().method_pack)
-                    : null
-                )
-
+            .setValue(this.filter.value().method_pack
+                ? await this.methods.getPack(this.filter.value().method_pack)
+                : null
+            )
 
             this.methods.pack_set_changed.on((packs) => {
                 selection.setItems(packs)
             }).bindTo(this.handler_pool)
 
-            props.named("Methods",
+            props.named("Method Pack",
                 vbox(
                     selection,
                     specifics_container

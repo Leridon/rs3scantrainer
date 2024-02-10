@@ -36,6 +36,7 @@ export namespace SolvingMethods {
         name: string,
         description: string,
         assumptions: ClueAssumptions,
+        expected_time?: number
     }
 
     export type ScanTreeMethod = method_base & {

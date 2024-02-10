@@ -43,7 +43,7 @@ class MethodEditSideBar extends MapSideBar {
         props.named("Pack", this.pack_name = c().text(parent.method.pack ? parent.method.pack.name : ""))
 
         props.header("Description")
-        props.row(new TextArea().css("height", "80px").setValue(parent.method.method.description)
+        props.row(new TextArea({placeholder: "Enter description"}).css("height", "80px").setValue(parent.method.method.description)
             .onCommit(v => parent.method.method.description = v)
         )
 

@@ -10,8 +10,8 @@ Planned for next release (b0.4):
     - Editor for generic path methods
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
-    - Add estimated time in ticks to methods
     - Sensible default names for methods
+        - Use pack name on saving?
 
 - Map Entities
     - Rendering for zoom level changes needs massive optimization

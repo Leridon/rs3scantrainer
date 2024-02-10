@@ -296,6 +296,10 @@ export default class ScanEditor extends MethodSubEditor {
 
             this.layer.scan_range.set(this.value.method.tree.assumed_range)
         })
+
+        this.builder.augmented.subscribe(a => {
+            this.value.method.expected_time = a.state.timing_analysis.average + 1
+        })
     }
 
     relevantAssumptions(): Set<keyof SolvingMethods.ClueAssumptions> {

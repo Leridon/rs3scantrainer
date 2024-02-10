@@ -210,8 +210,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     }
 
     private async propagateState() {
-
-        await this.sequence.reduce<Promise<movement_state>>(async (old_state, section) => {
+        const end_state = await this.sequence.reduce<Promise<movement_state>>(async (old_state, section) => {
             let state: movement_state = lodash.cloneDeep(await old_state)
 
             if (section.path) {
@@ -223,5 +222,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
             return state
         }, Promise.resolve(movement_state.start(this.assumptions.value())))
+
+        this.value.method.expected_time = end_state.tick
     }
 }

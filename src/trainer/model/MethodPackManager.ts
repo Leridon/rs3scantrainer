@@ -2,9 +2,9 @@ import {SolvingMethods} from "./methods";
 import Method = SolvingMethods.Method;
 import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
-import {ClueSpotIndex} from "../../data/ClueIndex";
+import {ClueSpotIndex} from "../../lib/runescape/clues/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
-import {default_generic_method_pack, default_scan_method_pack} from "../../data/methods";
+import {default_generic_method_pack, default_scan_method_pack} from "../builtin_methods";
 import {clue_data} from "../../data/clues";
 import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {ewent, Ewent} from "../../lib/reactive";
@@ -43,7 +43,7 @@ export class MethodPackManager {
     private method_index: ClueSpotIndex<{ methods: AugmentedMethod[] }>
         = ClueSpotIndex.simple(clue_data.index).with(() => ({methods: []}))
 
-    constructor() {
+    private constructor() {
         this.default_packs = [
             default_scan_method_pack,
             default_generic_method_pack
@@ -200,6 +200,13 @@ export class MethodPackManager {
         pack.timestamp = timestamp()
 
         this.save()
+    }
+
+    static _instance: MethodPackManager = null
+    static instance(): MethodPackManager {
+        if (!MethodPackManager._instance) MethodPackManager._instance = new MethodPackManager()
+
+        return MethodPackManager._instance
     }
 
     async getForClue(id: number, spot_alternative?: TileCoordinates): Promise<AugmentedMethod[]> {

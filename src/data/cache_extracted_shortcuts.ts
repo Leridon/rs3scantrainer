@@ -1,7 +1,7 @@
 import {Transportation} from "../lib/runescape/transportation";
 
 // @ts-ignore
-let data: Transportation.Transportation[] = [
+const data: Transportation.EntityTransportation[] = [
     {
         "type": "door",
         "name": "Door",

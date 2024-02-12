@@ -1,16 +1,17 @@
 import {SearchSelection} from "../widgets/SearchSelection";
-import {teleport_data} from "data/teleport_data";
-import {Teleports} from "../../../lib/runescape/teleports";
+import {Transportation} from "../../../lib/runescape/transportation";
+import {TransportData} from "../../../data/transports";
+import Dependencies from "../../dependencies";
 
-export default class TeleportSelect extends SearchSelection<Teleports.flat_teleport> {
+export default class TeleportSelect extends SearchSelection<Transportation.TeleportGroup.Spot> {
     constructor() {
         super({
             type_class: {
-                toHTML: (v: Teleports.flat_teleport) => {
-                    return c(`<div>${v.hover}</div>`)
+                toHTML: (v: Transportation.TeleportGroup.Spot) => {
+                    return c(`<div>${v.hover()}</div>`)
                 }
             },
-            search_term: (t: Teleports.flat_teleport) => t.hover
-        }, teleport_data.getAllFlattened());
+            search_term: (t: Transportation.TeleportGroup.Spot) => t.hover()
+        }, TransportData.getAllTeleportSpots(Dependencies.instance().app.value().teleport_settings));
     }
 }

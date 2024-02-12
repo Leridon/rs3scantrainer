@@ -4,7 +4,7 @@ import {AugmentedMethod} from "../../model/MethodPackManager";
 import {SolvingMethods} from "../../model/methods";
 import PathProperty from "../pathedit/PathProperty";
 import {PathEditor} from "../pathedit/PathEditor";
-import shortcuts from "../../../data/shortcuts";
+import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {SingleBehaviour} from "../../../lib/ui/Behaviour";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import Widget from "../../../lib/ui/Widget";
@@ -66,10 +66,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     private setPathEditor(options: PathEditor.options_t): PathEditor {
         let editor = new PathEditor(this.layer,
-            this.parent.app.template_resolver, {
-                teleports: this.parent.app.data.teleports.getAll(),
-                shortcuts: shortcuts
-            }, options)
+            this.parent.app.template_resolver, options)
             .onStop(() => {
                 this.propagateState()
                 //if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)

@@ -1,6 +1,4 @@
 import Behaviour from "../../../lib/ui/Behaviour";
-import * as leaflet from "leaflet";
-import {OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {Path} from "../../../lib/runescape/pathing";
 import Widget from "../../../lib/ui/Widget";
 import {PathGraphics} from "../path_graphics";
@@ -32,20 +30,15 @@ import SectionedPath = Path.SectionedPath;
 import * as assert from "assert";
 import index = util.index;
 import {Observable, observe} from "../../../lib/reactive";
-import {Teleports} from "../../../lib/runescape/teleports";
-import ManagedTeleportData = Teleports.ManagedTeleportData;
-import {PathStepProperties} from "../pathing/PathStepProperties";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
-import * as tippy from "tippy.js";
-import {followCursor} from "tippy.js";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
+import {TransportData} from "../../../data/transports";
 
 class PathSectionControl extends Widget {
     constructor(
         private sections: SectionedPath,
         private current_section_id: number[],
-        private teleport_data: ManagedTeleportData,
         private step_graphics: TreeArray<PathStepEntity, {}>,
         private template_resolver: TemplateResolver,
     ) {
@@ -115,7 +108,6 @@ class PathSectionControl extends Widget {
                 assert(graphics_node.type == "leaf")
 
                 new PathSectionControl.StepRow(
-                    this.teleport_data,
                     sectionindex,
                     step,
                     this.template_resolver
@@ -133,14 +125,13 @@ class PathSectionControl extends Widget {
 }
 
 namespace PathSectionControl {
-    import ManagedTeleportData = Teleports.ManagedTeleportData;
+    import resolveTeleport = TransportData.resolveTeleport;
 
     export class StepRow extends Widget {
         highlighted: Observable<boolean> = observe(false)
         associated_graphics: PathStepEntity = null
 
-        constructor(private teleport_data: ManagedTeleportData,
-                    private section_index: number[],
+        constructor(private section_index: number[],
                     private step: Path.Step,
                     private template_resolver: TemplateResolver
         ) {
@@ -209,7 +200,7 @@ namespace PathSectionControl {
 
                     break;
                 case "teleport":
-                    let flat = this.teleport_data.get2(step.id)
+                    let flat = resolveTeleport(step.id)
 
                     icon.append(new TeleportIcon(flat)
                         .css2({
@@ -219,7 +210,7 @@ namespace PathSectionControl {
 
                     content.append(
                         "Teleport to ",
-                        bold(flat.sub.name || flat.group.name)
+                        bold(flat.spot.name)
                     )
                     break;
                 case "redclick":
@@ -389,7 +380,6 @@ export default class PathControl extends Behaviour {
             new PathSectionControl(
                 this.sectioned_path,
                 active_id,
-                this.parent.app.data.teleports,
                 this.step_graphics,
                 this.parent.app.template_resolver
             )

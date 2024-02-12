@@ -31,7 +31,7 @@ export class DrawGeneralEntity extends InteractionLayer {
 }
 
 export namespace DrawGeneralEntity {
-    export function create(area: TileRectangle): Transportation.EntityTransportation {
+    export function create(area: TileRectangle): Transportation.GeneralEntityTransportation {
         return {
             type: "entity",
             entity: {kind: "static", name: "Entity"},

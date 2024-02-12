@@ -1,10 +1,18 @@
 Planned for next release (b0.4):
 
+- Teleports:
+    - Teleport spots and teleport access are in a m to n relationship
+    - Code, Hover, Name, Icon etc. depend on both.
+    - This sucks, because it's hard to model
+    - Accesses should be able to specify relevant data globally and per spot
+        - Maybe some of the data that is currently part of the group or the spot should actually be part of the access method (icon for example).
 
 - Theorycrafter
+    - Delete in MethodWidget does nothing
     - Filtering does not update properly in some situations
     - Saved generic methods do not appear anywhere
         - They exist in the local storage, so just a display issue?
+        - They also don't appear for solving until after a reload
     - "Save to pack" modal
         - "Create new" option
     - Editor for generic path methods
@@ -17,6 +25,7 @@ Planned for next release (b0.4):
     - Rendering for zoom level changes needs massive optimization
         - Invisible from certain zoom
         - Only render visible entities
+        - Maybe it does not need to be a real leaflet marker?
 
 - Path Editor
     - Add support for the model refinement (target entity, to_text etc)
@@ -26,9 +35,6 @@ Planned for next release (b0.4):
     - Add a way to make it not closeable by the user
     - [Bug] Teleport overriding does not work
 
-- Shortcuts & Teleports:
-    - Combine into a combined abstract data structure
-    - Create "Transportation Network" type
 
 - Solving Behaviour
     - Path Panel

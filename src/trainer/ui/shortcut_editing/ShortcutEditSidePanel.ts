@@ -7,7 +7,7 @@ import ExportStringModal from "../widgets/modals/ExportStringModal";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "lib/math";
 import {ewent, Observable, ObservableArray, observe} from "../../../lib/reactive";
-import shortcuts from "../../../data/shortcuts";
+import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {C} from "../../../lib/ui/constructors";
 import {ShortcutEditor} from "./ShortcutEditor";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;

@@ -6,7 +6,7 @@ import {Application} from "../application";
 import {ShortcutEditor} from "./shortcut_editing/ShortcutEditor";
 import {PathEditor} from "./pathedit/PathEditor";
 import GameLayer from "../../lib/gamemap/GameLayer";
-import shortcuts from "../../data/shortcuts";
+import shortcuts from "../../data/cache_extracted_shortcuts";
 import TheoryCrafter from "./theorycrafting/TheoryCrafter";
 import Button from "../../lib/ui/controls/Button";
 import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
@@ -51,11 +51,7 @@ export default class MenuBar extends Widget {
                 new MenuButton("Paths", "assets/icons/ribbon_activitytracker.webp")
                     .setEnabled(!(behaviour instanceof PathEditor))
                     .onClick(() => {
-                        app.main_behaviour.set(new PathEditor(new GameLayer().addTo(app.map), app.template_resolver, {
-                            teleports: this.app.data.teleports.getAll(),
-                            shortcuts: shortcuts
-                        }, {initial: []}))
-
+                        app.main_behaviour.set(new PathEditor(new GameLayer().addTo(app.map), app.template_resolver, {initial: []}))
                     }),
                 new MenuButton("Edit", "assets/icons/ribbon_teleports.webp")
                     .setEnabled(!(behaviour instanceof ShortcutEditor))

@@ -189,7 +189,7 @@ namespace NeoSolvingLayer {
                     let m = this.parent.app.favourites.getMethod({clue: clue.step})
 
                     if (!m) {
-                        let ms = await this.parent.app.methods.getForClue(clue.step.id)
+                        let ms = await MethodPackManager.instance().getForClue(clue.step.id)
                         if (ms.length > 0) m = ms[0]
                     }
 
@@ -822,7 +822,7 @@ export namespace NeoSolving {
                 }
             }
         })
-            .setItems((await behaviour.app.methods.getForClue(behaviour.active_clue.step.id)).concat([null]))
+            .setItems((await MethodPackManager.instance().getForClue(behaviour.active_clue.step.id)).concat([null]))
             .onSelected(m => {
                 behaviour.app.favourites.setMethod(m)
                 behaviour.setMethod(m)

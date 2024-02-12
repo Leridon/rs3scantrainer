@@ -1,21 +1,20 @@
 import Widget from "../../../lib/ui/Widget";
-import {Teleports} from "../../../lib/runescape/teleports";
 import {C} from "../../../lib/ui/constructors";
 import div = C.div;
 import img = C.img;
-
+import {Transportation} from "../../../lib/runescape/transportation";
 
 export default class TeleportIcon extends Widget {
 
-    constructor(tele: Teleports.flat_teleport) {
+    constructor(spot: Transportation.TeleportGroup.Spot) {
         super();
 
-        this.tooltip(tele.hover)
+        this.tooltip(spot.hover())
         this.addClass("ctr-teleport-icon")
 
         this.append(
-            img(`assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`, tele.hover),
-            div().text(tele.code ? tele.code : "")
+            img(`assets/icons/teleports/${spot.image().url}`, spot.hover()),
+            div().text(spot.code())
         )
     }
 }

@@ -1,5 +1,5 @@
 import {Clues, type ClueType} from "lib/runescape/clues";
-import {ClueIndex, ClueSpotIndex} from "./ClueIndex";
+import {ClueIndex, ClueSpotIndex} from "../lib/runescape/clues/ClueIndex";
 
 export namespace clue_data {
     export const anagram: Clues.Anagram[] = [

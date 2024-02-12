@@ -2,24 +2,22 @@ import {direction, MovementAbilities, PathFinder, PlayerPosition} from "./moveme
 import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
 import * as lodash from "lodash"
-import {teleport_data} from "data/teleport_data";
-import {Teleports} from "./teleports";
 import {Rectangle, Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
 import {floor_t, TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {Transportation} from "./transportation";
-import {last} from "lodash";
 import {TreeArray} from "../util/TreeArray";
 import {TileArea} from "./coordinates/TileArea";
 import {CursorType} from "./CursorType";
 import {EntityName} from "./EntityName";
+import {TransportData} from "../../data/transports";
+import Dependencies from "../../trainer/dependencies";
 
 export type Path = Path.raw;
 
 export namespace Path {
-    import getAllFlattened = teleport_data.getAllFlattened;
-
+    import resolveTeleport = TransportData.resolveTeleport;
     export type PathAssumptions = {
         double_surge?: boolean,
         double_escape?: boolean,
@@ -53,7 +51,7 @@ export namespace Path {
 
     export type step_teleport = step_base & {
         type: "teleport",
-        id: Teleports.full_teleport_id,
+        id: Transportation.TeleportGroup.SpotId,
         spot_override?: TileCoordinates
     }
 
@@ -81,8 +79,7 @@ export namespace Path {
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
     import capitalize = util.capitalize;
-    import EntityTransportation = Transportation.EntityTransportation;
-    import resolveTarget = teleport_data.resolveTarget;
+    import EntityTransportation = Transportation.GeneralEntityTransportation;
     import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 
     export type movement_state = {
@@ -189,7 +186,7 @@ export namespace Path {
                     return index(step.waypoints, -1)
                 case "teleport":
                     if (step.spot_override) return step.spot_override
-                    else return teleport_data.resolveTarget(step.id)
+                    else return resolveTeleport(step.id, Dependencies.instance().app.value().teleport_settings).target()
                 case "transport":
                     let start_tile = step.assumed_start
                     let action = step.internal.actions[0]
@@ -435,21 +432,21 @@ export namespace Path {
 
                     break;
                 case "teleport":
+                    let teleport = resolveTeleport(step.id)
 
-                    let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
-
-                    // With this implementation, teleports always preserve player orientation.
-                    // There are teleports in the game that do not do that, but that's not included in the data I have.
                     if (step.spot_override) state.position.tile = step.spot_override
-                    else state.position.tile = teleport.spot
+                    else state.position.tile = teleport.target()
 
-                    state.tick += teleport.menu_ticks
-                    state.tick += teleport.animation_ticks
+                    if (teleport.spot.facing != null) {
+                        state.position.direction = teleport.spot.facing
+                    }
+
+                    state.tick += teleport.spot.menu_ticks
+                    state.tick += teleport.spot.animation_ticks
                     state.targeted_entity = null
 
                     break;
                 case "transport":
-
                     let entity = step.internal
                     let action = entity.actions[0]
 
@@ -631,7 +628,7 @@ export namespace Path {
                     return Rectangle.from(...step.waypoints)
                 case "teleport":
                     if (step.spot_override) return Rectangle.from(step.spot_override)
-                    else return Rectangle.from(Teleports.find(getAllFlattened(), step.id).spot)
+                    else return Rectangle.from(resolveTeleport(step.id).target())
                 case "redclick":
                 case "powerburst":
                     return Rectangle.from(step.where)
@@ -649,7 +646,7 @@ export namespace Path {
                 case "run":
                     return step.waypoints[0].level
                 case "teleport":
-                    return resolveTarget(step.id).level
+                    return resolveTeleport(step.id).target().level
                 case "redclick":
                     return step.where.level
                 case "powerburst":

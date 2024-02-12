@@ -32,7 +32,7 @@ import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
 import vbox = C.vbox;
 import * as assert from "assert";
 import {Checkbox} from "lib/ui/controls/Checkbox";
-import shortcuts from "../../../data/shortcuts";
+import shortcuts from "../../../data/cache_extracted_shortcuts";
 
 export class ShortcutEdit extends Widget {
     private header: Widget

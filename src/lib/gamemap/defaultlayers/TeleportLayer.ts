@@ -1,28 +1,24 @@
 import * as leaflet from "leaflet"
 import {Rectangle, Vector2} from "../../math";
-import {Teleports} from "../../runescape/teleports";
 import {MapEntity} from "../MapEntity";
 import {C} from "../../ui/constructors";
 import {OpacityGroup} from "../layers/OpacityLayer";
 import div = C.div;
 import img = C.img;
-import ManagedTeleportData = Teleports.ManagedTeleportData;
-import full_teleport_id = Teleports.full_teleport_id;
 import Widget from "../../ui/Widget";
 import Properties from "../../../trainer/ui/widgets/Properties";
 import {Transportation} from "../../runescape/transportation";
-import shortcut = Transportation.Transportation;
 import {floor_t, TileCoordinates, TileRectangle} from "../../runescape/coordinates";
 import {areaPolygon, boxPolygon2} from "../../../trainer/ui/polygon_helpers";
-import shortcuts from "../../../data/shortcuts";
+import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {arrow} from "../../../trainer/ui/path_graphics";
 import {direction} from "../../runescape/movement";
 import {TileArea} from "../../runescape/coordinates/TileArea";
-import EntityTransportation = Transportation.EntityTransportation;
 import {CursorType} from "../../runescape/CursorType";
 import {ZoomLevels} from "../ZoomLevels";
 import {DivIcon} from "leaflet";
 import {identity} from "lodash";
+import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 
 export class TeleportEntity extends MapEntity {
 
@@ -38,9 +34,9 @@ export class TeleportEntity extends MapEntity {
     render_implementation(options: MapEntity.RenderOptions) {
         const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
 
-        leaflet.marker(Vector2.toLatLong(this.config.teleport.spot), {
+        leaflet.marker(Vector2.toLatLong(this.config.teleport.target()), {
             icon: new TeleportMapIcon(this.config.teleport, scale, w => {
-                if(options.viewport.rect.level != this.config.teleport.spot.level)  w.css("filter", "grayscale(1) brightness(0.5)")
+                if (options.viewport.rect.level != this.config.teleport.target().level) w.css("filter", "grayscale(1) brightness(0.5)")
 
                 return w
             }),
@@ -52,10 +48,10 @@ export class TeleportEntity extends MapEntity {
         let props = new Properties()
 
         props.named("Group", c().text(this.config.teleport.group.name))
-        props.named("Name", c().text(this.config.teleport.sub.name))
+        props.named("Name", c().text(this.config.teleport.spot.name))
         props.header("Timing")
-        props.named("Interface", c().text(this.config.teleport.menu_ticks + " ticks"))
-        props.named("Blocked", c().text(this.config.teleport.animation_ticks + " ticks"))
+        props.named("Interface", c().text(this.config.teleport.spot.menu_ticks + " ticks"))
+        props.named("Blocked", c().text(this.config.teleport.spot.animation_ticks + " ticks"))
 
         return props
     }
@@ -140,7 +136,7 @@ export class ShortcutEntity extends MapEntity {
                 action.movement.forEach(movement => {
 
                     if (movement.offset) {
-                        let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area || EntityTransportation.default_interactive_area(TileRectangle.extend(shortcut.clickable_area, -0.5))), true)
+                        let center = TileRectangle.center(TileArea.toRect(movement.valid_from || action.interactive_area || default_interactive_area(TileRectangle.extend(shortcut.clickable_area, -0.5))), true)
 
                         let target = Vector2.add(center, movement.offset)
 
@@ -196,57 +192,34 @@ export class ShortcutEntity extends MapEntity {
 }
 
 export namespace ShortcutEntity {
+    import EntityTransportation = Transportation.EntityTransportation;
     export type Config = MapEntity.SetupOptions & {
-        shortcut: shortcut
+        shortcut: EntityTransportation
     }
 }
 
 export namespace TeleportEntity {
     export type Config = MapEntity.SetupOptions & {
-        teleport: Teleports.flat_teleport
+        teleport: Transportation.TeleportGroup.Spot
     }
 }
 
 export class TeleportMapIcon extends leaflet.DivIcon {
-    constructor(tele: Teleports.flat_teleport, scale: number = 1, transformer: (w: Widget) => Widget = identity) {
-        let i = img(`./assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`)
+    constructor(tele: Transportation.TeleportGroup.Spot, scale: number = 1, transformer: (w: Widget) => Widget = identity) {
+        let i = img(`./assets/icons/teleports/${tele.image().url}`)
 
-        if (typeof tele.icon != "string") {
-            i.css2({
-                "width": tele.icon.width ? tele.icon.width + "px" : "auto",
-                "height": tele.icon.height ? tele.icon.height + "px" : "auto",
-            })
-        }
+        i.css2({
+            "width": tele.image().width ? tele.image().width + "px" : "auto",
+            "height": tele.image().height ? tele.image().height + "px" : "auto",
+        })
 
         super({
             iconSize: [0, 0],
             iconAnchor: [0, 0],
             html: transformer(div(
                 i,
-                tele.code ? c().text(tele.code) : undefined
+                tele.code ? c().text(tele.code()) : undefined
             ).css("scale", scale.toString()).addClass("ctr-map-teleport-icon")).raw()
         });
-    }
-}
-
-export class TeleportLayer extends OpacityGroup {
-    entities: Map<full_teleport_id, TeleportEntity> = new Map<full_teleport_id, TeleportEntity>()
-
-    constructor(public teleports: ManagedTeleportData) {
-        super()
-
-        for (let tele of teleports.getAll()) {
-            this.entities.set(tele.id, new TeleportEntity({
-                highlightable: true,
-                teleport: tele
-            }).addTo(this))
-        }
-
-        for (let short of shortcuts) {
-            new ShortcutEntity({
-                highlightable: true,
-                shortcut: short
-            }).addTo(this)
-        }
     }
 }

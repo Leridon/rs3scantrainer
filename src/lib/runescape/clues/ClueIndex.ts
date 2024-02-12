@@ -1,6 +1,6 @@
-import {Clues} from "../lib/runescape/clues";
-import {TileCoordinates} from "../lib/runescape/coordinates";
-import {Vector2} from "../lib/math";
+import {Clues} from "../clues";
+import {TileCoordinates} from "../coordinates";
+import {Vector2} from "../../math";
 import ClueSpot = Clues.ClueSpot;
 
 export class ClueIndex<T extends object = {}> {

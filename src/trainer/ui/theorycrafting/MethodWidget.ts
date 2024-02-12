@@ -1,5 +1,5 @@
 import Widget from "../../../lib/ui/Widget";
-import {AugmentedMethod} from "../../model/MethodPackManager";
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import * as lodash from "lodash";
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import Properties from "../widgets/Properties";
@@ -62,7 +62,12 @@ export default class MethodWidget extends Widget {
                         this.edit_handler({pack: null, clue: m.clue, method: c})
                     })
                 ,
-                new LightButton("Delete", "rectangle"),
+                new LightButton("Delete", "rectangle")
+                    .onClick(() => {
+                        MethodPackManager.instance().deleteMethod(m)
+                        // TODO: Trigger a rerender in some way
+                    })
+                ,
             ).addClass("ctr-button-container"))
         }
 

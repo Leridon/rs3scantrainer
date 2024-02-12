@@ -22,7 +22,7 @@ import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {GridLayer, LatLngBounds} from "leaflet";
 import Graticule from "../../../lib/gamemap/defaultlayers/Graticule";
 import TransportLayer from "../../../lib/gamemap/defaultlayers/TransportLayer";
-import shortcuts from "../../../data/shortcuts";
+import shortcuts from "../../../data/cache_extracted_shortcuts";
 
 class ChunkGridGraticule extends Graticule {
     constructor() {

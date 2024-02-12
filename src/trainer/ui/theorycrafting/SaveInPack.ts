@@ -20,9 +20,9 @@ export default class SaveInPack extends NisModal {
     constructor(private method: AugmentedMethod, private packs: MethodPackManager) {
         super({footer: true});
 
-        this.title.set("Select pack")
+        this.title.set("Select pack");
 
-        ;(async () => {
+        (async () => {
             let local_packs = (await packs.all()).filter(p => p.type == "local")
 
             this.pack_widgets = local_packs.map(pack => {

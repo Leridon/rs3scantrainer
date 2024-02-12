@@ -2,7 +2,7 @@ import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {storage} from "../../../lib/util/storage";
 import {ewent, Observable, observe} from "../../../lib/reactive";
-import {ClueSpotIndex} from "../../../data/ClueIndex";
+import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import Widget from "../../../lib/ui/Widget";
 import {clue_data} from "../../../data/clues";
 import {AugmentedMethod, MethodPackManager, Pack} from "../../model/MethodPackManager";

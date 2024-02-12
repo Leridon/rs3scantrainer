@@ -5,8 +5,6 @@ import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import {Path} from "lib/runescape/pathing";
 import TeleportSelect from "./TeleportSelect";
-import {Teleports} from "lib/runescape/teleports";
-import {teleport_data} from "data/teleport_data";
 import MovementStateView from "./MovementStateView";
 import {SmallImageButton} from "../widgets/SmallImageButton";
 import {util} from "lib/util/util";
@@ -17,7 +15,6 @@ import Behaviour from "lib/ui/Behaviour";
 import {Transportation} from "../../../lib/runescape/transportation";
 import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
-import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
 import GameLayer from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
@@ -25,7 +22,7 @@ import PathEditActionBar from "./PathEditActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
-import {Observable, ObservableArray, observe, observeArray} from "../../../lib/reactive";
+import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
@@ -48,14 +45,16 @@ import index = util.index;
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {PathStepEntity} from "../pathing/PathStepEntity";
-import shortcuts from "../../../data/shortcuts";
+import shortcuts from "../../../data/cache_extracted_shortcuts";
 import TransportLayer from "lib/gamemap/defaultlayers/TransportLayer";
 import {ShortcutEntity, TeleportEntity} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
-import EntityTransportation = Transportation.EntityTransportation;
-import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {boxPolygon} from "../polygon_helpers";
+import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
+import EntityTransportation = Transportation.EntityTransportation;
+import {TransportData} from "../../../data/transports";
+import resolveTeleport = TransportData.resolveTeleport;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -306,13 +305,13 @@ class StepEditWidget extends Widget {
 
                 break;
             case "teleport":
-                let current = Teleports.find(teleport_data.getAllFlattened(), value.raw.id)
+                const current = resolveTeleport(value.raw.id)
 
                 props.named("Teleport", new TeleportSelect().setValue(current)
                     .onSelection(tele =>
                         this.value.update(v => {
                             assert(v.raw.type == "teleport")
-                            v.raw.id = tele.id
+                            v.raw.id = tele.id()
                         })
                     ))
 
@@ -324,7 +323,7 @@ class StepEditWidget extends Widget {
                                 this.value.update(v => {
                                     assert(v.raw.type == "teleport")
 
-                                    if (enabled) v.raw.spot_override = teleport_data.resolveTarget(v.raw.id)
+                                    if (enabled) v.raw.spot_override = current.target()
                                     else v.raw.spot_override = undefined
                                 })
                             }).css("margin-right", "3px"),
@@ -461,13 +460,13 @@ class PathEditorGameLayer extends GameLayer {
 
                     event.add({
                         type: "basic",
-                        text: `Teleport: ${t.hover}`,
-                        icon: `assets/icons/teleports/${t.icon.url}`,
+                        text: `Teleport: ${t.hover()}`,
+                        icon: `assets/icons/teleports/${t.image().url}`,
                         handler: () => {
                             this.editor.value.add({
                                 raw: {
                                     type: "teleport",
-                                    id: t.id,
+                                    id: t.id(),
                                 }
                             })
                         }
@@ -649,10 +648,6 @@ export class PathEditor extends Behaviour {
 
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,
-                public data: {
-                    shortcuts: Transportation.Transportation[],
-                    teleports: Teleports.flat_teleport[]
-                },
                 public options: PathEditor.options_t
     ) {
         super()
@@ -696,8 +691,6 @@ export class PathEditor extends Behaviour {
     }
 
     protected begin() {
-        this.game_layer.getMap().setTeleportLayer(null)
-
         this.handler_layer.addTo(this.game_layer)
 
         this.game_layer.getMap().container.focus()

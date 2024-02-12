@@ -22,7 +22,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         this.css("width", "300px")
 
-        this.methods = theorycrafter.app.methods
+        this.methods = MethodPackManager.instance()
 
         this.header.close_handler.set(() => theorycrafter.stop())
 
@@ -37,14 +37,14 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         h(2, "Default Method-Packs").appendTo(this.body)
         grouped["default"].forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods, {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         h(2, "Imported Method-Packs").appendTo(this.body)
         let imported = grouped["imported"] || []
 
         imported.forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods, {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (imported.length == 0) {
@@ -65,7 +65,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
         h(2, "Local Method-Packs").appendTo(this.body)
 
         locals.forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods, {mode: "edit", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {mode: "edit", buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (locals.length == 0) {

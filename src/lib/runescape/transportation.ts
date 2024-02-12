@@ -13,6 +13,8 @@ export namespace Transportation {
 
     export type transportation_base = { type: string, source_loc?: number }
 
+    export type ImageUrl = { url: string, width?: number, height?: number }
+
     export type EntityActionMovement = {
         valid_from?: TileArea, // Default: Entire interactive area
         offset?: Vector2 & { level: number },
@@ -29,7 +31,7 @@ export namespace Transportation {
         interactive_area?: TileArea, // Default: clickable area extended by 1
     }
 
-    export type EntityTransportation = transportation_base & {
+    export type GeneralEntityTransportation = transportation_base & {
         type: "entity",
         entity: EntityName,
         clickable_area: TileRectangle,
@@ -43,7 +45,141 @@ export namespace Transportation {
         name: string,
     }
 
-    export type Transportation = EntityTransportation | DoorTransportation
+    export type TeleportGroupSpot = {
+        id: string
+        spot: TileCoordinates
+        facing?: direction
+        code?: string
+        name: string
+        menu_ticks: number
+        animation_ticks: number
+        img?: ImageUrl
+    }
+
+    export type TeleportAccess = {
+        additional_ticks?: number,
+        img?: ImageUrl
+    } & ({
+        type: "item",
+        name: EntityName & { kind: "item" },
+        action_name: string,
+        cursor?: CursorType
+    } | {
+        type: "entity",
+        name: EntityName & { kind: "npc" | "static" },
+        area: TileArea,
+        action_name: string,
+        cursor: CursorType,
+    } | {
+        type: "spellbook",
+        name: string
+    })
+
+    export type TeleportGroup = {
+        type: "teleports"
+        id: string
+        name: string
+        img: ImageUrl
+        can_be_in_pota?: boolean
+        spots: TeleportGroupSpot[]
+        access: TeleportAccess[]
+    }
+
+    export type EntityTransportation = GeneralEntityTransportation | DoorTransportation
+
+    export type Transportation = GeneralEntityTransportation | DoorTransportation | TeleportGroup
+
+    export namespace TeleportGroup {
+        export namespace TeleportAccess {
+            export function isAnywhere(access: TeleportAccess): boolean {
+                return access.type == "item" || access.type == "spellbook"
+            }
+        }
+
+        export function canBeAccessedAnywhere(group: TeleportGroup): boolean {
+            return group.access.some(TeleportAccess.isAnywhere)
+        }
+
+        export type SpotId = {
+            group: string,
+            sub: string,
+            network_access_id?: string
+        }
+
+        export type TeleportCustomization = {
+            fairy_ring_favourites: string[],
+            potas: {
+                color: "red" | "purple" | "green" | "yellow",
+                slots: string[],
+                active: boolean
+            }[]
+        }
+
+        export class Spot {
+            public readonly spot_index: number
+            public readonly spot: TeleportGroupSpot
+
+            private pota_slot: {
+                img: ImageUrl,
+                code_prefix: string,
+            } | null
+
+            constructor(public readonly group: TeleportGroup,
+                        private subid: string,
+                        private settings: TeleportCustomization
+            ) {
+
+                this.spot_index = this.group.spots.findIndex(s => s.id == subid)
+                this.spot = this.group.spots[this.spot_index]
+
+                if (this.spot_index < 0) throw TypeError(`No such spot ${subid} in group ${group.id}`)
+
+                const pota = this.group.can_be_in_pota
+                    ? this.settings.potas.find((p) => p.active && p.slots.includes(this.group.id))
+                    : null
+
+                if (pota) {
+                    this.pota_slot = {
+                        img: {url: `pota_${pota.color}.png`},
+                        code_prefix: `${pota.slots.indexOf(group.id) + 1},`
+                    }
+                }
+            }
+
+            hover(): string {
+                return (this.group.name && this.spot.name)
+                    ? `${this.group.name} - ${this.spot.name}`
+                    : this.group.name || this.spot.name
+            }
+
+            image(): ImageUrl {
+                return this.spot.img ?? this.group.img
+            }
+
+            code(): string {
+                let base_code = (this.spot.code ?? "")
+
+                if (this.group.id == "fairyring") {
+                    const i = this.settings.fairy_ring_favourites.indexOf(this.spot.code)
+
+                    if (i > 0) base_code = ((i + 1) % 10).toString()
+                }
+
+                return (this.pota_slot?.code_prefix ?? "") + base_code
+            }
+
+            target(): TileCoordinates {
+                return this.spot.spot
+            }
+
+            id(): SpotId {
+                return {
+                    group: this.group.id,
+                    sub: this.spot.id
+                }
+            }
+        }
+    }
 
     export namespace EntityAction {
         export function findApplicable(action: EntityAction, tile: TileCoordinates): EntityActionMovement {
@@ -89,11 +225,11 @@ export namespace Transportation {
 
     /**
      * Coalesces all shortcuts into the general EntityTransportation.
-     * More specifically, it transforms door shortcuts into an equivalent {@link EntityTransportation} to allow unified handling across the code base.
+     * More specifically, it transforms door shortcuts into an equivalent {@link GeneralEntityTransportation} to allow unified handling across the code base.
      * Doors are modelled differently in case their handling for pathing is ever changed from the current, hacky variant.
      * @param shortcut
      */
-    export function normalize(shortcut: Transportation): EntityTransportation {
+    export function normalize(shortcut: EntityTransportation): GeneralEntityTransportation {
         if (shortcut.type == "entity") return shortcut
 
         const off = direction.toVector(shortcut.direction)

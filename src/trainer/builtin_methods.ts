@@ -1,4 +1,4 @@
-import {type Pack} from "../trainer/model/MethodPackManager";
+import {type Pack} from "./model/MethodPackManager";
 
 export const default_scan_method_pack: Pack = {
     type: "default",

@@ -5,14 +5,14 @@ import {Vector2} from "../../../lib/math";
 import {arrow, createX} from "../path_graphics";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
-import {Teleports} from "../../../lib/runescape/teleports";
-import ManagedTeleportData = Teleports.ManagedTeleportData;
 import {TeleportMapIcon} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
 import Widget from "../../../lib/ui/Widget";
 import {PathStepProperties} from "./PathStepProperties";
 import Dependencies from "../../dependencies";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
+import {TransportData} from "../../../data/transports";
+import teleports = TransportData.teleports;
 
 export class PathStepEntity extends MapEntity {
     constructor(public config: PathStepEntity.Config) {
@@ -80,14 +80,13 @@ export class PathStepEntity extends MapEntity {
                     "yellow",
                     options.highlight ? 30 : 20,
                     cls
-                )
-                    .addTo(this)
+                ).addTo(this)
 
                 break;
             case "teleport":
-                let teleport = ManagedTeleportData.instance().get2(step.id)
+                let teleport = TransportData.resolveTeleport(step.id, Dependencies.instance().app.value().teleport_settings)
 
-                leaflet.marker(Vector2.toLatLong(teleport.spot), {
+                leaflet.marker(Vector2.toLatLong(teleport.target()), {
                     icon: new TeleportMapIcon(teleport, options.highlight ? 1.5 : 1),
                     riseOnHover: true
                 }).addTo(this)

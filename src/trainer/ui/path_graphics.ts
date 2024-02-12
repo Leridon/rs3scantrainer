@@ -1,16 +1,16 @@
 import * as leaflet from "leaflet"
 import {Path} from "lib/runescape/pathing";
-import {TileCoordinates, TileRectangle} from "../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {direction, MovementAbilities} from "lib/runescape/movement";
 import Widget from "lib/ui/Widget";
-import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {Vector2} from "lib/math";
-import {Teleports} from "lib/runescape/teleports";
-import {teleport_data} from "../../data/teleport_data";
 import {CursorType} from "../../lib/runescape/CursorType";
+import {Transportation} from "../../lib/runescape/transportation";
+import {TransportData} from "../../data/transports";
 
 export namespace PathGraphics {
     import movement_ability = MovementAbilities.movement_ability;
+    import resolveTeleport = TransportData.resolveTeleport;
     type HTMLString = string
 
     export function text_icon(icon: string, hover: string = ""): HTMLString {
@@ -18,8 +18,8 @@ export namespace PathGraphics {
     }
 
     export namespace Teleport {
-        export function asSpan(tele: Teleports.flat_teleport): HTMLString {
-            return `<span style="position: relative" title="${tele.hover}">${text_icon(`assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`, tele.hover)}<div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+        export function asSpan(tele: Transportation.TeleportGroup.Spot): HTMLString {
+            return `<span style="position: relative" title="${tele.hover()}">${text_icon(`assets/icons/teleports/${tele.image().url}`, tele.hover())}<div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
         }
     }
 
@@ -45,7 +45,7 @@ export namespace PathGraphics {
             case "run":
                 return text_icon('assets/icons/run.png') + (step.waypoints.length - 1)
             case "teleport":
-                let tele = Teleports.find(teleport_data.getAllFlattened(), step.id)
+                let tele = resolveTeleport(step.id)
 
                 if (!tele) return text_icon('assets/teleports/homeport.png')
 
@@ -88,7 +88,7 @@ const pi = 3.1415
 
 export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
 
-    if(!to) debugger
+    if (!to) debugger
 
     let off = Vector2.sub(from, to)
 
@@ -112,7 +112,7 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
 
 export namespace PathingGraphics {
 
-    
+
     export function templateString(step: Path.Step): string {
         switch (step.type) {
             case "orientation":

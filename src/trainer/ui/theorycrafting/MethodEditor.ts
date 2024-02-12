@@ -1,5 +1,5 @@
 import Behaviour, {SingleBehaviour} from "../../../lib/ui/Behaviour";
-import {AugmentedMethod} from "../../model/MethodPackManager";
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import MapSideBar from "../MapSideBar";
 import {Application} from "../../application";
 import Properties from "../widgets/Properties";
@@ -68,11 +68,11 @@ class MethodEditSideBar extends MapSideBar {
             this.save_row.append(
                 new LightButton(`Save`, "rectangle")
                     .onClick(async () => {
-                        await this.parent.app.methods.updateMethod(this.parent.method)
+                        await MethodPackManager.instance().updateMethod(this.parent.method)
                         this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved in Pack '${this.parent.method.pack.name}'.`)
                     }),
                 new LightButton("Save Copy", "rectangle").onClick(async () => {
-                    await new SaveInPack(this.parent.method, this.parent.app.methods).do()
+                    await new SaveInPack(this.parent.method, MethodPackManager.instance()).do()
                     this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved a copy in Pack '${this.parent.method.pack.name}'.`)
                 })
             )
@@ -82,7 +82,7 @@ class MethodEditSideBar extends MapSideBar {
             this.save_row.append(
                 new LightButton("Select Pack and Save", "rectangle")
                     .onClick(async () => {
-                        this.parent.method.pack = await new SaveInPack(this.parent.method, this.parent.app.methods).do()
+                        this.parent.method.pack = await new SaveInPack(this.parent.method, MethodPackManager.instance()).do()
                         this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved in Pack '${this.parent.method.pack.name}'.`)
 
                         this.renderSaveRow()

@@ -7,7 +7,7 @@ import {ActionBar} from "../map/ActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {storage} from "lib/util/storage";
 import ShortcutEditSidePanel from "./ShortcutEditSidePanel";
-import shortcuts from "../../../data/shortcuts";
+import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {DrawDoor} from "./interactions/DrawDoor";
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";

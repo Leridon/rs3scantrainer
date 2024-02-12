@@ -2,7 +2,7 @@ import Widget from "../../../lib/ui/Widget";
 import {FavouriteIcon, NislIcon} from "../nisl";
 import NeoSolvingBehaviour, {NeoSolving} from "./NeoSolvingBehaviour";
 import {Observable, observe} from "../../../lib/reactive";
-import {AugmentedMethod} from "../../model/MethodPackManager";
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import {C} from "../../../lib/ui/constructors";
 import spacer = C.spacer;
 import span = C.span;
@@ -60,7 +60,7 @@ export default class MethodSelector extends Widget {
                 }
             }
         })
-            .setItems((await this.parent.app.methods.getForClue(this.parent.active_clue.step.id)).concat([null]))
+            .setItems((await MethodPackManager.instance().getForClue(this.parent.active_clue.step.id)).concat([null]))
             .onSelected(m => {
                 this.parent.app.favourites.setMethod(m)
                 this.parent.setMethod(m)

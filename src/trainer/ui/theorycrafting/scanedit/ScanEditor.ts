@@ -10,7 +10,7 @@ import {PathingGraphics} from "../../path_graphics";
 import {PathEditor} from "../../pathedit/PathEditor";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
-import shortcuts from "../../../../data/shortcuts";
+import shortcuts from "../../../../data/cache_extracted_shortcuts";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 import {ewent, Observable, observe} from "../../../../lib/reactive";
 import {InteractionGuard} from "../../../../lib/gamemap/interaction/InteractionLayer";
@@ -309,9 +309,6 @@ export default class ScanEditor extends MethodSubEditor {
     private setPathEditor(node: AugmentedScanTreeNode): void {
         this.path_editor.set(new PathEditor(this.layer,
             this.app.template_resolver, {
-                teleports: this.app.data.teleports.getAll(),
-                shortcuts: shortcuts
-            }, {
                 initial: node.path.raw,
 
                 target: node.path.target,

@@ -1,9 +1,9 @@
 import {Application} from "../../application";
 import GameLayer from "../../../lib/gamemap/GameLayer";
-import {ClueSpotIndex} from "../../../data/ClueIndex";
+import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import * as tippy from "tippy.js";
 import {clue_data} from "../../../data/clues";
-import {AugmentedMethod} from "../../model/MethodPackManager";
+import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import UtilityLayer from "../map/UtilityLayer";
 import {ClueSpotFilter, FilterControl} from "./Filtering";
 import {ClueOverviewMarker} from "./OverviewMarker";
@@ -18,7 +18,7 @@ export default class OverviewLayer extends GameLayer {
     constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
         super();
 
-        this.filter_control = new FilterControl(app.methods, this.edit_handler).addTo(this)
+        this.filter_control = new FilterControl(MethodPackManager.instance(), this.edit_handler).addTo(this)
 
         this.marker_index = clue_data.spot_index.with(() => ({markers: []}))
 
@@ -36,7 +36,7 @@ export default class OverviewLayer extends GameLayer {
                     c.markers.forEach(c => c.remove())
                     c.markers = []
                 } else if (visible && c.markers.length == 0) {
-                    c.markers = ClueOverviewMarker.forClue(c.for, this.app.methods, this.edit_handler)
+                    c.markers = ClueOverviewMarker.forClue(c.for, MethodPackManager.instance(), this.edit_handler)
                     c.markers.forEach(m => m.addTo(this))
                 }
             })

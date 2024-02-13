@@ -203,7 +203,7 @@ export class Application extends Behaviour {
             ["digspot", (args) => `<span class="ctr-digspot-inline">${args[0]}</span>`],
             ["scanarea", (args) => `<span class="ctr-scanspot-inline">${args[0]}</span>`],
             ["teleport", (args) => {
-                let tele = resolveTeleport({group: args[0], sub: args[1]})
+                let tele = resolveTeleport({group: args[0], spot: args[1]})
 
                 if (!tele) return "NULL"
 

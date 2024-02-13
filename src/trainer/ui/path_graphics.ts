@@ -122,7 +122,7 @@ export namespace PathingGraphics {
             case "ability":
                 return `{{${step.ability}}}`
             case "teleport":
-                return `{{teleport ${step.id.group} ${step.id.sub}}}`
+                return `{{teleport ${step.id.group} ${step.id.spot}}}`
             case "powerburst":
                 return `{{icon accel}}`
             case "redclick":

@@ -50,8 +50,8 @@ export class TeleportEntity extends MapEntity {
         props.named("Group", c().text(this.config.teleport.group.name))
         props.named("Name", c().text(this.config.teleport.spot.name))
         props.header("Timing")
-        props.named("Interface", c().text(this.config.teleport.spot.menu_ticks + " ticks"))
-        props.named("Blocked", c().text(this.config.teleport.spot.animation_ticks + " ticks"))
+        props.named("Interface", c().text(this.config.teleport.props.menu_ticks + " ticks"))
+        props.named("Blocked", c().text(this.config.teleport.props.animation_ticks + " ticks"))
 
         return props
     }

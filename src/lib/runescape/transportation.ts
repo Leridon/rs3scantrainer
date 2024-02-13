@@ -45,24 +45,28 @@ export namespace Transportation {
         name: string,
     }
 
-    export type TeleportGroupSpot = {
-        id: string
-        spot: TileCoordinates
-        facing?: direction
+    export type TeleportProps = {
+        img?: ImageUrl,
+        menu_ticks?: number
+        animation_ticks?: number
         code?: string
-        name: string
-        menu_ticks: number
-        animation_ticks: number
-        img?: ImageUrl
     }
 
-    export type TeleportAccess = {
-        additional_ticks?: number,
-        img?: ImageUrl
+    export type TeleportSpot = {
+        id: string
+        target: TileArea
+        facing?: direction
+        name: string
+    } & TeleportProps
+
+    export type TeleportAccess = TeleportProps & {
+        id: string
+        per_spot_props?: Record<string, TeleportProps>
     } & ({
         type: "item",
         name: EntityName & { kind: "item" },
         action_name: string,
+        can_be_in_pota?: boolean,
         cursor?: CursorType
     } | {
         type: "entity",
@@ -75,13 +79,11 @@ export namespace Transportation {
         name: string
     })
 
-    export type TeleportGroup = {
+    export type TeleportGroup = TeleportProps & {
         type: "teleports"
         id: string
-        name: string
-        img: ImageUrl
-        can_be_in_pota?: boolean
-        spots: TeleportGroupSpot[]
+        name: string,
+        spots: TeleportSpot[]
         access: TeleportAccess[]
     }
 
@@ -96,14 +98,25 @@ export namespace Transportation {
             }
         }
 
+        export namespace TeleportProps {
+            export function combinePrioritized(...props: (TeleportProps | null)[]): TeleportProps {
+                return props.reduce<TeleportProps>((a, b) => ({
+                    img: a?.img ?? b?.img,
+                    menu_ticks: a?.menu_ticks ?? b?.menu_ticks,
+                    animation_ticks: a?.animation_ticks ?? b?.animation_ticks,
+                    code: a?.code ?? b?.code,
+                }), {})
+            }
+        }
+
         export function canBeAccessedAnywhere(group: TeleportGroup): boolean {
             return group.access.some(TeleportAccess.isAnywhere)
         }
 
         export type SpotId = {
             group: string,
-            sub: string,
-            network_access_id?: string
+            spot: string,
+            access?: string
         }
 
         export type TeleportCustomization = {
@@ -116,27 +129,31 @@ export namespace Transportation {
         }
 
         export class Spot {
-            public readonly spot_index: number
-            public readonly spot: TeleportGroupSpot
-
             private pota_slot: {
                 img: ImageUrl,
                 code_prefix: string,
             } | null
 
+            public readonly props: TeleportProps
+
             constructor(public readonly group: TeleportGroup,
-                        private subid: string,
+                        public readonly spot: TeleportSpot,
+                        public readonly access: TeleportAccess,
                         private settings: TeleportCustomization
             ) {
-
-                this.spot_index = this.group.spots.findIndex(s => s.id == subid)
-                this.spot = this.group.spots[this.spot_index]
-
-                if (this.spot_index < 0) throw TypeError(`No such spot ${subid} in group ${group.id}`)
-
-                const pota = this.group.can_be_in_pota
+                const pota = this.access.type == "item" && this.access.can_be_in_pota
                     ? this.settings.potas.find((p) => p.active && p.slots.includes(this.group.id))
                     : null
+
+                // Props are combined from the various ways they can be specified.
+                // Prop definitions for Access x Spot have the highest priority,
+                // followed by per-access props, then per-spot props and finally per-group props.
+                this.props = TeleportProps.combinePrioritized(
+                    access?.per_spot_props?.[spot.id],
+                    access,
+                    spot,
+                    group
+                )
 
                 if (pota) {
                     this.pota_slot = {
@@ -153,11 +170,11 @@ export namespace Transportation {
             }
 
             image(): ImageUrl {
-                return this.spot.img ?? this.group.img
+                return this.props.img
             }
 
             code(): string {
-                let base_code = (this.spot.code ?? "")
+                let base_code = (this.props.code ?? "")
 
                 if (this.group.id == "fairyring") {
                     const i = this.settings.fairy_ring_favourites.indexOf(this.spot.code)
@@ -169,13 +186,13 @@ export namespace Transportation {
             }
 
             target(): TileCoordinates {
-                return this.spot.spot
+                return this.spot.target.origin // TODO: This assumes static teleports at the moment
             }
 
             id(): SpotId {
                 return {
                     group: this.group.id,
-                    sub: this.spot.id
+                    spot: this.spot.id
                 }
             }
         }

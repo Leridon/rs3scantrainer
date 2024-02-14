@@ -5,7 +5,7 @@ import {ShortcutEntity, TeleportEntity} from "./TeleportLayer";
 import {TransportData} from "../../../data/transports";
 
 export default class TransportLayer extends GameLayer {
-    constructor(transports: transportation[], interactive: boolean) {
+    constructor(interactive: boolean) {
         super();
 
         TransportData.getAllTeleportSpots().forEach(spot => {
@@ -17,10 +17,10 @@ export default class TransportLayer extends GameLayer {
                 .addTo(this)
         })
 
-        TransportData.cache_extracted_transportation.forEach(t => new ShortcutEntity({
+        TransportData.getCacheTransports().then(transports => transports.forEach(t => new ShortcutEntity({
             highlightable: true,
             shortcut: t,
             interactive: interactive
-        }).addTo(this))
+        }).addTo(this)))
     }
 }

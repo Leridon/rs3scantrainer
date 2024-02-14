@@ -1,14 +1,35 @@
-import cache_extracted_shortcuts from "./cache_extracted_shortcuts";
 import teleport_data from "./teleport_data";
 import {Transportation} from "../lib/runescape/transportation";
 import Dependencies from "../trainer/dependencies";
 
 export namespace TransportData {
     import TeleportGroup = Transportation.TeleportGroup;
-    export const cache_extracted_transportation = cache_extracted_shortcuts
+
+    const cached_data: {
+        cache_extracted?: Transportation.EntityTransportation[],
+        all_transports?: Transportation.Transportation[]
+    } = {}
+
     export const teleports = teleport_data
 
-    export const all: Transportation.Transportation[] = [].concat(cache_extracted_shortcuts, teleports)
+    export async function getCacheTransports(): Promise<Transportation.EntityTransportation[]> {
+        if (!cached_data.cache_extracted) {
+            cached_data.cache_extracted = await (await fetch(`map/cache_transportation.json`, {cache: "no-store"})).json()
+        }
+
+        return cached_data.cache_extracted
+    }
+
+    export async function getAll(): Promise<Transportation.Transportation[]> {
+        if (!cached_data.all_transports) {
+            cached_data.all_transports = [].concat(
+                await getCacheTransports(),
+                teleports
+            )
+        }
+
+        return cached_data.all_transports
+    }
 
     let teleport_spots: Transportation.TeleportGroup.Spot[] = null
 

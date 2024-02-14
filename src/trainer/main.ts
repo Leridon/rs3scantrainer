@@ -3,7 +3,6 @@ import Order = util.Order;
 import {Clues, ClueType} from "../lib/runescape/clues";
 import ExportStringModal from "./ui/widgets/modals/ExportStringModal";
 import {clue_data} from "../data/clues";
-import shortcuts from "../data/cache_extracted_shortcuts";
 
 export async function makeshift_main(): Promise<string> {
     let output = ""

@@ -6,7 +6,6 @@ import {Application} from "../application";
 import {ShortcutEditor} from "./shortcut_editing/ShortcutEditor";
 import {PathEditor} from "./pathedit/PathEditor";
 import GameLayer from "../../lib/gamemap/GameLayer";
-import shortcuts from "../../data/cache_extracted_shortcuts";
 import TheoryCrafter from "./theorycrafting/TheoryCrafter";
 import Button from "../../lib/ui/controls/Button";
 import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";

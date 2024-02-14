@@ -4,7 +4,6 @@ import {AugmentedMethod} from "../../model/MethodPackManager";
 import {SolvingMethods} from "../../model/methods";
 import PathProperty from "../pathedit/PathProperty";
 import {PathEditor} from "../pathedit/PathEditor";
-import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {SingleBehaviour} from "../../../lib/ui/Behaviour";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import Widget from "../../../lib/ui/Widget";

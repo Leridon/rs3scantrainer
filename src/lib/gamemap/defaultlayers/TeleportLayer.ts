@@ -10,7 +10,6 @@ import Properties from "../../../trainer/ui/widgets/Properties";
 import {Transportation} from "../../runescape/transportation";
 import {floor_t, TileCoordinates, TileRectangle} from "../../runescape/coordinates";
 import {areaPolygon, boxPolygon2} from "../../../trainer/ui/polygon_helpers";
-import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {arrow} from "../../../trainer/ui/path_graphics";
 import {direction} from "../../runescape/movement";
 import {TileArea} from "../../runescape/coordinates/TileArea";

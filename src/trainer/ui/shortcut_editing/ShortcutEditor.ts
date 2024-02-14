@@ -7,7 +7,6 @@ import {ActionBar} from "../map/ActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {storage} from "lib/util/storage";
 import ShortcutEditSidePanel from "./ShortcutEditSidePanel";
-import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {DrawDoor} from "./interactions/DrawDoor";
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";
@@ -172,7 +171,7 @@ export class ShortcutEditor extends Behaviour {
         super();
 
         this.data = observeArray([].concat(
-            shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})),
+            //shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})),
             this.storage.get().map(s => Object.assign(s, {is_builtin: false}))
         ))
 

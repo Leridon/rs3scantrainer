@@ -7,7 +7,6 @@ import ExportStringModal from "../widgets/modals/ExportStringModal";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "lib/math";
 import {ewent, Observable, ObservableArray, observe} from "../../../lib/reactive";
-import shortcuts from "../../../data/cache_extracted_shortcuts";
 import {C} from "../../../lib/ui/constructors";
 import {ShortcutEditor} from "./ShortcutEditor";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
@@ -54,11 +53,11 @@ export default class ShortcutEditSidePanel extends MapSideBar {
         hboxc(
             new LightButton("Edit Builtins")
                 .onClick(() => {
-                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: false})))
+                    //this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: false})))
                 }),
             new LightButton("Delete Local")
                 .onClick(() => {
-                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
+                   // this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
                 }),
         ).addClass("ctr-button-container").appendTo(this.search_container)
 

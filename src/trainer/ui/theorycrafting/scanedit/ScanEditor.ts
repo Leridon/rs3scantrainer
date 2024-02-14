@@ -6,11 +6,9 @@ import {EquivalenceClass, ScanEquivalenceClasses, ScanEquivalenceClassOptions} f
 import {areaToPolygon} from "../../polygon_helpers";
 import {type Application} from "../../../application";
 import {ScanLayer, ScanRegionPolygon} from "../../neosolving/ScanLayer";
-import {PathingGraphics} from "../../path_graphics";
 import {PathEditor} from "../../pathedit/PathEditor";
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
-import shortcuts from "../../../../data/cache_extracted_shortcuts";
 import AugmentedScanTreeNode = ScanTree.Augmentation.AugmentedScanTreeNode;
 import {ewent, Observable, observe} from "../../../../lib/reactive";
 import {InteractionGuard} from "../../../../lib/gamemap/interaction/InteractionLayer";

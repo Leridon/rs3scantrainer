@@ -45,7 +45,6 @@ import index = util.index;
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {PathStepEntity} from "../pathing/PathStepEntity";
-import shortcuts from "../../../data/cache_extracted_shortcuts";
 import TransportLayer from "lib/gamemap/defaultlayers/TransportLayer";
 import {ShortcutEntity, TeleportEntity} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
@@ -419,7 +418,7 @@ class PathEditorGameLayer extends GameLayer {
     constructor(private editor: PathEditor) {
         super();
 
-        new TransportLayer(shortcuts, true).addTo(this)
+        new TransportLayer(true).addTo(this)
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
@@ -453,7 +452,6 @@ class PathEditorGameLayer extends GameLayer {
                         }
                     }))
                 })
-
 
                 if (event.active_entity instanceof TeleportEntity) {
                     const t = event.active_entity.config.teleport
@@ -697,7 +695,7 @@ export class PathEditor extends Behaviour {
 
         const bounds = Rectangle.combine(Path.bounds(this.options.initial), Rectangle.from(this.options.start_state?.position?.tile), this.options.target)
 
-        if(this.options.target) {
+        if (this.options.target) {
             boxPolygon(this.options.target).addTo(this.handler_layer)
         }
 

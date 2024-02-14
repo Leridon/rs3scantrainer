@@ -152,7 +152,12 @@ export namespace Transportation {
                     access?.per_spot_props?.[spot.id],
                     access,
                     spot,
-                    group
+                    group, {
+                        animation_ticks: 0,
+                        menu_ticks: 0,
+                        code: "",
+                        img: {url: "homeport.png"}
+                    }
                 )
 
                 if (pota) {
@@ -174,7 +179,7 @@ export namespace Transportation {
             }
 
             code(): string {
-                let base_code = (this.props.code ?? "")
+                let base_code = this.props.code
 
                 if (this.group.id == "fairyring") {
                     const i = this.settings.fairy_ring_favourites.indexOf(this.spot.code)

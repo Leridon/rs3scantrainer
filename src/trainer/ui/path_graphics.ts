@@ -19,7 +19,7 @@ export namespace PathGraphics {
 
     export namespace Teleport {
         export function asSpan(tele: Transportation.TeleportGroup.Spot): HTMLString {
-            return `<span style="position: relative" title="${tele.hover()}">${text_icon(`assets/icons/teleports/${tele.image().url}`, tele.hover())}<div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+            return `<span style="position: relative" title="${tele.hover()}">${text_icon(`assets/icons/teleports/${tele.image().url}`, tele.hover())}<div class="tele-icon-code-overlay">${tele.code() ? tele.code() : ""}</div></span>`
         }
     }
 

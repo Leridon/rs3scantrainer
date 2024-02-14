@@ -1,15 +1,14 @@
-import {ewent, Observable, observe} from "../reactive";
+import {Observable, observe} from "../reactive";
 import * as leaflet from "leaflet"
 import observe_combined = Observable.observe_combined;
-import * as tippy from "tippy.js";
 import Widget from "../ui/Widget";
-import {followCursor} from "tippy.js";
 import GameLayer from "./GameLayer";
-import {floor_t} from "../runescape/coordinates";
 import {GameMap} from "./GameMap";
 import {ZoomLevels} from "./ZoomLevels";
 
 export abstract class MapEntity extends leaflet.FeatureGroup {
+    public tooltip_hook: Observable<Promise<Element>> = observe(null)
+
     public parent: GameLayer | null = null
     private rendering_lock: boolean = false
 
@@ -31,26 +30,22 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
 
         if (entity_config.interactive) {
             this.on("mouseover", () => {
-                this.parent?.requestEntityActivation(this, false)
+                this.parent?.updateHovering(this, true)
             })
 
             this.on("mouseout", () => {
-                if (this.isActive()) this.parent?.requestEntityActivation(null, false)
-            })
-
-            this.on("click", () => {
-                this.parent?.requestEntityActivation(this, true)
+                this.parent?.updateHovering(this, false)
             })
         }
     }
 
     isActive(): boolean {
-        return this.parent?.getActiveEntity() == this
+        return this.parent?.getHoveredEntity() == this
     }
 
     setHighlight(v: boolean): this {
         if (v && !this.entity_config.highlightable)
-            throw new TypeError("Highlight can not be set on this entity")
+            return this
 
         this.highlighted.set(v)
 
@@ -62,9 +57,9 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
         return this
     }
 
-    protected abstract render_implementation(options: MapEntity.RenderOptions): void
+    protected abstract render_implementation(options: MapEntity.RenderOptions): Promise<Element>
 
-    public renderTooltip(selected: boolean = false): Widget | null {
+    public renderTooltip(): { content: Widget, interactive: boolean } | null {
         return null
     }
 
@@ -75,11 +70,11 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
 
         this.rendering_lock = true
 
-        this.render_implementation({
+        this.tooltip_hook.set(this.render_implementation({
             highlight: this.highlighted.value(),
             opacity: this.opacity.value(),
             viewport: this.parent.getMap().viewport.value()
-        })
+        }))
 
         this.rendering_lock = false
     }

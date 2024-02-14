@@ -441,8 +441,8 @@ export namespace Path {
                         state.position.direction = teleport.spot.facing
                     }
 
-                    state.tick += teleport.spot.menu_ticks
-                    state.tick += teleport.spot.animation_ticks
+                    state.tick += teleport.props.menu_ticks
+                    state.tick += teleport.props.animation_ticks
                     state.targeted_entity = null
 
                     break;

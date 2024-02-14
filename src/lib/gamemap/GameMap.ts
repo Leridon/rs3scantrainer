@@ -94,11 +94,17 @@ export class GameMap extends leaflet.Map {
             this.on("contextmenu", async (e) => {
                 let event = this.event(new GameMapContextMenuEvent(this, e, this.eventCoordinate(e)), (l) => (e) => l.eventContextMenu(e))
 
+                if (event.active_entity) {
+                    await this.internal_root_layer.lockEntity(event.active_entity)
+                }
+
                 new ContextMenu(event.entries)
                     .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
-                    .onClosed(() => {
+                    .onClosed(async () => {
                         this.container.focus()
+                        await this.internal_root_layer.lockEntity(null)
                     })
+
             })
 
             this.on("click", (e) => {
@@ -297,7 +303,7 @@ export class GameMap extends leaflet.Map {
             event.propagation_state.trickle_stopped_immediate = false
         }
 
-        event.active_entity = this.internal_root_layer.getActiveEntity()
+        event.active_entity = this.internal_root_layer.getHoveredEntity()
 
         propagate(this.internal_root_layer)
 

@@ -1,72 +1,31 @@
-import * as leaflet from "leaflet"
-import {Rectangle, Vector2} from "../../math";
-import {MapEntity} from "../MapEntity";
-import {C} from "../../ui/constructors";
-import {OpacityGroup} from "../layers/OpacityLayer";
-import div = C.div;
-import img = C.img;
-import Widget from "../../ui/Widget";
-import Properties from "../../../trainer/ui/widgets/Properties";
-import {Transportation} from "../../runescape/transportation";
-import {floor_t, TileCoordinates, TileRectangle} from "../../runescape/coordinates";
-import {areaPolygon, boxPolygon2} from "../../../trainer/ui/polygon_helpers";
-import {arrow} from "../../../trainer/ui/path_graphics";
-import {direction} from "../../runescape/movement";
-import {TileArea} from "../../runescape/coordinates/TileArea";
-import {CursorType} from "../../runescape/CursorType";
-import {ZoomLevels} from "../ZoomLevels";
-import {DivIcon} from "leaflet";
-import {identity} from "lodash";
+import {MapEntity} from "../../../../lib/gamemap/MapEntity";
+import {ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
+import {Transportation} from "../../../../lib/runescape/transportation";
+import {Rectangle, Vector2} from "../../../../lib/math";
+import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
+import {arrow} from "../../path_graphics";
+import * as leaflet from "leaflet";
+import {CursorType} from "../../../../lib/runescape/CursorType";
+import {areaPolygon, boxPolygon2} from "../../polygon_helpers";
+import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
+import Widget from "../../../../lib/ui/Widget";
+import Properties from "../../widgets/Properties";
+import {C} from "../../../../lib/ui/constructors";
+import {direction} from "../../../../lib/runescape/movement";
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 
-export class TeleportEntity extends MapEntity {
-
-    zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
-
-    constructor(public config: TeleportEntity.Config) {
-        super(config);
-
-        this.floor_sensitive = true
-        this.zoom_sensitive = true
-    }
-
-    render_implementation(options: MapEntity.RenderOptions) {
-        const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
-
-        leaflet.marker(Vector2.toLatLong(this.config.teleport.target()), {
-            icon: new TeleportMapIcon(this.config.teleport, scale, w => {
-                if (options.viewport.rect.level != this.config.teleport.target().level) w.css("filter", "grayscale(1) brightness(0.5)")
-
-                return w
-            }),
-            riseOnHover: true
-        }).addTo(this)
-    }
-
-    renderTooltip(): Widget | null {
-        let props = new Properties()
-
-        props.named("Group", c().text(this.config.teleport.group.name))
-        props.named("Name", c().text(this.config.teleport.spot.name))
-        props.header("Timing")
-        props.named("Interface", c().text(this.config.teleport.props.menu_ticks + " ticks"))
-        props.named("Blocked", c().text(this.config.teleport.props.animation_ticks + " ticks"))
-
-        return props
-    }
-}
-
-export class ShortcutEntity extends MapEntity {
+export class EntityTransportEntity extends MapEntity {
     zoom_sensitivity_layers: ZoomLevels<{ scale: number }> = MapEntity.default_zoom_scale_layers
 
-    constructor(public config: ShortcutEntity.Config) {
+    constructor(public config: EntityTransportEntity.Config) {
         super(config)
 
         this.floor_sensitive = true
         this.zoom_sensitive = true
     }
 
-    render_implementation(options: MapEntity.RenderOptions) {
+    async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
         const shortcut = Transportation.normalize(this.config.shortcut)
 
         if (options.viewport.rect.level != shortcut.clickable_area.level) return
@@ -102,12 +61,13 @@ export class ShortcutEntity extends MapEntity {
         const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
 
         // Render main marker
-        leaflet.marker(Vector2.toLatLong(Rectangle.center(shortcut.clickable_area, false)), {
+        const marker = leaflet.marker(Vector2.toLatLong(Rectangle.center(shortcut.clickable_area, false)), {
             icon: leaflet.icon({
                 iconUrl: CursorType.meta(shortcut.actions[0]?.cursor ?? "generic").icon_url,
                 iconSize: CursorType.iconSize(scale),
                 iconAnchor: CursorType.iconAnchor(scale, true),
             }),
+            riseOnHover: true,
             interactive: true
         }).addTo(this);
 
@@ -161,9 +121,11 @@ export class ShortcutEntity extends MapEntity {
             }
 
         }
+
+        return marker.getElement()
     }
 
-    renderTooltip(): Widget | null {
+    renderTooltip(): { content: Widget, interactive: boolean } | null {
         const props = new Properties()
         const s = this.config.shortcut
 
@@ -183,42 +145,18 @@ export class ShortcutEntity extends MapEntity {
         if (s.type == "door") {
             props.named("Position", TileCoordinates.toString(s.position))
             props.named("Direction", direction.toString(s.direction))
-
         }
 
-        return props
+        return {
+            content: props,
+            interactive: true
+        }
     }
 }
 
-export namespace ShortcutEntity {
+export namespace EntityTransportEntity {
     import EntityTransportation = Transportation.EntityTransportation;
     export type Config = MapEntity.SetupOptions & {
         shortcut: EntityTransportation
-    }
-}
-
-export namespace TeleportEntity {
-    export type Config = MapEntity.SetupOptions & {
-        teleport: Transportation.TeleportGroup.Spot
-    }
-}
-
-export class TeleportMapIcon extends leaflet.DivIcon {
-    constructor(tele: Transportation.TeleportGroup.Spot, scale: number = 1, transformer: (w: Widget) => Widget = identity) {
-        let i = img(`./assets/icons/teleports/${tele.image().url}`)
-
-        i.css2({
-            "width": tele.image().width ? tele.image().width + "px" : "auto",
-            "height": tele.image().height ? tele.image().height + "px" : "auto",
-        })
-
-        super({
-            iconSize: [0, 0],
-            iconAnchor: [0, 0],
-            html: transformer(div(
-                i,
-                tele.code ? c().text(tele.code()) : undefined
-            ).css("scale", scale.toString()).addClass("ctr-map-teleport-icon")).raw()
-        });
     }
 }

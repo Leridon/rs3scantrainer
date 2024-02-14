@@ -1831,3 +1831,7 @@ input[type=checkbox] + span {
     text-align: center;
     vertical-align: center;
 }
+
+.ctr-entity-tooltip {
+
+}

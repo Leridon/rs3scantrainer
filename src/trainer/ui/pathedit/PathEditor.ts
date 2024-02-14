@@ -45,8 +45,7 @@ import index = util.index;
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {PathStepEntity} from "../pathing/PathStepEntity";
-import TransportLayer from "lib/gamemap/defaultlayers/TransportLayer";
-import {ShortcutEntity, TeleportEntity} from "../../../lib/gamemap/defaultlayers/TeleportLayer";
+import TransportLayer from "../map/TransportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {boxPolygon} from "../polygon_helpers";
@@ -54,6 +53,8 @@ import default_interactive_area = Transportation.EntityTransportation.default_in
 import EntityTransportation = Transportation.EntityTransportation;
 import {TransportData} from "../../../data/transports";
 import resolveTeleport = TransportData.resolveTeleport;
+import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
+import {EntityTransportEntity} from "../map/entities/EntityTransportEntity";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -453,7 +454,7 @@ class PathEditorGameLayer extends GameLayer {
                     }))
                 })
 
-                if (event.active_entity instanceof TeleportEntity) {
+                if (event.active_entity instanceof TeleportSpotEntity) {
                     const t = event.active_entity.config.teleport
 
                     event.add({
@@ -469,7 +470,7 @@ class PathEditorGameLayer extends GameLayer {
                             })
                         }
                     })
-                } else if (event.active_entity instanceof ShortcutEntity) {
+                } else if (event.active_entity instanceof EntityTransportEntity) {
 
                     let s = Transportation.normalize(event.active_entity.config.shortcut)
 

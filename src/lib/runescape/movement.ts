@@ -46,7 +46,7 @@ export class HostedMapData implements MapData {
     chunks: (file | Promise<file>)[][]
 
     private async fetch(file_x: number, file_z: number, floor: number): Promise<Uint8Array> {
-        let a = await fetch(`map/collisions/collision-${file_x}-${file_z}-${floor}.bin`)
+        let a = await fetch(`map/collision/collision-${file_x}-${file_z}-${floor}.bin`)
 
         return new Uint8Array(pako.inflate(await a.arrayBuffer()))
     }

@@ -6,6 +6,7 @@ import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 import {MapEntity} from "./MapEntity";
 import * as tippy from "tippy.js";
 import {followCursor} from "tippy.js";
+import Widget from "../ui/Widget";
 
 function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
     return l instanceof GameLayer || l instanceof MapEntity
@@ -17,17 +18,8 @@ export default class GameLayer extends leaflet.FeatureGroup {
     public parent: GameLayer | null = null
     protected map: GameMap | null = null
 
-    private active_entity: {
-        entity: MapEntity,
-        is_selected: boolean,
-        tooltip_instance?: tippy.Instance
-    } = null
-
-    private selected_entity: {
-        entity: MapEntity,
-        is_selected: boolean,
-        tooltip_instance?: tippy.Instance
-    } = null
+    private hovered_entity: MapEntity = null
+    private active_entity: GameLayer.ActiveEntity = {entity: null}
 
     constructor() {
         super();
@@ -107,51 +99,103 @@ export default class GameLayer extends leaflet.FeatureGroup {
         return this
     }
 
-    requestEntityActivation(entity: MapEntity, selected: boolean = false): void {
-        if (!this.isRootLayer()) return this.parent.requestEntityActivation(entity, selected)
+    private async createActiveEntityTooltip(force_interactive: boolean = false) {
+        if (this.active_entity.entity) {
+            const tooltip = this.active_entity.entity.renderTooltip()
 
-        if (entity != this.active_entity?.entity) {
-            if (this.active_entity) {
-                this.active_entity.entity.highlighted.set(false)
+            const interactive = force_interactive || tooltip.interactive
 
-                this.active_entity.tooltip_instance?.destroy()
+            if (tooltip) {
+                const anchor = await this.active_entity.entity.tooltip_hook.value() || document.body
 
-                this.active_entity = null
+                this.active_entity.tooltip_instance = tippy.default(anchor, {
+                    content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white;padding: 3px' class='ctr-entity-tooltip'></div>")
+                        .append(tooltip.content).raw(),
+                    arrow: true,
+                    animation: false,
+                    zIndex: 10001,
+                    delay: 0,
+                    followCursor: !interactive,
+                    plugins: [followCursor],
+                    interactive: interactive,
+                    onHide: () => {
+                        if (this.active_entity.locked) {
+                            console.log("Prevented hide")
+                            return false
+                        }
+
+                        console.log("Hiding")
+                    },
+                    onHidden: () => {
+                        this.requestEntityActivation(null)
+                    },
+                    placement: "top",
+                    offset: [0, 10],
+                })
+
+                this.active_entity.tooltip_instance.show()
             }
-
-            if (entity) {
-                entity.highlighted.set(true)
-
-                const tooltip = entity.renderTooltip(selected)
-
-                this.active_entity = {
-                    entity: entity,
-                    is_selected: selected
-                }
-
-                if (tooltip) {
-                    this.active_entity.tooltip_instance = tippy.default($("body").get()[0], {
-                        content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white;padding: 3px'></div>")
-                            .append(tooltip).raw(),
-                        arrow: true,
-                        animation: false,
-                        trigger: "manual",
-                        zIndex: 10001,
-                        delay: 0,
-                        followCursor: true,
-                        plugins: [followCursor]
-                    })
-
-                    this.active_entity.tooltip_instance.show()
-                }
-            }
-
 
         }
     }
 
-    getActiveEntity(): MapEntity {
-        return this.getRoot().active_entity?.entity
+    async requestEntityActivation(entity: MapEntity, force_interactive: boolean = false): Promise<boolean> {
+        if (!this.isRootLayer()) return this.parent.requestEntityActivation(entity)
+
+        if (this.active_entity.locked) return false
+
+        if (entity != this.active_entity.entity) {
+            if (this.active_entity.entity) {
+                this.active_entity.entity.highlighted.set(false)
+
+                this.active_entity.tooltip_instance?.destroy()
+                this.active_entity.tooltip_instance = null
+
+                this.active_entity.entity = null
+            }
+
+            if (entity) {
+                entity.highlighted.set(true)
+                this.active_entity.entity = entity
+
+                await this.createActiveEntityTooltip(force_interactive)
+            }
+        }
+
+        return true
+    }
+
+    async lockEntity(entity: MapEntity): Promise<void> {
+        if (this.active_entity.entity) {
+            this.active_entity.locked = false
+            await this.requestEntityActivation(null)
+
+            console.log("Unlocking")
+        }
+
+        if (entity) {
+            await this.requestEntityActivation(entity, true)
+            this.active_entity.locked = true
+
+            console.log("Locking")
+            console.log(entity)
+        }
+    }
+
+    updateHovering(entity: MapEntity, hovering: boolean) {
+        if (!this.isRootLayer()) this.getRoot().updateHovering(entity, hovering)
+
+        if (hovering) {
+            this.hovered_entity = entity
+
+            this.requestEntityActivation(entity)
+        } else if (this.hovered_entity == entity) {
+            this.hovered_entity = null
+        }
+    }
+
+    getHoveredEntity(): MapEntity {
+        return this.getRoot().hovered_entity
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {}
@@ -183,5 +227,13 @@ export default class GameLayer extends leaflet.FeatureGroup {
                 if (render) e.render()
             })
         }
+    }
+}
+
+export namespace GameLayer {
+    export type ActiveEntity = {
+        entity: MapEntity,
+        locked?: boolean,
+        tooltip_instance?: tippy.Instance
     }
 }

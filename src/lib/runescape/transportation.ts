@@ -60,6 +60,7 @@ export namespace Transportation {
     } & TeleportProps
 
     export type TeleportAccess = TeleportProps & {
+        type: string,
         id: string
         per_spot_props?: Record<string, TeleportProps>
     } & ({

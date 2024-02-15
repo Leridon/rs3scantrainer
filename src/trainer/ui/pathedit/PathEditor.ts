@@ -44,7 +44,7 @@ import {PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
-import {PathStepEntity} from "../pathing/PathStepEntity";
+import {PathStepEntity} from "../map/entities/PathStepEntity";
 import TransportLayer from "../map/TransportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {CursorType} from "../../../lib/runescape/CursorType";
@@ -426,50 +426,72 @@ class PathEditorGameLayer extends GameLayer {
         event.onPost(() => {
             if (this.editor.isActive()) {
 
-                event.add({
-                    type: "basic",
-                    text: "Walk here",
-                    icon: "assets/icons/yellowclick.png",
-                    handler: () => {
-
-                    }
-                })
-
-                event.add({
-                    type: "submenu",
-                    text: "Create Redclick",
-                    icon: "assets/icons/redclick.png",
-                    children: CursorType.all().map((i): MenuEntry => ({
-                        type: "basic",
-                        text: i.description,
-                        icon: i.icon_url,
-                        handler: () => {
-                            this.editor.value.create({
-                                type: "redclick",
-                                target: CursorType.defaultEntity(i.type),
-                                where: event.tile(),
-                                how: i.type
-                            })
-                        }
-                    }))
-                })
-
-                if (event.active_entity instanceof TeleportSpotEntity) {
-                    const t = event.active_entity.config.teleport
-
+                if (!event.active_entity) {
                     event.add({
                         type: "basic",
-                        text: `Teleport: ${t.hover()}`,
-                        icon: `assets/icons/teleports/${t.image().url}`,
+                        text: "Walk here",
+                        icon: "assets/icons/yellowclick.png",
                         handler: () => {
-                            this.editor.value.add({
-                                raw: {
-                                    type: "teleport",
-                                    id: t.id(),
-                                }
-                            })
+
                         }
                     })
+
+                    event.add({
+                        type: "submenu",
+                        text: "Create Redclick",
+                        icon: "assets/icons/redclick.png",
+                        children: CursorType.all().map((i): MenuEntry => ({
+                            type: "basic",
+                            text: i.description,
+                            icon: i.icon_url,
+                            handler: () => {
+                                this.editor.value.create({
+                                    type: "redclick",
+                                    target: CursorType.defaultEntity(i.type),
+                                    where: event.tile(),
+                                    how: i.type
+                                })
+                            }
+                        }))
+                    })
+                } else if (event.active_entity instanceof TeleportSpotEntity) {
+                    const t = event.active_entity.config.teleport
+
+                    if (t.group.access.length == 1) {
+                        const a = t.group.access[0]
+
+                        event.addForEntity({
+                            type: "basic",
+                            text: c().append(`Use via `, TeleportSpotEntity.accessNameAsWidget(a)),
+                            handler: () => {
+                                this.editor.value.add({
+                                    raw: {
+                                        type: "teleport",
+                                        id: {...t.id(), access: a.id},
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        event.addForEntity({
+                            type: "submenu",
+                            text: `Use via`,
+                            children: t.group.access.map(a => {
+                                return {
+                                    type: "basic",
+                                    text: c().append(TeleportSpotEntity.accessNameAsWidget(a)),
+                                    handler: () => {
+                                        this.editor.value.add({
+                                            raw: {
+                                                type: "teleport",
+                                                id: {...t.id(), access: a.id},
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                    }
                 } else if (event.active_entity instanceof EntityTransportEntity) {
 
                     let s = Transportation.normalize(event.active_entity.config.shortcut)

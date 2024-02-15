@@ -9,7 +9,7 @@ import spacer = C.spacer;
 
 export type MenuEntry =
     {
-        text: string,
+        text: string | Widget,
         icon?: string
     } &
     ({
@@ -166,7 +166,7 @@ namespace open_menu {
                     ? c("<div class='nisl-context-menu-entry-icon-container'></div>")
                         .append(entry.icon ? c(`<img src="${entry.icon}">`) : null)
                     : null,
-                span(entry.text),
+                entry.text,
                 spacer().css("min-width", "10px"),
                 entry.type == "submenu" ? span("&#x276F;") : null
             ).addClass("nisl-context-menu-entry")

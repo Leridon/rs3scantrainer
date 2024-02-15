@@ -3,31 +3,33 @@ import {Path} from "../runescape/pathing";
 import {EntityName} from "../runescape/EntityName";
 
 export namespace C {
+    export type Appendable = Widget | string
+
     export function create(s: string): Widget {
         return c(s)
     }
 
-    export function hbox(...content: (Widget | string)[]): Widget {
+    export function hbox(...content: Appendable[]): Widget {
         return create("<div style='display: flex; justify-content: center'></div>").append(...content)
     }
 
-    export function hboxl(...content: (Widget | string)[]): Widget {
+    export function hboxl(...content: Appendable[]): Widget {
         return create("<div style='display: flex'></div>").append(...content)
     }
 
-    export function btnrow(...buttons: Widget[]): Widget {
+    export function btnrow(...buttons: Appendable[]): Widget {
         return create("<div style='display: flex' class='ctr-button-container'></div>").append(...buttons)
     }
 
-    export function hboxc(...content: Widget[]): Widget {
+    export function hboxc(...content: Appendable[]): Widget {
         return create("<div style='display: flex; justify-content: center'></div>").append(...content)
     }
 
-    export function vbox(...content: Widget[]): Widget {
+    export function vbox(...content: Appendable[]): Widget {
         return create("<div></div>").append(...content)
     }
 
-    export function centered(...content: Widget[]): Widget {
+    export function centered(...content: Appendable[]): Widget {
         return create("<div style='text-align: center'></div>").append(...content)
     }
 
@@ -73,7 +75,7 @@ export namespace C {
     }
 
     export function staticentity(name: string, clickable: boolean = false): Widget {
-        if(!name) debugger
+        if (!name) debugger
 
         return c("<span class='nisl-entity'></span>").toggleClass("ctr-clickable", clickable).text(name)
     }

@@ -10,7 +10,7 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import {Observable, observe} from "../../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
 import possibility_raster = MovementAbilities.possibility_raster;
-import {PathStepEntity} from "../../pathing/PathStepEntity";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
     _possibility_overlay: leaflet.FeatureGroup = null

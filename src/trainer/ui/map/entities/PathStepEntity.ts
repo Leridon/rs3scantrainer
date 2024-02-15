@@ -1,17 +1,17 @@
-import {Path} from "../../../lib/runescape/pathing";
-import {MovementAbilities} from "../../../lib/runescape/movement";
+import {Path} from "../../../../lib/runescape/pathing";
+import {MovementAbilities} from "../../../../lib/runescape/movement";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../lib/math";
-import {arrow, createX} from "../path_graphics";
-import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
-import {MapEntity} from "../../../lib/gamemap/MapEntity";
-import Widget from "../../../lib/ui/Widget";
-import {PathStepProperties} from "./PathStepProperties";
-import Dependencies from "../../dependencies";
-import GameLayer from "../../../lib/gamemap/GameLayer";
-import {CursorType} from "../../../lib/runescape/CursorType";
-import {TransportData} from "../../../data/transports";
-import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
+import {Vector2} from "../../../../lib/math";
+import {arrow, createX} from "../../path_graphics";
+import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
+import {MapEntity} from "../../../../lib/gamemap/MapEntity";
+import Widget from "../../../../lib/ui/Widget";
+import {PathStepProperties} from "../../pathing/PathStepProperties";
+import Dependencies from "../../../dependencies";
+import GameLayer from "../../../../lib/gamemap/GameLayer";
+import {CursorType} from "../../../../lib/runescape/CursorType";
+import {TransportData} from "../../../../data/transports";
+import {TeleportSpotEntity} from "./TeleportSpotEntity";
 
 export class PathStepEntity extends MapEntity {
     constructor(public config: PathStepEntity.Config) {

@@ -28,7 +28,7 @@ import {Observable, observe} from "../../../../lib/reactive";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {AugmentedMethod} from "../../../model/MethodPackManager";
 import {Clues} from "../../../../lib/runescape/clues";
-import {PathStepEntity} from "../../pathing/PathStepEntity";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {

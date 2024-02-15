@@ -23,7 +23,7 @@ import bold = C.bold;
 import {Vector2} from "../../../lib/math";
 import {capitalize} from "lodash";
 import entity = C.entity;
-import {PathStepEntity} from "../pathing/PathStepEntity";
+import {PathStepEntity} from "../map/entities/PathStepEntity";
 import {util} from "../../../lib/util/util";
 import {TreeArray} from "../../../lib/util/TreeArray";
 import SectionedPath = Path.SectionedPath;
@@ -139,18 +139,14 @@ namespace PathSectionControl {
 
             this.highlighted.subscribe(v => {
                 this.toggleClass("ctr-neosolving-path-legend-highlighted", v)
-                this.associated_graphics?.highlighted?.set(v)
+
+                if (v) this.associated_graphics?.requestActivation(false)
+                else this.associated_graphics?.resetActivation()
             })
 
             const index = util.index(this.section_index, -1)
 
             let order = c().text(`${index + 1}.`)
-
-            /*
-            if (path.length >= 10) order.css2({
-                "width": "18px",
-                "text-align": "right"
-            })*/
 
             let icon = c().addClass("ctr-neosolving-path-stepicon")
             let content = div()
@@ -346,6 +342,7 @@ export default class PathControl extends Behaviour {
         this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
             return new PathStepEntity({
                 highlightable: true,
+                interactive: true,
                 step: step
             }).addTo(this.path_layer)
         })

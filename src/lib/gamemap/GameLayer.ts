@@ -99,11 +99,11 @@ export default class GameLayer extends leaflet.FeatureGroup {
         return this
     }
 
-    private async createActiveEntityTooltip(force_interactive: boolean = false) {
+    private async createActiveEntityTooltip(force_interactive: boolean | undefined = false) {
         if (this.active_entity.entity) {
             const tooltip = this.active_entity.entity.renderTooltip()
 
-            const interactive = force_interactive || tooltip.interactive
+            const interactive = force_interactive ?? tooltip.interactive
 
             if (tooltip) {
                 const anchor = await this.active_entity.entity.tooltip_hook.value() || document.body
@@ -120,11 +120,8 @@ export default class GameLayer extends leaflet.FeatureGroup {
                     interactive: interactive,
                     onHide: () => {
                         if (this.active_entity.locked) {
-                            console.log("Prevented hide")
                             return false
                         }
-
-                        console.log("Hiding")
                     },
                     onHidden: () => {
                         this.requestEntityActivation(null)
@@ -139,7 +136,7 @@ export default class GameLayer extends leaflet.FeatureGroup {
         }
     }
 
-    async requestEntityActivation(entity: MapEntity, force_interactive: boolean = false): Promise<boolean> {
+    async requestEntityActivation(entity: MapEntity, force_interactive: boolean | undefined = false): Promise<boolean> {
         if (!this.isRootLayer()) return this.parent.requestEntityActivation(entity)
 
         if (this.active_entity.locked) return false
@@ -165,20 +162,19 @@ export default class GameLayer extends leaflet.FeatureGroup {
         return true
     }
 
+    activeEntity(): MapEntity | null {
+        return this.getRoot().active_entity.entity
+    }
+
     async lockEntity(entity: MapEntity): Promise<void> {
         if (this.active_entity.entity) {
             this.active_entity.locked = false
             await this.requestEntityActivation(null)
-
-            console.log("Unlocking")
         }
 
         if (entity) {
             await this.requestEntityActivation(entity, true)
             this.active_entity.locked = true
-
-            console.log("Locking")
-            console.log(entity)
         }
     }
 

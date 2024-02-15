@@ -250,7 +250,7 @@ const raw_data: Transportation.TeleportGroup[] = [
             }, {
                 id: "spellbook",
                 type: "spellbook",
-                name: "Any",
+                name: "Any Spellbook",
                 menu_ticks: 0
             }
         ]

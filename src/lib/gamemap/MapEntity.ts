@@ -5,6 +5,8 @@ import Widget from "../ui/Widget";
 import GameLayer from "./GameLayer";
 import {GameMap} from "./GameMap";
 import {ZoomLevels} from "./ZoomLevels";
+import {GameMapContextMenuEvent} from "./MapEvents";
+import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
 
 export abstract class MapEntity extends leaflet.FeatureGroup {
     public tooltip_hook: Observable<Promise<Element>> = observe(null)
@@ -40,7 +42,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
     }
 
     isActive(): boolean {
-        return this.parent?.getHoveredEntity() == this
+        return this.parent?.activeEntity() == this
     }
 
     setHighlight(v: boolean): this {
@@ -77,6 +79,20 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
         }))
 
         this.rendering_lock = false
+    }
+
+    requestActivation(force_interactive: boolean | undefined) {
+        return this.parent?.requestEntityActivation(this, force_interactive)
+    }
+
+    async resetActivation() {
+        if (this.isActive()) {
+            await this.parent?.requestEntityActivation(null)
+        }
+    }
+
+    contextMenu(event: GameMapContextMenuEvent): (MenuEntry & {type: "submenu"}) | null {
+        return null
     }
 }
 

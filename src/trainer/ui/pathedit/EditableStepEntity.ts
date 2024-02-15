@@ -1,4 +1,4 @@
-import {PathStepEntity} from "../pathing/PathStepEntity";
+import {PathStepEntity} from "../map/entities/PathStepEntity";
 
 
 export default class EditableStepEntity extends PathStepEntity {

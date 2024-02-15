@@ -32,7 +32,7 @@ import MethodSubEditor from "../MethodSubEditor";
 import ClueAssumptions = SolvingMethods.ClueAssumptions;
 import * as lodash from "lodash";
 import MethodEditor from "../MethodEditor";
-import {PathStepEntity} from "../../pathing/PathStepEntity";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
 
 class ScanEditLayerLight extends ScanLayer {
 

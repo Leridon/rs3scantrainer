@@ -45,7 +45,7 @@ import {FavouriteIcon, NislIcon} from "../nisl";
 import MethodSelector from "./MethodSelector";
 import PathControl from "./PathControl";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
-import {PathStepEntity} from "../pathing/PathStepEntity";
+import {PathStepEntity} from "../map/entities/PathStepEntity";
 import inlineimg = C.inlineimg;
 import {CursorType} from "../../../lib/runescape/CursorType";
 

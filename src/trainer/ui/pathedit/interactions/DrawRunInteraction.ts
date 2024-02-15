@@ -9,7 +9,7 @@ import {util} from "../../../../lib/util/util";
 import index = util.index;
 import observe_combined = Observable.observe_combined;
 import {Path} from "../../../../lib/runescape/pathing";
-import {PathStepEntity} from "../../pathing/PathStepEntity";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 
 class DrawRunInteractionInternal extends ValueInteraction<{

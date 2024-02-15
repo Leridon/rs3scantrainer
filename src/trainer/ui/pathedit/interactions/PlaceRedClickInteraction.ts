@@ -3,7 +3,7 @@ import InteractionTopControl from "../../map/InteractionTopControl";
 import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
-import {PathStepEntity} from "../../pathing/PathStepEntity";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import { CursorType } from "lib/runescape/CursorType";
 
 export default class PlaceRedClickInteraction extends ValueInteraction<Path.step_redclick> {

@@ -70,7 +70,9 @@ export class GameMapKeyboardEvent extends GameMapEvent<leaflet.LeafletKeyboardEv
 }
 
 export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEvent, MouseEvent> {
-    entries: MenuEntry[] = []
+    private entries: MenuEntry[] = []
+
+    private for_entity_entries: MenuEntry[] = []
 
     constructor(map: GameMap,
                 public leaflet: leaflet.LeafletMouseEvent,
@@ -83,8 +85,27 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
         this.entries.push(...entries)
     }
 
+    addForEntity(...entries: MenuEntry[]): void {
+        if (!this.active_entity) throw new TypeError("Adding entity actions for context menu without entity")
+
+        this.for_entity_entries.push(...entries)
+    }
+
     tile() {
         return TileCoordinates.snap(this.coordinates)
+    }
+
+    getEntries() {
+        const for_entity = this.active_entity?.contextMenu(this)
+
+        if (for_entity) {
+            for_entity.children.push(...this.for_entity_entries)
+
+            return this.entries.concat(for_entity)
+        } else {
+            return this.entries
+        }
+
     }
 }
 

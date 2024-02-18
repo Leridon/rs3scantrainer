@@ -161,7 +161,7 @@ export class PathStepEntity extends MapEntity {
         return element
     }
 
-    renderTooltip(): { content: Widget, interactive: boolean } | null {
+    async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
         return {
             content: new PathStepProperties(this.config.step, Dependencies.instance().app.value().template_resolver),
             interactive: false

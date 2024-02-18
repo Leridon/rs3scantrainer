@@ -99,9 +99,9 @@ export default class GameLayer extends leaflet.FeatureGroup {
         return this
     }
 
-    private async createActiveEntityTooltip(force_interactive: boolean | undefined = false) {
+    private async createActiveEntityTooltip(force_interactive: boolean | undefined = undefined) {
         if (this.active_entity.entity) {
-            const tooltip = this.active_entity.entity.renderTooltip()
+            const tooltip = await this.active_entity.entity.renderTooltip()
 
             const interactive = force_interactive ?? tooltip.interactive
 
@@ -109,7 +109,7 @@ export default class GameLayer extends leaflet.FeatureGroup {
                 const anchor = await this.active_entity.entity.tooltip_hook.value() || document.body
 
                 this.active_entity.tooltip_instance = tippy.default(anchor, {
-                    content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white;padding: 3px' class='ctr-entity-tooltip'></div>")
+                    content: c("<div class='ctr-entity-tooltip'></div>")
                         .append(tooltip.content).raw(),
                     arrow: true,
                     animation: false,
@@ -128,6 +128,7 @@ export default class GameLayer extends leaflet.FeatureGroup {
                     },
                     placement: "top",
                     offset: [0, 10],
+                    appendTo: document.body
                 })
 
                 this.active_entity.tooltip_instance.show()
@@ -136,7 +137,7 @@ export default class GameLayer extends leaflet.FeatureGroup {
         }
     }
 
-    async requestEntityActivation(entity: MapEntity, force_interactive: boolean | undefined = false): Promise<boolean> {
+    async requestEntityActivation(entity: MapEntity, force_interactive: boolean | undefined = undefined): Promise<boolean> {
         if (!this.isRootLayer()) return this.parent.requestEntityActivation(entity)
 
         if (this.active_entity.locked) return false

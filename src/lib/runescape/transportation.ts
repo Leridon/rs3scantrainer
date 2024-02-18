@@ -74,7 +74,7 @@ export namespace Transportation {
         name: EntityName & { kind: "npc" | "static" },
         area: TileArea,
         action_name: string,
-        cursor: CursorType,
+        cursor?: CursorType,
     } | {
         type: "spellbook",
         name: string

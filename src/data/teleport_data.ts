@@ -2637,982 +2637,1026 @@ code: "4",
                 animation_ticks: 3
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "gliders",
-name: "Gnome gliders",
-img: {url: "glider.png"},
+        name: "Gnome gliders",
+        img: {url: "glider.png"},
+        menu_ticks: 1,
+        animation_ticks: 3,
         spots: [
             {
                 id: "grandtree",
-target: {origin: {x: 2466, y: 3496, level: 0}},
-name: "The Grand Tree",
-code: "1",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {"x": 2465, "y": 3501, "level": 3}},
+                name: "Ta Quir Priw",
+                code: "1",
             },
             {
                 id: "whitewolfmountain",
-target: { origin: {"x": 2850, "y": 3494, "level": 1} },
-name: "White Wolf Mountain",
-code: "2",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {"x": 2850, "y": 3494, "level": 1}},
+                name: "Sindarpos",
+                code: "2",
             },
             {
                 id: "digside",
-target: {origin: {x: 3321, y: 3432, level: 0}},
-name: "Digsite",
-code: "3",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {"x": 3319, "y": 3438, "level": 0}},
+                name: "Lemanto Andra",
+                code: "3",
             },
             {
                 id: "alkharid",
-target: {origin: {x: 3280, y: 3213, level: 0}},
-name: "Al Kharid",
-code: "4",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {"x":3284,"y":3211,"level":0}},
+                name: "Kar-Hewo",
+                code: "4",
             },
             {
                 id: "karamja",
-target: {origin: {x: 2971, y: 2970, level: 0}},
-name: "Karamja",
-code: "5",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {"x":2971,"y":2969,"level":0}},
+                name: "Gandius",
+                code: "5",
             },
             {
                 id: "feldiphills",
-target: {origin: {x: 2556, y: 2972, level: 0}},
-name: "Feldip Hills",
-code: "6",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {"x":2549,"y":2971,"level":0}},
+                name: "Lemantolly Undri",
+                code: "6",
             },
             {
                 id: "treegnomevillage",
-target: {origin: {x: 2495, y: 3192, level: 0}},
-name: "Tree Gnome Village",
-code: "7",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {"x":2496,"y":3191,"level":0}},
+                name: "Priw Gnomo Andralo",
+                code: "7",
             },
             {
                 id: "prifddinas",
-target: {origin: {x: 2208, y: 3445, level: 0}},
-name: "Prifddinas",
-code: "8",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin: {x: 2208, y: 3445, level: 1}},
+                name: "Dylandra",
+                code: "8",
             },
             {
                 id: "tualeit",
-target: {origin: {x: 1774, y: 11919, level: 0}},
-name: "Tua Leit",
-code: "9",
-                menu_ticks: 1,
-                animation_ticks: 3
+                target: {origin:{"x":1772,"y":11920,"level":0}},
+                name: "Kal-Undri",
+                code: "9",
             },
-        ]
+        ],
+        access: [
+            {
+                id: "grandtree",
+                type: "entity",
+                area: {origin: {"x": 2464, "y": 3502, "level": 3}},
+                name: {kind: "npc", name: "Captain Errdo"},
+                action_name: "Glider",
+            },
+            {
+                id: "whitewolfmountain",
+                type: "entity",
+                area: {origin: {"x":2850,"y":3493,"level":1}},
+                name: {kind: "npc", name: "Captain Bleemadge"},
+                action_name: "Glider",
+            },
+            {
+                id: "alkharid",
+                type: "entity",
+                area: {origin: {"x":3283,"y":3212,"level":0}},
+                name: {kind: "npc", name: "Captain Dalbur"},
+                action_name: "Glider",
+            },
+            {
+                id: "karamja",
+                type: "entity",
+                area: {origin: {"x": 2970, "y": 2973, "level": 0}},
+                name: {kind: "npc", name: "Captain Klemfoodle"},
+                action_name: "Glider",
+            },
+            {
+                id: "feldip",
+                type: "entity",
+                area: {origin: {"x":2545,"y":2972,"level":0}}, // TODO: He is not static
+                name: {kind: "npc", name: "Gnormadium Avlafrim"},
+                action_name: "Glider",
+            },
+            {
+                id: "gnomevillage",
+                type: "entity",
+                area: {origin: {"x":2496,"y":3190,"level":0}}, // TODO: He is not static
+                name: {kind: "npc", name: "Captain Belmondo"},
+                action_name: "Glider",
+            },
+            {
+                id: "prifddinas",
+                type: "entity",
+                area: {origin: {"x":2207,"y":3452,"level":1}},
+                name: {kind: "npc", name: "Captain Muggin"},
+                action_name: "Glider",
+            },
+            {
+                id: "tuaeileit",
+                type: "entity",
+                area: {origin: {"x":1773,"y":11919,"level":0}},
+                name: {kind: "npc", name: "Azalea Oakhart"},
+                action_name: "Glider",
+            },
+
+            ]
     },
-    {
-        type: "teleports",
-        id: "wickedhood",
+
+    /*{
+type: "teleports",
+id: "wickedhood",
 name: "Wicked hood",
 img: {url: "wicked.gif"},
-        spots: [
-            {
-                id: "guild",
+spots: [
+    {
+        id: "guild",
 target: { origin: {x: 3109, y: 3156, level: 3} },
 name: "Runecrafting Guild",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "soul",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "soul",
 target: {origin: {x: 3087, y: 2697, level: 0}},
 name: "Soul",
 code: "Soul",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "cosmic",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "cosmic",
 target: {origin: {x: 2405, y: 4381, level: 0}},
 name: "Cosmic",
 code: "Cosmic",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "air",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "air",
 target: {origin: {x: 3127, y: 3403, level: 0}},
 name: "Air",
 code: "Air",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "body",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "body",
 target: {origin: {x: 3053, y: 3443, level: 0}},
 name: "Body",
 code: "Body",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "mind",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "mind",
 target: {origin: {x: 2982, y: 3514, level: 0}},
 name: "Mind",
 code: "Mind",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "fire",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "fire",
 target: {origin: {x: 3314, y: 3256, level: 0}},
 name: "Fire",
 code: "Fire",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "earth",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "earth",
 target: {origin: {x: 3305, y: 3475, level: 0}},
 name: "Earth",
 code: "Earth",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "water",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "water",
 target: {origin: {x: 3165, y: 3185, level: 0}},
 name: "Water",
 code: "Water",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "nature",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "nature",
 target: {origin: {x: 2870, y: 3023, level: 0}},
 name: "Nature",
 code: "Nature",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "astral",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "astral",
 target: {origin: {x: 2158, y: 3866, level: 0}},
 name: "Astral",
 code: "Astral",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "chaos",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "chaos",
 target: {origin: {x: 3059, y: 3593, level: 0}},
 name: "Chaos",
 code: "Chaos",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "law",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "law",
 target: {origin: {x: 2857, y: 3382, level: 0}},
 name: "Law",
 code: "Law",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "blood",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "blood",
 target: { origin: {"x": 3560, "y": 9779, "level": 0} },
 name: "Blood",
 code: "Blood",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-            {
-                id: "death",
+        menu_ticks: 2,
+        animation_ticks: 3
+    },
+    {
+        id: "death",
 target: { origin: {"x": 1863, "y": 4637, "level": 0} },
 name: "Death",
 code: "Death",
-                menu_ticks: 2,
-                animation_ticks: 3
-            },
-
-        ]
+        menu_ticks: 2,
+        animation_ticks: 3
     },
-    {
-        type: "teleports",
-        id: "balloon",
+
+]
+},
+{
+type: "teleports",
+id: "balloon",
 name: "Balloon",
 img: {url: "balloon.png"},
-        spots: [
-            {
-                id: "castlewars",
+spots: [
+    {
+        id: "castlewars",
 target: {origin: {x: 2463, y: 3109, level: 0}},
 name: "Castle Wars",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "grandtree",
+        menu_ticks: 1,
+        animation_ticks: 5
+    },
+    {
+        id: "grandtree",
 target: {origin: {x: 2477, y: 3462, level: 0}},
 name: "Grand Tree",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "craftingguild",
+        menu_ticks: 1,
+        animation_ticks: 5
+    },
+    {
+        id: "craftingguild",
 target: {origin: {x: 2923, y: 3300, level: 0}},
 name: "Crafting Guild",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "taverley",
+        menu_ticks: 1,
+        animation_ticks: 5
+    },
+    {
+        id: "taverley",
 target: {origin: {x: 2931, y: 3414, level: 0}},
 name: "Taverley",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "varrock",
+        menu_ticks: 1,
+        animation_ticks: 5
+    },
+    {
+        id: "varrock",
 target: {origin: {x: 3298, y: 3483, level: 0}},
 name: "Varrock",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "entrana",
+        menu_ticks: 1,
+        animation_ticks: 5
+    },
+    {
+        id: "entrana",
 target: {origin: {x: 2809, y: 3356, level: 0}},
 name: "Entrana",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-        ]
+        menu_ticks: 1,
+        animation_ticks: 5
     },
-    {
-        type: "teleports",
-        id: "gote",
+]
+},
+{
+type: "teleports",
+id: "gote",
 name: "Grace of the Elves (Max Guild Portal)",
 img: {url: "gote.png"},
-        spots: [
-            {
-                id: "overgrownidols",
+spots: [
+    {
+        id: "overgrownidols",
 target: {origin: {x: 2950, y: 2976, level: 0}},
 name: "Overgrown idols",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "deppseafishing",
-target: {origin: {x: 2594, y: 3412, level: 0}},
-name: "Deep sea fishing hub",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "lavaflowmine",
-target: {origin: {x: 2940, y: 10198, level: 0}},
-name: "Lava Flow Mine",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-        ]
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
     },
     {
-        type: "teleports",
-        id: "spheredorgeshkaan",
+        id: "deppseafishing",
+target: {origin: {x: 2594, y: 3412, level: 0}},
+name: "Deep sea fishing hub",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "lavaflowmine",
+target: {origin: {x: 2940, y: 10198, level: 0}},
+name: "Lava Flow Mine",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+]
+},
+{
+type: "teleports",
+id: "spheredorgeshkaan",
 name: "Dorgesh-kaan sphere",
 img: {url: "sphere_dorgeshkaan.png"},
-        spots: [
-            {
-                id: "north",
+spots: [
+    {
+        id: "north",
 target: {origin: {x: 2719, y: 5350, level: 0}},
 name: "North",
 code: "1",
-                menu_ticks: 1,
-                animation_ticks: 11
-            },
-            {
-                id: "south",
+        menu_ticks: 1,
+        animation_ticks: 11
+    },
+    {
+        id: "south",
 target: {origin: {x: 2722, y: 5264, level: 0}},
 name: "South",
 code: "2",
-                menu_ticks: 1,
-                animation_ticks: 11
-            },
-            {
-                id: "east",
+        menu_ticks: 1,
+        animation_ticks: 11
+    },
+    {
+        id: "east",
 target: { origin: {x: 2735, y: 5307, level: 1} },
 name: "East",
 code: "3",
-                menu_ticks: 1,
-                animation_ticks: 11
-            },
-            {
-                id: "west",
+        menu_ticks: 1,
+        animation_ticks: 11
+    },
+    {
+        id: "west",
 target: { origin: {x: 2700, y: 5308, level: 1} },
 name: "West",
 code: "4",
-                menu_ticks: 1,
-                animation_ticks: 11
-            },
-        ]
+        menu_ticks: 1,
+        animation_ticks: 11
     },
-    {
-        type: "teleports",
-        id: "spheregoblinvillage",
+]
+},
+{
+type: "teleports",
+id: "spheregoblinvillage",
 name: "Goblin village sphere",
 img: {url: "sphere_goblinvillage.png"},
-        spots: [{
-            id: "goblinvillage",
-            name: "Goblin Village",
-            target: {origin: {x: 2957, y: 3503, level: 0}},
-            menu_ticks: 1,
-            animation_ticks: 11
-        },]
-    },
-    {
-        type: "teleports",
-        id: "naturessentinel",
+spots: [{
+    id: "goblinvillage",
+    name: "Goblin Village",
+    target: {origin: {x: 2957, y: 3503, level: 0}},
+    menu_ticks: 1,
+    animation_ticks: 11
+},]
+},
+{
+type: "teleports",
+id: "naturessentinel",
 name: "Nature's sentinel outfit",
 img: {url: "sentinel.png"},
-        spots: [
-            {
-                id: "normalwestvarrock",
+spots: [
+    {
+        id: "normalwestvarrock",
 target: {origin: {x: 3138, y: 3431, level: 0}},
 code: "1,1",
 name: "Normal Trees - West Varrock",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "normaleastvarrock",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "normaleastvarrock",
 target: {origin: {x: 3290, y: 3476, level: 0}},
 code: "1,2",
 name: "Normal Trees - East Varrock",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "oakwestvarrock",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "oakwestvarrock",
 target: {origin: {x: 3165, y: 3414, level: 0}},
 code: "2,1",
 name: "Oak Trees - West Varrock",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "oakeastvarrock",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "oakeastvarrock",
 target: {origin: {x: 3278, y: 3474, level: 0}},
 code: "2,2",
 name: "Oak Trees - East Varrock",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "willowdraynor",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "willowdraynor",
 target: {origin: {x: 3090, y: 3232, level: 0}},
 code: "3,1",
 name: "Willow Trees - Draynor",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "willowcathery",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "willowcathery",
 target: {origin: {x: 2783, y: 3430, level: 0}},
 code: "3,2",
 name: "Willow Trees - Catherby",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "willowbarbarianoutpost",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "willowbarbarianoutpost",
 target: {origin: {x: 2520, y: 3579, level: 0}},
 code: "3,3",
 name: "Willow Trees - Barbarian Outpost",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "mapleseers",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "mapleseers",
 target: {origin: {x: 2728, y: 3501, level: 0}},
 code: "4,1",
 name: "Maple Trees - Seers'",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "mapledaemonheim",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "mapledaemonheim",
 target: {origin: {x: 3500, y: 3625, level: 0}},
 code: "4,2",
 name: "Maple Trees - Daeomonheim Peninsula Resource Dungeon'",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "yewseers",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "yewseers",
 target: {origin: {x: 2708, y: 3462, level: 0}},
 code: "5,1",
 name: "Yew Trees - Seers' Graveyard",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "yewcathery",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "yewcathery",
 target: {origin: {x: 2755, y: 3431, level: 0}},
 code: "5,2",
 name: "Yew Trees - West Catherby",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "yewedgeville",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "yewedgeville",
 target: {origin: {x: 3087, y: 3476, level: 0}},
 code: "5,3",
 name: "Yew Trees - Edgeville",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "yewvarrock",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "yewvarrock",
 target: {origin: {x: 3208, y: 3502, level: 0}},
 code: "5,4",
 name: "Yew Trees - Varrock Palace",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "yewcrwys",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "yewcrwys",
 target: {origin: {x: 2261, y: 3385, level: 0}},
 code: "5,5",
 name: "Yew Trees - Crwys sector",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "magicranging",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "magicranging",
 target: {origin: {x: 2693, y: 3428, level: 0}},
 code: "6,1",
 name: "Magic Trees - East Ranging Guild",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "magicsorcerer",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "magicsorcerer",
 target: {origin: {x: 2702, y: 3397, level: 0}},
 code: "6,2",
 name: "Magic Trees - Sorcerer's Tower",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "magicmagetraining",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "magicmagetraining",
 target: {origin: {x: 3357, y: 3310, level: 0}},
 code: "6,3",
 name: "Magic Trees - Mage Training Arena",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "magictirannwn",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "magictirannwn",
 target: {origin: {x: 2288, y: 3140, level: 0}},
 code: "6,4",
 name: "Magic Trees - South Tirannwn",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "magiccrwys",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "magiccrwys",
 target: {origin: {x: 2250, y: 3366, level: 0}},
 code: "6,5",
 name: "Magic Trees - Crwys sector",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "eldersorcerer",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "eldersorcerer",
 target: {origin: {x: 2733, y: 3410, level: 0}},
 code: "7,1",
 name: "Elder Trees - East Sorcerer's Tower",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderyanille",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderyanille",
 target: {origin: {x: 2574, y: 3065, level: 0}},
 code: "7,2",
 name: "Elder Trees - South Yanille",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "eldergnomestronghold",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "eldergnomestronghold",
 target: {origin: {x: 2423, y: 3455, level: 0}},
 code: "7,3",
 name: "Elder Trees - Tree Gnome Stronghold",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderdraynor",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderdraynor",
 target: {origin: {x: 3095, y: 3217, level: 0}},
 code: "7,4",
 name: "Elder Trees - South Draynor",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderfalador",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderfalador",
 target: {origin: {x: 3049, y: 3321, level: 0}},
 code: "7,5",
 name: "Elder Trees - Falador Farm",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "eldervarrock",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "eldervarrock",
 target: {origin: {x: 3257, y: 3371, level: 0}},
 code: "7,6",
 name: "Elder Trees - South Varrock",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderlletya",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderlletya",
 target: {origin: {x: 2292, y: 3146, level: 0}},
 code: "7,7",
 name: "Elder Trees - West Lletya",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderpiscatoris",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderpiscatoris",
 target: {origin: {x: 2319, y: 3596, level: 0}},
 code: "7,8",
 name: "Elder Trees - Piscatoris",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderedgeville",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderedgeville",
 target: {origin: {x: 3094, y: 3451, level: 0}},
 code: "7,9,1",
 name: "Elder Trees - South Edgeville",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderrimmington",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderrimmington",
 target: {origin: {x: 2934, y: 3228, level: 0}},
 code: "7,9,2",
 name: "Elder Trees - North Rimmington",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "elderfort",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "elderfort",
 target: {origin: {x: 3375, y: 3545, level: 0}},
 code: "7,9,3",
 name: "Elder Trees - Fort Forinthry Grove",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "teaktai",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "teaktai",
 target: {origin: {x: 2814, y: 3084, level: 0}},
 code: "0,1,1",
 name: "Teak Trees - Tai Bwo Wannai",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "teakape",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "teakape",
 target: {origin: {x: 2772, y: 2698, level: 0}},
 code: "0,1,2",
 name: "Teak Trees - Ape Atoll",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "teakcastlewars",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "teakcastlewars",
 target: {origin: {x: 2333, y: 3048, level: 0}},
 code: "0,1,3",
 name: "Teak Trees - South-west Castle Wars",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            // 0,2,1 magogany tai bwo wannai omitted due to same spot as teak
-            {
-                id: "mahoganyape",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    // 0,2,1 magogany tai bwo wannai omitted due to same spot as teak
+    {
+        id: "mahoganyape",
 target: {origin: {x: 2715, y: 2708, level: 0}},
 code: "0,2,2",
 name: "Mahogany Trees - Ape Atoll",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "mahoganiharazi",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "mahoganiharazi",
 target: {origin: {x: 2934, y: 2928, level: 0}},
 code: "0,2,3",
 name: "Mahogany Trees - Kharazi Jungle",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "arcticpine",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "arcticpine",
 target: {origin: {x: 2355, y: 3848, level: 0}},
 code: "0,3",
 name: "Arctic Pine Trees",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "acadia",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "acadia",
 target: {origin: {x: 3187, y: 2720, level: 0}},
 code: "0,4",
 name: "Acadia Trees",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivynorthvarrock",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivynorthvarrock",
 target: {origin: {x: 3218, y: 3499, level: 0}},
 code: "0,5,1",
 name: "Choking Ivy - North Varrock Palace",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivyeastvarrock",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivyeastvarrock",
 target: {origin: {x: 3232, y: 3460, level: 0}},
 code: "0,5,2",
 name: "Choking Ivy - East Varrock Palace",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivynorthfalador",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivynorthfalador",
 target: {origin: {x: 3015, y: 3393, level: 0}},
 code: "0,5,3",
 name: "Choking Ivy - North Falador",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivysouthfalador",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivysouthfalador",
 target: {origin: {x: 3044, y: 3327, level: 0}},
 code: "0,5,4",
 name: "Choking Ivy - South Falador",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivytaverley",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivytaverley",
 target: {origin: {x: 2938, y: 3429, level: 0}},
 code: "0,5,5",
 name: "Choking Ivy - South-east Taverly",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivyardougne",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivyardougne",
 target: {origin: {x: 2623, y: 3308, level: 0}},
 code: "0,5,6",
 name: "Choking Ivy - East Ardougne Church",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivyyanille",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivyyanille",
 target: {origin: {x: 2593, y: 3114, level: 0}},
 code: "0,5,7",
 name: "Choking Ivy - North Yanille",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivycastlewars",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivycastlewars",
 target: {origin: {x: 2426, y: 3062, level: 0}},
 code: "0,5,8",
 name: "Choking Ivy - South Castle Wars",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ivycrwys",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "ivycrwys",
 target: {origin: {x: 2241, y: 3377, level: 0}},
 code: "0,5,9",
 name: "Choking Ivy - Crwys sector",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "idolsshipyard",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "idolsshipyard",
 target: {origin: {x: 2932, y: 3026, level: 0}},
 code: "0,6,1",
 name: "Overgrown Idols - West of the Karamja shipyard",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "idolsjadinko",
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "idolsjadinko",
 target: {origin: {x: 2947, y: 2976, level: 0}},
 code: "0,6,2",
 name: "Overgrown Idols - North of the Jadinko vine cave",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-
-        ]
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
     },
-    {
-        type: "teleports",
-        id: "archteleport",
+
+]
+},
+{
+type: "teleports",
+id: "archteleport",
 name: "Archaeology teleport (or outfit)",
 img: {url: "archteleport.png"},
-        spots: [
-            {
-                id: "campus",
+spots: [
+    {
+        id: "campus",
 target: {origin: {x: 3329, y: 3379, level: 0}},
 code: "1",
 name: "Archaeology Campus",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "kharidet",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "kharidet",
 target: {origin: {x: 3349, y: 3195, level: 0}},
 code: "2",
 name: "Kharid-et",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "infernal",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "infernal",
 target: {origin: {x: 3271, y: 3504, level: 0}},
 code: "3",
 name: "Infernal Source",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "everlight",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "everlight",
 target: {origin: {x: 3695, y: 3209, level: 0}},
 code: "4",
 name: "Everlight",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "senntisten",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "senntisten",
 target: {origin: {x: 1784, y: 1295, level: 0}},
 code: "5",
 name: "Senntisten",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "stormguard",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "stormguard",
 target: {origin: {x: 2682, y: 3403, level: 0}},
 code: "6",
 name: "Stormguard Citadel",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "warforge",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "warforge",
 target: {origin: {x: 2409, y: 2824, level: 0}},
 code: "7",
 name: "Warforge",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "orthen",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "orthen",
 target: {origin: {x: 5456, y: 2339, level: 0}},
 code: "8",
 name: "Orthen",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "jacques",
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "jacques",
 target: {origin: {x: 3254, y: 3455, level: 0}},
 code: "9,1",
 name: "Collectors - Art Critic Jacques",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "tess",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "tess",
 target: {origin: {x: 2550, y: 2854, level: 0}},
 code: "9,2",
 name: "Collectors - Chief Tess",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "generals",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "generals",
 target: {origin: {x: 2957, y: 3510, level: 0}},
 code: "9,3",
 name: "Collectors - Generals Bentnoze & Wartface",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "isaura",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "isaura",
 target: {origin: {x: 2921, y: 9702, level: 0}},
 code: "9,4",
 name: "Collectors - Isaura",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "lowse",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "lowse",
 target: {origin: {x: 2988, y: 3269, level: 0}},
 code: "9,5",
 name: "Collectors - Lowse",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "sharrigan",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "sharrigan",
 target: {origin: {x: 5456, y: 2344, level: 0}},
 code: "9,6",
 name: "Collectors - Sharrigan",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "atcha",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "atcha",
 target: {origin: {x: 2962, y: 3347, level: 0}},
 code: "9,7",
 name: "Collectors - Sir Atcha",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "soran",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "soran",
 target: {origin: {x: 3181, y: 3417, level: 0}},
 code: "9,8",
 name: "Collectors - Soran",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "velucia",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "velucia",
 target: {origin: {x: 3342, y: 3384, level: 0}},
 code: "9,9",
 name: "Collectors - Velucia",
-                menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "wiseoldman",
+        menu_ticks: 2,
+        animation_ticks: default_teleport_ticks
+    },
+    {
+        id: "wiseoldman",
 target: {origin: {x: 3088, y: 3254, level: 0}},
 code: "9,0,1",
 name: "Collectors - Wise Old Man",
-                menu_ticks: 3,
-                animation_ticks: default_teleport_ticks
-            },
-        ]
+        menu_ticks: 3,
+        animation_ticks: default_teleport_ticks
     },
-    {
-        type: "teleports",
-        id: "ringofkinship",
+]
+},
+{
+type: "teleports",
+id: "ringofkinship",
 name: "Ring of Kinship",
 img: {url: "ringofkinship.png"}, spots: [{
-            id: "daemonheim",
-            name: "Daemonheim",
-            target: {origin: {x: 3449, y: 3701, level: 0}},
-            menu_ticks: 1,
-            animation_ticks: 13
-        }]
-    },
-    {
-        type: "teleports",
-        id: "witchdoctormask",
-        name: "Witchdoctor mask",
-        img: {url: "witchdoctormask.png"},
-        spots: [{
-            id: "herblorehabitat",
+    id: "daemonheim",
+    name: "Daemonheim",
+    target: {origin: {x: 3449, y: 3701, level: 0}},
+    menu_ticks: 1,
+    animation_ticks: 13
+}]
+},
+{
+type: "teleports",
+id: "witchdoctormask",
+name: "Witchdoctor mask",
+img: {url: "witchdoctormask.png"},
+spots: [{
+    id: "herblorehabitat",
 target: {origin: {x: 2950, y: 2933, level: 0}},
 name: "Herblore Habitat",
-            menu_ticks: 1,
-            animation_ticks: default_teleport_ticks
-        }]
-    },
-    {
-        type: "teleports",
-        id: "ecctophial",
+    menu_ticks: 1,
+    animation_ticks: default_teleport_ticks
+}]
+},
+{
+type: "teleports",
+id: "ecctophial",
 name: "Ectophial",
 img: {url: "ectophial.png"}, spots: [{
-            id: "ectofunctus",
-            name: "Ectofunctus",
-            target: {origin: {x: 3660, y: 3521, level: 0}},
-            menu_ticks: 0,
-            animation_ticks: 10
-        }]
-    },
-    {
-        type: "teleports",
-        id: "explorersring",
-        name: "Explorer's ring",
-        img: {url: "explorersring.png"},
-        spots: [{
-            id: "cabbagefield",
+    id: "ectofunctus",
+    name: "Ectofunctus",
+    target: {origin: {x: 3660, y: 3521, level: 0}},
+    menu_ticks: 0,
+    animation_ticks: 10
+}]
+},
+{
+type: "teleports",
+id: "explorersring",
+name: "Explorer's ring",
+img: {url: "explorersring.png"},
+spots: [{
+    id: "cabbagefield",
 target: {origin: {x: 3053, y: 3290, level: 0}},
 name: "Cabbage field",
-            menu_ticks: 1,
-            animation_ticks: 5
-        }]
-    },
-    {
-        type: "teleports",
-        id: "karamjagloves",
-        name: "Karamja gloves",
-        img: {url: "karamjagloves.gif"},
-        spots: [{
-            id: "gemmine",
-            name: "Gem Mine",
-            target: {origin: {x: 2825, y: 2997, level: 0}},
-            menu_ticks: 1,
-            animation_ticks: 5
-        }]
-    },
-    {
-        type: "teleports",
-        id: "theheart",
-        name: "The Heart teleport",
-        img: {url: "theheart.gif"},
-        spots: [{
-            id: "center",
-            name: "The Heart",
-            target: {origin: {x: 3199, y: 6942, level: 0}},
-            menu_ticks: 0,
-            animation_ticks: 4
-        }]
-    },
-    {
-        type: "teleports",
-        id: "fremmenikboots",
-        name: "Fremmenik sea boots",
-        img: {url: "fremmenikboots.gif"},
-        spots: [{
-            id: "relekkamarket",
+    menu_ticks: 1,
+    animation_ticks: 5
+}]
+},
+{
+type: "teleports",
+id: "karamjagloves",
+name: "Karamja gloves",
+img: {url: "karamjagloves.gif"},
+spots: [{
+    id: "gemmine",
+    name: "Gem Mine",
+    target: {origin: {x: 2825, y: 2997, level: 0}},
+    menu_ticks: 1,
+    animation_ticks: 5
+}]
+},
+{
+type: "teleports",
+id: "theheart",
+name: "The Heart teleport",
+img: {url: "theheart.gif"},
+spots: [{
+    id: "center",
+    name: "The Heart",
+    target: {origin: {x: 3199, y: 6942, level: 0}},
+    menu_ticks: 0,
+    animation_ticks: 4
+}]
+},
+{
+type: "teleports",
+id: "fremmenikboots",
+name: "Fremmenik sea boots",
+img: {url: "fremmenikboots.gif"},
+spots: [{
+    id: "relekkamarket",
 target: {origin: {x: 2642, y: 3678, level: 0}},
 name: "Relekka Market",
-            menu_ticks: 1,
-            animation_ticks: default_teleport_ticks
-        }]
-    },*/
+    menu_ticks: 1,
+    animation_ticks: default_teleport_ticks
+}]
+},*/
     {
         type: "teleports",
         id: "legendscape",

@@ -1,20 +1,17 @@
 Planned for next release (b0.4):
 
-- Teleports:
-    - Teleport spots and teleport access are in a m to n relationship
-    - Code, Hover, Name, Icon etc. depend on both.
-    - This sucks, because it's hard to model
-    - Accesses should be able to specify relevant data globally and per spot
-        - Maybe some of the data that is currently part of the group or the spot should actually be part of the access method (icon for example).
-
 - Theorycrafter
-    - Delete in MethodWidget does nothing
-    - Filtering does not update properly in some situations
-    - Saved generic methods do not appear anywhere
+    - [Refactor] Make markers be entities
+    - [Bug] Delete in MethodWidget does nothing
+    - [Feature] Option to show pathing for all filtered spots
+        - Best | Best in Pack | Favorite
+        - Noninteractive entities
+    - [Bug] Filtering does not update properly in some situations
+    - [Bug] Saved generic methods do not appear anywhere
         - They exist in the local storage, so just a display issue?
         - They also don't appear for solving until after a reload
     - "Save to pack" modal
-        - "Create new" option
+        - [Feature] "Create new" option
     - Editor for generic path methods
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
@@ -34,6 +31,7 @@ Planned for next release (b0.4):
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
     - Add a way to make it not closeable by the user
     - [Bug] Teleport overriding does not work
+    - [Bug] Detail template string can't be edited
 
 
 - Solving Behaviour
@@ -92,10 +90,10 @@ Planned for next release (b0.4):
 - Menu Bar
     - Highlight currently active
     - Add to Alt 1 entry when not in Alt1
+    - Regular Map mode as default
 
 - Settings Modal
     - Map Settings: Teleport Preferences
-    - Local Method Packs
 
 - General
     - [Styling] ControlHeader title and X are not properly aligned
@@ -108,6 +106,7 @@ Planned for next release (b0.4):
     - Use the new ExpansionBehaviour wherever it's applicable
 
 - Shortcut editor/View
+    - Honestly, just remove the entire thing
     - [Bug] Actually disable editing for builtins
     - [Bug] Viewport filtering needs to include level
     - [Potential Bug] Copying from a different floor is weird.

@@ -41,7 +41,7 @@ export class TeleportSpotEntity extends MapEntity {
         return marker.getElement()
     }
 
-    renderTooltip(): { content: Widget, interactive: boolean } | null {
+    async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
         let props = new Properties()
 
         const teleport = this.config.teleport
@@ -61,7 +61,7 @@ export class TeleportSpotEntity extends MapEntity {
                         return C.div().text(access.name)
                     case "item":
                     case "entity":
-                        return entity(access.name)
+                        return c().append(entity(access.name))
                 }
 
             })

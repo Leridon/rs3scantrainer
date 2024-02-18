@@ -8,62 +8,38 @@ import Widget from "../../../lib/ui/Widget";
 import {ClueProperties} from "./ClueProperties";
 import ClueSpot = Clues.ClueSpot;
 import * as tippy from "tippy.js";
+import {MapEntity} from "../../../lib/gamemap/MapEntity";
 
-export class ClueOverviewMarker extends leaflet.FeatureGroup {
-    private marker: TileMarker
-
-    tippy: tippy.Instance = null
-
+export class ClueOverviewMarker extends MapEntity {
     constructor(private clue: Clues.ClueSpot,
                 private methods: MethodPackManager,
                 private edit_handler: (_: AugmentedMethod) => any,
                 private talk_alternative_index?: number,
     ) {
-        super();
-
-        this.marker = new TileMarker(ClueOverviewMarker.position(clue, talk_alternative_index)).withMarker().addTo(this)
+        super({interactive: true, highlightable: true});
     }
 
-    async createTooltip(): Promise<tippy.Instance> {
-        if (this.tippy) {
-            this.tippy.destroy()
-            this.tippy = null
-        }
-
+    override async renderTooltip(): Promise<{ content: Widget; interactive: boolean; } | null> {
         let self = this
 
-        async function construct(): Promise<Widget> {
-            return c("<div style='background: rgb(10, 31, 41); border: 1px solid grey; width: 400px; padding: 5px'></div>")
-                .append(await new ClueProperties(
+        return {
+            content: await new ClueProperties(
                     self.clue,
                     self.methods,
                     self.edit_handler,
                     true,
                     self.talk_alternative_index
-                ).rendered())
+                ).rendered(),
+            interactive: true
         }
+    }
 
-        //let cont = await construct()
+    protected async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
+        let marker = new TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this)
 
-        let lock = false
+        marker.setOpacity(options.highlight ? 0.5 : 1)
 
-        this.tippy = tippy.default(this.marker.marker.getElement(), {
-            onBeforeUpdate: (instance): void => {
-                if (lock) return
-
-                (async () => {
-                    lock = true
-                    await construct().then(w => instance.setContent(w.raw()))
-                    lock = false
-                })()
-            },
-            onShow: (instance) => {
-                construct().then(w => instance.setContent(w.raw()))
-            },
-            content: () => c().text("Loading").raw(),
-        })
-
-        return this.tippy
+        return marker.marker.getElement()
     }
 }
 

@@ -307,14 +307,6 @@ class StepEditWidget extends Widget {
             case "teleport":
                 const current = resolveTeleport(value.raw.id)
 
-                props.named("Teleport", new TeleportSelect().setValue(current)
-                    .onSelection(tele =>
-                        this.value.update(v => {
-                            assert(v.raw.type == "teleport")
-                            v.raw.id = tele.id()
-                        })
-                    ))
-
                 props.named("Override",
                     hbox(
                         new Checkbox()

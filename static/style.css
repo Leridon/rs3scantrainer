@@ -1833,5 +1833,7 @@ input[type=checkbox] + span {
 }
 
 .ctr-entity-tooltip {
-
+    background: rgb(10, 31, 41);
+    border: 2px solid white;
+    padding: 3px;
 }

@@ -125,7 +125,7 @@ export class EntityTransportEntity extends MapEntity {
         return marker.getElement()
     }
 
-    renderTooltip(): { content: Widget, interactive: boolean } | null {
+    async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
         const props = new Properties()
         const s = this.config.shortcut
 

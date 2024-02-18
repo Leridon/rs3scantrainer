@@ -61,7 +61,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
 
     protected abstract render_implementation(options: MapEntity.RenderOptions): Promise<Element>
 
-    public renderTooltip(): { content: Widget, interactive: boolean } | null {
+    public async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
         return null
     }
 

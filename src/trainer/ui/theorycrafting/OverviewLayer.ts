@@ -13,7 +13,6 @@ export default class OverviewLayer extends GameLayer {
     filter_control: FilterControl
 
     public marker_index: ClueSpotIndex<{ markers: ClueOverviewMarker[] }>
-    singleton_tooltip: tippy.Instance = null
 
     constructor(private app: Application, private edit_handler: (_: AugmentedMethod) => any) {
         super();
@@ -41,35 +40,5 @@ export default class OverviewLayer extends GameLayer {
                 }
             })
         )
-
-        let instances = await Promise.all(
-            this.marker_index
-                .flat()
-                .flatMap(c => c.markers.map(m => {
-                    try {
-                        return m.createTooltip()
-                    } catch (e) {
-                        return null
-                    }
-                }))
-                .filter(i => i != null)
-        )
-
-        if (this.singleton_tooltip) {
-            this.singleton_tooltip.destroy()
-            this.singleton_tooltip = null
-        }
-
-        this.singleton_tooltip = tippy.createSingleton(instances, {
-            interactive: true,
-            interactiveBorder: 20,
-            interactiveDebounce: 0.5,
-            arrow: true,
-            overrides: ["onShow", "onBeforeUpdate"],
-            appendTo: () => document.body,
-            delay: 0,
-            animation: false,
-        })
-
     }
 }

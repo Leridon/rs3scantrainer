@@ -15,6 +15,9 @@ import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import MethodWidget from "./MethodWidget";
+import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
+import Dependencies from "../../dependencies";
+import {FavouriteIcon, NislIcon} from "../nisl";
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -119,7 +122,15 @@ export class ClueProperties extends Properties {
             this.named("Challenge", hbox(...this.clue.clue.challenge.map(render_challenge).map(s => s.css("flex-grow", "1"))))
         }
 
-        let methods = await this.methods.getForClue(this.clue.clue.id, this.clue.spot)
+        this.row(hbox(new LightButton("Methods", "rectangle")
+            .onClick(async (event) => {
+                new ContextMenu(await ClueProperties.methodMenu(this.clue, this.edit_handler))
+                    .showFromEvent(event)
+            })
+        ).addClass("ctr-button-container"))
+
+        /*
+        let methods = await this.methods.get(this.clue)
         this.header("Methods")
 
         if (methods.length > 0) {
@@ -144,6 +155,8 @@ export class ClueProperties extends Properties {
             })
         })).addClass("ctr-button-container"))
 
+         */
+
         return this
     }
 
@@ -153,6 +166,8 @@ export class ClueProperties extends Properties {
 }
 
 export namespace ClueProperties {
+    import uuid = util.uuid;
+
     export function header(clue: Clues.ClueSpot) {
         return hbox(
             span(`${ClueType.meta(clue.clue.tier).name} ${ClueType.meta(clue.clue.type).name} Step (Id ${clue.clue.id})`).css("font-weight", "bold"),
@@ -160,5 +175,72 @@ export namespace ClueProperties {
             c(`<img class="icon" src='${clue.clue.tier ? Constants.icons.tiers[clue.clue.tier] : ""}' title="${ClueType.pretty(clue.clue.tier)}" style="margin-right: 3px">`),
             c(`<img class="icon" src='${Constants.icons.types[clue.clue.type]}' title="${ClueType.pretty(clue.clue.type)}">`)
         )
+    }
+
+    export async function methodMenu(clue: Clues.ClueSpot,
+                                     edit_handler: (_: AugmentedMethod) => any,
+    ): Promise<MenuEntry[]> {
+
+        const ms = await MethodPackManager.instance().get(clue)
+
+        const favourite = Dependencies.instance().app.value().favourites.getMethod(clue)
+
+        return [
+            {
+                type: "basic",
+                text: "New Method",
+                handler: () => {
+                    edit_handler({
+                        clue: clue.clue,
+                        pack: null,
+                        method: SolvingMethods.init(clue)
+                    })
+                }
+            },
+            ...ms.map((m): MenuEntry => {
+                const isFavourite = favourite?.method?.id == m.method.id
+
+                return {
+                    type: "submenu",
+                    text: m.method.name,
+                    icon: new FavouriteIcon().set(isFavourite),
+                    children: [
+                        {
+                            type: "basic",
+                            text: isFavourite ? "Unset Favourite" : "Make Favourite",
+                            icon: new FavouriteIcon().set(isFavourite),
+                            handler: () => {
+                                Dependencies.instance().app.value().favourites.setMethod(m)
+                            }
+                        },
+                        {
+                            type: "basic",
+                            text: "Edit",
+                            icon: "assets/icons/edit.png",
+                            handler: () => edit_handler(m)
+                        },
+                        {
+                            type: "basic",
+                            icon: "assets/icons/copy.png",
+                            text: "Edit Copy",
+                            handler: () => {
+                                let c = lodash.cloneDeep(m.method)
+
+                                c.id = uuid()
+
+                                edit_handler({pack: null, clue: m.clue, method: c})
+                            }
+                        },
+                        {
+                            type: "basic",
+                            text: "Delete",
+                            handler: () => {
+                                MethodPackManager.instance().deleteMethod(m)
+                            }
+                        },
+                    ]
+                }
+            })
+        ]
     }
 }

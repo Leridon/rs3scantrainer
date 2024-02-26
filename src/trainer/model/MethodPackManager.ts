@@ -11,6 +11,7 @@ import {ewent, Ewent} from "../../lib/reactive";
 import * as lodash from "lodash";
 import {util} from "../../lib/util/util";
 import timestamp = util.timestamp;
+import ClueSpot = Clues.ClueSpot;
 
 export type Pack = {
     type: "default" | "local" | "imported"
@@ -58,12 +59,13 @@ export class MethodPackManager {
         this.pack_set_changed.on(() => this.invalidateIndex())
     }
 
-    private save(): Promise<void> {
-        return this.local_pack_store.set(this.local_packs)
+    private async save(): Promise<void> {
+        await this.local_pack_store.set(this.local_packs)
+
+        this.invalidateIndex()
     }
 
     private invalidateIndex(): void {
-
         this.index_created = new Promise(async (resolve) => {
             this.method_index.forEach(e => e.methods = []);
 
@@ -78,8 +80,8 @@ export class MethodPackManager {
             })
 
             resolve()
+            console.log("Index Invalidated")
         })
-
     }
 
     async all(): Promise<Pack[]> {
@@ -126,6 +128,8 @@ export class MethodPackManager {
         pack.type = "imported"
 
         this.local_packs.push(pack)
+
+        this.invalidateIndex()
 
         await this.save()
 
@@ -180,16 +184,6 @@ export class MethodPackManager {
         this.save()
     }
 
-    createMethod(method: AugmentedMethod) {
-        let pack = this.local_packs.find(p => p.type == "local" && p.local_id == method.pack.local_id)
-
-        pack.methods.push(method.method)
-
-        pack.timestamp = timestamp()
-
-        this.save()
-    }
-
     deleteMethod(method: AugmentedMethod) {
         let pack = this.local_packs.find(p => p.type == "local" && p.local_id == method.pack.local_id)
 
@@ -203,6 +197,7 @@ export class MethodPackManager {
     }
 
     static _instance: MethodPackManager = null
+
     static instance(): MethodPackManager {
         if (!MethodPackManager._instance) MethodPackManager._instance = new MethodPackManager()
 
@@ -213,5 +208,9 @@ export class MethodPackManager {
         await this.index_created
 
         return this.method_index.get(id, spot_alternative).methods
+    }
+
+    async get(spot: ClueSpot): Promise<AugmentedMethod[]> {
+        return await this.getForClue(spot.clue.id, spot.spot)
     }
 }

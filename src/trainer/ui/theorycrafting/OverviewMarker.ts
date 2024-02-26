@@ -9,6 +9,8 @@ import {ClueProperties} from "./ClueProperties";
 import ClueSpot = Clues.ClueSpot;
 import * as tippy from "tippy.js";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
+import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
+import {MenuEntry} from "../widgets/ContextMenu";
 
 export class ClueOverviewMarker extends MapEntity {
     constructor(private clue: Clues.ClueSpot,
@@ -24,12 +26,12 @@ export class ClueOverviewMarker extends MapEntity {
 
         return {
             content: await new ClueProperties(
-                    self.clue,
-                    self.methods,
-                    self.edit_handler,
-                    true,
-                    self.talk_alternative_index
-                ).rendered(),
+                self.clue,
+                self.methods,
+                self.edit_handler,
+                true,
+                self.talk_alternative_index
+            ).rendered(),
             interactive: true
         }
     }
@@ -40,6 +42,14 @@ export class ClueOverviewMarker extends MapEntity {
         marker.setOpacity(options.highlight ? 0.5 : 1)
 
         return marker.marker.getElement()
+    }
+
+    override async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+        return {
+            type: "submenu",
+            text: "Methods",
+            children: await ClueProperties.methodMenu(this.clue, this.edit_handler)
+        }
     }
 }
 

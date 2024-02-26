@@ -91,7 +91,7 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
         }
     }
 
-    contextMenu(event: GameMapContextMenuEvent): (MenuEntry & {type: "submenu"}) | null {
+    async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
         return null
     }
 }

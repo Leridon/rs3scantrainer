@@ -98,7 +98,7 @@ export class GameMap extends leaflet.Map {
                     await this.internal_root_layer.lockEntity(event.active_entity)
                 }
 
-                new ContextMenu(event.getEntries())
+                new ContextMenu(await event.getEntries())
                     .show(this.container.get()[0], {x: e.originalEvent.clientX, y: e.originalEvent.clientY})
                     .onClosed(async () => {
                         this.container.focus()

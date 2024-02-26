@@ -10,7 +10,7 @@ import spacer = C.spacer;
 export type MenuEntry =
     {
         text: string | Widget,
-        icon?: string
+        icon?: string | Widget
     } &
     ({
         type: "basic",
@@ -164,7 +164,9 @@ namespace open_menu {
             return hbox(
                 with_icon
                     ? c("<div class='nisl-context-menu-entry-icon-container'></div>")
-                        .append(entry.icon ? c(`<img src="${entry.icon}">`) : null)
+                        .append(entry.icon
+                            ? (typeof entry.icon == "string" ? c(`<img src="${entry.icon}">`) : entry.icon)
+                            : null)
                     : null,
                 entry.text,
                 spacer().css("min-width", "10px"),
@@ -231,6 +233,8 @@ namespace open_menu {
                 arrow: false,
                 offset: [0, 0],
                 animation: false,
+                interactiveBorder: 20,
+                interactiveDebounce: 0.5,
                 content: men.root_widget.raw(),
                 maxWidth: "none",
                 zIndex: 10001

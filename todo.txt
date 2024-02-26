@@ -1,38 +1,33 @@
 Planned for next release (b0.4):
 
 - Theorycrafter
-    - [Refactor] Make markers be entities
-    - [Bug] Delete in MethodWidget does nothing
+    - Sensible default names for methods
+        - Use pack name on saving?
     - [Feature] Option to show pathing for all filtered spots
         - Best | Best in Pack | Favorite
         - Noninteractive entities
     - [Bug] Filtering does not update properly in some situations
-    - [Bug] Saved generic methods do not appear anywhere
-        - They exist in the local storage, so just a display issue?
-        - They also don't appear for solving until after a reload
     - "Save to pack" modal
         - [Feature] "Create new" option
     - Editor for generic path methods
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
-    - Sensible default names for methods
-        - Use pack name on saving?
+            - Share with Solver!
+
+- Path Editor
+    - [Feature] Add support for the model refinement (target entity, to_text etc)
+    - [Feature] Add "Cheat" step
+    - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
+    - [Bug] Fit to step/path doesnt include level
+    - [Bug] Teleport overriding does not work
+    - [Bug] Detail template string can't be edited
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
 
 - Map Entities
     - Rendering for zoom level changes needs massive optimization
         - Invisible from certain zoom
         - Only render visible entities
         - Maybe it does not need to be a real leaflet marker?
-
-- Path Editor
-    - Add support for the model refinement (target entity, to_text etc)
-    - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
-    - [Bug] Fit to step/path doesnt include level
-    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
-    - Add a way to make it not closeable by the user
-    - [Bug] Teleport overriding does not work
-    - [Bug] Detail template string can't be edited
-
 
 - Solving Behaviour
     - Path Panel
@@ -42,10 +37,10 @@ Planned for next release (b0.4):
         - [WIP] Detail tooltip on hover
             - Finish official info
             - Add custom description
-        - Disable default teleport render when contained in step
+        - [Feature] Disable default teleport render when contained in step
             - Render step instead
             - (Maybe that's not even necessary, since the step graphics are draw on top of the teleport graphics. Very hacky, but does what it should)
-        - Cleanup using "fake" steps:
+        - [Feature] Cleanup using "fake" steps:
             - Combine surges/dives following a powerburst into one "fake" step
             - Duplicate shortcut step to exist in both sections
             - Combine run followed by shortcut into one
@@ -65,8 +60,6 @@ Planned for next release (b0.4):
         - Emote areas
         - Entity/Npc names?
     - Hide Menubar on fullscreen
-
-
     - Compass Panel
     - Solve, Autosolve
     - Key solution

@@ -4,9 +4,9 @@ import PackWidget from "./PackWidget";
 import {Observable, observe} from "../../../lib/reactive";
 import * as lodash from "lodash";
 import Button from "../../../lib/ui/controls/Button";
-import BigNisButton from "../widgets/BigNisButton";
 
 import ButtonRow from "../../../lib/ui/ButtonRow";
+import {BigNisButton} from "../widgets/BigNisButton";
 
 export default class SaveInPack extends NisModal {
     private pack_widgets: PackWidget[]

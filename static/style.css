@@ -1356,6 +1356,10 @@ input[type=checkbox] + span {
     border: 2px solid rgb(43, 58, 67);
 }
 
+.ctr-modal {
+    z-index: 100000;
+}
+
 .nisl-modal-footer {
     background: rgba(35, 50, 59, 0.125);
     border-top: 1px solid rgb(43, 58, 67);

@@ -2,7 +2,7 @@ import NisModal from "../../../../lib/ui/NisModal";
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import Widget from "../../../../lib/ui/Widget";
 import ButtonRow from "../../../../lib/ui/ButtonRow";
-import BigNisButton from "../BigNisButton";
+import {BigNisButton} from "../BigNisButton";
 
 export default class ExportStringModal extends NisModal {
     textarea: TextArea

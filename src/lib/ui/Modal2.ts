@@ -17,7 +17,7 @@ export class Modal2 {
     private hidden_resolvers: ((_: this) => any)[] = []
 
     constructor(protected options: Modal2.Options = {}) {
-        this._modal = c("<div class='modal' tabindex='-1'><div class='modal-dialog'></div></div>")
+        this._modal = c("<div class='modal ctr-modal' tabindex='-1'><div class='modal-dialog'></div></div>")
         this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
         this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
 

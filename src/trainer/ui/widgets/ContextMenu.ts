@@ -15,10 +15,18 @@ export type MenuEntry =
     ({
         type: "basic",
         handler: () => any
-    } | {
+    } | MenuEntry.SubMenu)
+
+export namespace MenuEntry {
+    export type Base = {
+        text: string | Widget,
+        icon?: string | Widget
+    }
+    export type SubMenu =  Base & {
         type: "submenu",
         children: MenuEntry[]
-    })
+    }
+}
 
 export type Menu = MenuEntry[]
 

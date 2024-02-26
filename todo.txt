@@ -3,6 +3,16 @@ Planned for next release (b0.4):
 - Theorycrafter
     - Sensible default names for methods
         - Use pack name on saving?
+    - Confirmation modal for deletions
+        - Methods
+        - Even more important: Method Packs!
+    - Save & Close
+        - Save
+        - Save & Close
+        - Save Copy
+        - Close
+        - Move
+        - Delete
     - [Feature] Option to show pathing for all filtered spots
         - Best | Best in Pack | Favorite
         - Noninteractive entities
@@ -13,6 +23,7 @@ Planned for next release (b0.4):
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
             - Share with Solver!
+    - Undo/Redo
 
 - Path Editor
     - [Feature] Add support for the model refinement (target entity, to_text etc)

@@ -15,6 +15,8 @@ import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {NislIcon} from "../nisl";
 import NisCollapseButton from "../../../lib/ui/controls/NisCollapseButton";
 import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
+import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
+import Dependencies from "../../dependencies";
 
 export default class PackWidget extends Widget {
 
@@ -92,7 +94,27 @@ export default class PackWidget extends Widget {
                         manager.create(copy)
                     }),
                 new LightButton("Delete", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
-                    .onClick(() => manager.deletePack(pack)),
+                    .onClick(async () => {
+                        const really = await ConfirmationModal.do<boolean>({
+                            body:
+                                pack.type == "local"
+                                    ? `Are you sure you want to delete the local pack ${pack.name}? There is no way to undo this action!`
+                                    : `Are you sure you want to remove this imported pack? You will need to reimport it again.`,
+                            options: [
+                                {kind: "neutral", text: "Cancel", value: false},
+                                {kind: "cancel", text: "Delete", value: true},
+                            ]
+                        })
+
+                        if (really) {
+                            await manager.deletePack(pack)
+
+                            Dependencies.instance().app.value().notifications.notify({
+                                type: "information",
+                                duration: 3000
+                            }, "Deleted")
+                        }
+                    }),
                 new LightButton("Export", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
                     .onClick(() => {
                         ExportStringModal.do(exp({type: "method-pack", version: 1},

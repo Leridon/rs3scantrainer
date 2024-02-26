@@ -40,8 +40,8 @@ class Notification extends Widget {
     }
 
     dismiss(fade: boolean = false) {
-        if(fade)        this.container.fadeOut(300, () => this.remove())
-    else  this.remove()
+        if (fade) this.container.fadeOut(300, () => this.remove())
+        else this.remove()
     }
 }
 

@@ -80,7 +80,6 @@ export class MethodPackManager {
             })
 
             resolve()
-            console.log("Index Invalidated")
         })
     }
 

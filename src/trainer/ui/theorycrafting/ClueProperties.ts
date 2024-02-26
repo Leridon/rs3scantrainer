@@ -18,6 +18,7 @@ import MethodWidget from "./MethodWidget";
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import Dependencies from "../../dependencies";
 import {FavouriteIcon, NislIcon} from "../nisl";
+import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -200,7 +201,8 @@ export namespace ClueProperties {
             ...ms.map((m): MenuEntry => {
                 const isFavourite = favourite?.method?.id == m.method.id
 
-                return {
+
+                const men: MenuEntry.SubMenu = {
                     type: "submenu",
                     text: m.method.name,
                     icon: new FavouriteIcon().set(isFavourite),
@@ -213,33 +215,60 @@ export namespace ClueProperties {
                                 Dependencies.instance().app.value().favourites.setMethod(m)
                             }
                         },
-                        {
-                            type: "basic",
-                            text: "Edit",
-                            icon: "assets/icons/edit.png",
-                            handler: () => edit_handler(m)
-                        },
-                        {
-                            type: "basic",
-                            icon: "assets/icons/copy.png",
-                            text: "Edit Copy",
-                            handler: () => {
-                                let c = lodash.cloneDeep(m.method)
-
-                                c.id = uuid()
-
-                                edit_handler({pack: null, clue: m.clue, method: c})
-                            }
-                        },
-                        {
-                            type: "basic",
-                            text: "Delete",
-                            handler: () => {
-                                MethodPackManager.instance().deleteMethod(m)
-                            }
-                        },
                     ]
+
+
                 }
+
+                if (m.pack.type == "local") {
+                    men.children.push({
+                        type: "basic",
+                        text: "Edit",
+                        icon: "assets/icons/edit.png",
+                        handler: () => edit_handler(m)
+                    })
+                }
+
+                men.children.push(
+                    {
+                        type: "basic",
+                        icon: "assets/icons/copy.png",
+                        text: "Edit Copy",
+                        handler: () => {
+                            let c = lodash.cloneDeep(m.method)
+
+                            c.id = uuid()
+
+                            edit_handler({pack: null, clue: m.clue, method: c})
+                        }
+                    })
+
+                if (m.pack.type == "local") {
+                    men.children.push({
+                        type: "basic",
+                        text: "Delete",
+                        icon: "assets/icons/delete.png",
+                        handler: async () => {
+                            const really = await ConfirmationModal.do<boolean>({
+                                body: "Are you sure you want to delete this method? There is no way to undo it!",
+                                options: [
+                                    {kind: "neutral", text: "Cancel", value: false},
+                                    {kind: "cancel", text: "Delete", value: true},
+                                ]
+                            })
+
+                            if (really) {
+                                MethodPackManager.instance().deleteMethod(m)
+                                Dependencies.instance().app.value().notifications.notify({
+                                    type: "information",
+                                    duration: 3000
+                                }, "Deleted")
+                            }
+                        }
+                    })
+                }
+
+                return men
             })
         ]
     }

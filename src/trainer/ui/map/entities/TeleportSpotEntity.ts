@@ -75,7 +75,7 @@ export class TeleportSpotEntity extends MapEntity {
     }
 
 
-    contextMenu(event: GameMapContextMenuEvent): (MenuEntry & { type: "submenu" }) | null {
+    async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
         const teleport = this.config.teleport;
 
         const jumpable_accesses: TeleportAccess[] = teleport.group.access.filter(a => a.type == "entity")

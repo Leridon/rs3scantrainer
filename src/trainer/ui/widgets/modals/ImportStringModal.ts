@@ -1,9 +1,8 @@
-import {modal, Modal} from "../modal";
 import NisModal from "../../../../lib/ui/NisModal";
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import ButtonRow from "../../../../lib/ui/ButtonRow";
-import BigNisButton from "../BigNisButton";
 import {ewent} from "../../../../lib/reactive";
+import {BigNisButton} from "../BigNisButton";
 
 export default class ImportStringModal<T> extends NisModal {
     textarea: TextArea

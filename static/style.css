@@ -758,6 +758,7 @@ video {
     display: flex;
     flex-direction: column;
     line-height: 21px;
+    min-height: 21px;
 }
 
 .ctr-template-string-edit-input-row {

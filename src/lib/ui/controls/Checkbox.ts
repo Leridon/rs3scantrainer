@@ -42,10 +42,9 @@ export class Checkbox extends AbstractEditWidget<boolean> {
 
 export namespace Checkbox {
     export class Group<T> {
-
         private value: Observable<T> = observe(null)
 
-        constructor(private buttons: {
+        constructor(public buttons: {
             button: Checkbox,
             value: T
         }[], can_be_null: boolean = false) {
@@ -68,6 +67,10 @@ export namespace Checkbox {
 
             if (can_be_null) this.value.set(null)
             else buttons[0].button.setValue(true)
+        }
+
+        get(): T {
+            return this.value.value()
         }
 
         setValue(v: T): this {

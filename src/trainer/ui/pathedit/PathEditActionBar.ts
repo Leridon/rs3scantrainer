@@ -153,7 +153,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 this.buttons.redclick,
                 this.buttons.powerburst,
                 this.buttons.compass,
-                this.buttons.cheat
+                //this.buttons.cheat
             ]).appendTo(this.content.body)
         }
 

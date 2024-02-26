@@ -4,7 +4,6 @@ import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import {Path} from "lib/runescape/pathing";
-import TeleportSelect from "./TeleportSelect";
 import MovementStateView from "./MovementStateView";
 import {SmallImageButton} from "../widgets/SmallImageButton";
 import {util} from "lib/util/util";
@@ -19,7 +18,7 @@ import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
 import GameLayer from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import PathEditActionBar from "./PathEditActionBar";
-import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
+import InteractionLayer, {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
 import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
 import {Observable, ObservableArray, observe} from "../../../lib/reactive";
@@ -56,6 +55,9 @@ import resolveTeleport = TransportData.resolveTeleport;
 import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import {EntityTransportEntity} from "../map/entities/EntityTransportEntity";
 import {arrow} from "../path_graphics";
+import TextField from "../../../lib/ui/controls/TextField";
+import {NislIcon} from "../nisl";
+import {EntityNameEdit} from "../widgets/EntityNameEdit";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -140,26 +142,38 @@ class StepEditWidget extends Widget {
             case "ability":
                 props.named("Action",
                     hbox(
-                        span(`${Vector2.toString(value.raw.from)} to ${Vector2.toString(value.raw.to)}`),
+                        span(`${TileCoordinates.toString(value.raw.from)} to ${TileCoordinates.toString(value.raw.to)}`),
                         spacer(),
                         new LightButton("Redraw")
-                            .onClick(() => {
-                                assert(value.raw.type == "ability")
-
-                                this.parent.editor.interaction_guard.set(new DrawAbilityInteraction(value.raw.ability)
-                                    .setStartPosition(value.raw.from)
-                                    .onCommit(new_s => this.value.update(v => v.raw = new_s))
-                                    .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                                    .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
-                            })
+                            .onClick(() => this.parent.editor.redrawAbility(this.value))
                     )
                 )
 
+                if (value.raw.ability == "dive" || value.raw.ability == "barge") {
+                    props.named(span("Target").css("cursor", "help").tooltip("The entity to target with this ability."), new EntityNameEdit(false)
+                        .setValue(value.raw.target)
+                        .onCommit(name => {
+                            this.value.update(v => {
+                                assert(v.raw.type == "ability")
+
+                                v.raw.target = name
+                            })
+                        })
+                    )
+                }
+
+                props.named(span("Text").css("cursor", "help").tooltip("(Optional) Strings like 'on top of the flower'."),
+                    new TextField()
+                        .setValue(value.raw.target_text || "")
+                        .onCommit(text => this.value.update(v => {
+                            assert(v.raw.type == "ability")
+
+                            v.raw.target_text = text || undefined
+                        }))
+                )
+
                 break;
-
             case "cheat":
-
-
                 props.named("Target",
                     hbox(
                         span(`${TileCoordinates.toString(value.raw.target)}`),
@@ -200,20 +214,7 @@ class StepEditWidget extends Widget {
                     hbox(
                         span(`${Vector2.toString(value.raw.where)}`),
                         spacer(),
-                        new LightButton("Move")
-                            .onClick(() => {
-                                assert(value.raw.type == "redclick")
-
-                                this.parent.editor.interaction_guard.set(
-                                    new PlaceRedClickInteraction(value.raw.how)
-                                        .onCommit(new_s => this.value.update(v => {
-                                            assert(v.raw.type == "redclick")
-                                            v.raw.where = new_s.where
-                                        }))
-                                        .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                                        .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
-                                )
-                            })
+                        new LightButton("Move").onClick(() => this.parent.editor.moveStep(this.value))
                     )
                 )
 
@@ -226,48 +227,50 @@ class StepEditWidget extends Widget {
                         })
                     })
                 )
+
+                props.named(span("Target").css("cursor", "help").tooltip("The name of the entity to target."), new EntityNameEdit(false)
+                    .setValue(value.raw.target)
+                    .onCommit(name => {
+                        this.value.update(v => {
+                            assert(v.raw.type == "ability")
+
+                            v.raw.target = name
+                        })
+                    })
+                )
+
                 break
             case "powerburst":
-
-                props.named("Where", new MapCoordinateEdit(value.raw.where,
-                    () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                            preview_render: tile => new PathStepEntity({
-                                step: {
-                                    type: "powerburst",
-                                    where: tile,
-                                }
-                            })
-                        }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the redclick by clicking the tile.`))
-                            .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                            .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
-                    ))
-                    .onCommit(c => {
-                        this.value.update(v => {
-                            assert(v.raw.type == "powerburst")
-                            v.raw.where = c
-                        })
-                    }))
+                props.named("Where",
+                    hbox(
+                        span(`${Vector2.toString(value.raw.where)}`),
+                        spacer(),
+                        new LightButton("Move").onClick(() => this.parent.editor.moveStep(this.value))
+                    )
+                )
 
                 break
 
             case "run":
-
                 props.named("Path",
                     hbox(
                         span(`${PathFinder.pathLength(value.raw.waypoints)} tile path to ${Vector2.toString(index(value.raw.waypoints, -1))}`),
                         spacer(),
                         new LightButton("Edit")
-                            .onClick(() => {
-                                assert(value.raw.type == "run")
-
-                                this.parent.editor.interaction_guard.set(new DrawRunInteraction()
-                                    .setStartPosition(value.raw.waypoints[0])
-                                    .onCommit(new_s => this.value.update(v => v.raw = new_s))
-                                    .onStart(() => this.value.value().associated_preview?.setOpacity(0))
-                                    .onEnd(() => this.value.value().associated_preview?.setOpacity(1)))
-                            })
+                            .onClick(() => this.parent.editor.redrawAbility(this.value))
                     )
                 )
+
+                props.named(span("Text").tooltip("(Optional) Strings like 'on top of the flower'."),
+                    new TextField()
+                        .setValue(value.raw.to_text || "")
+                        .onCommit(text => this.value.update(v => {
+                            assert(v.raw.type == "run")
+
+                            v.raw.to_text = text || undefined
+                        }))
+                )
+
                 break
 
             case "transport": {
@@ -280,54 +283,6 @@ class StepEditWidget extends Widget {
                 else body.config.associated_preview = new ShortcutViewLayer.ShortcutPolygon(body.config.value).addTo(this.value.value().associated_preview)
 
                 this.append(body)
-
-                let assumed_start_needs_fixing =
-                    value.pre_state.position.tile
-                    && TileArea.contains(value.raw.internal.actions[0].interactive_area ?? default_interactive_area(value.raw.internal.clickable_area), value.pre_state.position.tile)
-                    && !TileCoordinates.eq2(value.pre_state.position.tile, value.raw.assumed_start)
-
-                props.named("Start", hbox(
-                    span(TileCoordinates.toString(value.raw.assumed_start)),
-                    spacer(),
-                    assumed_start_needs_fixing ? new LightButton("Repair").onClick(() => {
-                        this.value.update(v => {
-                            assert(v.raw.type == "transport")
-                            v.raw.assumed_start = value.pre_state.position.tile
-                        })
-                    }) : null
-                ))
-
-                props.named("Entity",
-                    hbox(
-                        span(value.raw.internal.entity.name),
-                        spacer(),
-                        sibut("assets/icons/edit.png", () => {
-                                this.shortcut_custom_open = !this.shortcut_custom_open
-
-                                body.container.animate({"height": "toggle"})
-
-                                if (body.config.associated_preview) {
-                                    body.config.associated_preview.remove()
-                                    body.config.associated_preview = null
-                                } else {
-                                    body.config.associated_preview = new ShortcutViewLayer.ShortcutPolygon(body.config.value).addTo(this.value.value().associated_preview)
-                                }
-
-                            }
-                        )
-                    )
-                )
-
-                body.config.value.subscribe(s => {
-                    this.value.update(v => {
-                        assert(v.raw.type == "transport")
-                        assert(s.type == "entity")
-
-                        // TODO: ???
-                        //v.raw.assumed_start = TileRectangle.clampInto(v.raw.assumed_start, s.actions[0].interactive_area)
-                        //v.raw.internal = lodash.cloneDeep(s)
-                    })
-                })
             }
                 break;
             case "orientation":
@@ -343,32 +298,11 @@ class StepEditWidget extends Widget {
 
                 break;
             case "teleport":
-                const current = resolveTeleport(value.raw.id)
-
-                props.named("Override",
+                props.named(span("Spot").css("cursor", "help").tooltip("The specific target tile."),
                     hbox(
-                        new Checkbox()
-                            .setValue(value.raw.spot_override != null)
-                            .onCommit(enabled => {
-                                this.value.update(v => {
-                                    assert(v.raw.type == "teleport")
-
-                                    if (enabled) v.raw.spot_override = current.target()
-                                    else v.raw.spot_override = undefined
-                                })
-                            }).css("margin-right", "3px"),
-                        value.raw.spot_override
-                            ? new MapCoordinateEdit(value.raw.spot_override,
-                                () => this.parent.editor.interaction_guard.set(new SelectTileInteraction({
-                                    // preview_render: (tile) => {}
-                                }).attachTopControl(new InteractionTopControl().setName("Selecting tile").setText("Select the overriden target of the teleport by clicking a tile.")))
-                            ).onCommit(c => {
-                                this.value.update(v => {
-                                    assert(v.raw.type == "teleport")
-                                    v.raw.spot_override = c
-                                })
-                            })
-                            : null
+                        span(`${TileCoordinates.toString(value.raw.spot)}`),
+                        spacer(),
+                        new LightButton("Move").onClick(() => this.parent.editor.moveStep(this.value))
                     )
                 )
 
@@ -376,7 +310,6 @@ class StepEditWidget extends Widget {
         }
 
         // TODO: Fix scroll events passing through
-        // TODO: Action select
     }
 }
 
@@ -497,6 +430,7 @@ class PathEditorGameLayer extends GameLayer {
                                 this.editor.value.add({
                                     raw: {
                                         type: "teleport",
+                                        spot: t.target(),
                                         id: {...t.id(), access: a.id},
                                     }
                                 })
@@ -514,6 +448,7 @@ class PathEditorGameLayer extends GameLayer {
                                         this.editor.value.add({
                                             raw: {
                                                 type: "teleport",
+                                                spot: t.target(),
                                                 id: {...t.id(), access: a.id},
                                             }
                                         })
@@ -575,11 +510,30 @@ class PathEditorGameLayer extends GameLayer {
                     if (i >= 0) {
                         let v = this.editor.value.value()[i]
 
-                        event.add({
+                        event.addForEntity({
                             type: "basic",
-                            text: `Delete step ${i} (${Path.Step.name(v.value().raw)})`,
+                            text: `Remove`,
                             handler: () => this.editor.value.remove(v)
                         })
+
+                        if (v.value().raw.type == "ability") {
+
+                            event.addForEntity({
+                                type: "basic",
+                                text: `Redraw`,
+                                handler: () => this.editor.redrawAbility(v)
+                            })
+                        }
+
+                        if (v.value().raw.type == "powerburst" || v.value().raw.type == "redclick" || v.value().raw.type == "teleport") {
+
+                            event.addForEntity({
+                                type: "basic",
+                                text: `Move`,
+                                handler: () => this.editor.moveStep(v)
+                            })
+                        }
+
                     }
                 }
 
@@ -788,6 +742,86 @@ export class PathEditor extends Behaviour {
         this.discard()
 
         this.stop()
+    }
+
+    editStep(value: PathEditor.OValue, interaction: InteractionLayer) {
+        this.interaction_guard.set(interaction
+            .onStart(() => value.value().associated_preview?.setOpacity(0))
+            .onEnd(() => value.value().associated_preview?.setOpacity(1))
+        )
+    }
+
+    redrawAbility(value: PathEditor.OValue) {
+        const v = value.value()
+
+        if (v.raw.type == "ability") {
+            this.editStep(value,
+                new DrawAbilityInteraction(v.raw.ability)
+                    .setStartPosition(v.raw.from)
+                    .onCommit(new_s => value.update(v => v.raw = new_s))
+            )
+        } else if (v.raw.type == "run") {
+            this.editStep(value,
+                new DrawRunInteraction()
+                    .setStartPosition(v.raw.waypoints[0])
+                    .onCommit(new_s => value.update(v => v.raw = new_s)))
+        }
+    }
+
+    moveStep(value: PathEditor.OValue) {
+        const v = value.value()
+
+        if (v.raw.type == "redclick") {
+            this.editStep(
+                value,
+                new PlaceRedClickInteraction(v.raw.how)
+                    .onCommit(new_s => value.update(v => {
+                        assert(v.raw.type == "redclick")
+                        v.raw.where = new_s.where
+                    }))
+            )
+        } else if (v.raw.type == "powerburst") {
+            this.editStep(value,
+                new SelectTileInteraction({
+                    preview_render: tile => new PathStepEntity({
+                        step: {
+                            type: "powerburst",
+                            where: tile,
+                        }
+                    })
+                })
+                    .onCommit(new_s => value.update(v => {
+                        assert(v.raw.type == "powerburst")
+                        v.raw.where = new_s
+                    }))
+                    .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the powerburst by clicking the tile.`))
+            )
+        } else if (v.raw.type == "teleport") {
+            // TODO: Limit to possible tiles.
+
+            this.editStep(value,
+                new SelectTileInteraction({
+                    preview_render: tile => {
+                        assert(v.raw.type == "teleport")
+                        return new PathStepEntity({
+                            interactive: false,
+                            step: {
+                                type: "teleport",
+                                id: v.raw.id,
+                                spot: tile,
+                            }
+                        })
+                    }
+                })
+                    .onCommit(new_s => value.update(v => {
+                        assert(v.raw.type == "teleport")
+                        v.raw.spot = new_s
+                    }))
+                    .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the specific target of the teleport by clicking the tile.`))
+            )
+        }
+
+
     }
 }
 

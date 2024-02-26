@@ -23,12 +23,8 @@ Planned for next release (b0.4):
     - [Feature] Undo/Redo
 
 - Path Editor
-    - [Feature] Add "Cheat" step
-    - [Feature] Add support for the model refinement (target entity, to_text etc)
+    - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
-    - [Bug] Fit to step/path doesnt include level
-    - [Bug] Teleport overriding does not work
-    - [Bug] Detail template string can't be edited
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
 
 - Map Entities

@@ -52,7 +52,7 @@ export namespace Path {
     export type step_teleport = step_base & {
         type: "teleport",
         id: Transportation.TeleportGroup.SpotId,
-        spot_override?: TileCoordinates
+        spot: TileCoordinates
     }
 
     export type step_transportation = step_base & {
@@ -195,7 +195,7 @@ export namespace Path {
                 case "run":
                     return index(step.waypoints, -1)
                 case "teleport":
-                    if (step.spot_override) return step.spot_override
+                    if (step.spot) return step.spot
                     else return resolveTeleport(step.id, Dependencies.instance().app.value().teleport_settings).target()
                 case "transport":
                     let start_tile = step.assumed_start
@@ -449,7 +449,7 @@ export namespace Path {
                 case "teleport":
                     let teleport = resolveTeleport(step.id)
 
-                    if (step.spot_override) state.position.tile = step.spot_override
+                    if (step.spot) state.position.tile = step.spot
                     else state.position.tile = teleport.target()
 
                     if (teleport.spot.facing != null) {
@@ -644,7 +644,7 @@ export namespace Path {
                 case "run":
                     return Rectangle.from(...step.waypoints)
                 case "teleport":
-                    if (step.spot_override) return Rectangle.from(step.spot_override)
+                    if (step.spot) return Rectangle.from(step.spot)
                     else return Rectangle.from(resolveTeleport(step.id).target())
                 case "redclick":
                 case "powerburst":

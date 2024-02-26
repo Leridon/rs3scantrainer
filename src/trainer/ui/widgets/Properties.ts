@@ -1,5 +1,6 @@
 import Widget from "lib/ui/Widget";
 import {C} from "../../../lib/ui/constructors";
+import Appendable = C.Appendable;
 
 export default class Properties extends Widget {
     constructor() {
@@ -18,8 +19,8 @@ export default class Properties extends Widget {
         return this
     }
 
-    named<T extends Widget | string>(name: string, content: T): T {
-        c(`<div class='nisl-property-name'>${name}</div>`).appendTo(this)
+    named<T extends Appendable>(name: Appendable, content: T): T {
+        c(`<div class='nisl-property-name'>`).append(name).appendTo(this)
         c(`<div class='nisl-property-content'></div>`).append(content).appendTo(this)
 
         return content

@@ -12,6 +12,8 @@ import GameLayer from "../../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import {TransportData} from "../../../../data/transports";
 import {TeleportSpotEntity} from "./TeleportSpotEntity";
+import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
+import {MenuEntry} from "../../widgets/ContextMenu";
 
 export class PathStepEntity extends MapEntity {
     constructor(public config: PathStepEntity.Config) {
@@ -88,7 +90,7 @@ export class PathStepEntity extends MapEntity {
                 case "teleport": {
                     let teleport = TransportData.resolveTeleport(step.id, Dependencies.instance().app.value().teleport_settings)
 
-                    const marker = leaflet.marker(Vector2.toLatLong(teleport.target()), {
+                    const marker = leaflet.marker(Vector2.toLatLong(step.spot ?? teleport.target()), {
                         icon: new TeleportSpotEntity.TeleportMapIcon(teleport, options.highlight ? 1.5 : 1),
                         riseOnHover: true
                     }).addTo(this)
@@ -176,6 +178,14 @@ export class PathStepEntity extends MapEntity {
         return {
             content: new PathStepProperties(this.config.step, Dependencies.instance().app.value().template_resolver),
             interactive: false
+        }
+    }
+
+    override async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+        return {
+            type: "submenu",
+            text: Path.Step.name(this.config.step),
+            children: []
         }
     }
 }

@@ -36,6 +36,10 @@ export class NislIcon extends Widget {
     static arrow(direction: ArrowIcon.direction = "down"): ArrowIcon {
         return new ArrowIcon(direction)
     }
+
+    static info(): NislIcon {
+        return new NislIcon().css("cursor", "help").setSource("assets/icons/info.png")
+    }
 }
 
 export class FavouriteIcon extends NislIcon {

@@ -101,6 +101,10 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
         if (for_entity) {
             for_entity.children.push(...this.for_entity_entries)
 
+            if (this.entries.length == 0) {
+                return for_entity.children
+            }
+
             return this.entries.concat(for_entity)
         } else {
             return this.entries

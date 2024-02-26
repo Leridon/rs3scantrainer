@@ -56,6 +56,8 @@ export namespace PathGraphics {
                 return text_icon('assets/icons/redclick.png')
             case "powerburst":
                 return text_icon('assets/icons/accel.png')
+            case "cheat":
+                return text_icon('assets/icons/Rotten_potato.png')
         }
     }
 
@@ -129,6 +131,8 @@ export namespace PathingGraphics {
                 return `{{icon ${CursorType.meta(step.how).short_icon}}}`
             case "transport":
                 return `{{icon ${CursorType.meta(step.internal.actions[0].cursor).short_icon}}}`
+            case "cheat":
+                return `{{icon Rotten_potato}}`
         }
     }
 
@@ -156,6 +160,8 @@ export namespace PathingGraphics {
                 return c(`<img class='text-icon' src='assets/icons/redclick.png'>`)
             case "powerburst":
                 return c(`<img class='text-icon' src='assets/icons/accel.png'>`)
+            case "cheat":
+                return c(`<img class='text-icon' src='assets/icons/Rotten_potato.png'>`)
         }
     }
 }

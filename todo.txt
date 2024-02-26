@@ -3,9 +3,6 @@ Planned for next release (b0.4):
 - Theorycrafter
     - Sensible default names for methods
         - Use pack name on saving?
-    - Confirmation modal for deletions
-        - Methods
-        - Even more important: Method Packs!
     - Save & Close
         - Save
         - Save & Close
@@ -23,11 +20,11 @@ Planned for next release (b0.4):
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
             - Share with Solver!
-    - Undo/Redo
+    - [Feature] Undo/Redo
 
 - Path Editor
-    - [Feature] Add support for the model refinement (target entity, to_text etc)
     - [Feature] Add "Cheat" step
+    - [Feature] Add support for the model refinement (target entity, to_text etc)
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
     - [Bug] Fit to step/path doesnt include level
     - [Bug] Teleport overriding does not work

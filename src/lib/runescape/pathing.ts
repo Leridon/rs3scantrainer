@@ -73,7 +73,15 @@ export namespace Path {
         where: TileCoordinates
     }
 
-    export type Step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_transportation
+    export type step_cheat = step_base & {
+        type: "cheat",
+        assumed_start: TileCoordinates,
+        target: TileCoordinates,
+        orientation: direction,
+        ticks: number
+    }
+
+    export type Step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_transportation | step_cheat
 
     import index = util.index;
     import minIndex = util.minIndex;
@@ -180,6 +188,8 @@ export namespace Path {
             let step = path[i]
 
             switch (step.type) {
+                case "cheat":
+                    return step.target
                 case "ability":
                     return step.to
                 case "run":
@@ -237,6 +247,11 @@ export namespace Path {
             }
 
             switch (step.type) {
+                case "cheat":
+                    state.position.tile = step.target
+                    if (step.orientation != direction.center) state.position.direction = step.orientation
+                    state.tick += step.ticks
+                    break
                 case "orientation":
                     if (i > 0) augmented.issues.push({level: 0, message: "Orientation steps should only be used as the first step!"})
 
@@ -578,6 +593,8 @@ export namespace Path {
                 return "Redclick"
             case "powerburst":
                 return "Use Powerburst"
+            case "cheat":
+                return "Custom Movement"
 
         }
 
@@ -632,6 +649,8 @@ export namespace Path {
                 case "redclick":
                 case "powerburst":
                     return Rectangle.from(step.where)
+                case "cheat":
+                    return Rectangle.from(step.target)
                 default:
                     return null
             }
@@ -653,6 +672,8 @@ export namespace Path {
                     return step.where.level
                 case "transport":
                     return step.internal.clickable_area.level
+                case "cheat":
+                    return step.target.level
             }
         }
 

@@ -91,6 +91,7 @@ export class PathStepProperties extends Properties {
 
             case "ability":
             case "teleport":
+            case "cheat":
             default:
                 this.header(PathStepProperties.header_text(this.step))
         }
@@ -130,6 +131,8 @@ export namespace PathStepProperties {
                 return "Powerburst"
             case "transport":
                 return "Use entity"
+            case "cheat":
+                return "Cheat"
 
         }
     }

@@ -126,7 +126,7 @@ export class PathStepEntity extends MapEntity {
 
                     return marker.getElement()
                 }
-                case "transport":
+                case "transport": {
                     let entity = step.internal
                     let action = entity.actions[0]
 
@@ -138,7 +138,7 @@ export class PathStepEntity extends MapEntity {
                             weight: options.highlight ? 6 : 4,
                             dashArray: '10, 10',
                             className: cls
-                        }).addTo(this).getElement()
+                        }).addTo(this)
 
                     const marker = leaflet.marker(Vector2.toLatLong(TileRectangle.center(step.internal.clickable_area)), {
                         icon: leaflet.icon({
@@ -150,6 +150,17 @@ export class PathStepEntity extends MapEntity {
                     }).addTo(this)
 
                     return marker.getElement();
+                }
+                case "cheat": {
+                    return arrow(step.assumed_start, step.target)
+                        .setStyle({
+                            color: "#069334",
+                            weight: options.highlight ? 6 : 4,
+                            dashArray: '10, 10',
+                            className: cls
+                        }).addTo(this).getElement()
+                }
+
             }
         })()
 

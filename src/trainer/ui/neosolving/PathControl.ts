@@ -240,6 +240,10 @@ namespace PathSectionControl {
                     )
 
                     break;
+                case "cheat":
+                    icon.append(img("assets/icons/Rotten_potato.png"))
+                    content.append("")
+                    break
             }
 
             hboxl(order, icon, content).addClass("ctr-neosolving-path-legend")

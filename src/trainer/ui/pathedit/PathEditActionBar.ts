@@ -41,6 +41,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         compass: ActionBarButton,
         redclick: ActionBarButton,
         powerburst: ActionBarButton,
+        cheat: ActionBarButton,
     }
 
     state: Observable<movement_state> = observe(movement_state.start({}))
@@ -136,7 +137,11 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     })
 
                     new ContextMenu(menu).showFromEvent(e)
-                }).tooltip("Compass")
+                }).tooltip("Compass"),
+                cheat: new ActionBarButton('assets/icons/Rotten_potato.png', (e) => {
+
+                }).tooltip("Cheat")
+
             }
 
             this.bar = new ActionBar([
@@ -148,6 +153,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 this.buttons.redclick,
                 this.buttons.powerburst,
                 this.buttons.compass,
+                this.buttons.cheat
             ]).appendTo(this.content.body)
         }
 

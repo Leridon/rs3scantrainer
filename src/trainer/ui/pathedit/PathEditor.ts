@@ -55,6 +55,7 @@ import {TransportData} from "../../../data/transports";
 import resolveTeleport = TransportData.resolveTeleport;
 import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import {EntityTransportEntity} from "../map/entities/EntityTransportEntity";
+import {arrow} from "../path_graphics";
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -156,6 +157,43 @@ class StepEditWidget extends Widget {
 
                 break;
 
+            case "cheat":
+
+
+                props.named("Target",
+                    hbox(
+                        span(`${TileCoordinates.toString(value.raw.target)}`),
+                        spacer(),
+                        new LightButton("Move")
+                            .onClick(() => {
+                                assert(value.raw.type == "cheat")
+
+                                this.parent.editor.interaction_guard.set(
+                                    new SelectTileInteraction({
+                                        preview_render: (target) => {
+                                            assert(value.raw.type == "cheat")
+
+                                            return arrow(value.raw.assumed_start, value.raw.target)
+                                                .setStyle({
+                                                    color: "#069334",
+                                                    weight: 4,
+                                                    dashArray: '10, 10',
+                                                })
+                                        }
+                                    })
+                                        .onCommit(new_s => this.value.update(v => {
+                                            assert(v.raw.type == "cheat")
+                                            v.raw.target = new_s
+                                        }))
+                                        .onStart(() => this.value.value().associated_preview?.setOpacity(0))
+                                        .onEnd(() => this.value.value().associated_preview?.setOpacity(1))
+                                    ,
+                                )
+                            })
+                    )
+                )
+
+                break
             case "redclick":
 
                 props.named("Where",
@@ -494,23 +532,38 @@ class PathEditorGameLayer extends GameLayer {
                             text: `${s.entity.name}: ${a.name}`,
                             icon: CursorType.meta(a.cursor).icon_url,
                             handler: async () => {
-                                let t = this.editor.value.post_state.value()?.position?.tile
+                                const t = this.editor.value.post_state.value()?.position?.tile
 
-                                let path_to_start = await PathFinder.find(PathFinder.init_djikstra(t), a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area))
+                                let assumed_start = t
+                                const interactive_area = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
 
-                                if (path_to_start && path_to_start.length > 1) {
-                                    this.editor.value.create({
-                                        type: "run",
-                                        waypoints: path_to_start,
-                                    })
+                                if (t) {
+                                    const path_to_start = await PathFinder.find(
+                                        PathFinder.init_djikstra(t),
+                                        interactive_area
+                                    )
+
+                                    if (path_to_start && path_to_start.length > 1) {
+                                        if (assumed_start) assumed_start = index(path_to_start, -1)
+                                        this.editor.value.create({
+                                            type: "run",
+                                            waypoints: path_to_start,
+                                        })
+                                    }
                                 }
+
+                                assumed_start ??=
+                                    t ? TileRectangle.clampInto(t, TileArea.toRect(
+                                            interactive_area,
+                                        ))
+                                        : interactive_area.origin
 
                                 let clone = lodash.cloneDeep(s)
                                 clone.actions = [lodash.cloneDeep(a)]
 
                                 this.editor.value.create({
                                     type: "transport",
-                                    assumed_start: index(path_to_start, -1),
+                                    assumed_start: assumed_start,
                                     internal: clone
                                 })
                             }

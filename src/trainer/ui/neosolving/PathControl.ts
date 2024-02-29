@@ -34,6 +34,8 @@ import TemplateResolver from "../../../lib/util/TemplateResolver";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";
+import {Clues} from "../../../lib/runescape/clues";
+import ClueSpot = Clues.ClueSpot;
 
 class PathSectionControl extends Widget {
     constructor(
@@ -55,7 +57,7 @@ class PathSectionControl extends Widget {
 
             {
                 section_link.forEach((node, i) => {
-                    if (i == 0 || node.type == "leaf") return // Ignore root node and steps
+                    if (i == 0 || node?.type != "inner") return // Ignore root node and steps
 
                     let parent = section_link[i - 1]
 
@@ -340,7 +342,7 @@ export default class PathControl extends Behaviour {
     ) {
         this.sectioned_path = sections
         this.method = method
-        let section_id = TreeArray.fixIndex(this.sectioned_path, active_id || [])
+        const section_id = TreeArray.fixIndex(this.sectioned_path, active_id || [])
 
         this.path_layer.clearLayers()
         this.step_graphics = TreeArray.map(this.sectioned_path, (step) => {
@@ -372,7 +374,7 @@ export default class PathControl extends Behaviour {
         let w = c()
 
         if (this.method) {
-            new MethodSelector(this.parent)
+            new MethodSelector(this.parent,this.method.method.for)
                 .addClass("ctr-neosolving-solution-row")
                 .appendTo(w)
         }

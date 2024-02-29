@@ -73,7 +73,7 @@ export namespace ClueSpotFilter {
         if (!(f.types[clue.clue.type] && f.tiers[clue.clue.tier])) return false
 
         if (methods && f.method_pack) {
-            let ms = await methods.getForClue(clue.clue.id, clue.spot)
+            let ms = await methods.getForClue(ClueSpot.toId(clue))
 
             switch (f.method_mode) {
                 case "none":
@@ -245,10 +245,10 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
                 },
                 await this.methods.all()
             )
-            .setValue(this.filter.value().method_pack
-                ? await this.methods.getPack(this.filter.value().method_pack)
-                : null
-            )
+                .setValue(this.filter.value().method_pack
+                    ? await this.methods.getPack(this.filter.value().method_pack)
+                    : null
+                )
 
             this.methods.pack_set_changed.on((packs) => {
                 selection.setItems(packs)

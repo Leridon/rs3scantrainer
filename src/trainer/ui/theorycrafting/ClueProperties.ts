@@ -19,6 +19,7 @@ import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import Dependencies from "../../dependencies";
 import {FavouriteIcon, NislIcon} from "../nisl";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
+import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -184,7 +185,7 @@ export namespace ClueProperties {
 
         const ms = await MethodPackManager.instance().get(clue)
 
-        const favourite = Dependencies.instance().app.value().favourites.getMethod(clue)
+        const favourite = await Dependencies.instance().app.value().favourites.getMethod(ClueSpot.toId(clue))
 
         return [
             {
@@ -199,8 +200,7 @@ export namespace ClueProperties {
                 }
             },
             ...ms.map((m): MenuEntry => {
-                const isFavourite = favourite?.method?.id == m.method.id
-
+                const isFavourite = AugmentedMethod.isSame(favourite, m)
 
                 const men: MenuEntry.SubMenu = {
                     type: "submenu",
@@ -212,12 +212,10 @@ export namespace ClueProperties {
                             text: isFavourite ? "Unset Favourite" : "Make Favourite",
                             icon: new FavouriteIcon().set(isFavourite),
                             handler: () => {
-                                Dependencies.instance().app.value().favourites.setMethod(m)
+                                Dependencies.instance().app.value().favourites.setMethod(ClueSpot.toId(clue), isFavourite ? null : m)
                             }
                         },
                     ]
-
-
                 }
 
                 if (m.pack.type == "local") {

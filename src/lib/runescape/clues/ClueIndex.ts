@@ -103,11 +103,11 @@ export class ClueSpotIndex<T> {
         }))
     }
 
-    get(clue: number, spot?: TileCoordinates): { for: Clues.ClueSpot } & T {
-        let r = this._index[clue]
+    get(clue: ClueSpot.Id): { for: Clues.ClueSpot } & T {
+        let r = this._index[clue.clue]
 
-        if (!spot && !r.spot_index) return r.value
-        if (spot && r.spot_index) return r.spot_index[Vector2.hash(spot, ClueSpotIndex.BUCKETS)].find(v => TileCoordinates.eq2(v.spot, spot))?.value
+        if (!clue.spot && !r.spot_index) return r.value
+        if (clue.spot && r.spot_index) return r.spot_index[Vector2.hash(clue.spot, ClueSpotIndex.BUCKETS)].find(v => TileCoordinates.eq2(v.spot, clue.spot))?.value
 
         return null
     }

@@ -28,10 +28,8 @@ import {SolvingMethods} from "../../model/methods";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {ScanTree} from "../../../lib/cluetheory/scans/ScanTree";
 import {scan_tree_template_resolvers} from "../solving/scans/ScanSolving";
-import hbox = C.hbox;
 import AugmentedScanTree = ScanTree.Augmentation.AugmentedScanTree;
 import * as leaflet from "leaflet"
-import {PathingGraphics} from "../path_graphics";
 import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
 import BoundsBuilder from "../../../lib/gamemap/BoundsBuilder";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
@@ -40,8 +38,6 @@ import interactionMarker = RenderingUtility.interactionMarker;
 import Order = util.Order;
 import spotNumber = ScanTree.spotNumber;
 import PulseButton, {PulseIcon} from "./PulseButton";
-import spacer = C.spacer;
-import {FavouriteIcon, NislIcon} from "../nisl";
 import MethodSelector from "./MethodSelector";
 import PathControl from "./PathControl";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
@@ -186,10 +182,10 @@ namespace NeoSolvingLayer {
                 .onSelected(async clue => {
                     this.parent.setClue(clue)
 
-                    let m = this.parent.app.favourites.getMethod({clue: clue.step})
+                    let m = await this.parent.app.favourites.getMethod({clue: clue.step.id})
 
                     if (!m) {
-                        let ms = await MethodPackManager.instance().getForClue(clue.step.id)
+                        let ms = await MethodPackManager.instance().getForClue({clue: clue.step.id})
                         if (ms.length > 0) m = ms[0]
                     }
 
@@ -356,7 +352,7 @@ class ScanTreeSolvingControl extends Behaviour {
         this.renderLayer()
 
         {
-            new MethodSelector(this.parent)
+            new MethodSelector(this.parent, this.method.method.for)
                 .addClass("ctr-neosolving-solution-row")
                 .appendTo(this.tree_widget)
         }
@@ -704,7 +700,7 @@ export default class NeoSolvingBehaviour extends Behaviour {
                 this.path_control.reset().setMethod(method as AugmentedMethod<GenericPathMethod>)
             }
         } else {
-            this.default_method_selector = new MethodSelector(this)
+            this.default_method_selector = new MethodSelector(this, {clue: this.active_clue.step.id})
                 .addClass("ctr-neosolving-solution-row")
                 .appendTo(this.layer.method_selection_container)
         }
@@ -798,35 +794,5 @@ export namespace NeoSolving {
             },
             scan_solving: "always"
         }
-    }
-
-    export async function openMethodSelection(behaviour: NeoSolvingBehaviour, ref: Widget) {
-        new AbstractDropdownSelection.DropDown<AugmentedMethod>({
-            dropdownClass: "ctr-neosolving-favourite-dropdown",
-            renderItem: m => {
-
-                if (!m) {
-                    return hbox(
-                        new FavouriteIcon().set(m == behaviour.active_method),
-                        span("None"),
-                        spacer()
-                    )
-                } else {
-                    // TODO: Add tippy tooltip with more details for the method
-
-                    return hbox(
-                        new FavouriteIcon().set(m == behaviour.active_method),
-                        span(m.method.name),
-                        spacer()
-                    ).tooltip(m.method.description)
-                }
-            }
-        })
-            .setItems((await MethodPackManager.instance().getForClue(behaviour.active_clue.step.id)).concat([null]))
-            .onSelected(m => {
-                behaviour.app.favourites.setMethod(m)
-                behaviour.setMethod(m)
-            })
-            .open(ref, ref)
     }
 }

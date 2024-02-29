@@ -1,13 +1,12 @@
 import {Application} from "../../application";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
-import * as tippy from "tippy.js";
 import {clue_data} from "../../../data/clues";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
-import UtilityLayer from "../map/UtilityLayer";
-import {ClueSpotFilter, FilterControl} from "./Filtering";
+import {FilterControl} from "./Filtering";
 import {ClueOverviewMarker} from "./OverviewMarker";
-
+import {Clues} from "../../../lib/runescape/clues";
+import ClueSpot = Clues.ClueSpot;
 
 export default class OverviewLayer extends GameLayer {
     filter_control: FilterControl
@@ -29,7 +28,7 @@ export default class OverviewLayer extends GameLayer {
 
     private async updateVisibleMarkersByFilter() {
         await Promise.all(this.marker_index.flat().map(async c => {
-                let visible = this.filter_control.index.get(c.for.clue.id, c.for.spot).visible
+                let visible = this.filter_control.index.get(ClueSpot.toId(c.for)).visible
 
                 if (!visible && c.markers.length > 0) {
                     c.markers.forEach(c => c.remove())

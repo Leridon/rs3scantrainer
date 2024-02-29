@@ -1,6 +1,6 @@
 import Widget from "../../../lib/ui/Widget";
 import {FavouriteIcon, NislIcon} from "../nisl";
-import NeoSolvingBehaviour, {NeoSolving} from "./NeoSolvingBehaviour";
+import NeoSolvingBehaviour from "./NeoSolvingBehaviour";
 import {Observable, observe} from "../../../lib/reactive";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
 import {C} from "../../../lib/ui/constructors";
@@ -9,13 +9,15 @@ import span = C.span;
 import hbox = C.hbox;
 import bold = C.bold;
 import {AbstractDropdownSelection} from "../widgets/AbstractDropdownSelection";
+import {Clues} from "../../../lib/runescape/clues";
+import ClueSpot = Clues.ClueSpot;
 
 export default class MethodSelector extends Widget {
     public method: Observable<AugmentedMethod>
 
     private row: Widget
 
-    constructor(private parent: NeoSolvingBehaviour) {
+    constructor(private parent: NeoSolvingBehaviour, private clue: ClueSpot.Id) {
         super()
 
         this.method = observe(parent.active_method)
@@ -60,9 +62,9 @@ export default class MethodSelector extends Widget {
                 }
             }
         })
-            .setItems((await MethodPackManager.instance().getForClue(this.parent.active_clue.step.id)).concat([null]))
+            .setItems((await MethodPackManager.instance().getForClue(this.clue)).concat([null]))
             .onSelected(m => {
-                this.parent.app.favourites.setMethod(m)
+                this.parent.app.favourites.setMethod(this.clue, m)
                 this.parent.setMethod(m)
             })
             .open(this.row, this.row)

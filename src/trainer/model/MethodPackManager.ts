@@ -6,7 +6,6 @@ import {ClueSpotIndex} from "../../lib/runescape/clues/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
 import {default_generic_method_pack, default_scan_method_pack} from "../builtin_methods";
 import {clue_data} from "../../data/clues";
-import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {ewent, Ewent} from "../../lib/reactive";
 import * as lodash from "lodash";
 import {util} from "../../lib/util/util";
@@ -28,6 +27,24 @@ export type AugmentedMethod<
     method_t extends Method = Method,
     step_t extends Clues.Step = Clues.Step
 > = { method: method_t, pack?: Pack, clue?: step_t }
+
+export namespace AugmentedMethod {
+    export function isSame(a: AugmentedMethod, b: AugmentedMethod): boolean {
+        return (a == b) || (a && b && LocalMethodId.equals(LocalMethodId.fromMethod(a), LocalMethodId.fromMethod(b)))
+    }
+}
+
+export type LocalMethodId = { local_pack_id: string, method_id: string }
+
+export namespace LocalMethodId {
+    export function fromMethod(method: AugmentedMethod): LocalMethodId {
+        return {local_pack_id: method.pack.local_id, method_id: method.method.id}
+    }
+
+    export function equals(a: LocalMethodId, b: LocalMethodId): boolean {
+        return a.local_pack_id == b.local_pack_id && a.method_id == b.method_id
+    }
+}
 
 export class MethodPackManager {
     public initialized: Promise<void>
@@ -71,7 +88,7 @@ export class MethodPackManager {
 
             (await this.all()).forEach(p => {
                 p.methods.forEach(m => {
-                    this.method_index.get(m.for.clue, m.for.spot).methods.push({
+                    this.method_index.get(m.for).methods.push({
                         method: m,
                         pack: p,
                         clue: clue_data.index.get(m.for.clue).clue
@@ -203,13 +220,24 @@ export class MethodPackManager {
         return MethodPackManager._instance
     }
 
-    async getForClue(id: number, spot_alternative?: TileCoordinates): Promise<AugmentedMethod[]> {
+    async getForClue(id: ClueSpot.Id): Promise<AugmentedMethod[]> {
         await this.index_created
 
-        return this.method_index.get(id, spot_alternative).methods
+        return this.method_index.get(id).methods
     }
 
     async get(spot: ClueSpot): Promise<AugmentedMethod[]> {
-        return await this.getForClue(spot.clue.id, spot.spot)
+        // TODO: Why would I need both this method and getForClue?
+        return await this.getForClue(ClueSpot.toId(spot))
+    }
+
+    async resolve(id: LocalMethodId): Promise<AugmentedMethod> {
+        const pack = (await this.all()).find(p => p.local_id == id.local_pack_id)
+
+        if (!pack) return null
+
+        const method = pack.methods.find(m => m.id == id.method_id)
+
+        return {method: method, pack: pack, clue: clue_data.index.get(method.for.clue).clue}
     }
 }

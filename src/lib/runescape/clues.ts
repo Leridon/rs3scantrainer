@@ -162,6 +162,15 @@ export namespace Clues {
     }
 
     export namespace ClueSpot {
+
+        export type Id = { clue: number, spot?: TileCoordinates }
+
+        export namespace Id {
+            export function equals(a: ClueSpot.Id, b: ClueSpot.Id): boolean {
+                return a?.clue == b?.clue && ((a?.spot == b?.spot) || TileCoordinates.eq2(a?.spot, b?.spot))
+            }
+        }
+
         export function shortString(spot: Clues.ClueSpot, text_variant: number = 0): string {
             if (spot.clue.type == "compass") return `Compass spot ${Vector2.toString(spot.spot)}`
             else return Step.shortString(spot.clue, text_variant)
@@ -184,6 +193,10 @@ export namespace Clues {
             }
 
             if (spot.clue.type == "emote") return spot.clue.area
+        }
+
+        export function toId(spot: ClueSpot): Id {
+            return {clue: spot.clue.id, spot: spot.spot}
         }
     }
 

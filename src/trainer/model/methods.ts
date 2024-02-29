@@ -1,12 +1,12 @@
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Path} from "lib/runescape/pathing";
-import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {Clues} from "../../lib/runescape/clues";
 import {uuid} from "../../oldlib";
 import {util} from "../../lib/util/util";
 
 export namespace SolvingMethods {
     import timestamp = util.timestamp;
+    import ClueSpot = Clues.ClueSpot;
     export type method_kind = "scantree" | "general_path"
 
     export type ClueAssumptions = {
@@ -32,7 +32,7 @@ export namespace SolvingMethods {
         type: method_kind,
         id: string,
         timestamp: number,
-        for: { clue: number, spot?: TileCoordinates },
+        for: ClueSpot.Id,
         name: string,
         description: string,
         assumptions: ClueAssumptions,

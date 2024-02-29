@@ -68,14 +68,16 @@ export namespace TreeArray {
 
         let i = 0
 
+        let current_node = node
+
         while (true) {
-            if (node.type == "leaf") return result
+            if (current_node?.type != "inner") return result
             else {
                 let index = i < indices.length ? indices[i] : 0
 
                 result.push(index)
 
-                node = node.children[index]
+                current_node = current_node.children[index]
             }
 
             i++

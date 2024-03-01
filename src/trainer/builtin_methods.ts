@@ -8,7 +8,13 @@ export const default_scan_method_pack: Pack = {
     timestamp: 1700749105,
     name: "Default Scan Methods",
     description: "This default pack features standard scan routes based on the guide by Fiery and some other contributors.",
-    methods: []
+    methods: [],
+    default_assumptions: {
+        double_escape: true,
+        double_surge: true,
+        meerkats_active: true,
+        mobile_perk: true
+    }
 }
 
 export const default_generic_method_pack: Pack = {
@@ -19,5 +25,13 @@ export const default_generic_method_pack: Pack = {
     author: "Zyklop Marco",
     timestamp: 1700749105,
     description: "",
-    methods: []
+    methods: [],
+    default_assumptions: {
+        double_escape: true,
+        double_surge: true,
+        way_of_the_footshaped_key: true,
+        full_globetrotter: true,
+        meerkats_active: true,
+        mobile_perk: true
+    }
 }

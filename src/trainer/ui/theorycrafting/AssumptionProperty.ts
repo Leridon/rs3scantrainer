@@ -5,9 +5,13 @@ import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import * as lodash from "lodash";
+import Widget from "../../../lib/ui/Widget";
 
-export default class AssumptionProperty extends AbstractEditWidget<ClueAssumptions> {
-    relevant_assumptions: Set<keyof SolvingMethods.ClueAssumptions> = new Set(Object.keys(ClueAssumptions) as (keyof SolvingMethods.ClueAssumptions)[])
+export class AssumptionProperty extends AbstractEditWidget<ClueAssumptions> {
+    relevant_assumptions: Set<keyof SolvingMethods.ClueAssumptions> = new Set([
+        "meerkats_active", "way_of_the_footshaped_key", "full_globetrotter",
+        "double_surge", "double_escape", "mobile_perk"
+    ])
 
     constructor() {
         super();
@@ -45,10 +49,12 @@ export default class AssumptionProperty extends AbstractEditWidget<ClueAssumptio
         ).appendTo(this)
     }
 
-    setRelevantAssumptions(relevant: Set<keyof SolvingMethods.ClueAssumptions>) {
+    setRelevantAssumptions(relevant: Set<keyof SolvingMethods.ClueAssumptions> = null): this {
         this.relevant_assumptions = relevant
 
         this.render()
+
+        return this
     }
 
     private updateAssumptions(f: (_: ClueAssumptions) => void) {
@@ -57,5 +63,20 @@ export default class AssumptionProperty extends AbstractEditWidget<ClueAssumptio
         f(cp)
 
         this.commit(cp)
+    }
+}
+
+export namespace AssumptionProperty {
+    export function icons(assumptions: ClueAssumptions): Widget[] {
+        let icons: Widget[] = []
+
+        if (assumptions.double_escape) icons.push(C.inlineimg("assets/icons/doubleescape.png"))
+        if (assumptions.double_surge) icons.push(C.inlineimg("assets/icons/doublesurge.png"))
+        if (assumptions.mobile_perk) icons.push(C.inlineimg("assets/icons/mobile.png"))
+        if (assumptions.full_globetrotter) icons.push(C.inlineimg("assets/icons/Globetrotter_jacket.png"))
+        if (assumptions.meerkats_active) icons.push(C.inlineimg("assets/icons/Meerkats_pouch.png"))
+        if (assumptions.way_of_the_footshaped_key) icons.push(C.inlineimg("assets/icons/Key_(Treasure_Trails).png"))
+
+        return icons
     }
 }

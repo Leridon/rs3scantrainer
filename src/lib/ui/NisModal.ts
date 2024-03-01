@@ -4,7 +4,7 @@ import {observe} from "../reactive";
 import {BigNisButton} from "../../trainer/ui/widgets/BigNisButton";
 import ButtonRow from "./ButtonRow";
 
-export default abstract class NisModal extends Modal2 {
+export abstract class NisModal extends Modal2 {
     public header: Widget
     public body: Widget
     public footer: Widget
@@ -12,7 +12,7 @@ export default abstract class NisModal extends Modal2 {
 
     title = observe("")
 
-    constructor(protected options: Modal2.Options & { footer?: boolean } = {}) {
+    constructor(protected options: NisModal.Options = {}) {
         super(options);
     }
 
@@ -22,10 +22,10 @@ export default abstract class NisModal extends Modal2 {
         this.header = c("<div class='nisl-modal-header'></div>").appendTo(this._content)
         this.body = c("<div class='nisl-modal-body'></div>").appendTo(this._content)
 
-        if (this.options.footer) {
-            this.footer = c("<div class='nisl-modal-footer'></div>").appendTo(this._content)
+        const buttons = this.getButtons()
 
-            const buttons = this.getButtons()
+        if (this.options.force_footer || buttons.length > 0) {
+            this.footer = c("<div class='nisl-modal-footer'></div>").appendTo(this._content)
 
             if (buttons.length > 0) {
                 this.footer.append(new ButtonRow({align: "center", sizing: "100px", max_center_spacer_width: "100px"})
@@ -47,4 +47,8 @@ export default abstract class NisModal extends Modal2 {
     getButtons(): BigNisButton[] {
         return []
     }
+}
+
+export namespace NisModal {
+    export type Options = Modal2.Options & { force_footer?: boolean }
 }

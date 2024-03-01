@@ -13,15 +13,13 @@ import MethodSubEditor from "./MethodSubEditor";
 import LightButton from "../widgets/LightButton";
 import SaveInPack from "./SaveInPack";
 import Widget from "../../../lib/ui/Widget";
-import vbox = C.vbox;
+
 import hbox = C.hbox;
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
-import ClueAssumptions = SolvingMethods.ClueAssumptions;
-import {Checkbox} from "../../../lib/ui/controls/Checkbox";
-import {ewent} from "../../../lib/reactive";
+
 import GenericPathMethodEditor from "./GenericPathMethodEditor";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
-import AssumptionProperty from "./AssumptionProperty";
+import {AssumptionProperty} from "./AssumptionProperty";
 
 class MethodEditSideBar extends MapSideBar {
     save_row: Widget

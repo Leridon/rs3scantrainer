@@ -1,13 +1,13 @@
-import NisModal from "../../../../lib/ui/NisModal";
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import {BigNisButton} from "../BigNisButton";
 import {deps} from "../../../dependencies";
+import {NisModal} from "../../../../lib/ui/NisModal";
 
 export default class ExportStringModal extends NisModal {
     textarea: TextArea
 
     constructor(private string: string, private explanation: string = "") {
-        super({footer: true});
+        super({force_footer: true});
     }
 
     render() {

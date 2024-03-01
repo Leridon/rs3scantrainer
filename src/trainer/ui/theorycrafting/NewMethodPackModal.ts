@@ -1,4 +1,3 @@
-import NisModal from "../../../lib/ui/NisModal";
 import Properties from "../widgets/Properties";
 import TextField from "../../../lib/ui/controls/TextField";
 import TextArea from "../../../lib/ui/controls/TextArea";
@@ -37,6 +36,14 @@ export class MethodPackMetaEdit extends Widget {
                 this.value.description = v
             })
             .css("height", "80px").setValue(this.value.description))
+
+        props.header("Default Assumptions")
+        props.row(new AssumptionProperty()
+            .setValue(this.value.default_assumptions)
+            .onCommit(a => {
+                this.value.default_assumptions = a
+            })
+        )
     }
 
     get(): Pack.Meta {
@@ -50,8 +57,8 @@ export abstract class FormModal<T> extends NisModal {
         resolved: boolean
     } = null
 
-    protected constructor() {
-        super({footer: true});
+    protected constructor(protected options: NisModal.Options = {}) {
+        super(options);
 
         this.hidden.on(() => this.confirm(this.getValueForCancel()))
     }
@@ -84,6 +91,8 @@ export abstract class FormModal<T> extends NisModal {
 import {BigNisButton} from "../widgets/BigNisButton";
 import Widget from "../../../lib/ui/Widget";
 import {deps} from "../../dependencies";
+import {NisModal} from "../../../lib/ui/NisModal";
+import {AssumptionProperty} from "./AssumptionProperty";
 
 export class NewMethodPackModal extends FormModal<{
     created: boolean
@@ -91,15 +100,15 @@ export class NewMethodPackModal extends FormModal<{
     edit: MethodPackMetaEdit
 
     constructor() {
-        super();
-
-        this.title.set("Create Method Pack")
+        super({size: "small"});
     }
 
     render() {
         super.render();
 
-        this.edit = new MethodPackMetaEdit({name: "", description: "", author: ""}).appendTo(this.body)
+        this.title.set("Create Method Pack")
+
+        this.edit = new MethodPackMetaEdit({name: "", description: "", author: "", default_assumptions: {}}).appendTo(this.body)
     }
 
     getButtons(): BigNisButton[] {

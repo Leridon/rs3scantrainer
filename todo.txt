@@ -16,6 +16,7 @@ Planned for next release (b0.4):
         - Close
         - Move
         - Delete
+    - Collapsible method pack sections (default|imported|local)
     - Editor for generic path methods
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
@@ -25,6 +26,10 @@ Planned for next release (b0.4):
         - Noninteractive entities
     - [Bug] Filtering does not update properly in some situations
     - [Feature] Undo/Redo
+
+- Tile Areas
+    - Interaction to edit tile areas in the utility layer
+    - Gather data for non-static teleports
 
 - Path Editor
     - [Bug] Dive Target needs to be optional

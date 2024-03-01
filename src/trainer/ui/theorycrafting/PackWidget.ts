@@ -1,22 +1,15 @@
 import Widget from "../../../lib/ui/Widget";
 import {MethodPackManager, Pack} from "../../model/MethodPackManager";
 import Properties from "../widgets/Properties";
-import LightButton from "../widgets/LightButton";
-import TextArea from "../../../lib/ui/controls/TextArea";
-import TextField from "../../../lib/ui/controls/TextField";
 import {C} from "../../../lib/ui/constructors";
-import hbox = C.hbox;
 import * as lodash from "lodash";
-import span = C.span;
-import spacer = C.spacer;
 import {ExportImport} from "../../../lib/util/exportString";
 import exp = ExportImport.exp;
 import ExportStringModal from "../widgets/modals/ExportStringModal";
-import NisCollapseButton from "../../../lib/ui/controls/NisCollapseButton";
-import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import Dependencies from "../../dependencies";
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
+import {AssumptionProperty} from "./AssumptionProperty";
 
 export default class PackWidget extends Widget {
     constructor(public pack: Pack,
@@ -37,7 +30,10 @@ export default class PackWidget extends Widget {
             .addClass("ctr-pack-widget-body")
 
         let header = C.div()
-            .text(`${pack.name} (${pack.methods.length})`)
+            .append(
+                `${pack.name} (${pack.methods.length})`,
+                ...AssumptionProperty.icons(pack.default_assumptions)
+            )
             .addClass("ctr-pack-widget-header")
             .tooltip(pack.local_id)
 
@@ -66,7 +62,7 @@ export default class PackWidget extends Widget {
                     }
                 })
 
-                if(pack.type == "local" || pack.type == "imported"){
+                if (pack.type == "local" || pack.type == "imported") {
                     menu.push({
                         type: "basic",
                         text: "Delete",

@@ -11,13 +11,14 @@ import * as lodash from "lodash";
 import {util} from "../../lib/util/util";
 import timestamp = util.timestamp;
 import ClueSpot = Clues.ClueSpot;
+import ClueAssumptions = SolvingMethods.ClueAssumptions;
 
 export type Pack = Pack.Meta & {
     type: "default" | "local" | "imported"
     local_id: string,
     original_id: string,
     timestamp: number,
-    methods: Method[]
+    methods: Method[],
 }
 
 export namespace Pack {
@@ -25,19 +26,22 @@ export namespace Pack {
         author: string,
         name: string,
         description: string,
+        default_assumptions: ClueAssumptions
     }
 
     export function setMeta(pack: Pack, meta: Meta): void {
         pack.author = meta.author
         pack.description = meta.description
         pack.name = meta.name
+        pack.default_assumptions = lodash.cloneDeep(meta.default_assumptions)
     }
 
     export function meta(pack: Pack): Meta {
         return {
             name: pack.name,
             author: pack.author,
-            description: pack.description
+            description: pack.description,
+            default_assumptions: lodash.cloneDeep(pack.default_assumptions)
         }
     }
 }

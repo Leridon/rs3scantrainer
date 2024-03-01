@@ -1,12 +1,11 @@
-import NisModal from "../../../lib/ui/NisModal";
 import {AugmentedMethod, MethodPackManager, Pack} from "../../model/MethodPackManager";
 import PackWidget from "./PackWidget";
 import {Observable, observe} from "../../../lib/reactive";
 import * as lodash from "lodash";
 import Button from "../../../lib/ui/controls/Button";
-
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {BigNisButton} from "../widgets/BigNisButton";
+import {NisModal} from "../../../lib/ui/NisModal";
 
 export default class SaveInPack extends NisModal {
     private pack_widgets: PackWidget[]
@@ -18,7 +17,7 @@ export default class SaveInPack extends NisModal {
     private saved_in: Pack = null
 
     constructor(private method: AugmentedMethod, private packs: MethodPackManager) {
-        super({footer: true});
+        super({force_footer: true});
 
         this.title.set("Select pack");
 

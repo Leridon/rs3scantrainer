@@ -1,19 +1,21 @@
-import NisModal from "../../../../lib/ui/NisModal";
 import TextArea from "../../../../lib/ui/controls/TextArea";
-import ButtonRow from "../../../../lib/ui/ButtonRow";
-import {ewent} from "../../../../lib/reactive";
 import {BigNisButton} from "../BigNisButton";
+import {FormModal} from "../../theorycrafting/NewMethodPackModal";
+import {deps} from "../../../dependencies";
 
-export default class ImportStringModal<T> extends NisModal {
+export default class ImportStringModal<T> extends FormModal<{
+    imported: T
+}> {
     textarea: TextArea
-
-    imported = ewent<T>()
 
     private import_button: BigNisButton
 
-    constructor(private parser: (_: string) => T,
-    ) {
-        super({footer: true});
+    constructor(private parser: (_: string) => T) {
+        super();
+    }
+
+    render() {
+        super.render();
 
         this.title.set("Import")
 
@@ -28,37 +30,31 @@ export default class ImportStringModal<T> extends NisModal {
         this.textarea.onChange(v => {
             this.import_button.setEnabled(!!v.value)
         })
-
-        this.footer.append(new ButtonRow({align: "center", sizing: "100px", max_center_spacer_width: "100px"})
-            .buttons(
-                new BigNisButton("Cancel", "cancel").onClick(() => this.remove()),
-                this.import_button = new BigNisButton("Import", "confirm")
-                    .setEnabled(false)
-                    .onClick(() => {
-                        try {
-                            let imported = this.parser(this.textarea.get())
-
-                            if (imported == null) {
-                                alert("Invalid input")
-                                return
-                            }
-
-                            this.imported.trigger(imported)
-
-                            this.remove()
-                        } catch (e) {
-                            alert(`Invalid input: ${e.toString()}`)
-                        }
-                    })
-            )
-        )
     }
 
-    static do<T>(parser: (v: string) => T, handler: (_: T) => any): Promise<any> {
-        let modal = new ImportStringModal(parser)
+    getButtons(): BigNisButton[] {
+        return [
+            new BigNisButton("Cancel", "cancel").onClick(() => this.confirm(null)),
+            this.import_button = new BigNisButton("Import", "confirm")
+                .setEnabled(false)
+                .onClick(() => {
+                    try {
+                        let imported = this.parser(this.textarea.get())
 
-        modal.imported.on(handler)
+                        if (imported == null) {
 
-        return modal.show()
+                            deps().app.notifications.notify({
+                                type: "error",
+                            }, "Invalid input")
+
+                            return
+                        }
+
+                        this.confirm({imported: imported})
+                    } catch (e) {
+                        alert(`Invalid input: ${e.toString()}`)
+                    }
+                })
+        ]
     }
 }

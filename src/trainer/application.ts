@@ -318,7 +318,7 @@ namespace Application {
 
 export function initialize() {
     let app = new Application()
-    Dependencies.instance().app.set(app)
+    Dependencies.instance().app = app
     app.start()
 
     //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris

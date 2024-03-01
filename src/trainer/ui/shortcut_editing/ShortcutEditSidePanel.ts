@@ -57,21 +57,24 @@ export default class ShortcutEditSidePanel extends MapSideBar {
                 }),
             new LightButton("Delete Local")
                 .onClick(() => {
-                   // this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
+                    // this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
                 }),
         ).addClass("ctr-button-container").appendTo(this.search_container)
 
         hboxc(
             new LightButton("Export All")
                 .onClick(() => {
-                    ExportStringModal.do(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
+                    new ExportStringModal(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
+                        .show()
                 }),
             new LightButton("Export Local")
                 .onClick(() => {
-                    ExportStringModal.do(JSON.stringify(this.editor.data.value().filter(s => !s.value().is_builtin).map(v => (({
-                                                                                                                                   is_builtin,
-                                                                                                                                   ...rest
-                                                                                                                               }) => rest)(v.value())), null, 2))
+                    new ExportStringModal(JSON.stringify(this.editor.data.value().filter(s => !s.value().is_builtin).map(v => (({
+                                                                                                                                    is_builtin,
+                                                                                                                                    ...rest
+                                                                                                                                }) => rest)(v.value())), null, 2))
+
+                        .show()
                 }),
         ).addClass("ctr-button-container").appendTo(this.search_container)
 

@@ -196,7 +196,7 @@ export namespace Path {
                     return index(step.waypoints, -1)
                 case "teleport":
                     if (step.spot) return step.spot
-                    else return resolveTeleport(step.id, Dependencies.instance().app.value().teleport_settings).target()
+                    else return resolveTeleport(step.id, Dependencies.instance().app.teleport_settings).target()
                 case "transport":
                     let start_tile = step.assumed_start
                     let action = step.internal.actions[0]

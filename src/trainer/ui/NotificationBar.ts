@@ -61,10 +61,10 @@ export default class NotificationBar extends Widget {
             "height": "toggle"
         }, 300)
 
-        if (notification.options.duration != null) {
+        if (notification.options.duration !== null) {
             setTimeout(() => {
                 notification.dismiss(true)
-            }, notification.options.duration)
+            }, notification.options.duration ?? 3000)
         }
 
         return this

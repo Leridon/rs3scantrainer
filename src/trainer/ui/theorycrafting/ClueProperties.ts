@@ -185,7 +185,7 @@ export namespace ClueProperties {
 
         const ms = await MethodPackManager.instance().get(clue)
 
-        const favourite = await Dependencies.instance().app.value().favourites.getMethod(ClueSpot.toId(clue))
+        const favourite = await Dependencies.instance().app.favourites.getMethod(ClueSpot.toId(clue))
 
         return [
             {
@@ -212,7 +212,7 @@ export namespace ClueProperties {
                             text: isFavourite ? "Unset Favourite" : "Make Favourite",
                             icon: new FavouriteIcon().set(isFavourite),
                             handler: () => {
-                                Dependencies.instance().app.value().favourites.setMethod(ClueSpot.toId(clue), isFavourite ? null : m)
+                                Dependencies.instance().app.favourites.setMethod(ClueSpot.toId(clue), isFavourite ? null : m)
                             }
                         },
                     ]
@@ -247,17 +247,17 @@ export namespace ClueProperties {
                         text: "Delete",
                         icon: "assets/icons/delete.png",
                         handler: async () => {
-                            const really = await ConfirmationModal.do<boolean>({
+                            const really = await new ConfirmationModal<boolean>({
                                 body: "Are you sure you want to delete this method? There is no way to undo it!",
                                 options: [
                                     {kind: "neutral", text: "Cancel", value: false},
                                     {kind: "cancel", text: "Delete", value: true},
                                 ]
-                            })
+                            }).do()
 
                             if (really) {
                                 MethodPackManager.instance().deleteMethod(m)
-                                Dependencies.instance().app.value().notifications.notify({
+                                Dependencies.instance().app.notifications.notify({
                                     type: "information",
                                     duration: 3000
                                 }, "Deleted")

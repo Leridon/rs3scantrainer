@@ -88,7 +88,7 @@ export class PathStepEntity extends MapEntity {
                     return marker.getElement()
                 }
                 case "teleport": {
-                    let teleport = TransportData.resolveTeleport(step.id, Dependencies.instance().app.value().teleport_settings)
+                    let teleport = TransportData.resolveTeleport(step.id, Dependencies.instance().app.teleport_settings)
 
                     const marker = leaflet.marker(Vector2.toLatLong(step.spot ?? teleport.target()), {
                         icon: new TeleportSpotEntity.TeleportMapIcon(teleport, options.highlight ? 1.5 : 1),
@@ -176,7 +176,7 @@ export class PathStepEntity extends MapEntity {
 
     async renderTooltip(): Promise<{ content: Widget, interactive: boolean } | null> {
         return {
-            content: new PathStepProperties(this.config.step, Dependencies.instance().app.value().template_resolver),
+            content: new PathStepProperties(this.config.step, Dependencies.instance().app.template_resolver),
             interactive: false
         }
     }

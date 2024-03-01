@@ -170,22 +170,22 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 }),
 
                 new LightButton("Export", "rectangle")
-                    .onClick(() => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
+                    .onClick(() => new ExportStringModal(Path.export_path(this.editor.value.construct())).show()),
 
                 new LightButton("Import", "rectangle")
                     .onClick(async () => {
-                        await ImportStringModal.do((s) => Path.import_path(s), (value) => {
-                            this.editor.value.load(value)
-                        })
+                        const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
+
+                        if(imported?.imported) this.editor.value.load(imported.imported)
                     }),
 
                 new LightButton("Share", "rectangle")
                     .onClick(() => {
-                        ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, {
+                        new ExportStringModal(QueryLinks.link(ScanTrainerCommands.load_path, {
                             steps: this.editor.value.construct(),
                             start_state: this.editor.options.start_state,
                             target: this.editor.options.target,
-                        }), "Use this link to directly link to this path.")
+                        }), "Use this link to directly link to this path.").show()
                     })
             ).addClass("ctr-button-container")
                 .appendTo(this.content.body)

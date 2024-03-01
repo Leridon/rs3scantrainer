@@ -1,44 +1,36 @@
-import NisModal from "../../../../lib/ui/NisModal";
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import Widget from "../../../../lib/ui/Widget";
-import ButtonRow from "../../../../lib/ui/ButtonRow";
-import {Ewent, ewent} from "../../../../lib/reactive";
 import {BigNisButton} from "../BigNisButton";
+import {FormModal} from "../../theorycrafting/NewMethodPackModal";
 
-export class ConfirmationModal<T> extends NisModal {
+export class ConfirmationModal<T> extends FormModal<T> {
     textarea: TextArea
     explanation: Widget
 
-    selected: Ewent.Real<T> = ewent<T>()
-
-    constructor(options: ConfirmationModal.options<T>) {
-        super({footer: true});
-
-        this.title.set(options.title || "Confirmation")
-
-        this.explanation = c("<p></p>").text(options.body).appendTo(this.body)
-
-        this.footer.append(new ButtonRow({align: "center", sizing: "100px", max_center_spacer_width: "100px"})
-            .buttons(
-                ...options.options.map(o =>
-                    new BigNisButton(o.text, o.kind)
-                        .onClick(() => {
-                            this.selected.trigger(o.value)
-                            this.hide()
-                        })
-                )
-            )
-        )
+    constructor(private config: ConfirmationModal.options<T>) {
+        super();
     }
 
-    static do<T>(options: ConfirmationModal.options<T>): Promise<T> {
-        const modal = new ConfirmationModal<T>(options)
+    render() {
+        super.render();
 
-        modal.show()
+        this.title.set(this.config.title || "Confirmation")
 
-        return new Promise(resolve => {
-            modal.selected.on((v: T) => resolve(v))
-        })
+        this.explanation = c("<p></p>").text(this.config.body).appendTo(this.body)
+    }
+
+    getButtons(): BigNisButton[] {
+        return [
+            ...this.config.options.map(o =>
+                new BigNisButton(o.text, o.kind)
+                    .onClick(() =>
+                        this.confirm(o.value))
+            )
+        ]
+    }
+
+    protected getValueForCancel(): T {
+        return this.config.options.find(o => o.is_cancel)?.value
     }
 }
 
@@ -49,7 +41,8 @@ export namespace ConfirmationModal {
         options: {
             kind: BigNisButton.Kind,
             text: string,
-            value: T
-        }[]
+            value: T,
+            is_cancel?: boolean
+        }[],
     }
 }

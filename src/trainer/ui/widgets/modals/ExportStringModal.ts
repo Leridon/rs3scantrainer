@@ -1,21 +1,23 @@
 import NisModal from "../../../../lib/ui/NisModal";
 import TextArea from "../../../../lib/ui/controls/TextArea";
-import Widget from "../../../../lib/ui/Widget";
-import ButtonRow from "../../../../lib/ui/ButtonRow";
 import {BigNisButton} from "../BigNisButton";
+import {deps} from "../../../dependencies";
 
 export default class ExportStringModal extends NisModal {
     textarea: TextArea
-    explanation: Widget
 
-    constructor(string: string, explanation: string = "") {
+    constructor(private string: string, private explanation: string = "") {
         super({footer: true});
+    }
+
+    render() {
+        super.render();
 
         this.title.set("Export")
 
-        this.explanation = c("<p></p>").text(explanation).appendTo(this.body)
+        c("<p></p>").text(this.explanation).appendTo(this.body)
 
-        this.textarea = new TextArea({readonly: true}).setValue(string)
+        this.textarea = new TextArea({readonly: true}).setValue(this.string)
             .css2({
                 "resize": "none",
                 "width": "100%",
@@ -23,20 +25,20 @@ export default class ExportStringModal extends NisModal {
             })
             .on("click", () => this.textarea.raw().select())
             .appendTo(this.body)
-
-        this.footer.append(new ButtonRow({align: "center", sizing: "100px", max_center_spacer_width: "100px"})
-            .buttons(
-                new BigNisButton("Cancel", "cancel")
-                    .onClick(() => this.remove()),
-                new BigNisButton("Copy", "confirm")
-                    .onClick(async () => {
-                        await navigator.clipboard.writeText(string)
-                    })
-            )
-        )
     }
 
-    static do(string: string, explanation: string = ""): Promise<any> {
-        return new ExportStringModal(string, explanation).show()
+    getButtons(): BigNisButton[] {
+        return [
+            new BigNisButton("Cancel", "cancel")
+                .onClick(() => this.remove()),
+            new BigNisButton("Copy", "confirm")
+                .onClick(async () => {
+                    await navigator.clipboard.writeText(this.string)
+                    deps().app.notifications.notify({
+                        type: "information"
+                    }, "String copied to clipboard!")
+
+                })
+        ]
     }
 }

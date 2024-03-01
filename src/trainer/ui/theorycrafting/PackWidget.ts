@@ -12,16 +12,13 @@ import spacer = C.spacer;
 import {ExportImport} from "../../../lib/util/exportString";
 import exp = ExportImport.exp;
 import ExportStringModal from "../widgets/modals/ExportStringModal";
-import {NislIcon} from "../nisl";
 import NisCollapseButton from "../../../lib/ui/controls/NisCollapseButton";
 import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import Dependencies from "../../dependencies";
+import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 
 export default class PackWidget extends Widget {
-
-    private name_span: Widget
-
     constructor(public pack: Pack,
                 manager: MethodPackManager,
                 customization: {
@@ -39,90 +36,78 @@ export default class PackWidget extends Widget {
         let body = new Properties()
             .addClass("ctr-pack-widget-body")
 
-        let header = hbox(
-            "Pack: ",
-            this.name_span = span(pack.name),
-            spacer(),
-            customization.collapsible
-                ? new NisCollapseButton(ExpansionBehaviour.vertical({
-                    target: body,
-                    starts_collapsed: true
-                }))
-                : undefined
-        ).addClass("ctr-pack-widget-header")
+        let header = C.div()
+            .text(`${pack.name} (${pack.methods.length})`)
+            .addClass("ctr-pack-widget-header")
             .tooltip(pack.local_id)
 
         this.append(header, body)
 
-        switch (customization.mode) {
-            case "edit":
-                body.named("Name", new TextField().setValue(pack.name)
-                    .onChange((v) => this.name_span.text(v.value))
-                    .onCommit(v => {
-                        manager.updatePack(pack, p => p.name = v)
-                    })
-                )
-                body.named("Author(s)", new TextField().setValue(pack.author)
-                    .onCommit(v => manager.updatePack(pack, p => p.author = v))
-                )
+        body.named("Author(s)", c().text(pack.author))
 
-                body.header("Description")
-                body.row(new TextArea().css("height", "80px").setValue(pack.description)
-                    .onCommit(v => manager.updatePack(pack, p => p.description = v))
-                )
-
-                break
-            case "view":
-                body.named("Author(s)", c().text(pack.author))
-
-                body.header("Description")
-                body.row(c().text(pack.description))
-
-                break
-        }
-
-        body.row(span(`Contains ${pack.methods.length} methods`))
+        body.row(c().css("font-style", "italic").text(pack.description))
 
         if (customization.buttons) {
-            body.row(hbox(
-                new LightButton("Clone", "rectangle")
-                    .onClick(() => {
+            this.on("click", (event) => {
+                let menu: MenuEntry[] = []
+
+                menu.push({
+                    type: "basic",
+                    text: "Clone",
+                    icon: "assets/icons/copy.png",
+                    handler: () => {
                         let copy = lodash.cloneDeep(pack)
 
                         copy.name = `Cloned ${pack.name}`
 
+                        // TODO: Modal
+
                         manager.create(copy)
-                    }),
-                new LightButton("Delete", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
-                    .onClick(async () => {
-                        const really = await ConfirmationModal.do<boolean>({
-                            body:
-                                pack.type == "local"
-                                    ? `Are you sure you want to delete the local pack ${pack.name}? There is no way to undo this action!`
-                                    : `Are you sure you want to remove this imported pack? You will need to reimport it again.`,
-                            options: [
-                                {kind: "neutral", text: "Cancel", value: false},
-                                {kind: "cancel", text: "Delete", value: true},
-                            ]
-                        })
+                    }
+                })
 
-                        if (really) {
-                            await manager.deletePack(pack)
+                if(pack.type == "local" || pack.type == "imported"){
+                    menu.push({
+                        type: "basic",
+                        text: "Delete",
+                        icon: "assets/icons/delete.png",
+                        handler: async () => {
+                            const really = await new ConfirmationModal<boolean>({
+                                body:
+                                    pack.type == "local"
+                                        ? `Are you sure you want to delete the local pack ${pack.name}? There is no way to undo this action!`
+                                        : `Are you sure you want to remove this imported pack? You will need to reimport it again.`,
+                                options: [
+                                    {kind: "neutral", text: "Cancel", value: false},
+                                    {kind: "cancel", text: "Delete", value: true},
+                                ]
+                            }).do()
 
-                            Dependencies.instance().app.value().notifications.notify({
-                                type: "information",
-                                duration: 3000
-                            }, "Deleted")
+                            if (really) {
+                                await manager.deletePack(pack)
+
+                                Dependencies.instance().app.notifications.notify({
+                                    type: "information",
+                                    duration: 3000
+                                }, `Deleted pack '${this.pack.name}'`)
+                            }
                         }
-                    }),
-                new LightButton("Export", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
-                    .onClick(() => {
-                        ExportStringModal.do(exp({type: "method-pack", version: 1},
-                            true,
-                            true
-                        )(pack))
-                    }),
-            ).addClass("ctr-button-container"))
+                    })
+
+                    menu.push({
+                        type: "basic",
+                        text: "Export",
+                        handler: () => {
+                            new ExportStringModal(exp({type: "method-pack", version: 1},
+                                true,
+                                true
+                            )(pack)).show()
+                        }
+                    })
+                }
+
+                new ContextMenu(menu).showFromEvent(event)
+            })
         }
     }
 }

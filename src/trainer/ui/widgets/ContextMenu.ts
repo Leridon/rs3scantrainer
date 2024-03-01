@@ -245,7 +245,8 @@ namespace open_menu {
                 interactiveDebounce: 0.5,
                 content: men.root_widget.raw(),
                 maxWidth: "none",
-                zIndex: 10001
+                zIndex: 10001,
+                appendTo: document.body
             })
 
         if (!men.parent) {

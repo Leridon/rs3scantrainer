@@ -1,8 +1,14 @@
 Planned for next release (b0.4):
 
 - Theorycrafter
-    - Sensible default names for methods
-        - Use pack name on saving?
+    - Default Assumptions for method pack
+    - New/Copy Method Modal
+        - Immediately choose method pack?
+            - Contra: No way to "anonymously" edit a method.
+        - Sensible default names for methods
+            - Use pack name on saving?
+    - "Save to pack" modal
+        - [Feature] "Create new" option
     - Save & Close
         - Save
         - Save & Close
@@ -10,19 +16,18 @@ Planned for next release (b0.4):
         - Close
         - Move
         - Delete
-    - [Feature] Option to show pathing for all filtered spots
-        - Best | Best in Pack | Favorite
-        - Noninteractive entities
-    - [Bug] Filtering does not update properly in some situations
-    - "Save to pack" modal
-        - [Feature] "Create new" option
     - Editor for generic path methods
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
             - Share with Solver!
+    - [Feature] Option to show pathing for all filtered spots
+        - Best | Best in Pack | Favorite
+        - Noninteractive entities
+    - [Bug] Filtering does not update properly in some situations
     - [Feature] Undo/Redo
 
 - Path Editor
+    - [Bug] Dive Target needs to be optional
     - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
@@ -43,7 +48,6 @@ Planned for next release (b0.4):
             - Add custom description
         - [Feature] Disable default teleport render when contained in step
             - Render step instead
-            - (Maybe that's not even necessary, since the step graphics are draw on top of the teleport graphics. Very hacky, but does what it should)
         - [Feature] Cleanup using "fake" steps:
             - Combine surges/dives following a powerburst into one "fake" step
             - Duplicate shortcut step to exist in both sections

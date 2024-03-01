@@ -12,6 +12,7 @@ import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {ExportImport} from "../../../lib/util/exportString";
 import imp = ExportImport.imp;
 import ButtonRow from "../../../lib/ui/ButtonRow";
+import {NewMethodPackModal} from "./NewMethodPackModal";
 
 export default class TheoryCraftingSidebar extends MapSideBar {
 
@@ -53,10 +54,12 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         btnrow(
             new LightButton("Import", "rectangle")
-                .onClick(() => {
-                    ImportStringModal.do<Pack>(imp({expected_type: "method-pack", expected_version: 1}), (value) => {
-                        this.methods.import(value)
-                    })
+                .onClick(async () => {
+                    const imported = await new ImportStringModal<Pack>(imp({expected_type: "method-pack", expected_version: 1})).do()
+
+                    // TODO: This kinda sucks maybe
+
+                    if (imported?.imported) this.methods.import(imported.imported)
                 })
         ).appendTo(this.body)
 
@@ -75,16 +78,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
         btnrow(
             new LightButton("+ Create New", "rectangle")
                 .onClick(() => {
-                    this.methods.create({
-                        type: "local",
-                        local_id: "",
-                        original_id: "",
-                        timestamp: 0,
-                        author: "Anonymous",
-                        name: "New Method Pack",
-                        description: "No description",
-                        methods: []
-                    })
+                    new NewMethodPackModal().do()
                 })
         ).appendTo(this.body)
 

@@ -1327,9 +1327,14 @@ input[type=checkbox] + span {
 /* Pack widget*/
 
 .ctr-pack-widget {
+    cursor: pointer;
     background-color: #1b364d;
     border: 1px solid white;
     margin-bottom: 5px;
+}
+
+.ctr-pack-widget:hover {
+    filter: brightness(1.25);
 }
 
 .ctr-pack-widget.inactive {
@@ -1339,8 +1344,9 @@ input[type=checkbox] + span {
     border: 1px solid grey;
 }
 
-.ctr-pack-widget-header > span {
-    font-style: italic;
+.ctr-pack-widget-header {
+    font-weight: bold;
+    text-align: center;
 }
 
 .ctr-pack-widget-body {

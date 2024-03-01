@@ -22,7 +22,7 @@ export default class TransportLayer extends GameLayer {
                 trans.spots.forEach(spot => {
                     new TeleportSpotEntity({
                         highlightable: true,
-                        teleport: new TeleportGroup.Spot(trans, spot, trans.access[0], Dependencies.instance().app.value().teleport_settings),
+                        teleport: new TeleportGroup.Spot(trans, spot, trans.access[0], Dependencies.instance().app.teleport_settings),
                         interactive: interactive
                     }).addTo(this)
                 })

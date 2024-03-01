@@ -12,15 +12,34 @@ import {util} from "../../lib/util/util";
 import timestamp = util.timestamp;
 import ClueSpot = Clues.ClueSpot;
 
-export type Pack = {
+export type Pack = Pack.Meta & {
     type: "default" | "local" | "imported"
     local_id: string,
     original_id: string,
-    author: string,
     timestamp: number,
-    name: string,
-    description: string,
     methods: Method[]
+}
+
+export namespace Pack {
+    export type Meta = {
+        author: string,
+        name: string,
+        description: string,
+    }
+
+    export function setMeta(pack: Pack, meta: Meta): void {
+        pack.author = meta.author
+        pack.description = meta.description
+        pack.name = meta.name
+    }
+
+    export function meta(pack: Pack): Meta {
+        return {
+            name: pack.name,
+            author: pack.author,
+            description: pack.description
+        }
+    }
 }
 
 export type AugmentedMethod<
@@ -178,14 +197,16 @@ export class MethodPackManager {
         this.pack_set_changed.trigger(await this.all())
     }
 
-    async updatePack(pack: Pack, f: (_: Pack) => any): Promise<void> {
+    async updatePack(pack: Pack, f: (_: Pack) => any): Promise<Pack> {
         if (pack.type != "local") return
 
         f(pack)
 
         pack.timestamp = timestamp()
 
-        this.save()
+        await this.save()
+
+        return pack
     }
 
     async updateMethod(method: AugmentedMethod): Promise<void> {

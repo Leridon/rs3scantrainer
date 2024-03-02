@@ -18,6 +18,8 @@ export class AssumptionProperty extends AbstractEditWidget<ClueAssumptions> {
     }
 
     protected render() {
+        this.empty()
+
         const relevant = this.relevant_assumptions
         const value = this.get()
 

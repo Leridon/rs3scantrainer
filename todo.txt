@@ -1,7 +1,6 @@
 Planned for next release (b0.4):
 
 - Theorycrafter
-    - Default Assumptions for method pack
     - New/Copy Method Modal
         - Immediately choose method pack?
             - Contra: No way to "anonymously" edit a method.

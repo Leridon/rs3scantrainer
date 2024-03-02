@@ -78,6 +78,7 @@ export class MethodPackManager {
     private local_packs: Pack[] = []
 
     pack_set_changed: Ewent.Real<Pack[]> = ewent()
+    saved: Ewent.Real<null> = ewent()
 
     private index_created: Promise<void>
 
@@ -103,6 +104,8 @@ export class MethodPackManager {
         await this.local_pack_store.set(this.local_packs)
 
         this.invalidateIndex()
+
+        this.saved.trigger(null)
     }
 
     private invalidateIndex(): void {

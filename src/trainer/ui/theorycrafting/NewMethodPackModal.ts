@@ -93,22 +93,33 @@ import Widget from "../../../lib/ui/Widget";
 import {deps} from "../../dependencies";
 import {NisModal} from "../../../lib/ui/NisModal";
 import {AssumptionProperty} from "./AssumptionProperty";
+import * as lodash from "lodash";
 
 export class NewMethodPackModal extends FormModal<{
     created: boolean
 }> {
     edit: MethodPackMetaEdit
 
-    constructor() {
+    constructor(private clone_from: Pack = null) {
         super({size: "small"});
     }
 
     render() {
         super.render();
 
-        this.title.set("Create Method Pack")
+        if (this.clone_from) {
+            this.title.set("Clone Method Pack")
+            this.edit = new MethodPackMetaEdit({
+                name: `${this.clone_from.name} (Clone)`,
+                description: this.clone_from.description,
+                author: this.clone_from.author,
+                default_assumptions: this.clone_from.default_assumptions
+            }).appendTo(this.body)
 
-        this.edit = new MethodPackMetaEdit({name: "", description: "", author: "", default_assumptions: {}}).appendTo(this.body)
+        } else {
+            this.title.set("Create Method Pack")
+            this.edit = new MethodPackMetaEdit({name: "", description: "", author: "", default_assumptions: {}}).appendTo(this.body)
+        }
     }
 
     getButtons(): BigNisButton[] {
@@ -118,14 +129,17 @@ export class NewMethodPackModal extends FormModal<{
             new BigNisButton("Save", "confirm")
                 .onClick(async () => {
 
-                    const pack = await MethodPackManager.instance().create({
-                        ...this.edit.get(),
-                        type: "local",
-                        local_id: "",
-                        original_id: "",
-                        timestamp: 0,
-                        methods: []
-                    })
+                    const pack = await MethodPackManager.instance().create(
+                        this.clone_from
+                            ? {...lodash.cloneDeep(this.clone_from), ...this.edit.get()}
+                            : {
+                                ...this.edit.get(),
+                                type: "local",
+                                local_id: "",
+                                original_id: "",
+                                timestamp: 0,
+                                methods: []
+                            })
 
                     deps().app.notifications.notify({
                         type: "information"
@@ -149,11 +163,15 @@ export class EditMethodPackModal extends FormModal<{
     edit: MethodPackMetaEdit
 
     constructor(private pack: Pack) {
-        super();
+        super({size: "small"});
+    }
+
+    render() {
+        super.render();
 
         this.title.set("Edit Method Pack")
 
-        this.edit = new MethodPackMetaEdit(Pack.meta(pack)).appendTo(this.body)
+        this.edit = new MethodPackMetaEdit(Pack.meta(this.pack)).appendTo(this.body)
     }
 
     getButtons(): BigNisButton[] {

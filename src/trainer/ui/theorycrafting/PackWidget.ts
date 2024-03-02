@@ -2,7 +2,6 @@ import Widget from "../../../lib/ui/Widget";
 import {MethodPackManager, Pack} from "../../model/MethodPackManager";
 import Properties from "../widgets/Properties";
 import {C} from "../../../lib/ui/constructors";
-import * as lodash from "lodash";
 import {ExportImport} from "../../../lib/util/exportString";
 import exp = ExportImport.exp;
 import ExportStringModal from "../widgets/modals/ExportStringModal";
@@ -10,6 +9,7 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import Dependencies from "../../dependencies";
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import {AssumptionProperty} from "./AssumptionProperty";
+import {EditMethodPackModal, NewMethodPackModal} from "./NewMethodPackModal";
 
 export default class PackWidget extends Widget {
     constructor(public pack: Pack,
@@ -51,16 +51,19 @@ export default class PackWidget extends Widget {
                     type: "basic",
                     text: "Clone",
                     icon: "assets/icons/copy.png",
-                    handler: () => {
-                        let copy = lodash.cloneDeep(pack)
-
-                        copy.name = `Cloned ${pack.name}`
-
-                        // TODO: Modal
-
-                        manager.create(copy)
-                    }
+                    handler: () => new NewMethodPackModal(pack).do()
                 })
+
+                if (pack.type == "local") {
+                    menu.push({
+                        type: "basic",
+                        text: "Edit Metainformation",
+                        icon: "assets/icons/edit.png",
+                        handler: () => {
+                            new EditMethodPackModal(pack).do()
+                        }
+                    })
+                }
 
                 if (pack.type == "local" || pack.type == "imported") {
                     menu.push({

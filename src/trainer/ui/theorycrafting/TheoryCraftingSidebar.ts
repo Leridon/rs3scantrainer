@@ -12,7 +12,7 @@ import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {ExportImport} from "../../../lib/util/exportString";
 import imp = ExportImport.imp;
 import ButtonRow from "../../../lib/ui/ButtonRow";
-import {NewMethodPackModal} from "./NewMethodPackModal";
+import {NewMethodPackModal} from "./MethodPackModal";
 
 export default class TheoryCraftingSidebar extends MapSideBar {
 
@@ -38,14 +38,14 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         h(2, "Default Method-Packs").appendTo(this.body)
         grouped["default"].forEach(p => {
-            new PackWidget(p, MethodPackManager.instance(), {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         h(2, "Imported Method-Packs").appendTo(this.body)
         let imported = grouped["imported"] || []
 
         imported.forEach(p => {
-            new PackWidget(p, MethodPackManager.instance(), {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (imported.length == 0) {
@@ -68,7 +68,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
         h(2, "Local Method-Packs").appendTo(this.body)
 
         locals.forEach(p => {
-            new PackWidget(p, MethodPackManager.instance(), {mode: "edit", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (locals.length == 0) {

@@ -300,10 +300,6 @@ export default class ScanEditor extends MethodSubEditor {
         })
     }
 
-    relevantAssumptions(): Set<keyof SolvingMethods.ClueAssumptions> {
-        return new Set<keyof SolvingMethods.ClueAssumptions>(["meerkats_active", "double_escape", "double_surge", "mobile_perk"])
-    }
-
     private setPathEditor(node: AugmentedScanTreeNode): void {
         this.path_editor.set(new PathEditor(this.layer,
             this.app.template_resolver, {

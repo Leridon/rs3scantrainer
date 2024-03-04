@@ -11,7 +11,7 @@ import {SolvingMethods} from "../../model/methods";
 import {Clues} from "../../../lib/runescape/clues";
 import MethodSubEditor from "./MethodSubEditor";
 import LightButton from "../widgets/LightButton";
-import SaveInPack from "./SaveInPack";
+import SelectPackModal from "./SelectPackModal";
 import Widget from "../../../lib/ui/Widget";
 
 import hbox = C.hbox;
@@ -20,6 +20,7 @@ import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import GenericPathMethodEditor from "./GenericPathMethodEditor";
 import GenericPathMethod = SolvingMethods.GenericPathMethod;
 import {AssumptionProperty} from "./AssumptionProperty";
+import ClueAssumptions = SolvingMethods.ClueAssumptions;
 
 class MethodEditSideBar extends MapSideBar {
     save_row: Widget
@@ -70,8 +71,15 @@ class MethodEditSideBar extends MapSideBar {
                         this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved in Pack '${this.parent.method.pack.name}'.`)
                     }),
                 new LightButton("Save Copy", "rectangle").onClick(async () => {
-                    await new SaveInPack(this.parent.method, MethodPackManager.instance()).do()
-                    this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved a copy in Pack '${this.parent.method.pack.name}'.`)
+                    const result = await new SelectPackModal().do()
+
+                    if (result?.pack) {
+                        await MethodPackManager.instance().updatePack(result.pack, p => p.methods.push(this.parent.method.method))
+
+                        this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved a copy in Pack '${this.parent.method.pack.name}'.`)
+
+                        this.renderSaveRow()
+                    }
                 })
             )
         } else {
@@ -80,10 +88,16 @@ class MethodEditSideBar extends MapSideBar {
             this.save_row.append(
                 new LightButton("Select Pack and Save", "rectangle")
                     .onClick(async () => {
-                        this.parent.method.pack = await new SaveInPack(this.parent.method, MethodPackManager.instance()).do()
-                        this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved in Pack '${this.parent.method.pack.name}'.`)
+                        const result = await new SelectPackModal().do()
 
-                        this.renderSaveRow()
+                        if (result?.pack) {
+                            await MethodPackManager.instance().updatePack(result.pack, p => p.methods.push(this.parent.method.method))
+
+                            this.parent.method.pack = result.pack
+                            this.parent.app.notifications.notify({type: "information", duration: 3000}, `Successfully saved in Pack '${this.parent.method.pack.name}'.`)
+
+                            this.renderSaveRow()
+                        }
                     })
             )
         }
@@ -110,7 +124,7 @@ export default class MethodEditor extends Behaviour {
             this.sub_editor = this.withSub(new GenericPathMethodEditor(this, this.method as AugmentedMethod<GenericPathMethod, Clues.Step>))
         }
 
-        this.sidebar.assumptions.setRelevantAssumptions(this.sub_editor.relevantAssumptions())
+        this.sidebar.assumptions.setRelevantAssumptions(ClueAssumptions.Relevance.forSpot({clue: this.method.clue, spot: this.method.method.for.spot}))
 
         this.sub_editor.setAssumptions(this.method.method.assumptions)
 

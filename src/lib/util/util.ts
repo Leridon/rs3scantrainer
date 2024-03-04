@@ -2,6 +2,7 @@ import * as L from "leaflet"
 import * as leaflet from "leaflet";
 import {ExportImport} from "./exportString";
 import {v4 as uuidv4} from 'uuid';
+import * as lodash from "lodash";
 
 export namespace util {
 
@@ -187,5 +188,14 @@ export namespace util {
 
     export function todo(): never {
         throw new Error("Not implemented.")
+    }
+
+
+    export function copyUpdate<T>(value: T, updater: (_: T) => void): T {
+        const copy = lodash.cloneDeep(value)
+
+        updater(copy)
+
+        return copy
     }
 }

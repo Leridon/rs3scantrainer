@@ -26,7 +26,8 @@ export namespace Pack {
         author: string,
         name: string,
         description: string,
-        default_assumptions: ClueAssumptions
+        default_assumptions: ClueAssumptions,
+        default_method_name: string
     }
 
     export function setMeta(pack: Pack, meta: Meta): void {
@@ -34,6 +35,7 @@ export namespace Pack {
         pack.description = meta.description
         pack.name = meta.name
         pack.default_assumptions = lodash.cloneDeep(meta.default_assumptions)
+        pack.default_method_name = meta.default_method_name
     }
 
     export function meta(pack: Pack): Meta {
@@ -41,7 +43,8 @@ export namespace Pack {
             name: pack.name,
             author: pack.author,
             description: pack.description,
-            default_assumptions: lodash.cloneDeep(pack.default_assumptions)
+            default_assumptions: lodash.cloneDeep(pack.default_assumptions),
+            default_method_name: pack.default_method_name
         }
     }
 }
@@ -221,7 +224,11 @@ export class MethodPackManager {
 
         let i = pack.methods.findIndex(m => m.id == method.method.id)
 
-        pack.methods[i] = method.method
+        if (i >= 0) {
+            pack.methods[i] = method.method
+        } else {
+            pack.methods.push(method.method)
+        }
 
         method.method.timestamp = pack.timestamp = timestamp()
 

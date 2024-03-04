@@ -1,7 +1,7 @@
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import {BigNisButton} from "../BigNisButton";
-import {FormModal} from "../../theorycrafting/NewMethodPackModal";
 import {deps} from "../../../dependencies";
+import {FormModal} from "../../../../lib/ui/controls/FormModal";
 
 export default class ImportStringModal<T> extends FormModal<{
     imported: T

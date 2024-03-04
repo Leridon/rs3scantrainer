@@ -9,13 +9,12 @@ import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import Dependencies from "../../dependencies";
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import {AssumptionProperty} from "./AssumptionProperty";
-import {EditMethodPackModal, NewMethodPackModal} from "./NewMethodPackModal";
+import {EditMethodPackModal, NewMethodPackModal} from "./MethodPackModal";
 
 export default class PackWidget extends Widget {
     constructor(public pack: Pack,
                 manager: MethodPackManager,
                 customization: {
-                    mode: "edit" | "view",
                     buttons?: boolean,
                     collapsible?: boolean
                 }
@@ -23,8 +22,6 @@ export default class PackWidget extends Widget {
         super();
 
         this.addClass("ctr-pack-widget")
-
-        if (pack.type == "default" || pack.type == "imported") customization.mode = "view"
 
         let body = new Properties()
             .addClass("ctr-pack-widget-body")

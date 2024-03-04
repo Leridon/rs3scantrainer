@@ -43,24 +43,6 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
         this.assumptions.subscribe((v) => {
             this.updateSequence()
         })
-
-        this.path_editor.behaviour.subscribe(b => {
-
-        })
-    }
-
-    relevantAssumptions(): Set<keyof SolvingMethods.ClueAssumptions> {
-        let set = new Set<keyof SolvingMethods.ClueAssumptions>(["double_escape", "double_surge", "mobile_perk"])
-
-        if (this.value.clue.solution && this.value.clue.solution.type == "search" && this.value.clue.solution.key) {
-            set.add("way_of_the_footshaped_key")
-        }
-
-        if (this.value.clue.type == "emote" && this.value.clue.hidey_hole) {
-            set.add("full_globetrotter")
-        }
-
-        return set
     }
 
     private setPathEditor(options: PathEditor.options_t): PathEditor {

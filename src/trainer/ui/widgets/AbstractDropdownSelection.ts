@@ -95,6 +95,10 @@ export abstract class AbstractDropdownSelection<T extends object | string | numb
         if (trigger_now) f(this.selection.value())
         return this
     }
+
+    getItems(): T[] {
+        return this._selectableItems
+    }
 }
 
 export namespace AbstractDropdownSelection {
@@ -170,7 +174,7 @@ export namespace AbstractDropdownSelection {
         }
 
         open(reference: Widget, focus_widget: Widget): this {
-            this.container = c("<div style='z-index: 100000' tabindex='0'></div>")
+            this.container = c("<div style='z-index: 1000000' tabindex='0'></div>")
                 .addClass("nisl-abstract-dropdown")
 
             if (focus_widget) {

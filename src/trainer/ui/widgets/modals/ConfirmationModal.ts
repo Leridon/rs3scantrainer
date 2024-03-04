@@ -1,7 +1,7 @@
 import TextArea from "../../../../lib/ui/controls/TextArea";
 import Widget from "../../../../lib/ui/Widget";
 import {BigNisButton} from "../BigNisButton";
-import {FormModal} from "../../theorycrafting/NewMethodPackModal";
+import {FormModal} from "../../../../lib/ui/controls/FormModal";
 
 export class ConfirmationModal<T> extends FormModal<T> {
     textarea: TextArea

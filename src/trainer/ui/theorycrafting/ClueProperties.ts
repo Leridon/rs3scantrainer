@@ -14,12 +14,12 @@ import ClueSpot = Clues.ClueSpot;
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
-import MethodWidget from "./MethodWidget";
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import Dependencies from "../../dependencies";
 import {FavouriteIcon, NislIcon} from "../nisl";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
+import {NewMethodModal} from "./MethodModal";
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -182,7 +182,6 @@ export namespace ClueProperties {
     export async function methodMenu(clue: Clues.ClueSpot,
                                      edit_handler: (_: AugmentedMethod) => any,
     ): Promise<MenuEntry[]> {
-
         const ms = await MethodPackManager.instance().get(clue)
 
         const favourite = await Dependencies.instance().app.favourites.getMethod(ClueSpot.toId(clue))
@@ -191,12 +190,12 @@ export namespace ClueProperties {
             {
                 type: "basic",
                 text: "New Method",
-                handler: () => {
-                    edit_handler({
-                        clue: clue.clue,
-                        pack: null,
-                        method: SolvingMethods.init(clue)
-                    })
+                handler: async () => {
+                    const m = await new NewMethodModal(clue).do()
+
+                    if (m?.created) {
+                        edit_handler(m.created)
+                    }
                 }
             },
             ...ms.map((m): MenuEntry => {
@@ -231,13 +230,13 @@ export namespace ClueProperties {
                     {
                         type: "basic",
                         icon: "assets/icons/copy.png",
-                        text: "Edit Copy",
-                        handler: () => {
-                            let c = lodash.cloneDeep(m.method)
+                        text: "Make Copy",
+                        handler: async () => {
+                            const new_method = await new NewMethodModal(clue, m).do()
 
-                            c.id = uuid()
-
-                            edit_handler({pack: null, clue: m.clue, method: c})
+                            if (new_method?.created) {
+                                edit_handler(new_method.created)
+                            }
                         }
                     })
 

@@ -246,7 +246,6 @@ namespace open_menu {
                 content: men.root_widget.raw(),
                 maxWidth: "none",
                 zIndex: 10001,
-                appendTo: document.body
             })
 
         if (!men.parent) {

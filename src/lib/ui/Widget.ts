@@ -5,12 +5,10 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     public container: JQuery
 
     constructor(init: JQuery | Widget = $("<div>")) {
-        if (init instanceof Widget) this.container = init.container
-        else if (!init) this.container = $("<div>")
-        else this.container = init
+        this.init(init)
     }
 
-    init(init: JQuery | Widget = $("<div>")): this {
+    protected init(init: JQuery | Widget = $("<div>")): this {
         if (init instanceof Widget) this.container = init.container
         else if (!init) this.container = $("<div>")
         else this.container = init

@@ -14,12 +14,16 @@ export abstract class NisModal extends Modal2 {
 
     constructor(protected options: NisModal.Options = {}) {
         super(options);
+
+        this.title.subscribe(title => {
+            this.title_widget?.text(title)
+        })
     }
 
     render(): void {
         this._content.addClass("nisl-modal")
 
-        this.header = c("<div class='nisl-modal-header'></div>").appendTo(this._content)
+        this.header = c("<div class='nisl-modal-header'></div>").text(this.title.value()).appendTo(this._content)
         this.body = c("<div class='nisl-modal-body'></div>").appendTo(this._content)
 
         const buttons = this.getButtons()
@@ -38,10 +42,11 @@ export abstract class NisModal extends Modal2 {
         if (!this.options.fixed) {
             c("<div class='nisl-modal-exit' data-bs-dismiss='modal'>").appendTo(this.header)
         }
+    }
 
-        this.title.subscribe(title => {
-            this.title_widget.text(title)
-        })
+    setTitle(title: string): this {
+        this.title.set(title)
+        return this
     }
 
     getButtons(): BigNisButton[] {

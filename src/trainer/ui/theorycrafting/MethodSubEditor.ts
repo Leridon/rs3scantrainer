@@ -9,8 +9,6 @@ export default abstract class MethodSubEditor extends Behaviour {
 
     protected constructor(protected parent: MethodEditor) {super();}
 
-    abstract relevantAssumptions(): Set<keyof SolvingMethods.ClueAssumptions>
-
     setAssumptions(assumptions: ClueAssumptions): this {
         this.assumptions.set(assumptions)
 

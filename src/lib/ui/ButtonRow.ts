@@ -8,7 +8,7 @@ export default class ButtonRow extends Widget {
                     align?: "center" | "left" | "right",
                     sizing?: string,
                     max_center_spacer_width?: string
-                },
+                } = {},
     ) {
         super();
 

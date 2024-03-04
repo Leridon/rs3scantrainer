@@ -2,101 +2,73 @@ import Properties from "../widgets/Properties";
 import TextField from "../../../lib/ui/controls/TextField";
 import TextArea from "../../../lib/ui/controls/TextArea";
 import {MethodPackManager, Pack} from "../../model/MethodPackManager";
+import {BigNisButton} from "../widgets/BigNisButton";
+import {deps} from "../../dependencies";
+import {AssumptionProperty} from "./AssumptionProperty";
+import * as lodash from "lodash";
+import {FormModal} from "../../../lib/ui/controls/FormModal";
+import AbstractEditWidget from "../widgets/AbstractEditWidget";
+import {util} from "../../../lib/util/util";
+import copyUpdate = util.copyUpdate;
 
-export class MethodPackMetaEdit extends Widget {
+export class MethodPackMetaEdit extends AbstractEditWidget<Pack.Meta> {
 
     private name: TextField
     private authors: TextField
     private description: TextArea
 
-    constructor(private value: Pack.Meta) {
+    constructor(value: Pack.Meta) {
         super();
 
-        this.render()
+        this.setValue(value)
     }
 
     protected render() {
+        this.empty()
+
         const props = new Properties().appendTo(this)
+
+        const value = this.get()
 
         this.name = props.named("Name", new TextField()
             .onCommit(v => {
-                this.value.name = v
+                this.commit(copyUpdate(this.get(), meta => meta.name = v))
             })
-            .setPlaceholder("Enter a pack name...").setValue(this.value.name))
+            .setPlaceholder("Enter a pack name...").setValue(value.name))
         this.authors = props.named("Author(s)", new TextField()
             .onCommit(v => {
-                this.value.author = v
+                this.commit(copyUpdate(this.get(), meta => meta.author = v))
             })
-            .setPlaceholder("Enter author(s)...").setValue(this.value.author))
+            .setPlaceholder("Enter author(s)...").setValue(value.author))
 
         props.header("Description")
         props.row(this.description = new TextArea()
             .setPlaceholder("Optionally enter a description.")
             .onCommit(v => {
-                this.value.description = v
+                this.commit(copyUpdate(this.get(), meta => meta.description = v))
             })
-            .css("height", "80px").setValue(this.value.description))
+            .css("height", "80px").setValue(value.description))
 
         props.header("Default Assumptions")
         props.row(new AssumptionProperty()
-            .setValue(this.value.default_assumptions)
+            .setValue(value.default_assumptions)
             .onCommit(a => {
-                this.value.default_assumptions = a
+                this.commit(copyUpdate(this.get(), meta => meta.default_assumptions = a))
             })
         )
-    }
 
-    get(): Pack.Meta {
-        return this.value
-    }
-}
-
-export abstract class FormModal<T> extends NisModal {
-    private resolver: {
-        handler: (_: T) => void,
-        resolved: boolean
-    } = null
-
-    protected constructor(protected options: NisModal.Options = {}) {
-        super(options);
-
-        this.hidden.on(() => this.confirm(this.getValueForCancel()))
-    }
-
-    protected confirm(value: T): void {
-        if (this.resolver && !this.resolver.resolved) {
-            this.resolver.resolved = true
-            this.resolver.handler(value)
-
-            this.remove()
-        }
-    }
-
-    protected getValueForCancel(): T {
-        return null
-    }
-
-    async do(): Promise<T> {
-        return new Promise(resolve => {
-            this.resolver = {
-                handler: resolve,
-                resolved: false
-            }
-
-            this.show()
-        })
+        props.header("Default Method Name")
+        props.row(new TextField()
+            .onCommit(v => {
+                this.commit(copyUpdate(this.get(), meta => meta.default_method_name = v))
+            })
+            .setPlaceholder("Enter default name...").setValue(value.default_method_name)
+        )
     }
 }
-
-import {BigNisButton} from "../widgets/BigNisButton";
-import Widget from "../../../lib/ui/Widget";
-import {deps} from "../../dependencies";
-import {NisModal} from "../../../lib/ui/NisModal";
-import {AssumptionProperty} from "./AssumptionProperty";
-import * as lodash from "lodash";
 
 export class NewMethodPackModal extends FormModal<{
-    created: boolean
+    created: Pack
 }> {
     edit: MethodPackMetaEdit
 
@@ -113,12 +85,13 @@ export class NewMethodPackModal extends FormModal<{
                 name: `${this.clone_from.name} (Clone)`,
                 description: this.clone_from.description,
                 author: this.clone_from.author,
-                default_assumptions: this.clone_from.default_assumptions
+                default_assumptions: this.clone_from.default_assumptions,
+                default_method_name: this.clone_from.default_method_name
             }).appendTo(this.body)
 
         } else {
             this.title.set("Create Method Pack")
-            this.edit = new MethodPackMetaEdit({name: "", description: "", author: "", default_assumptions: {}}).appendTo(this.body)
+            this.edit = new MethodPackMetaEdit({name: "", description: "", author: "", default_assumptions: {}, default_method_name: ""}).appendTo(this.body)
         }
     }
 
@@ -146,14 +119,14 @@ export class NewMethodPackModal extends FormModal<{
                     }, `Method Pack '${pack.name}' created!`)
 
                     this.confirm({
-                        created: true
+                        created: pack
                     })
                 }),
         ]
     }
 
-    protected getValueForCancel(): { created: boolean } {
-        return {created: false}
+    protected getValueForCancel(): { created: Pack } {
+        return {created: null}
     }
 }
 

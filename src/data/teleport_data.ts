@@ -372,7 +372,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         name: "Ancient Spellbook",
         img: {url: ""},
         menu_ticks: 0,
-        animation_ticks: default_teleport_ticks
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "senntisten",

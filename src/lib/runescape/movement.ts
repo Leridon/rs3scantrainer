@@ -322,6 +322,8 @@ export namespace PathFinder {
         }
 
         state.blocked = false
+
+        return null
     }
 
     function get(state: state, tile: ChunkedData.coordinates): TileCoordinates[] {
@@ -345,20 +347,36 @@ export namespace PathFinder {
     export async function find(state: state, target: TileArea): Promise<TileCoordinates[] | null> {
         if (target.origin.level != state.start.level) return null
 
+        // Check if the target tile can be reached from any of its direct neighbours
+        // If not, do not even search for a path.
+        if (TileArea.isSingleTile(target)) {
+            let target_i = ChunkedData.split(target.origin)
+
+            let reachable_at_all = direction.cardinals.some((d) => canMove(state.data, move(target.origin, direction.toVector(d)), direction.invert(d)))
+
+            if (!reachable_at_all) {
+                state.tiles.set(target_i, {parent: null, unreachable: true})
+
+                return null
+            }
+        }
+
+        let target_area = activate(target)
 
         // Check for existing routes to any tile inside the area
         {
-            let size = TileArea.size(target)
+            let size = target_area.size
 
             for (let delta_x = 0; delta_x < size.x; delta_x++) {
                 for (let delta_y = 0; delta_y < size.y; delta_y++) {
                     const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
 
-                    if (activate(target).query(tile)) {
+                    if (target_area.query(tile)) {
                         let target_i = ChunkedData.split(tile)
 
                         // Check the cache for existing result
                         let existing = state.tiles.get(target_i)
+
                         if (existing != null) {
                             if (existing.unreachable) return null
                             else return get(state, target_i)
@@ -369,23 +387,12 @@ export namespace PathFinder {
             }
         }
 
+        let end_tile = await djikstra2(state, (tile) => {
 
-        // Check if the target tile can be reached from any of its direct neighbours
-        // If not, do not even search for a path.
+            // return TileCoordinates.eq2(target_area.origin, tile)
 
-        if (TileArea.isSingleTile(target)) {
-            let target_i = ChunkedData.split(target.origin)
-
-            let reachable_at_all = direction.cardinals.some((d) => canMove(state.data, move(target.origin, direction.toVector(d)), direction.invert(d)))
-
-            if (!reachable_at_all) {
-                state.tiles.set(target_i, {parent: null, unreachable: true})
-                return null
-            }
-        }
-
-
-        let end_tile = await djikstra2(state, (tile) => activate(target).query(tile), 5000)
+            return activate(target).query(tile)
+        }, 5000)
 
         // Cache whether the target is unreachable to prevent endless search
         if (!end_tile) {

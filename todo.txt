@@ -6,6 +6,13 @@ Planned for next release (b0.4):
     - Dorgesh Khaan stairs
     - Swamp Cave entrance and stones
 
+- Path Editor
+    - Teleports don't use tile areas correctly
+    - [Bug] Dive Target needs to be optional
+    - [Feature] Add "Cheat" step (Partially done)
+    - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
+
 - Theorycrafter
     - Collapsible method pack sections (default|imported|local)
     - Editor for generic path methods
@@ -18,13 +25,9 @@ Planned for next release (b0.4):
     - [Bug] Filtering does not update properly in some situations
     - [Feature] Undo/Redo
 
-- Path Editor
-    - [Bug] Dive Target needs to be optional
-    - [Feature] Add "Cheat" step (Partially done)
-    - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
-    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
 
 - Map Entities
+    - Find a way to separate entities on the same tile
     - Rendering for zoom level changes needs massive optimization
         - Invisible from certain zoom
         - Only render visible entities
@@ -66,7 +69,6 @@ Planned for next release (b0.4):
     - Challenge answer
     - Potential Puzzles
     - Multiple Methods, Preferences
-        - Preferred method
         - Preferred npc spot
         - Preferred challenge answer
     - Scan Tree Behaviour

@@ -137,7 +137,7 @@ export namespace TileArea {
         return (area._active) ?? (area._active = new ActiveTileArea(area))
     }
 
-    export function init(origin: TileCoordinates, size: Vector2 = {x: 1, y: 1}, filled: boolean = false): TileArea {
+    export function init(origin: TileCoordinates, size: Vector2 = {x: 1, y: 1}, filled: boolean = true): TileArea {
         return {
             origin: origin,
             size: size,

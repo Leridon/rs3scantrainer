@@ -17,8 +17,6 @@ export namespace SolvingMethods {
     } & Path.PathAssumptions
 
     export namespace ClueAssumptions {
-        import ScanStep = Clues.ScanStep;
-
         export function init(): ClueAssumptions {
             return {
                 double_escape: true,

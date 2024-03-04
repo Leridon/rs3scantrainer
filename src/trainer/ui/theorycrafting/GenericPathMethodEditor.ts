@@ -15,6 +15,7 @@ import movement_state = Path.movement_state;
 import {Clues} from "../../../lib/runescape/clues";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
+import {deps} from "../../dependencies";
 
 function getSection(method: GenericPathMethod, section: "pre" | "post" | "main") {
     switch (section) {
@@ -47,7 +48,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
 
     private setPathEditor(options: PathEditor.options_t): PathEditor {
         let editor = new PathEditor(this.layer,
-            this.parent.app.template_resolver, options)
+            deps().app.template_resolver, options)
             .onStop(() => {
                 this.propagateState()
                 //if (this.tree_edit.active_node.value() == node) this.tree_edit.setActiveNode(null)
@@ -61,7 +62,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
     protected begin() {
         this.sidepanel_widget = c().appendTo(this.parent.sidebar.body)
 
-        this.layer = new GameLayer().addTo(this.parent.app.map)
+        this.layer = new GameLayer().addTo(deps().app.map)
 
         this.updateSequence()
     }
@@ -153,6 +154,7 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
                     editor_handle: (options) => this.setPathEditor(options),
                     target: section.path.target,
                 })
+                    .setValue(getSection(value.method, section.path.section))
                     .onCommit((v) => {
                         switch (section.path.section) {
                             case "pre":
@@ -166,9 +168,10 @@ export default class GenericPathMethodEditor extends MethodSubEditor {
                                 break;
                         }
 
+                        this.parent.registerChange()
+
                         this.propagateState()
-                    })
-                    .setValue(getSection(value.method, section.path.section)))
+                    }))
             }
         })
 

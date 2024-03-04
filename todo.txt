@@ -1,15 +1,6 @@
 Planned for next release (b0.4):
 
 - Theorycrafter
-    - Save & Close
-        - Save
-        - Save & Close
-        - Close
-        - Delete
-    - Edit Method Metadata modal
-
-
-
     - Collapsible method pack sections (default|imported|local)
     - Editor for generic path methods
         - Display pathing when no section is selected

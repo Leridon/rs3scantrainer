@@ -151,7 +151,7 @@ export class NewMethodModal extends FormModal<{
                     if (p) {
                         const meta = lodash.cloneDeep(this.edit.get())
 
-                        meta.assumptions = p.default_assumptions
+                        meta.assumptions = ClueAssumptions.filterWithRelevance(p.default_assumptions, ClueAssumptions.Relevance.forSpot(this.spot))
                         meta.name = p.default_method_name
 
                         this.edit.setValue(meta)
@@ -201,5 +201,31 @@ export class NewMethodModal extends FormModal<{
 export class EditMethodMetaModal extends FormModal<{
     result: Method.Meta
 }> {
+    edit: MethodMetaEdit
 
+    constructor(private spot: ClueSpot, private start_value: Method.Meta) {
+        super({size: "small"});
+    }
+
+    render() {
+        super.render();
+
+        this.title.set("Edit Method Metainformation")
+        this.edit = new MethodMetaEdit(this.spot, this.start_value).appendTo(this.body)
+    }
+
+    getButtons(): BigNisButton[] {
+        return [
+            new BigNisButton("Cancel", "cancel")
+                .onClick(() => this.confirm(this.getValueForCancel())),
+            new BigNisButton("Save", "confirm")
+                .onClick(async () => {
+                    this.confirm({result: this.edit.get()})
+                }),
+        ]
+    }
+
+    protected getValueForCancel(): { result: Method.Meta } {
+        return {result: null}
+    }
 }

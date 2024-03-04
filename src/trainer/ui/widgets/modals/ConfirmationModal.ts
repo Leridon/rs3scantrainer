@@ -8,7 +8,7 @@ export class ConfirmationModal<T> extends FormModal<T> {
     explanation: Widget
 
     constructor(private config: ConfirmationModal.options<T>) {
-        super();
+        super({size: "small"});
     }
 
     render() {

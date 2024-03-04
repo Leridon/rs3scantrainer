@@ -1307,6 +1307,7 @@ input[type=checkbox] + span {
     text-align: center;
     display: inline-block;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .ctr-lightbutton:not(.enabled) {

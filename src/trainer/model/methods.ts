@@ -30,6 +30,13 @@ export namespace SolvingMethods {
             }
         }
 
+        export function filterWithRelevance(assumptions: ClueAssumptions, relevance: Relevance): ClueAssumptions {
+            for (let key in Object.keys(assumptions)) {
+                if (!relevance.includes(key as keyof ClueAssumptions)) assumptions[key] = undefined
+            }
+            return assumptions
+        }
+
         export type Relevance = (keyof ClueAssumptions)[]
 
         export namespace Relevance {

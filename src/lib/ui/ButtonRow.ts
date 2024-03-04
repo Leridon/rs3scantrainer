@@ -14,7 +14,7 @@ export default class ButtonRow extends Widget {
 
         this.css2({
             "display": "flex",
-            "justify-content": customization.align || "center"
+            "justify-content": customization.align ?? "center"
         })
     }
 

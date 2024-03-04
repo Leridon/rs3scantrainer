@@ -197,7 +197,7 @@ export namespace Path {
                     return index(step.waypoints, -1)
                 case "teleport":
                     if (step.spot) return step.spot
-                    else return resolveTeleport(step.id, Dependencies.instance().app.teleport_settings).target()
+                    else return resolveTeleport(step.id, Dependencies.instance().app.teleport_settings).centerOfTarget()
                 case "transport":
                     let start_tile = step.assumed_start
                     let action = step.internal.actions[0]
@@ -451,7 +451,7 @@ export namespace Path {
                     let teleport = resolveTeleport(step.id)
 
                     if (step.spot) state.position.tile = step.spot
-                    else state.position.tile = teleport.target()
+                    else state.position.tile = teleport.centerOfTarget()
 
                     if (teleport.spot.facing != null) {
                         state.position.direction = teleport.spot.facing
@@ -646,7 +646,7 @@ export namespace Path {
                     return Rectangle.from(...step.waypoints)
                 case "teleport":
                     if (step.spot) return Rectangle.from(step.spot)
-                    else return Rectangle.from(resolveTeleport(step.id).target())
+                    else return Rectangle.from(resolveTeleport(step.id).centerOfTarget())
                 case "redclick":
                 case "powerburst":
                     return Rectangle.from(step.where)
@@ -666,7 +666,7 @@ export namespace Path {
                 case "run":
                     return step.waypoints[0].level
                 case "teleport":
-                    return resolveTeleport(step.id).target().level
+                    return resolveTeleport(step.id).centerOfTarget().level
                 case "redclick":
                     return step.where.level
                 case "powerburst":

@@ -93,6 +93,7 @@ export namespace Transportation {
     export type Transportation = GeneralEntityTransportation | DoorTransportation | TeleportGroup
 
     export namespace TeleportGroup {
+        import activate = TileArea.activate;
         export namespace TeleportAccess {
             export function isAnywhere(access: TeleportAccess): boolean {
                 return access.type == "item" || access.type == "spellbook"
@@ -191,8 +192,8 @@ export namespace Transportation {
                 return (this.pota_slot?.code_prefix ?? "") + base_code
             }
 
-            target(): TileCoordinates {
-                return this.spot.target.origin // TODO: This assumes static teleports at the moment
+            centerOfTarget(): TileCoordinates {
+                return activate(this.spot.target).center()
             }
 
             targetArea(): TileArea {

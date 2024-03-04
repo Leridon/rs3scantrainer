@@ -432,7 +432,7 @@ class PathEditorGameLayer extends GameLayer {
                                 this.editor.value.add({
                                     raw: {
                                         type: "teleport",
-                                        spot: t.target(),
+                                        spot: t.centerOfTarget(),
                                         id: {...t.id(), access: a.id},
                                     }
                                 })
@@ -450,7 +450,7 @@ class PathEditorGameLayer extends GameLayer {
                                         this.editor.value.add({
                                             raw: {
                                                 type: "teleport",
-                                                spot: t.target(),
+                                                spot: t.centerOfTarget(),
                                                 id: {...t.id(), access: a.id},
                                             }
                                         })

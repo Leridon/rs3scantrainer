@@ -244,6 +244,22 @@ export namespace direction {
 
         return (dir - 1 + quarters) % 4 + 1 + Math.floor(dir / 5) * 4 as direction
     }
+
+    export function continuations(dir: direction): direction[] {
+        const direction_continuations: direction[][] = [
+            [],
+            [west],
+            [north],
+            [east],
+            [south],
+            [north, west, northwest],
+            [north, east, northeast],
+            [south, east, southeast],
+            [south, west, southwest]
+        ]
+
+        return direction_continuations[dir]
+    }
 }
 
 export function move(pos: TileCoordinates, off: Vector2) {
@@ -260,8 +276,6 @@ export async function canMove(data: MapData, pos: TileCoordinates, d: direction)
 }
 
 export namespace PathFinder {
-
-    import activate = TileArea.activate;
     export type state = {
         data: MapData,
         start: TileCoordinates,
@@ -361,7 +375,7 @@ export namespace PathFinder {
             }
         }
 
-        let target_area = activate(target)
+        let target_area = TileArea.activate(target)
 
         // Check for existing routes to any tile inside the area
         {
@@ -391,7 +405,7 @@ export namespace PathFinder {
 
             // return TileCoordinates.eq2(target_area.origin, tile)
 
-            return activate(target).query(tile)
+            return target_area.query(tile)
         }, 5000)
 
         // Cache whether the target is unreachable to prevent endless search
@@ -403,7 +417,7 @@ export namespace PathFinder {
                 for (let delta_y = 0; delta_y < size.y; delta_y++) {
                     const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
 
-                    if (activate(target).query(tile)) {
+                    if (target_area.query(tile)) {
                         state.tiles.set(ChunkedData.split(tile), {parent: null, unreachable: true})
                     }
                 }

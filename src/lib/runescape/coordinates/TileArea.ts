@@ -6,6 +6,7 @@ import {ValueInteraction} from "../../gamemap/interaction/ValueInteraction";
 import {fill} from "lodash";
 import * as lodash from "lodash";
 import {util} from "../../util/util";
+import {direction} from "../movement";
 
 export type TileArea = {
     origin: TileCoordinates,
@@ -130,6 +131,30 @@ export namespace TileArea {
             }
 
             return this
+        }
+
+        rect(): TileRectangle {
+            return TileRectangle.from(this.origin, TileCoordinates.move(this.origin, Vector2.add(this.size, {x: -1, y: -1})))
+        }
+
+        center(): TileCoordinates {
+            const start = TileRectangle.center(this.rect())
+
+            let queue: { pos: TileCoordinates, dirs: direction[] }[] = [{pos: start, dirs: direction.all}]
+
+            let i = 0
+
+            while (i < queue.length) {
+                const el = queue[i]
+
+                if (this.query(el.pos)) return el.pos
+
+                for (let dir of el.dirs) {
+                    queue.push({pos: TileCoordinates.move(el.pos, direction.toVector(dir)), dirs: direction.continuations(dir)})
+                }
+            }
+
+            return null
         }
     }
 

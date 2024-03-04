@@ -363,7 +363,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         access: [{
             id: "spellbook",
             type: "spellbook",
-            name: "Normal"
+            name: "Normal Spellbook"
         }] // TODO: Tablets
     },
     {
@@ -420,7 +420,7 @@ const raw_data: Transportation.TeleportGroup[] = [
         access: [{
             id: "spellbook",
             type: "spellbook",
-            name: "Ancient" // TODO: Tablets
+            name: "Ancient Spellbook" // TODO: Tablets
         }]
     },
     /*
@@ -900,443 +900,434 @@ const raw_data: Transportation.TeleportGroup[] = [
                         animation_ticks: default_teleport_ticks + 2
                     },
                 ]
+            },*/
+    {
+        type: "teleports",
+        id: "spirittree",
+        name: "Spirit Tree",
+        img: {url: "spirittree.png"},
+        animation_ticks: 7,
+        spots: [
+            {
+                id: "village",
+                target: {origin: {x: 2542, y: 3169, level: 0}},
+                name: "Tree Gnome Village",
+                code: "1",
             },
             {
-                type: "teleports",
-                id: "spirittree",
-                name: "Spirit Tree",
-                img: {url: "spirittree.png"},
-                spots: [
-                    {
-                        id: "village",
-                        target: {origin: {x: 2542, y: 3168, level: 0}},
-                        name: "Tree Gnome Village",
-                        code: "1",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "stronghold",
-                        target: {origin: {x: 2462, y: 3444, level: 0}},
-                        name: "Tree Gnome Stronghold",
-                        code: "2",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "battlefield",
-                        target: {origin: {x: 2557, y: 3257, level: 0}},
-                        name: "Battlefield of Khazard",
-                        code: "3",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "grandexchange",
-                        target: {origin: {x: 3188, y: 3508, level: 0}},
-                        name: "Grand Exchange",
-                        code: "4",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "feldiphills",
-                        target: {origin: {x: 2416, y: 2849, level: 0}},
-                        name: "South Feldip Hills",
-                        code: "5",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "sarim",
-                        target: {origin: {x: 3058, y: 3255, level: 0}},
-                        name: "Port Sarim",
-                        code: "6",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "etceteria",
-                        target: {origin: {x: 2614, y: 3855, level: 0}},
-                        name: "Etceteria",
-                        code: "7",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "brimhaven",
-                        target: {origin: {x: 2800, y: 3203, level: 0}},
-                        name: "Brimhaven",
-                        code: "8",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "poisonwaste",
-                        target: {origin: {x: 2337, y: 3109, level: 0}},
-                        name: "Poison Waste",
-                        code: "9",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
-                    {
-                        id: "prifddinas",
-                        target: {origin: {x: 2275, y: 3371, level: 1}},
-                        name: "Prifddinas",
-                        code: "0",
-                        menu_ticks: 1,
-                        animation_ticks: 7
-                    },
+                id: "stronghold",
+                target: {origin: {x: 2462, y: 3444, level: 0}},
+                name: "Tree Gnome Stronghold",
+                code: "2",
+            },
+            {
+                id: "battlefield",
+                target: {origin: {"x": 2557, "y": 3259, "level": 0}},
+                name: "Battlefield of Khazard",
+                code: "3",
+            },
+            {
+                id: "grandexchange",
+                target: {origin: {"x": 3187, "y": 3507, "level": 0}},
+                name: "Grand Exchange",
+                code: "4",
+            },
+            {
+                id: "feldiphills",
+                target: {origin: {"x": 2416, "y": 2851, "level": 0}},
+                name: "South Feldip Hills",
+                code: "5",
+            },
+            {
+                id: "sarim",
+                target: {origin: {"x": 3058, "y": 3257, "level": 0}},
+                name: "Port Sarim",
+                code: "6",
+            },
+            {
+                id: "etceteria",
+                target: {origin: {"x": 2613, "y": 3855, "level": 0}},
+                name: "Etceteria",
+                code: "7",
+            },
+            {
+                id: "brimhaven",
+                target: {origin: {"x": 2800, "y": 3203, "level": 0}},
+                name: "Brimhaven",
+                code: "8",
+            },
+            {
+                id: "poisonwaste",
+                target: {origin: {"x": 2338, "y": 3109, "level": 0}},
+                name: "Poison Waste",
+                code: "9",
+            },
+            {
+                id: "prifddinas",
+                target: {origin: {"x": 2275, "y": 3371, "level": 1}},
+                name: "Prifddinas",
+                code: "0",
+            },
 
-                ]
-            }, * /
-        {
-            type: "teleports",
-            id: "fairyring",
-            name: "Fairy Ring", // assume favorite for menu times
-            img: {url: "fairyring.gif"},
-            animation_ticks: 7,
-            spots: [
-                {
-                    id: "AIP",
-                    target: {origin: {x: 2412, y: 4434, level: 0}},
-                    code: "",
-                    name: "Zanaris",
-                },
-                {
-                    id: "AIQ",
-                    target: {origin: {x: 2996, y: 3114, level: 0}},
-                    code: "AIQ",
-                    name: "Asgarnia: Mudskipper Point",
-                },
-                {
-                    id: "AIR",
-                    target: {origin: {x: 2700, y: 3247, level: 0}},
-                    code: "AIR",
-                    name: "Islands: South of Witchhaven",
-                },
-                {
-                    id: "AIS",
-                    target: {origin: {x: 2030, y: 5982, level: 0}},
-                    code: "AIS",
-                    name: "Other realms: Naragi homeworld",
-                },
-                {
-                    id: "AJQ",
-                    target: {origin: {x: 2735, y: 5221, level: 0}},
-                    code: "AJQ",
-                    name: "Dungeons: Dark cave south of Dorgesh-Kaan",
-                },
-                {
-                    id: "AJR",
-                    target: {origin: {x: 2780, y: 3613, level: 0}},
-                    code: "AJR",
-                    name: "Kandarin: Slayer cave south-east of Relekka",
-                },
-                {
-                    id: "AJS",
-                    target: {origin: {x: 2500, y: 3896, level: 0}},
-                    code: "AJS",
-                    name: "Islands: Penguins near Miscellania",
-                },
-                {
-                    id: "AKQ",
-                    target: {origin: {x: 2319, y: 3619, level: 0}},
-                    code: "AKQ",
-                    name: "Piscatoris Hunter area",
-                },
-                {
-                    id: "AKS",
-                    target: {origin: {x: 2571, y: 2956, level: 0}},
-                    code: "AKS",
-                    name: "Feldip Hills: Jungle Hunter area",
-                },
-                {
-                    id: "ALP",
-                    target: {origin: {x: 2473, y: 3028, level: 0}},
-                    code: "ALP",
-                    name: "Feldip Hills: Near Gu´Tanoth",
-                },
-                {
-                    id: "ALQ",
-                    target: {origin: {x: 3597, y: 3495, level: 0}},
-                    code: "ALQ",
-                    name: "Morytania: Haunted Woods east of Canifis",
-                },
-                {
-                    id: "ALR",
-                    target: {origin: {x: 3059, y: 4875, level: 0}},
-                    code: "ALR",
-                    name: "Other realmms: Abyss",
-                },
-                {
-                    id: "ALS",
-                    target: {origin: {x: 2644, y: 3495, level: 0}},
-                    code: "ALS",
-                    name: "Kandarin: McGrubor´s Wood",
-                },
-                {
-                    id: "BIP",
-                    target: {origin: {x: 3410, y: 3324, level: 0}},
-                    code: "BIP",
-                    name: "Islands: Polypore Dungeon",
-                },
-                {
-                    id: "BIQ",
-                    target: {origin: {x: 3251, y: 3095, level: 0}},
-                    code: "BIQ",
-                    name: "Kharidian Desert: Near Kalphite Hive",
-                },
-                {
-                    id: "BIR",
-                    target: {origin: {x: 2455, y: 4396, level: 0}},
-                    code: "BIS",
-                    name: "Sparse Plane",
-                },
-                {
-                    id: "BIS",
-                    target: {origin: {x: 2635, y: 3266, level: 0}},
-                    code: "BIS",
-                    name: "Kandarin: Ardougne Zoo unicorns",
-                },
-                {
-                    id: "BJP",
-                    target: {origin: {x: 3342, y: 3539, level: 0}},
-                    code: "BJP",
-                    name: "Fort Forinthry",
-                },
-                {
-                    id: "BJQ",
-                    target: {origin: {x: 1737, y: 5342, level: 0}},
-                    code: "BJQ",
-                    name: "Dungeons: Ancient Cavern",
-                },
-                {
-                    id: "BJR",
-                    target: {origin: {x: 2650, y: 4730, level: 0}},
-                    code: "BJR",
-                    name: "Other realms: Realm of the fisher king",
-                },
-                {
-                    id: "BJS",
-                    target: {origin: {x: 1359, y: 5635, level: 0}},
-                    code: "BJS",
-                    name: "The Lost Grove",
-                },
-                {
-                    id: "BKP",
-                    target: {origin: {x: 2385, y: 3035, level: 0}},
-                    code: "BKP",
-                    name: "Feldip Hills: South of Castle Wars",
-                },
-                {
-                    id: "BKQ",
-                    target: {origin: {x: 3041, y: 4532, level: 0}},
-                    code: "BKQ",
-                    name: "Other realms: Enchanted Valley",
-                },
-                {
-                    id: "BKR",
-                    target: {origin: {x: 3469, y: 3431, level: 0}},
-                    code: "BKR",
-                    name: "Morytania: Mort Myre, south of Canifis",
-                },
-                {
-                    id: "BLP",
-                    target: {origin: {x: 4622, y: 5147, level: 0}},
-                    code: "BLP",
-                    name: "Dungeons: TzHaar area",
-                },
-                {
-                    id: "BLR",
-                    target: {origin: {x: 2740, y: 3351, level: 0}},
-                    code: "BLR",
-                    name: "Kandarin: Legends' Guild",
-                },
-                {
-                    id: "CIP",
-                    target: {origin: {x: 2513, y: 3884, level: 0}},
-                    code: "CIP",
-                    name: "Islands: Miscellania",
-                },
-                {
-                    id: "CIQ",
-                    target: {origin: {x: 2528, y: 3127, level: 0}},
-                    code: "CIQ",
-                    name: "Kandarin: North-west of Yanille",
-                },
-                {
-                    id: "CIS",
-                    target: {origin: {x: 3419, y: 4772, level: 0}},
-                    code: "CIS",
-                    name: "Other realms: ScapeRune (Evil Bob´s island)",
-                },
-                {
-                    id: "CJR",
-                    target: {origin: {x: 2705, y: 3576, level: 0}},
-                    code: "CJR",
-                    name: "Kandarin: Sinclair Mansion (east)",
-                },
-                {
-                    id: "CJS",
-                    target: {origin: {x: 2901, y: 2930, level: 0}},
-                    code: "CJS",
-                    name: "Karamja: Kharazi Jungle",
-                },
-                {
-                    id: "CKP",
-                    target: {origin: {"x": 2075, "y": 4848, "level": 0}},
-                    code: "CKP",
-                    name: "Other realms: Cosmic entity´s plane"
-                },
-                {
-                    id: "CKQ",
-                    target: {origin: {x: 3086, y: 2704, level: 0}},
-                    code: "CKQ",
-                    name: "Menaphos: Imperial District",
-                },
-                {
-                    id: "CKR",
-                    target: {origin: {x: 2801, y: 3003, level: 0}},
-                    code: "CKR",
-                    name: "Karamja: South of Tai Bwo Wannai Village",
-                },
-                {
-                    id: "CKS",
-                    target: {origin: {x: 3447, y: 3470, level: 0}},
-                    code: "CKS",
-                    name: "Morytania: Canifis",
-                },
-                {
-                    id: "CLP",
-                    target: {origin: {x: 3082, y: 3206, level: 0}},
-                    code: "CLP",
-                    name: "Islands: South of Draynor Village",
-                },
-                {
-                    id: "CLS",
-                    target: {origin: {x: 2682, y: 3081, level: 0}},
-                    code: "CLS",
-                    name: "Islands: Jungle spiders near Yanille",
-                },
-                {
-                    id: "CLR",
-                    target: {origin: {x: 2735, y: 2742, level: 0}},
-                    code: "CLR",
-                    name: "Islands: Ape Atoll",
-                },
-                {
-                    id: "DIP",
-                    target: {origin: {x: 3763, y: 2930, level: 0}},
-                    code: "DIP",
-                    name: "Islands: Mos Le´Harmless",
-                },
-                {
-                    id: "DIR",
-                    target: {origin: {"x": 3038, "y": 5348, "level": 0}},
-                    code: "DIR",
-                    name: "Other realms: Gorak`s Plane"
-                },
-                {
-                    id: "kethsi",
-                    target: {origin: {"x": 4026, "y": 5699, "level": 0}},
-                    code: "DIR AKS",
-                    name: "Kethsi (DIR AKS)"
-                },
-                {
-                    id: "DIS",
-                    target: {origin: {x: 3092, y: 3137, level: 0}},
-                    code: "DIS",
-                    name: "Misthalin: Wizard´s Tower",
-                },
-                {
-                    id: "DJP",
-                    target: {origin: {x: 2658, y: 3230, level: 0}},
-                    code: "DJP",
-                    name: "Kandarin: Tower of Life",
-                },
-                {
-                    id: "DJR",
-                    target: {origin: {x: 2676, y: 3587, level: 0}},
-                    code: "DJR",
-                    name: "Kandarin: Sinclair Mansion (west)",
-                },
-                {
-                    id: "DJS",
-                    target: {origin: {x: 2130, y: 3369, level: 0}},
-                    code: "DJS",
-                    name: "Tirannwn: Prifddinas (Clan Amlodd)",
-                },
-                {
-                    id: "DKP",
-                    target: {origin: {x: 2900, y: 3111, level: 0}},
-                    code: "DKP",
-                    name: "Karamja: South of Musa Point",
-                },
-                {
-                    id: "DKQ",
-                    target: {origin: {"x": 4183, "y": 5726, "level": 0}},
-                    code: "DKQ",
-                    name: "Dungeons: Glacor Cave"
-                },
-                {
-                    id: "DKR",
-                    target: {origin: {x: 3129, y: 3496, level: 0}},
-                    code: "DKR",
-                    name: "Misthalin: Edgeville",
-                },
-                {
-                    id: "DKS",
-                    target: {origin: {x: 2744, y: 3719, level: 0}},
-                    code: "DKS",
-                    name: "Kandarin: Snowy Hunter area",
-                },
-                {
-                    id: "DLQ",
-                    target: {origin: {x: 3423, y: 3016, level: 0}},
-                    code: "DLQ",
-                    name: "Kharidian Desert: North of Nardah",
-                },
-                {
-                    id: "DLR",
-                    target: {origin: {x: 2213, y: 3099, level: 0}},
-                    code: "DLR",
-                    name: "Islands: Poison Waste south of Isafdar",
-                },
-                {
-                    id: "DLS",
-                    target: {origin: {x: 3501, y: 9821, level: 3}},
-                    name: "Dungeons: Myreque Hideout under The Hollows",
-                    code: "DLS",
-                },
-                {
-                    id: "resistance",
-                    target: {origin: {x: 2254, y: 4426, level: 0}},
-                    name: "Fairy Resistance HQ",
-                },
-                {
-                    id: "rift",
-                    target: {origin: {x: 1626, y: 4176, level: 0}},
-                    name: "Ork´s Rift (BIR, DIP, CLR, ALP)",
-                },
-                {
-                    id: "BLQ",
-                    target: {origin: {"x": 2229, "y": 4244, "level": 1}},
-                    name: "Yu´biusk",
-                    code: "BLQ",
-                },
-            ],
-            access: [{
-                id: "portable_fairy_ring",
-                type: "item",
-                name: {
-                    kind: "item",
-                    name: "Portable Fairy Ring"
-                },
-                action_name: "Teleport",
-                menu_ticks: 2, // Assumes favorite
-            }]
-        },/*
+        ],
+        access: [{
+            id: "spirittreererooter",
+            type: "item",
+            name: {
+                kind: "item",
+                name: "Spirit tree re-rooter"
+            },
+            action_name: "Teleport",
+            menu_ticks: 2,
+        }]
+    },
+    {
+        type: "teleports",
+        id: "fairyring",
+        name: "Fairy Ring", // assume favorite for menu times
+        img: {url: "fairyring.gif"},
+        animation_ticks: 7,
+        spots: [
+            {
+                id: "AIP",
+                target: {origin: {x: 2412, y: 4434, level: 0}},
+                code: "",
+                name: "Zanaris",
+            },
+            {
+                id: "AIQ",
+                target: {origin: {x: 2996, y: 3114, level: 0}},
+                code: "AIQ",
+                name: "Asgarnia: Mudskipper Point",
+            },
+            {
+                id: "AIR",
+                target: {origin: {x: 2700, y: 3247, level: 0}},
+                code: "AIR",
+                name: "Islands: South of Witchhaven",
+            },
+            {
+                id: "AIS",
+                target: {origin: {x: 2030, y: 5982, level: 0}},
+                code: "AIS",
+                name: "Other realms: Naragi homeworld",
+            },
+            {
+                id: "AJQ",
+                target: {origin: {x: 2735, y: 5221, level: 0}},
+                code: "AJQ",
+                name: "Dungeons: Dark cave south of Dorgesh-Kaan",
+            },
+            {
+                id: "AJR",
+                target: {origin: {x: 2780, y: 3613, level: 0}},
+                code: "AJR",
+                name: "Kandarin: Slayer cave south-east of Relekka",
+            },
+            {
+                id: "AJS",
+                target: {origin: {x: 2500, y: 3896, level: 0}},
+                code: "AJS",
+                name: "Islands: Penguins near Miscellania",
+            },
+            {
+                id: "AKQ",
+                target: {origin: {x: 2319, y: 3619, level: 0}},
+                code: "AKQ",
+                name: "Piscatoris Hunter area",
+            },
+            {
+                id: "AKS",
+                target: {origin: {x: 2571, y: 2956, level: 0}},
+                code: "AKS",
+                name: "Feldip Hills: Jungle Hunter area",
+            },
+            {
+                id: "ALP",
+                target: {origin: {x: 2473, y: 3028, level: 0}},
+                code: "ALP",
+                name: "Feldip Hills: Near Gu´Tanoth",
+            },
+            {
+                id: "ALQ",
+                target: {origin: {x: 3597, y: 3495, level: 0}},
+                code: "ALQ",
+                name: "Morytania: Haunted Woods east of Canifis",
+            },
+            {
+                id: "ALR",
+                target: {origin: {x: 3059, y: 4875, level: 0}},
+                code: "ALR",
+                name: "Other realmms: Abyss",
+            },
+            {
+                id: "ALS",
+                target: {origin: {x: 2644, y: 3495, level: 0}},
+                code: "ALS",
+                name: "Kandarin: McGrubor´s Wood",
+            },
+            {
+                id: "BIP",
+                target: {origin: {x: 3410, y: 3324, level: 0}},
+                code: "BIP",
+                name: "Islands: Polypore Dungeon",
+            },
+            {
+                id: "BIQ",
+                target: {origin: {x: 3251, y: 3095, level: 0}},
+                code: "BIQ",
+                name: "Kharidian Desert: Near Kalphite Hive",
+            },
+            {
+                id: "BIR",
+                target: {origin: {x: 2455, y: 4396, level: 0}},
+                code: "BIS",
+                name: "Sparse Plane",
+            },
+            {
+                id: "BIS",
+                target: {origin: {x: 2635, y: 3266, level: 0}},
+                code: "BIS",
+                name: "Kandarin: Ardougne Zoo unicorns",
+            },
+            {
+                id: "BJP",
+                target: {origin: {x: 3342, y: 3539, level: 0}},
+                code: "BJP",
+                name: "Fort Forinthry",
+            },
+            {
+                id: "BJQ",
+                target: {origin: {x: 1737, y: 5342, level: 0}},
+                code: "BJQ",
+                name: "Dungeons: Ancient Cavern",
+            },
+            {
+                id: "BJR",
+                target: {origin: {x: 2650, y: 4730, level: 0}},
+                code: "BJR",
+                name: "Other realms: Realm of the fisher king",
+            },
+            {
+                id: "BJS",
+                target: {origin: {x: 1359, y: 5635, level: 0}},
+                code: "BJS",
+                name: "The Lost Grove",
+            },
+            {
+                id: "BKP",
+                target: {origin: {x: 2385, y: 3035, level: 0}},
+                code: "BKP",
+                name: "Feldip Hills: South of Castle Wars",
+            },
+            {
+                id: "BKQ",
+                target: {origin: {x: 3041, y: 4532, level: 0}},
+                code: "BKQ",
+                name: "Other realms: Enchanted Valley",
+            },
+            {
+                id: "BKR",
+                target: {origin: {x: 3469, y: 3431, level: 0}},
+                code: "BKR",
+                name: "Morytania: Mort Myre, south of Canifis",
+            },
+            {
+                id: "BLP",
+                target: {origin: {x: 4622, y: 5147, level: 0}},
+                code: "BLP",
+                name: "Dungeons: TzHaar area",
+            },
+            {
+                id: "BLR",
+                target: {origin: {x: 2740, y: 3351, level: 0}},
+                code: "BLR",
+                name: "Kandarin: Legends' Guild",
+            },
+            {
+                id: "CIP",
+                target: {origin: {x: 2513, y: 3884, level: 0}},
+                code: "CIP",
+                name: "Islands: Miscellania",
+            },
+            {
+                id: "CIQ",
+                target: {origin: {x: 2528, y: 3127, level: 0}},
+                code: "CIQ",
+                name: "Kandarin: North-west of Yanille",
+            },
+            {
+                id: "CIS",
+                target: {origin: {x: 3419, y: 4772, level: 0}},
+                code: "CIS",
+                name: "Other realms: ScapeRune (Evil Bob´s island)",
+            },
+            {
+                id: "CJR",
+                target: {origin: {x: 2705, y: 3576, level: 0}},
+                code: "CJR",
+                name: "Kandarin: Sinclair Mansion (east)",
+            },
+            {
+                id: "CJS",
+                target: {origin: {x: 2901, y: 2930, level: 0}},
+                code: "CJS",
+                name: "Karamja: Kharazi Jungle",
+            },
+            {
+                id: "CKP",
+                target: {origin: {"x": 2075, "y": 4848, "level": 0}},
+                code: "CKP",
+                name: "Other realms: Cosmic entity´s plane"
+            },
+            {
+                id: "CKQ",
+                target: {origin: {x: 3086, y: 2704, level: 0}},
+                code: "CKQ",
+                name: "Menaphos: Imperial District",
+            },
+            {
+                id: "CKR",
+                target: {origin: {x: 2801, y: 3003, level: 0}},
+                code: "CKR",
+                name: "Karamja: South of Tai Bwo Wannai Village",
+            },
+            {
+                id: "CKS",
+                target: {origin: {x: 3447, y: 3470, level: 0}},
+                code: "CKS",
+                name: "Morytania: Canifis",
+            },
+            {
+                id: "CLP",
+                target: {origin: {x: 3082, y: 3206, level: 0}},
+                code: "CLP",
+                name: "Islands: South of Draynor Village",
+            },
+            {
+                id: "CLS",
+                target: {origin: {x: 2682, y: 3081, level: 0}},
+                code: "CLS",
+                name: "Islands: Jungle spiders near Yanille",
+            },
+            {
+                id: "CLR",
+                target: {origin: {x: 2735, y: 2742, level: 0}},
+                code: "CLR",
+                name: "Islands: Ape Atoll",
+            },
+            {
+                id: "DIP",
+                target: {origin: {x: 3763, y: 2930, level: 0}},
+                code: "DIP",
+                name: "Islands: Mos Le´Harmless",
+            },
+            {
+                id: "DIR",
+                target: {origin: {"x": 3038, "y": 5348, "level": 0}},
+                code: "DIR",
+                name: "Other realms: Gorak`s Plane"
+            },
+            {
+                id: "kethsi",
+                target: {origin: {"x": 4026, "y": 5699, "level": 0}},
+                code: "DIR AKS",
+                name: "Kethsi (DIR AKS)"
+            },
+            {
+                id: "DIS",
+                target: {origin: {x: 3092, y: 3137, level: 0}},
+                code: "DIS",
+                name: "Misthalin: Wizard´s Tower",
+            },
+            {
+                id: "DJP",
+                target: {origin: {x: 2658, y: 3230, level: 0}},
+                code: "DJP",
+                name: "Kandarin: Tower of Life",
+            },
+            {
+                id: "DJR",
+                target: {origin: {x: 2676, y: 3587, level: 0}},
+                code: "DJR",
+                name: "Kandarin: Sinclair Mansion (west)",
+            },
+            {
+                id: "DJS",
+                target: {origin: {x: 2130, y: 3369, level: 0}},
+                code: "DJS",
+                name: "Tirannwn: Prifddinas (Clan Amlodd)",
+            },
+            {
+                id: "DKP",
+                target: {origin: {x: 2900, y: 3111, level: 0}},
+                code: "DKP",
+                name: "Karamja: South of Musa Point",
+            },
+            {
+                id: "DKQ",
+                target: {origin: {"x": 4183, "y": 5726, "level": 0}},
+                code: "DKQ",
+                name: "Dungeons: Glacor Cave"
+            },
+            {
+                id: "DKR",
+                target: {origin: {x: 3129, y: 3496, level: 0}},
+                code: "DKR",
+                name: "Misthalin: Edgeville",
+            },
+            {
+                id: "DKS",
+                target: {origin: {x: 2744, y: 3719, level: 0}},
+                code: "DKS",
+                name: "Kandarin: Snowy Hunter area",
+            },
+            {
+                id: "DLQ",
+                target: {origin: {x: 3423, y: 3016, level: 0}},
+                code: "DLQ",
+                name: "Kharidian Desert: North of Nardah",
+            },
+            {
+                id: "DLR",
+                target: {origin: {x: 2213, y: 3099, level: 0}},
+                code: "DLR",
+                name: "Islands: Poison Waste south of Isafdar",
+            },
+            {
+                id: "DLS",
+                target: {origin: {x: 3501, y: 9821, level: 3}},
+                name: "Dungeons: Myreque Hideout under The Hollows",
+                code: "DLS",
+            },
+            {
+                id: "resistance",
+                target: {origin: {x: 2254, y: 4426, level: 0}},
+                name: "Fairy Resistance HQ",
+            },
+            {
+                id: "rift",
+                target: {origin: {x: 1626, y: 4176, level: 0}},
+                name: "Ork´s Rift (BIR, DIP, CLR, ALP)",
+            },
+            {
+                id: "BLQ",
+                target: {origin: {"x": 2229, "y": 4244, "level": 1}},
+                name: "Yu´biusk",
+                code: "BLQ",
+            },
+        ],
+        access: [{
+            id: "portable_fairy_ring",
+            type: "item",
+            name: {
+                kind: "item",
+                name: "Portable Fairy Ring"
+            },
+            action_name: "Teleport",
+            menu_ticks: 2, // Assumes favorite
+        }]
+    },/*
     {
         type: "teleports",
         id: "slayercape",

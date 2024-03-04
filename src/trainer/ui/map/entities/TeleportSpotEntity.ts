@@ -14,6 +14,8 @@ import entity = C.entity;
 import TeleportAccess = Transportation.TeleportAccess;
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import * as assert from "assert";
+import {areaPolygon} from "../../polygon_helpers";
+import {TileRectangle} from "../../../../lib/runescape/coordinates";
 
 export class TeleportSpotEntity extends MapEntity {
 
@@ -29,7 +31,7 @@ export class TeleportSpotEntity extends MapEntity {
     async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
         const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
 
-        const marker = leaflet.marker(Vector2.toLatLong(this.config.teleport.target()), {
+        const marker = leaflet.marker(Vector2.toLatLong(TileRectangle.center(TileArea.toRect(this.config.teleport.targetArea()), true)), {
             icon: new TeleportSpotEntity.TeleportMapIcon(this.config.teleport, scale, w => {
                 if (options.viewport.rect.level != this.config.teleport.target().level) w.css("filter", "grayscale(1) brightness(0.5)")
 
@@ -37,6 +39,15 @@ export class TeleportSpotEntity extends MapEntity {
             }),
             riseOnHover: true
         }).addTo(this)
+
+        if(options.highlight) {
+            areaPolygon(this.config.teleport.targetArea())
+                .setStyle({
+                    fillColor: "lightgreen",
+                    color: "lightgreen",
+                    stroke: true
+                }).addTo(this)
+        }
 
         return marker.getElement()
     }

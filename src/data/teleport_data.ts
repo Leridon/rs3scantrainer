@@ -255,1114 +255,1088 @@ const raw_data: Transportation.TeleportGroup[] = [
             }
         ]
     },
-    /*{
+    {
         type: "teleports",
         id: "normalspellbook",
         name: "Normal Spellbook",
         img: {url: ""},
+        menu_ticks: 0,
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "camelot",
-                target: {origin: {x: 2758, y: 3477, level: 0}},
+                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}},
                 img: {url: "tele-cam.png"},
                 name: "Camelot",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "camelot-seers",
-                target: {origin: {x: 2707, y: 3483, level: 0}},
+                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/n3/AQ=="},
                 img: {url: "tele-cam-seers.png"},
                 name: "Camelot (Seer's Village)",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "varrock",
-                target: {origin: {x: 3212, y: 3433, level: 0}},
+                target: {"origin": {"x": 3210, "y": 3432, "level": 0}, "size": {"x": 5, "y": 5}},
                 img: {url: "tele-var.png"},
                 name: "Varrock",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "varrock-ge",
-                target: {origin: {x: 3165, y: 3464, level: 0}},
+                target: {"origin": {"x": 3162, "y": 3462, "level": 0}, "size": {"x": 2, "y": 5}},
                 img: {url: "tele-var-ge.png"},
                 name: "Varrock (Grand Exchange)",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "varrock-church",
-                target: {origin: {x: 3246, y: 3479, level: 0}},
+                target: {"origin": {"x": 3245, "y": 3478, "level": 0}, "size": {"x": 4, "y": 5}},
                 img: {url: "tele-var-church.png"},
                 name: "Varrock (Church)",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
             },
-
             {
                 id: "watchtower",
-                target: { origin: {x: 2548, y: 3115, level: 2} },
+                target: {"origin": {"x": 2547, "y": 3111, "level": 2}, "size": {"x": 4, "y": 4}, "data": "88w="},
                 img: {url: "tele-watch.png"},
                 name: "Watchtower",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "watchtower-yanille",
-                target: {origin: {x: 2574, y: 3090, level: 0}},
+                target: {"origin": {"x": 2573, "y": 3087, "level": 0}, "size": {"x": 5, "y": 5}},
                 img: {url: "tele-watch-center.png"},
                 name: "Watchtower (Yanille)",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "lumbridge",
-target: {origin: {x: 3220, y: 3245, level: 0}},
-img: {url: "tele-lum.png"},
-name: "Lumbridge",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3217, "y": 3246, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/3//AQ=="},
+                img: {url: "tele-lum.png"},
+                name: "Lumbridge",
             },
             {
                 id: "falador",
-target: {origin: {x: 2965, y: 3379, level: 0}},
-img: {url: "tele-fal.png"},
-name: "Falador",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2963, "y": 3376, "level": 0}, "size": {"x": 5, "y": 5}},
+                img: {url: "tele-fal.png"},
+                name: "Falador",
             },
             {
                 id: "ardougne",
-target: {origin: {x: 2661, y: 3302, level: 0}},
-img: {url: "tele-ard.png"},
-name: "Ardougne",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2659, "y": 3300, "level": 0}, "size": {"x": 5, "y": 5}},
+                img: {url: "tele-ard.png"},
+                name: "Ardougne",
             },
             {
                 id: "southfeldiphills",
-target: {origin: {x: 2414, y: 2847, level: 0}},
-img: {url: "tele-mob.png"},
-name: "South Feldip Hills",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2411, "y": 2845, "level": 0}, "size": {"x": 5, "y": 5}, "data": "nP//AQ=="},
+                img: {url: "tele-mob.png"},
+                name: "South Feldip Hills",
             },
             {
                 id: "taverley",
-target: {origin: {x: 2910, y: 3421, level: 0}},
-img: {url: "tele-taverley.png"},
-name: "Taverley",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2910, "y": 3421, "level": 0}, "size": {"x": 5, "y": 5}},
+                img: {url: "tele-taverley.png"},
+                name: "Taverley",
             },
             {
                 id: "godwars",
-target: {origin: {x: 2908, y: 3724, level: 0}},
-img: {url: "tele-god.png"},
-name: "God Wars",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2908, "y": 3712, "level": 0}, "size": {"x": 3, "y": 4}},
+                img: {url: "tele-god.png"},
+                name: "God Wars",
             },
             {
                 id: "trollheim",
-target: {origin: {x: 2881, y: 3669, level: 0}},
-img: {url: "tele-troll.png"},
-name: "Trollheim",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2880, "y": 3666, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//v/AQ=="},
+                img: {url: "tele-troll.png"},
+                name: "Trollheim",
             },
             {
                 id: "apeatoll",
-target: {origin: {x: 2798, y: 2791, level: 0}},
-img: {url: "tele-ape.png"},
-name: "Ape Atoll",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2795, "y": 2797, "level": 1}, "size": {"x": 5, "y": 3}},
+                img: {url: "tele-ape.png"},
+                name: "Ape Atoll",
             },
             {
                 id: "mazcab",
-                target: {origin: {x: 4317, y: 814, level: 0}},
-img: {url: "tele-mazcab.png"},
-name: "Mazcab",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 4314, "y": 817, "level": 0}, "size": {"x": 5, "y": 5}},
+                img: {url: "tele-mazcab.png"},
+                name: "Mazcab",
             },
         ],
-        access: [{type: "spellbook",
-name: "Normal"}]
+        access: [{
+            id: "spellbook",
+            type: "spellbook",
+            name: "Normal"
+        }] // TODO: Tablets
     },
     {
         type: "teleports",
         id: "ancientspellook",
         name: "Ancient Spellbook",
         img: {url: ""},
+        menu_ticks: 0,
+        animation_ticks: default_teleport_ticks
         spots: [
             {
                 id: "senntisten",
-target: {origin: {x: 3379, y: 3402, level: 0}},
-img: {url: "tele-senntisten.png"},
-name: "Senntisten (Dig site)",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3375, "y": 3400, "level": 0}, "size": {"x": 5, "y": 5}},
+                img: {url: "tele-senntisten.png"},
+                name: "Senntisten (Dig site)",
             },
             {
                 id: "kharyll",
-target: {origin: {x: 3499, y: 3488, level: 0}},
-img: {url: "tele-kharyrll.png"},
-name: "Kharyrll",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3499, "y": 3482, "level": 0}, "size": {"x": 5, "y": 4}, "data": "/38E"},
+                img: {url: "tele-kharyrll.png"},
+                name: "Kharyrll",
             },
             {
                 id: "lassar",
-target: {origin: {x: 3008, y: 3475, level: 0}},
-img: {url: "tele-lassar.png"},
-name: "Lassar",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3002, "y": 3468, "level": 0}, "size": {"x": 5, "y": 5}},
+                img: {url: "tele-lassar.png"},
+                name: "Lassar",
             },
             {
                 id: "dareeyak",
-target: {origin: {x: 2969, y: 3699, level: 0}},
-img: {url: "tele-dareeyak.png"},
-name: "Dareeyak",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2966, "y": 3694, "level": 0}, "size": {"x": 5, "y": 5}, "data": "///PAA=="},
+                img: {url: "tele-dareeyak.png"},
+                name: "Dareeyak",
             },
             {
                 id: "carallaner",
-target: {origin: {x: 3223, y: 3665, level: 0}},
-img: {url: "tele-carrallaner.png"},
-name: "Carrallanger",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3220, "y": 3664, "level": 0}, "size": {"x": 5, "y": 5}, "data": "zv9zAA=="},
+                img: {url: "tele-carrallaner.png"},
+                name: "Carrallanger",
             },
             {
                 id: "annakarl",
-target: {origin: {x: 3288, y: 3888, level: 0}},
-img: {url: "tele-annakarl.png"},
-name: "Annakarl",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3286, "y": 3884, "level": 0}, "size": {"x": 4, "y": 5}, "data": "//cP"},
+                img: {url: "tele-annakarl.png"},
+                name: "Annakarl",
             },
             {
                 id: "ghorrock",
-target: {origin: {x: 2979, y: 3877, level: 0}},
-img: {url: "tele-ghorrock.png"},
-name: "Ghorrock",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-        ],
-        access: [{type: "spellbook",
-name: "Ancient"}]
-    },
-    {
-        type: "teleports",
-        id: "lunarspellbook",
-        name: "Lunar Spellbook",
-        img: {url: ""},
-        spots: [
-            {
-                id: "moonclan",
-target: {origin: {x: 2111, y: 3917, level: 0}},
-img: {url: "tele-moonclan.png"},
-name: "Moonclan",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "ourania",
-target: {origin: {x: 2468, y: 3248, level: 0}},
-img: {url: "tele-ourania.png"},
-name: "Ourania Altar",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "southfalador",
-target: {origin: {x: 3057, y: 3311, level: 0}},
-img: {url: "tele-southfalador.png"},
-name: "South Falador",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "waterbirth",
-target: {origin: {x: 2548, y: 3758, level: 0}},
-img: {url: "tele-waterbirth.png"},
-name: "Waterbirth",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "barbarian",
-target: {origin: {x: 2542, y: 3570, level: 0}},
-img: {url: "tele-barbarian.png"},
-name: "Barbarian Outpost",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "northardougne",
-target: {origin: {x: 2670, y: 3375, level: 0}},
-img: {url: "tele-northardougne.png"},
-name: "North Ardougne",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "khazard",
-target: {origin: {x: 2634, y: 3167, level: 0}},
-img: {url: "tele-khazard.png"},
-name: "Port Khazard",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "fishing",
-target: {origin: {x: 2614, y: 3383, level: 0}},
-img: {url: "tele-fishing.png"},
-name: "Fishing Guild",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "catherby",
-target: {origin: {x: 2803, y: 3450, level: 0}},
-img: {url: "tele-catherby.png"},
-name: "Catherby",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "iceplateu",
-target: {origin: {x: 2975, y: 3941, level: 0}},
-img: {url: "tele-iceplateau.png"},
-name: "Ice Plateau",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "trollheim",
-target: {origin: {x: 2818, y: 3676, level: 0}},
-img: {url: "tele-trollheim.png"},
-name: "Trollheim",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-        ],
-        access: [{type: "spellbook",
-name: "Lunar"}]
-    },
-    {
-        type: "teleports",
-        id: "greenteleport",
-        name: "Green Teleports",
-        img: {url: ""},
-        spots: [
-            {
-                id: "monastery",
-target: {origin: {x: 2606, y: 3217, level: 0}},
-img: {url: "monastery.png"},
-name: "Kandarin Monastery",
-                menu_ticks: 0,
-                animation_ticks: 5
-            },
-            {
-                id: "wars",
-target: {origin: {x: 3294, y: 10127, level: 0}},
-img: {url: "warsretreat.png"},
-name: "Wars Retreat",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "manorfarm",
-target: {origin: {x: 2670, y: 3372, level: 0}},
-img: {url: "pof.png"},
-name: "Manor Farm",
-                menu_ticks: 0,
-                animation_ticks: 5
-            },
-            {
-                id: "maxguild",
-target: { origin: {x: 2276, y: 3313, level: 1} },
-img: {url: "max.png"},
-name: "Max guild",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "skelettalhorror",
-target: {origin: {x: 3362, y: 3503, level: 0}},
-img: {url: "skhorror.png"},
-name: "Skeletal Horror",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-        ],
-        access: [{type: "spellbook",
-name: "Any"}]
-    },
-    {
-        type: "teleports",
-        id: "houseteleports", // house teleport timings assume the spell, tablets are two ticks slower
-        name: "House Teleports",
-        img: {url: "modhouse.gif"},
-        spots: [
-            {
-                id: "rimmington",
-target: {origin: {x: 2953, y: 3223, level: 0}},
-name: "Rimmington house",
-code: "1",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "taverley",
-target: {origin: {x: 2883, y: 3452, level: 0}},
-name: "Taverley house",
-code: "2",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "pollnivneach",
-target: {origin: {x: 3339, y: 3001, level: 0}},
-name: "Pollnivneach house",
-code: "3",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "relekka",
-target: {origin: {x: 2670, y: 3632, level: 0}},
-name: "Rellekka house",
-code: "4",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "brimhaven",
-target: {origin: {x: 2757, y: 3178, level: 0}},
-name: "Brimhaven house",
-code: "5",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "yanille",
-target: {origin: {x: 2544, y: 3095, level: 0}},
-name: "Yanille house",
-code: "6",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "trollheim",
-target: {origin: {x: 2890, y: 3675, level: 0}},
-name: "Trollheim house tablet",
-code: "7",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "prifddinas",
-target: {origin: {x: 2166, y: 3335, level: 0}},
-name: "Prifddinas house tablet",
-code: "8",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "menaphos",
-target: {origin: {x: 3123, y: 2632, level: 0}},
-name: "Menaphos house tablet",
-code: "0,1",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks
-            },
-        ],
-        access: [
-            {type: "spellbook",
-name: "Normal"},
-            {type: "item",
-name: {kind: "item",
-name: "House Teleport Tablet"}},
-        ]
-    },
-    {
-        type: "teleports",
-        id: "teleportscrolls",  // Timings assume a menu tick from globetrotter gloves
-        name: "Teleport Scrolls",
-        img: {url: ""},
-        spots: [
-            {
-                id: "grandexchange",
-                target: {origin: {x: 3160, y: 3458, level: 0}},
-                img: {url: "scroll-grandexchange.png"},
-                name: "Grand Exchange",
-                code: "1",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "banditcamp",
-target: {origin: {x: 3169, y: 2981, level: 0}},
-img: {url: "scroll-banditcamp.png"},
-name: "Bandit Camp",
-code: "2",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "clocktower",
-target: {origin: {x: 2593, y: 3253, level: 0}},
-img: {url: "scroll-clocktower.png"},
-name: "Clocktower",
-code: "3",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "gutanoth",
-target: {origin: {x: 2523, y: 3062, level: 0}},
-img: {url: "scroll-gutanoth.png"},
-name: "Gu'Tanoth",
-code: "4",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "lighthouse",
-target: {origin: {x: 2512, y: 3632, level: 0}},
-img: {url: "scroll-lighthouse.png"},
-name: "Lighthouse",
-code: "5",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "fortforinthry",
-                target: {origin: {x: 3302, y: 3550, level: 0}},
-                img: {url: "scroll-fortforinthry.png"},
-                name: "Forintry Teleport",
-                code: "6",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "miscellania",
-                target: {origin: {x: 2514, y: 3862, level: 0}},
-                img: {url: "scroll-miscellania.png"},
-                name: "Miscellania",
-                code: "7",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "phoenixlair",
-                target: {origin: {x: 2293, y: 3620, level: 0}},
-                img: {url: "scroll-phoenixlair.png"},
-                name: "Phoenix Lair",
-                code: "8",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "pollnivneach",
-                target: { origin: {"x": 3359, "y": 2968, "level": 0} },
-                img: {url: "scroll-pollnivneach.png"},
-                name: "Pollnivneach",
-                code: "9",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-            {
-                id: "tabwowannai",
-                target: {origin: {x: 2801, y: 3085, level: 0}},
-                img: {url: "scroll-taibwowannai.png"},
-                name: "Tai Bwo Wannai",
-                code: "0",
-                menu_ticks: 1,
-                animation_ticks: 5
-            },
-
-        ]
-    },
-    {
-        type: "teleports",
-        id: "teleportseed",
-        name: "Teleport Seed",
-        img: {url: "crystal.gif"},
-        spots: [
-            {
-                id: "lletya",
-target: {origin: {x: 2335, y: 3171, level: 0}},
-name: "Lletya",
-code: "1",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "amlodd",
-target: { origin: {x: 2155, y: 3383, level: 1} },
-name: "Amlodd",
-code: "3",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "cadarn",
-target: { origin: {x: 2261, y: 3339, level: 1} },
-name: "Cadarn",
-code: "4",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "crwys",
-target: { origin: {x: 2261, y: 3383, level: 1} },
-name: "Crwys",
-code: "5",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "hefin",
-target: { origin: {x: 2186, y: 3411, level: 1} },
-name: "Hefin",
-code: "6",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "iorwerth",
-target: { origin: {x: 2185, y: 3311, level: 1} },
-name: "Iorwerth",
-code: "7",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "Ithell",
-target: { origin: {x: 2155, y: 3339, level: 1} },
-name: "Ithell",
-code: "8",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "Meilyr",
-target: { origin: {x: 2230, y: 3411, level: 1} },
-name: "Meilyr",
-code: "9",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-            {
-                id: "Trahaearn",
-target: { origin: {x: 2231, y: 3311, level: 1} },
-name: "Trahaearn",
-code: "0",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "menaphostablets",
-        name: "Menaphos Tablets",
-        img: {url: ""},
-        spots: [
-            {
-                id: "imperial",
-target: { origin: {x: 3177, y: 2730, level: 1} },
-img: {url: "imperialdistrict.gif"},
-name: "Imperial district",
-code: "1",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks + 2
-            },
-            {
-                id: "merchant",
-target: { origin: {x: 3208, y: 2784, level: 1} },
-img: {url: "merchantdistrict.gif"},
-name: "Merchant district",
-code: "2",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks + 2
-            },
-            {
-                id: "port",
-target: { origin: {x: 3187, y: 2654, level: 1} },
-img: {url: "portdistrict.gif"},
-name: "Port district",
-code: "3",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks + 2
-            },
-            {
-                id: "worker",
-target: { origin: {x: 3154, y: 2800, level: 1} },
-img: {url: "workerdistrict.gif"},
-name: "Worker district",
-code: "4",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks + 2
-            },
-            {
-                id: "sophanem",
-target: { origin: {x: 3291, y: 2710, level: 1} },
-img: {url: "sophanemdungeon.gif"},
-name: "Sophanem Dungeon",
-code: "5",
-                menu_ticks: 0,
-                animation_ticks: default_teleport_ticks + 2
-            },
-        ]
-    },
-    {
-        type: "teleports",
-        id: "spirittree",
-        name: "Spirit Tree",
-        img: {url: "spirittree.png"},
-        spots: [
-            {
-                id: "village",
-target: {origin: {x: 2542, y: 3168, level: 0}},
-name: "Tree Gnome Village",
-code: "1",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "stronghold",
-target: {origin: {x: 2462, y: 3444, level: 0}},
-name: "Tree Gnome Stronghold",
-code: "2",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "battlefield",
-target: {origin: {x: 2557, y: 3257, level: 0}},
-name: "Battlefield of Khazard",
-code: "3",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "grandexchange",
-target: {origin: {x: 3188, y: 3508, level: 0}},
-name: "Grand Exchange",
-code: "4",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "feldiphills",
-target: {origin: {x: 2416, y: 2849, level: 0}},
-name: "South Feldip Hills",
-code: "5",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "sarim",
-target: {origin: {x: 3058, y: 3255, level: 0}},
-name: "Port Sarim",
-code: "6",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "etceteria",
-target: {origin: {x: 2614, y: 3855, level: 0}},
-name: "Etceteria",
-code: "7",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "brimhaven",
-target: {origin: {x: 2800, y: 3203, level: 0}},
-name: "Brimhaven",
-code: "8",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "poisonwaste",
-target: {origin: {x: 2337, y: 3109, level: 0}},
-name: "Poison Waste",
-code: "9",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-            {
-                id: "prifddinas",
-target: { origin: {x: 2275, y: 3371, level: 1} },
-name: "Prifddinas",
-code: "0",
-                menu_ticks: 1,
-                animation_ticks: 7
-            },
-
-        ]
-    },*/
-    {
-        type: "teleports",
-        id: "fairyring",
-        name: "Fairy Ring", // assume favorite for menu times
-        img: {url: "fairyring.gif"},
-        animation_ticks: 7,
-        spots: [
-            {
-                id: "AIP",
-                target: {origin: {x: 2412, y: 4434, level: 0}},
-                code: "",
-                name: "Zanaris",
-            },
-            {
-                id: "AIQ",
-                target: {origin: {x: 2996, y: 3114, level: 0}},
-                code: "AIQ",
-                name: "Asgarnia: Mudskipper Point",
-            },
-            {
-                id: "AIR",
-                target: {origin: {x: 2700, y: 3247, level: 0}},
-                code: "AIR",
-                name: "Islands: South of Witchhaven",
-            },
-            {
-                id: "AIS",
-                target: {origin: {x: 2030, y: 5982, level: 0}},
-                code: "AIS",
-                name: "Other realms: Naragi homeworld",
-            },
-            {
-                id: "AJQ",
-                target: {origin: {x: 2735, y: 5221, level: 0}},
-                code: "AJQ",
-                name: "Dungeons: Dark cave south of Dorgesh-Kaan",
-            },
-            {
-                id: "AJR",
-                target: {origin: {x: 2780, y: 3613, level: 0}},
-                code: "AJR",
-                name: "Kandarin: Slayer cave south-east of Relekka",
-            },
-            {
-                id: "AJS",
-                target: {origin: {x: 2500, y: 3896, level: 0}},
-                code: "AJS",
-                name: "Islands: Penguins near Miscellania",
-            },
-            {
-                id: "AKQ",
-                target: {origin: {x: 2319, y: 3619, level: 0}},
-                code: "AKQ",
-                name: "Piscatoris Hunter area",
-            },
-            {
-                id: "AKS",
-                target: {origin: {x: 2571, y: 2956, level: 0}},
-                code: "AKS",
-                name: "Feldip Hills: Jungle Hunter area",
-            },
-            {
-                id: "ALP",
-                target: {origin: {x: 2473, y: 3028, level: 0}},
-                code: "ALP",
-                name: "Feldip Hills: Near Gu´Tanoth",
-            },
-            {
-                id: "ALQ",
-                target: {origin: {x: 3597, y: 3495, level: 0}},
-                code: "ALQ",
-                name: "Morytania: Haunted Woods east of Canifis",
-            },
-            {
-                id: "ALR",
-                target: {origin: {x: 3059, y: 4875, level: 0}},
-                code: "ALR",
-                name: "Other realmms: Abyss",
-            },
-            {
-                id: "ALS",
-                target: {origin: {x: 2644, y: 3495, level: 0}},
-                code: "ALS",
-                name: "Kandarin: McGrubor´s Wood",
-            },
-            {
-                id: "BIP",
-                target: {origin: {x: 3410, y: 3324, level: 0}},
-                code: "BIP",
-                name: "Islands: Polypore Dungeon",
-            },
-            {
-                id: "BIQ",
-                target: {origin: {x: 3251, y: 3095, level: 0}},
-                code: "BIQ",
-                name: "Kharidian Desert: Near Kalphite Hive",
-            },
-            {
-                id: "BIR",
-                target: {origin: {x: 2455, y: 4396, level: 0}},
-                code: "BIS",
-                name: "Sparse Plane",
-            },
-            {
-                id: "BIS",
-                target: {origin: {x: 2635, y: 3266, level: 0}},
-                code: "BIS",
-                name: "Kandarin: Ardougne Zoo unicorns",
-            },
-            {
-                id: "BJP",
-                target: {origin: {x: 3342, y: 3539, level: 0}},
-                code: "BJP",
-                name: "Fort Forinthry",
-            },
-            {
-                id: "BJQ",
-                target: {origin: {x: 1737, y: 5342, level: 0}},
-                code: "BJQ",
-                name: "Dungeons: Ancient Cavern",
-            },
-            {
-                id: "BJR",
-                target: {origin: {x: 2650, y: 4730, level: 0}},
-                code: "BJR",
-                name: "Other realms: Realm of the fisher king",
-            },
-            {
-                id: "BJS",
-                target: {origin: {x: 1359, y: 5635, level: 0}},
-                code: "BJS",
-                name: "The Lost Grove",
-            },
-            {
-                id: "BKP",
-                target: {origin: {x: 2385, y: 3035, level: 0}},
-                code: "BKP",
-                name: "Feldip Hills: South of Castle Wars",
-            },
-            {
-                id: "BKQ",
-                target: {origin: {x: 3041, y: 4532, level: 0}},
-                code: "BKQ",
-                name: "Other realms: Enchanted Valley",
-            },
-            {
-                id: "BKR",
-                target: {origin: {x: 3469, y: 3431, level: 0}},
-                code: "BKR",
-                name: "Morytania: Mort Myre, south of Canifis",
-            },
-            {
-                id: "BLP",
-                target: {origin: {x: 4622, y: 5147, level: 0}},
-                code: "BLP",
-                name: "Dungeons: TzHaar area",
-            },
-            {
-                id: "BLR",
-                target: {origin: {x: 2740, y: 3351, level: 0}},
-                code: "BLR",
-                name: "Kandarin: Legends' Guild",
-            },
-            {
-                id: "CIP",
-                target: {origin: {x: 2513, y: 3884, level: 0}},
-                code: "CIP",
-                name: "Islands: Miscellania",
-            },
-            {
-                id: "CIQ",
-                target: {origin: {x: 2528, y: 3127, level: 0}},
-                code: "CIQ",
-                name: "Kandarin: North-west of Yanille",
-            },
-            {
-                id: "CIS",
-                target: {origin: {x: 3419, y: 4772, level: 0}},
-                code: "CIS",
-                name: "Other realms: ScapeRune (Evil Bob´s island)",
-            },
-            {
-                id: "CJR",
-                target: {origin: {x: 2705, y: 3576, level: 0}},
-                code: "CJR",
-                name: "Kandarin: Sinclair Mansion (east)",
-            },
-            {
-                id: "CJS",
-                target: {origin: {x: 2901, y: 2930, level: 0}},
-                code: "CJS",
-                name: "Karamja: Kharazi Jungle",
-            },
-            {
-                id: "CKP",
-                target: {origin: {"x": 2075, "y": 4848, "level": 0}},
-                code: "CKP",
-                name: "Other realms: Cosmic entity´s plane"
-            },
-            {
-                id: "CKQ",
-                target: {origin: {x: 3086, y: 2704, level: 0}},
-                code: "CKQ",
-                name: "Menaphos: Imperial District",
-            },
-            {
-                id: "CKR",
-                target: {origin: {x: 2801, y: 3003, level: 0}},
-                code: "CKR",
-                name: "Karamja: South of Tai Bwo Wannai Village",
-            },
-            {
-                id: "CKS",
-                target: {origin: {x: 3447, y: 3470, level: 0}},
-                code: "CKS",
-                name: "Morytania: Canifis",
-            },
-            {
-                id: "CLP",
-                target: {origin: {x: 3082, y: 3206, level: 0}},
-                code: "CLP",
-                name: "Islands: South of Draynor Village",
-            },
-            {
-                id: "CLS",
-                target: {origin: {x: 2682, y: 3081, level: 0}},
-                code: "CLS",
-                name: "Islands: Jungle spiders near Yanille",
-            },
-            {
-                id: "CLR",
-                target: {origin: {x: 2735, y: 2742, level: 0}},
-                code: "CLR",
-                name: "Islands: Ape Atoll",
-            },
-            {
-                id: "DIP",
-                target: {origin: {x: 3763, y: 2930, level: 0}},
-                code: "DIP",
-                name: "Islands: Mos Le´Harmless",
-            },
-            {
-                id: "DIR",
-                target: {origin: {"x": 3038, "y": 5348, "level": 0}},
-                code: "DIR",
-                name: "Other realms: Gorak`s Plane"
-            },
-            {
-                id: "kethsi",
-                target: {origin: {"x": 4026, "y": 5699, "level": 0}},
-                code: "DIR AKS",
-                name: "Kethsi (DIR AKS)"
-            },
-            {
-                id: "DIS",
-                target: {origin: {x: 3092, y: 3137, level: 0}},
-                code: "DIS",
-                name: "Misthalin: Wizard´s Tower",
-            },
-            {
-                id: "DJP",
-                target: {origin: {x: 2658, y: 3230, level: 0}},
-                code: "DJP",
-                name: "Kandarin: Tower of Life",
-            },
-            {
-                id: "DJR",
-                target: {origin: {x: 2676, y: 3587, level: 0}},
-                code: "DJR",
-                name: "Kandarin: Sinclair Mansion (west)",
-            },
-            {
-                id: "DJS",
-                target: {origin: {x: 2130, y: 3369, level: 0}},
-                code: "DJS",
-                name: "Tirannwn: Prifddinas (Clan Amlodd)",
-            },
-            {
-                id: "DKP",
-                target: {origin: {x: 2900, y: 3111, level: 0}},
-                code: "DKP",
-                name: "Karamja: South of Musa Point",
-            },
-            {
-                id: "DKQ",
-                target: {origin: {"x": 4183, "y": 5726, "level": 0}},
-                code: "DKQ",
-                name: "Dungeons: Glacor Cave"
-            },
-            {
-                id: "DKR",
-                target: {origin: {x: 3129, y: 3496, level: 0}},
-                code: "DKR",
-                name: "Misthalin: Edgeville",
-            },
-            {
-                id: "DKS",
-                target: {origin: {x: 2744, y: 3719, level: 0}},
-                code: "DKS",
-                name: "Kandarin: Snowy Hunter area",
-            },
-            {
-                id: "DLQ",
-                target: {origin: {x: 3423, y: 3016, level: 0}},
-                code: "DLQ",
-                name: "Kharidian Desert: North of Nardah",
-            },
-            {
-                id: "DLR",
-                target: {origin: {x: 2213, y: 3099, level: 0}},
-                code: "DLR",
-                name: "Islands: Poison Waste south of Isafdar",
-            },
-            {
-                id: "DLS",
-                target: {origin: {x: 3501, y: 9821, level: 3}},
-                name: "Dungeons: Myreque Hideout under The Hollows",
-                code: "DLS",
-            },
-            {
-                id: "resistance",
-                target: {origin: {x: 2254, y: 4426, level: 0}},
-                name: "Fairy Resistance HQ",
-            },
-            {
-                id: "rift",
-                target: {origin: {x: 1626, y: 4176, level: 0}},
-                name: "Ork´s Rift (BIR, DIP, CLR, ALP)",
-            },
-            {
-                id: "BLQ",
-                target: {origin: {"x": 2229, "y": 4244, "level": 1}},
-                name: "Yu´biusk",
-                code: "BLQ",
+                target: {"origin": {"x": 2974, "y": 3870, "level": 0}, "size": {"x": 5, "y": 5}},
+                img: {url: "tele-ghorrock.png"},
+                name: "Ghorrock",
             },
         ],
         access: [{
-            id: "portable_fairy_ring",
-            type: "item",
-            name: {
-                kind: "item",
-                name: "Portable Fairy Ring"
-            },
-            action_name: "Teleport",
-            menu_ticks: 2, // Assumes favorite
+            id: "spellbook",
+            type: "spellbook",
+            name: "Ancient" // TODO: Tablets
         }]
-    },/*
+    },
+    /*
+            {
+                type: "teleports",
+                id: "lunarspellbook",
+                name: "Lunar Spellbook",
+                img: {url: ""},
+                spots: [
+                    {
+                        id: "moonclan",
+                        target: {origin: {x: 2111, y: 3917, level: 0}},
+                        img: {url: "tele-moonclan.png"},
+                        name: "Moonclan",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "ourania",
+                        target: {origin: {x: 2468, y: 3248, level: 0}},
+                        img: {url: "tele-ourania.png"},
+                        name: "Ourania Altar",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "southfalador",
+                        target: {origin: {x: 3057, y: 3311, level: 0}},
+                        img: {url: "tele-southfalador.png"},
+                        name: "South Falador",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "waterbirth",
+                        target: {origin: {x: 2548, y: 3758, level: 0}},
+                        img: {url: "tele-waterbirth.png"},
+                        name: "Waterbirth",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "barbarian",
+                        target: {origin: {x: 2542, y: 3570, level: 0}},
+                        img: {url: "tele-barbarian.png"},
+                        name: "Barbarian Outpost",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "northardougne",
+                        target: {origin: {x: 2670, y: 3375, level: 0}},
+                        img: {url: "tele-northardougne.png"},
+                        name: "North Ardougne",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "khazard",
+                        target: {origin: {x: 2634, y: 3167, level: 0}},
+                        img: {url: "tele-khazard.png"},
+                        name: "Port Khazard",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "fishing",
+                        target: {origin: {x: 2614, y: 3383, level: 0}},
+                        img: {url: "tele-fishing.png"},
+                        name: "Fishing Guild",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "catherby",
+                        target: {origin: {x: 2803, y: 3450, level: 0}},
+                        img: {url: "tele-catherby.png"},
+                        name: "Catherby",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "iceplateu",
+                        target: {origin: {x: 2975, y: 3941, level: 0}},
+                        img: {url: "tele-iceplateau.png"},
+                        name: "Ice Plateau",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "trollheim",
+                        target: {origin: {x: 2818, y: 3676, level: 0}},
+                        img: {url: "tele-trollheim.png"},
+                        name: "Trollheim",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                ],
+                access: [{
+                    type: "spellbook",
+                    name: "Lunar"
+                }]
+            },
+            {
+                type: "teleports",
+                id: "greenteleport",
+                name: "Green Teleports",
+                img: {url: ""},
+                spots: [
+                    {
+                        id: "monastery",
+                        target: {origin: {x: 2606, y: 3217, level: 0}},
+                        img: {url: "monastery.png"},
+                        name: "Kandarin Monastery",
+                        menu_ticks: 0,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "wars",
+                        target: {origin: {x: 3294, y: 10127, level: 0}},
+                        img: {url: "warsretreat.png"},
+                        name: "Wars Retreat",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "manorfarm",
+                        target: {origin: {x: 2670, y: 3372, level: 0}},
+                        img: {url: "pof.png"},
+                        name: "Manor Farm",
+                        menu_ticks: 0,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "maxguild",
+                        target: {origin: {x: 2276, y: 3313, level: 1}},
+                        img: {url: "max.png"},
+                        name: "Max guild",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "skelettalhorror",
+                        target: {origin: {x: 3362, y: 3503, level: 0}},
+                        img: {url: "skhorror.png"},
+                        name: "Skeletal Horror",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                ],
+                access: [{
+                    type: "spellbook",
+                    name: "Any"
+                }]
+            },
+            {
+                type: "teleports",
+                id: "houseteleports", // house teleport timings assume the spell, tablets are two ticks slower
+                name: "House Teleports",
+                img: {url: "modhouse.gif"},
+                spots: [
+                    {
+                        id: "rimmington",
+                        target: {origin: {x: 2953, y: 3223, level: 0}},
+                        name: "Rimmington house",
+                        code: "1",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "taverley",
+                        target: {origin: {x: 2883, y: 3452, level: 0}},
+                        name: "Taverley house",
+                        code: "2",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "pollnivneach",
+                        target: {origin: {x: 3339, y: 3001, level: 0}},
+                        name: "Pollnivneach house",
+                        code: "3",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "relekka",
+                        target: {origin: {x: 2670, y: 3632, level: 0}},
+                        name: "Rellekka house",
+                        code: "4",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "brimhaven",
+                        target: {origin: {x: 2757, y: 3178, level: 0}},
+                        name: "Brimhaven house",
+                        code: "5",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "yanille",
+                        target: {origin: {x: 2544, y: 3095, level: 0}},
+                        name: "Yanille house",
+                        code: "6",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "trollheim",
+                        target: {origin: {x: 2890, y: 3675, level: 0}},
+                        name: "Trollheim house tablet",
+                        code: "7",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "prifddinas",
+                        target: {origin: {x: 2166, y: 3335, level: 0}},
+                        name: "Prifddinas house tablet",
+                        code: "8",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "menaphos",
+                        target: {origin: {x: 3123, y: 2632, level: 0}},
+                        name: "Menaphos house tablet",
+                        code: "0,1",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks
+                    },
+                ],
+                access: [
+                    {
+                        type: "spellbook",
+                        name: "Normal"
+                    },
+                    {
+                        type: "item",
+                        name: {
+                            kind: "item",
+                            name: "House Teleport Tablet"
+                        }
+                    },
+                ]
+            },
+            {
+                type: "teleports",
+                id: "teleportscrolls",  // Timings assume a menu tick from globetrotter gloves
+                name: "Teleport Scrolls",
+                img: {url: ""},
+                spots: [
+                    {
+                        id: "grandexchange",
+                        target: {origin: {x: 3160, y: 3458, level: 0}},
+                        img: {url: "scroll-grandexchange.png"},
+                        name: "Grand Exchange",
+                        code: "1",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "banditcamp",
+                        target: {origin: {x: 3169, y: 2981, level: 0}},
+                        img: {url: "scroll-banditcamp.png"},
+                        name: "Bandit Camp",
+                        code: "2",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "clocktower",
+                        target: {origin: {x: 2593, y: 3253, level: 0}},
+                        img: {url: "scroll-clocktower.png"},
+                        name: "Clocktower",
+                        code: "3",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "gutanoth",
+                        target: {origin: {x: 2523, y: 3062, level: 0}},
+                        img: {url: "scroll-gutanoth.png"},
+                        name: "Gu'Tanoth",
+                        code: "4",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "lighthouse",
+                        target: {origin: {x: 2512, y: 3632, level: 0}},
+                        img: {url: "scroll-lighthouse.png"},
+                        name: "Lighthouse",
+                        code: "5",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "fortforinthry",
+                        target: {origin: {x: 3302, y: 3550, level: 0}},
+                        img: {url: "scroll-fortforinthry.png"},
+                        name: "Forintry Teleport",
+                        code: "6",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "miscellania",
+                        target: {origin: {x: 2514, y: 3862, level: 0}},
+                        img: {url: "scroll-miscellania.png"},
+                        name: "Miscellania",
+                        code: "7",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "phoenixlair",
+                        target: {origin: {x: 2293, y: 3620, level: 0}},
+                        img: {url: "scroll-phoenixlair.png"},
+                        name: "Phoenix Lair",
+                        code: "8",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "pollnivneach",
+                        target: {origin: {"x": 3359, "y": 2968, "level": 0}},
+                        img: {url: "scroll-pollnivneach.png"},
+                        name: "Pollnivneach",
+                        code: "9",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+                    {
+                        id: "tabwowannai",
+                        target: {origin: {x: 2801, y: 3085, level: 0}},
+                        img: {url: "scroll-taibwowannai.png"},
+                        name: "Tai Bwo Wannai",
+                        code: "0",
+                        menu_ticks: 1,
+                        animation_ticks: 5
+                    },
+
+                ]
+            },
+            {
+                type: "teleports",
+                id: "teleportseed",
+                name: "Teleport Seed",
+                img: {url: "crystal.gif"},
+                spots: [
+                    {
+                        id: "lletya",
+                        target: {origin: {x: 2335, y: 3171, level: 0}},
+                        name: "Lletya",
+                        code: "1",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "amlodd",
+                        target: {origin: {x: 2155, y: 3383, level: 1}},
+                        name: "Amlodd",
+                        code: "3",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "cadarn",
+                        target: {origin: {x: 2261, y: 3339, level: 1}},
+                        name: "Cadarn",
+                        code: "4",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "crwys",
+                        target: {origin: {x: 2261, y: 3383, level: 1}},
+                        name: "Crwys",
+                        code: "5",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "hefin",
+                        target: {origin: {x: 2186, y: 3411, level: 1}},
+                        name: "Hefin",
+                        code: "6",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "iorwerth",
+                        target: {origin: {x: 2185, y: 3311, level: 1}},
+                        name: "Iorwerth",
+                        code: "7",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "Ithell",
+                        target: {origin: {x: 2155, y: 3339, level: 1}},
+                        name: "Ithell",
+                        code: "8",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "Meilyr",
+                        target: {origin: {x: 2230, y: 3411, level: 1}},
+                        name: "Meilyr",
+                        code: "9",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                    {
+                        id: "Trahaearn",
+                        target: {origin: {x: 2231, y: 3311, level: 1}},
+                        name: "Trahaearn",
+                        code: "0",
+                        menu_ticks: 1,
+                        animation_ticks: default_teleport_ticks
+                    },
+                ]
+            },
+            {
+                type: "teleports",
+                id: "menaphostablets",
+                name: "Menaphos Tablets",
+                img: {url: ""},
+                spots: [
+                    {
+                        id: "imperial",
+                        target: {origin: {x: 3177, y: 2730, level: 1}},
+                        img: {url: "imperialdistrict.gif"},
+                        name: "Imperial district",
+                        code: "1",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks + 2
+                    },
+                    {
+                        id: "merchant",
+                        target: {origin: {x: 3208, y: 2784, level: 1}},
+                        img: {url: "merchantdistrict.gif"},
+                        name: "Merchant district",
+                        code: "2",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks + 2
+                    },
+                    {
+                        id: "port",
+                        target: {origin: {x: 3187, y: 2654, level: 1}},
+                        img: {url: "portdistrict.gif"},
+                        name: "Port district",
+                        code: "3",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks + 2
+                    },
+                    {
+                        id: "worker",
+                        target: {origin: {x: 3154, y: 2800, level: 1}},
+                        img: {url: "workerdistrict.gif"},
+                        name: "Worker district",
+                        code: "4",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks + 2
+                    },
+                    {
+                        id: "sophanem",
+                        target: {origin: {x: 3291, y: 2710, level: 1}},
+                        img: {url: "sophanemdungeon.gif"},
+                        name: "Sophanem Dungeon",
+                        code: "5",
+                        menu_ticks: 0,
+                        animation_ticks: default_teleport_ticks + 2
+                    },
+                ]
+            },
+            {
+                type: "teleports",
+                id: "spirittree",
+                name: "Spirit Tree",
+                img: {url: "spirittree.png"},
+                spots: [
+                    {
+                        id: "village",
+                        target: {origin: {x: 2542, y: 3168, level: 0}},
+                        name: "Tree Gnome Village",
+                        code: "1",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "stronghold",
+                        target: {origin: {x: 2462, y: 3444, level: 0}},
+                        name: "Tree Gnome Stronghold",
+                        code: "2",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "battlefield",
+                        target: {origin: {x: 2557, y: 3257, level: 0}},
+                        name: "Battlefield of Khazard",
+                        code: "3",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "grandexchange",
+                        target: {origin: {x: 3188, y: 3508, level: 0}},
+                        name: "Grand Exchange",
+                        code: "4",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "feldiphills",
+                        target: {origin: {x: 2416, y: 2849, level: 0}},
+                        name: "South Feldip Hills",
+                        code: "5",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "sarim",
+                        target: {origin: {x: 3058, y: 3255, level: 0}},
+                        name: "Port Sarim",
+                        code: "6",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "etceteria",
+                        target: {origin: {x: 2614, y: 3855, level: 0}},
+                        name: "Etceteria",
+                        code: "7",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "brimhaven",
+                        target: {origin: {x: 2800, y: 3203, level: 0}},
+                        name: "Brimhaven",
+                        code: "8",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "poisonwaste",
+                        target: {origin: {x: 2337, y: 3109, level: 0}},
+                        name: "Poison Waste",
+                        code: "9",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+                    {
+                        id: "prifddinas",
+                        target: {origin: {x: 2275, y: 3371, level: 1}},
+                        name: "Prifddinas",
+                        code: "0",
+                        menu_ticks: 1,
+                        animation_ticks: 7
+                    },
+
+                ]
+            }, * /
+        {
+            type: "teleports",
+            id: "fairyring",
+            name: "Fairy Ring", // assume favorite for menu times
+            img: {url: "fairyring.gif"},
+            animation_ticks: 7,
+            spots: [
+                {
+                    id: "AIP",
+                    target: {origin: {x: 2412, y: 4434, level: 0}},
+                    code: "",
+                    name: "Zanaris",
+                },
+                {
+                    id: "AIQ",
+                    target: {origin: {x: 2996, y: 3114, level: 0}},
+                    code: "AIQ",
+                    name: "Asgarnia: Mudskipper Point",
+                },
+                {
+                    id: "AIR",
+                    target: {origin: {x: 2700, y: 3247, level: 0}},
+                    code: "AIR",
+                    name: "Islands: South of Witchhaven",
+                },
+                {
+                    id: "AIS",
+                    target: {origin: {x: 2030, y: 5982, level: 0}},
+                    code: "AIS",
+                    name: "Other realms: Naragi homeworld",
+                },
+                {
+                    id: "AJQ",
+                    target: {origin: {x: 2735, y: 5221, level: 0}},
+                    code: "AJQ",
+                    name: "Dungeons: Dark cave south of Dorgesh-Kaan",
+                },
+                {
+                    id: "AJR",
+                    target: {origin: {x: 2780, y: 3613, level: 0}},
+                    code: "AJR",
+                    name: "Kandarin: Slayer cave south-east of Relekka",
+                },
+                {
+                    id: "AJS",
+                    target: {origin: {x: 2500, y: 3896, level: 0}},
+                    code: "AJS",
+                    name: "Islands: Penguins near Miscellania",
+                },
+                {
+                    id: "AKQ",
+                    target: {origin: {x: 2319, y: 3619, level: 0}},
+                    code: "AKQ",
+                    name: "Piscatoris Hunter area",
+                },
+                {
+                    id: "AKS",
+                    target: {origin: {x: 2571, y: 2956, level: 0}},
+                    code: "AKS",
+                    name: "Feldip Hills: Jungle Hunter area",
+                },
+                {
+                    id: "ALP",
+                    target: {origin: {x: 2473, y: 3028, level: 0}},
+                    code: "ALP",
+                    name: "Feldip Hills: Near Gu´Tanoth",
+                },
+                {
+                    id: "ALQ",
+                    target: {origin: {x: 3597, y: 3495, level: 0}},
+                    code: "ALQ",
+                    name: "Morytania: Haunted Woods east of Canifis",
+                },
+                {
+                    id: "ALR",
+                    target: {origin: {x: 3059, y: 4875, level: 0}},
+                    code: "ALR",
+                    name: "Other realmms: Abyss",
+                },
+                {
+                    id: "ALS",
+                    target: {origin: {x: 2644, y: 3495, level: 0}},
+                    code: "ALS",
+                    name: "Kandarin: McGrubor´s Wood",
+                },
+                {
+                    id: "BIP",
+                    target: {origin: {x: 3410, y: 3324, level: 0}},
+                    code: "BIP",
+                    name: "Islands: Polypore Dungeon",
+                },
+                {
+                    id: "BIQ",
+                    target: {origin: {x: 3251, y: 3095, level: 0}},
+                    code: "BIQ",
+                    name: "Kharidian Desert: Near Kalphite Hive",
+                },
+                {
+                    id: "BIR",
+                    target: {origin: {x: 2455, y: 4396, level: 0}},
+                    code: "BIS",
+                    name: "Sparse Plane",
+                },
+                {
+                    id: "BIS",
+                    target: {origin: {x: 2635, y: 3266, level: 0}},
+                    code: "BIS",
+                    name: "Kandarin: Ardougne Zoo unicorns",
+                },
+                {
+                    id: "BJP",
+                    target: {origin: {x: 3342, y: 3539, level: 0}},
+                    code: "BJP",
+                    name: "Fort Forinthry",
+                },
+                {
+                    id: "BJQ",
+                    target: {origin: {x: 1737, y: 5342, level: 0}},
+                    code: "BJQ",
+                    name: "Dungeons: Ancient Cavern",
+                },
+                {
+                    id: "BJR",
+                    target: {origin: {x: 2650, y: 4730, level: 0}},
+                    code: "BJR",
+                    name: "Other realms: Realm of the fisher king",
+                },
+                {
+                    id: "BJS",
+                    target: {origin: {x: 1359, y: 5635, level: 0}},
+                    code: "BJS",
+                    name: "The Lost Grove",
+                },
+                {
+                    id: "BKP",
+                    target: {origin: {x: 2385, y: 3035, level: 0}},
+                    code: "BKP",
+                    name: "Feldip Hills: South of Castle Wars",
+                },
+                {
+                    id: "BKQ",
+                    target: {origin: {x: 3041, y: 4532, level: 0}},
+                    code: "BKQ",
+                    name: "Other realms: Enchanted Valley",
+                },
+                {
+                    id: "BKR",
+                    target: {origin: {x: 3469, y: 3431, level: 0}},
+                    code: "BKR",
+                    name: "Morytania: Mort Myre, south of Canifis",
+                },
+                {
+                    id: "BLP",
+                    target: {origin: {x: 4622, y: 5147, level: 0}},
+                    code: "BLP",
+                    name: "Dungeons: TzHaar area",
+                },
+                {
+                    id: "BLR",
+                    target: {origin: {x: 2740, y: 3351, level: 0}},
+                    code: "BLR",
+                    name: "Kandarin: Legends' Guild",
+                },
+                {
+                    id: "CIP",
+                    target: {origin: {x: 2513, y: 3884, level: 0}},
+                    code: "CIP",
+                    name: "Islands: Miscellania",
+                },
+                {
+                    id: "CIQ",
+                    target: {origin: {x: 2528, y: 3127, level: 0}},
+                    code: "CIQ",
+                    name: "Kandarin: North-west of Yanille",
+                },
+                {
+                    id: "CIS",
+                    target: {origin: {x: 3419, y: 4772, level: 0}},
+                    code: "CIS",
+                    name: "Other realms: ScapeRune (Evil Bob´s island)",
+                },
+                {
+                    id: "CJR",
+                    target: {origin: {x: 2705, y: 3576, level: 0}},
+                    code: "CJR",
+                    name: "Kandarin: Sinclair Mansion (east)",
+                },
+                {
+                    id: "CJS",
+                    target: {origin: {x: 2901, y: 2930, level: 0}},
+                    code: "CJS",
+                    name: "Karamja: Kharazi Jungle",
+                },
+                {
+                    id: "CKP",
+                    target: {origin: {"x": 2075, "y": 4848, "level": 0}},
+                    code: "CKP",
+                    name: "Other realms: Cosmic entity´s plane"
+                },
+                {
+                    id: "CKQ",
+                    target: {origin: {x: 3086, y: 2704, level: 0}},
+                    code: "CKQ",
+                    name: "Menaphos: Imperial District",
+                },
+                {
+                    id: "CKR",
+                    target: {origin: {x: 2801, y: 3003, level: 0}},
+                    code: "CKR",
+                    name: "Karamja: South of Tai Bwo Wannai Village",
+                },
+                {
+                    id: "CKS",
+                    target: {origin: {x: 3447, y: 3470, level: 0}},
+                    code: "CKS",
+                    name: "Morytania: Canifis",
+                },
+                {
+                    id: "CLP",
+                    target: {origin: {x: 3082, y: 3206, level: 0}},
+                    code: "CLP",
+                    name: "Islands: South of Draynor Village",
+                },
+                {
+                    id: "CLS",
+                    target: {origin: {x: 2682, y: 3081, level: 0}},
+                    code: "CLS",
+                    name: "Islands: Jungle spiders near Yanille",
+                },
+                {
+                    id: "CLR",
+                    target: {origin: {x: 2735, y: 2742, level: 0}},
+                    code: "CLR",
+                    name: "Islands: Ape Atoll",
+                },
+                {
+                    id: "DIP",
+                    target: {origin: {x: 3763, y: 2930, level: 0}},
+                    code: "DIP",
+                    name: "Islands: Mos Le´Harmless",
+                },
+                {
+                    id: "DIR",
+                    target: {origin: {"x": 3038, "y": 5348, "level": 0}},
+                    code: "DIR",
+                    name: "Other realms: Gorak`s Plane"
+                },
+                {
+                    id: "kethsi",
+                    target: {origin: {"x": 4026, "y": 5699, "level": 0}},
+                    code: "DIR AKS",
+                    name: "Kethsi (DIR AKS)"
+                },
+                {
+                    id: "DIS",
+                    target: {origin: {x: 3092, y: 3137, level: 0}},
+                    code: "DIS",
+                    name: "Misthalin: Wizard´s Tower",
+                },
+                {
+                    id: "DJP",
+                    target: {origin: {x: 2658, y: 3230, level: 0}},
+                    code: "DJP",
+                    name: "Kandarin: Tower of Life",
+                },
+                {
+                    id: "DJR",
+                    target: {origin: {x: 2676, y: 3587, level: 0}},
+                    code: "DJR",
+                    name: "Kandarin: Sinclair Mansion (west)",
+                },
+                {
+                    id: "DJS",
+                    target: {origin: {x: 2130, y: 3369, level: 0}},
+                    code: "DJS",
+                    name: "Tirannwn: Prifddinas (Clan Amlodd)",
+                },
+                {
+                    id: "DKP",
+                    target: {origin: {x: 2900, y: 3111, level: 0}},
+                    code: "DKP",
+                    name: "Karamja: South of Musa Point",
+                },
+                {
+                    id: "DKQ",
+                    target: {origin: {"x": 4183, "y": 5726, "level": 0}},
+                    code: "DKQ",
+                    name: "Dungeons: Glacor Cave"
+                },
+                {
+                    id: "DKR",
+                    target: {origin: {x: 3129, y: 3496, level: 0}},
+                    code: "DKR",
+                    name: "Misthalin: Edgeville",
+                },
+                {
+                    id: "DKS",
+                    target: {origin: {x: 2744, y: 3719, level: 0}},
+                    code: "DKS",
+                    name: "Kandarin: Snowy Hunter area",
+                },
+                {
+                    id: "DLQ",
+                    target: {origin: {x: 3423, y: 3016, level: 0}},
+                    code: "DLQ",
+                    name: "Kharidian Desert: North of Nardah",
+                },
+                {
+                    id: "DLR",
+                    target: {origin: {x: 2213, y: 3099, level: 0}},
+                    code: "DLR",
+                    name: "Islands: Poison Waste south of Isafdar",
+                },
+                {
+                    id: "DLS",
+                    target: {origin: {x: 3501, y: 9821, level: 3}},
+                    name: "Dungeons: Myreque Hideout under The Hollows",
+                    code: "DLS",
+                },
+                {
+                    id: "resistance",
+                    target: {origin: {x: 2254, y: 4426, level: 0}},
+                    name: "Fairy Resistance HQ",
+                },
+                {
+                    id: "rift",
+                    target: {origin: {x: 1626, y: 4176, level: 0}},
+                    name: "Ork´s Rift (BIR, DIP, CLR, ALP)",
+                },
+                {
+                    id: "BLQ",
+                    target: {origin: {"x": 2229, "y": 4244, "level": 1}},
+                    name: "Yu´biusk",
+                    code: "BLQ",
+                },
+            ],
+            access: [{
+                id: "portable_fairy_ring",
+                type: "item",
+                name: {
+                    kind: "item",
+                    name: "Portable Fairy Ring"
+                },
+                action_name: "Teleport",
+                menu_ticks: 2, // Assumes favorite
+            }]
+        },/*
     {
         type: "teleports",
         id: "slayercape",
@@ -2666,25 +2640,25 @@ code: "4",
             },
             {
                 id: "alkharid",
-                target: {origin: {"x":3284,"y":3211,"level":0}},
+                target: {origin: {"x": 3284, "y": 3211, "level": 0}},
                 name: "Kar-Hewo",
                 code: "4",
             },
             {
                 id: "karamja",
-                target: {origin: {"x":2971,"y":2969,"level":0}},
+                target: {origin: {"x": 2971, "y": 2969, "level": 0}},
                 name: "Gandius",
                 code: "5",
             },
             {
                 id: "feldiphills",
-                target: {origin: {"x":2549,"y":2971,"level":0}},
+                target: {origin: {"x": 2549, "y": 2971, "level": 0}},
                 name: "Lemantolly Undri",
                 code: "6",
             },
             {
                 id: "treegnomevillage",
-                target: {origin: {"x":2496,"y":3191,"level":0}},
+                target: {origin: {"x": 2496, "y": 3191, "level": 0}},
                 name: "Priw Gnomo Andralo",
                 code: "7",
             },
@@ -2696,7 +2670,7 @@ code: "4",
             },
             {
                 id: "tualeit",
-                target: {origin:{"x":1772,"y":11920,"level":0}},
+                target: {origin: {"x": 1772, "y": 11920, "level": 0}},
                 name: "Kal-Undri",
                 code: "9",
             },
@@ -2712,14 +2686,14 @@ code: "4",
             {
                 id: "whitewolfmountain",
                 type: "entity",
-                area: {origin: {"x":2850,"y":3493,"level":1}},
+                area: {origin: {"x": 2850, "y": 3493, "level": 1}},
                 name: {kind: "npc", name: "Captain Bleemadge"},
                 action_name: "Glider",
             },
             {
                 id: "alkharid",
                 type: "entity",
-                area: {origin: {"x":3283,"y":3212,"level":0}},
+                area: {origin: {"x": 3283, "y": 3212, "level": 0}},
                 name: {kind: "npc", name: "Captain Dalbur"},
                 action_name: "Glider",
             },
@@ -2733,33 +2707,33 @@ code: "4",
             {
                 id: "feldip",
                 type: "entity",
-                area: {origin: {"x":2545,"y":2972,"level":0}}, // TODO: He is not static
+                area: {origin: {"x": 2545, "y": 2972, "level": 0}}, // TODO: He is not static
                 name: {kind: "npc", name: "Gnormadium Avlafrim"},
                 action_name: "Glider",
             },
             {
                 id: "gnomevillage",
                 type: "entity",
-                area: {origin: {"x":2496,"y":3190,"level":0}}, // TODO: He is not static
+                area: {origin: {"x": 2496, "y": 3190, "level": 0}}, // TODO: He is not static
                 name: {kind: "npc", name: "Captain Belmondo"},
                 action_name: "Glider",
             },
             {
                 id: "prifddinas",
                 type: "entity",
-                area: {origin: {"x":2207,"y":3452,"level":1}},
+                area: {origin: {"x": 2207, "y": 3452, "level": 1}},
                 name: {kind: "npc", name: "Captain Muggin"},
                 action_name: "Glider",
             },
             {
                 id: "tuaeileit",
                 type: "entity",
-                area: {origin: {"x":1773,"y":11919,"level":0}},
+                area: {origin: {"x": 1773, "y": 11919, "level": 0}},
                 name: {kind: "npc", name: "Azalea Oakhart"},
                 action_name: "Glider",
             },
 
-            ]
+        ]
     },
 
     /*{

@@ -116,6 +116,8 @@ export function boxPolygon(tile: Rectangle): leaflet.Polygon {
 }
 
 export function areaPolygon(area: TileArea): leaflet.Polygon {
+
+
     return boxPolygon(TileArea.toRect(area)) // TODO: This is just a quick and dirty solution and NOT accurate!
 }
 

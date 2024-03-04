@@ -93,7 +93,7 @@ export default class UtilityLayer extends GameLayer {
     constructor() {
         super();
 
-        new TransportLayer(true).addTo(this)
+        // new TransportLayer(true).addTo(this)
 
         this.guard = new InteractionGuard().setDefaultLayer(this)
 

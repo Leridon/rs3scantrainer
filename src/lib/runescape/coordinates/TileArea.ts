@@ -26,9 +26,9 @@ export namespace TileArea {
             this.size = lodash.cloneDeep(parent.size) ?? {x: 1, y: 1}
 
             if (parent.data) {
-                this.data = new Uint8Array(Math.ceil(this.size.x * this.size.y / 8)).fill(255)
-            } else {
                 this.data = base64ToBytes(parent.data)
+            } else {
+                this.data = new Uint8Array(Math.ceil(this.size.x * this.size.y / 8)).fill(255)
             }
 
             this.origin = lodash.cloneDeep(parent.origin)
@@ -40,9 +40,35 @@ export namespace TileArea {
         }
 
         save(): this {
-            this.parent.data = bytesToBase64(this.data)
+            const rect = TileRectangle.from(this.origin, TileCoordinates.move(
+                this.origin,
+                Vector2.sub(this.size, {x: 1, y: 1})
+            ))
 
-            // TODO: Check if area is completely filled and set data to undefined if it is
+            const filled = (() => {
+                for (let x = rect.topleft.x; x <= rect.botright.x; x++) {
+                    for (let y = rect.botright.y; y <= rect.topleft.y; y++) {
+
+                        if (!this.query({x, y, level: rect.level})) return false
+                    }
+                }
+                return true
+            })()
+
+            if (filled) {
+                debugger
+                this.parent.data = undefined
+            } else {
+                this.parent.data = bytesToBase64(this.data)
+            }
+
+            if (this.size.x == 1 && this.size.y == 1) {
+                this.parent.size = undefined
+            } else {
+                this.parent.size = lodash.cloneDeep(this.size)
+            }
+
+            this.parent.origin = lodash.cloneDeep(this.origin)
 
             return this
         }
@@ -97,7 +123,7 @@ export namespace TileArea {
         }
 
         setRectangle(rect: TileRectangle, value: boolean = true): this {
-            for (let x = rect.topleft.x; x < rect.botright.x; x++) {
+            for (let x = rect.topleft.x; x <= rect.botright.x; x++) {
                 for (let y = rect.botright.y; y <= rect.topleft.y; y++) {
                     this.set({x, y, level: rect.level}, value)
                 }
@@ -115,7 +141,9 @@ export namespace TileArea {
         return {
             origin: origin,
             size: size,
-            data: filled ? undefined : bytesToBase64(new Uint8Array(Math.ceil(size.x * size.y / 8)).fill(255))
+            data: filled
+                ? undefined
+                : bytesToBase64(new Uint8Array(Math.ceil(size.x * size.y / 8)).fill(0))
         }
     }
 

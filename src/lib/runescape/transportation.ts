@@ -195,6 +195,10 @@ export namespace Transportation {
                 return this.spot.target.origin // TODO: This assumes static teleports at the moment
             }
 
+            targetArea(): TileArea {
+                return this.spot.target
+            }
+
             id(): SpotId {
                 return {
                     group: this.group.id,

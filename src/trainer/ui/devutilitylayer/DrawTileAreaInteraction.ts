@@ -22,9 +22,6 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
     constructor() {
         super({
             preview_render: area => {
-                console.log("Preview rendering")
-                console.log(area)
-
                 let lay = leaflet.featureGroup()
 
                 for (let tile of area) {

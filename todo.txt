@@ -1,8 +1,10 @@
 Planned for next release (b0.4):
 
-- Tile Areas
-    - Interaction to edit tile areas in the utility layer
+- Data
     - Gather data for non-static teleports
+    - Tirranwn Traps
+    - Dorgesh Khaan stairs
+    - Swamp Cave entrance and stones
 
 - Theorycrafter
     - Collapsible method pack sections (default|imported|local)

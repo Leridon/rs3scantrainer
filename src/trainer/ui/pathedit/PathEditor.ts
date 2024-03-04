@@ -58,6 +58,7 @@ import {arrow} from "../path_graphics";
 import TextField from "../../../lib/ui/controls/TextField";
 import {NislIcon} from "../nisl";
 import {EntityNameEdit} from "../widgets/EntityNameEdit";
+import activate = TileArea.activate;
 
 export class IssueWidget extends Widget {
     constructor(issue: issue) {
@@ -67,7 +68,8 @@ export class IssueWidget extends Widget {
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
-        && TileArea.contains(shortcut.internal.actions[0].interactive_area || default_interactive_area(shortcut.internal.clickable_area), state.position.tile)
+        && activate(shortcut.internal.actions[0].interactive_area ?? default_interactive_area(shortcut.internal.clickable_area))
+            .query(state.position.tile)
         && !TileCoordinates.eq2(state.position.tile, shortcut.assumed_start)
 }
 

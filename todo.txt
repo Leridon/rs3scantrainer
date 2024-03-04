@@ -1,5 +1,9 @@
 Planned for next release (b0.4):
 
+- Tile Areas
+    - Interaction to edit tile areas in the utility layer
+    - Gather data for non-static teleports
+
 - Theorycrafter
     - Collapsible method pack sections (default|imported|local)
     - Editor for generic path methods
@@ -11,10 +15,6 @@ Planned for next release (b0.4):
         - Noninteractive entities
     - [Bug] Filtering does not update properly in some situations
     - [Feature] Undo/Redo
-
-- Tile Areas
-    - Interaction to edit tile areas in the utility layer
-    - Gather data for non-static teleports
 
 - Path Editor
     - [Bug] Dive Target needs to be optional

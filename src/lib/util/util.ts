@@ -198,4 +198,11 @@ export namespace util {
 
         return copy
     }
+
+    export function cleanedJSON(value: any, space: number = undefined) {
+        return JSON.stringify(value, (key, value) => {
+            if (key.startsWith("_")) return undefined
+            return value
+        }, space)
+    }
 }

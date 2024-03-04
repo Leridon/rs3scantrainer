@@ -1,6 +1,6 @@
 import Behaviour from "../../lib/ui/Behaviour";
 import {Application} from "../application";
-import UtilityLayer from "./map/UtilityLayer";
+import UtilityLayer from "./devutilitylayer/UtilityLayer";
 
 
 export default class MapUtilityBehaviour extends Behaviour {

@@ -4,95 +4,131 @@ import {base64ToBytes, bytesToBase64} from "byte-base64";
 import {TileRectangle} from "./TileRectangle";
 import {ValueInteraction} from "../../gamemap/interaction/ValueInteraction";
 import {fill} from "lodash";
+import * as lodash from "lodash";
+import {util} from "../../util/util";
 
 export type TileArea = {
     origin: TileCoordinates,
     size?: Vector2, // Default value {x: 1, y: 1}
     data?: string   // If not provided, the entire area is considered
-    _loaded?: Uint8Array
+    _active?: TileArea.ActiveTileArea
 }
 
 export namespace TileArea {
-    export function load(area: TileArea): TileArea {
-        if (area.data) area._loaded = base64ToBytes(area.data)
-        else area._loaded = new Uint8Array(Math.ceil(area.size.x * area.size.y / 8)).fill(255)
+    import todo = util.todo;
 
-        return area
-    }
+    export class ActiveTileArea {
+        data: Uint8Array
+        size: Vector2
+        origin: TileCoordinates
 
-    export function save(area: TileArea): TileArea {
-        if (area._loaded) {
-            area.data = bytesToBase64(area._loaded)
+        constructor(public parent: TileArea) {
+            this.size = lodash.cloneDeep(parent.size) ?? {x: 1, y: 1}
 
-            // TODO: Check if area is completely filled and set data to undefined if it is
-            area._loaded = undefined
+            if (parent.data) {
+                this.data = new Uint8Array(Math.ceil(this.size.x * this.size.y / 8)).fill(255)
+            } else {
+                this.data = base64ToBytes(parent.data)
+            }
+
+            this.origin = lodash.cloneDeep(parent.origin)
         }
 
-        return area
-    }
+        resize(rect: TileRectangle): this {
 
-    function index(area: TileArea, tile: TileCoordinates): [number, number] {
-        const off = Vector2.sub(tile, area.origin)
+            todo() // TODO: Implement
+        }
 
-        // Assumes the input is valid and within bounds!
+        save(): this {
+            this.parent.data = bytesToBase64(this.data)
 
-        const index = off.x + off.y * area.size.x
+            // TODO: Check if area is completely filled and set data to undefined if it is
 
-        return [Math.floor(index / 8), index % 8]
-    }
+            return this
+        }
 
-    export function set(area: TileArea, tile: TileCoordinates, value: boolean): TileArea {
-        const [element, shift] = index(area, tile)
-
-        if (value) area._loaded[element] |= (1 << shift)
-        else area._loaded[element] &= 255 - (1 << shift)
-
-        return area
-    }
-
-    export function setRectangle(area: TileArea, rect: TileRectangle, value: boolean): TileArea {
-        for (let x = rect.topleft.x; x < rect.botright.x; x++) {
-            for (let y = rect.botright.y; y <= rect.topleft.y; y++) {
-                set(area, {x, y, level: rect.level}, value)
+        disconnect(): void {
+            if (this.parent) {
+                this.parent._active = null
+                this.parent = null
             }
         }
 
-        return area
-    }
+        private index(tile: TileCoordinates): [number, number] {
+            const off = Vector2.sub(tile, this.origin)
 
-    export function add(area: TileArea, coords: TileCoordinates): TileArea {
-        return set(area, coords, true)
-    }
+            // Assumes the input is valid and within bounds!
 
-    export function remove(area: TileArea, coords: TileCoordinates): TileArea {
-        return set(area, coords, false)
-    }
+            const index = off.x + off.y * this.size.x
 
-    export function contains(area: TileArea, coords: TileCoordinates): boolean {
-        const sz = size(area)
-
-        if (coords.x < area.origin.x || coords.y < area.origin.y
-            || coords.x >= (area.origin.x + sz.x)
-            || coords.y >= (area.origin.y + sz.y)
-        ) return false
-
-        if (area.data) {
-            if (!area._loaded) throw new TypeError("")
-
-            const [element, shift] = index(area, coords)
-
-            return ((area._loaded[element] >> shift) & 1) != 0
+            return [Math.floor(index / 8), index % 8]
         }
 
-        return true
+        query(coords: TileCoordinates): boolean {
+            const sz = this.size
+
+            if (coords.x < this.origin.x || coords.y < this.origin.y
+                || coords.x >= (this.origin.x + sz.x)
+                || coords.y >= (this.origin.y + sz.y)
+            ) return false
+
+            const [element, shift] = this.index(coords)
+
+            return ((this.data[element] >> shift) & 1) != 0
+        }
+
+        set(tile: TileCoordinates, value: boolean): this {
+            const [element, shift] = this.index(tile)
+
+            if (value) this.data[element] |= (1 << shift)
+            else this.data[element] &= 255 - (1 << shift)
+
+            return this
+        }
+
+        add(tile: TileCoordinates): this {
+            this.set(tile, true)
+            return this
+        }
+
+        remove(tile: TileCoordinates): this {
+            this.set(tile, false)
+            return this
+        }
+
+        setRectangle(rect: TileRectangle, value: boolean = true): this {
+            for (let x = rect.topleft.x; x < rect.botright.x; x++) {
+                for (let y = rect.botright.y; y <= rect.topleft.y; y++) {
+                    this.set({x, y, level: rect.level}, value)
+                }
+            }
+
+            return this
+        }
+    }
+
+    export function activate(area: TileArea): ActiveTileArea {
+        return (area._active) ?? (area._active = new ActiveTileArea(area))
     }
 
     export function init(origin: TileCoordinates, size: Vector2 = {x: 1, y: 1}, filled: boolean = false): TileArea {
-        return load({
+        return {
             origin: origin,
             size: size,
             data: filled ? undefined : bytesToBase64(new Uint8Array(Math.ceil(size.x * size.y / 8)).fill(255))
-        })
+        }
+    }
+
+    export function fromTiles(tiles: TileCoordinates[]): TileArea {
+        const area = activate(fromRect(TileRectangle.from(...tiles), false))
+
+        for (let tile of tiles) {
+            area.add(tile)
+        }
+
+        area.save()
+
+        return area.parent
     }
 
     export function fromRect(rect: TileRectangle, filled: boolean = true): TileArea {

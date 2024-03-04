@@ -261,6 +261,7 @@ export async function canMove(data: MapData, pos: TileCoordinates, d: direction)
 
 export namespace PathFinder {
 
+    import activate = TileArea.activate;
     export type state = {
         data: MapData,
         start: TileCoordinates,
@@ -353,7 +354,7 @@ export namespace PathFinder {
                 for (let delta_y = 0; delta_y < size.y; delta_y++) {
                     const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
 
-                    if (TileArea.contains(target, tile)) {
+                    if (activate(target).query(tile)) {
                         let target_i = ChunkedData.split(tile)
 
                         // Check the cache for existing result
@@ -384,7 +385,7 @@ export namespace PathFinder {
         }
 
 
-        let end_tile = await djikstra2(state, (tile) => TileArea.contains(target, tile), 5000)
+        let end_tile = await djikstra2(state, (tile) => activate(target).query(tile), 5000)
 
         // Cache whether the target is unreachable to prevent endless search
         if (!end_tile) {
@@ -395,7 +396,7 @@ export namespace PathFinder {
                 for (let delta_y = 0; delta_y < size.y; delta_y++) {
                     const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
 
-                    if (TileArea.contains(target, tile)) {
+                    if (activate(target).query(tile)) {
                         state.tiles.set(ChunkedData.split(tile), {parent: null, unreachable: true})
                     }
                 }

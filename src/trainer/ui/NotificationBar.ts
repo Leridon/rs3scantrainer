@@ -7,14 +7,14 @@ class Notification extends Widget {
     content: Widget = null
 
     constructor(public options: {
-        type: "error" | "information",
+        type?: "error" | "information",
         duration?: number | null,
         fixed?: boolean
     }) {
         super();
 
         this.addClass("ctr-notification")
-            .addClass(`ctr-notification-${options.type}`)
+            .addClass(`ctr-notification-${options.type ?? "information"}`)
 
         this.body = c().addClass("ctr-notification-content").appendTo(this)
 
@@ -71,7 +71,7 @@ export default class NotificationBar extends Widget {
     }
 
     notify(options: {
-        type: "error" | "information",
+        type?: "error" | "information",
         duration?: number | null,
         fixed?: boolean
     }, content: (string | Widget | ((_: Notification) => (string | Widget)))) {

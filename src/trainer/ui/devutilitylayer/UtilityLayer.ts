@@ -3,8 +3,8 @@ import * as leaflet from "leaflet";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import Widget from "../../../lib/ui/Widget";
 import TextField from "../../../lib/ui/controls/TextField";
-import ControlWithHeader from "./ControlWithHeader";
-import {ActionBar} from "./ActionBar";
+import ControlWithHeader from "../map/ControlWithHeader";
+import {ActionBar} from "../map/ActionBar";
 import {DrawRegionAction} from "../theorycrafting/scanedit/TreeEdit";
 import {boxPolygon, tilePolygon} from "../polygon_helpers";
 import LightButton from "../widgets/LightButton";
@@ -12,7 +12,7 @@ import {Rectangle, Vector2} from "../../../lib/math";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
-import InteractionTopControl from "./InteractionTopControl";
+import InteractionTopControl from "../map/InteractionTopControl";
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
@@ -21,7 +21,12 @@ import spacer = C.spacer;
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
 import {GridLayer, LatLngBounds} from "leaflet";
 import Graticule from "../../../lib/gamemap/defaultlayers/Graticule";
-import TransportLayer from "./TransportLayer";
+import TransportLayer from "../map/TransportLayer";
+import {deps} from "../../dependencies";
+import {DrawTileAreaInteraction} from "./DrawTileAreaInteraction";
+import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
+import {util} from "../../../lib/util/util";
+import cleanedJSON = util.cleanedJSON;
 
 class ChunkGridGraticule extends Graticule {
     constructor() {
@@ -123,7 +128,7 @@ export default class UtilityLayer extends GameLayer {
                     }),
                     new ActionBar.ActionBarButton("assets/icons/cursor_use.png", () => {
                         this.startSelectArea()
-                    }), ,
+                    }),
                     new ActionBar.ActionBarButton("assets/icons/cursor_talk.png", () => {
 
                         this.guard.set(new DrawRegionAction(""))
@@ -133,12 +138,29 @@ export default class UtilityLayer extends GameLayer {
                                 this.setValue({range: a.area})
                             })
                     }),
+                    new ActionBar.ActionBarButton("assets/icons/cursor_pray.png", () => {
+
+                        this.guard.set(new DrawTileAreaInteraction())
+                            .onCommit((a) => {
+                                //this.setLayer(boxPolygon(a.area))
+
+                                this.setValue(TileArea.fromTiles(a))
+                            })
+                    }),
                 ]),
                 hbox(
-                    this.output = c(),
+                    this.output = c().css2({
+                        "max-width": "250px",
+                        "white-space": "nowrap",
+                        "text-overflow": "ellipsis",
+                        "overflow": "hidden"
+                    }),
                     spacer(),
                     new LightButton("Copy").onClick(() => {
-                        if (this.value) navigator.clipboard.writeText(this.value)
+                        if (this.value) {
+                            navigator.clipboard.writeText(this.value)
+                            deps().app.notifications.notify({type: "information"}, "Copied")
+                        }
                     })
                 ),
                 hbox(
@@ -184,7 +206,7 @@ export default class UtilityLayer extends GameLayer {
     }
 
     private setValue(s: object) {
-        this.value = JSON.stringify(s)
+        this.value = cleanedJSON(s)
         if (this.value) navigator.clipboard.writeText(this.value)
         this.output.text(this.value)
     }

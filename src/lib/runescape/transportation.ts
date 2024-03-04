@@ -205,9 +205,11 @@ export namespace Transportation {
     }
 
     export namespace EntityAction {
+        import activate = TileArea.activate;
+
         export function findApplicable(action: EntityAction, tile: TileCoordinates): EntityActionMovement {
             return action.movement.find(movement => {
-                return !movement.valid_from || TileArea.contains(movement.valid_from, tile)
+                return !movement.valid_from || activate(movement.valid_from).query(tile)
             })
         }
     }
@@ -216,33 +218,35 @@ export namespace Transportation {
         export function default_interactive_area(area: TileRectangle): TileArea {
             const extended = TileRectangle.extend(area, 0.5)
 
-            let tiles = TileArea.fromRect(extended, false)
+            let tiles = TileArea.activate(TileArea.fromRect(extended, false))
 
             // west
-            TileArea.setRectangle(tiles, TileRectangle.from(
+            tiles.setRectangle(TileRectangle.from(
                 TileCoordinates.move(TileRectangle.bl(extended), direction.toVector(direction.north)),
                 TileCoordinates.move(TileRectangle.tl(extended), direction.toVector(direction.south)),
             ), true)
 
             // north
-            TileArea.setRectangle(tiles, TileRectangle.from(
+            tiles.setRectangle(TileRectangle.from(
                 TileCoordinates.move(TileRectangle.tl(extended), direction.toVector(direction.west)),
                 TileCoordinates.move(TileRectangle.tr(extended), direction.toVector(direction.east)),
             ), true)
 
             // east
-            TileArea.setRectangle(tiles, TileRectangle.from(
+            tiles.setRectangle(TileRectangle.from(
                 TileCoordinates.move(TileRectangle.tr(extended), direction.toVector(direction.south)),
                 TileCoordinates.move(TileRectangle.br(extended), direction.toVector(direction.north)),
             ), true)
 
             // south
-            TileArea.setRectangle(tiles, TileRectangle.from(
+            tiles.setRectangle(TileRectangle.from(
                 TileCoordinates.move(TileRectangle.br(extended), direction.toVector(direction.west)),
                 TileCoordinates.move(TileRectangle.bl(extended), direction.toVector(direction.east)),
             ), true)
 
-            return tiles
+            tiles.save()
+
+            return tiles.parent
         }
     }
 

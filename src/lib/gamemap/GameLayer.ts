@@ -118,7 +118,7 @@ export default class GameLayer extends leaflet.FeatureGroup {
                     followCursor: !interactive,
                     plugins: [followCursor],
                     interactive: interactive,
-                    onHide: () => {
+                                        onHide: () => {
                         if (this.active_entity.locked) {
                             return false
                         }

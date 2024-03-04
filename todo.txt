@@ -180,12 +180,8 @@ RELEASE 1.0
 
 
 Unscheduled (Far future):
-- Fade teleport icons when on different level
 - [What] Incorporate jacket/backpack recommmendations
-- [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
-- Add a view to see the entire scan tree without having to enter the editor
 - Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
-- Scale teleports with zoom
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
@@ -193,4 +189,3 @@ Unscheduled (Far future):
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat, display them
 - Figure out z-Ordering of layers (need to use custom panes maybe)
-- Landing areas for non-static teleports, show better metadata on tooltip/hover

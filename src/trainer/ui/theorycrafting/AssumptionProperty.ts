@@ -51,6 +51,8 @@ export class AssumptionProperty extends AbstractEditWidget<ClueAssumptions> {
     setRelevantAssumptions(relevant: ClueAssumptions.Relevance = ClueAssumptions.Relevance.all): this {
         this.relevant_assumptions = relevant
 
+        this.setValue(ClueAssumptions.filterWithRelevance(this.get(), relevant))
+
         this.render()
 
         return this

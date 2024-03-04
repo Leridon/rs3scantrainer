@@ -10,6 +10,8 @@ import Dependencies from "../../dependencies";
 import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
 import {AssumptionProperty} from "./AssumptionProperty";
 import {EditMethodPackModal, NewMethodPackModal} from "./MethodPackModal";
+import {util} from "../../../lib/util/util";
+import cleanedJSON = util.cleanedJSON;
 
 export default class PackWidget extends Widget {
     constructor(public pack: Pack,
@@ -98,6 +100,14 @@ export default class PackWidget extends Widget {
                                 true,
                                 true
                             )(pack)).show()
+                        }
+                    })
+
+                    menu.push({
+                        type: "basic",
+                        text: "Export JSON",
+                        handler: () => {
+                            new ExportStringModal(cleanedJSON(pack)).show()
                         }
                     })
                 }

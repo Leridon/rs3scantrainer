@@ -29,6 +29,8 @@ export class MethodMetaEdit extends AbstractEditWidget<Method.Meta> {
     constructor(private spot: ClueSpot, value: Method.Meta) {
         super();
 
+        value.assumptions = ClueAssumptions.filterWithRelevance(value.assumptions, ClueAssumptions.Relevance.forSpot(this.spot))
+
         this.setValue(value)
     }
 
@@ -86,9 +88,6 @@ class PackSelector extends AbstractEditWidget<Pack> {
     async render() {
         this.empty()
 
-        console.log("Render")
-        console.log(this.get())
-
         this.selector = new DropdownSelection<{
             pack: Pack,
             create_new?: boolean
@@ -107,9 +106,6 @@ class PackSelector extends AbstractEditWidget<Pack> {
             }
         }, [])
             .onSelection(async s => {
-                console.log("On Selection")
-                console.log(s)
-
                 if (s?.create_new) {
                     this.selector.setValue(null)
 
@@ -182,10 +178,14 @@ export class NewMethodModal extends FormModal<{
                         ? SolvingMethods.clone(this.clone_from.method)
                         : SolvingMethods.init(this.spot)
 
+                    Method.setMeta(base, this.edit.get())
+
+                    base.assumptions = ClueAssumptions.filterWithRelevance(base.assumptions, ClueAssumptions.Relevance.forSpot(this.spot))
+
                     this.confirm({
                         created: {
                             pack: this.pack_selector.get(),
-                            method: Method.setMeta(base, this.edit.get()),
+                            method: base,
                             clue: this.spot.clue
                         }
                     })

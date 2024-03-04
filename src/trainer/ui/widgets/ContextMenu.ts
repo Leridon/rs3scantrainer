@@ -22,7 +22,7 @@ export namespace MenuEntry {
         text: string | Widget,
         icon?: string | Widget
     }
-    export type SubMenu =  Base & {
+    export type SubMenu = Base & {
         type: "submenu",
         children: MenuEntry[]
     }
@@ -233,6 +233,8 @@ namespace open_menu {
     }
 
     export function show(men: context_menu_page, dom_parent: HTMLElement, position: Vector2): void {
+        const nested = $(dom_parent).is(".tippy-content *")
+
         men.tippy_instance =
             tippy.default(dom_parent, {
                 placement: 'right-start',
@@ -246,6 +248,7 @@ namespace open_menu {
                 content: men.root_widget.raw(),
                 maxWidth: "none",
                 zIndex: 10001,
+                appendTo: nested ? "parent" : document.body
             })
 
         if (!men.parent) {

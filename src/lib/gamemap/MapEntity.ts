@@ -7,10 +7,14 @@ import {GameMap} from "./GameMap";
 import {ZoomLevels} from "./ZoomLevels";
 import {GameMapContextMenuEvent} from "./MapEvents";
 import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
+import {QuadTree} from "../QuadTree";
+import {TileRectangle} from "lib/runescape/coordinates";
+import {Rectangle} from "../math";
 
-export abstract class MapEntity extends leaflet.FeatureGroup {
+export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree.Element<MapEntity> {
     public tooltip_hook: Observable<Promise<Element>> = observe(null)
 
+    spatial: QuadTree<this>;
     public parent: GameLayer | null = null
     private rendering_lock: boolean = false
 
@@ -40,6 +44,8 @@ export abstract class MapEntity extends leaflet.FeatureGroup {
             })
         }
     }
+
+    abstract bounds(): Rectangle
 
     isActive(): boolean {
         return this.parent?.activeEntity() == this

@@ -1,6 +1,6 @@
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../../lib/math";
+import {Rectangle, Vector2} from "../../../../lib/math";
 import Widget from "../../../../lib/ui/Widget";
 import Properties from "../../widgets/Properties";
 import {Transportation} from "../../../../lib/runescape/transportation";
@@ -15,6 +15,7 @@ import TeleportAccess = Transportation.TeleportAccess;
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import * as assert from "assert";
 import {areaPolygon} from "../../polygon_helpers";
+import {TileRectangle} from "../../../../lib/runescape/coordinates";
 
 export class TeleportSpotEntity extends MapEntity {
 
@@ -25,6 +26,10 @@ export class TeleportSpotEntity extends MapEntity {
 
         this.floor_sensitive = true
         this.zoom_sensitive = true
+    }
+
+    bounds(): Rectangle {
+        return TileArea.toRect(this.config.teleport.targetArea())
     }
 
     async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {

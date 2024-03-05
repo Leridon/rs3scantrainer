@@ -7,12 +7,15 @@ import {MapEntity} from "./MapEntity";
 import * as tippy from "tippy.js";
 import {followCursor} from "tippy.js";
 import Widget from "../ui/Widget";
+import {QuadTree} from "../QuadTree";
 
 function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
     return l instanceof GameLayer || l instanceof MapEntity
 }
 
 export default class GameLayer extends leaflet.FeatureGroup {
+    private entity_quadtree: QuadTree<MapEntity>
+
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()
 
     public parent: GameLayer | null = null
@@ -29,12 +32,19 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
             if (l.layer instanceof MapEntity) {
                 if (this.map) l.layer.render()
+                this.entity_quadtree?.insert(l.layer)
             }
         })
 
         this.on("layerremove", (l) => {
             if (childLike(l.layer) && l.layer.parent == this) l.layer.parent = null
         })
+
+        this.entity_quadtree = QuadTree.init({
+            topleft: {x: 0, y: 12800},
+            botright: {x: 12800, y: 0}
+        })
+
     }
 
     isRootLayer(): boolean {
@@ -118,7 +128,7 @@ export default class GameLayer extends leaflet.FeatureGroup {
                     followCursor: !interactive,
                     plugins: [followCursor],
                     interactive: interactive,
-                                        onHide: () => {
+                    onHide: () => {
                         if (this.active_entity.locked) {
                             return false
                         }
@@ -210,20 +220,18 @@ export default class GameLayer extends leaflet.FeatureGroup {
     eventKeyUp(event: GameMapKeyboardEvent) {}
 
     eventViewChanged(event: GameMapViewChangedEvent) {
-        if (event.floor_changed || event.zoom_changed) {
-            this.eachEntity(e => {
+        this.entity_quadtree.iterate(event.new_view.rect, e => {
 
-                const render = (() => {
-                    if (e.floor_sensitive && event.floor_changed) return true
+            const render = (() => {
+                if (e.floor_sensitive && event.floor_changed) return true
 
-                    if (e.zoom_sensitive && e.zoom_sensitivity_layers.getIndex(event.old_view.zoom) != e.zoom_sensitivity_layers.get(event.new_view.zoom)) return true
+                if (e.zoom_sensitive && e.zoom_sensitivity_layers.getIndex(event.old_view.zoom) != e.zoom_sensitivity_layers.get(event.new_view.zoom)) return true
 
-                    return false
-                })()
+                return false
+            })()
 
-                if (render) e.render()
-            })
-        }
+            if (render) e.render()
+        })
     }
 }
 
@@ -233,4 +241,16 @@ export namespace GameLayer {
         locked?: boolean,
         tooltip_instance?: tippy.Instance
     }
+}
+
+export async function time<T>(name: string, f: () => T): Promise<T> {
+
+    let timeStart = new Date().getTime()
+
+    console.log(`Starting task ${name}: `)
+    let res = await f()
+    const ms = (new Date().getTime() - timeStart)
+    console.log(`${ms}ms\n`)
+
+    return res
 }

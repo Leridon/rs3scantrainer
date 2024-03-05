@@ -162,18 +162,20 @@ class StepEditWidget extends Widget {
                             })
                         })
                     )
+
                 }
+                if (value.raw.ability == "dive") {
 
-                props.named(span("Text").css("cursor", "help").tooltip("(Optional) Strings like 'on top of the flower'."),
-                    new TextField()
-                        .setValue(value.raw.target_text || "")
-                        .onCommit(text => this.value.update(v => {
-                            assert(v.raw.type == "ability")
+                    props.named(span("Text").css("cursor", "help").tooltip("(Optional) Strings like 'on top of the flower'."),
+                        new TextField()
+                            .setValue(value.raw.target_text || "")
+                            .onCommit(text => this.value.update(v => {
+                                assert(v.raw.type == "ability")
 
-                            v.raw.target_text = text || undefined
-                        }))
-                )
-
+                                v.raw.target_text = text || undefined
+                            }))
+                    )
+                }
                 break;
             case "cheat":
                 props.named("Target",

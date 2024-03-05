@@ -28,6 +28,7 @@ import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import spacer = C.spacer;
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import ControlWithHeader from "../map/ControlWithHeader";
+import ButtonRow from "../../../lib/ui/ButtonRow";
 
 export default class PathEditActionBar extends GameMapControl<ControlWithHeader> {
     bar: ActionBar
@@ -159,7 +160,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
 
         // Render buttons
         {
-            hbox(
+            new ButtonRow().buttons(
                 new LightButton("Commit", "rectangle").onClick(() => {
                     this.editor.options.commit_handler(this.editor.value.construct())
                 }).setEnabled(!!this.editor.options.commit_handler),
@@ -187,7 +188,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                             target: this.editor.options.target,
                         }), "Use this link to directly link to this path.").show()
                     })
-            ).addClass("ctr-button-container")
+            )
                 .appendTo(this.content.body)
         }
 

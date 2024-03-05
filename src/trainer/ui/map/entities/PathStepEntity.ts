@@ -1,7 +1,7 @@
 import {Path} from "../../../../lib/runescape/pathing";
 import {MovementAbilities} from "../../../../lib/runescape/movement";
 import * as leaflet from "leaflet";
-import {Vector2} from "../../../../lib/math";
+import {Rectangle, Vector2} from "../../../../lib/math";
 import {arrow, createX} from "../../path_graphics";
 import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
@@ -20,6 +20,10 @@ export class PathStepEntity extends MapEntity {
         super(config)
 
         this.floor_sensitive = true
+    }
+
+    bounds(): Rectangle {
+        return Path.Step.bounds(this.config.step)
     }
 
     protected override async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {

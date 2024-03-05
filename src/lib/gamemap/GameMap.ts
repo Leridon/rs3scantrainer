@@ -3,7 +3,7 @@ import {floor_t} from "../runescape/coordinates";
 import Graticule from "./defaultlayers/Graticule";
 import Widget from "../ui/Widget";
 import {Constants} from "../../trainer/constants";
-import GameLayer from "./GameLayer";
+import GameLayer, {time} from "./GameLayer";
 import ContextMenu from "../../trainer/ui/widgets/ContextMenu";
 import {FitBoundsOptions, MapOptions} from "leaflet";
 import TileHighlightLayer from "./defaultlayers/TileHighlightLayer";
@@ -137,7 +137,9 @@ export class GameMap extends leaflet.Map {
             })
 
             this.viewport.subscribe((new_value, old) => {
-                this.event(new GameMapViewChangedEvent(this, new_value, old), l => e => l.eventViewChanged(e))
+                time("View Change Event", () => {
+                    this.event(new GameMapViewChangedEvent(this, new_value, old), l => e => l.eventViewChanged(e))
+                })
             })
 
             this.on("moveend", () => this.updateView())

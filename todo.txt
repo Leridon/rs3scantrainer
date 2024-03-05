@@ -8,30 +8,41 @@ Planned for next release (b0.4):
 
 - Path Editor
     - Teleports don't use tile areas correctly
+    - [Refactor] Move complicated config into modal (?)
+    - [Feature] Check if teleport spot is actually in target area
     - [Bug] Dive Target needs to be optional
     - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
+    - [Feature] Get an auto-sort of some sort going
+    - [Feature] Navigate through the path, moving the "you are here" marker so you can add steps anywhere, animate "you are here"
+    - [Feature] Generic "lens" view to replace using dive
+    - [Bug] Large cooldowns overflow
+    - [Feature] reordering via drag&drop ?
+    - [Feature] Check valid access
 
 - Theorycrafter
-    - Collapsible method pack sections (default|imported|local)
     - Editor for generic path methods
         - Display pathing when no section is selected
         - Display Target-Areas and auxiliary stuff (hidey hole) on map
             - Share with Solver!
     - [Feature] Option to show pathing for all filtered spots
         - Best | Best in Pack | Favorite
-        - Noninteractive entities
-    - [Bug] Filtering does not update properly in some situations
+        - Use Noninteractive entities
+    - [Bug] Filtering does not update properly in some situations, duplicate markers
+    - Collapsible method pack sections (default|imported|local)
     - [Feature] Undo/Redo
 
 
 - Map Entities
-    - Find a way to separate entities on the same tile
-    - Rendering for zoom level changes needs massive optimization
-        - Invisible from certain zoom
-        - Only render visible entities
-        - Maybe it does not need to be a real leaflet marker?
+    - [Performance] Zoom changes cause a very slow rerender of many entities.
+        -  [WIP] Employ spatial subdivision for culling (quadtree)
+            - One Tree per Map vs a tree per GameLayer?
+        - Check whether entities need to use markers as much as they do
+        - Cull entities on bigger zooms
+        - Delay render on zoom for multiple zooms
+    - [Feature] Find a way to separate entities on the same tile
+    - [Bug] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
 
 - Solving Behaviour
     - Path Panel

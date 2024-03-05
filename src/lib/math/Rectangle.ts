@@ -166,4 +166,8 @@ export namespace Rectangle {
     export function equals(a: Rectangle, b: Rectangle): boolean {
         return (a == b) || (!!a && !!b && Vector2.eq(a.topleft, b.topleft) && Vector2.eq(a.botright, b.botright))
     }
+
+    export function containsRect(container: Rectangle, inner: Rectangle): boolean {
+        return Rectangle.containsTile(container, inner.topleft) && Rectangle.containsTile(container, inner.botright)
+    }
 }

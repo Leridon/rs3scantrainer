@@ -57,7 +57,6 @@ export namespace TileArea {
             })()
 
             if (filled) {
-                debugger
                 this.parent.data = undefined
             } else {
                 this.parent.data = bytesToBase64(this.data)

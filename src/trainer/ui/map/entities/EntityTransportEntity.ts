@@ -25,6 +25,10 @@ export class EntityTransportEntity extends MapEntity {
         this.zoom_sensitive = true
     }
 
+    bounds(): Rectangle {
+        return Transportation.bounds(this.config.shortcut)
+    }
+
     async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
         const shortcut = Transportation.normalize(this.config.shortcut)
 

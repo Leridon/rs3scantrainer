@@ -36,6 +36,10 @@ export class ClueOverviewMarker extends MapEntity {
         }
     }
 
+    override bounds(): TileRectangle {
+        return TileRectangle.from(ClueOverviewMarker.position(this.clue, this.talk_alternative_index))
+    }
+
     protected async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
         let marker = new TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this)
 

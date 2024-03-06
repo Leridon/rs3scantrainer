@@ -6,11 +6,9 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import movement_state = Path.movement_state;
 import {util} from "../../../lib/util/util";
-import todo = util.todo;
 import * as lodash from "lodash";
-import {stat} from "copy-webpack-plugin/types/utils";
 
-class PathBuilder2 {
+export class PathBuilder2 {
     preview_layer: GameLayer
     undoredo: UndoRedo<PathBuilder2.SavedState>
 
@@ -35,11 +33,11 @@ class PathBuilder2 {
         const augmented = await Path.augment(this.path, this.meta.start_state, this.meta.target)
 
         const steps = augmented.steps.map((step, index): PathBuilder2.Step => {
-            return {
-                step: step,
-                index: index,
-                associated_preview: null
-            }
+            return new PathBuilder2.Step(
+                this,
+                index,
+                step,
+            )
         })
 
         // Render previews
@@ -145,13 +143,29 @@ class PathBuilder2 {
 
         this.cursor.set(state.cursor)
     }
+
+    get(): Path {
+        return this.path
+    }
 }
 
-namespace PathBuilder2 {
-    export type Step = {
-        index: number,
-        step: Path.augmented_step
-        associated_preview?: PathStepEntity,
+export namespace PathBuilder2 {
+    export class Step {
+        associated_preview: PathStepEntity = null
+
+        constructor(
+            public parent: PathBuilder2,
+            public index: number,
+            public step: Path.augmented_step,
+        ) {}
+
+        update<T extends Path.Step>(f: (_: T) => void): void {
+            this.parent.update(this.index, f)
+        }
+
+        delete(): void {
+            this.parent.delete(this.index)
+        }
     }
 
     export type SavedState = {

@@ -12,7 +12,6 @@ import GameLayer from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import PathEditActionBar from "./PathEditActionBar";
 import InteractionLayer, {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
-import {Observable, ObservableArray, observe} from "../../../lib/reactive";
 import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import * as assert from "assert";
 import * as lodash from "lodash";
@@ -35,8 +34,7 @@ import activate = TileArea.activate;
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {EditedPathOverview} from "./EditedPathOverview";
-import todo = util.todo;
-import {StateStack} from "../../../lib/UndoRedo";
+import {PathBuilder2} from "./PathBuilder";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -79,7 +77,7 @@ class PathEditorGameLayer extends GameLayer {
                             text: i.description,
                             icon: i.icon_url,
                             handler: () => {
-                                this.editor.value.create({
+                                this.editor.value.add({
                                     type: "redclick",
                                     target: CursorType.defaultEntity(i.type),
                                     where: event.tile(),
@@ -99,12 +97,11 @@ class PathEditorGameLayer extends GameLayer {
                             text: c().append(`Use via `, TeleportSpotEntity.accessNameAsWidget(a)),
                             handler: () => {
                                 this.editor.value.add({
-                                    raw: {
                                         type: "teleport",
                                         spot: t.centerOfTarget(),
                                         id: {...t.id(), access: a.id},
                                     }
-                                })
+                                )
                             }
                         })
                     } else {
@@ -117,11 +114,9 @@ class PathEditorGameLayer extends GameLayer {
                                     text: c().append(TeleportSpotEntity.accessNameAsWidget(a)),
                                     handler: () => {
                                         this.editor.value.add({
-                                            raw: {
-                                                type: "teleport",
-                                                spot: t.centerOfTarget(),
-                                                id: {...t.id(), access: a.id},
-                                            }
+                                            type: "teleport",
+                                            spot: t.centerOfTarget(),
+                                            id: {...t.id(), access: a.id},
                                         })
                                     }
                                 }
@@ -151,7 +146,7 @@ class PathEditorGameLayer extends GameLayer {
 
                                     if (path_to_start && path_to_start.length > 1) {
                                         if (assumed_start) assumed_start = index(path_to_start, -1)
-                                        this.editor.value.create({
+                                        this.editor.value.add({
                                             type: "run",
                                             waypoints: path_to_start,
                                         })
@@ -167,7 +162,7 @@ class PathEditorGameLayer extends GameLayer {
                                 let clone = lodash.cloneDeep(s)
                                 clone.actions = [lodash.cloneDeep(a)]
 
-                                this.editor.value.create({
+                                this.editor.value.add({
                                     type: "transport",
                                     assumed_start: assumed_start,
                                     internal: clone
@@ -176,32 +171,31 @@ class PathEditorGameLayer extends GameLayer {
                         })
                     })
                 } else if (event.active_entity instanceof PathStepEntity) {
-                    let i = this.editor.value.value().findIndex(v => v.value().associated_preview == event.active_entity)
+                    const step = this.editor.value.committed_value.value().steps.find(v => v.associated_preview == event.active_entity)
 
-                    if (i >= 0) {
-                        let v = this.editor.value.value()[i]
+                    if (step) {
 
                         event.addForEntity({
                             type: "basic",
                             text: `Remove`,
-                            handler: () => this.editor.value.remove(v)
+                            handler: () => step.delete()
                         })
 
-                        if (v.value().raw.type == "ability") {
+                        if (step.step.raw.type == "ability") {
 
                             event.addForEntity({
                                 type: "basic",
                                 text: `Redraw`,
-                                handler: () => this.editor.redrawAbility(v)
+                                handler: () => this.editor.redrawAbility(step)
                             })
                         }
 
-                        if (v.value().raw.type == "powerburst" || v.value().raw.type == "redclick" || v.value().raw.type == "teleport") {
+                        if (step.step.raw.type == "powerburst" || step.step.raw.type == "redclick" || step.step.raw.type == "teleport") {
 
                             event.addForEntity({
                                 type: "basic",
                                 text: `Move`,
-                                handler: () => this.editor.moveStep(v)
+                                handler: () => this.editor.moveStep(step)
                             })
                         }
 
@@ -209,117 +203,6 @@ class PathEditorGameLayer extends GameLayer {
                 }
             }
         })
-    }
-}
-export class PathBuilder extends ObservableArray<PathEditor.Value> {
-
-
-    create(step: Path.Step) {
-        this.add({raw: step})
-    }
-
-    override add(v: PathEditor.Value): ObservableArray.ObservableArrayValue<PathEditor.Value> {
-        if (!v.augmented) v.augmented = observe(null)
-
-        if (!v) {
-            console.log("PANIC, adding null to step list")
-            debugger
-        }
-
-        return super.add(v);
-    }
-
-    override setTo(data: PathEditor.Value[]): this {
-        data.forEach(v => {
-            if (!v.augmented) v.augmented = observe(null)
-        })
-
-        if (data.some(s => !s)) {
-            console.log("PANIC, adding null to step list")
-            debugger
-        }
-
-        return super.setTo(data)
-    }
-
-    augmented_value: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }> = observe({path: null, steps: []})
-    post_state: Observable<movement_state>
-
-
-    augmenting_lock: Promise<void> = null
-
-    private async updateAugment() {
-        await this.augmenting_lock
-
-        this.augmenting_lock = (async () => {
-            let v = this._value
-
-            let aug = await Path.augment(v.map(s => s.value().raw), this.meta.start_state, this.meta.target)
-
-            for (let i = 0; i < aug.steps.length; i++) {
-                if (!aug.steps[i]) debugger
-
-                v[i].value().augmented?.set(aug.steps[i])
-            }
-
-            this.augmented_value.set({path: aug, steps: v})
-        })()
-    }
-
-    constructor(private meta: {
-        target?: TileRectangle,
-        start_state?: movement_state,
-        preview_layer?: GameLayer
-    } = {}) {
-        super();
-
-        this.post_state = this.augmented_value.map(({path}) => path?.post_state)
-
-        this.element_changed.on(() => this.updateAugment())
-        this.array_changed.on(v => this.updateAugment())
-
-        this.element_added.on(e => this.updatePreview(e))
-        this.element_removed.on(e => e.value().associated_preview?.remove())
-        this.element_changed.on(e => this.updatePreview(e))
-
-        this.augmented_value.subscribe(v => {
-            for (let i = 0; i < v.path.steps.length; i++) {
-                let step = v.path.steps[i]
-
-                if (step.raw.type == "transport" && needRepairing(step.pre_state, step.raw)) {
-
-                    this._value[i].update(s => {
-                        assert(s.raw.type == "transport")
-                        repairShortcutStep(step.pre_state, s.raw)
-                    })
-
-                    return
-                }
-            }
-        })
-    }
-
-    private updatePreview(o: PathEditor.OValue) {
-        let value = o.value()
-
-        if (value.associated_preview) {
-            value.associated_preview.remove()
-            value.associated_preview = null
-        }
-
-        if (this.meta.preview_layer) {
-            value.associated_preview =
-                new PathStepEntity({step: value.raw, highlightable: true, interactive: true})
-                    .addTo(this.meta.preview_layer)
-        }
-    }
-
-    public construct(): Path.raw {
-        return lodash.cloneDeep(this.value().map(s => s.value().raw))
-    }
-
-    public load(p: Path.raw): void {
-        this.setTo(p.map(s => ({raw: lodash.cloneDeep(s)})))
     }
 }
 
@@ -333,7 +216,7 @@ export class PathEditor extends Behaviour {
 
     interaction_guard: InteractionGuard
 
-    value: PathEditor.Data
+    value: PathBuilder2
 
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,
@@ -344,11 +227,12 @@ export class PathEditor extends Behaviour {
         // Set up handler layer, but don't add it anywhere yet.
         this.handler_layer = new PathEditorGameLayer(this)
 
-        this.value = new PathBuilder({
+        this.value = new PathBuilder2({
             target: this.options.target,
             start_state: this.options.start_state,
-            preview_layer: this.handler_layer
         })
+
+        this.handler_layer.add(this.value.preview_layer)
 
         this.value.augmented_value.subscribe(({path}) => {
             if (this.action_bar) this.action_bar.state.set(path.post_state)
@@ -376,7 +260,7 @@ export class PathEditor extends Behaviour {
                 position: "left-top",
                 type: "floating"
             },
-            this.control = new EditedPathOverview(this, this.value.augmented_value)
+            this.control = new EditedPathOverview(this)
         ).addTo(this.handler_layer)
 
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
@@ -405,12 +289,12 @@ export class PathEditor extends Behaviour {
         this.handler_layer.remove()
     }
 
-    discard() {
+    discard(): void {
         if (this.options.discard_handler) this.options.discard_handler()
     }
 
-    commit() {
-        this.options.commit_handler(this.value.construct())
+    commit(): void {
+        this.options.commit_handler(this.value.get())
     }
 
     close() {
@@ -419,40 +303,39 @@ export class PathEditor extends Behaviour {
         this.stop()
     }
 
-    editStep(value: PathEditor.OValue, interaction: InteractionLayer) {
+    editStep(value: PathBuilder2.Step, interaction: InteractionLayer) {
         this.interaction_guard.set(interaction
-            .onStart(() => value.value().associated_preview?.setOpacity(0))
-            .onEnd(() => value.value().associated_preview?.setOpacity(1))
+            .onStart(() => value.associated_preview?.setOpacity(0))
+            .onEnd(() => value.associated_preview?.setOpacity(1))
         )
     }
 
-    redrawAbility(value: PathEditor.OValue) {
-        const v = value.value()
+    redrawAbility(value: PathBuilder2.Step) {
+        const v = value.step.raw
 
-        if (v.raw.type == "ability") {
+        if (v.type == "ability") {
             this.editStep(value,
-                new DrawAbilityInteraction(v.raw.ability)
-                    .setStartPosition(v.raw.from)
-                    .onCommit(new_s => value.update(v => v.raw = new_s))
+                new DrawAbilityInteraction(v.ability)
+                    .setStartPosition(v.from)
+                    .onCommit(new_s => value.update(v => Object.assign(v, new_s)))
             )
-        } else if (v.raw.type == "run") {
+        } else if (v.type == "run") {
             this.editStep(value,
                 new DrawRunInteraction()
-                    .setStartPosition(v.raw.waypoints[0])
-                    .onCommit(new_s => value.update(v => v.raw = new_s)))
+                    .setStartPosition(v.waypoints[0])
+                    .onCommit(new_s => value.update(v => Object.assign(v, new_s))))
         }
     }
 
-    moveStep(value: PathEditor.OValue) {
-        const v = value.value()
+    moveStep(value: PathBuilder2.Step) {
+        const v = value.step
 
         if (v.raw.type == "redclick") {
             this.editStep(
                 value,
                 new PlaceRedClickInteraction(v.raw.how)
-                    .onCommit(new_s => value.update(v => {
-                        assert(v.raw.type == "redclick")
-                        v.raw.where = new_s.where
+                    .onCommit(new_s => value.update<Path.step_redclick>(v => {
+                        v.where = new_s.where
                     }))
             )
         } else if (v.raw.type == "powerburst") {
@@ -465,9 +348,8 @@ export class PathEditor extends Behaviour {
                         }
                     })
                 })
-                    .onCommit(new_s => value.update(v => {
-                        assert(v.raw.type == "powerburst")
-                        v.raw.where = new_s
+                    .onCommit(new_s => value.update<Path.step_powerburst>(v => {
+                        v.where = new_s
                     }))
                     .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the powerburst by clicking the tile.`))
             )
@@ -488,9 +370,8 @@ export class PathEditor extends Behaviour {
                         })
                     }
                 })
-                    .onCommit(new_s => value.update(v => {
-                        assert(v.raw.type == "teleport")
-                        v.raw.spot = new_s
+                    .onCommit(new_s => value.update<Path.step_teleport>(v => {
+                        v.spot = new_s
                     }))
                     .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the specific target of the teleport by clicking the tile.`))
             )
@@ -501,10 +382,6 @@ export class PathEditor extends Behaviour {
 }
 
 export namespace PathEditor {
-
-    export type Value = { raw: Path.Step, associated_preview?: PathStepEntity, augmented?: Observable<Path.augmented_step> }
-    export type OValue = ObservableArray.ObservableArrayValue<Value>
-    export type Data = PathBuilder
 
     export type options_t = {
         initial: Path.raw,

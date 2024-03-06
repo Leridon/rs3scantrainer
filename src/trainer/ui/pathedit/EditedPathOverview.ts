@@ -22,7 +22,6 @@ import {ShortcutViewLayer} from "../shortcut_editing/ShortcutView";
 import DirectionSelect from "./DirectionSelect";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
-import hboxl = C.hboxl;
 import hbox = C.hbox;
 import span = C.span;
 import spacer = C.spacer;
@@ -283,9 +282,7 @@ export class EditedPathOverview extends Widget {
 
     issue_container: Widget
 
-    constructor(public editor: PathEditor,
-                public data: Observable<{ path: Path.augmented, steps: PathEditor.OValue[] }>
-    ) {
+    constructor(public editor: PathEditor) {
         super();
 
         this

@@ -53,7 +53,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         super({
             position: "bottom-center",
             type: "gapless"
-        }, new ControlWithHeader("Path Editor", () => this.editor.close()));
+        }, new ControlWithHeader("Path Editor"));
 
         type ability_data = {
             ability: MovementAbilities.movement_ability,
@@ -177,7 +177,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     .onClick(async () => {
                         const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
 
-                        if(imported?.imported) this.editor.value.load(imported.imported)
+                        if (imported?.imported) this.editor.value.load(imported.imported)
                     }),
 
                 new LightButton("Share", "rectangle")

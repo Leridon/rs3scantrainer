@@ -1,6 +1,6 @@
 import * as leaflet from "leaflet"
 import {GameMap} from "./GameMap";
-import {LayerGroup} from "leaflet";
+import {Layer, LayerGroup} from "leaflet";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent, GameMapMouseEvent, GameMapViewChangedEvent} from "./MapEvents";
 import {EwentHandlerPool} from "../reactive/EwentHandlerPool";
 import {MapEntity} from "./MapEntity";

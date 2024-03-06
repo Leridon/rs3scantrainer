@@ -37,7 +37,7 @@ import {TransportData} from "../../../data/transports";
 import {Clues} from "../../../lib/runescape/clues";
 import ClueSpot = Clues.ClueSpot;
 
-class PathSectionControl extends Widget {
+export class PathSectionControl extends Widget {
     constructor(
         private sections: SectionedPath,
         private current_section_id: number[],
@@ -126,7 +126,7 @@ class PathSectionControl extends Widget {
     }
 }
 
-namespace PathSectionControl {
+export namespace PathSectionControl {
     import resolveTeleport = TransportData.resolveTeleport;
 
     export class StepRow extends Widget {
@@ -150,6 +150,38 @@ namespace PathSectionControl {
 
             let order = c().text(`${index + 1}.`)
 
+            const {icon, content} = StepRow.renderStep(step)
+
+            hboxl(order, icon, content).addClass("ctr-neosolving-path-legend")
+                .on("mouseover", () => this.setHighlight(true))
+                .on("mouseleave", () => this.setHighlight(false))
+                .appendTo(this)
+        }
+
+        setAssociatedGraphics(graphics: PathStepEntity): this {
+            this.associated_graphics = graphics
+
+            if (graphics) {
+                //graphics.setHighlightable(true)
+
+                this.associated_graphics.highlighted.subscribe(v => {
+                    this.setHighlight(v)
+                })
+            }
+
+            return this
+        }
+
+        setHighlight(v: boolean) {
+            this.highlighted.set(v)
+        }
+    }
+
+    export namespace StepRow {
+        export function renderStep(step: Path.Step): {
+            icon?: Widget,
+            content?: Widget
+        } {
             let icon = c().addClass("ctr-neosolving-path-stepicon")
             let content = div()
 
@@ -248,28 +280,7 @@ namespace PathSectionControl {
                     break
             }
 
-            hboxl(order, icon, content).addClass("ctr-neosolving-path-legend")
-                .on("mouseover", () => this.setHighlight(true))
-                .on("mouseleave", () => this.setHighlight(false))
-                .appendTo(this)
-        }
-
-        setAssociatedGraphics(graphics: PathStepEntity): this {
-            this.associated_graphics = graphics
-
-            if (graphics) {
-                //graphics.setHighlightable(true)
-
-                this.associated_graphics.highlighted.subscribe(v => {
-                    this.setHighlight(v)
-                })
-            }
-
-            return this
-        }
-
-        setHighlight(v: boolean) {
-            this.highlighted.set(v)
+            return {icon, content}
         }
     }
 }
@@ -374,7 +385,7 @@ export default class PathControl extends Behaviour {
         let w = c()
 
         if (this.method) {
-            new MethodSelector(this.parent,this.method.method.for)
+            new MethodSelector(this.parent, this.method.method.for)
                 .addClass("ctr-neosolving-solution-row")
                 .appendTo(w)
         }

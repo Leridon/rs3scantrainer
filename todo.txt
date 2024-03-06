@@ -13,7 +13,7 @@ Planned for next release (b0.4):
     - [Bug] Dive Target needs to be optional
     - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
-    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
     - [Feature] Get an auto-sort of some sort going
     - [Feature] Navigate through the path, moving the "you are here" marker so you can add steps anywhere, animate "you are here"
     - [Feature] Generic "lens" view to replace using dive
@@ -35,6 +35,7 @@ Planned for next release (b0.4):
 
 
 - Map Entities
+    - [Performance] Remove from quadtree when removed from map!
     - [Performance] Zoom changes cause a very slow rerender of many entities.
         -  [WIP] Employ spatial subdivision for culling (quadtree)
             - One Tree per Map vs a tree per GameLayer?

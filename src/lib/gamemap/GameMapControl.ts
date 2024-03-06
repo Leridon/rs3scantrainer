@@ -51,5 +51,11 @@ export class GameMapControl<content_t extends Widget = Widget> extends GameLayer
 
         return super.onRemove(map);
     }
+
+    setContent(content: Widget): this {
+        this.content.empty().append(content)
+
+        return this
+    }
 }
 

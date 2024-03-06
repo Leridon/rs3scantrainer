@@ -546,6 +546,28 @@ video {
 
 /* Step Edit Widget*/
 
+.ctr-path-edit-overview {
+
+}
+
+.ctr-path-edit-overview > *:not(:last-child) {
+    border-bottom: 1px dashed var(--nis-col-faded);
+}
+
+.ctr-path-edit-overview > *:hover {
+    background: #FFFFFF20;
+}
+
+.ctr-path-edit-overview-step {
+    display: flex;
+    cursor: pointer;
+}
+
+.ctr-path-edit-overview-inbetween {
+    display: flex;
+    cursor: pointer;
+}
+
 .path-edit-control {
     width: 350px;
     max-height: 80%;

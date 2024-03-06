@@ -1,7 +1,6 @@
 import {Path} from "lib/runescape/pathing";
 import AbstractEditWidget from "../widgets/AbstractEditWidget";
 import collect_issues = Path.collect_issues;
-import {IssueWidget, PathEditor} from "./PathEditor";
 import MovementStateView from "./MovementStateView";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import Properties from "../widgets/Properties";
@@ -9,6 +8,8 @@ import {SmallImageButton} from "../widgets/SmallImageButton";
 import {PathGraphics} from "../path_graphics";
 import Button from "lib/ui/controls/Button";
 import movement_state = Path.movement_state;
+import {IssueWidget} from "./EditedPathOverview";
+import {PathEditor} from "./PathEditor";
 
 export default class PathProperty extends AbstractEditWidget<Path.raw> {
     private loaded: boolean = false

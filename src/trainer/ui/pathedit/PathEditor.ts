@@ -133,7 +133,7 @@ class PathEditorGameLayer extends GameLayer {
                             text: `${s.entity.name}: ${a.name}`,
                             icon: CursorType.meta(a.cursor).icon_url,
                             handler: async () => {
-                                const t = this.editor.value.post_state.value()?.position?.tile
+                                const t = this.editor.value.cursor_state.value().state?.position?.tile
 
                                 let assumed_start = t
                                 const interactive_area = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
@@ -234,11 +234,10 @@ export class PathEditor extends Behaviour {
 
         this.handler_layer.add(this.value.preview_layer)
 
-        this.value.augmented_value.subscribe(({path}) => {
-            if (this.action_bar) this.action_bar.state.set(path.post_state)
-        })
+        this.value.cursor_state.subscribe(({state}) => {
+            console.log("Cursor state changed")
 
-        this.value.post_state.subscribe(state => {
+            if (this.action_bar) this.action_bar.state.set(state)
 
             if (this.you_are_here_marker) {
                 this.you_are_here_marker.remove()

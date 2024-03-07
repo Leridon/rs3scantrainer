@@ -29,6 +29,7 @@ import {SmallImageButton} from "../widgets/SmallImageButton";
 import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import index = util.index;
+import {PathBuilder2} from "./PathBuilder";
 
 export class IssueWidget extends Widget {
     constructor(issue: Path.issue) {
@@ -296,23 +297,26 @@ export class EditedPathOverview extends Widget {
         })
             .addClass("ctr-path-edit-overview")
 
-        data.subscribe(({path, steps}) => this.render(path, steps))
+        editor.value.committed_value.subscribe(value => this.render(value))
     }
 
-    private render(augmented: Path.augmented, steps: PathEditor.OValue[]) {
+    private render(value: PathBuilder2.Value) {
+        if (!value) return
+
         {
             this.issue_container.empty()
 
-            for (let issue of augmented.issues) {
+            for (let issue of value.path.issues) {
                 new IssueWidget(issue).appendTo(this.issue_container)
             }
         }
 
+        /*
         let existing: { widget: StepEditWidget, keep: boolean }[] = this.step_widgets.map(w => ({widget: w, keep: false}))
 
         // Render edit widgets for individual steps
-        this.step_widgets = steps.map(step => {
-            let e = existing.find(e => e.widget.value == step)
+        this.step_widgets = value.steps.map(step => {
+            const e = existing.find(e => e.widget.value == step)
 
             if (e) {
                 e.keep = true
@@ -324,19 +328,14 @@ export class EditedPathOverview extends Widget {
 
         existing.forEach(e => { if (e.keep) e.widget.detach() })
 
-        this.steps_container.empty()//.append(...this.step_widgets)
+        this.steps_container.empty()//.append(...this.step_widgets)*/
 
-        if (steps.length == 0) {
-            c("<div style='text-align: center'></div>").appendTo(this.steps_container)
-                .append(c("<span>No steps yet.</span>"))
-                .append(c("<span class='nisl-textlink'>&nbsp;Hover to show state.</span>")
-                    .addTippy(new MovementStateView(augmented.pre_state)))
-        } else {
-            for (let i = 0; i <= steps.length; ++i) {
-                new EditedPathOverview.InbetweenSteps(this, i).appendTo(this.steps_container)
+        this.steps_container.empty()
 
-                if (i < steps.length) new EditedPathOverview.Step(this, steps[i]).appendTo(this.steps_container)
-            }
+        for (let i = 0; i <= value.steps.length; ++i) {
+            new EditedPathOverview.InbetweenSteps(this, value, i).appendTo(this.steps_container)
+
+            if (i < value.steps.length) new EditedPathOverview.Step(this, value.steps[i]).appendTo(this.steps_container)
         }
 
         return this
@@ -347,10 +346,10 @@ export namespace EditedPathOverview {
     import span = C.span;
 
     export class InbetweenSteps extends Widget {
-        constructor(private parent: EditedPathOverview, private index: number) {
+        constructor(private parent: EditedPathOverview, private va: PathBuilder2.Value, private index: number) {
             super();
 
-            const value = (index == 0) ? parent.data.value().path.pre_state : parent.data.value().path.steps[index - 1].post_state
+            const value = (index == 0) ? va.path.pre_state : va.path.steps[index - 1].post_state
 
             this.addClass("ctr-path-edit-overview-inbetween")
 
@@ -367,10 +366,10 @@ export namespace EditedPathOverview {
     }
 
     export class Step extends Widget {
-        constructor(private parent: EditedPathOverview, public value: PathEditor.OValue) {
+        constructor(private parent: EditedPathOverview, public value: PathBuilder2.Step) {
             super();
 
-            const {icon, content} = PathSectionControl.StepRow.renderStep(value.value().raw)
+            const {icon, content} = PathSectionControl.StepRow.renderStep(value.step.raw)
 
             this.addClass("ctr-path-edit-overview-step").append(
                 icon, content

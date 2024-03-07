@@ -166,6 +166,12 @@ export namespace Path {
         export function bounds(path: Path.augmented): Rectangle {
             return Rectangle.combine(...path.steps.map(step_bounds), path.target)
         }
+
+        export function getState(path: Path.augmented, index: number): movement_state {
+            if (index >= path.steps.length) return path.post_state
+            else if (index < 0) return path.pre_state
+            return path.steps[index].pre_state
+        }
     }
 
     export type augmented_step = {
@@ -554,7 +560,6 @@ export namespace Path {
 
                     break;
             }
-
 
             augmented.post_state = lodash.cloneDeep(state)
 

@@ -15,17 +15,15 @@ import surge_cooldown = Path.movement_state.surge_cooldown;
 import escape_cooldown = Path.movement_state.escape_cooldown;
 import barge_cooldown = Path.movement_state.barge_cooldown;
 import dive_cooldown = Path.movement_state.dive_cooldown;
-import Collapsible from "../widgets/Collapsible";
-import Properties from "../widgets/Properties";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {QueryLinks} from "../../query_functions";
 import {ScanTrainerCommands} from "../../application";
 import {C} from "../../../lib/ui/constructors";
-import hbox = C.hbox;
+
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
-import spacer = C.spacer;
+
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import ControlWithHeader from "../map/ControlWithHeader";
 import ButtonRow from "../../../lib/ui/ButtonRow";
@@ -70,7 +68,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
 
                     if (res) {
 
-                        self.editor.value.create(({
+                        self.editor.value.add(({
                             type: "ability",
                             ability: opt.ability,
                             from: self.state.value().position?.tile,
@@ -83,7 +81,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
 
                 return self.interaction_guard.set(
                     new DrawAbilityInteraction(opt.ability)
-                        .onCommit((step) => self.editor.value.create(step))
+                        .onCommit((step) => self.editor.value.add(step))
                         .setStartPosition(self.state.value().position?.tile),
                     self)
             }
@@ -96,7 +94,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 run: new ActionBarButton('assets/icons/run.png', () => {
                     return self.interaction_guard.set(
                         new DrawRunInteraction()
-                            .onCommit(step => self.editor.value.create(step))
+                            .onCommit(step => self.editor.value.add(step))
                             .setStartPosition(self.state.value().position?.tile),
                         self
                     )
@@ -104,12 +102,12 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 redclick: new ActionBarButton('assets/icons/redclick.png', () => {
                     return self.interaction_guard.set(
                         new PlaceRedClickInteraction()
-                            .onCommit((step) => self.editor.value.create(step))
+                            .onCommit((step) => self.editor.value.add(step))
                         , self)
                 }).tooltip("Redclick"),
                 powerburst: new ActionBarButton('assets/icons/accel.png', () => {
                         if (self.state.value().position?.tile) {
-                            this.editor.value.create(({
+                            this.editor.value.add(({
                                     type: "powerburst",
                                     where: self.state.value().position.tile
                                 })
@@ -117,7 +115,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                         } else {
                             self.interaction_guard.set(
                                 new PlacePowerburstInteraction()
-                                    .onCommit((step) => self.editor.value.create(step))
+                                    .onCommit((step) => self.editor.value.add(step))
                                 , self)
                         }
                     }
@@ -129,7 +127,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                             type: "basic",
                             text: direction.toString(d),
                             handler: () => {
-                                self.editor.value.create(({
+                                self.editor.value.add(({
                                     type: "orientation",
                                     direction: d
                                 }))
@@ -162,7 +160,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         {
             new ButtonRow().buttons(
                 new LightButton("Commit", "rectangle").onClick(() => {
-                    this.editor.options.commit_handler(this.editor.value.construct())
+                    this.editor.options.commit_handler(this.editor.value.get())
                 }).setEnabled(!!this.editor.options.commit_handler),
 
                 new LightButton("Discard", "rectangle").onClick(() => {
@@ -171,7 +169,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 }),
 
                 new LightButton("Export", "rectangle")
-                    .onClick(() => new ExportStringModal(Path.export_path(this.editor.value.construct())).show()),
+                    .onClick(() => new ExportStringModal(Path.export_path(this.editor.value.get())).show()),
 
                 new LightButton("Import", "rectangle")
                     .onClick(async () => {
@@ -183,7 +181,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 new LightButton("Share", "rectangle")
                     .onClick(() => {
                         new ExportStringModal(QueryLinks.link(ScanTrainerCommands.load_path, {
-                            steps: this.editor.value.construct(),
+                            steps: this.editor.value.get(),
                             start_state: this.editor.options.start_state,
                             target: this.editor.options.target,
                         }), "Use this link to directly link to this path.").show()

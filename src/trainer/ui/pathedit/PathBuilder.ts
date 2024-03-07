@@ -5,18 +5,17 @@ import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import movement_state = Path.movement_state;
-import {util} from "../../../lib/util/util";
 import * as lodash from "lodash";
+import observe_combined = Observable.observe_combined;
 
 export class PathBuilder2 {
     preview_layer: GameLayer
     undoredo: UndoRedo<PathBuilder2.SavedState>
 
-    cursor: Observable<number>
-    committed_value = observe<{
-        path: Path.augmented,
-        steps: PathBuilder2.Step[]
-    }>(null)
+    cursor = observe(0)
+    committed_value = observe<PathBuilder2.Value>(null)
+
+    cursor_state = observe<PathBuilder2.CursorState>(null)
 
     private path: Path = []
 
@@ -25,6 +24,23 @@ export class PathBuilder2 {
         start_state?: movement_state
     } = {}) {
         this.undoredo = new UndoRedo<PathBuilder2.SavedState>(state => this.restoreState(state))
+
+        this.preview_layer = new GameLayer()
+
+        observe_combined({cursor_index: this.cursor, value: this.committed_value}).subscribe(({cursor_index, value}) => {
+            console.log("Index " + cursor_index)
+            console.log("Length " + value.steps.length)
+
+            if (cursor_index > value.steps.length) this.cursor.set(value.steps.length)
+            else {
+                this.cursor_state.set({
+                    cursor: cursor_index,
+                    state: Path.augmented.getState(value.path, cursor_index),
+                    value: value
+                })
+            }
+
+        })
 
         this.commit()
     }
@@ -69,7 +85,9 @@ export class PathBuilder2 {
 
         this.path.splice(this.cursor.value(), 0, ...steps)
 
-        this.commit()
+        this.commit().then(() => {
+            this.cursor.set(this.cursor.value() + steps.length)
+        })
 
         return this
     }
@@ -135,8 +153,6 @@ export class PathBuilder2 {
     }
 
     private async restoreState(state: PathBuilder2.SavedState): Promise<void> {
-        this.cursor.set(0)
-
         this.path = state.path
 
         await this.commit()
@@ -166,6 +182,17 @@ export namespace PathBuilder2 {
         delete(): void {
             this.parent.delete(this.index)
         }
+    }
+
+    export type CursorState = {
+        cursor: number,
+        state: movement_state,
+        value: Value
+    }
+
+    export type Value = {
+        path: Path.augmented,
+        steps: PathBuilder2.Step[]
     }
 
     export type SavedState = {

@@ -2,7 +2,7 @@ import {TileRectangle} from "./runescape/coordinates";
 import {Rectangle, Vector2} from "./math";
 
 export class QuadTree<T extends QuadTree.Element<T>> {
-    private elements: T[] =[]
+    private elements: T[] = []
     private subdivisions: QuadTree<T>[] = []
     private is_dirty = false
 
@@ -12,6 +12,8 @@ export class QuadTree<T extends QuadTree.Element<T>> {
     }
 
     private createSubdivisions() {
+        if (this.subdivisions) return
+
         const center = Rectangle.center(this.rect)
 
         const sub: Rectangle[] = [
@@ -55,6 +57,8 @@ export class QuadTree<T extends QuadTree.Element<T>> {
         affectedNodes.forEach(node => {
             if (node.is_dirty) {
                 if (node.elements.length > 10) node.createSubdivisions()
+
+                node.is_dirty = false
             }
         })
     }

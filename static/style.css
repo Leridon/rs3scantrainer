@@ -550,6 +550,10 @@ video {
 
 }
 
+.ctr-path-edit-overview > * {
+    padding: 2px
+}
+
 .ctr-path-edit-overview > *:not(:last-child) {
     border-bottom: 1px dashed var(--nis-col-faded);
 }
@@ -559,7 +563,6 @@ video {
 }
 
 .ctr-path-edit-overview-step {
-    display: flex;
     cursor: pointer;
 }
 

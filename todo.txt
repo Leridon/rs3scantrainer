@@ -7,13 +7,11 @@ Planned for next release (b0.4):
     - Swamp Cave entrance and stones
 
 - Path Editor
-    - [Feature, 5] Add shared context menu to overview and entities.
     - [Feature, 5] Add "Edit details modal"
-    - [Feature, 3] Add drag&drop moving of steps
+    - [Style, 4] Better styling of "you are here" and "drop here" for inbetweens
     - [Refactor, 4] Change menubar to new design
     - [Feature, 4] Add Undo/Redo to UI
     - [Feature, 3] Add Bookmarks
-    - [Feature, 5] Navigate through the path, moving the "you are here" marker so you can add steps anywhere, animate "you are here"
     - [Bug, 1] Large cooldowns overflow
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area

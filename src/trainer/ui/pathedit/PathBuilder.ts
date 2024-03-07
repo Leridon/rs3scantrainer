@@ -69,6 +69,7 @@ export class PathBuilder2 {
         }
 
         this.committed_value.set({
+            builder: this,
             path: augmented,
             steps: steps,
         })
@@ -97,7 +98,7 @@ export class PathBuilder2 {
 
         const [removed] = this.path.splice(from, 1)
 
-        if (from >= to) to += 1
+        if (from <= to) to += 1
 
         this.path.splice(to, 0, removed)
 
@@ -191,6 +192,7 @@ export namespace PathBuilder2 {
     }
 
     export type Value = {
+        builder: PathBuilder2,
         path: Path.augmented,
         steps: PathBuilder2.Step[]
     }

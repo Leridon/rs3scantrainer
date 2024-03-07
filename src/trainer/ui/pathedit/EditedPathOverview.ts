@@ -1,5 +1,5 @@
 import Widget from "../../../lib/ui/Widget";
-import {Observable} from "../../../lib/reactive";
+import {Observable, observe} from "../../../lib/reactive";
 import {Path} from "../../../lib/runescape/pathing";
 import MovementStateView from "./MovementStateView";
 import {PathSectionControl} from "../neosolving/PathControl";
@@ -30,6 +30,7 @@ import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import index = util.index;
 import {PathBuilder2} from "./PathBuilder";
+import ContextMenu from "../widgets/ContextMenu";
 
 export class IssueWidget extends Widget {
     constructor(issue: Path.issue) {
@@ -41,7 +42,7 @@ class StepEditWidget extends Widget {
 
     private shortcut_custom_open: boolean = false
 
-    constructor(private parent: EditedPathOverview, public value: PathEditor.OValue) {
+    constructor(private parent: EditedPathOverview, public value: PathBuilder2.Step) {
         super()
 
         this.addClass("step-edit-component")
@@ -279,17 +280,15 @@ class StepEditWidget extends Widget {
 
 export class EditedPathOverview extends Widget {
     steps_container: Widget
-    step_widgets: StepEditWidget[] = []
 
-    issue_container: Widget
+    step_rows: EditedPathOverview.Step[] = []
+    inbetween_rows: EditedPathOverview.InbetweenSteps[] = []
 
     constructor(public editor: PathEditor) {
         super();
 
         this
             .addClass("path-edit-control")
-
-        this.issue_container = vbox().appendTo(this)
 
         this.steps_container = vbox().appendTo(this).css2({
             "max-height": "800px",
@@ -298,44 +297,36 @@ export class EditedPathOverview extends Widget {
             .addClass("ctr-path-edit-overview")
 
         editor.value.committed_value.subscribe(value => this.render(value))
+
+        editor.value.cursor_state.subscribe(() => {
+            this.inbetween_rows.forEach(r => r.render())
+        })
     }
 
     private render(value: PathBuilder2.Value) {
         if (!value) return
 
-        {
-            this.issue_container.empty()
-
-            for (let issue of value.path.issues) {
-                new IssueWidget(issue).appendTo(this.issue_container)
-            }
-        }
-
-        /*
-        let existing: { widget: StepEditWidget, keep: boolean }[] = this.step_widgets.map(w => ({widget: w, keep: false}))
-
-        // Render edit widgets for individual steps
-        this.step_widgets = value.steps.map(step => {
-            const e = existing.find(e => e.widget.value == step)
-
-            if (e) {
-                e.keep = true
-                return e.widget
-            } else {
-                return new StepEditWidget(this, step)
-            }
-        })
-
-        existing.forEach(e => { if (e.keep) e.widget.detach() })
-
-        this.steps_container.empty()//.append(...this.step_widgets)*/
+        this.step_rows = []
+        this.inbetween_rows = []
 
         this.steps_container.empty()
 
         for (let i = 0; i <= value.steps.length; ++i) {
-            new EditedPathOverview.InbetweenSteps(this, value, i).appendTo(this.steps_container)
+            this.inbetween_rows.push(
+                new EditedPathOverview.InbetweenSteps(this, value, i).appendTo(this.steps_container)
+            )
 
-            if (i < value.steps.length) new EditedPathOverview.Step(this, value.steps[i]).appendTo(this.steps_container)
+            if (i < value.steps.length) {
+                this.step_rows.push(
+                    new EditedPathOverview.Step(this, value.steps[i]).appendTo(this.steps_container)
+                )
+            }
+        }
+
+        if (value.path.issues.length > 0) {
+            vbox(
+                ...value.path.issues.map(i => new IssueWidget(i))
+            ).appendTo(this.steps_container)
         }
 
         return this
@@ -344,24 +335,69 @@ export class EditedPathOverview extends Widget {
 
 export namespace EditedPathOverview {
     import span = C.span;
+    import hboxl = C.hboxl;
+    import movement_state = Path.movement_state;
 
     export class InbetweenSteps extends Widget {
+        value: movement_state
+
+        is_dragged_over: Observable<boolean> = observe(false)
+
         constructor(private parent: EditedPathOverview, private va: PathBuilder2.Value, private index: number) {
             super();
 
-            const value = (index == 0) ? va.path.pre_state : va.path.steps[index - 1].post_state
+            this.value = (this.index == 0) ? this.va.path.pre_state : this.va.path.steps[this.index - 1].post_state
+
+            this.addTippy(new MovementStateView(this.value))
 
             this.addClass("ctr-path-edit-overview-inbetween")
 
-            span(`T${value.tick}`).addClass('nisl-textlink')
+            this.on("click", () => {
+                this.va.builder.setCursor(this.index)
+            })
+
+            this.setAttribute("ondrop", "() => {}")
+            this.setAttribute("ondragover", "() => {}")
+
+            this.on("drop", (event) => {
+                event.preventDefault()
+
+                const from = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"))
+
+                this.va.builder.move(from.step_index, this.index)
+            })
+
+            this.on("dragover", (event) => {
+                event.preventDefault()
+
+                this.is_dragged_over.set(true)
+
+                event.originalEvent.dataTransfer.dropEffect = "move"
+            })
+
+            this.on("dragleave", () => {
+                this.is_dragged_over.set(false)
+            })
+
+            this.is_dragged_over.subscribe(() => this.render())
+
+            this.render()
+        }
+
+        render() {
+            const state = this.va.builder.cursor_state.value()
+
+            this.empty()
+
+            span(`T${this.value.tick}`).addClass('nisl-textlink')
                 .css("font-weight", "bold")
                 .appendTo(this)
 
-            this.addTippy(new MovementStateView(value))
-
-            this.on("click", () => {
-
-            })
+            if (this.is_dragged_over.value()) {
+                this.append("Drop to move step")
+            } else if (this.index == state.cursor) {
+                this.append("You are here")
+            }
         }
     }
 
@@ -369,18 +405,36 @@ export namespace EditedPathOverview {
         constructor(private parent: EditedPathOverview, public value: PathBuilder2.Step) {
             super();
 
+            this.setAttribute("draggable", "true")
+
             const {icon, content} = PathSectionControl.StepRow.renderStep(value.step.raw)
 
             this.addClass("ctr-path-edit-overview-step").append(
-                icon, content
+                hboxl(icon, content),
+                vbox(
+                    ...value.step.issues.map(i => new IssueWidget(i))
+                ),
             )
 
-            this.on("dblclick", () => {
+            /*
+            this.on("dblclick", (event) => {
+                event.preventDefault()
 
+                this.parent.editor.editStepDetails(value)
+            })*/
+
+            this.on("click contextmenu", (event) => {
+                event.preventDefault()
+
+                new ContextMenu(this.parent.editor.contextMenu(value)).showFromEvent2(event.originalEvent as MouseEvent)
             })
 
-            this.on("click contextmenu", () => {
+            this.on("dragstart", (event) => {
+                event.originalEvent.dataTransfer.setData("text/plain", JSON.stringify({
+                    step_index: this.value.index
+                }))
 
+                event.originalEvent.dataTransfer.dropEffect = "move"
             })
         }
     }

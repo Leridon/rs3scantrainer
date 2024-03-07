@@ -157,7 +157,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
         return this
     }
 
-    setAttribute(name: string, value: string): this {
+    setAttribute(name: string, value: string = ""): this {
         this.raw().setAttribute(name, value)
 
         return this

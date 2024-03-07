@@ -35,6 +35,8 @@ import default_interactive_area = Transportation.EntityTransportation.default_in
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {EditedPathOverview} from "./EditedPathOverview";
 import {PathBuilder2} from "./PathBuilder";
+import todo = util.todo;
+import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -138,6 +140,8 @@ class PathEditorGameLayer extends GameLayer {
                                 let assumed_start = t
                                 const interactive_area = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
 
+                                const steps: Path.Step[] = []
+
                                 if (t) {
                                     const path_to_start = await PathFinder.find(
                                         PathFinder.init_djikstra(t),
@@ -146,7 +150,8 @@ class PathEditorGameLayer extends GameLayer {
 
                                     if (path_to_start && path_to_start.length > 1) {
                                         if (assumed_start) assumed_start = index(path_to_start, -1)
-                                        this.editor.value.add({
+
+                                        steps.push({
                                             type: "run",
                                             waypoints: path_to_start,
                                         })
@@ -162,7 +167,7 @@ class PathEditorGameLayer extends GameLayer {
                                 let clone = lodash.cloneDeep(s)
                                 clone.actions = [lodash.cloneDeep(a)]
 
-                                this.editor.value.add({
+                                this.editor.value.add(...steps, {
                                     type: "transport",
                                     assumed_start: assumed_start,
                                     internal: clone
@@ -174,31 +179,7 @@ class PathEditorGameLayer extends GameLayer {
                     const step = this.editor.value.committed_value.value().steps.find(v => v.associated_preview == event.active_entity)
 
                     if (step) {
-
-                        event.addForEntity({
-                            type: "basic",
-                            text: `Remove`,
-                            handler: () => step.delete()
-                        })
-
-                        if (step.step.raw.type == "ability") {
-
-                            event.addForEntity({
-                                type: "basic",
-                                text: `Redraw`,
-                                handler: () => this.editor.redrawAbility(step)
-                            })
-                        }
-
-                        if (step.step.raw.type == "powerburst" || step.step.raw.type == "redclick" || step.step.raw.type == "teleport") {
-
-                            event.addForEntity({
-                                type: "basic",
-                                text: `Move`,
-                                handler: () => this.editor.moveStep(step)
-                            })
-                        }
-
+                        event.addForEntity(...this.editor.contextMenu(step))
                     }
                 }
             }
@@ -309,6 +290,13 @@ export class PathEditor extends Behaviour {
         )
     }
 
+    editStepDetails(value: PathBuilder2.Step) {
+        new ConfirmationModal({
+            options: [{value: true, text: "Okay", kind: "confirm"}],
+            body: "Bli Bla Blub"
+        }).do()
+    }
+
     redrawAbility(value: PathBuilder2.Step) {
         const v = value.step.raw
 
@@ -375,8 +363,45 @@ export class PathEditor extends Behaviour {
                     .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the specific target of the teleport by clicking the tile.`))
             )
         }
+    }
 
+    contextMenu(step: PathBuilder2.Step): MenuEntry[] {
+        const entries: MenuEntry[] = []
 
+        entries.push({
+            type: "basic",
+            icon: "assets/icons/edit.png",
+            text: `Edit`,
+            handler: () => this.editStepDetails(step)
+        })
+
+        entries.push({
+            type: "basic",
+            icon: "assets/icons/delete.png",
+            text: `Remove`,
+            handler: () => step.delete()
+        })
+
+        if (step.step.raw.type == "ability") {
+            entries.push({
+                type: "basic",
+                icon: "assets/icons/edit.png",
+                text: `Redraw on map`,
+                handler: () => this.redrawAbility(step)
+            })
+        }
+
+        if (step.step.raw.type == "powerburst" || step.step.raw.type == "redclick" || step.step.raw.type == "teleport") {
+
+            entries.push({
+                type: "basic",
+                icon: "assets/icons/move.png",
+                text: `Move on map`,
+                handler: () => this.moveStep(step)
+            })
+        }
+
+        return entries
     }
 }
 

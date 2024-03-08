@@ -29,6 +29,7 @@ import ControlWithHeader from "../map/ControlWithHeader";
 import ButtonRow from "../../../lib/ui/ButtonRow";
 import {util} from "../../../lib/util/util";
 import cleanedJSON = util.cleanedJSON;
+import {BookmarkStorage} from "./BookmarkStorage";
 
 export default class PathEditActionBar extends GameMapControl<ControlWithHeader> {
     bar: ActionBar
@@ -178,7 +179,13 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 })
                 .buttons(
                     undo, redo,
-                    new LightButton("Bookmarks", "rectangle"),
+                    new LightButton("Bookmarks", "rectangle")
+                        .onClick((event) => {
+                            new ContextMenu(
+                                BookmarkStorage.getContextMenu(this.editor.value, this.editor.bookmarks)
+                            ).showFromEvent(event)
+                        })
+                    ,
                     new LightButton("Save", "rectangle").onClick(() => {
                         this.editor.options.commit_handler(this.editor.value.get())
                     }).setEnabled(!!this.editor.options.commit_handler),

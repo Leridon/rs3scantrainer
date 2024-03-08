@@ -8,14 +8,7 @@ import span = C.span;
 import spacer = C.spacer;
 
 export type MenuEntry =
-    {
-        text: string | Widget,
-        icon?: string | Widget
-    } &
-    ({
-        type: "basic",
-        handler: () => any
-    } | MenuEntry.SubMenu)
+    MenuEntry.Basic | MenuEntry.SubMenu
 
 export namespace MenuEntry {
     export type Base = {
@@ -25,6 +18,11 @@ export namespace MenuEntry {
     export type SubMenu = Base & {
         type: "submenu",
         children: MenuEntry[]
+    }
+
+    export type Basic = Base & {
+        type: "basic",
+        handler: () => any
     }
 }
 

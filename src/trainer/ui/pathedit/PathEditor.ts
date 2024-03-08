@@ -38,6 +38,7 @@ import {PathBuilder2} from "./PathBuilder";
 import todo = util.todo;
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {StepEditModal} from "./StepEditModal";
+import {BookmarkStorage} from "./BookmarkStorage";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -199,6 +200,8 @@ export class PathEditor extends Behaviour {
     interaction_guard: InteractionGuard
 
     value: PathBuilder2
+
+    bookmarks = new BookmarkStorage()
 
     constructor(public game_layer: GameLayer,
                 public template_resolver: TemplateResolver,

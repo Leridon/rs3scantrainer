@@ -862,6 +862,7 @@ video {
     grid-row: auto;
     font-weight: bold;
     text-align: left;
+    white-space: nowrap;
 }
 
 .nisl-property-content {

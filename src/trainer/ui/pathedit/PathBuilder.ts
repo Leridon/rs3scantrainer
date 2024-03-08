@@ -28,7 +28,7 @@ export class PathBuilder2 {
                     start_state?: movement_state
                 } = {},
                 initial_value: Path = []) {
-        this.undoredo = new UndoRedo<PathBuilder2.SavedState>(state => this.restoreState(state))
+        this.undoredo = new UndoRedo<PathBuilder2.SavedState>(state => this.setState(state))
 
         this.preview_layer = new GameLayer()
 
@@ -157,7 +157,7 @@ export class PathBuilder2 {
         return this
     }
 
-    async set(path: Path, reset_history: boolean = false): Promise<this> {
+    async set(path: Path, reset_history: boolean = false, cursor: number | undefined = undefined): Promise<this> {
         await this.commit_lock
 
         if (reset_history) {
@@ -165,14 +165,14 @@ export class PathBuilder2 {
         }
 
         this.commit(
-            path.length,
+            cursor ?? path.length,
             path
         )
 
         return this
     }
 
-    private copyState(): PathBuilder2.SavedState {
+    copyState(): PathBuilder2.SavedState {
         return {
             cursor: this.cursor,
             path: lodash.cloneDeep(this.path)
@@ -183,7 +183,7 @@ export class PathBuilder2 {
         this.undoredo.stack.pushState(this.copyState())
     }
 
-    private async restoreState(state: PathBuilder2.SavedState): Promise<void> {
+    private async setState(state: PathBuilder2.SavedState): Promise<void> {
         this.commit(
             state.cursor,
             state.path,

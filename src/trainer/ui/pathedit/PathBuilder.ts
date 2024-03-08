@@ -126,8 +126,10 @@ export class PathBuilder2 {
 
     delete(index: number): this {
 
+        const isBeforeCursor = index <= this.cursor
+
         this.commit(
-            undefined,
+            isBeforeCursor ? this.cursor - 1 : this.cursor,
             copyUpdate(this.path, path => {
                 path.splice(index, 1)
             })

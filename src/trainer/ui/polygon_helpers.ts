@@ -97,13 +97,28 @@ export function areaToPolygon<T>(raster: Raster<T>,
     return leaflet.polygon(polygon.map(Vector2.toLatLong))
 }
 
-export function tilePolygon(tile: Vector2) {
+export function tilePolygon(tile: Vector2, options: leaflet.PolylineOptions = {}) {
     return leaflet.polygon([
         {x: tile.x - 0.5, y: tile.y - 0.5},
         {x: tile.x - 0.5, y: tile.y + 0.5},
         {x: tile.x + 0.5, y: tile.y + 0.5},
         {x: tile.x + 0.5, y: tile.y - 0.5},
-    ].map(Vector2.toLatLong))
+    ].map(Vector2.toLatLong), options)
+}
+
+export function tileHalfPolygons(tile: Vector2, styles: [leaflet.PolylineOptions, leaflet.PolylineOptions] = [{}, {}]): [leaflet.Polygon, leaflet.Polygon] {
+    return [
+        leaflet.polygon([
+            {x: tile.x - 0.5, y: tile.y - 0.5},
+            {x: tile.x - 0.5, y: tile.y + 0.5},
+            {x: tile.x + 0.5, y: tile.y + 0.5},
+        ].map(Vector2.toLatLong), styles[0]),
+        leaflet.polygon([
+            {x: tile.x - 0.5, y: tile.y - 0.5},
+            {x: tile.x + 0.5, y: tile.y + 0.5},
+            {x: tile.x + 0.5, y: tile.y - 0.5},
+        ].map(Vector2.toLatLong), styles[1]),
+    ]
 }
 
 export function boxPolygon(tile: Rectangle): leaflet.Polygon {

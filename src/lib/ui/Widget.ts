@@ -127,12 +127,12 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
 
     addTippy(tooltip: Widget, options: Partial<tippy.Props> = {}): this {
         tippy.default(this.container.get()[0], {
-            ...options,
             content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(tooltip).container.get()[0],
             arrow: true,
             animation: false,
             delay: 0,
-            zIndex: 10001
+            zIndex: 10001,
+            ...options,
         })
 
         return this

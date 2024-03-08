@@ -289,8 +289,7 @@ export class EditedPathOverview extends Widget {
     constructor(public editor: PathEditor) {
         super();
 
-        this
-            .addClass("path-edit-control")
+        this.addClass("path-edit-control")
 
         this.steps_container = vbox().appendTo(this).css2({
             "max-height": "800px",
@@ -303,6 +302,16 @@ export class EditedPathOverview extends Widget {
         editor.value.cursor_state.subscribe(() => {
             this.inbetween_rows.forEach(r => r.render())
         })
+    }
+
+    setDragTarget(index: number) {
+        this.inbetween_rows.forEach((row, i) => {
+            row.is_dragged_over.set(i == index)
+        })
+    }
+
+    dropOnTarget() {
+
     }
 
     private render(value: PathBuilder2.Value) {
@@ -350,7 +359,7 @@ export namespace EditedPathOverview {
 
             this.value = (this.index == 0) ? this.va.path.pre_state : this.va.path.steps[this.index - 1].post_state
 
-            this.addTippy(new MovementStateView(this.value))
+            this.addTippy(new MovementStateView(this.value), {delay: [300, 0]})
 
             this.addClass("ctr-path-edit-overview-inbetween")
 
@@ -358,8 +367,8 @@ export namespace EditedPathOverview {
                 this.va.builder.setCursor(this.index)
             })
 
-            this.setAttribute("ondrop", "() => {}")
-            this.setAttribute("ondragover", "() => {}")
+            //this.setAttribute("ondrop", "() => {}")
+            //this.setAttribute("ondragover", "() => {}")
 
             this.on("drop", (event) => {
                 event.preventDefault()
@@ -374,7 +383,7 @@ export namespace EditedPathOverview {
             this.on("dragover", (event) => {
                 event.preventDefault()
 
-                this.is_dragged_over.set(true)
+                this.parent.setDragTarget(this.index)
 
                 event.originalEvent.dataTransfer.dropEffect = "move"
             })
@@ -395,14 +404,23 @@ export namespace EditedPathOverview {
 
             this.empty()
 
-            span(`T${this.value.tick}`).addClass('nisl-textlink')
-                .css("font-weight", "bold")
+            span(`T${this.value.tick}`)
+                .addClass("ctr-path-edit-overview-row-first")
+                .addClass('nisl-textlink')
                 .appendTo(this)
 
+            this.toggleClass("ctr-path-edit-overview-inbetween-dragged-over", this.is_dragged_over.value())
+
             if (this.is_dragged_over.value()) {
-                this.append("Drop to move step")
+                this.append("Drop to move step here")
             } else if (this.index == state.cursor) {
-                this.append("You are here")
+                this.append(
+                    C.inlineimg("assets/icons/youarehere.png")
+                        .css2({
+                            "margin-right": "3px",
+                        }),
+                    "You are here",
+                )
             }
         }
     }
@@ -416,32 +434,70 @@ export namespace EditedPathOverview {
             const {icon, content} = PathSectionControl.StepRow.renderStep(value.step.raw)
 
             this.addClass("ctr-path-edit-overview-step").append(
-                hboxl(icon, content),
+                hboxl(c("<div>&#x2630;</div>")
+                        .addClass("ctr-path-edit-overview-step-grab-indicator")
+                        .addClass("ctr-path-edit-overview-row-first")
+                    ,
+                    icon
+                        .css("margin-left", "0")
+                    , content,
+                    spacer(),
+                    c().setInnerHtml("&#x22EE;")
+                        .addClass("ctr-clickable")
+                        .addClass("ctr-path-edit-overview-step-options")
+                        .on("click", (event) => {
+                            this.contextMenu(event.originalEvent)
+                        })
+                ),
                 vbox(
                     ...value.step.issues.map(i => new IssueWidget(i))
                 ),
             )
 
-            /*
             this.on("dblclick", (event) => {
                 event.preventDefault()
 
                 this.parent.editor.editStepDetails(value)
-            })*/
+            })
 
-            this.on("click contextmenu", (event) => {
+            this.on("contextmenu", (event) => {
                 event.preventDefault()
 
-                new ContextMenu(this.parent.editor.contextMenu(value)).showFromEvent2(event.originalEvent as MouseEvent)
+                this.contextMenu(event.originalEvent)
             })
 
             this.on("dragstart", (event) => {
                 event.originalEvent.dataTransfer.setData("text/plain", JSON.stringify({
                     step_index: this.value.index
                 }))
+            })
+
+            this.on("dragover", (event) => {
+                event.preventDefault()
+
+                const upper = (event.pageY - this.raw().getBoundingClientRect().top) < this.raw().offsetHeight / 2
+
+                this.parent.setDragTarget(upper ? this.value.index : this.value.index + 1)
 
                 event.originalEvent.dataTransfer.dropEffect = "move"
             })
+
+            this.on("drop", (event) => {
+                event.preventDefault()
+
+                const from = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"))
+
+                const upper = (event.pageY - this.raw().getBoundingClientRect().top) < this.raw().offsetHeight / 2
+
+                this.parent.inbetween_rows[this.value.index].is_dragged_over.set(false)
+                this.parent.inbetween_rows[this.value.index + 1].is_dragged_over.set(false)
+
+                this.value.parent.move(from.step_index, upper ? this.value.index : this.value.index + 1)
+            })
+        }
+
+        private contextMenu(event: MouseEvent) {
+            new ContextMenu(this.parent.editor.contextMenu(this.value)).showFromEvent2(event)
         }
     }
 }

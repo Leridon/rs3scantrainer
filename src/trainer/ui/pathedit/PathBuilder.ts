@@ -103,12 +103,12 @@ export class PathBuilder2 {
     }
 
     move(from: number, to: number): this {
-        if (from == to) return
+        if (from == to || from + 1 == to) return
 
         let cursor_offset = 0
 
         if (from >= this.cursor && to < this.cursor) cursor_offset = 1
-        if (from < this.cursor && to >= this.cursor) cursor_offset = -1
+        if (from < this.cursor && to > this.cursor) cursor_offset = -1
 
         this.commit(
             this.cursor + cursor_offset,

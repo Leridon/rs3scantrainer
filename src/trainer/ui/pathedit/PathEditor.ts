@@ -39,6 +39,7 @@ import todo = util.todo;
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {StepEditModal} from "./StepEditModal";
 import {BookmarkStorage} from "./BookmarkStorage";
+import {PathEditOverlayControl} from "./PathEditOverlays";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -244,6 +245,8 @@ export class PathEditor extends Behaviour {
             },
             this.control = new EditedPathOverview(this)
         ).addTo(this.handler_layer)
+
+        new PathEditOverlayControl(this).addTo(this.handler_layer)
 
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
         this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)

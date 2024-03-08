@@ -563,12 +563,34 @@ video {
 }
 
 .ctr-path-edit-overview-step {
-    cursor: pointer;
+
+}
+
+.ctr-path-edit-overview-step-grab-indicator {
+    cursor: grab;
+}
+
+.ctr-path-edit-overview-row-first {
+    width: 22px;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.ctr-path-edit-overview-step-options {
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
 }
 
 .ctr-path-edit-overview-inbetween {
     display: flex;
     cursor: pointer;
+}
+
+.ctr-path-edit-overview-inbetween-dragged-over {
+    background-color: #285970FF;
 }
 
 .path-edit-control {

@@ -1,4 +1,4 @@
-import {TileCoordinates} from "./coordinates";
+import {TileCoordinates, TileRectangle} from "./coordinates";
 import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Transform, Vector2} from "../math";
@@ -491,10 +491,17 @@ export namespace MovementAbilities {
         }>
     }*/
 
-    export async function possibility_raster(origin: TileCoordinates): Promise<Raster<boolean>> {
+    export async function possibility_raster(origin: TileCoordinates, surge_escape_for: direction[] = []): Promise<{
+        targets: {
+            direction: direction,
+            surge: TileCoordinates,
+            escape: TileCoordinates
+        }[],
+        data: TileArea.ActiveTileArea // Raster<boolean>
+    }> {
         const range = 10
 
-        let raster = new Raster<boolean>(Rectangle.centeredOn(origin, 10), () => false)
+        const raster = TileArea.activate(TileArea.init(TileCoordinates.move(origin, {x: -range, y: -range}), {x: 21, y: 21}, false))
 
         type actor = {
             position: TileCoordinates,
@@ -574,7 +581,25 @@ export namespace MovementAbilities {
             })
         }
 
-        return raster
+        function findFurthest(dir: direction, max_distance: number): TileCoordinates {
+            if (max_distance == 0) return origin
+
+            const current = TileCoordinates.move(origin, Vector2.scale(max_distance, direction.toVector(dir)))
+
+            if (raster.query(current)) return current
+            else return findFurthest(dir, max_distance - 1)
+        }
+
+        return {
+            targets: surge_escape_for.map(dir => {
+                return {
+                    direction: dir,
+                    surge: findFurthest(dir, 10),
+                    escape: findFurthest(dir, 7)
+                }
+            }),
+            data: raster
+        }
     }
 
     async function dive_internal(data: MapData, position: TileCoordinates, target: TileCoordinates): Promise<PlayerPosition | null> {

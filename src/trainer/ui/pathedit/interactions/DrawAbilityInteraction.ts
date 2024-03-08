@@ -11,6 +11,7 @@ import {Observable, observe} from "../../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
 import possibility_raster = MovementAbilities.possibility_raster;
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
+import {AbilityLens} from "../PathEditOverlays";
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
     _possibility_overlay: leaflet.FeatureGroup = null
@@ -74,32 +75,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
         if (tile == null) return
 
-        this._possibility_overlay = leaflet.featureGroup()
-
-        let raster = await possibility_raster(tile)
-
-        for (let x = raster.bounds.topleft.x; x <= raster.bounds.botright.x; x++) {
-            for (let y = raster.bounds.botright.y; y <= raster.bounds.topleft.y; y++) {
-                let works = raster.get({x: x, y: y})
-
-                tilePolygon({x: x, y: y})
-                    .setStyle({
-                        fillOpacity: 0.5,
-                        stroke: false,
-                        fillColor: works ? "green" : "red"
-                    })
-                    .addTo(this._possibility_overlay)
-            }
-        }
-
-        tilePolygon(tile)
-            .setStyle({
-                fillOpacity: 0.5,
-                stroke: false,
-                fillColor: "blue",
-            })
-            .addTo(this._possibility_overlay)
-
+        this._possibility_overlay = new AbilityLens(tile)
         this._possibility_overlay.addTo(this)
     }
 

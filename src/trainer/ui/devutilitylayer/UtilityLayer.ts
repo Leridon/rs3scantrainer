@@ -100,8 +100,6 @@ export default class UtilityLayer extends GameLayer {
         let layer_control = new ControlWithHeader("Utility")
         layer_control.append(new Checkbox("Chunks")
             .onCommit(v => {
-                console.log(this.chunk_grid)
-
                 this.chunk_grid?.clearLayers()
                 this.chunk_grid?.remove()
                 this.chunk_grid = null
@@ -109,8 +107,6 @@ export default class UtilityLayer extends GameLayer {
                 if (v) {
                     this.chunk_grid = new ChunkGridGraticule().addTo(this)
                 }
-
-                console.log(this.chunk_grid)
             }))
 
         new GameMapControl({

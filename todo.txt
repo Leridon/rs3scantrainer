@@ -7,17 +7,18 @@ Planned for next release (b0.4):
     - Swamp Cave entrance and stones
 
 - Path Editor
-    - [Feature, 3] Add Bookmarks
-
-
+    - [WIP, Feature, 4] Add persistent lens layer as an option
+        - Add a way to temporarily disable the lens if needed
     - [Feature, 4] Add additional action bar buttons
+        - Moveable Lens
+        - Cheat Step
     - [Feature, 5, WIP] Add "Edit details modal"
         - Finish edits for all props.
     - [QOL, 3] Additional utility context actions
         - Select direction for orientation
         - Select action for redclick
-    - [Style, 4] Better styling of "you are here" and "drop here" for inbetweens
     - [Bug, 1] Large cooldowns overflow
+    - [UX] Move orientation step to overview
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
     - [Bug] Dive Target needs to be optional

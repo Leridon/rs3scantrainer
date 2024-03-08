@@ -28,7 +28,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         dive: ActionBarButton,
         barge: ActionBarButton,
         run: ActionBarButton,
-        compass: ActionBarButton,
         redclick: ActionBarButton,
         powerburst: ActionBarButton,
         cheat: ActionBarButton,
@@ -124,22 +123,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 )
                     .tooltip("Powerburst of Acceleration")
                     .setHotKey("s-P"),
-                compass: new ActionBarButton('assets/icons/compass.png', (e) => {
-                    let menu: Menu = direction.all.map(d => {
-                        return {
-                            type: "basic",
-                            text: direction.toString(d),
-                            handler: () => {
-                                self.editor.value.add(({
-                                    type: "orientation",
-                                    direction: d
-                                }))
-                            }
-                        }
-                    })
-
-                    new ContextMenu(menu).showFromEvent(e)
-                }).tooltip("Compass"),
                 cheat: new ActionBarButton('assets/icons/Rotten_potato.png', (e) => {
 
                 }).tooltip("Cheat")
@@ -153,7 +136,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 this.buttons.run,
                 this.buttons.redclick,
                 this.buttons.powerburst,
-                this.buttons.compass,
                 this.buttons.cheat
             ]).appendTo(this.content.body)
         }
@@ -166,7 +148,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         this.buttons.escape.cooldown.set(escape_cooldown(state))
         this.buttons.barge.cooldown.set(barge_cooldown(state))
         this.buttons.dive.cooldown.set(dive_cooldown(state))
-        this.buttons.compass.cooldown.set(state.position.tile ? -1 : 0)
         this.buttons.powerburst.cooldown.set(Math.max(state.acceleration_activation_tick + 120 - state.tick, 0))
     }
 

@@ -16,8 +16,8 @@ Planned for next release (b0.4):
         - Finish edits for all props.
     - [QOL, 3] Additional utility context actions
         - Select direction for orientation
-        - Select action for redclickr
-    - [UX] Move orientation step to overview
+        - Select action for redclicks
+
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
     - [Bug] Dive Target needs to be optional

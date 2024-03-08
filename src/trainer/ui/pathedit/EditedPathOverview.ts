@@ -14,7 +14,7 @@ import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileIn
 import {arrow} from "../path_graphics";
 import {Rectangle, Vector2} from "../../../lib/math";
 import InteractionSelect from "./InteractionSelect";
-import {PathFinder} from "../../../lib/runescape/movement";
+import {direction, PathFinder} from "../../../lib/runescape/movement";
 import {ShortcutEdit} from "../shortcut_editing/ShortcutEdit";
 import {util} from "../../../lib/util/util";
 import {Transportation} from "../../../lib/runescape/transportation";
@@ -30,7 +30,7 @@ import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import index = util.index;
 import {PathBuilder2} from "./PathBuilder";
-import ContextMenu from "../widgets/ContextMenu";
+import ContextMenu, {Menu} from "../widgets/ContextMenu";
 
 export class IssueWidget extends Widget {
     constructor(issue: Path.issue) {
@@ -367,9 +367,6 @@ export namespace EditedPathOverview {
                 this.va.builder.setCursor(this.index)
             })
 
-            //this.setAttribute("ondrop", "() => {}")
-            //this.setAttribute("ondragover", "() => {}")
-
             this.on("drop", (event) => {
                 event.preventDefault()
 
@@ -404,23 +401,46 @@ export namespace EditedPathOverview {
 
             this.empty()
 
+            const main_row = hboxl().appendTo(this)
+
             span(`T${this.value.tick}`)
                 .addClass("ctr-path-edit-overview-row-first")
                 .addClass('nisl-textlink')
-                .appendTo(this)
+                .appendTo(main_row)
 
             this.toggleClass("ctr-path-edit-overview-inbetween-dragged-over", this.is_dragged_over.value())
 
             if (this.is_dragged_over.value()) {
-                this.append("Drop to move step here")
+                main_row.append("Drop to move step here")
             } else if (this.index == state.cursor) {
-                this.append(
+                main_row.append(
                     C.inlineimg("assets/icons/youarehere.png")
                         .css2({
                             "margin-right": "3px",
                         }),
                     "You are here",
                 )
+            }
+
+            if (this.index == 0 && !state.state.position.direction) {
+                main_row.append(new LightButton("Assume starting orientation")
+                    .css("margin-left", "5px")
+                    .onClick((event) => {
+                        const menu: Menu = direction.all.map(d => {
+                            return {
+                                type: "basic",
+                                text: direction.toString(d),
+                                handler: () => {
+                                    this.va.builder.add(({
+                                        type: "orientation",
+                                        direction: d
+                                    }))
+                                }
+                            }
+                        })
+
+                        new ContextMenu(menu).showFromEvent(event)
+                    }))
             }
         }
     }

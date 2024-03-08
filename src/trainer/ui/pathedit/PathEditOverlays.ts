@@ -19,7 +19,7 @@ export class AbilityLens extends leaflet.FeatureGroup {
     }
 
     async render() {
-        let raster = await time("Possibility raster", async () => await possibility_raster(this.tile, direction.all))
+        let raster = await possibility_raster(this.tile, this.surge_escape_for)
 
         function style(color: string): leaflet.PolylineOptions {
             return {
@@ -73,13 +73,9 @@ export class AbilityLens extends leaflet.FeatureGroup {
                         tilePolygon(tile, style("red"))
                     )
                 }
-
             }
         }
 
-        polygons.push(
-            tilePolygon(this.tile, style("blue"))
-        )
         polygons.forEach(p => p.addTo(this))
     }
 }

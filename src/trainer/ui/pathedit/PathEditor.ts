@@ -7,7 +7,7 @@ import Behaviour from "lib/ui/Behaviour";
 import {Transportation} from "../../../lib/runescape/transportation";
 import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
-import {GameMapContextMenuEvent} from "lib/gamemap/MapEvents";
+import {GameMapContextMenuEvent, GameMapKeyboardEvent} from "lib/gamemap/MapEvents";
 import GameLayer from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import PathEditActionBar from "./PathEditActionBar";
@@ -35,11 +35,12 @@ import default_interactive_area = Transportation.EntityTransportation.default_in
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {EditedPathOverview} from "./EditedPathOverview";
 import {PathBuilder2} from "./PathBuilder";
-import todo = util.todo;
-import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {StepEditModal} from "./StepEditModal";
 import {BookmarkStorage} from "./BookmarkStorage";
 import {PathEditOverlayControl} from "./PathEditOverlays";
+import {C} from "../../../lib/ui/constructors";
+import vbox = C.vbox;
+import {PathEditMenuBar} from "./PathEditMenuBar";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -188,6 +189,45 @@ class PathEditorGameLayer extends GameLayer {
             }
         })
     }
+
+    eventKeyDown(event: GameMapKeyboardEvent) {
+        event.onPost(() => {
+            const e = event.original
+            const handled = ((): boolean => {
+
+                if (e.ctrlKey && e.key.toLowerCase() == "z") {
+
+                    if (e.shiftKey) {
+                        this.editor.value.undoredo.redo()
+                    } else {
+                        this.editor.value.undoredo.undo()
+                    }
+
+                    return true
+                } else if (e.ctrlKey && e.key.toLowerCase() == "y") {
+                    this.editor.value.undoredo.redo()
+                    return true
+                } else if (e.ctrlKey && e.key.toLowerCase() == "s") {
+                    this.editor.commit()
+
+                    return true
+                } else if (e.key == "Backspace") {
+                    this.editor.value.delete(this.editor.value.cursor - 1)
+                    return true
+                } else if (e.key == "Delete") {
+                    this.editor.value.delete(this.editor.value.cursor)
+                    return true
+                }
+
+                return false
+            })()
+
+            if (handled) {
+                event.stopAllPropagation()
+                e.preventDefault()
+            }
+        })
+    }
 }
 
 export class PathEditor extends Behaviour {
@@ -243,7 +283,10 @@ export class PathEditor extends Behaviour {
                 position: "left-top",
                 type: "floating"
             },
-            this.control = new EditedPathOverview(this)
+            vbox(
+                new PathEditMenuBar(this),
+                this.control = new EditedPathOverview(this)
+            )
         ).addTo(this.handler_layer)
 
         new PathEditOverlayControl(this).addTo(this.handler_layer)
@@ -274,11 +317,14 @@ export class PathEditor extends Behaviour {
     }
 
     discard(): void {
-        if (this.options.discard_handler) this.options.discard_handler()
+        if (this.options.discard_handler) {
+            this.options.discard_handler()
+            this.stop()
+        }
     }
 
     commit(): void {
-        this.options.commit_handler(this.value.get())
+        this.options.commit_handler?.(this.value.get())
     }
 
     close() {

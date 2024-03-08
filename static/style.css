@@ -693,17 +693,20 @@ video {
     text-align: center;
     color: rgb(206, 213, 135);
     text-shadow: 1px 1px 0 #000;
-    line-height: 30px;
+}
+
+.ctr-cooldown-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: white;
+    line-height: normal;
     font-weight: bold;
-    font-size: 12pt;
+    font-size: 8pt;
 }
 
-.ctr-actionbar {
-    display: flex;
-    justify-content: center;
-}
-
-.ctr-actionbar-cancel-overlay {
+.ctr-cooldown-overlay-cancel {
     position: absolute;
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
@@ -714,6 +717,22 @@ video {
     text-shadow: 1px 1px 0 #000;
     line-height: 30px;
     font-size: 20px;
+}
+
+.ctr-hotkey-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: white;
+    line-height: normal;
+    font-weight: bold;
+    font-size: 8pt;
+}
+
+.ctr-actionbar {
+    display: flex;
+    justify-content: center;
 }
 
 /* Cooldown Container */
@@ -1905,4 +1924,20 @@ input[type=checkbox] + span {
 
 .ctr-menurow > .ctr-lightbutton:not(:last-child) {
     border-left: none;
+}
+
+.ctr-menurow > * {
+    flex-grow: 1;
+}
+
+.ctr-menurow > *:first-child {
+    border-top-left-radius: 5px;
+}
+
+.ctr-menurow > *:last-child {
+    border-top-right-radius: 5px;
+}
+
+.leaflet-container:focus {
+    outline: none;
 }

@@ -49,7 +49,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                 c("<div style='font-family: monospace; white-space:pre'></div>")
                     .append(c().text(`[Click] valid target tile to confirm.`))
                     .append(c().text(`[Shift + Click] to force any target tile.`))
-                    .append(c().text(`[Esc] to reset start tile.`))
+                    .append(c().text(`[Backspace] to reset start tile.`))
             )
         } else {
             this.top_control.setContent(
@@ -121,7 +121,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
     }
 
     eventClick(event: GameMapMouseEvent) {
-        event.onPre(async () => {
+        event.onPost(async () => {
             event.stopAllPropagation()
 
             let tile = event.tile()
@@ -158,18 +158,24 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
     eventKeyDown(event: GameMapKeyboardEvent) {
         event.onPre(() => {
-            if (event.original.key == "Shift") this.current_target.update(c => c.forced = true)
-
-            if (this.start_position.value() != null && event.original.key == "Escape") {
+            if (this.start_position.value() != null && event.original.key == "Backspace") {
                 event.stopAllPropagation()
                 this.start_position.set(null)
             }
         })
+
+        event.onPost(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => {
+                if (c) c.forced = true
+            })
+        })
     }
 
     eventKeyUp(event: GameMapKeyboardEvent) {
-        event.onPre(() => {
-            if (event.original.key == "Shift") this.current_target.update(c => c.forced = false)
+        event.onPost(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => {
+                if (c) c.forced = false
+            })
         })
     }
 }

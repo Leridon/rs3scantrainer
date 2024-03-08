@@ -125,6 +125,7 @@ export class PathBuilder2 {
     }
 
     delete(index: number): this {
+        if (index < 0 || index > this.path.length) return this
 
         const isBeforeCursor = index <= this.cursor
 

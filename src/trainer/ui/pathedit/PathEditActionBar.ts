@@ -15,21 +15,9 @@ import surge_cooldown = Path.movement_state.surge_cooldown;
 import escape_cooldown = Path.movement_state.escape_cooldown;
 import barge_cooldown = Path.movement_state.barge_cooldown;
 import dive_cooldown = Path.movement_state.dive_cooldown;
-import LightButton from "../widgets/LightButton";
-import ExportStringModal from "../widgets/modals/ExportStringModal";
-import ImportStringModal from "../widgets/modals/ImportStringModal";
-import {QueryLinks} from "../../query_functions";
-import {ScanTrainerCommands} from "../../application";
-import {C} from "../../../lib/ui/constructors";
-
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
-
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import ControlWithHeader from "../map/ControlWithHeader";
-import ButtonRow from "../../../lib/ui/ButtonRow";
-import {util} from "../../../lib/util/util";
-import cleanedJSON = util.cleanedJSON;
-import {BookmarkStorage} from "./BookmarkStorage";
 
 export default class PathEditActionBar extends GameMapControl<ControlWithHeader> {
     bar: ActionBar
@@ -90,10 +78,18 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
             }
 
             this.buttons = {
-                surge: new ActionBarButton('assets/icons/surge.png', () => ability_handle({ability: "surge", predictor: MovementAbilities.surge})).tooltip("Surge"),
-                escape: new ActionBarButton('assets/icons/escape.png', () => ability_handle({ability: "escape", predictor: MovementAbilities.escape})).tooltip("Escape"),
-                dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"})).tooltip("Dive"),
-                barge: new ActionBarButton('assets/icons/barge.png', async () => await ability_handle({ability: "barge"})).tooltip("Barge"),
+                surge: new ActionBarButton('assets/icons/surge.png', () => ability_handle({ability: "surge", predictor: MovementAbilities.surge}))
+                    .tooltip("Surge")
+                    .setHotKey("s-W"),
+                escape: new ActionBarButton('assets/icons/escape.png', () => ability_handle({ability: "escape", predictor: MovementAbilities.escape}))
+                    .tooltip("Escape")
+                    .setHotKey("s-S"),
+                dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"}))
+                    .tooltip("Dive")
+                    .setHotKey("D"),
+                barge: new ActionBarButton('assets/icons/barge.png', () => ability_handle({ability: "barge"}))
+                    .tooltip("Barge")
+                    .setHotKey("s-D"),
                 run: new ActionBarButton('assets/icons/run.png', () => {
                     return self.interaction_guard.set(
                         new DrawRunInteraction()
@@ -101,13 +97,16 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                             .setStartPosition(self.state.value().position?.tile),
                         self
                     )
-                }).tooltip("Run"),
+                }).tooltip("Run")
+                    .setHotKey("s-R"),
                 redclick: new ActionBarButton('assets/icons/redclick.png', () => {
                     return self.interaction_guard.set(
                         new PlaceRedClickInteraction()
                             .onCommit((step) => self.editor.value.add(step))
                         , self)
-                }).tooltip("Redclick"),
+                }).tooltip("Redclick")
+                    .setHotKey("s-C")
+                ,
                 powerburst: new ActionBarButton('assets/icons/accel.png', () => {
                         if (self.state.value().position?.tile) {
                             this.editor.value.add(({
@@ -123,7 +122,8 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                         }
                     }
                 )
-                    .tooltip("Powerburst of Acceleration"),
+                    .tooltip("Powerburst of Acceleration")
+                    .setHotKey("s-P"),
                 compass: new ActionBarButton('assets/icons/compass.png', (e) => {
                     let menu: Menu = direction.all.map(d => {
                         return {
@@ -143,7 +143,6 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 cheat: new ActionBarButton('assets/icons/Rotten_potato.png', (e) => {
 
                 }).tooltip("Cheat")
-
             }
 
             this.bar = new ActionBar([
@@ -155,77 +154,8 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 this.buttons.redclick,
                 this.buttons.powerburst,
                 this.buttons.compass,
-                //this.buttons.cheat
+                this.buttons.cheat
             ]).appendTo(this.content.body)
-        }
-
-        // Render buttons
-        {
-            const undo = new LightButton("Undo", "rectangle")
-                .onClick(() => this.editor.value.undoredo.undo())
-
-            const redo = new LightButton("Redo", "rectangle")
-                .onClick(() => this.editor.value.undoredo.redo())
-
-            undo.enabled.bindTo(this.editor.value.undoredo.canUndo)
-            redo.enabled.bindTo(this.editor.value.undoredo.canRedo)
-
-            new ButtonRow()
-                .addClass("ctr-menurow")
-                .css2({
-                    "margin-left": "-5px",
-                    "margin-right": "-5px",
-                    "margin-bottom": "-5px",
-                })
-                .buttons(
-                    undo, redo,
-                    new LightButton("Bookmarks", "rectangle")
-                        .onClick((event) => {
-                            new ContextMenu(
-                                BookmarkStorage.getContextMenu(this.editor.value, this.editor.bookmarks)
-                            ).showFromEvent(event)
-                        })
-                    ,
-                    new LightButton("Save", "rectangle").onClick(() => {
-                        this.editor.options.commit_handler(this.editor.value.get())
-                    }).setEnabled(!!this.editor.options.commit_handler),
-                    new LightButton("Close", "rectangle")
-                        .setEnabled(!!this.editor.options.discard_handler)
-                        .onClick(() => {
-                            this.editor.discard()
-                        })
-                    ,
-                    new LightButton("&#x2630;", "rectangle")
-                        .onClick((event) => {
-                            new ContextMenu([
-                                {
-                                    type: "basic",
-                                    text: "Export",
-                                    handler: () => {
-                                        new ExportStringModal(Path.export_path(this.editor.value.get())).show()
-                                    }
-                                },
-                                {
-                                    type: "basic",
-                                    text: "Show JSON",
-                                    handler: () => {
-                                        new ExportStringModal(cleanedJSON(this.editor.value.get())).show()
-                                    }
-                                },
-                                {
-                                    type: "basic",
-                                    text: "Import",
-                                    handler: async () => {
-                                        const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
-
-                                        if (imported?.imported) this.editor.value.set(imported.imported)
-                                    }
-                                },
-
-                            ]).showFromEvent(event)
-                        }),
-                )
-                .appendTo(this.content.body)
         }
 
         this.state.subscribe((s) => this.render(s), true)
@@ -241,15 +171,37 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
     }
 
     eventKeyDown(event: GameMapKeyboardEvent) {
-        event.onPost(() => {
-            if (event.original.key == "Escape") {
-                event.stopAllPropagation()
-                this.editor.stop()
-            }
+        event.onPre(() => {
+            const e = event.original
 
-            if (event.original.key.toLowerCase() == "s" && event.original.shiftKey) {
-                event.original.preventDefault()
-                this.editor.commit()
+            const handled = ((): boolean => {
+                if (e.shiftKey && e.key.toLowerCase() == "w") {
+                    this.editor.action_bar.buttons.surge.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "s") {
+                    this.editor.action_bar.buttons.escape.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "d") {
+                    this.editor.action_bar.buttons.barge.trigger()
+                    return true
+                } else if (e.key.toLowerCase() == "d") {
+                    this.editor.action_bar.buttons.dive.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "r") {
+                    this.editor.action_bar.buttons.run.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "c") {
+                    this.editor.action_bar.buttons.redclick.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "p") {
+                    this.editor.action_bar.buttons.powerburst.trigger()
+                    return true
+                }
+            })()
+
+            if (handled) {
+                event.stopAllPropagation()
+                e.preventDefault()
             }
         })
     }

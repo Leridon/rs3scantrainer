@@ -595,7 +595,7 @@ export namespace MovementAbilities {
                 return {
                     direction: dir,
                     surge: findFurthest(dir, 10),
-                    escape: findFurthest(dir, 7)
+                    escape: findFurthest(direction.invert(dir), 7)
                 }
             }),
             data: raster

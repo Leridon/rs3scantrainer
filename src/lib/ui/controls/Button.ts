@@ -70,4 +70,8 @@ export default class Button extends Widget {
 
         return this
     }
+
+    click() {
+        return this.raw().click()
+    }
 }

@@ -1,7 +1,6 @@
 import GameLayer from "../GameLayer";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {GameMap} from "../GameMap";
-import Checks from "../../../skillbertssolver/typecheck";
 
 import InteractionTopControl from "../../../trainer/ui/map/InteractionTopControl";
 

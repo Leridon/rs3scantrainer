@@ -16,15 +16,13 @@ Planned for next release (b0.4):
         - Finish edits for all props.
     - [QOL, 3] Additional utility context actions
         - Select direction for orientation
-        - Select action for redclick
-    - [Bug, 1] Large cooldowns overflow
+        - Select action for redclickr
     - [UX] Move orientation step to overview
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
     - [Bug] Dive Target needs to be optional
     - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
-    - [Feature] Get an auto-sort of some sort going
     - [Feature] Generic "lens" view to replace using dive
     - [Feature] Check valid access
 

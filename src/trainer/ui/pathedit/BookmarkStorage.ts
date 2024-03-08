@@ -55,7 +55,9 @@ export namespace BookmarkStorage {
         private bookmark: Bookmark
 
         constructor(private start_name: string, private value: PathBuilder2.SavedState) {
-            super();
+            super({
+                size: "small"
+            });
 
             this.title.set("Create Bookmark")
 

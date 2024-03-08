@@ -27,6 +27,8 @@ import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import ControlWithHeader from "../map/ControlWithHeader";
 import ButtonRow from "../../../lib/ui/ButtonRow";
+import {util} from "../../../lib/util/util";
+import cleanedJSON = util.cleanedJSON;
 
 export default class PathEditActionBar extends GameMapControl<ControlWithHeader> {
     bar: ActionBar
@@ -158,35 +160,64 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
 
         // Render buttons
         {
-            new ButtonRow().buttons(
-                new LightButton("Commit", "rectangle").onClick(() => {
-                    this.editor.options.commit_handler(this.editor.value.get())
-                }).setEnabled(!!this.editor.options.commit_handler),
+            const undo = new LightButton("Undo", "rectangle")
+                .onClick(() => this.editor.value.undoredo.undo())
 
-                new LightButton("Discard", "rectangle").onClick(() => {
-                    this.editor.value.load(this.editor.options.initial)
-                    this.editor.options?.discard_handler()
-                }),
+            const redo = new LightButton("Redo", "rectangle")
+                .onClick(() => this.editor.value.undoredo.redo())
 
-                new LightButton("Export", "rectangle")
-                    .onClick(() => new ExportStringModal(Path.export_path(this.editor.value.get())).show()),
+            undo.enabled.bindTo(this.editor.value.undoredo.canUndo)
+            redo.enabled.bindTo(this.editor.value.undoredo.canRedo)
 
-                new LightButton("Import", "rectangle")
-                    .onClick(async () => {
-                        const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
+            new ButtonRow()
+                .addClass("ctr-menurow")
+                .css2({
+                    "margin-left": "-5px",
+                    "margin-right": "-5px",
+                    "margin-bottom": "-5px",
+                })
+                .buttons(
+                    undo, redo,
+                    new LightButton("Bookmarks", "rectangle"),
+                    new LightButton("Save", "rectangle").onClick(() => {
+                        this.editor.options.commit_handler(this.editor.value.get())
+                    }).setEnabled(!!this.editor.options.commit_handler),
+                    new LightButton("Close", "rectangle")
+                        .setEnabled(!!this.editor.options.discard_handler)
+                        .onClick(() => {
+                            this.editor.discard()
+                        })
+                    ,
+                    new LightButton("&#x2630;", "rectangle")
+                        .onClick((event) => {
+                            new ContextMenu([
+                                {
+                                    type: "basic",
+                                    text: "Export",
+                                    handler: () => {
+                                        new ExportStringModal(Path.export_path(this.editor.value.get())).show()
+                                    }
+                                },
+                                {
+                                    type: "basic",
+                                    text: "Show JSON",
+                                    handler: () => {
+                                        new ExportStringModal(cleanedJSON(this.editor.value.get())).show()
+                                    }
+                                },
+                                {
+                                    type: "basic",
+                                    text: "Import",
+                                    handler: async () => {
+                                        const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
 
-                        if (imported?.imported) this.editor.value.load(imported.imported)
-                    }),
+                                        if (imported?.imported) this.editor.value.set(imported.imported)
+                                    }
+                                },
 
-                new LightButton("Share", "rectangle")
-                    .onClick(() => {
-                        new ExportStringModal(QueryLinks.link(ScanTrainerCommands.load_path, {
-                            steps: this.editor.value.get(),
-                            start_state: this.editor.options.start_state,
-                            target: this.editor.options.target,
-                        }), "Use this link to directly link to this path.").show()
-                    })
-            )
+                            ]).showFromEvent(event)
+                        }),
+                )
                 .appendTo(this.content.body)
         }
 

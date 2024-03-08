@@ -9,7 +9,7 @@ export abstract class FormModal<T> extends NisModal {
     protected constructor(protected options: NisModal.Options = {}) {
         super(options);
 
-        this.hidden.on(() => this.confirm(this.getValueForCancel()))
+        this.hidden.on(() => this.cancel())
     }
 
     protected confirm(value: T): void {
@@ -23,6 +23,10 @@ export abstract class FormModal<T> extends NisModal {
 
     protected getValueForCancel(): T {
         return null
+    }
+
+    protected cancel() {
+        this.confirm(this.getValueForCancel())
     }
 
     do(): Promise<T> {

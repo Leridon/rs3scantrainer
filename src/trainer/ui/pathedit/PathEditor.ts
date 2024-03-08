@@ -37,6 +37,7 @@ import {EditedPathOverview} from "./EditedPathOverview";
 import {PathBuilder2} from "./PathBuilder";
 import todo = util.todo;
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
+import {StepEditModal} from "./StepEditModal";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -211,13 +212,11 @@ export class PathEditor extends Behaviour {
         this.value = new PathBuilder2({
             target: this.options.target,
             start_state: this.options.start_state,
-        })
+        }, options.initial)
 
         this.handler_layer.add(this.value.preview_layer)
 
         this.value.cursor_state.subscribe(({state}) => {
-            console.log("Cursor state changed")
-
             if (this.action_bar) this.action_bar.state.set(state)
 
             if (this.you_are_here_marker) {
@@ -246,7 +245,6 @@ export class PathEditor extends Behaviour {
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
         this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
 
-        this.value.load(options.initial)
     }
 
     protected begin() {
@@ -290,11 +288,12 @@ export class PathEditor extends Behaviour {
         )
     }
 
-    editStepDetails(value: PathBuilder2.Step) {
-        new ConfirmationModal({
-            options: [{value: true, text: "Okay", kind: "confirm"}],
-            body: "Bli Bla Blub"
-        }).do()
+    async editStepDetails(value: PathBuilder2.Step) {
+        const result = await new StepEditModal(value.step.raw).do()
+
+        if (result.new_version) {
+            this.value.update(value.index, result.new_version)
+        }
     }
 
     redrawAbility(value: PathBuilder2.Step) {

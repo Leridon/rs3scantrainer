@@ -836,7 +836,7 @@ video {
     display: grid;
     column-gap: 5px;
     row-gap: 2px;
-    grid-template-columns: [name] min-content [content] 1fr;
+    grid-template-columns: [name] min-content [content] minmax(0, 1fr);
 }
 
 .nisl-property-header {
@@ -1873,4 +1873,13 @@ input[type=checkbox] + span {
     background: rgb(10, 31, 41);
     border: 2px solid white;
     padding: 3px;
+}
+
+.ctr-menurow {
+    display: flex;
+    justify-content: center;
+}
+
+.ctr-menurow > .ctr-lightbutton:not(:last-child) {
+    border-left: none;
 }

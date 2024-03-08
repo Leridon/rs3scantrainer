@@ -38,6 +38,8 @@ export class IssueWidget extends Widget {
     }
 }
 
+
+/*
 class StepEditWidget extends Widget {
 
     private shortcut_custom_open: boolean = false
@@ -277,7 +279,7 @@ class StepEditWidget extends Widget {
         // TODO: Fix scroll events passing through
     }
 }
-
+*/
 export class EditedPathOverview extends Widget {
     steps_container: Widget
 
@@ -364,6 +366,8 @@ export namespace EditedPathOverview {
 
                 const from = JSON.parse(event.originalEvent.dataTransfer.getData("text/plain"))
 
+                this.is_dragged_over.set(false)
+
                 this.va.builder.move(from.step_index, this.index)
             })
 
@@ -386,6 +390,8 @@ export namespace EditedPathOverview {
 
         render() {
             const state = this.va.builder.cursor_state.value()
+
+            if (!state) return
 
             this.empty()
 

@@ -5,46 +5,64 @@ export class StateStack<T> {
     canUndo: Observable<boolean> = observe(false)
     canRedo: Observable<boolean> = observe(false)
 
-    private stacks: { undo: T[], redo: T[] } = {
+    private state: { current_state: T, undo: T[], redo: T[] } = {
+        current_state: undefined,
         undo: [],
         redo: []
     }
 
     private update() {
-        this.canUndo.set(this.stacks.undo.length > 0)
-        this.canRedo.set(this.stacks.redo.length > 0)
+        this.canUndo.set(this.state.undo.length > 0)
+        this.canRedo.set(this.state.redo.length > 0)
     }
 
     pushState(value: T) {
-        this.stacks.undo.push(value)
+        debugger
+
+        if (this.state.current_state !== undefined) {
+            this.state.undo.push(this.state.current_state)
+        }
+
+        this.state.current_state = value
+
+        this.state.redo = []
+
+        this.update()
     }
 
     undo(): T {
-        if (this.stacks.undo.length > 0) {
-            const state = this.stacks.undo.pop()
-            this.stacks.redo.push(state)
+        if (this.state.undo.length > 0) {
+            this.state.redo.push(this.state.current_state)
+
+            this.state.current_state = this.state.undo.pop()
 
             this.update()
 
-            return state
+            return this.state.current_state
         }
     }
 
     redo(): T {
 
-        if (this.stacks.redo.length > 0) {
-            const state = this.stacks.redo.pop()
-            this.stacks.undo.push(state)
+        if (this.state.redo.length > 0) {
+            this.state.undo.push(this.state.current_state)
+
+            this.state.current_state = this.state.redo.pop()
 
             this.update()
 
-            return state
+            return this.state.current_state
         }
     }
 
     reset() {
-        this.stacks.undo = []
-        this.stacks.redo = []
+        console.log("Reset")
+
+        this.state.undo = []
+        this.state.redo = []
+        this.state.current_state = undefined
+
+        debugger
 
         this.update()
     }
@@ -60,13 +78,13 @@ export class UndoRedo<T> {
 
     undo(): void | Promise<void> {
         if (this.stack.canUndo.value()) {
-            this.apply_state(this.stack.undo())
+            return this.apply_state(this.stack.undo())
         }
     }
 
     redo(): void | Promise<void> {
         if (this.stack.canRedo.value()) {
-            this.apply_state(this.stack.redo())
+            return this.apply_state(this.stack.redo())
         }
     }
 }

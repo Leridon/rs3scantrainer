@@ -7,11 +7,16 @@ Planned for next release (b0.4):
     - Swamp Cave entrance and stones
 
 - Path Editor
-    - [Feature, 5] Add "Edit details modal"
-    - [Style, 4] Better styling of "you are here" and "drop here" for inbetweens
-    - [Refactor, 4] Change menubar to new design
-    - [Feature, 4] Add Undo/Redo to UI
     - [Feature, 3] Add Bookmarks
+
+
+    - [Feature, 4] Add additional action bar buttons
+    - [Feature, 5, WIP] Add "Edit details modal"
+        - Finish edits for all props.
+    - [QOL, 3] Additional utility context actions
+        - Select direction for orientation
+        - Select action for redclick
+    - [Style, 4] Better styling of "you are here" and "drop here" for inbetweens
     - [Bug, 1] Large cooldowns overflow
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
@@ -23,7 +28,7 @@ Planned for next release (b0.4):
     - [Feature] Check valid access
 
 - Map Entities
-    - [Bug, 5] Quad Tree culling seems to be completely broken after a crash-fix
+    - [Bug, 5] Quad Tree culling seems to be completely broken after a crash-fix (all entities get redrawn for every move)
     - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
     - [Performance, 2] Remove from quadtree when removed from map!
     - [Performance, 5] Zoom changes cause a very slow rerender of many entities.
@@ -33,6 +38,8 @@ Planned for next release (b0.4):
         - Cull entities on bigger zooms
         - Delay render on zoom for multiple zooms
     - [Feature, 2] Find a way to separate entities on the same tile
+    - [Feature] Add Teleport Access Entitiy
+    - [Feature] Add Transport Destination Entity
 
 - Theorycrafter
     - Editor for generic path methods

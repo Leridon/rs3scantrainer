@@ -6,13 +6,17 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import GameLayer from "../../../lib/gamemap/GameLayer";
 import movement_state = Path.movement_state;
 import * as lodash from "lodash";
-import observe_combined = Observable.observe_combined;
+import {util} from "../../../lib/util/util";
+import copyUpdate = util.copyUpdate;
 
 export class PathBuilder2 {
+    private commit_lock: Promise<void> = Promise.resolve()
+
     preview_layer: GameLayer
     undoredo: UndoRedo<PathBuilder2.SavedState>
 
-    cursor = observe(0)
+    cursor = 0
+
     committed_value = observe<PathBuilder2.Value>(null)
 
     cursor_state = observe<PathBuilder2.CursorState>(null)
@@ -20,131 +24,155 @@ export class PathBuilder2 {
     private path: Path = []
 
     constructor(private meta: {
-        target?: TileRectangle,
-        start_state?: movement_state
-    } = {}) {
+                    target?: TileRectangle,
+                    start_state?: movement_state
+                } = {},
+                initial_value: Path = []) {
         this.undoredo = new UndoRedo<PathBuilder2.SavedState>(state => this.restoreState(state))
 
         this.preview_layer = new GameLayer()
 
-        observe_combined({cursor_index: this.cursor, value: this.committed_value}).subscribe(({cursor_index, value}) => {
-            console.log("Index " + cursor_index)
-            console.log("Length " + value.steps.length)
+        this.commit(initial_value.length, initial_value)
+    }
 
-            if (cursor_index > value.steps.length) this.cursor.set(value.steps.length)
-            else {
-                this.cursor_state.set({
-                    cursor: cursor_index,
-                    state: Path.augmented.getState(value.path, cursor_index),
-                    value: value
+    async commit(cursor: number | undefined, path: Path | undefined, save_state: boolean = true) {
+        await this.commit_lock
+
+        this.commit_lock = (async () => {
+            // Update cursor
+            const length = path !== undefined ? path.length : this.path.length
+            this.cursor = Math.max(0, Math.min(length, cursor ?? cursor))
+
+            if (path !== undefined) {
+                this.path = path
+
+                const augmented = await Path.augment(this.path, this.meta.start_state, this.meta.target)
+
+                const steps = augmented.steps.map((step, index): PathBuilder2.Step => {
+                    return new PathBuilder2.Step(
+                        this,
+                        index,
+                        step,
+                    )
+                })
+
+                // Render previews
+                {
+                    const layer = new GameLayer()
+
+                    steps.forEach(v => {
+                        v.associated_preview = new PathStepEntity({step: v.step.raw, highlightable: true, interactive: true})
+                            .addTo(layer)
+                    })
+
+                    this.preview_layer.clearLayers().add(layer)
+                }
+
+                this.committed_value.set({
+                    builder: this,
+                    path: augmented,
+                    steps: steps,
                 })
             }
 
-        })
+            if (save_state) this.saveState()
 
-        this.commit()
-    }
-
-    private async commit(): Promise<void> {
-        const augmented = await Path.augment(this.path, this.meta.start_state, this.meta.target)
-
-        const steps = augmented.steps.map((step, index): PathBuilder2.Step => {
-            return new PathBuilder2.Step(
-                this,
-                index,
-                step,
-            )
-        })
-
-        // Render previews
-        {
-            const layer = new GameLayer()
-
-            steps.forEach(v => {
-                v.associated_preview = new PathStepEntity({step: v.step.raw, highlightable: true, interactive: true})
-                    .addTo(layer)
+            this.cursor_state.set({
+                state: Path.augmented.getState(this.committed_value.value().path, this.cursor),
+                value: this.committed_value.value(),
+                cursor: this.cursor
             })
-
-            this.preview_layer.clearLayers().add(layer)
-        }
-
-        this.committed_value.set({
-            builder: this,
-            path: augmented,
-            steps: steps,
-        })
+        })()
     }
 
     setCursor(index: number): this {
-        this.cursor.set(index)
+        this.commit(index, undefined, false)
 
         return this
     }
 
     add(...steps: Path.Step[]): this {
-        this.saveState()
-
-        this.path.splice(this.cursor.value(), 0, ...steps)
-
-        this.commit().then(() => {
-            this.cursor.set(this.cursor.value() + steps.length)
-        })
+        this.commit(
+            this.cursor + steps.length,
+            copyUpdate(this.path, path => {
+                path.splice(this.cursor, 0, ...steps)
+            })
+        )
 
         return this
     }
 
     move(from: number, to: number): this {
-        this.saveState()
+        if (from == to) return
 
-        const [removed] = this.path.splice(from, 1)
+        let cursor_offset = 0
 
-        if (from <= to) to += 1
+        if (from >= this.cursor && to < this.cursor) cursor_offset = 1
+        if (from < this.cursor && to >= this.cursor) cursor_offset = -1
 
-        this.path.splice(to, 0, removed)
+        this.commit(
+            this.cursor + cursor_offset,
+            copyUpdate(this.path, path => {
+                const [removed] = path.splice(from, 1)
 
-        this.commit()
+                if (from <= to) to -= 1
+
+                path.splice(to, 0, removed)
+            })
+        )
 
         return this
     }
 
     delete(index: number): this {
-        this.saveState()
 
-        this.path.splice(index, 1)
-
-        this.commit()
+        this.commit(
+            undefined,
+            copyUpdate(this.path, path => {
+                path.splice(index, 1)
+            })
+        )
 
         return this
     }
 
-    update(index: number, f: (_: Path.Step) => void): this {
-        this.saveState()
-
+    updateCopy(index: number, f: (_: Path.Step) => void): this {
         const copy = lodash.cloneDeep(this.path[index])
 
         f(copy)
 
-        this.path[index] = copy
+        return this.update(index, copy)
+    }
 
-        this.commit()
+    update(index: number, step: Path.Step): this {
+        this.commit(
+            undefined,
+            copyUpdate(this.path, path => {
+                path[index] = lodash.cloneDeep(step)
+            })
+        )
 
         return this
     }
 
-    load(path: Path): this {
+    async set(path: Path, reset_history: boolean = false): Promise<this> {
+        await this.commit_lock
 
-        this.undoredo.stack.reset()
+        if (reset_history) {
+            this.undoredo.stack.reset()
+        }
 
-        this.path = path
-
-        this.commit()
+        this.commit(
+            path.length,
+            path
+        )
 
         return this
     }
 
     private copyState(): PathBuilder2.SavedState {
         return {
-            cursor: this.cursor.value(),
+            cursor: this.cursor,
             path: lodash.cloneDeep(this.path)
         }
     }
@@ -154,11 +182,11 @@ export class PathBuilder2 {
     }
 
     private async restoreState(state: PathBuilder2.SavedState): Promise<void> {
-        this.path = state.path
-
-        await this.commit()
-
-        this.cursor.set(state.cursor)
+        this.commit(
+            state.cursor,
+            state.path,
+            false
+        )
     }
 
     get(): Path {
@@ -177,7 +205,7 @@ export namespace PathBuilder2 {
         ) {}
 
         update<T extends Path.Step>(f: (_: T) => void): void {
-            this.parent.update(this.index, f)
+            this.parent.updateCopy(this.index, f)
         }
 
         delete(): void {

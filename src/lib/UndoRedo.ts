@@ -17,8 +17,6 @@ export class StateStack<T> {
     }
 
     pushState(value: T) {
-        debugger
-
         if (this.state.current_state !== undefined) {
             this.state.undo.push(this.state.current_state)
         }
@@ -56,8 +54,6 @@ export class StateStack<T> {
     }
 
     reset() {
-        console.log("Reset")
-
         this.state.undo = []
         this.state.redo = []
         this.state.current_state = undefined

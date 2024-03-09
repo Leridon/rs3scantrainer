@@ -8,7 +8,7 @@ import {direction, MovementAbilities} from "../../../lib/runescape/movement";
 import possibility_raster = MovementAbilities.possibility_raster;
 import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {Vector2} from "../../../lib/math";
-import {PathBuilder2} from "./PathBuilder";
+import {PathBuilder} from "./PathBuilder";
 import {PathEditor} from "./PathEditor";
 import {Observable, observe} from "../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
@@ -89,7 +89,7 @@ export class StateAbilityLensLayer extends leaflet.FeatureGroup {
     enabled1 = observe(true)
     enabled2 = observe(true)
 
-    constructor(builder: PathBuilder2) {
+    constructor(builder: PathBuilder) {
         super();
 
         observe_combined({

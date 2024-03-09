@@ -9,17 +9,17 @@ import * as lodash from "lodash";
 import {util} from "../../../lib/util/util";
 import copyUpdate = util.copyUpdate;
 
-export class PathBuilder2 {
+export class PathBuilder {
     private commit_lock: Promise<void> = Promise.resolve()
 
     preview_layer: GameLayer
-    undoredo: UndoRedo<PathBuilder2.SavedState>
+    undoredo: UndoRedo<PathBuilder.SavedState>
 
     cursor = 0
 
-    committed_value = observe<PathBuilder2.Value>(null)
+    committed_value = observe<PathBuilder.Value>(null)
 
-    cursor_state = observe<PathBuilder2.CursorState>(null)
+    cursor_state = observe<PathBuilder.CursorState>(null)
 
     private path: Path = []
 
@@ -28,7 +28,7 @@ export class PathBuilder2 {
                     start_state?: movement_state
                 } = {},
                 initial_value: Path = []) {
-        this.undoredo = new UndoRedo<PathBuilder2.SavedState>(state => this.setState(state))
+        this.undoredo = new UndoRedo<PathBuilder.SavedState>(state => this.setState(state))
 
         this.preview_layer = new GameLayer()
 
@@ -41,15 +41,15 @@ export class PathBuilder2 {
         this.commit_lock = (async () => {
             // Update cursor
             const length = path !== undefined ? path.length : this.path.length
-            this.cursor = Math.max(0, Math.min(length, cursor ?? cursor))
+            this.cursor = Math.max(0, Math.min(length, cursor ?? this.cursor))
 
             if (path !== undefined) {
                 this.path = path
 
                 const augmented = await Path.augment(this.path, this.meta.start_state, this.meta.target)
 
-                const steps = augmented.steps.map((step, index): PathBuilder2.Step => {
-                    return new PathBuilder2.Step(
+                const steps = augmented.steps.map((step, index): PathBuilder.Step => {
+                    return new PathBuilder.Step(
                         this,
                         index,
                         step,
@@ -173,7 +173,7 @@ export class PathBuilder2 {
         return this
     }
 
-    copyState(): PathBuilder2.SavedState {
+    copyState(): PathBuilder.SavedState {
         return {
             cursor: this.cursor,
             path: lodash.cloneDeep(this.path)
@@ -184,7 +184,7 @@ export class PathBuilder2 {
         this.undoredo.stack.pushState(this.copyState())
     }
 
-    private async setState(state: PathBuilder2.SavedState): Promise<void> {
+    private async setState(state: PathBuilder.SavedState): Promise<void> {
         this.commit(
             state.cursor,
             state.path,
@@ -197,12 +197,12 @@ export class PathBuilder2 {
     }
 }
 
-export namespace PathBuilder2 {
+export namespace PathBuilder {
     export class Step {
         associated_preview: PathStepEntity = null
 
         constructor(
-            public parent: PathBuilder2,
+            public parent: PathBuilder,
             public index: number,
             public step: Path.augmented_step,
         ) {}
@@ -223,9 +223,9 @@ export namespace PathBuilder2 {
     }
 
     export type Value = {
-        builder: PathBuilder2,
+        builder: PathBuilder,
         path: Path.augmented,
-        steps: PathBuilder2.Step[]
+        steps: PathBuilder.Step[]
     }
 
     export type SavedState = {

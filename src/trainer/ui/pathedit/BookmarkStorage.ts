@@ -1,6 +1,6 @@
 import {storage} from "../../../lib/util/storage";
 import {Menu, MenuEntry} from "../widgets/ContextMenu";
-import {PathBuilder2} from "./PathBuilder";
+import {PathBuilder} from "./PathBuilder";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import {FormModal} from "../../../lib/ui/controls/FormModal";
 import {BigNisButton} from "../widgets/BigNisButton";
@@ -46,7 +46,7 @@ export class BookmarkStorage {
 export namespace BookmarkStorage {
     export type Bookmark = {
         name: string,
-        value: PathBuilder2.SavedState,
+        value: PathBuilder.SavedState,
         type: "persistent" | "temporary"
     }
 
@@ -54,7 +54,7 @@ export namespace BookmarkStorage {
 
         private bookmark: Bookmark
 
-        constructor(private start_name: string, private value: PathBuilder2.SavedState) {
+        constructor(private start_name: string, private value: PathBuilder.SavedState) {
             super({
                 size: "small"
             });
@@ -99,7 +99,7 @@ export namespace BookmarkStorage {
         }
     }
 
-    export function getContextMenu(builder: PathBuilder2, storage: BookmarkStorage): Menu {
+    export function getContextMenu(builder: PathBuilder, storage: BookmarkStorage): Menu {
         const forBookmarks = storage.getAll()
             .map<MenuEntry>(bookmark => {
 

@@ -34,7 +34,7 @@ import activate = TileArea.activate;
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {EditedPathOverview} from "./EditedPathOverview";
-import {PathBuilder2} from "./PathBuilder";
+import {PathBuilder} from "./PathBuilder";
 import {StepEditModal} from "./StepEditModal";
 import {BookmarkStorage} from "./BookmarkStorage";
 import {PathEditOverlayControl} from "./PathEditOverlays";
@@ -242,7 +242,7 @@ export class PathEditor extends Behaviour {
 
     interaction_guard: InteractionGuard
 
-    value: PathBuilder2
+    value: PathBuilder
 
     bookmarks = new BookmarkStorage()
 
@@ -255,7 +255,7 @@ export class PathEditor extends Behaviour {
         // Set up handler layer, but don't add it anywhere yet.
         this.handler_layer = new PathEditorGameLayer(this)
 
-        this.value = new PathBuilder2({
+        this.value = new PathBuilder({
             target: this.options.target,
             start_state: this.options.start_state,
         }, options.initial)
@@ -335,7 +335,7 @@ export class PathEditor extends Behaviour {
         this.stop()
     }
 
-    editStep(value: PathBuilder2.Step, interaction: InteractionLayer) {
+    editStep(value: PathBuilder.Step, interaction: InteractionLayer) {
         this.interaction_guard.set(interaction
             .onStart(() => {
                 console.log("Start")
@@ -352,7 +352,7 @@ export class PathEditor extends Behaviour {
         )
     }
 
-    async editStepDetails(value: PathBuilder2.Step) {
+    async editStepDetails(value: PathBuilder.Step) {
         const result = await new StepEditModal(value.step.raw).do()
 
         if (result.new_version) {
@@ -360,7 +360,7 @@ export class PathEditor extends Behaviour {
         }
     }
 
-    redrawAbility(value: PathBuilder2.Step) {
+    redrawAbility(value: PathBuilder.Step) {
         const v = value.step.raw
 
         if (v.type == "ability") {
@@ -377,7 +377,7 @@ export class PathEditor extends Behaviour {
         }
     }
 
-    moveStep(value: PathBuilder2.Step) {
+    moveStep(value: PathBuilder.Step) {
         const v = value.step
 
         if (v.raw.type == "redclick") {
@@ -428,7 +428,7 @@ export class PathEditor extends Behaviour {
         }
     }
 
-    contextMenu(step: PathBuilder2.Step): MenuEntry[] {
+    contextMenu(step: PathBuilder.Step): MenuEntry[] {
         const entries: MenuEntry[] = []
 
         entries.push({

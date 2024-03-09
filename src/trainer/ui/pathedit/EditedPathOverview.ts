@@ -29,7 +29,7 @@ import {SmallImageButton} from "../widgets/SmallImageButton";
 import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import index = util.index;
-import {PathBuilder2} from "./PathBuilder";
+import {PathBuilder} from "./PathBuilder";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
 
 export class IssueWidget extends Widget {
@@ -44,7 +44,7 @@ class StepEditWidget extends Widget {
 
     private shortcut_custom_open: boolean = false
 
-    constructor(private parent: EditedPathOverview, public value: PathBuilder2.Step) {
+    constructor(private parent: EditedPathOverview, public value: PathBuilder.Step) {
         super()
 
         this.addClass("step-edit-component")
@@ -314,7 +314,7 @@ export class EditedPathOverview extends Widget {
 
     }
 
-    private render(value: PathBuilder2.Value) {
+    private render(value: PathBuilder.Value) {
         if (!value) return
 
         this.step_rows = []
@@ -354,7 +354,7 @@ export namespace EditedPathOverview {
 
         is_dragged_over: Observable<boolean> = observe(false)
 
-        constructor(private parent: EditedPathOverview, private va: PathBuilder2.Value, private index: number) {
+        constructor(private parent: EditedPathOverview, private va: PathBuilder.Value, private index: number) {
             super();
 
             this.value = (this.index == 0) ? this.va.path.pre_state : this.va.path.steps[this.index - 1].post_state
@@ -446,7 +446,7 @@ export namespace EditedPathOverview {
     }
 
     export class Step extends Widget {
-        constructor(private parent: EditedPathOverview, public value: PathBuilder2.Step) {
+        constructor(private parent: EditedPathOverview, public value: PathBuilder.Step) {
             super();
 
             this.setAttribute("draggable", "true")

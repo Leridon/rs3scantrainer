@@ -170,6 +170,9 @@ export namespace Path {
         export function getState(path: Path.augmented, index: number): movement_state {
             if (index >= path.steps.length) return path.post_state
             else if (index < 0) return path.pre_state
+
+            if (!path.steps[index]) debugger
+
             return path.steps[index].pre_state
         }
     }

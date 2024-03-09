@@ -52,6 +52,14 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         {
             let self = this
 
+            function interact(interaction: InteractionLayer): InteractionLayer {
+                return self.interaction_guard.set(
+                    interaction
+                        .onStart(() => self.editor.overlay_control.lens_layer.enabled2.set(false))
+                        .onEnd(() => self.editor.overlay_control.lens_layer.enabled2.set(true)),
+                    self)
+            }
+
             async function ability_handle(opt: ability_data): Promise<InteractionLayer> {
                 if (opt.predictor && self.state.value().position?.tile != null && self.state.value().position?.direction != null) {
                     let res = await opt.predictor(self.state.value().position)
@@ -69,11 +77,9 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     }
                 }
 
-                return self.interaction_guard.set(
-                    new DrawAbilityInteraction(opt.ability)
-                        .onCommit((step) => self.editor.value.add(step))
-                        .setStartPosition(self.state.value().position?.tile),
-                    self)
+                return interact(new DrawAbilityInteraction(opt.ability)
+                    .onCommit((step) => self.editor.value.add(step))
+                    .setStartPosition(self.state.value().position?.tile))
             }
 
             this.buttons = {
@@ -90,19 +96,18 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     .tooltip("Barge")
                     .setHotKey("s-D"),
                 run: new ActionBarButton('assets/icons/run.png', () => {
-                    return self.interaction_guard.set(
+                    return interact(
                         new DrawRunInteraction()
                             .onCommit(step => self.editor.value.add(step))
-                            .setStartPosition(self.state.value().position?.tile),
-                        self
+                            .setStartPosition(self.state.value().position?.tile)
                     )
                 }).tooltip("Run")
                     .setHotKey("s-R"),
                 redclick: new ActionBarButton('assets/icons/redclick.png', () => {
-                    return self.interaction_guard.set(
+                    return interact(
                         new PlaceRedClickInteraction()
                             .onCommit((step) => self.editor.value.add(step))
-                        , self)
+                    )
                 }).tooltip("Redclick")
                     .setHotKey("s-C")
                 ,
@@ -114,10 +119,10 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                                 })
                             )
                         } else {
-                            self.interaction_guard.set(
+                            return interact(
                                 new PlacePowerburstInteraction()
                                     .onCommit((step) => self.editor.value.add(step))
-                                , self)
+                            )
                         }
                     }
                 )

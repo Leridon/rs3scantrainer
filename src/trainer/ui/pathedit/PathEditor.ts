@@ -41,6 +41,7 @@ import {PathEditOverlayControl} from "./PathEditOverlays";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import {PathEditMenuBar} from "./PathEditMenuBar";
+import tr = TileRectangle.tr;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -233,6 +234,7 @@ class PathEditorGameLayer extends GameLayer {
 export class PathEditor extends Behaviour {
     private control: EditedPathOverview = null
     private handler_layer: PathEditorGameLayer = null
+    overlay_control: PathEditOverlayControl = null
 
     private you_are_here_marker: leaflet.Layer = null
 
@@ -289,7 +291,7 @@ export class PathEditor extends Behaviour {
             )
         ).addTo(this.handler_layer)
 
-        new PathEditOverlayControl(this).addTo(this.handler_layer)
+        this.overlay_control = new PathEditOverlayControl(this).addTo(this.handler_layer)
 
         this.interaction_guard = new InteractionGuard().setDefaultLayer(this.handler_layer)
         this.action_bar = new PathEditActionBar(this, this.interaction_guard).addTo(this.handler_layer)
@@ -335,8 +337,18 @@ export class PathEditor extends Behaviour {
 
     editStep(value: PathBuilder2.Step, interaction: InteractionLayer) {
         this.interaction_guard.set(interaction
-            .onStart(() => value.associated_preview?.setOpacity(0))
-            .onEnd(() => value.associated_preview?.setOpacity(1))
+            .onStart(() => {
+                console.log("Start")
+
+                value.associated_preview?.setVisible(false)
+                this.overlay_control.lens_layer.enabled2.set(false)
+            })
+            .onEnd(() => {
+                console.log("End")
+
+                value.associated_preview?.setVisible(true)
+                this.overlay_control.lens_layer.enabled2.set(true)
+            })
         )
     }
 

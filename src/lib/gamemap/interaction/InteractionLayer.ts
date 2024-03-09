@@ -3,6 +3,7 @@ import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {GameMap} from "../GameMap";
 
 import InteractionTopControl from "../../../trainer/ui/map/InteractionTopControl";
+import {ewent} from "../../reactive";
 
 export class InteractionGuard {
     private interaction: InteractionLayer = null
@@ -44,15 +45,13 @@ export class InteractionGuard {
 export default class InteractionLayer extends GameLayer {
     _guard: InteractionGuard = null
 
-    events: TypedEmitter<{
-        "cancelled": InteractionLayer,
-        "started": InteractionLayer
-    }> = new TypedEmitter()
+    started = ewent<InteractionLayer>()
+    ended = ewent<InteractionLayer>()
 
     onAdd(map: GameMap): this {
         super.onAdd(map)
 
-        this.events.emit("started", this)
+        this.started.trigger(this)
 
         this.getMap().container.focus()
 
@@ -68,26 +67,18 @@ export default class InteractionLayer extends GameLayer {
     cancel() {
         if (this._guard) this._guard.reset()
         this.remove()
-        this.cancelled()
-    }
 
-    handle(event: "cancelled" | "started", handler: (_: InteractionLayer) => void): this {
-        this.events.on(event, handler)
-        return this
+        this.ended.trigger(this)
     }
 
     onEnd(handler: () => any): this {
-        this.events.on("cancelled", handler)
+        this.ended.on(handler)
         return this
     }
 
     onStart(handler: () => void): this {
-        this.events.on("started", handler)
+        this.started.on(handler)
 
         return this
-    }
-
-    protected cancelled() {
-        this.events.emit("cancelled", this)
     }
 }

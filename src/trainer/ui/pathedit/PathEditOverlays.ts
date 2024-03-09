@@ -10,6 +10,8 @@ import {TileCoordinates} from "../../../lib/runescape/coordinates";
 import {Vector2} from "../../../lib/math";
 import {PathBuilder2} from "./PathBuilder";
 import {PathEditor} from "./PathEditor";
+import {Observable, observe} from "../../../lib/reactive";
+import observe_combined = Observable.observe_combined;
 
 export class AbilityLens extends leaflet.FeatureGroup {
     constructor(private tile: TileCoordinates, private surge_escape_for: direction[] = []) {
@@ -84,16 +86,24 @@ export class StateAbilityLensLayer extends leaflet.FeatureGroup {
 
     active_lens: AbilityLens = null
 
+    enabled1 = observe(true)
+    enabled2 = observe(true)
+
     constructor(builder: PathBuilder2) {
         super();
 
-        builder.cursor_state.subscribe((state) => {
+        observe_combined({
+            enabled1: this.enabled1,
+            enabled2: this.enabled2,
+            state: builder.cursor_state
+        }).subscribe(({enabled1, enabled2, state}) => {
             if (this.active_lens) {
                 this.active_lens.remove()
                 this.active_lens = null
             }
 
             if (!state?.state?.position?.tile) return
+            if (!enabled1 || !enabled2) return;
 
             this.active_lens = new AbilityLens(state.state.position.tile,
                 state.state.position.direction ?
@@ -113,17 +123,14 @@ export class PathEditOverlayControl extends GameMapControl {
             type: "floating",
         }, c());
 
+        this.lens_layer = new StateAbilityLensLayer(editor.value).addTo(this)
+
+        this.lens_layer.enabled1.set(false)
+
         this.setContent(new ControlWithHeader("Overlay")
             .append(new Checkbox("Ability Lens")
                 .onCommit(v => {
-                    if (this.lens_layer) {
-                        this.lens_layer?.remove()
-                        this.lens_layer = null
-                    }
-
-                    if (v) {
-                        this.lens_layer = new StateAbilityLensLayer(editor.value).addTo(this)
-                    }
+                    this.lens_layer.enabled1.set(v)
                 })))
     }
 }

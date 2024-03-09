@@ -24,14 +24,14 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
     zoom_sensitivity_layers: ZoomLevels<any>
 
     highlighted = observe(false)
-    opacity = observe(1)
+    visible = observe(true)
 
     protected constructor(protected entity_config: MapEntity.SetupOptions) {
         super();
 
         observe_combined({
             highlight: this.highlighted,
-            opacity: this.opacity
+            opacity: this.visible
         }).subscribe(() => this.render())
 
         if (entity_config.interactive) {
@@ -60,8 +60,8 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
         return this
     }
 
-    setOpacity(o: number): this {
-        this.opacity.set(o)
+    setVisible(v: boolean): this {
+        this.visible.set(v)
         return this
     }
 
@@ -76,11 +76,13 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 
         if (!this.parent?.getMap()) return
 
+        // TODO: This is a very
+        if (!this.visible.value()) return;
+
         this.rendering_lock = true
 
         this.tooltip_hook.set(this.render_implementation({
             highlight: this.highlighted.value(),
-            opacity: this.opacity.value(),
             viewport: this.parent.getMap().viewport.value()
         }))
 
@@ -105,7 +107,6 @@ export abstract class MapEntity extends leaflet.FeatureGroup implements QuadTree
 export namespace MapEntity {
     export type RenderOptions = {
         highlight: boolean,
-        opacity: number,
         viewport: GameMap.View
     }
 

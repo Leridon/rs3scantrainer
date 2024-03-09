@@ -7,8 +7,6 @@ Planned for next release (b0.4):
     - Swamp Cave entrance and stones
 
 - Path Editor
-    - [WIP, Feature, 4] Add persistent lens layer as an option
-        - Add a way to temporarily disable the lens if needed
     - [Feature, 4] Add additional action bar buttons
         - Moveable Lens
         - Cheat Step
@@ -23,10 +21,10 @@ Planned for next release (b0.4):
     - [Bug] Dive Target needs to be optional
     - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
-    - [Feature] Generic "lens" view to replace using dive
     - [Feature] Check valid access
 
 - Map Entities
+    - [Feature, 5] Reconsider opacity render-property
     - [Bug, 5] Quad Tree culling seems to be completely broken after a crash-fix (all entities get redrawn for every move)
     - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
     - [Performance, 2] Remove from quadtree when removed from map!

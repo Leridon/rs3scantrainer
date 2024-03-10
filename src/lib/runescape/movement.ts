@@ -24,7 +24,7 @@ export type PlayerPosition = {
 
 export namespace PlayerPosition {
     export function eq(a: PlayerPosition, b: PlayerPosition) {
-        return TileCoordinates.eq(a.tile, b.tile) && a.direction == b.direction
+        return TileCoordinates.eq2(a.tile, b.tile) && a.direction == b.direction
     }
 }
 

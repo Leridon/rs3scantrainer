@@ -8,7 +8,6 @@ Planned for next release (b0.4):
 
 - Path Editor
     - [Feature, 5] Add additional action bar buttons
-        - Moveable Lens
         - Cheat Step
     - [Feature, 3, WIP] Add "Edit details modal"
         - Finish edits for all props.

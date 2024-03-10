@@ -205,4 +205,8 @@ export namespace util {
             return value
         }, space)
     }
+
+    export function eqWithNull<T>(f: (a: T, b: T) => boolean): (a: T, b: T) => boolean {
+        return (a, b) => (a == b) || (a != null && b != null && f(a, b))
+    }
 }

@@ -1626,6 +1626,14 @@ input[type=checkbox] + span {
     border-radius: 50%;
 }
 
+.nisl-checkbox-disabled {
+    color: grey;
+}
+
+.nisl-checkbox-disabled > .nisl-checkbox-box {
+    filter: saturate(0);
+}
+
 
 /* Collapse button */
 

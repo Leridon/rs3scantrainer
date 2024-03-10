@@ -8277,9 +8277,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -8319,9 +8319,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -8361,9 +8361,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -8403,9 +8403,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -8445,9 +8445,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -8487,9 +8487,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -8529,9 +8529,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -8571,9 +8571,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -8613,9 +8613,9 @@
           }
         },
         "name": "Cross-bridge",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -8655,9 +8655,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -8697,9 +8697,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 0,
               "y": 5,
@@ -8739,9 +8739,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 0,
               "y": -5,
@@ -8781,9 +8781,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 5,
               "y": 0,
@@ -8823,9 +8823,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": -5,
               "y": 0,
@@ -8865,9 +8865,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -8907,9 +8907,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -8949,9 +8949,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -8991,9 +8991,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -9033,9 +9033,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -9075,9 +9075,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -9117,9 +9117,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -9159,9 +9159,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -9201,9 +9201,9 @@
           }
         },
         "name": "Cross-bridge",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": 9,
@@ -9243,9 +9243,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 10,
         "movement": [
           {
+            "time": 10,
             "offset": {
               "x": 0,
               "y": -9,
@@ -9285,9 +9285,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 0,
               "y": 5,
@@ -9327,9 +9327,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 0,
               "y": -5,
@@ -9369,9 +9369,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 5,
               "y": 0,
@@ -9411,9 +9411,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": -5,
               "y": 0,
@@ -9446,9 +9446,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2234,
@@ -9463,6 +9463,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2231,
@@ -9502,9 +9503,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2232,
@@ -9519,6 +9520,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2235,
@@ -9558,9 +9560,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2239,
@@ -9575,6 +9577,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2236,
@@ -9614,9 +9617,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2271,
@@ -9631,6 +9634,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2274,
@@ -9670,9 +9674,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2279,
@@ -9687,6 +9691,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2279,
@@ -9726,9 +9731,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -9743,6 +9748,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -9782,9 +9788,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2217,
@@ -9799,6 +9805,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2217,
@@ -9838,9 +9845,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2237,
@@ -9855,6 +9862,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2234,
@@ -9894,9 +9902,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2226,
@@ -9911,6 +9919,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2229,
@@ -9950,9 +9959,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2233,
@@ -9967,6 +9976,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2230,
@@ -10006,9 +10016,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2265,
@@ -10023,6 +10033,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2268,
@@ -10062,9 +10073,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2279,
@@ -10079,6 +10090,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2279,
@@ -10118,9 +10130,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -10135,6 +10147,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -10174,9 +10187,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -10191,6 +10204,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -10230,9 +10244,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2188,
@@ -10247,6 +10261,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2188,
@@ -10286,9 +10301,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2217,
@@ -10303,6 +10318,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2217,
@@ -10342,9 +10358,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2217,
@@ -10359,6 +10375,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2217,
@@ -10398,9 +10415,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2240,
@@ -10415,6 +10432,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2237,
@@ -10454,9 +10472,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2229,
@@ -10471,6 +10489,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2232,
@@ -10510,9 +10529,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2236,
@@ -10527,6 +10546,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2233,
@@ -10566,9 +10586,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2235,
@@ -10583,6 +10603,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2238,
@@ -10622,9 +10643,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2268,
@@ -10639,6 +10660,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2271,
@@ -10678,9 +10700,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2279,
@@ -10695,6 +10717,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2279,
@@ -10734,9 +10757,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -10751,6 +10774,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2303,
@@ -10790,9 +10814,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2188,
@@ -10807,6 +10831,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2188,
@@ -10846,9 +10871,9 @@
       {
         "cursor": "generic",
         "name": "Enter",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2188,
@@ -10863,6 +10888,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2188,
@@ -10913,9 +10939,9 @@
           }
         },
         "name": "Pass",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2304,
@@ -10930,6 +10956,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2306,
@@ -10980,9 +11007,9 @@
           }
         },
         "name": "Pass",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2306,
@@ -10997,6 +11024,7 @@
             }
           },
           {
+            "time": 6,
             "valid_from": {
               "origin": {
                 "x": 2304,
@@ -11043,9 +11071,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "offset": {
               "x": 5,
               "y": 0,
@@ -11085,9 +11113,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "offset": {
               "x": -5,
               "y": 0,
@@ -11127,9 +11155,9 @@
           }
         },
         "name": "Cross",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "offset": {
               "x": 6,
               "y": 0,
@@ -11169,9 +11197,9 @@
           }
         },
         "name": "Cross",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "offset": {
               "x": -6,
               "y": 0,
@@ -11211,9 +11239,9 @@
           }
         },
         "name": "Cross",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "offset": {
               "x": 6,
               "y": 0,
@@ -11253,9 +11281,9 @@
           }
         },
         "name": "Cross",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "offset": {
               "x": -6,
               "y": 0,
@@ -11295,9 +11323,9 @@
           }
         },
         "name": "Cross",
-        "time": 9,
         "movement": [
           {
+            "time": 9,
             "offset": {
               "x": 0,
               "y": 7,
@@ -11337,9 +11365,9 @@
           }
         },
         "name": "Cross",
-        "time": 9,
         "movement": [
           {
+            "time": 9,
             "offset": {
               "x": 0,
               "y": -7,
@@ -11379,9 +11407,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 0,
               "y": -4,
@@ -11421,9 +11449,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 6,
         "movement": [
           {
+            "time": 6,
             "offset": {
               "x": 0,
               "y": 4,
@@ -11463,9 +11491,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 5,
         "movement": [
           {
+            "time": 5,
             "offset": {
               "x": 4,
               "y": 0,
@@ -11505,9 +11533,9 @@
           }
         },
         "name": "Walk-across",
-        "time": 5,
         "movement": [
           {
+            "time": 5,
             "offset": {
               "x": -4,
               "y": 0,
@@ -11547,9 +11575,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": 1,
@@ -11593,9 +11621,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": 1,
@@ -11639,9 +11667,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": 1,
@@ -11685,9 +11713,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": -1,
@@ -11731,9 +11759,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": 1,
@@ -11777,9 +11805,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": 1,
@@ -11823,9 +11851,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": -1,
@@ -11869,9 +11897,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": 1,
@@ -11915,9 +11943,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": 1,
@@ -11961,9 +11989,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": 1,
@@ -12007,9 +12035,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": -1,
@@ -12053,9 +12081,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": -1,
@@ -12099,9 +12127,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": 1,
@@ -12145,9 +12173,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": -1,
@@ -12191,9 +12219,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": 1,
@@ -12237,9 +12265,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": -1,
@@ -12283,9 +12311,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": 1,
@@ -12329,9 +12357,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": 1,
@@ -12375,9 +12403,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": -1,
               "y": 1,
@@ -12421,9 +12449,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "offset": {
               "x": 1,
               "y": -1,
@@ -12471,9 +12499,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2400,
@@ -12524,9 +12552,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2415,
@@ -12577,9 +12605,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2418,
@@ -12630,9 +12658,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2379,
@@ -12683,9 +12711,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2384,
@@ -12736,9 +12764,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2387,
@@ -12789,9 +12817,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2396,
@@ -12842,9 +12870,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2396,
@@ -12895,9 +12923,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2396,
@@ -12948,9 +12976,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2411,
@@ -13001,9 +13029,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2416,
@@ -13054,9 +13082,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2419,
@@ -13107,9 +13135,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2440,
@@ -13160,9 +13188,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2445,
@@ -13213,9 +13241,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2445,
@@ -13266,9 +13294,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2456,
@@ -13319,9 +13347,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2460,
@@ -13372,9 +13400,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2479,
@@ -13425,9 +13453,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2482,
@@ -13478,9 +13506,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 4,
         "movement": [
           {
+            "time": 4,
             "fixed_target": {
               "target": {
                 "x": 2489,
@@ -13531,9 +13559,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2638,
@@ -13549,6 +13577,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2638,
@@ -13600,9 +13629,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2641,
@@ -13618,6 +13647,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2641,
@@ -13669,9 +13699,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2642,
@@ -13687,6 +13717,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2641,
@@ -13738,9 +13769,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2643,
@@ -13756,6 +13787,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2642,
@@ -13807,9 +13839,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2644,
@@ -13825,6 +13857,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2644,
@@ -13876,9 +13909,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2646,
@@ -13894,6 +13927,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2645,
@@ -13945,9 +13979,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2652,
@@ -13963,6 +13997,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2651,
@@ -14014,9 +14049,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2656,
@@ -14032,6 +14067,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2655,
@@ -14083,9 +14119,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2660,
@@ -14101,6 +14137,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2659,
@@ -14152,9 +14189,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2662,
@@ -14170,6 +14207,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2662,
@@ -14221,9 +14259,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2670,
@@ -14239,6 +14277,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2671,
@@ -14290,9 +14329,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2673,
@@ -14308,6 +14347,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2672,
@@ -14359,9 +14399,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2679,
@@ -14377,6 +14417,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 2679,
@@ -14428,9 +14469,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 3118,
@@ -14446,6 +14487,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 3118,
@@ -14497,9 +14539,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 3130,
@@ -14515,6 +14557,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 3131,
@@ -14566,9 +14609,9 @@
           }
         },
         "name": "Climb over",
-        "time": 7,
         "movement": [
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 3130,
@@ -14584,6 +14627,7 @@
             "orientation": "toentitybefore"
           },
           {
+            "time": 7,
             "valid_from": {
               "origin": {
                 "x": 3131,
@@ -14624,9 +14668,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14660,9 +14704,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14696,9 +14740,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14732,9 +14776,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14768,9 +14812,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14804,9 +14848,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14840,9 +14884,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14876,9 +14920,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14912,9 +14956,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14948,9 +14992,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -14984,9 +15028,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15020,9 +15064,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15056,9 +15100,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15092,9 +15136,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15128,9 +15172,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15164,9 +15208,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15200,9 +15244,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15236,9 +15280,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15272,9 +15316,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15308,9 +15352,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15344,9 +15388,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15380,9 +15424,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15416,9 +15460,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15452,9 +15496,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15488,9 +15532,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15524,9 +15568,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15560,9 +15604,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15596,9 +15640,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15632,9 +15676,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15668,9 +15712,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15704,9 +15748,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15740,9 +15784,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15776,9 +15820,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15812,9 +15856,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15848,9 +15892,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15884,9 +15928,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15920,9 +15964,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15956,9 +16000,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -15992,9 +16036,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16028,9 +16072,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16064,9 +16108,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16100,9 +16144,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16136,9 +16180,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16172,9 +16216,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16208,9 +16252,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16244,9 +16288,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16280,9 +16324,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16316,9 +16360,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16352,9 +16396,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16388,9 +16432,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16424,9 +16468,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16460,9 +16504,9 @@
       {
         "cursor": "ladderdown",
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16496,9 +16540,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16532,9 +16576,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16568,9 +16612,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16604,9 +16648,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16640,9 +16684,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16676,9 +16720,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16712,9 +16756,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16748,9 +16792,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16784,9 +16828,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16820,9 +16864,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16856,9 +16900,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16892,9 +16936,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16928,9 +16972,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -16964,9 +17008,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17000,9 +17044,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17036,9 +17080,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17072,9 +17116,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17108,9 +17152,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17144,9 +17188,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17180,9 +17224,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17216,9 +17260,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17252,9 +17296,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17288,9 +17332,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17324,9 +17368,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17360,9 +17404,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17396,9 +17440,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17432,9 +17476,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17468,9 +17512,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17504,9 +17548,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17540,9 +17584,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17576,9 +17620,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17612,9 +17656,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17648,9 +17692,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17684,9 +17728,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17720,9 +17764,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17756,9 +17800,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17792,9 +17836,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17828,9 +17872,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17864,9 +17908,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17900,9 +17944,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17936,9 +17980,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -17972,9 +18016,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18008,9 +18052,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18044,9 +18088,9 @@
       {
         "cursor": "ladderup",
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18087,9 +18131,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18130,9 +18174,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18173,9 +18217,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18216,9 +18260,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18259,9 +18303,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18302,9 +18346,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18345,9 +18389,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18388,9 +18432,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18431,9 +18475,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18474,9 +18518,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18517,9 +18561,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18560,9 +18604,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18603,9 +18647,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18646,9 +18690,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18689,9 +18733,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18732,9 +18776,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18775,9 +18819,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18818,9 +18862,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18861,9 +18905,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18904,9 +18948,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18947,9 +18991,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -18990,9 +19034,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19033,9 +19077,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19076,9 +19120,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19119,9 +19163,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19162,9 +19206,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19205,9 +19249,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19248,9 +19292,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19291,9 +19335,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19334,9 +19378,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19377,9 +19421,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19420,9 +19464,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19463,9 +19507,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19506,9 +19550,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19549,9 +19593,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19592,9 +19636,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19635,9 +19679,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19678,9 +19722,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19721,9 +19765,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19764,9 +19808,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19807,9 +19851,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19850,9 +19894,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19893,9 +19937,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19936,9 +19980,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -19979,9 +20023,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20022,9 +20066,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20065,9 +20109,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20108,9 +20152,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20151,9 +20195,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20194,9 +20238,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20237,9 +20281,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20280,9 +20324,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20323,9 +20367,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20366,9 +20410,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20409,9 +20453,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20452,9 +20496,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20495,9 +20539,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20538,9 +20582,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20581,9 +20625,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20624,9 +20668,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20667,9 +20711,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20710,9 +20754,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20753,9 +20797,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20796,9 +20840,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20839,9 +20883,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20882,9 +20926,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20925,9 +20969,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -20968,9 +21012,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21011,9 +21055,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21054,9 +21098,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21097,9 +21141,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21140,9 +21184,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21183,9 +21227,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21226,9 +21270,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21269,9 +21313,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21312,9 +21356,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21355,9 +21399,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21398,9 +21442,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21441,9 +21485,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21484,9 +21528,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21527,9 +21571,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21570,9 +21614,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21613,9 +21657,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21656,9 +21700,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21699,9 +21743,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21742,9 +21786,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21785,9 +21829,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21828,9 +21872,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21871,9 +21915,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21914,9 +21958,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -21957,9 +22001,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22000,9 +22044,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22043,9 +22087,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22086,9 +22130,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22129,9 +22173,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22172,9 +22216,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22215,9 +22259,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22258,9 +22302,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22301,9 +22345,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22344,9 +22388,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22387,9 +22431,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22430,9 +22474,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22473,9 +22517,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22516,9 +22560,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22559,9 +22603,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22602,9 +22646,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22645,9 +22689,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22688,9 +22732,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22731,9 +22775,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22774,9 +22818,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22817,9 +22861,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22860,9 +22904,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22903,9 +22947,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22946,9 +22990,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -22989,9 +23033,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23032,9 +23076,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23075,9 +23119,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23118,9 +23162,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23161,9 +23205,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23204,9 +23248,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23247,9 +23291,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23290,9 +23334,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23333,9 +23377,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23376,9 +23420,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23419,9 +23463,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23462,9 +23506,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23505,9 +23549,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23548,9 +23592,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23591,9 +23635,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23634,9 +23678,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23677,9 +23721,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23720,9 +23764,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23763,9 +23807,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23806,9 +23850,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23849,9 +23893,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23892,9 +23936,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23935,9 +23979,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -23978,9 +24022,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24021,9 +24065,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24064,9 +24108,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24107,9 +24151,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24150,9 +24194,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24193,9 +24237,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24236,9 +24280,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24279,9 +24323,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24322,9 +24366,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24365,9 +24409,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24408,9 +24452,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24451,9 +24495,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24494,9 +24538,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24537,9 +24581,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24580,9 +24624,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24623,9 +24667,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24666,9 +24710,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24709,9 +24753,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24752,9 +24796,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24795,9 +24839,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24838,9 +24882,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24881,9 +24925,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24924,9 +24968,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -24967,9 +25011,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25010,9 +25054,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25053,9 +25097,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25096,9 +25140,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25139,9 +25183,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25182,9 +25226,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25225,9 +25269,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25268,9 +25312,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25311,9 +25355,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25354,9 +25398,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25397,9 +25441,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25440,9 +25484,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25483,9 +25527,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25526,9 +25570,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25569,9 +25613,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25612,9 +25656,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25655,9 +25699,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25698,9 +25742,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25741,9 +25785,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25784,9 +25828,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25827,9 +25871,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25870,9 +25914,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25913,9 +25957,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25956,9 +26000,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -25999,9 +26043,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26042,9 +26086,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26085,9 +26129,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26128,9 +26172,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26171,9 +26215,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26214,9 +26258,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26257,9 +26301,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26279,9 +26323,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26322,9 +26366,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26344,9 +26388,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26387,9 +26431,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26409,9 +26453,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26452,9 +26496,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26474,9 +26518,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26517,9 +26561,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26539,9 +26583,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26582,9 +26626,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26604,9 +26648,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26647,9 +26691,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26669,9 +26713,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26712,9 +26756,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26734,9 +26778,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26777,9 +26821,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26799,9 +26843,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26842,9 +26886,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26864,9 +26908,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26907,9 +26951,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26929,9 +26973,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26972,9 +27016,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -26994,9 +27038,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27037,9 +27081,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27059,9 +27103,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27102,9 +27146,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27124,9 +27168,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27167,9 +27211,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27189,9 +27233,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27232,9 +27276,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27254,9 +27298,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27297,9 +27341,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27319,9 +27363,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27362,9 +27406,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27384,9 +27428,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27427,9 +27471,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27449,9 +27493,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27492,9 +27536,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27514,9 +27558,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27557,9 +27601,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27579,9 +27623,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27622,9 +27666,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27644,9 +27688,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27687,9 +27731,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27709,9 +27753,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27752,9 +27796,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27774,9 +27818,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27817,9 +27861,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27860,9 +27904,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27903,9 +27947,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27946,9 +27990,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -27989,9 +28033,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28032,9 +28076,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28075,9 +28119,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28118,9 +28162,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28161,9 +28205,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28204,9 +28248,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28247,9 +28291,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28290,9 +28334,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28333,9 +28377,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28376,9 +28420,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28419,9 +28463,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28462,9 +28506,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28505,9 +28549,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28548,9 +28592,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28591,9 +28635,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28634,9 +28678,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28677,9 +28721,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28720,9 +28764,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28763,9 +28807,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28806,9 +28850,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28849,9 +28893,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28892,9 +28936,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28935,9 +28979,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -28978,9 +29022,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29021,9 +29065,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29064,9 +29108,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29107,9 +29151,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29150,9 +29194,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29193,9 +29237,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29236,9 +29280,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29279,9 +29323,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29322,9 +29366,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29365,9 +29409,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29408,9 +29452,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29451,9 +29495,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29494,9 +29538,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29537,9 +29581,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29580,9 +29624,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29623,9 +29667,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29666,9 +29710,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29709,9 +29753,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29752,9 +29796,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29795,9 +29839,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 0,
@@ -29809,6 +29853,436 @@
       }
     ],
     "source_loc": 10494
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2372.5,
+        "y": 3800.5
+      },
+      "botright": {
+        "x": 2373.5,
+        "y": 3799.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2372,
+            "y": 3800,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2387.5,
+        "y": 3793.5
+      },
+      "botright": {
+        "x": 2388.5,
+        "y": 3792.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2387,
+            "y": 3793,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2387.5,
+        "y": 3804.5
+      },
+      "botright": {
+        "x": 2388.5,
+        "y": 3803.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2387,
+            "y": 3804,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2409.5,
+        "y": 3823.5
+      },
+      "botright": {
+        "x": 2410.5,
+        "y": 3822.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2410,
+            "y": 3824,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2420.5,
+        "y": 3823.5
+      },
+      "botright": {
+        "x": 2421.5,
+        "y": 3822.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2421,
+            "y": 3824,
+            "level": 0
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2372.5,
+        "y": 3800.5
+      },
+      "botright": {
+        "x": 2373.5,
+        "y": 3799.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2372,
+            "y": 3800,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2387.5,
+        "y": 3793.5
+      },
+      "botright": {
+        "x": 2388.5,
+        "y": 3792.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2387,
+            "y": 3793,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2387.5,
+        "y": 3804.5
+      },
+      "botright": {
+        "x": 2388.5,
+        "y": 3803.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2387,
+            "y": 3804,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2409.5,
+        "y": 3823.5
+      },
+      "botright": {
+        "x": 2410.5,
+        "y": 3822.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2410,
+            "y": 3824,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Ladder",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2420.5,
+        "y": 3823.5
+      },
+      "botright": {
+        "x": 2421.5,
+        "y": 3822.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "ladderup",
+        "interactive_area": {
+          "origin": {
+            "x": 2421,
+            "y": 3824,
+            "level": 1
+          }
+        },
+        "name": "Climb-up",
+        "movement": [
+          {
+            "time": 3,
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "level": 1
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 21395
   },
   {
     "type": "entity",
@@ -29838,9 +30312,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -29881,9 +30355,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -29924,9 +30398,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -29967,9 +30441,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30010,9 +30484,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -30053,9 +30527,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -30096,9 +30570,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -30139,9 +30613,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30182,9 +30656,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30225,9 +30699,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -30268,9 +30742,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -30311,9 +30785,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30354,9 +30828,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -30397,9 +30871,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30440,9 +30914,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -30483,9 +30957,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -30526,9 +31000,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -30569,9 +31043,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -30612,9 +31086,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -30655,9 +31129,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -30698,9 +31172,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -30741,9 +31215,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -30784,9 +31258,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30827,9 +31301,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30870,9 +31344,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -30913,9 +31387,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -30956,9 +31430,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -30999,9 +31473,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -31042,9 +31516,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -31085,9 +31559,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -31128,9 +31602,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -31171,9 +31645,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -31214,9 +31688,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -31257,9 +31731,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -31300,9 +31774,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -31343,9 +31817,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -31386,9 +31860,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -31429,9 +31903,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -31472,9 +31946,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -31515,9 +31989,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -31558,9 +32032,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -31601,9 +32075,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -31644,9 +32118,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -31687,9 +32161,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -31730,9 +32204,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -31773,9 +32247,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -31816,9 +32290,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -31859,9 +32333,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -31902,9 +32376,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -31945,9 +32419,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -31988,9 +32462,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -32031,9 +32505,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -2,
@@ -32074,9 +32548,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -32117,9 +32591,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -32160,9 +32634,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -32203,9 +32677,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -32246,9 +32720,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -32289,9 +32763,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -32332,9 +32806,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 2,
               "y": 0,
@@ -32375,9 +32849,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -32418,9 +32892,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -2,
               "y": 0,
@@ -32461,9 +32935,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 2,
@@ -32504,9 +32978,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -32547,9 +33021,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -32590,9 +33064,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -32633,9 +33107,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -3,
@@ -32676,9 +33150,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 3,
@@ -32719,9 +33193,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -32762,9 +33236,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -32805,9 +33279,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -32848,9 +33322,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -3,
@@ -32891,9 +33365,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -3,
@@ -32934,9 +33408,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -32977,9 +33451,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33020,9 +33494,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33063,9 +33537,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33106,9 +33580,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33149,9 +33623,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 3,
@@ -33192,9 +33666,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33235,9 +33709,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33278,9 +33752,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -3,
@@ -33321,9 +33795,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33364,9 +33838,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33407,9 +33881,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33450,9 +33924,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33493,9 +33967,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33536,9 +34010,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33579,9 +34053,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33622,9 +34096,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33665,9 +34139,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33708,9 +34182,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33751,9 +34225,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33794,9 +34268,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -33837,9 +34311,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33880,9 +34354,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33923,9 +34397,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -33966,9 +34440,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -34009,9 +34483,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34052,9 +34526,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34095,9 +34569,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -34138,9 +34612,9 @@
           }
         },
         "name": "Climb-up",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34181,9 +34655,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34224,9 +34698,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34267,9 +34741,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34310,9 +34784,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 3,
@@ -34353,9 +34827,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -3,
@@ -34396,9 +34870,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -34439,9 +34913,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34482,9 +34956,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34525,9 +34999,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 3,
@@ -34568,9 +35042,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 3,
@@ -34611,9 +35085,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34654,9 +35128,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34697,9 +35171,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34740,9 +35214,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34783,9 +35257,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34826,9 +35300,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -3,
@@ -34869,9 +35343,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34912,9 +35386,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -34955,9 +35429,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 3,
@@ -34998,9 +35472,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35041,9 +35515,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35084,9 +35558,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35127,9 +35601,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35170,9 +35644,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35213,9 +35687,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35256,9 +35730,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35299,9 +35773,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35342,9 +35816,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35385,9 +35859,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35428,9 +35902,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35471,9 +35945,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35514,9 +35988,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35557,9 +36031,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35600,9 +36074,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35643,9 +36117,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35686,9 +36160,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35729,9 +36203,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35772,9 +36246,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 3,
               "y": 0,
@@ -35815,9 +36289,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -3,
               "y": 0,
@@ -35858,9 +36332,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -35901,9 +36375,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -35944,9 +36418,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -35987,9 +36461,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -36030,9 +36504,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 4,
               "y": 0,
@@ -36073,9 +36547,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -4,
@@ -36116,9 +36590,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -36159,9 +36633,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -4,
               "y": 0,
@@ -36202,9 +36676,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -4,
@@ -36245,9 +36719,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -36288,9 +36762,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -36331,9 +36805,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 4,
               "y": 0,
@@ -36374,9 +36848,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -36417,9 +36891,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -4,
@@ -36460,9 +36934,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": 4,
@@ -36503,9 +36977,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": -4,
               "y": 0,
@@ -36546,9 +37020,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -4,
@@ -36589,9 +37063,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 4,
               "y": 0,
@@ -36632,9 +37106,9 @@
           }
         },
         "name": "Climb-down",
-        "time": 3,
         "movement": [
           {
+            "time": 3,
             "offset": {
               "x": 0,
               "y": -4,

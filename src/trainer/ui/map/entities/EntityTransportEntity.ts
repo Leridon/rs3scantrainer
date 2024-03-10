@@ -15,6 +15,7 @@ import {C} from "../../../../lib/ui/constructors";
 import {direction} from "../../../../lib/runescape/movement";
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
 import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
+import EntityTransportation = Transportation.EntityTransportation;
 
 export class EntityTransportEntity extends MapEntity {
     private normalized_shortcut: GeneralEntityTransportation
@@ -24,7 +25,7 @@ export class EntityTransportEntity extends MapEntity {
 
         this.normalized_shortcut = Transportation.normalize(this.config.shortcut)
 
-        if(GeneralEntityTransportation.isLocal(this.normalized_shortcut)) {
+        if(EntityTransportation.isLocal(this.normalized_shortcut)) {
             this.zoom_sensitivity_layers = MapEntity.default_local_zoom_scale_layers
         } else {
             this.zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers

@@ -163,7 +163,7 @@ export namespace MapEntity {
     export const default_local_zoom_scale_layers = new ZoomLevels<{ scale: number }>([
         {min: -100, hidden_here: true, value: {scale: 0.25}},
         {min: 0, value: {scale: 0.5}},
-        {min: 3, value: {scale: 1}},
+        {min: 5, value: {scale: 1}},
     ])
 
     export type RenderProps = {

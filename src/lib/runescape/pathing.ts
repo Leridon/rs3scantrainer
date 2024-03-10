@@ -518,7 +518,7 @@ export namespace Path {
                             break;
                     }
 
-                    state.tick += action.time
+                    state.tick += movement.time
 
                     break
                 case "redclick":

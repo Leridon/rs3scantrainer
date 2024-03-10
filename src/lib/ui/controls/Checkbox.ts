@@ -7,6 +7,8 @@ export class Checkbox extends AbstractEditWidget<boolean> {
 
     type: Observable<"checkbox" | "radio">
 
+    enabled = observe(true)
+
     constructor(private label: string = "", type: "checkbox" | "radio" = "checkbox") {
         super()
 
@@ -33,10 +35,21 @@ export class Checkbox extends AbstractEditWidget<boolean> {
         }
 
         this.setValue(false)
+
+        this.enabled.subscribe(v => {
+            this.toggleClass("nisl-checkbox-disabled", !v)
+        })
     }
 
     protected render() {
         this.new_box.toggleClass("checked", this.get())
+    }
+
+    setEnabled(v: boolean): this {
+
+        this.enabled.set(v)
+
+        return this
     }
 }
 

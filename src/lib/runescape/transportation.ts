@@ -21,11 +21,11 @@ export namespace Transportation {
         fixed_target?: { target: TileCoordinates, relative?: boolean },
         orientation?: "bymovement" | "toentitybefore" | "toentityafter" | "keep" | "forced", // Default: "bymovement"
         forced_orientation?: { dir: direction, relative?: boolean },
+        time: number,
     }
 
     export type EntityAction = {
         cursor?: CursorType,
-        time: number,
         name: string,
         movement: EntityActionMovement[],
         interactive_area?: TileArea, // Default: clickable area extended by 1
@@ -253,14 +253,12 @@ export namespace Transportation {
 
             return tiles.parent
         }
-    }
 
-    export namespace GeneralEntityTransportation {
-        export function isLocal(transport: GeneralEntityTransportation): boolean {
+        export function isLocal(transport: EntityTransportation): boolean {
 
             // A shortcut is local if there is no movement action that has a non-relative fixed target
 
-            return !transport.actions.some(a =>
+            return transport.type == "door" || !transport.actions.some(a =>
                 a.movement.some(m => {
                     return m.fixed_target && !(m.fixed_target.relative || Vector2.length(Vector2.sub(m.fixed_target.target, transport.clickable_area.topleft)) < 30)
                 })
@@ -289,14 +287,15 @@ export namespace Transportation {
             actions: [{
                 cursor: "open",
                 interactive_area: TileArea.fromRect(TileRectangle.from(shortcut.position, other), true),
-                time: 1,
                 name: `Pass`,
                 movement: [
                     {
+                        time: 1,
                         offset: {...off, level: 0},
                         valid_from: {origin: shortcut.position},
                     },
                     {
+                        time: 1,
                         offset: {...direction.toVector(direction.invert(shortcut.direction)), level: 0},
                         valid_from: {origin: other}
                     },

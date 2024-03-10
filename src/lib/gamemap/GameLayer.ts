@@ -47,8 +47,8 @@ export class GameLayer extends leaflet.FeatureGroup {
         })
 
         this.entity_quadtree = QuadTree.init({
-            topleft: {x: 0, y: 12800},
-            botright: {x: 12800, y: 0}
+            topleft: {x: 0, y: 16384},
+            botright: {x: 16384, y: 0}
         })
 
     }

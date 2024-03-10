@@ -254,7 +254,7 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
                 selection.setItems(packs)
             }).bindTo(this.handler_pool)
 
-            props.named("Method Pack",
+            props.named("Methods",
                 vbox(
                     selection,
                     specifics_container

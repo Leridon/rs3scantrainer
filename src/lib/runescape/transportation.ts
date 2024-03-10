@@ -72,7 +72,8 @@ export namespace Transportation {
     } | {
         type: "entity",
         name: EntityName & { kind: "npc" | "static" },
-        area: TileArea,
+        clickable_area: TileArea,
+        interactive_area?: TileArea,
         action_name: string,
         cursor?: CursorType,
     } | {

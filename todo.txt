@@ -1,5 +1,8 @@
 Planned for next release (b0.4):
 
+- Tile Area
+    - [Feature, 4] Implement areaPolygon properly!
+
 - Data
     - Gather data for non-static teleports
     - Tirranwn Traps
@@ -96,7 +99,7 @@ Planned for next release (b0.4):
 - Menu Bar
     - Highlight currently active
     - Add to Alt 1 entry when not in Alt1
-    - Regular Map mode as default
+    - Regular Map mode as default when not in Alt1
 
 - Settings Modal
     - Map Settings: Teleport Preferences

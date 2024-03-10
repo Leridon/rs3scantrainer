@@ -162,7 +162,7 @@ export class EntityTransportEntity extends MapEntity {
 
         return {
             content: props,
-            interactive: true
+            interactive: false
         }
     }
 }

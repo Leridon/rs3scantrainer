@@ -6,6 +6,7 @@ import {EntityTransportEntity} from "./entities/EntityTransportEntity";
 import {TeleportSpotEntity} from "./entities/TeleportSpotEntity";
 import TeleportGroup = Transportation.TeleportGroup;
 import Dependencies from "../../dependencies";
+import {TeleportAccessEntity} from "./entities/TeleportAccessEntity";
 
 export default class TransportLayer extends GameLayer {
     constructor(interactive: boolean) {
@@ -27,6 +28,17 @@ export default class TransportLayer extends GameLayer {
                         teleport: new TeleportGroup.Spot(trans, spot, trans.access[0], Dependencies.instance().app.teleport_settings),
                         interactive: interactive
                     }).addTo(this)
+                })
+
+                trans.access.forEach(access => {
+                    if (access.type == "entity") {
+                        new TeleportAccessEntity({
+                            highlightable: true,
+                            teleport: trans,
+                            access: access,
+                            interactive: interactive
+                        }).addTo(this)
+                    }
                 })
             }
         }))

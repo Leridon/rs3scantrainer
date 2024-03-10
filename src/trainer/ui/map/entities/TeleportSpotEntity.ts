@@ -117,7 +117,7 @@ export class TeleportSpotEntity extends MapEntity {
                         type: "basic",
                         text: entity(a.name),
                         handler: () => {
-                            this.parent?.getMap()?.fitView(TileArea.toRect(a.area))
+                            this.parent?.getMap()?.fitView(TileArea.toRect(a.clickable_area))
                         }
                     }
                 })

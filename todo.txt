@@ -7,12 +7,12 @@ Planned for next release (b0.4):
     - Swamp Cave entrance and stones
 
 - Path Editor
-    - [Feature, 4] Add additional action bar buttons
+    - [Feature, 5] Add additional action bar buttons
         - Moveable Lens
         - Cheat Step
-    - [Feature, 5, WIP] Add "Edit details modal"
+    - [Feature, 3, WIP] Add "Edit details modal"
         - Finish edits for all props.
-    - [QOL, 3] Additional utility context actions
+    - [QOL, 5] Additional utility context actions
         - Select direction for orientation
         - Select action for redclicks
 
@@ -24,19 +24,12 @@ Planned for next release (b0.4):
     - [Feature] Check valid access
 
 - Map Entities
-    - [Feature, 5] Reconsider opacity render-property
-    - [Bug, 5] Quad Tree culling seems to be completely broken after a crash-fix (all entities get redrawn for every move)
+    - [Feature, 5] Add Teleport Access Entity
+    - [Feature, 5] Add Transport Destination Entity
+    - [Performance, 1] Remove from quadtree when removed from map!
+    - [Performance, 1] Share a quad tree for all game layers
     - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
-    - [Performance, 2] Remove from quadtree when removed from map!
-    - [Performance, 5] Zoom changes cause a very slow rerender of many entities.
-        -  [WIP] Employ spatial subdivision for culling (quadtree)
-            - One Tree per Map vs a tree per GameLayer?
-        - Check whether entities need to use markers as much as they do
-        - Cull entities on bigger zooms
-        - Delay render on zoom for multiple zooms
     - [Feature, 2] Find a way to separate entities on the same tile
-    - [Feature] Add Teleport Access Entitiy
-    - [Feature] Add Transport Destination Entity
 
 - Theorycrafter
     - Editor for generic path methods

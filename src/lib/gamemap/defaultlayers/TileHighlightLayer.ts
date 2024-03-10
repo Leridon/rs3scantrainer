@@ -1,4 +1,4 @@
-import GameLayer from "../GameLayer";
+import {GameLayer} from "../GameLayer";
 import * as leaflet from "leaflet";
 import {Vector2} from "../../math";
 import {tilePolygon} from "../../../trainer/ui/polygon_helpers";

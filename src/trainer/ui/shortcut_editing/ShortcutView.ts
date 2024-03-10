@@ -1,4 +1,4 @@
-import GameLayer from "lib/gamemap/GameLayer";
+import {GameLayer} from "lib/gamemap/GameLayer";
 import {Transportation} from "../../../lib/runescape/transportation";
 import * as leaflet from "leaflet";
 import {Vector2} from "lib/math";

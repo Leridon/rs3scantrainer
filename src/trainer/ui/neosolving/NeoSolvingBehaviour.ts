@@ -1,6 +1,6 @@
 import Behaviour, {SingleBehaviour} from "../../../lib/ui/Behaviour";
 import {Application} from "../../application";
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import {C} from "../../../lib/ui/constructors";
 import Widget from "../../../lib/ui/Widget";

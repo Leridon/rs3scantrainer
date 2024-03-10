@@ -3,7 +3,7 @@ import {Observable, observe} from "../../../lib/reactive";
 import {Path} from "../../../lib/runescape/pathing";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {PathStepEntity} from "../map/entities/PathStepEntity";
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import movement_state = Path.movement_state;
 import * as lodash from "lodash";
 import {util} from "../../../lib/util/util";

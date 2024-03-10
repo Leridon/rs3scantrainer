@@ -3,33 +3,41 @@ import {MovementAbilities} from "../../../../lib/runescape/movement";
 import * as leaflet from "leaflet";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {arrow, createX} from "../../path_graphics";
-import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
 import Widget from "../../../../lib/ui/Widget";
 import {PathStepProperties} from "../../pathing/PathStepProperties";
 import Dependencies from "../../../dependencies";
-import GameLayer from "../../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import {TransportData} from "../../../../data/transports";
 import {TeleportSpotEntity} from "./TeleportSpotEntity";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import {MenuEntry} from "../../widgets/ContextMenu";
+import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
 
 export class PathStepEntity extends MapEntity {
+
+    floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
     constructor(public config: PathStepEntity.Config) {
         super(config)
 
-        this.floor_sensitive = true
+        this.floor_sensitivity_layers = new FloorLevels([
+            {floors: [Path.Step.level(config.step)], value: {correct_level: true}},
+            {floors: floor_t.all, value: {correct_level: false}},
+        ])
     }
 
     bounds(): Rectangle {
         return Path.Step.bounds(this.config.step)
     }
 
-    protected override async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
+    protected override async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
         const step = this.config.step
 
-        const cls = Path.Step.level(step) == options.viewport.rect.level ? "ctr-step-graphics" : "ctr-step-graphics-dl"
+        const floor_group = this.floor_sensitivity_layers.get(options.floor_group_index)
+
+        const cls = floor_group.value.correct_level ?  "ctr-step-graphics" : "ctr-step-graphics-dl"
 
         const element: Element = (() => {
             switch (step.type) {

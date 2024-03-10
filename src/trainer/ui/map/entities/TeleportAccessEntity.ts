@@ -3,7 +3,7 @@ import {Transportation} from "../../../../lib/runescape/transportation";
 import TeleportAccess = Transportation.TeleportAccess;
 
 export class TeleportAccessEntity extends MapEntity {
-    protected render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
+    protected render_implementation(options: MapEntity.RenderProps): Promise<Element> {
         throw new Error("Method not implemented.");
     }
 

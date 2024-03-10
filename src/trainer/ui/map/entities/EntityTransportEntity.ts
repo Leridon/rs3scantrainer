@@ -1,5 +1,5 @@
 import {MapEntity} from "../../../../lib/gamemap/MapEntity";
-import {ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
+import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {Transportation} from "../../../../lib/runescape/transportation";
 import {Rectangle, Vector2} from "../../../../lib/math";
 import {OpacityGroup} from "../../../../lib/gamemap/layers/OpacityLayer";
@@ -7,32 +7,41 @@ import {arrow} from "../../path_graphics";
 import * as leaflet from "leaflet";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import {areaPolygon, boxPolygon2} from "../../polygon_helpers";
-import {TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
+import {floor_t, TileCoordinates, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import Widget from "../../../../lib/ui/Widget";
 import Properties from "../../widgets/Properties";
 import {C} from "../../../../lib/ui/constructors";
 import {direction} from "../../../../lib/runescape/movement";
 import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
+import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
 
 export class EntityTransportEntity extends MapEntity {
-    zoom_sensitivity_layers: ZoomLevels<{ scale: number }> = MapEntity.default_zoom_scale_layers
+    private normalized_shortcut: GeneralEntityTransportation
 
     constructor(public config: EntityTransportEntity.Config) {
         super(config)
 
-        this.floor_sensitive = true
-        this.zoom_sensitive = true
+        this.normalized_shortcut = Transportation.normalize(this.config.shortcut)
+
+        if(GeneralEntityTransportation.isLocal(this.normalized_shortcut)) {
+            this.zoom_sensitivity_layers = MapEntity.default_local_zoom_scale_layers
+        } else {
+            this.zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
+        }
+
+        this.floor_sensitivity_layers = new FloorLevels([
+            {floors: [this.normalized_shortcut.clickable_area.level], value: {}},
+            {floors: floor_t.all, hidden_here: true, value: {}},
+        ])
     }
 
     bounds(): Rectangle {
         return Transportation.bounds(this.config.shortcut)
     }
 
-    async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
-        const shortcut = Transportation.normalize(this.config.shortcut)
-
-        if (options.viewport.rect.level != shortcut.clickable_area.level) return
+    async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
+        const shortcut = this.normalized_shortcut
 
         const COLORS = {
             interactive_area: "#72bb46",
@@ -60,9 +69,8 @@ export class EntityTransportEntity extends MapEntity {
             return group
         }
 
-        let floor = options.viewport.rect.level
 
-        const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
+        const scale = (options.highlight ? 1.5 : this.zoom_sensitivity_layers.get(options.zoom_group_index).value.scale)
 
         // Render main marker
         const marker = leaflet.marker(Vector2.toLatLong(Rectangle.center(shortcut.clickable_area, false)), {
@@ -106,7 +114,7 @@ export class EntityTransportEntity extends MapEntity {
                         render_transport_arrow(center, target, movement.offset.level).addTo(this)
 
                     } else if (movement.fixed_target && !movement.fixed_target.relative) {
-                        if (movement.fixed_target.target.level == floor) {
+                        if (movement.fixed_target.target.level == this.parent.getMap().floor.value()) {
                             leaflet.circle(Vector2.toLatLong(movement.fixed_target.target), {
                                 color: COLORS.target_area,
                                 weight: 2,

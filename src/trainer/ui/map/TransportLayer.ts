@@ -1,4 +1,4 @@
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {Transportation} from "../../../lib/runescape/transportation";
 import {TransportData} from "../../../data/transports";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
@@ -10,6 +10,8 @@ import Dependencies from "../../dependencies";
 export default class TransportLayer extends GameLayer {
     constructor(interactive: boolean) {
         super();
+
+        this.quad_tree_debug_rendering = false
 
         TransportData.getAll().then(transports => transports.forEach(trans => {
             if (trans.type == "entity" || trans.type == "door") {

@@ -8,12 +8,13 @@ import * as tippy from "tippy.js";
 import {followCursor} from "tippy.js";
 import Widget from "../ui/Widget";
 import {QuadTree} from "../QuadTree";
+import {boxPolygon} from "../../trainer/ui/polygon_helpers";
 
 function childLike(l: leaflet.Layer): l is GameLayer | MapEntity {
     return l instanceof GameLayer || l instanceof MapEntity
 }
 
-export default class GameLayer extends leaflet.FeatureGroup {
+export class GameLayer extends leaflet.FeatureGroup {
     private entity_quadtree: QuadTree<MapEntity>
 
     public handler_pool: EwentHandlerPool = new EwentHandlerPool()
@@ -31,8 +32,13 @@ export default class GameLayer extends leaflet.FeatureGroup {
             if (childLike(l.layer)) l.layer.parent = this
 
             if (l.layer instanceof MapEntity) {
-                if (this.map) l.layer.render()
                 this.entity_quadtree?.insert(l.layer)
+
+                if (this.map) {
+                    l.layer.setFloorAndZoom(this.map.floor.value(), this.map.getZoom())
+                }
+
+                l.layer.requestRendering()
             }
         })
 
@@ -87,7 +93,9 @@ export default class GameLayer extends leaflet.FeatureGroup {
         this.map = map
 
         this.eachEntity(e => {
-            e.render()
+            e.setFloorAndZoom(this.map.floor.value(), this.map.getZoom())
+
+            e.requestRendering()
         })
 
         return super.onAdd(map)
@@ -219,7 +227,51 @@ export default class GameLayer extends leaflet.FeatureGroup {
 
     eventKeyUp(event: GameMapKeyboardEvent) {}
 
+    rendering = new GameLayer.RenderingLock()
+    protected quad_tree_debug_rendering = false
+    private debug_layer = leaflet.featureGroup().addTo(this)
+
     eventViewChanged(event: GameMapViewChangedEvent) {
+        event.onPre(() => {
+            this.rendering.lock()
+
+            if (this.quad_tree_debug_rendering) {
+                timeSync("Culling", () => this.entity_quadtree.cull(event.new_view.rect, false))
+            } else {
+                this.entity_quadtree.cull(event.new_view.rect, false)
+            }
+
+            if (this.quad_tree_debug_rendering) {
+                this.debug_layer.clearLayers()
+
+                function traverse_leafs(node: QuadTree<MapEntity>): leaflet.Polygon[] {
+                    if (node.isLeaf()) {
+                        const contains_culled = node.getElements().some(e => e.culled.value())
+                        const contains_invisible = node.getElements().some(e => !e.getDesiredRenderProps().render_at_all)
+
+                        return [boxPolygon(node.bounds()).setStyle({
+                            stroke: true,
+                            color: node.isCulled() ? "red" : (contains_invisible ? "purple" : "green"),
+                            fillOpacity: 0.2
+                        })]
+                    } else {
+                        return node.getChildren().flatMap(traverse_leafs)
+                    }
+                }
+
+                traverse_leafs(this.entity_quadtree).forEach(p => p.addTo(this.debug_layer))
+
+                console.log("Queued: " + this.rendering.entity_rendering_lock_queue.length)
+            }
+
+            this.entity_quadtree.forEachVisible(e => {
+                e.setFloorAndZoom(event.new_view.rect.level, event.new_view.zoom)
+            })
+
+            this.rendering.unlock()
+        })
+
+        /*
         this.entity_quadtree.iterate(event.new_view.rect, e => {
 
             const render = (() => {
@@ -231,8 +283,9 @@ export default class GameLayer extends leaflet.FeatureGroup {
             })()
 
             if (render) e.render()
-        })
+        })*/
     }
+
 }
 
 export namespace GameLayer {
@@ -240,6 +293,31 @@ export namespace GameLayer {
         entity: MapEntity,
         locked?: boolean,
         tooltip_instance?: tippy.Instance
+    }
+
+    export class RenderingLock {
+        private entity_render_locked: boolean = false
+        entity_rendering_lock_queue: MapEntity[] = []
+
+        lock() {
+            this.entity_render_locked = true
+        }
+
+        unlock() {
+            this.entity_rendering_lock_queue.forEach(e => e.render())
+
+            this.entity_rendering_lock_queue = []
+
+            this.entity_render_locked = false
+        }
+
+        request(e: MapEntity) {
+            if (this.entity_render_locked) {
+                this.entity_rendering_lock_queue.push(e)
+            } else {
+                e.render()
+            }
+        }
     }
 }
 
@@ -250,7 +328,19 @@ export async function time<T>(name: string, f: () => T): Promise<T> {
     console.log(`Starting task ${name}: `)
     let res = await f()
     const ms = (new Date().getTime() - timeStart)
-    console.log(`${ms}ms\n`)
+    console.log(`Task ${name} took ${ms}ms\n`)
+
+    return res
+}
+
+export function timeSync<T>(name: string, f: () => T): T {
+
+    let timeStart = new Date().getTime()
+
+    console.log(`Starting task ${name}: `)
+    let res = f()
+    const ms = (new Date().getTime() - timeStart)
+    console.log(`Task ${name} took ${ms}ms\n`)
 
     return res
 }

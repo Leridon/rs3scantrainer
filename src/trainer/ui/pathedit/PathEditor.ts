@@ -8,7 +8,7 @@ import {Transportation} from "../../../lib/runescape/transportation";
 import {Rectangle, Vector2} from "lib/math";
 import TemplateResolver from "lib/util/TemplateResolver";
 import {GameMapContextMenuEvent, GameMapKeyboardEvent} from "lib/gamemap/MapEvents";
-import GameLayer from "lib/gamemap/GameLayer";
+import {GameLayer} from "lib/gamemap/GameLayer";
 import {DrawAbilityInteraction} from "./interactions/DrawAbilityInteraction";
 import PathEditActionBar from "./PathEditActionBar";
 import InteractionLayer, {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";

@@ -8,7 +8,7 @@ import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {ActiveOpacityGroup, OpacityGroup} from "../../../lib/gamemap/layers/OpacityLayer";
 import {boxPolygon} from "../polygon_helpers";
 import {Scans} from "../../../lib/runescape/clues/scans";
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import complementSpot = Scans.complementSpot;
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {Observable, observe} from "../../../lib/reactive";

@@ -255,6 +255,19 @@ export namespace Transportation {
         }
     }
 
+    export namespace GeneralEntityTransportation {
+        export function isLocal(transport: GeneralEntityTransportation): boolean {
+
+            // A shortcut is local if there is no movement action that has a non-relative fixed target
+
+            return !transport.actions.some(a =>
+                a.movement.some(m => {
+                    return m.fixed_target && !(m.fixed_target.relative || Vector2.length(Vector2.sub(m.fixed_target.target, transport.clickable_area.topleft)) < 30)
+                })
+            )
+        }
+    }
+
     /**
      * Coalesces all shortcuts into the general EntityTransportation.
      * More specifically, it transforms door shortcuts into an equivalent {@link GeneralEntityTransportation} to allow unified handling across the code base.

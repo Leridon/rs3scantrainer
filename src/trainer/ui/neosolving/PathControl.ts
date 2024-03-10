@@ -31,7 +31,7 @@ import * as assert from "assert";
 import index = util.index;
 import {Observable, observe} from "../../../lib/reactive";
 import TemplateResolver from "../../../lib/util/TemplateResolver";
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {CursorType} from "../../../lib/runescape/CursorType";
 import {TransportData} from "../../../data/transports";
 import {Clues} from "../../../lib/runescape/clues";

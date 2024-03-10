@@ -1,4 +1,4 @@
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import * as leaflet from "leaflet";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import Widget from "../../../lib/ui/Widget";

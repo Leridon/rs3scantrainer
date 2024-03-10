@@ -1,6 +1,6 @@
 import Behaviour from "lib/ui/Behaviour";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
-import GameLayer from "lib/gamemap/GameLayer";
+import {GameLayer} from "lib/gamemap/GameLayer";
 import {Transportation} from "../../../lib/runescape/transportation";
 import {Rectangle} from "lib/math"
 import {ActionBar} from "../map/ActionBar";

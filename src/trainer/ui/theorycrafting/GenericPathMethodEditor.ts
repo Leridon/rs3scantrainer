@@ -5,7 +5,7 @@ import {SolvingMethods} from "../../model/methods";
 import PathProperty from "../pathedit/PathProperty";
 import {PathEditor} from "../pathedit/PathEditor";
 import {SingleBehaviour} from "../../../lib/ui/Behaviour";
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import Widget from "../../../lib/ui/Widget";
 import Properties from "../widgets/Properties";
 import {identity} from "lodash";

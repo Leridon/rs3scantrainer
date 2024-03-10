@@ -1,17 +1,54 @@
-import {TileRectangle} from "./runescape/coordinates";
+import * as lodash from "lodash";
 import {Rectangle, Vector2} from "./math";
 
 export class QuadTree<T extends QuadTree.Element<T>> {
-    private elements: T[] = []
+    elements: T[] = []
     private subdivisions: QuadTree<T>[] = []
     private is_dirty = false
+
+    private cull_rectangle: Rectangle = null
+    private is_culled = false
 
     private constructor(private parent: QuadTree<T>,
                         private rect: Rectangle) {
 
     }
 
+    private propagateCulled(rect: Rectangle, is_culled: boolean, per_element_culling: boolean = false) {
+        this.cull_rectangle = rect
+
+        const was_culled = this.is_culled
+
+        if (is_culled && !was_culled) {
+            this.is_culled = is_culled
+
+            this.elements.forEach(e => e.setCulled(true))
+            this.subdivisions.forEach(sub => sub.propagateCulled(rect, true))
+        } else if (!is_culled) {
+            this.is_culled = is_culled
+
+            if (per_element_culling) {
+                this.elements.forEach(e => e.setCulled(!Rectangle.overlaps(e.bounds(), rect)))
+            } else {
+                this.elements.forEach(e => e.setCulled(false))
+            }
+
+            this.subdivisions.forEach(sub => {
+                sub.cull(rect, per_element_culling)
+            })
+        }
+    }
+
+    cull(rect: Rectangle, per_element_culling: boolean = false) {
+        if (!rect) return
+
+        this.propagateCulled(rect, !Rectangle.overlaps(rect, this.rect), per_element_culling)
+    }
+
     private createSubdivisions() {
+        this.is_dirty = false
+
+        if (Rectangle.width(this.rect) <= 32) return;
         if (this.subdivisions.length > 0) return
 
         const center = Rectangle.center(this.rect)
@@ -28,6 +65,9 @@ export class QuadTree<T extends QuadTree.Element<T>> {
         // Resort elements
         const elements = this.elements
         this.elements = []
+
+        this.cull(this.cull_rectangle)
+
         elements.forEach(e => this.insert(e))
     }
 
@@ -41,6 +81,8 @@ export class QuadTree<T extends QuadTree.Element<T>> {
 
                 if (next) return pushDown(next)
                 else {
+                    element.setCulled(self.is_culled)
+
                     self.elements.push(element)
 
                     element.spatial = self
@@ -63,21 +105,32 @@ export class QuadTree<T extends QuadTree.Element<T>> {
         })
     }
 
-    iterate(rect: Rectangle, f: (_: T) => any, do_element_check: boolean = false) {
+    forEachVisible(f: (_: T) => void): void {
+        if(this.is_culled) return
 
-        {
-            const els = do_element_check
-                ? this.elements.filter(el => Rectangle.overlaps(rect, el.bounds()))
-                : this.elements
+        this.elements.forEach(f)
 
-            els.forEach(f)
-        }
+        this.subdivisions.forEach(sub => sub.forEachVisible(f))
+    }
 
-        this.subdivisions
-            .filter(child => Rectangle.overlaps(rect, child.rect))
-            .forEach(child => {
-                child.iterate(rect, f, do_element_check)
-            })
+    isLeaf(): boolean {
+        return this.subdivisions.length == 0
+    }
+
+    bounds(): Rectangle {
+        return lodash.cloneDeep(this.rect)
+    }
+
+    isCulled(): boolean {
+        return this.is_culled
+    }
+
+    getChildren(): QuadTree<T>[] {
+        return [...this.subdivisions] // Create a copy of the array to prevent modification to internals
+    }
+
+    getElements(): T[] {
+        return [...this.elements] // Create a copy of the array to prevent modification to internals
     }
 
     static init<T extends QuadTree.Element<T>>(rect: Rectangle): QuadTree<T> {
@@ -90,5 +143,7 @@ export namespace QuadTree {
         spatial: QuadTree<Element<T>>
 
         bounds(): Rectangle
+
+        setCulled(v: boolean): void
     }
 }

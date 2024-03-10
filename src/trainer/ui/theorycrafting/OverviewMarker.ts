@@ -40,7 +40,7 @@ export class ClueOverviewMarker extends MapEntity {
         return TileRectangle.from(ClueOverviewMarker.position(this.clue, this.talk_alternative_index))
     }
 
-    protected async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
+    protected async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
         let marker = new TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this)
 
         marker.setOpacity(options.highlight ? 0.5 : 1)

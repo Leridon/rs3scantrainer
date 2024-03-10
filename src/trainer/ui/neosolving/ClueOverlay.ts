@@ -1,4 +1,4 @@
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {Clues} from "../../../lib/runescape/clues";
 import ClueSpot = Clues.ClueSpot;
 

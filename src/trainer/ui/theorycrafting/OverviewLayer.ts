@@ -1,5 +1,5 @@
 import {Application} from "../../application";
-import GameLayer from "../../../lib/gamemap/GameLayer";
+import {GameLayer} from "../../../lib/gamemap/GameLayer";
 import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import {clue_data} from "../../../data/clues";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";

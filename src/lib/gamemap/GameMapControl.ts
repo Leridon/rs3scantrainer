@@ -1,5 +1,5 @@
 import Widget from "../ui/Widget";
-import GameLayer from "./GameLayer";
+import {GameLayer} from "./GameLayer";
 import {GameMap} from "./GameMap";
 
 export namespace GameMapControl {

@@ -1,4 +1,4 @@
-import GameLayer from "../GameLayer";
+import {GameLayer} from "../GameLayer";
 import {TypedEmitter} from "../../../skillbertssolver/eventemitter";
 import {GameMap} from "../GameMap";
 

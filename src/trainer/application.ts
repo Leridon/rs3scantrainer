@@ -11,7 +11,7 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {SolvingMethods} from "./model/methods";
-import GameLayer from "../lib/gamemap/GameLayer";
+import {GameLayer} from "../lib/gamemap/GameLayer";
 import MenuBar from "./ui/MenuBar";
 import Widget from "../lib/ui/Widget";
 import {makeshift_main} from "./main";

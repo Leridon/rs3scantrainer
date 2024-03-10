@@ -1,7 +1,6 @@
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {Checkbox} from "../../../lib/ui/controls/Checkbox";
-import GameLayer, {time} from "lib/gamemap/GameLayer";
 import * as leaflet from "leaflet"
 import {tileHalfPolygons, tilePolygon} from "../polygon_helpers";
 import {direction, MovementAbilities} from "../../../lib/runescape/movement";

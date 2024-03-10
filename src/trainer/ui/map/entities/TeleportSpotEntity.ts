@@ -15,36 +15,47 @@ import TeleportAccess = Transportation.TeleportAccess;
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import * as assert from "assert";
 import {areaPolygon} from "../../polygon_helpers";
-import {TileRectangle} from "../../../../lib/runescape/coordinates";
+import {floor_t} from "../../../../lib/runescape/coordinates";
+import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 
 export class TeleportSpotEntity extends MapEntity {
 
     zoom_sensitivity_layers = MapEntity.default_zoom_scale_layers
+    floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
 
     constructor(public config: TeleportSpotEntity.Config) {
         super(config);
 
-        this.floor_sensitive = true
-        this.zoom_sensitive = true
+        this.zoom_sensitivity_layers = new ZoomLevels<{ scale: number }>([
+            {min: -100, value: {scale: 0.5}},
+            {min: 1.5, value: {scale: 1}},
+        ])
+
+        this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
+            {floors: [config.teleport.targetArea().origin.level], value: {correct_level: true}},
+            {floors: floor_t.all, value: {correct_level: false}},
+        ])
     }
 
     bounds(): Rectangle {
         return TileArea.toRect(this.config.teleport.targetArea())
     }
 
-    async render_implementation(options: MapEntity.RenderOptions): Promise<Element> {
-        const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.viewport.zoom).scale))
+    async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
+        const floor_group = this.floor_sensitivity_layers.get(options.floor_group_index)
+
+        const scale = (options.highlight ? 1.5 : (this.zoom_sensitivity_layers.get(options.zoom_group_index).value.scale))
 
         const marker = leaflet.marker(Vector2.toLatLong(this.config.teleport.centerOfTarget()), {
             icon: new TeleportSpotEntity.TeleportMapIcon(this.config.teleport, scale, w => {
-                if (options.viewport.rect.level != this.config.teleport.centerOfTarget().level) w.css("filter", "grayscale(1) brightness(0.5)")
+                if (!floor_group.value.correct_level) w.css("filter", "grayscale(1) brightness(0.5)")
 
                 return w
             }),
             riseOnHover: true
         }).addTo(this)
 
-        if(options.highlight) {
+        if (options.highlight) {
             areaPolygon(this.config.teleport.targetArea())
                 .setStyle({
                     fillColor: "lightgreen",

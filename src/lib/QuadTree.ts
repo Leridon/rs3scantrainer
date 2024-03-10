@@ -12,7 +12,7 @@ export class QuadTree<T extends QuadTree.Element<T>> {
     }
 
     private createSubdivisions() {
-        if (this.subdivisions) return
+        if (this.subdivisions.length > 0) return
 
         const center = Rectangle.center(this.rect)
 

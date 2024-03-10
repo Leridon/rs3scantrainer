@@ -7,14 +7,14 @@ class Notification extends Widget {
     content: Widget = null
 
     constructor(public options: {
-        type: "error" | "information",
+        type?: "error" | "information",
         duration?: number | null,
         fixed?: boolean
     }) {
         super();
 
         this.addClass("ctr-notification")
-            .addClass(`ctr-notification-${options.type}`)
+            .addClass(`ctr-notification-${options.type ?? "information"}`)
 
         this.body = c().addClass("ctr-notification-content").appendTo(this)
 
@@ -40,8 +40,8 @@ class Notification extends Widget {
     }
 
     dismiss(fade: boolean = false) {
-        if(fade)        this.container.fadeOut(300, () => this.remove())
-    else  this.remove()
+        if (fade) this.container.fadeOut(300, () => this.remove())
+        else this.remove()
     }
 }
 
@@ -61,17 +61,17 @@ export default class NotificationBar extends Widget {
             "height": "toggle"
         }, 300)
 
-        if (notification.options.duration != null) {
+        if (notification.options.duration !== null) {
             setTimeout(() => {
                 notification.dismiss(true)
-            }, notification.options.duration)
+            }, notification.options.duration ?? 3000)
         }
 
         return this
     }
 
     notify(options: {
-        type: "error" | "information",
+        type?: "error" | "information",
         duration?: number | null,
         fixed?: boolean
     }, content: (string | Widget | ((_: Notification) => (string | Widget)))) {

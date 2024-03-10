@@ -91,7 +91,7 @@ export default class Graticule extends leaflet.FeatureGroup {
 
         //for horizontal lines
         for (let i = 0; i <= counts.x; i++) {
-            let x = mins.x + i * interval + this._options.offset.x;
+            let x = mins.x + i * interval + this._options.offset.x - 1;
 
             new leaflet.Polyline([
                 new leaflet.LatLng(bounds.getSouth(), x),
@@ -102,7 +102,7 @@ export default class Graticule extends leaflet.FeatureGroup {
 
         //for vertical lines
         for (let j = 0; j <= counts.y; j++) {
-            let y = mins.y + j * interval + this._options.offset.y;
+            let y = mins.y + j * interval + this._options.offset.y - 1;
 
             new leaflet.Polyline([
                 new leaflet.LatLng(y, bounds.getWest()),

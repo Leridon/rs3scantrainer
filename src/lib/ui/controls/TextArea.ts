@@ -24,6 +24,12 @@ export default class TextArea extends AbstractEditWidget<string, HTMLTextAreaEle
         return this
     }
 
+    setPlaceholder(placeholder: string): this{
+        this.container.attr("placeholder", placeholder)
+
+        return this
+    }
+
     protected render() {
         this.container.val(this.get())
     }

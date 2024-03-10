@@ -1,13 +1,12 @@
 import {SidePanel} from "../SidePanelControl";
 import Widget from "lib/ui/Widget";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../lib/runescape/transportation";
 import TextField from "lib/ui/controls/TextField";
 import LightButton from "../widgets/LightButton";
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import * as lodash from "lodash"
 import {Rectangle, Vector2} from "lib/math";
 import {ewent, Observable, ObservableArray, observe} from "../../../lib/reactive";
-import shortcuts from "../../../data/shortcuts";
 import {C} from "../../../lib/ui/constructors";
 import {ShortcutEditor} from "./ShortcutEditor";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
@@ -29,9 +28,9 @@ export default class ShortcutEditSidePanel extends MapSideBar {
     result_container: Widget
     viewport_checkbox: Checkbox
 
-    centered = ewent<Shortcuts.shortcut>()
+    centered = ewent<Transportation.Transportation>()
 
-    private visible_data_view: Observable<ObservableArrayValue<Shortcuts.shortcut & { is_builtin: boolean }>[]>
+    private visible_data_view: Observable<ObservableArrayValue<Transportation.Transportation & { is_builtin: boolean }>[]>
     private search_term = observe("")
 
     widgets: ShortcutEdit[] = []
@@ -41,7 +40,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
         this.header.close_handler.set(() => editor.stop())
 
-        observe<(_: Shortcuts.shortcut) => boolean>(() => true).equality(() => false)
+        observe<(_: Transportation.Transportation) => boolean>(() => true).equality(() => false)
 
         this.editor.app.map.viewport.subscribe(() => {if (this.viewport_checkbox.get()) this.updateVisibleData()})
         this.search_term.subscribe(() => this.updateVisibleData())
@@ -54,25 +53,28 @@ export default class ShortcutEditSidePanel extends MapSideBar {
         hboxc(
             new LightButton("Edit Builtins")
                 .onClick(() => {
-                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: false})))
+                    //this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: false})))
                 }),
             new LightButton("Delete Local")
                 .onClick(() => {
-                    this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
+                    // this.editor.data.setTo(shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})))
                 }),
         ).addClass("ctr-button-container").appendTo(this.search_container)
 
         hboxc(
             new LightButton("Export All")
                 .onClick(() => {
-                    ExportStringModal.do(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
+                    new ExportStringModal(JSON.stringify(this.editor.data.value().map(v => (({is_builtin, ...rest}) => rest)(v.value())), null, 2))
+                        .show()
                 }),
             new LightButton("Export Local")
                 .onClick(() => {
-                    ExportStringModal.do(JSON.stringify(this.editor.data.value().filter(s => !s.value().is_builtin).map(v => (({
-                                                                                                                                   is_builtin,
-                                                                                                                                   ...rest
-                                                                                                                               }) => rest)(v.value())), null, 2))
+                    new ExportStringModal(JSON.stringify(this.editor.data.value().filter(s => !s.value().is_builtin).map(v => (({
+                                                                                                                                    is_builtin,
+                                                                                                                                    ...rest
+                                                                                                                                }) => rest)(v.value())), null, 2))
+
+                        .show()
                 }),
         ).addClass("ctr-button-container").appendTo(this.search_container)
 
@@ -98,7 +100,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
             results.forEach(s => {
                 hbox(
-                    span(`${Vector2.toString(TileCoordinates.chunk(Shortcuts.position(s.value())))}: ${s.value().name}`),
+                    span(`${Vector2.toString(TileCoordinates.chunk(Transportation.position(s.value())))}: ${Transportation.name(s.value())}`),
                     spacer(),
                     sibut("assets/icons/edit.png", () => this.editor.editControl.shortcut.set(s)).setEnabled(!s.value().is_builtin)
                 ).appendTo(this.result_container)
@@ -143,7 +145,7 @@ export default class ShortcutEditSidePanel extends MapSideBar {
 
     private updateVisibleData() {
         this.visible_data_view.set(this.editor.data.get().filter(s => {
-            return s.value().name.toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Shortcuts.bounds(s.value()), this.editor.app.map.viewport.value()))
+            return Transportation.name(s.value()).toLowerCase().includes(this.search_term.value().toLowerCase()) && (!this.viewport_checkbox.get() || Rectangle.overlaps(Transportation.bounds(s.value()), this.editor.app.map.viewport.value().rect))
         }))
     }
 }

@@ -1,5 +1,5 @@
 import Widget from "../ui/Widget";
-import GameLayer from "./GameLayer";
+import {GameLayer} from "./GameLayer";
 import {GameMap} from "./GameMap";
 
 export namespace GameMapControl {
@@ -36,7 +36,7 @@ export class GameMapControl<content_t extends Widget = Widget> extends GameLayer
         }
 
         // Disable events propagating to the map // TODO: Do I really need this?
-        this.content.container.on("contextmenu blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mousemove mouseout mouseover resize select submit mousewheel", (e) => e.stopPropagation())
+        this.content.container.on("contextmenu blur change click dblclick error focus focusin focusout hover keydown keypress keyup load mousedown mouseenter mouseleave mouseout mouseover resize select submit mousewheel", (e) => e.stopPropagation())
     }
 
     onAdd(map: GameMap) {
@@ -50,6 +50,12 @@ export class GameMapControl<content_t extends Widget = Widget> extends GameLayer
         this.content.detach()
 
         return super.onRemove(map);
+    }
+
+    setContent(content: Widget): this {
+        this.content.empty().append(content)
+
+        return this
     }
 }
 

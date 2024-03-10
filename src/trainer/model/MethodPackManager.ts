@@ -2,31 +2,75 @@ import {SolvingMethods} from "./methods";
 import Method = SolvingMethods.Method;
 import KeyValueStore from "../../lib/util/KeyValueStore";
 import {uuid} from "../../oldlib";
-import {ClueSpotIndex} from "../../data/ClueIndex";
+import {ClueSpotIndex} from "../../lib/runescape/clues/ClueIndex";
 import {Clues} from "../../lib/runescape/clues";
-import {default_scan_method_pack} from "../../data/methods";
+import {default_generic_method_pack, default_scan_method_pack} from "../builtin_methods";
 import {clue_data} from "../../data/clues";
-import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {ewent, Ewent} from "../../lib/reactive";
 import * as lodash from "lodash";
 import {util} from "../../lib/util/util";
 import timestamp = util.timestamp;
+import ClueSpot = Clues.ClueSpot;
+import ClueAssumptions = SolvingMethods.ClueAssumptions;
 
-export type Pack = {
+export type Pack = Pack.Meta & {
     type: "default" | "local" | "imported"
     local_id: string,
     original_id: string,
-    author: string,
     timestamp: number,
-    name: string,
-    description: string,
-    methods: Method[]
+    methods: Method[],
+}
+
+export namespace Pack {
+    export type Meta = {
+        author: string,
+        name: string,
+        description: string,
+        default_assumptions: ClueAssumptions,
+        default_method_name: string
+    }
+
+    export function setMeta(pack: Pack, meta: Meta): void {
+        pack.author = meta.author
+        pack.description = meta.description
+        pack.name = meta.name
+        pack.default_assumptions = lodash.cloneDeep(meta.default_assumptions)
+        pack.default_method_name = meta.default_method_name
+    }
+
+    export function meta(pack: Pack): Meta {
+        return {
+            name: pack.name,
+            author: pack.author,
+            description: pack.description,
+            default_assumptions: lodash.cloneDeep(pack.default_assumptions),
+            default_method_name: pack.default_method_name
+        }
+    }
 }
 
 export type AugmentedMethod<
     method_t extends Method = Method,
     step_t extends Clues.Step = Clues.Step
 > = { method: method_t, pack?: Pack, clue?: step_t }
+
+export namespace AugmentedMethod {
+    export function isSame(a: AugmentedMethod, b: AugmentedMethod): boolean {
+        return (a == b) || (a && b && LocalMethodId.equals(LocalMethodId.fromMethod(a), LocalMethodId.fromMethod(b)))
+    }
+}
+
+export type LocalMethodId = { local_pack_id: string, method_id: string }
+
+export namespace LocalMethodId {
+    export function fromMethod(method: AugmentedMethod): LocalMethodId {
+        return {local_pack_id: method.pack.local_id, method_id: method.method.id}
+    }
+
+    export function equals(a: LocalMethodId, b: LocalMethodId): boolean {
+        return a.local_pack_id == b.local_pack_id && a.method_id == b.method_id
+    }
+}
 
 export class MethodPackManager {
     public initialized: Promise<void>
@@ -37,15 +81,17 @@ export class MethodPackManager {
     private local_packs: Pack[] = []
 
     pack_set_changed: Ewent.Real<Pack[]> = ewent()
+    saved: Ewent.Real<null> = ewent()
 
     private index_created: Promise<void>
 
     private method_index: ClueSpotIndex<{ methods: AugmentedMethod[] }>
         = ClueSpotIndex.simple(clue_data.index).with(() => ({methods: []}))
 
-    constructor() {
+    private constructor() {
         this.default_packs = [
-            default_scan_method_pack
+            default_scan_method_pack,
+            default_generic_method_pack
         ]
 
         this.initialized = this.local_pack_store.get().then(async v => {
@@ -57,18 +103,21 @@ export class MethodPackManager {
         this.pack_set_changed.on(() => this.invalidateIndex())
     }
 
-    private save(): Promise<void> {
-        return this.local_pack_store.set(this.local_packs)
+    private async save(): Promise<void> {
+        await this.local_pack_store.set(this.local_packs)
+
+        this.invalidateIndex()
+
+        this.saved.trigger(null)
     }
 
     private invalidateIndex(): void {
-
         this.index_created = new Promise(async (resolve) => {
             this.method_index.forEach(e => e.methods = []);
 
             (await this.all()).forEach(p => {
                 p.methods.forEach(m => {
-                    this.method_index.get(m.for.clue, m.for.spot).methods.push({
+                    this.method_index.get(m.for).methods.push({
                         method: m,
                         pack: p,
                         clue: clue_data.index.get(m.for.clue).clue
@@ -78,7 +127,6 @@ export class MethodPackManager {
 
             resolve()
         })
-
     }
 
     async all(): Promise<Pack[]> {
@@ -126,6 +174,8 @@ export class MethodPackManager {
 
         this.local_packs.push(pack)
 
+        this.invalidateIndex()
+
         await this.save()
 
         this.pack_set_changed.trigger(await this.all())
@@ -157,14 +207,16 @@ export class MethodPackManager {
         this.pack_set_changed.trigger(await this.all())
     }
 
-    async updatePack(pack: Pack, f: (_: Pack) => any): Promise<void> {
+    async updatePack(pack: Pack, f: (_: Pack) => any): Promise<Pack> {
         if (pack.type != "local") return
 
         f(pack)
 
         pack.timestamp = timestamp()
 
-        this.save()
+        await this.save()
+
+        return pack
     }
 
     async updateMethod(method: AugmentedMethod): Promise<void> {
@@ -172,19 +224,13 @@ export class MethodPackManager {
 
         let i = pack.methods.findIndex(m => m.id == method.method.id)
 
-        pack.methods[i] = method.method
+        if (i >= 0) {
+            pack.methods[i] = method.method
+        } else {
+            pack.methods.push(method.method)
+        }
 
         method.method.timestamp = pack.timestamp = timestamp()
-
-        this.save()
-    }
-
-    createMethod(method: AugmentedMethod) {
-        let pack = this.local_packs.find(p => p.type == "local" && p.local_id == method.pack.local_id)
-
-        pack.methods.push(method.method)
-
-        pack.timestamp = timestamp()
 
         this.save()
     }
@@ -201,9 +247,32 @@ export class MethodPackManager {
         this.save()
     }
 
-    async getForClue(id: number, spot_alterantive?: TileCoordinates): Promise<AugmentedMethod[]> {
+    static _instance: MethodPackManager = null
+
+    static instance(): MethodPackManager {
+        if (!MethodPackManager._instance) MethodPackManager._instance = new MethodPackManager()
+
+        return MethodPackManager._instance
+    }
+
+    async getForClue(id: ClueSpot.Id): Promise<AugmentedMethod[]> {
         await this.index_created
 
-        return this.method_index.get(id, spot_alterantive).methods
+        return this.method_index.get(id).methods
+    }
+
+    async get(spot: ClueSpot): Promise<AugmentedMethod[]> {
+        // TODO: Why would I need both this method and getForClue?
+        return await this.getForClue(ClueSpot.toId(spot))
+    }
+
+    async resolve(id: LocalMethodId): Promise<AugmentedMethod> {
+        const pack = (await this.all()).find(p => p.local_id == id.local_pack_id)
+
+        if (!pack) return null
+
+        const method = pack.methods.find(m => m.id == id.method_id)
+
+        return {method: method, pack: pack, clue: clue_data.index.get(method.for.clue).clue}
     }
 }

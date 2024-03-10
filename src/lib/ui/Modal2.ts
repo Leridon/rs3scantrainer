@@ -2,7 +2,7 @@ import {ewent, Observable, observe} from "../reactive";
 import Widget from "./Widget";
 import observe_combined = Observable.observe_combined;
 
-export class Modal2 {
+export abstract class Modal2 {
     shown = ewent<this>()
     hidden = ewent<this>()
     removed = ewent<this>()
@@ -14,10 +14,8 @@ export class Modal2 {
     private visible = observe(false)
     private should_dismount = observe(false)
 
-    private hidden_resolvers: ((_: this) => any)[] = []
-
-    constructor(protected options: Modal2.Options = {}) {
-        this._modal = c("<div class='modal' tabindex='-1'><div class='modal-dialog'></div></div>")
+    protected constructor(protected options: Modal2.Options = {}) {
+        this._modal = c("<div class='modal ctr-modal' tabindex='-1'><div class='modal-dialog'></div></div>")
         this._dialog = c("<div class='modal-dialog'></div>").appendTo(this._modal)
         this._content = c("<div class='modal-content'></div>").appendTo(this._dialog)
 
@@ -45,15 +43,14 @@ export class Modal2 {
         this._modal.container.on("hidden.bs.modal", () => {
             this.visible.set(false)
             this.hidden.trigger(this)
-
-            this.hidden_resolvers.forEach(f => f(this))
-            this.hidden_resolvers = []
         })
 
         observe_combined({visible: this.visible, should_dismount: this.should_dismount}).subscribe(({visible, should_dismount}) => {
             if (!visible && should_dismount) this.dismount()
         })
     }
+
+    abstract render(): Promise<void> | void
 
     private mount() {
         if (this._modal.container.parent().length == 0) {
@@ -66,12 +63,15 @@ export class Modal2 {
         this.removed.trigger(this)
     }
 
-    show(): Promise<this> {
+    async show(): Promise<this> {
         let promise = new Promise<this>((resolve) => {
-            this.hidden_resolvers.push(resolve)
+            this.hidden.on(() => resolve(this))
         })
 
         this.mount()
+
+        await this.render()
+
         this._modal.container.modal("show")
 
         return promise

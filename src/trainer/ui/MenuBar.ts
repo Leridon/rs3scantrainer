@@ -5,11 +5,11 @@ import span = C.span;
 import {Application} from "../application";
 import {ShortcutEditor} from "./shortcut_editing/ShortcutEditor";
 import {PathEditor} from "./pathedit/PathEditor";
-import GameLayer from "../../lib/gamemap/GameLayer";
-import shortcuts from "../../data/shortcuts";
+import {GameLayer} from "../../lib/gamemap/GameLayer";
 import TheoryCrafter from "./theorycrafting/TheoryCrafter";
 import Button from "../../lib/ui/controls/Button";
 import NeoSolvingBehaviour from "./neosolving/NeoSolvingBehaviour";
+import MapUtilityBehaviour from "./MapUtilityBehaviour";
 
 class MenuButton extends Button {
 
@@ -37,7 +37,7 @@ export default class MenuBar extends Widget {
             this.empty()
 
             this.append(
-                new MenuButton("Solving", "assets/icons/ribbon_clue.png")
+                new MenuButton("Solve", "assets/icons/ribbon_clue.png")
                     .setEnabled(!(behaviour instanceof NeoSolvingBehaviour))
                     .onClick(() => {
                         app.main_behaviour.set(new NeoSolvingBehaviour(app))
@@ -50,15 +50,14 @@ export default class MenuBar extends Widget {
                 new MenuButton("Paths", "assets/icons/ribbon_activitytracker.webp")
                     .setEnabled(!(behaviour instanceof PathEditor))
                     .onClick(() => {
-                        app.main_behaviour.set(new PathEditor(new GameLayer().addTo(app.map), app.template_resolver, {
-                            teleports: this.app.data.teleports.getAll(),
-                            shortcuts: shortcuts
-                        }, {initial: []}))
-
+                        app.main_behaviour.set(new PathEditor(new GameLayer().addTo(app.map), app.template_resolver, {initial: []}))
                     }),
-                new MenuButton("Edit", "assets/icons/ribbon_teleports.webp")
+                /*new MenuButton("Edit", "assets/icons/ribbon_teleports.webp")
                     .setEnabled(!(behaviour instanceof ShortcutEditor))
-                    .onClick(() => app.main_behaviour.set(new ShortcutEditor(app)))
+                    .onClick(() => app.main_behaviour.set(new ShortcutEditor(app)))                ,*/
+                new MenuButton("Utility", "assets/icons/ribbon_notes.webp")
+                    .setEnabled(!(behaviour instanceof MapUtilityBehaviour))
+                    .onClick(() => app.main_behaviour.set(new MapUtilityBehaviour(app)))
                 ,
                 spacer(),
                 new MenuButton("Settings", "assets/icons/ribbon_options.webp").onClick(() => {}),

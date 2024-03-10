@@ -1,6 +1,6 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
-import {ClearMapData, PathFinder} from "lib/runescape/movement";
-import {arrow, createStepGraphics} from "../../path_graphics";
+import {PathFinder} from "lib/runescape/movement";
+import {arrow} from "../../path_graphics";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
 import InteractionTopControl from "../../map/InteractionTopControl";
@@ -9,6 +9,8 @@ import {util} from "../../../../lib/util/util";
 import index = util.index;
 import observe_combined = Observable.observe_combined;
 import {Path} from "../../../../lib/runescape/pathing";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
+import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 
 class DrawRunInteractionInternal extends ValueInteraction<{
     path: TileCoordinates[],
@@ -41,10 +43,12 @@ class DrawRunInteractionInternal extends ValueInteraction<{
 
                 if (v) {
 
-                    let preview = createStepGraphics({
-                        type: "run",
-                        waypoints: v.path,
-                        description: ""
+                    let preview = new PathStepEntity({
+                        step: {
+                            type: "run",
+                            waypoints: v.path,
+                        },
+                        highlightable: false
                     })
 
                     if (v.no_path_to) {
@@ -69,7 +73,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                         .append(c().text(`[Click] valid target tile to confirm.`))
                         .append(c().text(`[Shift + Click] to place a forced waypoint.`))
                         .append(c().text(`[Ctrl] to ignore all obstacles.`))
-                        .append(c().text(`[R] to remove last waypoint.`))
+                        .append(c().text(`[Backspace] to remove last waypoint.`))
                 )
             } else {
                 this.top_control.setContent(
@@ -109,7 +113,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
     }
 
     eventClick(event: GameMapMouseEvent) {
-        event.onPre(async () => {
+        event.onPost(async () => {
             event.stopAllPropagation()
 
             if (this.segments.value().length == 0) this.setStartPosition(event.tile())
@@ -117,7 +121,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                 let segment =
                     await (event.original.ctrlKey
                         ? PathFinder.idealPath(this.last_position.value(), event.tile())
-                        : PathFinder.find(this.getPathFindingState(), event.tile()))
+                        : PathFinder.find(this.getPathFindingState(), TileArea.init(event.tile())))
 
                 if (segment) {
                     this.segments.update(w => w.push({tiles: segment}))
@@ -135,7 +139,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
     }
 
     eventHover(event: GameMapMouseEvent) {
-        event.onPre(async () => {
+        event.onPost(async () => {
             this.updatePreview(event.tile(), event.original.ctrlKey)
         })
     }
@@ -145,7 +149,7 @@ class DrawRunInteractionInternal extends ValueInteraction<{
             let segment =
                 await (force
                     ? PathFinder.idealPath(this.last_position.value(), tile)
-                    : PathFinder.find(this.getPathFindingState(), tile))
+                    : PathFinder.find(this.getPathFindingState(), TileArea.init(tile)))
 
             this.previewed_segment.set({
                 target: tile,
@@ -159,22 +163,13 @@ class DrawRunInteractionInternal extends ValueInteraction<{
     }
 
     eventKeyDown(event: GameMapKeyboardEvent) {
-        event.onPre(() => {
+        event.onPost(() => {
             if (event.original.key == "Control" && this.previewed_segment.value()) {
                 event.stopAllPropagation()
                 this.updatePreview(this.previewed_segment.value().target, true)
             }
-        })
-    }
 
-    eventKeyUp(event: GameMapKeyboardEvent) {
-        event.onPre(() => {
-            if (event.original.key == "Control" && this.previewed_segment.value()) {
-                event.stopAllPropagation()
-                this.updatePreview(this.previewed_segment.value().target, false)
-            }
-
-            if (event.original.key.toLowerCase() == "r") {
+            if (event.original.key == "Backspace") {
                 event.stopAllPropagation()
 
                 this.segments.update(s => s.splice(s.length - 1, 1))
@@ -183,6 +178,15 @@ class DrawRunInteractionInternal extends ValueInteraction<{
                     this.updatePreview(this.previewed_segment.value().target, this.previewed_segment.value().forced)
                 }
                 this.previewed_segment.update(() => {})
+            }
+        })
+    }
+
+    eventKeyUp(event: GameMapKeyboardEvent) {
+        event.onPost(() => {
+            if (event.original.key == "Control" && this.previewed_segment.value()) {
+                event.stopAllPropagation()
+                this.updatePreview(this.previewed_segment.value().target, false)
             }
         })
     }
@@ -196,12 +200,13 @@ export default class DrawRunInteraction extends ValueInteraction<Path.step_run> 
 
         this.internal = new DrawRunInteractionInternal()
             .onCommit(v => {
-                this.commit(Path.auto_describe({
+                this.commit(({
                     type: "run",
-                    description: "",
                     waypoints: v.path
                 }))
-            }).addTo(this)
+            })
+            .onDiscarded(() => this.cancel())
+            .addTo(this)
     }
 
     setStartPosition(pos: TileCoordinates): this {

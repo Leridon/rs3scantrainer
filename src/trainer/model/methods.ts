@@ -1,12 +1,13 @@
 import {ScanTree} from "lib/cluetheory/scans/ScanTree";
 import {Path} from "lib/runescape/pathing";
-import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {Clues} from "../../lib/runescape/clues";
 import {uuid} from "../../oldlib";
 import {util} from "../../lib/util/util";
+import * as lodash from "lodash";
 
 export namespace SolvingMethods {
     import timestamp = util.timestamp;
+    import ClueSpot = Clues.ClueSpot;
     export type method_kind = "scantree" | "general_path"
 
     export type ClueAssumptions = {
@@ -26,16 +27,49 @@ export namespace SolvingMethods {
                 way_of_the_footshaped_key: true
             }
         }
+
+        export function filterWithRelevance(assumptions: ClueAssumptions, relevance: Relevance): ClueAssumptions {
+
+            for (let key of Object.keys(assumptions)) {
+                if (!relevance.includes(key as keyof ClueAssumptions)) assumptions[key] = undefined
+            }
+
+            return assumptions
+        }
+
+        export type Relevance = (keyof ClueAssumptions)[]
+
+        export namespace Relevance {
+            export const all: Relevance = ["double_escape", "double_surge", "mobile_perk", "way_of_the_footshaped_key", "full_globetrotter", "meerkats_active"]
+
+            export function forSpot(step: ClueSpot): Relevance {
+                const relevant: Relevance = ["double_escape", "double_surge", "mobile_perk"]
+
+                if (step.clue.solution && step.clue.solution.type == "search" && step.clue.solution.key) {
+                    relevant.push("way_of_the_footshaped_key")
+                }
+
+                if (step.clue.type == "emote" && step.clue.hidey_hole) {
+                    relevant.push("full_globetrotter")
+                }
+
+                if (step.clue.type == "scan") {
+                    relevant.push("meerkats_active")
+                }
+
+                return relevant
+            }
+        }
+
     }
 
-    type method_base = {
+
+    type method_base = Method.Meta & {
         type: method_kind,
         id: string,
         timestamp: number,
-        for: { clue: number, spot?: TileCoordinates },
-        name: string,
-        description: string,
-        assumptions: ClueAssumptions,
+        for: ClueSpot.Id,
+        expected_time?: number
     }
 
     export type ScanTreeMethod = method_base & {
@@ -45,21 +79,47 @@ export namespace SolvingMethods {
 
     export type GenericPathMethod = method_base & {
         type: "general_path",
-        path_to_key_or_hideyhole?: Path.raw,
-        path_to_spot: Path.raw,
-        path_back_to_hideyhole?: Path.raw
+        pre_path?: Path.raw,
+        main_path: Path.raw,
+        post_path?: Path.raw
     }
 
     export type Method = ScanTreeMethod | GenericPathMethod
 
+    export namespace Method {
+        export type Meta = {
+            name: string,
+            description: string,
+            assumptions: ClueAssumptions,
+        }
+
+        export function meta(method: Method): Meta {
+            return {
+                name: method.name,
+                description: method.description,
+                assumptions: method.assumptions
+            }
+        }
+
+        export function setMeta<T extends Method>(method: T, meta: Meta): T {
+            method.name = meta.name
+            method.description = meta.description
+            method.assumptions = lodash.cloneDeep(meta.assumptions)
+
+            return method
+        }
+    }
+
     export function init(clue: Clues.ClueSpot): Method {
+        // TODO: Sensible default names
+
         if (clue.clue.type == "scan") {
             return {
                 id: uuid(),
                 type: "scantree",
                 timestamp: timestamp(),
-                name: "Enter a name",
-                description: "Enter a description.",
+                name: "",
+                description: "",
                 assumptions: ClueAssumptions.init(),
                 for: {clue: clue.clue.id},
                 tree: ScanTree.init(clue.clue)
@@ -69,14 +129,22 @@ export namespace SolvingMethods {
                 id: uuid(),
                 type: "general_path",
                 timestamp: timestamp(),
-                name: "Enter a name",
-                description: "Enter a description.",
+                name: "",
+                description: "",
                 assumptions: ClueAssumptions.init(),
                 for: {clue: clue.clue.id, spot: clue.spot ?? undefined},
-                path_back_to_hideyhole: [],
-                path_to_key_or_hideyhole: [],
-                path_to_spot: [],
+                post_path: [],
+                pre_path: [],
+                main_path: [],
             }
         }
+    }
+
+    export function clone<T extends Method>(method: T): T {
+        const clone = lodash.cloneDeep(method)
+
+        clone.id = uuid()
+
+        return clone
     }
 }

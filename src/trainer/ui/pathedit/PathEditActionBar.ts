@@ -15,17 +15,7 @@ import surge_cooldown = Path.movement_state.surge_cooldown;
 import escape_cooldown = Path.movement_state.escape_cooldown;
 import barge_cooldown = Path.movement_state.barge_cooldown;
 import dive_cooldown = Path.movement_state.dive_cooldown;
-import Collapsible from "../widgets/Collapsible";
-import Properties from "../widgets/Properties";
-import LightButton from "../widgets/LightButton";
-import ExportStringModal from "../widgets/modals/ExportStringModal";
-import ImportStringModal from "../widgets/modals/ImportStringModal";
-import {QueryLinks} from "../../query_functions";
-import {ScanTrainerCommands} from "../../application";
-import {C} from "../../../lib/ui/constructors";
-import hbox = C.hbox;
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
-import spacer = C.spacer;
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import ControlWithHeader from "../map/ControlWithHeader";
 
@@ -38,9 +28,9 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         dive: ActionBarButton,
         barge: ActionBarButton,
         run: ActionBarButton,
-        compass: ActionBarButton,
         redclick: ActionBarButton,
         powerburst: ActionBarButton,
+        cheat: ActionBarButton,
     }
 
     state: Observable<movement_state> = observe(movement_state.start({}))
@@ -51,7 +41,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         super({
             position: "bottom-center",
             type: "gapless"
-        }, new ControlWithHeader("Path Editor", () => this.editor.close()));
+        }, new ControlWithHeader("Path Editor"));
 
         type ability_data = {
             ability: MovementAbilities.movement_ability,
@@ -62,16 +52,23 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         {
             let self = this
 
+            function interact(interaction: InteractionLayer): InteractionLayer {
+                return self.interaction_guard.set(
+                    interaction
+                        .onStart(() => self.editor.overlay_control.lens_layer.enabled2.set(false))
+                        .onEnd(() => self.editor.overlay_control.lens_layer.enabled2.set(true)),
+                    self)
+            }
+
             async function ability_handle(opt: ability_data): Promise<InteractionLayer> {
                 if (opt.predictor && self.state.value().position?.tile != null && self.state.value().position?.direction != null) {
                     let res = await opt.predictor(self.state.value().position)
 
                     if (res) {
 
-                        self.editor.value.create(Path.auto_describe({
+                        self.editor.value.add(({
                             type: "ability",
                             ability: opt.ability,
-                            description: "",
                             from: self.state.value().position?.tile,
                             to: res.tile
                         }))
@@ -80,66 +77,60 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     }
                 }
 
-                return self.interaction_guard.set(
-                    new DrawAbilityInteraction(opt.ability)
-                        .onCommit((step) => self.editor.value.create(step))
-                        .setStartPosition(self.state.value().position?.tile),
-                    self)
+                return interact(new DrawAbilityInteraction(opt.ability)
+                    .onCommit((step) => self.editor.value.add(step))
+                    .setStartPosition(self.state.value().position?.tile))
             }
 
             this.buttons = {
-                surge: new ActionBarButton('assets/icons/surge.png', () => ability_handle({ability: "surge", predictor: MovementAbilities.surge})).tooltip("Surge"),
-                escape: new ActionBarButton('assets/icons/escape.png', () => ability_handle({ability: "escape", predictor: MovementAbilities.escape})).tooltip("Escape"),
-                dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"})).tooltip("Dive"),
-                barge: new ActionBarButton('assets/icons/barge.png', async () => await ability_handle({ability: "barge"})).tooltip("Barge"),
+                surge: new ActionBarButton('assets/icons/surge.png', () => ability_handle({ability: "surge", predictor: MovementAbilities.surge}))
+                    .tooltip("Surge")
+                    .setHotKey("s-W"),
+                escape: new ActionBarButton('assets/icons/escape.png', () => ability_handle({ability: "escape", predictor: MovementAbilities.escape}))
+                    .tooltip("Escape")
+                    .setHotKey("s-S"),
+                dive: new ActionBarButton('assets/icons/dive.png', () => ability_handle({ability: "dive"}))
+                    .tooltip("Dive")
+                    .setHotKey("D"),
+                barge: new ActionBarButton('assets/icons/barge.png', () => ability_handle({ability: "barge"}))
+                    .tooltip("Barge")
+                    .setHotKey("s-D"),
                 run: new ActionBarButton('assets/icons/run.png', () => {
-                    return self.interaction_guard.set(
+                    return interact(
                         new DrawRunInteraction()
-                            .onCommit(step => self.editor.value.create(step))
-                            .setStartPosition(self.state.value().position?.tile),
-                        self
+                            .onCommit(step => self.editor.value.add(step))
+                            .setStartPosition(self.state.value().position?.tile)
                     )
-                }).tooltip("Run"),
+                }).tooltip("Run")
+                    .setHotKey("s-R"),
                 redclick: new ActionBarButton('assets/icons/redclick.png', () => {
-                    return self.interaction_guard.set(
+                    return interact(
                         new PlaceRedClickInteraction()
-                            .onCommit((step) => self.editor.value.create(step))
-                        , self)
-                }).tooltip("Redclick"),
+                            .onCommit((step) => self.editor.value.add(step))
+                    )
+                }).tooltip("Redclick")
+                    .setHotKey("s-C")
+                ,
                 powerburst: new ActionBarButton('assets/icons/accel.png', () => {
                         if (self.state.value().position?.tile) {
-                            this.editor.value.create(Path.auto_describe({
+                            this.editor.value.add(({
                                     type: "powerburst",
-                                    description: "",
                                     where: self.state.value().position.tile
                                 })
                             )
                         } else {
-                            self.interaction_guard.set(
+                            return interact(
                                 new PlacePowerburstInteraction()
-                                    .onCommit((step) => self.editor.value.create(step))
-                                , self)
+                                    .onCommit((step) => self.editor.value.add(step))
+                            )
                         }
                     }
                 )
-                    .tooltip("Powerburst of Acceleration"),
-                compass: new ActionBarButton('assets/icons/compass.png', (e) => {
-                    let menu: Menu = direction.all.map(d => {
-                        return {
-                            type: "basic",
-                            text: direction.toString(d),
-                            handler: () => {
-                                self.editor.value.create(Path.auto_describe({
-                                    type: "orientation",
-                                    description: "",
-                                    direction: d
-                                }))
-                            }
-                        }
-                    })
+                    .tooltip("Powerburst of Acceleration")
+                    .setHotKey("s-P"),
+                cheat: new ActionBarButton('assets/icons/Rotten_potato.png', (e) => {
 
-                    new ContextMenu(menu).showFromEvent(e)
-                }).tooltip("Compass")
+                }).tooltip("Cheat")
             }
 
             this.bar = new ActionBar([
@@ -150,42 +141,8 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                 this.buttons.run,
                 this.buttons.redclick,
                 this.buttons.powerburst,
-                this.buttons.compass,
+                this.buttons.cheat
             ]).appendTo(this.content.body)
-        }
-
-        // Render buttons
-        {
-            hbox(
-                new LightButton("Commit", "rectangle").onClick(() => {
-                    this.editor.options.commit_handler(this.editor.value.construct())
-                }).setEnabled(!!this.editor.options.commit_handler),
-
-                new LightButton("Discard", "rectangle").onClick(() => {
-                    this.editor.value.load(this.editor.options.initial)
-                    this.editor.options?.discard_handler()
-                }),
-
-                new LightButton("Export", "rectangle")
-                    .onClick(() => ExportStringModal.do(Path.export_path(this.editor.value.construct()))),
-
-                new LightButton("Import", "rectangle")
-                    .onClick(async () => {
-                        await ImportStringModal.do((s) => Path.import_path(s), (value) => {
-                            this.editor.value.load(value)
-                        })
-                    }),
-
-                new LightButton("Share", "rectangle")
-                    .onClick(() => {
-                        ExportStringModal.do(QueryLinks.link(ScanTrainerCommands.load_path, {
-                            steps: this.editor.value.construct(),
-                            start_state: this.editor.options.start_state,
-                            target: this.editor.options.target,
-                        }), "Use this link to directly link to this path.")
-                    })
-            ).addClass("ctr-button-container")
-                .appendTo(this.content.body)
         }
 
         this.state.subscribe((s) => this.render(s), true)
@@ -196,20 +153,41 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
         this.buttons.escape.cooldown.set(escape_cooldown(state))
         this.buttons.barge.cooldown.set(barge_cooldown(state))
         this.buttons.dive.cooldown.set(dive_cooldown(state))
-        this.buttons.compass.cooldown.set(state.position.tile ? -1 : 0)
         this.buttons.powerburst.cooldown.set(Math.max(state.acceleration_activation_tick + 120 - state.tick, 0))
     }
 
     eventKeyDown(event: GameMapKeyboardEvent) {
-        event.onPost(() => {
-            if (event.original.key == "Escape") {
-                event.stopAllPropagation()
-                this.editor.stop()
-            }
+        event.onPre(() => {
+            const e = event.original
 
-            if (event.original.key.toLowerCase() == "s" && event.original.shiftKey) {
-                event.original.preventDefault()
-                this.editor.commit()
+            const handled = ((): boolean => {
+                if (e.shiftKey && e.key.toLowerCase() == "w") {
+                    this.editor.action_bar.buttons.surge.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "s") {
+                    this.editor.action_bar.buttons.escape.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "d") {
+                    this.editor.action_bar.buttons.barge.trigger()
+                    return true
+                } else if (e.key.toLowerCase() == "d") {
+                    this.editor.action_bar.buttons.dive.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "r") {
+                    this.editor.action_bar.buttons.run.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "c") {
+                    this.editor.action_bar.buttons.redclick.trigger()
+                    return true
+                } else if (e.shiftKey && e.key.toLowerCase() == "p") {
+                    this.editor.action_bar.buttons.powerburst.trigger()
+                    return true
+                }
+            })()
+
+            if (handled) {
+                event.stopAllPropagation()
+                e.preventDefault()
             }
         })
     }

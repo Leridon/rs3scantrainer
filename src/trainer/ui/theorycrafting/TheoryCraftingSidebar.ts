@@ -12,6 +12,7 @@ import ImportStringModal from "../widgets/modals/ImportStringModal";
 import {ExportImport} from "../../../lib/util/exportString";
 import imp = ExportImport.imp;
 import ButtonRow from "../../../lib/ui/ButtonRow";
+import {NewMethodPackModal} from "./MethodPackModal";
 
 export default class TheoryCraftingSidebar extends MapSideBar {
 
@@ -22,11 +23,11 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         this.css("width", "300px")
 
-        this.methods = theorycrafter.app.methods
+        this.methods = MethodPackManager.instance()
 
         this.header.close_handler.set(() => theorycrafter.stop())
 
-        this.methods.pack_set_changed.on((p) => this.render(p)).bindTo(theorycrafter.handler_pool)
+        this.methods.saved.on(async (p) => this.render(await this.methods.all())).bindTo(theorycrafter.handler_pool)
         this.methods.all().then(p => this.render(p))
     }
 
@@ -37,14 +38,14 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         h(2, "Default Method-Packs").appendTo(this.body)
         grouped["default"].forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods, {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         h(2, "Imported Method-Packs").appendTo(this.body)
         let imported = grouped["imported"] || []
 
         imported.forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods, {mode: "view", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (imported.length == 0) {
@@ -53,10 +54,12 @@ export default class TheoryCraftingSidebar extends MapSideBar {
 
         btnrow(
             new LightButton("Import", "rectangle")
-                .onClick(() => {
-                    ImportStringModal.do<Pack>(imp({expected_type: "method-pack", expected_version: 1}), (value) => {
-                        this.methods.import(value)
-                    })
+                .onClick(async () => {
+                    const imported = await new ImportStringModal<Pack>(imp({expected_type: "method-pack", expected_version: 1})).do()
+
+                    // TODO: This kinda sucks maybe
+
+                    if (imported?.imported) this.methods.import(imported.imported)
                 })
         ).appendTo(this.body)
 
@@ -65,7 +68,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
         h(2, "Local Method-Packs").appendTo(this.body)
 
         locals.forEach(p => {
-            new PackWidget(p, this.theorycrafter.app.methods, {mode: "edit", buttons: true, collapsible: true}).appendTo(this.body)
+            new PackWidget(p, MethodPackManager.instance(), {buttons: true, collapsible: true}).appendTo(this.body)
         })
 
         if (locals.length == 0) {
@@ -75,16 +78,7 @@ export default class TheoryCraftingSidebar extends MapSideBar {
         btnrow(
             new LightButton("+ Create New", "rectangle")
                 .onClick(() => {
-                    this.methods.create({
-                        type: "local",
-                        local_id: "",
-                        original_id: "",
-                        timestamp: 0,
-                        author: "Anonymous",
-                        name: "New Method Pack",
-                        description: "No description",
-                        methods: []
-                    })
+                    new NewMethodPackModal().do()
                 })
         ).appendTo(this.body)
 

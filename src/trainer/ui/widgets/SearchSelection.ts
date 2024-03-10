@@ -7,13 +7,13 @@ export class SearchSelection<T extends object | string | number> extends Abstrac
     private prepared_items: { item: T, term: Fuzzysort.Prepared }[]
 
     constructor(protected options: SearchSelection.options<T>, items: T[]) {
-        super(options, options.can_be_null ? (options.null_value || null) : items[0]);
+        super(options, options.can_be_null ? null : items[0]);
 
         this.prepared_items = items.map(i => {
             return {item: i, term: fuzzysort.prepare(this.options.search_term(i))}
         })
 
-        this.setDropdownItems([])
+        this.setItems([])
     }
 
     protected override onOpen(): Widget {
@@ -30,10 +30,10 @@ export class SearchSelection<T extends object | string | number> extends Abstrac
                         threshold: -10000
                     })
 
-                    this.setDropdownItems(Array.from(results).map(r => r.obj.item))
+                    this.setItems(Array.from(results).map(r => r.obj.item))
                 }))
 
-        this.setDropdownItems([this.selection.value()])
+        this.setItems([this.selection.value()])
 
         return search_box
     }

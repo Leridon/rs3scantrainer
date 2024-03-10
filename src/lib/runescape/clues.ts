@@ -1,16 +1,9 @@
 import {TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
 import {GieliCoordinates} from "./coordinates";
-
-export namespace Clues {
-    export function digSpotArea(spot: TileCoordinates): TileRectangle {
-        return {
-            topleft: {x: spot.x - 1, y: spot.y + 1},
-            botright: {x: spot.x + 1, y: spot.y - 1},
-            level: spot.level
-        }
-    }
-}
+import {Vector2} from "../math";
+import {Path} from "./pathing";
+import {CursorType} from "./CursorType";
 
 export type ClueTier = "easy" | "medium" | "hard" | "elite" | "master"
 
@@ -75,8 +68,21 @@ export namespace Clues {
 
     namespace Solution {
         // The area for npcs should include all tiles they can be talked to from, so one tile bigger than their wander range
-        export type TalkTo = { type: "talkto", spots: { range: TileRectangle, note?: string }[], npc: string }
-        export type Dig = { type: "dig", spot: TileCoordinates }
+        export type TalkTo = {
+            type: "talkto",
+            npc: string
+            spots: {
+                id?: string,
+                range: TileRectangle,
+                note?: string,  // Describing conditions for the npc to be at that spot, such as "After completing quest X"
+                description: string // Strings like "in City of Um", "at the Bank" etc.
+            }[],
+        }
+        export type Dig = {
+            type: "dig",
+            spot: TileCoordinates
+            description: string | null// Strings like "on top of the fern", "next to the window" etc.
+        }
         export type Search = {
             type: "search", spot: TileCoordinates, entity: string,
             key?: {
@@ -111,11 +117,98 @@ export namespace Clues {
     export type Map = StepShared & { type: "map", ocr_data: number[], solution: Solution, image_url: string }
     export type Scan = StepShared & { type: "scan", scantext: string, range: number, spots: TileCoordinates[] }
     export type Simple = StepShared & { type: "simple", solution: Solution }
-    export type Skilling = StepShared & { type: "skilling", areas: TileRectangle[], answer: string }
+    export type Skilling = StepShared & {
+        type: "skilling",
+        areas: TileRectangle[],
+        answer: string,
+        cursor: CursorType
+    }
 
     export type Step = Anagram | Compass | Coordinate | Cryptic | Emote | Map | Scan | Simple | Skilling
 
     export type ScanStep = Scan
 
     export type ClueSpot = { clue: Step, spot?: TileCoordinates }
+
+    export namespace Step {
+        export function solution(step: Step): Solution {
+            if (step.solution) return step.solution
+
+            if (step.type == "coordinates") return {
+                type: "dig",
+                spot: GieliCoordinates.toCoords(step.coordinates),
+                description: null
+            }
+
+            return null
+        }
+
+        export function shortString(step: Step, text_variant: number = 0): string {
+            let i = Math.max(0, Math.min(step.text.length - 1, text_variant))
+
+            switch (step.type) {
+                case "anagram":
+                    return `Anagram: ${step.anagram[i]}`
+                case "map":
+                    return `Map: ${step.text[i]}`
+                case "coordinates":
+                    return GieliCoordinates.toString(step.coordinates)
+                case "scan":
+                    return `Scan ${step.scantext}`
+                default:
+                    return step.text[i]
+            }
+        }
+    }
+
+    export namespace ClueSpot {
+
+        export type Id = { clue: number, spot?: TileCoordinates }
+
+        export namespace Id {
+            export function equals(a: ClueSpot.Id, b: ClueSpot.Id): boolean {
+                return a?.clue == b?.clue && ((a?.spot == b?.spot) || TileCoordinates.eq2(a?.spot, b?.spot))
+            }
+        }
+
+        export function shortString(spot: Clues.ClueSpot, text_variant: number = 0): string {
+            if (spot.clue.type == "compass") return `Compass spot ${Vector2.toString(spot.spot)}`
+            else return Step.shortString(spot.clue, text_variant)
+        }
+
+        export function targetArea(spot: Clues.ClueSpot): TileRectangle {
+            if (spot.spot) return digSpotArea(spot.spot)
+
+            const sol = Clues.Step.solution(spot.clue)
+
+            if (sol) {
+                switch (sol.type) {
+                    case "search":
+                        return TileRectangle.extend(TileRectangle.from(sol.spot), 1)
+                    case "dig":
+                        return digSpotArea(sol.spot)
+                    case "talkto":
+                        return sol.spots[0].range
+                }
+            }
+
+            if (spot.clue.type == "emote") return spot.clue.area
+        }
+
+        export function toId(spot: ClueSpot): Id {
+            return {clue: spot.clue.id, spot: spot.spot}
+        }
+    }
+
+    export function digSpotArea(spot: TileCoordinates): TileRectangle {
+        return {
+            topleft: {x: spot.x - 1, y: spot.y + 1},
+            botright: {x: spot.x + 1, y: spot.y - 1},
+            level: spot.level
+        }
+    }
+
+    export function requiresKey(clue: Step): clue is Step & { solution: { type: "search" } } {
+        return clue.solution && clue.solution.type == "search" && !!clue.solution.key
+    }
 }

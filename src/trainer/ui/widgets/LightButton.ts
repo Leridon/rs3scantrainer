@@ -6,7 +6,7 @@ export default class LightButton extends Button {
 
         if (type == "round") this.addClass("ctr-lightbutton-round")
 
-        this.addClass("ctr-lightbutton").text(text)
+        this.addClass("ctr-lightbutton").setHTML(text)
     }
 
     setText(text: string): this {

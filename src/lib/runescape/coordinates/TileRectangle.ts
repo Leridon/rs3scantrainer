@@ -105,4 +105,8 @@ export namespace TileRectangle {
 
         return lift(Rectangle.transform(rect, norm.matrix), floor_t.clamp(rect.level + norm.level_offset))
     }
+
+    export function equals(a: TileRectangle, b: TileRectangle): boolean {
+        return (a == b) || (!!a && !!b && Rectangle.equals(a, b) && a.level == b.level)
+    }
 }

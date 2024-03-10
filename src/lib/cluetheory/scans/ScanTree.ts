@@ -27,7 +27,7 @@ export namespace ScanTree {
     }
 
     export type ScanTreeNode = {
-        path: Path.step[],
+        path: Path.Step[],
         region?: ScanRegion,
         directions: string,
         children: {
@@ -294,7 +294,7 @@ export namespace ScanTree {
                                           analyze_correctness?: boolean,
                                           analyze_completeness?: boolean,
                                           analyze_timing?: boolean,
-                                          path_assumptions: Path.PathAssumptions
+                                          path_assumptions?: Path.PathAssumptions
                                       }, tree: ScanTree,
                                       clue: Clues.Scan) {
 

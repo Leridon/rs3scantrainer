@@ -1,10 +1,11 @@
-import {TileCoordinates} from "./coordinates";
+import {TileCoordinates, TileRectangle} from "./coordinates";
 import {ChunkedData} from "../util/ChunkedData";
 import * as lodash from "lodash"
 import {Rectangle, Transform, Vector2} from "../math";
 import * as pako from "pako"
 import {Raster} from "../util/raster";
 import {Browser} from "leaflet";
+import {TileArea} from "./coordinates/TileArea";
 
 type TileMovementData = number
 
@@ -23,7 +24,7 @@ export type PlayerPosition = {
 
 export namespace PlayerPosition {
     export function eq(a: PlayerPosition, b: PlayerPosition) {
-        return TileCoordinates.eq(a.tile, b.tile) && a.direction == b.direction
+        return TileCoordinates.eq2(a.tile, b.tile) && a.direction == b.direction
     }
 }
 
@@ -45,7 +46,7 @@ export class HostedMapData implements MapData {
     chunks: (file | Promise<file>)[][]
 
     private async fetch(file_x: number, file_z: number, floor: number): Promise<Uint8Array> {
-        let a = await fetch(`map/collision-${file_x}-${file_z}-${floor}.bin`)
+        let a = await fetch(`map/collision/collision-${file_x}-${file_z}-${floor}.bin`)
 
         return new Uint8Array(pako.inflate(await a.arrayBuffer()))
     }
@@ -234,7 +235,30 @@ export namespace direction {
             [south, east],
             [south, west]
         ] as [cardinal, cardinal][]) [dir - 5]
+    }
 
+    export function rotate(dir: ordinal, quarters: number): ordinal
+    export function rotate(dir: cardinal, quarters: number): cardinal
+    export function rotate(dir: direction, quarters: number): direction {
+        if (dir == center) return center
+
+        return (dir - 1 + quarters) % 4 + 1 + Math.floor(dir / 5) * 4 as direction
+    }
+
+    export function continuations(dir: direction): direction[] {
+        const direction_continuations: direction[][] = [
+            [],
+            [west],
+            [north],
+            [east],
+            [south],
+            [north, west, northwest],
+            [north, east, northeast],
+            [south, east, southeast],
+            [south, west, southwest]
+        ]
+
+        return direction_continuations[dir]
     }
 }
 
@@ -252,7 +276,6 @@ export async function canMove(data: MapData, pos: TileCoordinates, d: direction)
 }
 
 export namespace PathFinder {
-
     export type state = {
         data: MapData,
         start: TileCoordinates,
@@ -276,7 +299,7 @@ export namespace PathFinder {
         return state
     }
 
-    async function djikstra2(state: state, target: TileCoordinates, step_limit: number): Promise<void> {
+    async function djikstra2(state: state, target: (tile: TileCoordinates) => boolean, step_limit: number): Promise<TileCoordinates | null> {
         // This is a typical djikstra algorithm
         // To improve it to A*, it still needs to prefer ortogonal pathing before diagonal pathing like ingame, but I'm not sure how to do that yet.
         // Possibly with a stable priority queue and tile distance as an estimator
@@ -306,10 +329,15 @@ export namespace PathFinder {
                 if (await canMove(state.data, e.coords, i)) push(move(e.coords, direction.toVector(i)), e)
             }
 
-            if (Vector2.eq(e.coords, target)) break
+            if (target(e.coords)) {
+                state.blocked = false
+                return e.coords
+            }
         }
 
         state.blocked = false
+
+        return null
     }
 
     function get(state: state, tile: ChunkedData.coordinates): TileCoordinates[] {
@@ -330,36 +358,75 @@ export namespace PathFinder {
         return cleanWaypoints(p)
     }
 
-    export async function find(state: state, target: TileCoordinates): Promise<TileCoordinates[] | null> {
-        if (target.level != state.start.level) return null
-
-        let target_i = ChunkedData.split(target)
-
-        // Check the cache for existing result
-        let existing = state.tiles.get(target_i)
-        if (existing != null) {
-            if (existing.unreachable) return null
-            else return get(state, target_i)
-        }
+    export async function find(state: state, target: TileArea): Promise<TileCoordinates[] | null> {
+        if (target.origin.level != state.start.level) return null
 
         // Check if the target tile can be reached from any of its direct neighbours
         // If not, do not even search for a path.
-        let reachable_at_all = direction.cardinals.some((d) => canMove(state.data, move(target, direction.toVector(d)), direction.invert(d)))
+        if (TileArea.isSingleTile(target)) {
+            let target_i = ChunkedData.split(target.origin)
 
-        if (!reachable_at_all) {
-            state.tiles.set(target_i, {parent: null, unreachable: true})
+            let reachable_at_all = direction.cardinals.some((d) => canMove(state.data, move(target.origin, direction.toVector(d)), direction.invert(d)))
+
+            if (!reachable_at_all) {
+                state.tiles.set(target_i, {parent: null, unreachable: true})
+
+                return null
+            }
+        }
+
+        let target_area = TileArea.activate(target)
+
+        // Check for existing routes to any tile inside the area
+        {
+            let size = target_area.size
+
+            for (let delta_x = 0; delta_x < size.x; delta_x++) {
+                for (let delta_y = 0; delta_y < size.y; delta_y++) {
+                    const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
+
+                    if (target_area.query(tile)) {
+                        let target_i = ChunkedData.split(tile)
+
+                        // Check the cache for existing result
+                        let existing = state.tiles.get(target_i)
+
+                        if (existing != null) {
+                            if (existing.unreachable) return null
+                            else return get(state, target_i)
+                        }
+                    }
+
+                }
+            }
+        }
+
+        let end_tile = await djikstra2(state, (tile) => {
+
+            // return TileCoordinates.eq2(target_area.origin, tile)
+
+            return target_area.query(tile)
+        }, 5000)
+
+        // Cache whether the target is unreachable to prevent endless search
+        if (!end_tile) {
+
+            let size = TileArea.size(target)
+
+            for (let delta_x = 0; delta_x < size.x; delta_x++) {
+                for (let delta_y = 0; delta_y < size.y; delta_y++) {
+                    const tile = {x: target.origin.x + delta_x, y: target.origin.y + delta_y, level: target.origin.level}
+
+                    if (target_area.query(tile)) {
+                        state.tiles.set(ChunkedData.split(tile), {parent: null, unreachable: true})
+                    }
+                }
+            }
+
             return null
         }
 
-        await djikstra2(state, target, 5000)
-
-        if (state.tiles.get(target_i) == null) {
-            // Cache whether the tile is unreachable to prevent endless search
-            state.tiles.set(target_i, {parent: null, unreachable: true})
-            return null
-        }
-
-        return get(state, target_i)
+        return get(state, ChunkedData.split(end_tile))
     }
 
     export function idealPath(from: TileCoordinates, to: TileCoordinates): TileCoordinates[] {
@@ -424,10 +491,17 @@ export namespace MovementAbilities {
         }>
     }*/
 
-    export async function possibility_raster(origin: TileCoordinates): Promise<Raster<boolean>> {
+    export async function possibility_raster(origin: TileCoordinates, surge_escape_for: direction[] = []): Promise<{
+        targets: {
+            direction: direction,
+            surge: TileCoordinates,
+            escape: TileCoordinates
+        }[],
+        data: TileArea.ActiveTileArea // Raster<boolean>
+    }> {
         const range = 10
 
-        let raster = new Raster<boolean>(Rectangle.centeredOn(origin, 10), () => false)
+        const raster = TileArea.activate(TileArea.init(TileCoordinates.move(origin, {x: -range, y: -range}), {x: 21, y: 21}, false))
 
         type actor = {
             position: TileCoordinates,
@@ -507,7 +581,25 @@ export namespace MovementAbilities {
             })
         }
 
-        return raster
+        function findFurthest(dir: direction, max_distance: number): TileCoordinates {
+            if (max_distance == 0) return origin
+
+            const current = TileCoordinates.move(origin, Vector2.scale(max_distance, direction.toVector(dir)))
+
+            if (raster.query(current)) return current
+            else return findFurthest(dir, max_distance - 1)
+        }
+
+        return {
+            targets: surge_escape_for.map(dir => {
+                return {
+                    direction: dir,
+                    surge: findFurthest(dir, 10),
+                    escape: findFurthest(direction.invert(dir), 7)
+                }
+            }),
+            data: raster
+        }
     }
 
     async function dive_internal(data: MapData, position: TileCoordinates, target: TileCoordinates): Promise<PlayerPosition | null> {

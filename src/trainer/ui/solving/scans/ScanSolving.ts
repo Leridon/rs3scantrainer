@@ -1,10 +1,9 @@
 import {util} from "lib/util/util";
 import {modal, Modal} from "../../widgets/modal";
-import {ScanLayer, ScanRegionPolygon} from "./ScanLayer";
+import {ScanLayer, ScanRegionPolygon} from "../../neosolving/ScanLayer";
 import * as leaflet from "leaflet";
 import {Vector2} from "lib/math";
 import {floor_t} from "lib/runescape/coordinates";
-import {PathingGraphics} from "../../path_graphics";
 import Widget from "lib/ui/Widget";
 import TemplateResolver from "lib/util/TemplateResolver";
 import LightButton from "../../widgets/LightButton";
@@ -29,6 +28,7 @@ import {Observable, observe} from "../../../../lib/reactive";
 import ScanTreeMethod = SolvingMethods.ScanTreeMethod;
 import {AugmentedMethod} from "../../../model/MethodPackManager";
 import {Clues} from "../../../../lib/runescape/clues";
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
 
 
 export function scan_tree_template_resolvers(node: AugmentedScanTreeNode): Record<string, (args: string[]) => string> {
@@ -138,17 +138,17 @@ class ScanTreeSolvingLayer extends ScanLayer {
         // Render pathing with appropriate opacity
         this.path_graphics.clearLayers()
 
-        PathingGraphics.renderPath(node.raw.path).setOpacity(1).addTo(this.path_graphics)
+        PathStepEntity.renderPath(node.raw.path).addTo(this.path_graphics)
         if (node.raw.region) new ScanRegionPolygon(node.raw.region).setOpacity(1).addTo(this.path_graphics)
 
         AugmentedScanTree.collect_parents(node, false).forEach(n => {
             new ScanRegionPolygon(n.raw.region).setOpacity(0.2).addTo(this.path_graphics)
-            PathingGraphics.renderPath(n.raw.path).setOpacity(0.2).addTo(this.path_graphics)
+            PathStepEntity.renderPath(n.raw.path).eachEntity(e => e.setOpacity(0.2)).addTo(this.path_graphics)
         })
 
         // Children paths to dig spots are rendered with 0.5
         node.children.filter(c => c.value.remaining_candidates.length == 1).forEach(c => {
-            PathingGraphics.renderPath(c.value.raw.path).setOpacity(0.5).addTo(this.path_graphics)
+            PathStepEntity.renderPath(c.value.raw.path).eachEntity(e => e.setOpacity(0.5)).addTo(this.path_graphics)
         })
 
         /*
@@ -159,10 +159,8 @@ class ScanTreeSolvingLayer extends ScanLayer {
         })*/
     }
 
-    constructor(options: {
-        show_edit_button?: boolean
-    } = {}) {
-        super(options);
+    constructor() {
+        super();
 
         this.path_graphics = new OpacityGroup().addTo(this)
 
@@ -362,7 +360,7 @@ export class SolveScanTreeSubBehaviour extends Behaviour {
             }
         }), 2)*/
 
-        this.layer = new ScanTreeSolvingLayer({show_edit_button: !this.parent.parent.in_alt1}).addTo(this.parent.parent.map)
+        this.layer = new ScanTreeSolvingLayer().addTo(this.parent.parent.map)
 
         this.node.bind(this.panel.node).bind(this.layer.node)
 

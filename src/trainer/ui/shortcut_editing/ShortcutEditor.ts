@@ -1,30 +1,25 @@
 import Behaviour from "lib/ui/Behaviour";
 import {GameMapControl} from "lib/gamemap/GameMapControl";
-import GameLayer from "lib/gamemap/GameLayer";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {GameLayer} from "lib/gamemap/GameLayer";
+import {Transportation} from "../../../lib/runescape/transportation";
 import {Rectangle} from "lib/math"
 import {ActionBar} from "../map/ActionBar";
 import {InteractionGuard} from "lib/gamemap/interaction/InteractionLayer";
 import {storage} from "lib/util/storage";
 import ShortcutEditSidePanel from "./ShortcutEditSidePanel";
-import shortcuts from "../../../data/shortcuts";
 import {DrawDoor} from "./interactions/DrawDoor";
 import {GameMapContextMenuEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
 import {DrawGeneralEntity} from "./interactions/DrawGeneralEntity";
 import {ShortcutViewLayer} from "./ShortcutView";
 import {PlaceShortcut} from "./interactions/PlaceShortcut";
 import {EwentHandler, Observable, ObservableArray, observe, observeArray} from "../../../lib/reactive";
-import {tap} from "lodash";
 import ObservableArrayValue = ObservableArray.ObservableArrayValue;
-import {GameMap} from "../../../lib/gamemap/GameMap";
-import SidePanelControl from "../SidePanelControl";
 import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import * as lodash from "lodash";
 import {ShortcutEdit} from "./ShortcutEdit";
 import ContextMenu, {Menu} from "../widgets/ContextMenu";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {Application} from "../../application";
-import MapSideBar from "../MapSideBar";
 
 class EditControl extends GameMapControl<ControlWithHeader> {
     private remove_handler: EwentHandler<any> = null
@@ -88,7 +83,7 @@ export class ShortcutEditGameLayer extends GameLayer {
     eventClick(event: GameMapMouseEvent) {
         event.onPost(() => {
             let shortcuts = this.editor.data.value().filter(s => {
-                return !s.value().is_builtin && Rectangle.containsTile(Shortcuts.bounds(s.value()), event.coordinates)
+                return !s.value().is_builtin && Rectangle.containsTile(Transportation.bounds(s.value()), event.coordinates)
             })
 
             if (shortcuts.length == 1) {
@@ -109,14 +104,14 @@ export class ShortcutEditGameLayer extends GameLayer {
     eventContextMenu(event: GameMapContextMenuEvent) {
         event.onPost(() => {
             let shortcuts = this.editor.data.value().filter(s => {
-                return Rectangle.containsTile(Shortcuts.bounds(s.value()), event.coordinates)
+                return Rectangle.containsTile(Transportation.bounds(s.value()), event.coordinates)
             })
 
             shortcuts.forEach(s => {
                 let entries = ShortcutEditor.contextMenu(s, this.editor, true, event.tile())
 
                 if (shortcuts.length > 1) {
-                    event.add({type: "submenu", children: entries, text: s.value().name})
+                    event.add({type: "submenu", children: entries, text: Transportation.name(s.value())})
                 } else {
                     event.add(...entries)
                 }
@@ -125,7 +120,7 @@ export class ShortcutEditGameLayer extends GameLayer {
     }
 
     startMove(s: ShortcutEditor.OValue, origin: TileCoordinates = null) {
-        if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s.value()))
+        if (!origin) origin = TileRectangle.center(Transportation.bounds(s.value()))
 
         this.interactionGuard.set(new PlaceShortcut(s.value(), origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
             .onCommit(n => s.set(Object.assign(n, {is_builtin: false})))
@@ -134,8 +129,8 @@ export class ShortcutEditGameLayer extends GameLayer {
         )
     }
 
-    startPlacement(s: Shortcuts.shortcut, origin: TileCoordinates = null) {
-        if (!origin) origin = TileRectangle.center(Shortcuts.bounds(s))
+    startPlacement(s: Transportation.Transportation, origin: TileCoordinates = null) {
+        if (!origin) origin = TileRectangle.center(Transportation.bounds(s))
 
         this.interactionGuard.set(new PlaceShortcut(s, origin, n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
             .onCommit(n => this.editor.data.add(Object.assign(n, {is_builtin: false})))
@@ -167,7 +162,7 @@ export class ShortcutEditor extends Behaviour {
     layer: ShortcutEditGameLayer
     editControl: EditControl
 
-    private storage = new storage.Variable<Shortcuts.shortcut[]>("local_shortcuts", () => [])
+    private storage = new storage.Variable<Transportation.Transportation[]>("local_shortcuts", () => [])
     public data: ShortcutEditor.Data
 
     sidebar: ShortcutEditSidePanel
@@ -176,7 +171,7 @@ export class ShortcutEditor extends Behaviour {
         super();
 
         this.data = observeArray([].concat(
-            shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})),
+            //shortcuts.map(s => Object.assign(lodash.cloneDeep(s), {is_builtin: true})),
             this.storage.get().map(s => Object.assign(s, {is_builtin: false}))
         ))
 
@@ -197,13 +192,13 @@ export class ShortcutEditor extends Behaviour {
         this.sidebar.remove()
     }
 
-    public createNew(shortcut: Shortcuts.shortcut) {
+    public createNew(shortcut: Transportation.Transportation) {
         this.editControl.shortcut.set(this.data.add(Object.assign(lodash.cloneDeep(shortcut), {is_builtin: false})))
     }
 }
 
 export namespace ShortcutEditor {
-    export type Value = Shortcuts.shortcut & { is_builtin: boolean }
+    export type Value = Transportation.Transportation & { is_builtin: boolean }
     export type OValue = ObservableArrayValue<Value>
     export type Data = ObservableArray<Value>
 
@@ -219,7 +214,7 @@ export namespace ShortcutEditor {
         if (editable) {
             menu.push({
                 type: "basic",
-                text: `Edit ${shortcut.value().name}`,
+                text: `Edit ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/edit.png",
                 handler: () => {
                     editor.editControl.shortcut.set(shortcut)
@@ -228,14 +223,14 @@ export namespace ShortcutEditor {
 
             menu.push({
                 type: "basic",
-                text: `Delete ${shortcut.value().name}`,
+                text: `Delete ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/delete.png",
                 handler: () => {shortcut.remove()}
             })
 
             menu.push({
                 type: "basic",
-                text: `Move ${shortcut.value().name}`,
+                text: `Move ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/move.png",
                 handler: () => {
                     editor.layer.startMove(shortcut, origin_tile)
@@ -245,7 +240,7 @@ export namespace ShortcutEditor {
 
         menu.push({
             type: "basic",
-            text: `Copy ${shortcut.value().name}`,
+            text: `Copy ${Transportation.name(shortcut.value())}`,
             icon: "assets/icons/copy.png",
             handler: () => {
                 editor.layer.startPlacement(shortcut.value(), origin_tile)
@@ -255,7 +250,7 @@ export namespace ShortcutEditor {
         if (!origin_tile) {
             menu.push({
                 type: "basic",
-                text: `Focus on ${shortcut.value().name}`,
+                text: `Focus on ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/fullscreen.png",
                 handler: () => {editor.layer.view.center(shortcut.value())}
             })
@@ -266,7 +261,7 @@ export namespace ShortcutEditor {
 
     export function nameWithBuiltin(value: Value): string {
         return value.is_builtin
-            ? `${value.name} (builtin)`
-            : value.name
+            ? `${Transportation.name(value)} (builtin)`
+            : Transportation.name(value)
     }
 }

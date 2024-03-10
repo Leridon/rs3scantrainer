@@ -1,6 +1,6 @@
 import Widget from "../../../lib/ui/Widget";
 import {Observable, observe} from "../../../lib/reactive";
-import {Shortcuts} from "../../../lib/runescape/shortcuts";
+import {Transportation} from "../../../lib/runescape/transportation";
 import {ShortcutEditGameLayer, ShortcutEditor} from "./ShortcutEditor";
 import {InteractionGuard} from "../../../lib/gamemap/interaction/InteractionLayer";
 import {PlaceShortcut} from "./interactions/PlaceShortcut";
@@ -31,19 +31,19 @@ import {ShortcutViewLayer} from "./ShortcutView";
 import ShortcutPolygon = ShortcutViewLayer.ShortcutPolygon;
 import vbox = C.vbox;
 import * as assert from "assert";
-import { Checkbox } from "lib/ui/controls/Checkbox";
+import {Checkbox} from "lib/ui/controls/Checkbox";
 
 export class ShortcutEdit extends Widget {
     private header: Widget
     private body: Widget
 
     constructor(public config: {
-                    value: Observable<Shortcuts.shortcut>,
+                    value: Observable<Transportation.Transportation>,
                     ovalue?: ShortcutEditor.OValue,
                     edit_layer?: ShortcutEditGameLayer,
                     interaction_guard: InteractionGuard,
                     associated_preview: ShortcutPolygon,
-                    centered_handler: (s: Shortcuts.shortcut) => any,
+                    centered_handler: (s: Transportation.Transportation) => any,
                     collapsible: boolean,
                     single_action?: boolean
                 } = null
@@ -60,9 +60,9 @@ export class ShortcutEdit extends Widget {
         this.config.value.subscribe(() => this.render(), true)
     }
 
-    static forSimple(shortcut: Shortcuts.shortcut,
+    static forSimple(shortcut: Transportation.Transportation,
                      guard: InteractionGuard,
-                     centered_handler: (s: Shortcuts.shortcut) => any = null
+                     centered_handler: (s: Transportation.Transportation) => any = null
     ) {
         return new ShortcutEdit({
                 value: observe(shortcut),
@@ -79,7 +79,7 @@ export class ShortcutEdit extends Widget {
 
     static forEditor(shortcut: ShortcutEditor.OValue,
                      edit_layer: ShortcutEditGameLayer,
-                     centered_handler: (s: Shortcuts.shortcut) => any
+                     centered_handler: (s: Transportation.Transportation) => any
     ): ShortcutEdit {
         return new ShortcutEdit({
                 value: shortcut,
@@ -97,11 +97,13 @@ export class ShortcutEdit extends Widget {
         this.header.empty()
         this.body.empty()
 
+        /*
+
         let header = hbox(
-            span(this.config.value.value().name),
+            span(Transportation.name(this.config.value.value())),
             spacer(),
             sibut("assets/icons/move.png", () => {
-                this.config.interaction_guard.set(new PlaceShortcut(this.config.value.value(), TileRectangle.center(Shortcuts.bounds(this.config.value.value())), null)
+                this.config.interaction_guard.set(new PlaceShortcut(this.config.value.value(), TileRectangle.center(Transportation.bounds(this.config.value.value())), null)
                     .onCommit(n => this.config.value.set(Object.assign(n)))
                     .onStart(() => this.config.associated_preview?.setOpacity(0))
                     .onEnd(() => this.config.associated_preview?.setOpacity(1))
@@ -131,17 +133,9 @@ export class ShortcutEdit extends Widget {
 
         switch (v.type) {
             case "door": {
-                let width = v.direction == "eastwest"
-                    ? Rectangle.tileHeight(v.area)
-                    : Rectangle.tileWidth(v.area)
-
-                let dir = v.direction == "eastwest"
-                    ? "|"
-                    : "&#8212;"
-
                 props.named("Bounds",
                     c("<div style='display: flex'></div>")
-                        .append(c("<span style='margin-right: 5px;'></span>").setInnerHtml(`${width} wide ${dir} door at ${TileCoordinates.toString(TileRectangle.bl(v.area))}`))
+                        .append(c("<span style='margin-right: 5px;'></span>").setInnerHtml(`Door (${direction.toString(v.direction)}) at ${TileCoordinates.toString(v.position)}`))
                         .append(c().css("flex-grow", "1"))
                         .append(
                             new LightButton("Select")
@@ -151,7 +145,7 @@ export class ShortcutEdit extends Widget {
                                             done_handler: (new_v) => {
                                                 this.config.value.update(() => {
                                                     assert(v.type == "door")
-                                                    v.area = new_v.area
+                                                    v.position = new_v.position
                                                     v.direction = new_v.direction
                                                 })
                                             }
@@ -382,9 +376,9 @@ export class ShortcutEdit extends Widget {
                             break
                     }
 
-                    let orientation_dropdown = new DropdownSelection<Shortcuts.shortcut_orientation_type>({
+                    let orientation_dropdown = new DropdownSelection<Transportation.transport_orientation_type>({
                         type_class: {
-                            toHTML: (v: Shortcuts.shortcut_orientation_type) => {
+                            toHTML: (v: Transportation.transport_orientation_type) => {
                                 switch (v.type) {
                                     case "byoffset":
                                         return span("By movement vector")
@@ -411,7 +405,7 @@ export class ShortcutEdit extends Widget {
                             relative: false,
                             direction: d
                         })
-                    )) as Shortcuts.shortcut_orientation_type[])
+                    )) as Transportation.transport_orientation_type[])
                         .onSelection((v) => {
                             this.config.value.update(() => {
                                 if (v.type == "forced") {
@@ -451,9 +445,7 @@ export class ShortcutEdit extends Widget {
 
                                 v.actions.push({
                                         cursor: v.actions[0]?.cursor || "generic",
-                                        interactive_area: TileRectangle.extend(v.clickable_area, 0.5),
-                                        movement: {type: "offset", offset: {x: 0, y: 0, level: v.clickable_area.level}},
-                                        orientation: {type: "byoffset"},
+                                        movement: [{offset: {x: 0, y: 0, level: v.clickable_area.level}}],
                                         name: v.actions[0]?.name || "Use",
                                         time: v.actions[0]?.time || 3
                                     }
@@ -462,15 +454,12 @@ export class ShortcutEdit extends Widget {
                         })).css("text-align", "center"))
                 }
 
-
                 break;
             }
         }
 
-        props
-            .appendTo(this
+        props.appendTo(this.body)
 
-                .body
-            )
+         */
     }
 }

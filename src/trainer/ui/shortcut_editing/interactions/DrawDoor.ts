@@ -1,18 +1,19 @@
 import GameMapDragAction from "lib/gamemap/interaction/GameMapDragAction";
 import InteractionLayer from "lib/gamemap/interaction/InteractionLayer";
 import InteractionTopControl from "../../map/InteractionTopControl";
-import {Shortcuts} from "lib/runescape/shortcuts";
+import {Transportation} from "../../../../lib/runescape/transportation";
 import {Rectangle} from "lib/math"
 import {boxPolygon} from "../../polygon_helpers";
 import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import ContextMenu from "../../widgets/ContextMenu";
 import {ShortcutViewLayer} from "../ShortcutView";
 import {observe} from "../../../../lib/reactive";
+import {direction} from "../../../../lib/runescape/movement";
 
 export class DrawDoor extends InteractionLayer {
 
     constructor(public config: {
-        done_handler: (_: Shortcuts.door_shortcut) => void
+        done_handler: (_: Transportation.DoorTransportation) => void
     }) {
         super();
 
@@ -51,7 +52,7 @@ export class DrawDoor extends InteractionLayer {
                     new ContextMenu(options.map(s => {
                         return {
                             type: "basic",
-                            text: s.direction,
+                            text: direction.toString(s.direction),
                             handler: () => {
                                 this.config.done_handler(s)
                             }
@@ -66,12 +67,15 @@ export class DrawDoor extends InteractionLayer {
 }
 
 export namespace DrawDoor {
-    export function shortcutsFromArea(area: TileRectangle): Shortcuts.door_shortcut[] {
+    export function shortcutsFromArea(area: TileRectangle): Transportation.DoorTransportation[] {
         let width = Rectangle.tileWidth(area)
         let height = Rectangle.tileHeight(area)
 
-        let options: Shortcuts.door_shortcut[] = []
+        let options: Transportation.DoorTransportation[] = []
 
+        return []
+
+        /*
         if (width == 2) {
             options.push({
                 type: "door",
@@ -88,6 +92,8 @@ export namespace DrawDoor {
                 direction: "northsouth"
             })
         }
+
+        */
 
         return options
     }

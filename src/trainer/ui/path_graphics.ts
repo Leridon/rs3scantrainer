@@ -1,15 +1,16 @@
 import * as leaflet from "leaflet"
 import {Path} from "lib/runescape/pathing";
-import {TileCoordinates, TileRectangle} from "../../lib/runescape/coordinates";
+import {TileCoordinates} from "../../lib/runescape/coordinates";
 import {direction, MovementAbilities} from "lib/runescape/movement";
 import Widget from "lib/ui/Widget";
-import {OpacityGroup} from "lib/gamemap/layers/OpacityLayer";
 import {Vector2} from "lib/math";
-import InteractionType = Path.InteractionType;
-import {Teleports} from "lib/runescape/teleports";
-import {teleport_data} from "../../data/teleport_data";
+import {CursorType} from "../../lib/runescape/CursorType";
+import {Transportation} from "../../lib/runescape/transportation";
+import {TransportData} from "../../data/transports";
 
 export namespace PathGraphics {
+    import movement_ability = MovementAbilities.movement_ability;
+    import resolveTeleport = TransportData.resolveTeleport;
     type HTMLString = string
 
     export function text_icon(icon: string, hover: string = ""): HTMLString {
@@ -17,48 +18,56 @@ export namespace PathGraphics {
     }
 
     export namespace Teleport {
-        export function asSpan(tele: Teleports.flat_teleport): HTMLString {
-            return `<span style="position: relative" title="${tele.hover}">${text_icon(`assets/icons/teleports/${typeof tele.icon == "string" ? tele.icon : tele.icon.url}`, tele.hover)}<div class="tele-icon-code-overlay">${tele.code ? tele.code : ""}</div></span>`
+        export function asSpan(tele: Transportation.TeleportGroup.Spot): HTMLString {
+            return `<span style="position: relative" title="${tele.hover()}">${text_icon(`assets/icons/teleports/${tele.image().url}`, tele.hover())}<div class="tele-icon-code-overlay">${tele.code() ? tele.code() : ""}</div></span>`
         }
     }
 
-    export function asSpan(step: Path.step): HTMLString {
+    export function ability_icon(ability: movement_ability): string {
+        switch (ability) {
+            case "surge":
+                return 'assets/icons/surge.png'
+            case "escape":
+                return 'assets/icons/escape.png'
+            case "barge":
+                return 'assets/icons/barge.png'
+            case "dive":
+                return 'assets/icons/dive.png'
+        }
+    }
+
+    export function asSpan(step: Path.Step): HTMLString {
         switch (step.type) {
             case "orientation":
                 return text_icon('assets/icons/compass.png') + direction.toShortString(step.direction)
             case "ability":
-                switch (step.ability) {
-                    case "surge":
-                        return text_icon('assets/icons/surge.png')
-                    case "escape":
-                        return text_icon('assets/icons/escape.png')
-                    case "barge":
-                        return text_icon('assets/icons/barge.png')
-                    case "dive":
-                        return text_icon('assets/icons/dive.png')
-                }
+                return text_icon(ability_icon(step.ability))
             case "run":
                 return text_icon('assets/icons/run.png') + (step.waypoints.length - 1)
             case "teleport":
-                let tele = Teleports.find(teleport_data.getAllFlattened(), step.id)
+                let tele = resolveTeleport(step.id)
 
                 if (!tele) return text_icon('assets/teleports/homeport.png')
 
                 return PathGraphics.Teleport.asSpan(tele)
-            case "interaction":
-                return text_icon(InteractionType.meta(step.how).icon_url)
-            case "shortcut_v2":
-                return text_icon(InteractionType.meta(step.internal.actions[0].cursor).icon_url)
+            case "transport":
+                return text_icon(CursorType.meta(step.internal.actions[0].cursor).icon_url)
             case "redclick":
                 return text_icon('assets/icons/redclick.png')
             case "powerburst":
                 return text_icon('assets/icons/accel.png')
+            case "cheat":
+                return text_icon('assets/icons/Rotten_potato.png')
         }
     }
 
 }
 
-function createX(coordinate: TileCoordinates, color: "red" | "yellow"): leaflet.Layer {
+export function createX(coordinate: TileCoordinates,
+                        color: "red" | "yellow",
+                        size: number = 16,
+                        className: string = undefined
+): leaflet.Marker {
     const click_icons = {
         "red": "assets/icons/redclick.png",
         "yellow": "assets/icons/yellowclick.png",
@@ -67,16 +76,22 @@ function createX(coordinate: TileCoordinates, color: "red" | "yellow"): leaflet.
     return leaflet.marker(Vector2.toLatLong(coordinate), {
         icon: leaflet.icon({
             iconUrl: click_icons[color],
-            iconSize: [16, 16],
-            iconAnchor: [8, 8],
+            iconSize: [size, size],
+            iconAnchor: [size / 2, size / 2],
+            className:
+                className ? `no-antialiasing ${className}`
+                    : "no-antialiasing"
         }),
-        interactive: false
+        interactive: false,
     })
 }
 
 const pi = 3.1415
 
 export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
+
+    if (!to) debugger
+
     let off = Vector2.sub(from, to)
 
     if (Vector2.lengthSquared(off) < 1) return leaflet.polyline([])
@@ -92,13 +107,15 @@ export function arrow(from: Vector2, to: Vector2): leaflet.Polyline {
             [tip, Vector2.toLatLong(Vector2.add(to, arm2_offset))],
         ]
     )
+        .setStyle({
+            interactive: true
+        })
 }
 
 export namespace PathingGraphics {
 
-    import InteractionType = Path.InteractionType;
 
-    export function templateString(step: Path.step): string {
+    export function templateString(step: Path.Step): string {
         switch (step.type) {
             case "orientation":
                 return `Face ${direction.toString(step.direction)}`
@@ -107,18 +124,19 @@ export namespace PathingGraphics {
             case "ability":
                 return `{{${step.ability}}}`
             case "teleport":
-                return `{{teleport ${step.id.group} ${step.id.sub}}}`
+                return `{{teleport ${step.id.group} ${step.id.spot}}}`
             case "powerburst":
                 return `{{icon accel}}`
-            case "interaction":
             case "redclick":
-                return `{{icon ${InteractionType.meta(step.how).short_icon}}}`
-            case "shortcut_v2":
-                return `{{icon ${InteractionType.meta(step.internal.actions[0].cursor).short_icon}}}`
+                return `{{icon ${CursorType.meta(step.how).short_icon}}}`
+            case "transport":
+                return `{{icon ${CursorType.meta(step.internal.actions[0].cursor).short_icon}}}`
+            case "cheat":
+                return `{{icon Rotten_potato}}`
         }
     }
 
-    export function getIcon(step: Path.step): Widget {
+    export function getIcon(step: Path.Step): Widget {
         switch (step.type) {
             case "orientation":
                 return c(`<img class='text-icon' src='assets/icons/compass.png'>`)
@@ -138,165 +156,12 @@ export namespace PathingGraphics {
                 break;
             case "teleport":
                 return c(`<img class='text-icon' src='assets/icons/teleports/homeport.png'>`)
-            case "interaction":
-                return c(`<img class='text-icon' src='assets/icons/shortcut.png'>`)
             case "redclick":
                 return c(`<img class='text-icon' src='assets/icons/redclick.png'>`)
             case "powerburst":
                 return c(`<img class='text-icon' src='assets/icons/accel.png'>`)
+            case "cheat":
+                return c(`<img class='text-icon' src='assets/icons/Rotten_potato.png'>`)
         }
     }
-
-    export function renderPath(path: Path.step[]): OpacityGroup {
-        let group = new OpacityGroup()
-
-        for (let step of path) createStepGraphics(step).addTo(group)
-
-        return group
-    }
-}
-
-export function createStepGraphics(step: Path.step): OpacityGroup {
-    let layer = new OpacityGroup()
-        .setStyle({interactive: false})
-
-    switch (step.type) {
-        case "teleport":
-
-            // TODO: Implement
-            break;
-        case "ability": {
-            const meta: Record<MovementAbilities.movement_ability, { color: string, icon: string }> = {
-                barge: {color: "#a97104", icon: "assets/icons/barge.png"},
-                dive: {color: "#e7d82c", icon: "assets/icons/dive.png"},
-                escape: {color: "#56ba0f", icon: "assets/icons/escape.png"},
-                surge: {color: "#0091f2", icon: "assets/icons/surge.png"}
-            }
-
-            arrow(step.from, step.to)
-                .setStyle({
-                    color: meta[step.ability].color,
-                    weight: 4
-                }).addTo(layer)
-
-            leaflet.marker(Vector2.toLatLong(Vector2.scale(1 / 2, Vector2.add(step.from, step.to))), {
-                icon: leaflet.icon({
-                    iconUrl: meta[step.ability].icon,
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 12],
-                })
-            }).addTo(layer)
-
-            break
-        }
-        case "run": {
-            let lines: [Vector2, Vector2][] = []
-
-            for (let i = 0; i < step.waypoints.length - 1; i++) {
-                const from = step.waypoints[i]
-                const to = step.waypoints[i + 1]
-
-                lines.push([from, to])
-            }
-
-            lines = lines.filter((l) => !Vector2.eq(l[0], l[1]))
-
-            layer.setStyle({
-                interactive: false
-            })
-
-            leaflet.polyline(
-                lines.map((t) => t.map(Vector2.toLatLong)),
-                {
-                    color: "#b4b4b4",
-                    weight: 3
-                }
-            ).addTo(layer)
-
-            createX(step.waypoints[step.waypoints.length - 1], "yellow").addTo(layer)
-
-            break
-        }
-        case "redclick": {
-            createX(step.where, "red").addTo(layer)
-
-            leaflet.marker(Vector2.toLatLong(step.where), {
-                icon: leaflet.icon({
-                    iconUrl: InteractionType.meta(step.how).icon_url,
-                    iconSize: [28, 31],
-                    iconAnchor: [4, 1],
-                }),
-                interactive: false
-            }).addTo(layer)
-
-            break
-        }
-        case "powerburst": {
-            leaflet.marker(Vector2.toLatLong(step.where), {
-                icon: leaflet.icon({
-                    iconUrl: "assets/icons/accel.png",
-                    iconSize: [16, 16],
-                    iconAnchor: [8, 8],
-                }),
-                interactive: false
-            }).addTo(layer)
-            break
-        }
-        case "interaction":
-            arrow(step.starts, step.ends_up)
-                .setStyle({
-                    color: "#069334",
-                    weight: 4,
-                    dashArray: '10, 10'
-                }).addTo(layer)
-
-            leaflet.marker(Vector2.toLatLong(step.where), {
-                icon: leaflet.icon({
-                    iconUrl: InteractionType.meta(step.how).icon_url,
-                    iconSize: [28, 31],
-                    iconAnchor: [14, 16],
-                }),
-                interactive: false
-            }).addTo(layer)
-
-            break
-        case "shortcut_v2":
-
-            let start_tile = step.assumed_start
-
-            let entity = step.internal
-            let action = entity.actions[0]
-
-            let ends_up: TileCoordinates = null
-            switch (action.movement.type) {
-                case "offset":
-                    ends_up = TileCoordinates.move(start_tile, action.movement.offset)
-                    break;
-                case "fixed":
-                    ends_up = action.movement.target
-                    break;
-            }
-
-            arrow(step.assumed_start, ends_up)
-                .setStyle({
-                    color: "#069334",
-                    weight: 4,
-                    dashArray: '10, 10'
-                }).addTo(layer)
-
-            leaflet.marker(Vector2.toLatLong(TileRectangle.center(step.internal.clickable_area)), {
-                icon: leaflet.icon({
-                    iconUrl: InteractionType.meta(action.cursor).icon_url,
-                    iconSize: [28, 31],
-                    iconAnchor: [14, 16],
-                }),
-                interactive: false
-            }).addTo(layer)
-
-            break
-        case "orientation":
-        default:
-    }
-
-    return layer
 }

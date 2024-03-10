@@ -2,8 +2,6 @@ import {storage} from "lib/util/storage";
 import MenuBarControl from "trainer/ui/MenuBarControl";
 import {Modal} from "trainer/ui/widgets/modal";
 import TemplateResolver from "lib/util/TemplateResolver";
-import {TeleportLayer} from "lib/gamemap/defaultlayers/TeleportLayer";
-import {Teleports} from "lib/runescape/teleports";
 import {ClueTier, ClueType} from "lib/runescape/clues";
 import {GameMap, GameMapWidget} from "lib/gamemap/GameMap";
 import {QueryLinks} from "trainer/query_functions";
@@ -13,21 +11,25 @@ import {TileRectangle} from "lib/runescape/coordinates/TileRectangle";
 import {PathGraphics} from "./ui/path_graphics";
 import Behaviour, {SingleBehaviour} from "lib/ui/Behaviour";
 import {SolvingMethods} from "./model/methods";
-import GameLayer from "../lib/gamemap/GameLayer";
+import {GameLayer} from "../lib/gamemap/GameLayer";
 import MenuBar from "./ui/MenuBar";
 import Widget from "../lib/ui/Widget";
-import TheoryCrafter from "./ui/theorycrafting/TheoryCrafter";
 import {makeshift_main} from "./main";
 import {MethodPackManager} from "./model/MethodPackManager";
 import NotificationBar from "./ui/NotificationBar";
 import {C} from "../lib/ui/constructors";
 import div = C.div;
-import link = QueryLinks.link;
 import vbox = C.vbox;
 import span = C.span;
 import hbox = C.hbox;
 import spacer = C.spacer;
 import {observe} from "../lib/reactive";
+import NeoSolvingBehaviour from "./ui/neosolving/NeoSolvingBehaviour";
+import {FavoriteIndex} from "./favorites";
+import Dependencies from "./dependencies";
+import {Transportation} from "../lib/runescape/transportation";
+import {TransportData} from "../data/transports";
+import resolveTeleport = TransportData.resolveTeleport;
 
 export class SimpleLayerBehaviour extends Behaviour {
     constructor(private map: GameMap, private layer: GameLayer) {
@@ -54,7 +56,7 @@ export namespace ScanTrainerCommands {
     }> = {
         name: "load_path",
         parser: {
-            steps: ExportImport.imp<Path.step[]>({expected_type: "path", expected_version: 0}), // import is idempotent if it's not a serialized payload string
+            steps: ExportImport.imp<Path.Step[]>({expected_type: "path", expected_version: 0}), // import is idempotent if it's not a serialized payload string
         },
         default: {},
         serializer: {},
@@ -181,15 +183,13 @@ export class Application extends Behaviour {
     map_widget: GameMapWidget
     map: GameMap
 
-    methods: MethodPackManager
+    favourites: FavoriteIndex
 
     main_behaviour = this.withSub(new SingleBehaviour())
 
-    data = {
-        teleports: new Teleports.ManagedTeleports({
-            fairy_ring_favourites: [],
-            potas: [],
-        }),
+    teleport_settings: Transportation.TeleportGroup.TeleportCustomization = {
+        fairy_ring_favourites: [],
+        potas: [],
     }
 
     template_resolver = new TemplateResolver(new Map<string, (args: string[]) => string>(
@@ -203,7 +203,7 @@ export class Application extends Behaviour {
             ["digspot", (args) => `<span class="ctr-digspot-inline">${args[0]}</span>`],
             ["scanarea", (args) => `<span class="ctr-scanspot-inline">${args[0]}</span>`],
             ["teleport", (args) => {
-                let tele = this.data.teleports.get(args[0], args[1])
+                let tele = resolveTeleport({group: args[0], spot: args[1]})
 
                 if (!tele) return "NULL"
 
@@ -226,7 +226,7 @@ export class Application extends Behaviour {
     constructor() {
         super()
 
-        this.methods = new MethodPackManager()
+        this.favourites = new FavoriteIndex(MethodPackManager.instance())
     }
 
     protected async begin() {
@@ -247,13 +247,7 @@ export class Application extends Behaviour {
         this.map_widget = new GameMapWidget(map_widget.container)
         this.map = this.map_widget.map
 
-        this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
-
-        this.data.teleports.on("refreshed", (t) => {
-            this.map.setTeleportLayer(new TeleportLayer(this.data.teleports.getAll()))
-        })
-
-        this.main_behaviour.set(new TheoryCrafter(this))
+        this.main_behaviour.set(new NeoSolvingBehaviour(this))
 
         if (this.mode() == "preview") {
             this.notifications.notify({type: "information"}, div(
@@ -323,7 +317,9 @@ namespace Application {
 }
 
 export function initialize() {
-    new Application().start()
+    let app = new Application()
+    Dependencies.instance().app = app
+    app.start()
 
     //scantrainer.select(clues.find((c) => c.id == 361)) // zanaris
     //scantrainer.select(clues.find((c) => c.id == 399)) // compass

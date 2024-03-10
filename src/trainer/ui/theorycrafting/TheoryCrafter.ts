@@ -40,13 +40,24 @@ export default class TheoryCrafter extends Behaviour {
         this.layer.remove()
     }
 
-    editMethod(method: AugmentedMethod) {
+    async editMethod(method: AugmentedMethod) {
         let copy: AugmentedMethod = {
             clue: method.clue,
             pack: method.pack,
             method: lodash.cloneDeep(method.method)
         }
 
-        this.method_editor.set(new MethodEditor(this.app, copy))
+        const really = await (async (): Promise<boolean> => {
+            let active_editor = this.method_editor.get()
+
+            if (!active_editor) return true
+
+            return await active_editor.requestClosePermission()
+        })()
+
+        if (really) {
+            this.method_editor.set(new MethodEditor(this, copy))
+        }
+
     }
 }

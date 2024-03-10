@@ -8,62 +8,52 @@ import Widget from "../../../lib/ui/Widget";
 import {ClueProperties} from "./ClueProperties";
 import ClueSpot = Clues.ClueSpot;
 import * as tippy from "tippy.js";
+import {MapEntity} from "../../../lib/gamemap/MapEntity";
+import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
+import {MenuEntry} from "../widgets/ContextMenu";
 
-export class ClueOverviewMarker extends leaflet.FeatureGroup {
-    private marker: TileMarker
-
-    tippy: tippy.Instance = null
-
+export class ClueOverviewMarker extends MapEntity {
     constructor(private clue: Clues.ClueSpot,
                 private methods: MethodPackManager,
                 private edit_handler: (_: AugmentedMethod) => any,
                 private talk_alternative_index?: number,
     ) {
-        super();
-
-        this.marker = new TileMarker(ClueOverviewMarker.position(clue, talk_alternative_index)).withMarker().addTo(this)
+        super({interactive: true, highlightable: true});
     }
 
-    async createTooltip(): Promise<tippy.Instance> {
-        if (this.tippy) {
-            this.tippy.destroy()
-            this.tippy = null
-        }
-
+    override async renderTooltip(): Promise<{ content: Widget; interactive: boolean; } | null> {
         let self = this
 
-        async function construct(): Promise<Widget> {
-            return c("<div style='background: rgb(10, 31, 41); border: 1px solid grey; width: 400px; padding: 5px'></div>")
-                .append(await new ClueProperties(
-                    self.clue,
-                    self.methods,
-                    self.edit_handler,
-                    true,
-                    self.talk_alternative_index
-                ).rendered())
+        return {
+            content: await new ClueProperties(
+                self.clue,
+                self.methods,
+                self.edit_handler,
+                true,
+                self.talk_alternative_index
+            ).rendered(),
+            interactive: true
         }
+    }
 
-        //let cont = await construct()
+    override bounds(): TileRectangle {
+        return TileRectangle.from(ClueOverviewMarker.position(this.clue, this.talk_alternative_index))
+    }
 
-        let lock = false
+    protected async render_implementation(options: MapEntity.RenderProps): Promise<Element> {
+        let marker = new TileMarker(ClueOverviewMarker.position(this.clue, this.talk_alternative_index)).withMarker().addTo(this)
 
-        this.tippy = tippy.default(this.marker.marker.getElement(), {
-            onBeforeUpdate: (instance): void => {
-                if (lock) return
+        marker.setOpacity(options.highlight ? 0.5 : 1)
 
-                (async () => {
-                    lock = true
-                    await construct().then(w => instance.setContent(w.raw()))
-                    lock = false
-                })()
-            },
-            onShow: (instance) => {
-                construct().then(w => instance.setContent(w.raw()))
-            },
-            content: () => c().text("Loading").raw(),
-        })
+        return marker.marker.getElement()
+    }
 
-        return this.tippy
+    override async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+        return {
+            type: "submenu",
+            text: "Methods",
+            children: await ClueProperties.methodMenu(this.clue, this.edit_handler)
+        }
     }
 }
 

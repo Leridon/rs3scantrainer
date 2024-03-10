@@ -22,6 +22,8 @@ export default class InteractionTopControl extends GameMapControl<ControlWithHea
     }
 
     public setCancelHandler(f: () => void): this {
+        this._config.cancel_handler = f
+
         this.content.header.close_handler.set(f)
 
         return this
@@ -53,6 +55,7 @@ export default class InteractionTopControl extends GameMapControl<ControlWithHea
 
     eventKeyDown(event: GameMapKeyboardEvent) {
         if (this._config.cancel_handler) {
+
             event.onPre(() => {
                 if (event.original.key == "Escape") {
                     event.stopAllPropagation()

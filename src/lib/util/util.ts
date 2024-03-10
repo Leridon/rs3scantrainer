@@ -2,6 +2,7 @@ import * as L from "leaflet"
 import * as leaflet from "leaflet";
 import {ExportImport} from "./exportString";
 import {v4 as uuidv4} from 'uuid';
+import * as lodash from "lodash";
 
 export namespace util {
 
@@ -60,6 +61,19 @@ export namespace util {
     export function index<T>(array: T[], index: number): T {
         return array[(array.length + index) % array.length]
     }
+
+    export type nArray<T> = T | nArray<T>[]
+
+    export function multiIndex<T>(nArray: nArray<T>, ...indices: number[]): T {
+        let x = nArray
+
+        indices.forEach(i => {
+            x = index((x as nArray<T>[]), i)
+        })
+
+        return x as T
+    }
+
 
     export function minIndex(array: number[]): number {
         return array.indexOf(Math.min(...array))
@@ -149,6 +163,12 @@ export namespace util {
         return ns.reduce((a, b) => a + b, 0) / ns.length
     }
 
+    export function positiveMod(a: number, b: number): number {
+        a += Math.ceil(Math.abs(a / b)) * b
+
+        return a % b
+    }
+
     export function uuid(): string {
         return uuidv4()
     }
@@ -164,5 +184,29 @@ export namespace util {
         let filters = await Promise.all(collection.map(predicate))
 
         return collection.filter((e, i) => filters[i])
+    }
+
+    export function todo(): never {
+        throw new Error("Not implemented.")
+    }
+
+
+    export function copyUpdate<T>(value: T, updater: (_: T) => void): T {
+        const copy = lodash.cloneDeep(value)
+
+        updater(copy)
+
+        return copy
+    }
+
+    export function cleanedJSON(value: any, space: number = undefined) {
+        return JSON.stringify(value, (key, value) => {
+            if (key.startsWith("_")) return undefined
+            return value
+        }, space)
+    }
+
+    export function eqWithNull<T>(f: (a: T, b: T) => boolean): (a: T, b: T) => boolean {
+        return (a, b) => (a == b) || (a != null && b != null && f(a, b))
     }
 }

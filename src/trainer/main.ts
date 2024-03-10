@@ -6,6 +6,8 @@ import {clue_data} from "../data/clues";
 
 export async function makeshift_main(): Promise<string> {
     let output = ""
+
+
     /*
         let cmp = Order.chain(
             Order.comap(Order.natural_order, (c: Clues.Step) => [null, "easy", "medium", "hard", "elite", "master"].indexOf(c.tier)),
@@ -25,9 +27,7 @@ export async function makeshift_main(): Promise<string> {
         }*/
 
     let maps = clue_data.all.filter(c => c.type == "map")
-    console.log(c["map"])
-    console.log(`Min: ${Math.min(...maps.flatMap(c => c["map"]))}`)
-    console.log(`Max: ${Math.max(...maps.flatMap(c => c["map"]))}`)
+
     //console.log(`Length: ${c["map"].length}`)
 
 

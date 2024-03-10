@@ -8,17 +8,23 @@ import span = C.span;
 import spacer = C.spacer;
 
 export type MenuEntry =
-    {
-        text: string,
-        icon?: string
-    } &
-    ({
-        type: "basic",
-        handler: () => any
-    } | {
+    MenuEntry.Basic | MenuEntry.SubMenu
+
+export namespace MenuEntry {
+    export type Base = {
+        text: string | Widget,
+        icon?: string | Widget
+    }
+    export type SubMenu = Base & {
         type: "submenu",
         children: MenuEntry[]
-    })
+    }
+
+    export type Basic = Base & {
+        type: "basic",
+        handler: () => any
+    }
+}
 
 export type Menu = MenuEntry[]
 
@@ -164,9 +170,11 @@ namespace open_menu {
             return hbox(
                 with_icon
                     ? c("<div class='nisl-context-menu-entry-icon-container'></div>")
-                        .append(entry.icon ? c(`<img src="${entry.icon}">`) : null)
+                        .append(entry.icon
+                            ? (typeof entry.icon == "string" ? c(`<img src="${entry.icon}">`) : entry.icon)
+                            : null)
                     : null,
-                span(entry.text),
+                entry.text,
                 spacer().css("min-width", "10px"),
                 entry.type == "submenu" ? span("&#x276F;") : null
             ).addClass("nisl-context-menu-entry")
@@ -223,6 +231,8 @@ namespace open_menu {
     }
 
     export function show(men: context_menu_page, dom_parent: HTMLElement, position: Vector2): void {
+        const nested = $(dom_parent).is(".tippy-content *")
+
         men.tippy_instance =
             tippy.default(dom_parent, {
                 placement: 'right-start',
@@ -231,8 +241,12 @@ namespace open_menu {
                 arrow: false,
                 offset: [0, 0],
                 animation: false,
+                interactiveBorder: 20,
+                interactiveDebounce: 0.5,
                 content: men.root_widget.raw(),
                 maxWidth: "none",
+                zIndex: 10001,
+                appendTo: nested ? "parent" : document.body
             })
 
         if (!men.parent) {

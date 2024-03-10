@@ -5,12 +5,10 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     public container: JQuery
 
     constructor(init: JQuery | Widget = $("<div>")) {
-        if (init instanceof Widget) this.container = init.container
-        else if (!init) this.container = $("<div>")
-        else this.container = init
+        this.init(init)
     }
 
-    init(init: JQuery | Widget = $("<div>")): this {
+    protected init(init: JQuery | Widget = $("<div>")): this {
         if (init instanceof Widget) this.container = init.container
         else if (!init) this.container = $("<div>")
         else this.container = init
@@ -90,7 +88,7 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     }
 
     addClass(cls: string): this {
-        this.container.addClass(cls)
+        if (cls) this.container.addClass(cls)
         return this
     }
 
@@ -129,11 +127,12 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
 
     addTippy(tooltip: Widget, options: Partial<tippy.Props> = {}): this {
         tippy.default(this.container.get()[0], {
-            ...options,
             content: c("<div style='background: rgb(10, 31, 41); border: 2px solid white'></div>").append(tooltip).container.get()[0],
             arrow: true,
             animation: false,
             delay: 0,
+            zIndex: 10001,
+            ...options,
         })
 
         return this
@@ -151,10 +150,16 @@ export default class Widget<T extends HTMLElement = HTMLElement> {
     on<TType extends string>(
         events: TType,
         handler:
-            | JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, TType>
+            JQuery.TypeEventHandler<HTMLElement, undefined, HTMLElement, HTMLElement, TType>
             | false,
     ): this {
         this.container.on(events, handler)
+        return this
+    }
+
+    setAttribute(name: string, value: string = ""): this {
+        this.raw().setAttribute(name, value)
+
         return this
     }
 }

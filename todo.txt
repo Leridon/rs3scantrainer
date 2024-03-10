@@ -1,31 +1,105 @@
 Planned for next release (b0.4):
 
-- Theorycrafter
-    - "Save to pack" modal
-        - "Create new" option
-    - Editor for generic path methods
+- Data
+    - Gather data for non-static teleports
+    - Tirranwn Traps
+    - Dorgesh Khaan stairs
+    - Swamp Cave entrance and stones
 
-- Menu Bar
-    - Highlight currently active
-    - Add to Alt 1 entry when not in Alt1
+- Path Editor
+    - [Feature, 5] Add additional action bar buttons
+        - Cheat Step
+    - [Feature, 3, WIP] Add "Edit details modal"
+        - Finish edits for all props.
+    - [QOL, 5] Additional utility context actions
+        - Select direction for orientation
+        - Select action for redclicks
+
+    - Teleports don't use tile areas correctly
+    - [Feature] Check if teleport spot is actually in target area
+    - [Bug] Dive Target needs to be optional
+    - [Feature] Add "Cheat" step (Partially done)
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
+    - [Feature] Check valid access
+
+- Map Entities
+    - [Feature, 5] Add Teleport Access Entity
+    - [Feature, 5] Add Transport Destination Entity
+    - [Performance, 1] Remove from quadtree when removed from map!
+    - [Performance, 1] Share a quad tree for all game layers
+    - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
+    - [Feature, 2] Find a way to separate entities on the same tile
+
+- Theorycrafter
+    - Editor for generic path methods
+        - Display pathing when no section is selected
+        - Display Target-Areas and auxiliary stuff (hidey hole) on map
+            - Share with Solver!
+    - [Feature] Option to show pathing for all filtered spots
+        - Best | Best in Pack | Favorite
+        - Use Noninteractive entities
+    - [Bug] Filtering does not update properly in some situations, duplicate markers
+    - Collapsible method pack sections (default|imported|local)
+    - [Feature] Undo/Redo
+
+
 
 - Solving Behaviour
+    - Path Panel
+        - Neat step styling
+        - Add icon for orientation step
+        - Focus section when selected
+        - [WIP] Detail tooltip on hover
+            - Finish official info
+            - Add custom description
+        - [Feature] Disable default teleport render when contained in step
+            - Render step instead
+        - [Feature] Cleanup using "fake" steps:
+            - Combine surges/dives following a powerburst into one "fake" step
+            - Duplicate shortcut step to exist in both sections
+            - Combine run followed by shortcut into one
+            - Clue-specific actions? Search drawers, dig, etc?
+
+
     - Search Bar
+        - Neat styling
+            - Hover effects of buttons
+            - Highlight on toggled
+
+        - [Bug] Dropdown starts offset to the left
+        - [Bug] Search term input is larger than the bar itself.
+    - Basic solution rendering on the map
+        - Target marker
+        - Wander ranges
+        - Emote areas
+        - Entity/Npc names?
+    - Hide Menubar on fullscreen
+    - Compass Panel
     - Solve, Autosolve
+    - Key solution
+    - Challenge answer
+    - Potential Puzzles
     - Multiple Methods, Preferences
-    - Integrate scan tree as map control instead of sidebar
-    - Solving
+        - Preferred npc spot
+        - Preferred challenge answer
+    - Scan Tree Behaviour
         - Make fit include the entire path
         - Better render of in-route teleports
         - Run graphics are bad on snow background
         - Spacing in the tree view is bad
         - Don't fit to origin of teleport
-        - Adjust range polygon colors to ingame colors of pulses
-        - Replace buttons with pulse icons
+    - Clue Reader
+        - Text Clues
+        - Scan Clues
+        - Hook up to interface
+
+- Menu Bar
+    - Highlight currently active
+    - Add to Alt 1 entry when not in Alt1
+    - Regular Map mode as default
 
 - Settings Modal
     - Map Settings: Teleport Preferences
-    - Local Method Packs
 
 - General
     - [Styling] ControlHeader title and X are not properly aligned
@@ -38,6 +112,7 @@ Planned for next release (b0.4):
     - Use the new ExpansionBehaviour wherever it's applicable
 
 - Shortcut editor/View
+    - Honestly, just remove the entire thing
     - [Bug] Actually disable editing for builtins
     - [Bug] Viewport filtering needs to include level
     - [Potential Bug] Copying from a different floor is weird.
@@ -57,15 +132,6 @@ Planned for next release (b0.4):
     - Better placement of information marker to guaranteee it's always inside the area.
     - Scale information gain down when zoomed out
 
-- Path Editor
-    - [Bug] Escape key cancels the entire editor when redrawing ability and in other situations
-    - [Bug] There appears to be a way to cause an undefined step to enter the array
-    - [Bug] Fit to step/path doesnt include level
-    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflet-custom-control
-    - [Bug] Context Menu and other tooltips are displayed behind controls.
-    - Implicit run for shortcuts?
-    - [Bug] Path Editor throws an exception when start_state is undefined
-    - Add a way to make it not closeable by the user
 
 - Data Model
     - Skilling Clue locations
@@ -127,12 +193,8 @@ RELEASE 1.0
 
 
 Unscheduled (Far future):
-- Fade teleport icons when on different level
 - [What] Incorporate jacket/backpack recommmendations
-- [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
-- Add a view to see the entire scan tree without having to enter the editor
 - Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
-- Scale teleports with zoom
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
@@ -140,5 +202,3 @@ Unscheduled (Far future):
 - Warn when not using meerkats
 - Track Jacket/Backpack Charges via Chat, display them
 - Figure out z-Ordering of layers (need to use custom panes maybe)
-- Google Maps like layout for a slimmer experience? Make the map be the center of everything
-- Landing areas for non-static teleports, show better metadata on tooltip/hover

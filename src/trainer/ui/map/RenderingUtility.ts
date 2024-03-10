@@ -1,15 +1,15 @@
 import * as leaflet from "leaflet";
 import {Vector2} from "lib/math";
 import {Path} from "lib/runescape/pathing";
+import {CursorType} from "../../../lib/runescape/CursorType";
 
 export namespace RenderingUtility {
-    import InteractionType = Path.InteractionType;
-
-    export function interactionMarker(where: Vector2, how: InteractionType, simplified: boolean = false): leaflet.Marker {
+    
+    export function interactionMarker(where: Vector2, how: CursorType, simplified: boolean = false, centered: boolean = true): leaflet.Marker {
         let icon = leaflet.icon({
-            iconUrl: Path.InteractionType.meta(how).icon_url,
+            iconUrl: CursorType.meta(how).icon_url,
             iconSize: [28, 31],
-            iconAnchor: [14, 16],
+            iconAnchor: centered ? [14, 16] : [3, 0],
             className: simplified ? "ctr-inactive-overlay-marker" : undefined
         })
 

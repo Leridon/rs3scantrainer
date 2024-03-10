@@ -1,8 +1,8 @@
 import Button from "../../../lib/ui/controls/Button";
 
-export default class BigNisButton extends Button {
+export class BigNisButton extends Button {
 
-    constructor(text: string, style: "confirm" | "cancel" | "neutral") {
+    constructor(text: string, style: BigNisButton.Kind) {
         super();
 
         c().text(text).addClass("content").appendTo(this)
@@ -12,4 +12,8 @@ export default class BigNisButton extends Button {
 
         this.addClass(`nisl-big-button-${style}`)
     }
+}
+
+export namespace BigNisButton {
+    export type Kind = "confirm" | "cancel" | "neutral"
 }

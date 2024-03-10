@@ -3,6 +3,7 @@ import * as leaflet from "leaflet";
 import {Vector2} from "./Vector2";
 import {Transform} from "./Transform";
 import {TileCoordinates, TileRectangle} from "../runescape/coordinates";
+import {Rect} from "@alt1/base";
 
 export type Rectangle = { topleft: Vector2, botright: Vector2 }
 
@@ -160,5 +161,13 @@ export namespace Rectangle {
             topleft: Vector2.add(center, {x: -radius, y: radius}),
             botright: Vector2.add(center, {x: radius, y: -radius}),
         }
+    }
+
+    export function equals(a: Rectangle, b: Rectangle): boolean {
+        return (a == b) || (!!a && !!b && Vector2.eq(a.topleft, b.topleft) && Vector2.eq(a.botright, b.botright))
+    }
+
+    export function containsRect(container: Rectangle, inner: Rectangle): boolean {
+        return Rectangle.containsTile(container, inner.topleft) && Rectangle.containsTile(container, inner.botright)
     }
 }

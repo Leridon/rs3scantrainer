@@ -2,91 +2,31 @@ import {direction, MovementAbilities, PathFinder, PlayerPosition} from "./moveme
 import movement_ability = MovementAbilities.movement_ability;
 import {util} from "../util/util";
 import * as lodash from "lodash"
-import {teleport_data} from "data/teleport_data";
-import {Teleports} from "./teleports";
 import {Rectangle, Vector2} from "../math";
 import {ExportImport} from "../util/exportString";
-import {TileCoordinates} from "./coordinates";
+import {floor_t, TileCoordinates} from "./coordinates";
 import {TileRectangle} from "./coordinates";
-import {Shortcuts} from "./shortcuts";
+import {Transportation} from "./transportation";
+import {TreeArray} from "../util/TreeArray";
+import {TileArea} from "./coordinates/TileArea";
+import {CursorType} from "./CursorType";
+import {EntityName} from "./EntityName";
+import {TransportData} from "../../data/transports";
+import Dependencies from "../../trainer/dependencies";
 
 export type Path = Path.raw;
 
 export namespace Path {
-    import getAllFlattened = teleport_data.getAllFlattened;
-    type step_base = {
-        type: string,
-        description: string
-    }
-
-    export type InteractionType =
-        "generic"
-        | "chop"
-        | "talk"
-        | "open"
-        | "enter"
-        | "spellonentity"
-        | "agility_obstacle"
-        | "ladderdown"
-        | "ladderup"
-        | "read"
-        | "fish"
-        | "search"
-        | "attack"
-        | "craft"
-        | "build"
-        | "mine"
-        | "trade"
-        | "use"
-        | "cook"
-        | "divine"
-        | "loot"
-        | "picklock"
-        | "shovel"
-
-    // TODO: Smith, Discover, Archaelogy,
-
+    import resolveTeleport = TransportData.resolveTeleport;
     export type PathAssumptions = {
         double_surge?: boolean,
         double_escape?: boolean,
         mobile_perk?: boolean,
     }
 
-    export namespace InteractionType {
-
-        export type Meta = { type: InteractionType, icon_url: string, description: string, short_icon: string }
-
-        export function all(): Meta[] {
-            return [
-                {type: "generic", icon_url: "assets/icons/cursor_generic.png", description: "Click", short_icon: "cursor_generic"},
-                {type: "chop", icon_url: "assets/icons/cursor_chop.png", description: "Chop", short_icon: "cursor_chop"},
-                {type: "talk", icon_url: "assets/icons/cursor_talk.png", description: "Talk to", short_icon: "cursor_talk"},
-                {type: "open", icon_url: "assets/icons/cursor_open.png", description: "Open", short_icon: "cursor_open"},
-                {type: "enter", icon_url: "assets/icons/cursor_enter.png", description: "Enter", short_icon: "cursor_enter"},
-                {type: "spellonentity", icon_url: "assets/icons/cursor_alchemy.png", description: "Use spell", short_icon: "cursor_spell"},
-                {type: "agility_obstacle", icon_url: "assets/icons/cursor_obstacle.png", description: "Use", short_icon: "cursor_obstacle"},
-                {type: "ladderdown", icon_url: "assets/icons/cursor_ladderdown.png", description: "Climb down ladder", short_icon: "cursor_ladderdown"},
-                {type: "ladderup", icon_url: "assets/icons/cursor_ladderup.png", description: "Climb up ladder", short_icon: "cursor_ladderup"},
-                {type: "read", icon_url: "assets/icons/cursor_read.png", description: "Read", short_icon: "cursor_read"},
-                {type: "fish", icon_url: "assets/icons/cursor_fish.png", description: "Fish", short_icon: "cursor_fish"},
-                {type: "search", icon_url: "assets/icons/cursor_search.png", description: "Search", short_icon: "cursor_search"},
-                {type: "attack", icon_url: "assets/icons/cursor_attack.png", description: "Attack", short_icon: "cursor_attack"},
-                {type: "craft", icon_url: "assets/icons/cursor_craft.png", description: "Craft at", short_icon: "cursor_craft"},
-                {type: "build", icon_url: "assets/icons/cursor_build.png", description: "Build", short_icon: "cursor_build"},
-                {type: "mine", icon_url: "assets/icons/cursor_mine.png", description: "Mine", short_icon: "cursor_mine"},
-                {type: "trade", icon_url: "assets/icons/cursor_trade.png", description: "Trade", short_icon: "cursor_trade"},
-                {type: "use", icon_url: "assets/icons/cursor_use.png", description: "Use", short_icon: "cursor_use"},
-                {type: "cook", icon_url: "assets/icons/cursor_cook.png", description: "Cook", short_icon: "cursor_cook"},
-                {type: "divine", icon_url: "assets/icons/cursor_divine.png", description: "Divine", short_icon: "cursor_divine"},
-                {type: "loot", icon_url: "assets/icons/cursor_loot.png", description: "Loot", short_icon: "cursor_loot"},
-                {type: "picklock", icon_url: "assets/icons/cursor_picklock.png", description: "Pick Lock", short_icon: "cursor_picklock"},
-                {type: "shovel", icon_url: "assets/icons/cursor_shovel.png", description: "Shovel", short_icon: "cursor_shovel"},
-            ]
-        }
-
-        export function meta(type: InteractionType): Meta {
-            return all().find(s => s.type == type)
-        }
+    type step_base = {
+        type: string,
+        description?: string
     }
 
     export type step_orientation = step_base & {
@@ -97,41 +37,35 @@ export namespace Path {
     export type step_ability = step_base & {
         type: "ability",
         ability: movement_ability,
+        target?: EntityName,
+        target_text?: string,
         from: TileCoordinates,
         to: TileCoordinates,
     }
 
     export type step_run = step_base & {
         type: "run",
+        to_text?: string,
         waypoints: TileCoordinates[]
     }
 
     export type step_teleport = step_base & {
         type: "teleport",
-        id: Teleports.full_teleport_id,
-        spot_override?: TileCoordinates
+        id: Transportation.TeleportGroup.SpotId,
+        spot: TileCoordinates
     }
 
-    export type step_interact = step_base & {
-        type: "interaction",
-        ticks: number,
-        where: TileCoordinates,
-        starts: TileCoordinates,
-        ends_up: TileCoordinates,
-        forced_direction: direction
-        how: InteractionType
-    }
-
-    export type step_shortcut = step_base & {
-        type: "shortcut_v2",
+    export type step_transportation = step_base & {
+        type: "transport",
         assumed_start: TileCoordinates,
-        internal: entity_shortcut
+        internal: EntityTransportation,
     }
 
     export type step_redclick = step_base & {
         type: "redclick",
+        target: EntityName,
         where: TileCoordinates,
-        how: InteractionType
+        how: CursorType
     }
 
     export type step_powerburst = step_base & {
@@ -139,13 +73,23 @@ export namespace Path {
         where: TileCoordinates
     }
 
-    export type step = step_orientation | step_ability | step_run | step_teleport | step_interact | step_redclick | step_powerburst | step_shortcut
+    export type step_cheat = step_base & {
+        type: "cheat",
+        assumed_start: TileCoordinates,
+        target: TileCoordinates,
+        orientation: direction,
+        ticks: number
+    }
+
+    export type Step = step_orientation | step_ability | step_run | step_teleport | step_redclick | step_powerburst | step_transportation | step_cheat
 
     import index = util.index;
     import minIndex = util.minIndex;
     import cooldown = MovementAbilities.cooldown;
     import capitalize = util.capitalize;
-    import entity_shortcut = Shortcuts.entity_shortcut;
+    import EntityTransportation = Transportation.GeneralEntityTransportation;
+    import default_interactive_area = Transportation.EntityTransportation.default_interactive_area;
+    import activate = TileArea.activate;
 
     export type movement_state = {
         tick: number,
@@ -199,7 +143,7 @@ export namespace Path {
         }
     }
 
-    export type raw = step[]
+    export type raw = Step[]
 
     export type augmented = {
         pre_state: movement_state,
@@ -211,19 +155,32 @@ export namespace Path {
     }
 
     export namespace augmented {
-        export function step_bounds(step: augmented_step): Rectangle {
-            return Rectangle.combine(Path.step_bounds(step.raw), Rectangle.from(step.pre_state.position.tile, step.post_state.position.tile))
+        export function step_bounds(step: augmented_step): TileRectangle {
+            const rect = Rectangle.combine(Path.Step.bounds(step.raw), Rectangle.from(step.pre_state.position.tile, step.post_state.position.tile))
+
+            if (!rect) return null
+
+            return TileRectangle.lift(rect, Path.Step.level(step.raw))
         }
 
         export function bounds(path: Path.augmented): Rectangle {
             return Rectangle.combine(...path.steps.map(step_bounds), path.target)
+        }
+
+        export function getState(path: Path.augmented, index: number): movement_state {
+            if (index >= path.steps.length) return path.post_state
+            else if (index < 0) return path.pre_state
+
+            if (!path.steps[index]) debugger
+
+            return path.steps[index].pre_state
         }
     }
 
     export type augmented_step = {
         pre_state: movement_state,
         post_state: movement_state,
-        raw: Path.step,
+        raw: Path.Step,
         section?: number,
         issues: issue[]
     }
@@ -241,25 +198,29 @@ export namespace Path {
             let step = path[i]
 
             switch (step.type) {
+                case "cheat":
+                    return step.target
                 case "ability":
                     return step.to
                 case "run":
                     return index(step.waypoints, -1)
                 case "teleport":
-                    if (step.spot_override) return step.spot_override
-                    else return teleport_data.resolveTarget(step.id)
-                case "interaction":
-                    return step.ends_up
-                case "shortcut_v2":
+                    if (step.spot) return step.spot
+                    else return resolveTeleport(step.id, Dependencies.instance().app.teleport_settings).centerOfTarget()
+                case "transport":
                     let start_tile = step.assumed_start
                     let action = step.internal.actions[0]
 
-                    switch (action.movement.type) {
-                        case "offset":
-                            return TileCoordinates.move(start_tile, action.movement.offset)
-                            break;
-                        case "fixed":
-                            return action.movement.target
+                    const movement = Transportation.EntityAction.findApplicable(action, start_tile) ?? action.movement[0]
+
+                    if (movement.offset) {
+                        let t = TileCoordinates.move(start_tile, movement.offset)
+
+                        t.level += movement.offset.level
+
+                        return t
+                    } else if (movement.fixed_target) {
+                        return movement.fixed_target.target
                     }
                     break
                 case "redclick":
@@ -272,7 +233,7 @@ export namespace Path {
         return null
     }
 
-    export async function augment(path: Path.step[],
+    export async function augment(path: Path.Step[],
                                   start_state: movement_state = movement_state.start({}),
                                   target: TileRectangle = null): Promise<Path.augmented> {
         let augmented_steps: augmented_step[] = []
@@ -296,6 +257,11 @@ export namespace Path {
             }
 
             switch (step.type) {
+                case "cheat":
+                    state.position.tile = step.target
+                    if (step.orientation != direction.center) state.position.direction = step.orientation
+                    state.tick += step.ticks
+                    break
                 case "orientation":
                     if (i > 0) augmented.issues.push({level: 0, message: "Orientation steps should only be used as the first step!"})
 
@@ -491,33 +457,25 @@ export namespace Path {
 
                     break;
                 case "teleport":
+                    let teleport = resolveTeleport(step.id)
 
-                    let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
+                    if (step.spot) state.position.tile = step.spot
+                    else state.position.tile = teleport.centerOfTarget()
 
-                    // With this implementation, teleports always preserve player orientation.
-                    // There are teleports in the game that do not do that, but that's not included in the data I have.
-                    if (step.spot_override) state.position.tile = step.spot_override
-                    else state.position.tile = teleport.spot
+                    if (teleport.spot.facing != null) {
+                        state.position.direction = teleport.spot.facing
+                    }
 
-                    state.tick += teleport.menu_ticks
-                    state.tick += teleport.animation_ticks
+                    state.tick += teleport.props.menu_ticks
+                    state.tick += teleport.props.animation_ticks
                     state.targeted_entity = null
 
                     break;
-                case "interaction":
-
-                    state.position.tile = step.ends_up
-                    if (step.forced_direction != null) state.position.direction = step.forced_direction
-                    state.tick += step.ticks
-                    state.targeted_entity = null
-
-                    break;
-                case "shortcut_v2":
-
+                case "transport":
                     let entity = step.internal
                     let action = entity.actions[0]
 
-                    let in_interactive_area = !state.position.tile || TileRectangle.contains(action.interactive_area, state.position.tile)
+                    let in_interactive_area = !state.position.tile || activate(action.interactive_area || default_interactive_area(entity.clickable_area)).query(state.position.tile)
 
                     if (!in_interactive_area) {
                         augmented.issues.push({level: 0, message: "Player is not in the interactive area for this shortcut!"})
@@ -529,22 +487,26 @@ export namespace Path {
 
                     let start_tile = step.assumed_start
 
-                    switch (action.movement.type) {
-                        case "offset":
-                            state.position.tile = TileCoordinates.move(start_tile, action.movement.offset)
-                            state.position.tile.level += action.movement.offset.level
-                            break;
-                        case "fixed":
-                            state.position.tile = action.movement.target
-                            break;
+                    let movement = Transportation.EntityAction.findApplicable(action, start_tile)
+
+                    if (!movement) {
+                        augmented.issues.push(({level: 0, message: "No applicable movement option from this tile"}))
+                        movement = action.movement[0]
                     }
 
-                    switch (action.orientation.type) {
-                        case "byoffset":
+                    if (movement.offset) {
+                        state.position.tile = TileCoordinates.move(start_tile, movement.offset)
+                        state.position.tile.level += movement.offset.level
+                    } else if (movement.fixed_target) {
+                        state.position.tile = movement.fixed_target.target
+                    }
+
+                    switch (movement.orientation || "bymovement") {
+                        case "bymovement":
                             state.position.direction = direction.fromVector(Vector2.sub(state.position.tile, start_tile))
                             break;
                         case "forced":
-                            state.position.direction = action.orientation.direction
+                            state.position.direction = movement.forced_orientation.dir
                             break;
                         case "toentitybefore":
                             state.position.direction = direction.fromVector(Vector2.sub(TileRectangle.center(entity.clickable_area), start_tile))
@@ -556,7 +518,7 @@ export namespace Path {
                             break;
                     }
 
-                    state.tick += action.time
+                    state.tick += movement.time
 
                     break
                 case "redclick":
@@ -602,7 +564,6 @@ export namespace Path {
                     break;
             }
 
-
             augmented.post_state = lodash.cloneDeep(state)
 
             augmented_steps.push(augmented)
@@ -625,7 +586,7 @@ export namespace Path {
         }
     }
 
-    export function title(step: step): string {
+    export function title(step: Step): string {
         switch (step.type) {
             case "orientation":
                 return `Face ${direction.toString(step.direction)}`
@@ -635,57 +596,18 @@ export namespace Path {
                 return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
             case "teleport":
                 return `Teleport`
-            case "interaction":
-                return "Use entrance (DEPRECATED)";
-            case "shortcut_v2":
+            case "transport":
                 return `Use entity`
             case "redclick":
                 return "Redclick"
             case "powerburst":
                 return "Use Powerburst"
+            case "cheat":
+                return "Custom Movement"
 
         }
 
         return "MISSING"
-    }
-
-    export function auto_description(step: step): string {
-        if (step.type === "orientation") {
-            return `Face ${direction.toString(step.direction)}`
-        } else if (step.type === "ability") {
-            let dir = direction.toString(direction.fromVector(Vector2.sub(step.to, step.from)))
-
-            switch (step.ability) {
-                case "surge":
-                    return `{{surge}} ${dir}`;
-                case "dive":
-                    return `{{dive}} ${dir}`
-                case "escape":
-                    return `{{escape}} ${dir}`
-                case "barge":
-                    return `{{barge}} ${dir}`
-            }
-        } else if (step.type === "run") {
-            return `Run ${PathFinder.pathLength(step.waypoints)} tiles`
-        } else if (step.type === "teleport") {
-            let teleport = Teleports.find(teleport_data.getAllFlattened(), step.id)
-
-            if (teleport.sub.name) return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}} to ${teleport.sub.name}`
-            else return `Use {{teleport ${teleport.group.id} ${teleport.sub.id}}}`
-        } else if (step.type === "interaction") {
-            return "Use entrance/shortcut"; // TODO:
-        } else if (step.type == "shortcut_v2") {
-            return `${step.internal.name}: {{icon ${InteractionType.meta(step.internal.actions[0].cursor).short_icon}}} ${step.internal.actions[0].name} `
-        } else if (step.type === "redclick") {
-            return `Redclick at ${TileCoordinates.toString(step.where)}` // TODO:
-        } else if (step.type === "powerburst") {
-            return "Use {{icon accel}}"
-        }
-    }
-
-    export function auto_describe<T extends step>(step: T): T {
-        step.description = auto_description(step)
-        return step
     }
 
     export function collect_issues(path: augmented): (issue & { step?: augmented_step, path?: augmented })[] {
@@ -714,31 +636,140 @@ export namespace Path {
             migrations: [{
                 from: 0,
                 to: 1,
-                f: (e: unknown) => (e as { steps: Path.step[] }).steps
+                f: (e: unknown) => (e as { steps: Path.Step[] }).steps
             }]
         })(str)
     }
 
-    export function step_bounds(step: step): Rectangle {
-        switch (step.type) {
-            case "ability":
-                return Rectangle.from(step.from, step.to)
-            case "run":
-                return Rectangle.from(...step.waypoints)
-            case "teleport":
-                if (step.spot_override) return Rectangle.from(step.spot_override)
-                else return Rectangle.from(Teleports.find(getAllFlattened(), step.id).spot)
-            case "interaction":
-                return Rectangle.from(step.where, step.ends_up)
-            case "redclick":
-            case "powerburst":
-                return Rectangle.from(step.where)
-            default:
-                return null
+    export function bounds(path: Path.raw): Rectangle {
+        return Rectangle.combine(...path.map(Step.bounds))
+    }
+
+    export namespace Step {
+        export function bounds(step: Step): Rectangle {
+            switch (step.type) {
+                case "ability":
+                    return Rectangle.from(step.from, step.to)
+                case "run":
+                    return Rectangle.from(...step.waypoints)
+                case "teleport":
+                    if (step.spot) return Rectangle.from(step.spot)
+                    else return Rectangle.from(resolveTeleport(step.id).centerOfTarget())
+                case "redclick":
+                case "powerburst":
+                    return Rectangle.from(step.where)
+                case "cheat":
+                    return Rectangle.from(step.target)
+                default:
+                    return null
+            }
+        }
+
+        export function level(step: Step): floor_t {
+            switch (step.type) {
+                case "orientation":
+                    return 0
+                case "ability":
+                    return step.to.level
+                case "run":
+                    return step.waypoints[0].level
+                case "teleport":
+                    return resolveTeleport(step.id).centerOfTarget().level
+                case "redclick":
+                    return step.where.level
+                case "powerburst":
+                    return step.where.level
+                case "transport":
+                    return step.internal.clickable_area.level
+                case "cheat":
+                    return step.target.level
+            }
+        }
+
+        export function name(step: Step): string {
+            switch (step.type) {
+                case "ability":
+                    return lodash.capitalize(step.ability)
+                default:
+                    return lodash.capitalize(step.type.toUpperCase())
+            }
         }
     }
 
-    export function bounds(path: Path.raw): Rectangle {
-        return Rectangle.combine(...path.map(step_bounds))
+    export type Section = {
+        name: string,
+        steps?: Step[],
+        subsections?: Section[]
+    }
+
+    export type SectionedPath = TreeArray<Step, { name: string }>
+
+    export namespace Section {
+        /*export function asMultiArray(section: Section): TreeArray<step> {
+            if (section.subsections) return section.subsections.map(asMultiArray)
+            else return section.steps
+        }*/
+
+        export function split_into_sections(path: Path.raw, root_name: string = "root"): TreeArray.InnerNode<Step, { name: string }> {
+            let section_dividers: number[] = []
+
+            const division = (i: number) => {
+                if (i > 0 && (section_dividers.length == 0 || index(section_dividers, -1) != i)) section_dividers.push(i)
+            }
+
+            let pos: TileCoordinates = null
+
+            for (let i = 0; i < path.length; i++) {
+                let step = path[i]
+                let new_pos = ends_up([step])
+
+                if (step.type == "teleport") {
+                    if (i >= 1 && path[i - 1].type == "orientation") division(i - 1)
+                    else division(i)
+                } else if (step.type == "transport" && pos) {
+                    if (Vector2.max_axis(Vector2.sub(new_pos, pos)) > 64 || pos.level != new_pos.level) {
+                        division(i + 1)
+                    }
+                }
+
+                pos = new_pos
+            }
+
+            division(path.length)
+
+            let root = TreeArray.init({name: root_name})
+
+            section_dividers.forEach((end, i) => {
+                let sect = TreeArray.add(root,
+                    TreeArray.inner({name: `Section ${i + 1}`})
+                )
+
+                let prev = i == 0 ? 0 : section_dividers[i - 1]
+
+                sect.children = TreeArray.leafs(path.slice(prev, end))
+            })
+
+            return root
+        }
+
+        /*
+
+        export function get_subsection_from_id_list(sections: Section[], indices: number[]): Section {
+            for (let index of indices) {
+                let sect = sections[index]
+
+                if (sect.subsections) sections = sect.subsections
+                else return sect
+            }
+            return null
+        }
+
+        export function index_of_first_real_section(sections: Section[]): number[] {
+            if (sections[0].subsections) return [0].concat(index_of_first_real_section(sections[0].subsections))
+            else return [0]
+        }
+
+
+         */
     }
 }

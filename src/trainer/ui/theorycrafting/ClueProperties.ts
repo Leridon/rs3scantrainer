@@ -14,7 +14,12 @@ import ClueSpot = Clues.ClueSpot;
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
-import MethodWidget from "./MethodWidget";
+import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
+import Dependencies from "../../dependencies";
+import {FavouriteIcon, NislIcon} from "../nisl";
+import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
+import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
+import {NewMethodModal} from "./MethodModal";
 
 export class ClueProperties extends Properties {
     render_promise: Promise<this> = null
@@ -60,13 +65,13 @@ export class ClueProperties extends Properties {
                 this.named("Spots", c().text(`${this.clue.clue.spots.length}`))
                 break
             case "compass":
-                renderSolution(this, {type: "dig", spot: this.clue.spot})
+                renderSolution(this, {type: "dig", spot: this.clue.spot, description: null})
                 this.named("Total", c().text(`${this.clue.clue.spots.length}`))
                 break
             case "coordinates":
                 this.named("Text", c().text(this.clue.clue.text[0]).css("font-style", "italic"))
                 this.named("Coordinates", c().setInnerHtml(GieliCoordinates.toString(this.clue.clue.coordinates)))
-                renderSolution(this, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.clue.coordinates)})
+                renderSolution(this, {type: "dig", spot: GieliCoordinates.toCoords(this.clue.clue.coordinates), description: null})
                 break
             case "simple":
             case "cryptic":
@@ -119,7 +124,15 @@ export class ClueProperties extends Properties {
             this.named("Challenge", hbox(...this.clue.clue.challenge.map(render_challenge).map(s => s.css("flex-grow", "1"))))
         }
 
-        let methods = await this.methods.getForClue(this.clue.clue.id, this.clue.spot)
+        this.row(hbox(new LightButton("Methods", "rectangle")
+            .onClick(async (event) => {
+                new ContextMenu(await ClueProperties.methodMenu(this.clue, this.edit_handler))
+                    .showFromEvent(event)
+            })
+        ).addClass("ctr-button-container"))
+
+        /*
+        let methods = await this.methods.get(this.clue)
         this.header("Methods")
 
         if (methods.length > 0) {
@@ -144,6 +157,8 @@ export class ClueProperties extends Properties {
             })
         })).addClass("ctr-button-container"))
 
+         */
+
         return this
     }
 
@@ -153,6 +168,8 @@ export class ClueProperties extends Properties {
 }
 
 export namespace ClueProperties {
+    import uuid = util.uuid;
+
     export function header(clue: Clues.ClueSpot) {
         return hbox(
             span(`${ClueType.meta(clue.clue.tier).name} ${ClueType.meta(clue.clue.type).name} Step (Id ${clue.clue.id})`).css("font-weight", "bold"),
@@ -160,5 +177,96 @@ export namespace ClueProperties {
             c(`<img class="icon" src='${clue.clue.tier ? Constants.icons.tiers[clue.clue.tier] : ""}' title="${ClueType.pretty(clue.clue.tier)}" style="margin-right: 3px">`),
             c(`<img class="icon" src='${Constants.icons.types[clue.clue.type]}' title="${ClueType.pretty(clue.clue.type)}">`)
         )
+    }
+
+    export async function methodMenu(clue: Clues.ClueSpot,
+                                     edit_handler: (_: AugmentedMethod) => any,
+    ): Promise<MenuEntry[]> {
+        const ms = await MethodPackManager.instance().get(clue)
+
+        const favourite = await Dependencies.instance().app.favourites.getMethod(ClueSpot.toId(clue))
+
+        return [
+            {
+                type: "basic",
+                text: "New Method",
+                handler: async () => {
+                    const m = await new NewMethodModal(clue).do()
+
+                    if (m?.created) {
+                        edit_handler(m.created)
+                    }
+                }
+            },
+            ...ms.map((m): MenuEntry => {
+                const isFavourite = AugmentedMethod.isSame(favourite, m)
+
+                const men: MenuEntry.SubMenu = {
+                    type: "submenu",
+                    text: m.method.name,
+                    icon: new FavouriteIcon().set(isFavourite),
+                    children: [
+                        {
+                            type: "basic",
+                            text: isFavourite ? "Unset Favourite" : "Make Favourite",
+                            icon: new FavouriteIcon().set(isFavourite),
+                            handler: () => {
+                                Dependencies.instance().app.favourites.setMethod(ClueSpot.toId(clue), isFavourite ? null : m)
+                            }
+                        },
+                    ]
+                }
+
+                if (m.pack.type == "local") {
+                    men.children.push({
+                        type: "basic",
+                        text: "Edit",
+                        icon: "assets/icons/edit.png",
+                        handler: () => edit_handler(m)
+                    })
+                }
+
+                men.children.push(
+                    {
+                        type: "basic",
+                        icon: "assets/icons/copy.png",
+                        text: "Make Copy",
+                        handler: async () => {
+                            const new_method = await new NewMethodModal(clue, m).do()
+
+                            if (new_method?.created) {
+                                edit_handler(new_method.created)
+                            }
+                        }
+                    })
+
+                if (m.pack.type == "local") {
+                    men.children.push({
+                        type: "basic",
+                        text: "Delete",
+                        icon: "assets/icons/delete.png",
+                        handler: async () => {
+                            const really = await new ConfirmationModal<boolean>({
+                                body: "Are you sure you want to delete this method? There is no way to undo it!",
+                                options: [
+                                    {kind: "neutral", text: "Cancel", value: false},
+                                    {kind: "cancel", text: "Delete", value: true},
+                                ]
+                            }).do()
+
+                            if (really) {
+                                MethodPackManager.instance().deleteMethod(m)
+                                Dependencies.instance().app.notifications.notify({
+                                    type: "information",
+                                    duration: 3000
+                                }, "Deleted")
+                            }
+                        }
+                    })
+                }
+
+                return men
+            })
+        ]
     }
 }

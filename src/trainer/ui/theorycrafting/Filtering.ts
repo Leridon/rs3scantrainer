@@ -2,7 +2,7 @@ import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import ControlWithHeader from "../map/ControlWithHeader";
 import {storage} from "../../../lib/util/storage";
 import {ewent, Observable, observe} from "../../../lib/reactive";
-import {ClueSpotIndex} from "../../../data/ClueIndex";
+import {ClueSpotIndex} from "../../../lib/runescape/clues/ClueIndex";
 import Widget from "../../../lib/ui/Widget";
 import {clue_data} from "../../../data/clues";
 import {AugmentedMethod, MethodPackManager, Pack} from "../../model/MethodPackManager";
@@ -20,13 +20,11 @@ import spacer = C.spacer;
 import span = C.span;
 import vbox = C.vbox;
 import ClueSpot = Clues.ClueSpot;
-
 import NisCollapseButton from "../../../lib/ui/controls/NisCollapseButton";
 import {ExpansionBehaviour} from "../../../lib/ui/ExpansionBehaviour";
 import {ClueProperties} from "./ClueProperties";
 import {GameMap} from "../../../lib/gamemap/GameMap";
 import {TileRectangle} from "../../../lib/runescape/coordinates";
-import {Vector2} from "../../../lib/math";
 import {ClueOverviewMarker} from "./OverviewMarker";
 import * as fuzzysort from "fuzzysort";
 
@@ -75,7 +73,7 @@ export namespace ClueSpotFilter {
         if (!(f.types[clue.clue.type] && f.tiers[clue.clue.tier])) return false
 
         if (methods && f.method_pack) {
-            let ms = await methods.getForClue(clue.clue.id, clue.spot)
+            let ms = await methods.getForClue(ClueSpot.toId(clue))
 
             switch (f.method_mode) {
                 case "none":
@@ -124,9 +122,14 @@ class ClueSpotFilterResult extends Widget {
 
         this.addClass("ctr-filtered-clue-result")
 
+        this.props = new ClueProperties(this.spot, this.methods, this.edit_handler, true).css2({
+            "display": "none",
+            "border-top": "1px dashed grey"
+        })
+
         this.append(hbox(
             vbox(
-                this.summary = c().text(ClueSpotFilterResult.summary_text(spot)).addClass("ctr-filtered-clue-result-summary").on("click", () => {
+                this.summary = c().text(ClueSpot.shortString(spot)).addClass("ctr-filtered-clue-result-summary").on("click", () => {
                     if (this.map) {
                         this.map.fitView(TileRectangle.from(ClueOverviewMarker.position(spot)), {
                             maxZoom: 4
@@ -137,44 +140,14 @@ class ClueSpotFilterResult extends Widget {
                 "overflow": "hidden"
             }),
             spacer(),
-            new NisCollapseButton(ExpansionBehaviour.create({
-                    starts_collapsed: true,
-                    onCollapse: () => {
-                        this.props.container.animate({height: "hide"})
-                    },
-                    onExpand: () => {
-                        this.props.container.animate({height: "show"})
-                    }
+            new NisCollapseButton(ExpansionBehaviour.vertical({
+                    target: this.props,
+                    starts_collapsed: true
                 })
             )
         ))
 
-        this.append(this.props = new ClueProperties(this.spot, this.methods, this.edit_handler, true).css2({
-            "display": "none",
-            "border-top": "1px dashed grex"
-        }))
-    }
-}
-
-namespace ClueSpotFilterResult {
-    export function summary_text(spot: Clues.ClueSpot): string {
-
-        switch (spot.clue.type) {
-            case "map":
-                return `Map: ${spot.clue.text[0]}`
-            case "scan":
-                return `Scan ${spot.clue.scantext}`
-            case "compass":
-                return `Compass spot ${Vector2.toString(spot.spot)}`
-            case "anagram":
-                return `Anagram: ${spot.clue.anagram[0]}`
-            case "coordinates":
-            case "simple":
-            case "cryptic":
-            case "emote":
-            case "skilling":
-                return spot.clue.text[0]
-        }
+        this.append(this.props)
     }
 }
 
@@ -277,9 +250,8 @@ export class FilterControl extends GameMapControl<ControlWithHeader> {
                     : null
                 )
 
-
             this.methods.pack_set_changed.on((packs) => {
-                selection.setDropdownItems(packs)
+                selection.setItems(packs)
             }).bindTo(this.handler_pool)
 
             props.named("Methods",

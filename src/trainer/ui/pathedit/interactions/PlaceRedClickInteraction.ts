@@ -2,37 +2,37 @@ import {Path} from "lib/runescape/pathing";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
-import {createStepGraphics} from "../../path_graphics";
 import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
-import InteractionType = Path.InteractionType;
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
+import { CursorType } from "lib/runescape/CursorType";
 
 export default class PlaceRedClickInteraction extends ValueInteraction<Path.step_redclick> {
 
-    constructor(private interaction_type: InteractionType = null) {
+    constructor(private interaction_type: CursorType = null) {
         super({
-            preview_render: (s) => createStepGraphics(s)
+            preview_render: (s) => new PathStepEntity({step: s, interactive:false})
         });
 
         new SelectTileInteraction()
             .onCommit((t) => {
                     if (this.interaction_type != null) {
-                        this.commit(Path.auto_describe({
+                        this.commit(({
                             type: "redclick",
-                            description: "",
+                            target:  CursorType.defaultEntity(this.interaction_type),
                             where: t,
                             how: this.interaction_type
                         }))
                     } else {
 
-                        let menu = InteractionType.all().map((i): MenuEntry => {
+                        let menu = CursorType.all().map((i): MenuEntry => {
                             return {
                                 type: "basic",
                                 text: i.description,
                                 icon: i.icon_url,
                                 handler: () => {
-                                    this.commit(Path.auto_describe({
+                                    this.commit(({
                                         type: "redclick",
-                                        description: "",
+                                        target:  CursorType.defaultEntity(i.type),
                                         where: t,
                                         how: i.type
                                     }))
@@ -46,9 +46,9 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
                 }
             )
             .onPreview((t) =>
-                this.preview(Path.auto_describe({
+                this.preview(({
                         type: "redclick",
-                        description: "",
+                        target: {kind: "static", name: "Entity"},
                         where: t,
                         how: "generic"
                     })

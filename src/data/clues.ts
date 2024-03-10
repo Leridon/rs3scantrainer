@@ -1,5 +1,5 @@
 import {Clues, type ClueType} from "lib/runescape/clues";
-import {ClueIndex, ClueSpotIndex} from "./ClueIndex";
+import {ClueIndex, ClueSpotIndex} from "../lib/runescape/clues/ClueIndex";
 
 export namespace clue_data {
     export const anagram: Clues.Anagram[] = [
@@ -33,47 +33,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Zookeeper",
-                "spots": [
-                    {
-                        "range": {
-                            "topleft": {
-                                "x": 2608,
-                                "y": 3271
-                            },
-                            "botright": {
-                                "x": 2615,
-                                "y": 3266
-                            },
-                            "level": 0
-                        }
-                    },
-                    {
-                        "range": {
-                            "topleft": {
-                                "x": 2618,
-                                "y": 3283
-                            },
-                            "botright": {
-                                "x": 2624,
-                                "y": 3277
-                            },
-                            "level": 0
-                        }
-                    },
-                    {
-                        "range": {
-                            "topleft": {
-                                "x": 2599,
-                                "y": 3287
-                            },
-                            "botright": {
-                                "x": 2606,
-                                "y": 3282
-                            },
-                            "level": 0
-                        }
-                    }
-                ]
+                "spots": [{
+                    "range": {"topleft": {"x": 2607, "y": 3281}, "botright": {"x": 2620, "y": 3268}, "level": 0},
+                    "description": "in Ardougne Zoo"
+                }]
             },
             "anagram": [
                 "Eek Zero Op"
@@ -91,6 +54,8 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "before-death-plateu",
+                        "description": "in his cave near Burthorpe",
                         "range": {
                             "topleft": {
                                 "x": 2267,
@@ -145,7 +110,8 @@ export namespace clue_data {
                                 "y": 3330
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "north of Ardougne castle"
                     }
                 ]
             },
@@ -186,7 +152,8 @@ export namespace clue_data {
                                 "y": 3443
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "near Taverley Lodestone"
                     }
                 ]
             },
@@ -227,7 +194,8 @@ export namespace clue_data {
                                 "y": 3148
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "outside of the abbey"
                     }
                 ]
             },
@@ -257,7 +225,8 @@ export namespace clue_data {
                                 "y": 9390
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Rantz's cave"
                     }
                 ]
             },
@@ -287,7 +256,8 @@ export namespace clue_data {
                                 "y": 3215
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the northern end of Al Kharid"
                     }
                 ]
             },
@@ -316,7 +286,8 @@ export namespace clue_data {
                                 "y": 9815
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in his cave at Tree Gnome Stronghold"
                     }
                 ],
                 "npc": "Brimstail"
@@ -358,7 +329,8 @@ export namespace clue_data {
                                 "y": 3215
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Lumbridge Castle's kitchen"
                     }
                 ]
             },
@@ -399,7 +371,8 @@ export namespace clue_data {
                                 "y": 3498
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "on the peak of Ice Mountain"
                     }
                 ]
             },
@@ -435,6 +408,8 @@ export namespace clue_data {
                 "npc": "Caroline",
                 "spots": [
                     {
+                        "id": "default",
+                        "description": "in Witchhaven",
                         "range": {
                             "topleft": {
                                 "x": 2713,
@@ -446,7 +421,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "Before 'Sea Slug'."
+                        "note": "Before 'Sea Slug'"
                     },
                     {
                         "range": {
@@ -460,6 +435,7 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
+                        "description": "in her house in Witchhaven",
                         "note": "After 'Sea Slug'."
                     }
                 ]
@@ -489,7 +465,8 @@ export namespace clue_data {
                                 "y": 3167
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Tree Gnome Village",
                     }
                 ],
                 "npc": "King Bolren"
@@ -531,7 +508,8 @@ export namespace clue_data {
                                 "y": 3182
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the Nexus",
                     }
                 ]
             },
@@ -572,7 +550,8 @@ export namespace clue_data {
                                 "y": 3666
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Relekka Longhall",
                     }
                 ]
             },
@@ -601,7 +580,8 @@ export namespace clue_data {
                                 "y": 3380
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at gates of Tree Gnome Stronghold",
                     }
                 ],
                 "npc": "Femi"
@@ -643,7 +623,8 @@ export namespace clue_data {
                                 "y": 3182
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Al Kharid",
                     }
                 ]
             },
@@ -684,7 +665,8 @@ export namespace clue_data {
                                 "y": 3063
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Tai Bwo Wannai Village",
                     }
                 ]
             },
@@ -713,7 +695,8 @@ export namespace clue_data {
                                 "y": 3152
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at Musa Point",
                     }
                 ],
                 "npc": "Luthas"
@@ -755,7 +738,8 @@ export namespace clue_data {
                                 "y": 3302
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in West Ardougne",
                     }
                 ]
             },
@@ -796,7 +780,8 @@ export namespace clue_data {
                                 "y": 3508
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Edgeville",
                     }
                 ]
             },
@@ -837,7 +822,8 @@ export namespace clue_data {
                                 "y": 3193
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Rimmington",
                     }
                 ]
             },
@@ -866,7 +852,8 @@ export namespace clue_data {
                                 "y": 3420
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Varrock's Archery Store",
                     }
                 ],
                 "npc": "Lowe"
@@ -896,7 +883,8 @@ export namespace clue_data {
                                 "y": 3372
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in the Party Room",
                     }
                 ],
                 "npc": "Party Pete"
@@ -938,7 +926,8 @@ export namespace clue_data {
                                 "y": 3471
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Varrock Castle",
                     }
                 ]
             },
@@ -974,7 +963,8 @@ export namespace clue_data {
                                 "y": 3234
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "north of Al Kharid",
                     }
                 ],
                 "npc": "Cam the Camel"
@@ -1011,7 +1001,8 @@ export namespace clue_data {
                                 "y": 2926
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Nardah"
                     }
                 ],
                 "npc": "Shiratti the Custodian"
@@ -1046,7 +1037,8 @@ export namespace clue_data {
                                 "y": 9873
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in the Dwarven Tunnel under the White Wolf Mountain"
                     }
                 ],
                 "npc": "Captain Ninto"
@@ -1081,7 +1073,8 @@ export namespace clue_data {
                                 "y": 3673
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the Piscatoris Fishing Colony"
                     }
                 ],
                 "npc": "Ramara du Croissant"
@@ -1124,7 +1117,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "The coach roams around the field."
+                        "description": "roaming around the gnomeball field"
                     }
                 ]
             },
@@ -1158,7 +1151,8 @@ export namespace clue_data {
                                 "y": 10206
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in eastern Keldagrim"
                     }
                 ],
                 "npc": "Riki the sculptor's model"
@@ -1193,7 +1187,8 @@ export namespace clue_data {
                                 "y": 3146
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "on the ground floor of Wizard's Tower"
                     }
                 ],
                 "npc": "Professor Onglewip"
@@ -1235,7 +1230,8 @@ export namespace clue_data {
                                 "y": 3190
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the Agility Arena"
                     }
                 ]
             },
@@ -1269,7 +1265,8 @@ export namespace clue_data {
                                 "y": 3190
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Port Sarim"
                     }
                 ],
                 "npc": "Trader Stan"
@@ -1304,7 +1301,8 @@ export namespace clue_data {
                                 "y": 9488
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in the basement of Wizard's Guild"
                     }
                 ],
                 "npc": "Wizard Frumscone"
@@ -1346,7 +1344,8 @@ export namespace clue_data {
                                 "y": 3160
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "in Tree Gnome Village"
                     }
                 ]
             },
@@ -1381,7 +1380,8 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
-                        "note": "After 'Blood Runs Deep'"
+                        "note": "After 'Blood Runs Deep'",
+                        "description": "in Miscellania's Throneroom"
                     },
                     {
                         "range": {
@@ -1395,7 +1395,8 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
-                        "note": "Before 'Blood Runs Deep'"
+                        "note": "Before 'Blood Runs Deep'",
+                        "description": "in Etceteria Castle"
                     }
                 ],
                 "npc": "Queen Sigrid"
@@ -1430,7 +1431,8 @@ export namespace clue_data {
                                 "y": 3291
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in her house south of Ardougne Market"
                     }
                 ],
                 "npc": "Zenesha"
@@ -1465,7 +1467,8 @@ export namespace clue_data {
                                 "y": 3047
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "south of Castle Wars"
                     }
                 ],
                 "npc": "Uglug Nar"
@@ -1500,7 +1503,8 @@ export namespace clue_data {
                                 "y": 3502
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the limestone mine"
                     }
                 ],
                 "npc": "Odd Old Man"
@@ -1535,10 +1539,11 @@ export namespace clue_data {
                                 "y": 4466
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "north of the bank in Zanaris"
                     }
                 ],
-                "npc": "Fairy Nuff (North of the bank in Zanaris)"
+                "npc": "Fairy Nuff"
             },
             "anagram": [
                 "I Faffy Run"
@@ -1565,7 +1570,8 @@ export namespace clue_data {
                                 "y": 5382
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the bottom of Polypore Dungeon"
                     }
                 ],
                 "npc": "Ramokee Skinweaver"
@@ -1596,6 +1602,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
+                        "description": "by the docks on Mos Le'Harmless",
                         "note": "Mos Le'Harmless"
                     },
                     {
@@ -1610,6 +1617,7 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
+                        "description": "on Harmony Island",
                         "note": "Harmony"
                     }
                 ],
@@ -1645,7 +1653,8 @@ export namespace clue_data {
                                 "y": 11952
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "on Tuaei Leit"
                     }
                 ],
                 "npc": "Sensei Seaworth"
@@ -1670,6 +1679,8 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "outside",
+                        "description": "outside of the entrance to the empty throne room",
                         "range": {
                             "topleft": {
                                 "x": 3376,
@@ -1681,9 +1692,11 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "Outside the empty throne room."
+                        "note": "Outside the empty throne room"
                     },
                     {
+                        "id": "inside",
+                        "description": "inside the empty throne room",
                         "range": {
                             "topleft": {
                                 "x": 2825,
@@ -1695,7 +1708,7 @@ export namespace clue_data {
                             },
                             "level": 2
                         },
-                        "note": "Inside the empty throne room."
+                        "note": "Inside the empty throne room"
                     }
                 ],
                 "npc": "Celia Diggory"
@@ -1720,6 +1733,7 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "armadyl-tower",
                         "range": {
                             "topleft": {
                                 "x": 2997,
@@ -1731,9 +1745,10 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
-                        "note": "By Armadyl's tower."
+                        "description": "by Armadyl's tower"
                     },
                     {
+                        "id": "city-of-um",
                         "range": {
                             "topleft": {
                                 "x": 1034,
@@ -1745,7 +1760,7 @@ export namespace clue_data {
                             },
                             "level": 1
                         },
-                        "note": "City of Um Ritual site"
+                        "description": "at the Ritual Site"
                     }
                 ],
                 "npc": "Malignus mortifer"
@@ -1780,7 +1795,8 @@ export namespace clue_data {
                                 "y": 3163
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Lletya"
                     }
                 ],
                 "npc": "Amaethwr"
@@ -1801,6 +1817,8 @@ export namespace clue_data {
                 "npc": "Philippe Carnillean",
                 "spots": [
                     {
+                        "id": "before",
+                        "description": "at Carnillean Mansion",
                         "range": {
                             "topleft": {
                                 "x": 2564,
@@ -1815,6 +1833,8 @@ export namespace clue_data {
                         "note": "Before Carnillean Rising"
                     },
                     {
+                        "id": "50qp",
+                        "description": "at the entrance of Ardounge Combat Training Camp",
                         "range": {
                             "topleft": {
                                 "x": 2514,
@@ -1829,6 +1849,8 @@ export namespace clue_data {
                         "note": "50 qp."
                     },
                     {
+                        "id": "100qp",
+                        "description": "at the entrance to Mountain Camp",
                         "range": {
                             "topleft": {
                                 "x": 2752,
@@ -1843,6 +1865,8 @@ export namespace clue_data {
                         "note": "100 qp."
                     },
                     {
+                        "id": "150qp",
+                        "description": "in Shilo Village",
                         "range": {
                             "topleft": {
                                 "x": 2857,
@@ -1857,6 +1881,8 @@ export namespace clue_data {
                         "note": "150 qp."
                     },
                     {
+                        "id": "200qp",
+                        "description": "in the Green Ghost Inn",
                         "range": {
                             "topleft": {
                                 "x": 3671,
@@ -1871,6 +1897,8 @@ export namespace clue_data {
                         "note": "200 qp."
                     },
                     {
+                        "id": "250qp",
+                        "description": "at the bottom of Polypore Dungeon",
                         "range": {
                             "topleft": {
                                 "x": 4643,
@@ -1885,6 +1913,8 @@ export namespace clue_data {
                         "note": "250 qp."
                     },
                     {
+                        "id": "300qp",
+                        "description": "outside of Oldak's house",
                         "range": {
                             "topleft": {
                                 "x": 2709,
@@ -1899,6 +1929,8 @@ export namespace clue_data {
                         "note": "300 qp."
                     },
                     {
+                        "id": "350qp",
+                        "description": "at Piscatoris Fishing Colony",
                         "range": {
                             "topleft": {
                                 "x": 2338,
@@ -1913,6 +1945,8 @@ export namespace clue_data {
                         "note": "350 qp."
                     },
                     {
+                        "id": "400qp",
+                        "description": "at the TzHaar fight Caves",
                         "range": {
                             "topleft": {
                                 "x": 4610,
@@ -1953,7 +1987,8 @@ export namespace clue_data {
                                 "y": 3254
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Draynor"
                     }
                 ],
                 "npc": "Wise Old Man"
@@ -1973,6 +2008,8 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "farm",
+                        "note": "Before Gower Quest",
                         "range": {
                             "topleft": {
                                 "x": 3252,
@@ -1983,9 +2020,12 @@ export namespace clue_data {
                                 "y": 3353
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "at the farm south of Varrock"
                     },
                     {
+                        "id": "life-altar",
+                        "note": "After Gower Quest",
                         "range": {
                             "topleft": {
                                 "x": 1055,
@@ -1996,7 +2036,8 @@ export namespace clue_data {
                                 "y": 5549
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "at the Life Altar"
                     }
                 ],
                 "npc": "Paul Gower"
@@ -2026,7 +2067,8 @@ export namespace clue_data {
                                 "y": 6960
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "at the entrance to Telos"
                     }
                 ],
                 "npc": "Soothsayer Sybil"
@@ -2056,7 +2098,8 @@ export namespace clue_data {
                                 "y": 3297
                             },
                             "level": 1
-                        }
+                        },
+                        "description": "at the seren stones",
                     }
                 ],
                 "npc": "Lady Trahaearn"
@@ -2086,7 +2129,8 @@ export namespace clue_data {
                                 "y": 2935
                             },
                             "level": 0
-                        }
+                        },
+                        "description": "in Nardaah"
                     }
                 ],
                 "npc": "Ali The Wise"
@@ -2106,6 +2150,7 @@ export namespace clue_data {
                 "type": "talkto",
                 "spots": [
                     {
+                        "id": "office",
                         "range": {
                             "topleft": {
                                 "x": 414,
@@ -2117,8 +2162,10 @@ export namespace clue_data {
                             },
                             "level": 0
                         },
+                        "description": "in Death's Office",
                         "note": "Death's Office"
                     }
+                    // TODO: City of Um?
                 ],
                 "npc": "Death"
             },
@@ -2135,494 +2182,2437 @@ export namespace clue_data {
             "text": ["The compass shows where you need to go."],
             "challenge": [{"type": "wizard"}, {"type": "slider"}, {"type": "celticknot"}],
             "spots": [
-                {"x": 2413, "y": 2818, "level": 0},
-                {"x": 2398, "y": 2862, "level": 0},
-                {"x": 2476, "y": 2845, "level": 0},
-                {"x": 2493, "y": 2875, "level": 0},
-                {"x": 2546, "y": 2872, "level": 0},
-                {"x": 2547, "y": 2826, "level": 0},
-                {"x": 2617, "y": 2876, "level": 0},
-                {"x": 2598, "y": 2838, "level": 0},
-                {"x": 2445, "y": 2917, "level": 0},
-                {"x": 2458, "y": 2893, "level": 0},
-                {"x": 2541, "y": 2926, "level": 0},
-                {"x": 2511, "y": 2936, "level": 0},
-                {"x": 2578, "y": 2930, "level": 0},
-                {"x": 2589, "y": 2898, "level": 0},
-                {"x": 2482, "y": 2977, "level": 0},
-                {"x": 2490, "y": 2949, "level": 0},
-                {"x": 2511, "y": 2980, "level": 0},
-                {"x": 2535, "y": 2958, "level": 0},
-                {"x": 2590, "y": 2994, "level": 0},
-                {"x": 2592, "y": 2956, "level": 0},
-                {"x": 2640, "y": 2987, "level": 0},
-                {"x": 2638, "y": 2948, "level": 0},
-                {"x": 2330, "y": 3057, "level": 0},
-                {"x": 2355, "y": 3038, "level": 0},
-                {"x": 2393, "y": 3046, "level": 0},
-                {"x": 2418, "y": 3040, "level": 0},
-                {"x": 2481, "y": 3011, "level": 0},
-                {"x": 2439, "y": 3057, "level": 0},
-                {"x": 2564, "y": 3041, "level": 0},
-                {"x": 2590, "y": 3063, "level": 0},
-                {"x": 2629, "y": 3123, "level": 0},
-                {"x": 2671, "y": 3109, "level": 0},
-                {"x": 2579, "y": 3130, "level": 0},
-                {"x": 2610, "y": 3076, "level": 0},
-                {"x": 2519, "y": 3115, "level": 0},
-                {"x": 2559, "y": 3102, "level": 0},
-                {"x": 2449, "y": 3110, "level": 0},
-                {"x": 2486, "y": 3134, "level": 0},
-                {"x": 2433, "y": 3144, "level": 0},
-                {"x": 2468, "y": 3177, "level": 0},
-                {"x": 2498, "y": 3175, "level": 0},
-                {"x": 2557, "y": 3164, "level": 0},
-                {"x": 2619, "y": 3153, "level": 0},
-                {"x": 2595, "y": 3192, "level": 0},
-                {"x": 2651, "y": 3148, "level": 0},
-                {"x": 2627, "y": 3172, "level": 0},
-                {"x": 2457, "y": 3221, "level": 0},
-                {"x": 2478, "y": 3254, "level": 0},
-                {"x": 2543, "y": 3211, "level": 0},
-                {"x": 2502, "y": 3249, "level": 0},
-                {"x": 2583, "y": 3223, "level": 0},
-                {"x": 2592, "y": 3251, "level": 0},
-                {"x": 2634, "y": 3208, "level": 0},
-                {"x": 2646, "y": 3251, "level": 0},
-                {"x": 2492, "y": 3270, "level": 0},
-                {"x": 2451, "y": 3283, "level": 0},
-                {"x": 2506, "y": 3276, "level": 0},
-                {"x": 2582, "y": 3266, "level": 0},
-                {"x": 2582, "y": 3314, "level": 0},
-                {"x": 2665, "y": 3266, "level": 0},
-                {"x": 2650, "y": 3302, "level": 0},
-                {"x": 2723, "y": 3277, "level": 0},
-                {"x": 2700, "y": 3311, "level": 0},
-                {"x": 2381, "y": 3388, "level": 0},
-                {"x": 2410, "y": 3388, "level": 0},
-                {"x": 2457, "y": 3331, "level": 0},
-                {"x": 2485, "y": 3377, "level": 0},
-                {"x": 2541, "y": 3389, "level": 0},
-                {"x": 2513, "y": 3351, "level": 0},
-                {"x": 2581, "y": 3340, "level": 0},
-                {"x": 2576, "y": 3370, "level": 0},
-                {"x": 2651, "y": 3351, "level": 0},
-                {"x": 2662, "y": 3338, "level": 0},
-                {"x": 2724, "y": 3360, "level": 0},
-                {"x": 2739, "y": 3388, "level": 0},
-                {"x": 2359, "y": 3448, "level": 0},
-                {"x": 2392, "y": 3398, "level": 0},
-                {"x": 2410, "y": 3419, "level": 0},
-                {"x": 2438, "y": 3398, "level": 0},
-                {"x": 2470, "y": 3404, "level": 0},
-                {"x": 2522, "y": 3429, "level": 0},
-                {"x": 2531, "y": 3405, "level": 0},
-                {"x": 2583, "y": 3449, "level": 0},
-                {"x": 2565, "y": 3395, "level": 0},
-                {"x": 2677, "y": 3400, "level": 0},
-                {"x": 2657, "y": 3451, "level": 0},
-                {"x": 2726, "y": 3399, "level": 0},
-                {"x": 2705, "y": 3418, "level": 0},
-                {"x": 2765, "y": 3445, "level": 0},
-                {"x": 2797, "y": 3428, "level": 0},
-                {"x": 2835, "y": 3423, "level": 0},
-                {"x": 2834, "y": 3451, "level": 0},
-                {"x": 2926, "y": 3402, "level": 0},
-                {"x": 2908, "y": 3431, "level": 0},
-                {"x": 2950, "y": 3406, "level": 0},
-                {"x": 2995, "y": 3429, "level": 0},
-                {"x": 3055, "y": 3396, "level": 0},
-                {"x": 3027, "y": 3454, "level": 0},
-                {"x": 3089, "y": 3409, "level": 0},
-                {"x": 3134, "y": 3423, "level": 0},
-                {"x": 3158, "y": 3439, "level": 0},
-                {"x": 3176, "y": 3400, "level": 0},
-                {"x": 3228, "y": 3409, "level": 0},
-                {"x": 3233, "y": 3446, "level": 0},
-                {"x": 3276, "y": 3444, "level": 0},
-                {"x": 3318, "y": 3426, "level": 0},
-                {"x": 3390, "y": 3421, "level": 0},
-                {"x": 3362, "y": 3403, "level": 0},
-                {"x": 3411, "y": 3410, "level": 0},
-                {"x": 3439, "y": 3454, "level": 0},
-                {"x": 3473, "y": 3401, "level": 0},
-                {"x": 3461, "y": 3432, "level": 0},
-                {"x": 3538, "y": 3449, "level": 0},
-                {"x": 3563, "y": 3408, "level": 0},
-                {"x": 2356, "y": 3498, "level": 0},
-                {"x": 2325, "y": 3510, "level": 0},
-                {"x": 2394, "y": 3513, "level": 0},
-                {"x": 2401, "y": 3458, "level": 0},
-                {"x": 2489, "y": 3487, "level": 0},
-                {"x": 2457, "y": 3511, "level": 0},
-                {"x": 2504, "y": 3484, "level": 0},
-                {"x": 2550, "y": 3475, "level": 0},
-                {"x": 2588, "y": 3506, "level": 0},
-                {"x": 2609, "y": 3470, "level": 0},
-                {"x": 2649, "y": 3473, "level": 0},
-                {"x": 2683, "y": 3491, "level": 0},
-                {"x": 2707, "y": 3475, "level": 0},
-                {"x": 2733, "y": 3502, "level": 0},
-                {"x": 2777, "y": 3501, "level": 0},
-                {"x": 2808, "y": 3474, "level": 0},
-                {"x": 2832, "y": 3473, "level": 0},
-                {"x": 2859, "y": 3508, "level": 0},
-                {"x": 2937, "y": 3511, "level": 0},
-                {"x": 2900, "y": 3501, "level": 0},
-                {"x": 2956, "y": 3505, "level": 0},
-                {"x": 2983, "y": 3473, "level": 0},
-                {"x": 3035, "y": 3490, "level": 0},
-                {"x": 3021, "y": 3470, "level": 0},
-                {"x": 3103, "y": 3488, "level": 0},
-                {"x": 3127, "y": 3469, "level": 0},
-                {"x": 3145, "y": 3510, "level": 0},
-                {"x": 3190, "y": 3464, "level": 0},
-                {"x": 3254, "y": 3505, "level": 0},
-                {"x": 3260, "y": 3460, "level": 0},
-                {"x": 3317, "y": 3507, "level": 0},
-                {"x": 3288, "y": 3460, "level": 0},
-                {"x": 3329, "y": 3518, "level": 0},
-                {"x": 3373, "y": 3483, "level": 0},
-                {"x": 3420, "y": 3479, "level": 0},
-                {"x": 3452, "y": 3476, "level": 0},
-                {"x": 3487, "y": 3492, "level": 0},
-                {"x": 3516, "y": 3473, "level": 0},
-                {"x": 3529, "y": 3501, "level": 0},
-                {"x": 3576, "y": 3481, "level": 0},
-                {"x": 3598, "y": 3509, "level": 0},
-                {"x": 3619, "y": 3485, "level": 0},
-                {"x": 3649, "y": 3475, "level": 0},
-                {"x": 3678, "y": 3518, "level": 0},
-                {"x": 2336, "y": 3540, "level": 0},
-                {"x": 2351, "y": 3572, "level": 0},
-                {"x": 2418, "y": 3525, "level": 0},
-                {"x": 2394, "y": 3574, "level": 0},
-                {"x": 2491, "y": 3529, "level": 0},
-                {"x": 2542, "y": 3562, "level": 0},
-                {"x": 2677, "y": 3539, "level": 0},
-                {"x": 2653, "y": 3578, "level": 0},
-                {"x": 2699, "y": 3537, "level": 0},
-                {"x": 2721, "y": 3577, "level": 0},
-                {"x": 2757, "y": 3548, "level": 0},
-                {"x": 2757, "y": 3581, "level": 0},
-                {"x": 2878, "y": 3529, "level": 0},
-                {"x": 2860, "y": 3575, "level": 0},
-                {"x": 2928, "y": 3573, "level": 0},
-                {"x": 2919, "y": 3535, "level": 0},
-                {"x": 2979, "y": 3546, "level": 0},
-                {"x": 2986, "y": 3583, "level": 0},
-                {"x": 3052, "y": 3548, "level": 0},
-                {"x": 3030, "y": 3520, "level": 0},
-                {"x": 3096, "y": 3534, "level": 0},
-                {"x": 3125, "y": 3578, "level": 0},
-                {"x": 3153, "y": 3545, "level": 0},
-                {"x": 3184, "y": 3559, "level": 0},
-                {"x": 3229, "y": 3541, "level": 0},
-                {"x": 3255, "y": 3576, "level": 0},
-                {"x": 3289, "y": 3528, "level": 0},
-                {"x": 3292, "y": 3574, "level": 0},
-                {"x": 3376, "y": 3567, "level": 0},
-                {"x": 3339, "y": 3572, "level": 0},
-                {"x": 3418, "y": 3544, "level": 0},
-                {"x": 3432, "y": 3544, "level": 0},
-                {"x": 3460, "y": 3553, "level": 0},
-                {"x": 3510, "y": 3530, "level": 0},
-                {"x": 3571, "y": 3534, "level": 0},
-                {"x": 3547, "y": 3524, "level": 0},
-                {"x": 3624, "y": 3524, "level": 0},
-                {"x": 3596, "y": 3541, "level": 0},
-                {"x": 3655, "y": 3537, "level": 0},
-                {"x": 2262, "y": 3605, "level": 0},
-                {"x": 2295, "y": 3639, "level": 0},
-                {"x": 2332, "y": 3610, "level": 0},
-                {"x": 2347, "y": 3594, "level": 0},
-                {"x": 2392, "y": 3599, "level": 0},
-                {"x": 2374, "y": 3630, "level": 0},
-                {"x": 2509, "y": 3634, "level": 0},
-                {"x": 2559, "y": 3619, "level": 0},
-                {"x": 2606, "y": 3635, "level": 0},
-                {"x": 2586, "y": 3605, "level": 0},
-                {"x": 2684, "y": 3612, "level": 0},
-                {"x": 2669, "y": 3637, "level": 0},
-                {"x": 2708, "y": 3589, "level": 0},
-                {"x": 2737, "y": 3626, "level": 0},
-                {"x": 2779, "y": 3594, "level": 0},
-                {"x": 2780, "y": 3635, "level": 0},
-                {"x": 2999, "y": 3606, "level": 0},
-                {"x": 2965, "y": 3632, "level": 0},
-                {"x": 3059, "y": 3620, "level": 0},
-                {"x": 3028, "y": 3632, "level": 0},
-                {"x": 3092, "y": 3605, "level": 0},
-                {"x": 3127, "y": 3597, "level": 0},
-                {"x": 3179, "y": 3612, "level": 0},
-                {"x": 3146, "y": 3642, "level": 0},
-                {"x": 3254, "y": 3624, "level": 0},
-                {"x": 3247, "y": 3597, "level": 0},
-                {"x": 3304, "y": 3605, "level": 0},
-                {"x": 3278, "y": 3615, "level": 0},
-                {"x": 3338, "y": 3638, "level": 0},
-                {"x": 3342, "y": 3591, "level": 0},
-                {"x": 3433, "y": 3639, "level": 0},
-                {"x": 3403, "y": 3640, "level": 0},
-                {"x": 2309, "y": 3669, "level": 0},
-                {"x": 2332, "y": 3659, "level": 0},
-                {"x": 2612, "y": 3658, "level": 0},
-                {"x": 2643, "y": 3679, "level": 0},
-                {"x": 2680, "y": 3676, "level": 0},
-                {"x": 2712, "y": 3653, "level": 0},
-                {"x": 2696, "y": 3695, "level": 0},
-                {"x": 2756, "y": 3651, "level": 0},
-                {"x": 2972, "y": 3682, "level": 0},
-                {"x": 2999, "y": 3671, "level": 0},
-                {"x": 2956, "y": 3705, "level": 0},
-                {"x": 2965, "y": 3740, "level": 0},
-                {"x": 3088, "y": 3678, "level": 0},
-                {"x": 3107, "y": 3653, "level": 0},
-                {"x": 3187, "y": 3661, "level": 0},
-                {"x": 3142, "y": 3656, "level": 0},
-                {"x": 3220, "y": 3667, "level": 0},
-                {"x": 3210, "y": 3695, "level": 0},
-                {"x": 3280, "y": 3664, "level": 0},
-                {"x": 3315, "y": 3704, "level": 0},
-                {"x": 3353, "y": 3664, "level": 0},
-                {"x": 3378, "y": 3699, "level": 0},
-                {"x": 3437, "y": 3682, "level": 0},
-                {"x": 3423, "y": 3706, "level": 0},
-                {"x": 3511, "y": 3670, "level": 0},
-                {"x": 3470, "y": 3710, "level": 0},
-                {"x": 2666, "y": 3717, "level": 0},
-                {"x": 2686, "y": 3727, "level": 0},
-                {"x": 2725, "y": 3751, "level": 0},
-                {"x": 2744, "y": 3735, "level": 0},
-                {"x": 2975, "y": 3762, "level": 0},
-                {"x": 2985, "y": 3715, "level": 0},
-                {"x": 3060, "y": 3767, "level": 0},
-                {"x": 3046, "y": 3752, "level": 0},
-                {"x": 3104, "y": 3745, "level": 0},
-                {"x": 3116, "y": 3769, "level": 0},
-                {"x": 3153, "y": 3744, "level": 0},
-                {"x": 3193, "y": 3739, "level": 0},
-                {"x": 3213, "y": 3756, "level": 0},
-                {"x": 3255, "y": 3740, "level": 0},
-                {"x": 3342, "y": 3732, "level": 0},
-                {"x": 3367, "y": 3766, "level": 0},
-                {"x": 3432, "y": 3752, "level": 0},
-                {"x": 3430, "y": 3717, "level": 0},
-                {"x": 3506, "y": 3734, "level": 0},
-                {"x": 2737, "y": 3796, "level": 0},
-                {"x": 2705, "y": 3822, "level": 1},
-                {"x": 2960, "y": 3824, "level": 0},
-                {"x": 2999, "y": 3791, "level": 0},
-                {"x": 3059, "y": 3833, "level": 0},
-                {"x": 3051, "y": 3804, "level": 0},
-                {"x": 3101, "y": 3783, "level": 0},
-                {"x": 3128, "y": 3822, "level": 0},
-                {"x": 3151, "y": 3795, "level": 0},
-                {"x": 3193, "y": 3783, "level": 0},
-                {"x": 3250, "y": 3821, "level": 0},
-                {"x": 3208, "y": 3792, "level": 0},
-                {"x": 3363, "y": 3807, "level": 0},
-                {"x": 3349, "y": 3823, "level": 0},
-                {"x": 2958, "y": 3858, "level": 0},
-                {"x": 2990, "y": 3883, "level": 0},
-                {"x": 3037, "y": 3870, "level": 0},
-                {"x": 3055, "y": 3895, "level": 0},
-                {"x": 3088, "y": 3891, "level": 0},
-                {"x": 3127, "y": 3891, "level": 0},
-                {"x": 3157, "y": 3865, "level": 0},
-                {"x": 3195, "y": 3877, "level": 0},
-                {"x": 3250, "y": 3843, "level": 0},
-                {"x": 3252, "y": 3887, "level": 0},
-                {"x": 3294, "y": 3865, "level": 0},
-                {"x": 3317, "y": 3896, "level": 0},
-                {"x": 3383, "y": 3893, "level": 0},
-                {"x": 3336, "y": 3898, "level": 0},
-                {"x": 2971, "y": 3929, "level": 0},
-                {"x": 2990, "y": 3948, "level": 0},
-                {"x": 3055, "y": 3915, "level": 0},
-                {"x": 3060, "y": 3941, "level": 0},
-                {"x": 3128, "y": 3913, "level": 0},
-                {"x": 3110, "y": 3954, "level": 0},
-                {"x": 3155, "y": 3924, "level": 0},
-                {"x": 3181, "y": 3944, "level": 0},
-                {"x": 3244, "y": 3907, "level": 0},
-                {"x": 3242, "y": 3956, "level": 0},
-                {"x": 3306, "y": 3947, "level": 0},
-                {"x": 3275, "y": 3915, "level": 0},
-                {"x": 3360, "y": 3944, "level": 2},
-                {"x": 3429, "y": 3924, "level": 0},
-                {"x": 2901, "y": 3356, "level": 0},
-                {"x": 2915, "y": 3335, "level": 0},
-                {"x": 2972, "y": 3342, "level": 0},
-                {"x": 2976, "y": 3386, "level": 0},
-                {"x": 3027, "y": 3365, "level": 0},
-                {"x": 3050, "y": 3348, "level": 0},
-                {"x": 3125, "y": 3371, "level": 0},
-                {"x": 3081, "y": 3363, "level": 0},
-                {"x": 3158, "y": 3376, "level": 0},
-                {"x": 3140, "y": 3343, "level": 0},
-                {"x": 3243, "y": 3378, "level": 0},
-                {"x": 3240, "y": 3351, "level": 0},
-                {"x": 3312, "y": 3376, "level": 0},
-                {"x": 3304, "y": 3335, "level": 0},
-                {"x": 3352, "y": 3381, "level": 0},
-                {"x": 3358, "y": 3353, "level": 0},
-                {"x": 3438, "y": 3349, "level": 0},
-                {"x": 3408, "y": 3390, "level": 0},
-                {"x": 3474, "y": 3385, "level": 0},
-                {"x": 3485, "y": 3362, "level": 0},
-                {"x": 2915, "y": 3302, "level": 0},
-                {"x": 2917, "y": 3271, "level": 0},
-                {"x": 2976, "y": 3274, "level": 0},
-                {"x": 2976, "y": 3316, "level": 0},
-                {"x": 3033, "y": 3286, "level": 0},
-                {"x": 3066, "y": 3322, "level": 0},
-                {"x": 3128, "y": 3310, "level": 0},
-                {"x": 3129, "y": 3268, "level": 0},
-                {"x": 3188, "y": 3317, "level": 0},
-                {"x": 3146, "y": 3312, "level": 0},
-                {"x": 3210, "y": 3305, "level": 0},
-                {"x": 3242, "y": 3268, "level": 0},
-                {"x": 3265, "y": 3300, "level": 0},
-                {"x": 3309, "y": 3298, "level": 0},
-                {"x": 3347, "y": 3273, "level": 0},
-                {"x": 3349, "y": 3312, "level": 0},
-                {"x": 3450, "y": 3276, "level": 0},
-                {"x": 3422, "y": 3302, "level": 0},
-                {"x": 3488, "y": 3270, "level": 0},
-                {"x": 3478, "y": 3292, "level": 0},
-                {"x": 3538, "y": 3311, "level": 0},
-                {"x": 3582, "y": 3312, "level": 0},
-                {"x": 2920, "y": 3249, "level": 0},
-                {"x": 2932, "y": 3216, "level": 0},
-                {"x": 2982, "y": 3203, "level": 0},
-                {"x": 2997, "y": 3241, "level": 0},
-                {"x": 3042, "y": 3251, "level": 0},
-                {"x": 3019, "y": 3242, "level": 0},
-                {"x": 3091, "y": 3258, "level": 0},
-                {"x": 3122, "y": 3227, "level": 0},
-                {"x": 3137, "y": 3212, "level": 0},
-                {"x": 3135, "y": 3257, "level": 0},
-                {"x": 3210, "y": 3205, "level": 0},
-                {"x": 3263, "y": 3253, "level": 0},
-                {"x": 3271, "y": 3204, "level": 0},
-                {"x": 3323, "y": 3225, "level": 0},
-                {"x": 3486, "y": 3245, "level": 0},
-                {"x": 3519, "y": 3246, "level": 0},
-                {"x": 2986, "y": 3191, "level": 0},
-                {"x": 2997, "y": 3149, "level": 0},
-                {"x": 3028, "y": 3171, "level": 0},
-                {"x": 3011, "y": 3195, "level": 0},
-                {"x": 3119, "y": 3167, "level": 0},
-                {"x": 3083, "y": 3155, "level": 0},
-                {"x": 3146, "y": 3170, "level": 0},
-                {"x": 3195, "y": 3163, "level": 0},
-                {"x": 3240, "y": 3161, "level": 0},
-                {"x": 3236, "y": 3193, "level": 0},
-                {"x": 3272, "y": 3156, "level": 0},
-                {"x": 3293, "y": 3183, "level": 0},
-                {"x": 3391, "y": 3180, "level": 0},
-                {"x": 3350, "y": 3162, "level": 0},
-                {"x": 3418, "y": 3164, "level": 0},
-                {"x": 3394, "y": 3149, "level": 0},
-                {"x": 3465, "y": 3140, "level": 0},
-                {"x": 3210, "y": 3092, "level": 0},
-                {"x": 3257, "y": 3117, "level": 0},
-                {"x": 3304, "y": 3126, "level": 0},
-                {"x": 3303, "y": 3077, "level": 0},
-                {"x": 3378, "y": 3078, "level": 0},
-                {"x": 3344, "y": 3112, "level": 0},
-                {"x": 3429, "y": 3106, "level": 0},
-                {"x": 3410, "y": 3079, "level": 0},
-                {"x": 3483, "y": 3108, "level": 0},
-                {"x": 3509, "y": 3088, "level": 0},
-                {"x": 3171, "y": 3028, "level": 0},
-                {"x": 3189, "y": 3047, "level": 0},
-                {"x": 3235, "y": 3048, "level": 0},
-                {"x": 3215, "y": 3020, "level": 0},
-                {"x": 3303, "y": 3050, "level": 0},
-                {"x": 3320, "y": 3013, "level": 0},
-                {"x": 3355, "y": 3044, "level": 0},
-                {"x": 3383, "y": 3019, "level": 0},
-                {"x": 3419, "y": 3017, "level": 0},
-                {"x": 3422, "y": 3046, "level": 0},
-                {"x": 3468, "y": 3044, "level": 0},
-                {"x": 3509, "y": 3025, "level": 0},
-                {"x": 3170, "y": 2982, "level": 0},
-                {"x": 3142, "y": 3003, "level": 0},
-                {"x": 3225, "y": 2986, "level": 0},
-                {"x": 3256, "y": 2953, "level": 0},
-                {"x": 3289, "y": 2957, "level": 0},
-                {"x": 3319, "y": 2990, "level": 0},
-                {"x": 3376, "y": 2988, "level": 0},
-                {"x": 3346, "y": 2958, "level": 0},
-                {"x": 3404, "y": 2992, "level": 0},
-                {"x": 3442, "y": 2955, "level": 0},
-                {"x": 3170, "y": 2914, "level": 0},
-                {"x": 3177, "y": 2888, "level": 0},
-                {"x": 3245, "y": 2935, "level": 0},
-                {"x": 3205, "y": 2895, "level": 0},
-                {"x": 3296, "y": 2891, "level": 0},
-                {"x": 3316, "y": 2930, "level": 0},
-                {"x": 3361, "y": 2921, "level": 0},
-                {"x": 3373, "y": 2898, "level": 0},
-                {"x": 3423, "y": 2916, "level": 0},
-                {"x": 3434, "y": 2888, "level": 0},
-                {"x": 3218, "y": 2843, "level": 0},
-                {"x": 3247, "y": 2866, "level": 0},
-                {"x": 3290, "y": 2840, "level": 0},
-                {"x": 3321, "y": 2848, "level": 0},
-                {"x": 3390, "y": 2841, "level": 0},
-                {"x": 3341, "y": 2836, "level": 0},
-                {"x": 3376, "y": 2790, "level": 0},
-                {"x": 3351, "y": 2781, "level": 0},
-                {"x": 3401, "y": 2758, "level": 0},
-                {"x": 3394, "y": 2801, "level": 1},
-                {"x": 2703, "y": 3204, "level": 0},
-                {"x": 2746, "y": 3232, "level": 0},
-                {"x": 2772, "y": 3217, "level": 0},
-                {"x": 2805, "y": 3204, "level": 0},
-                {"x": 2743, "y": 3174, "level": 0},
-                {"x": 2734, "y": 3144, "level": 0},
-                {"x": 2802, "y": 3156, "level": 0},
-                {"x": 2762, "y": 3172, "level": 0},
-                {"x": 2843, "y": 3153, "level": 0},
-                {"x": 2874, "y": 3173, "level": 0},
-                {"x": 2912, "y": 3168, "level": 0},
-                {"x": 2906, "y": 3141, "level": 0},
-                {"x": 2763, "y": 3125, "level": 0},
-                {"x": 2786, "y": 3075, "level": 0},
-                {"x": 2846, "y": 3078, "level": 0},
-                {"x": 2831, "y": 3119, "level": 0},
-                {"x": 2912, "y": 3116, "level": 0},
-                {"x": 2881, "y": 3073, "level": 0},
-                {"x": 2761, "y": 3057, "level": 0},
-                {"x": 2779, "y": 3023, "level": 0},
-                {"x": 2869, "y": 3026, "level": 0},
-                {"x": 2835, "y": 3025, "level": 0},
-                {"x": 2930, "y": 3029, "level": 0},
-                {"x": 2901, "y": 3031, "level": 0},
-                {"x": 2791, "y": 2969, "level": 0},
-                {"x": 2757, "y": 2949, "level": 0},
-                {"x": 2916, "y": 2992, "level": 0},
-                {"x": 2881, "y": 2968, "level": 0},
-                {"x": 2970, "y": 2979, "level": 0},
-                {"x": 2958, "y": 2996, "level": 0},
-                {"x": 2804, "y": 2924, "level": 0},
-                {"x": 2793, "y": 2893, "level": 0},
-                {"x": 2858, "y": 2890, "level": 0},
-                {"x": 2841, "y": 2934, "level": 0},
-                {"x": 2920, "y": 2888, "level": 0},
-                {"x": 2932, "y": 2933, "level": 0},
-                {"x": 2960, "y": 2928, "level": 0},
-                {"x": 2964, "y": 2908, "level": 0},
-                {"x": 3082, "y": 3475, "level": 0},
-                {"x": 2778, "y": 3583, "level": 0},
-                {"x": 3265, "y": 3270, "level": 0},
-                {"x": 3508, "y": 3673, "level": 0},
-                {"x": 2864, "y": 3589, "level": 0}
+                {
+                    "x": 2413,
+                    "y": 2818,
+                    "level": 0
+                },
+                {
+                    "x": 2398,
+                    "y": 2862,
+                    "level": 0
+                },
+                {
+                    "x": 2476,
+                    "y": 2845,
+                    "level": 0
+                },
+                {
+                    "x": 2493,
+                    "y": 2875,
+                    "level": 0
+                },
+                {
+                    "x": 2546,
+                    "y": 2872,
+                    "level": 0
+                },
+                {
+                    "x": 2547,
+                    "y": 2826,
+                    "level": 0
+                },
+                {
+                    "x": 2617,
+                    "y": 2876,
+                    "level": 0
+                },
+                {
+                    "x": 2598,
+                    "y": 2838,
+                    "level": 0
+                },
+                {
+                    "x": 2445,
+                    "y": 2917,
+                    "level": 0
+                },
+                {
+                    "x": 2458,
+                    "y": 2893,
+                    "level": 0
+                },
+                {
+                    "x": 2541,
+                    "y": 2926,
+                    "level": 0
+                },
+                {
+                    "x": 2511,
+                    "y": 2936,
+                    "level": 0
+                },
+                {
+                    "x": 2578,
+                    "y": 2930,
+                    "level": 0
+                },
+                {
+                    "x": 2589,
+                    "y": 2898,
+                    "level": 0
+                },
+                {
+                    "x": 2482,
+                    "y": 2977,
+                    "level": 0
+                },
+                {
+                    "x": 2490,
+                    "y": 2949,
+                    "level": 0
+                },
+                {
+                    "x": 2511,
+                    "y": 2980,
+                    "level": 0
+                },
+                {
+                    "x": 2535,
+                    "y": 2958,
+                    "level": 0
+                },
+                {
+                    "x": 2590,
+                    "y": 2994,
+                    "level": 0
+                },
+                {
+                    "x": 2592,
+                    "y": 2956,
+                    "level": 0
+                },
+                {
+                    "x": 2640,
+                    "y": 2987,
+                    "level": 0
+                },
+                {
+                    "x": 2638,
+                    "y": 2948,
+                    "level": 0
+                },
+                {
+                    "x": 2330,
+                    "y": 3057,
+                    "level": 0
+                },
+                {
+                    "x": 2355,
+                    "y": 3038,
+                    "level": 0
+                },
+                {
+                    "x": 2393,
+                    "y": 3046,
+                    "level": 0
+                },
+                {
+                    "x": 2418,
+                    "y": 3040,
+                    "level": 0
+                },
+                {
+                    "x": 2481,
+                    "y": 3011,
+                    "level": 0
+                },
+                {
+                    "x": 2439,
+                    "y": 3057,
+                    "level": 0
+                },
+                {
+                    "x": 2564,
+                    "y": 3041,
+                    "level": 0
+                },
+                {
+                    "x": 2590,
+                    "y": 3063,
+                    "level": 0
+                },
+                {
+                    "x": 2629,
+                    "y": 3123,
+                    "level": 0
+                },
+                {
+                    "x": 2671,
+                    "y": 3109,
+                    "level": 0
+                },
+                {
+                    "x": 2579,
+                    "y": 3130,
+                    "level": 0
+                },
+                {
+                    "x": 2610,
+                    "y": 3076,
+                    "level": 0
+                },
+                {
+                    "x": 2519,
+                    "y": 3115,
+                    "level": 0
+                },
+                {
+                    "x": 2559,
+                    "y": 3102,
+                    "level": 0
+                },
+                {
+                    "x": 2449,
+                    "y": 3110,
+                    "level": 0
+                },
+                {
+                    "x": 2486,
+                    "y": 3134,
+                    "level": 0
+                },
+                {
+                    "x": 2433,
+                    "y": 3144,
+                    "level": 0
+                },
+                {
+                    "x": 2468,
+                    "y": 3177,
+                    "level": 0
+                },
+                {
+                    "x": 2498,
+                    "y": 3175,
+                    "level": 0
+                },
+                {
+                    "x": 2557,
+                    "y": 3164,
+                    "level": 0
+                },
+                {
+                    "x": 2619,
+                    "y": 3153,
+                    "level": 0
+                },
+                {
+                    "x": 2595,
+                    "y": 3192,
+                    "level": 0
+                },
+                {
+                    "x": 2651,
+                    "y": 3148,
+                    "level": 0
+                },
+                {
+                    "x": 2627,
+                    "y": 3172,
+                    "level": 0
+                },
+                {
+                    "x": 2457,
+                    "y": 3221,
+                    "level": 0
+                },
+                {
+                    "x": 2478,
+                    "y": 3254,
+                    "level": 0
+                },
+                {
+                    "x": 2543,
+                    "y": 3211,
+                    "level": 0
+                },
+                {
+                    "x": 2502,
+                    "y": 3249,
+                    "level": 0
+                },
+                {
+                    "x": 2583,
+                    "y": 3223,
+                    "level": 0
+                },
+                {
+                    "x": 2592,
+                    "y": 3251,
+                    "level": 0
+                },
+                {
+                    "x": 2634,
+                    "y": 3208,
+                    "level": 0
+                },
+                {
+                    "x": 2646,
+                    "y": 3251,
+                    "level": 0
+                },
+                {
+                    "x": 2492,
+                    "y": 3270,
+                    "level": 0
+                },
+                {
+                    "x": 2451,
+                    "y": 3283,
+                    "level": 0
+                },
+                {
+                    "x": 2506,
+                    "y": 3276,
+                    "level": 0
+                },
+                {
+                    "x": 2582,
+                    "y": 3266,
+                    "level": 0
+                },
+                {
+                    "x": 2582,
+                    "y": 3314,
+                    "level": 0
+                },
+                {
+                    "x": 2665,
+                    "y": 3266,
+                    "level": 0
+                },
+                {
+                    "x": 2650,
+                    "y": 3302,
+                    "level": 0
+                },
+                {
+                    "x": 2723,
+                    "y": 3277,
+                    "level": 0
+                },
+                {
+                    "x": 2700,
+                    "y": 3311,
+                    "level": 0
+                },
+                {
+                    "x": 2381,
+                    "y": 3388,
+                    "level": 0
+                },
+                {
+                    "x": 2410,
+                    "y": 3388,
+                    "level": 0
+                },
+                {
+                    "x": 2457,
+                    "y": 3331,
+                    "level": 0
+                },
+                {
+                    "x": 2485,
+                    "y": 3377,
+                    "level": 0
+                },
+                {
+                    "x": 2541,
+                    "y": 3389,
+                    "level": 0
+                },
+                {
+                    "x": 2513,
+                    "y": 3351,
+                    "level": 0
+                },
+                {
+                    "x": 2581,
+                    "y": 3340,
+                    "level": 0
+                },
+                {
+                    "x": 2576,
+                    "y": 3370,
+                    "level": 0
+                },
+                {
+                    "x": 2651,
+                    "y": 3351,
+                    "level": 0
+                },
+                {
+                    "x": 2662,
+                    "y": 3338,
+                    "level": 0
+                },
+                {
+                    "x": 2724,
+                    "y": 3360,
+                    "level": 0
+                },
+                {
+                    "x": 2739,
+                    "y": 3388,
+                    "level": 0
+                },
+                {
+                    "x": 2359,
+                    "y": 3448,
+                    "level": 0
+                },
+                {
+                    "x": 2392,
+                    "y": 3398,
+                    "level": 0
+                },
+                {
+                    "x": 2410,
+                    "y": 3419,
+                    "level": 0
+                },
+                {
+                    "x": 2438,
+                    "y": 3398,
+                    "level": 0
+                },
+                {
+                    "x": 2470,
+                    "y": 3404,
+                    "level": 0
+                },
+                {
+                    "x": 2522,
+                    "y": 3429,
+                    "level": 0
+                },
+                {
+                    "x": 2531,
+                    "y": 3405,
+                    "level": 0
+                },
+                {
+                    "x": 2583,
+                    "y": 3449,
+                    "level": 0
+                },
+                {
+                    "x": 2565,
+                    "y": 3395,
+                    "level": 0
+                },
+                {
+                    "x": 2677,
+                    "y": 3400,
+                    "level": 0
+                },
+                {
+                    "x": 2657,
+                    "y": 3451,
+                    "level": 0
+                },
+                {
+                    "x": 2726,
+                    "y": 3399,
+                    "level": 0
+                },
+                {
+                    "x": 2705,
+                    "y": 3418,
+                    "level": 0
+                },
+                {
+                    "x": 2765,
+                    "y": 3445,
+                    "level": 0
+                },
+                {
+                    "x": 2797,
+                    "y": 3428,
+                    "level": 0
+                },
+                {
+                    "x": 2835,
+                    "y": 3423,
+                    "level": 0
+                },
+                {
+                    "x": 2834,
+                    "y": 3451,
+                    "level": 0
+                },
+                {
+                    "x": 2926,
+                    "y": 3402,
+                    "level": 0
+                },
+                {
+                    "x": 2908,
+                    "y": 3431,
+                    "level": 0
+                },
+                {
+                    "x": 2950,
+                    "y": 3406,
+                    "level": 0
+                },
+                {
+                    "x": 2995,
+                    "y": 3429,
+                    "level": 0
+                },
+                {
+                    "x": 3055,
+                    "y": 3396,
+                    "level": 0
+                },
+                {
+                    "x": 3027,
+                    "y": 3454,
+                    "level": 0
+                },
+                {
+                    "x": 3089,
+                    "y": 3409,
+                    "level": 0
+                },
+                {
+                    "x": 3134,
+                    "y": 3423,
+                    "level": 0
+                },
+                {
+                    "x": 3158,
+                    "y": 3439,
+                    "level": 0
+                },
+                {
+                    "x": 3176,
+                    "y": 3400,
+                    "level": 0
+                },
+                {
+                    "x": 3228,
+                    "y": 3409,
+                    "level": 0
+                },
+                {
+                    "x": 3233,
+                    "y": 3446,
+                    "level": 0
+                },
+                {
+                    "x": 3276,
+                    "y": 3444,
+                    "level": 0
+                },
+                {
+                    "x": 3318,
+                    "y": 3426,
+                    "level": 0
+                },
+                {
+                    "x": 3390,
+                    "y": 3421,
+                    "level": 0
+                },
+                {
+                    "x": 3362,
+                    "y": 3403,
+                    "level": 0
+                },
+                {
+                    "x": 3411,
+                    "y": 3410,
+                    "level": 0
+                },
+                {
+                    "x": 3439,
+                    "y": 3454,
+                    "level": 0
+                },
+                {
+                    "x": 3473,
+                    "y": 3401,
+                    "level": 0
+                },
+                {
+                    "x": 3461,
+                    "y": 3432,
+                    "level": 0
+                },
+                {
+                    "x": 3538,
+                    "y": 3449,
+                    "level": 0
+                },
+                {
+                    "x": 3563,
+                    "y": 3408,
+                    "level": 0
+                },
+                {
+                    "x": 2356,
+                    "y": 3498,
+                    "level": 0
+                },
+                {
+                    "x": 2325,
+                    "y": 3510,
+                    "level": 0
+                },
+                {
+                    "x": 2394,
+                    "y": 3513,
+                    "level": 0
+                },
+                {
+                    "x": 2401,
+                    "y": 3458,
+                    "level": 0
+                },
+                {
+                    "x": 2489,
+                    "y": 3487,
+                    "level": 0
+                },
+                {
+                    "x": 2457,
+                    "y": 3511,
+                    "level": 0
+                },
+                {
+                    "x": 2504,
+                    "y": 3484,
+                    "level": 0
+                },
+                {
+                    "x": 2550,
+                    "y": 3475,
+                    "level": 0
+                },
+                {
+                    "x": 2588,
+                    "y": 3506,
+                    "level": 0
+                },
+                {
+                    "x": 2609,
+                    "y": 3470,
+                    "level": 0
+                },
+                {
+                    "x": 2649,
+                    "y": 3473,
+                    "level": 0
+                },
+                {
+                    "x": 2683,
+                    "y": 3491,
+                    "level": 0
+                },
+                {
+                    "x": 2707,
+                    "y": 3475,
+                    "level": 0
+                },
+                {
+                    "x": 2733,
+                    "y": 3502,
+                    "level": 0
+                },
+                {
+                    "x": 2777,
+                    "y": 3501,
+                    "level": 0
+                },
+                {
+                    "x": 2808,
+                    "y": 3474,
+                    "level": 0
+                },
+                {
+                    "x": 2832,
+                    "y": 3473,
+                    "level": 0
+                },
+                {
+                    "x": 2859,
+                    "y": 3508,
+                    "level": 0
+                },
+                {
+                    "x": 2937,
+                    "y": 3511,
+                    "level": 0
+                },
+                {
+                    "x": 2900,
+                    "y": 3501,
+                    "level": 0
+                },
+                {
+                    "x": 2956,
+                    "y": 3505,
+                    "level": 0
+                },
+                {
+                    "x": 2983,
+                    "y": 3473,
+                    "level": 0
+                },
+                {
+                    "x": 3035,
+                    "y": 3490,
+                    "level": 0
+                },
+                {
+                    "x": 3021,
+                    "y": 3470,
+                    "level": 0
+                },
+                {
+                    "x": 3103,
+                    "y": 3488,
+                    "level": 0
+                },
+                {
+                    "x": 3127,
+                    "y": 3469,
+                    "level": 0
+                },
+                {
+                    "x": 3145,
+                    "y": 3510,
+                    "level": 0
+                },
+                {
+                    "x": 3190,
+                    "y": 3464,
+                    "level": 0
+                },
+                {
+                    "x": 3254,
+                    "y": 3505,
+                    "level": 0
+                },
+                {
+                    "x": 3260,
+                    "y": 3460,
+                    "level": 0
+                },
+                {
+                    "x": 3317,
+                    "y": 3507,
+                    "level": 0
+                },
+                {
+                    "x": 3288,
+                    "y": 3460,
+                    "level": 0
+                },
+                {
+                    "x": 3329,
+                    "y": 3518,
+                    "level": 0
+                },
+                {
+                    "x": 3373,
+                    "y": 3483,
+                    "level": 0
+                },
+                {
+                    "x": 3420,
+                    "y": 3479,
+                    "level": 0
+                },
+                {
+                    "x": 3452,
+                    "y": 3476,
+                    "level": 0
+                },
+                {
+                    "x": 3487,
+                    "y": 3492,
+                    "level": 0
+                },
+                {
+                    "x": 3516,
+                    "y": 3473,
+                    "level": 0
+                },
+                {
+                    "x": 3529,
+                    "y": 3501,
+                    "level": 0
+                },
+                {
+                    "x": 3576,
+                    "y": 3481,
+                    "level": 0
+                },
+                {
+                    "x": 3598,
+                    "y": 3509,
+                    "level": 0
+                },
+                {
+                    "x": 3619,
+                    "y": 3485,
+                    "level": 0
+                },
+                {
+                    "x": 3649,
+                    "y": 3475,
+                    "level": 0
+                },
+                {
+                    "x": 3678,
+                    "y": 3518,
+                    "level": 0
+                },
+                {
+                    "x": 2336,
+                    "y": 3540,
+                    "level": 0
+                },
+                {
+                    "x": 2351,
+                    "y": 3572,
+                    "level": 0
+                },
+                {
+                    "x": 2418,
+                    "y": 3525,
+                    "level": 0
+                },
+                {
+                    "x": 2394,
+                    "y": 3574,
+                    "level": 0
+                },
+                {
+                    "x": 2491,
+                    "y": 3529,
+                    "level": 0
+                },
+                {
+                    "x": 2542,
+                    "y": 3562,
+                    "level": 0
+                },
+                {
+                    "x": 2677,
+                    "y": 3539,
+                    "level": 0
+                },
+                {
+                    "x": 2653,
+                    "y": 3578,
+                    "level": 0
+                },
+                {
+                    "x": 2699,
+                    "y": 3537,
+                    "level": 0
+                },
+                {
+                    "x": 2721,
+                    "y": 3577,
+                    "level": 0
+                },
+                {
+                    "x": 2757,
+                    "y": 3548,
+                    "level": 0
+                },
+                {
+                    "x": 2757,
+                    "y": 3581,
+                    "level": 0
+                },
+                {
+                    "x": 2878,
+                    "y": 3529,
+                    "level": 0
+                },
+                {
+                    "x": 2860,
+                    "y": 3575,
+                    "level": 0
+                },
+                {
+                    "x": 2928,
+                    "y": 3573,
+                    "level": 0
+                },
+                {
+                    "x": 2919,
+                    "y": 3535,
+                    "level": 0
+                },
+                {
+                    "x": 2979,
+                    "y": 3546,
+                    "level": 0
+                },
+                {
+                    "x": 2986,
+                    "y": 3583,
+                    "level": 0
+                },
+                {
+                    "x": 3052,
+                    "y": 3548,
+                    "level": 0
+                },
+                {
+                    "x": 3030,
+                    "y": 3520,
+                    "level": 0
+                },
+                {
+                    "x": 3096,
+                    "y": 3534,
+                    "level": 0
+                },
+                {
+                    "x": 3125,
+                    "y": 3578,
+                    "level": 0
+                },
+                {
+                    "x": 3153,
+                    "y": 3545,
+                    "level": 0
+                },
+                {
+                    "x": 3184,
+                    "y": 3559,
+                    "level": 0
+                },
+                {
+                    "x": 3229,
+                    "y": 3541,
+                    "level": 0
+                },
+                {
+                    "x": 3255,
+                    "y": 3576,
+                    "level": 0
+                },
+                {
+                    "x": 3289,
+                    "y": 3528,
+                    "level": 0
+                },
+                {
+                    "x": 3292,
+                    "y": 3574,
+                    "level": 0
+                },
+                {
+                    "x": 3376,
+                    "y": 3567,
+                    "level": 0
+                },
+                {
+                    "x": 3339,
+                    "y": 3572,
+                    "level": 0
+                },
+                {
+                    "x": 3418,
+                    "y": 3544,
+                    "level": 0
+                },
+                {
+                    "x": 3432,
+                    "y": 3544,
+                    "level": 0
+                },
+                {
+                    "x": 3460,
+                    "y": 3553,
+                    "level": 0
+                },
+                {
+                    "x": 3510,
+                    "y": 3530,
+                    "level": 0
+                },
+                {
+                    "x": 3571,
+                    "y": 3534,
+                    "level": 0
+                },
+                {
+                    "x": 3547,
+                    "y": 3524,
+                    "level": 0
+                },
+                {
+                    "x": 3624,
+                    "y": 3524,
+                    "level": 0
+                },
+                {
+                    "x": 3596,
+                    "y": 3541,
+                    "level": 0
+                },
+                {
+                    "x": 3655,
+                    "y": 3537,
+                    "level": 0
+                },
+                {
+                    "x": 2262,
+                    "y": 3605,
+                    "level": 0
+                },
+                {
+                    "x": 2295,
+                    "y": 3639,
+                    "level": 0
+                },
+                {
+                    "x": 2332,
+                    "y": 3610,
+                    "level": 0
+                },
+                {
+                    "x": 2347,
+                    "y": 3594,
+                    "level": 0
+                },
+                {
+                    "x": 2392,
+                    "y": 3599,
+                    "level": 0
+                },
+                {
+                    "x": 2374,
+                    "y": 3630,
+                    "level": 0
+                },
+                {
+                    "x": 2509,
+                    "y": 3634,
+                    "level": 0
+                },
+                {
+                    "x": 2559,
+                    "y": 3619,
+                    "level": 0
+                },
+                {
+                    "x": 2606,
+                    "y": 3635,
+                    "level": 0
+                },
+                {
+                    "x": 2586,
+                    "y": 3605,
+                    "level": 0
+                },
+                {
+                    "x": 2684,
+                    "y": 3612,
+                    "level": 0
+                },
+                {
+                    "x": 2669,
+                    "y": 3637,
+                    "level": 0
+                },
+                {
+                    "x": 2708,
+                    "y": 3589,
+                    "level": 0
+                },
+                {
+                    "x": 2737,
+                    "y": 3626,
+                    "level": 0
+                },
+                {
+                    "x": 2779,
+                    "y": 3594,
+                    "level": 0
+                },
+                {
+                    "x": 2780,
+                    "y": 3635,
+                    "level": 0
+                },
+                {
+                    "x": 2999,
+                    "y": 3606,
+                    "level": 0
+                },
+                {
+                    "x": 2965,
+                    "y": 3632,
+                    "level": 0
+                },
+                {
+                    "x": 3059,
+                    "y": 3620,
+                    "level": 0
+                },
+                {
+                    "x": 3028,
+                    "y": 3632,
+                    "level": 0
+                },
+                {
+                    "x": 3092,
+                    "y": 3605,
+                    "level": 0
+                },
+                {
+                    "x": 3127,
+                    "y": 3597,
+                    "level": 0
+                },
+                {
+                    "x": 3179,
+                    "y": 3612,
+                    "level": 0
+                },
+                {
+                    "x": 3146,
+                    "y": 3642,
+                    "level": 0
+                },
+                {
+                    "x": 3254,
+                    "y": 3624,
+                    "level": 0
+                },
+                {
+                    "x": 3247,
+                    "y": 3597,
+                    "level": 0
+                },
+                {
+                    "x": 3304,
+                    "y": 3605,
+                    "level": 0
+                },
+                {
+                    "x": 3278,
+                    "y": 3615,
+                    "level": 0
+                },
+                {
+                    "x": 3338,
+                    "y": 3638,
+                    "level": 0
+                },
+                {
+                    "x": 3342,
+                    "y": 3591,
+                    "level": 0
+                },
+                {
+                    "x": 3433,
+                    "y": 3639,
+                    "level": 0
+                },
+                {
+                    "x": 3403,
+                    "y": 3640,
+                    "level": 0
+                },
+                {
+                    "x": 2309,
+                    "y": 3669,
+                    "level": 0
+                },
+                {
+                    "x": 2332,
+                    "y": 3659,
+                    "level": 0
+                },
+                {
+                    "x": 2612,
+                    "y": 3658,
+                    "level": 0
+                },
+                {
+                    "x": 2643,
+                    "y": 3679,
+                    "level": 0
+                },
+                {
+                    "x": 2680,
+                    "y": 3676,
+                    "level": 0
+                },
+                {
+                    "x": 2712,
+                    "y": 3653,
+                    "level": 0
+                },
+                {
+                    "x": 2696,
+                    "y": 3695,
+                    "level": 0
+                },
+                {
+                    "x": 2756,
+                    "y": 3651,
+                    "level": 0
+                },
+                {
+                    "x": 2972,
+                    "y": 3682,
+                    "level": 0
+                },
+                {
+                    "x": 2999,
+                    "y": 3671,
+                    "level": 0
+                },
+                {
+                    "x": 2956,
+                    "y": 3705,
+                    "level": 0
+                },
+                {
+                    "x": 2965,
+                    "y": 3740,
+                    "level": 0
+                },
+                {
+                    "x": 3088,
+                    "y": 3678,
+                    "level": 0
+                },
+                {
+                    "x": 3107,
+                    "y": 3653,
+                    "level": 0
+                },
+                {
+                    "x": 3187,
+                    "y": 3661,
+                    "level": 0
+                },
+                {
+                    "x": 3142,
+                    "y": 3656,
+                    "level": 0
+                },
+                {
+                    "x": 3220,
+                    "y": 3667,
+                    "level": 0
+                },
+                {
+                    "x": 3210,
+                    "y": 3695,
+                    "level": 0
+                },
+                {
+                    "x": 3280,
+                    "y": 3664,
+                    "level": 0
+                },
+                {
+                    "x": 3315,
+                    "y": 3704,
+                    "level": 0
+                },
+                {
+                    "x": 3353,
+                    "y": 3664,
+                    "level": 0
+                },
+                {
+                    "x": 3378,
+                    "y": 3699,
+                    "level": 0
+                },
+                {
+                    "x": 3437,
+                    "y": 3682,
+                    "level": 0
+                },
+                {
+                    "x": 3423,
+                    "y": 3706,
+                    "level": 0
+                },
+                {
+                    "x": 3511,
+                    "y": 3670,
+                    "level": 0
+                },
+                {
+                    "x": 3470,
+                    "y": 3710,
+                    "level": 0
+                },
+                {
+                    "x": 2666,
+                    "y": 3717,
+                    "level": 0
+                },
+                {
+                    "x": 2686,
+                    "y": 3727,
+                    "level": 0
+                },
+                {
+                    "x": 2725,
+                    "y": 3751,
+                    "level": 0
+                },
+                {
+                    "x": 2744,
+                    "y": 3735,
+                    "level": 0
+                },
+                {
+                    "x": 2975,
+                    "y": 3762,
+                    "level": 0
+                },
+                {
+                    "x": 2985,
+                    "y": 3715,
+                    "level": 0
+                },
+                {
+                    "x": 3060,
+                    "y": 3767,
+                    "level": 0
+                },
+                {
+                    "x": 3046,
+                    "y": 3752,
+                    "level": 0
+                },
+                {
+                    "x": 3104,
+                    "y": 3745,
+                    "level": 0
+                },
+                {
+                    "x": 3116,
+                    "y": 3769,
+                    "level": 0
+                },
+                {
+                    "x": 3153,
+                    "y": 3744,
+                    "level": 0
+                },
+                {
+                    "x": 3193,
+                    "y": 3739,
+                    "level": 0
+                },
+                {
+                    "x": 3213,
+                    "y": 3756,
+                    "level": 0
+                },
+                {
+                    "x": 3255,
+                    "y": 3740,
+                    "level": 0
+                },
+                {
+                    "x": 3342,
+                    "y": 3732,
+                    "level": 0
+                },
+                {
+                    "x": 3367,
+                    "y": 3766,
+                    "level": 0
+                },
+                {
+                    "x": 3432,
+                    "y": 3752,
+                    "level": 0
+                },
+                {
+                    "x": 3430,
+                    "y": 3717,
+                    "level": 0
+                },
+                {
+                    "x": 3506,
+                    "y": 3734,
+                    "level": 0
+                },
+                {
+                    "x": 2737,
+                    "y": 3796,
+                    "level": 0
+                },
+                {
+                    "x": 2185,
+                    "y": 3637,
+                    "level": 0
+                },
+                {
+                    "x": 2960,
+                    "y": 3824,
+                    "level": 0
+                },
+                {
+                    "x": 2999,
+                    "y": 3791,
+                    "level": 0
+                },
+                {
+                    "x": 3059,
+                    "y": 3833,
+                    "level": 0
+                },
+                {
+                    "x": 3051,
+                    "y": 3804,
+                    "level": 0
+                },
+                {
+                    "x": 3101,
+                    "y": 3783,
+                    "level": 0
+                },
+                {
+                    "x": 3128,
+                    "y": 3822,
+                    "level": 0
+                },
+                {
+                    "x": 3151,
+                    "y": 3795,
+                    "level": 0
+                },
+                {
+                    "x": 3193,
+                    "y": 3783,
+                    "level": 0
+                },
+                {
+                    "x": 3250,
+                    "y": 3821,
+                    "level": 0
+                },
+                {
+                    "x": 3208,
+                    "y": 3792,
+                    "level": 0
+                },
+                {
+                    "x": 3363,
+                    "y": 3807,
+                    "level": 0
+                },
+                {
+                    "x": 3349,
+                    "y": 3823,
+                    "level": 0
+                },
+                {
+                    "x": 2958,
+                    "y": 3858,
+                    "level": 0
+                },
+                {
+                    "x": 2990,
+                    "y": 3883,
+                    "level": 0
+                },
+                {
+                    "x": 3037,
+                    "y": 3870,
+                    "level": 0
+                },
+                {
+                    "x": 3055,
+                    "y": 3895,
+                    "level": 0
+                },
+                {
+                    "x": 3088,
+                    "y": 3891,
+                    "level": 0
+                },
+                {
+                    "x": 3127,
+                    "y": 3891,
+                    "level": 0
+                },
+                {
+                    "x": 3157,
+                    "y": 3865,
+                    "level": 0
+                },
+                {
+                    "x": 3195,
+                    "y": 3877,
+                    "level": 0
+                },
+                {
+                    "x": 3250,
+                    "y": 3843,
+                    "level": 0
+                },
+                {
+                    "x": 3252,
+                    "y": 3887,
+                    "level": 0
+                },
+                {
+                    "x": 3294,
+                    "y": 3865,
+                    "level": 0
+                },
+                {
+                    "x": 3317,
+                    "y": 3896,
+                    "level": 0
+                },
+                {
+                    "x": 3383,
+                    "y": 3893,
+                    "level": 0
+                },
+                {
+                    "x": 3336,
+                    "y": 3898,
+                    "level": 0
+                },
+                {
+                    "x": 2971,
+                    "y": 3929,
+                    "level": 0
+                },
+                {
+                    "x": 2990,
+                    "y": 3948,
+                    "level": 0
+                },
+                {
+                    "x": 3055,
+                    "y": 3915,
+                    "level": 0
+                },
+                {
+                    "x": 3060,
+                    "y": 3941,
+                    "level": 0
+                },
+                {
+                    "x": 3128,
+                    "y": 3913,
+                    "level": 0
+                },
+                {
+                    "x": 3110,
+                    "y": 3954,
+                    "level": 0
+                },
+                {
+                    "x": 3155,
+                    "y": 3924,
+                    "level": 0
+                },
+                {
+                    "x": 3181,
+                    "y": 3944,
+                    "level": 0
+                },
+                {
+                    "x": 3244,
+                    "y": 3907,
+                    "level": 0
+                },
+                {
+                    "x": 3242,
+                    "y": 3956,
+                    "level": 0
+                },
+                {
+                    "x": 3306,
+                    "y": 3947,
+                    "level": 0
+                },
+                {
+                    "x": 3275,
+                    "y": 3915,
+                    "level": 0
+                },
+                {
+                    "x": 3388,
+                    "y": 3930,
+                    "level": 0
+                },
+                {
+                    "x": 3429,
+                    "y": 3924,
+                    "level": 0
+                },
+                {
+                    "x": 2901,
+                    "y": 3356,
+                    "level": 0
+                },
+                {
+                    "x": 2915,
+                    "y": 3335,
+                    "level": 0
+                },
+                {
+                    "x": 2972,
+                    "y": 3342,
+                    "level": 0
+                },
+                {
+                    "x": 2976,
+                    "y": 3386,
+                    "level": 0
+                },
+                {
+                    "x": 3027,
+                    "y": 3365,
+                    "level": 0
+                },
+                {
+                    "x": 3050,
+                    "y": 3348,
+                    "level": 0
+                },
+                {
+                    "x": 3125,
+                    "y": 3371,
+                    "level": 0
+                },
+                {
+                    "x": 3081,
+                    "y": 3363,
+                    "level": 0
+                },
+                {
+                    "x": 3158,
+                    "y": 3376,
+                    "level": 0
+                },
+                {
+                    "x": 3140,
+                    "y": 3343,
+                    "level": 0
+                },
+                {
+                    "x": 3243,
+                    "y": 3378,
+                    "level": 0
+                },
+                {
+                    "x": 3240,
+                    "y": 3351,
+                    "level": 0
+                },
+                {
+                    "x": 3312,
+                    "y": 3376,
+                    "level": 0
+                },
+                {
+                    "x": 3304,
+                    "y": 3335,
+                    "level": 0
+                },
+                {
+                    "x": 3352,
+                    "y": 3381,
+                    "level": 0
+                },
+                {
+                    "x": 3358,
+                    "y": 3353,
+                    "level": 0
+                },
+                {
+                    "x": 3438,
+                    "y": 3349,
+                    "level": 0
+                },
+                {
+                    "x": 3408,
+                    "y": 3390,
+                    "level": 0
+                },
+                {
+                    "x": 3474,
+                    "y": 3385,
+                    "level": 0
+                },
+                {
+                    "x": 3485,
+                    "y": 3362,
+                    "level": 0
+                },
+                {
+                    "x": 2915,
+                    "y": 3302,
+                    "level": 0
+                },
+                {
+                    "x": 2917,
+                    "y": 3271,
+                    "level": 0
+                },
+                {
+                    "x": 2976,
+                    "y": 3274,
+                    "level": 0
+                },
+                {
+                    "x": 2976,
+                    "y": 3316,
+                    "level": 0
+                },
+                {
+                    "x": 3033,
+                    "y": 3286,
+                    "level": 0
+                },
+                {
+                    "x": 3066,
+                    "y": 3322,
+                    "level": 0
+                },
+                {
+                    "x": 3128,
+                    "y": 3310,
+                    "level": 0
+                },
+                {
+                    "x": 3129,
+                    "y": 3268,
+                    "level": 0
+                },
+                {
+                    "x": 3188,
+                    "y": 3317,
+                    "level": 0
+                },
+                {
+                    "x": 3146,
+                    "y": 3312,
+                    "level": 0
+                },
+                {
+                    "x": 3210,
+                    "y": 3305,
+                    "level": 0
+                },
+                {
+                    "x": 3242,
+                    "y": 3268,
+                    "level": 0
+                },
+                {
+                    "x": 3265,
+                    "y": 3300,
+                    "level": 0
+                },
+                {
+                    "x": 3309,
+                    "y": 3298,
+                    "level": 0
+                },
+                {
+                    "x": 3347,
+                    "y": 3273,
+                    "level": 0
+                },
+                {
+                    "x": 3349,
+                    "y": 3312,
+                    "level": 0
+                },
+                {
+                    "x": 3450,
+                    "y": 3276,
+                    "level": 0
+                },
+                {
+                    "x": 3422,
+                    "y": 3302,
+                    "level": 0
+                },
+                {
+                    "x": 3488,
+                    "y": 3270,
+                    "level": 0
+                },
+                {
+                    "x": 3478,
+                    "y": 3292,
+                    "level": 0
+                },
+                {
+                    "x": 3538,
+                    "y": 3311,
+                    "level": 0
+                },
+                {
+                    "x": 3582,
+                    "y": 3312,
+                    "level": 0
+                },
+                {
+                    "x": 2920,
+                    "y": 3249,
+                    "level": 0
+                },
+                {
+                    "x": 2932,
+                    "y": 3216,
+                    "level": 0
+                },
+                {
+                    "x": 2982,
+                    "y": 3203,
+                    "level": 0
+                },
+                {
+                    "x": 2997,
+                    "y": 3241,
+                    "level": 0
+                },
+                {
+                    "x": 3042,
+                    "y": 3251,
+                    "level": 0
+                },
+                {
+                    "x": 3019,
+                    "y": 3242,
+                    "level": 0
+                },
+                {
+                    "x": 3091,
+                    "y": 3258,
+                    "level": 0
+                },
+                {
+                    "x": 3122,
+                    "y": 3227,
+                    "level": 0
+                },
+                {
+                    "x": 3137,
+                    "y": 3212,
+                    "level": 0
+                },
+                {
+                    "x": 3135,
+                    "y": 3257,
+                    "level": 0
+                },
+                {
+                    "x": 3210,
+                    "y": 3205,
+                    "level": 0
+                },
+                {
+                    "x": 3263,
+                    "y": 3253,
+                    "level": 0
+                },
+                {
+                    "x": 3271,
+                    "y": 3204,
+                    "level": 0
+                },
+                {
+                    "x": 3323,
+                    "y": 3225,
+                    "level": 0
+                },
+                {
+                    "x": 3486,
+                    "y": 3245,
+                    "level": 0
+                },
+                {
+                    "x": 3519,
+                    "y": 3246,
+                    "level": 0
+                },
+                {
+                    "x": 2986,
+                    "y": 3191,
+                    "level": 0
+                },
+                {
+                    "x": 2997,
+                    "y": 3149,
+                    "level": 0
+                },
+                {
+                    "x": 3028,
+                    "y": 3171,
+                    "level": 0
+                },
+                {
+                    "x": 3011,
+                    "y": 3195,
+                    "level": 0
+                },
+                {
+                    "x": 3119,
+                    "y": 3167,
+                    "level": 0
+                },
+                {
+                    "x": 3083,
+                    "y": 3155,
+                    "level": 0
+                },
+                {
+                    "x": 3146,
+                    "y": 3170,
+                    "level": 0
+                },
+                {
+                    "x": 3195,
+                    "y": 3163,
+                    "level": 0
+                },
+                {
+                    "x": 3240,
+                    "y": 3161,
+                    "level": 0
+                },
+                {
+                    "x": 3236,
+                    "y": 3193,
+                    "level": 0
+                },
+                {
+                    "x": 3272,
+                    "y": 3156,
+                    "level": 0
+                },
+                {
+                    "x": 3293,
+                    "y": 3183,
+                    "level": 0
+                },
+                {
+                    "x": 3391,
+                    "y": 3180,
+                    "level": 0
+                },
+                {
+                    "x": 3350,
+                    "y": 3162,
+                    "level": 0
+                },
+                {
+                    "x": 3418,
+                    "y": 3164,
+                    "level": 0
+                },
+                {
+                    "x": 3394,
+                    "y": 3149,
+                    "level": 0
+                },
+                {
+                    "x": 3465,
+                    "y": 3140,
+                    "level": 0
+                },
+                {
+                    "x": 3210,
+                    "y": 3092,
+                    "level": 0
+                },
+                {
+                    "x": 3257,
+                    "y": 3117,
+                    "level": 0
+                },
+                {
+                    "x": 3304,
+                    "y": 3126,
+                    "level": 0
+                },
+                {
+                    "x": 3303,
+                    "y": 3077,
+                    "level": 0
+                },
+                {
+                    "x": 3378,
+                    "y": 3078,
+                    "level": 0
+                },
+                {
+                    "x": 3344,
+                    "y": 3112,
+                    "level": 0
+                },
+                {
+                    "x": 3429,
+                    "y": 3106,
+                    "level": 0
+                },
+                {
+                    "x": 3410,
+                    "y": 3079,
+                    "level": 0
+                },
+                {
+                    "x": 3483,
+                    "y": 3108,
+                    "level": 0
+                },
+                {
+                    "x": 3509,
+                    "y": 3088,
+                    "level": 0
+                },
+                {
+                    "x": 3171,
+                    "y": 3028,
+                    "level": 0
+                },
+                {
+                    "x": 3189,
+                    "y": 3047,
+                    "level": 0
+                },
+                {
+                    "x": 3235,
+                    "y": 3048,
+                    "level": 0
+                },
+                {
+                    "x": 3215,
+                    "y": 3020,
+                    "level": 0
+                },
+                {
+                    "x": 3303,
+                    "y": 3050,
+                    "level": 0
+                },
+                {
+                    "x": 3320,
+                    "y": 3013,
+                    "level": 0
+                },
+                {
+                    "x": 3355,
+                    "y": 3044,
+                    "level": 0
+                },
+                {
+                    "x": 3383,
+                    "y": 3019,
+                    "level": 0
+                },
+                {
+                    "x": 3419,
+                    "y": 3017,
+                    "level": 0
+                },
+                {
+                    "x": 3422,
+                    "y": 3046,
+                    "level": 0
+                },
+                {
+                    "x": 3468,
+                    "y": 3044,
+                    "level": 0
+                },
+                {
+                    "x": 3509,
+                    "y": 3025,
+                    "level": 0
+                },
+                {
+                    "x": 3170,
+                    "y": 2982,
+                    "level": 0
+                },
+                {
+                    "x": 3142,
+                    "y": 3003,
+                    "level": 0
+                },
+                {
+                    "x": 3225,
+                    "y": 2986,
+                    "level": 0
+                },
+                {
+                    "x": 3256,
+                    "y": 2953,
+                    "level": 0
+                },
+                {
+                    "x": 3289,
+                    "y": 2957,
+                    "level": 0
+                },
+                {
+                    "x": 3319,
+                    "y": 2990,
+                    "level": 0
+                },
+                {
+                    "x": 3376,
+                    "y": 2988,
+                    "level": 0
+                },
+                {
+                    "x": 3346,
+                    "y": 2958,
+                    "level": 0
+                },
+                {
+                    "x": 3404,
+                    "y": 2992,
+                    "level": 0
+                },
+                {
+                    "x": 3442,
+                    "y": 2955,
+                    "level": 0
+                },
+                {
+                    "x": 3170,
+                    "y": 2914,
+                    "level": 0
+                },
+                {
+                    "x": 3177,
+                    "y": 2888,
+                    "level": 0
+                },
+                {
+                    "x": 3245,
+                    "y": 2935,
+                    "level": 0
+                },
+                {
+                    "x": 3205,
+                    "y": 2895,
+                    "level": 0
+                },
+                {
+                    "x": 3296,
+                    "y": 2891,
+                    "level": 0
+                },
+                {
+                    "x": 3316,
+                    "y": 2930,
+                    "level": 0
+                },
+                {
+                    "x": 3361,
+                    "y": 2921,
+                    "level": 0
+                },
+                {
+                    "x": 3373,
+                    "y": 2898,
+                    "level": 0
+                },
+                {
+                    "x": 3423,
+                    "y": 2916,
+                    "level": 0
+                },
+                {
+                    "x": 3434,
+                    "y": 2888,
+                    "level": 0
+                },
+                {
+                    "x": 3218,
+                    "y": 2843,
+                    "level": 0
+                },
+                {
+                    "x": 3247,
+                    "y": 2866,
+                    "level": 0
+                },
+                {
+                    "x": 3290,
+                    "y": 2840,
+                    "level": 0
+                },
+                {
+                    "x": 3321,
+                    "y": 2848,
+                    "level": 0
+                },
+                {
+                    "x": 3390,
+                    "y": 2841,
+                    "level": 0
+                },
+                {
+                    "x": 3341,
+                    "y": 2836,
+                    "level": 0
+                },
+                {
+                    "x": 3376,
+                    "y": 2790,
+                    "level": 0
+                },
+                {
+                    "x": 3351,
+                    "y": 2781,
+                    "level": 0
+                },
+                {
+                    "x": 3401,
+                    "y": 2758,
+                    "level": 0
+                },
+                {
+                    "x": 3359,
+                    "y": 2753,
+                    "level": 0
+                },
+                {
+                    "x": 2703,
+                    "y": 3204,
+                    "level": 0
+                },
+                {
+                    "x": 2746,
+                    "y": 3232,
+                    "level": 0
+                },
+                {
+                    "x": 2772,
+                    "y": 3217,
+                    "level": 0
+                },
+                {
+                    "x": 2805,
+                    "y": 3204,
+                    "level": 0
+                },
+                {
+                    "x": 2743,
+                    "y": 3174,
+                    "level": 0
+                },
+                {
+                    "x": 2734,
+                    "y": 3144,
+                    "level": 0
+                },
+                {
+                    "x": 2802,
+                    "y": 3156,
+                    "level": 0
+                },
+                {
+                    "x": 2762,
+                    "y": 3172,
+                    "level": 0
+                },
+                {
+                    "x": 2843,
+                    "y": 3153,
+                    "level": 0
+                },
+                {
+                    "x": 2874,
+                    "y": 3173,
+                    "level": 0
+                },
+                {
+                    "x": 2912,
+                    "y": 3168,
+                    "level": 0
+                },
+                {
+                    "x": 2906,
+                    "y": 3141,
+                    "level": 0
+                },
+                {
+                    "x": 2763,
+                    "y": 3125,
+                    "level": 0
+                },
+                {
+                    "x": 2786,
+                    "y": 3075,
+                    "level": 0
+                },
+                {
+                    "x": 2846,
+                    "y": 3078,
+                    "level": 0
+                },
+                {
+                    "x": 2831,
+                    "y": 3119,
+                    "level": 0
+                },
+                {
+                    "x": 2912,
+                    "y": 3116,
+                    "level": 0
+                },
+                {
+                    "x": 2881,
+                    "y": 3073,
+                    "level": 0
+                },
+                {
+                    "x": 2761,
+                    "y": 3057,
+                    "level": 0
+                },
+                {
+                    "x": 2779,
+                    "y": 3023,
+                    "level": 0
+                },
+                {
+                    "x": 2869,
+                    "y": 3026,
+                    "level": 0
+                },
+                {
+                    "x": 2835,
+                    "y": 3025,
+                    "level": 0
+                },
+                {
+                    "x": 2930,
+                    "y": 3029,
+                    "level": 0
+                },
+                {
+                    "x": 2901,
+                    "y": 3031,
+                    "level": 0
+                },
+                {
+                    "x": 2791,
+                    "y": 2969,
+                    "level": 0
+                },
+                {
+                    "x": 2757,
+                    "y": 2949,
+                    "level": 0
+                },
+                {
+                    "x": 2916,
+                    "y": 2992,
+                    "level": 0
+                },
+                {
+                    "x": 2881,
+                    "y": 2968,
+                    "level": 0
+                },
+                {
+                    "x": 2970,
+                    "y": 2979,
+                    "level": 0
+                },
+                {
+                    "x": 2958,
+                    "y": 2996,
+                    "level": 0
+                },
+                {
+                    "x": 2804,
+                    "y": 2924,
+                    "level": 0
+                },
+                {
+                    "x": 2793,
+                    "y": 2893,
+                    "level": 0
+                },
+                {
+                    "x": 2858,
+                    "y": 2890,
+                    "level": 0
+                },
+                {
+                    "x": 2841,
+                    "y": 2934,
+                    "level": 0
+                },
+                {
+                    "x": 2920,
+                    "y": 2888,
+                    "level": 0
+                },
+                {
+                    "x": 2932,
+                    "y": 2933,
+                    "level": 0
+                },
+                {
+                    "x": 2960,
+                    "y": 2928,
+                    "level": 0
+                },
+                {
+                    "x": 2964,
+                    "y": 2908,
+                    "level": 0
+                },
+                {
+                    "x": 3082,
+                    "y": 3475,
+                    "level": 0
+                },
+                {
+                    "x": 2778,
+                    "y": 3583,
+                    "level": 0
+                },
+                {
+                    "x": 3265,
+                    "y": 3270,
+                    "level": 0
+                },
+                {
+                    "x": 3508,
+                    "y": 3673,
+                    "level": 0
+                },
+                {
+                    "x": 2864,
+                    "y": 3589,
+                    "level": 0
+                }
             ]
-
         },
         {
             "id": 400,
@@ -3974,7 +5964,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Captain Tobias.",
-                "spots": [{"range": {"topleft": {"x": 3025, "y": 3221}, "botright": {"x": 3028, "y": 3215}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3025, "y": 3221}, "botright": {"x": 3028, "y": 3215}, "level": 0},
+                    "description": "at Port Sarim"
+                }]
             }
         },
         {
@@ -3984,7 +5977,10 @@ export namespace clue_data {
             "text": ["Someone watching Het's Oasis is your next destination."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3371, "y": 3278}, "botright": {"x": 3378, "y": 3271}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3371, "y": 3278}, "botright": {"x": 3378, "y": 3271}, "level": 0},
+                    "description": "north of Het's Oasis"
+                }],
                 "npc": "Jeed"
             }
         },
@@ -4191,6 +6187,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2656, "y": 3160, "level": 0},
+                "description": "in front of the door"
             }
         },
         {
@@ -4212,6 +6209,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3358, "y": 2971, "level": 0},
+                "description": "next to the well"
             }
         },
         {
@@ -4244,6 +6242,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2513, "y": 3041, "level": 0},
+                "description": "between the rocks"
             }
         },
         {
@@ -4270,6 +6269,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3000, "y": 3110, "level": 0},
+                "description": "on top of the shellfish",
             }
         },
         {
@@ -4291,6 +6291,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3356, "y": 3507, "level": 0},
+                "description": "in the western shed"
             }
         },
         {
@@ -4301,6 +6302,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3644, "y": 3494, "level": 0},
+                "description": "next to the mushroom"
             }
         },
         {
@@ -4414,6 +6416,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3176, "y": 2916, "level": 0},
+                "description": "west of the cart"
             }
         },
         {
@@ -4447,6 +6450,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2992, "y": 3178, "level": 0},
+                "description": "west of the church near Port Sarim"
             }
         },
         {
@@ -4456,7 +6460,8 @@ export namespace clue_data {
             "text": ["Covered in shadows, the centre of the circle is where you will find the answer."],
             "solution": {
                 "type": "dig",
-                "spot": {"x": 3489, "y": 3288, "level": 0}
+                "spot": {"x": 3489, "y": 3288, "level": 0},
+                "description": "at the centre of Mort'ton"
             }
         },
         {
@@ -4476,7 +6481,8 @@ export namespace clue_data {
                         "botright": {
                             "x": 2960, "y": 3512
                         }
-                    }
+                    },
+                    "description": "in Goblin Village"
                 }]
             },
             "challenge": [{"type": "slider"}]
@@ -4501,8 +6507,18 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "spots": [
-                    {"range": {"topleft": {"x": 2185, "y": 3285}, "botright": {"x": 2187, "y": 3283}, "level": 1}, "note": "After 'Plague's End'"},
-                    {"range": {"topleft": {"x": 2198, "y": 3258}, "botright": {"x": 2209, "y": 3247}, "level": 0}, "note": "Before 'Plague's End'"}
+                    {
+                        "id": "default",
+                        "range": {"topleft": {"x": 2185, "y": 3285}, "botright": {"x": 2187, "y": 3283}, "level": 1},
+                        "note": "After 'Plague's End'",
+                        "description": "in Prifddinas"
+                    },
+                    {
+                        "id": "after-plagues-end",
+                        "range": {"topleft": {"x": 2198, "y": 3258}, "botright": {"x": 2209, "y": 3247}, "level": 0},
+                        "note": "Before 'Plague's End'",
+                        "description": "at Iorwerth Camp"
+                    }
                 ],
                 "npc": "Lord Iorwerth"
             }
@@ -4517,7 +6533,10 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3055, "y": 3487}, "botright": {"x": 3059, "y": 3482}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3055, "y": 3487}, "botright": {"x": 3059, "y": 3482}, "level": 0},
+                    "description": "at the Edgeville Monastery"
+                }],
                 "npc": "Abbot Langley"
             }
         },
@@ -4531,7 +6550,10 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3011, "y": 3229}, "botright": {"x": 3017, "y": 3223}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3011, "y": 3229}, "botright": {"x": 3017, "y": 3223}, "level": 0},
+                    "description": "in the fishing shop in Port Sarim"
+                }],
                 "npc": "Gerrant"
             }
         },
@@ -4544,7 +6566,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Examiner",
-                "spots": [{"range": {"topleft": {"x": 3351, "y": 3349}, "botright": {"x": 3359, "y": 3342}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3351, "y": 3349}, "botright": {"x": 3359, "y": 3342}, "level": 0},
+                    "description": "in the Exam Centre"
+                }],
             }
         },
         {
@@ -4566,6 +6591,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2134, "y": 5162, "level": 0},
+                "description": "next to the puddle on top of the mountain on Braindeath Island"
             }
         },
         {
@@ -4576,7 +6602,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3131, "y": 2804}, "botright": {"x": 3135, "y": 2800}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3131, "y": 2804}, "botright": {"x": 3135, "y": 2800}, "level": 0},
+                    "description": "on the beach in Menaphos Worker District"
+                }],
                 "npc": "Hamid"
             }
         },
@@ -4588,6 +6617,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3396, "y": 2918, "level": 0},
+                "description": "next to the cacti west of Nardaah"
             }
         },
         {
@@ -4598,7 +6628,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2467, "y": 3440}, "botright": {"x": 2477, "y": 3426}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2467, "y": 3440}, "botright": {"x": 2477, "y": 3426}, "level": 0},
+                    "description": "at the Gnome Agility Course"
+                }],
                 "npc": "Gnome trainer"
             }
         },
@@ -4643,7 +6676,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2487, "y": 3489}, "botright": {"x": 2493, "y": 3487}, "level": 1}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2487, "y": 3489}, "botright": {"x": 2493, "y": 3487}, "level": 1},
+                    "description": "in the south-east corner on the first floor of the Grand Tree"
+                }],
                 "npc": "Heckel Funch"
             }
         },
@@ -4666,6 +6702,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2832, "y": 9586, "level": 0},
+                "description": "on top of the Red spider's eggs spawn"
             }
         },
         {
@@ -4687,6 +6724,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3161, "y": 9905, "level": 0},
+                "description": "next to the cauldron"
             }
         },
         {
@@ -4697,6 +6735,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2969, "y": 2975, "level": 0},
+                "description": "by the fire next to Captain Klemfoodle"
             }
         },
         {
@@ -4707,6 +6746,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2598, "y": 3266, "level": 0},
+                "description": "next to the torch in Ardougne Zoo"
             }
         },
         {
@@ -4717,6 +6757,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2519, "y": 3594, "level": 0},
+                "description": "on top of the shell"
             }
         },
         {
@@ -4804,6 +6845,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3084, "y": 3257, "level": 0},
+                "description": "in front of the window"
             }
         },
         {
@@ -4814,6 +6856,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3191, "y": 9825, "level": 0},
+                "description": "in front of the gate"
             }
         },
         {
@@ -4835,7 +6878,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2849, "y": 3494}, "botright": {"x": 2851, "y": 3492}, "level": 1}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2849, "y": 3494}, "botright": {"x": 2851, "y": 3492}, "level": 1},
+                    "description": "in eastern Karamja"
+                }],
                 "npc": "Captain Bleemadge"
             }
         },
@@ -4846,7 +6892,11 @@ export namespace clue_data {
             "text": ["Snah? I feel all confused, like one of those cakes."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0},
+                    "description": "at Lumbridge Castle"
+
+                }],
                 "npc": "Hans"
             }
         },
@@ -4871,7 +6921,10 @@ export namespace clue_data {
             ],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3474}, "botright": {"x": 3206, "y": 3470}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3202, "y": 3474}, "botright": {"x": 3206, "y": 3470}, "level": 0},
+                    "description": "in Varrock Castle"
+                }],
                 "npc": "Sir Prysin"
             }
         },
@@ -4894,7 +6947,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3219, "y": 3438}, "botright": {"x": 3223, "y": 3434}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3219, "y": 3438}, "botright": {"x": 3223, "y": 3434}, "level": 0},
+                    "description": "near Varrock's fountain"
+                }],
                 "npc": "Wilough"
             }
         },
@@ -4906,7 +6962,10 @@ export namespace clue_data {
             "challenge": [{"type": "slider"}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3066, "y": 3518}, "botright": {"x": 3070, "y": 3514}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 3066, "y": 3518}, "botright": {"x": 3070, "y": 3514}, "level": 0},
+                    "description": "in Edgeville"
+                }],
                 "npc": "Oziach."
             }
         },
@@ -4921,6 +6980,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3088, "y": 3469, "level": 0},
+                "description": "next to the yew tree"
             }
         },
         {
@@ -4942,6 +7002,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3169, "y": 3887, "level": 0},
+                "description": "on top of the sapphire spawn"
             }
         },
         {
@@ -4952,6 +7013,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3154, "y": 3923, "level": 0},
+                "description": "in front of the lever in deep wilderness"
             }
         },
         {
@@ -4962,6 +7024,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3235, "y": 3673, "level": 0},
+                "description": "on top of the crossbow in the Graveyard of Shadows"
             }
         },
         {
@@ -4972,6 +7035,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2591, "y": 3879, "level": 0},
+                "description": "at the crossoads on Etceteria"
             }
         },
         {
@@ -5444,7 +7508,7 @@ export namespace clue_data {
             "tier": "medium",
             "text": ["Beckon in Tai Bwo Wannai. Clap before you talk to me. Equip green dragonhide chaps, a ring of duelling and a mithril helmet."],
             "items": ["Green dragonhide chaps", "Ring of duelling", "Mithril helm"],
-            "emotes": ["Becken", "Clap"],
+            "emotes": ["Beckon", "Clap"],
             "double_agent": false,
             "area": {"topleft": {"x": 2778, "y": 3073}, "botright": {"x": 2810, "y": 3057}, "level": 0},
             "hidey_hole": {
@@ -5803,11 +7867,12 @@ export namespace clue_data {
             "id": 49,
             "type": "map",
             "tier": "easy",
-            "image_url": "assets/Map_clue_Wizards'_Tower.png",
+            "image_url": "assets/Map_clue_Wizards_Tower.png",
             "text": ["X marks the spot south of the wizard's tower."],
             "ocr_data": [26, 74, 167, 26, 77, -17, 6, 8, 26, 77, -18, 8, 10, 25, 78, -17, 6, 7, 26, 80, -14, 5, 6, 25, 77, -15, 7, 8, 26, 77, -17, 7, 9, 26, 77, -18, 6, 8, 25, 80, -20, 7, 9, 25, 86, -19, 7, 8, 25, 82, -20, 6, 7, 26, 82, -18, 5, 6, 26, 82, -20, 4, 6, 25, 82, -19, 5, 7, 25, 85, -20, 6, 7, 26, 81, -21, 8, 10, 26, 78, -17, 7, 9, 25, 76, -21, 7, 9, 25, 79, -18, 5, 7, 26, 81, -15, 6, 8, 26, 79, -16, 7, 8, 26, 77, -19, 7, 8, 25, 78, -20, 6, 7, 24, 79, -15, 15, 20, 25, 80, -20, 8, 12, 26, 81, -11, 13, 17, 26, 79, -5, 18, 21, 26, 80, -15, 12, 17, 25, 79, -22, 5, 7, 25, 83, -23, 7, 8, 26, 80, -21, 6, 8, 25, 77, -19, 8, 10, 26, 78, -21, 6, 8, 26, 78, -20, 6, 7, 25, 82, -17, 5, 7, 26, 79, -20, 6, 7, 26, 77, -16, 10, 12, 26, 79, -18, 9, 14, 26, 64, 37, 40, 52, 26, 69, 24, 45, 56, 26, 68, 26, 41, 50, 26, 67, 40, 55, 67, 26, 67, 33, 52, 62, 26, 79, -20, 5, 7, 26, 80, -23, 6, 7, 26, 80, -22, 7, 8, 25, 78, -20, 5, 6, 25, 78, -20, 6, 8, 25, 77, -20, 4, 5, 26, 80, -19, 6, 8, 27, 71, 14, 39, 47, 26, 69, 17, 35, 46, 26, 68, 34, 60, 72, 26, 61, 43, 53, 66, 25, 64, 44, 68, 82, 26, 64, 32, 51, 62, 26, 72, 0, 26, 35, 27, 69, 18, 26, 36, 26, 80, -18, 6, 8, 25, 79, -22, 6, 8, 26, 79, -23, 5, 6, 25, 78, -17, 8, 10, 26, 78, -21, 6, 8, 25, 78, -22, 5, 6, 25, 76, -8, 20, 24, 27, 67, 27, 43, 50, 26, 69, 12, 34, 43, 27, 64, 38, 66, 77, 27, 57, 60, 53, 63, 27, 59, 66, 71, 84, 27, 59, 51, 64, 79, 26, 62, 42, 52, 61, 27, 74, -5, 16, 21, 25, 80, -18, 5, 6, 26, 81, -22, 6, 7, 26, 80, -25, 6, 7, 26, 77, -23, 5, 7, 25, 81, -21, 6, 7, 26, 78, -25, 6, 7, 26, 75, -9, 19, 25, 26, 61, 40, 57, 67, 27, 62, 37, 62, 72, 26, 59, 56, 60, 73, 26, 54, 44, 25, 33, 26, 55, 44, 31, 38, 26, 58, 60, 73, 89, 26, 64, 28, 48, 67, 27, 69, 24, 31, 43, 26, 80, -19, 5, 6, 26, 81, -22, 5, 6, 25, 80, -23, 6, 7, 26, 77, -23, 7, 9, 26, 78, -26, 7, 8, 25, 80, -23, 6, 8, 27, 67, 24, 48, 57, 27, 56, 69, 62, 80, 27, 58, 47, 64, 79, 26, 56, 45, 40, 46, 26, 53, 55, 40, 48, 26, 53, 46, 25, 30, 25, 60, 41, 42, 52, 27, 58, 61, 61, 76, 26, 70, 24, 30, 40, 25, 82, -16, 8, 9, 25, 80, -22, 5, 6, 26, 79, -24, 6, 7, 26, 79, -18, 6, 8, 26, 78, -26, 6, 7, 26, 78, -23, 6, 8, 25, 74, -7, 17, 21, 26, 64, 32, 40, 52, 27, 58, 52, 67, 84, 27, 58, 46, 42, 52, 26, 54, 44, 25, 29, 26, 55, 46, 19, 22, 26, 59, 51, 53, 64, 26, 59, 63, 66, 81, 26, 71, 14, 24, 32, 25, 83, -17, 6, 7, 26, 79, -23, 6, 7, 26, 81, -23, 6, 8, 26, 79, -16, 5, 6, 25, 80, -19, 6, 8, 26, 82, -22, 6, 8, 26, 80, -11, 12, 15, 26, 70, 4, 27, 33, 27, 59, 44, 64, 78, 27, 61, 40, 56, 69, 26, 57, 57, 71, 85, 26, 59, 54, 55, 67, 26, 60, 50, 66, 80, 26, 62, 46, 56, 70, 26, 76, -10, 12, 18, 26, 81, -18, 4, 6, 25, 79, -19, 5, 6, 26, 79, -24, 5, 6, 25, 81, -15, 7, 10, 25, 80, -17, 8, 10, 26, 81, -19, 6, 8, 25, 80, -11, 12, 14, 25, 74, -2, 16, 20, 26, 67, 20, 30, 38, 26, 63, 38, 51, 57, 26, 59, 55, 100, 119, 26, 60, 52, 71, 87, 26, 63, 37, 50, 59, 25, 73, -5, 19, 24, 26, 74, -21, 8, 10, 26, 79, -21, 4, 5, 26, 80, -22, 5, 7, 27, 77, -25, 5, 7, 26, 82, -15, 6, 8, 26, 82, -18, 7, 8, 25, 82, -16, 8, 10, 25, 80, -16, 8, 10, 26, 79, -11, 11, 13, 25, 80, -14, 10, 13, 25, 81, -11, 10, 13, 25, 77, 4, 22, 28, 26, 76, -6, 18, 24, 26, 77, -21, 9, 11, 26, 76, -20, 10, 12, 27, 77, -25, 6, 7, 26, 80, -21, 6, 8, 26, 79, -25, 6, 7, 27, 77, -27, 5, 7, 25, 84, -13, 9, 11, 24, 84, -15, 8, 10, 24, 85, -14, 9, 11, 25, 84, -12, 7, 9, 25, 84, -13, 7, 9, 25, 83, -14, 10, 12, 24, 84, -14, 8, 10, 25, 85, -16, 10, 12, 26, 80, -23, 6, 8, 26, 78, -24, 6, 8, 26, 77, -26, 6, 7, 27, 78, -26, 5, 6, 26, 80, -21, 6, 7, 26, 78, -25, 6, 8, 27, 76, -26, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "east of the rock",
                 "spot": {"x": 3102, "y": 3133, "level": 0},
             }
         },
@@ -5820,6 +7885,7 @@ export namespace clue_data {
             "ocr_data": [26, 77, 175, 26, 77, -9, 6, 8, 26, 77, -10, 8, 10, 25, 78, -9, 6, 7, 26, 79, -1, 15, 19, 25, 77, -7, 7, 10, 26, 77, -9, 7, 9, 26, 77, -10, 6, 8, 25, 80, -12, 7, 9, 25, 86, -11, 7, 8, 25, 82, -12, 6, 7, 26, 82, -10, 5, 6, 26, 82, -12, 4, 6, 25, 82, -11, 5, 7, 25, 85, -12, 6, 7, 26, 81, -13, 8, 10, 26, 78, -9, 7, 9, 25, 76, -13, 7, 9, 25, 79, -10, 5, 14, 27, 70, 41, 40, 50, 26, 71, 37, 48, 59, 26, 77, -10, 9, 14, 25, 78, -12, 6, 7, 24, 80, -13, 6, 8, 25, 80, -14, 5, 7, 26, 84, -10, 5, 6, 26, 83, -8, 6, 8, 26, 82, -12, 6, 10, 27, 70, 16, 52, 59, 25, 83, -15, 7, 8, 26, 80, -13, 6, 8, 25, 77, -11, 8, 10, 26, 78, -13, 6, 8, 26, 78, -12, 6, 16, 26, 72, 36, 34, 42, 27, 70, 35, 45, 50, 26, 79, -12, 5, 7, 26, 80, -13, 5, 6, 26, 80, -12, 6, 8, 25, 79, -13, 7, 8, 26, 79, -12, 5, 7, 26, 81, -9, 6, 7, 27, 71, 17, 45, 51, 26, 76, -6, 22, 31, 26, 80, -15, 6, 7, 26, 80, -14, 7, 8, 25, 78, -12, 5, 6, 25, 78, -12, 6, 8, 25, 77, -12, 4, 9, 27, 69, 41, 39, 52, 27, 70, 38, 46, 57, 26, 80, -11, 8, 14, 27, 73, 17, 57, 64, 25, 80, -15, 10, 17, 24, 80, -10, 7, 8, 25, 78, -5, 21, 24, 26, 77, -3, 24, 27, 27, 71, 16, 41, 50, 27, 70, 21, 50, 61, 25, 79, -14, 6, 8, 26, 79, -15, 5, 6, 25, 78, -9, 8, 10, 26, 78, -13, 6, 8, 25, 78, -14, 5, 6, 26, 69, 41, 55, 61, 27, 75, 15, 40, 46, 27, 76, 9, 22, 26, 26, 79, -13, 13, 17, 28, 68, 18, 64, 76, 26, 77, -1, 25, 37, 26, 74, 22, 71, 89, 25, 75, 13, 66, 85, 27, 72, 21, 55, 87, 27, 71, 21, 57, 64, 26, 81, -14, 6, 7, 26, 80, -17, 6, 7, 26, 77, -15, 5, 7, 25, 81, -13, 6, 7, 26, 78, -17, 6, 7, 26, 70, 32, 31, 44, 26, 75, -4, 22, 38, 26, 68, 37, 40, 53, 27, 70, 17, 57, 66, 26, 77, 2, 45, 58, 26, 74, 6, 43, 68, 26, 70, 42, 108, 131, 25, 76, 0, 39, 50, 27, 78, -3, 24, 30, 27, 70, 28, 61, 85, 26, 81, -13, 6, 10, 25, 80, -15, 6, 7, 26, 77, -15, 7, 9, 26, 78, -18, 7, 8, 25, 80, -15, 6, 8, 27, 72, 19, 26, 31, 26, 72, 22, 53, 59, 27, 68, 42, 51, 63, 28, 67, 21, 58, 66, 25, 76, -11, 15, 22, 26, 77, 4, 43, 49, 25, 81, -9, 8, 10, 26, 79, -8, 8, 10, 26, 80, 9, 41, 46, 26, 78, 5, 36, 45, 25, 80, -13, 5, 9, 26, 79, -16, 6, 7, 26, 79, -10, 6, 8, 26, 78, -18, 6, 7, 26, 78, -15, 6, 8, 26, 72, 37, 27, 31, 27, 72, 53, 36, 45, 27, 68, 60, 53, 62, 27, 77, -7, 27, 32, 26, 79, 1, 45, 48, 26, 79, 7, 41, 47, 26, 80, -10, 7, 9, 25, 82, -8, 6, 8, 26, 78, 9, 43, 51, 25, 82, -7, 7, 12, 26, 79, -15, 6, 7, 26, 81, -15, 6, 8, 26, 79, -8, 5, 6, 25, 80, -11, 6, 8, 26, 82, -14, 6, 8, 26, 79, 4, 21, 27, 27, 72, 23, 41, 49, 27, 72, 7, 35, 42, 27, 66, 41, 62, 71, 26, 81, -13, 7, 11, 26, 78, 8, 50, 55, 26, 78, 4, 41, 47, 26, 78, 5, 42, 48, 27, 73, 18, 60, 76, 27, 75, 8, 27, 34, 25, 79, -11, 5, 6, 26, 79, -16, 5, 6, 25, 81, -7, 7, 10, 25, 80, -9, 8, 10, 26, 81, -11, 6, 8, 25, 81, 1, 18, 23, 26, 71, 36, 46, 56, 26, 79, -11, 6, 7, 25, 75, 9, 31, 37, 26, 66, 49, 58, 70, 26, 72, 23, 21, 25, 26, 72, 15, 26, 31, 25, 78, -10, 9, 16, 27, 67, 13, 48, 58, 27, 70, 17, 51, 57, 26, 80, -14, 5, 7, 27, 77, -17, 5, 7, 26, 82, -7, 6, 8, 26, 82, -10, 7, 8, 25, 82, -8, 8, 10, 25, 80, -7, 9, 14, 26, 80, -5, 12, 18, 25, 81, -10, 6, 8, 25, 83, -8, 8, 10, 25, 82, -5, 12, 19, 26, 77, 5, 29, 38, 27, 73, 13, 42, 52, 27, 66, 47, 59, 70, 27, 70, 16, 24, 30, 26, 78, -8, 18, 24, 26, 79, -17, 6, 7, 27, 77, -19, 5, 7, 25, 84, -5, 9, 11, 24, 84, -7, 8, 10, 24, 85, -6, 9, 11, 25, 84, -4, 7, 9, 25, 84, -5, 7, 9, 25, 83, -6, 10, 12, 24, 84, -6, 8, 10, 25, 85, -8, 10, 12, 26, 80, -15, 6, 8, 26, 78, -16, 6, 8, 26, 77, -17, 6, 12, 27, 72, 8, 37, 46, 26, 77, 0, 20, 25, 26, 78, -17, 6, 8, 27, 76, -18, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "in front of the door",
                 "spot": {"x": 2612, "y": 3481, "level": 0},
             }
         },
@@ -5832,6 +7898,7 @@ export namespace clue_data {
             "ocr_data": [26, 78, 182, 26, 77, -2, 6, 8, 26, 77, -3, 8, 10, 25, 78, -2, 6, 7, 26, 80, 1, 5, 6, 25, 77, 0, 7, 8, 26, 77, -2, 7, 9, 26, 77, -3, 6, 8, 25, 80, -5, 7, 9, 25, 86, -4, 7, 8, 25, 82, -5, 6, 7, 26, 82, -3, 5, 6, 26, 82, -5, 4, 6, 25, 82, -4, 5, 7, 25, 85, -5, 6, 7, 26, 81, -6, 8, 10, 26, 78, -2, 7, 9, 25, 76, -6, 7, 9, 25, 79, -3, 5, 7, 26, 79, 7, 14, 19, 26, 78, 1, 10, 15, 28, 68, 28, 53, 60, 26, 77, -3, 9, 14, 24, 80, -6, 6, 8, 25, 80, -7, 5, 7, 26, 84, -3, 5, 6, 26, 83, -1, 6, 8, 26, 82, -5, 5, 6, 25, 79, -7, 5, 7, 25, 83, -8, 7, 8, 26, 80, -6, 6, 8, 25, 77, -4, 8, 10, 26, 78, -6, 6, 8, 26, 78, -5, 6, 7, 26, 75, 16, 31, 42, 27, 78, 1, 13, 17, 26, 77, -1, 15, 18, 26, 80, -5, 7, 14, 26, 78, 13, 56, 65, 25, 78, -1, 19, 28, 26, 79, -5, 5, 7, 26, 81, -2, 6, 7, 26, 79, -3, 5, 6, 26, 79, -5, 5, 7, 26, 80, -8, 6, 7, 26, 80, -7, 7, 8, 25, 78, -5, 5, 6, 25, 78, -5, 6, 8, 25, 77, -5, 4, 5, 26, 81, -5, 4, 6, 27, 79, 7, 41, 44, 26, 79, 0, 22, 26, 26, 81, 8, 45, 53, 25, 80, -9, 6, 8, 24, 79, 9, 38, 46, 26, 76, 15, 68, 74, 26, 76, 12, 46, 53, 26, 78, 0, 7, 11, 26, 80, -3, 6, 8, 25, 79, -7, 6, 8, 26, 79, -8, 5, 6, 25, 78, -2, 8, 10, 26, 78, -6, 6, 8, 25, 78, -7, 5, 6, 25, 80, -5, 6, 8, 27, 78, 11, 67, 75, 26, 78, -3, 15, 18, 26, 75, 2, 20, 23, 26, 64, 24, 38, 43, 25, 75, 3, 18, 23, 26, 77, -5, 11, 21, 25, 76, -1, 12, 20, 27, 77, 13, 54, 61, 25, 80, -3, 5, 6, 26, 81, -7, 6, 7, 26, 80, -10, 6, 7, 26, 77, -8, 5, 7, 25, 81, -6, 6, 7, 26, 78, -10, 6, 7, 26, 78, 0, 37, 43, 26, 64, 28, 39, 48, 26, 75, 0, 18, 22, 26, 68, 26, 28, 37, 26, 75, 1, 17, 20, 26, 69, 5, 30, 35, 26, 68, 63, 130, 157, 27, 66, 33, 65, 83, 27, 78, 11, 43, 49, 28, 70, 25, 50, 54, 26, 81, -7, 5, 6, 25, 80, -8, 6, 7, 26, 77, -8, 7, 9, 26, 78, -11, 7, 8, 25, 80, -8, 6, 8, 26, 78, -6, 8, 12, 26, 77, -6, 6, 8, 26, 70, 3, 21, 29, 26, 78, -9, 6, 14, 25, 76, -5, 11, 15, 26, 78, -4, 8, 12, 25, 75, 12, 21, 29, 26, 79, 0, 8, 16, 26, 80, 18, 48, 56, 25, 80, 8, 28, 31, 25, 80, -7, 5, 6, 26, 79, -9, 6, 7, 26, 79, -3, 6, 8, 26, 78, -11, 6, 7, 26, 78, -8, 6, 8, 25, 78, 3, 29, 39, 26, 76, 8, 49, 63, 27, 77, -6, 14, 33, 27, 79, 6, 53, 60, 26, 79, 6, 41, 48, 26, 78, 6, 17, 21, 26, 70, 19, 21, 28, 26, 79, 17, 69, 78, 26, 80, 1, 7, 12, 25, 83, -2, 6, 7, 26, 79, -8, 6, 7, 26, 81, -8, 6, 8, 26, 79, -1, 5, 6, 25, 80, -4, 6, 8, 26, 82, -7, 6, 8, 26, 82, -2, 9, 11, 26, 79, -3, 12, 16, 27, 75, 1, 24, 31, 28, 68, 18, 46, 55, 26, 78, 10, 41, 52, 25, 78, 11, 43, 48, 26, 78, 11, 51, 59, 25, 80, -2, 6, 10, 26, 80, -3, 4, 5, 26, 81, -3, 4, 6, 25, 79, -4, 5, 6, 26, 79, -9, 5, 6, 25, 81, 0, 7, 10, 25, 80, -2, 8, 10, 26, 81, -4, 6, 8, 25, 82, 4, 22, 25, 25, 78, 14, 39, 45, 26, 77, 12, 41, 46, 26, 76, 17, 55, 65, 26, 79, -1, 11, 20, 25, 79, -5, 6, 7, 26, 78, -5, 6, 7, 26, 78, 6, 38, 46, 26, 74, 10, 44, 49, 26, 78, 8, 39, 42, 26, 80, -7, 5, 7, 27, 77, -10, 5, 7, 26, 82, 0, 6, 8, 26, 82, -3, 7, 8, 25, 82, -1, 8, 10, 25, 80, 1, 12, 17, 26, 81, 0, 7, 14, 25, 81, 0, 12, 16, 25, 82, 4, 29, 32, 25, 81, 15, 46, 57, 26, 79, 10, 41, 49, 27, 77, 11, 53, 58, 26, 77, 0, 26, 37, 27, 76, -7, 17, 21, 26, 80, -6, 6, 8, 26, 79, -10, 6, 7, 27, 77, -12, 5, 7, 25, 84, 2, 9, 11, 24, 84, 0, 8, 10, 24, 85, 1, 9, 11, 25, 84, 3, 7, 9, 25, 84, 2, 7, 9, 25, 83, 1, 10, 12, 24, 84, 1, 8, 10, 25, 85, -1, 10, 12, 26, 80, -8, 6, 8, 26, 78, -9, 6, 8, 26, 77, -11, 6, 7, 27, 78, -11, 5, 6, 26, 80, -6, 6, 7, 26, 78, -10, 6, 8, 27, 76, -11, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "west of the tree",
                 "spot": {"x": 3043, "y": 3399, "level": 0},
             }
         },
@@ -5844,6 +7911,7 @@ export namespace clue_data {
             "ocr_data": [26, 77, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -4, 7, 9, 26, 77, -5, 6, 8, 25, 80, -7, 7, 9, 25, 86, -6, 7, 8, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -7, 4, 6, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -5, 5, 7, 26, 81, -2, 6, 8, 26, 77, 4, 21, 28, 27, 71, 14, 32, 44, 25, 78, -7, 6, 7, 24, 80, -8, 6, 8, 26, 76, 2, 24, 29, 27, 75, 21, 31, 38, 26, 83, -3, 6, 8, 27, 76, 10, 24, 28, 25, 79, -9, 6, 10, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -7, 6, 10, 27, 74, 20, 44, 51, 26, 80, -7, 5, 6, 26, 79, -7, 5, 8, 26, 78, -2, 16, 21, 26, 80, -7, 6, 8, 25, 79, -8, 7, 9, 26, 75, 3, 19, 29, 26, 81, -4, 6, 7, 27, 69, 24, 48, 52, 26, 78, -4, 11, 15, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -7, 4, 5, 26, 79, -3, 14, 18, 27, 81, -8, 6, 7, 26, 80, -8, 6, 8, 26, 75, 14, 49, 54, 27, 69, 25, 44, 51, 24, 79, -1, 15, 19, 25, 78, -3, 12, 16, 26, 78, -4, 7, 9, 26, 78, -2, 7, 9, 26, 80, -5, 6, 8, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 25, 78, -9, 5, 6, 25, 80, -3, 18, 22, 28, 71, 20, 56, 60, 26, 80, -8, 6, 8, 26, 81, -11, 5, 7, 25, 48, 31, 77, 85, 25, 64, 10, 29, 35, 27, 70, 19, 51, 57, 25, 77, -5, 6, 9, 27, 79, -3, 7, 9, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 9, 26, 77, 17, 71, 86, 26, 74, 17, 75, 86, 26, 78, -8, 10, 16, 25, 80, -10, 7, 8, 21, 36, 35, 49, 58, 23, 38, 37, 42, 51, 25, 78, -7, 7, 8, 25, 78, -7, 11, 16, 26, 76, 0, 16, 21, 26, 78, 13, 52, 60, 26, 81, -8, 5, 11, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 26, 77, -2, 18, 27, 26, 75, 14, 66, 73, 27, 75, 15, 69, 87, 26, 77, 3, 44, 57, 24, 51, 34, 135, 153, 25, 52, 34, 63, 80, 26, 75, 32, 85, 97, 26, 76, 23, 58, 67, 26, 79, 26, 71, 88, 26, 80, 21, 62, 73, 25, 80, -3, 20, 24, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 78, -10, 6, 8, 27, 71, 17, 48, 53, 26, 77, -6, 12, 17, 27, 77, 6, 52, 63, 27, 79, 9, 46, 59, 26, 80, -7, 6, 14, 26, 72, 14, 94, 107, 26, 74, 25, 67, 86, 26, 78, 28, 77, 89, 26, 79, 13, 44, 52, 25, 83, -4, 6, 7, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 80, 0, 19, 23, 28, 66, 33, 62, 69, 27, 76, -14, 6, 7, 27, 75, 10, 58, 66, 26, 81, -8, 7, 8, 25, 75, 3, 26, 27, 26, 78, 15, 51, 59, 25, 80, -4, 7, 10, 26, 80, -5, 5, 8, 26, 76, 3, 21, 24, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -6, 6, 8, 26, 77, 14, 31, 37, 25, 78, 3, 21, 27, 28, 66, 32, 60, 65, 25, 79, 1, 17, 26, 26, 78, 16, 57, 64, 26, 78, 12, 51, 57, 26, 77, 7, 40, 49, 25, 77, -3, 10, 13, 26, 69, 2, 23, 29, 25, 72, 4, 27, 28, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, -3, 8, 10, 25, 77, 3, 22, 27, 26, 81, -3, 7, 8, 27, 72, 21, 44, 52, 25, 83, -3, 8, 10, 26, 81, 20, 59, 69, 26, 79, 11, 44, 53, 26, 78, -10, 5, 6, 26, 78, -11, 5, 6, 27, 73, -5, 16, 19, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 80, 9, 29, 41, 24, 84, -1, 8, 10, 25, 83, 11, 44, 53, 26, 80, -10, 6, 8, 26, 78, -11, 6, 8, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "two tiles south-east of the bench",
                 "spot": {"x": 2971, "y": 3414, "level": 0},
             }
         },
@@ -5856,6 +7924,7 @@ export namespace clue_data {
             "ocr_data": [26, 78, 181, 26, 77, -3, 6, 8, 26, 77, -4, 8, 10, 25, 78, -3, 6, 7, 26, 80, 0, 5, 6, 25, 77, -1, 7, 8, 26, 77, -3, 7, 9, 26, 77, -4, 6, 8, 25, 80, -6, 7, 9, 25, 86, -5, 7, 8, 25, 79, 12, 39, 46, 26, 79, 10, 36, 43, 26, 82, -6, 4, 6, 25, 82, -5, 5, 7, 25, 85, -6, 6, 7, 26, 81, -7, 8, 10, 26, 78, -3, 7, 9, 25, 76, -7, 7, 9, 25, 79, -4, 5, 7, 26, 81, -1, 6, 8, 26, 79, -2, 7, 8, 26, 78, -6, 7, 8, 25, 78, -6, 6, 7, 24, 80, -7, 6, 8, 25, 80, -8, 5, 7, 26, 77, 25, 58, 68, 26, 77, 21, 54, 64, 26, 82, -6, 5, 6, 25, 79, -8, 5, 7, 25, 83, -9, 7, 8, 26, 80, -7, 6, 8, 25, 77, -5, 8, 10, 26, 78, -7, 6, 8, 26, 78, -6, 6, 7, 25, 82, -3, 5, 7, 26, 80, -6, 5, 6, 26, 79, -6, 5, 7, 26, 72, 9, 49, 55, 26, 71, 16, 95, 106, 25, 73, 6, 43, 49, 26, 71, 11, 50, 56, 26, 79, -1, 9, 13, 26, 79, -4, 5, 6, 26, 79, -6, 5, 7, 26, 80, -9, 6, 7, 26, 80, -8, 7, 8, 25, 78, -6, 5, 6, 25, 78, -6, 6, 8, 25, 77, -6, 4, 5, 26, 81, -6, 4, 6, 27, 81, -6, 9, 13, 26, 80, -7, 6, 8, 25, 76, 9, 48, 58, 25, 73, 10, 34, 53, 24, 74, 7, 19, 27, 25, 78, -5, 6, 8, 26, 77, 3, 23, 27, 26, 78, -1, 7, 9, 26, 80, -4, 6, 8, 25, 79, -8, 6, 8, 26, 79, -9, 5, 6, 25, 78, -3, 8, 10, 26, 78, -7, 6, 8, 25, 78, -8, 5, 6, 25, 80, -6, 6, 7, 27, 77, 13, 43, 49, 26, 77, 3, 87, 97, 26, 69, 16, 54, 74, 26, 63, 24, 39, 51, 25, 74, 7, 23, 31, 26, 64, 26, 36, 40, 25, 75, 12, 42, 48, 27, 79, -2, 7, 9, 25, 80, -4, 5, 6, 26, 81, -8, 6, 7, 26, 80, -11, 6, 7, 26, 77, -9, 5, 7, 25, 81, -7, 6, 7, 26, 78, -11, 6, 7, 26, 79, -8, 6, 8, 26, 75, 10, 43, 49, 26, 66, 17, 46, 53, 26, 70, 12, 60, 84, 26, 72, 7, 85, 103, 26, 76, -7, 10, 19, 25, 78, -6, 7, 8, 25, 76, 9, 50, 58, 27, 79, -5, 7, 11, 26, 80, -5, 5, 6, 26, 81, -8, 5, 6, 25, 80, -9, 6, 7, 26, 77, -9, 7, 9, 26, 78, -12, 7, 8, 25, 80, -9, 6, 8, 26, 78, -7, 7, 9, 26, 75, 10, 44, 51, 26, 65, 16, 39, 46, 26, 76, -6, 16, 25, 25, 76, -6, 15, 21, 26, 64, 31, 91, 107, 25, 71, 21, 31, 35, 26, 79, -1, 8, 12, 26, 79, 16, 73, 82, 25, 82, -1, 8, 11, 25, 80, -8, 5, 6, 26, 79, -10, 6, 7, 26, 79, -4, 6, 8, 26, 78, -12, 6, 7, 26, 78, -9, 6, 8, 25, 78, -5, 8, 9, 26, 76, 7, 43, 49, 27, 78, -11, 5, 7, 27, 70, 15, 25, 31, 26, 69, 17, 53, 62, 26, 79, 1, 14, 18, 26, 80, -4, 7, 9, 25, 82, -2, 6, 8, 26, 79, 3, 17, 28, 26, 80, 14, 23, 27, 26, 79, -9, 6, 7, 26, 81, -9, 6, 8, 26, 79, -2, 5, 6, 25, 80, -5, 6, 8, 26, 82, -8, 6, 8, 26, 82, -3, 9, 11, 26, 77, 7, 47, 55, 27, 76, -9, 11, 19, 27, 74, -2, 20, 24, 26, 71, 16, 23, 26, 25, 80, -5, 6, 7, 25, 76, 2, 17, 20, 26, 71, 16, 26, 32, 26, 75, 10, 28, 38, 26, 79, 12, 22, 25, 25, 79, -5, 5, 6, 26, 79, -10, 5, 6, 25, 81, -1, 7, 10, 25, 80, -3, 8, 10, 26, 81, -5, 6, 8, 25, 83, -2, 8, 10, 25, 80, -3, 6, 7, 26, 76, 15, 68, 78, 25, 79, -2, 10, 18, 26, 79, -6, 5, 7, 25, 79, -6, 6, 7, 26, 69, 16, 22, 26, 25, 61, 35, 46, 55, 26, 71, 5, 29, 41, 26, 77, 8, 23, 26, 26, 80, -8, 5, 7, 27, 77, -11, 5, 7, 26, 82, -1, 6, 8, 26, 82, -4, 7, 8, 25, 82, -2, 8, 10, 25, 80, -3, 7, 9, 26, 81, -2, 7, 8, 25, 81, -4, 6, 8, 26, 80, 16, 46, 54, 26, 80, 16, 43, 49, 26, 78, 11, 42, 49, 27, 75, 15, 42, 56, 27, 74, 14, 42, 55, 27, 75, 11, 47, 52, 26, 79, -1, 16, 20, 26, 79, -11, 6, 7, 27, 77, -13, 5, 7, 25, 84, 1, 9, 11, 24, 84, -1, 8, 10, 24, 85, 0, 9, 11, 25, 84, 2, 7, 9, 25, 84, 1, 7, 9, 25, 83, 0, 10, 12, 24, 84, 0, 8, 10, 25, 85, -2, 10, 12, 26, 80, -9, 6, 8, 26, 78, -10, 6, 8, 26, 77, -12, 6, 7, 27, 78, -12, 5, 6, 26, 80, -7, 6, 7, 26, 78, -11, 6, 8, 27, 76, -12, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "two tiles south-east of the dead tree",
                 "spot": {"x": 3290, "y": 3373, "level": 0},
             }
         },
@@ -5868,6 +7937,7 @@ export namespace clue_data {
             "ocr_data": [26, 77, 177, 26, 77, -7, 6, 8, 26, 77, -8, 8, 10, 25, 78, -7, 6, 7, 26, 80, -4, 5, 6, 25, 77, -5, 7, 8, 26, 77, -7, 7, 10, 26, 77, -8, 6, 8, 25, 80, -10, 7, 9, 25, 86, -9, 7, 8, 25, 82, -10, 6, 7, 26, 82, -8, 5, 6, 26, 82, -10, 4, 9, 25, 82, -9, 5, 7, 25, 85, -10, 6, 7, 26, 81, -11, 8, 10, 26, 78, -7, 7, 9, 25, 76, -11, 7, 9, 25, 79, -8, 5, 7, 26, 81, -5, 6, 8, 27, 75, 7, 28, 36, 29, 62, 37, 59, 69, 25, 77, -9, 7, 12, 27, 66, 32, 55, 62, 25, 80, -12, 5, 7, 26, 84, -8, 5, 7, 26, 72, 13, 38, 45, 26, 68, 17, 39, 46, 25, 79, -11, 6, 11, 25, 83, -13, 7, 8, 26, 80, -11, 6, 8, 25, 77, -9, 8, 10, 26, 78, -11, 6, 8, 26, 78, -10, 6, 7, 26, 81, -5, 10, 15, 28, 64, 34, 51, 60, 27, 75, -3, 19, 23, 26, 80, -11, 5, 6, 26, 75, 2, 30, 34, 25, 76, -4, 18, 22, 26, 75, -1, 22, 28, 26, 66, 27, 28, 37, 25, 62, 29, 31, 39, 26, 75, -2, 16, 19, 26, 80, -13, 6, 7, 26, 80, -12, 7, 8, 25, 78, -10, 5, 6, 25, 78, -10, 6, 8, 25, 77, -10, 4, 5, 26, 81, -10, 4, 6, 27, 80, -8, 11, 14, 26, 80, -11, 6, 8, 25, 84, -11, 7, 9, 25, 77, -6, 19, 23, 24, 65, 27, 33, 39, 25, 72, 4, 20, 28, 26, 78, -7, 7, 9, 26, 77, -3, 9, 16, 26, 80, -8, 6, 8, 25, 79, -12, 6, 8, 26, 79, -13, 5, 6, 25, 78, -7, 8, 10, 26, 78, -11, 6, 8, 25, 78, -12, 5, 6, 25, 80, -10, 6, 7, 26, 80, -10, 6, 7, 26, 80, -11, 6, 8, 26, 81, -14, 5, 7, 26, 77, -16, 5, 7, 26, 71, 9, 21, 24, 26, 71, 5, 21, 24, 25, 77, -8, 6, 8, 27, 79, -6, 7, 9, 25, 80, -8, 5, 6, 26, 81, -12, 6, 7, 26, 80, -15, 6, 7, 26, 77, -13, 5, 7, 25, 81, -11, 6, 7, 26, 78, -15, 6, 7, 26, 79, -11, 7, 13, 29, 63, 33, 40, 53, 26, 78, -14, 5, 6, 25, 79, -2, 31, 40, 26, 79, -13, 7, 11, 26, 76, -12, 7, 8, 25, 78, -10, 7, 8, 25, 78, -11, 7, 9, 27, 79, -9, 7, 9, 26, 80, -9, 5, 6, 26, 81, -12, 5, 6, 25, 80, -13, 6, 7, 26, 77, -13, 7, 9, 26, 78, -16, 7, 8, 25, 80, -13, 6, 8, 26, 78, -11, 7, 11, 26, 70, 9, 41, 53, 26, 66, 11, 127, 130, 26, 71, 30, 106, 124, 26, 73, 9, 25, 31, 26, 75, 4, 21, 25, 25, 81, -6, 9, 14, 26, 79, -6, 8, 10, 26, 82, -4, 7, 8, 25, 82, -6, 8, 9, 25, 80, -12, 5, 6, 26, 79, -14, 6, 7, 26, 79, -8, 6, 8, 26, 78, -16, 6, 7, 26, 76, -4, 24, 29, 26, 69, 30, 49, 60, 26, 77, -10, 9, 16, 27, 69, 23, 44, 54, 27, 71, 29, 50, 60, 26, 77, 9, 33, 41, 26, 75, 19, 35, 40, 26, 70, 33, 53, 63, 26, 73, 27, 40, 49, 26, 80, -5, 7, 11, 25, 83, -7, 6, 7, 26, 79, -13, 6, 7, 26, 81, -13, 6, 8, 26, 79, -6, 5, 6, 25, 80, -9, 6, 8, 26, 82, -12, 6, 8, 26, 81, -1, 18, 26, 26, 69, 32, 61, 71, 27, 73, -3, 24, 31, 27, 75, -4, 22, 29, 27, 64, 50, 74, 86, 26, 67, 41, 63, 75, 26, 75, 7, 28, 35, 26, 77, 6, 26, 34, 27, 67, 56, 56, 63, 26, 72, 35, 39, 47, 25, 79, -9, 5, 6, 26, 79, -14, 5, 6, 25, 81, -5, 7, 10, 25, 80, -7, 8, 10, 26, 80, -7, 12, 18, 25, 83, -6, 8, 13, 25, 80, -7, 6, 7, 26, 79, -9, 6, 7, 25, 78, 0, 21, 28, 26, 66, 45, 75, 92, 26, 66, 36, 77, 87, 26, 72, 19, 46, 55, 25, 79, -10, 5, 6, 27, 70, 33, 27, 31, 26, 75, 19, 35, 55, 26, 80, -12, 5, 7, 27, 77, -15, 5, 7, 26, 82, -5, 6, 8, 26, 82, -8, 7, 8, 25, 80, 4, 17, 21, 26, 70, 34, 52, 61, 27, 71, 33, 47, 54, 26, 71, 31, 52, 61, 25, 81, 4, 28, 39, 25, 83, -6, 7, 21, 26, 80, -6, 14, 29, 26, 71, 22, 44, 54, 26, 68, 30, 58, 66, 27, 68, 32, 41, 52, 26, 74, 24, 27, 33, 26, 79, -15, 6, 7, 27, 77, -17, 5, 7, 25, 84, -3, 9, 11, 24, 84, -5, 8, 10, 24, 85, -4, 9, 11, 25, 84, -2, 7, 9, 25, 84, -3, 7, 9, 25, 82, 2, 16, 21, 25, 75, 26, 24, 30, 25, 74, 34, 28, 42, 26, 72, 25, 26, 36, 26, 76, -6, 15, 21, 26, 77, -16, 6, 7, 27, 78, -16, 5, 6, 26, 80, -11, 6, 7, 26, 78, -15, 6, 8, 27, 76, -16, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "three tiles east of the tree",
                 "spot": {"x": 3166, "y": 3360, "level": 0},
             }
         },
@@ -5888,7 +7958,7 @@ export namespace clue_data {
             "id": 45,
             "type": "map",
             "tier": "medium",
-            "image_url": "assets/Map_clue_McGrubor's_Wood.png",
+            "image_url": "assets/Map_clue_McGrubors_Wood.png",
             "text": ["A crate in the woods directly next to a building."],
             "ocr_data": [26, 78, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -1, 18, 23, 26, 76, -2, 13, 17, 25, 80, -6, 10, 14, 25, 85, -3, 11, 15, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -5, 10, 15, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -5, 5, 7, 26, 81, -2, 6, 8, 26, 79, -3, 7, 8, 26, 79, 7, 49, 56, 28, 68, 31, 57, 67, 25, 77, 7, 24, 37, 26, 77, 2, 21, 27, 27, 77, 14, 42, 50, 26, 82, 7, 37, 46, 28, 77, 20, 52, 65, 25, 79, -9, 5, 7, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -7, 6, 7, 26, 80, 2, 15, 22, 27, 76, 5, 24, 30, 28, 74, 21, 58, 66, 26, 80, 4, 40, 49, 26, 79, -3, 11, 18, 25, 78, -5, 14, 18, 27, 73, 23, 57, 66, 26, 81, 4, 32, 40, 26, 76, 5, 24, 34, 26, 77, -1, 17, 21, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -7, 4, 5, 26, 81, -7, 4, 7, 27, 81, -7, 8, 10, 26, 78, -2, 21, 24, 27, 81, 20, 56, 65, 26, 79, -3, 19, 24, 24, 80, -5, 7, 8, 26, 80, 7, 37, 41, 27, 74, 13, 28, 33, 27, 77, 3, 17, 21, 27, 74, 16, 42, 46, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 26, 77, -6, 13, 17, 27, 74, 18, 41, 50, 27, 76, 8, 28, 33, 26, 80, -8, 6, 8, 26, 80, 8, 45, 56, 26, 77, -12, 6, 12, 25, 79, -7, 6, 8, 27, 77, 16, 52, 59, 25, 75, -1, 13, 20, 27, 79, -3, 7, 10, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 7, 26, 78, -6, 13, 18, 26, 75, -3, 21, 27, 27, 75, 4, 28, 34, 26, 82, 12, 54, 62, 26, 80, 3, 32, 48, 27, 78, 6, 48, 63, 27, 77, 26, 82, 94, 26, 74, 6, 24, 33, 28, 74, 12, 27, 33, 26, 80, -6, 5, 7, 26, 81, -9, 5, 6, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 27, 73, 8, 30, 41, 26, 76, -4, 14, 17, 27, 74, -3, 21, 28, 26, 80, 0, 39, 46, 25, 77, -9, 8, 11, 26, 79, 7, 55, 61, 26, 83, 22, 51, 62, 26, 77, 4, 25, 32, 26, 79, 8, 25, 34, 25, 82, -2, 8, 9, 25, 80, -9, 5, 6, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 77, -9, 9, 13, 27, 74, 10, 32, 37, 27, 74, 7, 31, 37, 27, 74, 2, 31, 37, 27, 82, 1, 44, 51, 26, 81, -2, 23, 31, 26, 81, 2, 21, 31, 26, 81, 7, 48, 55, 26, 76, 15, 36, 42, 26, 80, -2, 7, 9, 26, 81, 1, 14, 18, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 81, -1, 15, 19, 26, 78, -5, 20, 23, 27, 76, -11, 14, 18, 28, 72, 10, 35, 41, 26, 82, 2, 33, 39, 28, 71, 41, 70, 80, 28, 73, 31, 47, 54, 26, 77, 8, 20, 25, 26, 80, -5, 5, 8, 27, 76, 10, 28, 34, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -6, 6, 9, 26, 77, 15, 43, 48, 25, 80, -1, 14, 17, 28, 73, 16, 35, 41, 26, 76, 8, 33, 40, 27, 76, 7, 26, 35, 29, 69, 45, 56, 64, 29, 76, 37, 44, 52, 26, 74, 9, 32, 36, 28, 71, 12, 39, 43, 26, 79, -8, 4, 5, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, -3, 8, 10, 26, 78, 3, 17, 28, 27, 77, 11, 27, 34, 26, 80, -1, 13, 16, 26, 82, 0, 14, 19, 27, 77, 14, 29, 38, 26, 79, 0, 14, 22, 28, 74, 9, 27, 33, 27, 77, -7, 13, 17, 27, 75, -6, 22, 25, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 83, -1, 10, 12, 24, 84, -1, 8, 10, 25, 83, 1, 18, 26, 26, 80, -10, 6, 8, 26, 76, -5, 22, 27, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
@@ -5906,6 +7976,7 @@ export namespace clue_data {
             "ocr_data": [25, 89, 175, 26, 77, -9, 6, 8, 26, 77, -10, 8, 10, 25, 78, -9, 6, 7, 26, 80, -6, 5, 6, 25, 77, -7, 7, 8, 26, 77, -9, 7, 9, 26, 76, -7, 23, 36, 25, 78, -1, 47, 58, 25, 86, -11, 7, 8, 25, 82, -12, 6, 7, 26, 82, -10, 5, 6, 26, 82, -12, 4, 6, 25, 82, -11, 5, 7, 25, 85, -12, 6, 7, 26, 81, -13, 8, 10, 26, 78, -9, 7, 9, 25, 76, -13, 7, 9, 25, 79, -10, 5, 7, 26, 81, -7, 6, 8, 26, 79, -8, 7, 8, 26, 78, -12, 7, 8, 26, 77, 4, 50, 68, 24, 106, 29, 45, 59, 25, 84, 3, 43, 50, 26, 83, -8, 11, 14, 26, 83, -8, 6, 8, 26, 82, -12, 5, 6, 25, 79, -14, 5, 7, 25, 83, -15, 7, 8, 26, 80, -13, 6, 8, 25, 77, -11, 8, 10, 26, 78, -13, 6, 8, 26, 78, -12, 6, 7, 25, 82, -9, 5, 7, 26, 80, -12, 5, 6, 27, 79, -1, 47, 54, 26, 80, -11, 8, 19, 25, 112, 35, 47, 55, 25, 91, 10, 33, 41, 26, 79, -12, 5, 7, 26, 81, -9, 6, 7, 26, 79, -10, 5, 6, 26, 79, -12, 5, 7, 26, 80, -15, 6, 7, 26, 80, -14, 7, 8, 25, 78, -12, 5, 6, 25, 78, -12, 6, 8, 25, 77, -12, 4, 5, 26, 81, -12, 4, 6, 27, 81, -10, 17, 24, 27, 81, 3, 43, 54, 25, 104, 12, 31, 36, 22, 200, 55, 4, 6, 22, 187, 54, 17, 24, 25, 83, 3, 27, 46, 26, 78, -9, 7, 9, 26, 78, -7, 7, 9, 26, 80, -10, 6, 8, 25, 79, -14, 6, 8, 26, 79, -15, 5, 6, 25, 78, -9, 8, 10, 26, 78, -13, 6, 8, 25, 78, -14, 5, 6, 25, 80, -12, 6, 7, 27, 72, 18, 107, 132, 27, 79, 6, 60, 70, 25, 100, 14, 28, 32, 22, 187, 63, 2, 3, 22, 188, 62, 2, 3, 24, 129, 44, 55, 60, 25, 77, -10, 6, 10, 27, 79, -8, 7, 9, 25, 80, -10, 5, 6, 26, 81, -14, 6, 7, 26, 80, -17, 6, 7, 26, 77, -15, 5, 7, 25, 81, -13, 6, 7, 26, 78, -17, 6, 7, 26, 79, -14, 6, 8, 26, 72, 1, 46, 59, 26, 78, -1, 40, 45, 26, 83, 3, 45, 52, 24, 124, 46, 83, 95, 22, 171, 67, 13, 22, 22, 181, 66, 3, 4, 23, 126, 39, 46, 53, 27, 79, -10, 8, 13, 26, 80, -11, 5, 6, 26, 81, -14, 5, 6, 25, 80, -15, 6, 7, 26, 77, -15, 7, 9, 26, 78, -18, 7, 8, 25, 80, -15, 6, 8, 26, 78, -13, 7, 9, 26, 77, -13, 6, 8, 26, 77, 0, 41, 47, 26, 78, -1, 41, 46, 26, 72, 20, 101, 114, 23, 136, 58, 31, 42, 22, 171, 73, 2, 3, 22, 167, 67, 9, 12, 25, 90, 9, 42, 47, 25, 82, -8, 8, 9, 25, 80, -14, 5, 6, 26, 79, -16, 6, 7, 26, 79, -10, 6, 8, 26, 78, -18, 6, 7, 26, 78, -15, 6, 8, 25, 78, -11, 8, 9, 26, 81, -8, 18, 26, 27, 77, 1, 61, 71, 26, 89, 9, 51, 61, 26, 89, 8, 38, 44, 25, 93, 12, 32, 38, 23, 150, 58, 37, 47, 24, 115, 21, 19, 24, 26, 80, -7, 7, 9, 25, 83, -9, 6, 7, 26, 79, -15, 6, 7, 26, 81, -15, 6, 8, 26, 79, -8, 5, 6, 25, 80, -11, 6, 8, 26, 82, -14, 6, 8, 26, 82, -9, 9, 11, 24, 128, 27, 29, 36, 24, 111, 69, 98, 116, 24, 118, 58, 81, 98, 25, 105, 17, 32, 38, 26, 80, 18, 82, 92, 26, 80, 0, 24, 37, 26, 80, 1, 20, 33, 26, 78, -1, 47, 61, 26, 81, -9, 4, 7, 25, 79, -11, 5, 6, 26, 79, -16, 5, 6, 25, 81, -7, 7, 10, 25, 80, -9, 8, 10, 26, 81, -11, 6, 8, 25, 83, -8, 8, 10, 25, 95, 8, 29, 34, 22, 181, 58, 18, 27, 22, 186, 58, 16, 24, 25, 92, 8, 32, 40, 26, 80, 13, 65, 77, 26, 78, -9, 13, 16, 25, 79, -12, 5, 6, 27, 71, 2, 56, 70, 26, 79, -13, 4, 5, 26, 80, -14, 5, 7, 27, 77, -17, 5, 7, 26, 82, -7, 6, 8, 26, 82, -10, 7, 8, 25, 82, -8, 8, 10, 25, 80, -9, 7, 9, 26, 80, -6, 17, 22, 25, 88, 27, 105, 116, 25, 96, 11, 28, 33, 25, 83, -8, 7, 9, 26, 81, -12, 6, 7, 26, 76, -4, 52, 59, 27, 75, -3, 49, 64, 27, 77, -18, 5, 6, 26, 80, -13, 6, 8, 26, 79, -17, 6, 7, 27, 77, -19, 5, 7, 25, 84, -5, 9, 11, 24, 84, -7, 8, 10, 24, 85, -6, 9, 11, 25, 84, -4, 7, 9, 25, 84, -5, 7, 9, 25, 81, -1, 21, 24, 24, 84, -6, 8, 10, 25, 85, -8, 10, 12, 26, 80, -15, 6, 8, 26, 77, -14, 11, 14, 26, 76, -16, 10, 14, 27, 78, -18, 5, 6, 26, 80, -13, 6, 7, 26, 78, -17, 6, 8, 27, 76, -18, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "behind the chaos altar at Ourania",
                 "spot": {"x": 2454, "y": 3230, "level": 0},
             }
         },
@@ -5918,6 +7989,7 @@ export namespace clue_data {
             "ocr_data": [26, 78, 178, 26, 77, -6, 6, 8, 26, 77, -7, 8, 10, 25, 78, -6, 6, 7, 26, 80, -1, 8, 13, 26, 73, 17, 36, 44, 26, 77, -6, 7, 12, 26, 77, -7, 6, 8, 25, 80, -9, 7, 9, 25, 86, -8, 7, 8, 25, 82, -9, 6, 7, 26, 82, -7, 5, 6, 26, 82, -9, 4, 6, 25, 82, -8, 5, 7, 25, 85, -9, 6, 7, 26, 81, -10, 8, 10, 26, 78, -6, 7, 9, 25, 76, -10, 7, 9, 25, 79, -7, 5, 7, 26, 81, -3, 8, 11, 27, 73, 22, 22, 27, 27, 68, 47, 65, 76, 25, 78, -9, 6, 8, 26, 71, 19, 49, 53, 27, 71, 21, 55, 61, 26, 84, -7, 5, 6, 26, 83, -5, 6, 8, 26, 82, -9, 5, 6, 25, 79, -11, 5, 7, 25, 83, -12, 7, 8, 26, 80, -10, 6, 8, 25, 77, -8, 8, 10, 26, 78, -10, 6, 8, 26, 78, -9, 6, 7, 25, 82, -6, 5, 7, 26, 80, -9, 5, 6, 26, 76, 8, 19, 25, 27, 74, 29, 55, 64, 26, 77, 0, 27, 30, 27, 69, 22, 54, 66, 26, 76, 3, 27, 34, 26, 81, -6, 6, 7, 26, 79, -7, 5, 6, 26, 79, -9, 5, 7, 26, 80, -12, 6, 7, 26, 80, -11, 7, 8, 25, 78, -9, 5, 6, 25, 78, -9, 6, 8, 25, 77, -9, 4, 5, 26, 81, -9, 4, 6, 27, 81, -10, 6, 7, 26, 80, -10, 6, 8, 26, 75, 29, 35, 46, 25, 77, 7, 35, 46, 27, 67, 30, 53, 68, 27, 68, 25, 56, 62, 26, 78, -6, 7, 9, 26, 78, -4, 7, 9, 26, 80, -7, 6, 8, 25, 79, -11, 6, 8, 26, 79, -12, 5, 6, 25, 78, -6, 8, 10, 26, 78, -10, 6, 8, 25, 78, -11, 5, 6, 25, 80, -9, 6, 7, 26, 80, -9, 6, 7, 26, 80, -10, 6, 8, 26, 79, -3, 20, 27, 27, 71, 28, 42, 47, 26, 78, -7, 11, 14, 26, 78, -10, 6, 8, 25, 77, -7, 6, 8, 27, 79, -5, 7, 9, 25, 80, -7, 5, 6, 26, 81, -11, 6, 7, 26, 80, -14, 6, 7, 26, 77, -12, 5, 7, 25, 81, -10, 6, 7, 26, 78, -14, 6, 8, 26, 78, -3, 43, 48, 26, 76, -4, 42, 46, 26, 78, -13, 5, 6, 26, 72, 38, 60, 69, 26, 78, 2, 32, 40, 27, 75, 13, 48, 62, 25, 77, -7, 12, 21, 25, 78, -10, 7, 17, 27, 79, -8, 7, 18, 26, 80, -8, 5, 14, 26, 81, -11, 5, 6, 25, 80, -12, 6, 7, 26, 77, -12, 7, 9, 26, 78, -15, 7, 8, 25, 80, -12, 6, 8, 26, 78, -10, 7, 9, 26, 77, -10, 6, 8, 26, 75, -7, 17, 24, 26, 70, 36, 44, 51, 25, 76, 5, 42, 52, 26, 77, 4, 22, 42, 26, 79, 25, 42, 71, 26, 78, 15, 25, 41, 26, 80, 16, 25, 40, 26, 80, 26, 56, 71, 25, 80, -11, 5, 6, 26, 79, -13, 6, 7, 26, 79, -7, 6, 8, 26, 78, -15, 6, 7, 26, 78, -12, 6, 8, 25, 78, -8, 8, 11, 26, 78, -11, 6, 10, 27, 76, 0, 21, 26, 27, 74, 26, 40, 45, 26, 70, 62, 123, 140, 26, 77, 31, 58, 73, 26, 80, -2, 14, 21, 25, 82, -5, 6, 8, 26, 80, 2, 23, 29, 26, 80, 23, 60, 76, 26, 79, -12, 6, 7, 26, 81, -12, 6, 8, 26, 79, -5, 5, 6, 25, 80, -8, 6, 8, 26, 82, -11, 7, 9, 26, 82, 1, 43, 47, 26, 79, -3, 41, 46, 27, 76, -7, 44, 51, 27, 69, 39, 63, 75, 26, 81, -7, 14, 25, 26, 78, 12, 43, 49, 26, 78, 11, 42, 48, 26, 79, 13, 42, 48, 26, 79, 12, 41, 46, 26, 79, 13, 43, 48, 25, 79, -8, 5, 6, 26, 79, -13, 5, 6, 25, 81, -4, 7, 10, 25, 80, -6, 8, 10, 26, 81, -8, 6, 8, 25, 83, -5, 8, 10, 25, 80, -6, 6, 7, 26, 79, -8, 6, 7, 25, 77, 6, 17, 20, 26, 70, 40, 44, 55, 26, 70, 41, 56, 65, 26, 71, 28, 39, 45, 26, 75, 9, 31, 38, 26, 76, -14, 4, 5, 27, 72, 14, 33, 39, 26, 79, -8, 13, 17, 27, 77, -14, 5, 7, 26, 82, -4, 6, 8, 26, 82, -7, 7, 8, 25, 82, -5, 8, 10, 25, 80, -6, 7, 9, 26, 81, -5, 7, 8, 25, 81, -4, 18, 21, 25, 82, 5, 53, 58, 25, 83, -1, 23, 26, 26, 81, -9, 6, 9, 26, 76, 0, 20, 24, 27, 70, 24, 31, 41, 27, 68, 38, 59, 65, 26, 68, 35, 68, 79, 26, 79, -14, 6, 7, 27, 77, -16, 5, 7, 25, 84, -2, 9, 11, 24, 84, -4, 8, 10, 24, 85, -3, 9, 11, 25, 84, -1, 7, 9, 25, 84, -2, 7, 9, 25, 83, -3, 10, 12, 24, 84, -3, 8, 10, 25, 85, -5, 10, 12, 26, 80, -12, 6, 8, 26, 78, -13, 6, 8, 26, 77, -15, 6, 7, 27, 78, -15, 5, 6, 26, 72, 21, 29, 39, 26, 75, 4, 32, 38, 27, 76, -15, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "west of the Chemist's House",
                 "spot": {"x": 2923, "y": 3210, "level": 0},
             }
         },
@@ -5930,6 +8002,7 @@ export namespace clue_data {
             "ocr_data": [26, 79, 180, 26, 77, -4, 6, 8, 26, 77, -5, 8, 10, 25, 78, -4, 6, 7, 26, 80, -1, 5, 6, 25, 77, -2, 7, 8, 26, 77, -4, 7, 9, 26, 77, -5, 6, 8, 25, 80, -7, 7, 9, 25, 86, -6, 7, 8, 25, 82, -7, 6, 7, 26, 82, -5, 5, 6, 26, 82, -7, 4, 6, 25, 82, -6, 5, 7, 25, 85, -7, 6, 7, 26, 81, -8, 8, 10, 26, 78, -4, 7, 9, 25, 76, -8, 7, 9, 25, 79, -3, 11, 16, 26, 81, 2, 13, 21, 26, 79, -3, 7, 8, 26, 78, -7, 7, 8, 25, 78, -7, 6, 7, 25, 80, 6, 26, 32, 27, 78, 17, 33, 38, 26, 84, -5, 5, 6, 26, 83, -3, 6, 12, 27, 80, 14, 34, 42, 25, 79, -9, 5, 7, 25, 83, -10, 7, 8, 26, 80, -8, 6, 8, 25, 77, -6, 8, 10, 26, 78, -8, 6, 8, 26, 78, -4, 17, 23, 26, 81, 13, 52, 58, 27, 79, 7, 43, 49, 27, 78, 5, 24, 29, 27, 78, 15, 31, 35, 26, 80, 3, 22, 32, 26, 78, 18, 39, 46, 26, 79, -7, 5, 7, 26, 80, 0, 16, 22, 27, 75, 42, 62, 67, 26, 79, -7, 5, 7, 26, 80, -10, 6, 7, 26, 80, -9, 7, 8, 25, 78, -7, 5, 6, 25, 78, -7, 6, 8, 25, 77, -3, 11, 25, 27, 79, 12, 42, 57, 27, 80, 9, 56, 63, 27, 79, 3, 25, 34, 26, 80, 19, 41, 48, 25, 80, -11, 6, 8, 24, 80, -5, 7, 8, 25, 78, -6, 6, 8, 26, 78, -4, 7, 9, 26, 78, -2, 7, 9, 26, 80, -5, 6, 8, 25, 79, -9, 6, 8, 26, 79, -10, 5, 6, 25, 78, -4, 8, 10, 26, 78, -8, 6, 8, 25, 78, -9, 5, 6, 26, 79, 22, 62, 83, 26, 80, -7, 6, 7, 26, 80, -8, 6, 8, 26, 81, -11, 5, 7, 26, 77, -6, 18, 23, 26, 78, 8, 27, 32, 26, 78, -8, 6, 8, 25, 77, -5, 6, 8, 27, 79, -3, 7, 9, 25, 80, -5, 5, 6, 26, 81, -9, 6, 7, 26, 80, -12, 6, 7, 26, 77, -10, 5, 7, 25, 81, -8, 6, 7, 26, 78, -12, 6, 7, 26, 78, 21, 63, 85, 26, 77, -10, 6, 7, 27, 77, 15, 42, 49, 25, 77, 18, 59, 73, 26, 73, 35, 98, 119, 27, 75, 28, 45, 52, 25, 78, -7, 7, 8, 25, 78, -8, 7, 9, 27, 79, -6, 7, 9, 26, 80, -6, 5, 6, 26, 81, -9, 5, 6, 25, 80, -10, 6, 7, 26, 77, -10, 7, 9, 26, 78, -13, 7, 8, 25, 80, -10, 6, 8, 27, 77, 16, 62, 75, 26, 76, 13, 60, 66, 28, 75, 36, 64, 73, 26, 77, 2, 31, 47, 25, 61, 31, 149, 169, 26, 78, -7, 7, 9, 25, 81, -4, 8, 10, 26, 79, -2, 8, 17, 27, 78, 26, 36, 40, 26, 79, 17, 32, 36, 25, 80, -9, 5, 6, 26, 79, -11, 6, 7, 26, 79, -5, 6, 8, 26, 78, -13, 6, 7, 26, 78, -10, 6, 8, 26, 77, 10, 44, 50, 26, 78, 5, 41, 48, 27, 78, -12, 5, 7, 27, 81, -11, 6, 11, 26, 61, 31, 157, 169, 26, 70, 17, 120, 144, 26, 77, 5, 48, 70, 29, 75, 55, 54, 72, 26, 79, 9, 28, 34, 26, 82, 5, 25, 31, 26, 79, -10, 6, 7, 26, 81, -10, 6, 8, 26, 79, -3, 5, 6, 25, 80, -6, 6, 8, 26, 82, -9, 6, 8, 26, 81, 18, 60, 66, 26, 78, 11, 62, 69, 27, 76, -14, 6, 7, 27, 77, -12, 6, 8, 26, 79, -2, 16, 24, 26, 68, 33, 99, 138, 26, 68, 26, 83, 124, 26, 79, 17, 57, 66, 26, 79, 9, 39, 44, 26, 80, 6, 34, 37, 25, 79, -6, 5, 6, 26, 79, -11, 5, 6, 25, 81, -2, 7, 10, 25, 80, -4, 8, 10, 26, 81, -4, 9, 16, 26, 81, 25, 67, 86, 26, 79, 17, 50, 59, 26, 78, 20, 59, 78, 25, 80, -4, 11, 17, 26, 79, 14, 67, 75, 26, 78, 10, 46, 59, 26, 76, 11, 53, 66, 25, 79, -7, 5, 6, 26, 76, -12, 4, 5, 26, 79, -8, 4, 5, 26, 80, -9, 5, 7, 27, 77, -12, 5, 7, 26, 82, -2, 6, 8, 26, 82, -5, 7, 8, 25, 82, 2, 22, 28, 26, 80, 5, 30, 36, 26, 81, -3, 7, 10, 26, 80, 12, 48, 53, 26, 82, 13, 48, 53, 25, 83, -3, 7, 10, 26, 80, 8, 41, 48, 26, 78, 1, 36, 44, 26, 77, 0, 38, 46, 27, 77, -13, 5, 6, 26, 80, -8, 6, 8, 26, 79, -12, 6, 7, 27, 77, -14, 5, 7, 25, 84, 0, 9, 11, 24, 84, -2, 8, 10, 24, 85, -1, 9, 11, 25, 84, 1, 7, 9, 25, 84, 0, 7, 9, 25, 83, -1, 10, 12, 24, 84, -1, 8, 10, 25, 85, -3, 10, 12, 26, 80, -10, 6, 9, 26, 78, -11, 6, 8, 26, 77, -13, 6, 7, 27, 78, -13, 5, 6, 26, 80, -8, 6, 7, 26, 78, -12, 6, 8, 27, 76, -13, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "between the signpost and the evergreen",
                 "spot": {"x": 2536, "y": 3865, "level": 0},
             }
         },
@@ -5942,6 +8015,7 @@ export namespace clue_data {
             "ocr_data": [29, 69, 156, 28, 75, -7, 8, 11, 31, 64, 7, 30, 34, 28, 75, -3, 10, 14, 29, 74, -1, 15, 19, 28, 74, -2, 29, 36, 27, 67, -8, 36, 44, 27, 66, -29, 16, 19, 25, 72, -27, 43, 49, 26, 73, -28, 19, 25, 27, 73, -11, 37, 43, 30, 72, 10, 48, 57, 29, 79, -2, 6, 9, 28, 78, 13, 32, 37, 28, 79, 15, 36, 41, 29, 77, 13, 37, 42, 29, 76, -4, 9, 12, 28, 75, -8, 10, 12, 28, 77, -7, 8, 11, 30, 74, 2, 23, 29, 28, 64, -7, 34, 41, 27, 69, -33, 15, 19, 26, 72, -34, 13, 17, 25, 72, -25, 38, 45, 27, 72, -12, 38, 45, 28, 80, -8, 10, 13, 31, 70, 18, 36, 41, 29, 79, -1, 6, 8, 26, 59, 24, 32, 38, 25, 51, 16, 10, 11, 26, 56, 27, 31, 37, 28, 75, -7, 10, 15, 30, 71, -2, 17, 21, 29, 74, -3, 14, 19, 31, 68, 15, 43, 50, 29, 67, 0, 46, 54, 28, 62, -27, 16, 20, 27, 66, -29, 15, 20, 27, 68, -17, 26, 31, 28, 77, -7, 29, 37, 33, 66, 16, 31, 39, 29, 78, 1, 6, 7, 29, 77, 1, 6, 9, 25, 56, 28, 34, 40, 25, 51, 15, 8, 10, 26, 54, 26, 33, 40, 28, 66, 12, 23, 30, 30, 64, 10, 29, 33, 29, 71, 4, 21, 26, 30, 75, 1, 15, 20, 29, 80, -5, 13, 18, 28, 78, -6, 28, 33, 27, 82, -14, 21, 26, 27, 77, -20, 11, 14, 27, 77, -10, 10, 13, 30, 65, 6, 31, 37, 29, 76, -2, 10, 12, 29, 76, 0, 9, 13, 27, 61, 25, 47, 54, 26, 56, 21, 36, 42, 27, 59, 24, 53, 61, 28, 75, -3, 13, 17, 28, 67, 6, 18, 22, 31, 60, 11, 35, 42, 31, 63, 8, 34, 44, 29, 75, -2, 14, 18, 29, 77, -10, 11, 13, 28, 77, -16, 9, 12, 28, 74, -19, 9, 12, 30, 69, -3, 20, 26, 30, 69, 3, 25, 31, 28, 76, -1, 7, 9, 29, 75, -3, 11, 15, 28, 78, -5, 6, 8, 29, 77, -6, 11, 16, 31, 69, 3, 20, 25, 30, 72, -2, 18, 24, 31, 66, 11, 35, 42, 28, 66, 1, 19, 24, 32, 59, 10, 40, 46, 32, 63, 7, 27, 33, 29, 74, -6, 13, 18, 29, 47, 19, 73, 78, 29, 75, -8, 14, 18, 30, 71, -3, 22, 26, 31, 66, 12, 33, 40, 30, 71, 5, 26, 32, 32, 66, 7, 25, 29, 30, 69, 3, 20, 26, 31, 67, 3, 22, 28, 30, 71, 1, 24, 31, 31, 67, 10, 35, 40, 31, 66, 1, 44, 51, 29, 72, -6, 22, 28, 29, 67, 5, 25, 32, 29, 65, 11, 23, 30, 29, 66, 7, 21, 25, 21, 80, 6, 68, 78, 31, 64, 5, 26, 33, 32, 65, 14, 36, 44, 30, 72, 10, 26, 31, 33, 61, 15, 38, 41, 29, 79, 2, 8, 9, 29, 74, 6, 19, 22, 29, 75, -2, 15, 20, 30, 74, -1, 18, 24, 28, 76, -7, 13, 18, 32, 66, 8, 38, 46, 29, 70, -1, 28, 35, 30, 68, 9, 32, 40, 30, 72, 1, 20, 25, 29, 75, -6, 11, 17, 29, 67, 12, 10, 16, 29, 76, -3, 12, 16, 31, 67, 11, 55, 61, 29, 70, 4, 38, 46, 29, 76, 1, 19, 23, 29, 80, 6, 21, 27, 28, 82, 6, 26, 32, 31, 69, 9, 31, 36, 33, 67, 11, 34, 44, 28, 77, -4, 9, 12, 28, 77, -5, 16, 21, 32, 68, 8, 40, 48, 28, 79, -7, 11, 13, 29, 78, -8, 11, 16, 28, 65, 10, 49, 56, 26, 54, 19, 36, 42, 26, 59, 21, 40, 46, 29, 70, 15, 44, 60, 29, 74, 4, 22, 33, 29, 73, 8, 47, 54, 29, 61, -6, 37, 46, 29, 57, -8, 31, 39, 28, 79, 1, 28, 34, 29, 71, -7, 27, 32, 29, 76, 3, 16, 21, 32, 64, 10, 29, 37, 32, 70, 10, 24, 28, 28, 79, -5, 10, 12, 27, 68, 15, 40, 47, 25, 52, 12, 11, 15, 25, 53, 12, 30, 35, 25, 51, 16, 16, 20, 26, 56, 25, 41, 49, 29, 78, -1, 13, 19, 28, 63, -7, 34, 42, 27, 68, -38, 13, 17, 27, 67, -31, 19, 24, 28, 74, -2, 49, 56, 29, 78, -10, 27, 32, 32, 65, 11, 25, 31, 29, 76, -1, 14, 22, 28, 75, 1, 23, 29, 28, 77, -4, 10, 12, 28, 67, 16, 33, 39, 25, 52, 15, 11, 13, 26, 68, -13, 39, 47, 25, 54, 14, 30, 35, 26, 54, 27, 33, 41, 29, 78, 0, 12, 19, 29, 62, -6, 39, 48, 28, 70, -40, 10, 13, 27, 73, -36, 11, 14, 28, 68, -36, 19, 23, 29, 63, -36, 17, 21, 28, 80, 1, 12, 16, 28, 80, -1, 10, 13, 28, 78, 4, 17, 22, 32, 65, 16, 31, 39, 29, 70, 20, 49, 59, 25, 53, 23, 16, 23, 24, 51, 22, 10, 13, 24, 51, 21, 11, 14, 27, 62, 27, 48, 58, 29, 78, -1, 12, 18, 29, 62, -8, 43, 54, 28, 71, -41, 9, 12, 27, 74, -37, 7, 9, 27, 72, -40, 8, 10, 28, 70, -42, 9, 12],
             "solution": {
                 "type": "dig",
+                "description": "south of the giant head",
                 "spot": {"x": 2648, "y": 3231, "level": 0},
             }
         },
@@ -5949,11 +8023,12 @@ export namespace clue_data {
             "id": 57,
             "type": "map",
             "tier": "medium",
-            "image_url": "assets/Map_clue_Seers'_to_Rellekka_road.png",
+            "image_url": "assets/Map_clue_Seers_to_Rellekka_road.png",
             "text": ["X marks the spot on a narrow landstrip near a road and a lot of trees."],
             "ocr_data": [26, 77, 174, 26, 77, -10, 6, 8, 26, 77, -11, 8, 10, 25, 78, -10, 6, 7, 26, 80, -7, 5, 6, 25, 77, -8, 7, 8, 26, 77, -10, 7, 9, 26, 77, -11, 6, 8, 25, 80, -10, 16, 21, 25, 82, 3, 18, 23, 25, 82, -13, 6, 7, 26, 82, -11, 6, 9, 26, 82, -13, 4, 6, 25, 82, -12, 5, 7, 25, 85, -13, 6, 7, 26, 81, -14, 8, 10, 26, 78, -10, 7, 9, 25, 76, -14, 7, 9, 25, 79, -11, 5, 7, 27, 78, 13, 34, 42, 27, 73, 31, 117, 134, 26, 75, 2, 53, 67, 25, 78, -13, 6, 7, 24, 80, -14, 6, 12, 26, 68, 42, 63, 73, 26, 82, -6, 28, 32, 26, 81, 1, 47, 54, 26, 82, -12, 11, 14, 25, 79, -15, 5, 7, 25, 83, -16, 7, 8, 26, 80, -14, 6, 8, 25, 77, -12, 8, 10, 26, 78, -14, 6, 8, 26, 78, -13, 6, 7, 30, 62, 72, 35, 44, 29, 64, 63, 41, 46, 27, 74, 18, 106, 120, 27, 69, 21, 62, 68, 26, 77, -2, 23, 27, 26, 74, 13, 38, 46, 26, 71, 31, 49, 58, 26, 80, -9, 8, 12, 26, 79, -8, 15, 21, 26, 79, -13, 5, 9, 26, 80, -16, 6, 7, 26, 80, -15, 7, 8, 25, 78, -13, 5, 6, 25, 78, -13, 6, 8, 25, 77, -13, 4, 5, 26, 77, 15, 40, 49, 27, 78, 15, 49, 56, 27, 75, 16, 95, 110, 27, 75, 32, 50, 58, 27, 69, 21, 65, 77, 26, 71, 18, 44, 51, 25, 76, 2, 27, 39, 27, 69, 34, 42, 54, 26, 77, -2, 28, 34, 26, 79, -3, 39, 44, 25, 79, -15, 6, 8, 26, 79, -16, 5, 6, 25, 78, -10, 8, 10, 26, 78, -14, 6, 8, 25, 78, -15, 5, 6, 25, 80, -13, 6, 7, 28, 69, 19, 56, 60, 27, 72, 35, 126, 141, 31, 59, 84, 11, 22, 28, 70, 32, 44, 52, 26, 75, -4, 27, 33, 26, 78, -14, 6, 9, 26, 68, 32, 54, 64, 27, 73, 17, 26, 35, 26, 78, 1, 19, 22, 26, 80, -9, 12, 17, 26, 80, -18, 6, 7, 26, 77, -16, 5, 7, 25, 81, -14, 6, 7, 26, 78, -18, 6, 7, 27, 73, 4, 25, 30, 26, 74, -4, 29, 44, 26, 74, 14, 81, 104, 25, 75, 21, 50, 60, 26, 79, -12, 15, 24, 26, 66, 48, 121, 141, 25, 74, 9, 42, 55, 25, 78, -14, 7, 9, 27, 75, 10, 35, 43, 26, 73, 20, 35, 41, 26, 80, -10, 13, 18, 25, 80, -16, 6, 7, 26, 77, -16, 7, 9, 26, 78, -19, 7, 8, 25, 80, -13, 11, 15, 27, 70, 14, 54, 65, 26, 76, -12, 8, 12, 27, 72, 14, 111, 128, 26, 75, 4, 74, 91, 25, 77, -16, 7, 9, 27, 70, 16, 45, 57, 25, 79, -1, 21, 31, 28, 70, 22, 52, 60, 27, 71, 22, 46, 52, 25, 82, -9, 8, 9, 25, 80, -15, 5, 6, 26, 79, -17, 6, 7, 26, 79, -11, 6, 8, 26, 78, -19, 6, 7, 26, 78, -15, 7, 12, 26, 65, 46, 61, 72, 26, 78, -15, 6, 8, 27, 78, -18, 5, 7, 27, 78, 4, 62, 80, 26, 76, 19, 93, 114, 26, 73, 21, 71, 86, 26, 77, 11, 70, 84, 26, 76, 13, 71, 86, 27, 70, 18, 49, 57, 26, 78, 4, 22, 31, 26, 79, -16, 6, 7, 26, 81, -16, 6, 8, 26, 79, -9, 5, 6, 25, 80, -12, 6, 8, 26, 82, -15, 6, 8, 26, 76, 14, 26, 33, 27, 68, 35, 54, 66, 27, 74, -3, 34, 42, 27, 77, -17, 9, 13, 27, 70, 22, 54, 69, 26, 78, 3, 28, 54, 27, 71, 21, 42, 67, 28, 67, 42, 110, 136, 26, 77, 3, 42, 57, 26, 80, -9, 6, 10, 25, 79, -12, 5, 6, 26, 79, -17, 5, 6, 25, 81, -8, 7, 10, 25, 80, -10, 8, 10, 26, 81, -12, 6, 8, 25, 83, -8, 11, 19, 25, 78, 1, 29, 42, 26, 68, 37, 36, 48, 26, 71, 29, 52, 63, 26, 76, -2, 29, 37, 25, 79, -12, 6, 10, 27, 66, 24, 54, 70, 26, 72, 12, 54, 79, 26, 73, 5, 62, 76, 26, 79, -14, 4, 5, 26, 80, -15, 5, 7, 27, 77, -18, 5, 7, 26, 82, -8, 6, 8, 26, 82, -11, 7, 8, 25, 82, -9, 8, 10, 25, 79, -5, 19, 29, 26, 80, -3, 22, 31, 25, 81, -10, 7, 13, 25, 79, 9, 23, 31, 26, 69, 38, 44, 54, 26, 81, -13, 6, 7, 26, 74, -5, 29, 38, 26, 76, -6, 30, 46, 27, 74, -1, 61, 72, 26, 80, -14, 6, 8, 26, 79, -18, 6, 7, 27, 77, -20, 5, 7, 25, 84, -6, 9, 11, 24, 84, -8, 8, 10, 24, 85, -7, 9, 11, 25, 84, -5, 7, 9, 25, 84, -6, 7, 9, 25, 83, -7, 10, 12, 24, 84, -7, 8, 10, 25, 81, 2, 25, 30, 26, 80, -16, 6, 8, 26, 78, -17, 6, 8, 26, 77, -19, 6, 7, 27, 78, -19, 5, 6, 26, 80, -14, 6, 7, 26, 78, -18, 6, 8, 27, 76, -19, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "next to the bush",
                 "spot": {"x": 2667, "y": 3562, "level": 0},
             }
         },
@@ -5967,6 +8042,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2906, "y": 3296, "level": 0},
+                "description": "west of the snape grass at the tip of the hobgoblin peninsula."
             }
         },
         {
@@ -5979,6 +8055,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2579, "y": 3597, "level": 0},
+                "description": "at the end of the branching path next to the crystal tree"
             }
         },
         {
@@ -5991,6 +8068,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3434, "y": 3265, "level": 0},
+                "description": "four tiles west of the mushroom"
             }
         },
         {
@@ -6003,6 +8081,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3092, "y": 3225, "level": 0},
+                "description": "between the southern most willow tree and the small obelisk"
             }
         },
         {
@@ -6028,18 +8107,20 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2616, "y": 3077, "level": 0},
+                "description": "inside, next to the south-eastern wall of the anvil building, or outside next to the tree"
             }
         },
         {
             "id": 42,
             "type": "map",
             "tier": "hard",
-            "text": ["X marks the spot between to tables."],
-            "image_url": "assets/Map_clue_Legends'_Guild.png",
+            "text": ["X marks the spot between two tables."],
+            "image_url": "assets/Map_clue_Legends_Guild.png",
             "ocr_data": [26, 77, 176, 26, 77, -8, 6, 8, 26, 77, -9, 8, 10, 25, 78, -8, 6, 7, 26, 80, -5, 5, 6, 25, 77, -6, 7, 8, 26, 77, -8, 7, 9, 26, 77, -9, 6, 8, 25, 79, 0, 22, 26, 26, 81, 19, 40, 46, 25, 82, -11, 6, 7, 26, 82, -9, 5, 6, 26, 82, -11, 4, 6, 25, 82, -10, 5, 7, 25, 85, -11, 6, 7, 26, 81, -12, 8, 10, 26, 78, -8, 7, 9, 25, 76, -12, 7, 9, 25, 79, -9, 5, 9, 26, 76, 21, 67, 79, 27, 71, 43, 116, 133, 26, 70, 34, 99, 115, 26, 75, 2, 34, 47, 26, 70, 43, 40, 46, 31, 58, 88, 8, 17, 26, 81, 4, 27, 34, 27, 72, 24, 58, 62, 26, 76, 25, 60, 65, 26, 74, 17, 52, 57, 25, 83, -14, 7, 8, 26, 80, -12, 6, 8, 25, 77, -10, 8, 10, 26, 78, -12, 6, 8, 26, 78, -11, 6, 7, 27, 73, 35, 38, 43, 31, 59, 87, 12, 19, 27, 76, 9, 33, 46, 26, 72, 36, 101, 118, 26, 72, 38, 80, 113, 26, 72, 48, 76, 95, 26, 79, -11, 5, 7, 26, 78, -2, 20, 23, 26, 72, 34, 56, 68, 27, 70, 44, 75, 89, 26, 80, -14, 6, 7, 26, 80, -13, 7, 8, 25, 78, -11, 5, 6, 25, 78, -11, 6, 8, 25, 77, -10, 5, 12, 27, 74, 32, 55, 63, 27, 70, 64, 76, 87, 26, 80, -9, 10, 19, 27, 72, 21, 59, 66, 25, 76, 8, 41, 57, 25, 72, 43, 88, 105, 26, 71, 39, 99, 111, 27, 71, 41, 92, 113, 27, 71, 44, 111, 127, 26, 78, 4, 29, 35, 25, 79, -13, 6, 8, 26, 79, -14, 5, 6, 25, 78, -8, 8, 10, 26, 78, -12, 6, 8, 26, 73, 16, 40, 45, 31, 58, 87, 4, 5, 27, 73, 27, 41, 48, 28, 68, 23, 64, 70, 26, 79, -10, 17, 20, 26, 77, -17, 5, 7, 25, 79, -11, 6, 8, 26, 78, -12, 6, 8, 25, 77, -9, 6, 11, 28, 69, 23, 45, 55, 26, 79, -5, 14, 17, 26, 81, -13, 6, 7, 26, 80, -16, 6, 7, 26, 77, -14, 5, 7, 25, 81, -12, 6, 7, 26, 78, -14, 10, 14, 26, 71, 46, 78, 89, 26, 76, -8, 17, 24, 28, 68, 18, 60, 66, 25, 80, -14, 7, 8, 26, 74, -2, 26, 36, 27, 68, 9, 44, 64, 25, 78, -11, 7, 10, 25, 78, -12, 7, 9, 27, 78, -8, 12, 16, 26, 80, -10, 5, 6, 26, 81, -13, 5, 6, 25, 80, -14, 6, 7, 26, 77, -14, 7, 9, 26, 78, -17, 7, 8, 25, 80, -14, 6, 8, 26, 78, -12, 7, 9, 26, 77, -12, 6, 8, 26, 73, -6, 30, 33, 26, 78, -17, 6, 8, 26, 70, 4, 31, 34, 26, 68, 14, 30, 38, 25, 80, -5, 11, 18, 26, 79, -7, 8, 10, 26, 82, -5, 7, 8, 25, 82, -7, 8, 9, 25, 80, -13, 5, 6, 26, 79, -15, 6, 7, 26, 79, -9, 6, 8, 26, 78, -17, 6, 7, 26, 78, -14, 6, 8, 25, 78, -10, 8, 9, 26, 78, -13, 6, 7, 27, 78, -16, 5, 7, 27, 81, -15, 6, 8, 26, 77, 5, 72, 84, 26, 76, 22, 66, 81, 25, 73, 21, 79, 92, 25, 82, -7, 6, 8, 26, 80, -6, 7, 9, 26, 78, 8, 34, 37, 27, 72, 5, 31, 40, 26, 81, -14, 6, 8, 26, 79, -7, 5, 6, 25, 80, -10, 6, 8, 26, 82, -13, 6, 8, 26, 82, -8, 9, 11, 26, 75, 4, 90, 103, 27, 76, -14, 33, 39, 27, 77, -16, 6, 12, 26, 79, 4, 28, 64, 25, 76, 13, 42, 63, 25, 72, 23, 81, 93, 25, 80, -8, 6, 7, 26, 78, -3, 15, 20, 26, 80, -7, 9, 12, 25, 78, -8, 8, 11, 26, 79, -15, 5, 6, 25, 81, -6, 7, 10, 25, 80, -8, 8, 10, 26, 81, -10, 6, 8, 25, 83, -7, 8, 10, 25, 77, 0, 25, 29, 26, 79, -10, 6, 7, 25, 76, 2, 76, 88, 26, 78, 1, 25, 46, 25, 79, -11, 6, 7, 26, 78, -11, 6, 7, 25, 79, -11, 5, 6, 27, 68, 7, 43, 46, 26, 78, -8, 12, 16, 26, 80, -13, 5, 7, 27, 77, -16, 5, 7, 26, 82, -6, 6, 8, 26, 82, -9, 7, 8, 25, 82, -7, 8, 10, 25, 80, -8, 7, 9, 26, 81, -7, 7, 8, 25, 81, -9, 6, 8, 26, 77, 8, 31, 43, 26, 74, 17, 45, 71, 26, 81, -11, 6, 7, 26, 78, -14, 5, 6, 26, 78, -15, 5, 6, 27, 77, -17, 5, 6, 26, 80, -12, 6, 8, 26, 79, -16, 6, 7, 27, 77, -18, 5, 7, 25, 84, -4, 9, 11, 24, 84, -6, 8, 10, 24, 85, -5, 9, 11, 25, 84, -3, 7, 9, 25, 84, -4, 7, 9, 25, 83, -5, 10, 12, 24, 76, 14, 34, 37, 25, 74, 17, 41, 45, 26, 80, -14, 6, 8, 26, 78, -15, 6, 8, 26, 77, -17, 6, 7, 27, 78, -17, 5, 6, 26, 80, -12, 6, 7, 26, 78, -16, 6, 8, 27, 76, -17, 6, 8],
             "solution": {
                 "type": "dig",
                 "spot": {"x": 2723, "y": 3338, "level": 0},
+                "description": "two tiles south of the northern bench"
             }
         },
         {
@@ -6051,6 +8132,7 @@ export namespace clue_data {
             "ocr_data": [26, 79, 181, 26, 77, -3, 6, 8, 26, 77, -4, 8, 10, 25, 78, -3, 6, 7, 26, 80, 0, 5, 6, 25, 77, -1, 7, 8, 26, 77, -3, 7, 9, 26, 77, -4, 6, 8, 25, 80, -6, 7, 9, 25, 86, -5, 7, 8, 25, 82, -6, 6, 7, 26, 82, -4, 5, 6, 26, 82, -6, 4, 6, 25, 82, -5, 5, 7, 25, 85, -6, 6, 7, 26, 81, -7, 8, 10, 26, 78, -3, 7, 9, 25, 76, -7, 7, 9, 25, 79, -4, 5, 7, 26, 81, -1, 6, 8, 26, 77, 15, 40, 44, 26, 75, 18, 73, 81, 26, 75, 15, 43, 50, 25, 77, 18, 62, 82, 25, 77, 13, 43, 49, 26, 78, 32, 78, 87, 26, 80, 15, 44, 49, 26, 79, 16, 63, 68, 25, 79, -8, 5, 7, 25, 83, -9, 7, 8, 26, 80, -7, 6, 8, 25, 77, -5, 8, 10, 26, 78, -7, 6, 8, 26, 78, -6, 6, 7, 25, 82, -3, 5, 7, 26, 78, 4, 37, 41, 27, 75, 21, 67, 75, 26, 77, 14, 43, 49, 26, 76, 24, 53, 72, 26, 77, 7, 44, 50, 26, 76, 25, 75, 87, 26, 79, 8, 38, 43, 26, 76, 21, 67, 73, 26, 79, -6, 5, 7, 26, 80, -9, 6, 7, 26, 80, -8, 7, 8, 25, 78, -6, 5, 6, 25, 78, -6, 6, 8, 25, 77, -6, 4, 5, 26, 81, -6, 4, 6, 27, 81, -7, 6, 7, 26, 80, -7, 6, 8, 25, 84, -7, 7, 9, 25, 80, -10, 6, 8, 24, 80, -4, 7, 8, 25, 78, -5, 6, 8, 26, 78, -3, 7, 9, 26, 78, -1, 7, 9, 26, 80, -4, 6, 8, 25, 79, -8, 6, 8, 26, 79, -9, 5, 6, 25, 78, -3, 8, 10, 26, 78, -7, 6, 8, 25, 78, -8, 5, 6, 25, 80, -6, 6, 7, 26, 80, -6, 6, 7, 26, 80, -7, 6, 8, 26, 81, -10, 5, 7, 26, 77, -12, 5, 7, 25, 79, -6, 6, 8, 26, 78, -7, 6, 8, 25, 77, -4, 6, 8, 27, 79, -2, 7, 9, 25, 80, -4, 5, 6, 26, 81, -8, 6, 7, 26, 80, -11, 6, 7, 26, 77, -9, 5, 7, 25, 81, -7, 6, 7, 26, 78, -11, 6, 7, 26, 79, -8, 6, 8, 26, 75, 13, 70, 76, 26, 76, 10, 59, 65, 25, 80, -9, 7, 8, 26, 76, 15, 58, 81, 26, 74, 7, 56, 61, 25, 77, -6, 8, 15, 25, 66, 65, 155, 190, 27, 77, 13, 53, 64, 26, 80, -5, 5, 6, 26, 81, -8, 5, 6, 25, 80, -9, 6, 7, 26, 77, -9, 7, 9, 26, 78, -12, 7, 8, 25, 80, -9, 6, 8, 26, 78, -7, 7, 9, 26, 75, 8, 47, 53, 26, 75, 5, 49, 56, 26, 78, -12, 6, 8, 26, 75, 6, 27, 53, 26, 76, 9, 46, 52, 25, 81, -3, 8, 10, 26, 77, 9, 25, 49, 26, 81, 5, 21, 28, 25, 82, -2, 8, 9, 25, 80, -8, 5, 6, 26, 79, -10, 6, 7, 26, 79, -4, 6, 8, 26, 78, -12, 6, 7, 26, 78, -9, 6, 8, 25, 78, -5, 8, 9, 26, 75, 17, 58, 80, 27, 75, 12, 56, 75, 27, 81, -10, 6, 8, 26, 78, 14, 35, 70, 26, 78, 17, 50, 65, 26, 80, -4, 7, 9, 26, 79, 18, 35, 67, 26, 78, 17, 52, 65, 25, 83, -3, 6, 7, 26, 79, -9, 6, 7, 26, 81, -9, 6, 8, 26, 79, -2, 5, 6, 25, 80, -5, 6, 8, 26, 82, -8, 6, 8, 26, 82, -3, 9, 11, 26, 77, 6, 46, 53, 27, 75, 2, 48, 53, 27, 77, -11, 6, 8, 26, 80, 3, 23, 40, 25, 79, 3, 31, 34, 25, 80, -6, 5, 7, 26, 79, 7, 21, 38, 26, 79, 3, 25, 28, 26, 81, -4, 4, 6, 25, 79, -5, 5, 6, 26, 79, -10, 5, 6, 25, 81, -1, 7, 10, 25, 80, -3, 8, 10, 26, 81, -5, 6, 8, 25, 83, -2, 8, 10, 26, 77, 21, 67, 76, 26, 76, 17, 61, 69, 25, 80, -4, 7, 8, 26, 76, 20, 60, 86, 26, 77, 10, 49, 56, 26, 78, -6, 6, 7, 26, 75, 21, 57, 84, 26, 74, 6, 50, 57, 26, 79, -7, 4, 5, 26, 80, -8, 5, 7, 27, 77, -11, 5, 7, 26, 82, -1, 6, 8, 26, 82, -4, 7, 8, 25, 82, -2, 8, 10, 25, 80, -3, 7, 9, 27, 79, 12, 50, 54, 26, 79, 11, 46, 52, 25, 83, -2, 8, 10, 26, 81, 11, 29, 51, 26, 79, 8, 46, 54, 26, 78, -9, 5, 6, 26, 76, 5, 30, 53, 27, 75, 4, 47, 55, 26, 80, -7, 6, 8, 26, 79, -11, 6, 7, 27, 77, -13, 5, 7, 25, 84, 1, 9, 11, 24, 84, -1, 8, 10, 24, 85, 0, 9, 11, 25, 84, 2, 7, 9, 25, 84, 1, 7, 9, 25, 83, 1, 10, 17, 24, 84, 0, 8, 10, 25, 85, -2, 10, 12, 26, 80, -8, 6, 13, 26, 78, -10, 6, 8, 26, 77, -12, 6, 7, 27, 78, -11, 5, 12, 26, 80, -7, 6, 7, 26, 78, -11, 6, 8, 27, 76, -12, 6, 8],
             "solution": {
                 "type": "dig",
+                "description": "in the north-western corner of the building",
                 "spot": {"x": 2488, "y": 3308, "level": 0},
             }
         },
@@ -6058,7 +8140,7 @@ export namespace clue_data {
             "id": 46,
             "type": "map",
             "tier": "hard",
-            "image_url": "assets/Map_clue_Dark_Warriors'_Fortress.png",
+            "image_url": "assets/Map_clue_Dark_Warriors_Fortress.png",
             "text": ["A crate in the courtyard of a castle."],
             "ocr_data": [26, 77, 170, 26, 77, -14, 6, 8, 26, 77, -15, 8, 10, 25, 78, -14, 6, 7, 26, 80, -11, 5, 6, 25, 77, -12, 7, 8, 26, 77, -14, 7, 9, 26, 77, -15, 10, 13, 25, 80, -17, 9, 11, 25, 86, -16, 7, 8, 25, 82, -17, 6, 7, 26, 82, -15, 5, 10, 26, 82, -16, 6, 10, 25, 82, -16, 5, 7, 25, 85, -17, 6, 7, 26, 81, -18, 8, 10, 26, 78, -14, 7, 9, 25, 76, -18, 7, 9, 25, 79, -15, 5, 7, 26, 75, 14, 31, 39, 27, 67, 37, 58, 66, 26, 67, 28, 35, 49, 26, 68, 27, 57, 69, 25, 72, 22, 56, 69, 26, 71, 27, 55, 66, 26, 73, 21, 23, 32, 27, 69, 43, 58, 68, 27, 67, 42, 58, 68, 26, 77, -11, 14, 18, 25, 83, -20, 7, 8, 26, 80, -18, 6, 8, 25, 77, -16, 8, 10, 26, 78, -18, 6, 8, 26, 78, -17, 6, 7, 27, 69, 38, 58, 66, 27, 78, 2, 37, 43, 27, 75, 17, 60, 74, 26, 76, 16, 55, 72, 26, 77, 1, 30, 37, 26, 77, -5, 20, 36, 26, 74, 22, 63, 78, 26, 78, 12, 45, 50, 26, 74, 13, 38, 50, 26, 74, 6, 20, 24, 26, 80, -20, 6, 7, 26, 80, -19, 7, 8, 25, 78, -17, 5, 6, 25, 78, -17, 6, 8, 25, 77, -17, 4, 5, 27, 69, 32, 48, 55, 27, 79, 8, 44, 49, 26, 80, -18, 6, 8, 26, 80, 16, 56, 64, 26, 78, 3, 45, 51, 25, 78, 7, 42, 48, 26, 75, 14, 46, 53, 26, 77, -2, 25, 28, 27, 69, 33, 52, 63, 26, 77, -1, 19, 22, 25, 79, -19, 6, 8, 26, 79, -20, 5, 6, 25, 78, -14, 8, 10, 26, 78, -18, 6, 8, 25, 78, -19, 5, 6, 26, 71, 27, 32, 49, 27, 76, 13, 52, 66, 27, 76, 11, 49, 57, 27, 76, 22, 67, 77, 26, 75, 1, 44, 50, 26, 77, 6, 42, 48, 27, 73, 24, 67, 83, 26, 74, 19, 54, 60, 27, 70, 30, 51, 60, 26, 77, 1, 20, 24, 26, 81, -19, 6, 7, 26, 80, -22, 6, 7, 26, 77, -20, 5, 7, 25, 81, -18, 6, 7, 26, 78, -17, 17, 21, 27, 71, 25, 47, 56, 26, 76, -9, 24, 33, 26, 76, 3, 44, 50, 26, 78, 3, 44, 50, 26, 79, -21, 7, 8, 26, 76, -19, 7, 8, 26, 76, 6, 44, 62, 26, 76, 5, 26, 39, 27, 72, 15, 37, 42, 26, 76, 0, 18, 21, 26, 81, -19, 5, 6, 25, 80, -20, 6, 7, 26, 77, -20, 7, 9, 26, 78, -23, 7, 8, 25, 79, -15, 17, 21, 27, 68, 39, 60, 74, 26, 76, -12, 15, 23, 26, 74, 3, 47, 53, 29, 58, 46, 57, 65, 28, 66, 32, 47, 52, 26, 78, -17, 7, 9, 25, 78, 9, 45, 67, 26, 77, 10, 27, 37, 26, 77, 7, 33, 40, 26, 73, 17, 21, 24, 25, 80, -19, 5, 6, 26, 79, -21, 6, 7, 26, 79, -15, 6, 8, 26, 78, -23, 6, 7, 26, 78, -20, 6, 8, 26, 67, 34, 54, 66, 26, 75, 8, 51, 57, 27, 75, 9, 50, 58, 29, 60, 52, 60, 69, 28, 70, 37, 50, 58, 26, 78, 9, 42, 48, 27, 75, 26, 66, 77, 26, 78, 16, 43, 53, 26, 78, 7, 29, 56, 26, 70, 32, 27, 41, 26, 79, -20, 6, 7, 26, 81, -20, 6, 8, 26, 79, -13, 5, 6, 25, 80, -16, 6, 8, 26, 82, -19, 6, 8, 26, 71, 33, 49, 56, 26, 76, 6, 45, 51, 27, 76, -24, 6, 7, 27, 74, 13, 51, 64, 26, 78, 5, 32, 49, 26, 77, 7, 31, 48, 26, 76, 13, 45, 53, 25, 80, -14, 6, 7, 26, 77, 9, 31, 48, 26, 69, 36, 55, 61, 25, 79, -16, 5, 6, 26, 79, -21, 5, 6, 25, 81, -12, 7, 10, 25, 80, -14, 8, 10, 26, 81, -16, 6, 8, 26, 71, 33, 53, 60, 26, 78, 3, 34, 40, 26, 77, 8, 43, 49, 26, 78, 5, 42, 56, 26, 79, -17, 5, 7, 25, 79, -17, 6, 15, 26, 77, 5, 40, 46, 26, 76, 6, 41, 47, 26, 74, -8, 26, 40, 26, 67, 38, 56, 65, 26, 80, -19, 5, 7, 27, 77, -22, 5, 7, 26, 82, -12, 6, 8, 26, 82, -15, 7, 8, 25, 82, -13, 8, 10, 26, 74, 10, 25, 32, 27, 70, 33, 52, 59, 26, 72, 29, 53, 60, 26, 70, 39, 42, 58, 26, 70, 39, 56, 70, 27, 69, 35, 42, 68, 27, 67, 32, 56, 64, 27, 68, 28, 57, 64, 27, 70, 18, 37, 48, 26, 78, -10, 14, 19, 26, 79, -22, 6, 7, 27, 77, -24, 5, 7, 25, 84, -10, 9, 11, 24, 84, -12, 8, 10, 24, 85, -11, 9, 11, 25, 84, -9, 7, 9, 25, 84, -10, 7, 9, 25, 83, -11, 10, 12, 24, 84, -11, 8, 10, 25, 84, -8, 21, 32, 26, 80, -13, 25, 35, 26, 78, -21, 6, 11, 26, 77, -23, 6, 7, 27, 78, -23, 5, 6, 26, 80, -18, 6, 7, 26, 78, -22, 6, 8, 27, 76, -23, 6, 8],
             "solution": {
@@ -6090,6 +8172,7 @@ export namespace clue_data {
             "solution": {
                 "type": "dig",
                 "spot": {"x": 3021, "y": 3913, "level": 0},
+                "description": "two tiles west of the large geyser"
             }
         }
     ]
@@ -7002,7 +9085,13 @@ export namespace clue_data {
             "text": ["Speak to Hans to solve the clue."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0}}],
+                "spots": [
+                    {
+                        "range": {"topleft": {"x": 3202, "y": 3232}, "botright": {"x": 3221, "y": 3205}, "level": 0},
+                        "description": "at Lumbridge Castle"
+                    }
+
+                ],
                 "npc": "Hans"
             }
         },
@@ -7057,8 +9146,8 @@ export namespace clue_data {
             "text": ["Search the crates in Canifis."],
             "solution": {
                 "type": "search",
-                "entity": "Crate", // TODO
-                "spot": {"x": 2914, "y": 3448, "level": 0}
+                "entity": "Crate",
+                "spot": {"x": 3509, "y": 3497, "level": 0}
             }
         },
         {
@@ -7200,7 +9289,7 @@ export namespace clue_data {
             "text": ["Speak to the staff of Sinclair Mansion."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2736, "y": 3580}, "botright": {"x": 2737, "y": 3574}, "level": 0}}],
+                "spots": [{"range": {"topleft": {"x": 2736, "y": 3580}, "botright": {"x": 2737, "y": 3574}, "level": 0}, "description": "in Sinclair Mansion"}],
                 "npc": "Louisa"
             }
         },
@@ -7288,7 +9377,8 @@ export namespace clue_data {
             "text": ["Dig near some giant mushrooms behind the Grand Tree."],
             "solution": {
                 "type": "dig",
-                "spot": {"x": 2459, "y": 3505, "level": 0}
+                "spot": {"x": 2459, "y": 3505, "level": 0},
+                "description": "behind the giant mushrooms"
             }
         },
         {
@@ -7332,7 +9422,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Gaius",
-                "spots": [{"range": {"topleft": {"x": 2926, "y": 3552}, "botright": {"x": 2931, "y": 3546}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 2926, "y": 3552}, "botright": {"x": 2931, "y": 3546}, "level": 0}, "description": "in Burthorpe"}]
             }
         },
         {
@@ -7354,7 +9444,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Arhein",
-                "spots": [{"range": {"topleft": {"x": 2802, "y": 3427}, "botright": {"x": 2804, "y": 3425}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 2802, "y": 3427}, "botright": {"x": 2804, "y": 3425}, "level": 0}, "description": "in Catherby"}]
             }
         },
         {
@@ -7365,7 +9455,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Bartender",
-                "spots": [{"range": {"topleft": {"x": 3044, "y": 3258}, "botright": {"x": 3046, "y": 3255}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3044, "y": 3258}, "botright": {"x": 3046, "y": 3255}, "level": 0}, "description": "in Port Sarim"}]
             }
         },
         {
@@ -7442,7 +9532,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Ellis",
-                "spots": [{"range": {"topleft": {"x": 3270, "y": 3198}, "botright": {"x": 3276, "y": 3193}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3270, "y": 3198}, "botright": {"x": 3276, "y": 3193}, "level": 0}, "description": "in Al Kharid"}]
             }
         },
         {
@@ -7486,7 +9576,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Doric",
-                "spots": [{"range": {"topleft": {"x": 2955, "y": 3443}, "botright": {"x": 2963, "y": 3435}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 2955, "y": 3443}, "botright": {"x": 2963, "y": 3435}, "level": 0}, "description": "north of Falador"}]
             }
         },
         {
@@ -7508,7 +9598,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Zeke",
-                "spots": [{"range": {"topleft": {"x": 3284, "y": 3192}, "botright": {"x": 3289, "y": 3186}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3284, "y": 3192}, "botright": {"x": 3289, "y": 3186}, "level": 0}, "description": "in Al Kharid"}]
             }
         },
         {
@@ -7519,7 +9609,7 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Bartender",
-                "spots": [{"range": {"topleft": {"x": 3223, "y": 3402}, "botright": {"x": 3226, "y": 3396}, "level": 0}}]
+                "spots": [{"range": {"topleft": {"x": 3223, "y": 3402}, "botright": {"x": 3226, "y": 3396}, "level": 0}, "description": "in the Blue Moon Inn"}]
             }
         },
         {
@@ -7574,7 +9664,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Squire Asrol",
-                "spots": [{"range": {"topleft": {"x": 2970, "y": 3346}, "botright": {"x": 2977, "y": 3339}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2970, "y": 3346}, "botright": {"x": 2977, "y": 3339}, "level": 0},
+                    "description": "in the couryard of the White Knight's castle"
+                }]
             }
         },
         {
@@ -7618,7 +9711,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Sir Kay",
-                "spots": [{"range": {"topleft": {"x": 2752, "y": 3503}, "botright": {"x": 2764, "y": 3493}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2752, "y": 3503}, "botright": {"x": 2764, "y": 3493}, "level": 0},
+                    "description": "in the courtyard of Camelot Castle"
+                }]
             }
         },
         {
@@ -7629,7 +9725,11 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Ned",
-                "spots": [{"range": {"topleft": {"x": 3097, "y": 3260}, "botright": {"x": 3102, "y": 3255}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3097, "y": 3260}, "botright": {"x": 3102, "y": 3255}, "level": 0},
+                    "description": "in Draynor"
+
+                }]
             }
         },
         {
@@ -7640,7 +9740,11 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Mission Mistress Fara",
-                "spots": [{"range": {"topleft": {"x": 2887, "y": 3531}, "botright": {"x": 2889, "y": 3529}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2887, "y": 3531}, "botright": {"x": 2889, "y": 3529}, "level": 0},
+                    "description": "in Burthorpe"
+
+                }]
             }
         },
         {
@@ -7650,7 +9754,10 @@ export namespace clue_data {
             "text": ["Speak to Donovan, the family handyman."],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2740, "y": 3582}, "botright": {"x": 2744, "y": 3577}, "level": 1}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2740, "y": 3582}, "botright": {"x": 2744, "y": 3577}, "level": 1},
+                    "description": "at Sinclair Mansion"
+                }],
                 "npc": "Donovan the Family Handyman"
             }
         },
@@ -7662,7 +9769,10 @@ export namespace clue_data {
             "challenge": [{"type": "challengescroll", "question": "What is 19 to the power of 3?", "answers": [{"answer": 6859}]}],
             "solution": {
                 "type": "talkto",
-                "spots": [{"range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2405, "y": 9822}, "botright": {"x": 2413, "y": 9815}, "level": 0},
+                    "description": "in Brimstail's cave"
+                }],
                 "npc": "Brimstail"
             }
         },
@@ -7674,7 +9784,11 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Roavar",
-                "spots": [{"range": {"topleft": {"x": 3489, "y": 3475}, "botright": {"x": 3495, "y": 3471}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3489, "y": 3475}, "botright": {"x": 3495, "y": 3471}, "level": 0},
+                    "description": "in Canifis' bar"
+
+                }]
             }
         },
         {
@@ -7685,7 +9799,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Ulizius",
-                "spots": [{"range": {"topleft": {"x": 3440, "y": 3464}, "botright": {"x": 3446, "y": 3458}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 3440, "y": 3464}, "botright": {"x": 3446, "y": 3458}, "level": 0},
+                    "description": "near the Swamp Gate"
+                }]
             }
         },
         {
@@ -7696,7 +9813,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Hajedy",
-                "spots": [{"range": {"topleft": {"x": 2779, "y": 3213}, "botright": {"x": 2782, "y": 3210}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2779, "y": 3213}, "botright": {"x": 2782, "y": 3210}, "level": 0},
+                    "description": "in Brimhaven"
+                }]
             }
         },
         {
@@ -7707,7 +9827,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Kangai Mau",
-                "spots": [{"range": {"topleft": {"x": 2790, "y": 3185}, "botright": {"x": 2795, "y": 3181}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2790, "y": 3185}, "botright": {"x": 2795, "y": 3181}, "level": 0},
+                    "description": "in Brimhaven"
+                }]
             }
         },
         {
@@ -7719,7 +9842,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Gnome ball referee",
-                "spots": [{"range": {"topleft": {"x": 2384, "y": 3489}, "botright": {"x": 2386, "y": 3487}, "level": 0}}]
+                "spots": [{
+                    "range": {"topleft": {"x": 2384, "y": 3489}, "botright": {"x": 2386, "y": 3487}, "level": 0},
+                    "description": "at the gate of the Gnomeball Field"
+                }]
             },
         },
         {
@@ -7731,7 +9857,10 @@ export namespace clue_data {
             "solution": {
                 "type": "talkto",
                 "npc": "Hazelmere",
-                "spots": [{"range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 0}}],
+                "spots": [{
+                    "range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 0},
+                    "description": "east of Yanille"
+                }],
             }
         }
     ]
@@ -7742,20 +9871,23 @@ export namespace clue_data {
         "tier": "master",
         "id": 372,
         "areas": [{"topleft": {"x": 3274, "y": 2685}, "botright": {"x": 3290, "y": 2662}, "level": 0}],
-        "answer": "Catch a plover bird in the southern part of Sophanem."
+        "answer": "Catch a plover bird in the southern part of Sophanem.",
+        "cursor": "hunt"
     }, {
         "type": "skilling",
         "text": ["I once met a man returning from market. He showed me the spoils of his day. It's precious to see what people pay for."],
         "tier": "master",
         "id": 373,
         "areas": [{"topleft": {"x": 2666, "y": 3304}, "botright": {"x": 2669, "y": 3301}, "level": 0}],
-        "answer": "Steal from the Ardougne Gem Stall."
+        "answer": "Steal from the Ardougne Gem Stall.",
+        "cursor": "thieve"
     }, {
         "type": "skilling",
         "text": ["A view of the city from high above. I can hear their prayers below."],
         "tier": "master",
         "id": 374,
         "areas": [{"topleft": {"x": 2183, "y": 3454}, "botright": {"x": 2196, "y": 3441}, "level": 2}],
+        "cursor": "agility",
         "answer": "Go to the top of the Hefin Agility Course."
     }, {
         "type": "skilling",
@@ -7763,6 +9895,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 375,
         "areas": [{"topleft": {"x": 3018, "y": 9249}, "botright": {"x": 3052, "y": 9228}, "level": 0}],
+        "cursor": "burn",
         "answer": "Start a firepit with a Curly Root in the Jadinko Lair."
     }, {
         "type": "skilling",
@@ -7773,13 +9906,15 @@ export namespace clue_data {
             {"topleft": {"x": 2269, "y": 3390}, "botright": {"x": 2273, "y": 3386}, "level": 1},
             {"topleft": {"x": 3259, "y": 3373}, "botright": {"x": 3265, "y": 3367}, "level": 0}
         ],
-        "answer": "Cut some elder logs from an elder tree."
+        "answer": "Cut some elder logs from an elder tree.",
+        "cursor": "chop",
     }, {
         "type": "skilling",
         "text": ["Rowdy Unruly Boisterous I am pie."],
         "tier": "master",
         "id": 377,
         "answer": "Cook a wild pie. The 'Bake Pie' spell works.",
+        "cursor": "cook",
         "areas": null
     }, {
         "type": "skilling",
@@ -7787,6 +9922,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 378,
         "areas": [{"topleft": {"x": 2688, "y": 5247}, "botright": {"x": 2751, "y": 5184}, "level": 3}],
+        "cursor": "agility",
         "answer": "Help Turgall at the Dorgesh-Kaan Agility Course."
     }, {
         "type": "skilling",
@@ -7794,11 +9930,13 @@ export namespace clue_data {
         "tier": "master",
         "id": 379,
         "areas": [{"topleft": {"x": 3801, "y": 3555}, "botright": {"x": 3808, "y": 3548}, "level": 0}],
+        "cursor": "divine",
         "answer": "Harvest a radiant memory."
     }, {
         "type": "skilling",
         "text": ["There are those who prove themselves and become a beacon of light in the darkness. Come to the crystal city and become that figure."],
         "tier": "master",
+        "cursor": "pray",
         "id": 380,
         "areas": [{"topleft": {"x": 2100, "y": 3459}, "botright": {"x": 2292, "y": 3277}, "level": 1}],
         "answer": "Active the Light Form Prayer in Prifddinas"
@@ -7808,6 +9946,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 381,
         "answer": "Light some magic logs.",
+        "cursor": "burn",
         "areas": null
     }, {
         "type": "skilling",
@@ -7815,6 +9954,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 382,
         "answer": "Pickpocket any elf",
+        "cursor": "thieve",
         "areas": null
     }, {
         "type": "skilling",
@@ -7822,13 +9962,15 @@ export namespace clue_data {
         "tier": "master",
         "id": 383,
         "areas": [{"topleft": {"x": 4343, "y": 6055}, "botright": {"x": 4364, "y": 6038}, "level": 1}],
-        "answer": "Siphon some blood runes in the Runespan."
+        "answer": "Siphon some blood runes in the Runespan.",
+        "cursor": "runecraft"
     }, {
         "type": "skilling",
         "text": ["The spell struck me in the chest. Perhaps if I had worn armour today. Black looks better than red."],
         "tier": "master",
         "id": 384,
         "answer": "Craft a black dragonhide body.",
+        "cursor": "craft",
         "areas": null
     }, {
         "type": "skilling",
@@ -7836,6 +9978,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 385,
         "answer": "Add a fire rune to a decorated cooking urn (nr).",
+        "cursor": "craft",
         "areas": null
     }, {
         "type": "skilling",
@@ -7843,6 +9986,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 386,
         "answer": "Cook a raw shark, raw rocktail or raw sailfish.",
+        "cursor": "cook",
         "areas": null
     }, {
         "type": "skilling",
@@ -7850,6 +9994,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 387,
         "answer": "Smelt a Bane bar at a furnace.",
+        "cursor": "smith",
         "areas": null
     }, {
         "type": "skilling",
@@ -7857,34 +10002,39 @@ export namespace clue_data {
         "tier": "master",
         "id": 388,
         "areas": [{"topleft": {"x": 2203, "y": 4838}, "botright": {"x": 2207, "y": 4834}, "level": 0}],
-        "answer": "Craft a death rune."
+        "answer": "Craft a death rune.",
+        "cursor": "runecraft"
     }, {
         "type": "skilling",
         "text": ["There is a temple where there are rivers of red. Bind the magic to get ahead."],
         "tier": "master",
         "id": 389,
         "areas": [{"topleft": {"x": 2460, "y": 4898}, "botright": {"x": 2465, "y": 4893}, "level": 1}],
-        "answer": "Craft a blood rune."
+        "answer": "Craft a blood rune.",
+        "cursor": "runecraft"
     }, {
         "type": "skilling",
         "text": ["Corruption seeps from this stone but there are those who work to cleanse it. Lend your voice."],
         "tier": "master",
         "id": 390,
         "areas": [{"topleft": {"x": 2187, "y": 3451}, "botright": {"x": 2193, "y": 3445}, "level": 1}],
-        "answer": "Completely use up a cleansing crystal on the Corrupted Seren Stone."
+        "answer": "Completely use up a cleansing crystal on the Corrupted Seren Stone.",
+        "cursor": "pray"
     }, {
         "type": "skilling",
         "text": ["Charm me and I shall unlock. But be brave in the darkness."],
         "tier": "master",
         "id": 391,
         "areas": [{"topleft": {"x": 3365, "y": 3748}, "botright": {"x": 3380, "y": 3731}, "level": 0}],
-        "answer": "Catch a charming moth in the Wilderness. "
+        "answer": "Catch a charming moth in the Wilderness.",
+        "cursor": "hunt"
     }, {
         "type": "skilling",
         "text": ["I once met an ancient warrior who told me tales of his adventures. His eyes lit up as he spoke."],
         "tier": "master",
         "id": 392,
         "answer": "Burn some elder logs.",
+        "cursor": "herblore",
         "areas": null
     }, {
         "type": "skilling",
@@ -7892,6 +10042,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 393,
         "answer": "Mine a concentrated gold deposit in the Living Rock Caverns.",
+        "cursor": "mine",
         "areas": null
     }, {
         "type": "skilling",
@@ -7899,6 +10050,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 394,
         "answer": "Catch a raw great white shark.",
+        "cursor": "fish",
         "areas": null
     }, {
         "type": "skilling",
@@ -7906,6 +10058,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 395,
         "answer": "Create a Saradomin brew.",
+        "cursor": "herblore",
         "areas": null
     }, {
         "type": "skilling",
@@ -7913,13 +10066,15 @@ export namespace clue_data {
         "tier": "master",
         "id": 396,
         "answer": "Smith a rune med helm or rune full helm.",
+        "cursor": "smith",
         "areas": null
     }, {
         "type": "skilling",
         "text": ["Being open to Chaos can raise your defences. It may also bring you closer to death. Take a moment to bottle this feeling."],
         "tier": "master",
         "id": 397,
-        "answer": "Create a Zamorak brew. (Mix jangerberries into a torstol potion).",
+        "answer": "Create a Zamorak brew.",
+        "cursor": "herblore",
         "areas": null
     }, {
         "type": "skilling",
@@ -7927,6 +10082,7 @@ export namespace clue_data {
         "tier": "master",
         "id": 398,
         "answer": "Catch two sharks at once.",
+        "cursor": "fish",
         "areas": null
     },
     ]

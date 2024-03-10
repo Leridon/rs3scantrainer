@@ -91,7 +91,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
                     this.startEdit()
                 }).setVisible(false)
 
-            this.preview_container = c("<span style='cursor: pointer; flex-grow: 1'>")
+            this.preview_container = c("<span style='cursor: pointer; flex-grow: 1'> </span>")
                 .tooltip("Edit")
                 .tapRaw(r => r.on("click", () => {
                     this.startEdit()

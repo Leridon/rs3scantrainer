@@ -1,7 +1,7 @@
 import {TileCoordinates} from "lib/runescape/coordinates/TileCoordinates";
 import * as leaflet from "leaflet";
 import {HostedMapData, MovementAbilities} from "lib/runescape/movement";
-import {arrow, createStepGraphics} from "../../path_graphics";
+import {arrow} from "../../path_graphics";
 import {Path} from "lib/runescape/pathing";
 import {tilePolygon} from "../../polygon_helpers";
 import {GameMapKeyboardEvent, GameMapMouseEvent} from "lib/gamemap/MapEvents";
@@ -10,6 +10,8 @@ import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInterac
 import {Observable, observe} from "../../../../lib/reactive";
 import observe_combined = Observable.observe_combined;
 import possibility_raster = MovementAbilities.possibility_raster;
+import {PathStepEntity} from "../../map/entities/PathStepEntity";
+import {AbilityLens} from "../PathEditOverlays";
 
 export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> {
     _possibility_overlay: leaflet.FeatureGroup = null
@@ -47,7 +49,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                 c("<div style='font-family: monospace; white-space:pre'></div>")
                     .append(c().text(`[Click] valid target tile to confirm.`))
                     .append(c().text(`[Shift + Click] to force any target tile.`))
-                    .append(c().text(`[Esc] to reset start tile.`))
+                    .append(c().text(`[Backspace] to reset start tile.`))
             )
         } else {
             this.top_control.setContent(
@@ -73,32 +75,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
         if (tile == null) return
 
-        this._possibility_overlay = leaflet.featureGroup()
-
-        let raster = await possibility_raster(tile)
-
-        for (let x = raster.bounds.topleft.x; x <= raster.bounds.botright.x; x++) {
-            for (let y = raster.bounds.botright.y; y <= raster.bounds.topleft.y; y++) {
-                let works = raster.get({x: x, y: y})
-
-                tilePolygon({x: x, y: y})
-                    .setStyle({
-                        fillOpacity: 0.5,
-                        stroke: false,
-                        fillColor: works ? "green" : "red"
-                    })
-                    .addTo(this._possibility_overlay)
-            }
-        }
-
-        tilePolygon(tile)
-            .setStyle({
-                fillOpacity: 0.5,
-                stroke: false,
-                fillColor: "blue",
-            })
-            .addTo(this._possibility_overlay)
-
+        this._possibility_overlay = new AbilityLens(tile)
         this._possibility_overlay.addTo(this)
     }
 
@@ -126,13 +103,15 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
             // Draw the necessary preview
             this._preview_arrow = (
-                okay ? createStepGraphics({
-                        type: "ability",
-                        ability: this.ability,
-                        description: "",
-                        from: from,
-                        to: to
-                    })
+                okay ? new PathStepEntity({
+                            step: {
+                                type: "ability",
+                                ability: this.ability,
+                                from: from,
+                                to: to
+                            }
+                        },
+                    )
                     : arrow(from, to).setStyle({
                         weight: 3,
                         color: "red"
@@ -142,7 +121,7 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
     }
 
     eventClick(event: GameMapMouseEvent) {
-        event.onPre(async () => {
+        event.onPost(async () => {
             event.stopAllPropagation()
 
             let tile = event.tile()
@@ -154,7 +133,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                     this.commit({
                         type: "ability",
                         ability: this.ability,
-                        description: `Use {{${this.ability}}}`,
                         from: this.start_position.value(),
                         to: tile
                     })
@@ -165,7 +143,6 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
                         this.commit({
                             type: "ability",
                             ability: this.ability,
-                            description: `Use {{${this.ability}}}`,
                             from: this.start_position.value(),
                             to: res.tile
                         })
@@ -181,18 +158,24 @@ export class DrawAbilityInteraction extends ValueInteraction<Path.step_ability> 
 
     eventKeyDown(event: GameMapKeyboardEvent) {
         event.onPre(() => {
-            if (event.original.key == "Shift") this.current_target.update(c => c.forced = true)
-
-            if (this.start_position.value() != null && event.original.key == "Escape") {
+            if (this.start_position.value() != null && event.original.key == "Backspace") {
                 event.stopAllPropagation()
                 this.start_position.set(null)
             }
         })
+
+        event.onPost(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => {
+                if (c) c.forced = true
+            })
+        })
     }
 
     eventKeyUp(event: GameMapKeyboardEvent) {
-        event.onPre(() => {
-            if (event.original.key == "Shift") this.current_target.update(c => c.forced = false)
+        event.onPost(() => {
+            if (event.original.key == "Shift") this.current_target.update(c => {
+                if (c) c.forced = false
+            })
         })
     }
 }

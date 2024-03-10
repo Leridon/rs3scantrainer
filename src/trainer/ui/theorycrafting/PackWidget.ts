@@ -1,26 +1,22 @@
 import Widget from "../../../lib/ui/Widget";
 import {MethodPackManager, Pack} from "../../model/MethodPackManager";
 import Properties from "../widgets/Properties";
-import LightButton from "../widgets/LightButton";
-import TextArea from "../../../lib/ui/controls/TextArea";
-import TextField from "../../../lib/ui/controls/TextField";
 import {C} from "../../../lib/ui/constructors";
-import hbox = C.hbox;
-import * as lodash from "lodash";
-import span = C.span;
-import spacer = C.spacer;
 import {ExportImport} from "../../../lib/util/exportString";
 import exp = ExportImport.exp;
 import ExportStringModal from "../widgets/modals/ExportStringModal";
+import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
+import Dependencies from "../../dependencies";
+import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
+import {AssumptionProperty} from "./AssumptionProperty";
+import {EditMethodPackModal, NewMethodPackModal} from "./MethodPackModal";
+import {util} from "../../../lib/util/util";
+import cleanedJSON = util.cleanedJSON;
 
 export default class PackWidget extends Widget {
-
-    private name_span: Widget
-
     constructor(public pack: Pack,
                 manager: MethodPackManager,
                 customization: {
-                    mode: "edit" | "view",
                     buttons?: boolean,
                     collapsible?: boolean
                 }
@@ -29,80 +25,95 @@ export default class PackWidget extends Widget {
 
         this.addClass("ctr-pack-widget")
 
-        if (pack.type == "default" || pack.type == "imported") customization.mode = "view"
-
-        let header = hbox(
-            span("Pack: "),
-            this.name_span = span(pack.name),
-            spacer(),
-            span("+")
-        ).addClass("ctr-pack-widget-header")
-            .tooltip(pack.local_id)
-            .appendTo(this)
-
-
-        let body = new Properties().appendTo(this)
+        let body = new Properties()
             .addClass("ctr-pack-widget-body")
 
-        if (customization.collapsible) {
-            header.tapRaw(r => r.on("click", () => {
-                body.container.animate({
-                    "height": "toggle"
-                }, 100)
-            }))
+        let header = C.div()
+            .append(
+                `${pack.name} (${pack.methods.length})`,
+                ...AssumptionProperty.icons(pack.default_assumptions)
+            )
+            .addClass("ctr-pack-widget-header")
+            .tooltip(pack.local_id)
 
-            body.css("display", "none")
-        }
+        this.append(header, body)
 
-        switch (customization.mode) {
-            case "edit":
-                body.named("Name", new TextField().setValue(pack.name)
-                    .onChange((v) => this.name_span.text(v.value))
-                    .onCommit(v => {
-                        manager.updatePack(pack, p => p.name = v)
-                    })
-                )
-                body.named("Author(s)", new TextField().setValue(pack.author)
-                    .onCommit(v => manager.updatePack(pack, p => p.author = v))
-                )
+        body.named("Author(s)", c().text(pack.author))
 
-                body.header("Description")
-                body.row(new TextArea().css("height", "80px").setValue(pack.description)
-                    .onCommit(v => manager.updatePack(pack, p => p.description = v))
-                )
-
-                break
-            case "view":
-                body.named("Author(s)", c().text(pack.author))
-
-                body.header("Description")
-                body.row(c().text(pack.description))
-
-                break
-        }
-
-        body.row(span(`Contains ${pack.methods.length} methods`))
+        body.row(c().css("font-style", "italic").text(pack.description))
 
         if (customization.buttons) {
-            body.row(hbox(
-                new LightButton("Clone", "rectangle")
-                    .onClick(() => {
-                        let copy = lodash.cloneDeep(pack)
+            this.on("click", (event) => {
+                let menu: MenuEntry[] = []
 
-                        copy.name = `Cloned ${pack.name}`
+                menu.push({
+                    type: "basic",
+                    text: "Clone",
+                    icon: "assets/icons/copy.png",
+                    handler: () => new NewMethodPackModal(pack).do()
+                })
 
-                        manager.create(copy)
-                    }),
-                new LightButton("Delete", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
-                    .onClick(() => manager.deletePack(pack)),
-                new LightButton("Export", "rectangle").setEnabled(pack.type == "local" || pack.type == "imported")
-                    .onClick(() => {
-                        ExportStringModal.do(exp({type: "method-pack", version: 1},
-                            true,
-                            true
-                        )(pack))
-                    }),
-            ).addClass("ctr-button-container"))
+                if (pack.type == "local") {
+                    menu.push({
+                        type: "basic",
+                        text: "Edit Metainformation",
+                        icon: "assets/icons/edit.png",
+                        handler: () => {
+                            new EditMethodPackModal(pack).do()
+                        }
+                    })
+                }
+
+                if (pack.type == "local" || pack.type == "imported") {
+                    menu.push({
+                        type: "basic",
+                        text: "Delete",
+                        icon: "assets/icons/delete.png",
+                        handler: async () => {
+                            const really = await new ConfirmationModal<boolean>({
+                                body:
+                                    pack.type == "local"
+                                        ? `Are you sure you want to delete the local pack ${pack.name}? There is no way to undo this action!`
+                                        : `Are you sure you want to remove this imported pack? You will need to reimport it again.`,
+                                options: [
+                                    {kind: "neutral", text: "Cancel", value: false},
+                                    {kind: "cancel", text: "Delete", value: true},
+                                ]
+                            }).do()
+
+                            if (really) {
+                                await manager.deletePack(pack)
+
+                                Dependencies.instance().app.notifications.notify({
+                                    type: "information",
+                                    duration: 3000
+                                }, `Deleted pack '${this.pack.name}'`)
+                            }
+                        }
+                    })
+
+                    menu.push({
+                        type: "basic",
+                        text: "Export",
+                        handler: () => {
+                            new ExportStringModal(exp({type: "method-pack", version: 1},
+                                true,
+                                true
+                            )(pack)).show()
+                        }
+                    })
+
+                    menu.push({
+                        type: "basic",
+                        text: "Export JSON",
+                        handler: () => {
+                            new ExportStringModal(cleanedJSON(pack)).show()
+                        }
+                    })
+                }
+
+                new ContextMenu(menu).showFromEvent(event)
+            })
         }
     }
 }

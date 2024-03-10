@@ -1,4 +1,4 @@
-import GameLayer from "../GameLayer";
+import {GameLayer} from "../GameLayer";
 import * as leaflet from "leaflet";
 import {Vector2} from "../../math";
 import {tilePolygon} from "../../../trainer/ui/polygon_helpers";
@@ -31,7 +31,8 @@ export class TileHighlight extends leaflet.FeatureGroup {
             fillOpacity: 0.2,
             opacity: 0.8,
             color: "#F0780C",
-            fillColor: "#F0780C"
+            fillColor: "#F0780C",
+            interactive: false
         }).addTo(this)
     }
 }

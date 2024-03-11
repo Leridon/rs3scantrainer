@@ -265,13 +265,13 @@ const raw_data: Transportation.TeleportGroup[] = [
         spots: [
             {
                 id: "camelot",
-                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}},
+                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/n3/AQ=="},
                 img: {url: "tele-cam.png"},
                 name: "Camelot",
             },
             {
                 id: "camelot-seers",
-                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/n3/AQ=="},
+                target: {"origin": {"x": 2704, "y": 3481, "level": 0}, "size": {"x": 5, "y": 5}},
                 img: {url: "tele-cam-seers.png"},
                 name: "Camelot (Seer's Village)",
             },
@@ -1821,7 +1821,7 @@ name: "Harmony Island",
             },
             {
                 id: "draynor",
-                target: {"origin": {"x": 3080, "y": 3251, "level": 0}},
+                target: {"origin": {"x": 3080, "y": 3250, "level": 0}},
                 code: "3",
                 name: "Draynor",
             },
@@ -1879,39 +1879,42 @@ name: "Ranging Guild",
                 animation_ticks: 4
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "digsitependant",
-name: "Dig Site pendant",
-img: {url: "jewellry_digsitependant.png"}, can_be_in_pota: true,
+        name: "Dig Site pendant",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "digsite",
-target: {origin: {x: 3358, y: 3396, level: 0}},
-code: "1",
-name: "Digsite",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3358, "y": 3396, "level": 0}},
+                code: "1",
+                name: "Digsite",
             },
             {
                 id: "senntisten",
-target: {origin: {x: 3378, y: 3444, level: 0}},
-code: "2",
-name: "Senntisten",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3378, "y": 3444, "level": 0}},
+                code: "2",
+                name: "Senntisten",
             },
             {
                 id: "exam",
-target: {origin: {x: 3362, y: 3345, level: 0}},
-code: "3",
-name: "Exam Centre",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3362, "y": 3345, "level": 0}},
+                code: "3",
+                name: "Exam Centre",
             },
-        ]
-    },
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Dig Site pendant", kind: "item"},
+            img: {url: "jewellry_digsitependant.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
+    },/*
     {
         type: "teleports",
         id: "enlightenedamulet",
@@ -2091,40 +2094,48 @@ name: "Burthorpe spawn",
                 animation_ticks: 4
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "ringofslaying",
-name: "Ring of slaying",
-img: {url: "jewellry_ringofslaying.png"}, can_be_in_pota: true,
+        name: "Ring of slaying",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "sumona",
-target: {origin: {x: 3362, y: 2992, level: 0}},
-code: "1",
-name: "Sumona",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3359, "y": 2991, "level": 0}, "size": {"x": 4, "y": 5}, "data": "zM0M"},
+                code: "1",
+                name: "Sumona"
             },
             {
                 id: "slayertower",
-target: {origin: {x: 3423, y: 3524, level: 0}},
-code: "2",
-name: "Slayer Tower",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3419, "y": 3522, "level": 0}, "size": {"x": 3, "y": 4}, "data": "/ww="},
+                code: "2",
+                name: "Slayer Tower",
             },
             {
                 id: "slayerdungeon",
-target: {origin: {x: 2790, y: 3616, level: 0}},
-code: "3",
-name: "Fremennik Slayer Dungeon",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2788, "y": 3614, "level": 0}, "size": {"x": 5, "y": 3}, "data": "/2M="},
+                code: "3",
+                name: "Fremennik Slayer Dungeon",
             },
-            // Tarns lair
-        ]
-    },
+            {
+                id: "tarnslair",
+                target: {"origin": {"x": 3183, "y": 4599, "level": 0}, "size": {"x": 5, "y": 3}, "data": "hHw="},
+                code: "3",
+                name: "Tarn's Kair",
+            },
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Ring of slaying", kind: "item"},
+            img: {url: "jewellry_ringofslaying.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
+    },/*
     {
         type: "teleports",
         id: "ringofwealth",
@@ -2223,7 +2234,6 @@ name: "Keldagrim",
                 name: "Runecrafting Guild",
             },
         ],
-
         access: [{
             id: "ring",
             type: "item",
@@ -2233,40 +2243,41 @@ name: "Keldagrim",
             can_be_in_pota: true
         }]
     },
-    /*
     {
         type: "teleports",
         id: "travellersnecklace",
         name: "Traveller's necklace",
-        img: {url: "jewellry_travellersnecklace.png"},
-        can_be_in_pota: true,
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "wizardstower",
-target: {origin: {x: 3103, y: 3182, level: 0}},
-code: "1",
-name: "Wizard's Tower",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3101, "y": 3178, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "1",
+                name: "Wizard's Tower",
             },
             {
                 id: "outpost",
-target: {origin: {x: 2444, y: 3346, level: 0}},
-code: "2",
-name: "The Outpost",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2445, "y": 3343, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "2",
+                name: "The Outpost",
             },
             {
                 id: "deserteagle",
-target: {origin: {x: 3424, y: 3141, level: 0}},
-code: "3",
-name: "Desert Eagle's Eyrie",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3422, "y": 3138, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//8fAQ=="},
+                code: "3",
+                name: "Desert Eagle's Eyrie",
             },
-        ]
-    },*/
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Traveller's necklace", kind: "item"},
+            img: {url: "jewellry_travellersnecklace.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
+    },
     {
         id: "davesspellbook",
         type: "teleports",

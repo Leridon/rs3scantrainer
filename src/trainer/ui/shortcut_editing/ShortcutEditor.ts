@@ -89,13 +89,15 @@ export class ShortcutEditGameLayer extends GameLayer {
             if (shortcuts.length == 1) {
                 this.editor.editControl.shortcut.set(shortcuts[0])
             } else if (shortcuts.length > 1) {
-                new ContextMenu(
-                    shortcuts.map(s => ({
+                new ContextMenu({
+                    type: "submenu",
+                    text: "",
+                    children: shortcuts.map(s => ({
                         type: "basic", text: ShortcutEditor.nameWithBuiltin(s.value()), handler: () => {
                             this.editor.editControl.shortcut.set(s)
                         }
                     }))
-                ).showFromEvent2(event.original)
+                }).showFromEvent2(event.original)
             }
 
         })
@@ -111,9 +113,9 @@ export class ShortcutEditGameLayer extends GameLayer {
                 let entries = ShortcutEditor.contextMenu(s, this.editor, true, event.tile())
 
                 if (shortcuts.length > 1) {
-                    event.add({type: "submenu", children: entries, text: Transportation.name(s.value())})
+                    event.add({type: "submenu", children: entries.children, text: Transportation.name(s.value())})
                 } else {
-                    event.add(...entries)
+                    event.add(...entries.children)
                 }
             })
         })
@@ -209,10 +211,14 @@ export namespace ShortcutEditor {
     ): Menu {
         let editable = !shortcut.value().is_builtin
 
-        let menu: Menu = []
+        let menu: Menu = {
+            type: "submenu",
+            text: "",
+            children: []
+        }
 
         if (editable) {
-            menu.push({
+            menu.children.push({
                 type: "basic",
                 text: `Edit ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/edit.png",
@@ -221,14 +227,14 @@ export namespace ShortcutEditor {
                 }
             })
 
-            menu.push({
+            menu.children.push({
                 type: "basic",
                 text: `Delete ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/delete.png",
                 handler: () => {shortcut.remove()}
             })
 
-            menu.push({
+            menu.children.push({
                 type: "basic",
                 text: `Move ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/move.png",
@@ -238,7 +244,7 @@ export namespace ShortcutEditor {
             })
         }
 
-        menu.push({
+        menu.children.push({
             type: "basic",
             text: `Copy ${Transportation.name(shortcut.value())}`,
             icon: "assets/icons/copy.png",
@@ -248,7 +254,7 @@ export namespace ShortcutEditor {
         })
 
         if (!origin_tile) {
-            menu.push({
+            menu.children.push({
                 type: "basic",
                 text: `Focus on ${Transportation.name(shortcut.value())}`,
                 icon: "assets/icons/fullscreen.png",

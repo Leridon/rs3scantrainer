@@ -83,8 +83,7 @@ export const default_hard_paths: Pack = {
                     "cursor": "ladderup",
                     "interactive_area": {"origin": {"x": 2526, "y": 3162, "level": 0}},
                     "name": "Climb-up",
-                    "time": 3,
-                    "movement": [{"offset": {"x": 0, "y": 0, "level": 1}, "orientation": "toentitybefore"}]
+                    "movement": [{time: 3, "offset": {"x": 0, "y": 0, "level": 1}, "orientation": "toentitybefore"}]
                 }],
                 "source_loc": 69499
             }

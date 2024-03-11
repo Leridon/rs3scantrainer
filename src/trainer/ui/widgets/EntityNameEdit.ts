@@ -11,36 +11,47 @@ import * as lodash from "lodash";
 
 
 export class EntityNameEdit extends AbstractEditWidget<EntityName> {
-    constructor(private include_item: boolean = false) {
+    constructor(private kinds: EntityName.Kind[] = ["npc", "static"]) {
         super(vbox().container);
     }
 
     protected render() {
         this.empty()
+        const specifics_container = hbox()
 
-        const buttons: {
-            button: Checkbox,
-            value: EntityName.Kind
-        }[] = [
-            {value: "npc", button: new Checkbox("NPC", "radio")},
-            {value: "static", button: new Checkbox("Object", "radio")},
-        ]
+        let group: Checkbox.Group<EntityName.Kind> = undefined
 
-        if (this.include_item) buttons.push({value: "item", button: new Checkbox("Item", "radio")})
+        if (this.kinds.length > 1) {
 
-        const group = new Checkbox.Group<EntityName.Kind>(buttons, false)
-            .setValue(this.get()?.kind || "static")
-            .onChange(v => {
-                const copy = lodash.cloneDeep(this.get())
-                if (copy) {
-                    copy.kind = v
-                    this.commit(copy)
-                }
-            })
+            const buttons: {
+                button: Checkbox,
+                value: EntityName.Kind
+            }[] =
+                this.kinds.map(kind => {
 
-        const specifics_container = hbox(
-            ...group.buttons.map(b => b.button)
-        )
+                    const name = {
+                        "npc": "NPC",
+                        "static": "Object",
+                        "item": "Item"
+                    }[kind]
+
+                    return {value: kind, button: new Checkbox(name, "radio")}
+                });
+
+            const group = new Checkbox.Group<EntityName.Kind>(buttons, false)
+                .setValue(this.get()?.kind || "static")
+                .onChange(v => {
+                    const copy = lodash.cloneDeep(this.get())
+                    if (copy) {
+                        copy.kind = v
+                        this.commit(copy)
+                    }
+                })
+
+            specifics_container.append(
+                ...group.buttons.map(b => b.button)
+            )
+        }
 
         const name = new TextField()
             .css("width", "100%")
@@ -51,7 +62,7 @@ export class EntityNameEdit extends AbstractEditWidget<EntityName> {
                     let copy = lodash.cloneDeep(this.get())
 
                     if (!copy) {
-                        copy = {name: "", kind: group.get()}
+                        copy = {name: "", kind: group?.get() ?? copy.kind}
                     }
 
                     copy.name = v
@@ -61,7 +72,8 @@ export class EntityNameEdit extends AbstractEditWidget<EntityName> {
             })
 
         this.append(
-            name, specifics_container
+            name,
+            specifics_container
         )
     }
 }

@@ -13,12 +13,13 @@ import {CursorType} from "../../../../lib/runescape/CursorType";
 import {TransportData} from "../../../../data/transports";
 import {TeleportSpotEntity} from "./TeleportSpotEntity";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
-import {MenuEntry} from "../../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
 
 export class PathStepEntity extends MapEntity {
 
     floor_sensitivity_layers: FloorLevels<{ correct_level: boolean }>
+
     constructor(public config: PathStepEntity.Config) {
         super(config)
 
@@ -37,7 +38,7 @@ export class PathStepEntity extends MapEntity {
 
         const floor_group = this.floor_sensitivity_layers.get(options.floor_group_index)
 
-        const cls = floor_group.value.correct_level ?  "ctr-step-graphics" : "ctr-step-graphics-dl"
+        const cls = floor_group.value.correct_level ? "ctr-step-graphics" : "ctr-step-graphics-dl"
 
         const element: Element = (() => {
             switch (step.type) {
@@ -166,13 +167,30 @@ export class PathStepEntity extends MapEntity {
                     return marker.getElement();
                 }
                 case "cheat": {
-                    return arrow(step.assumed_start, step.target)
-                        .setStyle({
-                            color: "#069334",
-                            weight: options.highlight ? 6 : 4,
-                            dashArray: '10, 10',
+                    const marker_pos = step.assumed_start
+                        ? Rectangle.center(Rectangle.from(step.assumed_start, step.target), false)
+                        : step.target
+
+                    if (step.assumed_start) {
+                        arrow(step.assumed_start, step.target)
+                            .setStyle({
+                                color: "#069334",
+                                weight: options.highlight ? 6 : 4,
+                                dashArray: '10, 10',
+                                className: cls
+                            }).addTo(this)
+                    }
+
+                    const marker = leaflet.marker(Vector2.toLatLong(marker_pos), {
+                        icon: leaflet.icon({
+                            iconUrl: "assets/icons/Rotten_potato.png",
+                            iconSize: options.highlight ? [33, 24] : [21, 16],
+                            iconAnchor: options.highlight ? [15, 12] : [10, 8],
                             className: cls
-                        }).addTo(this).getElement()
+                        }),
+                    }).addTo(this)
+
+                    return marker.getElement()
                 }
 
             }
@@ -193,7 +211,7 @@ export class PathStepEntity extends MapEntity {
         }
     }
 
-    override async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+    override async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
         return {
             type: "submenu",
             text: Path.Step.name(this.config.step),

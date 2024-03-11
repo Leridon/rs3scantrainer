@@ -1,33 +1,34 @@
 Planned for next release (b0.4):
 
+- Tile Area
+    - [Feature, 4] Implement areaPolygon properly!
+
 - Data
     - Gather data for non-static teleports
     - Tirranwn Traps
     - Dorgesh Khaan stairs
     - Swamp Cave entrance and stones
+    - [Dev Tool, 5] Utility Layer for shortcut parsing
+        - Show LocUsage on map
+        - Bounding Box, rotation
+        - Quick-Copy origin and id
+        - "Show unrotated"
 
 - Path Editor
-    - [Feature, 5] Add additional action bar buttons
-        - Cheat Step
-    - [Feature, 3, WIP] Add "Edit details modal"
-        - Finish edits for all props.
-    - [QOL, 5] Additional utility context actions
-        - Select direction for orientation
-        - Select action for redclicks
+    - [Feature, 3] Highlight step on hover
 
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
-    - [Bug] Dive Target needs to be optional
-    - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
     - [Feature] Check valid access
 
+- Context Menu Builder
+    - Creating context menus currently is a little annoying
+
 - Map Entities
-    - [Feature, 5] Add Teleport Access Entity
-    - [Feature, 5] Add Transport Destination Entity
-    - [Performance, 1] Remove from quadtree when removed from map!
-    - [Performance, 1] Share a quad tree for all game layers
     - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
+    - [Performance, 1] Remove from quadtree when removed from map!
+    - [Performance, 1] Share a quad tree for all game layers?
     - [Feature, 2] Find a way to separate entities on the same tile
 
 - Theorycrafter
@@ -96,7 +97,7 @@ Planned for next release (b0.4):
 - Menu Bar
     - Highlight currently active
     - Add to Alt 1 entry when not in Alt1
-    - Regular Map mode as default
+    - Regular Map mode as default when not in Alt1
 
 - Settings Modal
     - Map Settings: Teleport Preferences
@@ -125,6 +126,9 @@ Planned for next release (b0.4):
     - Jump to target/origin context menu
 
 - Scan Editor
+    - [Restyle, 5] Simplify the tree view, maybe with context menus and modals.
+    - Auto-size region based on teleport areas!
+    - Do the same on augmenting scan trees.
     - New solution for setting spot order (Auto)
     - Update target for path editor when needed
     - Jump to spot button in overview

@@ -72,7 +72,8 @@ export namespace Transportation {
     } | {
         type: "entity",
         name: EntityName & { kind: "npc" | "static" },
-        area: TileArea,
+        clickable_area: TileArea,
+        interactive_area?: TileArea,
         action_name: string,
         cursor?: CursorType,
     } | {
@@ -260,9 +261,17 @@ export namespace Transportation {
 
             return transport.type == "door" || !transport.actions.some(a =>
                 a.movement.some(m => {
-                    return m.fixed_target && !(m.fixed_target.relative || Vector2.length(Vector2.sub(m.fixed_target.target, transport.clickable_area.topleft)) < 30)
+                    return !Movement.isLocal(m)
                 })
             )
+        }
+
+        export namespace Movement {
+            export function isLocal(m: EntityActionMovement): boolean {
+                // A shortcut is local if there is no movement action that has a non-relative fixed target
+
+                return !(m.fixed_target && !m.fixed_target.relative)
+            }
         }
     }
 

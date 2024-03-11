@@ -7,7 +7,7 @@ import exp = ExportImport.exp;
 import ExportStringModal from "../widgets/modals/ExportStringModal";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
 import Dependencies from "../../dependencies";
-import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
+import ContextMenu, {Menu, MenuEntry} from "../widgets/ContextMenu";
 import {AssumptionProperty} from "./AssumptionProperty";
 import {EditMethodPackModal, NewMethodPackModal} from "./MethodPackModal";
 import {util} from "../../../lib/util/util";
@@ -44,9 +44,13 @@ export default class PackWidget extends Widget {
 
         if (customization.buttons) {
             this.on("click", (event) => {
-                let menu: MenuEntry[] = []
+                let menu: Menu = {
+                    type: "submenu",
+                    text: "",
+                    children: []
+                }
 
-                menu.push({
+                menu.children.push({
                     type: "basic",
                     text: "Clone",
                     icon: "assets/icons/copy.png",
@@ -54,7 +58,7 @@ export default class PackWidget extends Widget {
                 })
 
                 if (pack.type == "local") {
-                    menu.push({
+                    menu.children.push({
                         type: "basic",
                         text: "Edit Metainformation",
                         icon: "assets/icons/edit.png",
@@ -65,7 +69,7 @@ export default class PackWidget extends Widget {
                 }
 
                 if (pack.type == "local" || pack.type == "imported") {
-                    menu.push({
+                    menu.children.push({
                         type: "basic",
                         text: "Delete",
                         icon: "assets/icons/delete.png",
@@ -92,7 +96,7 @@ export default class PackWidget extends Widget {
                         }
                     })
 
-                    menu.push({
+                    menu.children.push({
                         type: "basic",
                         text: "Export",
                         handler: () => {
@@ -103,7 +107,7 @@ export default class PackWidget extends Widget {
                         }
                     })
 
-                    menu.push({
+                    menu.children.push({
                         type: "basic",
                         text: "Export JSON",
                         handler: () => {

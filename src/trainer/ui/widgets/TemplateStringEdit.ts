@@ -3,6 +3,9 @@ import TemplateResolver from "lib/util/TemplateResolver";
 import AbstractEditWidget from "./AbstractEditWidget";
 import Button from "lib/ui/controls/Button";
 import {SmallImageButton} from "./SmallImageButton";
+import TextArea from "../../../lib/ui/controls/TextArea";
+import {C} from "../../../lib/ui/constructors";
+import vbox = C.vbox;
 
 export default class TemplateStringEdit extends AbstractEditWidget<string> {
     edit_mode: boolean = false
@@ -15,6 +18,7 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
     edit_button: Button = null
 
     constructor(private options: {
+        fullsize?: boolean,
         resolver: TemplateResolver,
         generator?: () => string
     }) {
@@ -46,66 +50,87 @@ export default class TemplateStringEdit extends AbstractEditWidget<string> {
         this.instruction_input = null
         this.preview_container = null
 
-        this.main_row = c("<div class='ctr-template-string-edit-input-row'></div>")
+        if (this.options.fullsize) {
+            this.instruction_input = new TextArea({placeholder: "Enter text"})
+                .onPreview(s => {
+                    this.preview(s)
+                })
+                .onCommit(s => {
+                    this.commit(s)
+                })
+                .css("height", "80px")
 
-        this.generate_button = SmallImageButton.new("assets/icons/regenerate.png")
-            .css("margin-left", "2px")
-            .tooltip("Auto generate")
-            .setEnabled(!!this.options.generator)
-            .onClick( () => {
-                this.commit(this.options.generator())
-            }).setVisible(this.edit_mode)
-
-        if (this.edit_mode) {
-            this.instruction_input = c("<input type='text' class='nisinput'>")
-                .tapRaw(r => r
-                    .val(this.get())
-                    .on("input", () => {
-                        this.preview(this.instruction_input.container.val() as string)
-                    })
-                    .on("change", () => {
-                        this.commit(this.instruction_input.container.val() as string)
-                    })
-                    .on("keyup", (e) => {
-                        if (e.key === 'Enter') this.instruction_input.raw().blur()
-                    })
-                    .on("focusout", () => {
-                        this.edit_mode = false
-
-                        this.render()
-                    })
-                )
-
-            this.main_row
-                .append(this.instruction_input)
-                .append(this.generate_button)
-                .appendTo(this)
-
-            this.preview_container = c().appendTo(this)
-
+            this.append(
+                vbox(
+                    this.instruction_input,
+                    this.preview_container = c()
+                ).css2({
+                    "display": "flex",
+                    "flex-direction": "column"
+                })
+            )
         } else {
-            this.edit_button = SmallImageButton.new("assets/icons/edit.png")
+            this.main_row = c("<div class='ctr-template-string-edit-input-row'></div>")
+
+            this.generate_button = SmallImageButton.new("assets/icons/regenerate.png")
                 .css("margin-left", "2px")
-                .tooltip("Edit")
-                .onClick( () => {
-                    this.startEdit()
-                }).setVisible(false)
+                .tooltip("Auto generate")
+                .setEnabled(!!this.options.generator)
+                .onClick(() => {
+                    this.commit(this.options.generator())
+                }).setVisible(this.edit_mode)
 
-            this.preview_container = c("<span style='cursor: pointer; flex-grow: 1'> </span>")
-                .tooltip("Edit")
-                .tapRaw(r => r.on("click", () => {
-                    this.startEdit()
-                }))
+            if (this.edit_mode) {
+                this.instruction_input = c("<input type='text' class='nisinput'>")
+                    .tapRaw(r => r
+                        .val(this.get())
+                        .on("input", () => {
+                            this.preview(this.instruction_input.container.val() as string)
+                        })
+                        .on("change", () => {
+                            this.commit(this.instruction_input.container.val() as string)
+                        })
+                        .on("keyup", (e) => {
+                            if (e.key === 'Enter') this.instruction_input.raw().blur()
+                        })
+                        .on("focusout", () => {
+                            this.edit_mode = false
 
-            this.main_row
-                .append(this.preview_container)
-                .append(this.edit_button)
-                .append(this.generate_button)
-                .appendTo(this)
-        }
+                            this.render()
+                        })
+                    )
 
-        if (this.instruction_input) {
-            this.instruction_input.container.val(this.get())
+                this.main_row
+                    .append(this.instruction_input)
+                    .append(this.generate_button)
+                    .appendTo(this)
+
+                this.preview_container = c().appendTo(this)
+
+            } else {
+                this.edit_button = SmallImageButton.new("assets/icons/edit.png")
+                    .css("margin-left", "2px")
+                    .tooltip("Edit")
+                    .onClick(() => {
+                        this.startEdit()
+                    }).setVisible(false)
+
+                this.preview_container = c("<span style='cursor: pointer; flex-grow: 1'> </span>")
+                    .tooltip("Edit")
+                    .tapRaw(r => r.on("click", () => {
+                        this.startEdit()
+                    }))
+
+                this.main_row
+                    .append(this.preview_container)
+                    .append(this.edit_button)
+                    .append(this.generate_button)
+                    .appendTo(this)
+            }
+
+            if (this.instruction_input) {
+                this.instruction_input.container.val(this.get())
+            }
         }
 
         this.renderPreview()

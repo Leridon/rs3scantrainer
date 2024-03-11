@@ -2670,56 +2670,56 @@ code: "4",
             {
                 id: "grandtree",
                 type: "entity",
-                area: {origin: {"x": 2464, "y": 3502, "level": 3}},
+                clickable_area: {origin: {"x": 2464, "y": 3502, "level": 3}},
                 name: {kind: "npc", name: "Captain Errdo"},
                 action_name: "Glider",
             },
             {
                 id: "whitewolfmountain",
                 type: "entity",
-                area: {origin: {"x": 2850, "y": 3493, "level": 1}},
+                clickable_area: {origin: {"x": 2850, "y": 3493, "level": 1}},
                 name: {kind: "npc", name: "Captain Bleemadge"},
                 action_name: "Glider",
             },
             {
                 id: "alkharid",
                 type: "entity",
-                area: {origin: {"x": 3283, "y": 3212, "level": 0}},
+                clickable_area: {origin: {"x": 3283, "y": 3212, "level": 0}},
                 name: {kind: "npc", name: "Captain Dalbur"},
                 action_name: "Glider",
             },
             {
                 id: "karamja",
                 type: "entity",
-                area: {origin: {"x": 2970, "y": 2973, "level": 0}},
+                clickable_area: {origin: {"x": 2970, "y": 2973, "level": 0}},
                 name: {kind: "npc", name: "Captain Klemfoodle"},
                 action_name: "Glider",
             },
             {
                 id: "feldip",
                 type: "entity",
-                area: {origin: {"x": 2545, "y": 2972, "level": 0}}, // TODO: He is not static
+                clickable_area: {origin: {"x": 2545, "y": 2972, "level": 0}}, // TODO: He is not static
                 name: {kind: "npc", name: "Gnormadium Avlafrim"},
                 action_name: "Glider",
             },
             {
                 id: "gnomevillage",
                 type: "entity",
-                area: {origin: {"x": 2496, "y": 3190, "level": 0}}, // TODO: He is not static
+                clickable_area: {origin: {"x": 2496, "y": 3190, "level": 0}}, // TODO: He is not static
                 name: {kind: "npc", name: "Captain Belmondo"},
                 action_name: "Glider",
             },
             {
                 id: "prifddinas",
                 type: "entity",
-                area: {origin: {"x": 2207, "y": 3452, "level": 1}},
+                clickable_area: {origin: {"x": 2207, "y": 3452, "level": 1}},
                 name: {kind: "npc", name: "Captain Muggin"},
                 action_name: "Glider",
             },
             {
                 id: "tuaeileit",
                 type: "entity",
-                area: {origin: {"x": 1773, "y": 11919, "level": 0}},
+                clickable_area: {origin: {"x": 1773, "y": 11919, "level": 0}},
                 name: {kind: "npc", name: "Azalea Oakhart"},
                 action_name: "Glider",
             },
@@ -2904,36 +2904,39 @@ name: "Entrana",
         animation_ticks: 5
     },
 ]
-},
-{
-type: "teleports",
-id: "gote",
-name: "Grace of the Elves (Max Guild Portal)",
-img: {url: "gote.png"},
-spots: [
+},*/
     {
-        id: "overgrownidols",
-target: {origin: {x: 2950, y: 2976, level: 0}},
-name: "Overgrown idols",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
+        type: "teleports",
+        id: "gote",
+        name: "Grace of the Elves (Max Guild Portal)",
+        img: {url: "gote.png"},
+        animation_ticks: default_teleport_ticks,
+        spots: [
+            {
+                id: "overgrownidols",
+                target: {"origin": {"x": 2949, "y": 2977, "level": 0}},
+                name: "Overgrown idols",
+            },
+            {
+                id: "deepseafishing",
+                target: {"origin":{"x":2135,"y":7107,"level":0}},
+                name: "Deep sea fishing hub",
+            },
+            {
+                id: "lavaflowmine",
+                target: {"origin": {"x": 2177, "y": 5663, "level": 0}},
+                name: "Lava Flow Mine",
+            },
+        ],
+        access: [{
+            id: "gote",
+            type: "item",
+            name: {name: "Grace of the elves", kind: "item"},
+            action_name: "Max garden portal",
+            menu_ticks: 1,
+        }]
     },
-    {
-        id: "deppseafishing",
-target: {origin: {x: 2594, y: 3412, level: 0}},
-name: "Deep sea fishing hub",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "lavaflowmine",
-target: {origin: {x: 2940, y: 10198, level: 0}},
-name: "Lava Flow Mine",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-]
-},
+    /*
 {
 type: "teleports",
 id: "spheredorgeshkaan",

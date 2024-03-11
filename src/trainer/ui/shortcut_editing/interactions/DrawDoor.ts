@@ -49,15 +49,19 @@ export class DrawDoor extends InteractionLayer {
                     this.config.done_handler(options[0])
                     this.next()
                 } else if (options.length > 1) {
-                    new ContextMenu(options.map(s => {
-                        return {
-                            type: "basic",
-                            text: direction.toString(s.direction),
-                            handler: () => {
-                                this.config.done_handler(s)
+                    new ContextMenu({
+                        type: "submenu",
+                        text: "",
+                        children: options.map(s => {
+                            return {
+                                type: "basic",
+                                text: direction.toString(s.direction),
+                                handler: () => {
+                                    this.config.done_handler(s)
+                                }
                             }
-                        }
-                    })).show(this.getMap().container.get()[0], this.getMap().getClientPos(Rectangle.center(area, false)))
+                        })
+                    }).show(this.getMap().container.get()[0], this.getMap().getClientPos(Rectangle.center(area, false)))
                         .onClosed(() => this.next())
                 }
             })

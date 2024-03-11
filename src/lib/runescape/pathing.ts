@@ -37,7 +37,7 @@ export namespace Path {
     export type step_ability = step_base & {
         type: "ability",
         ability: movement_ability,
-        target?: EntityName,
+        target?: EntityName, // Only for barges
         target_text?: string,
         from: TileCoordinates,
         to: TileCoordinates,
@@ -77,7 +77,7 @@ export namespace Path {
         type: "cheat",
         assumed_start: TileCoordinates,
         target: TileCoordinates,
-        orientation: direction,
+        orientation?: direction,
         ticks: number
     }
 
@@ -259,7 +259,7 @@ export namespace Path {
             switch (step.type) {
                 case "cheat":
                     state.position.tile = step.target
-                    if (step.orientation != direction.center) state.position.direction = step.orientation
+                    if (step.orientation) state.position.direction = step.orientation
                     state.tick += step.ticks
                     break
                 case "orientation":
@@ -458,6 +458,13 @@ export namespace Path {
                     break;
                 case "teleport":
                     let teleport = resolveTeleport(step.id)
+
+                    if (!activate(teleport.targetArea()).query(step.spot)) {
+                        augmented.issues.push({
+                            level: 0,
+                            message: "Teleport destination tile is outside of the teleport area."
+                        })
+                    }
 
                     if (step.spot) state.position.tile = step.spot
                     else state.position.tile = teleport.centerOfTarget()

@@ -2,7 +2,7 @@ import {Path} from "lib/runescape/pathing";
 import InteractionTopControl from "../../map/InteractionTopControl";
 import SelectTileInteraction from "../../../../lib/gamemap/interaction/SelectTileInteraction";
 import {ValueInteraction} from "../../../../lib/gamemap/interaction/ValueInteraction";
-import ContextMenu, {MenuEntry} from "../../widgets/ContextMenu";
+import ContextMenu, {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {PathStepEntity} from "../../map/entities/PathStepEntity";
 import { CursorType } from "lib/runescape/CursorType";
 
@@ -24,21 +24,25 @@ export default class PlaceRedClickInteraction extends ValueInteraction<Path.step
                         }))
                     } else {
 
-                        let menu = CursorType.all().map((i): MenuEntry => {
-                            return {
-                                type: "basic",
-                                text: i.description,
-                                icon: i.icon_url,
-                                handler: () => {
-                                    this.commit(({
-                                        type: "redclick",
-                                        target:  CursorType.defaultEntity(i.type),
-                                        where: t,
-                                        how: i.type
-                                    }))
+                        let menu: Menu = {
+                            type: "submenu",
+                            text: "",
+                            children: CursorType.all().map((i): MenuEntry => {
+                                return {
+                                    type: "basic",
+                                    text: i.description,
+                                    icon: i.icon_url,
+                                    handler: () => {
+                                        this.commit(({
+                                            type: "redclick",
+                                            target:  CursorType.defaultEntity(i.type),
+                                            where: t,
+                                            how: i.type
+                                        }))
+                                    }
                                 }
-                            }
-                        })
+                            })
+                        }
 
                         new ContextMenu(menu).show(this.getMap().container.get()[0], this.getMap().getClientPos(t))
                             .onCancel(() => this.cancel())

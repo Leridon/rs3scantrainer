@@ -18,6 +18,7 @@ import dive_cooldown = Path.movement_state.dive_cooldown;
 import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import ControlWithHeader from "../map/ControlWithHeader";
+import {DrawCheatInteraction} from "./interactions/DrawCheatInteraction";
 
 export default class PathEditActionBar extends GameMapControl<ControlWithHeader> {
     bar: ActionBar
@@ -103,7 +104,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     )
                 }).tooltip("Run")
                     .setHotKey("s-R"),
-                redclick: new ActionBarButton('assets/icons/redclick.png', () => {
+                redclick: new ActionBarButton('assets/icons/cursor_redclick.png', () => {
                     return interact(
                         new PlaceRedClickInteraction()
                             .onCommit((step) => self.editor.value.add(step))
@@ -129,7 +130,10 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     .tooltip("Powerburst of Acceleration")
                     .setHotKey("s-P"),
                 cheat: new ActionBarButton('assets/icons/Rotten_potato.png', (e) => {
+                    return interact(new DrawCheatInteraction(self.state.value().position?.tile)
+                        .onCommit((step) => self.editor.value.add(step))
 
+                    )
                 }).tooltip("Cheat")
             }
 

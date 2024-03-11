@@ -15,18 +15,18 @@ import InteractionLayer, {InteractionGuard} from "lib/gamemap/interaction/Intera
 import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import * as assert from "assert";
 import * as lodash from "lodash";
-import {MenuEntry} from "../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../widgets/ContextMenu";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
-import {PathFinder} from "../../../lib/runescape/movement";
+import {direction, PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import TransportLayer from "../map/TransportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {CursorType} from "../../../lib/runescape/CursorType";
-import {boxPolygon} from "../polygon_helpers";
+import {areaPolygon, boxPolygon, tilePolygon} from "../polygon_helpers";
 import EntityTransportation = Transportation.EntityTransportation;
 import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import {EntityTransportEntity} from "../map/entities/EntityTransportEntity";
@@ -42,6 +42,12 @@ import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import {PathEditMenuBar} from "./PathEditMenuBar";
 import tr = TileRectangle.tr;
+import {deps} from "../../dependencies";
+import {TeleportAccessEntity} from "../map/entities/TeleportAccessEntity";
+import TeleportGroup = Transportation.TeleportGroup;
+import {TransportData} from "../../../data/transports";
+import resolveTeleport = TransportData.resolveTeleport;
+import {RemoteEntityTransportTarget} from "../map/entities/RemoteEntityTransportTarget";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -62,23 +68,45 @@ class PathEditorGameLayer extends GameLayer {
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
+
         event.onPost(() => {
             if (this.editor.isActive()) {
 
                 if (!event.active_entity) {
-                    event.add({
-                        type: "basic",
-                        text: "Walk here",
-                        icon: "assets/icons/yellowclick.png",
-                        handler: () => {
 
-                        }
-                    })
+                    const current_tile = this.editor.value.cursor_state.value()?.state?.position?.tile
+                    const target_tile = event.tile()
+
+                    if (current_tile && !TileCoordinates.eq2(current_tile, target_tile)) {
+                        event.add({
+                            type: "basic",
+                            text: "Walk here",
+                            icon: "assets/icons/yellowclick.png",
+                            handler: async () => {
+                                const path_to_tile = await PathFinder.find(
+                                    PathFinder.init_djikstra(this.editor.value.cursor_state.value().state.position.tile),
+                                    TileArea.init(target_tile)
+                                )
+
+                                if (path_to_tile && path_to_tile.length > 1) {
+                                    this.editor.value.add({
+                                        type: "run",
+                                        waypoints: path_to_tile,
+                                    })
+                                } else {
+                                    deps().app.notifications.notify({
+                                        type: "error"
+                                    }, "No path found.")
+                                }
+                            }
+                        })
+                    }
+
 
                     event.add({
                         type: "submenu",
-                        text: "Create Redclick",
-                        icon: "assets/icons/redclick.png",
+                        text: "Redclick",
+                        icon: "assets/icons/cursor_redclick.png",
                         children: CursorType.all().map((i): MenuEntry => ({
                             type: "basic",
                             text: i.description,
@@ -101,7 +129,7 @@ class PathEditorGameLayer extends GameLayer {
 
                         event.addForEntity({
                             type: "basic",
-                            text: c().append(`Use via `, TeleportSpotEntity.accessNameAsWidget(a)),
+                            text: () => c().append(`Use via `, TeleportSpotEntity.accessNameAsWidget(a)),
                             handler: () => {
                                 this.editor.value.add({
                                         type: "teleport",
@@ -118,7 +146,7 @@ class PathEditorGameLayer extends GameLayer {
                             children: t.group.access.map(a => {
                                 return {
                                     type: "basic",
-                                    text: c().append(TeleportSpotEntity.accessNameAsWidget(a)),
+                                    text: () => c().append(TeleportSpotEntity.accessNameAsWidget(a)),
                                     handler: () => {
                                         this.editor.value.add({
                                             type: "teleport",
@@ -130,44 +158,106 @@ class PathEditorGameLayer extends GameLayer {
                             })
                         })
                     }
-                } else if (event.active_entity instanceof EntityTransportEntity) {
+                } else if (event.active_entity instanceof TeleportAccessEntity) {
+                    const access = event.active_entity.config.access
+                    const teleport = event.active_entity.config.teleport
 
+                    event.addForEntity({
+                        type: "submenu",
+                        text: `Use action '${access.action_name}'`,
+                        children: event.active_entity.config.teleport.spots.map(spot => {
+
+                            const s = new TeleportGroup.Spot(teleport, spot, access, deps().app.teleport_settings)
+
+                            return {
+                                type: "basic",
+                                icon: `assets/icons/teleports/${s.image().url}`,
+                                text: s.code() ? `${spot.code}: ${spot.name}` : spot.name,
+                                handler: async () => {
+
+                                    const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
+
+                                    let assumed_start = current_tile
+                                    const target = access.interactive_area || EntityTransportation.default_interactive_area(TileArea.toRect(access.clickable_area))
+
+                                    const steps: Path.Step[] = []
+
+                                    if (current_tile && !activate(target).query(current_tile)) {
+                                        const path_to_start = await PathFinder.find(
+                                            PathFinder.init_djikstra(current_tile),
+                                            target
+                                        )
+
+                                        if (path_to_start && path_to_start.length > 1) {
+
+                                            if (assumed_start) assumed_start = index(path_to_start, -1)
+
+                                            steps.push({
+                                                type: "run",
+                                                waypoints: path_to_start,
+                                            })
+
+                                        } else {
+                                            deps().app.notifications.notify({
+                                                type: "error"
+                                            }, "No path to transportation found.")
+                                        }
+                                    }
+
+                                    steps.push({
+                                        type: "teleport",
+                                        spot: s.centerOfTarget(),
+                                        id: {...s.id(), access: access.id},
+                                    })
+
+                                    this.editor.value.add(...steps)
+                                }
+                            }
+                        }),
+                    })
+                } else if (event.active_entity instanceof EntityTransportEntity) {
                     let s = Transportation.normalize(event.active_entity.config.shortcut)
 
                     s.actions.forEach(a => {
-                        event.add({
+                        event.addForEntity({
                             type: "basic",
-                            text: `${s.entity.name}: ${a.name}`,
+                            text: `Use action '${a.name}'`,
                             icon: CursorType.meta(a.cursor).icon_url,
                             handler: async () => {
-                                const t = this.editor.value.cursor_state.value().state?.position?.tile
+                                const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
 
-                                let assumed_start = t
-                                const interactive_area = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
+                                let assumed_start = current_tile
+                                const target = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
 
                                 const steps: Path.Step[] = []
 
-                                if (t) {
+                                if (current_tile && !activate(target).query(current_tile)) {
                                     const path_to_start = await PathFinder.find(
-                                        PathFinder.init_djikstra(t),
-                                        interactive_area
+                                        PathFinder.init_djikstra(current_tile),
+                                        target
                                     )
 
                                     if (path_to_start && path_to_start.length > 1) {
+
                                         if (assumed_start) assumed_start = index(path_to_start, -1)
 
                                         steps.push({
                                             type: "run",
                                             waypoints: path_to_start,
                                         })
+
+                                    } else {
+                                        deps().app.notifications.notify({
+                                            type: "error"
+                                        }, "No path to transportation found.")
                                     }
                                 }
 
                                 assumed_start ??=
-                                    t ? TileRectangle.clampInto(t, TileArea.toRect(
-                                            interactive_area,
+                                    current_tile ? TileRectangle.clampInto(current_tile, TileArea.toRect(
+                                            target,
                                         ))
-                                        : interactive_area.origin
+                                        : target.origin
 
                                 let clone = lodash.cloneDeep(s)
                                 clone.actions = [lodash.cloneDeep(a)]
@@ -180,11 +270,13 @@ class PathEditorGameLayer extends GameLayer {
                             }
                         })
                     })
+                } else if (event.active_entity instanceof RemoteEntityTransportTarget) {
+
                 } else if (event.active_entity instanceof PathStepEntity) {
                     const step = this.editor.value.committed_value.value().steps.find(v => v.associated_preview == event.active_entity)
 
                     if (step) {
-                        event.addForEntity(...this.editor.contextMenu(step))
+                        event.addForEntity(...this.editor.contextMenu(step).children)
                     }
                 }
             }
@@ -404,22 +496,42 @@ export class PathEditor extends Behaviour {
                     .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the powerburst by clicking the tile.`))
             )
         } else if (v.raw.type == "teleport") {
-            // TODO: Limit to possible tiles.
+            const spot = resolveTeleport(v.raw.id)
 
             this.editStep(value,
                 new SelectTileInteraction({
                     preview_render: tile => {
                         assert(v.raw.type == "teleport")
-                        return new PathStepEntity({
-                            interactive: false,
-                            step: {
-                                type: "teleport",
-                                id: v.raw.id,
-                                spot: tile,
-                            }
-                        })
+
+                        if (activate(spot.targetArea()).query(tile)) {
+                            return new PathStepEntity({
+                                interactive: false,
+                                step: {
+                                    type: "teleport",
+                                    id: v.raw.id,
+                                    spot: tile,
+                                }
+                            })
+                        } else {
+                            return tilePolygon(tile)
+                                .setStyle({
+                                    fillColor: "red",
+                                    color: "red",
+                                    stroke: true
+                                })
+                        }
+
+
                     }
                 })
+                    .addLayer(
+                        areaPolygon(spot.targetArea())
+                            .setStyle({
+                                fillColor: "lightgreen",
+                                color: "lightgreen",
+                                stroke: true
+                            })
+                    )
                     .onCommit(new_s => value.update<Path.step_teleport>(v => {
                         v.spot = new_s
                     }))
@@ -428,7 +540,7 @@ export class PathEditor extends Behaviour {
         }
     }
 
-    contextMenu(step: PathBuilder.Step): MenuEntry[] {
+    contextMenu(step: PathBuilder.Step): Menu {
         const entries: MenuEntry[] = []
 
         entries.push({
@@ -445,7 +557,7 @@ export class PathEditor extends Behaviour {
             handler: () => step.delete()
         })
 
-        if (step.step.raw.type == "ability") {
+        if (step.step.raw.type == "ability" || step.step.raw.type == "run" || step.step.raw.type == "cheat") {
             entries.push({
                 type: "basic",
                 icon: "assets/icons/edit.png",
@@ -464,7 +576,58 @@ export class PathEditor extends Behaviour {
             })
         }
 
-        return entries
+        if (step.step.raw.type == "orientation") {
+            entries.push({
+                type: "submenu",
+                icon: "assets/icons/compass.png",
+                text: `Choose Direction`,
+                children: direction.all.map(dir => ({
+                    type: "basic",
+                    text: direction.toString(dir),
+                    handler: () => {
+                        step.update<Path.step_orientation>(s => s.direction = dir)
+                    }
+                }))
+            })
+        }
+
+        if (step.step.raw.type == "cheat") {
+            entries.push({
+                type: "submenu",
+                icon: "assets/icons/Rotten_potato.png",
+                text: "Choose Orientation",
+                children: [undefined].concat(direction.all).map(dir => ({
+                    type: "basic",
+                    text: direction.toString(dir) ?? "None",
+                    handler: () => {
+                        step.update<Path.step_cheat>(s => s.orientation = dir)
+                    }
+                }))
+            })
+        }
+
+        if (step.step.raw.type == "redclick") {
+            entries.push({
+                type: "submenu",
+                icon: "assets/icons/cursor_redclick.png",
+                text: `Choose Cursor`,
+                children: CursorType.all().map(cursor => ({
+                    type: "basic",
+                    text: cursor.description,
+                    icon: cursor.icon_url,
+                    handler: () => {
+                        step.update<Path.step_redclick>(s => s.how = cursor.type)
+                    }
+                }))
+            })
+        }
+
+
+        return {
+            type: "submenu",
+            text: "",
+            children: entries
+        }
     }
 }
 

@@ -14,7 +14,7 @@ import ClueSpot = Clues.ClueSpot;
 import {util} from "../../../lib/util/util";
 import natural_join = util.natural_join;
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
-import ContextMenu, {MenuEntry} from "../widgets/ContextMenu";
+import ContextMenu, {Menu, MenuEntry} from "../widgets/ContextMenu";
 import Dependencies from "../../dependencies";
 import {FavouriteIcon, NislIcon} from "../nisl";
 import {ConfirmationModal} from "../widgets/modals/ConfirmationModal";
@@ -168,7 +168,6 @@ export class ClueProperties extends Properties {
 }
 
 export namespace ClueProperties {
-    import uuid = util.uuid;
 
     export function header(clue: Clues.ClueSpot) {
         return hbox(
@@ -181,92 +180,97 @@ export namespace ClueProperties {
 
     export async function methodMenu(clue: Clues.ClueSpot,
                                      edit_handler: (_: AugmentedMethod) => any,
-    ): Promise<MenuEntry[]> {
+    ): Promise<Menu> {
         const ms = await MethodPackManager.instance().get(clue)
 
         const favourite = await Dependencies.instance().app.favourites.getMethod(ClueSpot.toId(clue))
 
-        return [
-            {
-                type: "basic",
-                text: "New Method",
-                handler: async () => {
-                    const m = await new NewMethodModal(clue).do()
+        return {
+            type: "submenu",
+            text: "",
+            children: [
+                {
+                    type: "basic",
+                    text: "New Method",
+                    handler: async () => {
+                        const m = await new NewMethodModal(clue).do()
 
-                    if (m?.created) {
-                        edit_handler(m.created)
+                        if (m?.created) {
+                            edit_handler(m.created)
+                        }
                     }
-                }
-            },
-            ...ms.map((m): MenuEntry => {
-                const isFavourite = AugmentedMethod.isSame(favourite, m)
+                },
+                ...ms.map((m): MenuEntry => {
+                    const isFavourite = AugmentedMethod.isSame(favourite, m)
 
-                const men: MenuEntry.SubMenu = {
-                    type: "submenu",
-                    text: m.method.name,
-                    icon: new FavouriteIcon().set(isFavourite),
-                    children: [
+                    const men: MenuEntry.SubMenu = {
+                        type: "submenu",
+                        text: m.method.name,
+                        icon: () => new FavouriteIcon().set(isFavourite),
+                        children: [
+                            {
+                                type: "basic",
+                                text: isFavourite ? "Unset Favourite" : "Make Favourite",
+                                icon: () => new FavouriteIcon().set(isFavourite),
+                                handler: () => {
+                                    Dependencies.instance().app.favourites.setMethod(ClueSpot.toId(clue), isFavourite ? null : m)
+                                }
+                            },
+                        ]
+                    }
+
+                    if (m.pack.type == "local") {
+                        men.children.push({
+                            type: "basic",
+                            text: "Edit",
+                            icon: "assets/icons/edit.png",
+                            handler: () => edit_handler(m)
+                        })
+                    }
+
+                    men.children.push(
                         {
                             type: "basic",
-                            text: isFavourite ? "Unset Favourite" : "Make Favourite",
-                            icon: new FavouriteIcon().set(isFavourite),
-                            handler: () => {
-                                Dependencies.instance().app.favourites.setMethod(ClueSpot.toId(clue), isFavourite ? null : m)
+                            icon: "assets/icons/copy.png",
+                            text: "Make Copy",
+                            handler: async () => {
+                                const new_method = await new NewMethodModal(clue, m).do()
+
+                                if (new_method?.created) {
+                                    edit_handler(new_method.created)
+                                }
                             }
-                        },
-                    ]
-                }
+                        })
 
-                if (m.pack.type == "local") {
-                    men.children.push({
-                        type: "basic",
-                        text: "Edit",
-                        icon: "assets/icons/edit.png",
-                        handler: () => edit_handler(m)
-                    })
-                }
+                    if (m.pack.type == "local") {
+                        men.children.push({
+                            type: "basic",
+                            text: "Delete",
+                            icon: "assets/icons/delete.png",
+                            handler: async () => {
+                                const really = await new ConfirmationModal<boolean>({
+                                    body: "Are you sure you want to delete this method? There is no way to undo it!",
+                                    options: [
+                                        {kind: "neutral", text: "Cancel", value: false},
+                                        {kind: "cancel", text: "Delete", value: true},
+                                    ]
+                                }).do()
 
-                men.children.push(
-                    {
-                        type: "basic",
-                        icon: "assets/icons/copy.png",
-                        text: "Make Copy",
-                        handler: async () => {
-                            const new_method = await new NewMethodModal(clue, m).do()
-
-                            if (new_method?.created) {
-                                edit_handler(new_method.created)
+                                if (really) {
+                                    MethodPackManager.instance().deleteMethod(m)
+                                    Dependencies.instance().app.notifications.notify({
+                                        type: "information",
+                                        duration: 3000
+                                    }, "Deleted")
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
 
-                if (m.pack.type == "local") {
-                    men.children.push({
-                        type: "basic",
-                        text: "Delete",
-                        icon: "assets/icons/delete.png",
-                        handler: async () => {
-                            const really = await new ConfirmationModal<boolean>({
-                                body: "Are you sure you want to delete this method? There is no way to undo it!",
-                                options: [
-                                    {kind: "neutral", text: "Cancel", value: false},
-                                    {kind: "cancel", text: "Delete", value: true},
-                                ]
-                            }).do()
+                    return men
+                })
 
-                            if (really) {
-                                MethodPackManager.instance().deleteMethod(m)
-                                Dependencies.instance().app.notifications.notify({
-                                    type: "information",
-                                    duration: 3000
-                                }, "Deleted")
-                            }
-                        }
-                    })
-                }
-
-                return men
-            })
-        ]
+            ]
+        }
     }
 }

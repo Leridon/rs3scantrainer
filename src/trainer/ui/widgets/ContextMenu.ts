@@ -6,14 +6,20 @@ import {C} from "../../../lib/ui/constructors";
 import hbox = C.hbox;
 import span = C.span;
 import spacer = C.spacer;
+import Appendable = C.Appendable;
+
+export function rend(s: string | (() => Widget)): Appendable {
+    if (typeof s == "string") return s
+    else return s()
+}
 
 export type MenuEntry =
     MenuEntry.Basic | MenuEntry.SubMenu
 
 export namespace MenuEntry {
     export type Base = {
-        text: string | Widget,
-        icon?: string | Widget
+        text: string | (() => Widget),
+        icon?: string | (() => Widget)
     }
     export type SubMenu = Base & {
         type: "submenu",
@@ -26,7 +32,7 @@ export namespace MenuEntry {
     }
 }
 
-export type Menu = MenuEntry[]
+export type Menu = MenuEntry.SubMenu
 
 type context_menu = {
     cancelled: Ewent.Real<context_menu>
@@ -61,7 +67,7 @@ namespace open_menu {
             root_page: null
         }
 
-        menu.push({
+        menu.children.push({
             type: "basic",
             text: "Cancel",
             handler: () => cancel(r)
@@ -78,7 +84,7 @@ namespace open_menu {
             let current = deepest(r)
 
             if (e.key == "ArrowRight") {
-                if (current.highlight != null && current.underlying[current.highlight].type == "submenu") {
+                if (current.highlight != null && current.underlying.children[current.highlight].type == "submenu") {
                     confirm(current)
                 }
             }
@@ -90,11 +96,11 @@ namespace open_menu {
             }
 
             if (e.key == "ArrowUp") {
-                open_menu.highlight(current, current.highlight != null ? (current.highlight - 1 + current.underlying.length) % current.underlying.length : current.underlying.length - 1)
+                open_menu.highlight(current, current.highlight != null ? (current.highlight - 1 + current.underlying.children.length) % current.underlying.children.length : current.underlying.children.length - 1)
             }
 
             if (e.key == "ArrowDown") {
-                open_menu.highlight(current, current.highlight != null ? (current.highlight + 1) % current.underlying.length : 0)
+                open_menu.highlight(current, current.highlight != null ? (current.highlight + 1) % current.underlying.children.length : 0)
             }
 
             if (e.key == "Enter") {
@@ -132,7 +138,7 @@ namespace open_menu {
         if (i != null && i != menu.highlight) highlight(menu, i)
 
         if (menu.highlight != null) {
-            let e = menu.underlying[menu.highlight]
+            let e = menu.underlying.children[menu.highlight]
 
             if (e.type == "basic") {
                 menu.root.option_selected = true
@@ -162,19 +168,22 @@ namespace open_menu {
             open_child: null
         }
 
-        if (!parent) c().addClass("nisl-context-menu-header").text("Choose Option").appendTo(m.root_widget)
+        // TODO: Icon?
+        if (!parent) c().addClass("nisl-context-menu-header")
+            .append(menu.text ? rend(menu.text) : "Choose Option")
+            .appendTo(m.root_widget)
 
-        let with_icon = menu.some(e => !!e.icon)
+        let with_icon = menu.children.some(e => !!e.icon)
 
-        m.rows = menu.map((entry, i) => {
+        m.rows = menu.children.map((entry, i) => {
             return hbox(
                 with_icon
                     ? c("<div class='nisl-context-menu-entry-icon-container'></div>")
                         .append(entry.icon
-                            ? (typeof entry.icon == "string" ? c(`<img src="${entry.icon}">`) : entry.icon)
+                            ? (typeof entry.icon == "string" ? c(`<img src="${entry.icon}">`) : entry.icon())
                             : null)
                     : null,
-                entry.text,
+                rend(entry.text),
                 spacer().css("min-width", "10px"),
                 entry.type == "submenu" ? span("&#x276F;") : null
             ).addClass("nisl-context-menu-entry")
@@ -220,12 +229,12 @@ namespace open_menu {
 
     export function openSubmenu(men: context_menu_page): void {
         if (men.highlight == null) return
-        let e = men.underlying[men.highlight]
+        let e = men.underlying.children[men.highlight]
         if (e.type != "submenu") return
 
         close(men.open_child)
 
-        men.open_child = render(e.children, men, men.root)
+        men.open_child = render(e, men, men.root)
 
         show(men.open_child, men.rows[men.highlight].raw(), null)
     }

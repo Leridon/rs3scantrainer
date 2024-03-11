@@ -16,7 +16,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
 
     public augmented: Promise<Path.augmented>
 
-    private reset_button: Button = null
     private edit_button: Button = null
 
     constructor(public options: {
@@ -28,12 +27,10 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
 
         if (this.options.editor_handle) {
             this.container.on("mouseover", () => {
-                if (this.reset_button) this.reset_button.setVisible(true)
                 if (this.edit_button) this.edit_button.setVisible(true)
             })
 
             this.container.on("mouseleave", () => {
-                if (this.reset_button) this.reset_button.setVisible(false)
                 if (this.edit_button) this.edit_button.setVisible(false)
             })
         }
@@ -102,7 +99,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
             if (this.options.editor_handle) preview.css("cursor", "pointer")
 
             {
-
                 if (errors.length > 0) new IssueWidget({level: 0, message: errors.length.toString()})
                     .css("margin-top", "0")
                     .css("margin-bottom", "0")
@@ -131,15 +127,6 @@ export default class PathProperty extends AbstractEditWidget<Path.raw> {
             .setEnabled(!this.loaded)
             .setVisible(false)
             .onClick(async () => await this.edit())
-            .appendTo(this)
-
-        this.reset_button = SmallImageButton.new("assets/icons/reset.png")
-            .css("margin-left", "2px")
-            .setEnabled(!this.loaded && this.get().length > 0)
-            .setVisible(false)
-            .onClick(async () => {
-                this.commit([], true)
-            })
             .appendTo(this)
     }
 }

@@ -67,6 +67,10 @@ export class DrawTileAreaInteraction extends ValueInteraction<TileCoordinates[]>
                                     }
 
                                 }),
+                            new LightButton("Reset")
+                                .onClick(() => {
+                                    this.tiles = []
+                                }),
                         )
                     )
             )

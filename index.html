@@ -36,6 +36,7 @@
 <body class="nis" style="display: flex; flex-direction: column">
 
 <div id="main-content" style="display: flex; flex-direction:row; flex-grow: 1">
+    <!---
     <div class="split-screen" style="max-width: 400px;">
         <div id="cluesearchpanel">
 
@@ -63,19 +64,11 @@
                          style="margin-left: 6px">
                         <img src="assets/icons/glass.png">
                     </div>
-
-                    <div class="nissmallimagebutton menubarbutton" id="settingsbutton" title="Setting">
-                        <img src="assets/icons/settings.png">
-                    </div>
-
-                    <div class="nissmallimagebutton menubarbutton" id="infobutton" title="About">
-                        <img src="assets/icons/info.png" class="inline-img">
-                    </div>
                 </div>
             </div>
 
-            <div id="filters" class="panel">
-                <span class="paneltitle">Filters</span>
+            <div id="filters" class="nisl-panel">
+                <span class="nisl-panel-title">Filters</span>
 
                 <div class="row">
                     <div class="col-2">
@@ -182,56 +175,14 @@
         </div>
 
         <div id="sidebar-panels">
-            <div id="clue-panel" class="panel">
-                <div style="display: flex">
-                    <span class="paneltitle" id="clue-panel-title">Clue</span>
-                    <span class="flex-grow-1"></span>
-                    <img id="activecluetier" src="" class="icon">
-                    <img id="activecluetype" src="" class="icon flex-ri">
-                </div>
-                <span id="cluetext"></span>
-            </div>
-
-            <div id="solution-panel" class="panel">
-                <div class="paneltitle">Solution</div>
-                <span id="cluesolutioncontent"></span>
-            </div>
-
-            <div id="method-panel" class="panel">
-                <div style="display: flex">
-                    <span class="paneltitle">Method</span>
-                    <span class="flex-grow-1"></span>
-                    <span id="methodexplanation" class="img-button">
-                        <img src="assets/icons/info.png" class="inline-img">
-                    </span>
-                </div>
-
-                <div class="cluemethodcontent" data-methodsection="scantree">
-                    <nav style="--bs-breadcrumb-divider: '>'; display: inline-block" aria-label="breadcrumb">
-                        <ol class="breadcrumb" id="pathview">
-                        </ol>
-                    </nav>
-                    <br>
-
-                    <div class="nextstep">Next: <span id="nextscanstep"></span></div>
-                    <div id="scantreeview">
-
-                    </div>
-                </div>
-
-                <div class="cluemethodcontent" data-methodsection="scanedit">
-                </div>
-            </div>
-
-            <div id="my-player"></div>
+            <div style="height: 30%"></div>
         </div>
     </div>
-
-    <div class="verticalsep"></div>
 
     <div class="split-screen">
         <div id="map"></div>
     </div>
+    -->
 </div>
 
 <!-- Modals -->
@@ -352,41 +303,6 @@
                     dealing as a fan project.
                 </p>
 
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-public-beta" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Beta Notice</h1>
-
-                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <b>This is a public beta release.</b>
-                    I am still experimenting with the way routes are presented and how the app is interacted with.
-                    Expect bugs, unintuitive and changing behaviour.
-                </p>
-
-                <p>
-                    Scan trainer is being developed by Leridon (RSN Zyklop Marco) over at <a
-                        href="https://github.com/Leridon/rs3scantrainer">GitHub</a>.
-                    Join <a href="https://discord.gg/cluechasers"><img src="assets/icons/cluchasers.png"
-                                                                       class="inline-img"> Clue Chasers</a> on discord,
-                    where conversation about
-                    this plugin takes place in <a
-                        href="https://discord.com/channels/332595657363685377/1103737270114209825">#scan-trainer</a>.
-                </p>
-
-            </div>
-
-            <div class="modal-footer align-content-center">
-                <div class="btn-nis" id="beta-notice-dismiss" data-bs-dismiss="modal">I understand, don't show again.
-                </div>
             </div>
         </div>
     </div>
@@ -513,57 +429,6 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal-export-string" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Export</h1>
-
-                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
-            </div>
-            <div class="modal-body">
-
-                <p id="modal-export-string-explanation"></p>
-
-                <label style="display: block">
-                    <textarea id="export-modal-text" readonly style="resize: none; width: 100%; height: 20em"
-                              onclick="this.select()" class="nisinput nistext">
-                    </textarea>
-                </label>
-
-                <div style="text-align: center">
-                    <div class="lightbutton" id="modal-export-string-copy">Copy to Clipboard</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-import-string" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Import</h1>
-
-                <div class="icon-button modal-exit exit-button" data-bs-dismiss="modal" aria-label="Close"></div>
-            </div>
-            <div class="modal-body">
-                <label style="display: block">
-                    <textarea id="import-modal-text" style="resize: none; width: 100%; height: 20em"
-                              onclick="this.select()" class="nisinput nistext"
-                              placeholder="Paste the shareable string here">
-                    </textarea>
-                </label>
-
-                <div style="text-align: center">
-                    <div class="lightbutton" id="modal-import-string-import-button">Import</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 </body>
 </html>

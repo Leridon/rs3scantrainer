@@ -42,6 +42,7 @@ import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import {PathEditMenuBar} from "./PathEditMenuBar";
 import tr = TileRectangle.tr;
+import {deps} from "../../dependencies";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -62,23 +63,45 @@ class PathEditorGameLayer extends GameLayer {
     }
 
     eventContextMenu(event: GameMapContextMenuEvent) {
+
         event.onPost(() => {
             if (this.editor.isActive()) {
 
                 if (!event.active_entity) {
-                    event.add({
-                        type: "basic",
-                        text: "Walk here",
-                        icon: "assets/icons/yellowclick.png",
-                        handler: () => {
 
-                        }
-                    })
+                    const current_tile = this.editor.value.cursor_state.value()?.state?.position?.tile
+                    const target_tile = event.tile()
+
+                    if (current_tile && !TileCoordinates.eq2(current_tile, target_tile)) {
+                        event.add({
+                            type: "basic",
+                            text: "Walk here",
+                            icon: "assets/icons/yellowclick.png",
+                            handler: async () => {
+                                const path_to_tile = await PathFinder.find(
+                                    PathFinder.init_djikstra(this.editor.value.cursor_state.value().state.position.tile),
+                                    TileArea.init(target_tile)
+                                )
+
+                                if (path_to_tile && path_to_tile.length > 1) {
+                                    this.editor.value.add({
+                                        type: "run",
+                                        waypoints: path_to_tile,
+                                    })
+                                } else {
+                                    deps().app.notifications.notify({
+                                        type: "error"
+                                    }, "No path found.")
+                                }
+                            }
+                        })
+                    }
+
 
                     event.add({
                         type: "submenu",
-                        text: "Create Redclick",
-                        icon: "assets/icons/redclick.png",
+                        text: "Redclick",
+                        icon: "assets/icons/cursor_redclick.png",
                         children: CursorType.all().map((i): MenuEntry => ({
                             type: "basic",
                             text: i.description,
@@ -131,7 +154,6 @@ class PathEditorGameLayer extends GameLayer {
                         })
                     }
                 } else if (event.active_entity instanceof EntityTransportEntity) {
-
                     let s = Transportation.normalize(event.active_entity.config.shortcut)
 
                     s.actions.forEach(a => {
@@ -140,34 +162,42 @@ class PathEditorGameLayer extends GameLayer {
                             text: `${s.entity.name}: ${a.name}`,
                             icon: CursorType.meta(a.cursor).icon_url,
                             handler: async () => {
-                                const t = this.editor.value.cursor_state.value().state?.position?.tile
+                                const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
 
-                                let assumed_start = t
-                                const interactive_area = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
+                                let assumed_start = current_tile
+                                const target = a.interactive_area || EntityTransportation.default_interactive_area(s.clickable_area)
 
                                 const steps: Path.Step[] = []
 
-                                if (t) {
+                                if (current_tile) {
                                     const path_to_start = await PathFinder.find(
-                                        PathFinder.init_djikstra(t),
-                                        interactive_area
+                                        PathFinder.init_djikstra(current_tile),
+                                        target
                                     )
 
                                     if (path_to_start && path_to_start.length > 1) {
-                                        if (assumed_start) assumed_start = index(path_to_start, -1)
 
-                                        steps.push({
-                                            type: "run",
-                                            waypoints: path_to_start,
-                                        })
+                                        if (path_to_start.length > 1) {
+                                            if (assumed_start) assumed_start = index(path_to_start, -1)
+
+                                            steps.push({
+                                                type: "run",
+                                                waypoints: path_to_start,
+                                            })
+                                        }
+
+                                    } else {
+                                        deps().app.notifications.notify({
+                                            type: "error"
+                                        }, "No path to transportation found.")
                                     }
                                 }
 
                                 assumed_start ??=
-                                    t ? TileRectangle.clampInto(t, TileArea.toRect(
-                                            interactive_area,
+                                    current_tile ? TileRectangle.clampInto(current_tile, TileArea.toRect(
+                                            target,
                                         ))
-                                        : interactive_area.origin
+                                        : target.origin
 
                                 let clone = lodash.cloneDeep(s)
                                 clone.actions = [lodash.cloneDeep(a)]

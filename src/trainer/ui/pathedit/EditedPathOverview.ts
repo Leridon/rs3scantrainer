@@ -395,9 +395,11 @@ export namespace EditedPathOverview {
         }
 
         render() {
-            const state = this.va.builder.cursor_state.value()
+            const cursor_state = this.va.builder.cursor_state.value()
 
-            if (!state) return
+            if (!cursor_state) return
+
+            const movement_state = Path.augmented.getState(this.va.builder.committed_value.value().path, this.index)
 
             this.empty()
 
@@ -412,7 +414,7 @@ export namespace EditedPathOverview {
 
             if (this.is_dragged_over.value()) {
                 main_row.append("Drop to move step here")
-            } else if (this.index == state.cursor) {
+            } else if (this.index == cursor_state.cursor) {
                 main_row.append(
                     C.inlineimg("assets/icons/youarehere.png")
                         .css2({
@@ -420,27 +422,27 @@ export namespace EditedPathOverview {
                         }),
                     "You are here",
                 )
-            }
 
-            if (this.index == 0 && !state.state.position.direction) {
-                main_row.append(new LightButton("Assume starting orientation")
-                    .css("margin-left", "5px")
-                    .onClick((event) => {
-                        const menu: Menu = direction.all.map(d => {
-                            return {
-                                type: "basic",
-                                text: direction.toString(d),
-                                handler: () => {
-                                    this.va.builder.add(({
-                                        type: "orientation",
-                                        direction: d
-                                    }))
+                if (this.index == 0 && !movement_state.position.tile && !movement_state.position.direction) {
+                    main_row.append(new LightButton("Assume starting orientation")
+                        .css("margin-left", "5px")
+                        .onClick((event) => {
+                            const menu: Menu = direction.all.map(d => {
+                                return {
+                                    type: "basic",
+                                    text: direction.toString(d),
+                                    handler: () => {
+                                        this.va.builder.add(({
+                                            type: "orientation",
+                                            direction: d
+                                        }))
+                                    }
                                 }
-                            }
-                        })
+                            })
 
-                        new ContextMenu(menu).showFromEvent(event)
-                    }))
+                            new ContextMenu(menu).showFromEvent(event)
+                        }))
+                }
             }
         }
     }

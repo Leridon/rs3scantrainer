@@ -479,6 +479,22 @@ export class PathEditor extends Behaviour {
             })
         }
 
+        if (step.step.raw.type == "redclick") {
+            entries.push({
+                type: "submenu",
+                icon: "assets/icons/cursor_redclick.png",
+                text: `Choose Cursor`,
+                children: CursorType.all().map(cursor => ({
+                    type: "basic",
+                    text: cursor.description,
+                    icon: cursor.icon_url,
+                    handler: () => {
+                        step.update<Path.step_redclick>(s => s.how = cursor.type)
+                    }
+                }))
+            })
+        }
+
 
         return entries
     }

@@ -103,7 +103,7 @@ export default class PathEditActionBar extends GameMapControl<ControlWithHeader>
                     )
                 }).tooltip("Run")
                     .setHotKey("s-R"),
-                redclick: new ActionBarButton('assets/icons/redclick.png', () => {
+                redclick: new ActionBarButton('assets/icons/cursor_redclick.png', () => {
                     return interact(
                         new PlaceRedClickInteraction()
                             .onCommit((step) => self.editor.value.add(step))

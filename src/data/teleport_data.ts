@@ -1327,111 +1327,100 @@ const raw_data: Transportation.TeleportGroup[] = [
             action_name: "Teleport",
             menu_ticks: 2, // Assumes favorite
         }]
-    },/*
+    },
     {
         type: "teleports",
         id: "slayercape",
         name: "Slayer Cape",
-        img: {url: "capeslay.png"},
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "mandrith",
-target: {origin: {x: 3050, y: 3953, level: 0}},
-code: "1",
-name: "Mandrith",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3050, "y": 3949, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "1",
+                name: "Mandrith",
             },
             {
                 id: "laniakea",
-target: {origin: {x: 5671, y: 2138, level: 0}},
-code: "2",
-name: "Laniakea",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 5667, "y": 2136, "level": 0}, "size": {"x": 5, "y": 5}, "data": "///PAQ=="},
+                code: "2",
+                name: "Laniakea",
             },
             {
                 id: "morvran",
-target: { origin: {x: 2197, y: 3327, level: 1} },
-code: "3",
-name: "Morvran",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2195, "y": 3327, "level": 1}, "size": {"x": 3, "y": 3}, "data": "TwA="},
+                code: "3",
+                name: "Morvran",
             },
             {
                 id: "kuradal",
-target: { origin: {x: 1737, y: 5313, level: 1} },
-code: "4",
-name: "Kuradal",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 1738, "y": 5310, "level": 1}, "size": {"x": 5, "y": 5}, "data": "/v/nAA=="},
+                code: "4",
+                name: "Kuradal",
             },
             {
                 id: "lapalok",
-target: { origin: {x: 2869, y: 2982, level: 1} },
-code: "5",
-name: "Lapalok",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2868, "y": 2979, "level": 1}, "size": {"x": 3, "y": 5}, "data": "0nc="},
+                code: "5",
+                name: "Lapalok",
             },
             {
                 id: "sumona",
-target: {origin: {x: 3359, y: 2993, level: 0}},
-code: "6",
-name: "Sumona",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3357, "y": 2991, "level": 0}, "size": {"x": 5, "y": 5}, "data": "5nxjAA=="},
+                code: "6",
+                name: "Sumona",
             },
             {
                 id: "chealdar",
-target: {origin: {x: 2447, y: 4431, level: 0}},
-code: "7",
-name: "Chealdar",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2443, "y": 4429, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/H/KAQ=="},
+                code: "7",
+                name: "Chealdar",
             },
             {
                 id: "mazchna",
-target: {origin: {x: 3510, y: 3507, level: 0}},
-code: "8",
-name: "Mazchna",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3506, "y": 3504, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "8",
+                name: "Mazchna",
             },
             {
                 id: "raptor",
-target: {origin: {x: 3295, y: 3546, level: 0}},
-code: "9",
-name: "The Raptor",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3290, "y": 3542, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "9",
+                name: "The Raptor",
             },
             {
                 id: "vannaka",
-target: {origin: {x: 3094, y: 3481, level: 0}},
-code: "0,1",
-name: "Vannaka",
+                target: {"origin": {"x": 3092, "y": 3476, "level": 0}, "size": {"x": 4, "y": 5}},
+                code: "0,1",
+                name: "Vannaka",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "jacquelyn",
-target: {origin: {x: 3221, y: 3223, level: 0}},
-code: "0,2",
-name: "Jacquelyn",
+                target: {"origin": {"x": 3219, "y": 3222, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//8/AQ=="},
+                code: "0,2",
+                name: "Jacquelyn",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "spria",
-target: {origin: {x: 2887, y: 3544, level: 0}},
-code: "0,3",
-name: "Spria",
+                target: {"origin": {"x": 2888, "y": 3545, "level": 0}, "size": {"x": 5, "y": 5}, "data": "///9AQ=="},
+                code: "0,3",
+                name: "Spria",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
+        ], access: [
+            {
+                id: "cape",
+                type: "item",
+                name: {name: "Slayer cape", kind: "item"},
+                img: {url: "capeslay.png"},
+                action_name: "Teleport",
+            }
         ]
     },
+    /*
     {
         type: "teleports",
         id: "dungcape",

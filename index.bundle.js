@@ -69906,13 +69906,14 @@ var TileArea;
             const start = _TileRectangle__WEBPACK_IMPORTED_MODULE_3__.TileRectangle.center(this.rect());
             let queue = [{ pos: start, dirs: _movement__WEBPACK_IMPORTED_MODULE_6__.direction.all }];
             let i = 0;
-            while (i < queue.length) {
+            while (i < queue.length && i < 50) {
                 const el = queue[i];
                 if (this.query(el.pos))
                     return el.pos;
                 for (let dir of el.dirs) {
                     queue.push({ pos: _TileCoordinates__WEBPACK_IMPORTED_MODULE_0__.TileCoordinates.move(el.pos, _movement__WEBPACK_IMPORTED_MODULE_6__.direction.toVector(dir)), dirs: _movement__WEBPACK_IMPORTED_MODULE_6__.direction.continuations(dir) });
                 }
+                i++;
             }
             return null;
         }

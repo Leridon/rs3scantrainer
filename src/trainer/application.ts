@@ -250,14 +250,14 @@ export class Application extends Behaviour {
         this.main_behaviour.set(new NeoSolvingBehaviour(this))
 
         if (this.mode() == "preview") {
-            this.notifications.notify({type: "information"}, div(
+            this.notifications.notify({type: "information", duration: null}, div(
                 "This is a preview release of Scan Trainer and not recommended for general usage. Features may change or disappear without any notice. ",
                 c("<a href='https://leridon.github.io/cluetrainer-live/' style='color: unset; text-decoration: underline'>Click here to get to the official release.</a>")
             ))
         }
 
         if (!this.in_alt1 && !this.startup_settings.value().dont_recommend_alt1) {
-            this.notifications.notify({type: "information"}, not => vbox(
+            this.notifications.notify({type: "information", duration: null}, not => vbox(
                 span("Scan Trainer is an Alt1 plugin and has clue-solving features when installed."),
                 hbox(
                     c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`),

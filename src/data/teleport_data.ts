@@ -265,13 +265,13 @@ const raw_data: Transportation.TeleportGroup[] = [
         spots: [
             {
                 id: "camelot",
-                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}},
+                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/n3/AQ=="},
                 img: {url: "tele-cam.png"},
                 name: "Camelot",
             },
             {
                 id: "camelot-seers",
-                target: {"origin": {"x": 2755, "y": 3476, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/n3/AQ=="},
+                target: {"origin": {"x": 2704, "y": 3481, "level": 0}, "size": {"x": 5, "y": 5}},
                 img: {url: "tele-cam-seers.png"},
                 name: "Camelot (Seer's Village)",
             },
@@ -1327,111 +1327,100 @@ const raw_data: Transportation.TeleportGroup[] = [
             action_name: "Teleport",
             menu_ticks: 2, // Assumes favorite
         }]
-    },/*
+    },
     {
         type: "teleports",
         id: "slayercape",
         name: "Slayer Cape",
-        img: {url: "capeslay.png"},
+        menu_ticks: 1,
+        animation_ticks: default_teleport_ticks,
         spots: [
             {
                 id: "mandrith",
-target: {origin: {x: 3050, y: 3953, level: 0}},
-code: "1",
-name: "Mandrith",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3050, "y": 3949, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "1",
+                name: "Mandrith",
             },
             {
                 id: "laniakea",
-target: {origin: {x: 5671, y: 2138, level: 0}},
-code: "2",
-name: "Laniakea",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 5667, "y": 2136, "level": 0}, "size": {"x": 5, "y": 5}, "data": "///PAQ=="},
+                code: "2",
+                name: "Laniakea",
             },
             {
                 id: "morvran",
-target: { origin: {x: 2197, y: 3327, level: 1} },
-code: "3",
-name: "Morvran",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2195, "y": 3327, "level": 1}, "size": {"x": 3, "y": 3}, "data": "TwA="},
+                code: "3",
+                name: "Morvran",
             },
             {
                 id: "kuradal",
-target: { origin: {x: 1737, y: 5313, level: 1} },
-code: "4",
-name: "Kuradal",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 1738, "y": 5310, "level": 1}, "size": {"x": 5, "y": 5}, "data": "/v/nAA=="},
+                code: "4",
+                name: "Kuradal",
             },
             {
                 id: "lapalok",
-target: { origin: {x: 2869, y: 2982, level: 1} },
-code: "5",
-name: "Lapalok",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2868, "y": 2979, "level": 1}, "size": {"x": 3, "y": 5}, "data": "0nc="},
+                code: "5",
+                name: "Lapalok",
             },
             {
                 id: "sumona",
-target: {origin: {x: 3359, y: 2993, level: 0}},
-code: "6",
-name: "Sumona",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3357, "y": 2991, "level": 0}, "size": {"x": 5, "y": 5}, "data": "5nxjAA=="},
+                code: "6",
+                name: "Sumona",
             },
             {
                 id: "chealdar",
-target: {origin: {x: 2447, y: 4431, level: 0}},
-code: "7",
-name: "Chealdar",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 2443, "y": 4429, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/H/KAQ=="},
+                code: "7",
+                name: "Chealdar",
             },
             {
                 id: "mazchna",
-target: {origin: {x: 3510, y: 3507, level: 0}},
-code: "8",
-name: "Mazchna",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3506, "y": 3504, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "8",
+                name: "Mazchna",
             },
             {
                 id: "raptor",
-target: {origin: {x: 3295, y: 3546, level: 0}},
-code: "9",
-name: "The Raptor",
-                menu_ticks: 1,
-                animation_ticks: default_teleport_ticks
+                target: {"origin": {"x": 3290, "y": 3542, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "9",
+                name: "The Raptor",
             },
             {
                 id: "vannaka",
-target: {origin: {x: 3094, y: 3481, level: 0}},
-code: "0,1",
-name: "Vannaka",
+                target: {"origin": {"x": 3092, "y": 3476, "level": 0}, "size": {"x": 4, "y": 5}},
+                code: "0,1",
+                name: "Vannaka",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "jacquelyn",
-target: {origin: {x: 3221, y: 3223, level: 0}},
-code: "0,2",
-name: "Jacquelyn",
+                target: {"origin": {"x": 3219, "y": 3222, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//8/AQ=="},
+                code: "0,2",
+                name: "Jacquelyn",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
             {
                 id: "spria",
-target: {origin: {x: 2887, y: 3544, level: 0}},
-code: "0,3",
-name: "Spria",
+                target: {"origin": {"x": 2888, "y": 3545, "level": 0}, "size": {"x": 5, "y": 5}, "data": "///9AQ=="},
+                code: "0,3",
+                name: "Spria",
                 menu_ticks: 2,
-                animation_ticks: default_teleport_ticks
             },
+        ], access: [
+            {
+                id: "cape",
+                type: "item",
+                name: {name: "Slayer cape", kind: "item"},
+                img: {url: "capeslay.png"},
+                action_name: "Teleport",
+            }
         ]
     },
+    /*
     {
         type: "teleports",
         id: "dungcape",
@@ -1798,477 +1787,499 @@ name: "Harmony Island",
                 animation_ticks: 13
             },
         ]
-    },
+    },*/
     {
         type: "teleports",
         id: "amuletofglory",
-name: "Amulet of Glory",
-img: {url: "jewellry_amuletofglory.png"}, can_be_in_pota: true,
+        name: "Amulet of Glory",
+        img: {url: "jewellry_amuletofglory.png"},
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "edgeville",
-target: {origin: {x: 3088, y: 3497, level: 0}},
-code: "1",
-name: "Edgeville",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3087, "y": 3496, "level": 0}},
+                code: "1",
+                name: "Edgeville",
             },
             {
                 id: "karamja",
-target: {origin: {x: 2919, y: 3175, level: 0}},
-code: "2",
-name: "Karamja",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2918, "y": 3176, "level": 0}},
+                code: "2",
+                name: "Karamja",
             },
             {
                 id: "draynor",
-target: {origin: {x: 3081, y: 3250, level: 0}},
-code: "3",
-name: "Draynor",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3080, "y": 3250, "level": 0}},
+                code: "3",
+                name: "Draynor",
             },
             {
                 id: "alkharid",
-target: {origin: {x: 3305, y: 3123, level: 0}},
-code: "4",
-name: "Al Kharid",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3305, "y": 3123, "level": 0}},
+                code: "4",
+                name: "Al Kharid",
             },
-        ]
+        ],
+        access: [{
+            id: "necklace",
+            type: "item",
+            name: {name: "Amulet of glory", kind: "item"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "combatbracelet",
-name: "Combat bracelet",
-img: {url: "jewellry_combatbracelet.png"}, can_be_in_pota: true,
+        name: "Combat bracelet",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "warriors",
-target: {origin: {x: 2879, y: 3543, level: 0}},
-code: "1",
-name: "Warriors' Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2880, "y": 3542, "level": 0}},
+                code: "1",
+                name: "Warriors' Guild",
             },
             {
                 id: "champions",
-target: {origin: {x: 3192, y: 3366, level: 0}},
-code: "2",
-name: "Champions' Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3191, "y": 3365, "level": 0}},
+                code: "2",
+                name: "Champions' Guild",
             },
             {
                 id: "monastery",
-target: {origin: {x: 3052, y: 3490, level: 0}},
-code: "3",
-name: "Edgeville Monastery",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3052, "y": 3488, "level": 0}},
+                code: "3",
+                name: "Edgeville Monastery",
             },
             {
                 id: "ranging",
-target: {origin: {x: 2657, y: 3440, level: 0}},
-code: "4",
-name: "Ranging Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2655, "y": 3441, "level": 0}},
+                code: "4",
+                name: "Ranging Guild",
             },
-        ]
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Combat bracelet", kind: "item"},
+            img: {url: "jewellry_combatbracelet.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "digsitependant",
-name: "Dig Site pendant",
-img: {url: "jewellry_digsitependant.png"}, can_be_in_pota: true,
+        name: "Dig Site pendant",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "digsite",
-target: {origin: {x: 3358, y: 3396, level: 0}},
-code: "1",
-name: "Digsite",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3358, "y": 3396, "level": 0}},
+                code: "1",
+                name: "Digsite",
             },
             {
                 id: "senntisten",
-target: {origin: {x: 3378, y: 3444, level: 0}},
-code: "2",
-name: "Senntisten",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3378, "y": 3444, "level": 0}},
+                code: "2",
+                name: "Senntisten",
             },
             {
                 id: "exam",
-target: {origin: {x: 3362, y: 3345, level: 0}},
-code: "3",
-name: "Exam Centre",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3362, "y": 3345, "level": 0}},
+                code: "3",
+                name: "Exam Centre",
             },
-        ]
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Dig Site pendant", kind: "item"},
+            img: {url: "jewellry_digsitependant.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "enlightenedamulet",
-name: "Enlightened amulet",
-img: {url: "jewellry_enlightenedamulet.png"}, can_be_in_pota: true,
+        name: "Enlightened amulet",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "nexus",
-target: {origin: {x: 3216, y: 3182, level: 0}},
-code: "1",
-name: "Nexus",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3215, "y": 3180, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//+/AQ=="},
+                code: "1",
+                name: "Nexus",
             },
             {
                 id: "graveyard",
-target: {origin: {x: 3229, y: 3657, level: 0}},
-code: "2",
-name: "Graveyard of Shadows",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3231, "y": 3655, "level": 0}, "size": {"x": 4, "y": 5}, "data": "//cP"},
+                code: "2",
+                name: "Graveyard of Shadows"
             },
             {
                 id: "banditcamp",
-target: {origin: {x: 3170, y: 2992, level: 0}},
-code: "3",
-name: "Bandit camp",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3169, "y": 2994, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "3",
+                name: "Bandit camp"
             },
-        ]
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Enlightened amulet", kind: "item"},
+            img: {url: "jewellry_enlightenedamulet.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "gamesnecklace",
-name: "Games necklace",
-img: {url: "jewellry_gamesnecklace.png"}, can_be_in_pota: true,
+        name: "Games necklace",
+        img: {url: "jewellry_gamesnecklace.png"},
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "trollinvasion",
-target: {origin: {x: 2874, y: 3566, level: 0}},
-code: "1",
-name: "Troll invasion",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2874, "y": 3567, "level": 0}},
+                code: "1",
+                name: "Troll invasion",
             },
             {
                 id: "barbarianoutpost",
-target: {origin: {x: 2520, y: 3571, level: 0}},
-code: "2",
-name: "Barbarian Outpost",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2520, "y": 3571, "level": 0}},
+                code: "2",
+                name: "Barbarian Outpost",
             },
             {
                 id: "gamersgrotto",
-target: {origin: {x: 2967, y: 9678, level: 0}},
-code: "3",
-name: "Gamer's grotto",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2967, "y": 9678, "level": 0}},
+                code: "3",
+                name: "Gamer's grotto",
             },
             {
                 id: "agoroth",
-target: {origin: {x: 3860, y: 6827, level: 0}},
-code: "4",
-name: "Agoroth",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3860, "y": 6827, "level": 0}},
+                code: "4",
+                name: "Agoroth",
             },
             {
                 id: "corporealbeast",
-target: {origin: {x: 2885, y: 4372, level: 0}},
-code: "5",
-name: "Corporeal Beast",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2885, "y": 4372, "level": 2}},
+                code: "5",
+                name: "Corporeal Beast",
             },
             {
                 id: "burghderott",
-target: {origin: {x: 3487, y: 3237, level: 0}},
-code: "6",
-name: "Burgh De Rott",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3487, "y": 3237, "level": 0}},
+                code: "6",
+                name: "Burgh De Rott",
             },
             {
                 id: "tearsofguthix",
-target: { origin: {x: 3250, y: 9517, level: 2} },
-code: "7",
-name: "Tears of Guthix",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3250, "y": 9517, "level": 2}},
+                code: "7",
+                name: "Tears of Guthix",
             },
-
-        ]
+        ],
+        access: [{
+            id: "necklace",
+            type: "item",
+            name: {name: "Games necklace", kind: "item"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "ringofduelling",
-name: "Ring of duelling",
-img: {url: "jewellry_duelring.png"}, can_be_in_pota: true,
+        name: "Ring of duelling",
+        img: {url: "jewellry_duelring.png"},
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "hetsoasis",
-target: {origin: {x: 3321, y: 3231, level: 0}},
-code: "1",
-name: "Het's oasis",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3313, "y": 3235, "level": 0}, "size": {"x": 5, "y": 5}, "data": "+/v/AQ=="},
+                code: "1",
+                name: "Het's oasis",
             },
             {
                 id: "castlewars",
-target: {origin: {x: 2444, y: 3089, level: 0}},
-code: "2",
-name: "Castle wars",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2442, "y": 3088, "level": 0}, "size": {"x": 4, "y": 5}},
+                code: "2",
+                name: "Castle wars",
             },
             {
-                id: "southfeldiphills",
-target: {origin: {x: 2414, y: 2843, level: 0}},
-code: "3",
-name: "South Feldip Hills",
-                menu_ticks: 2,
-                animation_ticks: 4
+                id: "warforge",
+                target: {"origin": {"x": 2411, "y": 2845, "level": 0}, "size": {"x": 5, "y": 5}, "data": "nP//AQ=="},
+                code: "3",
+                name: "The Warforge",
             },
-            //{ sub: "duel", r: /^Fist of Guthix Ring of duelling/i, n: "Fist of Guthix", x: 2997, z: 3411,
-img: { url: "duelling.gif"},
-code: "4" },
-        ]
+            {
+                id: "fistofguthix",
+                name: "Fist of Guthix",
+                target: {"origin": {"x": 1690, "y": 5598, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "4"
+            },
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Ring of duelling", kind: "item"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "ringofrespawn",
-name: "Ring of respawn",
-img: {url: "jewellry_ringofrespawn.png"}, can_be_in_pota: true,
+        name: "Ring of respawn",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "lumbridge",
-target: {origin: {x: 3221, y: 3219, level: 0}},
-code: "1",
-name: "Lumbridge spawn",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3219, "y": 3217, "level": 0}, "size": {"x": 5, "y": 5}, "data": "7f/2AQ=="},
+                code: "1",
+                name: "Lumbridge",
             },
             {
                 id: "falador",
-target: {origin: {x: 2970, y: 3339, level: 0}},
-code: "2",
-name: "Falador spawn",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2969, "y": 3337, "level": 0}, "size": {"x": 5, "y": 4}, "data": "//sP"},
+                code: "2",
+                name: "Falador",
             },
             {
                 id: "camelot",
-target: {origin: {x: 2758, y: 3481, level: 0}},
-code: "3",
-name: "Camelot spawn",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2756, "y": 3478, "level": 0}, "size": {"x": 5, "y": 5}, "data": "/39rAA=="},
+                code: "3",
+                name: "Camelot",
             },
             {
                 id: "soulwars",
-target: {origin: {x: 3082, y: 3475, level: 0}},
-code: "4",
-name: "Soul Wars spawn",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 1888, "y": 3176, "level": 0}, "size": {"x": 5, "y": 4}, "data": "//8M"},
+                code: "4",
+                name: "Soul Wars",
             },
             {
                 id: "burthorpe",
-target: {origin: {x: 2888, y: 3538, level: 0}},
-code: "5",
-name: "Burthorpe spawn",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2887, "y": 3535, "level": 0}, "size": {"x": 3, "y": 4}, "data": "/g8="},
+                code: "5",
+                name: "Burthorpe",
             },
-        ]
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Ring of respawn", kind: "item"},
+            img: {url: "jewellry_ringofrespawn.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "ringofslaying",
-name: "Ring of slaying",
-img: {url: "jewellry_ringofslaying.png"}, can_be_in_pota: true,
+        name: "Ring of slaying",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "sumona",
-target: {origin: {x: 3362, y: 2992, level: 0}},
-code: "1",
-name: "Sumona",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3359, "y": 2991, "level": 0}, "size": {"x": 4, "y": 5}, "data": "zM0M"},
+                code: "1",
+                name: "Sumona"
             },
             {
                 id: "slayertower",
-target: {origin: {x: 3423, y: 3524, level: 0}},
-code: "2",
-name: "Slayer Tower",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3419, "y": 3522, "level": 0}, "size": {"x": 3, "y": 4}, "data": "/ww="},
+                code: "2",
+                name: "Slayer Tower",
             },
             {
                 id: "slayerdungeon",
-target: {origin: {x: 2790, y: 3616, level: 0}},
-code: "3",
-name: "Fremennik Slayer Dungeon",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2788, "y": 3614, "level": 0}, "size": {"x": 5, "y": 3}, "data": "/2M="},
+                code: "3",
+                name: "Fremennik Slayer Dungeon",
             },
-            // Tarns lair
-        ]
+            {
+                id: "tarnslair",
+                target: {"origin": {"x": 3183, "y": 4599, "level": 0}, "size": {"x": 5, "y": 3}, "data": "hHw="},
+                code: "3",
+                name: "Tarn's Kair",
+            },
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Ring of slaying", kind: "item"},
+            img: {url: "jewellry_ringofslaying.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "ringofwealth",
-name: "Ring of Wealth",
-img: {url: "jewellry_ringofwealth.png"}, can_be_in_pota: true,
+        name: "Ring of Wealth",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "miscellania",
-target: { origin: {x: 2508, y: 3862, level: 1} },
-code: "1",
-name: "Miscellania",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2505, "y": 3858, "level": 1}, "size": {"x": 5, "y": 5}},
+                code: "1",
+                name: "Miscellania",
             },
             {
                 id: "grandexchange",
-target: {origin: {x: 3162, y: 3463, level: 0}},
-code: "2",
-name: "Grand Exchange",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3162, "y": 3462, "level": 0}, "size": {"x": 2, "y": 5}},
+                code: "2",
+                name: "Grand Exchange",
             }
-        ]
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Ring of Wealth", kind: "item"},
+            img: {url: "jewellry_ringofwealth.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "luckofthedwarves",
-name: "Luck of the Dwarves",
-img: {url: "luck_of_the_dwarves.png"}, can_be_in_pota: false,
+        name: "Luck of the Dwarves",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "keldagrim",
-target: {origin: {x: 2858, y: 10200, level: 0}},
-code: "3",
-name: "Keldagrim",
-                menu_ticks: 1,
-                animation_ticks: 4
+                target: {"origin": {"x": 2856, "y": 10197, "level": 0}, "size": {"x": 5, "y": 5}, "data": "7v3nAA=="},
+                code: "3",
+                name: "Keldagrim",
             },
             {
                 id: "outpost",
-                target: {origin: {x: 2552, y: 3474, level: 0}},
+                target: {"origin": {"x": 2550, "y": 3473, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//+vAQ=="},
                 code: "4",
-                name: "Dwarven Outpost (Requires Dark Facet of Luck unlocked)",
-                menu_ticks: 2,
-                animation_ticks: 4
+                name: "Dwarven Outpost",
             },
-        ]
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Luck of the Dwarves", kind: "item"},
+            img: {url: "luck_of_the_dwarves.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "skillsnecklace",
-name: "Skills necklace",
-img: {url: "jewellry_skillsnecklace.png"}, can_be_in_pota: true,
+        name: "Skills necklace",
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "fishing",
-target: {origin: {x: 2614, y: 3386, level: 0}},
-code: "1",
-name: "Fishing Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2615, "y": 3385, "level": 0}},
+                code: "1",
+                name: "Fishing Guild"
             },
             {
                 id: "mining",
-target: {origin: {x: 3016, y: 3338, level: 0}},
-code: "2",
-name: "Mining Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {origin: {"x": 3016, "y": 3338, "level": 0}},
+                code: "2",
+                name: "Mining Guild",
             },
             {
                 id: "crafting",
-target: {origin: {x: 2934, y: 3291, level: 0}},
-code: "3",
-name: "Crafting Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2933, "y": 3290, "level": 0}},
+                code: "3",
+                name: "Crafting Guild",
             },
             {
                 id: "cooking",
-target: {origin: {x: 3143, y: 3442, level: 0}},
-code: "4",
-name: "Cooking Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3143, "y": 3442, "level": 0}},
+                code: "4",
+                name: "Cooking Guild",
             },
             {
                 id: "invention",
-target: {origin: {x: 2997, y: 3436, level: 0}},
-code: "5",
-name: "Invention guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2997, "y": 3437, "level": 0}},
+                code: "5",
+                name: "Invention guild",
             },
             {
                 id: "farming",
-target: {origin: {x: 2646, y: 3355, level: 0}},
-code: "6",
-name: "Farming Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2646, "y": 3355, "level": 0}},
+                code: "6",
+                name: "Farming Guild",
             },
             {
                 id: "runecrafting",
-target: { origin: {x: 3102, y: 3152, level: 3} },
-code: "7",
-name: "Runecrafting Guild",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3102, "y": 3152, "level": 3}},
+                code: "7",
+                name: "Runecrafting Guild",
             },
-        ]
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Skills necklace", kind: "item"},
+            img: {url: "jewellry_skillsnecklace.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
     },
     {
         type: "teleports",
         id: "travellersnecklace",
         name: "Traveller's necklace",
-        img: {url: "jewellry_travellersnecklace.png"},
-        can_be_in_pota: true,
+        menu_ticks: 2,
+        animation_ticks: 4,
         spots: [
             {
                 id: "wizardstower",
-target: {origin: {x: 3103, y: 3182, level: 0}},
-code: "1",
-name: "Wizard's Tower",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3101, "y": 3178, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "1",
+                name: "Wizard's Tower",
             },
             {
                 id: "outpost",
-target: {origin: {x: 2444, y: 3346, level: 0}},
-code: "2",
-name: "The Outpost",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 2445, "y": 3343, "level": 0}, "size": {"x": 5, "y": 5}},
+                code: "2",
+                name: "The Outpost",
             },
             {
                 id: "deserteagle",
-target: {origin: {x: 3424, y: 3141, level: 0}},
-code: "3",
-name: "Desert Eagle's Eyrie",
-                menu_ticks: 2,
-                animation_ticks: 4
+                target: {"origin": {"x": 3422, "y": 3138, "level": 0}, "size": {"x": 5, "y": 5}, "data": "//8fAQ=="},
+                code: "3",
+                name: "Desert Eagle's Eyrie",
             },
-        ]
-    },*/
+        ],
+        access: [{
+            id: "ring",
+            type: "item",
+            name: {name: "Traveller's necklace", kind: "item"},
+            img: {url: "jewellry_travellersnecklace.png"},
+            action_name: "Rub",
+            can_be_in_pota: true
+        }]
+    },
     {
         id: "davesspellbook",
         type: "teleports",
@@ -2919,7 +2930,7 @@ name: "Entrana",
             },
             {
                 id: "deepseafishing",
-                target: {"origin":{"x":2135,"y":7107,"level":0}},
+                target: {"origin": {"x": 2135, "y": 7107, "level": 0}},
                 name: "Deep sea fishing hub",
             },
             {

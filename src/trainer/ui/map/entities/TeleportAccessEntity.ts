@@ -61,19 +61,15 @@ export class TeleportAccessEntity extends MapEntity {
     }
 
     constructor(private config: TeleportAccessEntity.Config) {
-        super({interactive: true, highlightable: true});
+        super(config);
 
-        this.zoom_sensitivity_layers = new ZoomLevels<{ scale: number }>([
-            {min: -100, value: {scale: 0.5}},
-            {min: 1.5, value: {scale: 1}},
-        ])
+        this.zoom_sensitivity_layers = MapEntity.default_local_zoom_scale_layers
 
         this.floor_sensitivity_layers = new FloorLevels<{ correct_level: boolean }>([
             {floors: [config.access.clickable_area.origin.level], value: {correct_level: true}},
             {floors: floor_t.all, hidden_here: true, value: {correct_level: false}},
         ])
     }
-
 
     async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
         const teleport = this.config.teleport;

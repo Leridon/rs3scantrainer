@@ -17,6 +17,7 @@ Planned for next release (b0.4):
     - [QOL, 5] Additional utility context actions
         - Select direction for orientation
         - Select action for redclicks
+    - [Feature] "Go to step/cursor"
 
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area

@@ -8,6 +8,11 @@ Planned for next release (b0.4):
     - Tirranwn Traps
     - Dorgesh Khaan stairs
     - Swamp Cave entrance and stones
+    - [Dev Tool, 5] Utility Layer for shortcut parsing
+        - Show LocUsage on map
+        - Bounding Box, rotation
+        - Quick-Copy origin and id
+        - "Show unrotated"
 
 - Path Editor
     - [Feature, 5] Add additional action bar buttons
@@ -17,7 +22,9 @@ Planned for next release (b0.4):
     - [QOL, 5] Additional utility context actions
         - Select direction for orientation
         - Select action for redclicks
-    - [Feature] "Go to step/cursor"
+        - Select direction for cheat step
+
+    - [Feature, 3] "Go to step/cursor"
 
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
@@ -27,11 +34,9 @@ Planned for next release (b0.4):
     - [Feature] Check valid access
 
 - Map Entities
-    - [Feature, 5] Add Teleport Access Entity
-    - [Feature, 5] Add Transport Destination Entity
-    - [Performance, 1] Remove from quadtree when removed from map!
-    - [Performance, 1] Share a quad tree for all game layers
     - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
+    - [Performance, 1] Remove from quadtree when removed from map!
+    - [Performance, 1] Share a quad tree for all game layers?
     - [Feature, 2] Find a way to separate entities on the same tile
 
 - Theorycrafter

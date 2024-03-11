@@ -2904,36 +2904,39 @@ name: "Entrana",
         animation_ticks: 5
     },
 ]
-},
-{
-type: "teleports",
-id: "gote",
-name: "Grace of the Elves (Max Guild Portal)",
-img: {url: "gote.png"},
-spots: [
+},*/
     {
-        id: "overgrownidols",
-target: {origin: {x: 2950, y: 2976, level: 0}},
-name: "Overgrown idols",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
+        type: "teleports",
+        id: "gote",
+        name: "Grace of the Elves (Max Guild Portal)",
+        img: {url: "gote.png"},
+        animation_ticks: default_teleport_ticks,
+        spots: [
+            {
+                id: "overgrownidols",
+                target: {"origin": {"x": 2949, "y": 2977, "level": 0}},
+                name: "Overgrown idols",
+            },
+            {
+                id: "deepseafishing",
+                target: {"origin":{"x":2135,"y":7107,"level":0}},
+                name: "Deep sea fishing hub",
+            },
+            {
+                id: "lavaflowmine",
+                target: {"origin": {"x": 2177, "y": 5663, "level": 0}},
+                name: "Lava Flow Mine",
+            },
+        ],
+        access: [{
+            id: "gote",
+            type: "item",
+            name: {name: "Grace of the elves", kind: "item"},
+            action_name: "Max garden portal",
+            menu_ticks: 1,
+        }]
     },
-    {
-        id: "deppseafishing",
-target: {origin: {x: 2594, y: 3412, level: 0}},
-name: "Deep sea fishing hub",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-    {
-        id: "lavaflowmine",
-target: {origin: {x: 2940, y: 10198, level: 0}},
-name: "Lava Flow Mine",
-        menu_ticks: 1,
-        animation_ticks: default_teleport_ticks
-    },
-]
-},
+    /*
 {
 type: "teleports",
 id: "spheredorgeshkaan",

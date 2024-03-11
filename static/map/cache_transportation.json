@@ -34414,5 +34414,195 @@
       }
     ],
     "source_loc": 34395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2856.5,
+        "y": 3581.5
+      },
+      "botright": {
+        "x": 2860.5,
+        "y": 3577.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "x": 2269,
+                "y": 4752,
+                "level": 0
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 34395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2846.5,
+        "y": 3691.5
+      },
+      "botright": {
+        "x": 2850.5,
+        "y": 3687.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "x": 2837,
+                "y": 10090,
+                "level": 2
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 34395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Cave entrance",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2884.5,
+        "y": 3676.5
+      },
+      "botright": {
+        "x": 2888.5,
+        "y": 3672.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "x": 2893,
+                "y": 10074,
+                "level": 2
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 34395
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Rowboat",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2135.5,
+        "y": 7108.5
+      },
+      "botright": {
+        "x": 2137.5,
+        "y": 7104.5
+      },
+      "level": 0
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Bank",
+        "movement": [
+          {
+            "time": 9,
+            "fixed_target": {
+              "target": {
+                "x": 2595,
+                "y": 3412,
+                "level": 0
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 110591
+  },
+  {
+    "type": "entity",
+    "entity": {
+      "name": "Exit",
+      "kind": "static"
+    },
+    "clickable_area": {
+      "topleft": {
+        "x": 2175.5,
+        "y": 5664.5
+      },
+      "botright": {
+        "x": 2176.5,
+        "y": 5662.5
+      },
+      "level": 1
+    },
+    "actions": [
+      {
+        "cursor": "generic",
+        "name": "Enter",
+        "movement": [
+          {
+            "time": 1,
+            "fixed_target": {
+              "target": {
+                "x": 2939,
+                "y": 10198,
+                "level": 0
+              }
+            },
+            "orientation": "toentitybefore"
+          }
+        ]
+      }
+    ],
+    "source_loc": 56989
   }
 ]

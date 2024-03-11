@@ -76717,10 +76717,10 @@ class Application extends lib_ui_Behaviour__WEBPACK_IMPORTED_MODULE_8__["default
         this.map = this.map_widget.map;
         this.main_behaviour.set(new _ui_neosolving_NeoSolvingBehaviour__WEBPACK_IMPORTED_MODULE_16__["default"](this));
         if (this.mode() == "preview") {
-            this.notifications.notify({ type: "information" }, div("This is a preview release of Scan Trainer and not recommended for general usage. Features may change or disappear without any notice. ", c("<a href='https://leridon.github.io/cluetrainer-live/' style='color: unset; text-decoration: underline'>Click here to get to the official release.</a>")));
+            this.notifications.notify({ type: "information", duration: null }, div("This is a preview release of Scan Trainer and not recommended for general usage. Features may change or disappear without any notice. ", c("<a href='https://leridon.github.io/cluetrainer-live/' style='color: unset; text-decoration: underline'>Click here to get to the official release.</a>")));
         }
         if (!this.in_alt1 && !this.startup_settings.value().dont_recommend_alt1) {
-            this.notifications.notify({ type: "information" }, not => vbox(span("Scan Trainer is an Alt1 plugin and has clue-solving features when installed."), hbox(c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`), spacer().css("max-width", "60px"), c(`<span class="ctr-notification-link">Don't show again.</span>`).on("click", () => {
+            this.notifications.notify({ type: "information", duration: null }, not => vbox(span("Scan Trainer is an Alt1 plugin and has clue-solving features when installed."), hbox(c(`<a href='${this.addToAlt1Link()}' class="ctr-notification-link">Click here to install.</a>`), spacer().css("max-width", "60px"), c(`<span class="ctr-notification-link">Don't show again.</span>`).on("click", () => {
                 this.startup_settings.update(s => s.dont_recommend_alt1 = true);
                 not.dismiss();
             }))));

@@ -62028,107 +62028,87 @@ const raw_data = [
                 name: "Ancient Spellbook" // TODO: Tablets
             }]
     },
-    /*
+    {
+        type: "teleports",
+        id: "lunarspellbook",
+        name: "Lunar Spellbook",
+        menu_ticks: 0,
+        animation_ticks: default_teleport_ticks,
+        spots: [
             {
-                type: "teleports",
-                id: "lunarspellbook",
-                name: "Lunar Spellbook",
-                img: {url: ""},
-                spots: [
-                    {
-                        id: "moonclan",
-                        target: {origin: {x: 2111, y: 3917, level: 0}},
-                        img: {url: "tele-moonclan.png"},
-                        name: "Moonclan",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "ourania",
-                        target: {origin: {x: 2468, y: 3248, level: 0}},
-                        img: {url: "tele-ourania.png"},
-                        name: "Ourania Altar",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "southfalador",
-                        target: {origin: {x: 3057, y: 3311, level: 0}},
-                        img: {url: "tele-southfalador.png"},
-                        name: "South Falador",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "waterbirth",
-                        target: {origin: {x: 2548, y: 3758, level: 0}},
-                        img: {url: "tele-waterbirth.png"},
-                        name: "Waterbirth",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "barbarian",
-                        target: {origin: {x: 2542, y: 3570, level: 0}},
-                        img: {url: "tele-barbarian.png"},
-                        name: "Barbarian Outpost",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "northardougne",
-                        target: {origin: {x: 2670, y: 3375, level: 0}},
-                        img: {url: "tele-northardougne.png"},
-                        name: "North Ardougne",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "khazard",
-                        target: {origin: {x: 2634, y: 3167, level: 0}},
-                        img: {url: "tele-khazard.png"},
-                        name: "Port Khazard",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "fishing",
-                        target: {origin: {x: 2614, y: 3383, level: 0}},
-                        img: {url: "tele-fishing.png"},
-                        name: "Fishing Guild",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "catherby",
-                        target: {origin: {x: 2803, y: 3450, level: 0}},
-                        img: {url: "tele-catherby.png"},
-                        name: "Catherby",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "iceplateu",
-                        target: {origin: {x: 2975, y: 3941, level: 0}},
-                        img: {url: "tele-iceplateau.png"},
-                        name: "Ice Plateau",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                    {
-                        id: "trollheim",
-                        target: {origin: {x: 2818, y: 3676, level: 0}},
-                        img: {url: "tele-trollheim.png"},
-                        name: "Trollheim",
-                        menu_ticks: 0,
-                        animation_ticks: default_teleport_ticks
-                    },
-                ],
-                access: [{
-                    type: "spellbook",
-                    name: "Lunar"
-                }]
+                id: "moonclan",
+                target: { "origin": { "x": 2112, "y": 3913, "level": 0 }, "size": { "x": 4, "y": 5 }, "data": "//8G" },
+                img: { url: "tele-moonclan.png" },
+                name: "Moonclan",
             },
+            {
+                id: "ourania",
+                target: { "origin": { "x": 2465, "y": 3243, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "3nv/AQ==" },
+                img: { url: "tele-ourania.png" },
+                name: "Ourania Altar",
+            },
+            {
+                id: "southfalador",
+                target: { "origin": { "x": 3053, "y": 3308, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "+f9PAQ==" },
+                img: { url: "tele-southfalador.png" },
+                name: "South Falador",
+            },
+            {
+                id: "waterbirth",
+                target: { "origin": { "x": 2544, "y": 3754, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                img: { url: "tele-waterbirth.png" },
+                name: "Waterbirth",
+            },
+            {
+                id: "barbarian",
+                target: { "origin": { "x": 2541, "y": 3567, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                img: { url: "tele-barbarian.png" },
+                name: "Barbarian Outpost",
+            },
+            {
+                id: "northardougne",
+                target: { "origin": { "x": 2663, "y": 3373, "level": 0 }, "size": { "x": 4, "y": 5 }, "data": "ZnYP" },
+                img: { url: "tele-northardougne.png" },
+                name: "North Ardougne",
+            },
+            {
+                id: "khazard",
+                target: { "origin": { "x": 2634, "y": 3165, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "8P//AQ==" },
+                img: { url: "tele-khazard.png" },
+                name: "Port Khazard",
+            },
+            {
+                id: "fishing",
+                target: { "origin": { "x": 2611, "y": 3381, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                img: { url: "tele-fishing.png" },
+                name: "Fishing Guild",
+            },
+            {
+                id: "catherby",
+                target: { "origin": { "x": 2788, "y": 3450, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "/v/vAQ==" },
+                img: { url: "tele-catherby.png" },
+                name: "Catherby",
+            },
+            {
+                id: "iceplateu",
+                target: { "origin": { "x": 2973, "y": 3936, "level": 0 }, "size": { "x": 4, "y": 5 } },
+                img: { url: "tele-iceplateau.png" },
+                name: "Ice Plateau",
+            },
+            {
+                id: "trollheim",
+                target: { "origin": { "x": 2815, "y": 3674, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                img: { url: "tele-trollheim.png" },
+                name: "Trollheim Farm",
+            },
+        ],
+        access: [{
+                id: "spellbook",
+                type: "spellbook",
+                name: "Lunar Spellbook"
+            }]
+    },
+    /*
             {
                 type: "teleports",
                 id: "greenteleport",

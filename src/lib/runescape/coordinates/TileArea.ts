@@ -143,7 +143,7 @@ export namespace TileArea {
 
             let i = 0
 
-            while (i < queue.length) {
+            while (i < queue.length && i < 50) {
                 const el = queue[i]
 
                 if (this.query(el.pos)) return el.pos
@@ -151,6 +151,8 @@ export namespace TileArea {
                 for (let dir of el.dirs) {
                     queue.push({pos: TileCoordinates.move(el.pos, direction.toVector(dir)), dirs: direction.continuations(dir)})
                 }
+
+                i++
             }
 
             return null

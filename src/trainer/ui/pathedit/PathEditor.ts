@@ -15,7 +15,7 @@ import InteractionLayer, {InteractionGuard} from "lib/gamemap/interaction/Intera
 import {floor_t, TileCoordinates} from "../../../lib/runescape/coordinates";
 import * as assert from "assert";
 import * as lodash from "lodash";
-import {MenuEntry} from "../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../widgets/ContextMenu";
 import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
@@ -43,6 +43,8 @@ import vbox = C.vbox;
 import {PathEditMenuBar} from "./PathEditMenuBar";
 import tr = TileRectangle.tr;
 import {deps} from "../../dependencies";
+import {TeleportAccessEntity} from "../map/entities/TeleportAccessEntity";
+import TeleportGroup = Transportation.TeleportGroup;
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -124,7 +126,7 @@ class PathEditorGameLayer extends GameLayer {
 
                         event.addForEntity({
                             type: "basic",
-                            text: c().append(`Use via `, TeleportSpotEntity.accessNameAsWidget(a)),
+                            text: () => c().append(`Use via `, TeleportSpotEntity.accessNameAsWidget(a)),
                             handler: () => {
                                 this.editor.value.add({
                                         type: "teleport",
@@ -141,7 +143,7 @@ class PathEditorGameLayer extends GameLayer {
                             children: t.group.access.map(a => {
                                 return {
                                     type: "basic",
-                                    text: c().append(TeleportSpotEntity.accessNameAsWidget(a)),
+                                    text: () => c().append(TeleportSpotEntity.accessNameAsWidget(a)),
                                     handler: () => {
                                         this.editor.value.add({
                                             type: "teleport",
@@ -153,13 +155,70 @@ class PathEditorGameLayer extends GameLayer {
                             })
                         })
                     }
+                } else if (event.active_entity instanceof TeleportAccessEntity) {
+                    const access = event.active_entity.config.access
+                    const teleport = event.active_entity.config.teleport
+
+                    event.addForEntity({
+                        type: "submenu",
+                        text: `Use action '${access.action_name}'`,
+                        children: event.active_entity.config.teleport.spots.map(spot => {
+
+                            const s = new TeleportGroup.Spot(teleport, spot, access, deps().app.teleport_settings)
+
+                            return {
+                                type: "basic",
+                                icon: `assets/icons/teleports/${s.image().url}`,
+                                text: s.code() ? `${spot.code}: ${spot.name}` : spot.name,
+                                handler: async () => {
+
+                                    const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
+
+                                    let assumed_start = current_tile
+                                    const target = access.interactive_area || EntityTransportation.default_interactive_area(TileArea.toRect(access.clickable_area))
+
+                                    const steps: Path.Step[] = []
+
+                                    if (current_tile && !activate(target).query(current_tile)) {
+                                        const path_to_start = await PathFinder.find(
+                                            PathFinder.init_djikstra(current_tile),
+                                            target
+                                        )
+
+                                        if (path_to_start && path_to_start.length > 1) {
+
+                                            if (assumed_start) assumed_start = index(path_to_start, -1)
+
+                                            steps.push({
+                                                type: "run",
+                                                waypoints: path_to_start,
+                                            })
+
+                                        } else {
+                                            deps().app.notifications.notify({
+                                                type: "error"
+                                            }, "No path to transportation found.")
+                                        }
+                                    }
+
+                                    steps.push({
+                                        type: "teleport",
+                                        spot: s.centerOfTarget(),
+                                        id: {...s.id(), access: access.id},
+                                    })
+
+                                    this.editor.value.add(...steps)
+                                }
+                            }
+                        }),
+                    })
                 } else if (event.active_entity instanceof EntityTransportEntity) {
                     let s = Transportation.normalize(event.active_entity.config.shortcut)
 
                     s.actions.forEach(a => {
-                        event.add({
+                        event.addForEntity({
                             type: "basic",
-                            text: `${s.entity.name}: ${a.name}`,
+                            text: `Use action '${a.name}'`,
                             icon: CursorType.meta(a.cursor).icon_url,
                             handler: async () => {
                                 const current_tile = this.editor.value.cursor_state.value().state?.position?.tile
@@ -169,7 +228,7 @@ class PathEditorGameLayer extends GameLayer {
 
                                 const steps: Path.Step[] = []
 
-                                if (current_tile) {
+                                if (current_tile && !activate(target).query(current_tile)) {
                                     const path_to_start = await PathFinder.find(
                                         PathFinder.init_djikstra(current_tile),
                                         target
@@ -177,14 +236,12 @@ class PathEditorGameLayer extends GameLayer {
 
                                     if (path_to_start && path_to_start.length > 1) {
 
-                                        if (path_to_start.length > 1) {
-                                            if (assumed_start) assumed_start = index(path_to_start, -1)
+                                        if (assumed_start) assumed_start = index(path_to_start, -1)
 
-                                            steps.push({
-                                                type: "run",
-                                                waypoints: path_to_start,
-                                            })
-                                        }
+                                        steps.push({
+                                            type: "run",
+                                            waypoints: path_to_start,
+                                        })
 
                                     } else {
                                         deps().app.notifications.notify({
@@ -214,7 +271,7 @@ class PathEditorGameLayer extends GameLayer {
                     const step = this.editor.value.committed_value.value().steps.find(v => v.associated_preview == event.active_entity)
 
                     if (step) {
-                        event.addForEntity(...this.editor.contextMenu(step))
+                        event.addForEntity(...this.editor.contextMenu(step).children)
                     }
                 }
             }
@@ -458,7 +515,7 @@ export class PathEditor extends Behaviour {
         }
     }
 
-    contextMenu(step: PathBuilder.Step): MenuEntry[] {
+    contextMenu(step: PathBuilder.Step): Menu {
         const entries: MenuEntry[] = []
 
         entries.push({
@@ -475,7 +532,7 @@ export class PathEditor extends Behaviour {
             handler: () => step.delete()
         })
 
-        if (step.step.raw.type == "ability") {
+        if (step.step.raw.type == "ability" || step.step.raw.type == "run") {
             entries.push({
                 type: "basic",
                 icon: "assets/icons/edit.png",
@@ -526,7 +583,11 @@ export class PathEditor extends Behaviour {
         }
 
 
-        return entries
+        return {
+            type: "submenu",
+            text: "",
+            children: entries
+        }
     }
 }
 

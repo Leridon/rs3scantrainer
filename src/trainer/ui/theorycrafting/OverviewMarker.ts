@@ -1,4 +1,3 @@
-import * as leaflet from "leaflet";
 import {TileMarker} from "../../../lib/gamemap/TileMarker";
 import {Clues} from "../../../lib/runescape/clues";
 import {AugmentedMethod, MethodPackManager} from "../../model/MethodPackManager";
@@ -7,10 +6,9 @@ import {Rectangle} from "../../../lib/math";
 import Widget from "../../../lib/ui/Widget";
 import {ClueProperties} from "./ClueProperties";
 import ClueSpot = Clues.ClueSpot;
-import * as tippy from "tippy.js";
 import {MapEntity} from "../../../lib/gamemap/MapEntity";
 import {GameMapContextMenuEvent} from "../../../lib/gamemap/MapEvents";
-import {MenuEntry} from "../widgets/ContextMenu";
+import {Menu} from "../widgets/ContextMenu";
 
 export class ClueOverviewMarker extends MapEntity {
     constructor(private clue: Clues.ClueSpot,
@@ -48,12 +46,8 @@ export class ClueOverviewMarker extends MapEntity {
         return marker.marker.getElement()
     }
 
-    override async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
-        return {
-            type: "submenu",
-            text: "Methods",
-            children: await ClueProperties.methodMenu(this.clue, this.edit_handler)
-        }
+    override async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
+        return await ClueProperties.methodMenu(this.clue, this.edit_handler)
     }
 }
 

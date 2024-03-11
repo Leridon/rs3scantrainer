@@ -7,7 +7,7 @@ import COLORS = ShortcutViewLayer.COLORS;
 import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {floor_t, TileRectangle} from "../../../../lib/runescape/coordinates";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
-import {MenuEntry} from "../../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {CursorType} from "../../../../lib/runescape/CursorType";
 import {C} from "../../../../lib/ui/constructors";
 import entity = C.entity;
@@ -53,7 +53,7 @@ export class RemoteEntityTransportTarget extends MapEntity {
         return circle.getElement()
     }
 
-    async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+    async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
 
         event.addForEntity({
             type: "basic",
@@ -66,7 +66,7 @@ export class RemoteEntityTransportTarget extends MapEntity {
         return {
             type: "submenu",
             icon: CursorType.meta(this.config.action.cursor ?? "generic").icon_url,
-            text: c().append("Target of ", entity(this.config.transport.entity)),
+            text: () => c().append("Target of ", entity(this.config.transport.entity)),
             children: []
         }
     }

@@ -47,32 +47,38 @@ export class PathEditMenuBar extends Widget {
                 ,
                 new LightButton("&#x2630;", "rectangle")
                     .onClick((event) => {
-                        new ContextMenu([
-                            {
-                                type: "basic",
-                                text: "Export",
-                                handler: () => {
-                                    new ExportStringModal(Path.export_path(this.editor.value.get())).show()
-                                }
-                            },
-                            {
-                                type: "basic",
-                                text: "Show JSON",
-                                handler: () => {
-                                    new ExportStringModal(cleanedJSON(this.editor.value.get())).show()
-                                }
-                            },
-                            {
-                                type: "basic",
-                                text: "Import",
-                                handler: async () => {
-                                    const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
+                        new ContextMenu({
+                            type: "submenu",
+                            text: "",
+                            children:
+                                [
+                                    {
+                                        type: "basic",
+                                        text: "Export",
+                                        handler: () => {
+                                            new ExportStringModal(Path.export_path(this.editor.value.get())).show()
+                                        }
+                                    }
+                                    ,
+                                    {
+                                        type: "basic",
+                                        text: "Show JSON",
+                                        handler: () => {
+                                            new ExportStringModal(cleanedJSON(this.editor.value.get())).show()
+                                        }
+                                    },
+                                    {
+                                        type: "basic",
+                                        text: "Import",
+                                        handler: async () => {
+                                            const imported = await new ImportStringModal((s) => Path.import_path(s)).do()
 
-                                    if (imported?.imported) this.editor.value.set(imported.imported)
-                                }
-                            },
+                                            if (imported?.imported) this.editor.value.set(imported.imported)
+                                        }
+                                    },
 
-                        ]).showFromEvent(event)
+                                ]
+                        }).showFromEvent(event)
                     }),
             )
         }

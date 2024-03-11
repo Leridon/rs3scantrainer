@@ -19,7 +19,10 @@ Planned for next release (b0.4):
         - Cheat Step
     - [QOL, 5] Additional utility context actions
         - Select direction for cheat step
-    - [QOL, 5] Add context menu actions for TeleportAccess and RemoteTarget
+        - Select spot of teleport, check in augment
+    - [QOL, 5] Add context menu actions for
+        - TeleportAccess
+        - RemoteTarget
 
     - [Feature, 3] Highlight step on hover
 
@@ -29,6 +32,9 @@ Planned for next release (b0.4):
     - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
     - [Feature] Check valid access
+
+- Context Menu Builder
+    - Creating context menus currently is a little annoying
 
 - Map Entities
     - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)

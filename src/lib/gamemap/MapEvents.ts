@@ -1,8 +1,7 @@
 import {GameMap} from "./GameMap";
 import * as leaflet from "leaflet";
 import {TileCoordinates} from "../runescape/coordinates";
-import {MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
-import {LeafletEvent} from "leaflet";
+import {Menu, MenuEntry} from "../../trainer/ui/widgets/ContextMenu";
 import {MapEntity} from "./MapEntity";
 
 export abstract class GameMapEvent<LeafletT extends leaflet.LeafletEvent, OriginalT extends Event> {
@@ -95,21 +94,32 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
         return TileCoordinates.snap(this.coordinates)
     }
 
-    async getEntries(): Promise<MenuEntry[]> {
+    async getMenu(): Promise<Menu> {
         const for_entity = await this.active_entity?.contextMenu(this)
 
         if (for_entity && this.for_entity_entries.length > 0) {
             for_entity.children.push(...this.for_entity_entries)
 
             if (this.entries.length == 0) {
-                return for_entity.children
+                return for_entity
             }
 
-            return this.entries.concat(for_entity)
-        } else {
-            return this.entries
+            return {
+                type: "submenu",
+                text: "",
+                children: this.entries.concat({
+                    type: "submenu",
+                    text: for_entity.text,
+                    children: for_entity.children,
+                })
+            }
         }
 
+        return {
+            type: "submenu",
+            text: "",
+            children: this.entries
+        }
     }
 }
 

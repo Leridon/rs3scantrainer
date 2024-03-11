@@ -7,7 +7,7 @@ import {Transportation} from "../../../../lib/runescape/transportation";
 import {identity} from "lodash";
 import {C} from "../../../../lib/ui/constructors";
 import {direction} from "../../../../lib/runescape/movement";
-import {MenuEntry} from "../../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
 import vbox = C.vbox;
 import entity = C.entity;
@@ -101,7 +101,7 @@ export class TeleportSpotEntity extends MapEntity {
     }
 
 
-    async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+    async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
         const teleport = this.config.teleport;
 
         const jumpable_accesses: TeleportAccess[] = teleport.group.access.filter(a => a.type == "entity")
@@ -115,7 +115,7 @@ export class TeleportSpotEntity extends MapEntity {
 
                     return {
                         type: "basic",
-                        text: entity(a.name),
+                        text: () => entity(a.name),
                         handler: () => {
                             this.parent?.getMap()?.fitView(TileArea.toRect(a.clickable_area))
                         }

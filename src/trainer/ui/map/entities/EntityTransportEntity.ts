@@ -17,7 +17,7 @@ import default_interactive_area = Transportation.EntityTransportation.default_in
 import GeneralEntityTransportation = Transportation.GeneralEntityTransportation;
 import EntityTransportation = Transportation.EntityTransportation;
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
-import {MenuEntry} from "../../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {deps} from "../../../dependencies";
 import entity = C.entity;
 import isLocal = Transportation.EntityTransportation.Movement.isLocal;
@@ -46,7 +46,7 @@ export class EntityTransportEntity extends MapEntity {
         return Transportation.bounds(this.config.shortcut)
     }
 
-    async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+    async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
         const shortcut = this.normalized_shortcut
 
         const remote_target: TileCoordinates[] = shortcut.actions.flatMap(action =>
@@ -72,7 +72,7 @@ export class EntityTransportEntity extends MapEntity {
         return {
             type: "submenu",
             icon: CursorType.meta(shortcut.actions[0].cursor ?? "generic").icon_url,
-            text: entity(shortcut.entity),
+            text: () => entity(shortcut.entity),
             children: []
         }
     }

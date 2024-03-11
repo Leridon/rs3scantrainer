@@ -396,7 +396,6 @@ export namespace EditedPathOverview {
                     }
                 }]
 
-
                 if (this.value.position.tile) {
                     entries.push({
                         type: "basic",
@@ -407,7 +406,11 @@ export namespace EditedPathOverview {
                     })
                 }
 
-                new ContextMenu(entries).showFromEvent(event)
+                new ContextMenu({
+                    type: "submenu",
+                    text: "",
+                    children: entries
+                }).showFromEvent(event)
             })
 
             this.on("dblclick", () => {
@@ -455,18 +458,22 @@ export namespace EditedPathOverview {
                     main_row.append(new LightButton("Assume starting orientation")
                         .css("margin-left", "5px")
                         .onClick((event) => {
-                            const menu: Menu = direction.all.map(d => {
-                                return {
-                                    type: "basic",
-                                    text: direction.toString(d),
-                                    handler: () => {
-                                        this.va.builder.add(({
-                                            type: "orientation",
-                                            direction: d
-                                        }))
+                            const menu: Menu = {
+                                type: "submenu",
+                                text: "",
+                                children: direction.all.map(d => {
+                                    return {
+                                        type: "basic",
+                                        text: direction.toString(d),
+                                        handler: () => {
+                                            this.va.builder.add(({
+                                                type: "orientation",
+                                                direction: d
+                                            }))
+                                        }
                                     }
-                                }
-                            })
+                                })
+                            }
 
                             new ContextMenu(menu).showFromEvent(event)
                         }))

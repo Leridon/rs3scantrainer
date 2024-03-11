@@ -168,28 +168,32 @@ export namespace BookmarkStorage {
                 return submenu
             })
 
-        return [...forBookmarks,
-            {
-                type: "basic",
-                text: "Create Bookmark",
-                handler: async () => {
+        return {
+            type: "submenu",
+            text: "",
+            children: [...forBookmarks,
+                {
+                    type: "basic",
+                    text: "Create Bookmark",
+                    handler: async () => {
 
-                    function findNextFreeName(n: number): string {
-                        const name = `Bookmark ${n}`
+                        function findNextFreeName(n: number): string {
+                            const name = `Bookmark ${n}`
 
-                        if (storage.getAll().some(b => b.name == name)) return findNextFreeName(n + 1)
+                            if (storage.getAll().some(b => b.name == name)) return findNextFreeName(n + 1)
 
-                        return name
+                            return name
+                        }
+
+                        const name = findNextFreeName(1)
+
+                        const bookmark = await new CreateBookmarkModal(name, builder.copyState()).do()
+
+                        if (bookmark) {
+                            storage.create(bookmark)
+                        }
                     }
-
-                    const name = findNextFreeName(1)
-
-                    const bookmark = await new CreateBookmarkModal(name, builder.copyState()).do()
-
-                    if (bookmark) {
-                        storage.create(bookmark)
-                    }
-                }
-            }]
+                }]
+        }
     }
 }

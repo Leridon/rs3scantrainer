@@ -13,7 +13,7 @@ import {CursorType} from "../../../../lib/runescape/CursorType";
 import {TransportData} from "../../../../data/transports";
 import {TeleportSpotEntity} from "./TeleportSpotEntity";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
-import {MenuEntry} from "../../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {FloorLevels} from "../../../../lib/gamemap/ZoomLevels";
 
 export class PathStepEntity extends MapEntity {
@@ -193,7 +193,7 @@ export class PathStepEntity extends MapEntity {
         }
     }
 
-    override async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+    override async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
         return {
             type: "submenu",
             text: Path.Step.name(this.config.step),

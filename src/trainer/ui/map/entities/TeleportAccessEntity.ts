@@ -6,7 +6,7 @@ import {FloorLevels, ZoomLevels} from "../../../../lib/gamemap/ZoomLevels";
 import {floor_t} from "../../../../lib/runescape/coordinates";
 import {TileArea} from "../../../../lib/runescape/coordinates/TileArea";
 import {GameMapContextMenuEvent} from "../../../../lib/gamemap/MapEvents";
-import {MenuEntry} from "../../widgets/ContextMenu";
+import {Menu, MenuEntry} from "../../widgets/ContextMenu";
 import {C} from "../../../../lib/ui/constructors";
 import entity = C.entity;
 import {CursorType} from "../../../../lib/runescape/CursorType";
@@ -60,7 +60,7 @@ export class TeleportAccessEntity extends MapEntity {
         return marker.getElement()
     }
 
-    constructor(private config: TeleportAccessEntity.Config) {
+    constructor(public config: TeleportAccessEntity.Config) {
         super(config);
 
         this.zoom_sensitivity_layers = MapEntity.default_local_zoom_scale_layers
@@ -71,13 +71,13 @@ export class TeleportAccessEntity extends MapEntity {
         ])
     }
 
-    async contextMenu(event: GameMapContextMenuEvent): Promise<(MenuEntry & { type: "submenu" }) | null> {
+    async contextMenu(event: GameMapContextMenuEvent): Promise<Menu | null> {
         const teleport = this.config.teleport;
         const access = this.config.access
 
         event.addForEntity({
             type: "submenu",
-            text: "Jump to Target",
+            text: "Move map to",
             children: teleport.spots.map(spot => {
 
                 const s = new TeleportGroup.Spot(teleport, spot, access, deps().app.teleport_settings)
@@ -96,7 +96,7 @@ export class TeleportAccessEntity extends MapEntity {
         return {
             type: "submenu",
             icon: CursorType.meta(access.cursor ?? "generic").icon_url,
-            text: entity(access.name),
+            text: () => entity(access.name),
             children: []
         }
     }

@@ -175,7 +175,7 @@ export class PathEditOverlayControl extends GameMapControl {
                     .css("margin-left", "10px")
                     .setValue(true)
                     .setEnabled(false),
-                this.lens_dynamic_checkbox = new Checkbox("Dynamic", "radio")
+                this.lens_dynamic_checkbox = new Checkbox("Follow Mouse", "radio")
                     .css("margin-left", "10px")
                     .setValue(false)
                     .setEnabled(false),

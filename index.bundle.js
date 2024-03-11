@@ -62933,6 +62933,240 @@ const raw_data = [
             }]
     },
     {
+        type: "teleports",
+        id: "amuletofglory",
+        name: "Amulet of Glory",
+        img: { url: "jewellry_amuletofglory.png" },
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "edgeville",
+                target: { "origin": { "x": 3087, "y": 3496, "level": 0 } },
+                code: "1",
+                name: "Edgeville",
+            },
+            {
+                id: "karamja",
+                target: { "origin": { "x": 2918, "y": 3176, "level": 0 } },
+                code: "2",
+                name: "Karamja",
+            },
+            {
+                id: "draynor",
+                target: { "origin": { "x": 3080, "y": 3251, "level": 0 } },
+                code: "3",
+                name: "Draynor",
+            },
+            {
+                id: "alkharid",
+                target: { "origin": { "x": 3305, "y": 3123, "level": 0 } },
+                code: "4",
+                name: "Al Kharid",
+            },
+        ],
+        access: [{
+                id: "necklace",
+                type: "item",
+                name: { name: "Amulet of glory", kind: "item" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
+        id: "gamesnecklace",
+        name: "Games necklace",
+        img: { url: "jewellry_gamesnecklace.png" },
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "trollinvasion",
+                target: { "origin": { "x": 2874, "y": 3567, "level": 0 } },
+                code: "1",
+                name: "Troll invasion",
+            },
+            {
+                id: "barbarianoutpost",
+                target: { "origin": { "x": 2520, "y": 3571, "level": 0 } },
+                code: "2",
+                name: "Barbarian Outpost",
+            },
+            {
+                id: "gamersgrotto",
+                target: { "origin": { "x": 2967, "y": 9678, "level": 0 } },
+                code: "3",
+                name: "Gamer's grotto",
+            },
+            {
+                id: "agoroth",
+                target: { "origin": { "x": 3860, "y": 6827, "level": 0 } },
+                code: "4",
+                name: "Agoroth",
+            },
+            {
+                id: "corporealbeast",
+                target: { "origin": { "x": 2885, "y": 4372, "level": 2 } },
+                code: "5",
+                name: "Corporeal Beast",
+            },
+            {
+                id: "burghderott",
+                target: { "origin": { "x": 3487, "y": 3237, "level": 0 } },
+                code: "6",
+                name: "Burgh De Rott",
+            },
+            {
+                id: "tearsofguthix",
+                target: { "origin": { "x": 3250, "y": 9517, "level": 2 } },
+                code: "7",
+                name: "Tears of Guthix",
+            },
+        ],
+        access: [{
+                id: "necklace",
+                type: "item",
+                name: { name: "Games necklace", kind: "item" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
+        id: "ringofduelling",
+        name: "Ring of duelling",
+        img: { url: "jewellry_duelring.png" },
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "hetsoasis",
+                target: { "origin": { "x": 3313, "y": 3235, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "+/v/AQ==" },
+                code: "1",
+                name: "Het's oasis",
+            },
+            {
+                id: "castlewars",
+                target: { "origin": { "x": 2442, "y": 3088, "level": 0 }, "size": { "x": 4, "y": 5 } },
+                code: "2",
+                name: "Castle wars",
+            },
+            {
+                id: "warforge",
+                target: { "origin": { "x": 2411, "y": 2845, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "nP//AQ==" },
+                code: "3",
+                name: "The Warforge",
+            },
+            {
+                id: "fistofguthix",
+                name: "Fist of Guthix",
+                target: { "origin": { "x": 1690, "y": 5598, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                code: "4"
+            },
+        ],
+        access: [{
+                id: "ring",
+                type: "item",
+                name: { name: "Ring of duelling", kind: "item" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
+        id: "skillsnecklace",
+        name: "Skills necklace",
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "fishing",
+                target: { "origin": { "x": 2615, "y": 3385, "level": 0 } },
+                code: "1",
+                name: "Fishing Guild"
+            },
+            {
+                id: "mining",
+                target: { origin: { "x": 3016, "y": 3338, "level": 0 } },
+                code: "2",
+                name: "Mining Guild",
+            },
+            {
+                id: "crafting",
+                target: { "origin": { "x": 2933, "y": 3290, "level": 0 } },
+                code: "3",
+                name: "Crafting Guild",
+            },
+            {
+                id: "cooking",
+                target: { "origin": { "x": 3143, "y": 3442, "level": 0 } },
+                code: "4",
+                name: "Cooking Guild",
+            },
+            {
+                id: "invention",
+                target: { "origin": { "x": 2997, "y": 3437, "level": 0 } },
+                code: "5",
+                name: "Invention guild",
+            },
+            {
+                id: "farming",
+                target: { "origin": { "x": 2646, "y": 3355, "level": 0 } },
+                code: "6",
+                name: "Farming Guild",
+            },
+            {
+                id: "runecrafting",
+                target: { "origin": { "x": 3102, "y": 3152, "level": 3 } },
+                code: "7",
+                name: "Runecrafting Guild",
+            },
+        ],
+        access: [{
+                id: "ring",
+                type: "item",
+                name: { name: "Skills necklace", kind: "item" },
+                img: { url: "jewellry_skillsnecklace.png" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    /*
+    {
+        type: "teleports",
+        id: "travellersnecklace",
+        name: "Traveller's necklace",
+        img: {url: "jewellry_travellersnecklace.png"},
+        can_be_in_pota: true,
+        spots: [
+            {
+                id: "wizardstower",
+target: {origin: {x: 3103, y: 3182, level: 0}},
+code: "1",
+name: "Wizard's Tower",
+                menu_ticks: 2,
+                animation_ticks: 4
+            },
+            {
+                id: "outpost",
+target: {origin: {x: 2444, y: 3346, level: 0}},
+code: "2",
+name: "The Outpost",
+                menu_ticks: 2,
+                animation_ticks: 4
+            },
+            {
+                id: "deserteagle",
+target: {origin: {x: 3424, y: 3141, level: 0}},
+code: "3",
+name: "Desert Eagle's Eyrie",
+                menu_ticks: 2,
+                animation_ticks: 4
+            },
+        ]
+    },*/
+    {
         id: "davesspellbook",
         type: "teleports",
         name: "Dave's spellbook",
@@ -78193,6 +78427,9 @@ class DrawTileAreaInteraction extends _lib_gamemap_interaction_ValueInteraction_
             else {
                 (0,_dependencies__WEBPACK_IMPORTED_MODULE_7__.deps)().app.notifications.notify({ type: "error" }, "No tiles");
             }
+        }), new _widgets_LightButton__WEBPACK_IMPORTED_MODULE_6__["default"]("Reset")
+            .onClick(() => {
+            this.tiles = [];
         })))));
     }
     onAdd(map) {

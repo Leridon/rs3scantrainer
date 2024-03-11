@@ -9,11 +9,11 @@ import {DrawRegionAction} from "../theorycrafting/scanedit/TreeEdit";
 import {boxPolygon, tilePolygon} from "../polygon_helpers";
 import LightButton from "../widgets/LightButton";
 import {Rectangle, Vector2} from "../../../lib/math";
-import {TileRectangle} from "../../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
-import {GameMapKeyboardEvent, GameMapViewChangedEvent} from "../../../lib/gamemap/MapEvents";
+import {GameMapKeyboardEvent, GameMapViewChangedEvent, GameMapMouseEvent} from "../../../lib/gamemap/MapEvents";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import hbox = C.hbox;
@@ -29,6 +29,7 @@ import {util} from "../../../lib/util/util";
 import cleanedJSON = util.cleanedJSON;
 import {storage} from "../../../lib/util/storage";
 import {GameMap} from "../../../lib/gamemap/GameMap";
+import {FilteredLocLayer} from "./FilteredLocLayer";
 
 class ChunkGridGraticule extends Graticule {
     constructor() {
@@ -80,6 +81,22 @@ class ChunkGridGraticule extends Graticule {
     }
 }
 
+class HoverTileDisplay extends GameMapControl {
+
+    constructor() {
+        super({
+            type: "gapless",
+            position: "top-left"
+        }, c());
+    }
+
+    eventHover(event: GameMapMouseEvent) {
+        event.onPre(() => {
+            this.content.text(TileCoordinates.toString(event.tile()))
+        })
+    }
+}
+
 export default class UtilityLayer extends GameLayer {
     view_storage = new storage.Variable<{
         center: leaflet.LatLng,
@@ -89,6 +106,8 @@ export default class UtilityLayer extends GameLayer {
     preview: leaflet.Layer
 
     chunk_grid: leaflet.FeatureGroup = null
+
+    cache_loc_layer: FilteredLocLayer = null
 
     guard: InteractionGuard
 
@@ -102,6 +121,8 @@ export default class UtilityLayer extends GameLayer {
 
         // new TransportLayer(true).addTo(this)
 
+        this.add(new HoverTileDisplay())
+
         this.guard = new InteractionGuard().setDefaultLayer(this)
 
         let layer_control = new ControlWithHeader("Utility")
@@ -113,6 +134,17 @@ export default class UtilityLayer extends GameLayer {
 
                 if (v) {
                     this.chunk_grid = new ChunkGridGraticule().addTo(this)
+                }
+            }))
+
+        layer_control.append(new Checkbox("Cache Locs")
+            .onCommit(v => {
+                this.cache_loc_layer?.clearLayers()
+                this.cache_loc_layer?.remove()
+                this.cache_loc_layer = null
+
+                if (v) {
+                    this.cache_loc_layer = new FilteredLocLayer().addTo(this)
                 }
             }))
 

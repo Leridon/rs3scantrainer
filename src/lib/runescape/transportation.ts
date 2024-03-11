@@ -81,7 +81,7 @@ export namespace Transportation {
         name: string
     })
 
-    export type TeleportGroup = TeleportProps & {
+    export type TeleportGroup = transportation_base & TeleportProps & {
         type: "teleports"
         id: string
         name: string,
@@ -343,79 +343,54 @@ export namespace Transportation {
         }
     }
 
+    export function transform(transport: Transportation.GeneralEntityTransportation, transform: TileTransform): Transportation.GeneralEntityTransportation
+    export function transform(transport: Transportation.EntityTransportation, transform: TileTransform): Transportation.EntityTransportation
+    export function transform(transport: Transportation.DoorTransportation, transform: TileTransform): Transportation.DoorTransportation
     export function transform(transport: Transportation, transform: TileTransform): Transportation {
-
-        todo()// TODO: Reimplement if neede
-
-        //return transport
-        /*
         switch (transport.type) {
             case "door":
                 return {
                     type: "door",
                     name: transport.name,
-                    position: transport.position,
-                    direction: direction.transform(transport.direction, transform.matrix)
+                    position: TileCoordinates.transform(transport.position, transform),
+                    direction: direction.transform(transport.direction, transform.matrix),
                 }
             case "entity":
                 return {
                     type: "entity",
                     entity: transport.entity,
                     clickable_area: TileRectangle.transform(transport.clickable_area, transform),
-                    actions: transport.actions.map(a => ({
+                    actions: transport.actions.map((a): EntityAction => ({
                         cursor: a.cursor,
-                        interactive_area: TileRectangle.transform(a.interactive_area, transform),
-                        movement: (() => {
-                            switch (a.movement.type) {
-                                case "fixed":
-                                    return (a.movement.relative)
-                                        ? {
-                                            type: "fixed",
-                                            target: TileCoordinates.transform(a.movement.target, transform),
-                                            relative: true
-                                        }
-                                        : {
-                                            type: "fixed",
-                                            target: a.movement.target,
-                                            relative: false
-                                        }
-                                case "offset":
-                                    return {
-                                        type: "offset",
-                                        offset: {...Vector2.snap(Vector2.transform(a.movement.offset, transform.matrix)), level:a.movement.offset.level + transform.level_offset}
-                                    }
-                            }
-                        })(),
-                        orientation: (() => {
-                            switch (a.orientation.type) {
-                                case "byoffset":
-                                    return {type: "byoffset"}
-                                case "keep":
-                                    return {type: "keep"}
-                                case "toentityafter":
-                                    return {type: "toentityafter"}
-                                case "toentitybefore":
-                                    return {type: "toentitybefore"}
-                                case "forced":
-                                    return (a.orientation.relative)
-                                        ? {
-                                            type: "forced",
-                                            direction: direction.transform(a.orientation.direction, transform.matrix),
-                                            relative: true
-                                        }
-                                        : {
-                                            type: "forced",
-                                            direction: a.orientation.direction,
-                                            relative: false
-                                        }
-                            }
-                        })(),
+                        interactive_area: a.interactive_area ? TileArea.transform(a.interactive_area, transform) : undefined,
                         name: a.name,
-                        time: a.time,
-                    }))
+                        movement:
+                            a.movement.map(movement => {
+                                return {
+                                    time: movement.time,
+                                    valid_from: movement.valid_from
+                                        ? TileArea.transform(movement.valid_from, transform)
+                                        : undefined,
+                                    offset: movement.offset ? {
+                                        ...Vector2.snap(Vector2.transform(movement.offset, transform.matrix)),
+                                        level: movement.offset.level,
+                                    } : undefined,
+                                    fixed_target: movement.fixed_target
+                                        ? (movement.fixed_target.relative
+                                            ? {target: TileCoordinates.transform(movement.fixed_target.target, transform), relative: true}
+                                            : movement.fixed_target)
+                                        : undefined,
+                                    orientation: movement.orientation,
+                                    forced_orientation: movement.forced_orientation
+                                        ? (movement.forced_orientation.relative ? {
+                                            dir: direction.transform(movement.forced_orientation.dir, transform.matrix),
+                                            relative: true,
+                                        } : movement.forced_orientation)
+                                        : undefined,
+                                }
+                            }),
+                    })),
                 }
-
-
-        }*/
+        }
     }
 }

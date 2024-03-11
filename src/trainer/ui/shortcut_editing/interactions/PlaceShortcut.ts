@@ -10,14 +10,14 @@ import InteractionTopControl from "../../map/InteractionTopControl";
 import {observe} from "../../../../lib/reactive";
 import {direction} from "../../../../lib/runescape/movement";
 
-export class PlaceShortcut extends ValueInteraction<Transportation.Transportation> {
+export class PlaceShortcut extends ValueInteraction<Transportation.EntityTransportation> {
 
     private transform: TileTransform
     private final_translation_transform: TileTransform
 
-    constructor(private original: Transportation.Transportation,
+    constructor(private original: Transportation.EntityTransportation,
                 private origin: TileCoordinates,
-                private copy_handler: (copy: Transportation.Transportation) => void = null
+                private copy_handler: (copy: Transportation.EntityTransportation) => void = null
     ) {
         super({
             preview_render: (s) => new ShortcutViewLayer.ShortcutPolygon(observe(s))

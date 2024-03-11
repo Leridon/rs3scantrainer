@@ -10,7 +10,7 @@ import Appendable = C.Appendable;
 
 export function rend(s: string | (() => Widget)): Appendable {
     if (typeof s == "string") return s
-    return s()
+    else return s()
 }
 
 export type MenuEntry =

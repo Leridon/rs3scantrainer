@@ -26,7 +26,7 @@ import {PathStepEntity} from "../map/entities/PathStepEntity";
 import TransportLayer from "../map/TransportLayer";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {CursorType} from "../../../lib/runescape/CursorType";
-import {boxPolygon} from "../polygon_helpers";
+import {areaPolygon, boxPolygon, tilePolygon} from "../polygon_helpers";
 import EntityTransportation = Transportation.EntityTransportation;
 import {TeleportSpotEntity} from "../map/entities/TeleportSpotEntity";
 import {EntityTransportEntity} from "../map/entities/EntityTransportEntity";
@@ -45,6 +45,9 @@ import tr = TileRectangle.tr;
 import {deps} from "../../dependencies";
 import {TeleportAccessEntity} from "../map/entities/TeleportAccessEntity";
 import TeleportGroup = Transportation.TeleportGroup;
+import {TransportData} from "../../../data/transports";
+import resolveTeleport = TransportData.resolveTeleport;
+import {RemoteEntityTransportTarget} from "../map/entities/RemoteEntityTransportTarget";
 
 function needRepairing(state: movement_state, shortcut: Path.step_transportation): boolean {
     return state.position.tile
@@ -267,6 +270,8 @@ class PathEditorGameLayer extends GameLayer {
                             }
                         })
                     })
+                } else if (event.active_entity instanceof RemoteEntityTransportTarget) {
+
                 } else if (event.active_entity instanceof PathStepEntity) {
                     const step = this.editor.value.committed_value.value().steps.find(v => v.associated_preview == event.active_entity)
 
@@ -491,22 +496,42 @@ export class PathEditor extends Behaviour {
                     .attachTopControl(new InteractionTopControl().setName("Selecting tile").setText(`Select the location of the powerburst by clicking the tile.`))
             )
         } else if (v.raw.type == "teleport") {
-            // TODO: Limit to possible tiles.
+            const spot = resolveTeleport(v.raw.id)
 
             this.editStep(value,
                 new SelectTileInteraction({
                     preview_render: tile => {
                         assert(v.raw.type == "teleport")
-                        return new PathStepEntity({
-                            interactive: false,
-                            step: {
-                                type: "teleport",
-                                id: v.raw.id,
-                                spot: tile,
-                            }
-                        })
+
+                        if (activate(spot.targetArea()).query(tile)) {
+                            return new PathStepEntity({
+                                interactive: false,
+                                step: {
+                                    type: "teleport",
+                                    id: v.raw.id,
+                                    spot: tile,
+                                }
+                            })
+                        } else {
+                            return tilePolygon(tile)
+                                .setStyle({
+                                    fillColor: "red",
+                                    color: "red",
+                                    stroke: true
+                                })
+                        }
+
+
                     }
                 })
+                    .addLayer(
+                        areaPolygon(spot.targetArea())
+                            .setStyle({
+                                fillColor: "lightgreen",
+                                color: "lightgreen",
+                                stroke: true
+                            })
+                    )
                     .onCommit(new_s => value.update<Path.step_teleport>(v => {
                         v.spot = new_s
                     }))
@@ -532,7 +557,7 @@ export class PathEditor extends Behaviour {
             handler: () => step.delete()
         })
 
-        if (step.step.raw.type == "ability" || step.step.raw.type == "run") {
+        if (step.step.raw.type == "ability" || step.step.raw.type == "run" || step.step.raw.type == "cheat") {
             entries.push({
                 type: "basic",
                 icon: "assets/icons/edit.png",
@@ -561,6 +586,21 @@ export class PathEditor extends Behaviour {
                     text: direction.toString(dir),
                     handler: () => {
                         step.update<Path.step_orientation>(s => s.direction = dir)
+                    }
+                }))
+            })
+        }
+
+        if (step.step.raw.type == "cheat") {
+            entries.push({
+                type: "submenu",
+                icon: "assets/icons/Rotten_potato.png",
+                text: "Choose Orientation",
+                children: [undefined].concat(direction.all).map(dir => ({
+                    type: "basic",
+                    text: direction.toString(dir) ?? "None",
+                    handler: () => {
+                        step.update<Path.step_cheat>(s => s.orientation = dir)
                     }
                 }))
             })

@@ -97,7 +97,7 @@ export class GameMapContextMenuEvent extends GameMapEvent<leaflet.LeafletMouseEv
     async getMenu(): Promise<Menu> {
         const for_entity = await this.active_entity?.contextMenu(this)
 
-        if (for_entity && this.for_entity_entries.length > 0) {
+        if (for_entity && (for_entity.children.length + this.for_entity_entries.length) > 0) {
             for_entity.children.push(...this.for_entity_entries)
 
             if (this.entries.length == 0) {

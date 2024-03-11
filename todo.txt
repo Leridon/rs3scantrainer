@@ -15,21 +15,10 @@ Planned for next release (b0.4):
         - "Show unrotated"
 
 - Path Editor
-    - [Feature, 5] Add additional action bar buttons
-        - Cheat Step
-    - [QOL, 5] Additional utility context actions
-        - Select direction for cheat step
-        - Select spot of teleport, check in augment
-    - [QOL, 5] Add context menu actions for
-        - TeleportAccess
-        - RemoteTarget
-
     - [Feature, 3] Highlight step on hover
 
     - Teleports don't use tile areas correctly
     - [Feature] Check if teleport spot is actually in target area
-    - [Bug] Dive Target needs to be optional
-    - [Feature] Add "Cheat" step (Partially done)
     - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
     - [Feature] Check valid access
 
@@ -137,6 +126,9 @@ Planned for next release (b0.4):
     - Jump to target/origin context menu
 
 - Scan Editor
+    - [Restyle, 5] Simplify the tree view, maybe with context menus and modals.
+    - Auto-size region based on teleport areas!
+    - Do the same on augmenting scan trees.
     - New solution for setting spot order (Auto)
     - Update target for path editor when needed
     - Jump to spot button in overview

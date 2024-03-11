@@ -34378,6 +34378,237 @@
     "source_loc": 11993
   },
   {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2629,
+      "y": 1338,
+      "level": 0
+    },
+    "direction": 1,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2650,
+      "y": 1331,
+      "level": 0
+    },
+    "direction": 3,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2693,
+      "y": 1338,
+      "level": 0
+    },
+    "direction": 1,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2714,
+      "y": 1331,
+      "level": 0
+    },
+    "direction": 3,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2917,
+      "y": 3524,
+      "level": 0
+    },
+    "direction": 1,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2925,
+      "y": 3530,
+      "level": 0
+    },
+    "direction": 3,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2926,
+      "y": 3539,
+      "level": 0
+    },
+    "direction": 3,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2929,
+      "y": 3547,
+      "level": 0
+    },
+    "direction": 2,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4256,
+      "y": 7409,
+      "level": 0
+    },
+    "direction": 2,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4266,
+      "y": 7412,
+      "level": 0
+    },
+    "direction": 2,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4269,
+      "y": 7370,
+      "level": 0
+    },
+    "direction": 3,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4270,
+      "y": 7407,
+      "level": 0
+    },
+    "direction": 3,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4466,
+      "y": 11599,
+      "level": 0
+    },
+    "direction": 3,
+    "source_loc": 67138
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2662,
+      "y": 1319,
+      "level": 1
+    },
+    "direction": 4,
+    "source_loc": 67692
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2665,
+      "y": 1319,
+      "level": 1
+    },
+    "direction": 4,
+    "source_loc": 67692
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2726,
+      "y": 1319,
+      "level": 1
+    },
+    "direction": 4,
+    "source_loc": 67692
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2729,
+      "y": 1319,
+      "level": 1
+    },
+    "direction": 4,
+    "source_loc": 67692
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2910,
+      "y": 3512,
+      "level": 1
+    },
+    "direction": 3,
+    "source_loc": 67692
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 2910,
+      "y": 3515,
+      "level": 1
+    },
+    "direction": 3,
+    "source_loc": 67692
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4446,
+      "y": 11640,
+      "level": 1
+    },
+    "direction": 3,
+    "source_loc": 67692
+  },
+  {
+    "type": "door",
+    "name": "Door",
+    "position": {
+      "x": 4446,
+      "y": 11643,
+      "level": 1
+    },
+    "direction": 3,
+    "source_loc": 67692
+  },
+  {
     "type": "entity",
     "entity": {
       "name": "Cave entrance",

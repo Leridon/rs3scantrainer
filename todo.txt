@@ -1,22 +1,175 @@
-Immediate next:
-- Compact display of triples, synthetic triple node (again)
-- Fix naming of navigation links
-- Highlight incomplete branches in editor
-- Fix Create new from path
-- Autoname areas
+Planned for next release (b0.4):
 
-- [Bug] Clicking doesn't work for search selects
-- Make fit include the entire path
-- Display timing in spot view
-- Include icon of interaction for redclick graphics
-- Coordinate Property styling broken
-- [Bug] Template resolver hangs for some inputs
-- Cancel for Draw Area
-- [Bug] Preview doesn't hide on "Create New from Path"
-- Autosort for path edit
-- Custom context menu on the map
-- [Bug] Mousewheel scrolling in the path editor
-- Index of available entrances/shortcuts on the map
+- Tile Area
+    - [Feature, 4] Implement areaPolygon properly!
+
+- Data
+    - Gather data for non-static teleports
+    - Tirranwn Traps
+    - Dorgesh Khaan stairs
+    - Swamp Cave entrance and stones
+    - [Dev Tool, 5] Utility Layer for shortcut parsing
+        - Show LocUsage on map
+        - Bounding Box, rotation
+        - Quick-Copy origin and id
+        - "Show unrotated"
+
+- Path Editor
+    - [Feature, 3] Highlight step on hover
+
+    - Teleports don't use tile areas correctly
+    - [Feature] Check if teleport spot is actually in target area
+    - [Bug] Scroll bleeding through: https://stackoverflow.com/questions/73195855/mouse-scroll-affects-underlying-map-instead-of-leaflewt-custom-control
+    - [Feature] Check valid access
+
+- Context Menu Builder
+    - Creating context menus currently is a little annoying
+
+- Map Entities
+    - [Bug, 4] Hovering over the svg paths does something weird to active entities (mouseleave doesnt register)
+    - [Performance, 1] Remove from quadtree when removed from map!
+    - [Performance, 1] Share a quad tree for all game layers?
+    - [Feature, 2] Find a way to separate entities on the same tile
+
+- Theorycrafter
+    - Editor for generic path methods
+        - Display pathing when no section is selected
+        - Display Target-Areas and auxiliary stuff (hidey hole) on map
+            - Share with Solver!
+    - [Feature] Option to show pathing for all filtered spots
+        - Best | Best in Pack | Favorite
+        - Use Noninteractive entities
+    - [Bug] Filtering does not update properly in some situations, duplicate markers
+    - Collapsible method pack sections (default|imported|local)
+    - [Feature] Undo/Redo
+
+
+
+- Solving Behaviour
+    - Path Panel
+        - Neat step styling
+        - Add icon for orientation step
+        - Focus section when selected
+        - [WIP] Detail tooltip on hover
+            - Finish official info
+            - Add custom description
+        - [Feature] Disable default teleport render when contained in step
+            - Render step instead
+        - [Feature] Cleanup using "fake" steps:
+            - Combine surges/dives following a powerburst into one "fake" step
+            - Duplicate shortcut step to exist in both sections
+            - Combine run followed by shortcut into one
+            - Clue-specific actions? Search drawers, dig, etc?
+
+
+    - Search Bar
+        - Neat styling
+            - Hover effects of buttons
+            - Highlight on toggled
+
+        - [Bug] Dropdown starts offset to the left
+        - [Bug] Search term input is larger than the bar itself.
+    - Basic solution rendering on the map
+        - Target marker
+        - Wander ranges
+        - Emote areas
+        - Entity/Npc names?
+    - Hide Menubar on fullscreen
+    - Compass Panel
+    - Solve, Autosolve
+    - Key solution
+    - Challenge answer
+    - Potential Puzzles
+    - Multiple Methods, Preferences
+        - Preferred npc spot
+        - Preferred challenge answer
+    - Scan Tree Behaviour
+        - Make fit include the entire path
+        - Better render of in-route teleports
+        - Run graphics are bad on snow background
+        - Spacing in the tree view is bad
+        - Don't fit to origin of teleport
+    - Clue Reader
+        - Text Clues
+        - Scan Clues
+        - Hook up to interface
+
+- Menu Bar
+    - Highlight currently active
+    - Add to Alt 1 entry when not in Alt1
+    - Regular Map mode as default when not in Alt1
+
+- Settings Modal
+    - Map Settings: Teleport Preferences
+
+- General
+    - [Styling] ControlHeader title and X are not properly aligned
+        - Check modal for how to do it
+    - Clean up cursor on map
+    - Remove old Modals
+        - About
+        - Patchnotes
+    - Add short summary sentence to update notifications
+    - Use the new ExpansionBehaviour wherever it's applicable
+
+- Shortcut editor/View
+    - Honestly, just remove the entire thing
+    - [Bug] Actually disable editing for builtins
+    - [Bug] Viewport filtering needs to include level
+    - [Potential Bug] Copying from a different floor is weird.
+    - (Right)clicking needs to be limited to actually visible shortcuts (maybe get via the view layer?)
+    - Scroll Search results
+    - Group context menu options into submenus, give icons
+    - [Bug] Move from context menu doesnt hide the old preview
+    - [Bug] Hovering resets opacity if hidden
+        - Solution: Separate opacity and visibility
+    - Jump to target/origin context menu
+
+- Scan Editor
+    - [Restyle, 5] Simplify the tree view, maybe with context menus and modals.
+    - Auto-size region based on teleport areas!
+    - Do the same on augmenting scan trees.
+    - New solution for setting spot order (Auto)
+    - Update target for path editor when needed
+    - Jump to spot button in overview
+    - Autoname areas
+    - Better placement of information marker to guaranteee it's always inside the area.
+    - Scale information gain down when zoomed out
+
+
+- Data Model
+    - Skilling Clue locations
+    - Sandy clues
+        - Membership only
+
+- Content
+    ✓ Fremmenik Isles
+    ✓ Dorgesh-Kaan
+    ✓ Zanaris
+    ✓ Ardougne
+    - Swamp Caves
+    - Falador
+    - Haunted Woods
+    - Brimhaven
+    - Darkmeyer
+    - Slayer Dungeon
+    - Heart of gielinor
+    - Elven lands
+    - Turtle Islands
+    - Keldagrim
+    - Kharazi Jungle
+    - Menaphos
+    - Mos Le' Harmless
+    - Piscatoris
+    - Prif
+    - Taverley Dungeon
+    - Varrock
+    - Deep Wilderness
+    - Wilderness Crater
+
+Content principles:
+    - Less is more for written instructions, let rendered path speak for itself
+    - Prefer easy to identify target tiles
 
 Ready for release:
 - [Presentation] reenable walls on the map.
@@ -26,33 +179,11 @@ Ready for release:
 - Fix floor of Dorgesh Khaan spot E
 - Update Deep Wildy Scan/Wilderness Crater
 - Update compass spots from rsmv
-
-
-Planned for next release (b0.4):
-- [How] Detailled pathing
-    - Model what kinds of actions a path can consist of
-    - Define a graphical representation for each one.
-    - Add an editor/Unified way to show paths
-- Finish all elite/master scans
-
-
-- [Tooling] Styling pass over the scan editor
-    - Disable info buttons that leave 0 candidates
-    - Better placement of information marker to guaranteee it's always inside the area.
-    - Scale information gain down when zoomed out
-
-- "Add to Alt1 button" at the top when in browser
 - Have a way to directly link to a given clue and its method with query parameters.
--
-
-b0.5:
-- Settings modal
-    - Local methods
-    - Teleport settings
-    - Shown depth of scan trees
-- Support for multiple methods
-
-
+- Shortcut editor
+- The internal datastructure for clues has been revamped and now includes more detail about the individual steps.
+- OverviewLayer/theorycrafter
+    - You can edit methods locally, share them as content packs.
 
 RELEASE 1.0
 - Auto read pulses
@@ -65,90 +196,13 @@ RELEASE 1.0
       Format:  floor,chunkx,chunkz,subx,subz
 
 
-Unscheduled:
-- Fade teleport icons when on different level
+Unscheduled (Far future):
 - [What] Incorporate jacket/backpack recommmendations
-- [What] Add explanations describing the exact spot (Superscript Question Mark maybe?)
-- Add a view to see the entire scan tree without having to enter the editor
 - Add some kind of discord integration with Fairy Nuff (Mike, if you stumble upon this: I have some ideas :) )
-- Add overview layer to display all clues based on the filter. Very useful tool to get an overview.
-- Scale teleports with zoom
 - Integrate a solving method for compasses. (This is important because having both solvers open takes up too much screen.)
 - Better algorithm to combine equivalence classes.
 - Better algorithm to construct polygon for equivalence class (with hole support).
-- Some weird stuff happens when jumping to a decision point and then manually changing the decisions. (Could not reproduce when trying to fix)
-- Arrow key/enter control for the search.
 - Add puzzle solvers
-- Add methods for remaining clue types.
 - Warn when not using meerkats
-- Track Jacket/Backpack Charges via Chat.
-- Locally saved methods
-- Apply information theory and equivalence classes from scans also to compasses.
-- Figure out z-Ordering of layers (need to use panes maybe)
-- Assign clue tiers to remaining clues
-- Figure out how to handle clues with different solutions depending on game progress.
-- Google Maps like layout for a slimmer experience? Make the map be the center of everything
-- Landing areas for non-static teleports, show better metadata on tooltip/hover
-- Properly model clue solution types with more details
-- Map permanent shortcuts/entrances and stuff on the map
-
-Rechecked
-- Lumbdridge
-- Varrock
-- Falador
-- Keldagrim
-- Ardounge
-- Zanaris
-- Taverley
-- Dorgesh-Kaan
-- Fremennik Isles
-- Piscatoris
-- Haunted Woods
-- Menaphos
-- Desert
-- Fremennik Slayer Dungeon
-
-Next up:
-- Brimhaven
-- Elven Lands
-- Turtle Islands
-- Heart of Gielinor
-- Deep wilderness (Add back clue)
-- Darkmeyer
-- Prifddinias
-- Kharazi Jungle
-- Mos Le Harmless
-
-Notable feedback to consider:
-
-[23:45]Malinoric: If you're taking feedback, the only problematic locations are places without any buildings as easy reference. Foliage often looks very different between the game visual and what you see on the minimap.
-[23:45]Malinoric: so desert, piscatoris, haunted woods... those places.
-[23:46]Malinoric: kharazi is a particular nightmare, but the positions are a lot more lenient in that case, so it isn't as much of an issue
-
-[03:18]Offline: bit confused, when it says step- (surge), does that mean step and then surge?
-
-then for the double ping, it says (surge) -step south- (surge), does that mean surge, then take 1 step south, then surge once more? maybe it could be separated with commas so its more clear its like a step
-
-the patch notes does note that the zooming when going to next step has changed to include necessary spots, but i think the zoom should also include necessary next steps that dont have a teleport specified
-second picture for example, i dont know where C is, but the map doesnt need to zoom so far to see G because now i know where G is because a teleport is specified
-or for 3rd image i dont know where im diving or surging to, F cant be seen at all
-i see that the plugin works so that you arrive to a step, you see the pings, then click the plugin, then move accordingly
-but the way i use it is that i like to look forward to where i should move and then click the plugin as im arriving
-
-09:25]Offline: I think having an option to go 2 steps ahead might be useful, theres times on the older version where i just dont click the plugin because im moving through the steps rather quickly and then when i get stuck, then i click through whatever steps ive already done
-
-however i think there would have to be more of a distinct separator between ping sections and a section’s future steps
-so maybe indenting the future steps in farther for a better visual, or maybe even adding bullet points so that each section of ping directions has their own bullet points of future steps
-
-as for the blue marker, now that i look at it, it does look like it can be in the way at times, especially on specific tile directions like you said
-sometimes instead of perfectly surging to the next location i just run there because my brain still trying to process next steps and whatnot, so being able to see what exact tile i might need to stand on through the plugin would help
-
-one thing that did come in mind is maybe theres a way you can incorporate a statement that kinda visually describes what to stand near or on… for example maybe for a certain haunted woods step, there could be a tip saying that the next step is 1 step southwest of a nearby mushroom, which iirc step C and F is (just off top of my head)
-or for the second image, it could say something like “dive/surge to B, south of the nearby tree”
-
-also one thing i did remember about is that i think the upstairs portion of dorg was a bit visually confusing (when you option 4 tele to the west) because the map shows upstairs and downstairs
-off top of my head cause im on mobile atm, i think step H was a strip of land that looked like it was right by the bank, so i ended up getting confused if i was supposed to stay upstairs or downstairs for that step
-im not sure if all of the steps relating to dorg orb option4 are upstairs only, but maybe the steps in that table could specify that you would be staying upstairs or noting if/when go downstairs? idk, maybe its a me specific problem
-
-
-eyJfcGF5bG9hZF90eXBlIjoiZW52ZWxvcCIsInZhbHVlIjoie1wiX3BheWxvYWRfdHlwZVwiOlwidHlwZWRcIixcInR5cGVcIjpcInBhdGhcIixcInZlcnNpb25cIjowLFwidmFsdWVcIjp7XCJzdGVwc1wiOlt7XCJ0eXBlXCI6XCJydW5cIixcIndheXBvaW50c1wiOlt7XCJ4XCI6MjcyNixcInlcIjo1MjY2LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcyNSxcInlcIjo1MjY2LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcyNCxcInlcIjo1MjY2LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcyMyxcInlcIjo1MjY2LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcyMyxcInlcIjo1MjY3LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcyMyxcInlcIjo1MjY4LFwibGV2ZWxcIjowfV0sXCJkZXNjcmlwdGlvblwiOlwiUnVuIHRvIDI3MjMgfCA1MjY4XCJ9LHtcInR5cGVcIjpcImludGVyYWN0aW9uXCIsXCJ0aWNrc1wiOjEsXCJkZXNjcmlwdGlvblwiOlwie3tpY29uIGN1cnNvcl9sYWRkZXJ1cH19IHN0YWlyc1wiLFwic3RhcnRzXCI6e1wieFwiOjI3MjMsXCJ5XCI6NTI2OCxcImxldmVsXCI6MH0sXCJ3aGVyZVwiOntcInhcIjoyNzIzLFwieVwiOjUyNzAsXCJsZXZlbFwiOjB9LFwiZW5kc191cFwiOntcImRpcmVjdGlvblwiOjUsXCJ0aWxlXCI6e1wieFwiOjI3MjMsXCJ5XCI6NTI3MixcImxldmVsXCI6MX19LFwiaG93XCI6XCJsYWRkZXJ1cFwifSx7XCJ0eXBlXCI6XCJhYmlsaXR5XCIsXCJhYmlsaXR5XCI6XCJkaXZlXCIsXCJkZXNjcmlwdGlvblwiOlwie3tkaXZlfX0gbm9ydGh3ZXN0XCIsXCJmcm9tXCI6e1wieFwiOjI3MjMsXCJ5XCI6NTI3MixcImxldmVsXCI6MX0sXCJ0b1wiOntcInhcIjoyNzE0LFwieVwiOjUyODEsXCJsZXZlbFwiOjF9fSx7XCJ0eXBlXCI6XCJpbnRlcmFjdGlvblwiLFwidGlja3NcIjoxLFwiZGVzY3JpcHRpb25cIjpcInt7aWNvbiBjdXJzb3JfbGFkZGVyZG93bn19IHN0YWlyc1wiLFwic3RhcnRzXCI6e1wieFwiOjI3MTQsXCJ5XCI6NTI4MSxcImxldmVsXCI6MX0sXCJ3aGVyZVwiOntcInhcIjoyNzE0LFwieVwiOjUyODMsXCJsZXZlbFwiOjF9LFwiZW5kc191cFwiOntcImRpcmVjdGlvblwiOm51bGwsXCJ0aWxlXCI6e1wieFwiOjI3MTQsXCJ5XCI6NTI4NSxcImxldmVsXCI6MH19LFwiaG93XCI6XCJsYWRkZXJkb3duXCJ9LHtcInR5cGVcIjpcInJlZGNsaWNrXCIsXCJkZXNjcmlwdGlvblwiOlwiVXNlIHt7aWNvbiBjdXJzb3Jfc3BlbGx9fSBvbiBsYW1wcG9zdFwiLFwid2hlcmVcIjp7XCJ4XCI6MjczMixcInlcIjo1Mjk4LFwibGV2ZWxcIjowfSxcImhvd1wiOlwic3BlbGxvbmVudGl0eVwifSx7XCJ0eXBlXCI6XCJydW5cIixcIndheXBvaW50c1wiOlt7XCJ4XCI6MjcxNCxcInlcIjo1Mjg1LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcxNSxcInlcIjo1Mjg1LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcxNixcInlcIjo1Mjg1LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcxNyxcInlcIjo1Mjg1LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcxOCxcInlcIjo1Mjg1LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcxOSxcInlcIjo1Mjg1LFwibGV2ZWxcIjowfSx7XCJ4XCI6MjcyMCxcInlcIjo1Mjg1LFwibGV2ZWxcIjowfV0sXCJkZXNjcmlwdGlvblwiOlwiUnVuIDYgdGlsZXNcIn0se1widHlwZVwiOlwiYWJpbGl0eVwiLFwiYWJpbGl0eVwiOlwic3VyZ2VcIixcImRlc2NyaXB0aW9uXCI6XCJ7e3N1cmdlfX0gbm9ydGhlYXN0XCIsXCJmcm9tXCI6e1wieFwiOjI3MjAsXCJ5XCI6NTI4NSxcImxldmVsXCI6MH0sXCJ0b1wiOntcInhcIjoyNzMwLFwieVwiOjUyOTUsXCJsZXZlbFwiOjB9fV0sXCJzdGFydF9zdGF0ZVwiOntcInRpY2tcIjoxOCxcImNvb2xkb3duc1wiOntcImVzY2FwZVwiOlswLDBdLFwic3VyZ2VcIjpbMCwwXSxcImJhcmdlXCI6MCxcImRpdmVcIjowfSxcImFjY2VsZXJhdGlvbl9hY3RpdmF0aW9uX3RpY2tcIjotMTAwMCxcInBvc2l0aW9uXCI6e1widGlsZVwiOntcInhcIjoyNzI2LFwieVwiOjUyNjYsXCJsZXZlbFwiOjB9LFwiZGlyZWN0aW9uXCI6M30sXCJ0YXJnZXRlZF9lbnRpdHlcIjpudWxsfSxcInRhcmdldFwiOntcInRvcGxlZnRcIjp7XCJ4XCI6MjcyOCxcInlcIjo1Mjk2fSxcImJvdHJpZ2h0XCI6e1wieFwiOjI3MzAsXCJ5XCI6NTI5NH0sXCJsZXZlbFwiOjB9fX0iLCJoYXNoIjo0MzY2NTM1MTY3NjY5OTkyfQ==
+- Track Jacket/Backpack Charges via Chat, display them
+- Figure out z-Ordering of layers (need to use custom panes maybe)

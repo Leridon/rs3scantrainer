@@ -1,5 +1,6 @@
 import alt1chain from "@alt1/webpack";
 import * as path from "path";
+import {ProvidePlugin} from "webpack";
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
@@ -17,16 +18,13 @@ config.makeUmd("testpackage", "TEST");
 
 //the name and location of our entry file (the name is used for output and can contain a relative path)
 config.entry("index", "./index.ts");
-config.entry("main", "./main.ts")
 
 //where to put all the stuff
 config.output(outdir);
 
 let c = config.toConfig()
 
-const is_production = process.env.NODE_ENV == "production"
-
-if (!is_production) c.devtool = "eval-source-map"
+function mode(): "prod" | "dev" {return "dev"}
 
 c.plugins = [
     new CopyWebpackPlugin({
@@ -34,6 +32,11 @@ c.plugins = [
             from: path.resolve(__dirname, "./static")
         }]
     }),
+    new ProvidePlugin({
+        process: 'process/browser',
+        Buffer: ['buffer', 'Buffer']
+    })
+    /*
     new CircularDependencyPlugin({
         exclude: /a\.js|node_modules/,
         // include specific files based on a RegExp
@@ -45,12 +48,14 @@ c.plugins = [
         allowAsyncCycles: true,
         // set the current working directory for displaying module paths
         cwd: process.cwd(),
-    })
+    })*/
 ]
+
+if (!c.resolve) c.resolve = {}
 
 c.resolve.fallback = {
     "timers": false,
-    "assert": false,
+    "assert": require.resolve("assert"),
     "stream": false,
     "crypto": false,
     "util": false,
@@ -64,11 +69,18 @@ c.resolve.fallback = {
     "fs": false,
     "path": false,
     "child_process": false,
-    "os": false,
+    "os": false
 }
 
+c.resolve.modules = [
+    path.resolve('./node_modules'),
+    path.resolve('./src')
+]
+
 c.optimization = {
-    minimize: is_production
+    minimize: mode() == "prod"
 }
+
+c.mode = (mode() == "prod") ? "production" : "development"
 
 export default c

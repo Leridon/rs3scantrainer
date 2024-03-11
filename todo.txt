@@ -20,9 +20,9 @@ Planned for next release (b0.4):
     - [Feature, 3, WIP] Add "Edit details modal"
         - Finish edits for all props.
     - [QOL, 5] Additional utility context actions
-        - Select direction for orientation
         - Select action for redclicks
         - Select direction for cheat step
+    - [QOL, 5] Add context menu actions for TeleportAccess and RemoteTarget
 
     - [Feature, 3] "Go to step/cursor"
 

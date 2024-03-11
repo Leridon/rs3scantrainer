@@ -20,7 +20,7 @@ import PlaceRedClickInteraction from "./interactions/PlaceRedClickInteraction";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
 import DrawRunInteraction from "./interactions/DrawRunInteraction";
-import {PathFinder} from "../../../lib/runescape/movement";
+import {direction, PathFinder} from "../../../lib/runescape/movement";
 import index = util.index;
 import {PathStepEntity} from "../map/entities/PathStepEntity";
 import TransportLayer from "../map/TransportLayer";
@@ -463,6 +463,22 @@ export class PathEditor extends Behaviour {
                 handler: () => this.moveStep(step)
             })
         }
+
+        if (step.step.raw.type == "orientation") {
+            entries.push({
+                type: "submenu",
+                icon: "assets/icons/compass.png",
+                text: `Choose Direction`,
+                children: direction.all.map(dir => ({
+                    type: "basic",
+                    text: direction.toString(dir),
+                    handler: () => {
+                        step.update<Path.step_orientation>(s => s.direction = dir)
+                    }
+                }))
+            })
+        }
+
 
         return entries
     }

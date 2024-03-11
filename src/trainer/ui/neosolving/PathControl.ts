@@ -188,6 +188,8 @@ export namespace PathSectionControl {
             switch (step.type) {
                 case "orientation":
 
+                    icon.append(img("assets/icons/compass.png"))
+
                     content.append(
                         "Face ",
                         bold(direction.toString(step.direction))

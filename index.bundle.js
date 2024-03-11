@@ -62975,6 +62975,47 @@ const raw_data = [
     },
     {
         type: "teleports",
+        id: "combatbracelet",
+        name: "Combat bracelet",
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "warriors",
+                target: { "origin": { "x": 2880, "y": 3542, "level": 0 } },
+                code: "1",
+                name: "Warriors' Guild",
+            },
+            {
+                id: "champions",
+                target: { "origin": { "x": 3191, "y": 3365, "level": 0 } },
+                code: "2",
+                name: "Champions' Guild",
+            },
+            {
+                id: "monastery",
+                target: { "origin": { "x": 3052, "y": 3488, "level": 0 } },
+                code: "3",
+                name: "Edgeville Monastery",
+            },
+            {
+                id: "ranging",
+                target: { "origin": { "x": 2655, "y": 3441, "level": 0 } },
+                code: "4",
+                name: "Ranging Guild",
+            },
+        ],
+        access: [{
+                id: "ring",
+                type: "item",
+                name: { name: "Combat bracelet", kind: "item" },
+                img: { url: "jewellry_combatbracelet.png" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
         id: "digsitependant",
         name: "Dig Site pendant",
         menu_ticks: 2,
@@ -63004,6 +63045,41 @@ const raw_data = [
                 type: "item",
                 name: { name: "Dig Site pendant", kind: "item" },
                 img: { url: "jewellry_digsitependant.png" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
+        id: "enlightenedamulet",
+        name: "Enlightened amulet",
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "nexus",
+                target: { "origin": { "x": 3215, "y": 3180, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "//+/AQ==" },
+                code: "1",
+                name: "Nexus",
+            },
+            {
+                id: "graveyard",
+                target: { "origin": { "x": 3231, "y": 3655, "level": 0 }, "size": { "x": 4, "y": 5 }, "data": "//cP" },
+                code: "2",
+                name: "Graveyard of Shadows"
+            },
+            {
+                id: "banditcamp",
+                target: { "origin": { "x": 3169, "y": 2994, "level": 0 }, "size": { "x": 5, "y": 5 } },
+                code: "3",
+                name: "Bandit camp"
+            },
+        ],
+        access: [{
+                id: "ring",
+                type: "item",
+                name: { name: "Enlightened amulet", kind: "item" },
+                img: { url: "jewellry_enlightenedamulet.png" },
                 action_name: "Rub",
                 can_be_in_pota: true
             }]
@@ -63110,6 +63186,53 @@ const raw_data = [
     },
     {
         type: "teleports",
+        id: "ringofrespawn",
+        name: "Ring of respawn",
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "lumbridge",
+                target: { "origin": { "x": 3219, "y": 3217, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "7f/2AQ==" },
+                code: "1",
+                name: "Lumbridge",
+            },
+            {
+                id: "falador",
+                target: { "origin": { "x": 2969, "y": 3337, "level": 0 }, "size": { "x": 5, "y": 4 }, "data": "//sP" },
+                code: "2",
+                name: "Falador",
+            },
+            {
+                id: "camelot",
+                target: { "origin": { "x": 2756, "y": 3478, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "/39rAA==" },
+                code: "3",
+                name: "Camelot",
+            },
+            {
+                id: "soulwars",
+                target: { "origin": { "x": 1888, "y": 3176, "level": 0 }, "size": { "x": 5, "y": 4 }, "data": "//8M" },
+                code: "4",
+                name: "Soul Wars",
+            },
+            {
+                id: "burthorpe",
+                target: { "origin": { "x": 2887, "y": 3535, "level": 0 }, "size": { "x": 3, "y": 4 }, "data": "/g8=" },
+                code: "5",
+                name: "Burthorpe",
+            },
+        ],
+        access: [{
+                id: "ring",
+                type: "item",
+                name: { name: "Ring of respawn", kind: "item" },
+                img: { url: "jewellry_ringofrespawn.png" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
         id: "ringofslaying",
         name: "Ring of slaying",
         menu_ticks: 2,
@@ -63145,6 +63268,64 @@ const raw_data = [
                 type: "item",
                 name: { name: "Ring of slaying", kind: "item" },
                 img: { url: "jewellry_ringofslaying.png" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
+        id: "ringofwealth",
+        name: "Ring of Wealth",
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "miscellania",
+                target: { "origin": { "x": 2505, "y": 3858, "level": 1 }, "size": { "x": 5, "y": 5 } },
+                code: "1",
+                name: "Miscellania",
+            },
+            {
+                id: "grandexchange",
+                target: { "origin": { "x": 3162, "y": 3462, "level": 0 }, "size": { "x": 2, "y": 5 } },
+                code: "2",
+                name: "Grand Exchange",
+            }
+        ],
+        access: [{
+                id: "ring",
+                type: "item",
+                name: { name: "Ring of Wealth", kind: "item" },
+                img: { url: "jewellry_ringofwealth.png" },
+                action_name: "Rub",
+                can_be_in_pota: true
+            }]
+    },
+    {
+        type: "teleports",
+        id: "luckofthedwarves",
+        name: "Luck of the Dwarves",
+        menu_ticks: 2,
+        animation_ticks: 4,
+        spots: [
+            {
+                id: "keldagrim",
+                target: { "origin": { "x": 2856, "y": 10197, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "7v3nAA==" },
+                code: "3",
+                name: "Keldagrim",
+            },
+            {
+                id: "outpost",
+                target: { "origin": { "x": 2550, "y": 3473, "level": 0 }, "size": { "x": 5, "y": 5 }, "data": "//+vAQ==" },
+                code: "4",
+                name: "Dwarven Outpost",
+            },
+        ],
+        access: [{
+                id: "ring",
+                type: "item",
+                name: { name: "Luck of the Dwarves", kind: "item" },
+                img: { url: "luck_of_the_dwarves.png" },
                 action_name: "Rub",
                 can_be_in_pota: true
             }]

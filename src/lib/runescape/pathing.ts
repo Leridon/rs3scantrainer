@@ -37,7 +37,7 @@ export namespace Path {
     export type step_ability = step_base & {
         type: "ability",
         ability: movement_ability,
-        target?: EntityName,
+        target?: EntityName, // Only for barges
         target_text?: string,
         from: TileCoordinates,
         to: TileCoordinates,

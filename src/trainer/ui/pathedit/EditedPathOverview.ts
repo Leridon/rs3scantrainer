@@ -4,7 +4,7 @@ import {Path} from "../../../lib/runescape/pathing";
 import MovementStateView from "./MovementStateView";
 import {PathSectionControl} from "../neosolving/PathControl";
 import {PathEditor} from "./PathEditor";
-import {TileCoordinates} from "../../../lib/runescape/coordinates";
+import {TileCoordinates, TileRectangle} from "../../../lib/runescape/coordinates";
 import Properties from "../widgets/Properties";
 import TemplateStringEdit from "../widgets/TemplateStringEdit";
 import LightButton from "../widgets/LightButton";
@@ -30,7 +30,7 @@ import sibut = SmallImageButton.sibut;
 import * as assert from "assert";
 import index = util.index;
 import {PathBuilder} from "./PathBuilder";
-import ContextMenu, {Menu} from "../widgets/ContextMenu";
+import ContextMenu, {Menu, MenuEntry} from "../widgets/ContextMenu";
 
 export class IssueWidget extends Widget {
     constructor(issue: Path.issue) {
@@ -310,10 +310,6 @@ export class EditedPathOverview extends Widget {
         })
     }
 
-    dropOnTarget() {
-
-    }
-
     private render(value: PathBuilder.Value) {
         if (!value) return
 
@@ -357,7 +353,7 @@ export namespace EditedPathOverview {
         constructor(private parent: EditedPathOverview, private va: PathBuilder.Value, private index: number) {
             super();
 
-            this.value = (this.index == 0) ? this.va.path.pre_state : this.va.path.steps[this.index - 1].post_state
+            this.value = Path.augmented.getState(this.va.path, this.index)
 
             this.addTippy(new MovementStateView(this.value), {delay: [300, 0]})
 
@@ -389,6 +385,40 @@ export namespace EditedPathOverview {
                 this.is_dragged_over.set(false)
             })
 
+            this.on("contextmenu", (event) => {
+                event.preventDefault()
+
+                const entries: MenuEntry[] = [{
+                    type: "basic",
+                    text: "Select",
+                    handler: () => {
+                        this.va.builder.setCursor(this.index)
+                    }
+                }]
+
+
+                if (this.value.position.tile) {
+                    entries.push({
+                        type: "basic",
+                        text: "Show on map",
+                        handler: () => {
+                            this.parent.editor.game_layer.getMap().fitView(TileRectangle.from(this.value.position.tile))
+                        }
+                    })
+                }
+
+                new ContextMenu(entries).showFromEvent(event)
+            })
+
+            this.on("dblclick", () => {
+
+                // TODO: For whatever reason this event is not properly triggered. Maybe a rerender after click?
+
+                if (this.value.position.tile) {
+                    this.parent.editor.game_layer.getMap().fitView(TileRectangle.from(this.value.position.tile))
+                }
+            })
+
             this.is_dragged_over.subscribe(() => this.render())
 
             this.render()
@@ -398,8 +428,6 @@ export namespace EditedPathOverview {
             const cursor_state = this.va.builder.cursor_state.value()
 
             if (!cursor_state) return
-
-            const movement_state = Path.augmented.getState(this.va.builder.committed_value.value().path, this.index)
 
             this.empty()
 
@@ -423,7 +451,7 @@ export namespace EditedPathOverview {
                     "You are here",
                 )
 
-                if (this.index == 0 && !movement_state.position.tile && !movement_state.position.direction) {
+                if (this.index == 0 && !this.value.position.tile && !this.value.position.direction) {
                     main_row.append(new LightButton("Assume starting orientation")
                         .css("margin-left", "5px")
                         .onClick((event) => {

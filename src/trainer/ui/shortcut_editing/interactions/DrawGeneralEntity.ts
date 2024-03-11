@@ -38,9 +38,8 @@ export namespace DrawGeneralEntity {
             clickable_area: TileRectangle.extend(area, 0.5),
             actions: [{
                 cursor: "generic",
-                movement: [{offset: {x: 0, y: 0, level: 0}}],
+                movement: [{time: 3, offset: {x: 0, y: 0, level: 0}}],
                 name: "Use",
-                time: 3,
             }]
         }
     }

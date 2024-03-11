@@ -181,7 +181,9 @@ export class GameMap extends leaflet.Map {
         return this
     }
 
-    public fitView(view: TileRectangle, options?: FitBoundsOptions): this {
+    public fitView(view: TileRectangle, options: FitBoundsOptions = {}): this {
+        options.maxZoom ??= Math.min(this.getZoom(), 3)
+
         this.fitBounds(util.convert_bounds(Rectangle.toBounds(view)).pad(0.1), options)
         this.floor.set(view.level)
         return this

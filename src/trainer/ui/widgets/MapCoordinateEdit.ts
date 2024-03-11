@@ -32,7 +32,7 @@ export default class MapCoordinateEdit extends AbstractEditWidget<TileCoordinate
         })
 
         c("<div> | </div>").appendTo(this)
-        this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='width: 30%'>").appendTo(this)
+        this.floor = c("<input type='number' class='nisinput' min='0' max='3' style='min-width: 45px; max-width: 45px;'>").appendTo(this)
         this.floor.container.on("change", () => {
             this.commit(tap(lodash.clone(this.get()), v => v.level = Number(this.x.container.val()) as floor_t))
         })

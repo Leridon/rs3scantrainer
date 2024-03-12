@@ -9858,7 +9858,7 @@ export namespace clue_data {
                 "type": "talkto",
                 "npc": "Hazelmere",
                 "spots": [{
-                    "range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 0},
+                    "range": {"topleft": {"x": 2675, "y": 3089}, "botright": {"x": 2679, "y": 3085}, "level": 1},
                     "description": "east of Yanille"
                 }],
             }

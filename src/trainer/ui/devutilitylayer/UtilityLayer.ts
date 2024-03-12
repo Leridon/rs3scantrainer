@@ -13,7 +13,7 @@ import {TileRectangle} from "../../../lib/runescape/coordinates";
 import {GameMapControl} from "../../../lib/gamemap/GameMapControl";
 import SelectTileInteraction from "../../../lib/gamemap/interaction/SelectTileInteraction";
 import InteractionTopControl from "../map/InteractionTopControl";
-import {GameMapKeyboardEvent} from "../../../lib/gamemap/MapEvents";
+import {GameMapKeyboardEvent, GameMapViewChangedEvent} from "../../../lib/gamemap/MapEvents";
 import {C} from "../../../lib/ui/constructors";
 import vbox = C.vbox;
 import hbox = C.hbox;
@@ -27,6 +27,8 @@ import {DrawTileAreaInteraction} from "./DrawTileAreaInteraction";
 import {TileArea} from "../../../lib/runescape/coordinates/TileArea";
 import {util} from "../../../lib/util/util";
 import cleanedJSON = util.cleanedJSON;
+import {storage} from "../../../lib/util/storage";
+import {GameMap} from "../../../lib/gamemap/GameMap";
 
 class ChunkGridGraticule extends Graticule {
     constructor() {
@@ -79,6 +81,11 @@ class ChunkGridGraticule extends Graticule {
 }
 
 export default class UtilityLayer extends GameLayer {
+    view_storage = new storage.Variable<{
+        center: leaflet.LatLng,
+        zoom: number
+    }>("devutility/viewstore", () => undefined)
+
     preview: leaflet.Layer
 
     chunk_grid: leaflet.FeatureGroup = null
@@ -160,27 +167,65 @@ export default class UtilityLayer extends GameLayer {
                     })
                 ),
                 hbox(
-                    this.chunk_in = new TextField(),
+                    this.chunk_in = new TextField()
+                        .onCommit(() => {
+                            let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
+                                .map(e => e.trim())
+                                .filter(e => e.length > 0)
+                                .map(e => Number(e))
+
+                            if (nums.length >= 2) {
+                                this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64 + 32, y: nums[1] * 64 + 32}, {x: cx * 64 + 63, y: cy * 64 + 63}), 0))
+                            }
+
+                            this.chunk_in.setValue("")
+                        })
+                    ,
                     spacer(),
                     new LightButton("Chunk").onClick(() => {
-                        let [cx, cy, ...rest] = this.chunk_in.get().split(new RegExp("[^0-9]"))
+                        let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
                             .map(e => e.trim())
                             .filter(e => e.length > 0)
                             .map(e => Number(e))
 
-                        this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: cx * 64, y: cy * 64}, {x: cx * 64 + 63, y: cy * 64 + 63}), 0))
+                        if (nums.length >= 2) {
+                            this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64 + 32, y: nums[1] * 64 + 32}, {x: cx * 64 + 63, y: cy * 64 + 63}), 0))
+                        }
+
+                        this.chunk_in.setValue("")
                     })
                 ),
                 hbox(
-                    this.coords_in = new TextField(),
+                    this.coords_in = new TextField()
+                        .onCommit(() => {
+                                let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
+                                    .map(e => e.trim())
+                                    .filter(e => e.length > 0)
+                                    .map(e => Number(e))
+
+
+                                if (nums.length >= 2) {
+
+                                    this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0], y: nums[1]}), 0))
+                                }
+
+                                this.coords_in.setValue("")
+                            }
+                        )
+                    ,
                     spacer(),
                     new LightButton("Coords").onClick(() => {
-                        let [cx, cy, ...rest] = this.coords_in.get().split(new RegExp("[^0-9]"))
+                        let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
                             .map(e => e.trim())
                             .filter(e => e.length > 0)
                             .map(e => Number(e))
 
-                        this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: cx, y: cy}), 0))
+
+                        if (nums.length >= 2) {
+                            this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0], y: nums[1]}), 0))
+                        }
+
+                        this.coords_in.setValue("")
                     })
                 ),
             )
@@ -190,6 +235,30 @@ export default class UtilityLayer extends GameLayer {
             type: "gapless",
             position: "bottom-center"
         }, bottom_control))
+    }
+
+    override onAdd(map: GameMap): this {
+        super.onAdd(map)
+
+        // Restore view
+        const view = this.view_storage.get()
+
+        if (view?.center) {
+            this.map.setView(view.center, view.zoom)
+        }
+
+        return this;
+    }
+
+    eventViewChanged(event: GameMapViewChangedEvent) {
+        super.eventViewChanged(event)
+
+        event.onPre(() => {
+            this.view_storage.set({
+                center: this.map.getCenter(),
+                zoom: this.map.getZoom()
+            })
+        })
     }
 
     private setLayer(l: leaflet.Layer) {

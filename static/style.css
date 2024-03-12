@@ -1374,6 +1374,7 @@ input[type=checkbox] + span {
     display: inline-block;
     cursor: pointer;
     white-space: nowrap;
+    user-select: none;
 }
 
 .ctr-lightbutton:not(.enabled) {
@@ -1862,6 +1863,7 @@ input[type=checkbox] + span {
 
 .ctr-clickable {
     cursor: pointer;
+    user-select: none;
 }
 
 .nisl-icon {

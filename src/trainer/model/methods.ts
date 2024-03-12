@@ -29,12 +29,13 @@ export namespace SolvingMethods {
         }
 
         export function filterWithRelevance(assumptions: ClueAssumptions, relevance: Relevance): ClueAssumptions {
+            const copy = lodash.cloneDeep(assumptions)
 
-            for (let key of Object.keys(assumptions)) {
-                if (!relevance.includes(key as keyof ClueAssumptions)) assumptions[key] = undefined
+            for (let key of Object.keys(copy)) {
+                if (!relevance.includes(key as keyof ClueAssumptions)) copy[key] = undefined
             }
 
-            return assumptions
+            return copy
         }
 
         export type Relevance = (keyof ClueAssumptions)[]

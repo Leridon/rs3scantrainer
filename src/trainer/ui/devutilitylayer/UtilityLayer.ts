@@ -168,28 +168,30 @@ export default class UtilityLayer extends GameLayer {
                 ),
                 hbox(
                     this.chunk_in = new TextField()
-                        .onCommit(() => {
+                        .onCommit((v) => {
+                            if(!v) return
                             let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
                                 .map(e => e.trim())
                                 .filter(e => e.length > 0)
                                 .map(e => Number(e))
 
                             if (nums.length >= 2) {
-                                this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64 + 32, y: nums[1] * 64 + 32}, {x: cx * 64 + 63, y: cy * 64 + 63}), 0))
+                                this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64, y: nums[1] * 64}, {x: nums[0] * 64 + 63, y: nums[1] * 64 + 63}), 0))
                             }
 
                             this.chunk_in.setValue("")
                         })
                     ,
                     spacer(),
-                    new LightButton("Chunk").onClick(() => {
+                    new LightButton("Chunk").onClick((v) => {
+                        if(!v) return
                         let nums = this.chunk_in.get().split(new RegExp("[^0-9]"))
                             .map(e => e.trim())
                             .filter(e => e.length > 0)
                             .map(e => Number(e))
 
                         if (nums.length >= 2) {
-                            this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64 + 32, y: nums[1] * 64 + 32}, {x: cx * 64 + 63, y: cy * 64 + 63}), 0))
+                            this.getMap().fitView(TileRectangle.lift(Rectangle.from({x: nums[0] * 64, y: nums[1] * 64}, {x: nums[0] * 64 + 63, y: nums[1] * 64 + 63}), 0))
                         }
 
                         this.chunk_in.setValue("")
@@ -197,7 +199,8 @@ export default class UtilityLayer extends GameLayer {
                 ),
                 hbox(
                     this.coords_in = new TextField()
-                        .onCommit(() => {
+                        .onCommit((v) => {
+                                if (!v) return
                                 let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
                                     .map(e => e.trim())
                                     .filter(e => e.length > 0)
@@ -214,7 +217,8 @@ export default class UtilityLayer extends GameLayer {
                         )
                     ,
                     spacer(),
-                    new LightButton("Coords").onClick(() => {
+                    new LightButton("Coords").onClick((v) => {
+                        if (!v) return
                         let nums = this.coords_in.get().split(new RegExp("[^0-9]"))
                             .map(e => e.trim())
                             .filter(e => e.length > 0)
